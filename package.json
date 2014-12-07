@@ -1,0 +1,36 @@
+{
+	"name": "titanium-mobile-windows",
+	"title": "Windows",
+	"description": "Appcelerator Titanium Windows Platform",
+	"keywords": [
+		"appcelerator",
+		"titanium",
+		"mobile",
+		"win8",
+		"wp8",
+		"winphone8",
+		"windows",
+		"windows phone",
+		"windows store",
+		"winstore"
+	],
+	"version": "__VERSION__",
+	"author": "Appcelerator, Inc. <info@appcelerator.com>",
+	"maintainers": [
+		"Matt Langston <mlangston@appcelerator.com>",
+		"Russ McMahon <rmcmahon@appcelerator.com>",
+		"Pedro Enrique <penrique@appcelerator.com>",
+		"Chris Williams <cwilliams@appcelerator.com>",
+		"Chris Barber <cbarber@appcelerator.com>"
+	],
+	"vendorDependencies": {
+		"visual studio": "12.x",
+		"windows phone sdk": "8.1",
+		"msbuild": ">=4.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/appcelerator/titanium_mobile_windows.git"
+	},
+	"license": "Apache Public License v2"
+}

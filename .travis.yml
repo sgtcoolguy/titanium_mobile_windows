@@ -1,0 +1,8 @@
+language: objective-c
+before_script:
+  - brew update
+script:
+  - ./Tools/Scripts/build_and_test_travis.sh "${PWD}/Source/JavaScriptCoreCPP"
+  - ./Tools/Scripts/build_and_test_travis.sh "${PWD}/Source/TitaniumKit"
+  - ./Tools/Scripts/build_and_test_travis.sh "${PWD}/Source/Util"
+  - xctool -project test/TiValue/TiValue.xcodeproj -scheme TiValueTests test

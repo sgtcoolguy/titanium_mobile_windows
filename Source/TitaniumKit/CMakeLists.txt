@@ -1,0 +1,237 @@
+# TitaniumKit
+# Author: Matthew D. Langston
+#
+# Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+# Licensed under the terms of the Apache Public License.
+# Please see the LICENSE included with this distribution for details.
+cmake_minimum_required(VERSION 3.0.0)
+
+project(TitaniumKit)
+
+set(TitaniumKit_VERSION 0.1.0)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
+
+option(TitaniumKit_DISABLE_TESTS "Disable compiling the tests" OFF)
+
+# Define helper functions and macros.
+include(${PROJECT_SOURCE_DIR}/cmake/internal_utils.cmake)
+
+# Defined in internal_utils.cmake.
+config_compiler_and_linker()
+#config_cmake_system_framework_path(macosx)
+
+# Allow "make test" to work.
+enable_testing()
+
+if (NOT TARGET JavaScriptCoreCPP)
+  get_filename_component(JavaScriptCoreCPP_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../JavaScriptCoreCPP ABSOLUTE)
+  add_subdirectory(${JavaScriptCoreCPP_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/JavaScriptCoreCPP EXCLUDE_FROM_ALL)
+endif()
+
+# find_package(JavaScriptCoreCPP REQUIRED)
+
+set(SOURCE_TitaniumKit
+  include/Titanium/Titanium.hpp
+  include/Titanium/ApplicationBuilder.hpp
+  src/ApplicationBuilder.cpp
+  include/Titanium/Application.hpp
+  src/Application.cpp
+  include/Titanium/GlobalObject.hpp
+  src/GlobalObject.cpp
+  include/Titanium/Module.hpp
+  src/Module.cpp
+  include/Titanium/Gesture.hpp
+  src/Gesture.cpp
+  )
+
+set(SOURCE_TitaniumKit_detail
+  include/Titanium/detail/TiBase.hpp
+  src/detail/TiBase.cpp
+  include/Titanium/detail/HashUtilities.hpp
+  include/Titanium/detail/TiUtil.hpp
+  src/detail/TiUtil.cpp
+  )
+
+set(SOURCE_API
+  include/Titanium/API.hpp
+  src/API.cpp
+  )
+
+set(SOURCE_Platform
+  include/Titanium/Platform.hpp
+  src/Platform.cpp
+  )
+
+set(SOURCE_Accelerometer
+  include/Titanium/Accelerometer.hpp
+  src/Accelerometer.cpp
+  )
+
+set(SOURCE_Gesture
+  include/Titanium/Gesture.hpp
+  src/Gesture.cpp
+  )
+
+set(SOURCE_UI
+  include/Titanium/UIModule.hpp
+  src/UIModule.cpp
+  include/Titanium/UI/Constants.hpp
+  src/UI/Constants.cpp
+  include/Titanium/UI/Dimension.hpp
+  src/UI/Dimension.cpp
+  include/Titanium/UI/View.hpp
+  src/UI/View.cpp
+  include/Titanium/UI/Window.hpp
+  src/UI/Window.cpp
+  include/Titanium/UI/Button.hpp
+  src/UI/Button.cpp
+  include/Titanium/UI/Animation.hpp
+  src/UI/Animation.cpp
+  include/Titanium/UI/TextArea.hpp
+  src/UI/Button.cpp
+  include/Titanium/UI/TextField.hpp
+  src/UI/TextField.cpp
+  include/Titanium/UI/ListItem.hpp
+  src/UI/ListItem.cpp
+  include/Titanium/UI/ListView.hpp
+  src/UI/ListView.cpp
+  include/Titanium/UI/Picker.hpp
+  src/UI/Picker.cpp
+  include/Titanium/UI/WebView.hpp
+  src/UI/WebView.cpp
+  include/Titanium/UI/WebViewErrorEvent.hpp
+  src/UI/WebViewErrorEvent.cpp
+  )
+
+set(SOURCE_TiLogger_detail
+  include/Titanium/detail/TiLogger.hpp
+  include/Titanium/detail/TiLoggerPolicyInterface.hpp
+  include/Titanium/detail/TiLoggerPolicyConsole.hpp
+  include/Titanium/detail/TiLoggerPolicyFile.hpp
+  include/Titanium/detail/TiLoggerPimpl.hpp
+  src/detail/TiLoggerPimpl.cpp
+  )
+
+source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
+source_group(TitaniumKit\\detail           FILES ${SOURCE_TitaniumKit_detail})
+source_group(TitaniumKit\\API              FILES ${SOURCE_API})
+source_group(TitaniumKit\\Platform         FILES ${SOURCE_Platform})
+source_group(TitaniumKit\\Accelerometer    FILES ${SOURCE_Accelerometer})
+source_group(TitaniumKit\\Gesture          FILES ${SOURCE_Gesture})
+source_group(TitaniumKit\\UI               FILES ${SOURCE_UI})
+source_group(TitaniumKit\\TiLogger\\detail FILES ${SOURCE_TiLogger_detail})
+
+#set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+#set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
+
+add_library(TitaniumKit SHARED
+  ${SOURCE_TitaniumKit}
+  ${SOURCE_TitaniumKit_detail}
+  ${SOURCE_API}
+  ${SOURCE_Platform}
+  ${SOURCE_Accelerometer}
+  ${SOURCE_Gesture}
+  ${SOURCE_UI}
+  ${SOURCE_TiLogger_detail}
+  )
+
+include(GenerateExportHeader)
+generate_export_header(TitaniumKit)
+target_compile_definitions(TitaniumKit PRIVATE TitaniumKit_EXPORTS)
+#target_compile_definitions(TitaniumKit PUBLIC TitaniumKit_STATIC_DEFINE)
+
+# target_compile_definitions(TitaniumKit PUBLIC
+#   $<TARGET_PROPERTY:JavaScriptCoreCPP,INTERFACE_COMPILE_DEFINITIONS>
+#   )
+
+target_include_directories(TitaniumKit PUBLIC
+  ${PROJECT_SOURCE_DIR}/include
+  $<TARGET_PROPERTY:JavaScriptCoreCPP,INTERFACE_INCLUDE_DIRECTORIES>
+  )
+
+target_link_libraries(TitaniumKit
+  JavaScriptCoreCPP
+  )
+
+if (WIN32)
+  # Silence this warning when lnking the Debug configuration:
+  #
+  # "LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF'
+  # specification ..."
+  #
+  # According to "/IGNORE (Ignore Specific Warnings)" (see
+  # http://msdn.microsoft.com/en-us/library/dn782850.aspx) some linker
+  # warnings cannot be ignored and LNK4075 is one of them. However,
+  # according to "/INCREMENTAL (Link Incrementally)" (see
+  # http://msdn.microsoft.com/en-us/library/4khtbfyf.aspx):
+  #
+  # "Most programs can be linked incrementally. However, some changes
+  # are too great, and some options are incompatible with incremental
+  # linking. LINK performs a full link if any of the following options
+  # are specified:
+  # ...
+  # /OPT:REF is selected
+  # /OPT:ICF is selected
+  # ..."
+  #
+  # And according to "/OPT (Optimizations)" (see
+  # http://msdn.microsoft.com/en-us/library/bxwfs976.aspx):
+  #
+  # "If /DEBUG is specified, the default for /OPT is NOREF, and all
+  # functions are preserved in the image."
+  #
+  # As well as:
+  #
+  # "... we do not recommend that you use /OPT:ICF in debug builds ..."
+  #
+  # Therefore we disable /OPT:REF and /OPT:ICF for the Debug
+  # configuration.
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
+  
+  # Fix error C1128: number of sections exceeded object file format limit
+  set_source_files_properties(src/UI/Constants.cpp APPEND_STRING PROPERTY COMPILE_FLAGS "/bigobj")
+endif()
+
+if (NOT TitaniumKit_DISABLE_TESTS)
+  add_subdirectory(examples)
+  add_subdirectory(test)
+endif()
+
+
+# Support find_package(TitaniumKit 0.1 REQUIRED)
+
+set_property(TARGET TitaniumKit PROPERTY VERSION ${TitaniumKit_VERSION})
+set_property(TARGET TitaniumKit PROPERTY SOVERSION 0)
+set_property(TARGET TitaniumKit PROPERTY INTERFACE_TitaniumKit_MAJOR_VERSION 0)
+set_property(TARGET TitaniumKit APPEND PROPERTY
+  COMPATIBLE_INTERFACE_STRING TitaniumKit_MAJOR_VERSION
+  )
+
+install(TARGETS TitaniumKit EXPORT TitaniumKitTargets
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+  INCLUDES DESTINATION include
+  )
+
+export(EXPORT TitaniumKitTargets
+  FILE "${CMAKE_BINARY_DIR}/TitaniumKitTargets.cmake"
+)
+
+configure_file(cmake/TitaniumKitConfig.cmake
+  "${CMAKE_BINARY_DIR}/TitaniumKitConfig.cmake"
+  COPY_ONLY
+  )
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+  "${CMAKE_BINARY_DIR}/TitaniumKitConfigVersion.cmake"
+  VERSION ${TitaniumKit_VERSION}
+  COMPATIBILITY AnyNewerVersion
+  )
+
+# Store the current build directory in the CMake user package registry
+# so that find_package(TitaniumKit) works.
+export(PACKAGE TitaniumKit)
