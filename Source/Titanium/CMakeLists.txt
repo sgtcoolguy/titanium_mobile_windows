@@ -65,6 +65,12 @@ endif()
 set(SOURCE_TitaniumWindows
   src/TitaniumWindows.hpp
   src/TitaniumWindows.cpp
+  src/Blob.cpp
+  src/Blob.hpp
+  src/File.cpp
+  src/File.hpp
+  src/detail/BlobBase.hpp
+  src/detail/FilesystemBase.hpp
 )
 
 source_group(TitaniumWindows FILES ${SOURCE_TitaniumWindows})

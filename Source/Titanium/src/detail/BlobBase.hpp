@@ -4,13 +4,13 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUMWINDOWS_DETAIL_FILESYSTEMBASE_HPP_
-#define _TITANIUMWINDOWS_DETAIL_FILESYSTEMBASE_HPP_
+#ifndef _TITANIUMWINDOWS_DETAIL_BLOBBASE_HPP_
+#define _TITANIUMWINDOWS_DETAIL_BLOBBASE_HPP_
 
-#include "TitaniumWindows_Filesystem_EXPORT.h"
+// #include "TitaniumWindows_Blob_EXPORT.h"
 
 #include "Titanium/Titanium.hpp"
 #include "Titanium/detail/TiLogger.hpp"
 #include "JavaScriptCoreCPP/JavaScriptCoreCPP.hpp"
 
-#endif // _TITANIUMWINDOWS_DETAIL_FILESYSTEMBASE_HPP_
+#endif // _TITANIUMWINDOWS_DETAIL_BLOBBASE_HPP_

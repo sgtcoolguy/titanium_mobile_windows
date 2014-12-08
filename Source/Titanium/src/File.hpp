@@ -7,7 +7,7 @@
 #ifndef _TITANIUMWINDOWS_FILE_HPP_
 #define _TITANIUMWINDOWS_FILE_HPP_
 
-#include "TitaniumWindows/detail/FilesystemBase.hpp"
+#include "detail/FilesystemBase.hpp"
 #include "Titanium/Filesystem/Constants.hpp"
 #include <ppltasks.h>
 #include <algorithm>
@@ -15,89 +15,18 @@
 #include <collection.h>
 
 // FIXME THIS SHOULD BE REMOVED ONCE UTILITY FUNCTIONS ARE MERGED
-
 #define TITANIUM_FILESYSTEM_FILE_PATH_SEPARATOR "\\"
+::Platform::String^ GetPlatformString(const std::string& s_str);
+std::string GetPlatformString(::Platform::String^ str);
+std::string GetPlatformUTF8String(::Platform::String^ str);
+std::vector<unsigned char> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer);
+std::vector<unsigned char> GetContentFromFile(Windows::Storage::StorageFile^ file);
+const std::string MimeTypeForExtension(std::string& path);
+unsigned GetMSecSinceEpoch(Windows::Foundation::DateTime d);
+// FIXME END
 
-//
-// Convert std::string into Platform::String^
-//
-::Platform::String^ GetPlatformString(const std::string& s_str) {
-  const std::wstring b(s_str.begin(), s_str.end());
-  const wchar_t *wcString = b.c_str();
-  return ref new ::Platform::String(wcString);
-}
-
-//
-// Convert Platform::String^ into std::string
-//
-static std::string GetPlatformString(::Platform::String^ str) {
-  return std::string(str->Begin(), str->End());
-}
-
-//
-// Convert Platform::String^ into UTF-8 std::string
-//
-static std::string GetPlatformUTF8String(::Platform::String^ str) {
-  std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-  return std::string(converter.to_bytes(str->Data()));
-}
-
-std::vector<unsigned char> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer) {
-  const auto reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
-  std::vector<unsigned char> data(reader->UnconsumedBufferLength);
-  if (!data.empty()) {
-    reader->ReadBytes(::Platform::ArrayReference<unsigned char>(&data[0], data.size()));
-  }
-  return data;
-}
-
-std::vector<unsigned char> GetContentFromFile(Windows::Storage::StorageFile^ file) {
-  std::vector<unsigned char> content;
-  concurrency::event event;
-  concurrency::task<Windows::Storage::Streams::IBuffer^>(Windows::Storage::FileIO::ReadBufferAsync(file)).then([&content, &event](concurrency::task<Windows::Storage::Streams::IBuffer^> task) {
-    try {
-      content = std::move(GetContentFromBuffer(task.get()));
-    }
-    catch (::Platform::COMException^ ex) {
-      std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
-    }
-    event.set();
-  }, concurrency::task_continuation_context::use_arbitrary());
-  event.wait();
-
-  return content;
-}
-
-const std::string MimeTypeForExtension(std::string& path) {
-  const static std::unordered_map<std::string, const std::string> mimeTypeFromExtensionDict = {
-    { "css", "text/css" },
-    { "m4v", "video/x-m4v" }
-  };
-
-  const auto pos = path.find_last_of(".");
-  if (pos != std::string::npos && path.size() > pos) {
-    const auto ext = path.substr(pos + 1);
-    const auto found = mimeTypeFromExtensionDict.find(ext);
-    if (found != mimeTypeFromExtensionDict.end()) {
-      return found->second;
-    }
-  }
-  return "application/octet-stream";
-}
-
-//
-// Return millisecond since epoch from Windows DateTime
-//
-unsigned GetMSecSinceEpoch(Windows::Foundation::DateTime d) {
-  Windows::Globalization::Calendar^ cal = ref new Windows::Globalization::Calendar();
-  cal->SetDateTime(d);
-
-  std::tm tm = { cal->Second, cal->Minute, cal->Hour + (cal->Period == 1 ? 0 : 12), cal->Day, cal->Month - 1, cal->Year - 1900, 0, 0, -1 };
-  const std::time_t t = std::mktime(&tm);
-
-  return t * 1000;
-}
-namespace TitaniumWindows { namespace Filesystem {
+namespace TitaniumWindows {
+  namespace Filesystem {
 
   using namespace JavaScriptCoreCPP;
 
@@ -106,7 +35,7 @@ namespace TitaniumWindows { namespace Filesystem {
 
     @discussion This is the Titanium.Filesystem.File implementation for Windows.
     */
-  class TITANIUMWINDOWS_FILESYSTEM_EXPORT File final : public Titanium::Filesystem::File, public JSExport <File> {
+  class /* TITANIUMWINDOWS_FILESYSTEM_EXPORT */ File final : public Titanium::Filesystem::File, public JSExport <File> {
 
   public:
 

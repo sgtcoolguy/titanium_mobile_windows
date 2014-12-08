@@ -7,7 +7,7 @@
 #ifndef _TITANIUMWINDOWS_BLOB_HPP_
 #define _TITANIUMWINDOWS_BLOB_HPP_
 
-#include "TitaniumWindows/detail/BlobBase.hpp"
+#include "detail/BlobBase.hpp"
 
 namespace TitaniumWindows {
 
@@ -26,7 +26,7 @@ namespace TitaniumWindows {
 
     @discussion This is the Titanium.Blob implementation for Windows.
     */
-  class TITANIUMWINDOWS_BLOB_EXPORT Blob final : public Titanium::Blob, public JSExport <Blob> {
+  class /* TITANIUMWINDOWS_BLOB_EXPORT */ Blob final : public Titanium::Blob, public JSExport <Blob> {
 
   public:
 

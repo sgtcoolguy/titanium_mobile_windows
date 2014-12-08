@@ -4,11 +4,83 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "TitaniumWindows/File.hpp"
+#include "File.hpp"
 #include "Titanium/detail/TiBase.hpp"
 #include <iostream>
 #include <objbase.h>
-#include "TitaniumWindows/Blob.h"
+#include "Blob.hpp"
+
+//// FIXME THIS SHOULD BE REMOVED ONCE UTILITY FUNCTIONS ARE MERGED
+
+::Platform::String^ GetPlatformString(const std::string& s_str) {
+  const std::wstring b(s_str.begin(), s_str.end());
+  const wchar_t *wcString = b.c_str();
+  return ref new ::Platform::String(wcString);
+}
+
+std::string GetPlatformString(::Platform::String^ str) {
+  return std::string(str->Begin(), str->End());
+}
+
+std::string GetPlatformUTF8String(::Platform::String^ str) {
+  std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+  return std::string(converter.to_bytes(str->Data()));
+}
+
+std::vector<unsigned char> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer) {
+  const auto reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
+  std::vector<unsigned char> data(reader->UnconsumedBufferLength);
+  if (!data.empty()) {
+    reader->ReadBytes(::Platform::ArrayReference<unsigned char>(&data[0], data.size()));
+  }
+  return data;
+}
+
+std::vector<unsigned char> GetContentFromFile(Windows::Storage::StorageFile^ file) {
+  std::vector<unsigned char> content;
+  concurrency::event event;
+  concurrency::task<Windows::Storage::Streams::IBuffer^>(Windows::Storage::FileIO::ReadBufferAsync(file)).then([&content, &event](concurrency::task<Windows::Storage::Streams::IBuffer^> task) {
+    try {
+      content = std::move(GetContentFromBuffer(task.get()));
+    }
+    catch (::Platform::COMException^ ex) {
+      std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+    }
+    event.set();
+  }, concurrency::task_continuation_context::use_arbitrary());
+  event.wait();
+
+  return content;
+}
+
+const std::string MimeTypeForExtension(std::string& path) {
+  const static std::unordered_map<std::string, const std::string> mimeTypeFromExtensionDict = {
+    { "css", "text/css" },
+    { "m4v", "video/x-m4v" }
+  };
+
+  const auto pos = path.find_last_of(".");
+  if (pos != std::string::npos && path.size() > pos) {
+    const auto ext = path.substr(pos + 1);
+    const auto found = mimeTypeFromExtensionDict.find(ext);
+    if (found != mimeTypeFromExtensionDict.end()) {
+      return found->second;
+    }
+  }
+  return "application/octet-stream";
+}
+
+unsigned GetMSecSinceEpoch(Windows::Foundation::DateTime d) {
+  Windows::Globalization::Calendar^ cal = ref new Windows::Globalization::Calendar();
+  cal->SetDateTime(d);
+
+  std::tm tm = { cal->Second, cal->Minute, cal->Hour + (cal->Period == 1 ? 0 : 12), cal->Day, cal->Month - 1, cal->Year - 1900, 0, 0, -1 };
+  const std::time_t t = std::mktime(&tm);
+
+  return t * 1000;
+}
+
+//// FIXME END
 
 using namespace Windows::Storage;
 using namespace Windows::Foundation::Collections;
@@ -426,7 +498,7 @@ namespace TitaniumWindows { namespace Filesystem {
     }
     auto Blob = get_context().CreateObject(JSExport<TitaniumWindows::Blob>::Class());
     auto blob = Blob.CallAsConstructor();
-    auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
+    auto blob_ptr = blob.GetPrivate<TitaniumWindows::Blob>();
 
     blob_ptr->construct(file_);
 

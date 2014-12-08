@@ -4,11 +4,11 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "TitaniumWindows/Blob.hpp"
+#include "Blob.hpp"
 #include "Titanium/detail/TiBase.hpp"
 #include <iostream>
 #include <objbase.h>
-#include "TitaniumWindows/File.hpp"
+#include "File.hpp"
 
 namespace TitaniumWindows {
 
