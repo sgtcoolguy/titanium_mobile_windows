@@ -21,5 +21,7 @@
 #include "Titanium/Platform.hpp"
 #include "Titanium/Accelerometer.hpp"
 #include "Titanium/Gesture.hpp"
+#include "Titanium/Blob.hpp"
+#include "Titanium/FilesystemModule.hpp"
 
 #endif // _TITANIUM_HPP_

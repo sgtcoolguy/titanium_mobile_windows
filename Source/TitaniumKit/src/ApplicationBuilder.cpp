@@ -13,6 +13,9 @@
 #include "Titanium/Platform.hpp"
 #include "Titanium/Accelerometer.hpp"
 #include "Titanium/Gesture.hpp"
+#include "Titanium/Blob.hpp"
+#include "Titanium/FilesystemModule.hpp"
+#include "Titanium/Filesystem/File.hpp"
 
 namespace Titanium {
   
@@ -51,6 +54,14 @@ namespace Titanium {
       gesture_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::Gesture>::Class());
     }
     
+    if (!blob_class_ptr__) {
+      blob_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::Blob>::Class());
+    }
+    
+    if (!file_class_ptr__) {
+      file_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::Filesystem::File>::Class());
+    }
+    
     JSObject global_object = js_context__.get_global_object();
     JSObject titanium      = js_context__.CreateObject();
     global_object.SetProperty("Titanium", titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -73,6 +84,13 @@ namespace Titanium {
     
     JSObject gesture = js_context__.CreateObject(*gesture_class_ptr__);
     titanium.SetProperty("Gesture", gesture, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+    
+    JSObject blob = js_context__.CreateObject(*blob_class_ptr__);
+    titanium.SetProperty("Blob", blob, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+    
+    JSObject fs = js_context__.CreateObject(JSExport<Titanium::FilesystemModule>::Class());
+    titanium.SetProperty("Filesystem" , fs , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+    fs.SetProperty("File"  , js_context__.CreateObject(*file_class_ptr__));
     
     return Application(*this);
   }
@@ -134,6 +152,22 @@ namespace Titanium {
   }
   ApplicationBuilder& ApplicationBuilder::GestureClass(const JSClassPtr_t& gesture_class_ptr) TITANIUM_NOEXCEPT {
     gesture_class_ptr__ = gesture_class_ptr;
+    return *this;
+  }
+  
+  JSClassPtr_t ApplicationBuilder::BlobClass() const TITANIUM_NOEXCEPT {
+    return blob_class_ptr__;
+  }
+  ApplicationBuilder& ApplicationBuilder::BlobClass(const JSClassPtr_t& blob_class_ptr) TITANIUM_NOEXCEPT {
+    blob_class_ptr__ = blob_class_ptr;
+    return *this;
+  }
+  
+  JSClassPtr_t ApplicationBuilder::FileClass() const TITANIUM_NOEXCEPT {
+    return file_class_ptr__;
+  }
+  ApplicationBuilder& ApplicationBuilder::FileClass(const JSClassPtr_t& file_class_ptr) TITANIUM_NOEXCEPT {
+    file_class_ptr__ = file_class_ptr;
     return *this;
   }
 

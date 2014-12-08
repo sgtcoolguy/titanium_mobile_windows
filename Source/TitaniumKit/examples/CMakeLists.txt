@@ -29,6 +29,10 @@ set(SOURCE_examples
   NativeAccelerometerExample.cpp
   NativeGestureExample.hpp
   NativeGestureExample.cpp
+  NativeBlobExample.hpp
+  NativeBlobExample.cpp
+  NativeFileExample.hpp
+  NativeFileExample.cpp
   )
 add_library(TitaniumKit_examples
   ${SOURCE_examples}
