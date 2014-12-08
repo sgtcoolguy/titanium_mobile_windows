@@ -15,6 +15,9 @@
 #include "TitaniumWindows/Platform.hpp"
 #include "TitaniumWindows/Gesture.hpp"
 #include "TitaniumWindows/Accelerometer.hpp"
+#include "TitaniumWindows/Filesystem.hpp"
+#include "Blob.hpp"
+#include "File.hpp"
 
 #include <Windows.h>
 #include <collection.h>
@@ -32,6 +35,9 @@ namespace TitaniumWindows {
     .ViewClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::View>::Class()))
     .WindowClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Window>::Class()))
     .ButtonClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Button>::Class()))
+    .BlobClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Blob>::Class()))
+    .FilesystemClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::FilesystemModule>::Class()))
+    .FileClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Filesystem::File>::Class()))
     .build()) {
   }
 

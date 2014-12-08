@@ -116,7 +116,7 @@ namespace TitaniumWindows {
 
     // Get StorageFolder from path. Returns nullptr if access denied or
     // there's no such file.
-    Windows::Storage::StorageFolder^ getFolderFromPathSync(Platform::String^ filename) const;
+    Windows::Storage::StorageFolder^ getFolderFromPathSync(::Platform::String^ filename) const;
 
     Windows::Storage::StorageFolder^ getFolderFromPathSync(const std::string& filename) const {
       return getFolderFromPathSync(GetPlatformString(filename));
@@ -124,7 +124,7 @@ namespace TitaniumWindows {
 
     // Get StorageFile from path. Returns nullptr if access denied or
     // there's no such file.
-    Windows::Storage::StorageFile^ getFileFromPathSync(Platform::String^ filename) const;
+    Windows::Storage::StorageFile^ getFileFromPathSync(::Platform::String^ filename) const;
 
     Windows::Storage::StorageFile^ getFileFromPathSync(const std::string& filename) const {
       return getFileFromPathSync(GetPlatformString(filename));
@@ -136,7 +136,7 @@ namespace TitaniumWindows {
       if (append) {
         writeContentFromFile(writer, appendingFile);
       }
-      writer->WriteBytes(Platform::ArrayReference<unsigned char>(data, size));
+      writer->WriteBytes(::Platform::ArrayReference<unsigned char>(data, size));
       return writer->DetachBuffer();
     }
 
@@ -153,7 +153,7 @@ namespace TitaniumWindows {
     std::size_t writeContentFromFile(Windows::Storage::Streams::DataWriter^ writer, Windows::Storage::StorageFile^ file) {
       auto content = GetContentFromFile(file);
       if (content.size() > 0) {
-        writer->WriteBytes(Platform::ArrayReference<unsigned char>(&content[0], content.size()));
+        writer->WriteBytes(::Platform::ArrayReference<unsigned char>(&content[0], content.size()));
       }
       return content.size();
     }

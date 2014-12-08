@@ -15,14 +15,15 @@ namespace Titanium {
   
   using namespace JavaScriptCoreCPP;
   
-  class TITANIUMKIT_EXPORT FilesystemModule final : public Module, public JSExport <FilesystemModule> {
+  class TITANIUMKIT_EXPORT FilesystemModule : public Module, public JSExport <FilesystemModule> {
     
   public:
     
-    JSObject getFile(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+    JSObject getFile(const JSString&) TITANIUM_NOEXCEPT;
     virtual JSValue MODE_READ()   const TITANIUM_NOEXCEPT final;
     virtual JSValue MODE_WRITE()  const TITANIUM_NOEXCEPT final;
     virtual JSValue MODE_APPEND() const TITANIUM_NOEXCEPT final;
+    virtual JSValue separator()   const TITANIUM_NOEXCEPT;
 
     FilesystemModule(const JSContext& js_context)                      TITANIUM_NOEXCEPT;
     FilesystemModule(const FilesystemModule&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
