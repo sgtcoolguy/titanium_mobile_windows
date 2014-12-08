@@ -61,7 +61,11 @@ namespace Titanium {
     if (!file_class_ptr__) {
       file_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::Filesystem::File>::Class());
     }
-    
+
+    if (!filesystem_class_ptr__) {
+      filesystem_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::FilesystemModule>::Class());
+    }
+
     JSObject global_object = js_context__.get_global_object();
     JSObject titanium      = js_context__.CreateObject();
     global_object.SetProperty("Titanium", titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -88,7 +92,7 @@ namespace Titanium {
     JSObject blob = js_context__.CreateObject(*blob_class_ptr__);
     titanium.SetProperty("Blob", blob, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
     
-    JSObject fs = js_context__.CreateObject(JSExport<Titanium::FilesystemModule>::Class());
+    JSObject fs = js_context__.CreateObject(*filesystem_class_ptr__);
     titanium.SetProperty("Filesystem" , fs , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
     fs.SetProperty("File"  , js_context__.CreateObject(*file_class_ptr__));
     
@@ -168,6 +172,14 @@ namespace Titanium {
   }
   ApplicationBuilder& ApplicationBuilder::FileClass(const JSClassPtr_t& file_class_ptr) TITANIUM_NOEXCEPT {
     file_class_ptr__ = file_class_ptr;
+    return *this;
+  }
+
+  JSClassPtr_t ApplicationBuilder::FilesystemClass() const TITANIUM_NOEXCEPT {
+    return filesystem_class_ptr__;
+  }
+    ApplicationBuilder& ApplicationBuilder::FilesystemClass(const JSClassPtr_t& filesystem_class_ptr) TITANIUM_NOEXCEPT {
+    filesystem_class_ptr__ = filesystem_class_ptr;
     return *this;
   }
 

@@ -43,6 +43,7 @@ get_filename_component(API_SOURCE_DIR               ${PROJECT_SOURCE_DIR}/../API
 get_filename_component(Platform_SOURCE_DIR          ${PROJECT_SOURCE_DIR}/../Platform          ABSOLUTE)
 get_filename_component(Gesture_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Gesture           ABSOLUTE)
 get_filename_component(Accelerometer_SOURCE_DIR     ${PROJECT_SOURCE_DIR}/../Accelerometer     ABSOLUTE)
+get_filename_component(Filesystem_SOURCE_DIR        ${PROJECT_SOURCE_DIR}/../Filesystem        ABSOLUTE)
 get_filename_component(UI_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../UI                ABSOLUTE)
 get_filename_component(TitaniumKit_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../TitaniumKit       ABSOLUTE)
 get_filename_component(JavaScriptCoreCPP_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../JavaScriptCoreCPP ABSOLUTE)
@@ -52,6 +53,7 @@ add_subdirectory(${API_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/API    EXCLUDE
 add_subdirectory(${Platform_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Platform    EXCLUDE_FROM_ALL)
 add_subdirectory(${Gesture_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Gesture    EXCLUDE_FROM_ALL)
 add_subdirectory(${Accelerometer_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Accelerometer EXCLUDE_FROM_ALL)
+add_subdirectory(${Filesystem_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Filesystem    EXCLUDE_FROM_ALL)
 add_subdirectory(${UI_SOURCE_DIR}     ${CMAKE_CURRENT_BINARY_DIR}/UI     EXCLUDE_FROM_ALL)
 
 if(NOT TARGET TitaniumKit)
@@ -85,6 +87,7 @@ target_link_libraries(TitaniumWindows
   TitaniumWindows_Platform
   TitaniumWindows_Gesture
   TitaniumWindows_Accelerometer
+  TitaniumWindows_Filesystem
   TitaniumWindows_UI
   )
 
@@ -94,6 +97,7 @@ target_include_directories(TitaniumWindows PUBLIC
   $<TARGET_PROPERTY:TitaniumWindows_Platform,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Gesture,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Accelerometer,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Filesystem,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_UI,INTERFACE_INCLUDE_DIRECTORIES>
   )
 

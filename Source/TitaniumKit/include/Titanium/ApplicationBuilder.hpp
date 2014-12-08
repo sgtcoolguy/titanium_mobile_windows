@@ -53,7 +53,10 @@ namespace Titanium {
     JSClassPtr_t        FileClass() const                 TITANIUM_NOEXCEPT;
     ApplicationBuilder& FileClass(const JSClassPtr_t&)    TITANIUM_NOEXCEPT;
 
-    virtual ~ApplicationBuilder()                            = default;
+    JSClassPtr_t        FilesystemClass() const                 TITANIUM_NOEXCEPT;
+    ApplicationBuilder& FilesystemClass(const JSClassPtr_t&)    TITANIUM_NOEXCEPT;
+
+    virtual ~ApplicationBuilder() = default;
     ApplicationBuilder(const ApplicationBuilder&)            = default;
     ApplicationBuilder& operator=(const ApplicationBuilder&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
@@ -79,6 +82,7 @@ namespace Titanium {
     JSClassPtr_t   gesture_class_ptr__       { nullptr };
     JSClassPtr_t   blob_class_ptr__          { nullptr };
     JSClassPtr_t   file_class_ptr__          { nullptr };
+    JSClassPtr_t   filesystem_class_ptr__    { nullptr };
 
     JSContextGroup js_context_group__;
     JSContext      js_context__;
