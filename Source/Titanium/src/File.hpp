@@ -35,7 +35,7 @@ namespace TitaniumWindows {
 
     @discussion This is the Titanium.Filesystem.File implementation for Windows.
     */
-  class /* TITANIUMWINDOWS_FILESYSTEM_EXPORT */ File final : public Titanium::Filesystem::File, public JSExport <File> {
+  class TITANIUMWINDOWS_EXPORT File final : public Titanium::Filesystem::File, public JSExport <File> {
 
   public:
 

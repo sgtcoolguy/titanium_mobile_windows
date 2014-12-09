@@ -81,6 +81,11 @@ add_library(TitaniumWindows SHARED
   ${SOURCE_TitaniumWindows}
   )
 
+
+include(GenerateExportHeader)
+generate_export_header(TitaniumWindows)
+target_compile_definitions(TitaniumWindows PRIVATE TitaniumWindows_EXPORTS)
+
 target_link_libraries(TitaniumWindows
   TitaniumWindows_Global
   TitaniumWindows_API

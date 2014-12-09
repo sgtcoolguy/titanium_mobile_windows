@@ -26,7 +26,7 @@ namespace TitaniumWindows {
 
     @discussion This is the Titanium.Blob implementation for Windows.
     */
-  class /* TITANIUMWINDOWS_BLOB_EXPORT */ Blob final : public Titanium::Blob, public JSExport <Blob> {
+  class TITANIUMWINDOWS_EXPORT Blob final : public Titanium::Blob, public JSExport <Blob> {
 
   public:
 
