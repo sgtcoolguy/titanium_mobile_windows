@@ -61,7 +61,7 @@ namespace TitaniumWindows { namespace Filesystem {
 
   // Creates a directory at the path identified by this file object.
   bool File::createDirectory(const std::string& path) {
-    auto separator = path.find_last_of("//");
+    auto separator = path.find_last_of("\\");
     const auto parent = path.substr(0, separator);
     const auto desiredName = path.substr(separator + 1);
 
@@ -73,9 +73,8 @@ namespace TitaniumWindows { namespace Filesystem {
       try {
         task.get();
         result = true;
-      }
-      catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
+      } catch (Platform::COMException^ ex) {
+        TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -96,7 +95,7 @@ namespace TitaniumWindows { namespace Filesystem {
           properties = task.get();
         }
         catch (Platform::COMException^ ex) {
-          std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
+          TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
         }
         event.set();
       }, concurrency::task_continuation_context::use_arbitrary());
@@ -105,7 +104,7 @@ namespace TitaniumWindows { namespace Filesystem {
       return properties;
     }
     catch (Platform::COMException^ ex) {
-      std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
+      TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
       return nullptr;
     }
   }
@@ -161,11 +160,12 @@ namespace TitaniumWindows { namespace Filesystem {
     return name_;
   }
   JSString File::get_nativePath() const TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("TitaniumWindows::File::get_nativePath");
     return path_;
   }
   JSValue File::get_parent() const TITANIUM_NOEXCEPT {
     const std::string path = path_;
-    const JSString parent = path.substr(0, path.find_last_of("//"));
+    const JSString parent = path.substr(0, path.find_last_of("\\"));
 
     auto File = get_context().CreateObject(JSExport<Titanium::Filesystem::File>::Class());
     return File.CallAsConstructor(parent);
@@ -236,7 +236,7 @@ namespace TitaniumWindows { namespace Filesystem {
         result = true;
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
+        TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -290,7 +290,7 @@ namespace TitaniumWindows { namespace Filesystem {
         task.get();
         result = true;
       } catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
+        TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -326,7 +326,7 @@ namespace TitaniumWindows { namespace Filesystem {
         });
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
+        TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
       }
       folderEvent.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -342,7 +342,7 @@ namespace TitaniumWindows { namespace Filesystem {
         });
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
+        TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
       }
       fileEvent.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -404,7 +404,7 @@ namespace TitaniumWindows { namespace Filesystem {
         result = true;
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
+        TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -444,7 +444,7 @@ namespace TitaniumWindows { namespace Filesystem {
         result = true;
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
+        TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -467,7 +467,7 @@ namespace TitaniumWindows { namespace Filesystem {
         freeSpace = (uint64)extraProperties->Lookup("System.FreeSpace");
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
+        TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -516,7 +516,7 @@ namespace TitaniumWindows { namespace Filesystem {
     */
 
     if (buffer == nullptr) {
-      std::clog << "[WARN] Can't get content from Ti.Filesystem.File.write(content)" << std::endl;
+      TITANIUM_LOG_DEBUG("Can't get content from Ti.Filesystem.File.write(content)");
       return false;
     }
 
@@ -528,7 +528,7 @@ namespace TitaniumWindows { namespace Filesystem {
         result = true;
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
+        TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());

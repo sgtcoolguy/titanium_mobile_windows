@@ -32,11 +32,14 @@ namespace TitaniumWindows {
   }
 
   void Blob::construct(Windows::Storage::StorageFile^ file) {
+    TITANIUM_LOG_DEBUG("TitaniumWindows::Blob::construct");
     data_ = TitaniumWindows::Utility::GetContentFromFile(file);
     path_ = TitaniumWindows::Utility::ConvertString(file->Path);
 
     std::string path = path_;
     mimetype_ = TitaniumWindows::Utility::MimeTypeForExtension(path);
+
+    this->type_ = BlobModule::TYPE::FILE;
   }
 
   std::vector<unsigned char> Blob::getData() {

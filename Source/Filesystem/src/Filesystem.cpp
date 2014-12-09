@@ -40,7 +40,8 @@ namespace TitaniumWindows {
     const auto script =
     "       var path = [Ti.Filesystem.tempDirectory, +new Date()];"
     "       var file = Ti.Filesystem.getFile(path.join(Ti.Filesystem.separator));"
-    "       file.createDirectory();";
+    "       file.createDirectory();"
+    "       file;";
     return get_context().JSEvaluateScript(script);
   }
 
@@ -49,7 +50,8 @@ namespace TitaniumWindows {
     "       var dir  = Ti.Filesystem.createTempDirectory();"
     "       var path = [dir.nativePath, 'tifile'+Math.random().toString(36).substring(2)+'.tmp'];"
     "       var file = Ti.Filesystem.getFile(path.join(Ti.Filesystem.separator));"
-    "       file.createFile();";
+    "       file.createFile();"
+    "       file;";
     return get_context().JSEvaluateScript(script);
   }
 
