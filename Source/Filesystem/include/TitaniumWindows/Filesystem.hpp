@@ -35,7 +35,7 @@ namespace TitaniumWindows {
 
     static void JSExportInitialize();
 
-    virtual JSValue separator() const TITANIUM_NOEXCEPT;
+    virtual JSString separator() const TITANIUM_NOEXCEPT;
 
   protected:
 

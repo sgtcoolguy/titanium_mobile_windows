@@ -30,8 +30,8 @@ namespace TitaniumWindows {
     JSExport<FilesystemModule>::SetParent(JSExport<Titanium::FilesystemModule>::Class());
   }
 
-  JSValue FilesystemModule::separator() const TITANIUM_NOEXCEPT {
-    return get_context().CreateString("\\");
+  JSString FilesystemModule::separator() const TITANIUM_NOEXCEPT {
+    return "\\";
   }
 
 }  // namespace TitaniumWindows
