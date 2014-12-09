@@ -40,6 +40,11 @@ if(NOT TARGET TitaniumKit)
 	add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit EXCLUDE_FROM_ALL)
 endif()
 
+if(NOT TARGET TitaniumWindows_Utility)
+  get_filename_component(Utility_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../Utility ABSOLUTE)
+  add_subdirectory(${Utility_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Utility EXCLUDE_FROM_ALL)
+endif()
+
 set(SOURCE_Filesystem
   include/TitaniumWindows/Filesystem.hpp
   include/TitaniumWindows/detail/FilesystemBase.hpp

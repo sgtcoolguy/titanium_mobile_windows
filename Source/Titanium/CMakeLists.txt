@@ -56,7 +56,6 @@ add_subdirectory(${Gesture_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Gesture
 add_subdirectory(${Accelerometer_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Accelerometer EXCLUDE_FROM_ALL)
 add_subdirectory(${Filesystem_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Filesystem    EXCLUDE_FROM_ALL)
 add_subdirectory(${UI_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/UI            EXCLUDE_FROM_ALL)
-add_subdirectory(${Utility_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Utility       EXCLUDE_FROM_ALL)
 
 if(NOT TARGET TitaniumKit)
   add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit EXCLUDE_FROM_ALL)
@@ -64,6 +63,10 @@ endif()
 
 if (NOT TARGET JavaScriptCoreCPP)
   add_subdirectory(${JavaScriptCoreCPP_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/JavaScriptCoreCPP EXCLUDE_FROM_ALL)
+endif()
+
+if(NOT TARGET TitaniumWindows_Utility)
+  add_subdirectory(${Utility_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Utility       EXCLUDE_FROM_ALL)
 endif()
 
 set(SOURCE_TitaniumWindows
