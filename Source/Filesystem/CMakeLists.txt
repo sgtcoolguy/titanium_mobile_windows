@@ -40,6 +40,11 @@ if(NOT TARGET TitaniumKit)
 	add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit EXCLUDE_FROM_ALL)
 endif()
 
+if(NOT TARGET TitaniumWindows_Utility)
+  get_filename_component(Utility_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../Utility ABSOLUTE)
+  add_subdirectory(${Utility_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Utility EXCLUDE_FROM_ALL)
+endif()
+
 set(SOURCE_Filesystem
   include/TitaniumWindows/Filesystem.hpp
   include/TitaniumWindows/detail/FilesystemBase.hpp
@@ -62,10 +67,12 @@ target_compile_definitions(TitaniumWindows_Filesystem PRIVATE TitaniumWindows_Fi
 target_include_directories(TitaniumWindows_Filesystem PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
 target_link_libraries(TitaniumWindows_Filesystem
   TitaniumKit
+  TitaniumWindows_Utility
   )
 
 set_target_properties(TitaniumWindows_Filesystem PROPERTIES VS_WINRT_COMPONENT TRUE)

@@ -6,6 +6,7 @@
 
 #include "Titanium/Titanium.hpp"
 #include "NativeFileExample.hpp"
+#include "NativeFilesystemExample.hpp"
 #include "gtest/gtest.h"
 
 #define XCTAssertEqual    ASSERT_EQ
@@ -52,9 +53,38 @@ TEST_F(FileTests, logging) {
   Filesystem.SetProperty("File", File, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
   XCTAssertTrue(Filesystem.HasProperty("File"));
   
+  auto Filesystem_ptr = File.GetPrivate<NativeFilesystemExample>();
+  XCTAssertNotEqual(nullptr, Filesystem_ptr);
+
+  XCTAssertTrue(Filesystem.HasProperty("createTempDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("createTempFile"));
+  XCTAssertTrue(Filesystem.HasProperty("getFile"));
+  XCTAssertTrue(Filesystem.HasProperty("isExternalStoragePresent"));
+  XCTAssertTrue(Filesystem.HasProperty("openStream"));
+
+  XCTAssertTrue(Filesystem.HasProperty("separator"));
+  XCTAssertTrue(Filesystem.HasProperty("applicationCacheDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("applicationDataDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("applicationDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("applicationSupportDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("externalStorageDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("lineEnding"));
+  XCTAssertTrue(Filesystem.HasProperty("resourcesDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("tempDirectory"));
+
+  XCTAssertTrue(Filesystem.HasProperty("getSeparator"));
+  XCTAssertTrue(Filesystem.HasProperty("getApplicationCacheDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("getApplicationDataDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("getApplicationDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("getApplicationSupportDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("getExternalStorageDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("getLineEnding"));
+  XCTAssertTrue(Filesystem.HasProperty("getResourcesDirectory"));
+  XCTAssertTrue(Filesystem.HasProperty("getTempDirectory"));
+
   auto File_ptr = File.GetPrivate<NativeFileExample>();
   XCTAssertNotEqual(nullptr, File_ptr);
-  
+
   JSValue result = js_context.CreateNull();
   XCTAssertNoThrow(result = File.CallAsConstructor(js_context.CreateNull()));
   XCTAssertTrue(result.IsObject());

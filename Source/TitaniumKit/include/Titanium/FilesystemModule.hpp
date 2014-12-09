@@ -19,11 +19,11 @@ namespace Titanium {
     
   public:
     
-    JSValue getFile(const JSString&) TITANIUM_NOEXCEPT;
-    JSValue createTempDirectory() TITANIUM_NOEXCEPT;
-    JSValue createTempFile() TITANIUM_NOEXCEPT;
-    bool isExternalStoragePresent() TITANIUM_NOEXCEPT;
-    JSValue openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const JSString& path) TITANIUM_NOEXCEPT;
+    virtual JSValue getFile(const JSString&) TITANIUM_NOEXCEPT;
+    virtual JSValue createTempDirectory() TITANIUM_NOEXCEPT;
+    virtual JSValue createTempFile() TITANIUM_NOEXCEPT;
+    virtual bool isExternalStoragePresent() TITANIUM_NOEXCEPT;
+    virtual JSValue openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const JSString& path) TITANIUM_NOEXCEPT;
 
     virtual JSValue MODE_READ()   const TITANIUM_NOEXCEPT final;
     virtual JSValue MODE_WRITE()  const TITANIUM_NOEXCEPT final;

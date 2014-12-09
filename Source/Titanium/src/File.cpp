@@ -8,79 +8,9 @@
 #include "Titanium/detail/TiBase.hpp"
 #include <iostream>
 #include <objbase.h>
+#include <ppltasks.h>
+#include <collection.h>
 #include "Blob.hpp"
-
-//// FIXME THIS SHOULD BE REMOVED ONCE UTILITY FUNCTIONS ARE MERGED
-
-::Platform::String^ GetPlatformString(const std::string& s_str) {
-  const std::wstring b(s_str.begin(), s_str.end());
-  const wchar_t *wcString = b.c_str();
-  return ref new ::Platform::String(wcString);
-}
-
-std::string GetPlatformString(::Platform::String^ str) {
-  return std::string(str->Begin(), str->End());
-}
-
-std::string GetPlatformUTF8String(::Platform::String^ str) {
-  std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-  return std::string(converter.to_bytes(str->Data()));
-}
-
-std::vector<unsigned char> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer) {
-  const auto reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
-  std::vector<unsigned char> data(reader->UnconsumedBufferLength);
-  if (!data.empty()) {
-    reader->ReadBytes(::Platform::ArrayReference<unsigned char>(&data[0], data.size()));
-  }
-  return data;
-}
-
-std::vector<unsigned char> GetContentFromFile(Windows::Storage::StorageFile^ file) {
-  std::vector<unsigned char> content;
-  concurrency::event event;
-  concurrency::task<Windows::Storage::Streams::IBuffer^>(Windows::Storage::FileIO::ReadBufferAsync(file)).then([&content, &event](concurrency::task<Windows::Storage::Streams::IBuffer^> task) {
-    try {
-      content = std::move(GetContentFromBuffer(task.get()));
-    }
-    catch (::Platform::COMException^ ex) {
-      std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
-    }
-    event.set();
-  }, concurrency::task_continuation_context::use_arbitrary());
-  event.wait();
-
-  return content;
-}
-
-const std::string MimeTypeForExtension(std::string& path) {
-  const static std::unordered_map<std::string, const std::string> mimeTypeFromExtensionDict = {
-    { "css", "text/css" },
-    { "m4v", "video/x-m4v" }
-  };
-
-  const auto pos = path.find_last_of(".");
-  if (pos != std::string::npos && path.size() > pos) {
-    const auto ext = path.substr(pos + 1);
-    const auto found = mimeTypeFromExtensionDict.find(ext);
-    if (found != mimeTypeFromExtensionDict.end()) {
-      return found->second;
-    }
-  }
-  return "application/octet-stream";
-}
-
-unsigned GetMSecSinceEpoch(Windows::Foundation::DateTime d) {
-  Windows::Globalization::Calendar^ cal = ref new Windows::Globalization::Calendar();
-  cal->SetDateTime(d);
-
-  std::tm tm = { cal->Second, cal->Minute, cal->Hour + (cal->Period == 1 ? 0 : 12), cal->Day, cal->Month - 1, cal->Year - 1900, 0, 0, -1 };
-  const std::time_t t = std::mktime(&tm);
-
-  return t * 1000;
-}
-
-//// FIXME END
 
 using namespace Windows::Storage;
 using namespace Windows::Foundation::Collections;
@@ -106,7 +36,7 @@ namespace TitaniumWindows { namespace Filesystem {
     const auto location = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
     // if this path is relative path, let's use application installed location path
     if (name.find(":\\") == std::string::npos) {
-      path_ = GetPlatformString(location) + "\\" + name;
+      path_ = TitaniumWindows::Utility::ConvertString(location) + "\\" + name;
     }
     else {
       path_ = name;
@@ -131,7 +61,7 @@ namespace TitaniumWindows { namespace Filesystem {
 
   // Creates a directory at the path identified by this file object.
   bool File::createDirectory(const std::string& path) {
-    auto separator = path.find_last_of(TITANIUM_FILESYSTEM_FILE_PATH_SEPARATOR);
+    auto separator = path.find_last_of("//");
     const auto parent = path.substr(0, separator);
     const auto desiredName = path.substr(separator + 1);
 
@@ -139,13 +69,13 @@ namespace TitaniumWindows { namespace Filesystem {
 
     bool result = false;
     concurrency::event event;
-    task<StorageFolder^>(folder->CreateFolderAsync(GetPlatformString(desiredName))).then([&result, &event](task<StorageFolder^> task) {
+    task<StorageFolder^>(folder->CreateFolderAsync(TitaniumWindows::Utility::ConvertString(desiredName))).then([&result, &event](task<StorageFolder^> task) {
       try {
         task.get();
         result = true;
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -166,7 +96,7 @@ namespace TitaniumWindows { namespace Filesystem {
           properties = task.get();
         }
         catch (Platform::COMException^ ex) {
-          std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+          std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
         }
         event.set();
       }, concurrency::task_continuation_context::use_arbitrary());
@@ -175,7 +105,7 @@ namespace TitaniumWindows { namespace Filesystem {
       return properties;
     }
     catch (Platform::COMException^ ex) {
-      std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+      std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
       return nullptr;
     }
   }
@@ -235,7 +165,7 @@ namespace TitaniumWindows { namespace Filesystem {
   }
   JSValue File::get_parent() const TITANIUM_NOEXCEPT {
     const std::string path = path_;
-    const JSString parent = path.substr(0, path.find_last_of(TITANIUM_FILESYSTEM_FILE_PATH_SEPARATOR));
+    const JSString parent = path.substr(0, path.find_last_of("//"));
 
     auto File = get_context().CreateObject(JSExport<Titanium::Filesystem::File>::Class());
     return File.CallAsConstructor(parent);
@@ -306,7 +236,7 @@ namespace TitaniumWindows { namespace Filesystem {
         result = true;
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -329,7 +259,7 @@ namespace TitaniumWindows { namespace Filesystem {
     if (result) {
       // because this creates new file which didn't exit, update the
       // file_ member
-      file_ = getFileFromPathSync(GetPlatformString(path_));
+      file_ = getFileFromPathSync(TitaniumWindows::Utility::ConvertString(path_));
       folder_ = nullptr;
     }
     return result;
@@ -340,7 +270,7 @@ namespace TitaniumWindows { namespace Filesystem {
       return 0;
     }
     else {
-      return GetMSecSinceEpoch(item->DateCreated);
+      return TitaniumWindows::Utility::GetMSecSinceEpoch(item->DateCreated);
     }
   }
 
@@ -360,7 +290,7 @@ namespace TitaniumWindows { namespace Filesystem {
         task.get();
         result = true;
       } catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -392,11 +322,11 @@ namespace TitaniumWindows { namespace Filesystem {
       try {
         auto folders = task.get();
         std::for_each(begin(folders), end(folders), [&ctx, &filenames](StorageFolder^ folder) {
-          filenames.push_back(ctx.CreateString(GetPlatformString(folder->Name)));
+          filenames.push_back(ctx.CreateString(TitaniumWindows::Utility::ConvertString(folder->Name)));
         });
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
       }
       folderEvent.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -408,11 +338,11 @@ namespace TitaniumWindows { namespace Filesystem {
       try {
         auto files = task.get();
         std::for_each(begin(files), end(files), [&ctx, &filenames](StorageFile^ file) {
-          filenames.push_back(ctx.CreateString(GetPlatformString(file->Name)));
+          filenames.push_back(ctx.CreateString(TitaniumWindows::Utility::ConvertString(file->Name)));
         });
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
       }
       fileEvent.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -444,7 +374,7 @@ namespace TitaniumWindows { namespace Filesystem {
       return 0;
     }
     else {
-      return GetMSecSinceEpoch(prop->DateModified);
+      return TitaniumWindows::Utility::GetMSecSinceEpoch(prop->DateModified);
     }
   }
   bool File::move(const JSString& newpath) TITANIUM_NOEXCEPT {
@@ -460,7 +390,7 @@ namespace TitaniumWindows { namespace Filesystem {
     }
 
     // retrieve destination file
-    StorageFile^ fileToReplace = getFileFromPathSync(GetPlatformString(newpath));
+    StorageFile^ fileToReplace = getFileFromPathSync(TitaniumWindows::Utility::ConvertString(newpath));
 
     if (fileToReplace == nullptr) {
       return false;
@@ -474,7 +404,7 @@ namespace TitaniumWindows { namespace Filesystem {
         result = true;
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -508,13 +438,13 @@ namespace TitaniumWindows { namespace Filesystem {
     auto item = getStorageItem();
     concurrency::event event;
     bool result = false;
-    task<void>(item->RenameAsync(GetPlatformString(desiredName))).then([&result, &event](task<void> task) {
+    task<void>(item->RenameAsync(TitaniumWindows::Utility::ConvertString(desiredName))).then([&result, &event](task<void> task) {
       try {
         task.get();
         result = true;
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -537,7 +467,7 @@ namespace TitaniumWindows { namespace Filesystem {
         freeSpace = (uint64)extraProperties->Lookup("System.FreeSpace");
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());
@@ -555,7 +485,7 @@ namespace TitaniumWindows { namespace Filesystem {
       if (!createEmptyFile(path_)) {
         return false;
       }
-      file_ = getFileFromPathSync(GetPlatformString(path_));
+      file_ = getFileFromPathSync(TitaniumWindows::Utility::ConvertString(path_));
       if (file_ == nullptr) {
         return false;
       }
@@ -598,7 +528,7 @@ namespace TitaniumWindows { namespace Filesystem {
         result = true;
       }
       catch (Platform::COMException^ ex) {
-        std::clog << "[WARN] " << GetPlatformString(ex->Message) << std::endl;
+        std::clog << "[WARN] " << TitaniumWindows::Utility::ConvertString(ex->Message) << std::endl;
       }
       event.set();
     }, concurrency::task_continuation_context::use_arbitrary());

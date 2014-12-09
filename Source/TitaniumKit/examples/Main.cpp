@@ -16,6 +16,8 @@
 #include "NativePlatformExample.hpp"
 #include "NativeAccelerometerExample.hpp"
 #include "NativeGestureExample.hpp"
+#include "NativeFilesystemExample.hpp"
+#include "NativeFileExample.hpp"
 
 #include <iostream>
 
@@ -64,6 +66,8 @@ Ti.API.info('ng.js running...');
   .PlatformClass(std::make_shared<JSClass>(JSExport<NativePlatformExample>::Class()))
   .AccelerometerClass(std::make_shared<JSClass>(JSExport<NativeAccelerometerExample>::Class()))
   .GestureClass(std::make_shared<JSClass>(JSExport<NativeGestureExample>::Class()))
+  .FilesystemClass(std::make_shared<JSClass>(JSExport<NativeFilesystemExample>::Class()))
+  .FileClass(std::make_shared<JSClass>(JSExport<NativeFileExample>::Class()))
   .build();
   
   JSValue reslut = app.Run("app.js");

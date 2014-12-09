@@ -96,6 +96,7 @@ target_link_libraries(TitaniumWindows
   TitaniumWindows_Accelerometer
   TitaniumWindows_Filesystem
   TitaniumWindows_UI
+  TitaniumWindows_Utility
   )
 
 target_include_directories(TitaniumWindows PUBLIC

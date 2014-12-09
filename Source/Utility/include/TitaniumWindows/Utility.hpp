@@ -13,6 +13,7 @@
 #include <string>
 #include <locale>
 #include <codecvt>
+#include <ppltasks.h>
 
 namespace TitaniumWindows {
 	namespace Utility {
@@ -25,6 +26,11 @@ namespace TitaniumWindows {
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 			return std::string(converter.to_bytes(str->Data()));
 		}
+
+    std::vector<unsigned char> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer);
+    std::vector<unsigned char> GetContentFromFile(Windows::Storage::StorageFile^ file);
+    const std::string MimeTypeForExtension(std::string& path);
+    unsigned GetMSecSinceEpoch(Windows::Foundation::DateTime d);
 
 	} // namespace Utility
 } // namespace TitaniumWindows

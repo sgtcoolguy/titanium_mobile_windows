@@ -9,21 +9,7 @@
 
 #include "detail/FilesystemBase.hpp"
 #include "Titanium/Filesystem/Constants.hpp"
-#include <ppltasks.h>
-#include <algorithm>
-#include <vector>
-#include <collection.h>
-
-// FIXME THIS SHOULD BE REMOVED ONCE UTILITY FUNCTIONS ARE MERGED
-#define TITANIUM_FILESYSTEM_FILE_PATH_SEPARATOR "\\"
-::Platform::String^ GetPlatformString(const std::string& s_str);
-std::string GetPlatformString(::Platform::String^ str);
-std::string GetPlatformUTF8String(::Platform::String^ str);
-std::vector<unsigned char> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer);
-std::vector<unsigned char> GetContentFromFile(Windows::Storage::StorageFile^ file);
-const std::string MimeTypeForExtension(std::string& path);
-unsigned GetMSecSinceEpoch(Windows::Foundation::DateTime d);
-// FIXME END
+#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows {
   namespace Filesystem {
@@ -119,7 +105,7 @@ namespace TitaniumWindows {
     Windows::Storage::StorageFolder^ getFolderFromPathSync(::Platform::String^ filename) const;
 
     Windows::Storage::StorageFolder^ getFolderFromPathSync(const std::string& filename) const {
-      return getFolderFromPathSync(GetPlatformString(filename));
+      return getFolderFromPathSync(TitaniumWindows::Utility::ConvertString(filename));
     }
 
     // Get StorageFile from path. Returns nullptr if access denied or
@@ -127,7 +113,7 @@ namespace TitaniumWindows {
     Windows::Storage::StorageFile^ getFileFromPathSync(::Platform::String^ filename) const;
 
     Windows::Storage::StorageFile^ getFileFromPathSync(const std::string& filename) const {
-      return getFileFromPathSync(GetPlatformString(filename));
+      return getFileFromPathSync(TitaniumWindows::Utility::ConvertString(filename));
     }
 
     Windows::Storage::Streams::IBuffer^ getBufferFromBytes(unsigned char* data, std::size_t size, bool append, Windows::Storage::StorageFile^ appendingFile) {
@@ -146,12 +132,12 @@ namespace TitaniumWindows {
       if (append) {
         writeContentFromFile(writer, appendingFile);
       }
-      writer->WriteString(GetPlatformString(string));
+      writer->WriteString(TitaniumWindows::Utility::ConvertString(string));
       return writer->DetachBuffer();
     }
 
     std::size_t writeContentFromFile(Windows::Storage::Streams::DataWriter^ writer, Windows::Storage::StorageFile^ file) {
-      auto content = GetContentFromFile(file);
+      auto content = TitaniumWindows::Utility::GetContentFromFile(file);
       if (content.size() > 0) {
         writer->WriteBytes(::Platform::ArrayReference<unsigned char>(&content[0], content.size()));
       }

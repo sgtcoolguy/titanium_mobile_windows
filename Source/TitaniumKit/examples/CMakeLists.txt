@@ -31,6 +31,8 @@ set(SOURCE_examples
   NativeGestureExample.cpp
   NativeBlobExample.hpp
   NativeBlobExample.cpp
+  NativeFilesystemExample.hpp
+  NativeFilesystemExample.cpp
   NativeFileExample.hpp
   NativeFileExample.cpp
   )

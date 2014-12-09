@@ -4,8 +4,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUM_EXAMPLES_NATIVEFileEXAMPLE_HPP_
-#define _TITANIUM_EXAMPLES_NATIVEFileEXAMPLE_HPP_
+#ifndef _TITANIUM_EXAMPLES_NATIVEFILEEXAMPLE_HPP_
+#define _TITANIUM_EXAMPLES_NATIVEFILEEXAMPLE_HPP_
 
 #include "Titanium/Titanium.hpp"
 
@@ -69,4 +69,4 @@ protected:
   
 };
 
-#endif // _TITANIUM_EXAMPLES_NATIVEFileEXAMPLE_HPP_
+#endif // _TITANIUM_EXAMPLES_NATIVEFILEEXAMPLE_HPP_

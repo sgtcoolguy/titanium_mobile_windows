@@ -39,24 +39,6 @@ namespace Titanium {
     return "/";
   }
 
-    void FilesystemModule::JSExportInitialize() {
-    JSExport<FilesystemModule>::SetClassVersion(1);
-    JSExport<FilesystemModule>::SetParent(JSExport<Module>::Class());
-    JSExport<FilesystemModule>::AddFunctionProperty("getFile", std::mem_fn(&FilesystemModule::getFile_ArgumentValidator));
-    JSExport<FilesystemModule>::AddValueProperty("MODE_READ", std::mem_fn(&FilesystemModule::MODE_READ));
-    JSExport<FilesystemModule>::AddValueProperty("MODE_WRITE", std::mem_fn(&FilesystemModule::MODE_WRITE));
-    JSExport<FilesystemModule>::AddValueProperty("MODE_APPEND", std::mem_fn(&FilesystemModule::MODE_APPEND));
-    JSExport<FilesystemModule>::AddValueProperty("separator", std::mem_fn(&FilesystemModule::separator_ArgumentValidator));
-    JSExport<FilesystemModule>::AddValueProperty("lineEnding", std::mem_fn(&FilesystemModule::lineEnding_ArgumentValidator));
-    JSExport<FilesystemModule>::AddValueProperty("applicationCacheDirectory", std::mem_fn(&FilesystemModule::applicationCacheDirectory_ArgumentValidator));
-    JSExport<FilesystemModule>::AddValueProperty("applicationDataDirectory", std::mem_fn(&FilesystemModule::applicationDataDirectory_ArgumentValidator));
-    JSExport<FilesystemModule>::AddValueProperty("applicationDirectory", std::mem_fn(&FilesystemModule::applicationDirectory_ArgumentValidator));
-    JSExport<FilesystemModule>::AddValueProperty("applicationSupportDirectory", std::mem_fn(&FilesystemModule::applicationSupportDirectory_ArgumentValidator));
-    JSExport<FilesystemModule>::AddValueProperty("externalStorageDirectory", std::mem_fn(&FilesystemModule::externalStorageDirectory_ArgumentValidator));
-    JSExport<FilesystemModule>::AddValueProperty("resourcesDirectory", std::mem_fn(&FilesystemModule::resourcesDirectory_ArgumentValidator));
-    JSExport<FilesystemModule>::AddValueProperty("tempDirectory", std::mem_fn(&FilesystemModule::tempDirectory_ArgumentValidator));
-  }
-
   JSValue FilesystemModule::getFile(const JSString& path) TITANIUM_NOEXCEPT {
     TITANIUM_LOG_DEBUG("Filesystem::getFile: ", path);
 
@@ -73,6 +55,86 @@ namespace Titanium {
     JSObject File = File_property;
 
     return File.CallAsConstructor(path);
+  }
+
+  JSValue FilesystemModule::createTempDirectory() TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("File::createTempDirectory: Unimplemented");
+    return get_context().CreateNull();
+  }
+  JSValue FilesystemModule::createTempFile() TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("File::createTempFile: Unimplemented");
+    return get_context().CreateNull();
+  }
+  bool FilesystemModule::isExternalStoragePresent() TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("File::isExternalStoragePresent: Unimplemented");
+    return false;
+  }
+  JSValue FilesystemModule::openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const JSString& path) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("File::openStream: Unimplemented");
+    return get_context().CreateNull();
+  }
+  JSString FilesystemModule::applicationCacheDirectory() const TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("File::applicationCacheDirectory: Unimplemented");
+    return "";
+  }
+  JSString FilesystemModule::applicationDataDirectory() const TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("File::applicationDataDirectory: Unimplemented");
+    return "";
+  }
+  JSString FilesystemModule::applicationDirectory() const TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("File::applicationDirectory: Unimplemented");
+    return "";
+  }
+  JSString FilesystemModule::applicationSupportDirectory() const TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("File::applicationSupportDirectory: Unimplemented");
+    return "";
+  }
+  JSString FilesystemModule::externalStorageDirectory() const TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("File::externalStorageDirectory: Unimplemented");
+    return "";
+  }
+  JSString FilesystemModule::lineEnding() const TITANIUM_NOEXCEPT {
+    return "\n";
+  }
+  JSString FilesystemModule::resourcesDirectory() const TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("File::resourcesDirectory: Unimplemented");
+    return "";
+  }
+  JSString FilesystemModule::tempDirectory() const TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("File::tempDirectory: Unimplemented");
+    return "";
+  }
+
+  void FilesystemModule::JSExportInitialize() {
+    JSExport<FilesystemModule>::SetClassVersion(1);
+    JSExport<FilesystemModule>::SetParent(JSExport<Module>::Class());
+    JSExport<FilesystemModule>::AddFunctionProperty("getFile", std::mem_fn(&FilesystemModule::getFile_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("createTempDirectory", std::mem_fn(&FilesystemModule::createTempDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("createTempFile", std::mem_fn(&FilesystemModule::createTempFile_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("isExternalStoragePresent", std::mem_fn(&FilesystemModule::isExternalStoragePresent_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("openStream", std::mem_fn(&FilesystemModule::openStream_ArgumentValidator));
+    JSExport<FilesystemModule>::AddValueProperty("MODE_READ", std::mem_fn(&FilesystemModule::MODE_READ));
+    JSExport<FilesystemModule>::AddValueProperty("MODE_WRITE", std::mem_fn(&FilesystemModule::MODE_WRITE));
+    JSExport<FilesystemModule>::AddValueProperty("MODE_APPEND", std::mem_fn(&FilesystemModule::MODE_APPEND));
+    JSExport<FilesystemModule>::AddValueProperty("separator", std::mem_fn(&FilesystemModule::separator_ArgumentValidator));
+    JSExport<FilesystemModule>::AddValueProperty("lineEnding", std::mem_fn(&FilesystemModule::lineEnding_ArgumentValidator));
+    JSExport<FilesystemModule>::AddValueProperty("applicationCacheDirectory", std::mem_fn(&FilesystemModule::applicationCacheDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddValueProperty("applicationDataDirectory", std::mem_fn(&FilesystemModule::applicationDataDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddValueProperty("applicationDirectory", std::mem_fn(&FilesystemModule::applicationDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddValueProperty("applicationSupportDirectory", std::mem_fn(&FilesystemModule::applicationSupportDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddValueProperty("externalStorageDirectory", std::mem_fn(&FilesystemModule::externalStorageDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddValueProperty("resourcesDirectory", std::mem_fn(&FilesystemModule::resourcesDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddValueProperty("tempDirectory", std::mem_fn(&FilesystemModule::tempDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("getSeparator", std::mem_fn(&FilesystemModule::getSeparator_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("getLineEnding", std::mem_fn(&FilesystemModule::getLineEnding_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("getApplicationCacheDirectory", std::mem_fn(&FilesystemModule::getApplicationCacheDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("getApplicationDataDirectory", std::mem_fn(&FilesystemModule::getApplicationDataDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("getApplicationDirectory", std::mem_fn(&FilesystemModule::getApplicationDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("getApplicationSupportDirectory", std::mem_fn(&FilesystemModule::getApplicationSupportDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("getExternalStorageDirectory", std::mem_fn(&FilesystemModule::getExternalStorageDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("getResourcesDirectory", std::mem_fn(&FilesystemModule::getResourcesDirectory_ArgumentValidator));
+    JSExport<FilesystemModule>::AddFunctionProperty("getTempDirectory", std::mem_fn(&FilesystemModule::getTempDirectory_ArgumentValidator));
+
   }
 
   JSValue FilesystemModule::getFile_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
@@ -115,6 +177,7 @@ namespace Titanium {
     }
     const auto _0 = arguments.at(0);
     const auto _1 = arguments.at(1);
+
     TITANIUM_ASSERT(_0.IsNumber());
     TITANIUM_ASSERT(_1.IsString());
 
