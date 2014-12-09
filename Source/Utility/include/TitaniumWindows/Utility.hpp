@@ -19,14 +19,14 @@
 namespace TitaniumWindows {
 	namespace Utility {
 
-		static ::Platform::String^ ConvertString(const std::string& str) {
-			return ref new ::Platform::String(std::wstring(str.begin(), str.end()).c_str());
-		}
+    static ::Platform::String^ ConvertString(const std::string& str) {
+      return ref new ::Platform::String(std::wstring(str.begin(), str.end()).c_str());
+    }
 
-		static std::string ConvertString(::Platform::String^ str) {
-			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-			return std::string(converter.to_bytes(str->Data()));
-		}
+    static std::string ConvertString(::Platform::String^ str) {
+      std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+      return std::string(converter.to_bytes(str->Data()));
+    }
 
     static std::vector<unsigned char> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer) {
       const auto reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
