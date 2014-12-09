@@ -31,6 +31,7 @@ get_filename_component(API_SOURCE_DIR               ${PROJECT_SOURCE_DIR}/../../
 get_filename_component(Gesture_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/Gesture           ABSOLUTE)
 get_filename_component(Accelerometer_SOURCE_DIR     ${PROJECT_SOURCE_DIR}/../../Source/Accelerometer     ABSOLUTE)
 get_filename_component(Filesystem_SOURCE_DIR        ${PROJECT_SOURCE_DIR}/../../Source/Filesystem        ABSOLUTE)
+get_filename_component(Utility_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/Utility           ABSOLUTE)
 get_filename_component(UI_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../../Source/UI                ABSOLUTE)
 get_filename_component(TitaniumKit_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../../Source/TitaniumKit       ABSOLUTE)
 get_filename_component(JavaScriptCoreCPP_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../../Source/JavaScriptCoreCPP ABSOLUTE)
@@ -58,6 +59,10 @@ endif()
 
 if(NOT TARGET TitaniumWindows_Filesystem)
   add_subdirectory(${Filesystem_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Filesystem EXCLUDE_FROM_ALL)
+endif()
+
+if(NOT TARGET TitaniumWindows_Utility)
+  add_subdirectory(${Utility_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Utility EXCLUDE_FROM_ALL)
 endif()
 
 if(NOT TARGET TitaniumWindows_UI)
