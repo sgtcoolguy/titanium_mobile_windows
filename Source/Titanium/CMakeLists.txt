@@ -45,16 +45,18 @@ get_filename_component(Gesture_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Ges
 get_filename_component(Accelerometer_SOURCE_DIR     ${PROJECT_SOURCE_DIR}/../Accelerometer     ABSOLUTE)
 get_filename_component(Filesystem_SOURCE_DIR        ${PROJECT_SOURCE_DIR}/../Filesystem        ABSOLUTE)
 get_filename_component(UI_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../UI                ABSOLUTE)
+get_filename_component(Utility_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Utility           ABSOLUTE)
 get_filename_component(TitaniumKit_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../TitaniumKit       ABSOLUTE)
 get_filename_component(JavaScriptCoreCPP_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../JavaScriptCoreCPP ABSOLUTE)
 
-add_subdirectory(${Global_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Global EXCLUDE_FROM_ALL)
-add_subdirectory(${API_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/API    EXCLUDE_FROM_ALL)
-add_subdirectory(${Platform_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Platform    EXCLUDE_FROM_ALL)
-add_subdirectory(${Gesture_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Gesture    EXCLUDE_FROM_ALL)
+add_subdirectory(${Global_SOURCE_DIR}        ${CMAKE_CURRENT_BINARY_DIR}/Global        EXCLUDE_FROM_ALL)
+add_subdirectory(${API_SOURCE_DIR}           ${CMAKE_CURRENT_BINARY_DIR}/API           EXCLUDE_FROM_ALL)
+add_subdirectory(${Platform_SOURCE_DIR}      ${CMAKE_CURRENT_BINARY_DIR}/Platform      EXCLUDE_FROM_ALL)
+add_subdirectory(${Gesture_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Gesture       EXCLUDE_FROM_ALL)
 add_subdirectory(${Accelerometer_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Accelerometer EXCLUDE_FROM_ALL)
 add_subdirectory(${Filesystem_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Filesystem    EXCLUDE_FROM_ALL)
-add_subdirectory(${UI_SOURCE_DIR}     ${CMAKE_CURRENT_BINARY_DIR}/UI     EXCLUDE_FROM_ALL)
+add_subdirectory(${UI_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/UI            EXCLUDE_FROM_ALL)
+add_subdirectory(${Utility_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Utility       EXCLUDE_FROM_ALL)
 
 if(NOT TARGET TitaniumKit)
   add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit EXCLUDE_FROM_ALL)
@@ -104,6 +106,7 @@ target_include_directories(TitaniumWindows PUBLIC
   $<TARGET_PROPERTY:TitaniumWindows_Accelerometer,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Filesystem,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_UI,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
 set_target_properties(TitaniumWindows PROPERTIES VS_WINRT_COMPONENT TRUE)
