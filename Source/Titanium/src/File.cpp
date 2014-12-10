@@ -493,27 +493,22 @@ namespace TitaniumWindows { namespace Filesystem {
 
     Streams::IBuffer^ buffer = nullptr;
 
-    /* 
-     * TODO
-     *
-    // from String
     if (data.IsString()) {
-      buffer = getBufferFromString(data.toString(), append, file_);
+      const auto content = static_cast<JSString>(data);
+      buffer = getBufferFromString(content, append, file_);
     } else if (data.IsObject()) {
-      auto proxy = toProxy(data).get();
-      auto file = dynamic_cast<Filesystem::File*>(proxy);
+      JSObject obj = data;
+      auto file = obj.GetPrivate<TitaniumWindows::Filesystem::File>();
       if (file) {
         auto content = file->getContent();
         buffer = getBufferFromBytes(&content[0], content.size(), append, file_);
-      }
-      else {
-        auto blob = dynamic_cast<Ti::Blob::Blob*>(proxy);
-        if (blob && blob->size() > 0) {
-          buffer = getBufferFromBytes(&blob->getData()[0], blob->size(), append, file_);
+      } else {
+        auto blob = obj.GetPrivate<TitaniumWindows::Blob>();
+        if (blob && blob->get_size() > 0) {
+          buffer = getBufferFromBytes(&blob->getData()[0], blob->get_size(), append, file_);
         }
       }
     }
-    */
 
     if (buffer == nullptr) {
       TITANIUM_LOG_DEBUG("Can't get content from Ti.Filesystem.File.write(content)");

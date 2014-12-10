@@ -48,9 +48,6 @@ namespace Titanium {
   }
   
   JSObject Blob::get_file() const TITANIUM_NOEXCEPT {
-    // TODO setup constructor parameter
-    JSObject parameters = get_context().CreateNull();
-    
     JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
     TITANIUM_ASSERT(Titanium_property.IsObject()); // precondition
     JSObject Titanium = Titanium_property;
@@ -63,7 +60,7 @@ namespace Titanium {
     TITANIUM_ASSERT(File_property.IsObject()); // precondition
     JSObject File = File_property;
     
-    return File.CallAsConstructor(parameters);
+    return File.CallAsConstructor(get_nativePath());
   }
   
   unsigned Blob::get_height() const TITANIUM_NOEXCEPT {

@@ -70,6 +70,10 @@ namespace TitaniumWindows {
 
     static void JSExportInitialize();
 
+    const std::vector<unsigned char> getContent() {
+      return TitaniumWindows::Utility::GetContentFromFile(file_);
+    }
+
   protected:
 
   private:
