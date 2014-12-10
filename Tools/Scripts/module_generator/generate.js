@@ -84,7 +84,6 @@ function generateModule(name, proxy) {
 	var app_builder_property = "JSObject "+name_lower+" = js_context__.CreateObject(*"+name_lower+"_class_ptr__);\n"+
     						   "    titanium.SetProperty(\""+Name+"\", "+name_lower+", {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});\n\n"+
     						   "    JSObject api";
-    
     var app_builder_class = "JSClassPtr_t ApplicationBuilder::"+Name+"Class() const TITANIUM_NOEXCEPT {\n"+
 							"    return "+name_lower+"_class_ptr__;\n"+
 							"  }\n"+
@@ -107,8 +106,8 @@ function generateModule(name, proxy) {
 		// Generate module methods
 		module_methods += "\t// " + proxy.methods[method].summary.replace(/\n/g, "") + "\n"+
 						  "\tJSString "+Name+"::"+method+"() TITANIUM_NOEXCEPT {\n"+
-						  "\t\tTITANIUM_LOG_DEBUG(\""+Name+"::"+method+"\");\n"+
-						  "\t\treturn \"\";\n"+
+						  "\t\tTITANIUM_LOG_DEBUG(\""+Name+"::"+method+" Unimplemented\");\n"+
+						  "\t\treturn \""+Name+"::"+method+" Unimplemented\";\n"+
 						  "\t}\n";
 
 		// Generate titanium kit method definitions
@@ -133,18 +132,19 @@ function generateModule(name, proxy) {
 		module_property_definitions += "\tvirtual JSString get_"+property+"() const TITANIUM_NOEXCEPT override final;\n"
 
 		// Generate module property methods
-		module_properties +=  "\t// " + proxy.properties[property].summary.replace(/\n/g, "") + "\n"+
-										"\tJSString "+Name+"::get_"+property+"() const TITANIUM_NOEXCEPT {\n"+
-										"\t\tTITANIUM_LOG_DEBUG(\""+Name+"::get_"+property+"\");\n"+
-										"\t\treturn \"\";\n"+
-										"\t}\n";
+		module_properties += "\t// " + proxy.properties[property].summary.replace(/\n/g, "") + "\n"+
+							 "\tJSString "+Name+"::get_"+property+"() const TITANIUM_NOEXCEPT {\n"+
+							 "\t\tTITANIUM_LOG_DEBUG(\""+Name+"::get_"+property+" Unimplemented\");\n"+
+							 "\t\treturn \""+Name + "::get_"+property+": Unimplemented\";\n"+
+							 "\t}\n";
 
 		// Generate titanium kit property definitions
 		kit_property_definitions += "\t\tvirtual JSString get_"+property+"() const TITANIUM_NOEXCEPT;\n";
 
 		// Generate titanium kit property methods
-		kit_property_methods += "\tJSString "+Name+"::get_"+property+"() const TITANIUM_NOEXCEPT {\n"+
-								"\t\treturn \""+Name + "::get_"+property+": Unimplemented\";\n"+
+		kit_property_methods += "\t// " + proxy.properties[property].summary.replace(/\n/g, "") + "\n"+
+								"\tJSString "+Name+"::get_"+property+"() const TITANIUM_NOEXCEPT {\n"+
+								"\t\treturn \"\";\n"+
 								"\t}\n";
 
 		// Generate titanium kit property validator definitions

@@ -9,11 +9,6 @@
 
 #include "TitaniumWindows/{#Name#}.hpp"
 #include "Titanium/detail/TiBase.hpp"
-#include <iostream>
-#include <objbase.h>
-#include <regex>
-#include <algorithm>
-#include <collection.h>
 
 namespace TitaniumWindows {
 
