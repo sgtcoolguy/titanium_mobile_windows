@@ -73,6 +73,7 @@ target_include_directories(TitaniumWindows_UI PUBLIC
 
 target_link_libraries(TitaniumWindows_UI
   TitaniumKit
+  LayoutEngine
   )
 
 set_target_properties(TitaniumWindows_UI PROPERTIES VS_WINRT_COMPONENT TRUE)
