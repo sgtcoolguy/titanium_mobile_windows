@@ -153,7 +153,7 @@ namespace Titanium {
     // join paths with separator
     std::ostringstream oss;
     const auto size = arguments.size();
-    for (auto i = 0; i < size; i++) {
+    for (unsigned i = 0; i < size; i++) {
       oss << static_cast<JSString>(arguments.at(i));
       if (i + 1 < size) {
         oss << separator;
