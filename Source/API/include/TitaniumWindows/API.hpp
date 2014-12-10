@@ -41,6 +41,13 @@ namespace TitaniumWindows {
   protected:
 
     virtual void log(const std::string& message) const TITANIUM_NOEXCEPT override final;
+
+  private:
+
+    Windows::Networking::Sockets::StreamSocket^ tcp_socket_ { nullptr };
+    Windows::Storage::Streams::DataWriter^ tcp_writer_ { nullptr };
+
+    void connect();
   };
 
 }  // namespace TitaniumWindows
