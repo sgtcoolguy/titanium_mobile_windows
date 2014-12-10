@@ -74,6 +74,20 @@ set(SOURCE_Gesture
   src/Gesture.cpp
   )
 
+set(SOURCE_Blob
+  include/Titanium/Blob.hpp
+  src/Blob.cpp
+  )
+
+set(SOURCE_Filesystem
+  include/Titanium/FilesystemModule.hpp
+  src/FilesystemModule.cpp
+  include/Titanium/Filesystem/File.hpp
+  src/Filesystem/File.cpp
+  include/Titanium/Filesystem/Constants.hpp
+  src/Filesystem/Constants.cpp
+  )
+
 set(SOURCE_UI
   include/Titanium/UIModule.hpp
   src/UIModule.cpp
@@ -120,6 +134,8 @@ source_group(TitaniumKit\\API              FILES ${SOURCE_API})
 source_group(TitaniumKit\\Platform         FILES ${SOURCE_Platform})
 source_group(TitaniumKit\\Accelerometer    FILES ${SOURCE_Accelerometer})
 source_group(TitaniumKit\\Gesture          FILES ${SOURCE_Gesture})
+source_group(TitaniumKit\\Blob             FILES ${SOURCE_Blob})
+source_group(TitaniumKit\\Filesystem       FILES ${SOURCE_Filesystem})
 source_group(TitaniumKit\\UI               FILES ${SOURCE_UI})
 source_group(TitaniumKit\\TiLogger\\detail FILES ${SOURCE_TiLogger_detail})
 
@@ -133,6 +149,8 @@ add_library(TitaniumKit SHARED
   ${SOURCE_Platform}
   ${SOURCE_Accelerometer}
   ${SOURCE_Gesture}
+  ${SOURCE_Blob}
+  ${SOURCE_Filesystem}
   ${SOURCE_UI}
   ${SOURCE_TiLogger_detail}
   )
