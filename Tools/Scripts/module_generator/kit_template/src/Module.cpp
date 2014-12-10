@@ -27,9 +27,6 @@ namespace Titanium {
 
 {#ADD_PROPERTIES#}
 {#ADD_FUNCTIONS#}
-		
-		JSExport<{#Name#}>::AddValueProperty("osname", std::mem_fn(&{#Name#}::get_osname_ArgumentValidator));
-		JSExport<{#Name#}>::AddFunctionProperty("openURL", std::mem_fn(&{#Name#}::openURLValidator));
 	}
 
 } // namespace Titanium

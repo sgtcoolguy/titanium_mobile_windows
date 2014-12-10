@@ -17,12 +17,12 @@
 
 namespace TitaniumWindows {
 
-	{#Name#}::{#Name#}(const JSContext& js_context) TITANIUM_NOEXCEPT : Titanium::{#Name#}(js_context),
+	{#Name#}::{#Name#}(const JSContext& js_context) TITANIUM_NOEXCEPT : Titanium::{#Name#}(js_context)
 	{
 		TITANIUM_LOG_DEBUG("{#Name#}::ctor Initialize");
 	}
 
-	{#Name#}::{#Name#}(const {#Name#}& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT : Titanium::{#Name#}(rhs, arguments),
+	{#Name#}::{#Name#}(const {#Name#}& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT : Titanium::{#Name#}(rhs, arguments)
 	{
 		TITANIUM_LOG_DEBUG("{#Name#}::ctor CallAsConstructor");
 	}
