@@ -75,11 +75,11 @@ namespace TitaniumWindows {
     return height_;
   }
 
-  JSString Blob::get_mimeType() const TITANIUM_NOEXCEPT {
+  std::string Blob::get_mimeType() const TITANIUM_NOEXCEPT {
     return mimetype_;
   }
 
-  JSString Blob::get_nativePath() const TITANIUM_NOEXCEPT {
+  std::string Blob::get_nativePath() const TITANIUM_NOEXCEPT {
     return path_;
   }
 
@@ -91,7 +91,7 @@ namespace TitaniumWindows {
     }
   }
 
-  JSString Blob::get_text() const TITANIUM_NOEXCEPT {
+  std::string Blob::get_text() const TITANIUM_NOEXCEPT {
     if (type_ == BlobModule::TYPE::IMAGE) {
       return "";
     } else {
