@@ -56,7 +56,7 @@ namespace TitaniumWindows {
     virtual unsigned get_size() const TITANIUM_NOEXCEPT override;
     virtual std::string get_text() const TITANIUM_NOEXCEPT override;
     virtual unsigned get_width() const TITANIUM_NOEXCEPT override;
-    virtual void append(std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT override;
+    virtual void append(std::shared_ptr<Titanium::Blob>&) TITANIUM_NOEXCEPT override;
 
   protected:
 

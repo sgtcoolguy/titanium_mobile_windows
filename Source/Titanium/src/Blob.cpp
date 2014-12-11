@@ -103,8 +103,8 @@ namespace TitaniumWindows {
     return width_;
   }
 
-  void Blob::append(std::shared_ptr<Blob>& other) TITANIUM_NOEXCEPT {
-    auto blob = other.get();
+    void Blob::append(std::shared_ptr<Titanium::Blob>& other) TITANIUM_NOEXCEPT{
+    auto blob = std::dynamic_pointer_cast<Blob>(other).get();
     const auto b = blob->getData();
     data_.reserve(data_.size() + b.size());
     data_.insert(data_.end(), b.begin(), b.end());
