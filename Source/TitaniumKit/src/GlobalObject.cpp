@@ -11,6 +11,7 @@
 #include "Titanium/detail/TiUtil.hpp"
 #include <sstream>
 #include <functional>
+#include <boost/algorithm/string/predicate.hpp>
 
 namespace Titanium {
   
@@ -51,7 +52,15 @@ namespace Titanium {
     // TODO: Normalize moduleId (i.e. trim surrounding whitespace, append .js
     // if it's not already there, etc.).
     
-    JSString module_js = LoadResource(moduleId);
+    std::string module_path = moduleId;
+    if (!boost::starts_with(module_path, "/")) {
+      module_path = "/" + module_path;
+    }
+    if (!boost::ends_with(module_path, ".js")) {
+      module_path += ".js";
+    }
+
+    JSString module_js = LoadResource(module_path);
     if (module_js.empty()) {
       TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' failed to load");
       return module;
@@ -229,6 +238,7 @@ namespace Titanium {
     TITANIUM_LOG_DEBUG("GlobalObject::JSExportInitialize");
     JSExport<GlobalObject>::SetClassVersion(1);
     JSExport<GlobalObject>::SetParent(JSExport<JSExportObject>::Class());
+    JSExport<GlobalObject>::AddValueProperty("global", std::mem_fn(&GlobalObject::globalArgumentValidator));
     JSExport<GlobalObject>::AddFunctionProperty("require", std::mem_fn(&GlobalObject::requireArgumentValidator));
     JSExport<GlobalObject>::AddFunctionProperty("setTimeout", std::mem_fn(&GlobalObject::setTimeoutArgumentValidator));
     JSExport<GlobalObject>::AddFunctionProperty("clearTimeout", std::mem_fn(&GlobalObject::clearTimeoutArgumentValidator));
@@ -236,6 +246,10 @@ namespace Titanium {
     JSExport<GlobalObject>::AddFunctionProperty("clearInterval", std::mem_fn(&GlobalObject::clearIntervalArgumentValidator));
   }
   
+  JSValue GlobalObject::globalArgumentValidator() const TITANIUM_NOEXCEPT {
+    return get_context().JSEvaluateScript("this;");
+  }
+
   JSValue GlobalObject::requireArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     // TODO: Validate these precondition checks (which could be
     // automaticaly generated) with the team.
