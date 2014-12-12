@@ -20,7 +20,7 @@ namespace Titanium {
   std::atomic<std::uint32_t> GlobalObject::timer_id_generator__;
   
   JSFunction GlobalObject::createRequireFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT{
-    return get_context().CreateFunction("'use strict'; eval(module_js); return exports;", { "exports", "module_js" });
+    return get_context().CreateFunction("'use strict'; var exports={},module={};module.exports=exports;eval(module_js); return module.exports;", { "_exports_", "module_js" });
   }
   
   GlobalObject::GlobalObject(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -38,11 +38,6 @@ namespace Titanium {
   
   JSObject GlobalObject::xrequire(const std::string& moduleId) TITANIUM_NOEXCEPT{
     TITANIUM_GLOBALOBJECT_LOCK_GUARD;
-    
-    // Return the module from the cache if it has already been required.
-    if (HasProperty(moduleId)) {
-      return GetProperty(moduleId);
-    }
     
     // The module is initially empty.
     JSObject module = get_context().CreateObject();
@@ -78,16 +73,12 @@ namespace Titanium {
         else {
           module = result;
         }
-        
-        // postcondition
-        TITANIUM_ASSERT(result.IsObject());
-        
-        // TODO Set this as "ReadOnly, DontEnum, DontDelete".
-        const bool property_set = SetProperty(moduleId, result);
-        
-        TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' property_set = ", property_set);
-        // postcondition
-        TITANIUM_ASSERT(property_set);
+
+        if (module.IsFunction()) {
+          TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' is a function: ", to_string(result));
+        } else {
+          TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' is not a function: ", to_string(result));
+        }
       }
       catch (const std::exception& exception) {
         TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' threw exception ", exception.what());
