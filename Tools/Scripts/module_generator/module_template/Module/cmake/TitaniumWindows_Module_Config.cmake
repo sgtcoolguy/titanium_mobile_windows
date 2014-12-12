@@ -1,4 +1,4 @@
-# Titanium.{#Name#} for Windows
+# Titanium.{#Module#} for Windows
 # Author: {#Author#}
 #
 # Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
@@ -8,4 +8,4 @@
 include(CMakeFindDependencyMacro)
 find_dependency(TitaniumKit)
 
-include("${CMAKE_BINARY_DIR}/TitaniumWindows_{#Name#}_Targets.cmake")
+include("${CMAKE_BINARY_DIR}/TitaniumWindows_{#Module#}_Targets.cmake")

@@ -1,4 +1,4 @@
-# Titanium.{#Name#} for Windows
+# Titanium.{#Module#} for Windows
 # Author: {#Author#}
 #
 # Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
@@ -15,14 +15,14 @@ else()
   message(FATAL_ERROR "This app supports Store / Phone only.")
 endif()
 
-project(TitaniumWindows_{#Name#})
+project(TitaniumWindows_{#Module#})
 
-set(TitaniumWindows_{#Name#}_VERSION 0.1.0)
+set(TitaniumWindows_{#Module#}_VERSION 0.1.0)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
-option(TitaniumWindows_{#Name#}_DISABLE_TESTS "Disable compiling the tests" OFF)
+option(TitaniumWindows_{#Module#}_DISABLE_TESTS "Disable compiling the tests" OFF)
 
 # Use solution folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -43,35 +43,35 @@ if(NOT TARGET TitaniumKit)
 	add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit EXCLUDE_FROM_ALL)
 endif()
 
-set(SOURCE_{#Name#}
-  include/TitaniumWindows/{#Name#}.hpp
-  src/{#Name#}.cpp
-  include/TitaniumWindows/detail/{#Name#}Base.hpp
+set(SOURCE_{#Module#}
+  include/TitaniumWindows/{#Module#}.hpp
+  src/{#Module#}.cpp
+  include/TitaniumWindows/detail/{#Module#}Base.hpp
   )
 
-source_group(Titanium\\{#Name#} FILES ${SOURCE_{#Name#}})
+source_group(Titanium\\{#Module#} FILES ${SOURCE_{#Module#}})
 
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
-add_library(TitaniumWindows_{#Name#} SHARED
-  ${SOURCE_{#Name#}}
+add_library(TitaniumWindows_{#Module#} SHARED
+  ${SOURCE_{#Module#}}
   )
 
 include(GenerateExportHeader)
-generate_export_header(TitaniumWindows_{#Name#})
-target_compile_definitions(TitaniumWindows_{#Name#} PRIVATE TitaniumWindows_{#Name#}_EXPORTS)
+generate_export_header(TitaniumWindows_{#Module#})
+target_compile_definitions(TitaniumWindows_{#Module#} PRIVATE TitaniumWindows_{#Module#}_EXPORTS)
 
-target_include_directories(TitaniumWindows_{#Name#} PUBLIC
+target_include_directories(TitaniumWindows_{#Module#} PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
-target_link_libraries(TitaniumWindows_{#Name#}
+target_link_libraries(TitaniumWindows_{#Module#}
   TitaniumKit
   )
 
-set_target_properties(TitaniumWindows_{#Name#} PROPERTIES VS_WINRT_COMPONENT TRUE)
+set_target_properties(TitaniumWindows_{#Module#} PROPERTIES VS_WINRT_COMPONENT TRUE)
 
 # Silence this warning when lnking the Debug configuration:
 #
@@ -105,45 +105,45 @@ set_target_properties(TitaniumWindows_{#Name#} PROPERTIES VS_WINRT_COMPONENT TRU
 #
 # Therefore we disable /OPT:REF and /OPT:ICF for the Debug
 # configuration.
-set_property(TARGET TitaniumWindows_{#Name#} APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
+set_property(TARGET TitaniumWindows_{#Module#} APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
 
-if (NOT TitaniumWindows_{#Name#}_DISABLE_TESTS)
+if (NOT TitaniumWindows_{#Module#}_DISABLE_TESTS)
   add_subdirectory(test)
 endif()
 
 
-# Support find_package(TitaniumWindows_{#Name#} 0.1 REQUIRED)
+# Support find_package(TitaniumWindows_{#Module#} 0.1 REQUIRED)
 
-set_property(TARGET TitaniumWindows_{#Name#} PROPERTY VERSION ${TitaniumWindows_{#Name#}_VERSION})
-set_property(TARGET TitaniumWindows_{#Name#} PROPERTY SOVERSION 0)
-set_property(TARGET TitaniumWindows_{#Name#} PROPERTY INTERFACE_TitaniumWindows_{#Name#}_MAJOR_VERSION 0)
-set_property(TARGET TitaniumWindows_{#Name#} APPEND PROPERTY
-  COMPATIBLE_INTERFACE_STRING TitaniumWindows_{#Name#}_MAJOR_VERSION
+set_property(TARGET TitaniumWindows_{#Module#} PROPERTY VERSION ${TitaniumWindows_{#Module#}_VERSION})
+set_property(TARGET TitaniumWindows_{#Module#} PROPERTY SOVERSION 0)
+set_property(TARGET TitaniumWindows_{#Module#} PROPERTY INTERFACE_TitaniumWindows_{#Module#}_MAJOR_VERSION 0)
+set_property(TARGET TitaniumWindows_{#Module#} APPEND PROPERTY
+  COMPATIBLE_INTERFACE_STRING TitaniumWindows_{#Module#}_MAJOR_VERSION
   )
 
-install(TARGETS TitaniumWindows_{#Name#} EXPORT TitaniumWindows_{#Name#}_Targets
+install(TARGETS TitaniumWindows_{#Module#} EXPORT TitaniumWindows_{#Module#}_Targets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
   INCLUDES DESTINATION include
   )
 
-export(EXPORT TitaniumWindows_{#Name#}_Targets
-  FILE "${CMAKE_BINARY_DIR}/TitaniumWindows_{#Name#}_Targets.cmake"
+export(EXPORT TitaniumWindows_{#Module#}_Targets
+  FILE "${CMAKE_BINARY_DIR}/TitaniumWindows_{#Module#}_Targets.cmake"
 )
 
-configure_file(cmake/TitaniumWindows_{#Name#}_Config.cmake
-  "${CMAKE_BINARY_DIR}/TitaniumWindows_{#Name#}_Config.cmake"
+configure_file(cmake/TitaniumWindows_{#Module#}_Config.cmake
+  "${CMAKE_BINARY_DIR}/TitaniumWindows_{#Module#}_Config.cmake"
   COPY_ONLY
   )
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-  "${CMAKE_BINARY_DIR}/TitaniumWindows_{#Name#}_ConfigVersion.cmake"
-  VERSION ${TitaniumWindows_{#Name#}_VERSION}
+  "${CMAKE_BINARY_DIR}/TitaniumWindows_{#Module#}_ConfigVersion.cmake"
+  VERSION ${TitaniumWindows_{#Module#}_VERSION}
   COMPATIBILITY AnyNewerVersion
   )
 
 # Store the current build directory in the CMake user package registry
-# so that find_package(TitaniumWindows_{#Name#}) works.
-export(PACKAGE TitaniumWindows_{#Name#})
+# so that find_package(TitaniumWindows_{#Module#}) works.
+export(PACKAGE TitaniumWindows_{#Module#})
