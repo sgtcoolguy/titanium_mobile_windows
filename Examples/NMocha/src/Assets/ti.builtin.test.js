@@ -13,13 +13,8 @@ describe("ti_internal", function () {
 
     // make sure we have require
     it("require", function (finish) {
-        try {
-            should(require).be.a.Function;
-            finish();
-        } catch (E) {
-            Ti.API.info(E.toString());
-            finish();
-        }
+        should(require).be.a.Function;
+        finish();
     });
 
     // make sure we have setTimeout
@@ -77,6 +72,37 @@ describe("ti_internal", function () {
     // make sure we have Ti.API.warn
     it("Ti.API.warn", function (finish) {
         should(Ti.API.warn).be.a.Function;
+        finish();
+    });
+
+    // make sure Ti.API.info accepts string
+    it("Ti.API.info", function (finish) {
+        Ti.API.info("Hello");
+        finish();
+    });
+    // make sure Ti.API.info accepts object
+    it("Ti.API.info", function (finish) {
+        Ti.API.info({});
+        finish();
+    });
+    // make sure Ti.API.info accepts null
+    it("Ti.API.info", function (finish) {
+        Ti.API.info(null);
+        finish();
+    });
+    // make sure Ti.API.info accepts undefined
+    it("Ti.API.info", function (finish) {
+        Ti.API.info(undefined);
+        finish();
+    });
+    // make sure Ti.API.info accepts array
+    it("Ti.API.info", function (finish) {
+        Ti.API.info([]);
+        finish();
+    });
+    // make sure Ti.API.info accepts number
+    it("Ti.API.info", function (finish) {
+        Ti.API.info(101);
         finish();
     });
 
