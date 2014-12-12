@@ -87,16 +87,31 @@ describe("ti_internal", function () {
     });
 
     // make sure we have console.log
-    it.skip("console", function (finish) {
+    it("console", function (finish) {
         should(console).be.an.Object;
         finish();
     });
 
     // make sure we have console.log
-    it.skip("console.log", function (finish) {
+    it("console.log", function (finish) {
         should(console.log).be.a.Function;
         finish();
     });
 
+    // make sure we have console.info
+    it("console.info", function (finish) {
+        should(console.info).be.a.Function;
+        finish();
+    });
+    // make sure we have console.error
+    it("console.error", function (finish) {
+        should(console.error).be.a.Function;
+        finish();
+    });
+    // make sure we have console.warn
+    it("console.warn", function (finish) {
+        should(console.warn).be.a.Function;
+        finish();
+    });
 
 });

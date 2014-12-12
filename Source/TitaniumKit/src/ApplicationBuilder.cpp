@@ -95,6 +95,16 @@ namespace Titanium {
     JSObject fs = js_context__.CreateObject(*filesystem_class_ptr__);
     titanium.SetProperty("Filesystem" , fs , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
     fs.SetProperty("File"  , js_context__.CreateObject(*file_class_ptr__));
+
+    JSString builtin_functions_script = R"js(
+      console = {};
+      console.log   = Ti.API.info;
+      console.info  = Ti.API.info;
+      console.error = Ti.API.error;
+      console.warn  = Ti.API.warn;
+    )js";
+
+    js_context__.JSEvaluateScript(builtin_functions_script);
     
     return Application(*this);
   }
