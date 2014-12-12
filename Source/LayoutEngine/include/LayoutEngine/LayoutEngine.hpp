@@ -22,10 +22,10 @@
 namespace Titanium { namespace LayoutEngine {
 
 struct Rect {
-	double width = 0;
-	double height = 0;
-	double x = 0;
-	double y = 0;
+  double width = 0;
+  double height = 0;
+  double x = 0;
+  double y = 0;
 };
 
 enum LayoutType {
@@ -120,8 +120,8 @@ struct LayoutProperties {
     struct LayoutProp minHeight;
     struct LayoutProp centerX;
     struct LayoutProp centerY;
-	enum ValueType defaultWidthType;
-	enum ValueType defaultHeightType;
+    enum ValueType defaultWidthType;
+    enum ValueType defaultHeightType;
 };
 
 bool isNaN(double);
@@ -143,7 +143,7 @@ struct Node {
     struct Node *firstChild = nullptr, *lastChild = nullptr;
     struct Element element;
     struct LayoutProperties properties;
-	//int flags = FLAG_INVALID;
+  //int flags = FLAG_INVALID;
     std::string name;
     void(*onLayout)(struct Node*);
     void* data;
@@ -159,14 +159,14 @@ struct Node* nodeRequestLayout(struct Node* node);
 void nodeLayout(struct Node* root);
 
 inline Rect RectMake(double x, double y, double width, double height) {
-	Rect rect; rect.x = x; rect.y = y; rect.width = width; rect.height = height; return rect;
+  Rect rect; rect.x = x; rect.y = y; rect.width = width; rect.height = height; return rect;
 }
 
 inline bool RectIsEmpty(Rect rect) {
-	return rect.x == 0 && rect.y == 0 && rect.width == 0 && rect.height == 0;
+  return rect.x == 0 && rect.y == 0 && rect.width == 0 && rect.height == 0;
 }
 inline bool RectIsEqualToRect(Rect rect1, Rect rect2) {
-	return rect1.x == rect2.x && rect1.y == rect2.y && rect1.width == rect2.width && rect1.height == rect2.height;
+  return rect1.x == rect2.x && rect1.y == rect2.y && rect1.width == rect2.width && rect1.height == rect2.height;
 }
 
 }} // namespace Titanium { namespace LayoutEngine {

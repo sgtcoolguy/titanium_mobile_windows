@@ -12,7 +12,7 @@
 #include "LayoutEngine/LayoutEngine.hpp"
 
 int main(int argc, char **argv) {
-	std::cout << "Running main() from a dektop executable to show basic layout engine flow.c" << std::endl;
+  std::cout << "Running main() from a desktop executable to show basic layout engine flow.c" << std::endl;
   
   // This sample shows a layout of 3 elements with fixed (not % or fill constants) values. The top level
   // element After processing
@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
   // returned.
   Titanium::LayoutEngine::doHorizontalLayout((*e1).children, 100, 100, false, false);
 
-	std::clog << "Element 2 Top is: "    << e2 -> measuredTop << std::endl;
+  std::clog << "Element 2 Top is: "    << e2 -> measuredTop << std::endl;
   std::clog << "Element 2 Left is: "   << e2 -> measuredLeft << std::endl;
   std::clog << "Element 2 Width is: "  << e2 -> measuredWidth << std::endl;
   std::clog << "Element 2 Height is: " << e2 -> measuredHeight << std::endl;

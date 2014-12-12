@@ -44,10 +44,10 @@ void nodeRemoveChild(struct Node* parent, struct Node* child) {
 
 
 struct Node* nodeRequestLayout(struct Node* node) {
-	while (node->parent != nullptr) {
-		node = node->parent;
-	}
-	return node;
+  while (node->parent != nullptr) {
+    node = node->parent;
+  }
+  return node;
 }
 
 
