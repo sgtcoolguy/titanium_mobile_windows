@@ -36,7 +36,7 @@ namespace Titanium {
   , timer_map__(rhs.timer_map__) {
   }
   
-  JSObject GlobalObject::xrequire(const JSString& moduleId) TITANIUM_NOEXCEPT{
+  JSObject GlobalObject::xrequire(const std::string& moduleId) TITANIUM_NOEXCEPT{
     TITANIUM_GLOBALOBJECT_LOCK_GUARD;
     
     // Return the module from the cache if it has already been required.
@@ -60,7 +60,7 @@ namespace Titanium {
       module_path += ".js";
     }
 
-    JSString module_js = LoadResource(module_path);
+    std::string module_js = LoadResource(module_path);
     if (module_js.empty()) {
       TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' failed to load");
       return module;
@@ -193,7 +193,7 @@ namespace Titanium {
     
   }
   
-  JSString GlobalObject::LoadResource(const JSString& moduleId) const TITANIUM_NOEXCEPT{
+  std::string GlobalObject::LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT{
     TITANIUM_LOG_ERROR("GlobalObject::LoadResource: Unimplemented");
     return "";
   }
@@ -256,7 +256,7 @@ namespace Titanium {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     TITANIUM_ASSERT(_0.IsString());
-    JSString moduleId = static_cast<JSString>(_0);
+    std::string moduleId = static_cast<std::string>(_0);
     return xrequire(moduleId);
   }
   
