@@ -81,19 +81,19 @@ describe("ti_internal", function () {
     });
 
     // make sure we have global
-    it("global", function (finish) {
+    it.skip("global", function (finish) {
         should(global).be.an.Object;
         finish();
     });
 
     // make sure we have console.log
-    it("console", function (finish) {
+    it.skip("console", function (finish) {
         should(console).be.an.Object;
         finish();
     });
 
     // make sure we have console.log
-    it("console.log", function (finish) {
+    it.skip("console.log", function (finish) {
         should(console.log).be.a.Function;
         finish();
     });
