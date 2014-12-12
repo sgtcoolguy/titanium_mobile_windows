@@ -7,19 +7,19 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "LayoutEngine/TiLayout.h"
+#include "LayoutEngine/LayoutEngine.hpp"
 
 #include "gtest/gtest.h"
 
 
 TEST(CompositeLayout, measure_composite_node_fill_properties) {
-  struct Ti::Layout::LayoutProperties layoutProperties;
-  Ti::Layout::layoutPropertiesInitialize(&layoutProperties);
-  struct Ti::Layout::Element* element = new Ti::Layout::Element();
-  Ti::Layout::elementInitialize(element, Ti::Layout::Composite);
-  layoutProperties.width.valueType = Ti::Layout::Fill;
+  struct Titanium::LayoutEngine::LayoutProperties layoutProperties;
+  Titanium::LayoutEngine::layoutPropertiesInitialize(&layoutProperties);
+  struct Titanium::LayoutEngine::Element* element = new Titanium::LayoutEngine::Element();
+  Titanium::LayoutEngine::elementInitialize(element, Titanium::LayoutEngine::Composite);
+  layoutProperties.width.valueType = Titanium::LayoutEngine::Fill;
   layoutProperties.width.value = NAN;
-  layoutProperties.height.valueType = Ti::Layout::Fill;
+  layoutProperties.height.valueType = Titanium::LayoutEngine::Fill;
   layoutProperties.height.value = NAN;
   measureNodeForCompositeLayout(layoutProperties, element);
   // width height rule
@@ -28,12 +28,12 @@ TEST(CompositeLayout, measure_composite_node_fill_properties) {
   EXPECT_EQ(1.0, (*element).layoutCoefficients.height.x1);
   EXPECT_EQ(0.0, (*element).layoutCoefficients.height.x2);
   // min-width min-height rule
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minWidth.x1));
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minWidth.x2));
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minWidth.x3));
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minHeight.x1));
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minHeight.x2));
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minHeight.x3));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minWidth.x1));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minWidth.x2));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minWidth.x3));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minHeight.x1));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minHeight.x2));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minHeight.x3));
   // top left rule
   EXPECT_EQ(0.5, (*element).layoutCoefficients.top.x1);
   EXPECT_EQ(-0.5, (*element).layoutCoefficients.top.x2);
@@ -42,27 +42,27 @@ TEST(CompositeLayout, measure_composite_node_fill_properties) {
 }
 
 TEST(CompositeLayout, measure_composite_node) {
-  struct Ti::Layout::LayoutProperties layoutProperties;
+  struct Titanium::LayoutEngine::LayoutProperties layoutProperties;
   layoutPropertiesInitialize(&layoutProperties);
-  struct Ti::Layout::Element* element = new Ti::Layout::Element();
-  Ti::Layout::elementInitialize(element, Ti::Layout::Composite);
-  layoutProperties.width.valueType = Ti::Layout::ValueType::Fixed; 
+  struct Titanium::LayoutEngine::Element* element = new Titanium::LayoutEngine::Element();
+  Titanium::LayoutEngine::elementInitialize(element, Titanium::LayoutEngine::Composite);
+  layoutProperties.width.valueType = Titanium::LayoutEngine::ValueType::Fixed; 
   layoutProperties.width.value = 100;
-  layoutProperties.height.valueType = Ti::Layout::ValueType::Fixed; 
+  layoutProperties.height.valueType = Titanium::LayoutEngine::ValueType::Fixed; 
   layoutProperties.height.value = 100;
-  Ti::Layout::measureNodeForCompositeLayout(layoutProperties, element);
+  Titanium::LayoutEngine::measureNodeForCompositeLayout(layoutProperties, element);
   // width height rule
   EXPECT_EQ(0.0, (*element).layoutCoefficients.width.x1);
   EXPECT_EQ(100.0, (*element).layoutCoefficients.width.x2);
   EXPECT_EQ(0.0, (*element).layoutCoefficients.height.x1);
   EXPECT_EQ(100.0, (*element).layoutCoefficients.height.x2);
   // min-width min-height rule
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minWidth.x1));
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minWidth.x2));
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minWidth.x3));
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minHeight.x1));
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minHeight.x2));
-  EXPECT_EQ(true, Ti::Layout::isNaN((*element).layoutCoefficients.minHeight.x3));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minWidth.x1));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minWidth.x2));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minWidth.x3));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minHeight.x1));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minHeight.x2));
+  EXPECT_EQ(true, Titanium::LayoutEngine::isNaN((*element).layoutCoefficients.minHeight.x3));
   // top left rule
   EXPECT_EQ(0.5, (*element).layoutCoefficients.top.x1);
   EXPECT_EQ(-0.5, (*element).layoutCoefficients.top.x2);

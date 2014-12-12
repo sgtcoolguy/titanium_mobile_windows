@@ -7,12 +7,11 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "LayoutEngine/TiLayout.hpp"
+#include "LayoutEngine/LayoutEngine.hpp"
+
 #include <string.h>
 
-
-namespace Ti {
-namespace Layout {
+namespace Titanium { namespace LayoutEngine {
 
 void nodeAddChild(struct Node* parent, struct Node* child) {
     child->parent = parent;
@@ -95,6 +94,4 @@ void nodeLayout(struct Node* root) {
     invokeLayoutCallback(root);
 }
 
-}
-}
-
+}}  // namespace Titanium { namespace LayoutEngine {

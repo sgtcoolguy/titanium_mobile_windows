@@ -7,8 +7,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef TI_LAYOUT_H_
-#define TI_LAYOUT_H_
+#ifndef _LAYOUTENGINE_LAYOUTENGINE_HPP_
+#define _LAYOUTENGINE_LAYOUTENGINE_HPP_
 
 #include <math.h>
 #include <vector>
@@ -19,8 +19,7 @@
 #define FLAG_REQ_LAYOUT 0x02  // Layout has been request for this node and its children.
  
 
-namespace Ti {
-namespace Layout {
+namespace Titanium { namespace LayoutEngine {
 
 struct Rect {
 	double width = 0;
@@ -170,8 +169,6 @@ inline bool RectIsEqualToRect(Rect rect1, Rect rect2) {
 	return rect1.x == rect2.x && rect1.y == rect2.y && rect1.width == rect2.width && rect1.height == rect2.height;
 }
 
-}
-}
+}} // namespace Titanium { namespace LayoutEngine {
 
-
-#endif
+#endif // _LAYOUTENGINE_LAYOUTENGINE_HPP_

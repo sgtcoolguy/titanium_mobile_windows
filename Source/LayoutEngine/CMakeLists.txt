@@ -29,7 +29,7 @@ enable_testing()
 list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/cmake)
 
 set(SOURCE_LayoutEngine
-  include/LayoutEngine/TiLayout.hpp
+  include/LayoutEngine/LayoutEngine.hpp
   src/Common.cpp
   src/Composite.cpp
   src/Element.cpp
@@ -48,9 +48,6 @@ add_library(LayoutEngine STATIC
 include(GenerateExportHeader)
 generate_export_header(LayoutEngine)
 target_compile_definitions(LayoutEngine PRIVATE LayoutEngine_EXPORTS)
-
-#target_compile_definitions(LayoutEngine PUBLIC LayoutEngine_STATIC_DEFINE)
-# target_compile_definitions(LayoutEngine PRIVATE STATICALLY_LINKED_WITH_JavaScriptCore)
 
 target_include_directories(LayoutEngine PUBLIC
   ${PROJECT_SOURCE_DIR}/include

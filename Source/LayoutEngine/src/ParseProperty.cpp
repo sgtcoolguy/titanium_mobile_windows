@@ -7,13 +7,12 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "LayoutEngine/TiLayout.hpp"
+#include "LayoutEngine/LayoutEngine.hpp"
  
 #include <stdlib.h>
 #include <string>
 
-namespace Ti {
-namespace Layout {
+namespace Titanium { namespace LayoutEngine {
 
 enum ValueType _getValueType(const std::string& value) {
 	if (value == "UI.SIZE") {
@@ -150,8 +149,4 @@ void layoutPropertiesInitialize(struct LayoutProperties* layoutProperties) {
 	(*layoutProperties).centerY.valueType = None;
 }
 
-}
-}
-
-
-
+}}  // namespace Titanium { namespace LayoutEngine {

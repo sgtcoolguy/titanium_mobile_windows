@@ -65,3 +65,4 @@ if [[ "${JavaScriptCoreCPP_DISABLE_TESTS}" != "ON" ]]; then
 fi
 
 echo_and_eval "popd"
+

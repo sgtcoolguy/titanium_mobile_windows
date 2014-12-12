@@ -7,16 +7,15 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "LayoutEngine/TiLayout.hpp"
- 
+#include "LayoutEngine/LayoutEngine.hpp"
+
 #include <algorithm>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 
-namespace Ti {
-namespace Layout {
-
+namespace Titanium { namespace LayoutEngine {
+ 
 void elementInitialize(struct Element* element, enum LayoutType layoutType) {
     (*element).layoutCoefficients.width.x1 = NAN;
     (*element).layoutCoefficients.width.x2 =  NAN;
@@ -60,5 +59,4 @@ void removeChildElement(struct Element* parent, struct Element* child) {
     }
 }
 
-}
-}
+}}  // namespace Titanium { namespace LayoutEngine {

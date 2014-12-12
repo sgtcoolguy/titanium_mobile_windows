@@ -7,15 +7,13 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "LayoutEngine/TiLayout.hpp"
- 
+#include "LayoutEngine/LayoutEngine.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
 #include <math.h>
 
-namespace Ti {
-namespace Layout {
+namespace Titanium { namespace LayoutEngine {
 
 struct ComputedSize doVerticalLayout(std::vector<struct Element*> children, double width, double height, bool isWidthSize, bool isHeightSize) {
     struct ComputedSize computedSize;
@@ -286,8 +284,4 @@ void measureNodeForVerticalLayout(struct LayoutProperties layoutProperties, stru
 	(*element).layoutCoefficients.top.x2 = topType == Fixed ? topValue : 0;
 }
 
-}
-}
-
-
-
+}}  // namespace Titanium { namespace LayoutEngine {

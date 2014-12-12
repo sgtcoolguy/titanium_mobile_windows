@@ -7,10 +7,9 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "LayoutEngine/TiLayout.hpp"
+#include "LayoutEngine/LayoutEngine.hpp"
 
-namespace Ti {
-namespace Layout {
+namespace Titanium { namespace LayoutEngine {
 
 bool isNaN(double value) {
   if (value != value)
@@ -51,6 +50,4 @@ void measureNode(enum LayoutType type, struct LayoutProperties* properties, stru
   }
 }
 
-}
-}
-
+}}  // namespace Titanium { namespace LayoutEngine {

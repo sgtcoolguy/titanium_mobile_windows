@@ -7,19 +7,19 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "LayoutEngine/TiLayout.h"
+#include "LayoutEngine/LayoutEngine.hpp"
 
 #include "gtest/gtest.h"
 
 TEST(HorizontalLayout, measure_horizontal_node) {
-  struct Ti::Layout::LayoutProperties layoutProperties;
-  Ti::Layout::layoutPropertiesInitialize(&layoutProperties);
-  struct Ti::Layout::Element* element = new Ti::Layout::Element();
-  Ti::Layout::elementInitialize(element, Ti::Layout::Horizontal);
+  struct Titanium::LayoutEngine::LayoutProperties layoutProperties;
+  Titanium::LayoutEngine::layoutPropertiesInitialize(&layoutProperties);
+  struct Titanium::LayoutEngine::Element* element = new Titanium::LayoutEngine::Element();
+  Titanium::LayoutEngine::elementInitialize(element, Titanium::LayoutEngine::Horizontal);
   layoutProperties.width.value = 50;
-  layoutProperties.width.valueType = Ti::Layout::Fixed;
+  layoutProperties.width.valueType = Titanium::LayoutEngine::Fixed;
   layoutProperties.height.value = 20;
-  layoutProperties.height.valueType = Ti::Layout::Fixed;
+  layoutProperties.height.valueType = Titanium::LayoutEngine::Fixed;
   measureNodeForHorizontalLayout(layoutProperties, element);
 
   // top left rule
@@ -30,36 +30,36 @@ TEST(HorizontalLayout, measure_horizontal_node) {
 }
 
 TEST(HorizontalLayout, horizontal_layout) {
-  struct  Ti::Layout::LayoutProperties layoutProperties;
-  Ti::Layout::layoutPropertiesInitialize(&layoutProperties);
-  struct  Ti::Layout::Element* e1 = new  Ti::Layout::Element();
-  Ti::Layout::elementInitialize(e1, Ti::Layout::Horizontal); // Device - top level window
+  struct  Titanium::LayoutEngine::LayoutProperties layoutProperties;
+  Titanium::LayoutEngine::layoutPropertiesInitialize(&layoutProperties);
+  struct  Titanium::LayoutEngine::Element* e1 = new  Titanium::LayoutEngine::Element();
+  Titanium::LayoutEngine::elementInitialize(e1, Titanium::LayoutEngine::Horizontal); // Device - top level window
   // e2
   layoutProperties.width.value = 50;
-  layoutProperties.width.valueType = Ti::Layout::Fixed;
+  layoutProperties.width.valueType = Titanium::LayoutEngine::Fixed;
   layoutProperties.height.value = 20;
-  layoutProperties.height.valueType = Ti::Layout::Fixed;
-  struct Ti::Layout::Element* e2 = new Ti::Layout::Element();
-  Ti::Layout::elementInitialize(e2, Ti::Layout::Composite);
-  Ti::Layout::measureNodeForHorizontalLayout(layoutProperties, e2);
+  layoutProperties.height.valueType = Titanium::LayoutEngine::Fixed;
+  struct Titanium::LayoutEngine::Element* e2 = new Titanium::LayoutEngine::Element();
+  Titanium::LayoutEngine::elementInitialize(e2, Titanium::LayoutEngine::Composite);
+  Titanium::LayoutEngine::measureNodeForHorizontalLayout(layoutProperties, e2);
   // e3
   layoutProperties.width.value = 50;
-  layoutProperties.width.valueType = Ti::Layout::Fixed; 
+  layoutProperties.width.valueType = Titanium::LayoutEngine::Fixed; 
   layoutProperties.height.value = 40;
-  layoutProperties.height.valueType = Ti::Layout::Fixed;
-  struct Ti::Layout::Element* e3 = new Ti::Layout::Element();
-  Ti::Layout::elementInitialize(e3, Ti::Layout::Composite);
-  Ti::Layout::measureNodeForHorizontalLayout(layoutProperties, e3);
-  Ti::Layout::addChildElement(e1, e2);
-  Ti::Layout::addChildElement(e1, e3);
-  Ti::Layout::doHorizontalLayout((*e1).children, 100, 100, false, false);
+  layoutProperties.height.valueType = Titanium::LayoutEngine::Fixed;
+  struct Titanium::LayoutEngine::Element* e3 = new Titanium::LayoutEngine::Element();
+  Titanium::LayoutEngine::elementInitialize(e3, Titanium::LayoutEngine::Composite);
+  Titanium::LayoutEngine::measureNodeForHorizontalLayout(layoutProperties, e3);
+  Titanium::LayoutEngine::addChildElement(e1, e2);
+  Titanium::LayoutEngine::addChildElement(e1, e3);
+  Titanium::LayoutEngine::doHorizontalLayout((*e1).children, 100, 100, false, false);
 
-  EXPECT_EQ(10.0, (*e2).measuredTop, 10.0);
-  EXPECT_EQ(0.0, (*e2).measuredLeft, 0.0);
-  EXPECT_EQ(50.0, (*e2).measuredWidth, 50.0);
-  EXPECT_EQ(20.0, (*e2).measuredHeight, 20.0);
-  EXPECT_EQ(0.0, (*e3).measuredTop, 0.0);
-  EXPECT_EQ(50.0, (*e3).measuredLeft, 50.0);
-  EXPECT_EQ(50.0, (*e3).measuredWidth, 50.0);
-  EXPECT_EQ(40.0, (*e3).measuredHeight, 40.0);
+  ASSERT_DOUBLE_EQ(10.0, (*e2).measuredTop);
+  ASSERT_DOUBLE_EQ(0.0, (*e2).measuredLeft);
+  ASSERT_DOUBLE_EQ(50.0, (*e2).measuredWidth);
+  ASSERT_DOUBLE_EQ(20.0, (*e2).measuredHeight);
+  ASSERT_DOUBLE_EQ(0.0, (*e3).measuredTop);
+  ASSERT_DOUBLE_EQ(50.0, (*e3).measuredLeft);
+  ASSERT_DOUBLE_EQ(50.0, (*e3).measuredWidth);
+  ASSERT_DOUBLE_EQ(40.0, (*e3).measuredHeight);
 }

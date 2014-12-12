@@ -7,16 +7,15 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "LayoutEngine/TiLayout.hpp"
- 
+#include "LayoutEngine/LayoutEngine.hpp"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
 #include <math.h>
 #include <algorithm>
 
-namespace Ti {
-namespace Layout {
+namespace Titanium { namespace LayoutEngine {
 
 struct ComputedSize doCompositeLayout(std::vector<struct Element*> children, double width, double height, bool isWidthSize, bool isHeightSize) {
     struct ComputedSize computedSize;
@@ -449,5 +448,4 @@ void measureNodeForCompositeLayout(struct LayoutProperties layoutProperties, str
 	(*element).layoutCoefficients.sandboxHeight.x2 = (bottomType == Fixed ? bottomValue : 0);
 }
 
-}
-}
+}} // namespace Titanium { namespace LayoutEngine {
