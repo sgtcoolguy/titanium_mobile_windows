@@ -15,7 +15,7 @@
 
 namespace Titanium {
   
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
   
   using JSClassPtr_t = std::shared_ptr<JSClass>;
   

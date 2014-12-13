@@ -12,7 +12,7 @@
 
 #include "Titanium/Titanium.hpp"
 
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 /*!
  @class

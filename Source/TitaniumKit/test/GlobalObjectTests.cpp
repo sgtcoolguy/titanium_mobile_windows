@@ -17,7 +17,7 @@
 #define XCTAssertFalse    ASSERT_FALSE
 #define XCTAssertNoThrow  ASSERT_NO_THROW
 
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 class GlobalObjectTests : public testing::Test {
  protected:

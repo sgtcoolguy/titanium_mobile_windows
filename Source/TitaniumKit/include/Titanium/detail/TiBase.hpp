@@ -56,6 +56,6 @@
 #include "TitaniumKit_EXPORT.h"
 
 #include "Titanium/detail/TiLogger.hpp"
-#include "JavaScriptCoreCPP/JavaScriptCoreCPP.hpp"
+#include "HAL/HAL.hpp"
 
 #endif // _TITANIUM_DETAIL_TIBASE_HPP_

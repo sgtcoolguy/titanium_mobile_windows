@@ -15,7 +15,7 @@
 
 namespace Titanium { namespace UI {
   
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
   
   /*!
    @class

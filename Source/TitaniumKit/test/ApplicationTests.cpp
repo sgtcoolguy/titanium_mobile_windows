@@ -22,7 +22,7 @@
 #define XCTAssertTrue     ASSERT_TRUE
 #define XCTAssertFalse    ASSERT_FALSE
 
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 TEST(ApplicationTests, build_and_run) {
   std::string app_js = R"js(

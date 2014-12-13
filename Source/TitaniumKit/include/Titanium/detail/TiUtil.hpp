@@ -21,7 +21,7 @@ namespace Titanium { namespace detail {
     return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
   }
   
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
 
   // Log and throw a std::logic_error from an internal component.
   TITANIUMKIT_EXPORT void      ThrowLogicError(const std::string& internal_component_name, const std::string& message);

@@ -10,7 +10,7 @@
 #ifndef _TITANIUM_HPP_
 #define _TITANIUM_HPP_
 
-#include "JavaScriptCoreCPP/JavaScriptCoreCPP.hpp"
+#include "HAL/HAL.hpp"
 
 #include "Titanium/ApplicationBuilder.hpp"
 #include "Titanium/Application.hpp"

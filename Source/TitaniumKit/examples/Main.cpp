@@ -22,7 +22,7 @@
 #include <iostream>
 
 int main () {
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
 
   std::string app_js = R"js(
 'use strict';

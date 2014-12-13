@@ -10,7 +10,7 @@
 #include "Titanium/Titanium.hpp"
 #import <XCTest/XCTest.h>
 
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 @interface UITests : XCTestCase
 @end

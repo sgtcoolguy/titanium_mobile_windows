@@ -44,7 +44,7 @@ cmd+=" -DTitaniumWindows_Gesture_DISABLE_TESTS=ON"
 cmd+=" -DTitaniumWindows_Accelerometer_DISABLE_TESTS=ON"
 cmd+=" -DTitaniumWindows_UI_DISABLE_TESTS=ON"
 cmd+=" -DTitaniumWindows_Utility_DISABLE_TESTS=ON"
-cmd+=" -DJavaScriptCoreCPP_DISABLE_TESTS=ON"
+cmd+=" -DHAL_DISABLE_TESTS=ON"
 cmd+=" -DTitaniumKit_DISABLE_TESTS=ON"
 cmd+=" ../"
 

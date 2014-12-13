@@ -18,7 +18,7 @@ declare -r TitaniumKit_DISABLE_TESTS="OFF"
 
 cmd+="cmake"
 cmd+=" -DTitaniumKit_DISABLE_TESTS=${TitaniumKit_DISABLE_TESTS}"
-cmd+=" -DJavaScriptCoreCPP_DISABLE_TESTS=ON"
+cmd+=" -DHAL_DISABLE_TESTS=ON"
 
 cmake -P cmake/IsWin32.cmake 2>&1 | grep -q -e 1
 declare -r CMAKE_HOST_WIN32=${PIPESTATUS[1]}

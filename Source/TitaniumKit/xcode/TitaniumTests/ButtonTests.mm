@@ -11,7 +11,7 @@
 #include "NativeButtonExample.hpp"
 #import <XCTest/XCTest.h>
 
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 @interface ButtonTests : XCTestCase
 @end

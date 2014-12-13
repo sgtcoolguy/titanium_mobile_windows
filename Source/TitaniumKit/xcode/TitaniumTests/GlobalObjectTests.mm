@@ -11,7 +11,7 @@
 #include "NativeGlobalObjectExample.hpp"
 #import <XCTest/XCTest.h>
 
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 @interface GlobalObjectTests : XCTestCase
 @end

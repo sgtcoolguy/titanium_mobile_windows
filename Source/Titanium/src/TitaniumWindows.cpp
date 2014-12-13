@@ -24,7 +24,7 @@
 
 namespace TitaniumWindows {
 
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
 
   Application::Application()
     : application__(Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<TitaniumWindows::GlobalObject>::Class()))

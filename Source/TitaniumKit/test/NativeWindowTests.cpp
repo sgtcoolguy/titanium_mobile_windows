@@ -18,7 +18,7 @@
 #define XCTAssertNoThrow  ASSERT_NO_THROW
 
 using namespace Titanium;
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 class WindowTests : public testing::Test {
  protected:

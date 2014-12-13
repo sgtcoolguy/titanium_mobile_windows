@@ -5,6 +5,6 @@
       location = "container:Titanium.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../../JavaScriptCoreCPP/xcode/JavaScriptCoreCPP.xcodeproj">
+      location = "group:../../HAL/xcode/HAL.xcodeproj">
    </FileRef>
 </Workspace>

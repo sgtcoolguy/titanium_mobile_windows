@@ -11,7 +11,7 @@
 #include "NativeModuleExample.hpp"
 #import <XCTest/XCTest.h>
 
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 @interface ModuleTests : XCTestCase
 @end

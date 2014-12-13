@@ -6,6 +6,6 @@
 # Please see the LICENSE included with this distribution for details.
 
 include(CMakeFindDependencyMacro)
-find_dependency(JavaScriptCoreCPP)
+find_dependency(HAL)
 
 include("${CMAKE_BINARY_DIR}/TitaniumKitTargets.cmake")
