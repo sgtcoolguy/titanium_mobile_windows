@@ -1,0 +1,12 @@
+{
+  "name": "module_generator",
+  "description": "Tool to generate modules/proxies from the documentation.",
+  "author": "Gary Mathews <gmathews@appcelerator.com>",
+  "dependencies": {
+    "fs.extra": "1.2.x",
+    "path": "0.4.x",
+    "async": "0.9.x",
+    "fields": "0.1.x",
+  },
+  "engine": "node >= 0.10.x"
+}

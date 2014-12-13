@@ -7,29 +7,11 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-var fs = require('fs');
+var fs = require('fs.extra');
 var path = require('path');
-var async;
-try {
-	async = require('async');
-} catch(error) {
-	console.log('Node module \'async\' not found, npm install async');
-	process.exit();
-}
-var fields;
-try {
-	fields = require('fields');
-} catch(error) {
-	console.log('Node module \'fields\' not found, npm install fields');
-	process.exit();
-}
-var mkdirp;
-try {
-	mkdirp = require('mkdirp');
-} catch(error) {
-	console.log('Node module \'mkdirp\' not found, npm install mkdirp');
-	process.exit();
-}
+var async = require('async');
+var fields = require('fields');
+
 const AUTHOR = 'Gary Mathews';
 const API_FILE = 'API.json';
 
@@ -58,7 +40,7 @@ function generateModule(name, proxy) {
 
 	var namespace = (sub_class_name == null ? module_name+'Module' : sub_class_name);
 
-	console.log('Generating ' + module_name + (sub_class_name != null ? '.'+sub_class_name : '') + '...');
+	console.log('Generating Titanium.' + module_name + (sub_class_name != null ? '.'+sub_class_name : '') + '...\n');
 
 	var module_properties = '', module_property_definitions = '';
 	var module_methods = '', module_method_definitions = '';
@@ -158,8 +140,6 @@ function generateModule(name, proxy) {
 	}
 	kit_methods = module_methods;
 
-	
-
 	// Generate properties and definitions
 	for (var property in proxy.properties) {
 
@@ -198,99 +178,89 @@ function generateModule(name, proxy) {
 	if (sub_class_name == null) {
 
 		// Create Module files
-		walk(MODULE_FOLDER, function(error, files) {
-			if (error) throw err;
+		fs.walk(MODULE_FOLDER).on("file", function(root, stat, next) {
+			
+			var file = path.join(root, stat.name);
 
-			files.forEach(
-				function(file) {
-					fs.readFile(file, 'utf8',
-						function(err, data) {
-							if (err) throw err;
-							
-							// Process
-							data = data.replace(/{#Module#}/g, module_name)
-							.replace(/{#MODULE#}/g, module_name_upper)
-							.replace(/{#ModuleName#}/g, namespace)
-							.replace(/{#Author#}/g, AUTHOR)
+			fs.readFile(file, 'utf8',
+				function(err, data) {
+					if (err) throw err;
+					
+					// Process
+					data = data.replace(/{#Module#}/g, module_name)
+					.replace(/{#MODULE#}/g, module_name_upper)
+					.replace(/{#ModuleName#}/g, namespace)
+					.replace(/{#Author#}/g, AUTHOR)
 
-							.replace(/{#MODULE_METHODS#}/g, module_methods)
-							.replace(/{#MODULE_METHOD_DEFINITIONS#}/g, module_method_definitions)
+					.replace(/{#MODULE_METHODS#}/g, module_methods)
+					.replace(/{#MODULE_METHOD_DEFINITIONS#}/g, module_method_definitions)
 
-							.replace(/{#MODULE_PROPERTIES#}/g, module_properties)
-							.replace(/{#MODULE_PROPERTY_DEFINITIONS#}/g, module_property_definitions)
+					.replace(/{#MODULE_PROPERTIES#}/g, module_properties)
+					.replace(/{#MODULE_PROPERTY_DEFINITIONS#}/g, module_property_definitions)
 
-							.replace(/{#KIT_PROPERTIES#}/g, kit_property_methods)
-							.replace(/{#KIT_METHODS#}/g, kit_methods)
-							.replace(/{#KIT_VALIDATORS#}/g, kit_method_validators)
-							.replace(/{#KIT_PROPERTY_VALIDATORS#}/g, kit_property_validators)
+					.replace(/{#KIT_PROPERTIES#}/g, kit_property_methods)
+					.replace(/{#KIT_METHODS#}/g, kit_methods)
+					.replace(/{#KIT_VALIDATORS#}/g, kit_method_validators)
+					.replace(/{#KIT_PROPERTY_VALIDATORS#}/g, kit_property_validators)
+					   
+					.replace(/{#ADD_PROPERTIES#}/g, kit_add_properties)
+					.replace(/{#ADD_FUNCTIONS#}/g, kit_add_functions)
+					   
+					.replace(/{#KIT_PROPERTY_DEFINITIONS#}/g, kit_property_definitions)
+					.replace(/{#KIT_METHOD_DEFINITIONS#}/g, kit_method_definitions)
+					.replace(/{#KIT_PROPERTY_VALIDATOR_DEFINITIONS#}/g, kit_property_validator_definitions)
+					.replace(/{#KIT_METHOD_VALIDATOR_DEFINITIONS#}/g, kit_method_validator_definitions);
 							   
-							.replace(/{#ADD_PROPERTIES#}/g, kit_add_properties)
-							.replace(/{#ADD_FUNCTIONS#}/g, kit_add_functions)
-							   
-							.replace(/{#KIT_PROPERTY_DEFINITIONS#}/g, kit_property_definitions)
-							.replace(/{#KIT_METHOD_DEFINITIONS#}/g, kit_method_definitions)
-							.replace(/{#KIT_PROPERTY_VALIDATOR_DEFINITIONS#}/g, kit_property_validator_definitions)
-							.replace(/{#KIT_METHOD_VALIDATOR_DEFINITIONS#}/g, kit_method_validator_definitions);
-									   
-							// Write file
-							var filePath = SOURCE_FOLDER + file.substring(MODULE_FOLDER.length+1).replace(/Module/g, module_name);
-							writeFile(filePath, data);
-						}
-					);
+					// Write file
+					var filePath = SOURCE_FOLDER + file.substring(MODULE_FOLDER.length+1).replace(/Module/g, module_name);
+					console.log('Creating ' + filePath);
+					writeFile(filePath, data);
+					next();
 				}
 			);
 		});
 
 	} else {
 
-		/************************************************************
-			
-			SUB CLASS!!!!!!!!!!!!
-
-		*************************************************************/
-
 		// Creates sub class files
-		walk(SUB_CLASS_FOLDER, function(error, files) {
-			if (error) throw err;
+		fs.walk(SUB_CLASS_FOLDER).on("file", function(root, stat, next) {
+			var file = path.join(root, stat.name);
+			fs.readFile(file, 'utf8',
+				function(err, data) {
+					if (err) throw err;
+					
+					// Process
+					data = data.replace(/{#Module#}/g, module_name)
+					.replace(/{#MODULE#}/g, module_name_upper)
+					.replace(/{#SubClass#}/g, sub_class_name)
+					.replace(/{#subclass#}/g, sub_class_name_lower)
+					.replace(/{#SUBCLASS#}/g, sub_class_name_upper)
+					.replace(/{#Author#}/g, AUTHOR)
 
-			files.forEach(
-				function(file) {
-					fs.readFile(file, 'utf8',
-						function(err, data) {
-							if (err) throw err;
-							
-							// Process
-							data = data.replace(/{#Module#}/g, module_name)
-							.replace(/{#MODULE#}/g, module_name_upper)
-							.replace(/{#SubClass#}/g, sub_class_name)
-							.replace(/{#subclass#}/g, sub_class_name_lower)
-							.replace(/{#SUBCLASS#}/g, sub_class_name_upper)
-							.replace(/{#Author#}/g, AUTHOR)
+					.replace(/{#MODULE_METHODS#}/g, module_methods)
+					.replace(/{#MODULE_METHOD_DEFINITIONS#}/g, module_method_definitions)
 
-							.replace(/{#MODULE_METHODS#}/g, module_methods)
-							.replace(/{#MODULE_METHOD_DEFINITIONS#}/g, module_method_definitions)
+					.replace(/{#MODULE_PROPERTIES#}/g, module_properties)
+					.replace(/{#MODULE_PROPERTY_DEFINITIONS#}/g, module_property_definitions)
 
-							.replace(/{#MODULE_PROPERTIES#}/g, module_properties)
-							.replace(/{#MODULE_PROPERTY_DEFINITIONS#}/g, module_property_definitions)
-
-							.replace(/{#KIT_PROPERTIES#}/g, kit_property_methods)
-							.replace(/{#KIT_METHODS#}/g, kit_methods)
-							.replace(/{#KIT_VALIDATORS#}/g, kit_method_validators)
-							.replace(/{#KIT_PROPERTY_VALIDATORS#}/g, kit_property_validators)
+					.replace(/{#KIT_PROPERTIES#}/g, kit_property_methods)
+					.replace(/{#KIT_METHODS#}/g, kit_methods)
+					.replace(/{#KIT_VALIDATORS#}/g, kit_method_validators)
+					.replace(/{#KIT_PROPERTY_VALIDATORS#}/g, kit_property_validators)
+					   
+					.replace(/{#ADD_PROPERTIES#}/g, kit_add_properties)
+					.replace(/{#ADD_FUNCTIONS#}/g, kit_add_functions)
+					   
+					.replace(/{#KIT_PROPERTY_DEFINITIONS#}/g, kit_property_definitions)
+					.replace(/{#KIT_METHOD_DEFINITIONS#}/g, kit_method_definitions)
+					.replace(/{#KIT_PROPERTY_VALIDATOR_DEFINITIONS#}/g, kit_property_validator_definitions)
+					.replace(/{#KIT_METHOD_VALIDATOR_DEFINITIONS#}/g, kit_method_validator_definitions);
 							   
-							.replace(/{#ADD_PROPERTIES#}/g, kit_add_properties)
-							.replace(/{#ADD_FUNCTIONS#}/g, kit_add_functions)
-							   
-							.replace(/{#KIT_PROPERTY_DEFINITIONS#}/g, kit_property_definitions)
-							.replace(/{#KIT_METHOD_DEFINITIONS#}/g, kit_method_definitions)
-							.replace(/{#KIT_PROPERTY_VALIDATOR_DEFINITIONS#}/g, kit_property_validator_definitions)
-							.replace(/{#KIT_METHOD_VALIDATOR_DEFINITIONS#}/g, kit_method_validator_definitions);
-									   
-							// Write file
-							var filePath = SOURCE_FOLDER + file.substring(SUB_CLASS_FOLDER.length+1).replace(/Module/g, module_name).replace(/SubClass/g, sub_class_name);
-							writeFile(filePath, data);
-						}
-					);
+					// Write file
+					var filePath = SOURCE_FOLDER + file.substring(SUB_CLASS_FOLDER.length+1).replace(/Module/g, module_name).replace(/SubClass/g, sub_class_name);
+					console.log('Creating ' + filePath);
+					writeFile(filePath, data);
+					next();
 				}
 			);
 		});
@@ -351,6 +321,8 @@ function generateModule(name, proxy) {
 						// Update variable
 						.replace(/global_object_class_ptr__ { nullptr };/g, app_builder_variable);
 
+						console.log('Patching ' + kit_application_builder_header_file);
+
 						// Write file
 						writeFile(kit_application_builder_header_file, data);
 					}
@@ -375,6 +347,8 @@ function generateModule(name, proxy) {
 							data = data.replace(/JSObject api/g, app_builder_property);
 						}
 
+						console.log('Patching ' + kit_application_builder_cpp_file);
+
 						// Write file
 						writeFile(kit_application_builder_cpp_file, data);
 					}
@@ -391,6 +365,8 @@ function generateModule(name, proxy) {
 						// Update TitaniumWindows constructor
 						.replace(/\(JSExport<TitaniumWindows::GlobalObject>::Class\(\)\)\)/g, ti_windows_constructor);
 
+						console.log('Patching ' + ti_titanium_windows_cpp_file);
+
 						// Write file
 						writeFile(ti_titanium_windows_cpp_file, data);
 					}
@@ -404,8 +380,10 @@ function generateModule(name, proxy) {
 					function(err, data) {
 						if (err) throw err;
 						
-					   // Update Titanium Kit header
-					   data = data.replace(/\#include \"Titanium\/GlobalObject.hpp\"/g, kit_header_definition);
+						// Update Titanium Kit header
+						data = data.replace(/\#include \"Titanium\/GlobalObject.hpp\"/g, kit_header_definition);
+
+						console.log('Patching ' + kit_titanium_header_file);
 
 						// Write file
 						writeFile(kit_titanium_header_file, data);
@@ -421,6 +399,8 @@ function generateModule(name, proxy) {
 					   data = data.replace(/set\(SOURCE_TitaniumKit/g, cmake_set_source)
 					   .replace(/add_library\(TitaniumKit SHARED/g, cmake_add_library)
 					   .replace(/source_group\(TitaniumKit                   FILES \${SOURCE_TitaniumKit}\)/g, cmake_source_group);
+
+					   console.log('Patching ' + kit_cmakelists_file);
 
 						// Write file
 						writeFile(kit_cmakelists_file, data);
@@ -438,6 +418,8 @@ function generateModule(name, proxy) {
 						.replace(/target_link_libraries\(TitaniumWindows/g, cmake_target_link_libraries)
 						.replace(/target_include_directories\(TitaniumWindows PUBLIC/g, cmake_target_include_directories);
 
+						console.log('Patching ' + ti_cmakelists_file);
+
 						// Write file
 						writeFile(ti_cmakelists_file, data);
 					}
@@ -450,6 +432,8 @@ function generateModule(name, proxy) {
 						
 						// Update Titanium Kit CMake
 						data = data.replace(/Global_DISABLE_TESTS=ON\"/g, build_and_test);
+
+						console.log('Patching ' + ti_build_test_file);
 						
 						// Write file
 						writeFile(ti_build_test_file, data);
@@ -465,6 +449,8 @@ function generateModule(name, proxy) {
 						if (err) throw err;
 
 						data = data.replace(new RegExp("set\\(SOURCE_"+module_name,"g"), module_cmake_source);
+
+						console.log('Patching ' + module_cmakelists_file);
 						
 						// Write file
 						writeFile(module_cmakelists_file, data);
@@ -478,6 +464,8 @@ function generateModule(name, proxy) {
 						
 						// Update Titanium Kit CMake
 						data = data.replace(new RegExp("set\\(SOURCE_"+module_name, "g"), kit_cmake_source);
+
+						console.log('Patching ' + kit_cmakelists_file);
 						
 						// Write file
 						writeFile(kit_cmakelists_file, data);
@@ -491,6 +479,8 @@ function generateModule(name, proxy) {
 
 						// Update Titanium Kit CMake
 						data = data.replace(/Module.hpp\"/g, kit_module_header_definition);
+
+						console.log('Patching ' + kit_module_header_file);
 						
 						// Write file
 						writeFile(kit_module_header_file, data);
@@ -576,34 +566,12 @@ function selectProxy(_proxy) {
 		}
 	);
 }
-var walk = function(dir, callback) {
-	var results = [];
-	fs.readdir(dir, function(err, list) {
-		if (err) return callback(err);
-		var pending = list.length;
-		if (!pending) return callback(null, results);
-		list.forEach(function(file) {
-			file = dir + '/' + file;
-			fs.stat(file, function(err, stat) {
-				if (stat && stat.isDirectory()) {
-					walk(file, function(err, res) {
-						results = results.concat(res);
-						if (!--pending) callback(null, results);
-					});
-				} else {
-					results.push(file);
-					if (!--pending) callback(null, results);
-				}
-			});
-		});
-	});
-};
 function mkdir(dirname, cb) {
 	if (cb) {
-		mkdirp(dirname, cb);
+		fs.mkdirp(dirname, cb);
 	} else {
 		try { 
-			mkdirp.sync(dirname);
+			fs.mkdirpSync(dirname);
 			return true;
 		} catch(e) { 
 			console.error(e.message);
