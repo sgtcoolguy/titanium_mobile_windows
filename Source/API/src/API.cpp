@@ -59,11 +59,18 @@ namespace TitaniumWindows {
     // Read titanium_settings.ini file into String
     get_file_task.then([this](StorageFile^ storage_file)
     {
-      return FileIO::ReadTextAsync(storage_file);
+        return FileIO::ReadTextAsync(storage_file);
     })
     // Parse the ini, try to connect using settinsg found in INI
-    .then([this](Platform::String^ content) 
+    .then([this](task<Platform::String^> antecedent)
     {
+      Platform::String^ content;
+      try {
+        content = antecedent.get();
+      }
+      catch (Platform::COMException^ e) {
+        return; // there is no ini file, behave like it's empty
+      }
       std::stringstream ss(ConvertString(content)); // put string into stream
 
       // Parse stream with INI parser
