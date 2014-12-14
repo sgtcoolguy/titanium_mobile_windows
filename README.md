@@ -102,8 +102,8 @@ titanium_mobile_windows git repo. A good place might be
 
 ```bash
 pushd "${HOME}/Documents/Visual Studio 2013/"
-"${HOME}/Documents/GitHub/titanium_mobile_windows/Tools/Scripts/generate_vs_project.sh" Pedro
-cygstart Pedro.WindowsPhone.Win32/Pedro.sln
+"${HOME}/Documents/GitHub/titanium_mobile_windows/Tools/Scripts/generate_vs_project.sh" NG
+cygstart NG.WindowsPhone.Win32/NG.sln
 ```
 
 ## Contributing
@@ -139,3 +139,4 @@ Titanium Mobile Windows is made available under the Apache Public
 License, version 2.  See the
 [LICENSE](https://github.com/appcelerator/titanium_mobile_windows/blob/master/LICENSE)
 file for more information.
+
