@@ -72,7 +72,7 @@ function cmake_build_cmd {
     cmd+=" -DTitaniumWindows_API_DISABLE_TESTS=ON"
     cmd+=" -DTitaniumWindows_UI_DISABLE_TESTS=ON"
     cmd+=" -DTitaniumKit_DISABLE_TESTS=ON"
-    cmd+=" -DJavaScriptCoreCPP_DISABLE_TESTS=ON"
+    cmd+=" -DHAL_DISABLE_TESTS=ON"
     cmd+=" \"${project_source_dir}\""
     
     RESULT="${cmd}"

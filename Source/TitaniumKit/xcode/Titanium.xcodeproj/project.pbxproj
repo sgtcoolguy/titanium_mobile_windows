@@ -192,7 +192,6 @@
 		C9E6AFCD1A13DF3000FED053 /* GlobalObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalObject.cpp; path = src/GlobalObject.cpp; sourceTree = "<group>"; };
 		C9E6AFF51A158AD000FED053 /* GlobalObjectTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GlobalObjectTests.mm; sourceTree = "<group>"; };
 		C9EE3E951A3E322B0053FF1D /* libHAL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHAL.a; path = ../../HAL/xcode/build/Debug/libHAL.a; sourceTree = "<group>"; };
-		C9F56B2F1A3A077E0028DA21 /* libJavaScriptCoreCPP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libJavaScriptCoreCPP.a; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Titanium-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug/libJavaScriptCoreCPP.a"; sourceTree = "<group>"; };
 		F908310E1A2EA3AC00CB810B /* Blob.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Blob.hpp; path = include/Titanium/Blob.hpp; sourceTree = "<group>"; };
 		F90831111A2EA3B500CB810B /* Blob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Blob.cpp; path = src/Blob.cpp; sourceTree = "<group>"; };
 		F90831131A2EA3FA00CB810B /* NativeBlobExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeBlobExample.cpp; sourceTree = "<group>"; };
@@ -298,7 +297,6 @@
 			isa = PBXGroup;
 			children = (
 				C9EE3E951A3E322B0053FF1D /* libHAL.a */,
-				C9F56B2F1A3A077E0028DA21 /* libJavaScriptCoreCPP.a */,
 				C97454761A02B1E100CB4CA9 /* JavaScriptCore.framework */,
 				C974544B1A02A2B000CB4CA9 /* Titanium */,
 				C9E6AFCA1A13D38700FED053 /* TiLogger */,
@@ -730,7 +728,6 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/JavaScriptCoreCPP/xcode/build/Debug,
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Titanium-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug",
 					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/HAL/xcode/build/Debug,
 				);
@@ -747,7 +744,6 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/JavaScriptCoreCPP/xcode/build/Debug,
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Titanium-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug",
 					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/HAL/xcode/build/Debug,
 				);
