@@ -80,7 +80,7 @@
 		C9E6AFF01A13F96000FED053 /* TiLoggerPimpl.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C9E6AFC21A13D36500FED053 /* TiLoggerPimpl.hpp */; };
 		C9E6AFF11A13F96400FED053 /* TiLoggerPimpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9E6AFC51A13D37900FED053 /* TiLoggerPimpl.cpp */; };
 		C9E6AFF61A158AD000FED053 /* GlobalObjectTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9E6AFF51A158AD000FED053 /* GlobalObjectTests.mm */; };
-		C9F56B301A3A077E0028DA21 /* libJavaScriptCoreCPP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F56B2F1A3A077E0028DA21 /* libJavaScriptCoreCPP.a */; };
+		C9EE3E961A3E322B0053FF1D /* libHAL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EE3E951A3E322B0053FF1D /* libHAL.a */; };
 		F908310F1A2EA3AC00CB810B /* Blob.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F908310E1A2EA3AC00CB810B /* Blob.hpp */; };
 		F90831121A2EA3B500CB810B /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F90831111A2EA3B500CB810B /* Blob.cpp */; };
 		F90831151A2EA3FA00CB810B /* NativeBlobExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F90831131A2EA3FA00CB810B /* NativeBlobExample.cpp */; };
@@ -191,7 +191,7 @@
 		C9E6AFC61A13D37900FED053 /* TiBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TiBase.cpp; path = src/detail/TiBase.cpp; sourceTree = "<group>"; };
 		C9E6AFCD1A13DF3000FED053 /* GlobalObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalObject.cpp; path = src/GlobalObject.cpp; sourceTree = "<group>"; };
 		C9E6AFF51A158AD000FED053 /* GlobalObjectTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GlobalObjectTests.mm; sourceTree = "<group>"; };
-		C9F56B2F1A3A077E0028DA21 /* libJavaScriptCoreCPP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libJavaScriptCoreCPP.a; path = "../../../../../../../../Library/Developer/Xcode/DerivedData/Titanium-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug/libJavaScriptCoreCPP.a"; sourceTree = "<group>"; };
+		C9EE3E951A3E322B0053FF1D /* libHAL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHAL.a; path = ../../HAL/xcode/build/Debug/libHAL.a; sourceTree = "<group>"; };
 		F908310E1A2EA3AC00CB810B /* Blob.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Blob.hpp; path = include/Titanium/Blob.hpp; sourceTree = "<group>"; };
 		F90831111A2EA3B500CB810B /* Blob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Blob.cpp; path = src/Blob.cpp; sourceTree = "<group>"; };
 		F90831131A2EA3FA00CB810B /* NativeBlobExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeBlobExample.cpp; sourceTree = "<group>"; };
@@ -217,7 +217,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9F56B301A3A077E0028DA21 /* libJavaScriptCoreCPP.a in Frameworks */,
+				C9EE3E961A3E322B0053FF1D /* libHAL.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,7 +296,7 @@
 		C97454401A02A2B000CB4CA9 = {
 			isa = PBXGroup;
 			children = (
-				C9F56B2F1A3A077E0028DA21 /* libJavaScriptCoreCPP.a */,
+				C9EE3E951A3E322B0053FF1D /* libHAL.a */,
 				C97454761A02B1E100CB4CA9 /* JavaScriptCore.framework */,
 				C974544B1A02A2B000CB4CA9 /* Titanium */,
 				C9E6AFCA1A13D38700FED053 /* TiLogger */,
@@ -664,11 +664,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = ". ../include ../examples ../../JavaScriptCoreCPP/xcode ../../JavaScriptCoreCPP/include";
+				USER_HEADER_SEARCH_PATHS = ". ../include ../examples ../../HAL/xcode ../../HAL/include";
 			};
 			name = Debug;
 		};
@@ -702,10 +707,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = ". ../include ../examples ../../JavaScriptCoreCPP/xcode ../../JavaScriptCoreCPP/include";
+				USER_HEADER_SEARCH_PATHS = ". ../include ../examples ../../HAL/xcode ../../HAL/include";
 			};
 			name = Release;
 		};
@@ -718,8 +728,8 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/JavaScriptCoreCPP/xcode/build/Debug,
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Titanium-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug",
+					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/HAL/xcode/build/Debug,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -734,8 +744,8 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/JavaScriptCoreCPP/xcode/build/Debug,
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Titanium-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug",
+					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/HAL/xcode/build/Debug,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
