@@ -9,15 +9,15 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C97454481A02A2B000CB4CA9"
-               BuildableName = "libTitanium.a"
-               BlueprintName = "Titanium"
-               ReferencedContainer = "container:Titanium.xcodeproj">
+               BlueprintIdentifier = "C97454631A02A40A00CB4CA9"
+               BuildableName = "TitaniumKitTests.xctest"
+               BlueprintName = "TitaniumKitTests"
+               ReferencedContainer = "container:TitaniumKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,19 +33,19 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C97454631A02A40A00CB4CA9"
-               BuildableName = "TitaniumTests.xctest"
-               BlueprintName = "TitaniumTests"
-               ReferencedContainer = "container:Titanium.xcodeproj">
+               BuildableName = "TitaniumKitTests.xctest"
+               BlueprintName = "TitaniumKitTests"
+               ReferencedContainer = "container:TitaniumKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C97454481A02A2B000CB4CA9"
-            BuildableName = "libTitanium.a"
-            BlueprintName = "Titanium"
-            ReferencedContainer = "container:Titanium.xcodeproj">
+            BlueprintIdentifier = "C97454631A02A40A00CB4CA9"
+            BuildableName = "TitaniumKitTests.xctest"
+            BlueprintName = "TitaniumKitTests"
+            ReferencedContainer = "container:TitaniumKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -61,10 +61,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C97454481A02A2B000CB4CA9"
-            BuildableName = "libTitanium.a"
-            BlueprintName = "Titanium"
-            ReferencedContainer = "container:Titanium.xcodeproj">
+            BlueprintIdentifier = "C97454631A02A40A00CB4CA9"
+            BuildableName = "TitaniumKitTests.xctest"
+            BlueprintName = "TitaniumKitTests"
+            ReferencedContainer = "container:TitaniumKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -79,10 +79,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C97454481A02A2B000CB4CA9"
-            BuildableName = "libTitanium.a"
-            BlueprintName = "Titanium"
-            ReferencedContainer = "container:Titanium.xcodeproj">
+            BlueprintIdentifier = "C97454631A02A40A00CB4CA9"
+            BuildableName = "TitaniumKitTests.xctest"
+            BlueprintName = "TitaniumKitTests"
+            ReferencedContainer = "container:TitaniumKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
