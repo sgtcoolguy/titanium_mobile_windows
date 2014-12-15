@@ -65,7 +65,7 @@
 		C9BED2261A28F4CD00CFF800 /* Constants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C9BED2251A28F4CD00CFF800 /* Constants.hpp */; };
 		C9E6AFB81A13043300FED053 /* Titanium.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C9E6AFB71A13043300FED053 /* Titanium.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9E6AFBA1A13044100FED053 /* TiLoggerTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9E6AFB91A13044100FED053 /* TiLoggerTests.mm */; };
-		C9E6AFE21A13F73A00FED053 /* libTitanium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97454491A02A2B000CB4CA9 /* libTitanium.a */; };
+		C9E6AFE21A13F73A00FED053 /* libTitaniumKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97454491A02A2B000CB4CA9 /* libTitaniumKit.a */; };
 		C9E6AFE41A13F74B00FED053 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97454761A02B1E100CB4CA9 /* JavaScriptCore.framework */; };
 		C9E6AFE61A13F93800FED053 /* GlobalObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9E6AFCD1A13DF3000FED053 /* GlobalObject.cpp */; };
 		C9E6AFE71A13F93F00FED053 /* TiBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C9E6AFBC1A13D36500FED053 /* TiBase.hpp */; };
@@ -107,7 +107,7 @@
 			containerPortal = C97454411A02A2B000CB4CA9 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C97454481A02A2B000CB4CA9;
-			remoteInfo = Titanium;
+			remoteInfo = TitaniumKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -164,10 +164,10 @@
 		C90B900E1A198976005F3210 /* ApplicationTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApplicationTests.mm; sourceTree = "<group>"; };
 		C90B90101A1ADC7D005F3210 /* NativeViewExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeViewExample.cpp; sourceTree = "<group>"; };
 		C90B90111A1ADC7D005F3210 /* NativeViewExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeViewExample.hpp; sourceTree = "<group>"; };
-		C97454491A02A2B000CB4CA9 /* libTitanium.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTitanium.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C97454491A02A2B000CB4CA9 /* libTitaniumKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTitaniumKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97454581A02A2E500CB4CA9 /* Module.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Module.hpp; path = include/Titanium/Module.hpp; sourceTree = "<group>"; };
 		C97454591A02A2E500CB4CA9 /* GlobalObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GlobalObject.hpp; path = include/Titanium/GlobalObject.hpp; sourceTree = "<group>"; };
-		C97454641A02A40A00CB4CA9 /* TitaniumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TitaniumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C97454641A02A40A00CB4CA9 /* TitaniumKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TitaniumKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97454671A02A40A00CB4CA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97454761A02B1E100CB4CA9 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		C980919A1A2149A300AE5930 /* TitaniumKit_EXPORT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TitaniumKit_EXPORT.h; path = xcode/TitaniumKit_EXPORT.h; sourceTree = "<group>"; };
@@ -226,7 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9E6AFE41A13F74B00FED053 /* JavaScriptCore.framework in Frameworks */,
-				C9E6AFE21A13F73A00FED053 /* libTitanium.a in Frameworks */,
+				C9E6AFE21A13F73A00FED053 /* libTitaniumKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,10 +298,10 @@
 			children = (
 				C9EE3E951A3E322B0053FF1D /* libHAL.a */,
 				C97454761A02B1E100CB4CA9 /* JavaScriptCore.framework */,
-				C974544B1A02A2B000CB4CA9 /* Titanium */,
+				C974544B1A02A2B000CB4CA9 /* TitaniumKit */,
 				C9E6AFCA1A13D38700FED053 /* TiLogger */,
 				C90B8FEF1A195B7E005F3210 /* Examples */,
-				C97454651A02A40A00CB4CA9 /* TitaniumTests */,
+				C97454651A02A40A00CB4CA9 /* TitaniumKitTests */,
 				C974544A1A02A2B000CB4CA9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -309,13 +309,13 @@
 		C974544A1A02A2B000CB4CA9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C97454491A02A2B000CB4CA9 /* libTitanium.a */,
-				C97454641A02A40A00CB4CA9 /* TitaniumTests.xctest */,
+				C97454491A02A2B000CB4CA9 /* libTitaniumKit.a */,
+				C97454641A02A40A00CB4CA9 /* TitaniumKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C974544B1A02A2B000CB4CA9 /* Titanium */ = {
+		C974544B1A02A2B000CB4CA9 /* TitaniumKit */ = {
 			isa = PBXGroup;
 			children = (
 				C980919A1A2149A300AE5930 /* TitaniumKit_EXPORT.h */,
@@ -346,11 +346,11 @@
 				C9E6AFBB1A13D34900FED053 /* detail */,
 				C90B8F8B1A16D32C005F3210 /* UI */,
 			);
-			name = Titanium;
+			name = TitaniumKit;
 			path = ..;
 			sourceTree = "<group>";
 		};
-		C97454651A02A40A00CB4CA9 /* TitaniumTests */ = {
+		C97454651A02A40A00CB4CA9 /* TitaniumKitTests */ = {
 			isa = PBXGroup;
 			children = (
 				C90B900E1A198976005F3210 /* ApplicationTests.mm */,
@@ -364,7 +364,7 @@
 				C9E6AFB91A13044100FED053 /* TiLoggerTests.mm */,
 				C97454661A02A40A00CB4CA9 /* Supporting Files */,
 			);
-			path = TitaniumTests;
+			path = TitaniumKitTests;
 			sourceTree = "<group>";
 		};
 		C97454661A02A40A00CB4CA9 /* Supporting Files */ = {
@@ -474,9 +474,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		C97454481A02A2B000CB4CA9 /* Titanium */ = {
+		C97454481A02A2B000CB4CA9 /* TitaniumKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C97454541A02A2B000CB4CA9 /* Build configuration list for PBXNativeTarget "Titanium" */;
+			buildConfigurationList = C97454541A02A2B000CB4CA9 /* Build configuration list for PBXNativeTarget "TitaniumKit" */;
 			buildPhases = (
 				C97454451A02A2B000CB4CA9 /* Sources */,
 				C97454461A02A2B000CB4CA9 /* Frameworks */,
@@ -486,14 +486,14 @@
 			);
 			dependencies = (
 			);
-			name = Titanium;
-			productName = Titanium;
-			productReference = C97454491A02A2B000CB4CA9 /* libTitanium.a */;
+			name = TitaniumKit;
+			productName = TitaniumKit;
+			productReference = C97454491A02A2B000CB4CA9 /* libTitaniumKit.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		C97454631A02A40A00CB4CA9 /* TitaniumTests */ = {
+		C97454631A02A40A00CB4CA9 /* TitaniumKitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C974546D1A02A40A00CB4CA9 /* Build configuration list for PBXNativeTarget "TitaniumTests" */;
+			buildConfigurationList = C974546D1A02A40A00CB4CA9 /* Build configuration list for PBXNativeTarget "TitaniumKitTests" */;
 			buildPhases = (
 				C97454601A02A40A00CB4CA9 /* Sources */,
 				C97454611A02A40A00CB4CA9 /* Frameworks */,
@@ -504,9 +504,9 @@
 			dependencies = (
 				C9E6AFE11A13F73400FED053 /* PBXTargetDependency */,
 			);
-			name = TitaniumTests;
-			productName = TitaniumTests;
-			productReference = C97454641A02A40A00CB4CA9 /* TitaniumTests.xctest */;
+			name = TitaniumKitTests;
+			productName = TitaniumKitTests;
+			productReference = C97454641A02A40A00CB4CA9 /* TitaniumKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -526,7 +526,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C97454441A02A2B000CB4CA9 /* Build configuration list for PBXProject "Titanium" */;
+			buildConfigurationList = C97454441A02A2B000CB4CA9 /* Build configuration list for PBXProject "TitaniumKit" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -538,8 +538,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C97454481A02A2B000CB4CA9 /* Titanium */,
-				C97454631A02A40A00CB4CA9 /* TitaniumTests */,
+				C97454481A02A2B000CB4CA9 /* TitaniumKit */,
+				C97454631A02A40A00CB4CA9 /* TitaniumKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -622,7 +622,7 @@
 /* Begin PBXTargetDependency section */
 		C9E6AFE11A13F73400FED053 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C97454481A02A2B000CB4CA9 /* Titanium */;
+			target = C97454481A02A2B000CB4CA9 /* TitaniumKit */;
 			targetProxy = C9E6AFE01A13F73400FED053 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -728,7 +728,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Titanium-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/TitaniumKit-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug",
 					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/HAL/xcode/build/Debug,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -744,7 +744,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Titanium-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/TitaniumKit-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug",
 					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/HAL/xcode/build/Debug,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -759,7 +759,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = TitaniumTests/Info.plist;
+				INFOPLIST_FILE = TitaniumKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -773,7 +773,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = TitaniumTests/Info.plist;
+				INFOPLIST_FILE = TitaniumKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -782,7 +782,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C97454441A02A2B000CB4CA9 /* Build configuration list for PBXProject "Titanium" */ = {
+		C97454441A02A2B000CB4CA9 /* Build configuration list for PBXProject "TitaniumKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C97454521A02A2B000CB4CA9 /* Debug */,
@@ -791,7 +791,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C97454541A02A2B000CB4CA9 /* Build configuration list for PBXNativeTarget "Titanium" */ = {
+		C97454541A02A2B000CB4CA9 /* Build configuration list for PBXNativeTarget "TitaniumKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C97454551A02A2B000CB4CA9 /* Debug */,
@@ -800,7 +800,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C974546D1A02A40A00CB4CA9 /* Build configuration list for PBXNativeTarget "TitaniumTests" */ = {
+		C974546D1A02A40A00CB4CA9 /* Build configuration list for PBXNativeTarget "TitaniumKitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C974546E1A02A40A00CB4CA9 /* Debug */,
