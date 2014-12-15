@@ -16,11 +16,15 @@ namespace TitaniumWindows {
 
   Platform::Platform(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::Platform(js_context),
-
-	// There isn't a way to retreive the OS version for Windows Mobile
-	// using C++, System.Environment.OSVersion is a C# only property
-	osname__("0.0")
-
+#if defined(__cplusplus_winrt)
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+    osname__("windowsphone")
+#else
+    osname__("windowsstore")
+#endif
+#else
+    osname__("unknown")
+#endif
   {
     TITANIUM_LOG_DEBUG("Platform::ctor Initialize");
   }
