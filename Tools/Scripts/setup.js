@@ -171,82 +171,53 @@ function setENV(key, value, next) {
 	}
 }
 
-var boostDone = false;
+// We could change this to series, but we'd have to ditch the progress bars above
 async.series([
-	// FIXME if the destinations already exist, we don't need to download!
-		// Boost takes forever to extract so we hack a bit here.
-	    function (next) {
+	function (next) {
+		var boostRoot = path.join(home, "boost_1_57_0");
+		// assume if env var is set that the location also exists
     	if (typeof process.env.BOOST_ROOT !== 'undefined') {
     		console.log((symbols.ok + ' BOOST_ROOT set').green);
-    		boostDone = true;
     		next();
+    		// if env var isn't set, but destination exists, just set env var
+    	} else if (fs.existsSync(boostRoot)) {
+    		setENV('BOOST_ROOT', boostRoot, next);
     	} else {
-			var sevenZip = path.resolve(process.env.PROGRAMFILES + '\\7-Zip\\7z.exe'),
-				url = "http://hivelocity.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.zip",
-				have7Zip = false;
-			if (fs.existsSync(sevenZip)) {
-				have7Zip = true;
-				url = "http://hivelocity.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.7z";
-			}
-
-		    downloadURL(url, function (filename) {
-		    	next();
-				var boostRoot = path.join(home, "boost_1_57_0");
-				// set a real flag to indicate that boost really is all done
-				function boostExtracted() {
-					boostDone = true;
-				}
-				if (have7Zip) {
-					// if we actually grabbed the 7z, we need to rename it!
-					var dest = filename.substring(0, filename.length - 4) + '.7z'; // FIXME lop off the .zip first!
-					fs.renameSync(filename, dest);
-					console.log("Extracting Boost, this will take a long time...".cyan);
-					// Run 7z.exe to extract! Call 7zG.exe so we can see progress?
-					var p = spawn(sevenZip.substring(0, sevenZip.length - 6) + '7zG.exe', ['x', dest, '-y',  '-o' + home]);
-					//p.stdout.on('data', function (data) { // TODO Should we spit all this output out?
-				    //	console.log(data.toString());
-					//});
-
-					p.on('close', function (code) {
-						if (code != 0) {
-							boostExtracted();
-							next("Failed to run 7-zip to extract boost");
-						}
-				    	else {
-				    		setENV('BOOST_ROOT', boostRoot, boostExtracted);
-				    	}
-					});
-				} else {
-					extract(filename, home, true, function () {
-						setENV('BOOST_ROOT', boostRoot, boostExtracted);
-					});
-				}
+    		// no env var and no destination. Download, extract, and set env var
+		    downloadURL("http://timobile.appcelerator.com.s3.amazonaws.com/boost_1_57_0.zip", function (filename) {
+				extract(filename, home, true, function () {
+					setENV('BOOST_ROOT', boostRoot, next);
+				});
 			});
 		}
     },
     function (next) {
+    	var gtest_root = path.join(home, "gtest-1.7.0-windows");
     	if (typeof process.env.GTEST_ROOT !== 'undefined') {
     		console.log((symbols.ok + ' GTEST_ROOT set').green);
     		next();
     	}
+    	else if (fs.existsSync(gtest_root)) {
+			setENV('GTEST_ROOT', gtest_root, next);
+    	}
 		else {
 			downloadURL("http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-windows.zip", function (filename) {
-				// TODO How can I fire this off to start but then proceed to next DL in parallel?
 				extract(filename, home, true, function () {
-					var gtest_root = path.join(home, "gtest-1.7.0-windows");
 					setENV('GTEST_ROOT', gtest_root, next);
 				});
 			});
 		}
     },
     function (next) {
+    	var sqliteDir = path.join(home, "SQLite-Windows-1415143965334");
       	if (typeof process.env.SQLite_HOME !== 'undefined') {
       		console.log((symbols.ok + ' SQLite_HOME set').green);
     		next();
+    	} else if (fs.existsSync(sqliteDir)) {
+    		setENV('SQLite_HOME', sqliteDir, next);
     	} else {
 		    downloadURL("http://timobile.appcelerator.com.s3.amazonaws.com/SQLite-Windows-1415143965334.zip", function (filename) {
 				// mkdir "SQLite-Windows-1415143965334" and unzip to _that_!
-				var sqliteDir = path.join(home, "SQLite-Windows-1415143965334");
 				fs.existsSync(sqliteDir) || wrench.mkdirSyncRecursive(sqliteDir);
 				extract(filename, sqliteDir, true, function () {
 					setENV('SQLite_HOME', sqliteDir, next);
@@ -255,14 +226,16 @@ async.series([
 		}
     },
     function (next) {
+    	var jscHome = path.join(home, "JavaScriptCore-Windows-1411436814");
     	if (typeof process.env.JavaScriptCore_HOME !== 'undefined') {
     		console.log((symbols.ok + ' JavaScriptCore_HOME set').green);
     		next();
+    	} else if (fs.existsSync(jscHome)) {
+    		setENV('JavaScriptCore_HOME', jscHome, next);
     	} else {
 		    downloadURL("http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1411436814.zip", function (filename) {
 				extract(filename, home, true, function() {
-					var sqliteDir = path.join(home, "JavaScriptCore-Windows-1411436814");
-					setENV('JavaScriptCore_HOME', sqliteDir, next);
+					setENV('JavaScriptCore_HOME', jscHome, next);
 				});
 			});
 		}
@@ -282,38 +255,38 @@ async.series([
     // Change Windows PowerShell permissions
     function (next) {
     	if (os.platform() === 'win32') {
-    		// TODO Don't change the policy if it's already what we want!
-    		console.log("Changing PowerShell policy to RemoteSigned for CLI");
-			var prc = spawn(process.env.SystemRoot + '\\system32\\WindowsPowerShell\\v1.0\\powershell.exe', ['Set-ExecutionPolicy', '-ExecutionPolicy', 'RemoteSigned', '-Scope', 'CurrentUser']);
+    		var output = '',
+				prc = spawn(process.env.SystemRoot + '\\system32\\WindowsPowerShell\\v1.0\\powershell.exe', ['Get-ExecutionPolicy', '-Scope', 'CurrentUser']);
 			prc.stdout.on('data', function (data) {
-			    console.log(data.toString());
+			    output += data.toString();
 			});
 
 			prc.on('close', function (code) {
-				if (code != 0) {
-					next("Failed to change PowerShell policy");
-				} else {
-			    	next();
+				output = output.trim();
+				// Check to make sure Execution Policy is liberal enough for us!
+				if (output !== 'RemoteSigned' && output !== 'Unrestricted') {
+		    		console.log("Changing PowerShell policy to RemoteSigned for CLI");
+					var p = spawn(process.env.SystemRoot + '\\system32\\WindowsPowerShell\\v1.0\\powershell.exe', ['Set-ExecutionPolicy', '-ExecutionPolicy', 'RemoteSigned', '-Scope', 'CurrentUser']);
+					p.stdout.on('data', function (data) {
+					    console.log(data.toString());
+					});
+
+					p.on('close', function (code) {
+						if (code != 0) {
+							next("Failed to change PowerShell policy");
+						} else {
+							console.log((symbols.ok + ' PowerShell ExecutionPolicy set to "RemoteSigned"').green);
+					    	next();
+						}
+					});
+				}
+				else {
+					console.log((symbols.ok + ' PowerShell ExecutionPolicy at least "RemoteSigned"').green);
+					next();
 				}
 			});
 		} else {
 			next();
-		}
-    },
-    function (next) {
-    	if (boostDone) {
-    		next();
-    	} else {
-	    	console.log("Waiting for Boost extraction to finish".cyan);
-			function waitForBoost() {
-	    		if (!boostDone) {
-	    			console.log('.');
-			        setTimeout(waitForBoost, 50);//wait 50 millisecnds then recheck
-			        return;
-			    }
-			    next(); // we're really finished, move on!
-			}
-			waitForBoost();
 		}
     }
     // TODO Download VS2013 Express? (It's Huuuuuuge! 6.61 GB!)
