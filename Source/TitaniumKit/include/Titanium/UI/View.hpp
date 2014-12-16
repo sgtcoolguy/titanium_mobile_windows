@@ -53,6 +53,18 @@ namespace Titanium { namespace UI {
     virtual JSValue get_backgroundColor() const                         TITANIUM_NOEXCEPT final;
     virtual void    set_backgroundColor(const JSValue& backgroundColor) TITANIUM_NOEXCEPT final;
     
+    virtual JSValue get_top() const                                     TITANIUM_NOEXCEPT final;
+    virtual void    set_top(const JSValue& top)                         TITANIUM_NOEXCEPT final;
+    
+    virtual JSValue get_left() const                                    TITANIUM_NOEXCEPT final;
+    virtual void    set_left(const JSValue& left)                       TITANIUM_NOEXCEPT final;
+    
+    virtual JSValue get_width() const                                   TITANIUM_NOEXCEPT final;
+    virtual void    set_width(const JSValue& width)                     TITANIUM_NOEXCEPT final;
+    
+    virtual JSValue get_height() const                                  TITANIUM_NOEXCEPT final;
+    virtual void    set_height(const JSValue& height)                   TITANIUM_NOEXCEPT final;
+    
     View(const JSContext& js_context)                        TITANIUM_NOEXCEPT;
     View(const View&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
@@ -73,15 +85,63 @@ namespace Titanium { namespace UI {
     // Base classes must implement this method. This is the minimum
     // functionality that you should perform:
     //
-    // assert(argument.IsString());
+    // TITANIUM_ASSERT(argument.IsString());
     // bool result = false;
-    // std::string backgroundColor = static_cast<std::string>(argument);
+    // const std::string backgroundColor = static_cast<std::string>(argument);
     // Set the native view's background color to backgroundColor.
     // set_backgroundColor(argument);
     // result = true;
     // return result;
     virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
     
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
+    // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    // bool result = false;
+    // const std::string top = static_cast<std::string>(argument);
+    // Set the native view's position.
+    // set_top(argument);
+    // result = true;
+    // return result;
+    virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
+    
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
+    // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    // bool result = false;
+    // const std::string left = static_cast<std::string>(argument);
+    // Set the native view's position.
+    // set_left(argument);
+    // result = true;
+    // return result;
+    virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
+    
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
+    // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    // bool result = false;
+    // const std::string width = static_cast<std::string>(argument);
+    // Set the native view's position.
+    // set_width(argument);
+    // result = true;
+    // return result;
+    virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
+    
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
+    // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    // bool result = false;
+    // const std::string height = static_cast<std::string>(argument);
+    // Set the native view's position.
+    // set_height(argument);
+    // result = true;
+    // return result;
+    virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
+
   protected:
     
     virtual NativeChildrenList_t get_native_children() const TITANIUM_NOEXCEPT final;
@@ -90,6 +150,10 @@ namespace Titanium { namespace UI {
     
     JSArray children__;
     JSValue backgroundColor__;
+    JSValue top__;
+    JSValue left__;
+    JSValue width__;
+    JSValue height__;
     
   };
 }} // namespace Titanium { namespace UI {
