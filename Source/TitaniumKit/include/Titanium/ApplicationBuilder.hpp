@@ -25,6 +25,9 @@ namespace Titanium {
     ApplicationBuilder(const JSClassPtr_t& global_object_class_ptr) TITANIUM_NOEXCEPT;
     Application build();
     
+    JSClassPtr_t        TitaniumClass() const                 TITANIUM_NOEXCEPT;
+    ApplicationBuilder& TitaniumClass(const JSClassPtr_t&)    TITANIUM_NOEXCEPT;
+      
     JSClassPtr_t        APIClass() const                 TITANIUM_NOEXCEPT;
     ApplicationBuilder& APIClass(const JSClassPtr_t&)    TITANIUM_NOEXCEPT;
     
@@ -71,6 +74,7 @@ namespace Titanium {
     // need to be exported from a DLL.
 #pragma warning(push)
 #pragma warning(disable: 4251)
+    JSClassPtr_t   titanium_class_ptr__      { nullptr };
     JSClassPtr_t   global_object_class_ptr__ { nullptr };
     JSClassPtr_t   api_class_ptr__           { nullptr };
     JSClassPtr_t   view_class_ptr__          { nullptr };

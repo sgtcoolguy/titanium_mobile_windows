@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/ApplicationBuilder.hpp"
+#include "Titanium/TitaniumModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
 #include "Titanium/Platform.hpp"
@@ -24,6 +25,10 @@ namespace Titanium {
   }
   
   Application ApplicationBuilder::build() {
+      
+    if (!titanium_class_ptr__) {
+      titanium_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::TitaniumModule>::Class());
+    }
     
     if (!api_class_ptr__) {
       api_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::API>::Class());
@@ -66,7 +71,7 @@ namespace Titanium {
     }
 
     JSObject global_object = js_context__.get_global_object();
-    JSObject titanium      = js_context__.CreateObject();
+    JSObject titanium      = js_context__.CreateObject(JSExport<Titanium::TitaniumModule>::Class());
     global_object.SetProperty("Titanium", titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
     global_object.SetProperty("Ti"      , titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
@@ -108,6 +113,15 @@ namespace Titanium {
     return Application(*this);
   }
   
+  JSClassPtr_t ApplicationBuilder::TitaniumClass() const TITANIUM_NOEXCEPT {
+    return titanium_class_ptr__;
+  }
+  
+  ApplicationBuilder& ApplicationBuilder::TitaniumClass(const JSClassPtr_t& titanium_class_ptr) TITANIUM_NOEXCEPT {
+    titanium_class_ptr__ = titanium_class_ptr;
+    return *this;
+  }
+
   JSClassPtr_t ApplicationBuilder::APIClass() const TITANIUM_NOEXCEPT {
     return api_class_ptr__;
   }

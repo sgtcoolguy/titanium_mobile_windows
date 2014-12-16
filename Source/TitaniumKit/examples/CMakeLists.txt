@@ -14,6 +14,8 @@ set(SOURCE_examples
   NativeGlobalObjectExample.cpp
   NativeModuleExample.hpp
   NativeModuleExample.cpp
+  NativeTitaniumExample.hpp
+  NativeTitaniumExample.cpp
   NativeAPIExample.hpp
   NativeAPIExample.cpp
   NativeViewExample.hpp
