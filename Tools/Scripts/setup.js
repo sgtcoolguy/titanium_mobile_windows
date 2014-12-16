@@ -23,7 +23,7 @@
 	temp = require('temp'),
 	wrench = require('wrench'),
 	appc = require('node-appc'),
-	home = process.env.HOME,
+	home = process.env.HOME || process.env.APPDATA,
 	spawn = require('child_process').spawn,
 	os = require('os');
 
@@ -134,13 +134,32 @@ function extract(filename, installLocation, keepFiles, callback) {
 function setENV(key, value, next) {
 	var prc;
 	if (os.platform() === 'win32') {
+		// RSet the env var "permanently" for user
 		prc = spawn('SetX', [key, value]);
 		prc.stdout.on('data', function (data) {
 		    console.log(data.toString());
 		});
 
 		prc.on('close', function (code) {
-		    next();
+			var setProcess;
+			if (code != 0) {
+				next("Failed to run SETX");
+			} else {
+				// Now run SET to change for current session
+			    setProcess = spawn('SET', [key + '=' + value]);
+				setProcess.stdout.on('data', function (data) {
+			    	console.log(data.toString());
+				});
+
+				setProcess.on('close', function (code) {
+					if (code != 0) {
+						next("Failed to run SET");
+					}
+			    	else {
+			    		next();
+			    	}
+				});
+			}
 		});
 	} else {
 		// FIXME Batch together all the changes and modify the ~/.bash_profile for the user (after making a copy)?
@@ -185,15 +204,43 @@ async.series([
     	if (typeof process.env.BOOST_ROOT !== 'undefined') {
     		next();
     	} else {
-		    downloadURL("http://hivelocity.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.zip", function (filename) {
+			var sevenZip = path.resolve(process.env.PROGRAMFILES + '\\7-Zip\\7z.exe'),
+				url = "http://hivelocity.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.zip",
+				have7Zip = false;
+			if (fs.existsSync(sevenZip) {
+				have7Zip = true;
+				url = "http://hivelocity.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.7z";
+			}
+
+		    downloadURL(url, function (filename) {
 				var boostRoot = path.join(home, "boost_1_57_0");
-				// FIXME Extracting this takes a loooong time. Can we tell it to go ahead and do the extraction and the next download
-				// in parallel?
+				if (have7Zip) {
+					// if we actually grabbed the 7z, we need to rename it!
+					var dest = filename + '.7z'; // FIXME lop off the .zip first!
+					fs.renameSync(filename, dest);
+					// Run 7z.exe to extract!
+					var p = spawn(sevenZip, ['e', dest, '-o', home]);
+					p.stdout.on('data', function (data) {
+				    	console.log(data.toString());
+					});
+
+					p.on('close', function (code) {
+						if (code != 0) {
+							next("Failed to run 7-zip to extract boost");
+						}
+				    	else {
+				    		setENV('BOOST_ROOT', boostRoot, next);
+				    	}
+					});
+				} else {
+					// FIXME Extracting this takes a loooong time. Can we tell it to go ahead and do the extraction and the next download
+					// in parallel?
 				
-				// This is actually soooo slow on my VM that it'd probably be faster to download 7zip, and download this in 7z and extract using that!
-				extract(filename, home, true, function () {
-					setENV('BOOST_ROOT', boostRoot, next);
-				});
+					// This is actually soooo slow on my VM that it'd probably be faster to download 7zip, and download this in 7z and extract using that!
+					extract(filename, home, true, function () {
+						setENV('BOOST_ROOT', boostRoot, next);
+					});
+				}
 			});
 		}
     },
