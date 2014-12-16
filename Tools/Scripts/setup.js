@@ -24,7 +24,7 @@ var async = require('async'),
 	temp = require('temp'),
 	wrench = require('wrench'),
 	appc = require('node-appc'),
-	home = process.env.HOME || process.env.APPDATA,
+	home = process.env.HOME || process.env.USERPROFILE || process.env.APPDATA,
 	spawn = require('child_process').spawn,
 	os = require('os'),
 	symbols = {
@@ -171,9 +171,59 @@ function setENV(key, value, next) {
 	}
 }
 
-
+var boostDone = false;
 async.series([
 	// FIXME if the destinations already exist, we don't need to download!
+		// Boost takes forever to extract so we hack a bit here.
+	    function (next) {
+    	if (typeof process.env.BOOST_ROOT !== 'undefined') {
+    		console.log((symbols.ok + ' BOOST_ROOT set').green);
+    		boostDone = true;
+    		next();
+    	} else {
+			var sevenZip = path.resolve(process.env.PROGRAMFILES + '\\7-Zip\\7z.exe'),
+				url = "http://hivelocity.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.zip",
+				have7Zip = false;
+			if (fs.existsSync(sevenZip)) {
+				have7Zip = true;
+				url = "http://hivelocity.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.7z";
+			}
+
+		    downloadURL(url, function (filename) {
+		    	next();
+				var boostRoot = path.join(home, "boost_1_57_0");
+				// set a real flag to indicate that boost really is all done
+				function boostExtracted() {
+					boostDone = true;
+				}
+				if (have7Zip) {
+					// if we actually grabbed the 7z, we need to rename it!
+					var dest = filename.substring(0, filename.length - 4) + '.7z'; // FIXME lop off the .zip first!
+					fs.renameSync(filename, dest);
+					console.log("Extracting Boost, this will take a long time...".cyan);
+					// Run 7z.exe to extract! Call 7zG.exe so we can see progress?
+					var p = spawn(sevenZip.substring(0, sevenZip.length - 6) + '7zG.exe', ['x', dest, '-y',  '-o' + home]);
+					//p.stdout.on('data', function (data) { // TODO Should we spit all this output out?
+				    //	console.log(data.toString());
+					//});
+
+					p.on('close', function (code) {
+						if (code != 0) {
+							boostExtracted();
+							next("Failed to run 7-zip to extract boost");
+						}
+				    	else {
+				    		setENV('BOOST_ROOT', boostRoot, boostExtracted);
+				    	}
+					});
+				} else {
+					extract(filename, home, true, function () {
+						setENV('BOOST_ROOT', boostRoot, boostExtracted);
+					});
+				}
+			});
+		}
+    },
     function (next) {
     	if (typeof process.env.GTEST_ROOT !== 'undefined') {
     		console.log((symbols.ok + ' GTEST_ROOT set').green);
@@ -201,53 +251,6 @@ async.series([
 				extract(filename, sqliteDir, true, function () {
 					setENV('SQLite_HOME', sqliteDir, next);
 				});
-			});
-		}
-    },
-    function (next) {
-    	if (typeof process.env.BOOST_ROOT !== 'undefined') {
-    		console.log((symbols.ok + ' BOOST_ROOT set').green);
-    		next();
-    	} else {
-			var sevenZip = path.resolve(process.env.PROGRAMFILES + '\\7-Zip\\7z.exe'),
-				url = "http://hivelocity.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.zip",
-				have7Zip = false;
-			if (fs.existsSync(sevenZip)) {
-				have7Zip = true;
-				url = "http://hivelocity.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.7z";
-			}
-
-		    downloadURL(url, function (filename) {
-				var boostRoot = path.join(home, "boost_1_57_0");
-				if (have7Zip) {
-					// if we actually grabbed the 7z, we need to rename it!
-					var dest = filename.substring(0, filename.length - 4) + '.7z'; // FIXME lop off the .zip first!
-					fs.renameSync(filename, dest);
-					console.log("Extracting Boost, this will take a long time...".cyan);
-					// Run 7z.exe to extract! Call 7zG.exe so we can see progress?
-					// FIXME This isn't putting it all under folders!
-					var p = spawn(sevenZip.substring(0, sevenZip.length - 6) + '7zG.exe', ['x', dest, '-y',  '-o' + home]);
-					//p.stdout.on('data', function (data) { // TODO Should we spit all this output out?
-				    //	console.log(data.toString());
-					//});
-
-					p.on('close', function (code) {
-						if (code != 0) {
-							next("Failed to run 7-zip to extract boost");
-						}
-				    	else {
-				    		setENV('BOOST_ROOT', boostRoot, next);
-				    	}
-					});
-				} else {
-					// FIXME Extracting this takes a loooong time. Can we tell it to go ahead and do the extraction and the next download
-					// in parallel?
-				
-					// This is actually soooo slow on my VM that it'd probably be faster to download 7zip, and download this in 7z and extract using that!
-					extract(filename, home, true, function () {
-						setENV('BOOST_ROOT', boostRoot, next);
-					});
-				}
 			});
 		}
     },
@@ -295,6 +298,22 @@ async.series([
 			});
 		} else {
 			next();
+		}
+    },
+    function (next) {
+    	if (boostDone) {
+    		next();
+    	} else {
+	    	console.log("Waiting for Boost extraction to finish".cyan);
+			function waitForBoost() {
+	    		if (!boostDone) {
+	    			console.log('.');
+			        setTimeout(waitForBoost, 50);//wait 50 millisecnds then recheck
+			        return;
+			    }
+			    next(); // we're really finished, move on!
+			}
+			waitForBoost();
 		}
     }
     // TODO Download VS2013 Express? (It's Huuuuuuge! 6.61 GB!)
