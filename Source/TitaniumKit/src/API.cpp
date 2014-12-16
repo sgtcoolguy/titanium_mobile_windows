@@ -119,7 +119,6 @@ namespace Titanium {
   JSValue API::infoArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
     std::string message = static_cast<std::string>(_0);
     info(message);
     return get_context().CreateUndefined();
@@ -128,7 +127,6 @@ namespace Titanium {
   JSValue API::warnArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
     std::string message = static_cast<std::string>(_0);
     warn(message);
     return get_context().CreateUndefined();
@@ -137,7 +135,6 @@ namespace Titanium {
   JSValue API::errorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
     std::string message = static_cast<std::string>(_0);
     error(message);
     return get_context().CreateUndefined();
@@ -146,7 +143,6 @@ namespace Titanium {
   JSValue API::debugArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
     std::string message = static_cast<std::string>(_0);
     debug(message);
     return get_context().CreateUndefined();
@@ -155,7 +151,6 @@ namespace Titanium {
   JSValue API::traceArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
     std::string message = static_cast<std::string>(_0);
     trace(message);
     return get_context().CreateUndefined();
@@ -164,10 +159,8 @@ namespace Titanium {
   JSValue API::logArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 2);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
     std::string level = static_cast<std::string>(_0);
     const auto _1 = arguments.at(1);
-    TITANIUM_ASSERT(_1.IsString());
     std::string message = static_cast<std::string>(_1);
     log(level, message);
     return get_context().CreateUndefined();
