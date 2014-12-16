@@ -188,26 +188,19 @@ exports.init = function (logger, config, cli) {
 				}
 
 				var tiapp = builder.tiapp,
+					arch = (builder.cmakeArch == 'Win32') ? 'x86' : builder.cmakeArch,
 					baseFileName = tiapp.name + '_1.1.0.0_' + builder.cmakeArch + ((builder.buildConfiguration == 'Debug') ? '_Debug' : ''),
 					xapFile = path.resolve(builder.cmakeTargetDir, 'AppPackages', tiapp.name, baseFileName + '_Test', baseFileName + '.appx'),
-					phoneLibAppx = path.resolve(builder.cmakeTargetDir, 'AppPackages', tiapp.name, baseFileName + '_Test', 'Dependencies', 'x86', 'Microsoft.VCLibs.x86.Debug.12.00.Phone.appx'),
+					phoneLibAppx = path.resolve(builder.cmakeTargetDir, 'AppPackages', tiapp.name, baseFileName + '_Test', 'Dependencies', arch, 'Microsoft.VCLibs.' + arch + '.Debug.12.00.Phone.appx'),
 					opts = appc.util.mix({
 						killIfRunning: false,
 						timeout: config.get('windows.log.timeout', 60000),
 						wpsdk: builder.wpsdk
 					}, builder.windowslibOptions);
 
-				logger.info(__('Installing and launching the application'));
-				// When we do a debug build we need to install a dependency library before we install the actual app for it to work
-				// FIXME I don't think we need to do this for Release config, and probably not for actual device installs!
-				windowslib.install(builder.deviceId, phoneLibAppx, appc.util.mix({
-						skipLaunch: true
-					}, opts))
-					.on('installed', function (handle) {
-						logger.info(__('Finished installing the debug dependency'));
-
-						// Now install the real app
-						windowslib.install(builder.deviceId, xapFile, opts)
+				function installApp(deviceId, xapFile, opts) {
+					// Now install the real app
+					windowslib.install(deviceId, xapFile, opts)
 						.on('installed', function (handle) {
 							logger.info(__('Finished launching the application'));
 
@@ -217,7 +210,7 @@ exports.init = function (logger, config, cli) {
 								if (pollInterval > 0) {
 									(function watchForEmulatorQuit() {
 										setTimeout(function () {
-											windowslib.emulator.isRunning(builder.deviceId, builder.windowslibOptions, function (err, running) {
+											windowslib.emulator.isRunning(deviceId, builder.windowslibOptions, function (err, running) {
 												if (!err && !running) {
 													logRelay && logRelay.stop();
 													process.exit(0);
@@ -239,21 +232,37 @@ exports.init = function (logger, config, cli) {
 						})
 						.on('timeout', function (err) {
 							logRelay && logRelay.stop();
-							finished(err);
+							logger.error(err.message);
 						})
 						.on('error', function (err) {
 							logRelay && logRelay.stop();
-							finished(err);
+							logger.error(err.message);
 						});
+				}
+
+				logger.info(__('Installing and launching the application'));
+				// Need to install dependencies for emulator first
+				if (builder.target == 'wp-emulator') {
+					// When we do a debug build we need to install a dependency library before we install the actual app for it to work
+					// FIXME I don't think we need to do this for Release config, and probably not for actual device installs!
+					windowslib.install(builder.deviceId, phoneLibAppx, appc.util.mix({
+						skipLaunch: true
+					}, opts))
+					.on('installed', function (handle) {
+						logger.info(__('Finished installing the debug dependency'));
+						installApp(builder.deviceId, xapFile, opts);
 					})
 					.on('timeout', function (err) {
 						logRelay && logRelay.stop();
-						finished(err);
+						logger.error(err.message);
 					})
 					.on('error', function (err) {
 						logRelay && logRelay.stop();
-						finished(err);
+						logger.error(err.message);
 					});
+				} else {
+					installApp(builder.deviceId, xapFile, opts);
+				}
 
 				finished(); // temp
 			}
