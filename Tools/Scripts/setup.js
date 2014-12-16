@@ -15,8 +15,9 @@
  *
  * @requires node-appc
  */
- var async = require('async'),
+var async = require('async'),
 	fs = require('fs'),
+	colors = require('colors'),
 	http = require('http'),
 	path = require('path'),
 	request = require('request'),
@@ -25,7 +26,19 @@
 	appc = require('node-appc'),
 	home = process.env.HOME || process.env.APPDATA,
 	spawn = require('child_process').spawn,
-	os = require('os');
+	os = require('os'),
+	symbols = {
+	  ok: '✓',
+	  err: '✖',
+	  dot: '․'
+	};
+
+// With node.js on Windows: use symbols available in terminal default fonts
+if ('win32' == os.platform()) {
+	symbols.ok = '\u221A';
+	symbols.err = '\u00D7';
+	symbols.dot = '.';
+}
 
 function downloadURL(url, callback) {
 	console.log('Downloading %s', url.cyan);
@@ -136,29 +149,18 @@ function setENV(key, value, next) {
 	if (os.platform() === 'win32') {
 		// RSet the env var "permanently" for user
 		prc = spawn('SetX', [key, value]);
-		prc.stdout.on('data', function (data) {
-		    console.log(data.toString());
-		});
+		//prc.stdout.on('data', function (data) {
+		//   console.log(data.toString());
+		//});
 
 		prc.on('close', function (code) {
 			var setProcess;
 			if (code != 0) {
 				next("Failed to run SETX");
 			} else {
-				// Now run SET to change for current session
-			    setProcess = spawn('SET', [key + '=' + value]);
-				setProcess.stdout.on('data', function (data) {
-			    	console.log(data.toString());
-				});
-
-				setProcess.on('close', function (code) {
-					if (code != 0) {
-						next("Failed to run SET");
-					}
-			    	else {
-			    		next();
-			    	}
-				});
+				// FIXME Can't seem to run SET to also set for current session!
+				console.log((symbols.ok + ' ' + key + ' set').green);
+				next();
 			}
 		});
 	} else {
@@ -174,6 +176,7 @@ async.series([
 	// FIXME if the destinations already exist, we don't need to download!
     function (next) {
     	if (typeof process.env.GTEST_ROOT !== 'undefined') {
+    		console.log((symbols.ok + ' GTEST_ROOT set').green);
     		next();
     	}
 		else {
@@ -188,6 +191,7 @@ async.series([
     },
     function (next) {
       	if (typeof process.env.SQLite_HOME !== 'undefined') {
+      		console.log((symbols.ok + ' SQLite_HOME set').green);
     		next();
     	} else {
 		    downloadURL("http://timobile.appcelerator.com.s3.amazonaws.com/SQLite-Windows-1415143965334.zip", function (filename) {
@@ -202,12 +206,13 @@ async.series([
     },
     function (next) {
     	if (typeof process.env.BOOST_ROOT !== 'undefined') {
+    		console.log((symbols.ok + ' BOOST_ROOT set').green);
     		next();
     	} else {
 			var sevenZip = path.resolve(process.env.PROGRAMFILES + '\\7-Zip\\7z.exe'),
 				url = "http://hivelocity.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.zip",
 				have7Zip = false;
-			if (fs.existsSync(sevenZip) {
+			if (fs.existsSync(sevenZip)) {
 				have7Zip = true;
 				url = "http://hivelocity.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.7z";
 			}
@@ -216,13 +221,15 @@ async.series([
 				var boostRoot = path.join(home, "boost_1_57_0");
 				if (have7Zip) {
 					// if we actually grabbed the 7z, we need to rename it!
-					var dest = filename + '.7z'; // FIXME lop off the .zip first!
+					var dest = filename.substring(0, filename.length - 4) + '.7z'; // FIXME lop off the .zip first!
 					fs.renameSync(filename, dest);
-					// Run 7z.exe to extract!
-					var p = spawn(sevenZip, ['e', dest, '-o', home]);
-					p.stdout.on('data', function (data) {
-				    	console.log(data.toString());
-					});
+					console.log("Extracting Boost, this will take a long time...".cyan);
+					// Run 7z.exe to extract! Call 7zG.exe so we can see progress?
+					// FIXME This isn't putting it all under folders!
+					var p = spawn(sevenZip.substring(0, sevenZip.length - 6) + '7zG.exe', ['x', dest, '-y',  '-o' + home]);
+					//p.stdout.on('data', function (data) { // TODO Should we spit all this output out?
+				    //	console.log(data.toString());
+					//});
 
 					p.on('close', function (code) {
 						if (code != 0) {
@@ -246,6 +253,7 @@ async.series([
     },
     function (next) {
     	if (typeof process.env.JavaScriptCore_HOME !== 'undefined') {
+    		console.log((symbols.ok + ' JavaScriptCore_HOME set').green);
     		next();
     	} else {
 		    downloadURL("http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1411436814.zip", function (filename) {
@@ -258,12 +266,13 @@ async.series([
     },
     // Add the included cmake bin dir to the user's PATH?
     function (next) {
-    	// TODO If we can find cmake.exe on PATH, don't do this?
 	    var cmakeBinPath = path.join(__dirname, '..', '..', 'cli', 'vendor', 'cmake', 'bin');
 	    if (process.env.PATH.indexOf(cmakeBinPath) == -1) {
 			console.log("Appending %s to PATH", cmakeBinPath);
 	    	setENV('PATH', process.env.PATH + ';' + cmakeBinPath, next);
 		} else {
+			// If we can find cmake.exe on PATH, don't append it
+			console.log((symbols.ok + ' Included cmake on PATH').green);
 			next();
 		}
     },
@@ -291,7 +300,7 @@ async.series([
     // TODO Download VS2013 Express? (It's Huuuuuuge! 6.61 GB!)
 ], function (err, results) {
 	if (err) {
-		console.error(err.toString());
+		console.error((symbols.error + ' ' + err.toString()).red);
 		process.exit(1);
 	}
 });
