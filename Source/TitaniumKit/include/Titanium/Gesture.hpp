@@ -60,7 +60,9 @@ namespace Titanium {
     virtual JSValue getOrientation_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
     virtual JSValue isFaceDown_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
     virtual JSValue isFaceUp_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-    
+    virtual JSValue isLandscape_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+    virtual JSValue isPortrait_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
     virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
     virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 
