@@ -65,6 +65,8 @@ using namespace HAL;
   
   XCTAssertTrue(API.HasProperty("trace"));
   XCTAssertNoThrow(js_context.JSEvaluateScript("Ti.API.trace('Hello, world');"));
+  
+  js_context.JSEvaluateScript("var a = {}; a.xtrace = Ti.API.trace; a.xtrace('Hello, world');");
 }
 
 @end
