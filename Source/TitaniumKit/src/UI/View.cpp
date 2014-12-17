@@ -11,15 +11,23 @@
 namespace Titanium { namespace UI {
   
   View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
-    : Module(js_context)
-    , children__(js_context.CreateArray())
-    , backgroundColor__(js_context.CreateString()) {
+  : Module(js_context)
+  , children__(js_context.CreateArray())
+  , backgroundColor__(js_context.CreateString())
+  , top__(js_context.CreateString())
+  , left__(js_context.CreateString())
+  , width__(js_context.CreateString())
+  , height__(js_context.CreateString()) {
   }
   
   View::View(const View& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
   : Module(rhs, arguments)
   , children__(rhs.children__)
-  , backgroundColor__(rhs.backgroundColor__) {
+  , backgroundColor__(rhs.backgroundColor__)
+  , top__(rhs.top__)
+  , left__(rhs.left__)
+  , width__(rhs.width__)
+  , height__(rhs.height__) {
   }
   
   void View::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT {
@@ -38,32 +46,64 @@ namespace Titanium { namespace UI {
   }
   
   JSValue View::get_backgroundColor() const TITANIUM_NOEXCEPT {
-    return View::backgroundColor__;
+    return backgroundColor__;
   }
   
   void View::set_backgroundColor(const JSValue& backgroundColor) TITANIUM_NOEXCEPT {
     backgroundColor__ = backgroundColor;
   }
-
-    NativeChildrenList_t View::get_native_children() const TITANIUM_NOEXCEPT{
+  
+  JSValue View::get_top() const TITANIUM_NOEXCEPT {
+    return top__;
+  }
+  
+  void View::set_top(const JSValue& top) TITANIUM_NOEXCEPT {
+    top__ = top;
+  }
+  
+  JSValue View::get_left() const TITANIUM_NOEXCEPT {
+    return left__;
+  }
+  
+  void View::set_left(const JSValue& left) TITANIUM_NOEXCEPT {
+    left__ = left;
+  }
+  
+  JSValue View::get_width() const TITANIUM_NOEXCEPT {
+    return width__;
+  }
+  
+  void View::set_width(const JSValue& width) TITANIUM_NOEXCEPT {
+    width__ = width;
+  }
+  
+  JSValue View::get_height() const TITANIUM_NOEXCEPT {
+    return height__;
+  }
+  
+  void View::set_height(const JSValue& height) TITANIUM_NOEXCEPT {
+    height__ = height;
+  }
+  
+  NativeChildrenList_t View::get_native_children() const TITANIUM_NOEXCEPT {
     NativeChildrenList_t native_children_list;
-
+    
     const auto child_count = children__.GetPropertyNames().GetCount();
     for (unsigned i = 0; i < child_count; ++i) {
       JSValue child_property = children__.GetProperty(i);
-
+      
       // preconditions
       TITANIUM_ASSERT(child_property.IsObject());
-
+      
       JSObject child = child_property;
-
+      
       // precondition
       auto native_child_ptr = child.GetPrivate<View>();
       TITANIUM_ASSERT(native_child_ptr);
-
+      
       native_children_list.push_back(native_child_ptr);
     }
-
+    
     return native_children_list;
   }
   
@@ -77,6 +117,10 @@ namespace Titanium { namespace UI {
     JSExport<View>::AddFunctionProperty("add", std::mem_fn(&View::addArgumentValidator));
     JSExport<View>::AddValueProperty("children", std::mem_fn(&View::get_children));
     JSExport<View>::AddValueProperty("backgroundColor", std::mem_fn(&View::get_backgroundColor), std::mem_fn(&View::setBackgroundColorArgumentValidator));
+    JSExport<View>::AddValueProperty("top", std::mem_fn(&View::get_top), std::mem_fn(&View::setTopArgumentValidator));
+    JSExport<View>::AddValueProperty("left", std::mem_fn(&View::get_left), std::mem_fn(&View::setLeftArgumentValidator));
+    JSExport<View>::AddValueProperty("width", std::mem_fn(&View::get_width), std::mem_fn(&View::setWidthArgumentValidator));
+    JSExport<View>::AddValueProperty("height", std::mem_fn(&View::get_height), std::mem_fn(&View::setHeightArgumentValidator));
   }
   
   JSValue View::addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
@@ -98,13 +142,82 @@ namespace Titanium { namespace UI {
     //
     // TITANIUM_ASSERT(argument.IsString());
     // bool result = false;
-    // std::string backgroundColor = static_cast<std::string>(argument);
+    // const std::string backgroundColor = static_cast<std::string>(argument);
     // Set the native view's background color to backgroundColor.
     // set_backgroundColor(argument);
     // result = true;
     // return result;
-
+    
+    return false;
+  }
+  
+  bool View::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("View::setTopArgumentValidator: Unimplemented");
+    
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
+    // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    // bool result = false;
+    // const std::string top = static_cast<std::string>(argument);
+    // Set the native view's position.
+    // set_top(argument);
+    // result = true;
+    // return result;
+    
+    return false;
+  }
+  
+  bool View::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("View::setLeftArgumentValidator: Unimplemented");
+    
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
+    // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    // bool result = false;
+    // const std::string left = static_cast<std::string>(argument);
+    // Set the native view's position.
+    // set_left(argument);
+    // result = true;
+    // return result;
+    
+    return false;
+  }
+  
+  bool View::setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("View::setWidthArgumentValidator: Unimplemented");
+    
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
+    // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    // bool result = false;
+    // const std::string width = static_cast<std::string>(argument);
+    // Set the native view's position.
+    // set_width(argument);
+    // result = true;
+    // return result;
+    
+    return false;
+  }
+  
+  bool View::setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("View::setHeightArgumentValidator: Unimplemented");
+    
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
+    // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    // bool result = false;
+    // const std::string height = static_cast<std::string>(argument);
+    // Set the native view's position.
+    // set_height(argument);
+    // result = true;
+    // return result;
+    
     return false;
   }
 
+  
 }} // namespace Titanium { namespace UI {
