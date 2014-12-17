@@ -9,6 +9,7 @@
 #include "TitaniumWindows.hpp"
 
 #include "TitaniumWindows/GlobalObject.hpp"
+#include "TitaniumWindows/TiModule.hpp"
 #include "TitaniumWindows/API.hpp"
 #include "TitaniumWindows/UI.hpp"
 #include "TitaniumWindows/Platform.hpp"
@@ -27,6 +28,7 @@ namespace TitaniumWindows {
 
   Application::Application()
     : application__(Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<TitaniumWindows::GlobalObject>::Class()))
+    .TiClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::TiModule>::Class()))
     .APIClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::API>::Class()))
     .PlatformClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Platform>::Class()))
     .GestureClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Gesture>::Class()))

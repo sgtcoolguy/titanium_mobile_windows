@@ -26,8 +26,8 @@ namespace Titanium {
   
   Application ApplicationBuilder::build() {
       
-    if (!titanium_class_ptr__) {
-      titanium_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::TiModule>::Class());
+    if (!ti_class_ptr__) {
+      ti_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::TiModule>::Class());
     }
     
     if (!api_class_ptr__) {
@@ -113,12 +113,12 @@ namespace Titanium {
     return Application(*this);
   }
   
-  JSClassPtr_t ApplicationBuilder::TitaniumClass() const TITANIUM_NOEXCEPT {
-    return titanium_class_ptr__;
+  JSClassPtr_t ApplicationBuilder::TiClass() const TITANIUM_NOEXCEPT {
+    return ti_class_ptr__;
   }
   
-  ApplicationBuilder& ApplicationBuilder::TitaniumClass(const JSClassPtr_t& titanium_class_ptr) TITANIUM_NOEXCEPT {
-    titanium_class_ptr__ = titanium_class_ptr;
+  ApplicationBuilder& ApplicationBuilder::TiClass(const JSClassPtr_t& ti_class_ptr) TITANIUM_NOEXCEPT {
+    ti_class_ptr__ = ti_class_ptr;
     return *this;
   }
 

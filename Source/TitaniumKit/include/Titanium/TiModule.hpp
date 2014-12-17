@@ -47,8 +47,9 @@ namespace Titanium {
     virtual JSValue get_buildHash_ArgumentValidator() const TITANIUM_NOEXCEPT final;
     virtual JSValue getBuildHashArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
     virtual JSValue get_userAgent_ArgumentValidator() const TITANIUM_NOEXCEPT final;
+    virtual bool    set_userAgent_ArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
     virtual JSValue getUserAgentArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-    virtual bool    setUserAgentArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
+    virtual JSValue setUserAgentArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
     virtual JSValue createBufferArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
 
