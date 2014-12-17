@@ -43,6 +43,8 @@ if(NOT TARGET TitaniumKit)
 endif()
 
 set(SOURCE_UI
+  include/TitaniumWindows/UI/ViewBase.hpp
+  src/ViewBase.cpp
   include/TitaniumWindows/UI/View.hpp
   src/View.cpp
   include/TitaniumWindows/UI/Window.hpp

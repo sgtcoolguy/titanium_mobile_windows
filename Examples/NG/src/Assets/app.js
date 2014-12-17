@@ -31,7 +31,7 @@ var view = Ti.UI.createView({
   height: Ti.UI.SIZE
 });
 
-view.add(button);
+//view.add(button);
 
 var window = Ti.UI.createWindow();
 window.backgroundColor = "Ivory";

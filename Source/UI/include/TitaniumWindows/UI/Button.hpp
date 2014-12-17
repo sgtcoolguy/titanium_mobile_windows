@@ -10,47 +10,44 @@
 #define _TITANIUMWINDOWS_UI_BUTTON_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
+#include "ViewBase.hpp"
 #include <string>
 
-namespace TitaniumWindows {
-  namespace UI {
+namespace TitaniumWindows { namespace UI {
 
-    using namespace HAL;
+  using namespace HAL;
 
-    /*!
-      @class
+  /*!
+    @class
 
-      @discussion This is the Titanium.UI.Button implementation for
-      Windows.
-      */
-    class TITANIUMWINDOWS_UI_EXPORT Button final : public Titanium::UI::Button, public JSExport < Button > {
+    @discussion This is the Titanium.UI.Button implementation for
+    Windows.
+    */
+  class TITANIUMWINDOWS_UI_EXPORT Button final : public Titanium::UI::Button, public JSExport < Button >, ViewBase {
 
-    public:
+  public:
 
-      Windows::UI::Xaml::UIElement^ get_UIElement() const TITANIUM_NOEXCEPT;
+    Button(const JSContext& js_context)                          TITANIUM_NOEXCEPT;
+    Button(const Button&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
-      Button(const JSContext& js_context)                          TITANIUM_NOEXCEPT;
-      Button(const Button&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
-
-      virtual ~Button();
-      Button(const Button&) = default;
-      Button& operator=(const Button&) = default;
+    virtual ~Button();
+    Button(const Button&) = default;
+    Button& operator=(const Button&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-      Button(Button&&)                 = default;
-      Button& operator=(Button&&)      = default;
+    Button(Button&&)                 = default;
+    Button& operator=(Button&&)      = default;
 #endif
 
-      static void JSExportInitialize();
+    static void JSExportInitialize();
 
-      virtual bool setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+    virtual bool setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
 
-    private:
+  private:
 
-      Windows::UI::Xaml::Controls::Button^        button__;
-      Windows::Foundation::EventRegistrationToken click_event__;
-    };
+    Windows::UI::Xaml::Controls::Button^        button__;
+    Windows::Foundation::EventRegistrationToken click_event__;
+  };
 
-  }
-}  // namespace TitaniumWindows { namespace UI {
+}}  // namespace TitaniumWindows { namespace UI {
 
 #endif // _TITANIUMWINDOWS_UI_BUTTON_HPP_
