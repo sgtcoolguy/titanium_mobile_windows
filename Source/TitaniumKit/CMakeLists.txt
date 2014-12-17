@@ -59,8 +59,10 @@ set(SOURCE_API
   )
 
 set(SOURCE_Platform
-  include/Titanium/Platform.hpp
-  src/Platform.cpp
+  include/Titanium/PlatformModule.hpp
+  include/Titanium/Platform/DisplayCaps.hpp
+  src/PlatformModule.cpp
+  src/Platform/DisplayCaps.cpp
   )
 
 set(SOURCE_Accelerometer

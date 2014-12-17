@@ -6,6 +6,7 @@
 
 #include "Titanium/Titanium.hpp"
 #include "NativePlatformExample.hpp"
+#include "NativePlatformDisplayCapsExample.hpp"
 #include "gtest/gtest.h"
 
 #define XCTAssertEqual    ASSERT_EQ
@@ -49,7 +50,67 @@ TEST_F(PlatformTests, logging) {
   auto Platform_ptr = Platform.GetPrivate<NativePlatformExample>();
   XCTAssertNotEqual(nullptr, Platform_ptr);
   
+  XCTAssertTrue(Platform.HasProperty("BATTERY_STATE_CHARGING"));
+  XCTAssertTrue(Platform.HasProperty("BATTERY_STATE_FULL"));
+  XCTAssertTrue(Platform.HasProperty("BATTERY_STATE_UNKNOWN"));
+  XCTAssertTrue(Platform.HasProperty("BATTERY_STATE_UNPLUGGED"));
+  XCTAssertTrue(Platform.HasProperty("address"));
+  XCTAssertTrue(Platform.HasProperty("architecture"));
+  XCTAssertTrue(Platform.HasProperty("availableMemory"));
+  XCTAssertTrue(Platform.HasProperty("batteryState"));
+  XCTAssertTrue(Platform.HasProperty("id"));
+  XCTAssertTrue(Platform.HasProperty("locale"));
+  XCTAssertTrue(Platform.HasProperty("macaddress"));
+  XCTAssertTrue(Platform.HasProperty("manufacturer"));
+  XCTAssertTrue(Platform.HasProperty("model"));
+  XCTAssertTrue(Platform.HasProperty("name"));
+  XCTAssertTrue(Platform.HasProperty("netmask"));
   XCTAssertTrue(Platform.HasProperty("osname"));
+  XCTAssertTrue(Platform.HasProperty("ostype"));
+  XCTAssertTrue(Platform.HasProperty("processorCount"));
+  XCTAssertTrue(Platform.HasProperty("runtime"));
+  XCTAssertTrue(Platform.HasProperty("username"));
+  XCTAssertTrue(Platform.HasProperty("version"));
+
+  XCTAssertTrue(Platform.HasProperty("getAddress"));
+  XCTAssertTrue(Platform.HasProperty("getArchitecture"));
+  XCTAssertTrue(Platform.HasProperty("getAvailableMemory"));
+  XCTAssertTrue(Platform.HasProperty("getBatteryState"));
+  XCTAssertTrue(Platform.HasProperty("getId"));
+  XCTAssertTrue(Platform.HasProperty("getLocale"));
+  XCTAssertTrue(Platform.HasProperty("getMacaddress"));
+  XCTAssertTrue(Platform.HasProperty("getManufacturer"));
+  XCTAssertTrue(Platform.HasProperty("getModel"));
+  XCTAssertTrue(Platform.HasProperty("getName"));
+  XCTAssertTrue(Platform.HasProperty("getNetmask"));
+  XCTAssertTrue(Platform.HasProperty("getOsname"));
+  XCTAssertTrue(Platform.HasProperty("getOstype"));
+  XCTAssertTrue(Platform.HasProperty("getProcessorCount"));
+  XCTAssertTrue(Platform.HasProperty("getRuntime"));
+  XCTAssertTrue(Platform.HasProperty("getUsername"));
+  XCTAssertTrue(Platform.HasProperty("getVersion"));
+
+  XCTAssertTrue(Platform.HasProperty("createUUID"));
+  XCTAssertTrue(Platform.HasProperty("canOpenURL"));
+  XCTAssertTrue(Platform.HasProperty("openURL"));
+  XCTAssertTrue(Platform.HasProperty("is24HourTimeFormat"));
+
+  XCTAssertTrue(Platform.HasProperty("displayCaps"));
+  XCTAssertTrue(Platform.HasProperty("getDisplayCaps"));
+
+  auto DisplayCaps = Platform.GetProperty("displayCaps");
+  XCTAssertTrue(DisplayCaps.IsObject());
+  JSObject displayCaps = DisplayCaps;
+  auto displayCaps_ptr = displayCaps.GetPrivate<NativePlatformDisplayCapsExample>();
+  XCTAssertNotEqual(nullptr, displayCaps_ptr);
+
+  XCTAssertTrue(displayCaps.HasProperty("density"));
+  XCTAssertTrue(displayCaps.HasProperty("dpi"));
+  XCTAssertTrue(displayCaps.HasProperty("logicalDensityFactor"));
+  XCTAssertTrue(displayCaps.HasProperty("platformHeight"));
+  XCTAssertTrue(displayCaps.HasProperty("platformWidth"));
+  XCTAssertTrue(displayCaps.HasProperty("xdpi"));
+  XCTAssertTrue(displayCaps.HasProperty("ydpi"));
 
   auto result = js_context.JSEvaluateScript("Ti.Platform.osname;");
   XCTAssertTrue(result.IsString());

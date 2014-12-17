@@ -1,7 +1,4 @@
 /**
- * Titanium.Platform for Windows
- * Author: Gary Mathews
- *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
@@ -21,7 +18,7 @@ namespace TitaniumWindows {
 
     @discussion This is the Titanium.Platform implementation for Windows.
     */
-  class TITANIUMWINDOWS_PLATFORM_EXPORT Platform final : public Titanium::Platform, public JSExport < Platform >{
+  class TITANIUMWINDOWS_PLATFORM_EXPORT Platform final : public Titanium::PlatformModule, public JSExport < Platform >{
 
   public:
 

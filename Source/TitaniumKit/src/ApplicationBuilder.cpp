@@ -9,7 +9,7 @@
 #include "Titanium/ApplicationBuilder.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
-#include "Titanium/Platform.hpp"
+#include "Titanium/PlatformModule.hpp"
 #include "Titanium/Accelerometer.hpp"
 #include "Titanium/Gesture.hpp"
 #include "Titanium/Blob.hpp"
@@ -42,7 +42,7 @@ namespace Titanium {
     }
       
     if (!platform_class_ptr__) {
-      platform_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::Platform>::Class());
+      platform_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::PlatformModule>::Class());
     }
     
     if (!accelerometer_class_ptr__) {

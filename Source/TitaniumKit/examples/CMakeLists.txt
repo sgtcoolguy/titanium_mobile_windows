@@ -24,6 +24,8 @@ set(SOURCE_examples
   NativeButtonExample.cpp
   NativePlatformExample.hpp
   NativePlatformExample.cpp
+  NativePlatformDisplayCapsExample.hpp
+  NativePlatformDisplayCapsExample.cpp
   NativeAccelerometerExample.hpp
   NativeAccelerometerExample.cpp
   NativeGestureExample.hpp

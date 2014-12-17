@@ -16,7 +16,7 @@ using namespace HAL;
  @discussion This is an example of how to implement Titanium::Platform
  for a native platform.
  */
-class NativePlatformExample final : public Titanium::Platform, public JSExport<NativePlatformExample> {
+class NativePlatformExample final : public Titanium::PlatformModule, public JSExport<NativePlatformExample> {
   
 public:
   
