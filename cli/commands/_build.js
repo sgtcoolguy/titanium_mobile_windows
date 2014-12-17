@@ -630,7 +630,6 @@ WindowsBuilder.prototype.run = function run(logger, config, cli, finished) {
         'computeHashes',
         'readBuildManifest',
         'checkIfNeedToRecompile',
-        'createWorkingDirectory', // this goes in the build dir
 
         function (next) {
             cli.emit('build.pre.compile', this, next);
@@ -717,11 +716,17 @@ WindowsBuilder.prototype.initialize = function initialize(next) {
 	this.cmakeDir     = path.resolve(__dirname, '..', 'vendor', 'cmake');
 	this.cmake        = path.join(this.cmakeDir, 'bin', 'cmake.exe');
 	if (this.target == 'wp-emulator' || this.target == 'wp-device' || this.target == 'dist-phonestore') {
+		if (this.target == 'wp-device' || this.target == 'dist-phonestore') {
+			this.cmakeArch = 'ARM';
+		} else {
+			this.cmakeArch = 'Win32';
+		}
 		this.cmakePlatform = 'WindowsPhone';
 	} else {
+		this.cmakeArch = 'Win32';
 		this.cmakePlatform = 'WindowsStore';
 	}
-	this.cmakeArch = 'Win32'; 
+	this.arch = this.cmakeArch == 'Win32' ? 'x86' : this.cmakeArch;
 	this.cmakeTarget  = this.cmakePlatform +'.' + this.cmakeArch;
 
 	// directories
@@ -1034,23 +1039,6 @@ WindowsBuilder.prototype.checkIfNeedToRecompile = function checkIfNeedToRecompil
 };
 
 /**
- * Generates a working directory in the app's build folder for us to shove all the "compiled" resources into.
- *
- * @param {Function} next - A function to call after the working directory has been created.
- */
-WindowsBuilder.prototype.createWorkingDirectory = function createWorkingDirectory(next) {
-	/*
-	TODO: Create a directory like "My Project\build\windows\<target>-<arch>\". I don't know
-	      what the actual generated name will be. Perhaps it's the name of the cmake target?
-
-	      After the project has been created, set "this.buildTargetDir" to the above VS
-	      Project dir.
-	*/
-
-	next(); // temp
-};
-
-/**
  * Checks that the app.js exists. This has to be done after the "build.pre.compile" event
  * has fired. This gives build hooks such as Alloy the ability to generate an app.js.
  *
@@ -1263,6 +1251,32 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 				src: src,
 				dest: this.buildTargetDir
 			}, cb);
+		},
+
+		// Copy cmake folder over, with our helper scripts to find the bundled dependency libs
+		function (cb) {
+			var src = path.join(this.platformPath, 'templates', 'build', 'cmake');
+			copyDir.call(this, {
+				src: src,
+				dest: path.join(this.buildDir, 'cmake')
+			}, cb);
+		},
+
+		// Copy TitaniumKit and HAL dlls over
+		function (cb) {
+			var src = path.join(this.platformPath, 'lib', 'TitaniumKit', this.arch, 'TitaniumKit.dll');
+			copyFile.call(this,
+				src,
+				path.join(this.buildDir, 'src', 'TitaniumKit.dll'),
+			cb);
+		},
+
+		function (cb) {
+			var src = path.join(this.platformPath, 'lib', 'HAL', this.arch, 'HAL.dll');
+			copyFile.call(this,
+				src,
+				path.join(this.buildDir, 'src', 'HAL.dll'),
+			cb);
 		}
 	];
 
@@ -1530,12 +1544,6 @@ WindowsBuilder.prototype.runCmake = function runCmake(next) {
 			'-G', generatorName,
 			'-DCMAKE_SYSTEM_NAME=' + this.cmakePlatform,
 			'-DCMAKE_SYSTEM_VERSION=' + this.wpsdk,
-			'-DTitaniumWindows_DISABLE_TESTS=OFF', 
-			'-DTitaniumWindows_Global_DISABLE_TESTS=ON',
-			'-DTitaniumWindows_API_DISABLE_TESTS=ON',
-			'-DTitaniumWindows_UI_DISABLE_TESTS=ON',
-			'-DTitaniumKit_DISABLE_TESTS=ON', 
-			'-DHAL_DISABLE_TESTS=ON',
 			this.buildDir
 		], 
 		{
