@@ -59,6 +59,12 @@ namespace Titanium { namespace UI {
     virtual JSValue get_left() const                                    TITANIUM_NOEXCEPT final;
     virtual void    set_left(const JSValue& left)                       TITANIUM_NOEXCEPT final;
     
+    virtual JSValue get_bottom() const                                  TITANIUM_NOEXCEPT final;
+    virtual void    set_bottom(const JSValue& bottom)                   TITANIUM_NOEXCEPT final;
+    
+    virtual JSValue get_right() const                                   TITANIUM_NOEXCEPT final;
+    virtual void    set_right(const JSValue& right)                     TITANIUM_NOEXCEPT final;
+
     virtual JSValue get_width() const                                   TITANIUM_NOEXCEPT final;
     virtual void    set_width(const JSValue& width)                     TITANIUM_NOEXCEPT final;
     
@@ -123,6 +129,30 @@ namespace Titanium { namespace UI {
     //
     // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
     // bool result = false;
+    // const std::string bottom = static_cast<std::string>(argument);
+    // Set the native view's position.
+    // set_bottom(argument);
+    // result = true;
+    // return result;
+    virtual bool setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
+    
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
+    // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    // bool result = false;
+    // const std::string right = static_cast<std::string>(argument);
+    // Set the native view's position.
+    // set_right(argument);
+    // result = true;
+    // return result;
+    virtual bool setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
+    
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
+    // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    // bool result = false;
     // const std::string width = static_cast<std::string>(argument);
     // Set the native view's position.
     // set_width(argument);
@@ -152,6 +182,8 @@ namespace Titanium { namespace UI {
     JSValue backgroundColor__;
     JSValue top__;
     JSValue left__;
+    JSValue bottom__;
+    JSValue right__;
     JSValue width__;
     JSValue height__;
     
