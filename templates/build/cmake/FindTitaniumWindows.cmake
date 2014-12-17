@@ -6,46 +6,26 @@
 # Please see the LICENSE included with this distribution for details.
 
 # Author: Chris Williams
-# Created: 2014.12.02 
-#
-# Try to find TitaniumWindows. Once done this will define:
-#  
-#  TitaniumWindows_FOUND       - system has TitaniumWindows
-#  TitaniumWindows_INCLUDE_DIRS - the include directory
-#  TitaniumWindows_LIBRARY_DIR - the directory containing the library
-#  TitaniumWindows_LIBRARIES   - link these to use TitaniumWindows
-
-find_package(PkgConfig)
-
-pkg_check_modules(PC_TitaniumWindows QUIET TitaniumWindows)
-
-# Point to lib bundled in Titanium SDK
-set(TitaniumWindows_HOME ${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows)
-
-find_path(TitaniumWindows_INCLUDE_DIRS
-  NAMES TitaniumWindows.hpp
-  HINTS ${TitaniumWindows_HOME}/include ${PC_TitaniumWindows_INCLUDE_DIRS} ${PC_TitaniumWindows_INCLUDEDIR}
-  PATHS ENV TitaniumWindows_HOME
-  PATH_SUFFIXES include
-  )
+# Created: 2014.12.02
 
 set(TitaniumWindows_ARCH "x86")
 if(CMAKE_GENERATOR MATCHES "^Visual Studio .+ ARM$")
   set(TitaniumWindows_ARCH "arm")
 endif()
 
-find_library(TitaniumWindows_LIBRARIES
-  NAMES TitaniumWindows
-  HINTS ${TitaniumWindows_HOME}/${TitaniumWindows_ARCH} ${PC_TitaniumWindows_LIBRARY_DIRS} ${PC_TitaniumWindows_LIBDIR}
-  PATHS ENV TitaniumWindows_HOME
-  PATH_SUFFIXES ${TitaniumWindows_ARCH}
+# Taken and slightly modified from build's TitaniumWindows_Targets.cmake file
+# INTERFACE_INCLUDE_DIRECTORIES is modified to point to our pre-packaged include dir for module
+
+# Create imported target TitaniumWindows
+add_library(TitaniumWindows SHARED IMPORTED)
+
+set_target_properties(TitaniumWindows PROPERTIES
+  COMPATIBLE_INTERFACE_STRING "TitaniumWindows_MAJOR_VERSION"
+  INTERFACE_INCLUDE_DIRECTORIES "$<TARGET_PROPERTY:TitaniumWindows_Global,INTERFACE_INCLUDE_DIRECTORIES>;$<TARGET_PROPERTY:TitaniumWindows_API,INTERFACE_INCLUDE_DIRECTORIES>;$<TARGET_PROPERTY:TitaniumWindows_Platform,INTERFACE_INCLUDE_DIRECTORIES>;$<TARGET_PROPERTY:TitaniumWindows_Gesture,INTERFACE_INCLUDE_DIRECTORIES>;$<TARGET_PROPERTY:TitaniumWindows_Accelerometer,INTERFACE_INCLUDE_DIRECTORIES>;$<TARGET_PROPERTY:TitaniumWindows_Filesystem,INTERFACE_INCLUDE_DIRECTORIES>;$<TARGET_PROPERTY:TitaniumWindows_UI,INTERFACE_INCLUDE_DIRECTORIES>;$<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/include"
+  INTERFACE_LINK_LIBRARIES "TitaniumWindows_Global;TitaniumWindows_API;TitaniumWindows_Platform;TitaniumWindows_Gesture;TitaniumWindows_Accelerometer;TitaniumWindows_Filesystem;TitaniumWindows_UI;TitaniumWindows_Utility;LayoutEngine"
+  INTERFACE_TitaniumWindows_MAJOR_VERSION "0"
+)
+set_target_properties(TitaniumWindows PROPERTIES
+  IMPORTED_IMPLIB "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/${TitaniumWindows_ARCH}/TitaniumWindows.lib"
+  IMPORTED_LOCATION "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/${TitaniumWindows_ARCH}/TitaniumWindows.dll"
   )
-
-include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(TitaniumWindows DEFAULT_MSG TitaniumWindows_INCLUDE_DIRS TitaniumWindows_LIBRARIES)
-
-# message(STATUS "MDL: CMAKE_CONFIGURATION_TYPES   = ${CMAKE_CONFIGURATION_TYPES}")
-# message(STATUS "MDL: TitaniumWindows_FOUND        = ${TitaniumWindows_FOUND}")
-# message(STATUS "MDL: TitaniumWindows_INCLUDE_DIRS = ${TitaniumWindows_INCLUDE_DIRS}")
-# message(STATUS "MDL: TitaniumWindows_LIBRARY_DIR  = ${TitaniumWindows_LIBRARY_DIR}")
-# message(STATUS "MDL: TitaniumWindows_LIBRARIES    = ${TitaniumWindows_LIBRARIES}")
