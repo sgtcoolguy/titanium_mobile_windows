@@ -13,6 +13,9 @@ if(CMAKE_GENERATOR MATCHES "^Visual Studio .+ ARM$")
   set(HAL_ARCH "arm")
 endif()
 
+# Taken and slightly modified from build's HAL_Targets.cmake file
+# INTERFACE_INCLUDE_DIRECTORIES is modified to point to our pre-packaged include dir for module
+
 # Create imported target HAL
 add_library(HAL SHARED IMPORTED)
 

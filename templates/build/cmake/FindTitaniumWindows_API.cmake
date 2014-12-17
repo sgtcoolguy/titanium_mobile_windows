@@ -6,46 +6,27 @@
 # Please see the LICENSE included with this distribution for details.
 
 # Author: Chris Williams
-# Created: 2014.12.02 
-#
-# Try to find TitaniumWindows_API. Once done this will define:
-#  
-#  TitaniumWindows_API_FOUND       - system has TitaniumWindows_API
-#  TitaniumWindows_API_INCLUDE_DIRS - the include directory
-#  TitaniumWindows_API_LIBRARY_DIR - the directory containing the library
-#  TitaniumWindows_API_LIBRARIES   - link these to use TitaniumWindows_API
-
-find_package(PkgConfig)
-
-pkg_check_modules(PC_TitaniumWindows_API QUIET TitaniumWindows_API)
-
-# Point to lib bundled in Titanium SDK
-set(TitaniumWindows_API_HOME ${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_API)
-
-find_path(TitaniumWindows_API_INCLUDE_DIRS
-  NAMES TitaniumWindows/API.hpp
-  HINTS ${TitaniumWindows_API_HOME}/include ${PC_TitaniumWindows_API_INCLUDE_DIRS} ${PC_TitaniumWindows_API_INCLUDEDIR}
-  PATHS ENV TitaniumWindows_API_HOME
-  PATH_SUFFIXES include
-  )
+# Created: 2014.12.02
 
 set(TitaniumWindows_API_ARCH "x86")
 if(CMAKE_GENERATOR MATCHES "^Visual Studio .+ ARM$")
   set(TitaniumWindows_API_ARCH "arm")
 endif()
 
-find_library(TitaniumWindows_API_LIBRARIES
-  NAMES TitaniumWindows_API
-  HINTS ${TitaniumWindows_API_HOME}/${TitaniumWindows_API_ARCH} ${PC_TitaniumWindows_API_LIBRARY_DIRS} ${PC_TitaniumWindows_API_LIBDIR}
-  PATHS ENV TitaniumWindows_API_HOME
-  PATH_SUFFIXES ${TitaniumWindows_API_ARCH}
+# Taken and slightly modified from build's TitaniumWindows_API_Targets.cmake file
+# INTERFACE_INCLUDE_DIRECTORIES is modified to point to our pre-packaged include dir for module
+
+# Create imported target TitaniumWindows_API
+add_library(TitaniumWindows_API SHARED IMPORTED)
+
+set_target_properties(TitaniumWindows_API PROPERTIES
+  COMPATIBLE_INTERFACE_STRING "TitaniumWindows_API_MAJOR_VERSION"
+  INTERFACE_INCLUDE_DIRECTORIES "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_API/include;$<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>;$<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>"
+  INTERFACE_LINK_LIBRARIES "TitaniumKit;TitaniumWindows_Utility"
+  INTERFACE_TitaniumWindows_API_MAJOR_VERSION "0"
+)
+
+set_target_properties(TitaniumWindows_API PROPERTIES
+  IMPORTED_IMPLIB "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_API/${TitaniumWindows_API_ARCH}/TitaniumWindows_API.lib"
+  IMPORTED_LOCATION "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_API/${TitaniumWindows_API_ARCH}/TitaniumWindows_API.dll"
   )
-
-include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(TitaniumWindows_API DEFAULT_MSG TitaniumWindows_API_INCLUDE_DIRS TitaniumWindows_API_LIBRARIES)
-
-# message(STATUS "MDL: CMAKE_CONFIGURATION_TYPES   = ${CMAKE_CONFIGURATION_TYPES}")
-# message(STATUS "MDL: TitaniumWindows_API_FOUND        = ${TitaniumWindows_API_FOUND}")
-# message(STATUS "MDL: TitaniumWindows_API_INCLUDE_DIRS = ${TitaniumWindows_API_INCLUDE_DIRS}")
-# message(STATUS "MDL: TitaniumWindows_API_LIBRARY_DIR  = ${TitaniumWindows_API_LIBRARY_DIR}")
-# message(STATUS "MDL: TitaniumWindows_API_LIBRARIES    = ${TitaniumWindows_API_LIBRARIES}")
