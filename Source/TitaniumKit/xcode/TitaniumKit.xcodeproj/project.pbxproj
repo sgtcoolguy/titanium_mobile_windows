@@ -99,10 +99,10 @@
 		F9B47E7F1A2EF1860052879A /* NativeFileExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B47E7D1A2EF1860052879A /* NativeFileExample.hpp */; };
 		F9B47E811A2EF93E0052879A /* Constants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B47E801A2EF93E0052879A /* Constants.hpp */; };
 		F9B47E831A2EF94A0052879A /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B47E821A2EF94A0052879A /* Constants.cpp */; };
-		F9B549731A4027220051A096 /* TitaniumModule.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B549721A4027220051A096 /* TitaniumModule.hpp */; };
-		F9B549751A40272E0051A096 /* TitaniumModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B549741A40272E0051A096 /* TitaniumModule.cpp */; };
-		F9B549781A402D520051A096 /* NativeTitaniumExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B549761A402D520051A096 /* NativeTitaniumExample.cpp */; };
-		F9B549791A402D520051A096 /* NativeTitaniumExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B549771A402D520051A096 /* NativeTitaniumExample.hpp */; };
+		F9B549731A4027220051A096 /* TiModule.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B549721A4027220051A096 /* TiModule.hpp */; };
+		F9B549751A40272E0051A096 /* TiModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B549741A40272E0051A096 /* TiModule.cpp */; };
+		F9B549781A402D520051A096 /* NativeTiExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B549761A402D520051A096 /* NativeTiExample.cpp */; };
+		F9B549791A402D520051A096 /* NativeTiExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B549771A402D520051A096 /* NativeTiExample.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -214,10 +214,10 @@
 		F9B47E7D1A2EF1860052879A /* NativeFileExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeFileExample.hpp; sourceTree = "<group>"; };
 		F9B47E801A2EF93E0052879A /* Constants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Constants.hpp; path = include/Titanium/Filesystem/Constants.hpp; sourceTree = "<group>"; };
 		F9B47E821A2EF94A0052879A /* Constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Constants.cpp; path = src/Filesystem/Constants.cpp; sourceTree = "<group>"; };
-		F9B549721A4027220051A096 /* TitaniumModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TitaniumModule.hpp; path = include/Titanium/TitaniumModule.hpp; sourceTree = "<group>"; };
-		F9B549741A40272E0051A096 /* TitaniumModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TitaniumModule.cpp; path = src/TitaniumModule.cpp; sourceTree = "<group>"; };
-		F9B549761A402D520051A096 /* NativeTitaniumExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeTitaniumExample.cpp; sourceTree = "<group>"; };
-		F9B549771A402D520051A096 /* NativeTitaniumExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeTitaniumExample.hpp; sourceTree = "<group>"; };
+		F9B549721A4027220051A096 /* TiModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TiModule.hpp; path = include/Titanium/TiModule.hpp; sourceTree = "<group>"; };
+		F9B549741A40272E0051A096 /* TiModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TiModule.cpp; path = src/TiModule.cpp; sourceTree = "<group>"; };
+		F9B549761A402D520051A096 /* NativeTiExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeTiExample.cpp; sourceTree = "<group>"; };
+		F9B549771A402D520051A096 /* NativeTiExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeTiExample.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -278,8 +278,8 @@
 			isa = PBXGroup;
 			children = (
 				C90B8FF41A195BDA005F3210 /* ng.js */,
-				F9B549761A402D520051A096 /* NativeTitaniumExample.cpp */,
-				F9B549771A402D520051A096 /* NativeTitaniumExample.hpp */,
+				F9B549761A402D520051A096 /* NativeTiExample.cpp */,
+				F9B549771A402D520051A096 /* NativeTiExample.hpp */,
 				C90B8FF71A195BDA005F3210 /* NativeGlobalObjectExample.hpp */,
 				C90B8FF81A195BDA005F3210 /* NativeGlobalObjectExample.cpp */,
 				C9BED21F1A27B14200CFF800 /* NativeModuleExample.hpp */,
@@ -336,8 +336,8 @@
 				C90B90061A19804D005F3210 /* Application.cpp */,
 				C97454591A02A2E500CB4CA9 /* GlobalObject.hpp */,
 				C9E6AFCD1A13DF3000FED053 /* GlobalObject.cpp */,
-				F9B549721A4027220051A096 /* TitaniumModule.hpp */,
-				F9B549741A40272E0051A096 /* TitaniumModule.cpp */,
+				F9B549721A4027220051A096 /* TiModule.hpp */,
+				F9B549741A40272E0051A096 /* TiModule.cpp */,
 				C97454581A02A2E500CB4CA9 /* Module.hpp */,
 				C90B8F871A167E36005F3210 /* Module.cpp */,
 				C90B8FD21A17CB1C005F3210 /* API.hpp */,
@@ -444,12 +444,12 @@
 				C90950821A291EB5002133E1 /* Animation.hpp in Headers */,
 				F9B177951A2C46F100ECE602 /* Accelerometer.hpp in Headers */,
 				C9E6AFB81A13043300FED053 /* Titanium.hpp in Headers */,
-				F9B549791A402D520051A096 /* NativeTitaniumExample.hpp in Headers */,
+				F9B549791A402D520051A096 /* NativeTiExample.hpp in Headers */,
 				C974545C1A02A2E500CB4CA9 /* GlobalObject.hpp in Headers */,
 				C90950A61A297E03002133E1 /* WebView.hpp in Headers */,
 				C90950AA1A2A20C1002133E1 /* WebViewErrorEvent.hpp in Headers */,
 				F96BCABD1A25CE4C00745C3B /* Platform.hpp in Headers */,
-				F9B549731A4027220051A096 /* TitaniumModule.hpp in Headers */,
+				F9B549731A4027220051A096 /* TiModule.hpp in Headers */,
 				C90B8F901A16D346005F3210 /* View.hpp in Headers */,
 				C90B8F941A16D83F005F3210 /* Window.hpp in Headers */,
 				C90B8F9C1A16DDB0005F3210 /* UIModule.hpp in Headers */,
@@ -574,12 +574,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9B549781A402D520051A096 /* NativeTitaniumExample.cpp in Sources */,
+				F9B549781A402D520051A096 /* NativeTiExample.cpp in Sources */,
 				C98091A21A238DC500AE5930 /* Dimension.cpp in Sources */,
 				F9B177981A2C46FB00ECE602 /* Accelerometer.cpp in Sources */,
 				C90B8F931A16D83F005F3210 /* Window.cpp in Sources */,
 				C90950831A291EB5002133E1 /* Animation.cpp in Sources */,
-				F9B549751A40272E0051A096 /* TitaniumModule.cpp in Sources */,
+				F9B549751A40272E0051A096 /* TiModule.cpp in Sources */,
 				C9BED2201A27B14200CFF800 /* NativeModuleExample.cpp in Sources */,
 				C909509F1A2963F3002133E1 /* ListView.cpp in Sources */,
 				C90950AB1A2A20C1002133E1 /* WebViewErrorEvent.cpp in Sources */,

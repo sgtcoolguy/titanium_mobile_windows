@@ -4,8 +4,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUM_TITANIUMMODULE_HPP_
-#define _TITANIUM_TITANIUMMODULE_HPP_
+#ifndef _TITANIUM_TIMODULE_HPP_
+#define _TITANIUM_TIMODULE_HPP_
 
 #include "Titanium/Module.hpp"
 
@@ -15,10 +15,10 @@ namespace Titanium {
 
   /*!
    @class
-   @discussion This is the Titanium Module.
+   @discussion This is the top-level Titanium Module.
    See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium
    */
-  class TITANIUMKIT_EXPORT TitaniumModule : public Module, public JSExport < TitaniumModule > {
+  class TITANIUMKIT_EXPORT TiModule : public Module, public JSExport < TiModule > {
 
   public:
         virtual std::string version() const TITANIUM_NOEXCEPT;
@@ -27,15 +27,15 @@ namespace Titanium {
 
         virtual void setUserAgent(const JSValue&) TITANIUM_NOEXCEPT final;
 
-    TitaniumModule(const JSContext& js_context)                       TITANIUM_NOEXCEPT;
-    TitaniumModule(const TitaniumModule&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+    TiModule(const JSContext& js_context)                       TITANIUM_NOEXCEPT;
+    TiModule(const TiModule&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
-    virtual ~TitaniumModule() = default;
-    TitaniumModule(const TitaniumModule&) = default;
-    TitaniumModule& operator=(const TitaniumModule&) = default;
+    virtual ~TiModule() = default;
+    TiModule(const TiModule&) = default;
+    TiModule& operator=(const TiModule&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-    TitaniumModule(TitaniumModule&&)                 = default;
-    TitaniumModule& operator=(TitaniumModule&&)      = default;
+    TiModule(TiModule&&)                 = default;
+    TiModule& operator=(TiModule&&)      = default;
 #endif
 
     static void JSExportInitialize();
@@ -58,4 +58,4 @@ namespace Titanium {
 
 } // namespace Titanium
 
-#endif // _TITANIUM_TITANIUMMODULE_HPP_
+#endif // _TITANIUM_TIMODULE_HPP_

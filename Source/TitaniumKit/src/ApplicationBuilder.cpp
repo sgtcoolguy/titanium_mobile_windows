@@ -7,7 +7,7 @@
  */
 
 #include "Titanium/ApplicationBuilder.hpp"
-#include "Titanium/TitaniumModule.hpp"
+#include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
 #include "Titanium/Platform.hpp"
@@ -27,7 +27,7 @@ namespace Titanium {
   Application ApplicationBuilder::build() {
       
     if (!titanium_class_ptr__) {
-      titanium_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::TitaniumModule>::Class());
+      titanium_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::TiModule>::Class());
     }
     
     if (!api_class_ptr__) {
@@ -71,7 +71,7 @@ namespace Titanium {
     }
 
     JSObject global_object = js_context__.get_global_object();
-    JSObject titanium      = js_context__.CreateObject(JSExport<Titanium::TitaniumModule>::Class());
+    JSObject titanium      = js_context__.CreateObject(JSExport<Titanium::TiModule>::Class());
     global_object.SetProperty("Titanium", titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
     global_object.SetProperty("Ti"      , titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 

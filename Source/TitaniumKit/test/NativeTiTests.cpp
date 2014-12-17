@@ -5,7 +5,7 @@
  */
 
 #include "Titanium/Titanium.hpp"
-#include "NativeTitaniumExample.hpp"
+#include "NativeTiExample.hpp"
 #include "gtest/gtest.h"
 
 #define XCTAssertEqual    ASSERT_EQ
@@ -32,7 +32,7 @@ TEST_F(TitaniumTests, logging) {
   auto global_object     = js_context.get_global_object();
 
   XCTAssertFalse(global_object.HasProperty("Titanium"));
-  auto Titanium = js_context.CreateObject(JSExport<NativeTitaniumExample>::Class());
+  auto Titanium = js_context.CreateObject(JSExport<NativeTiExample>::Class());
   global_object.SetProperty("Titanium", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
   XCTAssertTrue(global_object.HasProperty("Titanium"));
   
@@ -41,7 +41,7 @@ TEST_F(TitaniumTests, logging) {
   global_object.SetProperty("Ti", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
   XCTAssertTrue(global_object.HasProperty("Ti"));
 
-  auto Titanium_ptr = Titanium.GetPrivate<NativeTitaniumExample>();
+  auto Titanium_ptr = Titanium.GetPrivate<NativeTiExample>();
   XCTAssertNotEqual(nullptr, Titanium_ptr);
   
   XCTAssertTrue(Titanium.HasProperty("version"));
