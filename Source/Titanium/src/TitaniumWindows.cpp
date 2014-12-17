@@ -11,7 +11,7 @@
 #include "TitaniumWindows/GlobalObject.hpp"
 #include "TitaniumWindows/API.hpp"
 #include "TitaniumWindows/UI.hpp"
-#include "TitaniumWindows/PlatformModule.hpp"
+#include "TitaniumWindows/Platform.hpp"
 #include "TitaniumWindows/Gesture.hpp"
 #include "TitaniumWindows/Accelerometer.hpp"
 #include "TitaniumWindows/Filesystem.hpp"
@@ -28,7 +28,7 @@ namespace TitaniumWindows {
   Application::Application()
     : application__(Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<TitaniumWindows::GlobalObject>::Class()))
     .APIClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::API>::Class()))
-    .PlatformClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::PlatformModule>::Class()))
+    .PlatformClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Platform>::Class()))
     .GestureClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Gesture>::Class()))
     .AccelerometerClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Accelerometer>::Class()))
     .ViewClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::View>::Class()))
