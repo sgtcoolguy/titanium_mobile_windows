@@ -64,6 +64,9 @@ namespace Titanium { namespace UI {
     
     virtual JSValue get_right() const                                   TITANIUM_NOEXCEPT final;
     virtual void    set_right(const JSValue& right)                     TITANIUM_NOEXCEPT final;
+    
+    virtual JSObject get_center() const                                 TITANIUM_NOEXCEPT final;
+    virtual void     set_center(const JSObject& center)                 TITANIUM_NOEXCEPT final;
 
     virtual JSValue get_width() const                                   TITANIUM_NOEXCEPT final;
     virtual void    set_width(const JSValue& width)                     TITANIUM_NOEXCEPT final;
@@ -151,6 +154,22 @@ namespace Titanium { namespace UI {
     // Base classes must implement this method. This is the minimum
     // functionality that you should perform:
     //
+    // TITANIUM_ASSERT(argument.IsObject();
+    // bool result = false;
+    // JSObject center = argument;
+    // TITANIUM_ASSERT(center.HasProperty("x");
+    // TITANIUM_ASSERT(center.HasProperty("y");
+    // const std::string x = static_cast<std::string>(center.GetProperty("x"));
+    // const std::string y = static_cast<std::string>(center.GetProperty("y"));
+    // Set the native view's position.
+    // set_center(center);
+    // result = true;
+    // return result;
+    virtual bool setCenterArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
+    
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
     // TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
     // bool result = false;
     // const std::string width = static_cast<std::string>(argument);
@@ -178,14 +197,15 @@ namespace Titanium { namespace UI {
     
   private:
     
-    JSArray children__;
-    JSValue backgroundColor__;
-    JSValue top__;
-    JSValue left__;
-    JSValue bottom__;
-    JSValue right__;
-    JSValue width__;
-    JSValue height__;
+    JSArray  children__;
+    JSValue  backgroundColor__;
+    JSValue  top__;
+    JSValue  left__;
+    JSValue  bottom__;
+    JSValue  right__;
+    JSObject center__;
+    JSValue  width__;
+    JSValue  height__;
     
   };
 }} // namespace Titanium { namespace UI {

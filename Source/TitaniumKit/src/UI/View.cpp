@@ -18,6 +18,7 @@ namespace Titanium { namespace UI {
   , left__(js_context.CreateString())
   , bottom__(js_context.CreateString())
   , right__(js_context.CreateString())
+  , center__(js_context.CreateObject())
   , width__(js_context.CreateString())
   , height__(js_context.CreateString()) {
   }
@@ -30,6 +31,7 @@ namespace Titanium { namespace UI {
   , left__(rhs.left__)
   , bottom__(rhs.bottom__)
   , right__(rhs.right__)
+  , center__(rhs.center__)
   , width__(rhs.width__)
   , height__(rhs.height__) {
   }
@@ -89,6 +91,14 @@ namespace Titanium { namespace UI {
     right__ = right;
   }
   
+  JSObject View::get_center() const TITANIUM_NOEXCEPT {
+    return center__;
+  }
+  
+  void View::set_center(const JSObject& center) TITANIUM_NOEXCEPT {
+    center__ = center;
+  }
+  
   JSValue View::get_width() const TITANIUM_NOEXCEPT {
     return width__;
   }
@@ -140,6 +150,7 @@ namespace Titanium { namespace UI {
     JSExport<View>::AddValueProperty("top", std::mem_fn(&View::get_top), std::mem_fn(&View::setTopArgumentValidator));
     JSExport<View>::AddValueProperty("left", std::mem_fn(&View::get_left), std::mem_fn(&View::setLeftArgumentValidator));
     JSExport<View>::AddValueProperty("bottom", std::mem_fn(&View::get_bottom), std::mem_fn(&View::setBottomArgumentValidator));
+    JSExport<View>::AddValueProperty("center", std::mem_fn(&View::get_center), std::mem_fn(&View::setCenterArgumentValidator));
     JSExport<View>::AddValueProperty("right", std::mem_fn(&View::get_right), std::mem_fn(&View::setRightArgumentValidator));
     JSExport<View>::AddValueProperty("width", std::mem_fn(&View::get_width), std::mem_fn(&View::setWidthArgumentValidator));
     JSExport<View>::AddValueProperty("height", std::mem_fn(&View::get_height), std::mem_fn(&View::setHeightArgumentValidator));
@@ -208,7 +219,7 @@ namespace Titanium { namespace UI {
   }
   
   bool View::setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_LOG_WARN("View::setLeftArgumentValidator: Unimplemented");
+    TITANIUM_LOG_WARN("View::setBottomArgumentValidator: Unimplemented");
     
     // Base classes must implement this method. This is the minimum
     // functionality that you should perform:
@@ -225,7 +236,7 @@ namespace Titanium { namespace UI {
   }
   
   bool View::setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_LOG_WARN("View::setLeftArgumentValidator: Unimplemented");
+    TITANIUM_LOG_WARN("View::setRightArgumentValidator: Unimplemented");
     
     // Base classes must implement this method. This is the minimum
     // functionality that you should perform:
@@ -235,6 +246,27 @@ namespace Titanium { namespace UI {
     // const std::string left = static_cast<std::string>(argument);
     // Set the native view's position.
     // set_right(argument);
+    // result = true;
+    // return result;
+    
+    return false;
+  }
+  
+  bool View::setCenterArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_WARN("View::setCenterArgumentValidator: Unimplemented");
+    
+    // Base classes must implement this method. This is the minimum
+    // functionality that you should perform:
+    //
+    // TITANIUM_ASSERT(argument.IsObject();
+    // bool result = false;
+    // JSObject center = argument;
+    // TITANIUM_ASSERT(center.HasProperty("x");
+    // TITANIUM_ASSERT(center.HasProperty("y");
+    // const std::string x = static_cast<std::string>(center.GetProperty("x"));
+    // const std::string y = static_cast<std::string>(center.GetProperty("y"));
+    // Set the native view's position.
+    // set_center(center);
     // result = true;
     // return result;
     
