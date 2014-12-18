@@ -29,8 +29,8 @@ namespace TitaniumWindows { namespace UI {
     TITANIUM_ASSERT(component_ == nullptr);
 
 		component_ = component;
-		is_panel_ = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(component_) != nullptr;
-		is_control_ = dynamic_cast<Windows::UI::Xaml::Controls::Control^>(component_) != nullptr;
+    is_panel_ = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(component_) != nullptr;
+    is_control_ = dynamic_cast<Windows::UI::Xaml::Controls::Control^>(component_) != nullptr;
 		
     loaded_event_ = component_->Loaded += ref new RoutedEventHandler([this](Platform::Object ^sender, RoutedEventArgs ^e){
 			auto component = getComponent();

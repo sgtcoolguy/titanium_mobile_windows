@@ -29,7 +29,6 @@ namespace TitaniumWindows { namespace UI {
   }
 
   void Window::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT {
-    // only subclasses of Panel can take children
     auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
     
     if (nativeView == nullptr) {
@@ -37,9 +36,9 @@ namespace TitaniumWindows { namespace UI {
       return;
     }
 
-    auto view_ptr = view.GetPrivate<View>();
+    auto view_ptr = view.GetPrivate<Titanium::UI::View>();
     auto newView = std::dynamic_pointer_cast<TitaniumWindows::UI::ViewBase>(view_ptr);
-    auto nativeChildView = dynamic_cast<Windows::UI::Xaml::FrameworkElement^>(newView->getComponent());
+    auto nativeChildView = newView->getComponent();
     if (nativeChildView != nullptr) {
       Titanium::LayoutEngine::nodeAddChild(layout_node_, newView->layout_node_);
       if (isLoaded()) {

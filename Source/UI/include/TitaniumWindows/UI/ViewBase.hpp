@@ -71,6 +71,8 @@ namespace TitaniumWindows { namespace UI {
 
     Titanium::LayoutEngine::Rect oldRect;
 
+  public:
+
     Windows::UI::Xaml::FrameworkElement^ component_ { nullptr };
   };
 

@@ -22,7 +22,7 @@ namespace TitaniumWindows { namespace UI {
     @discussion This is the Titanium.UI.Window implementation for
     Windows.
     */
-  class TITANIUMWINDOWS_UI_EXPORT Window final : public Titanium::UI::Window, public JSExport < Window >, ViewBase {
+  class TITANIUMWINDOWS_UI_EXPORT Window final : public Titanium::UI::Window, public JSExport < Window >, public ViewBase {
 
   public:
 

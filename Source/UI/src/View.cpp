@@ -11,7 +11,7 @@
 namespace TitaniumWindows { namespace UI {
 
   View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
-    :Titanium::UI::View(js_context)
+    : Titanium::UI::View(js_context)
     , canvas__(ref new Windows::UI::Xaml::Controls::Canvas()) {   
     TITANIUM_LOG_DEBUG("View::ctor Initialize");
   }
@@ -32,13 +32,13 @@ namespace TitaniumWindows { namespace UI {
     auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
 
     if (nativeView == nullptr) {
-      TITANIUM_LOG_DEBUG("Window::add: nativeView = nullptr");
+      TITANIUM_LOG_DEBUG("View::add: nativeView = nullptr");
       return;
     }
 
-    auto view_ptr = view.GetPrivate<View>();
+    auto view_ptr = view.GetPrivate<Titanium::UI::View>();
     auto newView = std::dynamic_pointer_cast<TitaniumWindows::UI::ViewBase>(view_ptr);
-    auto nativeChildView = dynamic_cast<Windows::UI::Xaml::FrameworkElement^>(newView->getComponent());
+    auto nativeChildView = newView->getComponent();
     if (nativeChildView != nullptr) {
       Titanium::LayoutEngine::nodeAddChild(layout_node_, newView->layout_node_);
       if (isLoaded()) {
@@ -51,7 +51,7 @@ namespace TitaniumWindows { namespace UI {
       canvas__->Children->Append(nativeChildView);
     }
     else {
-      TITANIUM_LOG_DEBUG("Window::add: nativeChildView = nullptr");
+      TITANIUM_LOG_DEBUG("View::add: nativeChildView = nullptr");
     }
   }
 
