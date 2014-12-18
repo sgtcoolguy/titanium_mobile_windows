@@ -9,7 +9,6 @@
 #   file(COPY ${HAL_DLL_LOCATION} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 # endif()
 
-cxx_test(ApplicationTests  . TitaniumKit_examples)
 cxx_test(GlobalObjectTests . TitaniumKit_examples)
 cxx_test(APITests          . TitaniumKit_examples)
 cxx_test(ModuleTests       . TitaniumKit_examples)

@@ -17,6 +17,7 @@ var $results = [];
 // ============================================================================
 // Add the tests here using "require"
 require('ti.builtin.test');
+require('ti.require.test');
 require('ti.test');
 // ============================================================================
 

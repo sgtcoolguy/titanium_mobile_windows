@@ -13,6 +13,9 @@ if(CMAKE_GENERATOR MATCHES "^Visual Studio .+ ARM$")
   set(TitaniumKit_ARCH "arm")
 endif()
 
+# Taken and slightly modified from build's TitaniumKit_Targets.cmake file
+# INTERFACE_INCLUDE_DIRECTORIES is modified to point to our pre-packaged include dir for module
+
 # Create imported target TitaniumKit
 add_library(TitaniumKit SHARED IMPORTED)
 
