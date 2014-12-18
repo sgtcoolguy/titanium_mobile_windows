@@ -1572,8 +1572,19 @@ WindowsBuilder.prototype.runCmake = function runCmake(next) {
  */
 WindowsBuilder.prototype.compileApp = function compileApp(next) {
 	var _t = this;
-		slnFile = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.sln');
+		slnFile = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.sln'),
+		vcxproj = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.vcxproj');
 	this.logger.info(__('Running MSBuild on solution: %s', slnFile.cyan));
+
+	// Modify the vcxproj to inject some properties!
+	if (this.cmakeArch == 'ARM') {
+		var modified = fs.readFileSync(vcxproj, 'utf8');
+		fs.existsSync(vcxproj) && fs.renameSync(vcxproj, vcxproj + '.bak');
+		// Only modify the one property group we care about!
+		modified = modified.replace(/<\/PropertyGroup>\s*<ItemDefinitionGroup/m, '<AppxBundle>Always</AppxBundle><AppxBundlePlatforms>ARM</AppxBundlePlatforms>$&');
+		fs.writeFileSync(vcxproj, modified);
+	}
+
 	// Use spawn directly so we can pipe output as we go
 	// FIXME Edit windowslib to allow realtime output
 	windowslib.detect(function (err, results) {
