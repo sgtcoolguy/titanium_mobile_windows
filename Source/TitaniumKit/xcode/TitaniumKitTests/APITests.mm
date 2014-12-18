@@ -50,7 +50,7 @@ using namespace HAL;
   
   auto api_ptr = API.GetPrivate<NativeAPIExample>();
   XCTAssertNotEqual(nullptr, api_ptr);
-  
+/*
   XCTAssertTrue(API.HasProperty("info"));
   XCTAssertNoThrow(js_context.JSEvaluateScript("Ti.API.info('Hello, world');"));
   
@@ -65,7 +65,7 @@ using namespace HAL;
   
   XCTAssertTrue(API.HasProperty("trace"));
   XCTAssertNoThrow(js_context.JSEvaluateScript("Ti.API.trace('Hello, world');"));
-  
+*/  
   js_context.JSEvaluateScript("var a = {}; a.xtrace = Ti.API.trace; a.xtrace('Hello, world');");
 }
 

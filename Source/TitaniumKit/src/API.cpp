@@ -120,7 +120,7 @@ namespace Titanium {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     std::string message = static_cast<std::string>(_0);
-    this_object.GetPrivate<API>() -> info(message);
+    /*this_object.GetPrivate<API>() ->*/ info(message);
     return get_context().CreateUndefined();
   }
   
@@ -128,7 +128,7 @@ namespace Titanium {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     std::string message = static_cast<std::string>(_0);
-    this_object.GetPrivate<API>() -> warn(message);
+    /*this_object.GetPrivate<API>() ->*/ warn(message);
     return get_context().CreateUndefined();
   }
   
@@ -136,7 +136,7 @@ namespace Titanium {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     std::string message = static_cast<std::string>(_0);
-    this_object.GetPrivate<API>() -> error(message);
+    /*this_object.GetPrivate<API>() ->*/ error(message);
     return get_context().CreateUndefined();
   }
   
@@ -144,7 +144,7 @@ namespace Titanium {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     std::string message = static_cast<std::string>(_0);
-    this_object.GetPrivate<API>() -> debug(message);
+    /*this_object.GetPrivate<API>() ->*/ debug(message);
     return get_context().CreateUndefined();
   }
   
@@ -152,7 +152,7 @@ namespace Titanium {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     std::string message = static_cast<std::string>(_0);
-    this_object.GetPrivate<API>() -> trace(message);
+    /*this_object.GetPrivate<API>() ->*/ trace(message);
     return get_context().CreateUndefined();
   }
   
@@ -162,7 +162,7 @@ namespace Titanium {
     std::string level = static_cast<std::string>(_0);
     const auto _1 = arguments.at(1);
     std::string message = static_cast<std::string>(_1);
-    this_object.GetPrivate<API>() -> log(level, message);
+    /*this_object.GetPrivate<API>() ->*/ log(level, message);
     return get_context().CreateUndefined();
   }
   
