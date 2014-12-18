@@ -40,7 +40,13 @@ namespace Titanium {
   unsigned PlatformModule::availableMemory() const TITANIUM_NOEXCEPT {
     return 0;
   }
-  unsigned PlatformModule::batteryState() const TITANIUM_NOEXCEPT {
+  double PlatformModule::batteryLevel() const TITANIUM_NOEXCEPT {
+    return 0;
+  }
+  bool PlatformModule::batteryMonitoring() const TITANIUM_NOEXCEPT {
+    return false;
+  }
+    Platform::BatteryState PlatformModule::batteryState() const TITANIUM_NOEXCEPT {
     return Platform::BatteryState::UNKNOWN;
   }
   std::string PlatformModule::id() const TITANIUM_NOEXCEPT {
@@ -105,6 +111,12 @@ namespace Titanium {
   JSValue PlatformModule::get_availableMemory_ArgumentValidator() const TITANIUM_NOEXCEPT {
     return get_context().CreateNumber(availableMemory());
   }
+  JSValue PlatformModule::get_batteryLevel_ArgumentValidator() const TITANIUM_NOEXCEPT {
+    return get_context().CreateNumber(batteryLevel());
+  }
+  JSValue PlatformModule::get_batteryMonitoring_ArgumentValidator() const TITANIUM_NOEXCEPT {
+    return get_context().CreateBoolean(batteryMonitoring());
+  }
   JSValue PlatformModule::get_batteryState_ArgumentValidator() const TITANIUM_NOEXCEPT {
     return get_context().CreateNumber(batteryState());
   }
@@ -156,6 +168,12 @@ namespace Titanium {
   }
   JSValue PlatformModule::getAvailableMemoryArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT {
     return get_availableMemory_ArgumentValidator();    
+  }
+    JSValue PlatformModule::getBatteryLevelArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT {
+    return get_batteryLevel_ArgumentValidator();
+  }
+    JSValue PlatformModule::getBatteryMonitoringArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT {
+    return get_batteryMonitoring_ArgumentValidator();
   }
   JSValue PlatformModule::getBatteryStateArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT {
     return get_batteryState_ArgumentValidator();    
@@ -230,7 +248,7 @@ namespace Titanium {
     return displayCaps__;
   }
   
-  JSValue PlatformModule::getDisplayCapsArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
+  JSValue PlatformModule::getDisplayCapsArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT {
     return get_displayCaps_ArgumentValidator();
   }
   
@@ -273,6 +291,8 @@ namespace Titanium {
     JSExport<PlatformModule>::AddFunctionProperty("getAddress", std::mem_fn(&PlatformModule::getAddressArgumentValidator));
     JSExport<PlatformModule>::AddFunctionProperty("getArchitecture", std::mem_fn(&PlatformModule::getArchitectureArgumentValidator));
     JSExport<PlatformModule>::AddFunctionProperty("getAvailableMemory", std::mem_fn(&PlatformModule::getAvailableMemoryArgumentValidator));
+    JSExport<PlatformModule>::AddFunctionProperty("getBatteryLevel", std::mem_fn(&PlatformModule::getBatteryLevelArgumentValidator));
+    JSExport<PlatformModule>::AddFunctionProperty("getBatteryMonitoring", std::mem_fn(&PlatformModule::getBatteryMonitoringArgumentValidator));
     JSExport<PlatformModule>::AddFunctionProperty("getBatteryState", std::mem_fn(&PlatformModule::getBatteryStateArgumentValidator));
     JSExport<PlatformModule>::AddFunctionProperty("getId", std::mem_fn(&PlatformModule::getIdArgumentValidator));
     JSExport<PlatformModule>::AddFunctionProperty("getLocale", std::mem_fn(&PlatformModule::getLocaleArgumentValidator));

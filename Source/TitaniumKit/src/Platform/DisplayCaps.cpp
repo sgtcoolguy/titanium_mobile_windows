@@ -39,22 +39,22 @@ namespace Titanium { namespace Platform {
   std::string DisplayCaps::density() const TITANIUM_NOEXCEPT {
     return "";
   }
-  unsigned DisplayCaps::dpi() const TITANIUM_NOEXCEPT {
+  double DisplayCaps::dpi() const TITANIUM_NOEXCEPT {
     return 0;
   }
-  unsigned DisplayCaps::logicalDensityFactor() const TITANIUM_NOEXCEPT {
+  double DisplayCaps::logicalDensityFactor() const TITANIUM_NOEXCEPT {
     return 0;
   }
-  unsigned DisplayCaps::platformHeight() const TITANIUM_NOEXCEPT {
+  double DisplayCaps::platformHeight() const TITANIUM_NOEXCEPT {
     return 0;
   }
-  unsigned DisplayCaps::platformWidth()  const TITANIUM_NOEXCEPT {
+  double DisplayCaps::platformWidth() const TITANIUM_NOEXCEPT {
     return 0;
   }
-  unsigned DisplayCaps::xdpi()  const TITANIUM_NOEXCEPT {
+  double DisplayCaps::xdpi() const TITANIUM_NOEXCEPT {
     return 0;
   }
-  unsigned DisplayCaps::ydpi()  const TITANIUM_NOEXCEPT {
+  double DisplayCaps::ydpi() const TITANIUM_NOEXCEPT {
     return 0;
   }
   

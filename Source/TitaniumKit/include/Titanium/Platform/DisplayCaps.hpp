@@ -13,13 +13,6 @@ namespace Titanium { namespace Platform {
 
   using namespace HAL;
 
-  enum BatteryState {
-    UNKNOWN = 0,
-    UNPLUGGED,
-    CHARGING,
-    FULL
-  };
-  
   /*!
    @class
    @discussion This is the Ti.Platform.DisplayCaps Module.
@@ -30,12 +23,12 @@ namespace Titanium { namespace Platform {
   public:
 
     virtual std::string density() const TITANIUM_NOEXCEPT;
-    virtual unsigned dpi() const TITANIUM_NOEXCEPT;
-    virtual unsigned logicalDensityFactor() const TITANIUM_NOEXCEPT;
-    virtual unsigned platformHeight() const TITANIUM_NOEXCEPT;
-    virtual unsigned platformWidth()  const TITANIUM_NOEXCEPT;
-    virtual unsigned xdpi()  const TITANIUM_NOEXCEPT;
-    virtual unsigned ydpi()  const TITANIUM_NOEXCEPT;
+    virtual double dpi() const TITANIUM_NOEXCEPT;
+    virtual double logicalDensityFactor() const TITANIUM_NOEXCEPT;
+    virtual double platformHeight() const TITANIUM_NOEXCEPT;
+    virtual double platformWidth() const TITANIUM_NOEXCEPT;
+    virtual double xdpi() const TITANIUM_NOEXCEPT;
+    virtual double ydpi() const TITANIUM_NOEXCEPT;
 
     DisplayCaps(const JSContext& js_context)                       TITANIUM_NOEXCEPT;
     DisplayCaps(const DisplayCaps&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;

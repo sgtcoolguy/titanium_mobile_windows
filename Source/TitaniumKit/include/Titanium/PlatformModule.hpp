@@ -11,6 +11,15 @@
 
 namespace Titanium {
 
+  namespace Platform {
+    enum BatteryState {
+      UNKNOWN = 0,
+      UNPLUGGED,
+      CHARGING,
+      FULL
+    };
+  }
+
   using namespace HAL;
 
   /*!
@@ -25,7 +34,9 @@ namespace Titanium {
     virtual std::string address() const TITANIUM_NOEXCEPT;
     virtual std::string architecture() const TITANIUM_NOEXCEPT;
     virtual unsigned availableMemory() const TITANIUM_NOEXCEPT;
-    virtual unsigned batteryState() const TITANIUM_NOEXCEPT;
+    virtual double batteryLevel() const TITANIUM_NOEXCEPT;
+    virtual bool batteryMonitoring() const TITANIUM_NOEXCEPT;
+    virtual Platform::BatteryState batteryState() const TITANIUM_NOEXCEPT;
     virtual std::string id() const TITANIUM_NOEXCEPT;
     virtual std::string locale() const TITANIUM_NOEXCEPT;
     virtual std::string macaddress() const TITANIUM_NOEXCEPT;
@@ -60,6 +71,8 @@ namespace Titanium {
     virtual JSValue get_address_ArgumentValidator() const TITANIUM_NOEXCEPT final;
     virtual JSValue get_architecture_ArgumentValidator() const TITANIUM_NOEXCEPT final;
     virtual JSValue get_availableMemory_ArgumentValidator() const TITANIUM_NOEXCEPT final;
+    virtual JSValue get_batteryLevel_ArgumentValidator() const TITANIUM_NOEXCEPT final;
+    virtual JSValue get_batteryMonitoring_ArgumentValidator() const TITANIUM_NOEXCEPT final;
     virtual JSValue get_batteryState_ArgumentValidator() const TITANIUM_NOEXCEPT final;
     virtual JSValue get_id_ArgumentValidator() const TITANIUM_NOEXCEPT final;
     virtual JSValue get_locale_ArgumentValidator() const TITANIUM_NOEXCEPT final;
@@ -78,6 +91,8 @@ namespace Titanium {
     virtual JSValue getAddressArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
     virtual JSValue getArchitectureArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
     virtual JSValue getAvailableMemoryArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+    virtual JSValue getBatteryLevelArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+    virtual JSValue getBatteryMonitoringArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
     virtual JSValue getBatteryStateArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
     virtual JSValue getIdArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
     virtual JSValue getLocaleArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
@@ -99,7 +114,7 @@ namespace Titanium {
     virtual JSValue is24HourTimeFormatArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
     virtual JSValue get_displayCaps_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-    virtual JSValue getDisplayCapsArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+    virtual JSValue getDisplayCapsArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT final;
     
     virtual JSValue get_BATTERY_STATE_CHARGING() const TITANIUM_NOEXCEPT final;
     virtual JSValue get_BATTERY_STATE_FULL() const TITANIUM_NOEXCEPT final;
