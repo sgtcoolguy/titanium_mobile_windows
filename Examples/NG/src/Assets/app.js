@@ -7,6 +7,10 @@
  */
 'use strict';
 
+var imageView = Ti.UI.createImageView({
+    image: 'http://iconizer.net/files/IconSweets/orig/email.png',
+});
+
 var button = Ti.UI.createButton({ 
 });
 
@@ -70,6 +74,7 @@ view3.add(button3);
 
 var window = Ti.UI.createWindow();
 window.backgroundColor = "Blue";
+window.add(imageView);
 window.add(view);
 window.add(view2);
 window.add(view3);

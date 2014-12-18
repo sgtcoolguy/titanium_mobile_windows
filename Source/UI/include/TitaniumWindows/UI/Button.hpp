@@ -1,5 +1,5 @@
 /**
-* Titanium.UI.View for Windows
+* Titanium.UI.Button for Windows
 *
 * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
 * Licensed under the terms of the Apache Public License.

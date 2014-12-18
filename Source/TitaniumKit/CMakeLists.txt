@@ -94,6 +94,8 @@ set(SOURCE_UI
   src/UI/Constants.cpp
   include/Titanium/UI/Dimension.hpp
   src/UI/Dimension.cpp
+  include/Titanium/UI/ImageView.hpp
+  src/UI/ImageView.cpp
   include/Titanium/UI/View.hpp
   src/UI/View.cpp
   include/Titanium/UI/Window.hpp
