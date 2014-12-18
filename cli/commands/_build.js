@@ -1490,7 +1490,7 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	 
 	        if (stats.isDirectory()) {
 	            getFilesRecursive(child).forEach(function (file) {
-	            	fileTree.push(child + '/' + file);  // cmake likes unix separators
+	            	fileTree.push(fileName + '/' + file);  // cmake likes unix separators
 	            });
 	        } else {
 	            fileTree.push(fileName);
