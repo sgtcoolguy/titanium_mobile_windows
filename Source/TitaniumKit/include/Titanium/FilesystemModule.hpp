@@ -15,27 +15,116 @@ namespace Titanium {
   
   using namespace HAL;
   
+  /*!
+   @class
+   @discussion This is the Ti.Filesystem Module.
+   See http://docs.appcelerator.com/titanium/latest/#!/api/Ti.Filesystem
+  */
   class TITANIUMKIT_EXPORT FilesystemModule : public Module, public JSExport <FilesystemModule> {
     
   public:
     
+    /*!
+     @method
+     @abstract getFile
+     @discussion Returns a File object representing the file identified by the path arguments.
+    */
     virtual JSValue getFile(const std::string&) TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract createTempDirectory
+     @discussion Creates a temporary directory and returns a File object representing the new directory.
+    */
     virtual JSValue createTempDirectory() TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract createTempFile
+     @discussion Creates a temporary file and returns a File object representing the new file.
+    */
     virtual JSValue createTempFile() TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract isExternalStoragePresent
+     @discussion Returns true if the device supports external storage and the external storage device is mounted.
+    */
     virtual bool isExternalStoragePresent() TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract openStream
+     @discussion Opens file using the Ti.IOStream interface.
+    */
     virtual JSValue openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT;
-
+    /*!
+     @method
+     @abstract get_MODE_READ
+     @discussion Constant for read mode for file operations.
+    */
     virtual JSValue MODE_READ()   const TITANIUM_NOEXCEPT final;
+    /*!
+     @method
+     @abstract get_MODE_WRITE
+     @discussion Constant for write mode for file operations.
+    */
     virtual JSValue MODE_WRITE()  const TITANIUM_NOEXCEPT final;
+    /*!
+     @method
+     @abstract MODE_APPEND
+     @discussion Constant for append mode for file operations.
+    */
     virtual JSValue MODE_APPEND() const TITANIUM_NOEXCEPT final;
+    /*!
+     @method
+     @abstract separator
+     @discussion Platform-specific path separator constant.
+    */
     virtual std::string separator() const TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract applicationCacheDirectory
+     @discussion Path to the application's internal cache directory.
+    */
     virtual std::string applicationCacheDirectory() const TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract applicationDataDirectory
+     @discussion Path to the application's data directory.
+    */
     virtual std::string applicationDataDirectory() const TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract applicationDirectory
+     @discussion Path to the application directory.
+    */
     virtual std::string applicationDirectory() const TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract applicationSupportDirectory
+     @discussion Path to the application support directory.
+    */
     virtual std::string applicationSupportDirectory() const TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract externalStorageDirectory
+     @discussion Path to a directory on removable storage, such as SD card.
+    */
     virtual std::string externalStorageDirectory() const TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract lineEnding
+     @discussion Platform-specific line ending constant.
+    */
     virtual std::string lineEnding() const TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract resourcesDirectory
+     @discussion Path to the application's resource directory.
+    */
     virtual std::string resourcesDirectory() const TITANIUM_NOEXCEPT;
+    /*!
+     @method
+     @abstract tempDirectory
+     @discussion Path for the application's temporary directory.
+    */
     virtual std::string tempDirectory() const TITANIUM_NOEXCEPT;
 
     FilesystemModule(const JSContext& js_context)                      TITANIUM_NOEXCEPT;

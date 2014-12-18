@@ -31,6 +31,7 @@ namespace TitaniumWindows {
     }
 
     Button::~Button() {
+      TITANIUM_LOG_DEBUG("Button::dtor");
       button__->Tapped -= click_event__;
       button__ = nullptr;
     }
