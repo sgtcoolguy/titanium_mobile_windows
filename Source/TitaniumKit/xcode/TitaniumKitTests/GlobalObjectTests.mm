@@ -64,10 +64,9 @@ using namespace HAL;
     std::clog << "MDL: property_name = " << property_name << std::endl;
   }
   
-  std::string app_js = R"js(
+  std::string app1_js = R"js(
   "use strict";
   var hello = require("hello");
-  //hello.sayHello('world');
   hello('world');
   )js";
   
@@ -83,9 +82,15 @@ using namespace HAL;
   XCTAssertNotEqual(nullptr, global_object_ptr);
   
   JSValue result = js_context.CreateNull();
-
+  
   global_object_ptr -> set_example_resource(hello1_js);
-  XCTAssertNoThrow(result = js_context.JSEvaluateScript(app_js));
+  XCTAssertNoThrow(result = js_context.JSEvaluateScript(app1_js));
+  
+  std::string app2_js = R"js(
+  "use strict";
+  var hello = require("hello");
+  hello.sayHello('world');
+  )js";
   
   std::string hello2_js = R"js(
   "use strict";
@@ -96,7 +101,7 @@ using namespace HAL;
   )js";
   
   global_object_ptr -> set_example_resource(hello2_js);
-  XCTAssertNoThrow(result = js_context.JSEvaluateScript(app_js));
+  XCTAssertNoThrow(result = js_context.JSEvaluateScript(app2_js));
 }
 
 @end

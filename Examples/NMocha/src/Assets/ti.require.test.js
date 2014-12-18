@@ -21,15 +21,17 @@ describe('requireJS', function () {
         finish();
     });
 
-    // require for invalid file should not return object
+    // require for invalid file should throw error
     it('requireJS.NonObject', function (finish) {
-        var object = require('requireJS_test_notfound');
-        should(object).not.be.an.Object;
+        (function () {
+            var object = require('requireJS_test_notfound');
+            should(object).not.be.an.Object;
+        }).should.throw();
         finish();
     });
 
     // require should cache object
-    it('requireJS.ObjectCache', function (finish) {
+    it.skip('requireJS.ObjectCache', function (finish) {
         var object1 = require('ti.require.test_test');
         var object2 = require('ti.require.test_test');
         should(object1).be.an.Object;
@@ -125,116 +127,4 @@ describe('requireJS', function () {
         finish();
     });
 
-    // assign to direct global function
-    // these are actually a side effect, but we can expose to global object
-    it('requireJS.globalAssignFunc', function (finish) {
-        var object = require('ti.require.test_test');
-        should(object).be.an.Object;
-        should(globalFunctionFromModule).be.a.Function;
-        should(globalFunctionFromModule()).be.eql('globalFunctionFromModule');
-        finish();
-    });
-
-    // assign to direct global variable
-    // these are actually a side effect, but we can expose to global object
-    it('requireJS.globalAssignVar', function (finish) {
-        var object = require('ti.require.test_test');
-        should(object).be.an.Object;
-        should(globalStrVarFromModule).be.a.String;
-        should(globalStrVarFromModule).be.eql('globalStrVarFromModule');
-        finish();
-    });
-});
-describe("cache", function () {
-
-    // Make sure to clear garbage on each test
-
-    it("test1", function (finish) {
-        Ti.GC();
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label).be.an.Object;
-        finish();
-    });
-    it("test2", function (finish) {
-        Ti.GC();
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label).be.an.Object;
-        finish();
-    });
-    it("test3", function (finish) {
-        Ti.GC();
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label).be.an.Object;
-        finish();
-    });
-    it("test4", function (finish) {
-        Ti.GC();
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label).be.an.Object;
-        finish();
-    });
-    it("test5", function (finish) {
-        Ti.GC();
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label).be.an.Object;
-        finish();
-    });
-    it("test6", function (finish) {
-        Ti.GC();
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label).be.an.Object;
-        finish();
-    });
-    it("test7", function (finish) {
-        Ti.GC();
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label).be.an.Object;
-        finish();
-    });
-    it("test8", function (finish) {
-        Ti.GC();
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label).be.an.Object;
-        finish();
-    });
-    it("test9", function (finish) {
-        Ti.GC();
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label).be.an.Object;
-        finish();
-    });
-    it("test10", function (finish) {
-        Ti.GC();
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label).be.an.Object;
-        finish();
-    });
-    it("test11", function (finish) {
-        Ti.GC();
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label).be.an.Object;
-        finish();
-    });
 });
