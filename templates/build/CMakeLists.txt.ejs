@@ -71,15 +71,38 @@ set(SOURCE_Assets
   ${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}
   src/TitaniumKit.dll
   src/HAL.dll
-  <%= assets %>
+  # Include the "." assets here!
+<% for(var i=0; i<sourceGroups['.'].length; i++) { -%>
+  <%= sourceGroups['.'][i] %>
+<% } -%>
   )
-
 set_property(SOURCE ${SOURCE_Assets} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 
+<% for(var key in sourceGroups) {%>
+<% if (key == '.') { continue; } -%>
+set(SOURCE_<%= key.replace('/', '_') %>
+  <% for(var i=0; i<sourceGroups[key].length; i++) { -%>
+    <%= sourceGroups[key][i] %>
+  <% } -%>
+)
+source_group("<%= key %>" FILES 
+  <% for(var i=0; i<sourceGroups[key].length; i++) { -%>
+    <%= sourceGroups[key][i] %>
+  <% } -%>
+)
+set_property(SOURCE ${SOURCE_<%= key.replace('/', '_') %>} PROPERTY VS_DEPLOYMENT_LOCATION "<%= key %>")
+set_property(SOURCE ${SOURCE_<%= key.replace('/', '_') %>} PROPERTY VS_DEPLOYMENT_CONTENT 1)
+<% } %>
+
+# Add all the files to the app
 add_executable(${EXE_NAME} WIN32
   src/main.cpp
   src/OutputDebugStringBuf.hpp
   ${SOURCE_Assets}
+<% for(var key in sourceGroups) { -%>
+  <% if (key == '.') { continue; } -%>
+  ${SOURCE_<%= key.replace('/', '_') %>}
+<% } -%>
 )
 
 set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_COMPONENT TRUE)
