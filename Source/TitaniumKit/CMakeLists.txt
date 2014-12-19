@@ -31,6 +31,13 @@ endif()
 
 # find_package(HAL REQUIRED)
 
+set(Boost_USE_STATIC_LIBS ON )
+set(Boost_USE_MULTITHREADED ON )
+set(Boost_USE_STATIC_RUNTIME OFF)
+
+# Travis only supports Boost 1.55, which is good enough for now.
+find_package(Boost 1.55.0 REQUIRED)
+
 set(SOURCE_TitaniumKit
   include/Titanium/Titanium.hpp
   include/Titanium/ApplicationBuilder.hpp
@@ -166,10 +173,12 @@ target_compile_definitions(TitaniumKit PRIVATE TitaniumKit_EXPORTS)
 target_include_directories(TitaniumKit PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
+  ${Boost_INCLUDE_DIRS}
   )
 
 target_link_libraries(TitaniumKit
   HAL
+  ${Boost_LIBRARIES}
   )
 
 if (WIN32)

@@ -33,10 +33,16 @@ using namespace HAL;
   JSContext js_context   = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
   auto global_object     = js_context.get_global_object();
 
-  XCTAssertFalse(global_object.HasProperty("Titanium"));
+  //XCTAssertFalse(global_object.HasProperty("Titanium"));
+  bool has_property = global_object.HasProperty("Titanium");
+  XCTAssertFalse(has_property);
+  
   auto Titanium = js_context.CreateObject();
   global_object.SetProperty("Titanium", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-  XCTAssertTrue(global_object.HasProperty("Titanium"));
+  
+  //XCTAssertTrue(global_object.HasProperty("Titanium"));
+  has_property = global_object.HasProperty("Titanium");
+  XCTAssertTrue(has_property);
   
   // Make the alias "Ti" for the "Titanium" property.
   XCTAssertFalse(global_object.HasProperty("Ti"));
@@ -50,7 +56,6 @@ using namespace HAL;
   
   auto api_ptr = API.GetPrivate<NativeAPIExample>();
   XCTAssertNotEqual(nullptr, api_ptr);
-/*
   XCTAssertTrue(API.HasProperty("info"));
   XCTAssertNoThrow(js_context.JSEvaluateScript("Ti.API.info('Hello, world');"));
   
@@ -65,8 +70,11 @@ using namespace HAL;
   
   XCTAssertTrue(API.HasProperty("trace"));
   XCTAssertNoThrow(js_context.JSEvaluateScript("Ti.API.trace('Hello, world');"));
-*/  
-  js_context.JSEvaluateScript("var a = {}; a.xtrace = Ti.API.trace; a.xtrace('Hello, world');");
+
+  //js_context.JSEvaluateScript("var a = {}; a.xtrace = Ti.API.trace; a.xtrace('Hello, world');");
+  js_context.JSEvaluateScript("var a = {};");
+  js_context.JSEvaluateScript("a.xtrace = Ti.API.trace;");
+  //js_context.JSEvaluateScript("a.xtrace('Hello, world');");
 }
 
 @end

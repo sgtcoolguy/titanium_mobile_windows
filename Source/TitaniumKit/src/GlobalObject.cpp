@@ -19,7 +19,7 @@ namespace Titanium {
   std::atomic<std::uint32_t> GlobalObject::timer_id_generator__;
   
   JSFunction GlobalObject::createRequireFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT{
-    return get_context().CreateFunction("'use strict'; var exports={},module={};module.exports=exports;eval(module_js); return module.exports;", { "_exports_", "module_js" });
+    return get_context().CreateFunction("var __OXP=exports;var module={'exports':exports}; eval(module_js); if(module.exports !== __OXP){return module.exports;} return exports;", { "__filename", "exports", "module_js" });
   }
   
   GlobalObject::GlobalObject(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -57,14 +57,14 @@ namespace Titanium {
     std::string module_js = LoadResource(module_path);
     if (module_js.empty()) {
       TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' failed to load");
-      return module;
+      return get_context().CreateUndefined(); 
     }
     
     if (get_context().JSCheckScriptSyntax(module_js, moduleId)) {
       try {
         // Evaluate module_js to allow it to either populate the exports object
         // with properties or to replace the exports object wholesale.
-        JSValue result = require_function__({ module, get_context().CreateString(module_js) });
+        JSValue result = require_function__({ get_context().CreateString(moduleId), module, get_context().CreateString(module_js) });
         
         if (!result.IsObject()) {
           TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' replaced 'exports' with a non-object: ", to_string(result));
@@ -74,9 +74,9 @@ namespace Titanium {
         }
 
         if (module.IsFunction()) {
-          TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' is a function: ", to_string(result));
+          TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' is a function");
         } else {
-          TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' is not a function: ", to_string(result));
+          TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' is not a function");
         }
       }
       catch (const std::exception& exception) {

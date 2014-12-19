@@ -1477,6 +1477,9 @@ WindowsBuilder.prototype.generateI18N = function generateI18N(next) {
  * @param {Function} next - A function to call after generating the cmakelist.txt file.
  */
 WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
+	var assetList = [],
+		sourceGroups = {};
+
 	this.logger.info(__('Writing CMakeLists.txt: %s', this.cmakeListFile.cyan));
 	// TODO If forceBuild is false AND no assets have changed, then we can skip this and the cmake step, I think!
 	function getFilesRecursive (folder) {
@@ -1490,7 +1493,7 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	 
 	        if (stats.isDirectory()) {
 	            getFilesRecursive(child).forEach(function (file) {
-	            	fileTree.push(child + '/' + file);  // cmake likes unix separators
+	            	fileTree.push(fileName + '/' + file);  // cmake likes unix separators
 	            });
 	        } else {
 	            fileTree.push(fileName);
@@ -1500,9 +1503,22 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	    return fileTree;
 	}
 	// Recursively read all files under Assets and populate the cmake listing with it.
-	var assetList = getFilesRecursive(this.buildTargetAssetsDir);
+	assetList = getFilesRecursive(this.buildTargetAssetsDir);
 	assetList = assetList.map(function(filename) {
 		return 'src/Assets/' + filename;  // cmake likes unix separators
+	});
+
+	// Generate source groups!
+	// go through the asset list, and basically generate a group for each folder
+	assetList.forEach(function (filepath) {
+		// lop off src/Assets/
+		var truncatedPath = filepath.substring(11);
+		// drop the file basename?
+		var folderName = path.dirname(truncatedPath);
+		// now stick it in the mapping!
+		var listing = sourceGroups[folderName] || [];
+		listing.push(filepath);
+		sourceGroups[folderName] = listing;
 	});
 
 	this.cli.createHook('build.windows.writeCMakeLists', this, function (manifest, cb) {
@@ -1517,7 +1533,8 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 			projectName: this.cli.tiapp.name,
 			windowsSrcDir: path.resolve(__dirname, '..', '..').replace(/\\/g, '/'), // cmake likes unix separators
 			version: this.tiapp.version,
-			assets: assetList.join('\n')
+			assets: assetList.join('\n'),
+			sourceGroups: sourceGroups
 		}
 	), next);
 };
@@ -1572,8 +1589,17 @@ WindowsBuilder.prototype.runCmake = function runCmake(next) {
  */
 WindowsBuilder.prototype.compileApp = function compileApp(next) {
 	var _t = this;
-		slnFile = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.sln');
+		slnFile = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.sln'),
+		vcxproj = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.vcxproj');
 	this.logger.info(__('Running MSBuild on solution: %s', slnFile.cyan));
+
+	// Modify the vcxproj to inject some properties, so we always bundle
+	var modified = fs.readFileSync(vcxproj, 'utf8');
+	fs.existsSync(vcxproj) && fs.renameSync(vcxproj, vcxproj + '.bak');
+	// Only modify the one property group we care about!
+	modified = modified.replace(/<\/PropertyGroup>\s*<ItemDefinitionGroup/m, '<AppxBundle>Always</AppxBundle><AppxBundlePlatforms>' + this.arch + '</AppxBundlePlatforms>$&');
+	fs.writeFileSync(vcxproj, modified);
+
 	// Use spawn directly so we can pipe output as we go
 	// FIXME Edit windowslib to allow realtime output
 	windowslib.detect(function (err, results) {

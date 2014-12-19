@@ -65,13 +65,12 @@ TEST_F(GlobalObjectTests, require) {
     std::clog << "MDL: property_name = " << property_name << std::endl;
   }
   
-  std::string app_js = R"js(
+  std::string app1_js = R"js(
   "use strict";
   var hello = require("hello");
-  //hello.sayHello('world');
   hello('world');
   )js";
-  
+
   std::string hello1_js = R"js(
   "use strict";
   exports = sayHello;
@@ -86,8 +85,14 @@ TEST_F(GlobalObjectTests, require) {
   JSValue result = js_context.CreateNull();
   
   global_object_ptr -> set_example_resource(hello1_js);
-  //FIXME XCTAssertNoThrow(result = js_context.JSEvaluateScript(app_js));
+  XCTAssertNoThrow(result = js_context.JSEvaluateScript(app1_js));
 
+  std::string app2_js = R"js(
+  "use strict";
+  var hello = require("hello");
+  hello.sayHello('world');
+  )js";
+  
   std::string hello2_js = R"js(
   "use strict";
   exports.sayHello = sayHello;
@@ -97,7 +102,7 @@ TEST_F(GlobalObjectTests, require) {
   )js";
   
   global_object_ptr -> set_example_resource(hello2_js);
-  //FIXME XCTAssertNoThrow(result = js_context.JSEvaluateScript(app_js));
+  XCTAssertNoThrow(result = js_context.JSEvaluateScript(app2_js));
 }
 
 TEST_F(GlobalObjectTests, timeout) {
