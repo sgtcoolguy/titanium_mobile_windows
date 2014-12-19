@@ -25,25 +25,27 @@ namespace TitaniumWindows {
 
   using namespace HAL;
 
-  Application::Application()
-    : application__(Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<TitaniumWindows::GlobalObject>::Class()))
-    .APIClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::API>::Class()))
-    .PlatformClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Platform>::Class()))
-    .GestureClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Gesture>::Class()))
-    .AccelerometerClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Accelerometer>::Class()))
-    .ViewClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::View>::Class()))
-    .WindowClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Window>::Class()))
-    .ButtonClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Button>::Class()))
-    .BlobClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Blob>::Class()))
-    .FilesystemClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::FilesystemModule>::Class()))
-    .FileClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Filesystem::File>::Class()))
-    .build()) {
+  Application::Application() {
   }
 
   Application::~Application() {
   }
 
   void Application::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ args) {
+
+    Titanium::Application application__(Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<TitaniumWindows::GlobalObject>::Class()))
+      .APIClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::API>::Class()))
+      .PlatformClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Platform>::Class()))
+      .GestureClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Gesture>::Class()))
+      .AccelerometerClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Accelerometer>::Class()))
+      .ViewClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::View>::Class()))
+      .WindowClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Window>::Class()))
+      .ButtonClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Button>::Class()))
+      .BlobClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Blob>::Class()))
+      .FilesystemClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::FilesystemModule>::Class()))
+      .FileClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Filesystem::File>::Class()))
+      .build());
+
     Suspending += ref new Windows::UI::Xaml::SuspendingEventHandler(this, &Application::OnSuspending);
 
     // #if _DEBUG
