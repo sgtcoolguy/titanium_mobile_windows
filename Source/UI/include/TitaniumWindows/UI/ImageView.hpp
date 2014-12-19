@@ -1,5 +1,5 @@
 /**
-* Titanium.UI.Button for Windows
+* Titanium.UI.ImageView for Windows
 *
 * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
 * Licensed under the terms of the Apache Public License.
@@ -12,7 +12,7 @@
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "ViewBase.hpp"
 #include <algorithm>
-#include <boost\algorithm\string\predicate.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 
 namespace TitaniumWindows { namespace UI {
 
@@ -21,7 +21,7 @@ namespace TitaniumWindows { namespace UI {
   /*!
   @class
 
-  @discussion This is the Titanium.UI.Button implementation for
+  @discussion This is the Titanium.UI.ImageView implementation for
   Windows.
   */
   class TITANIUMWINDOWS_UI_EXPORT ImageView final : public Titanium::UI::ImageView, public JSExport < ImageView >, public ViewBase {
@@ -41,10 +41,7 @@ namespace TitaniumWindows { namespace UI {
 
     static void JSExportInitialize();
 
-    virtual void postConstruct();
-
     virtual bool setImageArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-    virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
@@ -55,7 +52,7 @@ namespace TitaniumWindows { namespace UI {
   private:
 
     Windows::Foundation::EventRegistrationToken internal_load_event_;
-    Windows::UI::Xaml::Controls::Image^ image_ { nullptr };
+    Windows::UI::Xaml::Controls::Image^ image__;
     std::string path_;
 
     // Event handlers

@@ -282,6 +282,24 @@ namespace Titanium {
     
     return Button.CallAsConstructor(parameters);
   }
+
+  JSObject UIModule::createImageView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("UI::createImageView");
+
+    JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+    TITANIUM_ASSERT(Titanium_property.IsObject()); // precondition
+    JSObject Titanium = Titanium_property;
+
+    JSValue UI_property = Titanium.GetProperty("UI");
+    TITANIUM_ASSERT(UI_property.IsObject()); // precondition
+    JSObject UI = UI_property;
+
+    JSValue ImageView_property = UI.GetProperty("ImageView");
+    TITANIUM_ASSERT(ImageView_property.IsObject()); // precondition
+    JSObject ImageView = ImageView_property;
+
+    return ImageView.CallAsConstructor(parameters);
+  }
   
   JSValue UIModule::ANIMATION_CURVE_EASE_IN() const TITANIUM_NOEXCEPT {
     return animation_curve_ease_in__;
@@ -605,6 +623,7 @@ namespace Titanium {
     JSExport<UIModule>::AddFunctionProperty("createView"  , std::mem_fn(&UIModule::createViewArgumentValidator));
     JSExport<UIModule>::AddFunctionProperty("createWindow", std::mem_fn(&UIModule::createWindowArgumentValidator));
     JSExport<UIModule>::AddFunctionProperty("createButton", std::mem_fn(&UIModule::createButtonArgumentValidator));
+    JSExport<UIModule>::AddFunctionProperty("createImageView", std::mem_fn(&UIModule::createImageViewArgumentValidator));
     JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN));
     JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN_OUT));
     JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_OUT));
@@ -740,6 +759,16 @@ namespace Titanium {
       parameters = _0;
     }
     return createButton(parameters, this_object);
+  }
+
+  JSValue UIModule::createImageViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
+    JSObject parameters = get_context().CreateObject();
+    if (arguments.size() >= 1) {
+      const auto _0 = arguments.at(0);
+      TITANIUM_ASSERT(_0.IsObject());
+      parameters = _0;
+    }
+    return createImageView(parameters, this_object);
   }
   
 } // namespace Titanium {

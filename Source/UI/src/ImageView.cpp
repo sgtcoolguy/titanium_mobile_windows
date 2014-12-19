@@ -10,18 +10,32 @@
 #include "LayoutEngine/LayoutEngine.hpp"
 
 
-namespace Titanium { namespace UI {
+namespace TitaniumWindows { namespace UI {
 
   ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::UI::ImageView(js_context)
-    , image__(ref new Windows::UI::Xaml::Controls::ImageView()) {
+    , image__(ref new Windows::UI::Xaml::Controls::Image())  {
     TITANIUM_LOG_DEBUG("ImageView::ctor Initialize");
   }
 
   ImageView::ImageView(const ImageView& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::UI::ImageView(rhs, arguments)
-    , image__(ref new Windows::UI::Xaml::Controls::ImageView()) {
+    , image__(ref new Windows::UI::Xaml::Controls::Image())  {
+    using namespace Windows::UI::Xaml;
+    using namespace Windows::UI::Xaml::Controls;
+
     setComponent(image__);
+
+    internal_load_event_ = image__->ImageOpened += ref new RoutedEventHandler([this](::Platform::Object ^sender, RoutedEventArgs ^e) {
+      auto rect = Titanium::LayoutEngine::RectMake(
+        Canvas::GetLeft(this->image__),
+        Canvas::GetTop(this->image__),
+        this->image__->ActualWidth,
+        this->image__->ActualHeight
+        );
+      this->onComponentSizeChange(rect);
+    });
+
     TITANIUM_LOG_DEBUG("ImageView::ctor CallAsConstructor");
   }
 
@@ -30,25 +44,9 @@ namespace Titanium { namespace UI {
     JSExport<ImageView>::SetParent(JSExport<Titanium::UI::ImageView>::Class());
   }
 
-  void ImageView::postConstruct() {
-    using namespace Windows::UI::Xaml;
-    using namespace Windows::UI::Xaml::Controls;
-
-    internal_load_event_ = image_->ImageOpened += ref new RoutedEventHandler([this](Platform::Object ^sender, RoutedEventArgs ^e) {
-      auto rect = Titanium::LayoutEngine::RectMake(
-          Canvas::GetLeft(this->image_),
-          Canvas::GetTop(this->image_),
-          this->image_->ActualWidth,
-          this->image_->ActualHeight
-        );
-      this->onComponentSizeChange(rect);
-    });
-
-  }
-
   bool ImageView::setImageArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
     TITANIUM_ASSERT(argument.IsString());
-    const std::string path = static_cast<std::string>(argument);
+    std::string path = static_cast<std::string>(argument);
     path_ = path;
     // if the path isn't an http/s URI already, fix URI to point to local files in app
     if (!boost::starts_with(path, "http://") && !boost::starts_with(path, "https://")) {
@@ -61,22 +59,10 @@ namespace Titanium { namespace UI {
     }
     auto uri = ref new Windows::Foundation::Uri(ref new Platform::String(std::wstring(path.begin(), path.end()).c_str()));
     auto image = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(uri);
-    image_->Source = image;
-    TITANIUM_LOG_DEBUG("ImageView::setTitleArgumentValidator: image = ", image);
+    image__->Source = image;
+    TITANIUM_LOG_DEBUG("ImageView::setImageArgumentValidator: image = ", path);
     set_image(argument);
     return true;
-  }
-
-  bool ImageView::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(argument.IsString());
-    bool result = false;
-    std::string backgroundColorName = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("ImageView::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColorName);
-    const auto backgroundColor = ColorForName(backgroundColorName);
-    //button__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
-    set_backgroundColor(argument);
-    result = true;
-    return result;
   }
 
   bool ImageView::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
@@ -133,7 +119,7 @@ namespace Titanium { namespace UI {
 
     if (event_name == "click") {
       if (click_event_count_ == 0) {
-        click_event_ = getComponent()->Tapped += ref new TappedEventHandler([this, ctx](Platform::Object ^ sender, TappedRoutedEventArgs ^ e) {
+        click_event_ = getComponent()->Tapped += ref new TappedEventHandler([this, ctx](::Platform::Object ^ sender, TappedRoutedEventArgs ^ e) {
           auto component = safe_cast<FrameworkElement^>(sender);
           auto position = e->GetPosition(component);
 
@@ -151,5 +137,5 @@ namespace Titanium { namespace UI {
     }
   }
 
-}} // namespace Titanium { namespace UI {
+}} // namespace TitaniumWindows { namespace UI {
 

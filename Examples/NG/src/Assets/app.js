@@ -8,7 +8,15 @@
 'use strict';
 
 var imageView = Ti.UI.createImageView({
-    image: 'http://iconizer.net/files/IconSweets/orig/email.png',
+});
+
+imageView.image = 'http://iconizer.net/files/IconSweets/orig/email.png';
+
+imageView.top = 420;
+imageView.left = 10;
+
+imageView.addEventListener('click', function (e) {
+    Ti.API.warn('Image, Art, Faith, Mystery.');
 });
 
 var button = Ti.UI.createButton({ 
