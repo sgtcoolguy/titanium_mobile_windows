@@ -33,6 +33,8 @@ namespace TitaniumWindows {
     Windows::UI::Xaml::Media::Animation::TransitionCollection^ transitions__;
     Windows::Foundation::EventRegistrationToken                first_navigated_token__;
 #endif
+
+    std::shared_ptr<Titanium::Application> application__;
   };
 
 } // namespace TitaniumWindows {

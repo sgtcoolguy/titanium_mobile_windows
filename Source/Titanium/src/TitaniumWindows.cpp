@@ -33,7 +33,7 @@ namespace TitaniumWindows {
 
   void Application::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ args) {
 
-    Titanium::Application application__(Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<TitaniumWindows::GlobalObject>::Class()))
+    application__ = std::make_shared<Titanium::Application>(Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<TitaniumWindows::GlobalObject>::Class()))
       .APIClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::API>::Class()))
       .PlatformClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Platform>::Class()))
       .GestureClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Gesture>::Class()))
@@ -93,7 +93,7 @@ namespace TitaniumWindows {
 
       // Place the frame in the current Window.
       Windows::UI::Xaml::Window::Current->Content = rootFrame;
-      application__.Run("/app.js");
+      application__->Run("/app.js");
     }
     // Ensure the current Window is active.
     Windows::UI::Xaml::Window::Current->Activate();
