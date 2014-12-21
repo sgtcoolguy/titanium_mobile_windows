@@ -39,8 +39,10 @@ namespace Titanium { namespace detail {
   std::string TiLoggerPimpl::GetLoglineHeader(uint32_t log_line_number) {
     std::ostringstream os;
     
-    os.str("");
-    os << std::setfill('0')
+    //os.str("");
+    os
+    << "TitaniumKit "
+    << std::setfill('0')
     << std::setw(std::numeric_limits<uint32_t>::digits10)
     << log_line_number
     << " "

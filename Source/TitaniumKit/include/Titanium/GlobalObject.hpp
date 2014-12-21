@@ -162,7 +162,7 @@ namespace Titanium {
     GlobalObject(const JSContext& js_context)                                TITANIUM_NOEXCEPT;
     GlobalObject(const GlobalObject&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
-    virtual ~GlobalObject()                      = default;
+    virtual ~GlobalObject() TITANIUM_NOEXCEPT;//= default;
     GlobalObject(const GlobalObject&)            = default;
     GlobalObject& operator=(const GlobalObject&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

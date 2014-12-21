@@ -54,10 +54,16 @@ std::shared_ptr<Titanium::GlobalObject::Timer> NativeGlobalObjectExample::Create
 
 NativeGlobalObjectExample::NativeGlobalObjectExample(const JSContext& js_context) TITANIUM_NOEXCEPT
 : Titanium::GlobalObject(js_context) {
+  TITANIUM_LOG_DEBUG("NativeGlobalObjectExample:: ctor 1 ", this);
 }
 
 NativeGlobalObjectExample::NativeGlobalObjectExample(const NativeGlobalObjectExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 : Titanium::GlobalObject(rhs, arguments) {
+  TITANIUM_LOG_DEBUG("NativeGlobalObjectExample:: ctor 2 ", this);
+}
+
+NativeGlobalObjectExample::~NativeGlobalObjectExample() TITANIUM_NOEXCEPT {
+  TITANIUM_LOG_DEBUG("NativeGlobalObjectExample:: dtor ", this);
 }
 
 void NativeGlobalObjectExample::JSExportInitialize() {

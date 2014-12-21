@@ -77,7 +77,7 @@ namespace Titanium { namespace UI {
     View(const JSContext& js_context)                        TITANIUM_NOEXCEPT;
     View(const View&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
-    virtual ~View()              = default;
+    virtual ~View() TITANIUM_NOEXCEPT;//= default;
     View(const View&)            = default;
     View& operator=(const View&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

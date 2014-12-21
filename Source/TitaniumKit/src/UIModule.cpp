@@ -118,6 +118,7 @@ namespace Titanium {
   ,url_error_unknown__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::URL_ERROR::UNKNOWN)))
   ,url_error_unsupported_scheme__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::URL_ERROR::UNSUPPORTED_SCHEME)))
   {
+    TITANIUM_LOG_DEBUG("UIModule:: ctor 1 ", this);
   }
   
   UIModule::UIModule(const UIModule& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
@@ -227,6 +228,11 @@ namespace Titanium {
   ,url_error_unknown__(rhs.url_error_unknown__)
   ,url_error_unsupported_scheme__(rhs.url_error_unsupported_scheme__)
   {
+    TITANIUM_LOG_DEBUG("UIModule:: ctor 2 ", this);
+  }
+  
+  UIModule::~UIModule() TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("UIModule:: dtor ", this);
   }
   
   JSObject UIModule::createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT {

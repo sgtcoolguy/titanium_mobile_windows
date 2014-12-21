@@ -16,44 +16,42 @@ namespace Titanium {
   
   using namespace HAL;
   
-  using JSClassPtr_t = std::shared_ptr<JSClass>;
-  
   class TITANIUMKIT_EXPORT ApplicationBuilder final {
     
   public:
 
-    ApplicationBuilder(const JSClassPtr_t& global_object_class_ptr) TITANIUM_NOEXCEPT;
+    ApplicationBuilder(const JSContext& js_context) TITANIUM_NOEXCEPT;
     Application build();
     
-    JSClassPtr_t        APIClass() const                 TITANIUM_NOEXCEPT;
-    ApplicationBuilder& APIClass(const JSClassPtr_t&)    TITANIUM_NOEXCEPT;
-    
-    JSClassPtr_t        ViewClass() const                TITANIUM_NOEXCEPT;
-    ApplicationBuilder& ViewClass(const JSClassPtr_t&)   TITANIUM_NOEXCEPT;
-    
-    JSClassPtr_t        WindowClass() const              TITANIUM_NOEXCEPT;
-    ApplicationBuilder& WindowClass(const JSClassPtr_t&) TITANIUM_NOEXCEPT;
-    
-    JSClassPtr_t        ButtonClass() const              TITANIUM_NOEXCEPT;
-    ApplicationBuilder& ButtonClass(const JSClassPtr_t&) TITANIUM_NOEXCEPT;
-      
-    JSClassPtr_t        PlatformClass() const                 TITANIUM_NOEXCEPT;
-    ApplicationBuilder& PlatformClass(const JSClassPtr_t&)    TITANIUM_NOEXCEPT;
-    
-    JSClassPtr_t        AccelerometerClass() const              TITANIUM_NOEXCEPT;
-    ApplicationBuilder& AccelerometerClass(const JSClassPtr_t&) TITANIUM_NOEXCEPT;
-    
-    JSClassPtr_t        GestureClass() const                 TITANIUM_NOEXCEPT;
-    ApplicationBuilder& GestureClass(const JSClassPtr_t&)    TITANIUM_NOEXCEPT;
-    
-    JSClassPtr_t        BlobClass() const                 TITANIUM_NOEXCEPT;
-    ApplicationBuilder& BlobClass(const JSClassPtr_t&)    TITANIUM_NOEXCEPT;
-    
-    JSClassPtr_t        FileClass() const                 TITANIUM_NOEXCEPT;
-    ApplicationBuilder& FileClass(const JSClassPtr_t&)    TITANIUM_NOEXCEPT;
+    JSObject            APIObject() const                    TITANIUM_NOEXCEPT;
+    ApplicationBuilder& APIObject(const JSObject&)           TITANIUM_NOEXCEPT;
 
-    JSClassPtr_t        FilesystemClass() const                 TITANIUM_NOEXCEPT;
-    ApplicationBuilder& FilesystemClass(const JSClassPtr_t&)    TITANIUM_NOEXCEPT;
+    JSObject            ViewObject() const                   TITANIUM_NOEXCEPT;
+    ApplicationBuilder& ViewObject(const JSObject&)          TITANIUM_NOEXCEPT;
+    
+    JSObject            WindowObject() const                 TITANIUM_NOEXCEPT;
+    ApplicationBuilder& WindowObject(const JSObject&)        TITANIUM_NOEXCEPT;
+    
+    JSObject            ButtonObject() const                 TITANIUM_NOEXCEPT;
+    ApplicationBuilder& ButtonObject(const JSObject&)        TITANIUM_NOEXCEPT;
+      
+    JSObject            PlatformObject() const               TITANIUM_NOEXCEPT;
+    ApplicationBuilder& PlatformObject(const JSObject&)      TITANIUM_NOEXCEPT;
+    
+    JSObject            AccelerometerObject() const          TITANIUM_NOEXCEPT;
+    ApplicationBuilder& AccelerometerObject(const JSObject&) TITANIUM_NOEXCEPT;
+    
+    JSObject            GestureObject() const                TITANIUM_NOEXCEPT;
+    ApplicationBuilder& GestureObject(const JSObject&)       TITANIUM_NOEXCEPT;
+    
+    JSObject            BlobObject() const                   TITANIUM_NOEXCEPT;
+    ApplicationBuilder& BlobObject(const JSObject&)          TITANIUM_NOEXCEPT;
+    
+    JSObject            FileObject() const                   TITANIUM_NOEXCEPT;
+    ApplicationBuilder& FileObject(const JSObject&)          TITANIUM_NOEXCEPT;
+
+    JSObject            FilesystemObject() const             TITANIUM_NOEXCEPT;
+    ApplicationBuilder& FilesystemObject(const JSObject&)    TITANIUM_NOEXCEPT;
 
     virtual ~ApplicationBuilder() = default;
     ApplicationBuilder(const ApplicationBuilder&)            = default;
@@ -71,20 +69,18 @@ namespace Titanium {
     // need to be exported from a DLL.
 #pragma warning(push)
 #pragma warning(disable: 4251)
-    JSClassPtr_t   global_object_class_ptr__ { nullptr };
-    JSClassPtr_t   api_class_ptr__           { nullptr };
-    JSClassPtr_t   view_class_ptr__          { nullptr };
-    JSClassPtr_t   window_class_ptr__        { nullptr };
-    JSClassPtr_t   button_class_ptr__        { nullptr };
-    JSClassPtr_t   platform_class_ptr__      { nullptr };
-    JSClassPtr_t   accelerometer_class_ptr__ { nullptr };
-    JSClassPtr_t   gesture_class_ptr__       { nullptr };
-    JSClassPtr_t   blob_class_ptr__          { nullptr };
-    JSClassPtr_t   file_class_ptr__          { nullptr };
-    JSClassPtr_t   filesystem_class_ptr__    { nullptr };
-
-    JSContextGroup js_context_group__;
-    JSContext      js_context__;
+    JSContext js_context__;
+    JSObject  global_object__;
+    JSObject  api__;
+    JSObject  view__;
+    JSObject  window__;
+    JSObject  button__;
+    JSObject  platform__;
+    JSObject  accelerometer__;
+    JSObject  gesture__;
+    JSObject  blob__;
+    JSObject  file__;
+    JSObject  filesystem__;
 #pragma warning(pop)
 };
   
