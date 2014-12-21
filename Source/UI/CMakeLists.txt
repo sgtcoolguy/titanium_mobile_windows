@@ -49,6 +49,8 @@ set(SOURCE_UI
   src/View.cpp
   include/TitaniumWindows/UI/ImageView.hpp
   src/ImageView.cpp
+  include/TitaniumWindows/UI/Label.hpp
+  src/Label.cpp
   include/TitaniumWindows/UI/Window.hpp
   src/Window.cpp
   include/TitaniumWindows/UI/Button.hpp

@@ -14,6 +14,8 @@
 #include "Titanium/UI/Window.hpp"
 #include "Titanium/UI/Button.hpp"
 #include "Titanium/UI/ImageView.hpp"
+#include "Titanium/UI/Label.hpp"
+
 
 
 namespace Titanium {
@@ -93,6 +95,22 @@ namespace Titanium {
     @result Titanium.UI.Window
     */
     JSObject createImageView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+	/*!
+	@method
+
+	@abstract createLabel( [parameters] ) : Titanium.UI.Label
+
+	@discussion Creates and returns an instance of
+	Titanium.UI.Label.
+
+	@param parameters Properties to set on a new object, including
+	any defined by Titanium.UI.Label except those marked
+	not-creation or read-only.  (Dictionary<Titanium.UI.Label>)
+
+	@result Titanium.UI.Window
+	*/
+	JSObject createLabel(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
     
     virtual JSValue ANIMATION_CURVE_EASE_IN()  const TITANIUM_NOEXCEPT final;
     virtual JSValue ANIMATION_CURVE_EASE_IN_OUT()  const TITANIUM_NOEXCEPT final;
@@ -217,6 +235,7 @@ namespace Titanium {
     JSValue createWindowArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
     JSValue createButtonArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
     JSValue createImageViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+	JSValue createLabelArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
     
   private:
     JSValue animation_curve_ease_in__;

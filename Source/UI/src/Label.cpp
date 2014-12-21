@@ -1,100 +1,106 @@
 /**
-* Titanium.UI.Button for Windows
+* Titanium.UI.Label for Windows
 *
 * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
 * Licensed under the terms of the Apache Public License.
 * Please see the LICENSE included with this distribution for details.
 */
 
-#include "TitaniumWindows/UI/Button.hpp"
+#include "TitaniumWindows/UI/Label.hpp"
+
+#define DEFAULT_FONT_SIZE 20
 
 namespace TitaniumWindows { namespace UI {
 
-  Button::Button(const JSContext& js_context) TITANIUM_NOEXCEPT
-    : Titanium::UI::Button(js_context)
-    , button__(ref new Windows::UI::Xaml::Controls::Button()) {
-    TITANIUM_LOG_DEBUG("Button::ctor Initialize");
+  Label::Label(const JSContext& js_context) TITANIUM_NOEXCEPT
+		: Titanium::UI::Label(js_context)
+    , label__(ref new Windows::UI::Xaml::Controls::TextBlock()) {
+    TITANIUM_LOG_DEBUG("Label::ctor Initialize");
   }
 
-  Button::Button(const Button& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-    : Titanium::UI::Button(rhs, arguments)
-    , button__(ref new Windows::UI::Xaml::Controls::Button()) {
-    setComponent(button__);
-    TITANIUM_LOG_DEBUG("Button::ctor CallAsConstructor");
+  Label::Label(const Label& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		: Titanium::UI::Label(rhs, arguments)
+    , label__(ref new Windows::UI::Xaml::Controls::TextBlock()) {
+	label__->TextWrapping = Windows::UI::Xaml::TextWrapping::Wrap;
+	label__->TextTrimming = Windows::UI::Xaml::TextTrimming::Clip;
+	label__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Center;
+	label__->FontSize = DEFAULT_FONT_SIZE;
+	setComponent(label__);
+    TITANIUM_LOG_DEBUG("Label::ctor CallAsConstructor");
   }
 
-  void Button::JSExportInitialize() {
-    JSExport<Button>::SetClassVersion(1);
-    JSExport<Button>::SetParent(JSExport<Titanium::UI::Button>::Class());
+  void Label::JSExportInitialize() {
+	JSExport<Label>::SetClassVersion(1);
+	JSExport<Label>::SetParent(JSExport<Titanium::UI::Label>::Class());
   }
-
-  bool Button::setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+  
+  bool Label::setTextArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
     TITANIUM_ASSERT(argument.IsString());
-    const std::string title = static_cast<std::string>(argument);
-    button__->Content = ref new Platform::String(std::wstring(title.begin(), title.end()).c_str());
-    TITANIUM_LOG_DEBUG("Button::setTitleArgumentValidator: title = ", title);
-    set_title(argument);
+    const std::string text = static_cast<std::string>(argument);
+    label__->Text = ref new Platform::String(std::wstring(text.begin(), text.end()).c_str());
+    TITANIUM_LOG_DEBUG("Label::setTextArgumentValidator: text = ", text);
+    set_text(argument);
     return true;
   }
 
-  bool Button::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+  bool Label::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
     TITANIUM_ASSERT(argument.IsString());
     bool result = false;
     std::string backgroundColorName = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("Button::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColorName);
+    TITANIUM_LOG_INFO("Label::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColorName);
     const auto backgroundColor = ColorForName(backgroundColorName);
-    button__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
+    //label__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
     set_backgroundColor(argument);
     result = true;
     return result;
   }
 
-  bool Button::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+  bool Label::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
     TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
     bool result = false;
     std::string value = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("Button::setTopArgumentValidator: top = ", value);
+    TITANIUM_LOG_INFO("Label::setTopArgumentValidator: top = ", value);
     setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, static_cast<std::string>(argument));
     set_top(argument);
     result = true;
     return result;
   }
 
-  bool Button::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+  bool Label::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
     TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
     bool result = false;
     std::string value = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("Button::setLeftArgumentValidator: left = ", value);
+    TITANIUM_LOG_INFO("Label::setLeftArgumentValidator: left = ", value);
     setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, static_cast<std::string>(argument));
     set_left(argument);
     result = true;
     return result;
   }
 
-  bool Button::setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+  bool Label::setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
     TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
     bool result = false;
     std::string value = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("Button::setWidthArgumentValidator: width = ", value);
+    TITANIUM_LOG_INFO("Label::setWidthArgumentValidator: width = ", value);
     setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, static_cast<std::string>(argument));
     set_width(argument);
     result = true;
     return result;
   }
 
-  bool Button::setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+  bool Label::setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
     TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
     bool result = false;
     std::string value = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("Button::setHeightArgumentValidator: height = ", value);
+    TITANIUM_LOG_INFO("Label::setHeightArgumentValidator: height = ", value);
     setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, static_cast<std::string>(argument));
     set_height(argument);
     result = true;
     return result;
   }
 
-  void Button::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT {
-    TITANIUM_LOG_DEBUG("Button::enableEvent: (event name '", event_name, "'");
+  void Label::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("Label::enableEvent: (event name '", event_name, "'");
 
     const JSContext  ctx = this->get_context();
 

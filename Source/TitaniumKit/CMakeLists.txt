@@ -102,6 +102,8 @@ set(SOURCE_UI
   src/UI/Window.cpp
   include/Titanium/UI/Button.hpp
   src/UI/Button.cpp
+  include/Titanium/UI/Label.hpp
+  src/UI/Label.cpp
   include/Titanium/UI/Animation.hpp
   src/UI/Animation.cpp
   include/Titanium/UI/TextArea.hpp

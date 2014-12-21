@@ -42,8 +42,12 @@ namespace Titanium {
     }
 
     if (!imageview_class_ptr__) {
-      button_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::UI::Button>::Class());
+      imageview_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::UI::ImageView>::Class());
     }
+
+	if (!label_class_ptr__) {
+		label_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::UI::Label>::Class());
+	}
       
     if (!platform_class_ptr__) {
       platform_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::Platform>::Class());
@@ -83,6 +87,7 @@ namespace Titanium {
     ui.SetProperty("Window", js_context__.CreateObject(*window_class_ptr__));
     ui.SetProperty("Button", js_context__.CreateObject(*button_class_ptr__));
     ui.SetProperty("ImageView", js_context__.CreateObject(*imageview_class_ptr__));
+	ui.SetProperty("Label", js_context__.CreateObject(*label_class_ptr__));
       
     JSObject platform = js_context__.CreateObject(*platform_class_ptr__);
     titanium.SetProperty("Platform", platform, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -156,6 +161,15 @@ namespace Titanium {
 
   JSClassPtr_t ApplicationBuilder::ImageViewClass() const TITANIUM_NOEXCEPT {
     return imageview_class_ptr__;
+  }
+
+  ApplicationBuilder& ApplicationBuilder::LabelClass(const JSClassPtr_t& label_class_ptr) TITANIUM_NOEXCEPT{
+	label_class_ptr__ = label_class_ptr;
+	return *this;
+  }
+
+  JSClassPtr_t ApplicationBuilder::LabelClass() const TITANIUM_NOEXCEPT{
+	return label_class_ptr__;
   }
     
   JSClassPtr_t ApplicationBuilder::PlatformClass() const TITANIUM_NOEXCEPT {
