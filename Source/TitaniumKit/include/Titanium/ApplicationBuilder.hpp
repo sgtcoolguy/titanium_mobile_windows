@@ -37,6 +37,9 @@ namespace Titanium {
     JSClassPtr_t        ButtonClass() const              TITANIUM_NOEXCEPT;
     ApplicationBuilder& ButtonClass(const JSClassPtr_t&) TITANIUM_NOEXCEPT;
 
+    JSClassPtr_t        ScrollViewClass() const              TITANIUM_NOEXCEPT;
+    ApplicationBuilder& ScrollViewClass(const JSClassPtr_t&) TITANIUM_NOEXCEPT;
+
     JSClassPtr_t        ImageViewClass() const              TITANIUM_NOEXCEPT;
     ApplicationBuilder& ImageViewClass(const JSClassPtr_t&) TITANIUM_NOEXCEPT;
 
@@ -82,6 +85,7 @@ namespace Titanium {
     JSClassPtr_t   view_class_ptr__          { nullptr };
     JSClassPtr_t   window_class_ptr__        { nullptr };
     JSClassPtr_t   button_class_ptr__        { nullptr };
+    JSClassPtr_t   scrollview_class_ptr__    { nullptr };
     JSClassPtr_t   imageview_class_ptr__     { nullptr };
 	JSClassPtr_t   label_class_ptr__		 { nullptr };
     JSClassPtr_t   platform_class_ptr__      { nullptr };

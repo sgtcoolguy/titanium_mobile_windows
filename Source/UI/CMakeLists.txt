@@ -56,6 +56,8 @@ set(SOURCE_UI
   include/TitaniumWindows/UI/Button.hpp
   src/Button.cpp
   include/TitaniumWindows/UI/detail/UIBase.hpp
+  include/TitaniumWindows/UI/ScrollView.hpp
+  src/ScrollView.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})

@@ -283,22 +283,177 @@ namespace Titanium {
     return Button.CallAsConstructor(parameters);
   }
 
+  JSObject UIModule::createTab(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("UI::createTab");
+    //
+    // TODO: Evaluate and cache this function at startup
+    //
+    const std::string script = R"JS(
+  var Tab = function(_args) {
+    Object.defineProperty(this, "__ti_private__", {
+        enumerable: false,
+        value: {}
+    });
+    this.__ti_private__.window = null;
+    this.__ti_private__.title = Ti.UI.createButton();
+    this.__ti_private__.title.height = Ti.UI.SIZE;
+    this.__ti_private__.title.left = 0;
+    this.__ti_private__.title.borderWidth = 0;
+    this.__ti_private__.title.font = { fontSize: 20 };
+  };
+  Object.defineProperties(Tab.prototype, {
+    "window": {
+        set:function(value){this.__ti_private__.window=value;},
+        get:function(){return this.__ti_private__.window;},
+        enumerable:true
+    }
+  });
+  Tab.prototype.setWindow = function (_window) {
+      this.__ti_private__.window = _window;
+      this.__ti_private__.window.width = Ti.UI.FILL;
+      this.__ti_private__.window.height = Ti.UI.FILL;
+  };
+  Tab.prototype.setTitle = function (_title) {
+      this.__ti_private__.title.title = _title;
+  };
+  Tab.prototype.setIcon = function (_icon) {
+      this.__ti_private__.title.image = _icon;
+  };
+  Tab.prototype.open = function (_window) {
+      _window.open();
+  };
+  Tab.prototype.close = function (_window) {
+      _window.close();
+  };
+  Tab.prototype.applyProperties = function (_args) {
+      _args = _args || {};
+      for (var key in _args) {
+          this[key] = _args[key];
+      }
+  };
+  var ui = new Tab();
+  ui.applyProperties(_arguments);
+  return ui;
+    )JS";
+
+    return get_context().CreateFunction(script, { "_arguments" })({ parameters }, this_object);
+  }
+
+  JSObject UIModule::createTabGroup(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("UI::createTabGroup");
+    //
+    // TODO: Evaluate and cache this function at startup
+    //
+    const std::string script = R"JS(
+  var TabGroup = function() {
+    Object.defineProperty(this, "__ti_private__", {
+        enumerable: false,
+        value: {}
+    });
+    this.__ti_private__.window = Ti.UI.createWindow();
+    this.__ti_private__.window.name = 'tab_window';
+    this.__ti_private__.window.layout = 'vertical';
+    this.__ti_private__.bar = Ti.UI.createView();
+    this.__ti_private__.bar.top = 0;
+    this.__ti_private__.bar.width  = Ti.UI.FILL;
+    this.__ti_private__.bar.height = Ti.UI.SIZE;
+    this.__ti_private__.bar.backgroundColor = 'red';
+    this.__ti_private__.bar.layout = 'horizontal';
+    this.__ti_private__.bar.name = 'tabBar';
+    this.__ti_private__.content = Ti.UI.createScrollView();
+    this.__ti_private__.content.top = 0;
+    this.__ti_private__.content.bottom = 0;
+    this.__ti_private__.content.width = Ti.UI.FILL;
+    this.__ti_private__.content.contentWidth = Ti.UI.SIZE;
+    this.__ti_private__.content.name = 'scrollView';
+    this.__ti_private__.content.layout = 'horizontal';
+    this.__ti_private__.content.backgroundColor = '#ccc';
+    this.__ti_private__.content.scrollingEnabled = false;
+    this.__ti_private__.content.showHorizontalScrollIndicator = false;
+    this.__ti_private__.content.showVerticalScrollIndicator = false;
+    this.__ti_private__.window.add(this.__ti_private__.bar);
+    this.__ti_private__.window.add(this.__ti_private__.content);
+    this.__ti_private__.index = 0;
+    this.__ti_private__.windowWidth = 0;
+    this.__ti_private__.tabs = [];
+    var self = this;
+    this.__ti_private__.window.addEventListener('postlayout', function (e) {
+        self.__ti_private__.windowWidth = e.width;
+        self.setActiveTab(self.__ti_private__.index);
+    });
+  };
+  TabGroup.prototype.applyProperties = function (_args) {
+      _args = _args || {};
+      for (var key in _args) {
+          this[key] = _args[key];
+      }
+  };
+  TabGroup.prototype.setActiveTab = function (_n) {
+      this.__ti_private__.index = _n;
+      if (this.__ti_private__.windowWidth == 0) return;
+      this.__ti_private__.content.scrollTo(
+        this.__ti_private__.windowWidth * this.__ti_private__.index, 0
+      );
+  }
+  TabGroup.prototype.open = function () {
+      this.__ti_private__.window.open();
+      this.setActiveTab(this.__ti_private__.index);
+  };
+  TabGroup.prototype.addTab = function (_tab) {
+      var self = this;
+      this.__ti_private__.bar.add(_tab.__ti_private__.title);
+      this.__ti_private__.content.add(_tab.__ti_private__.window);
+      var tabLength = this.__ti_private__.bar.children.length;
+      var width = (1 / tabLength * 100) + '%';
+      this.__ti_private__.bar.children.forEach(function (tab) {
+          tab.width = width;
+      });
+      _tab.__ti_private__.title._index = tabLength - 1;
+      _tab.__ti_private__.title.addEventListener('click', function (e) {
+          self.setActiveTab(e.source._index);
+      });
+  };
+  var ui = new TabGroup();
+  ui.applyProperties(_arguments);
+  return ui;
+    )JS";
+    return get_context().CreateFunction(script, { "_arguments" })({ parameters }, this_object);
+  }
+
+  JSObject UIModule::createScrollView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("UI::createScrollView");
+    
+    JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+    TITANIUM_ASSERT(Titanium_property.IsObject()); // precondition
+    JSObject Titanium = Titanium_property;
+    
+    JSValue UI_property = Titanium.GetProperty("UI");
+    TITANIUM_ASSERT(UI_property.IsObject()); // precondition
+    JSObject UI = UI_property;
+    
+    JSValue ScrollView_property = UI.GetProperty("ScrollView");
+    TITANIUM_ASSERT(ScrollView_property.IsObject()); // precondition
+    JSObject ScrollView = ScrollView_property;
+    
+    return ScrollView.CallAsConstructor(parameters);
+  }
+
   JSObject UIModule::createLabel(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT{
-	TITANIUM_LOG_DEBUG("UI::createLabel");
+    TITANIUM_LOG_DEBUG("UI::createLabel");
 
-	JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
-	TITANIUM_ASSERT(Titanium_property.IsObject()); // precondition
-	JSObject Titanium = Titanium_property;
+    JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+    TITANIUM_ASSERT(Titanium_property.IsObject()); // precondition
+    JSObject Titanium = Titanium_property;
 
-	JSValue UI_property = Titanium.GetProperty("UI");
-	TITANIUM_ASSERT(UI_property.IsObject()); // precondition
-	JSObject UI = UI_property;
+    JSValue UI_property = Titanium.GetProperty("UI");
+    TITANIUM_ASSERT(UI_property.IsObject()); // precondition
+    JSObject UI = UI_property;
 
-	JSValue Label_property = UI.GetProperty("Label");
-	TITANIUM_ASSERT(Label_property.IsObject()); // precondition
-	JSObject Label = Label_property;
+    JSValue Label_property = UI.GetProperty("Label");
+    TITANIUM_ASSERT(Label_property.IsObject()); // precondition
+    JSObject Label = Label_property;
 
-	return Label.CallAsConstructor(parameters);
+    return Label.CallAsConstructor(parameters);
   }
 
   JSObject UIModule::createImageView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT {
@@ -641,8 +796,11 @@ namespace Titanium {
     JSExport<UIModule>::AddFunctionProperty("createView"  , std::mem_fn(&UIModule::createViewArgumentValidator));
     JSExport<UIModule>::AddFunctionProperty("createWindow", std::mem_fn(&UIModule::createWindowArgumentValidator));
     JSExport<UIModule>::AddFunctionProperty("createButton", std::mem_fn(&UIModule::createButtonArgumentValidator));
+    JSExport<UIModule>::AddFunctionProperty("createTab",    std::mem_fn(&UIModule::createTabArgumentValidator));
+    JSExport<UIModule>::AddFunctionProperty("createTabGroup", std::mem_fn(&UIModule::createTabGroupArgumentValidator));
+    JSExport<UIModule>::AddFunctionProperty("createScrollView", std::mem_fn(&UIModule::createScrollViewArgumentValidator));
     JSExport<UIModule>::AddFunctionProperty("createImageView", std::mem_fn(&UIModule::createImageViewArgumentValidator));
-	JSExport<UIModule>::AddFunctionProperty("createLabel", std::mem_fn(&UIModule::createLabelArgumentValidator));
+    JSExport<UIModule>::AddFunctionProperty("createLabel", std::mem_fn(&UIModule::createLabelArgumentValidator));
     JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN));
     JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN_OUT));
     JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_OUT));
@@ -800,4 +958,36 @@ namespace Titanium {
 	return createLabel(parameters, this_object);
   }
   
+  JSValue UIModule::createTabArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
+    JSObject parameters = get_context().CreateObject();
+    if (arguments.size() >= 1) {
+      const auto _0 = arguments.at(0);
+      TITANIUM_ASSERT(_0.IsObject());
+      parameters = _0;
+    }
+    return createTab(parameters, this_object);
+  }
+
+  JSValue UIModule::createTabGroupArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
+    JSObject parameters = get_context().CreateObject();
+    if (arguments.size() >= 1) {
+      const auto _0 = arguments.at(0);
+      TITANIUM_ASSERT(_0.IsObject());
+      parameters = _0;
+    }
+    return createTabGroup(parameters, this_object);
+  }
+
+  JSValue UIModule::createScrollViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
+    JSObject parameters = get_context().CreateObject();
+    if (arguments.size() >= 1) {
+      const auto _0 = arguments.at(0);
+      TITANIUM_ASSERT(_0.IsObject());
+      parameters = _0;
+    }
+    return createScrollView(parameters, this_object);
+  }
+ 
+ 
+
 } // namespace Titanium {

@@ -127,6 +127,8 @@ set(SOURCE_UI
   src/UI/WebView.cpp
   include/Titanium/UI/WebViewErrorEvent.hpp
   src/UI/WebViewErrorEvent.cpp
+  include/Titanium/UI/ScrollView.hpp
+  src/UI/ScrollView.cpp
   )
 
 set(SOURCE_TiLogger_detail

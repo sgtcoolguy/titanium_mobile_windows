@@ -41,13 +41,17 @@ namespace Titanium {
       button_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::UI::Button>::Class());
     }
 
+    if (!scrollview_class_ptr__) {
+      scrollview_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::UI::ScrollView>::Class());
+    }
+
     if (!imageview_class_ptr__) {
       imageview_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::UI::ImageView>::Class());
     }
 
-	if (!label_class_ptr__) {
-		label_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::UI::Label>::Class());
-	}
+    if (!label_class_ptr__) {
+		  label_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::UI::Label>::Class());
+	  }
       
     if (!platform_class_ptr__) {
       platform_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::Platform>::Class());
@@ -86,8 +90,9 @@ namespace Titanium {
     ui.SetProperty("View"  , js_context__.CreateObject(*view_class_ptr__));
     ui.SetProperty("Window", js_context__.CreateObject(*window_class_ptr__));
     ui.SetProperty("Button", js_context__.CreateObject(*button_class_ptr__));
+    ui.SetProperty("ScrollView", js_context__.CreateObject(*scrollview_class_ptr__));
     ui.SetProperty("ImageView", js_context__.CreateObject(*imageview_class_ptr__));
-	ui.SetProperty("Label", js_context__.CreateObject(*label_class_ptr__));
+    ui.SetProperty("Label", js_context__.CreateObject(*label_class_ptr__));
       
     JSObject platform = js_context__.CreateObject(*platform_class_ptr__);
     titanium.SetProperty("Platform", platform, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -154,6 +159,15 @@ namespace Titanium {
     return *this;
   }
 
+  JSClassPtr_t ApplicationBuilder::ScrollViewClass() const TITANIUM_NOEXCEPT {
+    return scrollview_class_ptr__;
+  }
+  
+  ApplicationBuilder& ApplicationBuilder::ScrollViewClass(const JSClassPtr_t& scrollview_class_ptr) TITANIUM_NOEXCEPT {
+    scrollview_class_ptr__ = scrollview_class_ptr;
+    return *this;
+  }
+
   ApplicationBuilder& ApplicationBuilder::ImageViewClass(const JSClassPtr_t& imageview_class_ptr) TITANIUM_NOEXCEPT {
     imageview_class_ptr__ = imageview_class_ptr;
     return *this;
@@ -164,12 +178,12 @@ namespace Titanium {
   }
 
   ApplicationBuilder& ApplicationBuilder::LabelClass(const JSClassPtr_t& label_class_ptr) TITANIUM_NOEXCEPT{
-	label_class_ptr__ = label_class_ptr;
-	return *this;
+    label_class_ptr__ = label_class_ptr;
+    return *this;
   }
 
   JSClassPtr_t ApplicationBuilder::LabelClass() const TITANIUM_NOEXCEPT{
-	return label_class_ptr__;
+    return label_class_ptr__;
   }
     
   JSClassPtr_t ApplicationBuilder::PlatformClass() const TITANIUM_NOEXCEPT {

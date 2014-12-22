@@ -1,115 +1,54 @@
-/**
- * Titanium for Windows
- *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
- * Licensed under the terms of the Apache Public License.
- * Please see the LICENSE included with this distribution for details.
- */
-'use strict';
+// create tab group
+var tabGroup = Titanium.UI.createTabGroup();
 
-var label = Ti.UI.createLabel({
-});
+//
+// create base UI tab and root window
+//
+var win1 = Titanium.UI.createWindow();
+win1.title = 'Tab 1';
+win1.backgroundColor = '#fff';
 
-label.text = 'quotes go here';
+var tab1 = Titanium.UI.createTab();
+tab1.icon = 'KS_nav_views.png';
+tab1.title = 'Tab 1';
+tab1.window = win1;
 
-label.top = 500;
-label.left = 10;
-//label.width = 145;
-//label.height = 50;
+var label1 = Titanium.UI.createLabel();
+label1.color = '#999';
+label1.text = 'I am Window 1';
+label1.font = { fontSize: 20, fontFamily: 'Helvetica Neue' };
+label1.textAlign = 'center';
+label1.width = 'auto';
 
-var imageView = Ti.UI.createImageView({
-});
+win1.add(label1);
 
-imageView.image = 'http://iconizer.net/files/IconSweets/orig/email.png';
+//
+// create controls tab and root window
+//
+var win2 = Titanium.UI.createWindow();
+win2.title = 'Tab 2';
+win2.backgroundColor = '#fff';
 
-imageView.top = 420;
-imageView.left = 10;
+var tab2 = Titanium.UI.createTab();
+tab2.icon = 'KS_nav_ui.png';
+tab2.title = 'Tab 2';
+tab2.window = win2;
 
-imageView.addEventListener('click', function (e) {
-    Ti.API.warn('Image, Art, Faith, Mystery.');
-});
+var label2 = Titanium.UI.createLabel();
+label2.color = '#999';
+label2.text = 'I am Window 2';
+label2.font = { fontSize: 20, fontFamily: 'Helvetica Neue' };
+label2.textAlign = 'center';
+label2.width = 'auto';
 
-var button = Ti.UI.createButton({ 
-});
+win2.add(label2);
 
-var button2 = Ti.UI.createButton({
-});
+//
+//  add tabs
+//
+tabGroup.addTab(tab1);
+//tabGroup.addTab(tab2);
 
-var button3 = Ti.UI.createButton({
-});
 
-button.title = 'Neeraj Says...';
-button2.title = 'Ingo Says...';
-button3.title = 'Chris Barber Says...';
-
-button.addEventListener('click', function(e) {
-    Ti.API.warn('Goals without a timeline are just a dream.');
-    label.text = 'Goals without a timeline are just a dream.';
-});
-
-button2.addEventListener('click', function (e) {
-    Ti.API.info('Your estimation factor is 4X.');
-    label.text = 'Your estimation factor is 4X.';
-});
-
-button3.addEventListener('click', function (e) {
-    Ti.API.info("I am from Santa Clara.");
-    label.text = "I am from Santa Clara.";
-});
-
-var view = Ti.UI.createView({
-});
-
-view.top = 20;
-view.left = 10;
-view.width = 145;
-view.height = 50;
-// ToDo fix Ti.UI.SIZE
-//view.width = Ti.UI.SIZE;
-//view.height = Ti.UI.SIZE;
-
-view.backgroundColor = "Red";
-view.add(button);
-
-var view2 = Ti.UI.createView({
-});
-
-view2.top = 120;
-view2.left = 110;
-view2.width = 130;
-view2.height = 50;
-
-view2.backgroundColor = "Pink";
-view2.add(button2);
-
-var view3 = Ti.UI.createView({
-});
-
-view3.top = 220;
-view3.left = 210;
-view3.width = 190;
-view3.height = 50;
-
-view3.backgroundColor = "Green";
-view3.add(button3);
-
-var window = Ti.UI.createWindow();
-window.backgroundColor = "Blue";
-window.add(label);
-window.add(imageView);
-window.add(view);
-window.add(view2);
-window.add(view3);
-window.open();
-
-Ti.API.info('app.js running...');
-
-var count = 0;
-var timerId = setInterval(function () {
-    Ti.API.info('setInterval: timerId = ' + timerId + ', count = ' + count);
-    if (++count > 10) {
-        clearInterval(timerId);
-    }
-}, 1000 /* ms */);
-
-Ti.API.info('setInterval: timerId = ' + timerId);
+// open tab group
+tabGroup.open();
