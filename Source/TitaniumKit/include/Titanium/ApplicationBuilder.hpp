@@ -34,7 +34,13 @@ namespace Titanium {
     
     JSObject            ButtonObject() const                 TITANIUM_NOEXCEPT;
     ApplicationBuilder& ButtonObject(const JSObject&)        TITANIUM_NOEXCEPT;
-      
+    
+    JSObject            ImageViewObject() const              TITANIUM_NOEXCEPT;
+    ApplicationBuilder& ImageViewObject(const JSObject&)     TITANIUM_NOEXCEPT;
+    
+    JSObject            LabelObject() const                  TITANIUM_NOEXCEPT;
+    ApplicationBuilder& LabelObject(const JSObject&)         TITANIUM_NOEXCEPT;
+    
     JSObject            PlatformObject() const               TITANIUM_NOEXCEPT;
     ApplicationBuilder& PlatformObject(const JSObject&)      TITANIUM_NOEXCEPT;
     
@@ -75,6 +81,8 @@ namespace Titanium {
     JSObject  view__;
     JSObject  window__;
     JSObject  button__;
+    JSObject  imageview__;
+    JSObject  label__;
     JSObject  platform__;
     JSObject  accelerometer__;
     JSObject  gesture__;

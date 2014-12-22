@@ -101,12 +101,16 @@ set(SOURCE_UI
   src/UI/Constants.cpp
   include/Titanium/UI/Dimension.hpp
   src/UI/Dimension.cpp
+  include/Titanium/UI/ImageView.hpp
+  src/UI/ImageView.cpp
   include/Titanium/UI/View.hpp
   src/UI/View.cpp
   include/Titanium/UI/Window.hpp
   src/UI/Window.cpp
   include/Titanium/UI/Button.hpp
   src/UI/Button.cpp
+  include/Titanium/UI/Label.hpp
+  src/UI/Label.cpp
   include/Titanium/UI/Animation.hpp
   src/UI/Animation.cpp
   include/Titanium/UI/TextArea.hpp

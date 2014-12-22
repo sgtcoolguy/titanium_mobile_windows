@@ -1,13 +1,13 @@
 /**
-* Titanium.UI.Button for Windows
+* Titanium.UI.Label for Windows
 *
 * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
 * Licensed under the terms of the Apache Public License.
 * Please see the LICENSE included with this distribution for details.
 */
 
-#ifndef _TITANIUMWINDOWS_UI_BUTTON_HPP_
-#define _TITANIUMWINDOWS_UI_BUTTON_HPP_
+#ifndef _TITANIUMWINDOWS_UI_LABEL_HPP_
+#define _TITANIUMWINDOWS_UI_LABEL_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "ViewBase.hpp"
@@ -19,28 +19,32 @@ namespace TitaniumWindows { namespace UI {
   /*!
   @class
 
-  @discussion This is the Titanium.UI.Button implementation for
+  @discussion This is the Titanium.UI.Label implementation for
   Windows.
   */
-  class TITANIUMWINDOWS_UI_EXPORT Button final : public Titanium::UI::Button, public JSExport < Button >, public ViewBase {
+  class TITANIUMWINDOWS_UI_EXPORT Label final : public Titanium::UI::Label, public JSExport < Label >, public ViewBase {
 
   public:
 
-    Button(const JSContext& js_context)                        TITANIUM_NOEXCEPT;
-    Button(const Button&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+    Label(const JSContext& js_context)                        TITANIUM_NOEXCEPT;
+    Label(const Label&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
-    virtual ~Button() = default;
-    Button(const Button&) = default;
-    Button& operator=(const Button&) = default;
+    virtual ~Label() = default;
+    Label(const Label&) = default;
+    Label& operator=(const Label&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-    Button(Button&&) = default;
-    Button& operator=(Button&&) = default;
+    Label(Label&&) = default;
+    Label& operator=(Label&&) = default;
 #endif
 
     static void JSExportInitialize();
+    
+    virtual void set_color(const JSValue& color) TITANIUM_NOEXCEPT override final;
+    virtual void set_text(const JSValue& text) TITANIUM_NOEXCEPT override final;
+    virtual void set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT override final;
+    virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
+    virtual void set_wordWrap(const JSValue& wordWrap) TITANIUM_NOEXCEPT override final;
 
-    virtual bool setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-    virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
@@ -50,7 +54,7 @@ namespace TitaniumWindows { namespace UI {
 
   private:
 
-    Windows::UI::Xaml::Controls::Button^ button__;
+    Windows::UI::Xaml::Controls::TextBlock^ label__;
 
     // Event handlers
     Windows::Foundation::EventRegistrationToken click_event_;
@@ -68,4 +72,4 @@ namespace TitaniumWindows { namespace UI {
 
 }}  // namespace TitaniumWindows { namespace UI {
 
-#endif // _TITANIUMWINDOWS_UI_BUTTON_HPP_
+#endif // _TITANIUMWINDOWS_UI_LABEL_HPP_
