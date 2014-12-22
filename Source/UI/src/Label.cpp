@@ -30,29 +30,55 @@ namespace TitaniumWindows { namespace UI {
   }
 
   void Label::JSExportInitialize() {
-	JSExport<Label>::SetClassVersion(1);
-	JSExport<Label>::SetParent(JSExport<Titanium::UI::Label>::Class());
-  }
-  
-  bool Label::setTextArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
-    TITANIUM_ASSERT(argument.IsString());
-    const std::string text = static_cast<std::string>(argument);
-    label__->Text = ref new Platform::String(std::wstring(text.begin(), text.end()).c_str());
-    TITANIUM_LOG_DEBUG("Label::setTextArgumentValidator: text = ", text);
-    set_text(argument);
-    return true;
+    JSExport<Label>::SetClassVersion(1);
+    JSExport<Label>::SetParent(JSExport<Titanium::UI::Label>::Class());
   }
 
-  bool Label::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(argument.IsString());
-    bool result = false;
-    std::string backgroundColorName = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("Label::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColorName);
-    const auto backgroundColor = ColorForName(backgroundColorName);
-    //label__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
-    set_backgroundColor(argument);
-    result = true;
-    return result;
+  void Label::set_color(const JSValue& color) TITANIUM_NOEXCEPT {
+    Titanium::UI::Label::set_color(color);
+    std::string colorName = static_cast<std::string>(color);
+    const auto color_obj = ColorForName(colorName);
+    label__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(color_obj);
+  }
+
+  void Label::set_text(const JSValue& text) TITANIUM_NOEXCEPT {
+    Titanium::UI::Label::set_text(text);
+    std::string text_string = static_cast<std::string>(text);
+    label__->Text = ref new Platform::String(std::wstring(text_string.begin(), text_string.end()).c_str());
+  }
+
+  void Label::set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT {
+    Titanium::UI::Label::set_textAlign(textAlign);
+    if (textAlign == Titanium::UI::TEXT_ALIGNMENT::CENTER) {
+      label__->TextAlignment = Windows::UI::Xaml::TextAlignment::Center;
+    }
+    else if (textAlign == Titanium::UI::TEXT_ALIGNMENT::LEFT) {
+      label__->TextAlignment = Windows::UI::Xaml::TextAlignment::Left;
+    }
+    else if (textAlign == Titanium::UI::TEXT_ALIGNMENT::RIGHT) {
+      label__->TextAlignment = Windows::UI::Xaml::TextAlignment::Right;
+    }
+    // TODO Windows supports JUSTIFY!
+  }
+
+  void Label::set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT {
+    Titanium::UI::Label::set_verticalAlign(verticalAlign);
+    if (verticalAlign == Titanium::UI::TEXT_VERTICAL_ALIGNMENT::BOTTOM) {
+      label__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Bottom;
+    }
+    else if (verticalAlign == Titanium::UI::TEXT_VERTICAL_ALIGNMENT::CENTER) {
+      label__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Center;
+    }
+    else if (verticalAlign == Titanium::UI::TEXT_VERTICAL_ALIGNMENT::TOP) {
+      label__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
+    }
+    // TODO Windows supports stretch!
+  }
+
+  void Label::set_wordWrap(const JSValue& wordWrap) TITANIUM_NOEXCEPT {
+    Titanium::UI::Label::set_wordWrap(wordWrap);
+    bool is_wrapping = static_cast<bool>(wordWrap);
+    label__->TextWrapping = is_wrapping ? Windows::UI::Xaml::TextWrapping::Wrap : Windows::UI::Xaml::TextWrapping::NoWrap;
   }
 
   bool Label::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {

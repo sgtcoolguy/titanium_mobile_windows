@@ -11,7 +11,7 @@ var label = Ti.UI.createLabel({
 });
 
 label.text = 'quotes go here';
-
+label.color = '#ff00ff';
 label.top = 500;
 label.left = 10;
 //label.width = 145;
