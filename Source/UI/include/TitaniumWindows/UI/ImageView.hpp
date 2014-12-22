@@ -1,16 +1,18 @@
 /**
-* Titanium.UI.Button for Windows
+* Titanium.UI.ImageView for Windows
 *
 * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
 * Licensed under the terms of the Apache Public License.
 * Please see the LICENSE included with this distribution for details.
 */
 
-#ifndef _TITANIUMWINDOWS_UI_BUTTON_HPP_
-#define _TITANIUMWINDOWS_UI_BUTTON_HPP_
+#ifndef _TITANIUMWINDOWS_UI_IMAGEVIEW_HPP_
+#define _TITANIUMWINDOWS_UI_IMAGEVIEW_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "ViewBase.hpp"
+#include <algorithm>
+#include <boost/algorithm/string/predicate.hpp>
 
 namespace TitaniumWindows { namespace UI {
 
@@ -19,28 +21,27 @@ namespace TitaniumWindows { namespace UI {
   /*!
   @class
 
-  @discussion This is the Titanium.UI.Button implementation for
+  @discussion This is the Titanium.UI.ImageView implementation for
   Windows.
   */
-  class TITANIUMWINDOWS_UI_EXPORT Button final : public Titanium::UI::Button, public JSExport < Button >, public ViewBase {
+  class TITANIUMWINDOWS_UI_EXPORT ImageView final : public Titanium::UI::ImageView, public JSExport < ImageView >, public ViewBase {
 
   public:
 
-    Button(const JSContext& js_context)                        TITANIUM_NOEXCEPT;
-    Button(const Button&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+    ImageView(const JSContext& js_context)                        TITANIUM_NOEXCEPT;
+    ImageView(const ImageView&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
-    virtual ~Button() = default;
-    Button(const Button&) = default;
-    Button& operator=(const Button&) = default;
+    virtual ~ImageView() = default;
+    ImageView(const ImageView&) = default;
+    ImageView& operator=(const ImageView&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-    Button(Button&&) = default;
-    Button& operator=(Button&&) = default;
+    ImageView(ImageView&&) = default;
+    ImageView& operator=(ImageView&&) = default;
 #endif
 
     static void JSExportInitialize();
 
-    virtual bool setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-    virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+    virtual bool setImageArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
@@ -50,7 +51,9 @@ namespace TitaniumWindows { namespace UI {
 
   private:
 
-    Windows::UI::Xaml::Controls::Button^ button__;
+    Windows::Foundation::EventRegistrationToken internal_load_event_;
+    Windows::UI::Xaml::Controls::Image^ image__;
+    std::string path_;
 
     // Event handlers
     Windows::Foundation::EventRegistrationToken click_event_;
@@ -68,4 +71,7 @@ namespace TitaniumWindows { namespace UI {
 
 }}  // namespace TitaniumWindows { namespace UI {
 
-#endif // _TITANIUMWINDOWS_UI_BUTTON_HPP_
+#endif // _TITANIUMWINDOWS_UI_IMAGEVIEW_HPP_
+
+
+

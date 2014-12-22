@@ -34,6 +34,8 @@ namespace TitaniumWindows {
     .ViewClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::View>::Class()))
     .WindowClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Window>::Class()))
     .ButtonClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Button>::Class()))
+    .ImageViewClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::ImageView>::Class()))
+	.LabelClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Label>::Class()))
     .BlobClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Blob>::Class()))
     .FilesystemClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::FilesystemModule>::Class()))
     .FileClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Filesystem::File>::Class()))
