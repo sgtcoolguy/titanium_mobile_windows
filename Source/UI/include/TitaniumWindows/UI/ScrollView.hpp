@@ -51,6 +51,8 @@ namespace TitaniumWindows { namespace UI {
     virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
     virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
     virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
+    virtual bool setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
+    virtual bool setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
 
     virtual void scrollTo(double x, double y) TITANIUM_NOEXCEPT override;
     virtual void scrollToBottom() TITANIUM_NOEXCEPT override;
@@ -58,6 +60,12 @@ namespace TitaniumWindows { namespace UI {
     virtual JSValue getContentHeight() const TITANIUM_NOEXCEPT override;
     virtual bool setContentWidth(const JSValue& width) TITANIUM_NOEXCEPT override;
     virtual bool setContentHeight(const JSValue& height) TITANIUM_NOEXCEPT override;
+    virtual bool getScrollingEnabled() const TITANIUM_NOEXCEPT;
+    virtual bool setScrollingEnabled(bool enabled) TITANIUM_NOEXCEPT;
+    virtual bool getShowHorizontalScrollIndicator() const TITANIUM_NOEXCEPT;
+    virtual bool setShowHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
+    virtual bool getShowVerticalScrollIndicator() const TITANIUM_NOEXCEPT;
+    virtual bool setShowVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
 
     static void JSExportInitialize();
   private:

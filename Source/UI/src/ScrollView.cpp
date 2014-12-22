@@ -73,12 +73,30 @@ namespace TitaniumWindows { namespace UI {
     return true;
   }
 
+  bool ScrollView::setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    std::string value = static_cast<std::string>(argument);
+    TITANIUM_LOG_INFO("ScrollView::setBottomArgumentValidator: bottom = ", value);
+    setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, value);
+    set_bottom(argument);
+    return true;
+  }
+
   bool ScrollView::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
     TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
     std::string value = static_cast<std::string>(argument);
     TITANIUM_LOG_INFO("ScrollView::setLeftArgumentValidator: left = ", value);
     setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, value);
     set_left(argument);
+    return true;
+  }
+
+  bool ScrollView::setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    std::string value = static_cast<std::string>(argument);
+    TITANIUM_LOG_INFO("ScrollView::setRightArgumentValidator: right = ", value);
+    setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, value);
+    set_right(argument);
     return true;
   }
 
@@ -143,4 +161,44 @@ namespace TitaniumWindows { namespace UI {
     }
     return result;
   }
+
+  bool ScrollView::getScrollingEnabled() const TITANIUM_NOEXCEPT {
+    return scroll_viewer__->HorizontalScrollMode != Windows::UI::Xaml::Controls::ScrollMode::Disabled;
+  }
+
+  bool ScrollView::setScrollingEnabled(bool enabled) TITANIUM_NOEXCEPT {
+    if (enabled) {
+      scroll_viewer__->HorizontalScrollMode = Windows::UI::Xaml::Controls::ScrollMode::Auto;
+    } else {
+      scroll_viewer__->HorizontalScrollMode = Windows::UI::Xaml::Controls::ScrollMode::Disabled;
+    }
+    return true;
+  }
+
+  bool ScrollView::getShowHorizontalScrollIndicator() const TITANIUM_NOEXCEPT {
+    return scroll_viewer__->HorizontalScrollBarVisibility != Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
+  }
+
+  bool ScrollView::setShowHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT {
+    if (enabled) {
+      scroll_viewer__->HorizontalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Auto;
+    } else {
+      scroll_viewer__->HorizontalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
+    }
+    return true;
+  }
+
+  bool ScrollView::getShowVerticalScrollIndicator() const TITANIUM_NOEXCEPT {
+    return scroll_viewer__->VerticalScrollBarVisibility != Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
+  }
+
+  bool ScrollView::setShowVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT {
+    if (enabled) {
+      scroll_viewer__->VerticalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Auto;
+    } else {
+      scroll_viewer__->VerticalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
+    }
+    return true;
+  }
+
 }}  // namespace TitaniumWindows { namespace UI {

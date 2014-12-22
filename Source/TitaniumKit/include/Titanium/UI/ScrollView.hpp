@@ -34,6 +34,13 @@ namespace Titanium { namespace UI {
     virtual bool setContentWidth(const JSValue& width) TITANIUM_NOEXCEPT;
     virtual bool setContentHeight(const JSValue& height) TITANIUM_NOEXCEPT;
 
+    virtual bool getScrollingEnabled() const TITANIUM_NOEXCEPT;
+    virtual bool setScrollingEnabled(bool enabled) TITANIUM_NOEXCEPT;
+    virtual bool getShowHorizontalScrollIndicator() const TITANIUM_NOEXCEPT;
+    virtual bool setShowHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
+    virtual bool getShowVerticalScrollIndicator() const TITANIUM_NOEXCEPT;
+    virtual bool setShowVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
+
     ScrollView(const JSContext& js_context)                          TITANIUM_NOEXCEPT;
     ScrollView(const ScrollView&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
@@ -54,6 +61,21 @@ namespace Titanium { namespace UI {
 
     virtual JSValue scrollToArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
     virtual JSValue scrollToBottomArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+    virtual JSValue get_ScrollingEnabledArgumentValidator() const TITANIUM_NOEXCEPT final;
+    virtual bool set_ScrollingEnabledArgumentValidator(const JSValue& width) TITANIUM_NOEXCEPT final;
+    virtual JSValue setScrollingEnabledArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+    virtual JSValue getScrollingEnabledArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+    virtual JSValue get_ShowHorizontalScrollIndicatorArgumentValidator() const TITANIUM_NOEXCEPT final;
+    virtual bool set_ShowHorizontalScrollIndicatorArgumentValidator(const JSValue& width) TITANIUM_NOEXCEPT final;
+    virtual JSValue setShowHorizontalScrollIndicatorArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+    virtual JSValue getShowHorizontalScrollIndicatorArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+    virtual JSValue get_ShowVerticalScrollIndicatorArgumentValidator() const TITANIUM_NOEXCEPT final;
+    virtual bool set_ShowVerticalScrollIndicatorArgumentValidator(const JSValue& width) TITANIUM_NOEXCEPT final;
+    virtual JSValue setShowVerticalScrollIndicatorArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+    virtual JSValue getShowVerticalScrollIndicatorArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
   private:
   };
