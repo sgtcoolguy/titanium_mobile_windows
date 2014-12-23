@@ -49,6 +49,7 @@ namespace TitaniumWindows { namespace UI {
     virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
 	virtual bool setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
 	virtual bool setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+	virtual bool setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
 
     virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 

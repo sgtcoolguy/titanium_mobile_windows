@@ -7,8 +7,8 @@
  */
 
 #include "TitaniumWindows/UI/Window.hpp"
-#include "TitaniumWindows/UI/View.hpp"
-#include "TitaniumWindows/UI/Button.hpp"
+//#include "TitaniumWindows/UI/View.hpp"
+//#include "TitaniumWindows/UI/Button.hpp"
 
 namespace TitaniumWindows { namespace UI {
 
@@ -72,13 +72,24 @@ namespace TitaniumWindows { namespace UI {
   bool Window::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
     TITANIUM_ASSERT(argument.IsString());
     bool result = false;
-    std::string backgroundColorName = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("View::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColorName);
-    const auto backgroundColor = ColorForName(backgroundColorName);
+    std::string value = static_cast<std::string>(argument);
+    TITANIUM_LOG_INFO("Window::setBackgroundColorArgumentValidator: backgroundColor = ", value);
+    const auto backgroundColor = ColorForName(value);
     canvas__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
     set_backgroundColor(argument);
     result = true;
     return result;
+  }
+
+  bool Window::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
+	TITANIUM_ASSERT(argument.IsString());
+	bool result = false;
+	std::string value = static_cast<std::string>(argument);
+	TITANIUM_LOG_INFO("Window::setLayoutArgumentValidator: layout = ", value);
+	setLayout(value);
+	set_layout(argument);
+	result = true;
+	return result;
   }
 
   ///////////////// Layout //////////////
