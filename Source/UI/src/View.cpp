@@ -111,6 +111,28 @@ namespace TitaniumWindows { namespace UI {
     return result;
   }
 
+  bool View::setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
+	TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+	bool result = false;
+	std::string value = static_cast<std::string>(argument);
+	TITANIUM_LOG_INFO("View::setBottomArgumentValidator: bottom = ", value);
+	setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, static_cast<std::string>(argument));
+	set_bottom(argument);
+	result = true;
+	return result;
+  }
+
+  bool View::setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
+	TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+	bool result = false;
+	std::string value = static_cast<std::string>(argument);
+	TITANIUM_LOG_INFO("View::setRightArgumentValidator: right = ", value);
+	setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, static_cast<std::string>(argument));
+	set_right(argument);
+	result = true;
+	return result;
+  }
+
   void View::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT {
     TITANIUM_LOG_DEBUG("View::enableEvent: (event name '", event_name, "'");
     

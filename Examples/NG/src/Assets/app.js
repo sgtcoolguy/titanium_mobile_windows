@@ -64,10 +64,6 @@ view.top = 20;
 view.left = 10;
 view.width = 145;
 view.height = 50;
-// ToDo fix Ti.UI.SIZE
-//view.width = Ti.UI.SIZE;
-//view.height = Ti.UI.SIZE;
-
 view.backgroundColor = "Red";
 view.add(button);
 
