@@ -33,6 +33,10 @@ namespace Titanium {
     JSExport<Gesture>::AddFunctionProperty("getLandscape", std::mem_fn(&Gesture::getLandscape_ArgumentValidator));
     JSExport<Gesture>::AddFunctionProperty("getPortrait", std::mem_fn(&Gesture::getPortrait_ArgumentValidator));
     JSExport<Gesture>::AddFunctionProperty("getOrientation", std::mem_fn(&Gesture::getOrientation_ArgumentValidator));
+    JSExport<Gesture>::AddFunctionProperty("isFaceDown", std::mem_fn(&Gesture::isFaceDown_ArgumentValidator));
+    JSExport<Gesture>::AddFunctionProperty("isFaceUp", std::mem_fn(&Gesture::isFaceUp_ArgumentValidator));
+    JSExport<Gesture>::AddFunctionProperty("isLandscape", std::mem_fn(&Gesture::isLandscape_ArgumentValidator));
+    JSExport<Gesture>::AddFunctionProperty("isPortrait", std::mem_fn(&Gesture::isPortrait_ArgumentValidator));
     JSExport<Gesture>::AddValueProperty("orientation", std::mem_fn(&Gesture::get_orientation_ArgumentValidator));
     JSExport<Gesture>::AddValueProperty("landscape", std::mem_fn(&Gesture::get_landscape_ArgumentValidator));
     JSExport<Gesture>::AddValueProperty("portrait", std::mem_fn(&Gesture::get_portrait_ArgumentValidator));
@@ -55,7 +59,17 @@ namespace Titanium {
       const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
     return get_context().CreateBoolean(get_orientation() == UI::ORIENTATION::FACE_UP);
   }
-  
+
+  JSValue Gesture::isLandscape_ArgumentValidator(
+    const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
+    return get_landscape_ArgumentValidator();
+  }
+
+  JSValue Gesture::isPortrait_ArgumentValidator(
+    const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
+    return get_portrait_ArgumentValidator();
+  }
+
   JSValue Gesture::getLandscape_ArgumentValidator(
       const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
     return get_landscape_ArgumentValidator();
