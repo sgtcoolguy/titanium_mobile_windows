@@ -26,17 +26,18 @@ namespace TitaniumWindows {
   using namespace HAL;
 
   Application::Application()
-    : application__(Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<TitaniumWindows::GlobalObject>::Class()))
-    .APIClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::API>::Class()))
-    .PlatformClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Platform>::Class()))
-    .GestureClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Gesture>::Class()))
-    .AccelerometerClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Accelerometer>::Class()))
-    .ViewClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::View>::Class()))
-    .WindowClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Window>::Class()))
-    .ButtonClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Button>::Class()))
-    .BlobClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Blob>::Class()))
-    .FilesystemClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::FilesystemModule>::Class()))
-    .FileClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Filesystem::File>::Class()))
+    : js_context__(js_context_group__.CreateContext(JSExport<TitaniumWindows::GlobalObject>::Class()))
+    , application__(Titanium::ApplicationBuilder(js_context__)
+    .APIObject(js_context__.CreateObject<TitaniumWindows::API>())
+    .PlatformObject(js_context__.CreateObject<TitaniumWindows::Platform>())
+    .GestureObject(js_context__.CreateObject<TitaniumWindows::Gesture>())
+    .AccelerometerObject(js_context__.CreateObject<TitaniumWindows::Accelerometer>())
+    .ViewObject(js_context__.CreateObject<TitaniumWindows::UI::View>())
+    .WindowObject(js_context__.CreateObject<TitaniumWindows::UI::Window>())
+    .ButtonObject(js_context__.CreateObject<TitaniumWindows::UI::Button>())
+    .BlobObject(js_context__.CreateObject<TitaniumWindows::Blob>())
+    .FilesystemObject(js_context__.CreateObject<TitaniumWindows::FilesystemModule>())
+    .FileObject(js_context__.CreateObject<TitaniumWindows::Filesystem::File>())
     .build()) {
   }
 
