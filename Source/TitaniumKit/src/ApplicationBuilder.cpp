@@ -45,6 +45,7 @@ namespace Titanium {
     ui.SetProperty("Button"   , button__);
     ui.SetProperty("ImageView", imageview__);
     ui.SetProperty("Label"    , label__);
+    ui.SetProperty("ScrollView", scrollview__);
 
     filesystem__.SetProperty("File"  , file__);
     
@@ -123,6 +124,15 @@ namespace Titanium {
   
   ApplicationBuilder& ApplicationBuilder::LabelObject(const JSObject& label) TITANIUM_NOEXCEPT{
     label__ = label;
+    return *this;
+  }
+
+  JSObject ApplicationBuilder::ScrollViewObject() const TITANIUM_NOEXCEPT {
+    return scrollview__;
+  }
+
+    ApplicationBuilder& ApplicationBuilder::ScrollViewObject(const JSObject& view) TITANIUM_NOEXCEPT {
+    scrollview__ = view;
     return *this;
   }
 
