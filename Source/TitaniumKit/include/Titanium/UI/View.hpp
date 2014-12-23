@@ -73,11 +73,14 @@ namespace Titanium { namespace UI {
     
     virtual JSValue get_height() const                                  TITANIUM_NOEXCEPT final;
     virtual void    set_height(const JSValue& height)                   TITANIUM_NOEXCEPT final;
+
+	virtual JSValue get_layout() const                                  TITANIUM_NOEXCEPT final;
+	virtual void    set_layout(const JSValue& height)                   TITANIUM_NOEXCEPT final;
     
     View(const JSContext& js_context)                        TITANIUM_NOEXCEPT;
     View(const View&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
-    virtual ~View()              = default;
+    virtual ~View() TITANIUM_NOEXCEPT;//= default;
     View(const View&)            = default;
     View& operator=(const View&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
@@ -191,6 +194,18 @@ namespace Titanium { namespace UI {
     // return result;
     virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
 
+	// Base classes must implement this method. This is the minimum
+	// functionality that you should perform:
+	//
+	// TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+	// bool result = false;
+	// const std::string height = static_cast<std::string>(argument);
+	// Set the native view's layout type.
+	// set_layout(argument);
+	// result = true;
+	// return result;
+	virtual bool setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
+
   protected:
     
     virtual NativeChildrenList_t get_native_children() const TITANIUM_NOEXCEPT final;
@@ -206,6 +221,7 @@ namespace Titanium { namespace UI {
     JSObject center__;
     JSValue  width__;
     JSValue  height__;
+	JSValue  layout__;
     
   };
 }} // namespace Titanium { namespace UI {

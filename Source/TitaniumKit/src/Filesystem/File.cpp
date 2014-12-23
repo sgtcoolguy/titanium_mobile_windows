@@ -274,12 +274,13 @@ namespace Titanium { namespace Filesystem {
     return get_context().CreateNumber(createTimestamp());
   }
   JSValue File::deleteDirectory_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
-    if (arguments.size() == 0) {
-      return get_context().CreateUndefined();
+    bool recursive = false;
+    if (arguments.size() > 0) {
+      const auto _0 = arguments.at(0);
+      TITANIUM_ASSERT(_0.IsBoolean());
+      recursive = static_cast<bool>(_0);
     }
-    const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsBoolean());
-    const auto recursive = static_cast<bool>(_0);
+
     return get_context().CreateBoolean(deleteDirectory(recursive));
   }
   JSValue File::deleteFile_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
@@ -345,14 +346,12 @@ namespace Titanium { namespace Filesystem {
     }
     
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsObject());
-    JSObject data = _0;
     
     const auto _1 = arguments.at(1);
     TITANIUM_ASSERT(_1.IsBoolean());
     const auto append = static_cast<bool>(_1);
     
-    return get_context().CreateBoolean(write(data, append));
+    return get_context().CreateBoolean(write(_0, append));
   }
 
 }} // namespace Titanium { namespace Filesystem {

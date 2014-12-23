@@ -34,6 +34,8 @@ namespace TitaniumWindows {
     Windows::Foundation::EventRegistrationToken                first_navigated_token__;
 #endif
 
+    HAL::JSContextGroup   js_context_group__;
+    HAL::JSContext        js_context__;
     Titanium::Application application__;
   };
 
