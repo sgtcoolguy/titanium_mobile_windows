@@ -47,6 +47,33 @@ namespace Titanium { namespace UI {
      @result void
      */
     virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+	/*!
+	@method
+
+	@abstract hide() : void
+
+	@discussion Hides the view and it's chldren in the view's hierarchy.
+
+	@param 
+
+	@result void
+	*/
+	virtual void hide(JSObject& this_object) TITANIUM_NOEXCEPT;
+
+	/*!
+	@method
+
+	@abstract show() : void
+
+	@discussion Causes the view and the view's hierarchy to be displayed. 
+
+	@param 
+
+	@result void
+	*/
+	virtual void show(JSObject& this_object) TITANIUM_NOEXCEPT;
+
     
     virtual JSArray get_children() const TITANIUM_NOEXCEPT final;
     
@@ -92,8 +119,10 @@ namespace Titanium { namespace UI {
     // from the YAML API docs.
     static void JSExportInitialize();
     
-    virtual JSValue addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-    
+	virtual JSValue addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+	virtual JSValue hideArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+	virtual JSValue showArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
     // Base classes must implement this method. This is the minimum
     // functionality that you should perform:
     //
