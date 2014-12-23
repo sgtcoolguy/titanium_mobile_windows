@@ -37,7 +37,7 @@ namespace Titanium { namespace UI {
   , width__(rhs.width__)
   , height__(rhs.height__) 
   , layout__(rhs.layout__) {
-    TITANIUM_LOG_DEBUG("View:: ctor 1 ", this);
+    TITANIUM_LOG_DEBUG("View:: ctor 2 ", this);
   }
   
   View::~View() TITANIUM_NOEXCEPT {
