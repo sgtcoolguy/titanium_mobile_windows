@@ -309,8 +309,18 @@ namespace Titanium {
   };
   Object.defineProperties(Tab.prototype, {
     "window": {
-        set:function(value){this.__ti_private__.window=value;},
-        get:function(){return this.__ti_private__.window;},
+        set:function(value){this.setWindow(value);},
+        get:function(){return this.getWindow();},
+        enumerable:true
+    },
+    "title": {
+        set:function(value){this.setTitle(value);},
+        get:function(){return this.getTitle();},
+        enumerable:true
+    },
+    "icon": {
+        set:function(value){this.setIcon(value);},
+        get:function(){return this.getIocon();},
         enumerable:true
     }
   });
@@ -319,8 +329,17 @@ namespace Titanium {
       this.__ti_private__.window.width = Ti.UI.FILL;
       this.__ti_private__.window.height = Ti.UI.FILL;
   };
+  Tab.prototype.getWindow = function () {
+      return this.__ti_private__.window;
+  }
+  Tab.prototype.getTitle = function () {
+      return this.__ti_private__.title.title;
+  };
   Tab.prototype.setTitle = function (_title) {
       this.__ti_private__.title.title = _title;
+  };
+  Tab.prototype.getIcon = function () {
+      return this.__ti_private__.title.image;
   };
   Tab.prototype.setIcon = function (_icon) {
       this.__ti_private__.title.image = _icon;
@@ -366,10 +385,10 @@ namespace Titanium {
     this.__ti_private__.bar.backgroundColor = 'red';
     this.__ti_private__.bar.layout = 'horizontal';
     this.__ti_private__.bar.name = 'tabBar';
-    this.__ti_private__.content = Ti.UI.createScrollView();
+    this.__ti_private__.content = Ti.UI.createView();
     this.__ti_private__.content.top = 0;
-    this.__ti_private__.content.bottom = 0;
-    this.__ti_private__.content.width = Ti.UI.FILL;
+    this.__ti_private__.content.width  = Ti.UI.FILL;
+    this.__ti_private__.content.height = Ti.UI.FILL;
     this.__ti_private__.content.contentWidth = Ti.UI.SIZE;
     this.__ti_private__.content.name = 'scrollView';
     this.__ti_private__.content.layout = 'horizontal';
@@ -408,11 +427,12 @@ namespace Titanium {
   TabGroup.prototype.addTab = function (_tab) {
       var self = this;
       this.__ti_private__.bar.add(_tab.__ti_private__.title);
+      this.__ti_private__.tabs.push(_tab);
       this.__ti_private__.content.add(_tab.__ti_private__.window);
       var tabLength = this.__ti_private__.bar.children.length;
       var width = (1 / tabLength * 100) + '%';
-      this.__ti_private__.bar.children.forEach(function (tab) {
-          tab.width = width;
+      this.__ti_private__.tabs.forEach(function (tab) {
+          tab.title.width = width;
       });
       _tab.__ti_private__.title._index = tabLength - 1;
       _tab.__ti_private__.title.addEventListener('click', function (e) {

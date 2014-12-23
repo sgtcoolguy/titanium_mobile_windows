@@ -37,6 +37,8 @@ namespace TitaniumWindows { namespace UI {
     View& operator=(View&&)      = default;
 #endif
 
+    virtual bool layout(const std::string& type) TITANIUM_NOEXCEPT override;
+
     static void JSExportInitialize();
 
     virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;
@@ -47,8 +49,8 @@ namespace TitaniumWindows { namespace UI {
     virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-	virtual bool setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-	virtual bool setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+    virtual bool setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+    virtual bool setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
 
     virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 

@@ -28,6 +28,11 @@ namespace TitaniumWindows { namespace UI {
     JSExport<View>::SetParent(JSExport<Titanium::UI::View>::Class());
   }
 
+  bool View::layout(const std::string& type) TITANIUM_NOEXCEPT {
+    this->setLayout(type);
+    return true;
+  }
+
   void View::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT {
     auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
 

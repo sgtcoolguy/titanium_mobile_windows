@@ -73,6 +73,10 @@ namespace Titanium { namespace UI {
     
     virtual JSValue get_height() const                                  TITANIUM_NOEXCEPT final;
     virtual void    set_height(const JSValue& height)                   TITANIUM_NOEXCEPT final;
+
+    virtual JSValue get_layout() const                           TITANIUM_NOEXCEPT final;
+    virtual bool    set_layout(const JSValue&)                   TITANIUM_NOEXCEPT final;
+    virtual bool layout(const std::string& type) TITANIUM_NOEXCEPT;
     
     View(const JSContext& js_context)                        TITANIUM_NOEXCEPT;
     View(const View&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
@@ -88,7 +92,8 @@ namespace Titanium { namespace UI {
     // TODO: The following functions can automatically be generated
     // from the YAML API docs.
     static void JSExportInitialize();
-    
+
+    virtual JSValue setLayoutArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
     virtual JSValue addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
     
     // Base classes must implement this method. This is the minimum

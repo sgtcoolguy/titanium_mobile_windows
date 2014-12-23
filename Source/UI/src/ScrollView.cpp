@@ -18,7 +18,9 @@ namespace TitaniumWindows { namespace UI {
     scroll_viewer__->HorizontalScrollMode = ScrollMode::Enabled;
     scroll_viewer__->VerticalScrollMode = ScrollMode::Enabled;
 
-    contentView__.SetProperty("width",  get_context().CreateString("Ti.UI.FILL"));
+    contentView__.SetProperty("top", get_context().CreateNumber(0));
+    contentView__.SetProperty("left", get_context().CreateNumber(0));
+    contentView__.SetProperty("width", get_context().CreateString("Ti.UI.FILL"));
     contentView__.SetProperty("height", get_context().CreateString("Ti.UI.FILL"));
 
     auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
@@ -48,10 +50,15 @@ namespace TitaniumWindows { namespace UI {
     JSExport<ScrollView>::SetParent(JSExport<Titanium::UI::ScrollView>::Class());
   }
 
+  bool ScrollView::layout(const std::string& type) TITANIUM_NOEXCEPT {
+    auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
+    content->layout(type);
+    return true;
+  }
+
   void ScrollView::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT {
     auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
     content->add(view, this_object);
-    View::add(view, this_object);
   }
 
   bool ScrollView::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
