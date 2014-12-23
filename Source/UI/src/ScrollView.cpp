@@ -50,12 +50,6 @@ namespace TitaniumWindows { namespace UI {
     JSExport<ScrollView>::SetParent(JSExport<Titanium::UI::ScrollView>::Class());
   }
 
-  bool ScrollView::layout(const std::string& type) TITANIUM_NOEXCEPT {
-    auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
-    content->layout(type);
-    return true;
-  }
-
   void ScrollView::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT {
     auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
     content->add(view, this_object);

@@ -45,8 +45,6 @@ namespace TitaniumWindows { namespace UI {
       return  Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL);
     }
 
-    virtual bool layout(const std::string& type) TITANIUM_NOEXCEPT override;
-
     virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT override;
     virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
     virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;

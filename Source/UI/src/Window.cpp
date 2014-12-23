@@ -27,11 +27,6 @@ namespace TitaniumWindows { namespace UI {
   Window::~Window() {
   }
 
-  bool Window::layout(const std::string& type) TITANIUM_NOEXCEPT {
-    this->setLayout(type);
-    return true;
-  }
-
   void Window::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT {
     auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
     

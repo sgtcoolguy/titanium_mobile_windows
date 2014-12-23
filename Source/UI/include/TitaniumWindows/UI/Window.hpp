@@ -25,7 +25,6 @@ namespace TitaniumWindows { namespace UI {
   class TITANIUMWINDOWS_UI_EXPORT Window final : public Titanium::UI::Window, public JSExport < Window >, public ViewBase {
 
   public:
-    virtual bool layout(const std::string& type) TITANIUM_NOEXCEPT override;
 
     virtual void open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT override final;
     virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;

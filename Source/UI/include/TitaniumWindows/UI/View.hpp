@@ -37,8 +37,6 @@ namespace TitaniumWindows { namespace UI {
     View& operator=(View&&)      = default;
 #endif
 
-    virtual bool layout(const std::string& type) TITANIUM_NOEXCEPT override;
-
     static void JSExportInitialize();
 
     virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;

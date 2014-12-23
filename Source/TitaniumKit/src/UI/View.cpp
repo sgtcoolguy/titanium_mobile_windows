@@ -161,29 +161,6 @@ namespace Titanium { namespace UI {
     JSExport<View>::AddValueProperty("right", std::mem_fn(&View::get_right), std::mem_fn(&View::setRightArgumentValidator));
     JSExport<View>::AddValueProperty("width", std::mem_fn(&View::get_width), std::mem_fn(&View::setWidthArgumentValidator));
     JSExport<View>::AddValueProperty("height", std::mem_fn(&View::get_height), std::mem_fn(&View::setHeightArgumentValidator));
-    JSExport<View>::AddValueProperty("layout", std::mem_fn(&View::get_layout), std::mem_fn(&View::set_layout));
-  }
-
-  JSValue View::get_layout() const TITANIUM_NOEXCEPT {
-    TITANIUM_LOG_WARN("View::get_layout - Unimplemented");
-    return get_context().CreateUndefined();
-  }
-
-  bool View::set_layout(const JSValue& layout) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(layout.IsString());
-    const auto _0 = static_cast<std::string>(layout);
-    return this->layout(_0);
-  }
-
-  bool View::layout(const std::string& type) TITANIUM_NOEXCEPT {
-    TITANIUM_LOG_WARN("View::setLayout - Unimplemented");
-    return false;
-  }
-
-  JSValue View::setLayoutArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(arguments.size() >= 1);
-    set_layout(arguments.at(0));
-    return get_context().CreateUndefined();
   }
 
   JSValue View::addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
