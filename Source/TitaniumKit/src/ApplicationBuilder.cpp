@@ -25,6 +25,8 @@ namespace Titanium {
   , view__(js_context__.CreateObject<Titanium::UI::View>())
   , window__(js_context__.CreateObject<Titanium::UI::Window>())
   , button__(js_context__.CreateObject<Titanium::UI::Button>())
+  , imageview__(js_context__.CreateObject<Titanium::UI::ImageView>())
+  , label__(js_context__.CreateObject<Titanium::UI::Label>())
   , platform__(js_context__.CreateObject<Titanium::Platform>())
   , accelerometer__(js_context__.CreateObject<Titanium::Accelerometer>())
   , gesture__(js_context__.CreateObject<Titanium::Gesture>())
@@ -37,10 +39,12 @@ namespace Titanium {
   Application ApplicationBuilder::build() {
     
     JSObject ui = js_context__.CreateObject<Titanium::UIModule>();
-    ui.SetProperty("View"  , view__);
-    ui.SetProperty("Window", window__);
-    ui.SetProperty("Button", button__);
-      
+    ui.SetProperty("View"     , view__);
+    ui.SetProperty("Window"   , window__);
+    ui.SetProperty("Button"   , button__);
+    ui.SetProperty("ImageView", imageview__);
+    ui.SetProperty("Label"    , label__);
+
     filesystem__.SetProperty("File"  , file__);
     
     JSObject titanium = js_context__.CreateObject();
@@ -54,7 +58,6 @@ namespace Titanium {
     titanium.SetProperty("Gesture"      , gesture__      , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
     titanium.SetProperty("Blob"         , blob__         , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
     titanium.SetProperty("Filesystem"   , filesystem__   , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-
     JSString builtin_functions_script = R"js(
       console = {};
       console.log   = Ti.API.info;
@@ -103,7 +106,25 @@ namespace Titanium {
     button__ = button;
     return *this;
   }
-    
+
+  JSObject ApplicationBuilder::ImageViewObject() const TITANIUM_NOEXCEPT {
+    return imageview__;
+  }
+  
+  ApplicationBuilder& ApplicationBuilder::ImageViewObject(const JSObject& imageview) TITANIUM_NOEXCEPT {
+    imageview__ = imageview;
+    return *this;
+  }
+
+  JSObject ApplicationBuilder::LabelObject() const TITANIUM_NOEXCEPT{
+    return label__;
+  }
+  
+  ApplicationBuilder& ApplicationBuilder::LabelObject(const JSObject& label) TITANIUM_NOEXCEPT{
+    label__ = label;
+    return *this;
+  }
+
   JSObject ApplicationBuilder::PlatformObject() const TITANIUM_NOEXCEPT {
     return platform__;
   }

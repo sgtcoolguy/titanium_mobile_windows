@@ -7,6 +7,28 @@
  */
 'use strict';
 
+var label = Ti.UI.createLabel({
+});
+
+label.text = 'quotes go here';
+label.color = '#ff00ff';
+label.top = 500;
+label.left = 10;
+//label.width = 145;
+//label.height = 50;
+
+var imageView = Ti.UI.createImageView({
+});
+
+imageView.image = 'http://iconizer.net/files/IconSweets/orig/email.png';
+
+imageView.top = 420;
+imageView.left = 10;
+
+imageView.addEventListener('click', function (e) {
+    Ti.API.warn('Image, Art, Faith, Mystery.');
+});
+
 var button = Ti.UI.createButton({ 
 });
 
@@ -21,15 +43,18 @@ button2.title = 'Ingo Says...';
 button3.title = 'Chris Barber Says...';
 
 button.addEventListener('click', function(e) {
-  Ti.API.warn('Goals without a timeline are just a dream.');
+    Ti.API.warn('Goals without a timeline are just a dream.');
+    label.text = 'Goals without a timeline are just a dream.';
 });
 
 button2.addEventListener('click', function (e) {
     Ti.API.info('Your estimation factor is 4X.');
+    label.text = 'Your estimation factor is 4X.';
 });
 
 button3.addEventListener('click', function (e) {
     Ti.API.info("I am from Santa Clara.");
+    label.text = "I am from Santa Clara.";
 });
 
 var view = Ti.UI.createView({
@@ -70,6 +95,8 @@ view3.add(button3);
 
 var window = Ti.UI.createWindow();
 window.backgroundColor = "Blue";
+window.add(label);
+window.add(imageView);
 window.add(view);
 window.add(view2);
 window.add(view3);
