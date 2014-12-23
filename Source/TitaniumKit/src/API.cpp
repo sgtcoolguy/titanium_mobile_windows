@@ -14,10 +14,16 @@ namespace Titanium {
   
   API::API(const JSContext& js_context) TITANIUM_NOEXCEPT
   : Module(js_context) {
+    TITANIUM_LOG_DEBUG("API:: ctor 1 ", this);
   }
   
   API::API(const API& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
   : Module(rhs, arguments) {
+    TITANIUM_LOG_DEBUG("API:: ctor 2 ", this);
+  }
+  
+  API::~API() TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("API:: dtor ", this);
   }
   
   void API::info(const std::string& message) const TITANIUM_NOEXCEPT {
@@ -120,40 +126,40 @@ namespace Titanium {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     std::string message = static_cast<std::string>(_0);
-    info(message);
-    return get_context().CreateUndefined();
+    this_object.GetPrivate<API>() -> info(message);
+    return this_object.get_context().CreateUndefined();
   }
   
   JSValue API::warnArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     std::string message = static_cast<std::string>(_0);
-    warn(message);
-    return get_context().CreateUndefined();
+    this_object.GetPrivate<API>() -> warn(message);
+    return this_object.get_context().CreateUndefined();
   }
   
   JSValue API::errorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     std::string message = static_cast<std::string>(_0);
-    error(message);
-    return get_context().CreateUndefined();
+    this_object.GetPrivate<API>() -> error(message);
+    return this_object.get_context().CreateUndefined();
   }
   
   JSValue API::debugArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     std::string message = static_cast<std::string>(_0);
-    debug(message);
-    return get_context().CreateUndefined();
+    this_object.GetPrivate<API>() -> debug(message);
+    return this_object.get_context().CreateUndefined();
   }
   
   JSValue API::traceArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     std::string message = static_cast<std::string>(_0);
-    trace(message);
-    return get_context().CreateUndefined();
+    this_object.GetPrivate<API>() -> trace(message);
+    return this_object.get_context().CreateUndefined();
   }
   
   JSValue API::logArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
@@ -162,8 +168,8 @@ namespace Titanium {
     std::string level = static_cast<std::string>(_0);
     const auto _1 = arguments.at(1);
     std::string message = static_cast<std::string>(_1);
-    log(level, message);
-    return get_context().CreateUndefined();
+    this_object.GetPrivate<API>() -> log(level, message);
+    return this_object.get_context().CreateUndefined();
   }
   
 } // namespace Titanium

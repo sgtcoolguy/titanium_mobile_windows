@@ -21,6 +21,7 @@ namespace Titanium { namespace UI {
   , center__(js_context.CreateObject())
   , width__(js_context.CreateString())
   , height__(js_context.CreateString()) {
+    TITANIUM_LOG_DEBUG("View:: ctor 1 ", this);
   }
   
   View::View(const View& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
@@ -34,8 +35,13 @@ namespace Titanium { namespace UI {
   , center__(rhs.center__)
   , width__(rhs.width__)
   , height__(rhs.height__) {
+    TITANIUM_LOG_DEBUG("View:: ctor 1 ", this);
   }
   
+  View::~View() TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("View:: dtor ", this);
+  }
+
   void View::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT {
     TITANIUM_LOG_DEBUG("View::add");
     

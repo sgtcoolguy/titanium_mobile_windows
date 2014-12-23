@@ -30,7 +30,7 @@ public:
   NativeGlobalObjectExample(const JSContext& js_context)                                             TITANIUM_NOEXCEPT;
   NativeGlobalObjectExample(const NativeGlobalObjectExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
   
-  virtual ~NativeGlobalObjectExample()                                   = default;
+  virtual ~NativeGlobalObjectExample() TITANIUM_NOEXCEPT;//= default;
   NativeGlobalObjectExample(const NativeGlobalObjectExample&)            = default;
   NativeGlobalObjectExample& operator=(const NativeGlobalObjectExample&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
