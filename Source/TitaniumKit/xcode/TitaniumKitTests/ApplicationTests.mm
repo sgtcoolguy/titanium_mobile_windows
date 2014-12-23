@@ -19,7 +19,9 @@ using namespace HAL;
 @interface ApplicationTests : XCTestCase
 @end
 
-@implementation ApplicationTests
+@implementation ApplicationTests {
+  JSContextGroup js_context_group;
+}
 
 - (void)setUp {
     [super setUp];
@@ -65,11 +67,37 @@ using namespace HAL;
   Ti.API.info('ng.js running...');
   )js";
   
-  Titanium::Application app = Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<NativeGlobalObjectExample>::Class()))
-  .APIClass(std::make_shared<JSClass>(JSExport<NativeAPIExample>::Class()))
-  .ViewClass(std::make_shared<JSClass>(JSExport<NativeViewExample>::Class()))
-  .WindowClass(std::make_shared<JSClass>(JSExport<NativeWindowExample>::Class()))
-  .ButtonClass(std::make_shared<JSClass>(JSExport<NativeButtonExample>::Class()))
+  JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+  Titanium::Application app = Titanium::ApplicationBuilder(js_context)
+  .APIObject(js_context.CreateObject<NativeAPIExample>())
+  .ViewObject(js_context.CreateObject<NativeViewExample>())
+  .WindowObject(js_context.CreateObject<NativeWindowExample>())
+  .ButtonObject(js_context.CreateObject<NativeButtonExample>())
+  .build();
+  
+  auto global_object_ptr = app.get_context().get_global_object().GetPrivate<NativeGlobalObjectExample>();
+  global_object_ptr -> set_example_resource(app_js);
+  
+  JSValue reslut = app.Run("app.js");
+}
+
+- (void)xtestCrash {
+  std::string app_js = R"js(
+  'use strict';
+  
+  for (var i = 0; i < 1000; i++) {
+    var b = Ti.UI.createButton();
+    Ti.API.info("MDL: i = " + i);
+    b = null;
+  }
+  )js";
+  
+  JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+  Titanium::Application app = Titanium::ApplicationBuilder(js_context)
+  .APIObject(js_context.CreateObject<NativeAPIExample>())
+  .ViewObject(js_context.CreateObject<NativeViewExample>())
+  .WindowObject(js_context.CreateObject<NativeWindowExample>())
+  .ButtonObject(js_context.CreateObject<NativeButtonExample>())
   .build();
   
   auto global_object_ptr = app.get_context().get_global_object().GetPrivate<NativeGlobalObjectExample>();

@@ -103,7 +103,7 @@ namespace Titanium {
     Module(const JSContext& js_context)                          TITANIUM_NOEXCEPT;
     Module(const Module&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
-    virtual ~Module()                = default;
+    virtual ~Module() TITANIUM_NOEXCEPT;//= default;
     Module(const Module&)            = default;
     Module& operator=(const Module&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

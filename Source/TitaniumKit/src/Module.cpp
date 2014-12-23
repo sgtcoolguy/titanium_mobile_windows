@@ -14,11 +14,17 @@ namespace Titanium {
   Module::Module(const JSContext& js_context) TITANIUM_NOEXCEPT
   : JSExportObject(js_context)
   , event_listener_map__(js_context.CreateObject()) {
+    TITANIUM_LOG_DEBUG("Module:: ctor 1 ", this);
   }
   
   Module::Module(const Module& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
   : JSExportObject(rhs, arguments)
   , event_listener_map__(rhs.event_listener_map__) {
+    TITANIUM_LOG_DEBUG("Module:: ctor 2 ", this);
+  }
+  
+  Module::~Module() TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("Module:: dtor ", this);
   }
   
   void Module::addEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT{

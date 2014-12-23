@@ -26,7 +26,7 @@ public:
   NativeViewExample(const JSContext& js_context)                                     TITANIUM_NOEXCEPT;
   NativeViewExample(const NativeViewExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
   
-  virtual ~NativeViewExample()                           = default;
+  virtual ~NativeViewExample() TITANIUM_NOEXCEPT;//= default;
   NativeViewExample(const NativeViewExample&)            = default;
   NativeViewExample& operator=(const NativeViewExample&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

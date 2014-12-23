@@ -26,7 +26,7 @@ public:
   NativeAPIExample(const JSContext& js_context)                                    TITANIUM_NOEXCEPT;
   NativeAPIExample(const NativeAPIExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
   
-  virtual ~NativeAPIExample()                          = default;
+  virtual ~NativeAPIExample() TITANIUM_NOEXCEPT;//= default;
   NativeAPIExample(const NativeAPIExample&)            = default;
   NativeAPIExample& operator=(const NativeAPIExample&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

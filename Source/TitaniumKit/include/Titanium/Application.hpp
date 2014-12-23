@@ -38,8 +38,7 @@ namespace Titanium {
     
   private:
     
-    JSContextGroup js_context_group__;
-    JSContext      js_context__;
+    JSContext js_context__;
   };
   
 } // namespace Titanium {

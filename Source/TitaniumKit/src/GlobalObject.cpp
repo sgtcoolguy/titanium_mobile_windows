@@ -26,6 +26,7 @@ namespace Titanium {
   : JSExportObject(js_context)
   , require_function__(createRequireFunction(js_context))
   , callback_map__(js_context.CreateObject()) {
+    TITANIUM_LOG_DEBUG("GlobalObject:: ctor 1 ", this);
   }
   
   GlobalObject::GlobalObject(const GlobalObject& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
@@ -33,8 +34,13 @@ namespace Titanium {
   , require_function__(createRequireFunction(rhs.get_context()))
   , callback_map__(rhs.callback_map__)
   , timer_map__(rhs.timer_map__) {
+    TITANIUM_LOG_DEBUG("GlobalObject:: ctor 2 ", this);
   }
   
+  GlobalObject::~GlobalObject() TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("GlobalObject:: dtor ", this);
+  }
+
   JSObject GlobalObject::xrequire(const std::string& moduleId) TITANIUM_NOEXCEPT{
     TITANIUM_GLOBALOBJECT_LOCK_GUARD;
     
