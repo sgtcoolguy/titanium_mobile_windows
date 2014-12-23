@@ -151,7 +151,6 @@ namespace Titanium { namespace UI {
     JSExport<View>::SetClassVersion(1);
     JSExport<View>::SetParent(JSExport<Module>::Class());
     JSExport<View>::AddFunctionProperty("add", std::mem_fn(&View::addArgumentValidator));
-    JSExport<View>::AddFunctionProperty("setLayout", std::mem_fn(&View::setLayoutArgumentValidator));
     JSExport<View>::AddValueProperty("children", std::mem_fn(&View::get_children));
     JSExport<View>::AddValueProperty("backgroundColor", std::mem_fn(&View::get_backgroundColor), std::mem_fn(&View::setBackgroundColorArgumentValidator));
     JSExport<View>::AddValueProperty("top", std::mem_fn(&View::get_top), std::mem_fn(&View::setTopArgumentValidator));
