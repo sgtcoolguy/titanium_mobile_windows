@@ -71,9 +71,9 @@ namespace TitaniumWindows { namespace UI {
   bool Window::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
     TITANIUM_ASSERT(argument.IsString());
     bool result = false;
-    std::string backgroundColorName = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("View::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColorName);
-    const auto backgroundColor = ColorForName(backgroundColorName);
+    std::string value = static_cast<std::string>(argument);
+    TITANIUM_LOG_INFO("Window::setBackgroundColorArgumentValidator: backgroundColor = ", value);
+    const auto backgroundColor = ColorForName(value);
     canvas__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
     set_backgroundColor(argument);
     result = true;
@@ -120,6 +120,17 @@ namespace TitaniumWindows { namespace UI {
     TITANIUM_LOG_INFO("Window::setHeightArgumentValidator: height = ", value);
     setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, static_cast<std::string>(argument));
     set_height(argument);
+    result = true;
+    return result;
+  }
+
+  bool Window::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
+    TITANIUM_ASSERT(argument.IsString());
+    bool result = false;
+    std::string value = static_cast<std::string>(argument);
+    TITANIUM_LOG_INFO("Window::setLayoutArgumentValidator: layout = ", value);
+    setLayout(value);
+    set_layout(argument);
     result = true;
     return result;
   }

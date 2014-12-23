@@ -48,6 +48,7 @@ namespace TitaniumWindows { namespace UI {
     virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+    virtual bool setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
 
     virtual void onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name);
     virtual void onComponentSizeChange(const Titanium::LayoutEngine::Rect&);

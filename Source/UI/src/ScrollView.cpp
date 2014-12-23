@@ -23,8 +23,10 @@ namespace TitaniumWindows { namespace UI {
     contentView__.SetProperty("width", get_context().CreateString("Ti.UI.FILL"));
     contentView__.SetProperty("height", get_context().CreateString("Ti.UI.FILL"));
 
-    auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
+    auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
     scroll_viewer__->Content = content->getComponent();
+
+    View::add(contentView__, get_context().CreateObject());
   }
 
   ScrollView::ScrollView(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -117,6 +119,17 @@ namespace TitaniumWindows { namespace UI {
     setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, value);
     set_height(argument);
     return true;
+  }
+
+  bool ScrollView::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_ASSERT(argument.IsString());
+    bool result = false;
+    std::string value = static_cast<std::string>(argument);
+    TITANIUM_LOG_INFO("ScrollView::setLayoutArgumentValidator: layout = ", value);
+    setLayout(value);
+    set_layout(argument);
+    result = true;
+    return result;
   }
 
   void ScrollView::scrollTo(double x, double y) {

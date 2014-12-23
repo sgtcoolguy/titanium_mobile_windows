@@ -133,6 +133,17 @@ namespace TitaniumWindows { namespace UI {
 	return result;
   }
 
+  bool View::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
+	  TITANIUM_ASSERT(argument.IsString());
+	  bool result = false;
+	  std::string value = static_cast<std::string>(argument);
+	  TITANIUM_LOG_INFO("View::setLayoutArgumentValidator: layout = ", value);
+	  setLayout(value);
+	  set_layout(argument);
+	  result = true;
+	  return result;
+  }
+
   void View::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT {
     TITANIUM_LOG_DEBUG("View::enableEvent: (event name '", event_name, "'");
     

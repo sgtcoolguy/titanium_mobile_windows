@@ -53,6 +53,7 @@ namespace TitaniumWindows { namespace UI {
     virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
     virtual bool setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
     virtual bool setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
+    virtual bool setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
 
     virtual void scrollTo(double x, double y) TITANIUM_NOEXCEPT override;
     virtual void scrollToBottom() TITANIUM_NOEXCEPT override;

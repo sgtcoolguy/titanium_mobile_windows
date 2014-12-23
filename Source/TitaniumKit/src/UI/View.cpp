@@ -20,7 +20,8 @@ namespace Titanium { namespace UI {
   , right__(js_context.CreateString())
   , center__(js_context.CreateObject())
   , width__(js_context.CreateString())
-  , height__(js_context.CreateString()) {
+  , height__(js_context.CreateString())
+  , layout__(js_context.CreateString()) {
     TITANIUM_LOG_DEBUG("View:: ctor 1 ", this);
   }
   
@@ -34,7 +35,8 @@ namespace Titanium { namespace UI {
   , right__(rhs.right__)
   , center__(rhs.center__)
   , width__(rhs.width__)
-  , height__(rhs.height__) {
+  , height__(rhs.height__) 
+  , layout__(rhs.layout__) {
     TITANIUM_LOG_DEBUG("View:: ctor 1 ", this);
   }
   
@@ -120,6 +122,14 @@ namespace Titanium { namespace UI {
   void View::set_height(const JSValue& height) TITANIUM_NOEXCEPT {
     height__ = height;
   }
+
+  JSValue View::get_layout() const TITANIUM_NOEXCEPT{
+	return height__;
+  }
+
+  void View::set_layout(const JSValue& height) TITANIUM_NOEXCEPT{
+	height__ = height;
+  }
   
   NativeChildrenList_t View::get_native_children() const TITANIUM_NOEXCEPT {
     NativeChildrenList_t native_children_list;
@@ -160,6 +170,7 @@ namespace Titanium { namespace UI {
     JSExport<View>::AddValueProperty("right", std::mem_fn(&View::get_right), std::mem_fn(&View::setRightArgumentValidator));
     JSExport<View>::AddValueProperty("width", std::mem_fn(&View::get_width), std::mem_fn(&View::setWidthArgumentValidator));
     JSExport<View>::AddValueProperty("height", std::mem_fn(&View::get_height), std::mem_fn(&View::setHeightArgumentValidator));
+	JSExport<View>::AddValueProperty("layout", std::mem_fn(&View::get_layout), std::mem_fn(&View::setLayoutArgumentValidator));
   }
 
   JSValue View::addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
@@ -311,6 +322,23 @@ namespace Titanium { namespace UI {
     // return result;
     
     return false;
+  }
+
+  bool View::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
+	TITANIUM_LOG_WARN("View::setLayoutArgumentValidator: Unimplemented");
+
+	// Base classes must implement this method. This is the minimum
+	// functionality that you should perform:
+	//
+	// TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+	// bool result = false;
+	// const std::string layout = static_cast<std::string>(argument);
+	// Set the native view's layout type.
+	// set_layout(argument);
+	// result = true;
+	// return result;
+
+	return false;
   }
 
   
