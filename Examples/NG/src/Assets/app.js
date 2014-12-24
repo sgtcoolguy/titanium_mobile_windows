@@ -14,39 +14,30 @@ var label = Ti.UI.createLabel({
     'left': 10
 });
 
-label.text = 'quotes go here';
-label.color = '#ff00ff';
-label.top = 500;
-label.left = 10;
 //label.width = 145;
 //label.height = 50;
 
 var imageView = Ti.UI.createImageView({
     'top': 420,
-    'left': 10
+    'left': 10,
+    image: 'http://iconizer.net/files/IconSweets/orig/email.png'
 });
-
-imageView.image = 'http://iconizer.net/files/IconSweets/orig/email.png';
-
-imageView.top = 420;
-imageView.left = 10;
 
 imageView.addEventListener('click', function (e) {
     Ti.API.warn('Image, Art, Faith, Mystery.');
 });
 
 var button = Ti.UI.createButton({
+    title: 'Neeraj Says...'
 });
 
 var button2 = Ti.UI.createButton({
+    title: 'Ingo Says...'
 });
 
 var button3 = Ti.UI.createButton({
+    title: 'Chris Barber Says...'
 });
-
-button.title = 'Neeraj Says...';
-button2.title = 'Ingo Says...';
-button3.title = 'Chris Barber Says...';
 
 button.addEventListener('click', function (e) {
     Ti.API.warn('Goals without a timeline are just a dream.');
@@ -67,50 +58,32 @@ var view = Ti.UI.createView({
     'top': 20,
     'left': 10,
     'width': 145,
-    'height': 50
+    'height': 50,
+    backgroundColor: "Red"
 });
-
-view.top = 20;
-view.left = 10;
-view.width = 145;
-view.height = 50;
-view.backgroundColor = "Red";
 view.add(button);
 
 var view2 = Ti.UI.createView({
     'top': 120,
     'left': 110,
     'width': 130,
-    'height': 50
+    'height': 50,
+    backgroundColor: "Pink"
 });
-
-view2.top = 120;
-view2.left = 110;
-view2.width = 130;
-view2.height = 50;
-
-view2.backgroundColor = "Pink";
 view2.add(button2);
 
 var view3 = Ti.UI.createView({
     'top': 220,
     'left': 210,
     'width': 190,
-    'height': 50
+    'height': 50,
+    backgroundColor: 'Green'
 });
-
-view3.top = 220;
-view3.left = 210;
-view3.width = 190;
-view3.height = 50;
-
-view3.backgroundColor = "Green";
 view3.add(button3);
 
 var window = Ti.UI.createWindow({
     'backgroundColor': "Blue"
 });
-window.backgroundColor = "Blue";
 window.add(label);
 window.add(imageView);
 window.add(view);
