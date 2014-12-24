@@ -29,6 +29,7 @@ namespace Titanium {
   , button__(js_context__.CreateObject<Titanium::UI::Button>())
   , imageview__(js_context__.CreateObject<Titanium::UI::ImageView>())
   , label__(js_context__.CreateObject<Titanium::UI::Label>())
+  , scrollview__(js_context__.CreateObject<Titanium::UI::ScrollView>())
   , platform__(js_context__.CreateObject<Titanium::Platform>())
   , accelerometer__(js_context__.CreateObject<Titanium::Accelerometer>())
   , gesture__(js_context__.CreateObject<Titanium::Gesture>())
@@ -46,6 +47,7 @@ namespace Titanium {
     ui.SetProperty("Button"   , button__);
     ui.SetProperty("ImageView", imageview__);
     ui.SetProperty("Label"    , label__);
+    ui.SetProperty("ScrollView", scrollview__);
 
     filesystem__.SetProperty("File"  , file__);
     
@@ -133,6 +135,15 @@ namespace Titanium {
   
   ApplicationBuilder& ApplicationBuilder::LabelObject(const JSObject& label) TITANIUM_NOEXCEPT{
     label__ = label;
+    return *this;
+  }
+
+  JSObject ApplicationBuilder::ScrollViewObject() const TITANIUM_NOEXCEPT {
+    return scrollview__;
+  }
+
+    ApplicationBuilder& ApplicationBuilder::ScrollViewObject(const JSObject& view) TITANIUM_NOEXCEPT {
+    scrollview__ = view;
     return *this;
   }
 

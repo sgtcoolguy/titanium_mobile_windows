@@ -39,6 +39,7 @@ namespace TitaniumWindows {
     .ButtonObject(js_context__.CreateObject<TitaniumWindows::UI::Button>())
     .ImageViewObject(js_context__.CreateObject<TitaniumWindows::UI::ImageView>())
     .LabelObject(js_context__.CreateObject<TitaniumWindows::UI::Label>())
+    .ScrollViewObject(js_context__.CreateObject<TitaniumWindows::UI::ScrollView>())
     .BlobObject(js_context__.CreateObject<TitaniumWindows::Blob>())
     .FilesystemObject(js_context__.CreateObject<TitaniumWindows::FilesystemModule>())
     .FileObject(js_context__.CreateObject<TitaniumWindows::Filesystem::File>())

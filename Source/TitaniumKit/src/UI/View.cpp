@@ -182,7 +182,7 @@ namespace Titanium { namespace UI {
     JSExport<View>::AddValueProperty("height", std::mem_fn(&View::get_height), std::mem_fn(&View::setHeightArgumentValidator));
 	JSExport<View>::AddValueProperty("layout", std::mem_fn(&View::get_layout), std::mem_fn(&View::setLayoutArgumentValidator));
   }
-  
+
   JSValue View::addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
     // TODO: Validate these precondition checks (which could be
     // automaticaly generated) with the team.

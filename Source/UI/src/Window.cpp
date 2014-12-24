@@ -7,8 +7,7 @@
  */
 
 #include "TitaniumWindows/UI/Window.hpp"
-//#include "TitaniumWindows/UI/View.hpp"
-//#include "TitaniumWindows/UI/Button.hpp"
+#include "TitaniumWindows/UI/View.hpp"
 
 namespace TitaniumWindows { namespace UI {
 
@@ -30,6 +29,14 @@ namespace TitaniumWindows { namespace UI {
   }
 
   Window::~Window() {
+  }
+
+  void Window::hide(JSObject& this_object) TITANIUM_NOEXCEPT {
+    getComponent()->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+  }
+
+    void Window::show(JSObject& this_object) TITANIUM_NOEXCEPT {
+    getComponent()->Visibility = Windows::UI::Xaml::Visibility::Visible;
   }
 
   void Window::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT {
@@ -85,15 +92,59 @@ namespace TitaniumWindows { namespace UI {
     return result;
   }
 
+  bool Window::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    bool result = false;
+    std::string value = static_cast<std::string>(argument);
+    TITANIUM_LOG_INFO("Window::setTopArgumentValidator: top = ", value);
+    setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, static_cast<std::string>(argument));
+    set_top(argument);
+    result = true;
+    return result;
+  }
+
+  bool Window::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    bool result = false;
+    std::string value = static_cast<std::string>(argument);
+    TITANIUM_LOG_INFO("Window::setLeftArgumentValidator: left = ", value);
+    setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, static_cast<std::string>(argument));
+    set_left(argument);
+    result = true;
+    return result;
+  }
+
+  bool Window::setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    bool result = false;
+    std::string value = static_cast<std::string>(argument);
+    TITANIUM_LOG_INFO("Window::setWidthArgumentValidator: width = ", value);
+    setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, static_cast<std::string>(argument));
+    set_width(argument);
+    result = true;
+    return result;
+  }
+
+  bool Window::setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
+    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+    bool result = false;
+    std::string value = static_cast<std::string>(argument);
+    TITANIUM_LOG_INFO("Window::setHeightArgumentValidator: height = ", value);
+    setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, static_cast<std::string>(argument));
+    set_height(argument);
+    result = true;
+    return result;
+  }
+
   bool Window::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
-	TITANIUM_ASSERT(argument.IsString());
-	bool result = false;
-	std::string value = static_cast<std::string>(argument);
-	TITANIUM_LOG_INFO("Window::setLayoutArgumentValidator: layout = ", value);
-	setLayout(value);
-	set_layout(argument);
-	result = true;
-	return result;
+    TITANIUM_ASSERT(argument.IsString());
+    bool result = false;
+    std::string value = static_cast<std::string>(argument);
+    TITANIUM_LOG_INFO("Window::setLayoutArgumentValidator: layout = ", value);
+    setLayout(value);
+    set_layout(argument);
+    result = true;
+    return result;
   }
 
   ///////////////// Layout //////////////

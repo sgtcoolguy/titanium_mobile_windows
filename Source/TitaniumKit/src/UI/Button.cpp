@@ -31,7 +31,9 @@ namespace Titanium { namespace UI {
   }
   
   void Button::set_title(const JSValue& title) TITANIUM_NOEXCEPT {
-    title__ = title;
+    // FIXME WORKAROUND: default app crashed here due to context issue.
+    TITANIUM_ASSERT(title.IsString());
+    title__ = get_context().CreateString(static_cast<std::string>(title));
   }
   
   // TODO: The following functions can automatically be generated from
