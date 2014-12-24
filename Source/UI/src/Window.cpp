@@ -21,6 +21,10 @@ namespace TitaniumWindows { namespace UI {
   Window::Window(const Window& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::UI::Window(rhs, arguments)
     , canvas__(ref new Windows::UI::Xaml::Controls::Canvas()) {
+
+	setDefaultHeight(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
+	setDefaultWidth(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
+
     setComponent(canvas__);
     TITANIUM_LOG_DEBUG("Window::ctor CallAsConstructor");
   }

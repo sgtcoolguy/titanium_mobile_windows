@@ -54,6 +54,14 @@ namespace Titanium { namespace UI {
     const auto view_count = children__.GetPropertyNames().GetCount();
     children__.SetProperty(static_cast<unsigned>(view_count), view);
   }
+
+  void View::hide(JSObject& this_object) TITANIUM_NOEXCEPT{
+	  TITANIUM_LOG_DEBUG("View::hide");
+  }
+
+  void View::show(JSObject& this_object) TITANIUM_NOEXCEPT{
+	  TITANIUM_LOG_DEBUG("View::show");
+  }
   
   JSArray View::get_children() const TITANIUM_NOEXCEPT {
     return children__;
@@ -161,6 +169,8 @@ namespace Titanium { namespace UI {
     JSExport<View>::SetClassVersion(1);
     JSExport<View>::SetParent(JSExport<Module>::Class());
     JSExport<View>::AddFunctionProperty("add", std::mem_fn(&View::addArgumentValidator));
+	JSExport<View>::AddFunctionProperty("hide", std::mem_fn(&View::hideArgumentValidator));
+	JSExport<View>::AddFunctionProperty("show", std::mem_fn(&View::showArgumentValidator));
     JSExport<View>::AddValueProperty("children", std::mem_fn(&View::get_children));
     JSExport<View>::AddValueProperty("backgroundColor", std::mem_fn(&View::get_backgroundColor), std::mem_fn(&View::setBackgroundColorArgumentValidator));
     JSExport<View>::AddValueProperty("top", std::mem_fn(&View::get_top), std::mem_fn(&View::setTopArgumentValidator));
@@ -182,6 +192,22 @@ namespace Titanium { namespace UI {
     JSObject view = _0;
     add(view, this_object);
     return get_context().CreateUndefined();
+  }
+
+  JSValue View::hideArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT{
+	// TODO: Validate these precondition checks (which could be
+	// automaticaly generated) with the team.
+	TITANIUM_ASSERT(arguments.size() == 0);
+	hide(this_object);
+	return get_context().CreateUndefined();
+  }
+
+  JSValue View::showArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT{
+	// TODO: Validate these precondition checks (which could be
+	// automaticaly generated) with the team.
+	TITANIUM_ASSERT(arguments.size() == 0);
+	show(this_object);
+	return get_context().CreateUndefined();
   }
   
   bool View::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
