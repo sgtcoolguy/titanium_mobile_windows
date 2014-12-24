@@ -242,7 +242,8 @@ namespace Titanium {
     JSValue createScrollViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
     JSValue createImageViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
     JSValue createLabelArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-    
+    JSValue setBackgroundColorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+
   private:
     JSValue animation_curve_ease_in__;
     JSValue animation_curve_ease_in_out__;

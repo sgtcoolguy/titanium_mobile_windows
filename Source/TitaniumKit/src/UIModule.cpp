@@ -310,16 +310,13 @@ namespace Titanium {
     // TODO: Evaluate and cache this function at startup
     //
     const std::string script = R"JS(
-  var Tab = function(_args) {
+  var Tab = function() {
     Object.defineProperty(this, "__ti_private__", {
         enumerable: false,
         value: {}
     });
     this.__ti_private__.window = null;
-    this.__ti_private__.title = Ti.UI.createButton();
-    this.__ti_private__.title.height = Ti.UI.SIZE;
-    this.__ti_private__.title.left = 0;
-    this.__ti_private__.title.borderWidth = 0;
+    this.__ti_private__.title = Ti.UI.createButton({title:'', height:'Ti.UI.SIZE', left:0, borderWidth:0});
     this.__ti_private__.title.font = { fontSize: 20 };
   };
   Object.defineProperties(Tab.prototype, {
@@ -419,8 +416,6 @@ namespace Titanium {
       }
   };
   TabGroup.prototype.setActiveTab = function (_n) {
-      /* Stop refreshing view if the tab is already visible */
-      if (this.__ti_private__.index == _n && this.__ti_private__.tabs[_n].window.visible) return;
       this.__ti_private__.tabs[this.__ti_private__.index].window.hide();
       this.__ti_private__.index = _n;
       this.__ti_private__.tabs[this.__ti_private__.index].window.show();
@@ -438,14 +433,16 @@ namespace Titanium {
       _tab.__ti_private__.window.hide();
 
       this.__ti_private__.content.add(_tab.__ti_private__.window);
-      var tabLength = this.__ti_private__.bar.children.length;
+      var tabLength = this.__ti_private__.tabs.length;
       var width = (1 / tabLength * 100) + '%';
       this.__ti_private__.tabs.forEach(function (tab) {
           tab.title.width = width;
       });
-      _tab.__ti_private__.title._index = tabLength - 1;
+      _tab.__ti_private__.index = tabLength - 1;
+      // WORKAROUND FIXME we needed to capture tab index because e.source did not work
+      var index = _tab.__ti_private__.index;
       _tab.__ti_private__.title.addEventListener('click', function (e) {
-          self.setActiveTab(e.source._index);
+          self.setActiveTab(index);
       });
   };
   var ui = new TabGroup();
@@ -470,7 +467,9 @@ namespace Titanium {
     TITANIUM_ASSERT(ScrollView_property.IsObject()); // precondition
     JSObject ScrollView = ScrollView_property;
     
-    return ScrollView.CallAsConstructor(parameters);
+    auto view = ScrollView.CallAsConstructor(parameters);
+    Titanium::applyProperties(view, parameters);
+    return view;
   }
 
   JSObject UIModule::createLabel(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT{
@@ -512,7 +511,13 @@ namespace Titanium {
     Titanium::applyProperties(image_view, parameters);
     return image_view;
   }
-  
+
+  // TODO empty implementation so that it won't break default app template. Need to implement later on.
+  JSValue UIModule::setBackgroundColorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("UI::setBackgroundColor Not implemented");
+    return get_context().CreateUndefined();
+  }
+
   JSValue UIModule::ANIMATION_CURVE_EASE_IN() const TITANIUM_NOEXCEPT {
     return animation_curve_ease_in__;
   }
@@ -840,6 +845,7 @@ namespace Titanium {
     JSExport<UIModule>::AddFunctionProperty("createScrollView", std::mem_fn(&UIModule::createScrollViewArgumentValidator));
     JSExport<UIModule>::AddFunctionProperty("createImageView", std::mem_fn(&UIModule::createImageViewArgumentValidator));
     JSExport<UIModule>::AddFunctionProperty("createLabel", std::mem_fn(&UIModule::createLabelArgumentValidator));
+    JSExport<UIModule>::AddFunctionProperty("setBackgroundColor", std::mem_fn(&UIModule::setBackgroundColorArgumentValidator));
     JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN));
     JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN_OUT));
     JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_OUT));
