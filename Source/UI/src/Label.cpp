@@ -81,6 +81,44 @@ namespace TitaniumWindows { namespace UI {
     label__->TextWrapping = is_wrapping ? Windows::UI::Xaml::TextWrapping::Wrap : Windows::UI::Xaml::TextWrapping::NoWrap;
   }
 
+  void Label::set_fontFamily(const JSValue& family) TITANIUM_NOEXCEPT {
+    std::string text_string = static_cast<std::string>(family);
+    label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(ref new Platform::String(std::wstring(text_string.begin(), text_string.end()).c_str()));
+  }
+
+  void Label::set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT {
+    label__->FontSize = static_cast<double>(size);
+  }
+
+  void Label::set_fontStyle(const JSValue& style) TITANIUM_NOEXCEPT {
+    std::string text_string = static_cast<std::string>(style);
+    if (text_string == "italic") {
+      label__->FontStyle = Windows::UI::Text::FontStyle::Italic;
+    }
+    else if (text_string == "normal") {
+      label__->FontStyle = Windows::UI::Text::FontStyle::Normal;
+    }
+    // TODO Windows supports Oblique: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontstyle.aspx
+  }
+
+  void Label::set_fontWeight(const JSValue& weight) TITANIUM_NOEXCEPT {
+    std::string text_string = static_cast<std::string>(weight);
+    if (text_string == "bold") {
+      label__->FontWeight = Windows::UI::Text::FontWeights::Bold;
+    }
+    else if (text_string == "normal") {
+      label__->FontWeight = Windows::UI::Text::FontWeights::Normal;
+    }
+    else if (text_string == "semibold") {
+      label__->FontWeight = Windows::UI::Text::FontWeights::SemiBold;
+    }
+    // TODO Windows supports a large number of other weights: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontweights
+  }
+
+  void Label::set_textStyle(const Titanium::UI::TEXT_STYLE& textStyle) TITANIUM_NOEXCEPT {
+    Titanium::UI::Label::set_textStyle(textStyle);
+  }
+
   bool Label::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
     TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
     bool result = false;

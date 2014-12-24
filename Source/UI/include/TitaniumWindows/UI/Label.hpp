@@ -44,6 +44,11 @@ namespace TitaniumWindows { namespace UI {
     virtual void set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT override final;
     virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
     virtual void set_wordWrap(const JSValue& wordWrap) TITANIUM_NOEXCEPT override final;
+    virtual void set_fontFamily(const JSValue& family) TITANIUM_NOEXCEPT override final;
+    virtual void set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT override final;
+    virtual void set_fontStyle(const JSValue& style) TITANIUM_NOEXCEPT override final;
+    virtual void set_fontWeight(const JSValue& weight) TITANIUM_NOEXCEPT override final;
+    virtual void set_textStyle(const Titanium::UI::TEXT_STYLE& style) TITANIUM_NOEXCEPT override final;
 
     virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;

@@ -16,7 +16,8 @@ namespace Titanium { namespace UI {
     , text__(js_context.CreateString())
     , textAlign__(TEXT_ALIGNMENT::LEFT)
     , verticalAlign__(TEXT_VERTICAL_ALIGNMENT::CENTER)
-    , wordWrap__(js_context.CreateBoolean(true)) {
+    , wordWrap__(js_context.CreateBoolean(true))
+    , font__(js_context.CreateObject()) {
   }
   
   Label::Label(const Label& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
@@ -25,7 +26,8 @@ namespace Titanium { namespace UI {
     , text__(rhs.text__)
     , textAlign__(rhs.textAlign__)
     , verticalAlign__(rhs.verticalAlign__)
-    , wordWrap__(rhs.wordWrap__) {
+    , wordWrap__(rhs.wordWrap__)
+    , font__(rhs.font__) {
   }
   
   JSValue Label::get_text() const TITANIUM_NOEXCEPT {
@@ -67,6 +69,30 @@ namespace Titanium { namespace UI {
   void Label::set_color(const JSValue& color) TITANIUM_NOEXCEPT {
     color__ = color;
   }
+
+  JSValue Label::get_font() const  TITANIUM_NOEXCEPT {
+    return font__;
+  }
+
+  void Label::set_fontFamily(const JSValue& family) TITANIUM_NOEXCEPT {
+     TITANIUM_LOG_WARN("Label::set_fontFamily: Unimplemented");
+  }
+
+  void Label::set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT {
+     TITANIUM_LOG_WARN("Label::set_fontSize: Unimplemented");
+  }
+
+  void Label::set_fontStyle(const JSValue& style) TITANIUM_NOEXCEPT {
+     TITANIUM_LOG_WARN("Label::set_fontStyle: Unimplemented");
+  }
+
+  void Label::set_fontWeight(const JSValue& weight) TITANIUM_NOEXCEPT {
+     TITANIUM_LOG_WARN("Label::set_fontWeight: Unimplemented");
+  }
+
+  void Label::set_textStyle(const TEXT_STYLE& textStyle) TITANIUM_NOEXCEPT {
+     TITANIUM_LOG_WARN("Label::set_textStyle: Unimplemented");
+  }
   
   // TODO: The following functions can automatically be generated from
   // the YAML API docs.
@@ -75,6 +101,7 @@ namespace Titanium { namespace UI {
     JSExport<Label>::SetClassVersion(1);
     JSExport<Label>::SetParent(JSExport<View>::Class());
     JSExport<Label>::AddValueProperty("color", std::mem_fn(&Label::getColorArgumentValidator), std::mem_fn(&Label::setColorArgumentValidator));
+    JSExport<Label>::AddValueProperty("font", std::mem_fn(&Label::getFontArgumentValidator), std::mem_fn(&Label::setFontArgumentValidator));
     JSExport<Label>::AddValueProperty("text", std::mem_fn(&Label::getTextArgumentValidator), std::mem_fn(&Label::setTextArgumentValidator));
     JSExport<Label>::AddValueProperty("textAlign", std::mem_fn(&Label::getTextAlignArgumentValidator), std::mem_fn(&Label::setTextAlignArgumentValidator));
     JSExport<Label>::AddValueProperty("verticalAlign", std::mem_fn(&Label::getVerticalAlignArgumentValidator), std::mem_fn(&Label::setVerticalAlignArgumentValidator));
@@ -89,6 +116,54 @@ namespace Titanium { namespace UI {
     TITANIUM_ASSERT(argument.IsString());
     color__ = get_context().CreateString(static_cast<std::string>(argument));
     set_color(color__);
+    return true;
+  }
+
+  JSValue Label::getFontArgumentValidator() const TITANIUM_NOEXCEPT {
+    return get_font();
+  }
+
+  bool Label::setFontArgumentValidator(const JSValue& font) TITANIUM_NOEXCEPT {
+    TITANIUM_ASSERT(font.IsObject());
+    // FIXME Should we save the individual values? We're not making a copy of the object here!
+    font__ = static_cast<JSObject>(font);
+
+    // Number/String
+    if (font__.HasProperty("fontSize")) {
+      const auto font_size = font__.GetProperty("fontSize");
+      TITANIUM_ASSERT(font_size.IsString() || font_size.IsNumber());
+      set_fontSize(font_size);
+    }
+
+    // bold or normal
+    if (font__.HasProperty("fontWeight")) {
+      const auto font_weight = font__.GetProperty("fontWeight");
+      TITANIUM_ASSERT(font_weight.IsString());
+      set_fontWeight(font_weight);
+    }
+
+    // italic or normal
+    if (font__.HasProperty("fontStyle")) {
+      const auto font_style = font__.GetProperty("fontStyle");
+      TITANIUM_ASSERT(font_style.IsString());
+      set_fontFamily(font_style);
+    }
+
+    // String
+    if (font__.HasProperty("fontFamily")) {
+      const auto font_family = font__.GetProperty("fontFamily");
+      TITANIUM_ASSERT(font_family.IsString());
+      set_fontFamily(font_family);
+    }
+
+    // String Titanium::UI::TEXT_STYLE constants
+    if (font__.HasProperty("textStyle")) {
+      const auto font_text_style = font__.GetProperty("textStyle");
+      TITANIUM_ASSERT(font_text_style.IsString());
+      const auto font_text_style_enum = Constants::to_TEXT_STYLE(static_cast<std::string>(font_text_style));
+      set_textStyle(font_text_style_enum);
+    }
+
     return true;
   }
 

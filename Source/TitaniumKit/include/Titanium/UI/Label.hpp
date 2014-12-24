@@ -38,6 +38,20 @@ namespace Titanium { namespace UI {
     virtual void    set_color(const JSValue& color) TITANIUM_NOEXCEPT;
 
     /*!
+    @method
+
+    @abstract font : Font
+
+    @discussion Font to use for the label text.
+    */
+    virtual JSValue get_font() const                        TITANIUM_NOEXCEPT final;
+    virtual void    set_fontFamily(const JSValue& family)   TITANIUM_NOEXCEPT;
+    virtual void    set_fontSize(const JSValue& size)       TITANIUM_NOEXCEPT;
+    virtual void    set_fontStyle(const JSValue& style)     TITANIUM_NOEXCEPT;
+    virtual void    set_fontWeight(const JSValue& weight)   TITANIUM_NOEXCEPT;
+    virtual void    set_textStyle(const TEXT_STYLE& style)  TITANIUM_NOEXCEPT;
+
+    /*!
      @method
      
      @abstract text : String
@@ -95,6 +109,9 @@ namespace Titanium { namespace UI {
     virtual JSValue getColorArgumentValidator() const                          TITANIUM_NOEXCEPT final;
     virtual bool    setColorArgumentValidator(const JSValue& argument)         TITANIUM_NOEXCEPT final;
 
+    virtual JSValue getFontArgumentValidator() const                           TITANIUM_NOEXCEPT final;
+    virtual bool    setFontArgumentValidator(const JSValue& argument)          TITANIUM_NOEXCEPT final;
+
     virtual JSValue getTextArgumentValidator() const                           TITANIUM_NOEXCEPT final;
     virtual bool    setTextArgumentValidator(const JSValue& argument)          TITANIUM_NOEXCEPT final;
 
@@ -110,6 +127,7 @@ namespace Titanium { namespace UI {
   private:
     
     JSValue color__;
+    JSObject font__;
     JSValue text__;
     TEXT_ALIGNMENT          textAlign__;
     TEXT_VERTICAL_ALIGNMENT verticalAlign__;
