@@ -422,17 +422,18 @@ namespace Titanium {
   }
   TabGroup.prototype.open = function () {
       this.__ti_private__.window.open();
-      this.setActiveTab(this.__ti_private__.index);
+      // show/hide workaround: we add components in reverse order
+      for (var i = this.__ti_private__.tabs.length-1; i >= 0; i--) {
+        var _tab = this.__ti_private__.tabs[i];
+        this.__ti_private__.content.add(_tab.window);
+      }
+      this.setActiveTab(0);
   };
   TabGroup.prototype.addTab = function (_tab) {
       var self = this;
-      this.__ti_private__.bar.add(_tab.__ti_private__.title);
       this.__ti_private__.tabs.push(_tab);
+      this.__ti_private__.bar.add(_tab.__ti_private__.title);
 
-      /* invisible until setActiveTab is called */
-      _tab.__ti_private__.window.hide();
-
-      this.__ti_private__.content.add(_tab.__ti_private__.window);
       var tabLength = this.__ti_private__.tabs.length;
       var width = (1 / tabLength * 100) + '%';
       this.__ti_private__.tabs.forEach(function (tab) {
