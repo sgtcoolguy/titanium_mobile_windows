@@ -11,6 +11,15 @@
 
 namespace Titanium {
   
+  static void applyProperties(JSObject& view, const JSObject& parameters) {
+    if (parameters.GetPropertyNames().GetCount() > 0) {
+      const auto propertyNames = parameters.GetPropertyNames();
+      for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
+        view.SetProperty(property_name, parameters.GetProperty(property_name));
+      }
+    }
+  }
+
   UIModule::UIModule(const JSContext& js_context) TITANIUM_NOEXCEPT
   : Module(js_context)
   ,animation_curve_ease_in__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ANIMATION_CURVE::EASE_IN)))
@@ -250,7 +259,9 @@ namespace Titanium {
     TITANIUM_ASSERT(View_property.IsObject()); // precondition
     JSObject View = View_property;
     
-    return View.CallAsConstructor(parameters);
+    auto view = View.CallAsConstructor(parameters);
+    Titanium::applyProperties(view, parameters);
+    return view;
   }
   
   JSObject UIModule::createWindow(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT {
@@ -268,7 +279,9 @@ namespace Titanium {
     TITANIUM_ASSERT(Window_property.IsObject()); // precondition
     JSObject Window = Window_property;
     
-    return Window.CallAsConstructor(parameters);
+    auto window = Window.CallAsConstructor(parameters);
+    Titanium::applyProperties(window, parameters);
+    return window;
   }
   
   JSObject UIModule::createButton(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT {
@@ -286,7 +299,9 @@ namespace Titanium {
     TITANIUM_ASSERT(Button_property.IsObject()); // precondition
     JSObject Button = Button_property;
     
-    return Button.CallAsConstructor(parameters);
+    auto button = Button.CallAsConstructor(parameters);
+    Titanium::applyProperties(button, parameters);
+    return button;
   }
 
   JSObject UIModule::createTab(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT {
@@ -473,7 +488,9 @@ namespace Titanium {
     TITANIUM_ASSERT(Label_property.IsObject()); // precondition
     JSObject Label = Label_property;
 
-    return Label.CallAsConstructor(parameters);
+	auto label = Label.CallAsConstructor(parameters);
+  Titanium::applyProperties(label, parameters);
+  return label;
   }
 
   JSObject UIModule::createImageView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT {
@@ -491,7 +508,9 @@ namespace Titanium {
     TITANIUM_ASSERT(ImageView_property.IsObject()); // precondition
     JSObject ImageView = ImageView_property;
 
-    return ImageView.CallAsConstructor(parameters);
+    auto image_view = ImageView.CallAsConstructor(parameters);
+    Titanium::applyProperties(image_view, parameters);
+    return image_view;
   }
   
   JSValue UIModule::ANIMATION_CURVE_EASE_IN() const TITANIUM_NOEXCEPT {
