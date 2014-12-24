@@ -60,6 +60,11 @@ set(SOURCE_TitaniumKit_detail
   src/detail/TiUtil.cpp
   )
 
+set(SOURCE_Ti
+  include/Titanium/TiModule.hpp
+  src/TiModule.cpp
+  )
+
 set(SOURCE_API
   include/Titanium/API.hpp
   src/API.cpp
@@ -140,6 +145,7 @@ set(SOURCE_TiLogger_detail
 
 source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
 source_group(TitaniumKit\\detail           FILES ${SOURCE_TitaniumKit_detail})
+source_group(TitaniumKit\\Ti               FILES ${SOURCE_Ti})
 source_group(TitaniumKit\\API              FILES ${SOURCE_API})
 source_group(TitaniumKit\\Platform         FILES ${SOURCE_Platform})
 source_group(TitaniumKit\\Accelerometer    FILES ${SOURCE_Accelerometer})
@@ -155,6 +161,7 @@ source_group(TitaniumKit\\TiLogger\\detail FILES ${SOURCE_TiLogger_detail})
 add_library(TitaniumKit SHARED
   ${SOURCE_TitaniumKit}
   ${SOURCE_TitaniumKit_detail}
+  ${SOURCE_Ti}
   ${SOURCE_API}
   ${SOURCE_Platform}
   ${SOURCE_Accelerometer}

@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/ApplicationBuilder.hpp"
+#include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
 #include "Titanium/Platform.hpp"
@@ -21,6 +22,7 @@ namespace Titanium {
   ApplicationBuilder::ApplicationBuilder(const JSContext& js_context) TITANIUM_NOEXCEPT
   : js_context__(js_context)
   , global_object__(js_context__.get_global_object())
+  , ti__(js_context__.CreateObject<Titanium::TiModule>())
   , api__(js_context__.CreateObject<Titanium::API>())
   , view__(js_context__.CreateObject<Titanium::UI::View>())
   , window__(js_context__.CreateObject<Titanium::UI::Window>())
@@ -47,7 +49,7 @@ namespace Titanium {
 
     filesystem__.SetProperty("File"  , file__);
     
-    JSObject titanium = js_context__.CreateObject();
+    JSObject titanium = ti__;
     global_object__.SetProperty("Titanium", titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
     global_object__.SetProperty("Ti"      , titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
     
@@ -71,6 +73,15 @@ namespace Titanium {
     return Application(*this);
   }
   
+  JSObject ApplicationBuilder::TiObject() const TITANIUM_NOEXCEPT {
+    return ti__;
+  }
+  
+  ApplicationBuilder& ApplicationBuilder::TiObject(const JSObject& ti) TITANIUM_NOEXCEPT {
+    ti__ = ti;
+    return *this;
+  }
+
   JSObject ApplicationBuilder::APIObject() const TITANIUM_NOEXCEPT {
     return api__;
   }

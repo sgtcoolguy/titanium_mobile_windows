@@ -23,6 +23,9 @@ namespace Titanium {
     ApplicationBuilder(const JSContext& js_context) TITANIUM_NOEXCEPT;
     Application build();
     
+    JSObject            TiObject() const                     TITANIUM_NOEXCEPT;
+    ApplicationBuilder& TiObject(const JSObject&)            TITANIUM_NOEXCEPT;
+
     JSObject            APIObject() const                    TITANIUM_NOEXCEPT;
     ApplicationBuilder& APIObject(const JSObject&)           TITANIUM_NOEXCEPT;
 
@@ -77,6 +80,7 @@ namespace Titanium {
 #pragma warning(disable: 4251)
     JSContext js_context__;
     JSObject  global_object__;
+    JSObject  ti__;
     JSObject  api__;
     JSObject  view__;
     JSObject  window__;
