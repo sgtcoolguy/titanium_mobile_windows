@@ -15,6 +15,7 @@
 #include "Titanium/Application.hpp"
 
 #include "Titanium/GlobalObject.hpp"
+#include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
 #include "Titanium/Platform.hpp"

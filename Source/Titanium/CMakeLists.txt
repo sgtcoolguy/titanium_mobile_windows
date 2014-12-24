@@ -38,6 +38,7 @@ config_compiler_and_linker()
 enable_testing()
 
 get_filename_component(Global_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../Global            ABSOLUTE)
+get_filename_component(Ti_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../Ti                ABSOLUTE)
 get_filename_component(API_SOURCE_DIR               ${PROJECT_SOURCE_DIR}/../API               ABSOLUTE)
 get_filename_component(Platform_SOURCE_DIR          ${PROJECT_SOURCE_DIR}/../Platform          ABSOLUTE)
 get_filename_component(Gesture_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Gesture           ABSOLUTE)
@@ -50,6 +51,7 @@ get_filename_component(HAL_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../HAL ABSOLUTE)
 get_filename_component(LayoutEngine_SOURCE_DIR      ${PROJECT_SOURCE_DIR}/../LayoutEngine 	   ABSOLUTE)
 
 add_subdirectory(${Global_SOURCE_DIR}        ${CMAKE_CURRENT_BINARY_DIR}/Global        EXCLUDE_FROM_ALL)
+add_subdirectory(${Ti_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/Ti            EXCLUDE_FROM_ALL)
 add_subdirectory(${API_SOURCE_DIR}           ${CMAKE_CURRENT_BINARY_DIR}/API           EXCLUDE_FROM_ALL)
 add_subdirectory(${Platform_SOURCE_DIR}      ${CMAKE_CURRENT_BINARY_DIR}/Platform      EXCLUDE_FROM_ALL)
 add_subdirectory(${Gesture_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Gesture       EXCLUDE_FROM_ALL)
@@ -97,6 +99,7 @@ target_compile_definitions(TitaniumWindows PRIVATE TitaniumWindows_EXPORTS)
 
 target_link_libraries(TitaniumWindows
   TitaniumWindows_Global
+  TitaniumWindows_Ti
   TitaniumWindows_API
   TitaniumWindows_Platform
   TitaniumWindows_Gesture
@@ -109,6 +112,7 @@ target_link_libraries(TitaniumWindows
 
 target_include_directories(TitaniumWindows PUBLIC
   $<TARGET_PROPERTY:TitaniumWindows_Global,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Ti,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_API,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Platform,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Gesture,INTERFACE_INCLUDE_DIRECTORIES>
