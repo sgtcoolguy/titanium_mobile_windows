@@ -19,6 +19,8 @@ namespace TitaniumWindows { namespace UI {
 
   public:
 
+	ViewBase();
+
     Titanium::LayoutEngine::Node* layout_node_;
     
     virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component);
@@ -50,15 +52,29 @@ namespace TitaniumWindows { namespace UI {
 
     virtual void setLayout(const std::string& type);
 
+
     virtual std::string defaultHeight() const {
-      return  Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE);
+		return  defaultHeight__;
     }
+
 
     virtual std::string defaultWidth() const {
-      return  Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE);
+		return  defaultWidth__;
     }
 
+	
+	virtual void setDefaultHeight(const std::string& defaultHeight) {
+		defaultHeight__ =  defaultHeight;
+	}
+	
+	virtual void setDefaultWidth(const std::string defaultWidth) {
+		defaultWidth__ = defaultWidth;
+	}
+
   private:
+
+	std::string defaultWidth__;
+	std::string defaultHeight__;
 
     Windows::Foundation::EventRegistrationToken size_change_event_;
     Windows::Foundation::EventRegistrationToken loaded_event_;

@@ -14,6 +14,12 @@
 
 namespace TitaniumWindows { namespace UI {
 
+	ViewBase::ViewBase()
+	{
+		defaultWidth__ = Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE);
+		defaultHeight__ = Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE);
+	}
+
 	static void onLayoutCallback(Titanium::LayoutEngine::Node* node)
 	{
 		auto view = static_cast<ViewBase*>(node->data);
