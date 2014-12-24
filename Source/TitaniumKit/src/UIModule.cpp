@@ -389,23 +389,13 @@ namespace Titanium {
     this.__ti_private__.content.top = 0;
     this.__ti_private__.content.width  = Ti.UI.FILL;
     this.__ti_private__.content.height = Ti.UI.FILL;
-    this.__ti_private__.content.contentWidth = Ti.UI.SIZE;
     this.__ti_private__.content.name = 'scrollView';
-    this.__ti_private__.content.layout = 'horizontal';
     this.__ti_private__.content.backgroundColor = '#ccc';
-    this.__ti_private__.content.scrollingEnabled = false;
-    this.__ti_private__.content.showHorizontalScrollIndicator = false;
-    this.__ti_private__.content.showVerticalScrollIndicator = false;
     this.__ti_private__.window.add(this.__ti_private__.bar);
     this.__ti_private__.window.add(this.__ti_private__.content);
     this.__ti_private__.index = 0;
-    this.__ti_private__.windowWidth = 0;
     this.__ti_private__.tabs = [];
     var self = this;
-    this.__ti_private__.window.addEventListener('postlayout', function (e) {
-        self.__ti_private__.windowWidth = e.width;
-        self.setActiveTab(self.__ti_private__.index);
-    });
   };
   TabGroup.prototype.applyProperties = function (_args) {
       _args = _args || {};
@@ -414,11 +404,11 @@ namespace Titanium {
       }
   };
   TabGroup.prototype.setActiveTab = function (_n) {
+      /* Stop refreshing view if the tab is already visible */
+      if (this.__ti_private__.index == _n && this.__ti_private__.tabs[_n].window.visible) return;
+      this.__ti_private__.tabs[this.__ti_private__.index].window.hide();
       this.__ti_private__.index = _n;
-      if (this.__ti_private__.windowWidth == 0) return;
-      this.__ti_private__.content.scrollTo(
-        this.__ti_private__.windowWidth * this.__ti_private__.index, 0
-      );
+      this.__ti_private__.tabs[this.__ti_private__.index].window.show();
   }
   TabGroup.prototype.open = function () {
       this.__ti_private__.window.open();
@@ -428,6 +418,10 @@ namespace Titanium {
       var self = this;
       this.__ti_private__.bar.add(_tab.__ti_private__.title);
       this.__ti_private__.tabs.push(_tab);
+
+      /* invisible until setActiveTab is called */
+      _tab.__ti_private__.window.hide();
+
       this.__ti_private__.content.add(_tab.__ti_private__.window);
       var tabLength = this.__ti_private__.bar.children.length;
       var width = (1 / tabLength * 100) + '%';
