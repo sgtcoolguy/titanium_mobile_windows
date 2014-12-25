@@ -513,12 +513,6 @@ namespace Titanium {
     return image_view;
   }
 
-  // TODO empty implementation so that it won't break default app template. Need to implement later on.
-  JSValue UIModule::setBackgroundColorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
-    TITANIUM_LOG_DEBUG("UI::setBackgroundColor Not implemented");
-    return get_context().CreateUndefined();
-  }
-
   JSValue UIModule::ANIMATION_CURVE_EASE_IN() const TITANIUM_NOEXCEPT {
     return animation_curve_ease_in__;
   }
@@ -1034,6 +1028,10 @@ namespace Titanium {
     return createScrollView(parameters, this_object);
   }
  
- 
+  // TODO empty implementation so that it won't break default app template. Need to implement later on.
+  JSValue UIModule::setBackgroundColorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
+    TITANIUM_LOG_DEBUG("UI::setBackgroundColor Not implemented");
+    return get_context().CreateUndefined();
+  }
 
 } // namespace Titanium {
