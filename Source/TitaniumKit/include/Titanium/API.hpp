@@ -117,7 +117,7 @@ namespace Titanium {
     API(const JSContext& js_context)                       TITANIUM_NOEXCEPT;
     API(const API&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
-    virtual ~API()             = default;
+    virtual ~API() TITANIUM_NOEXCEPT;//= default;
     API(const API&)            = default;
     API& operator=(const API&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

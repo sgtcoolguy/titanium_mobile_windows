@@ -55,6 +55,10 @@
 		C90B900F1A198976005F3210 /* ApplicationTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = C90B900E1A198976005F3210 /* ApplicationTests.mm */; };
 		C90B90121A1ADC7D005F3210 /* NativeViewExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C90B90101A1ADC7D005F3210 /* NativeViewExample.cpp */; };
 		C90B90131A1ADC7D005F3210 /* NativeViewExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C90B90111A1ADC7D005F3210 /* NativeViewExample.hpp */; };
+		C950EF8F1A48D8FB000EE5AC /* ImageView.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C950EF8D1A48D8FB000EE5AC /* ImageView.hpp */; };
+		C950EF901A48D8FB000EE5AC /* Label.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C950EF8E1A48D8FB000EE5AC /* Label.hpp */; };
+		C950EF931A48D90A000EE5AC /* ImageView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C950EF911A48D90A000EE5AC /* ImageView.cpp */; };
+		C950EF941A48D90A000EE5AC /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C950EF921A48D90A000EE5AC /* Label.cpp */; };
 		C974545B1A02A2E500CB4CA9 /* Module.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C97454581A02A2E500CB4CA9 /* Module.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		C974545C1A02A2E500CB4CA9 /* GlobalObject.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C97454591A02A2E500CB4CA9 /* GlobalObject.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		C980919B1A2149A300AE5930 /* TitaniumKit_EXPORT.h in Headers */ = {isa = PBXBuildFile; fileRef = C980919A1A2149A300AE5930 /* TitaniumKit_EXPORT.h */; };
@@ -100,6 +104,10 @@
 		F9B47E831A2EF94A0052879A /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B47E821A2EF94A0052879A /* Constants.cpp */; };
 		F9E96F891A415D62001E0EC4 /* DisplayCaps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F881A415D62001E0EC4 /* DisplayCaps.cpp */; };
 		F9E96F8B1A415D6E001E0EC4 /* DisplayCaps.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F8A1A415D6E001E0EC4 /* DisplayCaps.hpp */; };
+		F9B549731A4027220051A096 /* TiModule.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B549721A4027220051A096 /* TiModule.hpp */; };
+		F9B549751A40272E0051A096 /* TiModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B549741A40272E0051A096 /* TiModule.cpp */; };
+		F9B549781A402D520051A096 /* NativeTiExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B549761A402D520051A096 /* NativeTiExample.cpp */; };
+		F9B549791A402D520051A096 /* NativeTiExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B549771A402D520051A096 /* NativeTiExample.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,6 +173,10 @@
 		C90B900E1A198976005F3210 /* ApplicationTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApplicationTests.mm; sourceTree = "<group>"; };
 		C90B90101A1ADC7D005F3210 /* NativeViewExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeViewExample.cpp; sourceTree = "<group>"; };
 		C90B90111A1ADC7D005F3210 /* NativeViewExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeViewExample.hpp; sourceTree = "<group>"; };
+		C950EF8D1A48D8FB000EE5AC /* ImageView.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ImageView.hpp; path = include/Titanium/UI/ImageView.hpp; sourceTree = "<group>"; };
+		C950EF8E1A48D8FB000EE5AC /* Label.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Label.hpp; path = include/Titanium/UI/Label.hpp; sourceTree = "<group>"; };
+		C950EF911A48D90A000EE5AC /* ImageView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageView.cpp; path = src/UI/ImageView.cpp; sourceTree = "<group>"; };
+		C950EF921A48D90A000EE5AC /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Label.cpp; path = src/UI/Label.cpp; sourceTree = "<group>"; };
 		C97454491A02A2B000CB4CA9 /* libTitaniumKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTitaniumKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97454581A02A2E500CB4CA9 /* Module.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Module.hpp; path = include/Titanium/Module.hpp; sourceTree = "<group>"; };
 		C97454591A02A2E500CB4CA9 /* GlobalObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GlobalObject.hpp; path = include/Titanium/GlobalObject.hpp; sourceTree = "<group>"; };
@@ -212,6 +224,10 @@
 		F9B47E821A2EF94A0052879A /* Constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Constants.cpp; path = src/Filesystem/Constants.cpp; sourceTree = "<group>"; };
 		F9E96F881A415D62001E0EC4 /* DisplayCaps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DisplayCaps.cpp; path = src/Platform/DisplayCaps.cpp; sourceTree = "<group>"; };
 		F9E96F8A1A415D6E001E0EC4 /* DisplayCaps.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DisplayCaps.hpp; path = include/Titanium/Platform/DisplayCaps.hpp; sourceTree = "<group>"; };
+		F9B549721A4027220051A096 /* TiModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TiModule.hpp; path = include/Titanium/TiModule.hpp; sourceTree = "<group>"; };
+		F9B549741A40272E0051A096 /* TiModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TiModule.cpp; path = src/TiModule.cpp; sourceTree = "<group>"; };
+		F9B549761A402D520051A096 /* NativeTiExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeTiExample.cpp; sourceTree = "<group>"; };
+		F9B549771A402D520051A096 /* NativeTiExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeTiExample.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +263,10 @@
 				C90B8F911A16D83F005F3210 /* Window.cpp */,
 				C90B8F961A16DBAD005F3210 /* Button.hpp */,
 				C90B8F951A16DBAD005F3210 /* Button.cpp */,
+				C950EF8D1A48D8FB000EE5AC /* ImageView.hpp */,
+				C950EF911A48D90A000EE5AC /* ImageView.cpp */,
+				C950EF8E1A48D8FB000EE5AC /* Label.hpp */,
+				C950EF921A48D90A000EE5AC /* Label.cpp */,
 				C90950801A291EB5002133E1 /* Animation.hpp */,
 				C90950811A291EB5002133E1 /* Animation.cpp */,
 				C909508C1A292CFA002133E1 /* TextArea.hpp */,
@@ -271,6 +291,8 @@
 			isa = PBXGroup;
 			children = (
 				C90B8FF41A195BDA005F3210 /* ng.js */,
+				F9B549761A402D520051A096 /* NativeTiExample.cpp */,
+				F9B549771A402D520051A096 /* NativeTiExample.hpp */,
 				C90B8FF71A195BDA005F3210 /* NativeGlobalObjectExample.hpp */,
 				C90B8FF81A195BDA005F3210 /* NativeGlobalObjectExample.cpp */,
 				C9BED21F1A27B14200CFF800 /* NativeModuleExample.hpp */,
@@ -326,6 +348,8 @@
 				C90B90061A19804D005F3210 /* Application.cpp */,
 				C97454591A02A2E500CB4CA9 /* GlobalObject.hpp */,
 				C9E6AFCD1A13DF3000FED053 /* GlobalObject.cpp */,
+				F9B549721A4027220051A096 /* TiModule.hpp */,
+				F9B549741A40272E0051A096 /* TiModule.cpp */,
 				C97454581A02A2E500CB4CA9 /* Module.hpp */,
 				C90B8F871A167E36005F3210 /* Module.cpp */,
 				C90B8FD21A17CB1C005F3210 /* API.hpp */,
@@ -442,13 +466,16 @@
 				C90950821A291EB5002133E1 /* Animation.hpp in Headers */,
 				F9B177951A2C46F100ECE602 /* Accelerometer.hpp in Headers */,
 				C9E6AFB81A13043300FED053 /* Titanium.hpp in Headers */,
+				F9B549791A402D520051A096 /* NativeTiExample.hpp in Headers */,
 				C974545C1A02A2E500CB4CA9 /* GlobalObject.hpp in Headers */,
 				C90950A61A297E03002133E1 /* WebView.hpp in Headers */,
 				C90950AA1A2A20C1002133E1 /* WebViewErrorEvent.hpp in Headers */,
 				F96BCABD1A25CE4C00745C3B /* PlatformModule.hpp in Headers */,
+				F9B549731A4027220051A096 /* TiModule.hpp in Headers */,
 				C90B8F901A16D346005F3210 /* View.hpp in Headers */,
 				C90B8F941A16D83F005F3210 /* Window.hpp in Headers */,
 				C90B8F9C1A16DDB0005F3210 /* UIModule.hpp in Headers */,
+				C950EF901A48D8FB000EE5AC /* Label.hpp in Headers */,
 				C909509E1A2963F3002133E1 /* ListView.hpp in Headers */,
 				F908310F1A2EA3AC00CB810B /* Blob.hpp in Headers */,
 				C974545B1A02A2E500CB4CA9 /* Module.hpp in Headers */,
@@ -473,6 +500,7 @@
 				C9E6AFEA1A13F94900FED053 /* TiUtil.hpp in Headers */,
 				F9B47E791A2EF16B0052879A /* File.hpp in Headers */,
 				F90831161A2EA3FA00CB810B /* NativeBlobExample.hpp in Headers */,
+				C950EF8F1A48D8FB000EE5AC /* ImageView.hpp in Headers */,
 				C98091A11A238DC500AE5930 /* Dimension.hpp in Headers */,
 				C9E6AFE91A13F94500FED053 /* HashUtilities.hpp in Headers */,
 				C9BED2211A27B14200CFF800 /* NativeModuleExample.hpp in Headers */,
@@ -571,10 +599,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9B549781A402D520051A096 /* NativeTiExample.cpp in Sources */,
 				C98091A21A238DC500AE5930 /* Dimension.cpp in Sources */,
 				F9B177981A2C46FB00ECE602 /* Accelerometer.cpp in Sources */,
 				C90B8F931A16D83F005F3210 /* Window.cpp in Sources */,
+				C950EF931A48D90A000EE5AC /* ImageView.cpp in Sources */,
 				C90950831A291EB5002133E1 /* Animation.cpp in Sources */,
+				F9B549751A40272E0051A096 /* TiModule.cpp in Sources */,
 				C9BED2201A27B14200CFF800 /* NativeModuleExample.cpp in Sources */,
 				C909509F1A2963F3002133E1 /* ListView.cpp in Sources */,
 				C90950AB1A2A20C1002133E1 /* WebViewErrorEvent.cpp in Sources */,
@@ -589,6 +620,7 @@
 				F9E96F891A415D62001E0EC4 /* DisplayCaps.cpp in Sources */,
 				F9B47E7E1A2EF1860052879A /* NativeFileExample.cpp in Sources */,
 				F90831151A2EA3FA00CB810B /* NativeBlobExample.cpp in Sources */,
+				C950EF941A48D90A000EE5AC /* Label.cpp in Sources */,
 				F90831121A2EA3B500CB810B /* Blob.cpp in Sources */,
 				C90B90121A1ADC7D005F3210 /* NativeViewExample.cpp in Sources */,
 				C90B90081A19804D005F3210 /* Application.cpp in Sources */,

@@ -13,8 +13,7 @@
 namespace Titanium {
   
   Application::Application(const ApplicationBuilder& builder)
-  : js_context_group__(builder.js_context_group__)
-  , js_context__(builder.js_context__) {
+  : js_context__(builder.js_context__) {
   }
   
   JSValue Application::Run(const std::string& app_js) {

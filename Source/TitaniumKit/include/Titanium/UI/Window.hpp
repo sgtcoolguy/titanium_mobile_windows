@@ -54,7 +54,7 @@ namespace Titanium { namespace UI {
     Window(const JSContext& js_context)                          TITANIUM_NOEXCEPT;
     Window(const Window&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
-    virtual ~Window()                   = default;
+    virtual ~Window() TITANIUM_NOEXCEPT;//= default;
     Window(const Window&)               = default;
     Window& operator=(const Window&)    = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

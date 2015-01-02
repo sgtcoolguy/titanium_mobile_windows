@@ -26,17 +26,17 @@ namespace Titanium { namespace UI {
     
   public:
     
-    virtual JSNumber get_height() const                 TITANIUM_NOEXCEPT final;
-    virtual void     set_height(const JSNumber& height) TITANIUM_NOEXCEPT final;
+    virtual std::uint32_t get_height() const                     TITANIUM_NOEXCEPT final;
+    virtual void          set_height(const std::uint32_t height) TITANIUM_NOEXCEPT final;
     
-    virtual JSNumber get_width() const                  TITANIUM_NOEXCEPT final;
-    virtual void     set_width(const JSNumber& width)   TITANIUM_NOEXCEPT final;
+    virtual std::uint32_t get_width() const                      TITANIUM_NOEXCEPT final;
+    virtual void          set_width(const std::uint32_t width)   TITANIUM_NOEXCEPT final;
     
-    virtual JSNumber get_x() const                      TITANIUM_NOEXCEPT final;
-    virtual void     set_x(const JSNumber& x)           TITANIUM_NOEXCEPT final;
+    virtual std::uint32_t get_x() const                          TITANIUM_NOEXCEPT final;
+    virtual void          set_x(const std::uint32_t x)           TITANIUM_NOEXCEPT final;
     
-    virtual JSNumber get_y() const                      TITANIUM_NOEXCEPT final;
-    virtual void     set_y(const JSNumber& y)           TITANIUM_NOEXCEPT final;
+    virtual std::uint32_t get_y() const                          TITANIUM_NOEXCEPT final;
+    virtual void          set_y(const std::uint32_t y)           TITANIUM_NOEXCEPT final;
     
     Dimension(const JSContext& js_context)                             TITANIUM_NOEXCEPT;
     Dimension(const Dimension&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
@@ -52,17 +52,22 @@ namespace Titanium { namespace UI {
     // TODO: The following functions can automatically be generated
     // from the YAML API docs.
     static void JSExportInitialize();
-    bool setHeightArgumentValidator(const JSValue& argument);
-    bool setWidthArgumentValidator(const JSValue& argument);
-    bool setXArgumentValidator(const JSValue& argument);
-    bool setYArgumentValidator(const JSValue& argument);
+
+    JSValue getHeightArgumentValidator() const;
+    bool    setHeightArgumentValidator(const JSValue& argument);
+    JSValue getWidthArgumentValidator() const;
+    bool    setWidthArgumentValidator(const JSValue& argument);
+    JSValue getXArgumentValidator() const;
+    bool    setXArgumentValidator(const JSValue& argument);
+    JSValue getYArgumentValidator() const;
+    bool    setYArgumentValidator(const JSValue& argument);
     
   private:
     
-    JSNumber height__;
-    JSNumber width__;
-    JSNumber x__;
-    JSNumber y__;
+    std::uint32_t height__;
+    std::uint32_t width__;
+    std::uint32_t x__;
+    std::uint32_t y__;
     
   };
 }} // namespace Titanium { namespace UI {

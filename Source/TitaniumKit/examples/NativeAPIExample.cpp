@@ -11,10 +11,16 @@
 
 NativeAPIExample::NativeAPIExample(const JSContext& js_context) TITANIUM_NOEXCEPT
 : Titanium::API(js_context) {
+  TITANIUM_LOG_DEBUG("NativeAPIExample:: ctor 1 ", this);
 }
 
 NativeAPIExample::NativeAPIExample(const NativeAPIExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 : Titanium::API(rhs, arguments) {
+  TITANIUM_LOG_DEBUG("NativeAPIExample:: ctor 2 ", this);
+}
+
+NativeAPIExample::~NativeAPIExample() TITANIUM_NOEXCEPT {
+  TITANIUM_LOG_DEBUG("NativeAPIExample:: dtor ", this);
 }
 
 void NativeAPIExample::log(const std::string& message) const TITANIUM_NOEXCEPT {

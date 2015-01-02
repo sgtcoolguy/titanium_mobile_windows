@@ -43,13 +43,21 @@ if(NOT TARGET TitaniumKit)
 endif()
 
 set(SOURCE_UI
+  include/TitaniumWindows/UI/ViewBase.hpp
+  src/ViewBase.cpp
   include/TitaniumWindows/UI/View.hpp
   src/View.cpp
+  include/TitaniumWindows/UI/ImageView.hpp
+  src/ImageView.cpp
+  include/TitaniumWindows/UI/Label.hpp
+  src/Label.cpp
   include/TitaniumWindows/UI/Window.hpp
   src/Window.cpp
   include/TitaniumWindows/UI/Button.hpp
   src/Button.cpp
   include/TitaniumWindows/UI/detail/UIBase.hpp
+  include/TitaniumWindows/UI/ScrollView.hpp
+  src/ScrollView.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})

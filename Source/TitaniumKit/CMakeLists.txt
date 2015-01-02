@@ -31,6 +31,13 @@ endif()
 
 # find_package(HAL REQUIRED)
 
+set(Boost_USE_STATIC_LIBS ON )
+set(Boost_USE_MULTITHREADED ON )
+set(Boost_USE_STATIC_RUNTIME OFF)
+
+# Travis only supports Boost 1.55, which is good enough for now.
+find_package(Boost 1.55.0 REQUIRED)
+
 set(SOURCE_TitaniumKit
   include/Titanium/Titanium.hpp
   include/Titanium/ApplicationBuilder.hpp
@@ -51,6 +58,11 @@ set(SOURCE_TitaniumKit_detail
   include/Titanium/detail/HashUtilities.hpp
   include/Titanium/detail/TiUtil.hpp
   src/detail/TiUtil.cpp
+  )
+
+set(SOURCE_Ti
+  include/Titanium/TiModule.hpp
+  src/TiModule.cpp
   )
 
 set(SOURCE_API
@@ -96,12 +108,16 @@ set(SOURCE_UI
   src/UI/Constants.cpp
   include/Titanium/UI/Dimension.hpp
   src/UI/Dimension.cpp
+  include/Titanium/UI/ImageView.hpp
+  src/UI/ImageView.cpp
   include/Titanium/UI/View.hpp
   src/UI/View.cpp
   include/Titanium/UI/Window.hpp
   src/UI/Window.cpp
   include/Titanium/UI/Button.hpp
   src/UI/Button.cpp
+  include/Titanium/UI/Label.hpp
+  src/UI/Label.cpp
   include/Titanium/UI/Animation.hpp
   src/UI/Animation.cpp
   include/Titanium/UI/TextArea.hpp
@@ -118,6 +134,8 @@ set(SOURCE_UI
   src/UI/WebView.cpp
   include/Titanium/UI/WebViewErrorEvent.hpp
   src/UI/WebViewErrorEvent.cpp
+  include/Titanium/UI/ScrollView.hpp
+  src/UI/ScrollView.cpp
   )
 
 set(SOURCE_TiLogger_detail
@@ -131,6 +149,7 @@ set(SOURCE_TiLogger_detail
 
 source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
 source_group(TitaniumKit\\detail           FILES ${SOURCE_TitaniumKit_detail})
+source_group(TitaniumKit\\Ti               FILES ${SOURCE_Ti})
 source_group(TitaniumKit\\API              FILES ${SOURCE_API})
 source_group(TitaniumKit\\Platform         FILES ${SOURCE_Platform})
 source_group(TitaniumKit\\Accelerometer    FILES ${SOURCE_Accelerometer})
@@ -146,6 +165,7 @@ source_group(TitaniumKit\\TiLogger\\detail FILES ${SOURCE_TiLogger_detail})
 add_library(TitaniumKit SHARED
   ${SOURCE_TitaniumKit}
   ${SOURCE_TitaniumKit_detail}
+  ${SOURCE_Ti}
   ${SOURCE_API}
   ${SOURCE_Platform}
   ${SOURCE_Accelerometer}
@@ -168,10 +188,12 @@ target_compile_definitions(TitaniumKit PRIVATE TitaniumKit_EXPORTS)
 target_include_directories(TitaniumKit PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
+  ${Boost_INCLUDE_DIRS}
   )
 
 target_link_libraries(TitaniumKit
   HAL
+  ${Boost_LIBRARIES}
   )
 
 if (WIN32)
