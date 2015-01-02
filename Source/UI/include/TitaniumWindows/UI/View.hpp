@@ -41,12 +41,18 @@ namespace TitaniumWindows { namespace UI {
 
     virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;
 
+	virtual void hide(JSObject& this_object) TITANIUM_NOEXCEPT;
+	virtual void show(JSObject& this_object) TITANIUM_NOEXCEPT;
+
     virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
   
     virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
     virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+	virtual bool setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+	virtual bool setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+	virtual bool setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
 
     virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 

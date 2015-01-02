@@ -94,7 +94,7 @@ namespace TitaniumWindows { namespace UI {
   }
 
   void Button::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT {
-    TITANIUM_LOG_DEBUG("View::enableEvent: (event name '", event_name, "'");
+    TITANIUM_LOG_DEBUG("Button::enableEvent: (event name '", event_name, "'");
 
     const JSContext  ctx = this->get_context();
 

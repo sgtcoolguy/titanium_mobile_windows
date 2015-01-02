@@ -26,6 +26,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 get_filename_component(Titanium_SOURCE_DIR      ${PROJECT_SOURCE_DIR}/../../Source/Titanium      ABSOLUTE)
 get_filename_component(Global_SOURCE_DIR        ${PROJECT_SOURCE_DIR}/../../Source/Global        ABSOLUTE)
+get_filename_component(Ti_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../../Source/Ti            ABSOLUTE)
 get_filename_component(API_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/API           ABSOLUTE)
 get_filename_component(Gesture_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../../Source/Gesture       ABSOLUTE)
 get_filename_component(Accelerometer_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../../Source/Accelerometer ABSOLUTE)
@@ -43,9 +44,12 @@ if(NOT TARGET TitaniumWindows_Global)
   add_subdirectory(${Global_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Global EXCLUDE_FROM_ALL)
 endif()
 
+if(NOT TARGET TitaniumWindows_Ti)
+  add_subdirectory(${Ti_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Ti EXCLUDE_FROM_ALL)
+endif()
+
 if(NOT TARGET TitaniumWindows_API)
   add_subdirectory(${API_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/API EXCLUDE_FROM_ALL)
-
 endif()
 
 if(NOT TARGET TitaniumWindows_Gesture)

@@ -43,7 +43,15 @@ namespace TitaniumWindows { namespace UI {
 
     static void JSExportInitialize();
 
+    virtual void hide(JSObject& this_object) TITANIUM_NOEXCEPT;
+    virtual void show(JSObject& this_object) TITANIUM_NOEXCEPT;
+
     virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+    virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+    virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+    virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+    virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+    virtual bool setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
 
     virtual void onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name);
     virtual void onComponentSizeChange(const Titanium::LayoutEngine::Rect&);

@@ -20,7 +20,9 @@ namespace Titanium { namespace UI {
   , right__(js_context.CreateString())
   , center__(js_context.CreateObject())
   , width__(js_context.CreateString())
-  , height__(js_context.CreateString()) {
+  , height__(js_context.CreateString())
+  , layout__(js_context.CreateString()) {
+    TITANIUM_LOG_DEBUG("View:: ctor 1 ", this);
   }
   
   View::View(const View& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
@@ -33,9 +35,15 @@ namespace Titanium { namespace UI {
   , right__(rhs.right__)
   , center__(rhs.center__)
   , width__(rhs.width__)
-  , height__(rhs.height__) {
+  , height__(rhs.height__) 
+  , layout__(rhs.layout__) {
+    TITANIUM_LOG_DEBUG("View:: ctor 2 ", this);
   }
   
+  View::~View() TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("View:: dtor ", this);
+  }
+
   void View::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT {
     TITANIUM_LOG_DEBUG("View::add");
     
@@ -45,6 +53,14 @@ namespace Titanium { namespace UI {
     
     const auto view_count = children__.GetPropertyNames().GetCount();
     children__.SetProperty(static_cast<unsigned>(view_count), view);
+  }
+
+  void View::hide(JSObject& this_object) TITANIUM_NOEXCEPT{
+	  TITANIUM_LOG_DEBUG("View::hide");
+  }
+
+  void View::show(JSObject& this_object) TITANIUM_NOEXCEPT{
+	  TITANIUM_LOG_DEBUG("View::show");
   }
   
   JSArray View::get_children() const TITANIUM_NOEXCEPT {
@@ -114,6 +130,14 @@ namespace Titanium { namespace UI {
   void View::set_height(const JSValue& height) TITANIUM_NOEXCEPT {
     height__ = height;
   }
+
+  JSValue View::get_layout() const TITANIUM_NOEXCEPT{
+	return height__;
+  }
+
+  void View::set_layout(const JSValue& height) TITANIUM_NOEXCEPT{
+	height__ = height;
+  }
   
   NativeChildrenList_t View::get_native_children() const TITANIUM_NOEXCEPT {
     NativeChildrenList_t native_children_list;
@@ -145,6 +169,8 @@ namespace Titanium { namespace UI {
     JSExport<View>::SetClassVersion(1);
     JSExport<View>::SetParent(JSExport<Module>::Class());
     JSExport<View>::AddFunctionProperty("add", std::mem_fn(&View::addArgumentValidator));
+	JSExport<View>::AddFunctionProperty("hide", std::mem_fn(&View::hideArgumentValidator));
+	JSExport<View>::AddFunctionProperty("show", std::mem_fn(&View::showArgumentValidator));
     JSExport<View>::AddValueProperty("children", std::mem_fn(&View::get_children));
     JSExport<View>::AddValueProperty("backgroundColor", std::mem_fn(&View::get_backgroundColor), std::mem_fn(&View::setBackgroundColorArgumentValidator));
     JSExport<View>::AddValueProperty("top", std::mem_fn(&View::get_top), std::mem_fn(&View::setTopArgumentValidator));
@@ -154,8 +180,9 @@ namespace Titanium { namespace UI {
     JSExport<View>::AddValueProperty("right", std::mem_fn(&View::get_right), std::mem_fn(&View::setRightArgumentValidator));
     JSExport<View>::AddValueProperty("width", std::mem_fn(&View::get_width), std::mem_fn(&View::setWidthArgumentValidator));
     JSExport<View>::AddValueProperty("height", std::mem_fn(&View::get_height), std::mem_fn(&View::setHeightArgumentValidator));
+	JSExport<View>::AddValueProperty("layout", std::mem_fn(&View::get_layout), std::mem_fn(&View::setLayoutArgumentValidator));
   }
-  
+
   JSValue View::addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {
     // TODO: Validate these precondition checks (which could be
     // automaticaly generated) with the team.
@@ -165,6 +192,22 @@ namespace Titanium { namespace UI {
     JSObject view = _0;
     add(view, this_object);
     return get_context().CreateUndefined();
+  }
+
+  JSValue View::hideArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT{
+	// TODO: Validate these precondition checks (which could be
+	// automaticaly generated) with the team.
+	TITANIUM_ASSERT(arguments.size() == 0);
+	hide(this_object);
+	return get_context().CreateUndefined();
+  }
+
+  JSValue View::showArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT{
+	// TODO: Validate these precondition checks (which could be
+	// automaticaly generated) with the team.
+	TITANIUM_ASSERT(arguments.size() == 0);
+	show(this_object);
+	return get_context().CreateUndefined();
   }
   
   bool View::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
@@ -305,6 +348,23 @@ namespace Titanium { namespace UI {
     // return result;
     
     return false;
+  }
+
+  bool View::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
+	TITANIUM_LOG_WARN("View::setLayoutArgumentValidator: Unimplemented");
+
+	// Base classes must implement this method. This is the minimum
+	// functionality that you should perform:
+	//
+	// TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+	// bool result = false;
+	// const std::string layout = static_cast<std::string>(argument);
+	// Set the native view's layout type.
+	// set_layout(argument);
+	// result = true;
+	// return result;
+
+	return false;
   }
 
   

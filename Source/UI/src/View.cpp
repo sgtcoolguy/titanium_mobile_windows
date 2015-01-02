@@ -12,14 +12,19 @@ namespace TitaniumWindows { namespace UI {
 
   View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::UI::View(js_context)
-    , canvas__(ref new Windows::UI::Xaml::Controls::Canvas()) {   
+    , canvas__(ref new Windows::UI::Xaml::Controls::Canvas()) {
     TITANIUM_LOG_DEBUG("View::ctor Initialize");
   }
 
   View::View(const View& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::UI::View(rhs, arguments)
     , canvas__(ref new Windows::UI::Xaml::Controls::Canvas()) {
+
+	setDefaultHeight(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
+	setDefaultWidth(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
+
     setComponent(canvas__);
+	
     TITANIUM_LOG_DEBUG("View::ctor CallAsConstructor");
   }
 
@@ -53,6 +58,14 @@ namespace TitaniumWindows { namespace UI {
     else {
       TITANIUM_LOG_DEBUG("View::add: nativeChildView = nullptr");
     }
+  }
+
+  void View::hide(JSObject& this_object) TITANIUM_NOEXCEPT{
+	getComponent()->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+  }
+
+  void View::show(JSObject& this_object) TITANIUM_NOEXCEPT{
+	getComponent()->Visibility = Windows::UI::Xaml::Visibility::Visible;
   }
 
   bool View::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
@@ -109,6 +122,39 @@ namespace TitaniumWindows { namespace UI {
     set_height(argument);
     result = true;
     return result;
+  }
+
+  bool View::setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
+	TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+	bool result = false;
+	std::string value = static_cast<std::string>(argument);
+	TITANIUM_LOG_INFO("View::setBottomArgumentValidator: bottom = ", value);
+	setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, static_cast<std::string>(argument));
+	set_bottom(argument);
+	result = true;
+	return result;
+  }
+
+  bool View::setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
+	TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+	bool result = false;
+	std::string value = static_cast<std::string>(argument);
+	TITANIUM_LOG_INFO("View::setRightArgumentValidator: right = ", value);
+	setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, static_cast<std::string>(argument));
+	set_right(argument);
+	result = true;
+	return result;
+  }
+
+  bool View::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT{
+	  TITANIUM_ASSERT(argument.IsString());
+	  bool result = false;
+	  std::string value = static_cast<std::string>(argument);
+	  TITANIUM_LOG_INFO("View::setLayoutArgumentValidator: layout = ", value);
+	  setLayout(value);
+	  set_layout(argument);
+	  result = true;
+	  return result;
   }
 
   void View::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT {

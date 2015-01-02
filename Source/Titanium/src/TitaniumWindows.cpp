@@ -9,6 +9,7 @@
 #include "TitaniumWindows.hpp"
 
 #include "TitaniumWindows/GlobalObject.hpp"
+#include "TitaniumWindows/TiModule.hpp"
 #include "TitaniumWindows/API.hpp"
 #include "TitaniumWindows/UI.hpp"
 #include "TitaniumWindows/Platform.hpp"
@@ -25,26 +26,31 @@ namespace TitaniumWindows {
 
   using namespace HAL;
 
-  Application::Application() {
+  Application::Application()
+    : js_context__(js_context_group__.CreateContext(JSExport<TitaniumWindows::GlobalObject>::Class()))
+  {
   }
 
   Application::~Application() {
   }
 
   void Application::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ args) {
-
-    application__ = std::make_shared<Titanium::Application>(Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<TitaniumWindows::GlobalObject>::Class()))
-      .APIClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::API>::Class()))
-      .PlatformClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Platform>::Class()))
-      .GestureClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Gesture>::Class()))
-      .AccelerometerClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Accelerometer>::Class()))
-      .ViewClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::View>::Class()))
-      .WindowClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Window>::Class()))
-      .ButtonClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Button>::Class()))
-      .BlobClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Blob>::Class()))
-      .FilesystemClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::FilesystemModule>::Class()))
-      .FileClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Filesystem::File>::Class()))
-      .build());
+    application__ = std::make_shared<Titanium::Application>(Titanium::ApplicationBuilder(js_context__)
+    .TiObject(js_context__.CreateObject<TitaniumWindows::TiModule>())
+    .APIObject(js_context__.CreateObject<TitaniumWindows::API>())
+    .PlatformObject(js_context__.CreateObject<TitaniumWindows::Platform>())
+    .GestureObject(js_context__.CreateObject<TitaniumWindows::Gesture>())
+    .AccelerometerObject(js_context__.CreateObject<TitaniumWindows::Accelerometer>())
+    .ViewObject(js_context__.CreateObject<TitaniumWindows::UI::View>())
+    .WindowObject(js_context__.CreateObject<TitaniumWindows::UI::Window>())
+    .ButtonObject(js_context__.CreateObject<TitaniumWindows::UI::Button>())
+    .ImageViewObject(js_context__.CreateObject<TitaniumWindows::UI::ImageView>())
+    .LabelObject(js_context__.CreateObject<TitaniumWindows::UI::Label>())
+    .ScrollViewObject(js_context__.CreateObject<TitaniumWindows::UI::ScrollView>())
+    .BlobObject(js_context__.CreateObject<TitaniumWindows::Blob>())
+    .FilesystemObject(js_context__.CreateObject<TitaniumWindows::FilesystemModule>())
+    .FileObject(js_context__.CreateObject<TitaniumWindows::Filesystem::File>())
+    .build());
 
     Suspending += ref new Windows::UI::Xaml::SuspendingEventHandler(this, &Application::OnSuspending);
 

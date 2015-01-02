@@ -10,10 +10,16 @@
 
 NativeButtonExample::NativeButtonExample(const JSContext& js_context) TITANIUM_NOEXCEPT
 : Titanium::UI::Button(js_context) {
+  TITANIUM_LOG_DEBUG("NativeButtonExample:: ctor 1 ", this);
 }
 
 NativeButtonExample::NativeButtonExample(const NativeButtonExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 : Titanium::UI::Button(rhs, arguments) {
+  TITANIUM_LOG_DEBUG("NativeButtonExample:: ctor 1 ", this);
+}
+
+NativeButtonExample::~NativeButtonExample() TITANIUM_NOEXCEPT {
+  TITANIUM_LOG_DEBUG("NativeButtonExample:: dtor ", this);
 }
 
 void NativeButtonExample::JSExportInitialize() {

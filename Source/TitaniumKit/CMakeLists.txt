@@ -60,6 +60,11 @@ set(SOURCE_TitaniumKit_detail
   src/detail/TiUtil.cpp
   )
 
+set(SOURCE_Ti
+  include/Titanium/TiModule.hpp
+  src/TiModule.cpp
+  )
+
 set(SOURCE_API
   include/Titanium/API.hpp
   src/API.cpp
@@ -101,12 +106,16 @@ set(SOURCE_UI
   src/UI/Constants.cpp
   include/Titanium/UI/Dimension.hpp
   src/UI/Dimension.cpp
+  include/Titanium/UI/ImageView.hpp
+  src/UI/ImageView.cpp
   include/Titanium/UI/View.hpp
   src/UI/View.cpp
   include/Titanium/UI/Window.hpp
   src/UI/Window.cpp
   include/Titanium/UI/Button.hpp
   src/UI/Button.cpp
+  include/Titanium/UI/Label.hpp
+  src/UI/Label.cpp
   include/Titanium/UI/Animation.hpp
   src/UI/Animation.cpp
   include/Titanium/UI/TextArea.hpp
@@ -123,6 +132,8 @@ set(SOURCE_UI
   src/UI/WebView.cpp
   include/Titanium/UI/WebViewErrorEvent.hpp
   src/UI/WebViewErrorEvent.cpp
+  include/Titanium/UI/ScrollView.hpp
+  src/UI/ScrollView.cpp
   )
 
 set(SOURCE_TiLogger_detail
@@ -136,6 +147,7 @@ set(SOURCE_TiLogger_detail
 
 source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
 source_group(TitaniumKit\\detail           FILES ${SOURCE_TitaniumKit_detail})
+source_group(TitaniumKit\\Ti               FILES ${SOURCE_Ti})
 source_group(TitaniumKit\\API              FILES ${SOURCE_API})
 source_group(TitaniumKit\\Platform         FILES ${SOURCE_Platform})
 source_group(TitaniumKit\\Accelerometer    FILES ${SOURCE_Accelerometer})
@@ -151,6 +163,7 @@ source_group(TitaniumKit\\TiLogger\\detail FILES ${SOURCE_TiLogger_detail})
 add_library(TitaniumKit SHARED
   ${SOURCE_TitaniumKit}
   ${SOURCE_TitaniumKit_detail}
+  ${SOURCE_Ti}
   ${SOURCE_API}
   ${SOURCE_Platform}
   ${SOURCE_Accelerometer}
