@@ -61,6 +61,8 @@
 		C950EF941A48D90A000EE5AC /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C950EF921A48D90A000EE5AC /* Label.cpp */; };
 		C974545B1A02A2E500CB4CA9 /* Module.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C97454581A02A2E500CB4CA9 /* Module.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		C974545C1A02A2E500CB4CA9 /* GlobalObject.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C97454591A02A2E500CB4CA9 /* GlobalObject.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		C97E14861A4CB0E200C15EDC /* ScrollView.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C97E14841A4CB0E200C15EDC /* ScrollView.hpp */; };
+		C97E14871A4CB0E200C15EDC /* ScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C97E14851A4CB0E200C15EDC /* ScrollView.cpp */; };
 		C980919B1A2149A300AE5930 /* TitaniumKit_EXPORT.h in Headers */ = {isa = PBXBuildFile; fileRef = C980919A1A2149A300AE5930 /* TitaniumKit_EXPORT.h */; };
 		C98091A11A238DC500AE5930 /* Dimension.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C980919F1A238DC500AE5930 /* Dimension.hpp */; };
 		C98091A21A238DC500AE5930 /* Dimension.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C98091A01A238DC500AE5930 /* Dimension.cpp */; };
@@ -182,6 +184,8 @@
 		C97454641A02A40A00CB4CA9 /* TitaniumKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TitaniumKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97454671A02A40A00CB4CA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C97454761A02B1E100CB4CA9 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		C97E14841A4CB0E200C15EDC /* ScrollView.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ScrollView.hpp; path = include/Titanium/UI/ScrollView.hpp; sourceTree = "<group>"; };
+		C97E14851A4CB0E200C15EDC /* ScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScrollView.cpp; path = src/UI/ScrollView.cpp; sourceTree = "<group>"; };
 		C980919A1A2149A300AE5930 /* TitaniumKit_EXPORT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TitaniumKit_EXPORT.h; path = xcode/TitaniumKit_EXPORT.h; sourceTree = "<group>"; };
 		C980919F1A238DC500AE5930 /* Dimension.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Dimension.hpp; path = include/Titanium/UI/Dimension.hpp; sourceTree = "<group>"; };
 		C98091A01A238DC500AE5930 /* Dimension.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dimension.cpp; path = src/UI/Dimension.cpp; sourceTree = "<group>"; };
@@ -278,6 +282,8 @@
 				C909509D1A2963F3002133E1 /* ListView.cpp */,
 				C90950A01A296802002133E1 /* Picker.hpp */,
 				C90950A11A296802002133E1 /* Picker.cpp */,
+				C97E14841A4CB0E200C15EDC /* ScrollView.hpp */,
+				C97E14851A4CB0E200C15EDC /* ScrollView.cpp */,
 				C90950A41A297E03002133E1 /* WebView.hpp */,
 				C90950A51A297E03002133E1 /* WebView.cpp */,
 				C90950A81A2A20C1002133E1 /* WebViewErrorEvent.hpp */,
@@ -471,6 +477,7 @@
 				C974545B1A02A2E500CB4CA9 /* Module.hpp in Headers */,
 				C9E6AFE71A13F93F00FED053 /* TiBase.hpp in Headers */,
 				F9B47E811A2EF93E0052879A /* Constants.hpp in Headers */,
+				C97E14861A4CB0E200C15EDC /* ScrollView.hpp in Headers */,
 				C90B900D1A198370005F3210 /* ApplicationBuilder.hpp in Headers */,
 				C90B90091A19804D005F3210 /* Application.hpp in Headers */,
 				C980919B1A2149A300AE5930 /* TitaniumKit_EXPORT.h in Headers */,
@@ -619,6 +626,7 @@
 				C9E6AFE81A13F94200FED053 /* TiBase.cpp in Sources */,
 				C90950A31A296802002133E1 /* Picker.cpp in Sources */,
 				C90B8F881A167E36005F3210 /* Module.cpp in Sources */,
+				C97E14871A4CB0E200C15EDC /* ScrollView.cpp in Sources */,
 				F9B47E7B1A2EF1730052879A /* File.cpp in Sources */,
 				C9E6AFE61A13F93800FED053 /* GlobalObject.cpp in Sources */,
 				C9E6AFF11A13F96400FED053 /* TiLoggerPimpl.cpp in Sources */,

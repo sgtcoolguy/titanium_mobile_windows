@@ -57,19 +57,19 @@ namespace Titanium { namespace UI {
     TITANIUM_LOG_WARN("ScrollView::scrollToBottom: Unimplemented");
   }
 
-  JSValue ScrollView::getContentWidth() const {
+  JSValue ScrollView::getContentWidth() const TITANIUM_NOEXCEPT {
     TITANIUM_LOG_WARN("ScrollView::getContentWidth: Unimplemented");
     return get_context().CreateUndefined();
   }
-  JSValue ScrollView::getContentHeight() const {
+  JSValue ScrollView::getContentHeight() const TITANIUM_NOEXCEPT {
     TITANIUM_LOG_WARN("ScrollView::getContentHeight: Unimplemented");
     return get_context().CreateUndefined();
   }
-  bool ScrollView::setContentWidth(const JSValue& width) {
+  bool ScrollView::setContentWidth(const JSValue& width) TITANIUM_NOEXCEPT {
     TITANIUM_LOG_WARN("ScrollView::setContentWidth: Unimplemented");
     return false;
   }
-  bool ScrollView::setContentHeight(const JSValue& height) {
+  bool ScrollView::setContentHeight(const JSValue& height) TITANIUM_NOEXCEPT {
     TITANIUM_LOG_WARN("ScrollView::setContentHeight: Unimplemented");
     return false;
   }
