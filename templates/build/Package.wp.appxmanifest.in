@@ -32,7 +32,7 @@
       <m2:VisualElements
           DisplayName="@SHORT_NAME@"
           Description="@SHORT_NAME@"
-          BackgroundColor="#336699"
+          BackgroundColor="#171717"
           ForegroundText="light"
           Square150x150Logo="Logo.png"
           Square30x30Logo="SmallLogo.png">
@@ -41,7 +41,7 @@
             <m2:ShowOn Tile="square150x150Logo" />
           </m2:ShowNameOnTiles>
         </m2:DefaultTile>
-        <m2:SplashScreen Image="SplashScreen.png" />
+        <m2:SplashScreen BackgroundColor="#b41100" Image="SplashScreen.png" />
       </m2:VisualElements>
     </Application>
   </Applications>

@@ -1,6 +1,5 @@
 /**
  * Global for Windows
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -14,7 +13,7 @@
 
 namespace TitaniumWindows {
 
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 /*!
   @class
@@ -26,8 +25,8 @@ class TITANIUMWINDOWS_GLOBAL_EXPORT GlobalObject final : public Titanium::Global
 	
 public:
 	
-	JSString get_example_resource() const                           TITANIUM_NOEXCEPT;
-	void     set_example_resource(const JSString& example_resource) TITANIUM_NOEXCEPT;
+	std::string get_example_resource() const                              TITANIUM_NOEXCEPT;
+	void        set_example_resource(const std::string& example_resource) TITANIUM_NOEXCEPT;
 	
 	
 	GlobalObject(const JSContext& js_context)                                TITANIUM_NOEXCEPT;
@@ -45,12 +44,12 @@ public:
 	
 protected:
 	
-	virtual JSString LoadResource(const JSString& moduleId) const TITANIUM_NOEXCEPT override final;
+	virtual std::string LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT override final;
 	virtual std::shared_ptr<Titanium::GlobalObject::Timer> CreateTimer(Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT override final;
 	
 private:
 	
-	JSString example_resource__;
+	std::string example_resource__;
 };
 
 }  // namespace TitaniumWindows {

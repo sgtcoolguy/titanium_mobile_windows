@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -17,7 +16,7 @@
 #define XCTAssertFalse    ASSERT_FALSE
 #define XCTAssertNoThrow  ASSERT_NO_THROW
 
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 class GlobalObjectTests : public testing::Test {
  protected:
@@ -66,14 +65,13 @@ TEST_F(GlobalObjectTests, require) {
     std::clog << "MDL: property_name = " << property_name << std::endl;
   }
   
-  JSString app_js = R"js(
+  std::string app1_js = R"js(
   "use strict";
   var hello = require("hello");
-  //hello.sayHello('world');
   hello('world');
   )js";
-  
-  JSString hello1_js = R"js(
+
+  std::string hello1_js = R"js(
   "use strict";
   exports = sayHello;
   function sayHello(name) {
@@ -87,9 +85,15 @@ TEST_F(GlobalObjectTests, require) {
   JSValue result = js_context.CreateNull();
   
   global_object_ptr -> set_example_resource(hello1_js);
-  XCTAssertNoThrow(result = js_context.JSEvaluateScript(app_js));
+  XCTAssertNoThrow(result = js_context.JSEvaluateScript(app1_js));
 
-  JSString hello2_js = R"js(
+  std::string app2_js = R"js(
+  "use strict";
+  var hello = require("hello");
+  hello.sayHello('world');
+  )js";
+  
+  std::string hello2_js = R"js(
   "use strict";
   exports.sayHello = sayHello;
   function sayHello(name) {
@@ -98,7 +102,7 @@ TEST_F(GlobalObjectTests, require) {
   )js";
   
   global_object_ptr -> set_example_resource(hello2_js);
-  XCTAssertNoThrow(result = js_context.JSEvaluateScript(app_js));
+  XCTAssertNoThrow(result = js_context.JSEvaluateScript(app2_js));
 }
 
 TEST_F(GlobalObjectTests, timeout) {

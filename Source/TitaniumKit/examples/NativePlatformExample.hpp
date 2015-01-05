@@ -9,14 +9,14 @@
 
 #include "Titanium/Titanium.hpp"
 
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 /*!
  @class
  @discussion This is an example of how to implement Titanium::Platform
  for a native platform.
  */
-class NativePlatformExample final : public Titanium::Platform, public JSExport<NativePlatformExample> {
+class NativePlatformExample final : public Titanium::PlatformModule, public JSExport<NativePlatformExample> {
   
 public:
   
@@ -35,7 +35,7 @@ public:
   
 protected:
   
-  virtual JSString osname() const TITANIUM_NOEXCEPT override final;
+  virtual std::string osname() const TITANIUM_NOEXCEPT override final;
 };
 
 #endif // _TITANIUM_EXAMPLES_NATIVEPLATFORMEXAMPLE_HPP_

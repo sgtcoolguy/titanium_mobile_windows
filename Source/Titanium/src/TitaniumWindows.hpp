@@ -1,6 +1,5 @@
 ﻿/**
  * Titanium for Windows
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -35,7 +34,9 @@ namespace TitaniumWindows {
     Windows::Foundation::EventRegistrationToken                first_navigated_token__;
 #endif
 
-    Titanium::Application application__;
+    HAL::JSContextGroup   js_context_group__;
+    HAL::JSContext        js_context__;
+    std::shared_ptr<Titanium::Application> application__;
   };
 
 } // namespace TitaniumWindows {

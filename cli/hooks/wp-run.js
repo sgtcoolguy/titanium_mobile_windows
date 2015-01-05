@@ -107,6 +107,14 @@ exports.init = function (logger, config, cli) {
 						logger.debug(msg);
 					});
 
+					logRelay.on('disconnect', function () {
+						logger.info("Disconnected from app");
+					});
+
+					logRelay.on('connection', function () {
+						logger.info("Connected to app");
+					});
+
 					logRelay.on('started', function () {
 						finished();
 					});
@@ -121,6 +129,7 @@ exports.init = function (logger, config, cli) {
 
 	cli.on('build.windows.copyResources', {
 		pre: function (builder, finished) {
+			if (!/^wp-emulator$/.test(builder.target)) return finished();
 			// write the titanium settings file
 			fs.writeFileSync(
 				path.join(builder.buildTargetAssetsDir, 'titanium_settings.ini'),
@@ -180,26 +189,28 @@ exports.init = function (logger, config, cli) {
 				}
 
 				var tiapp = builder.tiapp,
-					baseFileName = tiapp.name + '_1.1.0.0_' + builder.cmakeArch + ((builder.buildConfiguration == 'Debug') ? '_Debug' : ''),
-					xapFile = path.resolve(builder.cmakeTargetDir, 'AppPackages', tiapp.name, baseFileName + '_Test', baseFileName + '.appx'),
-					phoneLibAppx = path.resolve(builder.cmakeTargetDir, 'AppPackages', tiapp.name, baseFileName + '_Test', 'Dependencies', 'x86', 'Microsoft.VCLibs.x86.Debug.12.00.Phone.appx'),
+					// name of the directory holding appx and dependencies subfolder
+					dirName = tiapp.name + '_1.1.0.0' + ((builder.buildConfiguration == 'Debug') ? '_Debug_Test' : '_Test');
+					// path to folder holding appx
+					appxDir = path.resolve(builder.cmakeTargetDir, 'AppPackages', tiapp.name, dirName),
+					// path to folder holding depencies of the app
+					dependenciesDir = path.resolve(appxDir, 'Dependencies', (builder.cmakeArch == 'Win32') ? 'x86' : builder.cmakeArch),
+					// Options for installing app
 					opts = appc.util.mix({
 						killIfRunning: false,
 						timeout: config.get('windows.log.timeout', 60000),
 						wpsdk: builder.wpsdk
-					}, builder.windowslibOptions);
+					}, builder.windowslibOptions),
+					// Options for dependencies
+					installOnlyOpts = appc.util.mix({
+							skipLaunch: true
+					}, opts),
+					appxExtensions = ['.appx', '.appxbundle'],
+					installs = [];
 
-				logger.info(__('Installing and launching the application'));
-				// When we do a debug build we need to install a dependency library before we install the actual app for it to work
-				// FIXME I don't think we need to do this for Release config, and probably not for actual device installs!
-				windowslib.install(builder.deviceId, phoneLibAppx, appc.util.mix({
-						skipLaunch: true
-					}, opts))
-					.on('installed', function (handle) {
-						logger.info(__('Finished installing the debug dependency'));
-
-						// Now install the real app
-						windowslib.install(builder.deviceId, xapFile, opts)
+				function installApp(deviceId, xapFile, opts) {
+					// Now install the real app
+					windowslib.install(deviceId, xapFile, opts)
 						.on('installed', function (handle) {
 							logger.info(__('Finished launching the application'));
 
@@ -209,7 +220,7 @@ exports.init = function (logger, config, cli) {
 								if (pollInterval > 0) {
 									(function watchForEmulatorQuit() {
 										setTimeout(function () {
-											windowslib.emulator.isRunning(builder.deviceId, builder.windowslibOptions, function (err, running) {
+											windowslib.emulator.isRunning(deviceId, builder.windowslibOptions, function (err, running) {
 												if (!err && !running) {
 													logRelay && logRelay.stop();
 													process.exit(0);
@@ -231,21 +242,53 @@ exports.init = function (logger, config, cli) {
 						})
 						.on('timeout', function (err) {
 							logRelay && logRelay.stop();
-							finished(err);
+							logger.error(err.message);
 						})
 						.on('error', function (err) {
 							logRelay && logRelay.stop();
-							finished(err);
+							logger.error(err.message);
 						});
-					})
-					.on('timeout', function (err) {
-						logRelay && logRelay.stop();
-						finished(err);
-					})
-					.on('error', function (err) {
-						logRelay && logRelay.stop();
-						finished(err);
+				}
+
+				// Install dependencies
+				var possibleDependencies = fs.readdirSync(dependenciesDir);
+				possibleDependencies = possibleDependencies.filter(function(file) {
+					return appxExtensions.indexOf(path.extname(file)) !== -1;
+				});
+        		possibleDependencies.forEach(function(file) {
+        			installs.push(function (next) {
+						windowslib.install(builder.deviceId, path.resolve(dependenciesDir, file), installOnlyOpts)
+						.on('installed', function (handle) {
+							next();
+						})
+						.on('timeout', function (err) {
+							logRelay && logRelay.stop();
+							next(err.message);
+						})
+						.on('error', function (err) {
+							logRelay && logRelay.stop();
+							next(err.message);
+						});
 					});
+        		});
+				
+				// Install actual app(s)
+				var possibleApps = fs.readdirSync(appxDir);
+				possibleApps = possibleApps.filter(function(file) {
+					return appxExtensions.indexOf(path.extname(file)) !== -1;
+				});
+        		possibleApps.forEach(function(file) {
+        			installs.push(function (next) {
+						installApp(builder.deviceId, path.resolve(appxDir, file), opts);
+					});
+        		});
+
+				logger.info(__('Installing and launching the application'));
+				async.series(installs, function (err, results) {
+					if (err) {
+						logger.error(err);
+					}
+				});
 
 				finished(); // temp
 			}

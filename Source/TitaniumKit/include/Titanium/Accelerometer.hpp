@@ -11,13 +11,13 @@
 
 namespace Titanium {
 
-	using namespace JavaScriptCoreCPP;
+	using namespace HAL;
 
 	/*!
 	 @class
-	 @discussion This is the Titanium Accelerometer Module.
-	 See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Accelerometer
-	 */
+	 @discussion This is the Ti.Accelerometer Module.
+	 See http://docs.appcelerator.com/titanium/latest/#!/api/Ti.Accelerometer
+	*/
 	class TITANIUMKIT_EXPORT Accelerometer : public Module, public JSExport < Accelerometer > {
 
 	public:
@@ -35,8 +35,8 @@ namespace Titanium {
 
 		static void JSExportInitialize();
 
-    virtual void enableEvent(const JSString& event_name) TITANIUM_NOEXCEPT override;
-    virtual void disableEvent(const JSString& event_name) TITANIUM_NOEXCEPT override;
+    virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+    virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 
 	};
 

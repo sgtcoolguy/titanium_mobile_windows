@@ -1,5 +1,4 @@
 # Titanium for Windows
-# Author: Matthew D. Langston
 #
 # Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
 # Licensed under the terms of the Apache Public License.
@@ -39,34 +38,52 @@ config_compiler_and_linker()
 enable_testing()
 
 get_filename_component(Global_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../Global            ABSOLUTE)
+get_filename_component(Ti_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../Ti                ABSOLUTE)
 get_filename_component(API_SOURCE_DIR               ${PROJECT_SOURCE_DIR}/../API               ABSOLUTE)
 get_filename_component(Platform_SOURCE_DIR          ${PROJECT_SOURCE_DIR}/../Platform          ABSOLUTE)
 get_filename_component(Gesture_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Gesture           ABSOLUTE)
 get_filename_component(Accelerometer_SOURCE_DIR     ${PROJECT_SOURCE_DIR}/../Accelerometer     ABSOLUTE)
+get_filename_component(Filesystem_SOURCE_DIR        ${PROJECT_SOURCE_DIR}/../Filesystem        ABSOLUTE)
 get_filename_component(UI_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../UI                ABSOLUTE)
 get_filename_component(Utility_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Utility           ABSOLUTE)
 get_filename_component(TitaniumKit_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../TitaniumKit       ABSOLUTE)
-get_filename_component(JavaScriptCoreCPP_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../JavaScriptCoreCPP ABSOLUTE)
+get_filename_component(HAL_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../HAL ABSOLUTE)
+get_filename_component(LayoutEngine_SOURCE_DIR      ${PROJECT_SOURCE_DIR}/../LayoutEngine 	   ABSOLUTE)
 
 add_subdirectory(${Global_SOURCE_DIR}        ${CMAKE_CURRENT_BINARY_DIR}/Global        EXCLUDE_FROM_ALL)
+add_subdirectory(${Ti_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/Ti            EXCLUDE_FROM_ALL)
 add_subdirectory(${API_SOURCE_DIR}           ${CMAKE_CURRENT_BINARY_DIR}/API           EXCLUDE_FROM_ALL)
 add_subdirectory(${Platform_SOURCE_DIR}      ${CMAKE_CURRENT_BINARY_DIR}/Platform      EXCLUDE_FROM_ALL)
 add_subdirectory(${Gesture_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Gesture       EXCLUDE_FROM_ALL)
 add_subdirectory(${Accelerometer_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Accelerometer EXCLUDE_FROM_ALL)
+add_subdirectory(${Filesystem_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Filesystem    EXCLUDE_FROM_ALL)
 add_subdirectory(${UI_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/UI            EXCLUDE_FROM_ALL)
-add_subdirectory(${Utility_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Utility       EXCLUDE_FROM_ALL)
 
 if(NOT TARGET TitaniumKit)
   add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit EXCLUDE_FROM_ALL)
 endif()
 
-if (NOT TARGET JavaScriptCoreCPP)
-  add_subdirectory(${JavaScriptCoreCPP_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/JavaScriptCoreCPP EXCLUDE_FROM_ALL)
+if (NOT TARGET HAL)
+  add_subdirectory(${HAL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/HAL EXCLUDE_FROM_ALL)
+endif()
+
+if (NOT TARGET LayoutEngine)
+  add_subdirectory(${LayoutEngine_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/LayoutEngine EXCLUDE_FROM_ALL)
+endif()
+
+if(NOT TARGET TitaniumWindows_Utility)
+  add_subdirectory(${Utility_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Utility       EXCLUDE_FROM_ALL)
 endif()
 
 set(SOURCE_TitaniumWindows
   src/TitaniumWindows.hpp
   src/TitaniumWindows.cpp
+  src/Blob.cpp
+  src/Blob.hpp
+  src/File.cpp
+  src/File.hpp
+  src/detail/BlobBase.hpp
+  src/detail/FilesystemBase.hpp
 )
 
 source_group(TitaniumWindows FILES ${SOURCE_TitaniumWindows})
@@ -75,21 +92,32 @@ add_library(TitaniumWindows SHARED
   ${SOURCE_TitaniumWindows}
   )
 
+
+include(GenerateExportHeader)
+generate_export_header(TitaniumWindows)
+target_compile_definitions(TitaniumWindows PRIVATE TitaniumWindows_EXPORTS)
+
 target_link_libraries(TitaniumWindows
   TitaniumWindows_Global
+  TitaniumWindows_Ti
   TitaniumWindows_API
   TitaniumWindows_Platform
   TitaniumWindows_Gesture
   TitaniumWindows_Accelerometer
+  TitaniumWindows_Filesystem
   TitaniumWindows_UI
+  TitaniumWindows_Utility
+  LayoutEngine
   )
 
 target_include_directories(TitaniumWindows PUBLIC
   $<TARGET_PROPERTY:TitaniumWindows_Global,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Ti,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_API,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Platform,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Gesture,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Accelerometer,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Filesystem,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_UI,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
   )

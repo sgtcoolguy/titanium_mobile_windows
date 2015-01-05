@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -11,6 +10,7 @@
 #include "Titanium/detail/TiUtil.hpp"
 #include <sstream>
 #include <functional>
+#include <boost/algorithm/string/predicate.hpp>
 
 namespace Titanium {
   
@@ -19,13 +19,14 @@ namespace Titanium {
   std::atomic<std::uint32_t> GlobalObject::timer_id_generator__;
   
   JSFunction GlobalObject::createRequireFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT{
-    return get_context().CreateFunction("'use strict'; eval(module_js); return exports;", { "exports", "module_js" });
+    return get_context().CreateFunction("var __OXP=exports;var module={'exports':exports}; eval(module_js); if(module.exports !== __OXP){return module.exports;} return exports;", { "__filename", "exports", "module_js" });
   }
   
   GlobalObject::GlobalObject(const JSContext& js_context) TITANIUM_NOEXCEPT
   : JSExportObject(js_context)
   , require_function__(createRequireFunction(js_context))
   , callback_map__(js_context.CreateObject()) {
+    TITANIUM_LOG_DEBUG("GlobalObject:: ctor 1 ", this);
   }
   
   GlobalObject::GlobalObject(const GlobalObject& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
@@ -33,15 +34,15 @@ namespace Titanium {
   , require_function__(createRequireFunction(rhs.get_context()))
   , callback_map__(rhs.callback_map__)
   , timer_map__(rhs.timer_map__) {
+    TITANIUM_LOG_DEBUG("GlobalObject:: ctor 2 ", this);
   }
   
-  JSObject GlobalObject::xrequire(const JSString& moduleId) TITANIUM_NOEXCEPT{
+  GlobalObject::~GlobalObject() TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("GlobalObject:: dtor ", this);
+  }
+
+  JSObject GlobalObject::xrequire(const std::string& moduleId) TITANIUM_NOEXCEPT{
     TITANIUM_GLOBALOBJECT_LOCK_GUARD;
-    
-    // Return the module from the cache if it has already been required.
-    if (HasProperty(moduleId)) {
-      return GetProperty(moduleId);
-    }
     
     // The module is initially empty.
     JSObject module = get_context().CreateObject();
@@ -51,17 +52,25 @@ namespace Titanium {
     // TODO: Normalize moduleId (i.e. trim surrounding whitespace, append .js
     // if it's not already there, etc.).
     
-    JSString module_js = LoadResource(moduleId);
+    std::string module_path = moduleId;
+    if (!boost::starts_with(module_path, "/")) {
+      module_path = "/" + module_path;
+    }
+    if (!boost::ends_with(module_path, ".js")) {
+      module_path += ".js";
+    }
+
+    std::string module_js = LoadResource(module_path);
     if (module_js.empty()) {
       TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' failed to load");
-      return module;
+      return get_context().CreateUndefined(); 
     }
     
     if (get_context().JSCheckScriptSyntax(module_js, moduleId)) {
       try {
         // Evaluate module_js to allow it to either populate the exports object
         // with properties or to replace the exports object wholesale.
-        JSValue result = require_function__({ module, get_context().CreateString(module_js) });
+        JSValue result = require_function__({ get_context().CreateString(moduleId), module, get_context().CreateString(module_js) });
         
         if (!result.IsObject()) {
           TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' replaced 'exports' with a non-object: ", to_string(result));
@@ -69,16 +78,12 @@ namespace Titanium {
         else {
           module = result;
         }
-        
-        // postcondition
-        TITANIUM_ASSERT(result.IsObject());
-        
-        // TODO Set this as "ReadOnly, DontEnum, DontDelete".
-        const bool property_set = SetProperty(moduleId, result);
-        
-        TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' property_set = ", property_set);
-        // postcondition
-        TITANIUM_ASSERT(property_set);
+
+        if (module.IsFunction()) {
+          TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' is a function");
+        } else {
+          TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' is not a function");
+        }
       }
       catch (const std::exception& exception) {
         TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' threw exception ", exception.what());
@@ -184,7 +189,7 @@ namespace Titanium {
     
   }
   
-  JSString GlobalObject::LoadResource(const JSString& moduleId) const TITANIUM_NOEXCEPT{
+  std::string GlobalObject::LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT{
     TITANIUM_LOG_ERROR("GlobalObject::LoadResource: Unimplemented");
     return "";
   }
@@ -229,6 +234,7 @@ namespace Titanium {
     TITANIUM_LOG_DEBUG("GlobalObject::JSExportInitialize");
     JSExport<GlobalObject>::SetClassVersion(1);
     JSExport<GlobalObject>::SetParent(JSExport<JSExportObject>::Class());
+    JSExport<GlobalObject>::AddValueProperty("global", std::mem_fn(&GlobalObject::globalArgumentValidator));
     JSExport<GlobalObject>::AddFunctionProperty("require", std::mem_fn(&GlobalObject::requireArgumentValidator));
     JSExport<GlobalObject>::AddFunctionProperty("setTimeout", std::mem_fn(&GlobalObject::setTimeoutArgumentValidator));
     JSExport<GlobalObject>::AddFunctionProperty("clearTimeout", std::mem_fn(&GlobalObject::clearTimeoutArgumentValidator));
@@ -236,13 +242,17 @@ namespace Titanium {
     JSExport<GlobalObject>::AddFunctionProperty("clearInterval", std::mem_fn(&GlobalObject::clearIntervalArgumentValidator));
   }
   
+  JSValue GlobalObject::globalArgumentValidator() const TITANIUM_NOEXCEPT {
+    return get_context().JSEvaluateScript("this;");
+  }
+
   JSValue GlobalObject::requireArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     // TODO: Validate these precondition checks (which could be
     // automaticaly generated) with the team.
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
     TITANIUM_ASSERT(_0.IsString());
-    JSString moduleId = static_cast<JSString>(_0);
+    std::string moduleId = static_cast<std::string>(_0);
     return xrequire(moduleId);
   }
   

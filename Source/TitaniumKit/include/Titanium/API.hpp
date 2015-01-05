@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -14,7 +13,7 @@
 
 namespace Titanium {
   
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
   
   /*!
    @class
@@ -39,7 +38,7 @@ namespace Titanium {
      
      @result void
      */
-    virtual void info(const JSString& message) const TITANIUM_NOEXCEPT final;
+    virtual void info(const std::string& message) const TITANIUM_NOEXCEPT final;
     
     /*!
      @method
@@ -53,7 +52,7 @@ namespace Titanium {
      
      @result void
      */
-    virtual void warn(const JSString& message) const TITANIUM_NOEXCEPT final;
+    virtual void warn(const std::string& message) const TITANIUM_NOEXCEPT final;
     
     /*!
      @method
@@ -67,7 +66,7 @@ namespace Titanium {
      
      @result void
      */
-    virtual void error(const JSString& message) const TITANIUM_NOEXCEPT final;
+    virtual void error(const std::string& message) const TITANIUM_NOEXCEPT final;
     
     /*!
      @method
@@ -81,7 +80,7 @@ namespace Titanium {
      
      @result void
      */
-    virtual void debug(const JSString& message) const TITANIUM_NOEXCEPT final;
+    virtual void debug(const std::string& message) const TITANIUM_NOEXCEPT final;
     
     /*!
      @method
@@ -95,7 +94,7 @@ namespace Titanium {
      
      @result void
      */
-    virtual void trace(const JSString& message) const TITANIUM_NOEXCEPT final;
+    virtual void trace(const std::string& message) const TITANIUM_NOEXCEPT final;
     
     /*!
      @method
@@ -113,12 +112,12 @@ namespace Titanium {
      
      @result void
      */
-    virtual void log(const JSString& level, const JSString& message) const TITANIUM_NOEXCEPT final;
+    virtual void log(const std::string& level, const std::string& message) const TITANIUM_NOEXCEPT final;
     
     API(const JSContext& js_context)                       TITANIUM_NOEXCEPT;
     API(const API&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
-    virtual ~API()             = default;
+    virtual ~API() TITANIUM_NOEXCEPT;//= default;
     API(const API&)            = default;
     API& operator=(const API&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
@@ -138,7 +137,7 @@ namespace Titanium {
     
   protected:
     
-    virtual void log(const JSString& message) const TITANIUM_NOEXCEPT;
+    virtual void log(const std::string& message) const TITANIUM_NOEXCEPT;
     
   private:
     
@@ -150,9 +149,9 @@ namespace Titanium {
       API_TRACE
     };
     
-    void log(LogSeverityLevel log_severity_level, const JSString& message) const TITANIUM_NOEXCEPT;
+    void log(LogSeverityLevel log_severity_level, const std::string& message) const TITANIUM_NOEXCEPT;
     
-    static LogSeverityLevel ToLogLevel(const JSString& level);
+    static LogSeverityLevel ToLogLevel(const std::string& level);
   };
   
 } // namespace Titanium

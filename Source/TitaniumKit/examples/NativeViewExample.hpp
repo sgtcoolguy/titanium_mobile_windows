@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -12,7 +11,7 @@
 
 #include "Titanium/Titanium.hpp"
 
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 /*!
  @class
@@ -27,7 +26,7 @@ public:
   NativeViewExample(const JSContext& js_context)                                     TITANIUM_NOEXCEPT;
   NativeViewExample(const NativeViewExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
   
-  virtual ~NativeViewExample()                           = default;
+  virtual ~NativeViewExample() TITANIUM_NOEXCEPT;//= default;
   NativeViewExample(const NativeViewExample&)            = default;
   NativeViewExample& operator=(const NativeViewExample&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

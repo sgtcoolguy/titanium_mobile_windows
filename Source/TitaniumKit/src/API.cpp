@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -15,37 +14,43 @@ namespace Titanium {
   
   API::API(const JSContext& js_context) TITANIUM_NOEXCEPT
   : Module(js_context) {
+    TITANIUM_LOG_DEBUG("API:: ctor 1 ", this);
   }
   
   API::API(const API& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
   : Module(rhs, arguments) {
+    TITANIUM_LOG_DEBUG("API:: ctor 2 ", this);
   }
   
-  void API::info(const JSString& message) const TITANIUM_NOEXCEPT {
+  API::~API() TITANIUM_NOEXCEPT {
+    TITANIUM_LOG_DEBUG("API:: dtor ", this);
+  }
+  
+  void API::info(const std::string& message) const TITANIUM_NOEXCEPT {
     log(LogSeverityLevel::API_INFO, message);
   }
   
-  void API::warn(const JSString& message) const TITANIUM_NOEXCEPT {
+  void API::warn(const std::string& message) const TITANIUM_NOEXCEPT {
     log(LogSeverityLevel::API_WARN, message);
   }
   
-  void API::error(const JSString& message) const TITANIUM_NOEXCEPT {
+  void API::error(const std::string& message) const TITANIUM_NOEXCEPT {
     log(LogSeverityLevel::API_ERROR, message);
   }
   
-  void API::debug(const JSString& message) const TITANIUM_NOEXCEPT {
+  void API::debug(const std::string& message) const TITANIUM_NOEXCEPT {
     log(LogSeverityLevel::API_DEBUG, message);
   }
   
-  void API::trace(const JSString& message) const TITANIUM_NOEXCEPT {
+  void API::trace(const std::string& message) const TITANIUM_NOEXCEPT {
     log(LogSeverityLevel::API_TRACE, message);
   }
   
-  void API::log(const JSString& level, const JSString& message) const TITANIUM_NOEXCEPT {
+  void API::log(const std::string& level, const std::string& message) const TITANIUM_NOEXCEPT {
     log(ToLogLevel(level), message);
   }
   
-  void API::log(LogSeverityLevel log_severity_level, const JSString& message) const TITANIUM_NOEXCEPT {
+  void API::log(LogSeverityLevel log_severity_level, const std::string& message) const TITANIUM_NOEXCEPT {
     std::ostringstream os;
     switch (log_severity_level) {
       case LogSeverityLevel::API_INFO:
@@ -77,13 +82,13 @@ namespace Titanium {
     log(os.str());
   }
   
-  void API::log(const JSString& message) const TITANIUM_NOEXCEPT {
+  void API::log(const std::string& message) const TITANIUM_NOEXCEPT {
     TITANIUM_LOG_WARN("API::log: Unimplemented. Defaulting to std::clog");
     std::clog << message << std::endl;
   }
   
-  API::LogSeverityLevel API::ToLogLevel(const JSString& level) {
-    static std::unordered_map<JSString, LogSeverityLevel> log_severity_level_map;
+  API::LogSeverityLevel API::ToLogLevel(const std::string& level) {
+    static std::unordered_map<std::string, LogSeverityLevel> log_severity_level_map;
     static std::once_flag of;
     std::call_once(of, []() {
       log_severity_level_map.emplace("info" , LogSeverityLevel::API_INFO);
@@ -120,58 +125,51 @@ namespace Titanium {
   JSValue API::infoArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
-    JSString message = static_cast<JSString>(_0);
-    info(message);
-    return get_context().CreateUndefined();
+    std::string message = static_cast<std::string>(_0);
+    this_object.GetPrivate<API>() -> info(message);
+    return this_object.get_context().CreateUndefined();
   }
   
   JSValue API::warnArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
-    JSString message = static_cast<JSString>(_0);
-    warn(message);
-    return get_context().CreateUndefined();
+    std::string message = static_cast<std::string>(_0);
+    this_object.GetPrivate<API>() -> warn(message);
+    return this_object.get_context().CreateUndefined();
   }
   
   JSValue API::errorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
-    JSString message = static_cast<JSString>(_0);
-    error(message);
-    return get_context().CreateUndefined();
+    std::string message = static_cast<std::string>(_0);
+    this_object.GetPrivate<API>() -> error(message);
+    return this_object.get_context().CreateUndefined();
   }
   
   JSValue API::debugArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
-    JSString message = static_cast<JSString>(_0);
-    debug(message);
-    return get_context().CreateUndefined();
+    std::string message = static_cast<std::string>(_0);
+    this_object.GetPrivate<API>() -> debug(message);
+    return this_object.get_context().CreateUndefined();
   }
   
   JSValue API::traceArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 1);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
-    JSString message = static_cast<JSString>(_0);
-    trace(message);
-    return get_context().CreateUndefined();
+    std::string message = static_cast<std::string>(_0);
+    this_object.GetPrivate<API>() -> trace(message);
+    return this_object.get_context().CreateUndefined();
   }
   
   JSValue API::logArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) {
     TITANIUM_ASSERT(arguments.size() >= 2);
     const auto _0 = arguments.at(0);
-    TITANIUM_ASSERT(_0.IsString());
-    JSString level = static_cast<JSString>(_0);
+    std::string level = static_cast<std::string>(_0);
     const auto _1 = arguments.at(1);
-    TITANIUM_ASSERT(_1.IsString());
-    JSString message = static_cast<JSString>(_1);
-    log(level, message);
-    return get_context().CreateUndefined();
+    std::string message = static_cast<std::string>(_1);
+    this_object.GetPrivate<API>() -> log(level, message);
+    return this_object.get_context().CreateUndefined();
   }
   
 } // namespace Titanium

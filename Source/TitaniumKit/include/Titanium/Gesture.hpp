@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -15,26 +14,22 @@
 
 namespace Titanium {
   
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
   
   /*!
    @class
-   
-   @discussion This is the Titanium.Gesture module.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Gesture
-   */
+   @discussion This is the Ti.Gesture Module.
+   See http://docs.appcelerator.com/titanium/latest/#!/api/Ti.Gesture
+  */
   class TITANIUMKIT_EXPORT Gesture : public Module, public JSExport<Gesture> {
     
   public:
     
     /*!
      @method
-     
-     @abstract orientation : Number
-     
-     @discussion Orientation of the current window
-     */
+     @abstract get_Orientation
+     @discussion Orientation of the current window.
+    */
     virtual Titanium::UI::ORIENTATION get_orientation() const TITANIUM_NOEXCEPT;
     
     Gesture(const JSContext& js_context)                           TITANIUM_NOEXCEPT;
@@ -48,22 +43,67 @@ namespace Titanium {
     Gesture& operator=(Gesture&&)      = default;
 #endif
     
-    // TODO: The following functions can automatically be generated
-    // from the YAML API docs.
     static void JSExportInitialize();
     
+    /*!
+     @method
+     @abstract get_orientation_ArgumentValidator
+     @discussion Orientation of the current window.
+    */
     virtual JSValue get_orientation_ArgumentValidator() const TITANIUM_NOEXCEPT final;
+
+    /*!
+     @method
+     @abstract get_landscape_ArgumentValidator
+     @discussion Indicates whether current window is considered landscape by the device.
+    */
     virtual JSValue get_landscape_ArgumentValidator() const TITANIUM_NOEXCEPT final;
+    /*!
+     @method
+     @abstract get_portrait_ArgumentValidator
+     @discussion Indicates whether current window is considered portrait by the device.
+    */
     virtual JSValue get_portrait_ArgumentValidator() const TITANIUM_NOEXCEPT final;
 
+    /*!
+     @method
+     @abstract getLandscape_ArgumentValidator
+     @discussion Gets the value of the landscape property.
+    */
     virtual JSValue getLandscape_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+    /*!
+     @method
+     @abstract getPortrait_ArgumentValidator
+     @discussion Gets the value of the portrait property.
+    */ 
     virtual JSValue getPortrait_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+    /*!
+     @method
+     @abstract getOrientation_ArgumentValidator
+     @discussion Gets the value of the orientation property.
+    */  
     virtual JSValue getOrientation_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+    /*!
+     @method
+     @abstract isFaceDown_ArgumentValidator
+     @discussion Returns whether current window is considered face down by the device.
+    */
     virtual JSValue isFaceDown_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+    /*!
+     @method
+     @abstract isFaceUp_ArgumentValidator
+     @discussion Returns whether current window is considered face up by the device.
+    */
     virtual JSValue isFaceUp_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-    
-    virtual void enableEvent(const JSString& event_name) TITANIUM_NOEXCEPT override;
-    virtual void disableEvent(const JSString& event_name) TITANIUM_NOEXCEPT override;
+    virtual JSValue isLandscape_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+    virtual JSValue isPortrait_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+    virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+    virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 
   };
 } // namespace Titanium {

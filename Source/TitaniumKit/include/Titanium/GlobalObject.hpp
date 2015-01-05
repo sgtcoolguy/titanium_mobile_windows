@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -18,7 +17,7 @@
 
 namespace Titanium {
   
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
 
   /*!
    @class
@@ -87,7 +86,7 @@ namespace Titanium {
      
      @result Exported exports object of the required module (Object).
      */
-    virtual JSObject xrequire(const JSString& moduleId) TITANIUM_NOEXCEPT final;
+    virtual JSObject xrequire(const std::string& moduleId) TITANIUM_NOEXCEPT final;
     
     /*!
      @method
@@ -163,7 +162,7 @@ namespace Titanium {
     GlobalObject(const JSContext& js_context)                                TITANIUM_NOEXCEPT;
     GlobalObject(const GlobalObject&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
-    virtual ~GlobalObject()                      = default;
+    virtual ~GlobalObject() TITANIUM_NOEXCEPT;//= default;
     GlobalObject(const GlobalObject&)            = default;
     GlobalObject& operator=(const GlobalObject&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
@@ -174,6 +173,7 @@ namespace Titanium {
     // TODO: The following functions can automatically be generated
     // from the YAML API docs.
     static void JSExportInitialize();
+    JSValue       globalArgumentValidator() const TITANIUM_NOEXCEPT;
     JSValue       requireArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
     JSValue    setTimeoutArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
     JSValue  clearTimeoutArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
@@ -259,7 +259,7 @@ namespace Titanium {
     
   protected:
     
-    virtual JSString LoadResource(const JSString& moduleId) const TITANIUM_NOEXCEPT;
+    virtual std::string LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT;
     
     /*!
      @method

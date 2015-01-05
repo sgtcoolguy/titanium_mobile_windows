@@ -1,5 +1,4 @@
 # TitaniumKit
-# Author: Matthew D. Langston
 #
 # Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
 # Licensed under the terms of the Apache Public License.
@@ -25,12 +24,19 @@ config_compiler_and_linker()
 # Allow "make test" to work.
 enable_testing()
 
-if (NOT TARGET JavaScriptCoreCPP)
-  get_filename_component(JavaScriptCoreCPP_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../JavaScriptCoreCPP ABSOLUTE)
-  add_subdirectory(${JavaScriptCoreCPP_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/JavaScriptCoreCPP EXCLUDE_FROM_ALL)
+if (NOT TARGET HAL)
+  get_filename_component(HAL_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../HAL ABSOLUTE)
+  add_subdirectory(${HAL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/HAL EXCLUDE_FROM_ALL)
 endif()
 
-# find_package(JavaScriptCoreCPP REQUIRED)
+# find_package(HAL REQUIRED)
+
+set(Boost_USE_STATIC_LIBS ON )
+set(Boost_USE_MULTITHREADED ON )
+set(Boost_USE_STATIC_RUNTIME OFF)
+
+# Travis only supports Boost 1.55, which is good enough for now.
+find_package(Boost 1.55.0 REQUIRED)
 
 set(SOURCE_TitaniumKit
   include/Titanium/Titanium.hpp
@@ -54,14 +60,21 @@ set(SOURCE_TitaniumKit_detail
   src/detail/TiUtil.cpp
   )
 
+set(SOURCE_Ti
+  include/Titanium/TiModule.hpp
+  src/TiModule.cpp
+  )
+
 set(SOURCE_API
   include/Titanium/API.hpp
   src/API.cpp
   )
 
 set(SOURCE_Platform
-  include/Titanium/Platform.hpp
-  src/Platform.cpp
+  include/Titanium/PlatformModule.hpp
+  include/Titanium/Platform/DisplayCaps.hpp
+  src/PlatformModule.cpp
+  src/Platform/DisplayCaps.cpp
   )
 
 set(SOURCE_Accelerometer
@@ -74,6 +87,20 @@ set(SOURCE_Gesture
   src/Gesture.cpp
   )
 
+set(SOURCE_Blob
+  include/Titanium/Blob.hpp
+  src/Blob.cpp
+  )
+
+set(SOURCE_Filesystem
+  include/Titanium/FilesystemModule.hpp
+  src/FilesystemModule.cpp
+  include/Titanium/Filesystem/File.hpp
+  src/Filesystem/File.cpp
+  include/Titanium/Filesystem/Constants.hpp
+  src/Filesystem/Constants.cpp
+  )
+
 set(SOURCE_UI
   include/Titanium/UIModule.hpp
   src/UIModule.cpp
@@ -81,12 +108,16 @@ set(SOURCE_UI
   src/UI/Constants.cpp
   include/Titanium/UI/Dimension.hpp
   src/UI/Dimension.cpp
+  include/Titanium/UI/ImageView.hpp
+  src/UI/ImageView.cpp
   include/Titanium/UI/View.hpp
   src/UI/View.cpp
   include/Titanium/UI/Window.hpp
   src/UI/Window.cpp
   include/Titanium/UI/Button.hpp
   src/UI/Button.cpp
+  include/Titanium/UI/Label.hpp
+  src/UI/Label.cpp
   include/Titanium/UI/Animation.hpp
   src/UI/Animation.cpp
   include/Titanium/UI/TextArea.hpp
@@ -103,6 +134,8 @@ set(SOURCE_UI
   src/UI/WebView.cpp
   include/Titanium/UI/WebViewErrorEvent.hpp
   src/UI/WebViewErrorEvent.cpp
+  include/Titanium/UI/ScrollView.hpp
+  src/UI/ScrollView.cpp
   )
 
 set(SOURCE_TiLogger_detail
@@ -116,10 +149,13 @@ set(SOURCE_TiLogger_detail
 
 source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
 source_group(TitaniumKit\\detail           FILES ${SOURCE_TitaniumKit_detail})
+source_group(TitaniumKit\\Ti               FILES ${SOURCE_Ti})
 source_group(TitaniumKit\\API              FILES ${SOURCE_API})
 source_group(TitaniumKit\\Platform         FILES ${SOURCE_Platform})
 source_group(TitaniumKit\\Accelerometer    FILES ${SOURCE_Accelerometer})
 source_group(TitaniumKit\\Gesture          FILES ${SOURCE_Gesture})
+source_group(TitaniumKit\\Blob             FILES ${SOURCE_Blob})
+source_group(TitaniumKit\\Filesystem       FILES ${SOURCE_Filesystem})
 source_group(TitaniumKit\\UI               FILES ${SOURCE_UI})
 source_group(TitaniumKit\\TiLogger\\detail FILES ${SOURCE_TiLogger_detail})
 
@@ -129,10 +165,13 @@ source_group(TitaniumKit\\TiLogger\\detail FILES ${SOURCE_TiLogger_detail})
 add_library(TitaniumKit SHARED
   ${SOURCE_TitaniumKit}
   ${SOURCE_TitaniumKit_detail}
+  ${SOURCE_Ti}
   ${SOURCE_API}
   ${SOURCE_Platform}
   ${SOURCE_Accelerometer}
   ${SOURCE_Gesture}
+  ${SOURCE_Blob}
+  ${SOURCE_Filesystem}
   ${SOURCE_UI}
   ${SOURCE_TiLogger_detail}
   )
@@ -143,16 +182,18 @@ target_compile_definitions(TitaniumKit PRIVATE TitaniumKit_EXPORTS)
 #target_compile_definitions(TitaniumKit PUBLIC TitaniumKit_STATIC_DEFINE)
 
 # target_compile_definitions(TitaniumKit PUBLIC
-#   $<TARGET_PROPERTY:JavaScriptCoreCPP,INTERFACE_COMPILE_DEFINITIONS>
+#   $<TARGET_PROPERTY:HAL,INTERFACE_COMPILE_DEFINITIONS>
 #   )
 
 target_include_directories(TitaniumKit PUBLIC
   ${PROJECT_SOURCE_DIR}/include
-  $<TARGET_PROPERTY:JavaScriptCoreCPP,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
+  ${Boost_INCLUDE_DIRS}
   )
 
 target_link_libraries(TitaniumKit
-  JavaScriptCoreCPP
+  HAL
+  ${Boost_LIBRARIES}
   )
 
 if (WIN32)
@@ -191,7 +232,7 @@ if (WIN32)
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
   
   # Fix error C1128: number of sections exceeded object file format limit
-  set_source_files_properties(src/UI/Constants.cpp APPEND_STRING PROPERTY COMPILE_FLAGS "/bigobj")
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS "/bigobj")
 endif()
 
 if (NOT TitaniumKit_DISABLE_TESTS)

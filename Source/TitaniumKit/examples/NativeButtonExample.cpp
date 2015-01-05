@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -11,10 +10,16 @@
 
 NativeButtonExample::NativeButtonExample(const JSContext& js_context) TITANIUM_NOEXCEPT
 : Titanium::UI::Button(js_context) {
+  TITANIUM_LOG_DEBUG("NativeButtonExample:: ctor 1 ", this);
 }
 
 NativeButtonExample::NativeButtonExample(const NativeButtonExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 : Titanium::UI::Button(rhs, arguments) {
+  TITANIUM_LOG_DEBUG("NativeButtonExample:: ctor 1 ", this);
+}
+
+NativeButtonExample::~NativeButtonExample() TITANIUM_NOEXCEPT {
+  TITANIUM_LOG_DEBUG("NativeButtonExample:: dtor ", this);
 }
 
 void NativeButtonExample::JSExportInitialize() {
@@ -24,7 +29,7 @@ void NativeButtonExample::JSExportInitialize() {
 
 bool NativeButtonExample::setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
   assert(argument.IsString());
-  JSString title = static_cast<JSString>(argument);
+  std::string title = static_cast<std::string>(argument);
   TITANIUM_LOG_WARN("NativeButtonExample::setTitleArgumentValidator: title = ", title);
   set_title(argument);
   return true;

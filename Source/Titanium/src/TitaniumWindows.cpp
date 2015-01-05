@@ -1,6 +1,5 @@
 /**
  * Titanium for Windows
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -10,35 +9,49 @@
 #include "TitaniumWindows.hpp"
 
 #include "TitaniumWindows/GlobalObject.hpp"
+#include "TitaniumWindows/TiModule.hpp"
 #include "TitaniumWindows/API.hpp"
 #include "TitaniumWindows/UI.hpp"
 #include "TitaniumWindows/Platform.hpp"
 #include "TitaniumWindows/Gesture.hpp"
 #include "TitaniumWindows/Accelerometer.hpp"
+#include "TitaniumWindows/Filesystem.hpp"
+#include "Blob.hpp"
+#include "File.hpp"
 
 #include <Windows.h>
 #include <collection.h>
 
 namespace TitaniumWindows {
 
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
 
   Application::Application()
-    : application__(Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<TitaniumWindows::GlobalObject>::Class()))
-    .APIClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::API>::Class()))
-	.PlatformClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Platform>::Class()))
-    .GestureClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Gesture>::Class()))
-    .AccelerometerClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::Accelerometer>::Class()))
-    .ViewClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::View>::Class()))
-    .WindowClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Window>::Class()))
-    .ButtonClass(std::make_shared<JSClass>(JSExport<TitaniumWindows::UI::Button>::Class()))
-    .build()) {
+    : js_context__(js_context_group__.CreateContext(JSExport<TitaniumWindows::GlobalObject>::Class()))
+  {
   }
 
   Application::~Application() {
   }
 
   void Application::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ args) {
+    application__ = std::make_shared<Titanium::Application>(Titanium::ApplicationBuilder(js_context__)
+    .TiObject(js_context__.CreateObject<TitaniumWindows::TiModule>())
+    .APIObject(js_context__.CreateObject<TitaniumWindows::API>())
+    .PlatformObject(js_context__.CreateObject<TitaniumWindows::Platform>())
+    .GestureObject(js_context__.CreateObject<TitaniumWindows::Gesture>())
+    .AccelerometerObject(js_context__.CreateObject<TitaniumWindows::Accelerometer>())
+    .ViewObject(js_context__.CreateObject<TitaniumWindows::UI::View>())
+    .WindowObject(js_context__.CreateObject<TitaniumWindows::UI::Window>())
+    .ButtonObject(js_context__.CreateObject<TitaniumWindows::UI::Button>())
+    .ImageViewObject(js_context__.CreateObject<TitaniumWindows::UI::ImageView>())
+    .LabelObject(js_context__.CreateObject<TitaniumWindows::UI::Label>())
+    .ScrollViewObject(js_context__.CreateObject<TitaniumWindows::UI::ScrollView>())
+    .BlobObject(js_context__.CreateObject<TitaniumWindows::Blob>())
+    .FilesystemObject(js_context__.CreateObject<TitaniumWindows::FilesystemModule>())
+    .FileObject(js_context__.CreateObject<TitaniumWindows::Filesystem::File>())
+    .build());
+
     Suspending += ref new Windows::UI::Xaml::SuspendingEventHandler(this, &Application::OnSuspending);
 
     // #if _DEBUG
@@ -86,7 +99,7 @@ namespace TitaniumWindows {
 
       // Place the frame in the current Window.
       Windows::UI::Xaml::Window::Current->Content = rootFrame;
-      application__.Run("/app.js");
+      application__->Run("/app.js");
     }
     // Ensure the current Window is active.
     Windows::UI::Xaml::Window::Current->Activate();

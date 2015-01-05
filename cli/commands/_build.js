@@ -33,7 +33,7 @@ const
 
 /*
 TODO:
-	- Set up CMakeLists.txt and build to use pre-compiled DLLs/libs for TitaniumKit/Windows/JavaScriptCoreCPP
+	- Set up CMakeLists.txt and build to use pre-compiled DLLs/libs for TitaniumKit/Windows/HAL
 	  - Right now we build from source, and you need to follow the instructions for dependencies here: https://github.com/appcelerator/titanium_mobile_windows/blob/master/README.md
 	  - Then you need to copy the entire titanium_mobile_windows repo inside a Titanium SDK install and rename it "windows", and edit the package.json to add "windows" as a supported platform.
 	  - This will enable Windows support, but the APIs are a work in progress and we need to eliminate need to do so much setup for the user.
@@ -630,7 +630,6 @@ WindowsBuilder.prototype.run = function run(logger, config, cli, finished) {
         'computeHashes',
         'readBuildManifest',
         'checkIfNeedToRecompile',
-        'createWorkingDirectory', // this goes in the build dir
 
         function (next) {
             cli.emit('build.pre.compile', this, next);
@@ -717,11 +716,17 @@ WindowsBuilder.prototype.initialize = function initialize(next) {
 	this.cmakeDir     = path.resolve(__dirname, '..', 'vendor', 'cmake');
 	this.cmake        = path.join(this.cmakeDir, 'bin', 'cmake.exe');
 	if (this.target == 'wp-emulator' || this.target == 'wp-device' || this.target == 'dist-phonestore') {
+		if (this.target == 'wp-device' || this.target == 'dist-phonestore') {
+			this.cmakeArch = 'ARM';
+		} else {
+			this.cmakeArch = 'Win32';
+		}
 		this.cmakePlatform = 'WindowsPhone';
 	} else {
+		this.cmakeArch = 'Win32';
 		this.cmakePlatform = 'WindowsStore';
 	}
-	this.cmakeArch = 'Win32'; 
+	this.arch = this.cmakeArch == 'Win32' ? 'x86' : this.cmakeArch;
 	this.cmakeTarget  = this.cmakePlatform +'.' + this.cmakeArch;
 
 	// directories
@@ -1034,23 +1039,6 @@ WindowsBuilder.prototype.checkIfNeedToRecompile = function checkIfNeedToRecompil
 };
 
 /**
- * Generates a working directory in the app's build folder for us to shove all the "compiled" resources into.
- *
- * @param {Function} next - A function to call after the working directory has been created.
- */
-WindowsBuilder.prototype.createWorkingDirectory = function createWorkingDirectory(next) {
-	/*
-	TODO: Create a directory like "My Project\build\windows\<target>-<arch>\". I don't know
-	      what the actual generated name will be. Perhaps it's the name of the cmake target?
-
-	      After the project has been created, set "this.buildTargetDir" to the above VS
-	      Project dir.
-	*/
-
-	next(); // temp
-};
-
-/**
  * Checks that the app.js exists. This has to be done after the "build.pre.compile" event
  * has fired. This gives build hooks such as Alloy the ability to generate an app.js.
  *
@@ -1263,6 +1251,32 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 				src: src,
 				dest: this.buildTargetDir
 			}, cb);
+		},
+
+		// Copy cmake folder over, with our helper scripts to find the bundled dependency libs
+		function (cb) {
+			var src = path.join(this.platformPath, 'templates', 'build', 'cmake');
+			copyDir.call(this, {
+				src: src,
+				dest: path.join(this.buildDir, 'cmake')
+			}, cb);
+		},
+
+		// Copy TitaniumKit and HAL dlls over
+		function (cb) {
+			var src = path.join(this.platformPath, 'lib', 'TitaniumKit', this.arch, 'TitaniumKit.dll');
+			copyFile.call(this,
+				src,
+				path.join(this.buildDir, 'src', 'TitaniumKit.dll'),
+			cb);
+		},
+
+		function (cb) {
+			var src = path.join(this.platformPath, 'lib', 'HAL', this.arch, 'HAL.dll');
+			copyFile.call(this,
+				src,
+				path.join(this.buildDir, 'src', 'HAL.dll'),
+			cb);
 		}
 	];
 
@@ -1463,6 +1477,9 @@ WindowsBuilder.prototype.generateI18N = function generateI18N(next) {
  * @param {Function} next - A function to call after generating the cmakelist.txt file.
  */
 WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
+	var assetList = [],
+		sourceGroups = {};
+
 	this.logger.info(__('Writing CMakeLists.txt: %s', this.cmakeListFile.cyan));
 	// TODO If forceBuild is false AND no assets have changed, then we can skip this and the cmake step, I think!
 	function getFilesRecursive (folder) {
@@ -1476,7 +1493,7 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	 
 	        if (stats.isDirectory()) {
 	            getFilesRecursive(child).forEach(function (file) {
-	            	fileTree.push(child + '/' + file);  // cmake likes unix separators
+	            	fileTree.push(fileName + '/' + file);  // cmake likes unix separators
 	            });
 	        } else {
 	            fileTree.push(fileName);
@@ -1486,9 +1503,22 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	    return fileTree;
 	}
 	// Recursively read all files under Assets and populate the cmake listing with it.
-	var assetList = getFilesRecursive(this.buildTargetAssetsDir);
+	assetList = getFilesRecursive(this.buildTargetAssetsDir);
 	assetList = assetList.map(function(filename) {
 		return 'src/Assets/' + filename;  // cmake likes unix separators
+	});
+
+	// Generate source groups!
+	// go through the asset list, and basically generate a group for each folder
+	assetList.forEach(function (filepath) {
+		// lop off src/Assets/
+		var truncatedPath = filepath.substring(11);
+		// drop the file basename?
+		var folderName = path.dirname(truncatedPath);
+		// now stick it in the mapping!
+		var listing = sourceGroups[folderName] || [];
+		listing.push(filepath);
+		sourceGroups[folderName] = listing;
 	});
 
 	this.cli.createHook('build.windows.writeCMakeLists', this, function (manifest, cb) {
@@ -1503,7 +1533,8 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 			projectName: this.cli.tiapp.name,
 			windowsSrcDir: path.resolve(__dirname, '..', '..').replace(/\\/g, '/'), // cmake likes unix separators
 			version: this.tiapp.version,
-			assets: assetList.join('\n')
+			assets: assetList.join('\n'),
+			sourceGroups: sourceGroups
 		}
 	), next);
 };
@@ -1530,12 +1561,6 @@ WindowsBuilder.prototype.runCmake = function runCmake(next) {
 			'-G', generatorName,
 			'-DCMAKE_SYSTEM_NAME=' + this.cmakePlatform,
 			'-DCMAKE_SYSTEM_VERSION=' + this.wpsdk,
-			'-DTitaniumWindows_DISABLE_TESTS=OFF', 
-			'-DTitaniumWindows_Global_DISABLE_TESTS=ON',
-			'-DTitaniumWindows_API_DISABLE_TESTS=ON',
-			'-DTitaniumWindows_UI_DISABLE_TESTS=ON',
-			'-DTitaniumKit_DISABLE_TESTS=ON', 
-			'-DJavaScriptCoreCPP_DISABLE_TESTS=ON',
 			this.buildDir
 		], 
 		{
@@ -1564,8 +1589,17 @@ WindowsBuilder.prototype.runCmake = function runCmake(next) {
  */
 WindowsBuilder.prototype.compileApp = function compileApp(next) {
 	var _t = this;
-		slnFile = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.sln');
+		slnFile = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.sln'),
+		vcxproj = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.vcxproj');
 	this.logger.info(__('Running MSBuild on solution: %s', slnFile.cyan));
+
+	// Modify the vcxproj to inject some properties, so we always bundle
+	var modified = fs.readFileSync(vcxproj, 'utf8');
+	fs.existsSync(vcxproj) && fs.renameSync(vcxproj, vcxproj + '.bak');
+	// Only modify the one property group we care about!
+	modified = modified.replace(/<\/PropertyGroup>\s*<ItemDefinitionGroup/m, '<AppxBundle>Always</AppxBundle><AppxBundlePlatforms>' + this.arch + '</AppxBundlePlatforms>$&');
+	fs.writeFileSync(vcxproj, modified);
+
 	// Use spawn directly so we can pipe output as we go
 	// FIXME Edit windowslib to allow realtime output
 	windowslib.detect(function (err, results) {

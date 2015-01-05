@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -16,13 +15,15 @@
 #include "NativePlatformExample.hpp"
 #include "NativeAccelerometerExample.hpp"
 #include "NativeGestureExample.hpp"
+#include "NativeFilesystemExample.hpp"
+#include "NativeFileExample.hpp"
 
 #include <iostream>
 
 int main () {
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
 
-  JSString app_js = R"js(
+  std::string app_js = R"js(
 'use strict';
 
 var button = Ti.UI.createButton({
@@ -55,16 +56,20 @@ window.open();
 Ti.API.info(Ti.Platform.osname);
 Ti.API.info('ng.js running...');
   )js";
-  
-  Titanium::Application app = Titanium::ApplicationBuilder(std::make_shared<JSClass>(JSExport<NativeGlobalObjectExample>::Class()))
-  .APIClass(std::make_shared<JSClass>(JSExport<NativeAPIExample>::Class()))
-  .ViewClass(std::make_shared<JSClass>(JSExport<NativeViewExample>::Class()))
-  .WindowClass(std::make_shared<JSClass>(JSExport<NativeWindowExample>::Class()))
-  .ButtonClass(std::make_shared<JSClass>(JSExport<NativeButtonExample>::Class()))
-  .PlatformClass(std::make_shared<JSClass>(JSExport<NativePlatformExample>::Class()))
-  .AccelerometerClass(std::make_shared<JSClass>(JSExport<NativeAccelerometerExample>::Class()))
-  .GestureClass(std::make_shared<JSClass>(JSExport<NativeGestureExample>::Class()))
-  .build();
+
+  JSContextGroup js_context_group;
+  JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+  Titanium::Application app = Titanium::ApplicationBuilder(js_context)
+      .APIObject(js_context.CreateObject<NativeAPIExample>())
+      .ViewObject(js_context.CreateObject<NativeViewExample>())
+      .WindowObject(js_context.CreateObject<NativeWindowExample>())
+      .ButtonObject(js_context.CreateObject<NativeButtonExample>())
+      .PlatformObject(js_context.CreateObject<NativePlatformExample>())
+      .AccelerometerObject(js_context.CreateObject<NativeAccelerometerExample>())
+      .GestureObject(js_context.CreateObject<NativeGestureExample>())
+      .FilesystemObject(js_context.CreateObject<NativeFilesystemExample>())
+      .FileObject(js_context.CreateObject<NativeFileExample>())
+      .build();
   
   JSValue reslut = app.Run("app.js");
 }

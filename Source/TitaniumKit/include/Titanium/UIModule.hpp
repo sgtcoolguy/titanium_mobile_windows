@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -14,10 +13,13 @@
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/Window.hpp"
 #include "Titanium/UI/Button.hpp"
+#include "Titanium/UI/ScrollView.hpp"
+#include "Titanium/UI/ImageView.hpp"
+#include "Titanium/UI/Label.hpp"
 
 namespace Titanium {
   
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
   
   /*!
    @class
@@ -76,7 +78,43 @@ namespace Titanium {
      @result Titanium.UI.Window
      */
     JSObject createButton(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+    /*!
+    @method
+
+    @abstract createImageView( [parameters] ) : Titanium.UI.ImageView
+
+    @discussion Creates and returns an instance of
+    Titanium.UI.ImageView.
+
+    @param parameters Properties to set on a new object, including
+    any defined by Titanium.UI.ImageView except those marked
+    not-creation or read-only.  (Dictionary<Titanium.UI.ImageView>)
+
+    @result Titanium.UI.Window
+    */
+    JSObject createImageView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+    /*!
+    @method
+
+    @abstract createLabel( [parameters] ) : Titanium.UI.Label
+
+    @discussion Creates and returns an instance of
+    Titanium.UI.Label.
+
+    @param parameters Properties to set on a new object, including
+    any defined by Titanium.UI.Label except those marked
+    not-creation or read-only.  (Dictionary<Titanium.UI.Label>)
+
+    @result Titanium.UI.Window
+    */
+    JSObject createLabel(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
     
+    JSObject createTab(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+    JSObject createTabGroup(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+    JSObject createScrollView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
     virtual JSValue ANIMATION_CURVE_EASE_IN()  const TITANIUM_NOEXCEPT final;
     virtual JSValue ANIMATION_CURVE_EASE_IN_OUT()  const TITANIUM_NOEXCEPT final;
     virtual JSValue ANIMATION_CURVE_EASE_OUT()  const TITANIUM_NOEXCEPT final;
@@ -182,10 +220,10 @@ namespace Titanium {
     virtual JSValue URL_ERROR_UNKNOWN()  const TITANIUM_NOEXCEPT final;
     virtual JSValue URL_ERROR_UNSUPPORTED_SCHEME()  const TITANIUM_NOEXCEPT final;
 
-    UIModule(const JSContext& js_context)                      TITANIUM_NOEXCEPT;
+    UIModule(const JSContext& js_context)                            TITANIUM_NOEXCEPT;
     UIModule(const UIModule&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
-    virtual ~UIModule()                  = default;
+    virtual ~UIModule() TITANIUM_NOEXCEPT;//= default;
     UIModule(const UIModule&)            = default;
     UIModule& operator=(const UIModule&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
@@ -199,7 +237,13 @@ namespace Titanium {
     JSValue createViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
     JSValue createWindowArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
     JSValue createButtonArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-    
+    JSValue createTabArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+    JSValue createTabGroupArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+    JSValue createScrollViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+    JSValue createImageViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+    JSValue createLabelArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+    JSValue setBackgroundColorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+
   private:
     JSValue animation_curve_ease_in__;
     JSValue animation_curve_ease_in_out__;

@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -27,37 +26,35 @@ namespace Titanium { namespace UI {
   , y__(rhs.y__) {
   }
   
-  JSNumber Dimension::get_height() const TITANIUM_NOEXCEPT {
+  std::uint32_t Dimension::get_height() const TITANIUM_NOEXCEPT {
     return height__;
   }
   
-  void Dimension::set_height(const JSNumber& height) TITANIUM_NOEXCEPT {
+  void Dimension::set_height(const std::uint32_t height) TITANIUM_NOEXCEPT {
     height__ = height;
   }
   
-  JSNumber Dimension::get_width() const TITANIUM_NOEXCEPT {
+  std::uint32_t Dimension::get_width() const TITANIUM_NOEXCEPT {
     return width__;
   }
   
-  void Dimension::set_width(const JSNumber& width) TITANIUM_NOEXCEPT {
+  void Dimension::set_width(const std::uint32_t width) TITANIUM_NOEXCEPT {
     width__ = width;
   }
   
-  JSNumber Dimension::get_x() const TITANIUM_NOEXCEPT {
+  std::uint32_t Dimension::get_x() const TITANIUM_NOEXCEPT {
     return x__;
   }
   
-  void Dimension::set_x(const JSNumber& x) TITANIUM_NOEXCEPT {
-    // TODO: Add additional preconsitions to validate x.
+  void Dimension::set_x(const std::uint32_t x) TITANIUM_NOEXCEPT {
     x__ = x;
   }
   
-  JSNumber Dimension::get_y() const TITANIUM_NOEXCEPT {
+  std::uint32_t Dimension::get_y() const TITANIUM_NOEXCEPT {
     return y__;
   }
   
-  void Dimension::set_y(const JSNumber& y) TITANIUM_NOEXCEPT {
-    // TODO: Add additional preconsitions to validate y.
+  void Dimension::set_y(const std::uint32_t y) TITANIUM_NOEXCEPT {
     y__ = y;
   }
   
@@ -68,43 +65,55 @@ namespace Titanium { namespace UI {
   void Dimension::JSExportInitialize() {
     JSExport<Dimension>::SetClassVersion(1);
     JSExport<Dimension>::SetParent(JSExport<JSExportObject>::Class());
-    JSExport<Dimension>::AddValueProperty("height", std::mem_fn(&Dimension::get_height), std::mem_fn(&Dimension::setHeightArgumentValidator));
-    JSExport<Dimension>::AddValueProperty("width" , std::mem_fn(&Dimension::get_width) , std::mem_fn(&Dimension::setWidthArgumentValidator));
-    JSExport<Dimension>::AddValueProperty("x"     , std::mem_fn(&Dimension::get_x)     , std::mem_fn(&Dimension::setXArgumentValidator));
-    JSExport<Dimension>::AddValueProperty("y"     , std::mem_fn(&Dimension::get_y)     , std::mem_fn(&Dimension::setYArgumentValidator));
+    JSExport<Dimension>::AddValueProperty("height", std::mem_fn(&Dimension::getHeightArgumentValidator), std::mem_fn(&Dimension::setHeightArgumentValidator));
+    JSExport<Dimension>::AddValueProperty("width" , std::mem_fn(&Dimension::getWidthArgumentValidator) , std::mem_fn(&Dimension::setWidthArgumentValidator));
+    JSExport<Dimension>::AddValueProperty("x"     , std::mem_fn(&Dimension::getXArgumentValidator)     , std::mem_fn(&Dimension::setXArgumentValidator));
+    JSExport<Dimension>::AddValueProperty("y"     , std::mem_fn(&Dimension::getYArgumentValidator)     , std::mem_fn(&Dimension::setYArgumentValidator));
+  }
+  
+  JSValue Dimension::getHeightArgumentValidator() const {
+    return get_context().CreateNumber(height__);
   }
   
   bool Dimension::setHeightArgumentValidator(const JSValue& argument) {
     // TODO: Validate these precondition checks (which could be
     // automaticaly generated) with the team.
     TITANIUM_ASSERT(argument.IsNumber());
-    JSNumber height = argument;
+    const auto height = static_cast<std::uint32_t>(argument);
     bool result = false;
-    if (static_cast<uint32_t>(height) > 0) {
+    if (height > 0) {
       set_height(height);
       result = true;
     }
     return result;
   }
   
+  JSValue Dimension::getWidthArgumentValidator() const {
+    return get_context().CreateNumber(width__);
+  }
+  
   bool Dimension::setWidthArgumentValidator(const JSValue& argument) {
     // TODO: Validate these precondition checks (which could be
     // automaticaly generated) with the team.
     TITANIUM_ASSERT(argument.IsNumber());
-    JSNumber width = argument;
+    const auto width = static_cast<std::uint32_t>(argument);
     bool result = false;
-    if (static_cast<uint32_t>(width) > 0) {
+    if (width > 0) {
       set_width(width);
       result = true;
     }
     return result;
   }
   
+  JSValue Dimension::getXArgumentValidator() const {
+    return get_context().CreateNumber(x__);
+  }
+  
   bool Dimension::setXArgumentValidator(const JSValue& argument) {
     // TODO: Validate these precondition checks (which could be
     // automaticaly generated) with the team.
     TITANIUM_ASSERT(argument.IsNumber());
-    JSNumber x = argument;
+    const auto x = static_cast<std::uint32_t>(argument);
     bool result = false;
     // TODO: Are there additional preconditions on x?
     set_x(x);
@@ -112,11 +121,15 @@ namespace Titanium { namespace UI {
     return result;
   }
   
+  JSValue Dimension::getYArgumentValidator() const {
+    return get_context().CreateNumber(y__);
+  }
+  
   bool Dimension::setYArgumentValidator(const JSValue& argument) {
     // TODO: Validate these precondition checks (which could be
     // automaticaly generated) with the team.
     TITANIUM_ASSERT(argument.IsNumber());
-    JSNumber y = argument;
+    const auto y = static_cast<std::uint32_t>(argument);
     bool result = false;
     // TODO: Are there additional preconditions on y?
     set_y(y);

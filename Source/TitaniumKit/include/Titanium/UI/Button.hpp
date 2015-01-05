@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -14,7 +13,7 @@
 
 namespace Titanium { namespace UI {
   
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
   
   /*!
    @class
@@ -33,7 +32,7 @@ namespace Titanium { namespace UI {
     Button(const JSContext& js_context)                          TITANIUM_NOEXCEPT;
     Button(const Button&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
     
-    virtual ~Button()                   = default;
+    virtual ~Button() TITANIUM_NOEXCEPT;//= default;
     Button(const Button&)               = default;
     Button& operator=(const Button&)    = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -10,15 +9,15 @@
 #include "NativeGlobalObjectExample.hpp"
 #include "Titanium/detail/TiBase.hpp"
 
-JSString NativeGlobalObjectExample::get_example_resource() const TITANIUM_NOEXCEPT {
+std::string NativeGlobalObjectExample::get_example_resource() const TITANIUM_NOEXCEPT {
   return example_resource__;
 }
 
-void NativeGlobalObjectExample::set_example_resource(const JSString& example_resource) TITANIUM_NOEXCEPT {
+void NativeGlobalObjectExample::set_example_resource(const std::string& example_resource) TITANIUM_NOEXCEPT {
   example_resource__ = example_resource;
 }
 
-JSString NativeGlobalObjectExample::LoadResource(const JSString& moduleId) const TITANIUM_NOEXCEPT {
+std::string NativeGlobalObjectExample::LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT {
   TITANIUM_LOG_DEBUG("GlobalObjectDelegateExample::LoadResource for ", moduleId);
   return example_resource__;
 }
@@ -55,10 +54,16 @@ std::shared_ptr<Titanium::GlobalObject::Timer> NativeGlobalObjectExample::Create
 
 NativeGlobalObjectExample::NativeGlobalObjectExample(const JSContext& js_context) TITANIUM_NOEXCEPT
 : Titanium::GlobalObject(js_context) {
+  TITANIUM_LOG_DEBUG("NativeGlobalObjectExample:: ctor 1 ", this);
 }
 
 NativeGlobalObjectExample::NativeGlobalObjectExample(const NativeGlobalObjectExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 : Titanium::GlobalObject(rhs, arguments) {
+  TITANIUM_LOG_DEBUG("NativeGlobalObjectExample:: ctor 2 ", this);
+}
+
+NativeGlobalObjectExample::~NativeGlobalObjectExample() TITANIUM_NOEXCEPT {
+  TITANIUM_LOG_DEBUG("NativeGlobalObjectExample:: dtor ", this);
 }
 
 void NativeGlobalObjectExample::JSExportInitialize() {

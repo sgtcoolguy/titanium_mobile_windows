@@ -1,6 +1,5 @@
 /**
  * Global for Windows
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -14,7 +13,7 @@
 
 namespace TitaniumWindows {
 
-JSString GlobalObject::LoadResource(const JSString& moduleId) const TITANIUM_NOEXCEPT{
+std::string GlobalObject::LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT{
   TITANIUM_LOG_DEBUG("GlobalObject::LoadResource for ", moduleId);
   
   Windows::ApplicationModel::Package^ package = Windows::ApplicationModel::Package::Current;
@@ -28,7 +27,7 @@ JSString GlobalObject::LoadResource(const JSString& moduleId) const TITANIUM_NOE
   std::ifstream ifs(module_path);
   std::stringstream buffer;
   buffer << ifs.rdbuf();
-  return JSString(buffer.str());
+  return buffer.str();
 }
 
 class TITANIUMWINDOWS_GLOBAL_EXPORT Timer final : public Titanium::GlobalObject::Timer, public std::enable_shared_from_this < Timer > {

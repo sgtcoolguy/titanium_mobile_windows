@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -18,7 +17,7 @@
 #define XCTAssertNoThrow  ASSERT_NO_THROW
 
 using namespace Titanium;
-using namespace JavaScriptCoreCPP;
+using namespace HAL;
 
 class ViewTests : public testing::Test {
  protected:
@@ -84,7 +83,7 @@ TEST_F(ViewTests, basic_functionality) {
   UI.SetProperty("Button", js_context.CreateObject(JSExport<Titanium::UI::Button>::Class()));
   XCTAssertTrue(UI.HasProperty("Button"));
 
-  JSString app_js = R"js(
+  std::string app_js = R"js(
   'use strict';
   
   var view = Ti.UI.createView({

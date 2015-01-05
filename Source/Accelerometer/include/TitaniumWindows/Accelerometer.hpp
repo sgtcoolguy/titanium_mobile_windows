@@ -11,7 +11,7 @@
 
 namespace TitaniumWindows {
 
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
 
   /*!
     @class
@@ -35,8 +35,8 @@ namespace TitaniumWindows {
 
     static void JSExportInitialize();
 
-	virtual void enableEvent(const JSString& event_name) TITANIUM_NOEXCEPT override;
-	virtual void disableEvent(const JSString& event_name) TITANIUM_NOEXCEPT override;
+	virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+	virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 
   protected:
 

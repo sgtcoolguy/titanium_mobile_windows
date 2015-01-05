@@ -1,5 +1,4 @@
 # The "NG" App.
-# Author: Matthew D. Langston
 #
 # Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
 # Licensed under the terms of the Apache Public License.
@@ -25,14 +24,17 @@ set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 # Use solution folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-get_filename_component(Titanium_SOURCE_DIR          ${PROJECT_SOURCE_DIR}/../../Source/Titanium          ABSOLUTE)
-get_filename_component(Global_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../../Source/Global            ABSOLUTE)
-get_filename_component(API_SOURCE_DIR               ${PROJECT_SOURCE_DIR}/../../Source/API               ABSOLUTE)
-get_filename_component(Gesture_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/Gesture           ABSOLUTE)
-get_filename_component(Accelerometer_SOURCE_DIR     ${PROJECT_SOURCE_DIR}/../../Source/Accelerometer     ABSOLUTE)
-get_filename_component(UI_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../../Source/UI                ABSOLUTE)
-get_filename_component(TitaniumKit_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../../Source/TitaniumKit       ABSOLUTE)
-get_filename_component(JavaScriptCoreCPP_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../../Source/JavaScriptCoreCPP ABSOLUTE)
+get_filename_component(Titanium_SOURCE_DIR      ${PROJECT_SOURCE_DIR}/../../Source/Titanium      ABSOLUTE)
+get_filename_component(Global_SOURCE_DIR        ${PROJECT_SOURCE_DIR}/../../Source/Global        ABSOLUTE)
+get_filename_component(Ti_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../../Source/Ti            ABSOLUTE)
+get_filename_component(API_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/API           ABSOLUTE)
+get_filename_component(Gesture_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../../Source/Gesture       ABSOLUTE)
+get_filename_component(Accelerometer_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../../Source/Accelerometer ABSOLUTE)
+get_filename_component(Filesystem_SOURCE_DIR    ${PROJECT_SOURCE_DIR}/../../Source/Filesystem    ABSOLUTE)
+get_filename_component(Utility_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../../Source/Utility       ABSOLUTE)
+get_filename_component(UI_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../../Source/UI            ABSOLUTE)
+get_filename_component(TitaniumKit_SOURCE_DIR   ${PROJECT_SOURCE_DIR}/../../Source/TitaniumKit   ABSOLUTE)
+get_filename_component(HAL_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/HAL           ABSOLUTE)
 
 if(NOT TARGET TitaniumWindows)
   add_subdirectory(${Titanium_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Titanium EXCLUDE_FROM_ALL)
@@ -42,9 +44,12 @@ if(NOT TARGET TitaniumWindows_Global)
   add_subdirectory(${Global_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Global EXCLUDE_FROM_ALL)
 endif()
 
+if(NOT TARGET TitaniumWindows_Ti)
+  add_subdirectory(${Ti_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Ti EXCLUDE_FROM_ALL)
+endif()
+
 if(NOT TARGET TitaniumWindows_API)
   add_subdirectory(${API_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/API EXCLUDE_FROM_ALL)
-
 endif()
 
 if(NOT TARGET TitaniumWindows_Gesture)
@@ -55,6 +60,14 @@ if(NOT TARGET TitaniumWindows_Accelerometer)
   add_subdirectory(${Accelerometer_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Accelerometer EXCLUDE_FROM_ALL)
 endif()
 
+if(NOT TARGET TitaniumWindows_Filesystem)
+  add_subdirectory(${Filesystem_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Filesystem EXCLUDE_FROM_ALL)
+endif()
+
+if(NOT TARGET TitaniumWindows_Utility)
+  add_subdirectory(${Utility_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Utility EXCLUDE_FROM_ALL)
+endif()
+
 if(NOT TARGET TitaniumWindows_UI)
   add_subdirectory(${UI_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/UI EXCLUDE_FROM_ALL)
 endif()
@@ -63,8 +76,8 @@ if(NOT TARGET TitaniumKit)
   add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit EXCLUDE_FROM_ALL)
 endif()
 
-if (NOT TARGET JavaScriptCoreCPP)
-  add_subdirectory(${JavaScriptCoreCPP_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/JavaScriptCoreCPP EXCLUDE_FROM_ALL)
+if (NOT TARGET HAL)
+  add_subdirectory(${HAL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/HAL EXCLUDE_FROM_ALL)
 endif()
 
 # No user-servicable parts below this line.

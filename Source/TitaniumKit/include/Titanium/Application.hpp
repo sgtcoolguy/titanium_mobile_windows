@@ -1,6 +1,5 @@
 /**
  * TitaniumKit
- * Author: Matthew D. Langston
  *
  * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -14,7 +13,7 @@
 
 namespace Titanium {
   
-  using namespace JavaScriptCoreCPP;
+  using namespace HAL;
   
   class ApplicationBuilder;
   
@@ -24,7 +23,7 @@ namespace Titanium {
     
     Application(const ApplicationBuilder& builder);
     
-    JSValue Run(const JSString& app_js);
+    JSValue Run(const std::string& app_js);
     
     JSContext get_context() const;
     
@@ -39,8 +38,7 @@ namespace Titanium {
     
   private:
     
-    JSContextGroup js_context_group__;
-    JSContext      js_context__;
+    JSContext js_context__;
   };
   
 } // namespace Titanium {

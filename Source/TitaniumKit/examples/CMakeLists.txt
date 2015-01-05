@@ -1,13 +1,12 @@
 # TitaniumKit
-# Author: Matthew D. Langston
 #
 # Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
 # Licensed under the terms of the Apache Public License.
 # Please see the LICENSE included with this distribution for details.
 
 # if(WIN32)
-#   get_target_property(JavaScriptCoreCPP_DLL_LOCATION JavaScriptCoreCPP LOCATION)
-#   file(COPY ${JavaScriptCoreCPP_DLL_LOCATION} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+#   get_target_property(HAL_DLL_LOCATION HAL LOCATION)
+#   file(COPY ${HAL_DLL_LOCATION} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 # endif()
 
 set(SOURCE_examples
@@ -15,6 +14,8 @@ set(SOURCE_examples
   NativeGlobalObjectExample.cpp
   NativeModuleExample.hpp
   NativeModuleExample.cpp
+  NativeTiExample.hpp
+  NativeTiExample.cpp
   NativeAPIExample.hpp
   NativeAPIExample.cpp
   NativeViewExample.hpp
@@ -25,10 +26,18 @@ set(SOURCE_examples
   NativeButtonExample.cpp
   NativePlatformExample.hpp
   NativePlatformExample.cpp
+  NativePlatformDisplayCapsExample.hpp
+  NativePlatformDisplayCapsExample.cpp
   NativeAccelerometerExample.hpp
   NativeAccelerometerExample.cpp
   NativeGestureExample.hpp
   NativeGestureExample.cpp
+  NativeBlobExample.hpp
+  NativeBlobExample.cpp
+  NativeFilesystemExample.hpp
+  NativeFilesystemExample.cpp
+  NativeFileExample.hpp
+  NativeFileExample.cpp
   )
 add_library(TitaniumKit_examples
   ${SOURCE_examples}
