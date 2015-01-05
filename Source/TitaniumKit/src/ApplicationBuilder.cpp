@@ -10,7 +10,7 @@
 #include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
-#include "Titanium/Platform.hpp"
+#include "Titanium/PlatformModule.hpp"
 #include "Titanium/Accelerometer.hpp"
 #include "Titanium/Gesture.hpp"
 #include "Titanium/Blob.hpp"
@@ -30,7 +30,7 @@ namespace Titanium {
   , imageview__(js_context__.CreateObject<Titanium::UI::ImageView>())
   , label__(js_context__.CreateObject<Titanium::UI::Label>())
   , scrollview__(js_context__.CreateObject<Titanium::UI::ScrollView>())
-  , platform__(js_context__.CreateObject<Titanium::Platform>())
+  , platform__(js_context__.CreateObject<Titanium::PlatformModule>())
   , accelerometer__(js_context__.CreateObject<Titanium::Accelerometer>())
   , gesture__(js_context__.CreateObject<Titanium::Gesture>())
   , blob__(js_context__.CreateObject<Titanium::Blob>())

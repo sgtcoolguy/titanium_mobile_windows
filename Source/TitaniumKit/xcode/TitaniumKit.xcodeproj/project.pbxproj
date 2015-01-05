@@ -86,13 +86,12 @@
 		C9E6AFF01A13F96000FED053 /* TiLoggerPimpl.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C9E6AFC21A13D36500FED053 /* TiLoggerPimpl.hpp */; };
 		C9E6AFF11A13F96400FED053 /* TiLoggerPimpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9E6AFC51A13D37900FED053 /* TiLoggerPimpl.cpp */; };
 		C9E6AFF61A158AD000FED053 /* GlobalObjectTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9E6AFF51A158AD000FED053 /* GlobalObjectTests.mm */; };
-		C9EE3E961A3E322B0053FF1D /* libHAL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EE3E951A3E322B0053FF1D /* libHAL.a */; };
 		F908310F1A2EA3AC00CB810B /* Blob.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F908310E1A2EA3AC00CB810B /* Blob.hpp */; };
 		F90831121A2EA3B500CB810B /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F90831111A2EA3B500CB810B /* Blob.cpp */; };
 		F90831151A2EA3FA00CB810B /* NativeBlobExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F90831131A2EA3FA00CB810B /* NativeBlobExample.cpp */; };
 		F90831161A2EA3FA00CB810B /* NativeBlobExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F90831141A2EA3FA00CB810B /* NativeBlobExample.hpp */; };
-		F96BCABD1A25CE4C00745C3B /* Platform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96BCABC1A25CE4C00745C3B /* Platform.hpp */; };
-		F96BCAC01A25CE6100745C3B /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96BCABF1A25CE6100745C3B /* Platform.cpp */; };
+		F96BCABD1A25CE4C00745C3B /* PlatformModule.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96BCABC1A25CE4C00745C3B /* PlatformModule.hpp */; };
+		F96BCAC01A25CE6100745C3B /* PlatformModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96BCABF1A25CE6100745C3B /* PlatformModule.cpp */; };
 		F96BCAC31A25CEB000745C3B /* NativePlatformExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96BCAC11A25CEB000745C3B /* NativePlatformExample.cpp */; };
 		F96BCAC41A25CEB000745C3B /* NativePlatformExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96BCAC21A25CEB000745C3B /* NativePlatformExample.hpp */; };
 		F9B177951A2C46F100ECE602 /* Accelerometer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B177941A2C46F100ECE602 /* Accelerometer.hpp */; };
@@ -105,6 +104,8 @@
 		F9B47E7F1A2EF1860052879A /* NativeFileExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B47E7D1A2EF1860052879A /* NativeFileExample.hpp */; };
 		F9B47E811A2EF93E0052879A /* Constants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B47E801A2EF93E0052879A /* Constants.hpp */; };
 		F9B47E831A2EF94A0052879A /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B47E821A2EF94A0052879A /* Constants.cpp */; };
+		F9E96F891A415D62001E0EC4 /* DisplayCaps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F881A415D62001E0EC4 /* DisplayCaps.cpp */; };
+		F9E96F8B1A415D6E001E0EC4 /* DisplayCaps.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F8A1A415D6E001E0EC4 /* DisplayCaps.hpp */; };
 		F9B549731A4027220051A096 /* TiModule.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B549721A4027220051A096 /* TiModule.hpp */; };
 		F9B549751A40272E0051A096 /* TiModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B549741A40272E0051A096 /* TiModule.cpp */; };
 		F9B549781A402D520051A096 /* NativeTiExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B549761A402D520051A096 /* NativeTiExample.cpp */; };
@@ -207,13 +208,12 @@
 		C9E6AFC61A13D37900FED053 /* TiBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TiBase.cpp; path = src/detail/TiBase.cpp; sourceTree = "<group>"; };
 		C9E6AFCD1A13DF3000FED053 /* GlobalObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalObject.cpp; path = src/GlobalObject.cpp; sourceTree = "<group>"; };
 		C9E6AFF51A158AD000FED053 /* GlobalObjectTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GlobalObjectTests.mm; sourceTree = "<group>"; };
-		C9EE3E951A3E322B0053FF1D /* libHAL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHAL.a; path = ../../HAL/xcode/build/Debug/libHAL.a; sourceTree = "<group>"; };
 		F908310E1A2EA3AC00CB810B /* Blob.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Blob.hpp; path = include/Titanium/Blob.hpp; sourceTree = "<group>"; };
 		F90831111A2EA3B500CB810B /* Blob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Blob.cpp; path = src/Blob.cpp; sourceTree = "<group>"; };
 		F90831131A2EA3FA00CB810B /* NativeBlobExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeBlobExample.cpp; sourceTree = "<group>"; };
 		F90831141A2EA3FA00CB810B /* NativeBlobExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeBlobExample.hpp; sourceTree = "<group>"; };
-		F96BCABC1A25CE4C00745C3B /* Platform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Platform.hpp; path = include/Titanium/Platform.hpp; sourceTree = "<group>"; };
-		F96BCABF1A25CE6100745C3B /* Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Platform.cpp; path = src/Platform.cpp; sourceTree = "<group>"; };
+		F96BCABC1A25CE4C00745C3B /* PlatformModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PlatformModule.hpp; path = include/Titanium/PlatformModule.hpp; sourceTree = "<group>"; };
+		F96BCABF1A25CE6100745C3B /* PlatformModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlatformModule.cpp; path = src/PlatformModule.cpp; sourceTree = "<group>"; };
 		F96BCAC11A25CEB000745C3B /* NativePlatformExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativePlatformExample.cpp; sourceTree = "<group>"; };
 		F96BCAC21A25CEB000745C3B /* NativePlatformExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativePlatformExample.hpp; sourceTree = "<group>"; };
 		F9B177941A2C46F100ECE602 /* Accelerometer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Accelerometer.hpp; path = include/Titanium/Accelerometer.hpp; sourceTree = "<group>"; };
@@ -226,6 +226,8 @@
 		F9B47E7D1A2EF1860052879A /* NativeFileExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeFileExample.hpp; sourceTree = "<group>"; };
 		F9B47E801A2EF93E0052879A /* Constants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Constants.hpp; path = include/Titanium/Filesystem/Constants.hpp; sourceTree = "<group>"; };
 		F9B47E821A2EF94A0052879A /* Constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Constants.cpp; path = src/Filesystem/Constants.cpp; sourceTree = "<group>"; };
+		F9E96F881A415D62001E0EC4 /* DisplayCaps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DisplayCaps.cpp; path = src/Platform/DisplayCaps.cpp; sourceTree = "<group>"; };
+		F9E96F8A1A415D6E001E0EC4 /* DisplayCaps.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DisplayCaps.hpp; path = include/Titanium/Platform/DisplayCaps.hpp; sourceTree = "<group>"; };
 		F9B549721A4027220051A096 /* TiModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TiModule.hpp; path = include/Titanium/TiModule.hpp; sourceTree = "<group>"; };
 		F9B549741A40272E0051A096 /* TiModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TiModule.cpp; path = src/TiModule.cpp; sourceTree = "<group>"; };
 		F9B549761A402D520051A096 /* NativeTiExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeTiExample.cpp; sourceTree = "<group>"; };
@@ -237,7 +239,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EE3E961A3E322B0053FF1D /* libHAL.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,7 +325,6 @@
 		C97454401A02A2B000CB4CA9 = {
 			isa = PBXGroup;
 			children = (
-				C9EE3E951A3E322B0053FF1D /* libHAL.a */,
 				C97454761A02B1E100CB4CA9 /* JavaScriptCore.framework */,
 				C974544B1A02A2B000CB4CA9 /* TitaniumKit */,
 				C9E6AFCA1A13D38700FED053 /* TiLogger */,
@@ -360,8 +360,8 @@
 				C90B8F871A167E36005F3210 /* Module.cpp */,
 				C90B8FD21A17CB1C005F3210 /* API.hpp */,
 				C90B8FD11A17CB1C005F3210 /* API.cpp */,
-				F96BCABF1A25CE6100745C3B /* Platform.cpp */,
-				F96BCABC1A25CE4C00745C3B /* Platform.hpp */,
+				F96BCABF1A25CE6100745C3B /* PlatformModule.cpp */,
+				F96BCABC1A25CE4C00745C3B /* PlatformModule.hpp */,
 				C90B8F9A1A16DDB0005F3210 /* UIModule.hpp */,
 				C90B8F991A16DDB0005F3210 /* UIModule.cpp */,
 				C90950901A2951A7002133E1 /* Gesture.hpp */,
@@ -372,6 +372,7 @@
 				F908310E1A2EA3AC00CB810B /* Blob.hpp */,
 				F9B47E751A2EF1500052879A /* FilesystemModule.cpp */,
 				F9B47E721A2EF1440052879A /* FilesystemModule.hpp */,
+				F9E96F871A415CAD001E0EC4 /* Platform */,
 				F9B47E771A2EF15A0052879A /* Filesystem */,
 				C9E6AFBB1A13D34900FED053 /* detail */,
 				C90B8F8B1A16D32C005F3210 /* UI */,
@@ -450,6 +451,15 @@
 			name = Filesystem;
 			sourceTree = "<group>";
 		};
+		F9E96F871A415CAD001E0EC4 /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				F9E96F881A415D62001E0EC4 /* DisplayCaps.cpp */,
+				F9E96F8A1A415D6E001E0EC4 /* DisplayCaps.hpp */,
+			);
+			name = Platform;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -466,7 +476,7 @@
 				C974545C1A02A2E500CB4CA9 /* GlobalObject.hpp in Headers */,
 				C90950A61A297E03002133E1 /* WebView.hpp in Headers */,
 				C90950AA1A2A20C1002133E1 /* WebViewErrorEvent.hpp in Headers */,
-				F96BCABD1A25CE4C00745C3B /* Platform.hpp in Headers */,
+				F96BCABD1A25CE4C00745C3B /* PlatformModule.hpp in Headers */,
 				F9B549731A4027220051A096 /* TiModule.hpp in Headers */,
 				C90B8F901A16D346005F3210 /* View.hpp in Headers */,
 				C90B8F941A16D83F005F3210 /* Window.hpp in Headers */,
@@ -481,6 +491,7 @@
 				C90B900D1A198370005F3210 /* ApplicationBuilder.hpp in Headers */,
 				C90B90091A19804D005F3210 /* Application.hpp in Headers */,
 				C980919B1A2149A300AE5930 /* TitaniumKit_EXPORT.h in Headers */,
+				F9E96F8B1A415D6E001E0EC4 /* DisplayCaps.hpp in Headers */,
 				C9E6AFEC1A13F95300FED053 /* TiLogger.hpp in Headers */,
 				C9E6AFED1A13F95500FED053 /* TiLoggerPolicyInterface.hpp in Headers */,
 				F9B47E731A2EF1440052879A /* FilesystemModule.hpp in Headers */,
@@ -612,7 +623,8 @@
 				C90B900C1A198370005F3210 /* ApplicationBuilder.cpp in Sources */,
 				C909508F1A29478A002133E1 /* Constants.cpp in Sources */,
 				C909509B1A296170002133E1 /* ListItem.cpp in Sources */,
-				F96BCAC01A25CE6100745C3B /* Platform.cpp in Sources */,
+				F96BCAC01A25CE6100745C3B /* PlatformModule.cpp in Sources */,
+				F9E96F891A415D62001E0EC4 /* DisplayCaps.cpp in Sources */,
 				F9B47E7E1A2EF1860052879A /* NativeFileExample.cpp in Sources */,
 				F90831151A2EA3FA00CB810B /* NativeBlobExample.cpp in Sources */,
 				C950EF941A48D90A000EE5AC /* Label.cpp in Sources */,

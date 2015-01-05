@@ -5,14 +5,16 @@
  */
 
 #include "NativePlatformExample.hpp"
+#include "NativePlatformDisplayCapsExample.hpp"
 #include <iostream>
 
 NativePlatformExample::NativePlatformExample(const JSContext& js_context) TITANIUM_NOEXCEPT
-: Titanium::Platform(js_context) {
+: Titanium::PlatformModule(js_context) {
+  setDisplayCaps(get_context().CreateObject(JSExport<NativePlatformDisplayCapsExample>::Class()));
 }
 
 NativePlatformExample::NativePlatformExample(const NativePlatformExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-: Titanium::Platform(rhs, arguments) {
+: Titanium::PlatformModule(rhs, arguments) {
 }
 
 std::string NativePlatformExample::osname() const TITANIUM_NOEXCEPT {
@@ -22,5 +24,5 @@ std::string NativePlatformExample::osname() const TITANIUM_NOEXCEPT {
 
 void NativePlatformExample::JSExportInitialize() {
   JSExport<NativePlatformExample>::SetClassVersion(1);
-  JSExport<NativePlatformExample>::SetParent(JSExport<Titanium::Platform>::Class());
+  JSExport<NativePlatformExample>::SetParent(JSExport<Titanium::PlatformModule>::Class());
 }
