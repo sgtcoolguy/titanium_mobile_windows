@@ -28,7 +28,14 @@ namespace TitaniumWindows {
 
   Application::Application()
     : js_context__(js_context_group__.CreateContext(JSExport<TitaniumWindows::GlobalObject>::Class()))
-    , application__(Titanium::ApplicationBuilder(js_context__)
+  {
+  }
+
+  Application::~Application() {
+  }
+
+  void Application::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ args) {
+    application__ = std::make_shared<Titanium::Application>(Titanium::ApplicationBuilder(js_context__)
     .TiObject(js_context__.CreateObject<TitaniumWindows::TiModule>())
     .APIObject(js_context__.CreateObject<TitaniumWindows::API>())
     .PlatformObject(js_context__.CreateObject<TitaniumWindows::Platform>())
@@ -43,13 +50,8 @@ namespace TitaniumWindows {
     .BlobObject(js_context__.CreateObject<TitaniumWindows::Blob>())
     .FilesystemObject(js_context__.CreateObject<TitaniumWindows::FilesystemModule>())
     .FileObject(js_context__.CreateObject<TitaniumWindows::Filesystem::File>())
-    .build()) {
-  }
+    .build());
 
-  Application::~Application() {
-  }
-
-  void Application::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ args) {
     Suspending += ref new Windows::UI::Xaml::SuspendingEventHandler(this, &Application::OnSuspending);
 
     // #if _DEBUG
@@ -97,7 +99,7 @@ namespace TitaniumWindows {
 
       // Place the frame in the current Window.
       Windows::UI::Xaml::Window::Current->Content = rootFrame;
-      application__.Run("/app.js");
+      application__->Run("/app.js");
     }
     // Ensure the current Window is active.
     Windows::UI::Xaml::Window::Current->Activate();

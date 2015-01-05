@@ -14,27 +14,28 @@ namespace TitaniumWindows {
   // Setup orientation event listener
   // This method should be called after main Window is initialized,
   // otherwise DisplayInformation::GetForCurrentView() will fail.
-  // This is why we can't setup this on constructor.
   void Gesture::setupOrieintationListener() {
     using namespace std::placeholders;
     using namespace Windows::Graphics::Display;
+    if (!orientationEventSet_) {
+      const auto display = DisplayInformation::GetForCurrentView();
+      // Setup OrientationChanged event
+      const auto orientationchangeCallback = [this](DisplayInformation ^sender, ::Platform::Object ^args) {
+        const auto ctx = get_context();
+        auto obj = ctx.CreateObject();
+        obj.SetProperty("orientation", ctx.CreateNumber(Titanium::UI::Constants::to_underlying_type(updateOrientation())));
+        fireEvent("orientationchange", obj);
+      };
 
-    const auto display = DisplayInformation::GetForCurrentView();
-    // Setup OrientationChanged event
-    const auto orientationchangeCallback = [this](DisplayInformation ^sender, ::Platform::Object ^args) {
-      const auto ctx = get_context();
-      auto obj = ctx.CreateObject();
-      obj.SetProperty("orientation", ctx.CreateNumber(Titanium::UI::Constants::to_underlying_type(updateOrientation())));
-      fireEvent("orientationchange", obj);
-    };
-
-    orientationchange_event_ = display->OrientationChanged += ref new Windows::Foundation::TypedEventHandler<Windows::Graphics::Display::DisplayInformation^, ::Platform::Object^>(orientationchangeCallback);
-    orientationEventSet_ = true;
+      orientationchange_event_ = display->OrientationChanged += ref new Windows::Foundation::TypedEventHandler<Windows::Graphics::Display::DisplayInformation^, ::Platform::Object^>(orientationchangeCallback);
+      orientationEventSet_ = true;
+    }
   }
 
   Gesture::Gesture(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::Gesture(js_context) {
     TITANIUM_LOG_DEBUG("TitaniumWindows::Gesture::ctor Initialize");
+    setupOrieintationListener();
   }
 
   Gesture::Gesture(const Gesture& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
@@ -47,6 +48,7 @@ namespace TitaniumWindows {
     if (orientationEventSet_) {
       const auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
       display->OrientationChanged -= orientationchange_event_;
+      orientationEventSet_ = false;
     }
   }
 
