@@ -22,6 +22,7 @@ const
 	fs = require('fs'),
 	i18n = require('titanium-sdk/lib/i18n'),
 	jsanalyze = require('titanium-sdk/lib/jsanalyze'),
+	os = require('os'),
 	path = require('path'),
 	spawn = require('child_process').spawn,
 	ti = require('titanium-sdk'),
@@ -565,6 +566,15 @@ WindowsBuilder.prototype.validate = function validate(logger, config, cli) {
 	}
 
 	// check that the build directory is writeable
+	// try to build under temp if the path is shorter and we have write access
+	var tempBuildDir = path.join(os.tmpdir());
+	logger.log(tempBuildDir);
+	if ((tempBuildDir.length < this.buildDir.length) && appc.fs.isDirWritable(tempBuildDir)) {
+		this.originalBuildDir = this.buildDir;
+		this.buildDir = path.join(tempBuildDir, path.basename(this.projectDir)); // build under temp!
+	} else {
+		this.originalBuildDir = null;
+	}
 	var buildDir = path.join(cli.argv['project-dir'], 'build');
 	if (fs.existsSync(buildDir)) {
 		if (!appc.fs.isDirWritable(buildDir)) {
@@ -642,6 +652,7 @@ WindowsBuilder.prototype.run = function run(logger, config, cli, finished) {
         'runCmake',
         'compileApp',
         'writeBuildManifest',
+        'copyResultsToProject',
 
         function (next) {
             // now that the app is built, if we're going to do some logging, then we print how long the app took so far
@@ -722,14 +733,17 @@ WindowsBuilder.prototype.initialize = function initialize(next) {
 			this.cmakeArch = 'Win32';
 		}
 		this.cmakePlatform = 'WindowsPhone';
+		this.cmakePlatformAbbrev = 'wp';
 	} else {
 		this.cmakeArch = 'Win32';
 		this.cmakePlatform = 'WindowsStore';
+		this.cmakePlatformAbbrev = 'ws';
 	}
 	this.arch = this.cmakeArch == 'Win32' ? 'x86' : this.cmakeArch;
-	this.cmakeTarget  = this.cmakePlatform +'.' + this.cmakeArch;
+	this.cmakeTarget  = this.cmakePlatformAbbrev +'.' + this.arch;
 
 	// directories
+	// FIXME If we're building to temp, we need to copy the build results back over to the origin build dir!
 	this.outputDir             = argv['output-dir'] ? appc.fs.resolvePath(argv['output-dir']) : null;
 	this.buildTargetDir        = path.join(this.buildDir, 'src'); // where we stuff the cmake inputs, 
 	this.cmakeTargetDir		   = path.join(this.buildDir, this.cmakeTarget); // where cmake generate the VS solution
@@ -1267,7 +1281,7 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 			var src = path.join(this.platformPath, 'lib', 'TitaniumKit', this.arch, 'TitaniumKit.dll');
 			copyFile.call(this,
 				src,
-				path.join(this.buildDir, 'src', 'TitaniumKit.dll'),
+				path.join(this.buildTargetDir, 'TitaniumKit.dll'),
 			cb);
 		},
 
@@ -1275,7 +1289,7 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 			var src = path.join(this.platformPath, 'lib', 'HAL', this.arch, 'HAL.dll');
 			copyFile.call(this,
 				src,
-				path.join(this.buildDir, 'src', 'HAL.dll'),
+				path.join(this.buildTargetDir, 'HAL.dll'),
 			cb);
 		}
 	];
@@ -1647,6 +1661,8 @@ WindowsBuilder.prototype.compileApp = function compileApp(next) {
 WindowsBuilder.prototype.writeBuildManifest = function writeBuildManifest(next) {
 	this.logger.info(__('Writing build manifest: %s', this.buildManifestFile.cyan));
 
+
+
 	this.cli.createHook('build.windows.writeBuildManifest', this, function (manifest, cb) {
 		fs.existsSync(this.buildDir) || wrench.mkdirSyncRecursive(this.buildDir);
 		fs.existsSync(this.buildManifestFile) && fs.unlinkSync(this.buildManifestFile);
@@ -1675,6 +1691,23 @@ WindowsBuilder.prototype.writeBuildManifest = function writeBuildManifest(next) 
 		encryptJS: this.encryptJS,
 		propertiesHash: this.propertiesHash
 	}, next);
+};
+
+// Copy to original location!
+/**
+ * Copies the build directory back to the project's build directory if we compiled in temp.
+ *
+ * @param {Function} next - A function to call after the build manifest has been written.
+ */
+WindowsBuilder.prototype.copyResultsToProject = function copyResultsToProject(next) {
+	if (this.originalBuildDir) {
+		this.logger.info(__('Copying results back to project build directory'));
+		// make sure destination exists
+		fs.existsSync(this.originalBuildDir) && wrench.rmdirSyncRecursive(this.originalBuildDir);
+		// Now copy this.buildDir into this.originalBuildDir
+		wrench.copyDirSyncRecursive(this.buildDir, this.originalBuildDir);
+	}
+	next();
 };
 
 // create the builder instance and expose the public api
