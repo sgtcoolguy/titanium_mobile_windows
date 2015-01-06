@@ -144,7 +144,7 @@ namespace TitaniumWindows { namespace UI {
       ref new Platform::Box<double>(x),
       ref new Platform::Box<double>(y),
       nullptr,
-      false
+      true /* disableAnimation: should we support scroll animation? */
       );
   }
 
