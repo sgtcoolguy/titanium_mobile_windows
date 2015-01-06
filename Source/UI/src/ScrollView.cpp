@@ -135,14 +135,8 @@ namespace TitaniumWindows { namespace UI {
   }
 
   bool ScrollView::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(argument.IsString());
-    bool result = false;
-    std::string value = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("ScrollView::setLayoutArgumentValidator: layout = ", value);
-    setLayout(value);
-    set_layout(argument);
-    result = true;
-    return result;
+    contentView__.SetProperty("layout", argument);
+    return true;
   }
 
   void ScrollView::scrollTo(double x, double y) {
