@@ -20,13 +20,11 @@ namespace TitaniumWindows { namespace UI {
 
     contentView__.SetProperty("top", get_context().CreateNumber(0));
     contentView__.SetProperty("left", get_context().CreateNumber(0));
-    contentView__.SetProperty("width", get_context().CreateString("Ti.UI.FILL"));
-    contentView__.SetProperty("height", get_context().CreateString("Ti.UI.FILL"));
+    contentView__.SetProperty("width", get_context().CreateString(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)));
+    contentView__.SetProperty("height", get_context().CreateString(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)));
 
     auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
     scroll_viewer__->Content = content->getComponent();
-
-    View::add(contentView__, get_context().CreateObject());
   }
 
   ScrollView::ScrollView(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -45,6 +43,21 @@ namespace TitaniumWindows { namespace UI {
     TITANIUM_LOG_DEBUG("ScrollView::ctor CallAsConstructor");
     setupViewer();
     setComponent(scroll_viewer__);
+
+    auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
+    auto nativeChildView = content->getComponent();
+    if (nativeChildView != nullptr) {
+      Titanium::LayoutEngine::nodeAddChild(layout_node_, content->layout_node_);
+      if (isLoaded()) {
+        auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node_);
+        if (root) {
+          Titanium::LayoutEngine::nodeLayout(root);
+        }
+      }
+    }
+    else {
+      TITANIUM_LOG_DEBUG("ScrollView::setupViewer: nativeChildView = nullptr");
+    }
   }
 
   void ScrollView::JSExportInitialize() {
