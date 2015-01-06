@@ -72,31 +72,29 @@ function generateModule(name, proxy) {
 	var ti_windows_header = "#include \"TitaniumWindows/GlobalObject.hpp\"\n"+
 							"#include \"TitaniumWindows/"+class_name+".hpp\"";
 
-	var ti_windows_constructor = "(JSExport<TitaniumWindows::GlobalObject>::Class()))\n"+
-								 "\t."+class_name+"Class(std::make_shared<JSClass>(JSExport<TitaniumWindows::"+(sub_class_name == null ? namespace : (module_name+'::'+namespace))+">::Class()))";
-
+	var ti_windows_constructor = "t<TitaniumWindows::API>())\n"+
+								 "\t."+class_name+"Object(js_context__.CreateObject<TitaniumWindows::"+(sub_class_name == null ? namespace : (module_name+'::'+namespace))+">())";
 	var app_builder_definition = "Application build();\n\n"+
-								 "    JSClassPtr_t        "+class_name+"Class() const                 TITANIUM_NOEXCEPT;\n"+
-    							 "    ApplicationBuilder& "+class_name+"Class(const JSClassPtr_t&)    TITANIUM_NOEXCEPT;";
-	var app_builder_variable = "global_object_class_ptr__ { nullptr };\n"+
-							   "    JSClassPtr_t   "+class_name_lower+"_class_ptr__           { nullptr };";
+								 "    JSObject        "+class_name+"Object() const                 TITANIUM_NOEXCEPT;\n"+
+    							 "    ApplicationBuilder& "+class_name+"Object(const JSObject&)    TITANIUM_NOEXCEPT;";
+	var app_builder_variable = "JSObject  api__;\n"+
+							   "    JSObject  "+class_name_lower+"__;";
 	var app_builder_include = "#include \"Titanium/ApplicationBuilder.hpp\"\n"+
 							  "#include \"Titanium/"+module_name+".hpp\"";
-	var app_builder_build = "ApplicationBuilder::build() {\n\n"+
-							"    if (!"+class_name_lower+"_class_ptr__) {\n"+
-							"      "+class_name_lower+"_class_ptr__ = std::make_shared<JSClass>(JSExport<Titanium::"+(sub_class_name == null ? namespace : module_name+'::'+sub_class_name)+">::Class());\n"+
-    						"    }";
-	var app_builder_property = "JSObject "+module_name_lower+" = js_context__.CreateObject(*"+module_name_lower+"_class_ptr__);\n"+
-    						   "    titanium.SetProperty(\""+module_name+"\", "+module_name_lower+", {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});\n\n"+
-    						   "    JSObject api";
-    var app_builder_class = "JSClassPtr_t ApplicationBuilder::"+class_name+"Class() const TITANIUM_NOEXCEPT {\n"+
-							"    return "+class_name_lower+"_class_ptr__;\n"+
-							"  }\n"+
-							"  ApplicationBuilder& ApplicationBuilder::"+class_name+"Class(const JSClassPtr_t& "+class_name_lower+"_class_ptr) TITANIUM_NOEXCEPT {\n"+
-							"    "+class_name_lower+"_class_ptr__ = "+class_name_lower+"_class_ptr;\n"+
+	var app_builder_build = "CreateObject<Titanium::API>())\n"+
+							"  , "+module_name_lower+"__(js_context__.CreateObject<Titanium::"+(sub_class_name == null ? namespace : (module_name+'::'+namespace))+">())";
+	var app_builder_property = "api__          , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});\n"+
+    						   "    titanium.SetProperty(\""+module_name+"\"           , "+module_name_lower+"__             , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});";
+    
+    var app_builder_class = "  JSObject ApplicationBuilder::"+class_name+"Object() const TITANIUM_NOEXCEPT {\n"+
+							"    return "+class_name_lower+"__;\n"+
+							"  }\n\n"+
+							"  ApplicationBuilder& ApplicationBuilder::"+class_name+"Object(const JSObject& "+class_name_lower+") TITANIUM_NOEXCEPT {\n"+
+							"    "+class_name_lower+"__ = "+class_name_lower+";\n"+
 							"    return *this;\n"+
 							"  }\n\n"+
-    						"  JSClassPtr_t A";
+    						"  JSObject ApplicationBuilder::APIObject";
+
 	var build_and_test = "Global_DISABLE_TESTS=ON\"\n"+
 						 "cmd+=\" -DTitaniumWindows_"+module_name+"_DISABLE_TESTS=ON\"";
 	var module_cmake_source = "set(SOURCE_"+module_name+"\n"+
@@ -311,66 +309,66 @@ function generateModule(name, proxy) {
 			if (error) throw error;
 
 			// Modify TitaniumWindows ApplicationBuilder.hpp
-				fs.readFile(kit_application_builder_header_file + ".bak", 'utf8',
-					function(err, data) {
-						if (err) throw err;
-						
-						// Update definition
-						data = data.replace(/Application build\(\);/g, app_builder_definition)
+			fs.readFile(kit_application_builder_header_file + ".bak", 'utf8',
+				function(err, data) {
+					if (err) throw err;
+					
+					// Update definition
+					data = data.replace(/Application build\(\);/g, app_builder_definition)
 
-						// Update variable
-						.replace(/global_object_class_ptr__ { nullptr };/g, app_builder_variable);
+					// Update variable
+					.replace(/JSObject  api__;/g, app_builder_variable);
 
-						console.log('Patching ' + kit_application_builder_header_file);
+					console.log('Patching ' + kit_application_builder_header_file);
 
-						// Write file
-						writeFile(kit_application_builder_header_file, data);
+					// Write file
+					writeFile(kit_application_builder_header_file, data);
+				}
+			);
+
+			// Modify TitaniumWindows ApplicationBuilder.cpp
+			fs.readFile(kit_application_builder_cpp_file + ".bak", 'utf8',
+				function(err, data) {
+					if (err) throw err;
+
+					data = data.replace(/#include \"Titanium\/ApplicationBuilder.hpp\"/g, app_builder_include)
+					
+					// Update definition
+					.replace(/CreateObject<Titanium::API>\(\)\)/g, app_builder_build)
+
+					// Update variable
+					.replace(/  JSObject ApplicationBuilder::APIObject/, app_builder_class);
+
+					if (sub_class_name != null) {
+						data = data.replace(new RegExp(module_name_lower+", {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete}\\);", "g"), module_header_definition);
+					} else {
+						data = data.replace(/api__          , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete}\);/g, app_builder_property);
 					}
-				);
 
-				// Modify TitaniumWindows ApplicationBuilder.cpp
-				fs.readFile(kit_application_builder_cpp_file + ".bak", 'utf8',
-					function(err, data) {
-						if (err) throw err;
+					console.log('Patching ' + kit_application_builder_cpp_file);
 
-						data = data.replace(/#include \"Titanium\/ApplicationBuilder.hpp\"/g, app_builder_include)
-						
-						// Update definition
-						.replace(/ApplicationBuilder::build\(\) {/g, app_builder_build)
+					// Write file
+					writeFile(kit_application_builder_cpp_file, data);
+				}
+			);
 
-						// Update variable
-						.replace(/JSClassPtr_t A/, app_builder_class);
+			// Modify TitaniumWindows constructor
+			fs.readFile(ti_titanium_windows_cpp_file + ".bak", 'utf8',
+				function(err, data) {
+					if (err) throw err;
+					
+					// Update header
+					data = data.replace(/\#include \"TitaniumWindows\/GlobalObject.hpp\"/g, ti_windows_header)
 
-						if (sub_class_name != null) {
-							data = data.replace(new RegExp(module_name_lower+", {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete}\\);", "g"), module_header_definition);
-						} else {
-							data = data.replace(/JSObject api/g, app_builder_property);
-						}
+					// Update TitaniumWindows constructor
+					.replace(/t<TitaniumWindows::API>\(\)\)/g, ti_windows_constructor);
 
-						console.log('Patching ' + kit_application_builder_cpp_file);
+					console.log('Patching ' + ti_titanium_windows_cpp_file);
 
-						// Write file
-						writeFile(kit_application_builder_cpp_file, data);
-					}
-				);
-
-				// Modify TitaniumWindows constructor
-				fs.readFile(ti_titanium_windows_cpp_file + ".bak", 'utf8',
-					function(err, data) {
-						if (err) throw err;
-						
-						// Update header
-						data = data.replace(/\#include \"TitaniumWindows\/GlobalObject.hpp\"/g, ti_windows_header)
-
-						// Update TitaniumWindows constructor
-						.replace(/\(JSExport<TitaniumWindows::GlobalObject>::Class\(\)\)\)/g, ti_windows_constructor);
-
-						console.log('Patching ' + ti_titanium_windows_cpp_file);
-
-						// Write file
-						writeFile(ti_titanium_windows_cpp_file, data);
-					}
-				);
+					// Write file
+					writeFile(ti_titanium_windows_cpp_file, data);
+				}
+			);
 
 			// Module
 			if (sub_class_name == null) {
