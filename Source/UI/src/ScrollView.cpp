@@ -165,6 +165,7 @@ namespace TitaniumWindows { namespace UI {
     bool result = false;
     if (width.IsNumber()) {
       content->getComponent()->Width = static_cast<double>(width);
+      contentView__.SetProperty("width", width);
       result = true;
     } else {
       TITANIUM_LOG_WARN("ScrollView::setContentWidth from auto - Unimplemented");
@@ -176,6 +177,7 @@ namespace TitaniumWindows { namespace UI {
     bool result = false;
     if (height.IsNumber()) {
       content->getComponent()->Height = static_cast<double>(height);
+      contentView__.SetProperty("height", height);
       result = true;
     } else {
       TITANIUM_LOG_WARN("ScrollView::setContentWidth from auto - Unimplemented");
