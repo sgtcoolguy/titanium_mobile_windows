@@ -33,7 +33,7 @@ robocopy build\x86\Accelerometer dist\windows\lib\TitaniumWindows_Accelerometer\
 echo Titanium Windows API
 robocopy build\x86\API\Release dist\windows\lib\TitaniumWindows_API\x86 TitaniumWindows_API.*
 robocopy build\ARM\API\Release dist\windows\lib\TitaniumWindows_API\ARM TitaniumWindows_API.*
-robocopy  build\x86\API dist\windows\lib\TitaniumWindows_API\include titaniumwindows_api_export.h
+robocopy build\x86\API dist\windows\lib\TitaniumWindows_API\include titaniumwindows_api_export.h
 
 echo Titanium Windows Filesystem
 robocopy build\x86\Filesystem\Release dist\windows\lib\TitaniumWindows_Filesystem\x86 TitaniumWindows_Filesystem.*
@@ -50,10 +50,20 @@ robocopy build\x86\Global\Release dist\windows\lib\TitaniumWindows_Global\x86 Ti
 robocopy build\ARM\Global\Release dist\windows\lib\TitaniumWindows_Global\ARM TitaniumWindows_Global.*
 robocopy build\x86\Global dist\windows\lib\TitaniumWindows_Global\include titaniumwindows_global_export.h
 
+echo LayoutEngine
+robocopy build\x86\LayoutEngine\Release dist\windows\lib\LayoutEngine\x86 LayoutEngine.*
+robocopy build\ARM\LayoutEngine\Release dist\windows\lib\LayoutEngine\ARM LayoutEngine.*
+robocopy build\x86\LayoutEngine dist\windows\lib\LayoutEngine\include layoutengine_export.h
+
 echo Titanium Windows Platform
 robocopy build\x86\Platform\Release dist\windows\lib\TitaniumWindows_Platform\x86 TitaniumWindows_Platform.*
 robocopy build\ARM\Platform\Release dist\windows\lib\TitaniumWindows_Platform\ARM TitaniumWindows_Platform.*
 robocopy build\x86\Platform dist\windows\lib\TitaniumWindows_Platform\include titaniumwindows_platform_export.h
+
+echo Titanium Windows Ti
+robocopy build\x86\Ti\Release dist\windows\lib\TitaniumWindows_Ti\x86 TitaniumWindows_Ti.*
+robocopy build\ARM\Ti\Release dist\windows\lib\TitaniumWindows_Ti\ARM TitaniumWindows_Ti.*
+robocopy build\x86\Ti dist\windows\lib\TitaniumWindows_Ti\include titaniumwindows_ti_export.h
 
 echo Titanium Windows UI
 robocopy build\x86\UI\Release dist\windows\lib\TitaniumWindows_UI\x86 TitaniumWindows_UI.*
@@ -64,11 +74,6 @@ echo Titanium Windows Utility
 robocopy build\x86\API\Utility\Release dist\windows\lib\TitaniumWindows_Utility\x86 TitaniumWindows_Utility.*
 robocopy build\ARM\API\Utility\Release dist\windows\lib\TitaniumWindows_Utility\ARM TitaniumWindows_Utility.*
 robocopy build\x86\API\Utility dist\windows\lib\TitaniumWindows_Utility\include titaniumwindows_utility_export.h
-
-echo LayoutEngine
-robocopy build\x86\LayoutEngine\Release dist\windows\lib\LayoutEngine\x86 LayoutEngine.*
-robocopy build\ARM\LayoutEngine\Release dist\windows\lib\LayoutEngine\ARM LayoutEngine.*
-robocopy build\x86\LayoutEngine dist\windows\lib\LayoutEngine\include layoutengine_export.h
 
 
 IF %ERRORLEVEL% LEQ 4 exit /B 0
