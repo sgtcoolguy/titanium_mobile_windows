@@ -95,8 +95,9 @@ function processClass(root, file, next) {
 function generateYAML(root, module, properties, methods, next) {
 	var folder = root.split('/').pop();
 
-	var yaml = 'name: Titanium'+(folder != 'src' ? '.'+folder+'.'+module : (module != 'Titanium' ? '.'+module : ''))+'\n\n';
-	if (properties.length > 0) yaml += 'propeties:\n';
+	var yaml = 'name: Titanium'+(folder != 'src' ? '.'+folder+'.'+module : (module != 'Titanium' ? '.'+module : ''))+'\n'+
+	           'platforms: [windowsphone]\n\n';
+	if (properties.length > 0) yaml += 'properties:\n';
 	for(i in properties) {
 		var property = properties[i];
 	    yaml += '  - name: '+property+'\n'+
