@@ -12,3 +12,6 @@ AlwaysBreakBeforeMultilineStrings: false
 Standard: Cpp11
 NamespaceIndentation: All
 AccessModifierOffset: -4
+DerivePointerAlignment: false
+PointerAlignment: Left
+SpacesInAngles: true
