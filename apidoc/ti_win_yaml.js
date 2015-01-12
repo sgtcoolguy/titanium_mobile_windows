@@ -4,12 +4,11 @@
 * Please see the LICENSE included with this distribution for details.
 */
 
-var lbl = require('line-by-line');
-var path = require('path');
-var fs = require('fs.extra');
-
-var TI_KIT_SRC_DIRECTORY = '../Source/TitaniumKit/src';
-var TI_WIN_DOC_DIRECTORY = '../apidoc/Titanium/';
+var lbl = require('line-by-line'),
+    path = require('path'),
+	fs = require('fs.extra'),
+	TI_KIT_SRC_DIRECTORY = '../Source/TitaniumKit/src',
+	TI_WIN_DOC_DIRECTORY = '../apidoc/Titanium';
 
 // Add 'contains' prototype to String
 if (typeof String.prototype.contains === 'undefined') {
@@ -110,7 +109,7 @@ function generateYAML(root, module, properties, methods, next) {
 	            '    platforms: [windowsphone]\n';
 	}
 
-	var target = TI_WIN_DOC_DIRECTORY+(folder != 'src' ? folder+'/' : '');
+	var target = TI_WIN_DOC_DIRECTORY+(folder != 'src' ? '/'+folder+'/' : '/');
 
 	fs.mkdirp(target,
 		function (err) {
