@@ -25,7 +25,7 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.WebView-event-error
 		*/
-		class TITANIUMKIT_EXPORT WebViewErrorEvent : public JSExportObject, public JSExport< WebViewErrorEvent >
+		class TITANIUMKIT_EXPORT WebViewErrorEvent : public JSExportObject, public JSExport<WebViewErrorEvent>
 		{
 		public:
 			/*!
@@ -39,7 +39,7 @@ namespace Titanium
 			virtual void set_error(const URL_ERROR& error) TITANIUM_NOEXCEPT;
 
 			WebViewErrorEvent(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			WebViewErrorEvent(const WebViewErrorEvent&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			WebViewErrorEvent(const WebViewErrorEvent&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~WebViewErrorEvent() = default;
 			WebViewErrorEvent(const WebViewErrorEvent&) = default;

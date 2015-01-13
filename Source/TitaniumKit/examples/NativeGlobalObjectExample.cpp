@@ -53,10 +53,10 @@ private:
 	Titanium::GlobalObject::Callback_t callback__;
 };
 
-std::shared_ptr< Titanium::GlobalObject::Timer > NativeGlobalObjectExample::CreateTimer(Titanium::GlobalObject::Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT
+std::shared_ptr<Titanium::GlobalObject::Timer> NativeGlobalObjectExample::CreateTimer(Titanium::GlobalObject::Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeGlobalObjectExample::CreateTimer");
-	return std::make_shared< NativeGlobalObjectTimerExample >(callback, interval);
+	return std::make_shared<NativeGlobalObjectTimerExample>(callback, interval);
 }
 
 NativeGlobalObjectExample::NativeGlobalObjectExample(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -65,7 +65,7 @@ NativeGlobalObjectExample::NativeGlobalObjectExample(const JSContext& js_context
 	TITANIUM_LOG_DEBUG("NativeGlobalObjectExample:: ctor 1 ", this);
 }
 
-NativeGlobalObjectExample::NativeGlobalObjectExample(const NativeGlobalObjectExample& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+NativeGlobalObjectExample::NativeGlobalObjectExample(const NativeGlobalObjectExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::GlobalObject(rhs, arguments)
 {
 	TITANIUM_LOG_DEBUG("NativeGlobalObjectExample:: ctor 2 ", this);
@@ -78,6 +78,6 @@ NativeGlobalObjectExample::~NativeGlobalObjectExample() TITANIUM_NOEXCEPT
 
 void NativeGlobalObjectExample::JSExportInitialize()
 {
-	JSExport< NativeGlobalObjectExample >::SetClassVersion(1);
-	JSExport< NativeGlobalObjectExample >::SetParent(JSExport< Titanium::GlobalObject >::Class());
+	JSExport<NativeGlobalObjectExample>::SetClassVersion(1);
+	JSExport<NativeGlobalObjectExample>::SetParent(JSExport<Titanium::GlobalObject>::Class());
 }

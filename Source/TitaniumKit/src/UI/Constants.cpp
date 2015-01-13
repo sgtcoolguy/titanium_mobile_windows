@@ -17,7 +17,7 @@ namespace Titanium
 		std::string Constants::to_string(const ANIMATION_CURVE& animationCurve) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "ANIMATION_CURVE::Unknown";
-			static std::unordered_map< ANIMATION_CURVE, std::string > map;
+			static std::unordered_map<ANIMATION_CURVE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[ANIMATION_CURVE::EASE_IN]     = "ANIMATION_CURVE_EASE_IN";
@@ -37,7 +37,7 @@ namespace Titanium
 
 		ANIMATION_CURVE Constants::to_ANIMATION_CURVE(const std::string& animationCurveName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, ANIMATION_CURVE > map;
+			static std::unordered_map<std::string, ANIMATION_CURVE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["ANIMATION_CURVE_EASE_IN"]     = ANIMATION_CURVE::EASE_IN;
@@ -57,9 +57,9 @@ namespace Titanium
 			return animationCurve;
 		}
 
-		ANIMATION_CURVE Constants::to_ANIMATION_CURVE(std::underlying_type< ANIMATION_CURVE >::type animationCurve_underlying_type) TITANIUM_NOEXCEPT
+		ANIMATION_CURVE Constants::to_ANIMATION_CURVE(std::underlying_type<ANIMATION_CURVE>::type animationCurve_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< ANIMATION_CURVE >::type, ANIMATION_CURVE > map;
+			static std::unordered_map<std::underlying_type<ANIMATION_CURVE>::type, ANIMATION_CURVE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<ANIMATION_CURVE>::type>(ANIMATION_CURVE::EASE_IN)]     = ANIMATION_CURVE::EASE_IN;
@@ -79,15 +79,15 @@ namespace Titanium
 			return animationCurve;
 		}
 
-		std::underlying_type< ANIMATION_CURVE >::type Constants::to_underlying_type(const ANIMATION_CURVE& animationCurve) TITANIUM_NOEXCEPT
+		std::underlying_type<ANIMATION_CURVE>::type Constants::to_underlying_type(const ANIMATION_CURVE& animationCurve) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< ANIMATION_CURVE >::type >(animationCurve);
+			return static_cast<std::underlying_type<ANIMATION_CURVE>::type>(animationCurve);
 		}
 
 		std::string Constants::to_string(const AUTOLINK& autoLinkName) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "AUTOLINK::Unknown";
-			static std::unordered_map< AUTOLINK, std::string > map;
+			static std::unordered_map<AUTOLINK, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[AUTOLINK::ALL]             = "AUTOLINK_ALL";
@@ -110,7 +110,7 @@ namespace Titanium
 
 		AUTOLINK Constants::to_AUTOLINK(const std::string& autoLinkName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, AUTOLINK > map;
+			static std::unordered_map<std::string, AUTOLINK> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["AUTOLINK_ALL"]             = AUTOLINK::ALL;
@@ -133,38 +133,38 @@ namespace Titanium
 			return autoLink;
 		}
 
-		std::unordered_set< AUTOLINK > Constants::to_AUTOLINK(std::underlying_type< AUTOLINK >::type autoLinks) TITANIUM_NOEXCEPT
+		std::unordered_set<AUTOLINK> Constants::to_AUTOLINK(std::underlying_type<AUTOLINK>::type autoLinks) TITANIUM_NOEXCEPT
 		{
-			std::unordered_set< AUTOLINK > autoLink_set;
-			static_cast< void >((autoLinks & (1 << 0)) && autoLink_set.emplace(AUTOLINK::ALL).second);
-			static_cast< void >((autoLinks & (1 << 1)) && autoLink_set.emplace(AUTOLINK::CALENDAR).second);
-			static_cast< void >((autoLinks & (1 << 2)) && autoLink_set.emplace(AUTOLINK::EMAIL_ADDRESSES).second);
-			static_cast< void >((autoLinks & (1 << 3)) && autoLink_set.emplace(AUTOLINK::MAP_ADDRESSES).second);
-			static_cast< void >((autoLinks & (1 << 4)) && autoLink_set.emplace(AUTOLINK::NONE).second);
-			static_cast< void >((autoLinks & (1 << 5)) && autoLink_set.emplace(AUTOLINK::PHONE_NUMBERS).second);
-			static_cast< void >((autoLinks & (1 << 6)) && autoLink_set.emplace(AUTOLINK::URLS).second);
+			std::unordered_set<AUTOLINK> autoLink_set;
+			static_cast<void>((autoLinks & (1 << 0)) && autoLink_set.emplace(AUTOLINK::ALL).second);
+			static_cast<void>((autoLinks & (1 << 1)) && autoLink_set.emplace(AUTOLINK::CALENDAR).second);
+			static_cast<void>((autoLinks & (1 << 2)) && autoLink_set.emplace(AUTOLINK::EMAIL_ADDRESSES).second);
+			static_cast<void>((autoLinks & (1 << 3)) && autoLink_set.emplace(AUTOLINK::MAP_ADDRESSES).second);
+			static_cast<void>((autoLinks & (1 << 4)) && autoLink_set.emplace(AUTOLINK::NONE).second);
+			static_cast<void>((autoLinks & (1 << 5)) && autoLink_set.emplace(AUTOLINK::PHONE_NUMBERS).second);
+			static_cast<void>((autoLinks & (1 << 6)) && autoLink_set.emplace(AUTOLINK::URLS).second);
 			return autoLink_set;
 		}
 
-		std::underlying_type< AUTOLINK >::type Constants::to_underlying_type(const std::unordered_set< AUTOLINK >& autoLink_set) TITANIUM_NOEXCEPT
+		std::underlying_type<AUTOLINK>::type Constants::to_underlying_type(const std::unordered_set<AUTOLINK>& autoLink_set) TITANIUM_NOEXCEPT
 		{
-			std::underlying_type< AUTOLINK >::type result = 0;
+			std::underlying_type<AUTOLINK>::type result = 0;
 			for (auto autoLink : autoLink_set) {
-				result |= static_cast< std::underlying_type< AUTOLINK >::type >(autoLink);
+				result |= static_cast<std::underlying_type<AUTOLINK>::type>(autoLink);
 			}
 
 			return result;
 		}
 
-		std::underlying_type< AUTOLINK >::type Constants::to_underlying_type(const AUTOLINK& autoLink) TITANIUM_NOEXCEPT
+		std::underlying_type<AUTOLINK>::type Constants::to_underlying_type(const AUTOLINK& autoLink) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< AUTOLINK >::type >(autoLink);
+			return static_cast<std::underlying_type<AUTOLINK>::type>(autoLink);
 		}
 
 		std::string Constants::to_string(const EXTEND_EDGE& extendEdge) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "EXTEND_EDGE::Unknown";
-			static std::unordered_map< EXTEND_EDGE, std::string > map;
+			static std::unordered_map<EXTEND_EDGE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[EXTEND_EDGE::ALL]    = "EXTEND_EDGE_ALL";
@@ -186,7 +186,7 @@ namespace Titanium
 
 		EXTEND_EDGE Constants::to_EXTEND_EDGE(const std::string& extendEdgeName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, EXTEND_EDGE > map;
+			static std::unordered_map<std::string, EXTEND_EDGE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["EXTEND_EDGE_ALL"]    = EXTEND_EDGE::ALL;
@@ -208,37 +208,37 @@ namespace Titanium
 			return extendEdge;
 		}
 
-		std::unordered_set< EXTEND_EDGE > Constants::to_EXTEND_EDGE(std::underlying_type< EXTEND_EDGE >::type extendEdges) TITANIUM_NOEXCEPT
+		std::unordered_set<EXTEND_EDGE> Constants::to_EXTEND_EDGE(std::underlying_type<EXTEND_EDGE>::type extendEdges) TITANIUM_NOEXCEPT
 		{
-			std::unordered_set< EXTEND_EDGE > extendEdge_set;
-			static_cast< void >((extendEdges & (1 << 0)) && extendEdge_set.emplace(EXTEND_EDGE::ALL).second);
-			static_cast< void >((extendEdges & (1 << 1)) && extendEdge_set.emplace(EXTEND_EDGE::BOTTOM).second);
-			static_cast< void >((extendEdges & (1 << 2)) && extendEdge_set.emplace(EXTEND_EDGE::LEFT).second);
-			static_cast< void >((extendEdges & (1 << 3)) && extendEdge_set.emplace(EXTEND_EDGE::NONE).second);
-			static_cast< void >((extendEdges & (1 << 4)) && extendEdge_set.emplace(EXTEND_EDGE::RIGHT).second);
-			static_cast< void >((extendEdges & (1 << 5)) && extendEdge_set.emplace(EXTEND_EDGE::TOP).second);
+			std::unordered_set<EXTEND_EDGE> extendEdge_set;
+			static_cast<void>((extendEdges & (1 << 0)) && extendEdge_set.emplace(EXTEND_EDGE::ALL).second);
+			static_cast<void>((extendEdges & (1 << 1)) && extendEdge_set.emplace(EXTEND_EDGE::BOTTOM).second);
+			static_cast<void>((extendEdges & (1 << 2)) && extendEdge_set.emplace(EXTEND_EDGE::LEFT).second);
+			static_cast<void>((extendEdges & (1 << 3)) && extendEdge_set.emplace(EXTEND_EDGE::NONE).second);
+			static_cast<void>((extendEdges & (1 << 4)) && extendEdge_set.emplace(EXTEND_EDGE::RIGHT).second);
+			static_cast<void>((extendEdges & (1 << 5)) && extendEdge_set.emplace(EXTEND_EDGE::TOP).second);
 			return extendEdge_set;
 		}
 
-		std::underlying_type< EXTEND_EDGE >::type Constants::to_underlying_type(const std::unordered_set< EXTEND_EDGE >& extendEdge_set) TITANIUM_NOEXCEPT
+		std::underlying_type<EXTEND_EDGE>::type Constants::to_underlying_type(const std::unordered_set<EXTEND_EDGE>& extendEdge_set) TITANIUM_NOEXCEPT
 		{
-			std::underlying_type< EXTEND_EDGE >::type result = 0;
+			std::underlying_type<EXTEND_EDGE>::type result = 0;
 			for (auto extendEdge : extendEdge_set) {
-				result |= static_cast< std::underlying_type< EXTEND_EDGE >::type >(extendEdge);
+				result |= static_cast<std::underlying_type<EXTEND_EDGE>::type>(extendEdge);
 			}
 
 			return result;
 		}
 
-		std::underlying_type< EXTEND_EDGE >::type Constants::to_underlying_type(const EXTEND_EDGE& extendEdge) TITANIUM_NOEXCEPT
+		std::underlying_type<EXTEND_EDGE>::type Constants::to_underlying_type(const EXTEND_EDGE& extendEdge) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< EXTEND_EDGE >::type >(extendEdge);
+			return static_cast<std::underlying_type<EXTEND_EDGE>::type>(extendEdge);
 		}
 
 		std::string Constants::to_string(const ORIENTATION& orientation) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "ORIENTATION::Unknown";
-			static std::unordered_map< ORIENTATION, std::string > map;
+			static std::unordered_map<ORIENTATION, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[ORIENTATION::PORTRAIT]        = "ORIENTATION_PORTRAIT";
@@ -261,7 +261,7 @@ namespace Titanium
 
 		ORIENTATION Constants::to_ORIENTATION(const std::string& orientationName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, ORIENTATION > map;
+			static std::unordered_map<std::string, ORIENTATION> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["ORIENTATION_PORTRAIT"]        = ORIENTATION::PORTRAIT;
@@ -284,9 +284,9 @@ namespace Titanium
 			return orientation;
 		}
 
-		ORIENTATION Constants::to_ORIENTATION(std::underlying_type< ORIENTATION >::type orientation_underlying_type) TITANIUM_NOEXCEPT
+		ORIENTATION Constants::to_ORIENTATION(std::underlying_type<ORIENTATION>::type orientation_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< ORIENTATION >::type, ORIENTATION > map;
+			static std::unordered_map<std::underlying_type<ORIENTATION>::type, ORIENTATION> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<ORIENTATION>::type>(ORIENTATION::PORTRAIT)]        = ORIENTATION::PORTRAIT;
@@ -309,15 +309,15 @@ namespace Titanium
 			return orientation;
 		}
 
-		std::underlying_type< ORIENTATION >::type Constants::to_underlying_type(const ORIENTATION& orientation) TITANIUM_NOEXCEPT
+		std::underlying_type<ORIENTATION>::type Constants::to_underlying_type(const ORIENTATION& orientation) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< ORIENTATION >::type >(orientation);
+			return static_cast<std::underlying_type<ORIENTATION>::type>(orientation);
 		}
 
 		std::string Constants::to_string(const INPUT_BORDERSTYLE& inputBorderstyle) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "INPUT_BORDERSTYLE::Unknown";
-			static std::unordered_map< INPUT_BORDERSTYLE, std::string > map;
+			static std::unordered_map<INPUT_BORDERSTYLE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[INPUT_BORDERSTYLE::BEZEL]   = "INPUT_BORDERSTYLE_BEZEL";
@@ -337,7 +337,7 @@ namespace Titanium
 
 		INPUT_BORDERSTYLE Constants::to_INPUT_BORDERSTYLE(const std::string& inputBorderStyleName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, INPUT_BORDERSTYLE > map;
+			static std::unordered_map<std::string, INPUT_BORDERSTYLE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["INPUT_BORDERSTYLE_BEZEL"]   = INPUT_BORDERSTYLE::BEZEL;
@@ -357,9 +357,9 @@ namespace Titanium
 			return inputBorderStyle;
 		}
 
-		INPUT_BORDERSTYLE Constants::to_INPUT_BORDERSTYLE(std::underlying_type< INPUT_BORDERSTYLE >::type inputBorderStyle_underlying_type) TITANIUM_NOEXCEPT
+		INPUT_BORDERSTYLE Constants::to_INPUT_BORDERSTYLE(std::underlying_type<INPUT_BORDERSTYLE>::type inputBorderStyle_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< INPUT_BORDERSTYLE >::type, INPUT_BORDERSTYLE > map;
+			static std::unordered_map<std::underlying_type<INPUT_BORDERSTYLE>::type, INPUT_BORDERSTYLE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<INPUT_BORDERSTYLE>::type>(INPUT_BORDERSTYLE::BEZEL)]   = INPUT_BORDERSTYLE::BEZEL;
@@ -379,15 +379,15 @@ namespace Titanium
 			return inputBorderStyle;
 		}
 
-		std::underlying_type< INPUT_BORDERSTYLE >::type Constants::to_underlying_type(const INPUT_BORDERSTYLE& inputBorderStyle) TITANIUM_NOEXCEPT
+		std::underlying_type<INPUT_BORDERSTYLE>::type Constants::to_underlying_type(const INPUT_BORDERSTYLE& inputBorderStyle) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< INPUT_BORDERSTYLE >::type >(inputBorderStyle);
+			return static_cast<std::underlying_type<INPUT_BORDERSTYLE>::type>(inputBorderStyle);
 		}
 
 		std::string Constants::to_string(const INPUT_BUTTONMODE& inputButtonMode) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "INPUT_BUTTONMODE::Unknown";
-			static std::unordered_map< INPUT_BUTTONMODE, std::string > map;
+			static std::unordered_map<INPUT_BUTTONMODE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[INPUT_BUTTONMODE::ALWAYS]  = "INPUT_BUTTONMODE_ALWAYS";
@@ -407,7 +407,7 @@ namespace Titanium
 
 		INPUT_BUTTONMODE Constants::to_INPUT_BUTTONMODE(const std::string& inputButtonModeName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, INPUT_BUTTONMODE > map;
+			static std::unordered_map<std::string, INPUT_BUTTONMODE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["INPUT_BUTTONMODE_ALWAYS"]  = INPUT_BUTTONMODE::ALWAYS;
@@ -427,9 +427,9 @@ namespace Titanium
 			return inputButtonMode;
 		}
 
-		INPUT_BUTTONMODE Constants::to_INPUT_BUTTONMODE(std::underlying_type< INPUT_BUTTONMODE >::type inputButtonMode_underlying_type) TITANIUM_NOEXCEPT
+		INPUT_BUTTONMODE Constants::to_INPUT_BUTTONMODE(std::underlying_type<INPUT_BUTTONMODE>::type inputButtonMode_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< INPUT_BUTTONMODE >::type, INPUT_BUTTONMODE > map;
+			static std::unordered_map<std::underlying_type<INPUT_BUTTONMODE>::type, INPUT_BUTTONMODE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<INPUT_BUTTONMODE>::type>(INPUT_BUTTONMODE::ALWAYS)]  = INPUT_BUTTONMODE::ALWAYS;
@@ -449,15 +449,15 @@ namespace Titanium
 			return inputButtonMode;
 		}
 
-		std::underlying_type< INPUT_BUTTONMODE >::type Constants::to_underlying_type(const INPUT_BUTTONMODE& inputButtonMode) TITANIUM_NOEXCEPT
+		std::underlying_type<INPUT_BUTTONMODE>::type Constants::to_underlying_type(const INPUT_BUTTONMODE& inputButtonMode) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< INPUT_BUTTONMODE >::type >(inputButtonMode);
+			return static_cast<std::underlying_type<INPUT_BUTTONMODE>::type>(inputButtonMode);
 		}
 
 		std::string Constants::to_string(const KEYBOARD_APPEARANCE& keyboardAppearance) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "KEYBOARD_APPEARANCE::Unknown";
-			static std::unordered_map< KEYBOARD_APPEARANCE, std::string > map;
+			static std::unordered_map<KEYBOARD_APPEARANCE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[KEYBOARD_APPEARANCE::ALERT]   = "KEYBOARD_APPEARANCE_ALERT";
@@ -475,7 +475,7 @@ namespace Titanium
 
 		KEYBOARD_APPEARANCE Constants::to_KEYBOARD_APPEARANCE(const std::string& keyboardAppearanceName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, KEYBOARD_APPEARANCE > map;
+			static std::unordered_map<std::string, KEYBOARD_APPEARANCE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["KEYBOARD_APPEARANCE_ALERT"]   = KEYBOARD_APPEARANCE::ALERT;
@@ -493,9 +493,9 @@ namespace Titanium
 			return keyboardAppearance;
 		}
 
-		KEYBOARD_APPEARANCE Constants::to_KEYBOARD_APPEARANCE(std::underlying_type< KEYBOARD_APPEARANCE >::type keyboardAppearance_underlying_type) TITANIUM_NOEXCEPT
+		KEYBOARD_APPEARANCE Constants::to_KEYBOARD_APPEARANCE(std::underlying_type<KEYBOARD_APPEARANCE>::type keyboardAppearance_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< KEYBOARD_APPEARANCE >::type, KEYBOARD_APPEARANCE > map;
+			static std::unordered_map<std::underlying_type<KEYBOARD_APPEARANCE>::type, KEYBOARD_APPEARANCE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<KEYBOARD_APPEARANCE>::type>(KEYBOARD_APPEARANCE::ALERT)]   = KEYBOARD_APPEARANCE::ALERT;
@@ -513,15 +513,15 @@ namespace Titanium
 			return keyboardAppearance;
 		}
 
-		std::underlying_type< KEYBOARD_APPEARANCE >::type Constants::to_underlying_type(const KEYBOARD_APPEARANCE& keyboardAppearance) TITANIUM_NOEXCEPT
+		std::underlying_type<KEYBOARD_APPEARANCE>::type Constants::to_underlying_type(const KEYBOARD_APPEARANCE& keyboardAppearance) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< KEYBOARD_APPEARANCE >::type >(keyboardAppearance);
+			return static_cast<std::underlying_type<KEYBOARD_APPEARANCE>::type>(keyboardAppearance);
 		}
 
 		std::string Constants::to_string(const KEYBOARD& keyboard) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "KEYBOARD::Unknown";
-			static std::unordered_map< KEYBOARD, std::string > map;
+			static std::unordered_map<KEYBOARD, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[KEYBOARD::ASCII]               = "KEYBOARD_ASCII";
@@ -546,7 +546,7 @@ namespace Titanium
 
 		KEYBOARD Constants::to_KEYBOARD(const std::string& keyboardName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, KEYBOARD > map;
+			static std::unordered_map<std::string, KEYBOARD> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["KEYBOARD_ASCII"]               = KEYBOARD::ASCII;
@@ -571,9 +571,9 @@ namespace Titanium
 			return keyboard;
 		}
 
-		KEYBOARD Constants::to_KEYBOARD(std::underlying_type< KEYBOARD >::type keyboard_underlying_type) TITANIUM_NOEXCEPT
+		KEYBOARD Constants::to_KEYBOARD(std::underlying_type<KEYBOARD>::type keyboard_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< KEYBOARD >::type, KEYBOARD > map;
+			static std::unordered_map<std::underlying_type<KEYBOARD>::type, KEYBOARD> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<KEYBOARD>::type>(KEYBOARD::ASCII)]               = KEYBOARD::ASCII;
@@ -598,15 +598,15 @@ namespace Titanium
 			return keyboard;
 		}
 
-		std::underlying_type< KEYBOARD >::type Constants::to_underlying_type(const KEYBOARD& keyboard) TITANIUM_NOEXCEPT
+		std::underlying_type<KEYBOARD>::type Constants::to_underlying_type(const KEYBOARD& keyboard) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< KEYBOARD >::type >(keyboard);
+			return static_cast<std::underlying_type<KEYBOARD>::type>(keyboard);
 		}
 
 		std::string Constants::to_string(const LIST_ACCESSORY_TYPE& listAccessoryType) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "LIST_ACCESSORY_TYPE::Unknown";
-			static std::unordered_map< LIST_ACCESSORY_TYPE, std::string > map;
+			static std::unordered_map<LIST_ACCESSORY_TYPE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[LIST_ACCESSORY_TYPE::CHECKMARK]  = "LIST_ACCESSORY_TYPE_CHECKMARK";
@@ -626,7 +626,7 @@ namespace Titanium
 
 		LIST_ACCESSORY_TYPE Constants::to_LIST_ACCESSORY_TYPE(const std::string& listAccessoryTypeName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, LIST_ACCESSORY_TYPE > map;
+			static std::unordered_map<std::string, LIST_ACCESSORY_TYPE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["LIST_ACCESSORY_TYPE_CHECKMARK"]  = LIST_ACCESSORY_TYPE::CHECKMARK;
@@ -646,9 +646,9 @@ namespace Titanium
 			return listAccessoryType;
 		}
 
-		LIST_ACCESSORY_TYPE Constants::to_LIST_ACCESSORY_TYPE(std::underlying_type< LIST_ACCESSORY_TYPE >::type listAccessoryType_underlying_type) TITANIUM_NOEXCEPT
+		LIST_ACCESSORY_TYPE Constants::to_LIST_ACCESSORY_TYPE(std::underlying_type<LIST_ACCESSORY_TYPE>::type listAccessoryType_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< LIST_ACCESSORY_TYPE >::type, LIST_ACCESSORY_TYPE > map;
+			static std::unordered_map<std::underlying_type<LIST_ACCESSORY_TYPE>::type, LIST_ACCESSORY_TYPE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<LIST_ACCESSORY_TYPE>::type>(LIST_ACCESSORY_TYPE::CHECKMARK)]  = LIST_ACCESSORY_TYPE::CHECKMARK;
@@ -668,15 +668,15 @@ namespace Titanium
 			return listAccessoryType;
 		}
 
-		std::underlying_type< LIST_ACCESSORY_TYPE >::type Constants::to_underlying_type(const LIST_ACCESSORY_TYPE& listAccessoryType) TITANIUM_NOEXCEPT
+		std::underlying_type<LIST_ACCESSORY_TYPE>::type Constants::to_underlying_type(const LIST_ACCESSORY_TYPE& listAccessoryType) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< LIST_ACCESSORY_TYPE >::type >(listAccessoryType);
+			return static_cast<std::underlying_type<LIST_ACCESSORY_TYPE>::type>(listAccessoryType);
 		}
 
 		std::string Constants::to_string(const LIST_ITEM_TEMPLATE& listItemTemplate) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "LIST_ITEM_TEMPLATE::Unknown";
-			static std::unordered_map< LIST_ITEM_TEMPLATE, std::string > map;
+			static std::unordered_map<LIST_ITEM_TEMPLATE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[LIST_ITEM_TEMPLATE::CONTACTS] = "LIST_ITEM_TEMPLATE_CONTACTS";
@@ -696,7 +696,7 @@ namespace Titanium
 
 		LIST_ITEM_TEMPLATE Constants::to_LIST_ITEM_TEMPLATE(const std::string& listItemTemplateName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, LIST_ITEM_TEMPLATE > map;
+			static std::unordered_map<std::string, LIST_ITEM_TEMPLATE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["LIST_ITEM_TEMPLATE_CONTACTS"] = LIST_ITEM_TEMPLATE::CONTACTS;
@@ -716,9 +716,9 @@ namespace Titanium
 			return listItemTemplate;
 		}
 
-		LIST_ITEM_TEMPLATE Constants::to_LIST_ITEM_TEMPLATE(std::underlying_type< LIST_ITEM_TEMPLATE >::type listItemTemplate_underlying_type) TITANIUM_NOEXCEPT
+		LIST_ITEM_TEMPLATE Constants::to_LIST_ITEM_TEMPLATE(std::underlying_type<LIST_ITEM_TEMPLATE>::type listItemTemplate_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< LIST_ITEM_TEMPLATE >::type, LIST_ITEM_TEMPLATE > map;
+			static std::unordered_map<std::underlying_type<LIST_ITEM_TEMPLATE>::type, LIST_ITEM_TEMPLATE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<LIST_ITEM_TEMPLATE>::type>(LIST_ITEM_TEMPLATE::CONTACTS)] = LIST_ITEM_TEMPLATE::CONTACTS;
@@ -738,15 +738,15 @@ namespace Titanium
 			return listItemTemplate;
 		}
 
-		std::underlying_type< LIST_ITEM_TEMPLATE >::type Constants::to_underlying_type(const LIST_ITEM_TEMPLATE& listItemTemplate) TITANIUM_NOEXCEPT
+		std::underlying_type<LIST_ITEM_TEMPLATE>::type Constants::to_underlying_type(const LIST_ITEM_TEMPLATE& listItemTemplate) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< LIST_ITEM_TEMPLATE >::type >(listItemTemplate);
+			return static_cast<std::underlying_type<LIST_ITEM_TEMPLATE>::type>(listItemTemplate);
 		}
 
 		std::string Constants::to_string(const NOTIFICATION_DURATION& notificationDuration) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "NOTIFICATION_DURATION::Unknown";
-			static std::unordered_map< NOTIFICATION_DURATION, std::string > map;
+			static std::unordered_map<NOTIFICATION_DURATION, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[NOTIFICATION_DURATION::LONG]  = "NOTIFICATION_DURATION_LONG";
@@ -764,7 +764,7 @@ namespace Titanium
 
 		NOTIFICATION_DURATION Constants::to_NOTIFICATION_DURATION(const std::string& notificationDurationName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, NOTIFICATION_DURATION > map;
+			static std::unordered_map<std::string, NOTIFICATION_DURATION> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["NOTIFICATION_DURATION_LONG"]  = NOTIFICATION_DURATION::LONG;
@@ -782,9 +782,9 @@ namespace Titanium
 			return notificationDuration;
 		}
 
-		NOTIFICATION_DURATION Constants::to_NOTIFICATION_DURATION(std::underlying_type< NOTIFICATION_DURATION >::type notificationDuration_underlying_type) TITANIUM_NOEXCEPT
+		NOTIFICATION_DURATION Constants::to_NOTIFICATION_DURATION(std::underlying_type<NOTIFICATION_DURATION>::type notificationDuration_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< NOTIFICATION_DURATION >::type, NOTIFICATION_DURATION > map;
+			static std::unordered_map<std::underlying_type<NOTIFICATION_DURATION>::type, NOTIFICATION_DURATION> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<NOTIFICATION_DURATION>::type>(NOTIFICATION_DURATION::LONG)]  = NOTIFICATION_DURATION::LONG;
@@ -802,15 +802,15 @@ namespace Titanium
 			return notificationDuration;
 		}
 
-		std::underlying_type< NOTIFICATION_DURATION >::type Constants::to_underlying_type(const NOTIFICATION_DURATION& notificationDuration) TITANIUM_NOEXCEPT
+		std::underlying_type<NOTIFICATION_DURATION>::type Constants::to_underlying_type(const NOTIFICATION_DURATION& notificationDuration) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< NOTIFICATION_DURATION >::type >(notificationDuration);
+			return static_cast<std::underlying_type<NOTIFICATION_DURATION>::type>(notificationDuration);
 		}
 
 		std::string Constants::to_string(const PICKER_TYPE& pickerType) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "PICKER_TYPE::Unknown";
-			static std::unordered_map< PICKER_TYPE, std::string > map;
+			static std::unordered_map<PICKER_TYPE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[PICKER_TYPE::COUNT_DOWN_TIMER] = "PICKER_TYPE_COUNT_DOWN_TIMER";
@@ -831,7 +831,7 @@ namespace Titanium
 
 		PICKER_TYPE Constants::to_PICKER_TYPE(const std::string& pickerTypeName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, PICKER_TYPE > map;
+			static std::unordered_map<std::string, PICKER_TYPE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["PICKER_TYPE_COUNT_DOWN_TIMER"] = PICKER_TYPE::COUNT_DOWN_TIMER;
@@ -852,9 +852,9 @@ namespace Titanium
 			return pickerType;
 		}
 
-		PICKER_TYPE Constants::to_PICKER_TYPE(std::underlying_type< PICKER_TYPE >::type pickerType_underlying_type) TITANIUM_NOEXCEPT
+		PICKER_TYPE Constants::to_PICKER_TYPE(std::underlying_type<PICKER_TYPE>::type pickerType_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< PICKER_TYPE >::type, PICKER_TYPE > map;
+			static std::unordered_map<std::underlying_type<PICKER_TYPE>::type, PICKER_TYPE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<PICKER_TYPE>::type>(PICKER_TYPE::COUNT_DOWN_TIMER)] = PICKER_TYPE::COUNT_DOWN_TIMER;
@@ -875,15 +875,15 @@ namespace Titanium
 			return pickerType;
 		}
 
-		std::underlying_type< PICKER_TYPE >::type Constants::to_underlying_type(const PICKER_TYPE& pickerType) TITANIUM_NOEXCEPT
+		std::underlying_type<PICKER_TYPE>::type Constants::to_underlying_type(const PICKER_TYPE& pickerType) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< PICKER_TYPE >::type >(pickerType);
+			return static_cast<std::underlying_type<PICKER_TYPE>::type>(pickerType);
 		}
 
 		std::string Constants::to_string(const RETURNKEY& returnKey) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "RETURNKEY::Unknown";
-			static std::unordered_map< RETURNKEY, std::string > map;
+			static std::unordered_map<RETURNKEY, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[RETURNKEY::DEFAULT]        = "RETURNKEY_DEFAULT";
@@ -910,7 +910,7 @@ namespace Titanium
 
 		RETURNKEY Constants::to_RETURNKEY(const std::string& returnKeyName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, RETURNKEY > map;
+			static std::unordered_map<std::string, RETURNKEY> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["RETURNKEY_DEFAULT"]        = RETURNKEY::DEFAULT;
@@ -937,9 +937,9 @@ namespace Titanium
 			return returnKey;
 		}
 
-		RETURNKEY Constants::to_RETURNKEY(std::underlying_type< RETURNKEY >::type returnKey_underlying_type) TITANIUM_NOEXCEPT
+		RETURNKEY Constants::to_RETURNKEY(std::underlying_type<RETURNKEY>::type returnKey_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< RETURNKEY >::type, RETURNKEY > map;
+			static std::unordered_map<std::underlying_type<RETURNKEY>::type, RETURNKEY> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<RETURNKEY>::type>(RETURNKEY::DEFAULT)]        = RETURNKEY::DEFAULT;
@@ -966,15 +966,15 @@ namespace Titanium
 			return returnKey;
 		}
 
-		std::underlying_type< RETURNKEY >::type Constants::to_underlying_type(const RETURNKEY& returnKey) TITANIUM_NOEXCEPT
+		std::underlying_type<RETURNKEY>::type Constants::to_underlying_type(const RETURNKEY& returnKey) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< RETURNKEY >::type >(returnKey);
+			return static_cast<std::underlying_type<RETURNKEY>::type>(returnKey);
 		}
 
 		std::string Constants::to_string(const TEXT_ALIGNMENT& textAlignment) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "TEXT_ALIGNMENT::Unknown";
-			static std::unordered_map< TEXT_ALIGNMENT, std::string > map;
+			static std::unordered_map<TEXT_ALIGNMENT, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[TEXT_ALIGNMENT::CENTER] = "TEXT_ALIGNMENT_CENTER";
@@ -993,7 +993,7 @@ namespace Titanium
 
 		TEXT_ALIGNMENT Constants::to_TEXT_ALIGNMENT(const std::string& textAlignmentName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, TEXT_ALIGNMENT > map;
+			static std::unordered_map<std::string, TEXT_ALIGNMENT> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["TEXT_ALIGNMENT_CENTER"] = TEXT_ALIGNMENT::CENTER;
@@ -1012,9 +1012,9 @@ namespace Titanium
 			return textAlignment;
 		}
 
-		TEXT_ALIGNMENT Constants::to_TEXT_ALIGNMENT(std::underlying_type< TEXT_ALIGNMENT >::type textAlignment_underlying_type) TITANIUM_NOEXCEPT
+		TEXT_ALIGNMENT Constants::to_TEXT_ALIGNMENT(std::underlying_type<TEXT_ALIGNMENT>::type textAlignment_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< TEXT_ALIGNMENT >::type, TEXT_ALIGNMENT > map;
+			static std::unordered_map<std::underlying_type<TEXT_ALIGNMENT>::type, TEXT_ALIGNMENT> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<TEXT_ALIGNMENT>::type>(TEXT_ALIGNMENT::CENTER)]        = TEXT_ALIGNMENT::CENTER;
@@ -1033,15 +1033,15 @@ namespace Titanium
 			return textAlignment;
 		}
 
-		std::underlying_type< TEXT_ALIGNMENT >::type Constants::to_underlying_type(const TEXT_ALIGNMENT& textAlignment) TITANIUM_NOEXCEPT
+		std::underlying_type<TEXT_ALIGNMENT>::type Constants::to_underlying_type(const TEXT_ALIGNMENT& textAlignment) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< TEXT_ALIGNMENT >::type >(textAlignment);
+			return static_cast<std::underlying_type<TEXT_ALIGNMENT>::type>(textAlignment);
 		}
 
 		std::string Constants::to_string(const TEXT_AUTOCAPITALIZATION& textAutoCapitalization) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "TEXT_AUTOCAPITALIZATION::Unknown";
-			static std::unordered_map< TEXT_AUTOCAPITALIZATION, std::string > map;
+			static std::unordered_map<TEXT_AUTOCAPITALIZATION, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[TEXT_AUTOCAPITALIZATION::ALL]       = "TEXT_AUTOCAPITALIZATION_ALL";
@@ -1061,7 +1061,7 @@ namespace Titanium
 
 		TEXT_AUTOCAPITALIZATION Constants::to_TEXT_AUTOCAPITALIZATION(const std::string& textAutoCapitalizationName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, TEXT_AUTOCAPITALIZATION > map;
+			static std::unordered_map<std::string, TEXT_AUTOCAPITALIZATION> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["TEXT_AUTOCAPITALIZATION_ALL"]       = TEXT_AUTOCAPITALIZATION::ALL;
@@ -1081,9 +1081,9 @@ namespace Titanium
 			return textAutoCapitalization;
 		}
 
-		TEXT_AUTOCAPITALIZATION Constants::to_TEXT_AUTOCAPITALIZATION(std::underlying_type< TEXT_AUTOCAPITALIZATION >::type textAutoCapitalization_underlying_type) TITANIUM_NOEXCEPT
+		TEXT_AUTOCAPITALIZATION Constants::to_TEXT_AUTOCAPITALIZATION(std::underlying_type<TEXT_AUTOCAPITALIZATION>::type textAutoCapitalization_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< TEXT_AUTOCAPITALIZATION >::type, TEXT_AUTOCAPITALIZATION > map;
+			static std::unordered_map<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type, TEXT_AUTOCAPITALIZATION> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(TEXT_AUTOCAPITALIZATION::ALL)]       = TEXT_AUTOCAPITALIZATION::ALL;
@@ -1103,15 +1103,15 @@ namespace Titanium
 			return textAutoCapitalization;
 		}
 
-		std::underlying_type< TEXT_AUTOCAPITALIZATION >::type Constants::to_underlying_type(const TEXT_AUTOCAPITALIZATION& textAutoCapitalization) TITANIUM_NOEXCEPT
+		std::underlying_type<TEXT_AUTOCAPITALIZATION>::type Constants::to_underlying_type(const TEXT_AUTOCAPITALIZATION& textAutoCapitalization) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< TEXT_AUTOCAPITALIZATION >::type >(textAutoCapitalization);
+			return static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(textAutoCapitalization);
 		}
 
 		std::string Constants::to_string(const TEXT_VERTICAL_ALIGNMENT& textVerticalAlignment) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "TEXT_VERTICAL_ALIGNMENT::Unknown";
-			static std::unordered_map< TEXT_VERTICAL_ALIGNMENT, std::string > map;
+			static std::unordered_map<TEXT_VERTICAL_ALIGNMENT, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[TEXT_VERTICAL_ALIGNMENT::BOTTOM] = "TEXT_VERTICAL_ALIGNMENT_BOTTOM";
@@ -1130,7 +1130,7 @@ namespace Titanium
 
 		TEXT_VERTICAL_ALIGNMENT Constants::to_TEXT_VERTICAL_ALIGNMENT(const std::string& textVerticalAlignmentName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, TEXT_VERTICAL_ALIGNMENT > map;
+			static std::unordered_map<std::string, TEXT_VERTICAL_ALIGNMENT> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["TEXT_VERTICAL_ALIGNMENT_BOTTOM"] = TEXT_VERTICAL_ALIGNMENT::BOTTOM;
@@ -1149,9 +1149,9 @@ namespace Titanium
 			return textVerticalAlignment;
 		}
 
-		TEXT_VERTICAL_ALIGNMENT Constants::to_TEXT_VERTICAL_ALIGNMENT(std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type textVerticalAlignment_underlying_type) TITANIUM_NOEXCEPT
+		TEXT_VERTICAL_ALIGNMENT Constants::to_TEXT_VERTICAL_ALIGNMENT(std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type textVerticalAlignment_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type, TEXT_VERTICAL_ALIGNMENT > map;
+			static std::unordered_map<std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type, TEXT_VERTICAL_ALIGNMENT> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type>(TEXT_VERTICAL_ALIGNMENT::BOTTOM)] = TEXT_VERTICAL_ALIGNMENT::BOTTOM;
@@ -1170,15 +1170,15 @@ namespace Titanium
 			return textVerticalAlignment;
 		}
 
-		std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type Constants::to_underlying_type(const TEXT_VERTICAL_ALIGNMENT& textVerticalAlignment) TITANIUM_NOEXCEPT
+		std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type Constants::to_underlying_type(const TEXT_VERTICAL_ALIGNMENT& textVerticalAlignment) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type >(textVerticalAlignment);
+			return static_cast<std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type>(textVerticalAlignment);
 		}
 
 		std::string Constants::to_string(const URL_ERROR& urlError) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "URL_ERROR::Unknown";
-			static std::unordered_map< URL_ERROR, std::string > map;
+			static std::unordered_map<URL_ERROR, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[URL_ERROR::AUTHENTICATION]     = "URL_ERROR_AUTHENTICATION";
@@ -1205,7 +1205,7 @@ namespace Titanium
 
 		URL_ERROR Constants::to_URL_ERROR(const std::string& urlErrorName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, URL_ERROR > map;
+			static std::unordered_map<std::string, URL_ERROR> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["URL_ERROR_AUTHENTICATION"]     = URL_ERROR::AUTHENTICATION;
@@ -1232,9 +1232,9 @@ namespace Titanium
 			return urlError;
 		}
 
-		URL_ERROR Constants::to_URL_ERROR(std::underlying_type< URL_ERROR >::type urlError_underlying_type) TITANIUM_NOEXCEPT
+		URL_ERROR Constants::to_URL_ERROR(std::underlying_type<URL_ERROR>::type urlError_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< URL_ERROR >::type, URL_ERROR > map;
+			static std::unordered_map<std::underlying_type<URL_ERROR>::type, URL_ERROR> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<URL_ERROR>::type>(URL_ERROR::AUTHENTICATION)]     = URL_ERROR::AUTHENTICATION;
@@ -1261,15 +1261,15 @@ namespace Titanium
 			return urlError;
 		}
 
-		std::underlying_type< URL_ERROR >::type Constants::to_underlying_type(const URL_ERROR& urlError) TITANIUM_NOEXCEPT
+		std::underlying_type<URL_ERROR>::type Constants::to_underlying_type(const URL_ERROR& urlError) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< URL_ERROR >::type >(urlError);
+			return static_cast<std::underlying_type<URL_ERROR>::type>(urlError);
 		}
 
 		std::string Constants::to_string(const LAYOUT& layout) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "LAYOUT::Unknown";
-			static std::unordered_map< LAYOUT, std::string > map;
+			static std::unordered_map<LAYOUT, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[LAYOUT::FILL]    = "LAYOUT_FILL";
@@ -1288,7 +1288,7 @@ namespace Titanium
 
 		LAYOUT Constants::to_LAYOUT(const std::string& layoutName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, LAYOUT > map;
+			static std::unordered_map<std::string, LAYOUT> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["LAYOUT_FILL"]    = LAYOUT::FILL;
@@ -1307,9 +1307,9 @@ namespace Titanium
 			return layout;
 		}
 
-		LAYOUT Constants::to_LAYOUT(std::underlying_type< LAYOUT >::type layout_underlying_type) TITANIUM_NOEXCEPT
+		LAYOUT Constants::to_LAYOUT(std::underlying_type<LAYOUT>::type layout_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< LAYOUT >::type, LAYOUT > map;
+			static std::unordered_map<std::underlying_type<LAYOUT>::type, LAYOUT> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<LAYOUT>::type>(LAYOUT::FILL)]    = LAYOUT::FILL;
@@ -1328,15 +1328,15 @@ namespace Titanium
 			return layout;
 		}
 
-		std::underlying_type< LAYOUT >::type Constants::to_underlying_type(const LAYOUT& layout) TITANIUM_NOEXCEPT
+		std::underlying_type<LAYOUT>::type Constants::to_underlying_type(const LAYOUT& layout) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< LAYOUT >::type >(layout);
+			return static_cast<std::underlying_type<LAYOUT>::type>(layout);
 		}
 
 		std::string Constants::to_string(const TEXT_STYLE& textStyle) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "TEXT_STYLE::Unknown";
-			static std::unordered_map< TEXT_STYLE, std::string > map;
+			static std::unordered_map<TEXT_STYLE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[TEXT_STYLE::BODY]        = "TEXT_STYLE_BODY";
@@ -1358,7 +1358,7 @@ namespace Titanium
 
 		TEXT_STYLE Constants::to_TEXT_STYLE(const std::string& textStyleName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, TEXT_STYLE > map;
+			static std::unordered_map<std::string, TEXT_STYLE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["TEXT_STYLE_BODY"]        = TEXT_STYLE::BODY;
@@ -1380,9 +1380,9 @@ namespace Titanium
 			return textStyle;
 		}
 
-		TEXT_STYLE Constants::to_TEXT_STYLE(std::underlying_type< TEXT_STYLE >::type textStyle_underlying_type) TITANIUM_NOEXCEPT
+		TEXT_STYLE Constants::to_TEXT_STYLE(std::underlying_type<TEXT_STYLE>::type textStyle_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< TEXT_STYLE >::type, TEXT_STYLE > map;
+			static std::unordered_map<std::underlying_type<TEXT_STYLE>::type, TEXT_STYLE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<TEXT_STYLE>::type>(TEXT_STYLE::BODY)]        = TEXT_STYLE::BODY;
@@ -1404,15 +1404,15 @@ namespace Titanium
 			return textStyle;
 		}
 
-		std::underlying_type< TEXT_STYLE >::type Constants::to_underlying_type(const TEXT_STYLE& textStyle) TITANIUM_NOEXCEPT
+		std::underlying_type<TEXT_STYLE>::type Constants::to_underlying_type(const TEXT_STYLE& textStyle) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< TEXT_STYLE >::type >(textStyle);
+			return static_cast<std::underlying_type<TEXT_STYLE>::type>(textStyle);
 		}
 
 		std::string Constants::to_string(const UNIT& unit) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "UNIT::Unknown";
-			static std::unordered_map< UNIT, std::string > map;
+			static std::unordered_map<UNIT, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[UNIT::CM]  = "UNIT_CM";
@@ -1433,7 +1433,7 @@ namespace Titanium
 
 		UNIT Constants::to_UNIT(const std::string& unitName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, UNIT > map;
+			static std::unordered_map<std::string, UNIT> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["UNIT_CM"]  = UNIT::CM;
@@ -1454,9 +1454,9 @@ namespace Titanium
 			return unit;
 		}
 
-		UNIT Constants::to_UNIT(std::underlying_type< UNIT >::type unit_underlying_type) TITANIUM_NOEXCEPT
+		UNIT Constants::to_UNIT(std::underlying_type<UNIT>::type unit_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::underlying_type< UNIT >::type, UNIT > map;
+			static std::unordered_map<std::underlying_type<UNIT>::type, UNIT> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<UNIT>::type>(UNIT::CM)]  = UNIT::CM;
@@ -1477,9 +1477,9 @@ namespace Titanium
 			return unit;
 		}
 
-		std::underlying_type< UNIT >::type Constants::to_underlying_type(const UNIT& unit) TITANIUM_NOEXCEPT
+		std::underlying_type<UNIT>::type Constants::to_underlying_type(const UNIT& unit) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< UNIT >::type >(unit);
+			return static_cast<std::underlying_type<UNIT>::type>(unit);
 		}
 	}
 }  // namespace Titanium { namespace UI {

@@ -24,7 +24,7 @@ namespace Titanium
 
        See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium
      */
-	class TITANIUMKIT_EXPORT Module : public JSExportObject, public JSExport< Module >
+	class TITANIUMKIT_EXPORT Module : public JSExportObject, public JSExport<Module>
 	{
 	public:
 		/*!
@@ -100,7 +100,7 @@ namespace Titanium
 		virtual void fireEvent(const std::string& name, const JSObject& event) const TITANIUM_NOEXCEPT final;
 
 		Module(const JSContext& js_context) TITANIUM_NOEXCEPT;
-		Module(const Module&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+		Module(const Module&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 		virtual ~Module() TITANIUM_NOEXCEPT;  //= default;
 		Module(const Module&) = default;
@@ -113,10 +113,10 @@ namespace Titanium
 		// TODO: The following functions can automatically be generated from
 		// the YAML API docs.
 		static void JSExportInitialize();
-		JSValue addEventListenerArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue removeEventListenerArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue applyPropertiesArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue fireEventArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
+		JSValue addEventListenerArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue removeEventListenerArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue applyPropertiesArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue fireEventArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
 
 	protected:
 		/*!

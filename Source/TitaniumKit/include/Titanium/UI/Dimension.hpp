@@ -24,7 +24,7 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Dimension
 		*/
-		class TITANIUMKIT_EXPORT Dimension final : public JSExportObject, public JSExport< Dimension >
+		class TITANIUMKIT_EXPORT Dimension final : public JSExportObject, public JSExport<Dimension>
 		{
 		public:
 			virtual std::uint32_t get_height() const TITANIUM_NOEXCEPT final;
@@ -40,7 +40,7 @@ namespace Titanium
 			virtual void set_y(const std::uint32_t y) TITANIUM_NOEXCEPT final;
 
 			Dimension(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			Dimension(const Dimension&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			Dimension(const Dimension&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~Dimension() = default;
 			Dimension(const Dimension&) = default;

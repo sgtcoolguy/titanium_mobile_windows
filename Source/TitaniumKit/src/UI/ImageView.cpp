@@ -18,7 +18,7 @@ namespace Titanium
 		{
 		}
 
-		ImageView::ImageView(const ImageView& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		ImageView::ImageView(const ImageView& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : View(rhs, arguments),
 		      image__(rhs.image__)
 		{
@@ -39,9 +39,9 @@ namespace Titanium
 
 		void ImageView::JSExportInitialize()
 		{
-			JSExport< ImageView >::SetClassVersion(1);
-			JSExport< ImageView >::SetParent(JSExport< View >::Class());
-			JSExport< ImageView >::AddValueProperty("image", std::mem_fn(&ImageView::get_image), std::mem_fn(&ImageView::setImageArgumentValidator));
+			JSExport<ImageView>::SetClassVersion(1);
+			JSExport<ImageView>::SetParent(JSExport<View>::Class());
+			JSExport<ImageView>::AddValueProperty("image", std::mem_fn(&ImageView::get_image), std::mem_fn(&ImageView::setImageArgumentValidator));
 		}
 
 		bool ImageView::setImageArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT

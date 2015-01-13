@@ -34,7 +34,7 @@ protected:
 
 TEST_F(GlobalObjectTests, require)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< NativeGlobalObjectExample >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
 	auto global_object = js_context.get_global_object();
 
 	auto foo = js_context.CreateObject();
@@ -58,13 +58,13 @@ TEST_F(GlobalObjectTests, require)
 	XCTAssertTrue(global_object.HasProperty("foo"));
 
 	auto number = js_context.JSEvaluateScript("foo.bar.baz.number;");
-	XCTAssertEqual(42, static_cast< uint32_t >(number));
+	XCTAssertEqual(42, static_cast<uint32_t>(number));
 	//std::clog << "MDL: number = " << number << std::endl;
 
 	number = js_context.JSEvaluateScript("foo.bar.baz.number = 24;");
-	XCTAssertEqual(24, static_cast< uint32_t >(number));
+	XCTAssertEqual(24, static_cast<uint32_t>(number));
 
-	for (const auto& property_name : static_cast< std::vector< JSString > >(global_object.GetPropertyNames())) {
+	for (const auto& property_name : static_cast<std::vector<JSString>>(global_object.GetPropertyNames())) {
 		std::clog << "MDL: property_name = " << property_name << std::endl;
 	}
 
@@ -82,7 +82,7 @@ TEST_F(GlobalObjectTests, require)
   }
   )js";
 
-	auto global_object_ptr = global_object.GetPrivate< NativeGlobalObjectExample >();
+	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
 	JSValue result = js_context.CreateNull();

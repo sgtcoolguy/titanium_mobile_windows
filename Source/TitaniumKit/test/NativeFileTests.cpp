@@ -34,7 +34,7 @@ protected:
 
 TEST_F(FileTests, logging)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< Titanium::GlobalObject >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
 	auto global_object = js_context.get_global_object();
 
 	XCTAssertFalse(global_object.HasProperty("Titanium"));
@@ -48,16 +48,16 @@ TEST_F(FileTests, logging)
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
 	XCTAssertFalse(Titanium.HasProperty("Filesystem"));
-	auto Filesystem = js_context.CreateObject(JSExport< Titanium::FilesystemModule >::Class());
+	auto Filesystem = js_context.CreateObject(JSExport<Titanium::FilesystemModule>::Class());
 	Titanium.SetProperty("Filesystem", Filesystem, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("Filesystem"));
 
 	XCTAssertFalse(Filesystem.HasProperty("File"));
-	auto File = js_context.CreateObject(JSExport< NativeFileExample >::Class());
+	auto File = js_context.CreateObject(JSExport<NativeFileExample>::Class());
 	Filesystem.SetProperty("File", File, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Filesystem.HasProperty("File"));
 
-	auto Filesystem_ptr = File.GetPrivate< NativeFilesystemExample >();
+	auto Filesystem_ptr = File.GetPrivate<NativeFilesystemExample>();
 	XCTAssertNotEqual(nullptr, Filesystem_ptr);
 
 	XCTAssertTrue(Filesystem.HasProperty("createTempDirectory"));
@@ -86,7 +86,7 @@ TEST_F(FileTests, logging)
 	XCTAssertTrue(Filesystem.HasProperty("getResourcesDirectory"));
 	XCTAssertTrue(Filesystem.HasProperty("getTempDirectory"));
 
-	auto File_ptr = File.GetPrivate< NativeFileExample >();
+	auto File_ptr = File.GetPrivate<NativeFileExample>();
 	XCTAssertNotEqual(nullptr, File_ptr);
 
 	JSValue result = js_context.CreateNull();

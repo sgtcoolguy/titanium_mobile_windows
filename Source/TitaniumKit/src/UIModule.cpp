@@ -15,7 +15,7 @@ namespace Titanium
 	{
 		if (parameters.GetPropertyNames().GetCount() > 0) {
 			const auto propertyNames = parameters.GetPropertyNames();
-			for (const auto& property_name : static_cast< std::vector< JSString > >(propertyNames)) {
+			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
 				view.SetProperty(property_name, parameters.GetProperty(property_name));
 			}
 		}
@@ -131,7 +131,7 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("UIModule:: ctor 1 ", this);
 	}
 
-	UIModule::UIModule(const UIModule& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+	UIModule::UIModule(const UIModule& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 	    : Module(rhs, arguments),
 	      animation_curve_ease_in__(rhs.animation_curve_ease_in__),
 	      animation_curve_ease_in_out__(rhs.animation_curve_ease_in_out__),
@@ -945,124 +945,124 @@ namespace Titanium
 
 	void UIModule::JSExportInitialize()
 	{
-		JSExport< UIModule >::SetClassVersion(1);
-		JSExport< UIModule >::SetParent(JSExport< Module >::Class());
-		JSExport< UIModule >::AddFunctionProperty("createView", std::mem_fn(&UIModule::createViewArgumentValidator));
-		JSExport< UIModule >::AddFunctionProperty("createWindow", std::mem_fn(&UIModule::createWindowArgumentValidator));
-		JSExport< UIModule >::AddFunctionProperty("createButton", std::mem_fn(&UIModule::createButtonArgumentValidator));
-		JSExport< UIModule >::AddFunctionProperty("createTab", std::mem_fn(&UIModule::createTabArgumentValidator));
-		JSExport< UIModule >::AddFunctionProperty("createTabGroup", std::mem_fn(&UIModule::createTabGroupArgumentValidator));
-		JSExport< UIModule >::AddFunctionProperty("createScrollView", std::mem_fn(&UIModule::createScrollViewArgumentValidator));
-		JSExport< UIModule >::AddFunctionProperty("createImageView", std::mem_fn(&UIModule::createImageViewArgumentValidator));
-		JSExport< UIModule >::AddFunctionProperty("createLabel", std::mem_fn(&UIModule::createLabelArgumentValidator));
-		JSExport< UIModule >::AddFunctionProperty("setBackgroundColor", std::mem_fn(&UIModule::setBackgroundColorArgumentValidator));
-		JSExport< UIModule >::AddValueProperty("ANIMATION_CURVE_EASE_IN", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN));
-		JSExport< UIModule >::AddValueProperty("ANIMATION_CURVE_EASE_IN_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN_OUT));
-		JSExport< UIModule >::AddValueProperty("ANIMATION_CURVE_EASE_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_OUT));
-		JSExport< UIModule >::AddValueProperty("ANIMATION_CURVE_LINEAR", std::mem_fn(&UIModule::ANIMATION_CURVE_LINEAR));
-		JSExport< UIModule >::AddValueProperty("AUTOLINK_ALL", std::mem_fn(&UIModule::AUTOLINK_ALL));
-		JSExport< UIModule >::AddValueProperty("AUTOLINK_CALENDAR", std::mem_fn(&UIModule::AUTOLINK_CALENDAR));
-		JSExport< UIModule >::AddValueProperty("AUTOLINK_EMAIL_ADDRESSES", std::mem_fn(&UIModule::AUTOLINK_EMAIL_ADDRESSES));
-		JSExport< UIModule >::AddValueProperty("AUTOLINK_MAP_ADDRESSES", std::mem_fn(&UIModule::AUTOLINK_MAP_ADDRESSES));
-		JSExport< UIModule >::AddValueProperty("AUTOLINK_NONE", std::mem_fn(&UIModule::AUTOLINK_NONE));
-		JSExport< UIModule >::AddValueProperty("AUTOLINK_PHONE_NUMBERS", std::mem_fn(&UIModule::AUTOLINK_PHONE_NUMBERS));
-		JSExport< UIModule >::AddValueProperty("AUTOLINK_URLS", std::mem_fn(&UIModule::AUTOLINK_URLS));
-		JSExport< UIModule >::AddValueProperty("EXTEND_EDGE_ALL", std::mem_fn(&UIModule::EXTEND_EDGE_ALL));
-		JSExport< UIModule >::AddValueProperty("EXTEND_EDGE_BOTTOM", std::mem_fn(&UIModule::EXTEND_EDGE_BOTTOM));
-		JSExport< UIModule >::AddValueProperty("EXTEND_EDGE_LEFT", std::mem_fn(&UIModule::EXTEND_EDGE_LEFT));
-		JSExport< UIModule >::AddValueProperty("EXTEND_EDGE_NONE", std::mem_fn(&UIModule::EXTEND_EDGE_NONE));
-		JSExport< UIModule >::AddValueProperty("EXTEND_EDGE_RIGHT", std::mem_fn(&UIModule::EXTEND_EDGE_RIGHT));
-		JSExport< UIModule >::AddValueProperty("EXTEND_EDGE_TOP", std::mem_fn(&UIModule::EXTEND_EDGE_TOP));
-		JSExport< UIModule >::AddValueProperty("FACE_DOWN", std::mem_fn(&UIModule::FACE_DOWN));
-		JSExport< UIModule >::AddValueProperty("FACE_UP", std::mem_fn(&UIModule::FACE_UP));
-		JSExport< UIModule >::AddValueProperty("FILL", std::mem_fn(&UIModule::FILL));
-		JSExport< UIModule >::AddValueProperty("INHERIT", std::mem_fn(&UIModule::INHERIT));
-		JSExport< UIModule >::AddValueProperty("INPUT_BORDERSTYLE_BEZEL", std::mem_fn(&UIModule::INPUT_BORDERSTYLE_BEZEL));
-		JSExport< UIModule >::AddValueProperty("INPUT_BORDERSTYLE_LINE", std::mem_fn(&UIModule::INPUT_BORDERSTYLE_LINE));
-		JSExport< UIModule >::AddValueProperty("INPUT_BORDERSTYLE_NONE", std::mem_fn(&UIModule::INPUT_BORDERSTYLE_NONE));
-		JSExport< UIModule >::AddValueProperty("INPUT_BORDERSTYLE_ROUNDED", std::mem_fn(&UIModule::INPUT_BORDERSTYLE_ROUNDED));
-		JSExport< UIModule >::AddValueProperty("INPUT_BUTTONMODE_ALWAYS", std::mem_fn(&UIModule::INPUT_BUTTONMODE_ALWAYS));
-		JSExport< UIModule >::AddValueProperty("INPUT_BUTTONMODE_NEVER", std::mem_fn(&UIModule::INPUT_BUTTONMODE_NEVER));
-		JSExport< UIModule >::AddValueProperty("INPUT_BUTTONMODE_ONBLUR", std::mem_fn(&UIModule::INPUT_BUTTONMODE_ONBLUR));
-		JSExport< UIModule >::AddValueProperty("INPUT_BUTTONMODE_ONFOCUS", std::mem_fn(&UIModule::INPUT_BUTTONMODE_ONFOCUS));
-		JSExport< UIModule >::AddValueProperty("KEYBOARD_APPEARANCE_ALERT", std::mem_fn(&UIModule::KEYBOARD_APPEARANCE_ALERT));
-		JSExport< UIModule >::AddValueProperty("KEYBOARD_APPEARANCE_DEFAULT", std::mem_fn(&UIModule::KEYBOARD_APPEARANCE_DEFAULT));
-		JSExport< UIModule >::AddValueProperty("KEYBOARD_ASCII", std::mem_fn(&UIModule::KEYBOARD_ASCII));
-		JSExport< UIModule >::AddValueProperty("KEYBOARD_DECIMAL_PAD", std::mem_fn(&UIModule::KEYBOARD_DECIMAL_PAD));
-		JSExport< UIModule >::AddValueProperty("KEYBOARD_DEFAULT", std::mem_fn(&UIModule::KEYBOARD_DEFAULT));
-		JSExport< UIModule >::AddValueProperty("KEYBOARD_EMAIL", std::mem_fn(&UIModule::KEYBOARD_EMAIL));
-		JSExport< UIModule >::AddValueProperty("KEYBOARD_NAMEPHONE_PAD", std::mem_fn(&UIModule::KEYBOARD_NAMEPHONE_PAD));
-		JSExport< UIModule >::AddValueProperty("KEYBOARD_NUMBERS_PUNCTUATION", std::mem_fn(&UIModule::KEYBOARD_NUMBERS_PUNCTUATION));
-		JSExport< UIModule >::AddValueProperty("KEYBOARD_NUMBER_PAD", std::mem_fn(&UIModule::KEYBOARD_NUMBER_PAD));
-		JSExport< UIModule >::AddValueProperty("KEYBOARD_PHONE_PAD", std::mem_fn(&UIModule::KEYBOARD_PHONE_PAD));
-		JSExport< UIModule >::AddValueProperty("KEYBOARD_URL", std::mem_fn(&UIModule::KEYBOARD_URL));
-		JSExport< UIModule >::AddValueProperty("LANDSCAPE_LEFT", std::mem_fn(&UIModule::LANDSCAPE_LEFT));
-		JSExport< UIModule >::AddValueProperty("LANDSCAPE_RIGHT", std::mem_fn(&UIModule::LANDSCAPE_RIGHT));
-		JSExport< UIModule >::AddValueProperty("LIST_ACCESSORY_TYPE_CHECKMARK", std::mem_fn(&UIModule::LIST_ACCESSORY_TYPE_CHECKMARK));
-		JSExport< UIModule >::AddValueProperty("LIST_ACCESSORY_TYPE_DETAIL", std::mem_fn(&UIModule::LIST_ACCESSORY_TYPE_DETAIL));
-		JSExport< UIModule >::AddValueProperty("LIST_ACCESSORY_TYPE_DISCLOSURE", std::mem_fn(&UIModule::LIST_ACCESSORY_TYPE_DISCLOSURE));
-		JSExport< UIModule >::AddValueProperty("LIST_ACCESSORY_TYPE_NONE", std::mem_fn(&UIModule::LIST_ACCESSORY_TYPE_NONE));
-		JSExport< UIModule >::AddValueProperty("LIST_ITEM_TEMPLATE_CONTACTS", std::mem_fn(&UIModule::LIST_ITEM_TEMPLATE_CONTACTS));
-		JSExport< UIModule >::AddValueProperty("LIST_ITEM_TEMPLATE_DEFAULT", std::mem_fn(&UIModule::LIST_ITEM_TEMPLATE_DEFAULT));
-		JSExport< UIModule >::AddValueProperty("LIST_ITEM_TEMPLATE_SETTINGS", std::mem_fn(&UIModule::LIST_ITEM_TEMPLATE_SETTINGS));
-		JSExport< UIModule >::AddValueProperty("LIST_ITEM_TEMPLATE_SUBTITLE", std::mem_fn(&UIModule::LIST_ITEM_TEMPLATE_SUBTITLE));
-		JSExport< UIModule >::AddValueProperty("NOTIFICATION_DURATION_LONG", std::mem_fn(&UIModule::NOTIFICATION_DURATION_LONG));
-		JSExport< UIModule >::AddValueProperty("NOTIFICATION_DURATION_SHORT", std::mem_fn(&UIModule::NOTIFICATION_DURATION_SHORT));
-		JSExport< UIModule >::AddValueProperty("PICKER_TYPE_COUNT_DOWN_TIMER", std::mem_fn(&UIModule::PICKER_TYPE_COUNT_DOWN_TIMER));
-		JSExport< UIModule >::AddValueProperty("PICKER_TYPE_DATE", std::mem_fn(&UIModule::PICKER_TYPE_DATE));
-		JSExport< UIModule >::AddValueProperty("PICKER_TYPE_DATE_AND_TIME", std::mem_fn(&UIModule::PICKER_TYPE_DATE_AND_TIME));
-		JSExport< UIModule >::AddValueProperty("PICKER_TYPE_PLAIN", std::mem_fn(&UIModule::PICKER_TYPE_PLAIN));
-		JSExport< UIModule >::AddValueProperty("PICKER_TYPE_TIME", std::mem_fn(&UIModule::PICKER_TYPE_TIME));
-		JSExport< UIModule >::AddValueProperty("PORTRAIT", std::mem_fn(&UIModule::PORTRAIT));
-		JSExport< UIModule >::AddValueProperty("RETURNKEY_DEFAULT", std::mem_fn(&UIModule::RETURNKEY_DEFAULT));
-		JSExport< UIModule >::AddValueProperty("RETURNKEY_DONE", std::mem_fn(&UIModule::RETURNKEY_DONE));
-		JSExport< UIModule >::AddValueProperty("RETURNKEY_EMERGENCY_CALL", std::mem_fn(&UIModule::RETURNKEY_EMERGENCY_CALL));
-		JSExport< UIModule >::AddValueProperty("RETURNKEY_GO", std::mem_fn(&UIModule::RETURNKEY_GO));
-		JSExport< UIModule >::AddValueProperty("RETURNKEY_GOOGLE", std::mem_fn(&UIModule::RETURNKEY_GOOGLE));
-		JSExport< UIModule >::AddValueProperty("RETURNKEY_JOIN", std::mem_fn(&UIModule::RETURNKEY_JOIN));
-		JSExport< UIModule >::AddValueProperty("RETURNKEY_NEXT", std::mem_fn(&UIModule::RETURNKEY_NEXT));
-		JSExport< UIModule >::AddValueProperty("RETURNKEY_ROUTE", std::mem_fn(&UIModule::RETURNKEY_ROUTE));
-		JSExport< UIModule >::AddValueProperty("RETURNKEY_SEARCH", std::mem_fn(&UIModule::RETURNKEY_SEARCH));
-		JSExport< UIModule >::AddValueProperty("RETURNKEY_SEND", std::mem_fn(&UIModule::RETURNKEY_SEND));
-		JSExport< UIModule >::AddValueProperty("RETURNKEY_YAHOO", std::mem_fn(&UIModule::RETURNKEY_YAHOO));
-		JSExport< UIModule >::AddValueProperty("SIZE", std::mem_fn(&UIModule::SIZE));
-		JSExport< UIModule >::AddValueProperty("TEXT_ALIGNMENT_CENTER", std::mem_fn(&UIModule::TEXT_ALIGNMENT_CENTER));
-		JSExport< UIModule >::AddValueProperty("TEXT_ALIGNMENT_LEFT", std::mem_fn(&UIModule::TEXT_ALIGNMENT_LEFT));
-		JSExport< UIModule >::AddValueProperty("TEXT_ALIGNMENT_RIGHT", std::mem_fn(&UIModule::TEXT_ALIGNMENT_RIGHT));
-		JSExport< UIModule >::AddValueProperty("TEXT_AUTOCAPITALIZATION_ALL", std::mem_fn(&UIModule::TEXT_AUTOCAPITALIZATION_ALL));
-		JSExport< UIModule >::AddValueProperty("TEXT_AUTOCAPITALIZATION_NONE", std::mem_fn(&UIModule::TEXT_AUTOCAPITALIZATION_NONE));
-		JSExport< UIModule >::AddValueProperty("TEXT_AUTOCAPITALIZATION_SENTENCES", std::mem_fn(&UIModule::TEXT_AUTOCAPITALIZATION_SENTENCES));
-		JSExport< UIModule >::AddValueProperty("TEXT_AUTOCAPITALIZATION_WORDS", std::mem_fn(&UIModule::TEXT_AUTOCAPITALIZATION_WORDS));
-		JSExport< UIModule >::AddValueProperty("TEXT_STYLE_BODY", std::mem_fn(&UIModule::TEXT_STYLE_BODY));
-		JSExport< UIModule >::AddValueProperty("TEXT_STYLE_CAPTION1", std::mem_fn(&UIModule::TEXT_STYLE_CAPTION1));
-		JSExport< UIModule >::AddValueProperty("TEXT_STYLE_CAPTION2", std::mem_fn(&UIModule::TEXT_STYLE_CAPTION2));
-		JSExport< UIModule >::AddValueProperty("TEXT_STYLE_FOOTNOTE", std::mem_fn(&UIModule::TEXT_STYLE_FOOTNOTE));
-		JSExport< UIModule >::AddValueProperty("TEXT_STYLE_HEADLINE", std::mem_fn(&UIModule::TEXT_STYLE_HEADLINE));
-		JSExport< UIModule >::AddValueProperty("TEXT_STYLE_SUBHEADLINE", std::mem_fn(&UIModule::TEXT_STYLE_SUBHEADLINE));
-		JSExport< UIModule >::AddValueProperty("TEXT_VERTICAL_ALIGNMENT_BOTTOM", std::mem_fn(&UIModule::TEXT_VERTICAL_ALIGNMENT_BOTTOM));
-		JSExport< UIModule >::AddValueProperty("TEXT_VERTICAL_ALIGNMENT_CENTER", std::mem_fn(&UIModule::TEXT_VERTICAL_ALIGNMENT_CENTER));
-		JSExport< UIModule >::AddValueProperty("TEXT_VERTICAL_ALIGNMENT_TOP", std::mem_fn(&UIModule::TEXT_VERTICAL_ALIGNMENT_TOP));
-		JSExport< UIModule >::AddValueProperty("UNIT_CM", std::mem_fn(&UIModule::UNIT_CM));
-		JSExport< UIModule >::AddValueProperty("UNIT_DIP", std::mem_fn(&UIModule::UNIT_DIP));
-		JSExport< UIModule >::AddValueProperty("UNIT_IN", std::mem_fn(&UIModule::UNIT_IN));
-		JSExport< UIModule >::AddValueProperty("UNIT_MM", std::mem_fn(&UIModule::UNIT_MM));
-		JSExport< UIModule >::AddValueProperty("UNIT_PX", std::mem_fn(&UIModule::UNIT_PX));
-		JSExport< UIModule >::AddValueProperty("UNKNOWN", std::mem_fn(&UIModule::UNKNOWN));
-		JSExport< UIModule >::AddValueProperty("UPSIDE_PORTRAIT", std::mem_fn(&UIModule::UPSIDE_PORTRAIT));
-		JSExport< UIModule >::AddValueProperty("URL_ERROR_AUTHENTICATION", std::mem_fn(&UIModule::URL_ERROR_AUTHENTICATION));
-		JSExport< UIModule >::AddValueProperty("URL_ERROR_BAD_URL", std::mem_fn(&UIModule::URL_ERROR_BAD_URL));
-		JSExport< UIModule >::AddValueProperty("URL_ERROR_CONNECT", std::mem_fn(&UIModule::URL_ERROR_CONNECT));
-		JSExport< UIModule >::AddValueProperty("URL_ERROR_FILE", std::mem_fn(&UIModule::URL_ERROR_FILE));
-		JSExport< UIModule >::AddValueProperty("URL_ERROR_FILE_NOT_FOUND", std::mem_fn(&UIModule::URL_ERROR_FILE_NOT_FOUND));
-		JSExport< UIModule >::AddValueProperty("URL_ERROR_HOST_LOOKUP", std::mem_fn(&UIModule::URL_ERROR_HOST_LOOKUP));
-		JSExport< UIModule >::AddValueProperty("URL_ERROR_REDIRECT_LOOP", std::mem_fn(&UIModule::URL_ERROR_REDIRECT_LOOP));
-		JSExport< UIModule >::AddValueProperty("URL_ERROR_SSL_FAILED", std::mem_fn(&UIModule::URL_ERROR_SSL_FAILED));
-		JSExport< UIModule >::AddValueProperty("URL_ERROR_TIMEOUT", std::mem_fn(&UIModule::URL_ERROR_TIMEOUT));
-		JSExport< UIModule >::AddValueProperty("URL_ERROR_UNKNOWN", std::mem_fn(&UIModule::URL_ERROR_UNKNOWN));
-		JSExport< UIModule >::AddValueProperty("URL_ERROR_UNSUPPORTED_SCHEME", std::mem_fn(&UIModule::URL_ERROR_UNSUPPORTED_SCHEME));
+		JSExport<UIModule>::SetClassVersion(1);
+		JSExport<UIModule>::SetParent(JSExport<Module>::Class());
+		JSExport<UIModule>::AddFunctionProperty("createView", std::mem_fn(&UIModule::createViewArgumentValidator));
+		JSExport<UIModule>::AddFunctionProperty("createWindow", std::mem_fn(&UIModule::createWindowArgumentValidator));
+		JSExport<UIModule>::AddFunctionProperty("createButton", std::mem_fn(&UIModule::createButtonArgumentValidator));
+		JSExport<UIModule>::AddFunctionProperty("createTab", std::mem_fn(&UIModule::createTabArgumentValidator));
+		JSExport<UIModule>::AddFunctionProperty("createTabGroup", std::mem_fn(&UIModule::createTabGroupArgumentValidator));
+		JSExport<UIModule>::AddFunctionProperty("createScrollView", std::mem_fn(&UIModule::createScrollViewArgumentValidator));
+		JSExport<UIModule>::AddFunctionProperty("createImageView", std::mem_fn(&UIModule::createImageViewArgumentValidator));
+		JSExport<UIModule>::AddFunctionProperty("createLabel", std::mem_fn(&UIModule::createLabelArgumentValidator));
+		JSExport<UIModule>::AddFunctionProperty("setBackgroundColor", std::mem_fn(&UIModule::setBackgroundColorArgumentValidator));
+		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN));
+		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN_OUT));
+		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_OUT));
+		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_LINEAR", std::mem_fn(&UIModule::ANIMATION_CURVE_LINEAR));
+		JSExport<UIModule>::AddValueProperty("AUTOLINK_ALL", std::mem_fn(&UIModule::AUTOLINK_ALL));
+		JSExport<UIModule>::AddValueProperty("AUTOLINK_CALENDAR", std::mem_fn(&UIModule::AUTOLINK_CALENDAR));
+		JSExport<UIModule>::AddValueProperty("AUTOLINK_EMAIL_ADDRESSES", std::mem_fn(&UIModule::AUTOLINK_EMAIL_ADDRESSES));
+		JSExport<UIModule>::AddValueProperty("AUTOLINK_MAP_ADDRESSES", std::mem_fn(&UIModule::AUTOLINK_MAP_ADDRESSES));
+		JSExport<UIModule>::AddValueProperty("AUTOLINK_NONE", std::mem_fn(&UIModule::AUTOLINK_NONE));
+		JSExport<UIModule>::AddValueProperty("AUTOLINK_PHONE_NUMBERS", std::mem_fn(&UIModule::AUTOLINK_PHONE_NUMBERS));
+		JSExport<UIModule>::AddValueProperty("AUTOLINK_URLS", std::mem_fn(&UIModule::AUTOLINK_URLS));
+		JSExport<UIModule>::AddValueProperty("EXTEND_EDGE_ALL", std::mem_fn(&UIModule::EXTEND_EDGE_ALL));
+		JSExport<UIModule>::AddValueProperty("EXTEND_EDGE_BOTTOM", std::mem_fn(&UIModule::EXTEND_EDGE_BOTTOM));
+		JSExport<UIModule>::AddValueProperty("EXTEND_EDGE_LEFT", std::mem_fn(&UIModule::EXTEND_EDGE_LEFT));
+		JSExport<UIModule>::AddValueProperty("EXTEND_EDGE_NONE", std::mem_fn(&UIModule::EXTEND_EDGE_NONE));
+		JSExport<UIModule>::AddValueProperty("EXTEND_EDGE_RIGHT", std::mem_fn(&UIModule::EXTEND_EDGE_RIGHT));
+		JSExport<UIModule>::AddValueProperty("EXTEND_EDGE_TOP", std::mem_fn(&UIModule::EXTEND_EDGE_TOP));
+		JSExport<UIModule>::AddValueProperty("FACE_DOWN", std::mem_fn(&UIModule::FACE_DOWN));
+		JSExport<UIModule>::AddValueProperty("FACE_UP", std::mem_fn(&UIModule::FACE_UP));
+		JSExport<UIModule>::AddValueProperty("FILL", std::mem_fn(&UIModule::FILL));
+		JSExport<UIModule>::AddValueProperty("INHERIT", std::mem_fn(&UIModule::INHERIT));
+		JSExport<UIModule>::AddValueProperty("INPUT_BORDERSTYLE_BEZEL", std::mem_fn(&UIModule::INPUT_BORDERSTYLE_BEZEL));
+		JSExport<UIModule>::AddValueProperty("INPUT_BORDERSTYLE_LINE", std::mem_fn(&UIModule::INPUT_BORDERSTYLE_LINE));
+		JSExport<UIModule>::AddValueProperty("INPUT_BORDERSTYLE_NONE", std::mem_fn(&UIModule::INPUT_BORDERSTYLE_NONE));
+		JSExport<UIModule>::AddValueProperty("INPUT_BORDERSTYLE_ROUNDED", std::mem_fn(&UIModule::INPUT_BORDERSTYLE_ROUNDED));
+		JSExport<UIModule>::AddValueProperty("INPUT_BUTTONMODE_ALWAYS", std::mem_fn(&UIModule::INPUT_BUTTONMODE_ALWAYS));
+		JSExport<UIModule>::AddValueProperty("INPUT_BUTTONMODE_NEVER", std::mem_fn(&UIModule::INPUT_BUTTONMODE_NEVER));
+		JSExport<UIModule>::AddValueProperty("INPUT_BUTTONMODE_ONBLUR", std::mem_fn(&UIModule::INPUT_BUTTONMODE_ONBLUR));
+		JSExport<UIModule>::AddValueProperty("INPUT_BUTTONMODE_ONFOCUS", std::mem_fn(&UIModule::INPUT_BUTTONMODE_ONFOCUS));
+		JSExport<UIModule>::AddValueProperty("KEYBOARD_APPEARANCE_ALERT", std::mem_fn(&UIModule::KEYBOARD_APPEARANCE_ALERT));
+		JSExport<UIModule>::AddValueProperty("KEYBOARD_APPEARANCE_DEFAULT", std::mem_fn(&UIModule::KEYBOARD_APPEARANCE_DEFAULT));
+		JSExport<UIModule>::AddValueProperty("KEYBOARD_ASCII", std::mem_fn(&UIModule::KEYBOARD_ASCII));
+		JSExport<UIModule>::AddValueProperty("KEYBOARD_DECIMAL_PAD", std::mem_fn(&UIModule::KEYBOARD_DECIMAL_PAD));
+		JSExport<UIModule>::AddValueProperty("KEYBOARD_DEFAULT", std::mem_fn(&UIModule::KEYBOARD_DEFAULT));
+		JSExport<UIModule>::AddValueProperty("KEYBOARD_EMAIL", std::mem_fn(&UIModule::KEYBOARD_EMAIL));
+		JSExport<UIModule>::AddValueProperty("KEYBOARD_NAMEPHONE_PAD", std::mem_fn(&UIModule::KEYBOARD_NAMEPHONE_PAD));
+		JSExport<UIModule>::AddValueProperty("KEYBOARD_NUMBERS_PUNCTUATION", std::mem_fn(&UIModule::KEYBOARD_NUMBERS_PUNCTUATION));
+		JSExport<UIModule>::AddValueProperty("KEYBOARD_NUMBER_PAD", std::mem_fn(&UIModule::KEYBOARD_NUMBER_PAD));
+		JSExport<UIModule>::AddValueProperty("KEYBOARD_PHONE_PAD", std::mem_fn(&UIModule::KEYBOARD_PHONE_PAD));
+		JSExport<UIModule>::AddValueProperty("KEYBOARD_URL", std::mem_fn(&UIModule::KEYBOARD_URL));
+		JSExport<UIModule>::AddValueProperty("LANDSCAPE_LEFT", std::mem_fn(&UIModule::LANDSCAPE_LEFT));
+		JSExport<UIModule>::AddValueProperty("LANDSCAPE_RIGHT", std::mem_fn(&UIModule::LANDSCAPE_RIGHT));
+		JSExport<UIModule>::AddValueProperty("LIST_ACCESSORY_TYPE_CHECKMARK", std::mem_fn(&UIModule::LIST_ACCESSORY_TYPE_CHECKMARK));
+		JSExport<UIModule>::AddValueProperty("LIST_ACCESSORY_TYPE_DETAIL", std::mem_fn(&UIModule::LIST_ACCESSORY_TYPE_DETAIL));
+		JSExport<UIModule>::AddValueProperty("LIST_ACCESSORY_TYPE_DISCLOSURE", std::mem_fn(&UIModule::LIST_ACCESSORY_TYPE_DISCLOSURE));
+		JSExport<UIModule>::AddValueProperty("LIST_ACCESSORY_TYPE_NONE", std::mem_fn(&UIModule::LIST_ACCESSORY_TYPE_NONE));
+		JSExport<UIModule>::AddValueProperty("LIST_ITEM_TEMPLATE_CONTACTS", std::mem_fn(&UIModule::LIST_ITEM_TEMPLATE_CONTACTS));
+		JSExport<UIModule>::AddValueProperty("LIST_ITEM_TEMPLATE_DEFAULT", std::mem_fn(&UIModule::LIST_ITEM_TEMPLATE_DEFAULT));
+		JSExport<UIModule>::AddValueProperty("LIST_ITEM_TEMPLATE_SETTINGS", std::mem_fn(&UIModule::LIST_ITEM_TEMPLATE_SETTINGS));
+		JSExport<UIModule>::AddValueProperty("LIST_ITEM_TEMPLATE_SUBTITLE", std::mem_fn(&UIModule::LIST_ITEM_TEMPLATE_SUBTITLE));
+		JSExport<UIModule>::AddValueProperty("NOTIFICATION_DURATION_LONG", std::mem_fn(&UIModule::NOTIFICATION_DURATION_LONG));
+		JSExport<UIModule>::AddValueProperty("NOTIFICATION_DURATION_SHORT", std::mem_fn(&UIModule::NOTIFICATION_DURATION_SHORT));
+		JSExport<UIModule>::AddValueProperty("PICKER_TYPE_COUNT_DOWN_TIMER", std::mem_fn(&UIModule::PICKER_TYPE_COUNT_DOWN_TIMER));
+		JSExport<UIModule>::AddValueProperty("PICKER_TYPE_DATE", std::mem_fn(&UIModule::PICKER_TYPE_DATE));
+		JSExport<UIModule>::AddValueProperty("PICKER_TYPE_DATE_AND_TIME", std::mem_fn(&UIModule::PICKER_TYPE_DATE_AND_TIME));
+		JSExport<UIModule>::AddValueProperty("PICKER_TYPE_PLAIN", std::mem_fn(&UIModule::PICKER_TYPE_PLAIN));
+		JSExport<UIModule>::AddValueProperty("PICKER_TYPE_TIME", std::mem_fn(&UIModule::PICKER_TYPE_TIME));
+		JSExport<UIModule>::AddValueProperty("PORTRAIT", std::mem_fn(&UIModule::PORTRAIT));
+		JSExport<UIModule>::AddValueProperty("RETURNKEY_DEFAULT", std::mem_fn(&UIModule::RETURNKEY_DEFAULT));
+		JSExport<UIModule>::AddValueProperty("RETURNKEY_DONE", std::mem_fn(&UIModule::RETURNKEY_DONE));
+		JSExport<UIModule>::AddValueProperty("RETURNKEY_EMERGENCY_CALL", std::mem_fn(&UIModule::RETURNKEY_EMERGENCY_CALL));
+		JSExport<UIModule>::AddValueProperty("RETURNKEY_GO", std::mem_fn(&UIModule::RETURNKEY_GO));
+		JSExport<UIModule>::AddValueProperty("RETURNKEY_GOOGLE", std::mem_fn(&UIModule::RETURNKEY_GOOGLE));
+		JSExport<UIModule>::AddValueProperty("RETURNKEY_JOIN", std::mem_fn(&UIModule::RETURNKEY_JOIN));
+		JSExport<UIModule>::AddValueProperty("RETURNKEY_NEXT", std::mem_fn(&UIModule::RETURNKEY_NEXT));
+		JSExport<UIModule>::AddValueProperty("RETURNKEY_ROUTE", std::mem_fn(&UIModule::RETURNKEY_ROUTE));
+		JSExport<UIModule>::AddValueProperty("RETURNKEY_SEARCH", std::mem_fn(&UIModule::RETURNKEY_SEARCH));
+		JSExport<UIModule>::AddValueProperty("RETURNKEY_SEND", std::mem_fn(&UIModule::RETURNKEY_SEND));
+		JSExport<UIModule>::AddValueProperty("RETURNKEY_YAHOO", std::mem_fn(&UIModule::RETURNKEY_YAHOO));
+		JSExport<UIModule>::AddValueProperty("SIZE", std::mem_fn(&UIModule::SIZE));
+		JSExport<UIModule>::AddValueProperty("TEXT_ALIGNMENT_CENTER", std::mem_fn(&UIModule::TEXT_ALIGNMENT_CENTER));
+		JSExport<UIModule>::AddValueProperty("TEXT_ALIGNMENT_LEFT", std::mem_fn(&UIModule::TEXT_ALIGNMENT_LEFT));
+		JSExport<UIModule>::AddValueProperty("TEXT_ALIGNMENT_RIGHT", std::mem_fn(&UIModule::TEXT_ALIGNMENT_RIGHT));
+		JSExport<UIModule>::AddValueProperty("TEXT_AUTOCAPITALIZATION_ALL", std::mem_fn(&UIModule::TEXT_AUTOCAPITALIZATION_ALL));
+		JSExport<UIModule>::AddValueProperty("TEXT_AUTOCAPITALIZATION_NONE", std::mem_fn(&UIModule::TEXT_AUTOCAPITALIZATION_NONE));
+		JSExport<UIModule>::AddValueProperty("TEXT_AUTOCAPITALIZATION_SENTENCES", std::mem_fn(&UIModule::TEXT_AUTOCAPITALIZATION_SENTENCES));
+		JSExport<UIModule>::AddValueProperty("TEXT_AUTOCAPITALIZATION_WORDS", std::mem_fn(&UIModule::TEXT_AUTOCAPITALIZATION_WORDS));
+		JSExport<UIModule>::AddValueProperty("TEXT_STYLE_BODY", std::mem_fn(&UIModule::TEXT_STYLE_BODY));
+		JSExport<UIModule>::AddValueProperty("TEXT_STYLE_CAPTION1", std::mem_fn(&UIModule::TEXT_STYLE_CAPTION1));
+		JSExport<UIModule>::AddValueProperty("TEXT_STYLE_CAPTION2", std::mem_fn(&UIModule::TEXT_STYLE_CAPTION2));
+		JSExport<UIModule>::AddValueProperty("TEXT_STYLE_FOOTNOTE", std::mem_fn(&UIModule::TEXT_STYLE_FOOTNOTE));
+		JSExport<UIModule>::AddValueProperty("TEXT_STYLE_HEADLINE", std::mem_fn(&UIModule::TEXT_STYLE_HEADLINE));
+		JSExport<UIModule>::AddValueProperty("TEXT_STYLE_SUBHEADLINE", std::mem_fn(&UIModule::TEXT_STYLE_SUBHEADLINE));
+		JSExport<UIModule>::AddValueProperty("TEXT_VERTICAL_ALIGNMENT_BOTTOM", std::mem_fn(&UIModule::TEXT_VERTICAL_ALIGNMENT_BOTTOM));
+		JSExport<UIModule>::AddValueProperty("TEXT_VERTICAL_ALIGNMENT_CENTER", std::mem_fn(&UIModule::TEXT_VERTICAL_ALIGNMENT_CENTER));
+		JSExport<UIModule>::AddValueProperty("TEXT_VERTICAL_ALIGNMENT_TOP", std::mem_fn(&UIModule::TEXT_VERTICAL_ALIGNMENT_TOP));
+		JSExport<UIModule>::AddValueProperty("UNIT_CM", std::mem_fn(&UIModule::UNIT_CM));
+		JSExport<UIModule>::AddValueProperty("UNIT_DIP", std::mem_fn(&UIModule::UNIT_DIP));
+		JSExport<UIModule>::AddValueProperty("UNIT_IN", std::mem_fn(&UIModule::UNIT_IN));
+		JSExport<UIModule>::AddValueProperty("UNIT_MM", std::mem_fn(&UIModule::UNIT_MM));
+		JSExport<UIModule>::AddValueProperty("UNIT_PX", std::mem_fn(&UIModule::UNIT_PX));
+		JSExport<UIModule>::AddValueProperty("UNKNOWN", std::mem_fn(&UIModule::UNKNOWN));
+		JSExport<UIModule>::AddValueProperty("UPSIDE_PORTRAIT", std::mem_fn(&UIModule::UPSIDE_PORTRAIT));
+		JSExport<UIModule>::AddValueProperty("URL_ERROR_AUTHENTICATION", std::mem_fn(&UIModule::URL_ERROR_AUTHENTICATION));
+		JSExport<UIModule>::AddValueProperty("URL_ERROR_BAD_URL", std::mem_fn(&UIModule::URL_ERROR_BAD_URL));
+		JSExport<UIModule>::AddValueProperty("URL_ERROR_CONNECT", std::mem_fn(&UIModule::URL_ERROR_CONNECT));
+		JSExport<UIModule>::AddValueProperty("URL_ERROR_FILE", std::mem_fn(&UIModule::URL_ERROR_FILE));
+		JSExport<UIModule>::AddValueProperty("URL_ERROR_FILE_NOT_FOUND", std::mem_fn(&UIModule::URL_ERROR_FILE_NOT_FOUND));
+		JSExport<UIModule>::AddValueProperty("URL_ERROR_HOST_LOOKUP", std::mem_fn(&UIModule::URL_ERROR_HOST_LOOKUP));
+		JSExport<UIModule>::AddValueProperty("URL_ERROR_REDIRECT_LOOP", std::mem_fn(&UIModule::URL_ERROR_REDIRECT_LOOP));
+		JSExport<UIModule>::AddValueProperty("URL_ERROR_SSL_FAILED", std::mem_fn(&UIModule::URL_ERROR_SSL_FAILED));
+		JSExport<UIModule>::AddValueProperty("URL_ERROR_TIMEOUT", std::mem_fn(&UIModule::URL_ERROR_TIMEOUT));
+		JSExport<UIModule>::AddValueProperty("URL_ERROR_UNKNOWN", std::mem_fn(&UIModule::URL_ERROR_UNKNOWN));
+		JSExport<UIModule>::AddValueProperty("URL_ERROR_UNSUPPORTED_SCHEME", std::mem_fn(&UIModule::URL_ERROR_UNSUPPORTED_SCHEME));
 	}
 
-	JSValue UIModule::createViewArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue UIModule::createViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1073,7 +1073,7 @@ namespace Titanium
 		return createView(parameters, this_object);
 	}
 
-	JSValue UIModule::createWindowArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue UIModule::createWindowArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1084,7 +1084,7 @@ namespace Titanium
 		return createWindow(parameters, this_object);
 	}
 
-	JSValue UIModule::createButtonArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue UIModule::createButtonArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1095,7 +1095,7 @@ namespace Titanium
 		return createButton(parameters, this_object);
 	}
 
-	JSValue UIModule::createImageViewArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue UIModule::createImageViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1106,7 +1106,7 @@ namespace Titanium
 		return createImageView(parameters, this_object);
 	}
 
-	JSValue UIModule::createLabelArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue UIModule::createLabelArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1117,7 +1117,7 @@ namespace Titanium
 		return createLabel(parameters, this_object);
 	}
 
-	JSValue UIModule::createTabArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue UIModule::createTabArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1128,7 +1128,7 @@ namespace Titanium
 		return createTab(parameters, this_object);
 	}
 
-	JSValue UIModule::createTabGroupArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue UIModule::createTabGroupArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1139,7 +1139,7 @@ namespace Titanium
 		return createTabGroup(parameters, this_object);
 	}
 
-	JSValue UIModule::createScrollViewArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue UIModule::createScrollViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1151,7 +1151,7 @@ namespace Titanium
 	}
 
 	// TODO empty implementation so that it won't break default app template. Need to implement later on.
-	JSValue UIModule::setBackgroundColorArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue UIModule::setBackgroundColorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_LOG_DEBUG("UI::setBackgroundColor Not implemented");
 		return get_context().CreateUndefined();

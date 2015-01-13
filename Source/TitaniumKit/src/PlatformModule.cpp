@@ -13,7 +13,7 @@ namespace Titanium
 {
 	PlatformModule::PlatformModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : Module(js_context),
-	      displayCaps__(get_context().CreateObject(JSExport< Titanium::Platform::DisplayCaps >::Class())),
+	      displayCaps__(get_context().CreateObject(JSExport<Titanium::Platform::DisplayCaps>::Class())),
 	      BATTERY_STATE_CHARGING__(get_context().CreateNumber(Platform::BatteryState::CHARGING)),
 	      BATTERY_STATE_FULL__(get_context().CreateNumber(Platform::BatteryState::FULL)),
 	      BATTERY_STATE_UNKNOWN__(get_context().CreateNumber(Platform::BatteryState::UNKNOWN)),
@@ -21,7 +21,7 @@ namespace Titanium
 	{
 	}
 
-	PlatformModule::PlatformModule(const PlatformModule& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+	PlatformModule::PlatformModule(const PlatformModule& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 	    : Module(rhs, arguments),
 	      displayCaps__(rhs.displayCaps__),
 	      BATTERY_STATE_CHARGING__(rhs.BATTERY_STATE_CHARGING__),
@@ -202,105 +202,105 @@ namespace Titanium
 		return get_context().CreateString(version());
 	}
 
-	JSValue PlatformModule::getAddressArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getAddressArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_address_ArgumentValidator();
 	}
-	JSValue PlatformModule::getArchitectureArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getArchitectureArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_architecture_ArgumentValidator();
 	}
-	JSValue PlatformModule::getAvailableMemoryArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getAvailableMemoryArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_availableMemory_ArgumentValidator();
 	}
-	JSValue PlatformModule::getBatteryLevelArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getBatteryLevelArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_batteryLevel_ArgumentValidator();
 	}
-	JSValue PlatformModule::getBatteryMonitoringArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getBatteryMonitoringArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_batteryMonitoring_ArgumentValidator();
 	}
-	JSValue PlatformModule::getBatteryStateArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getBatteryStateArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_batteryState_ArgumentValidator();
 	}
-	JSValue PlatformModule::getIdArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getIdArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_id_ArgumentValidator();
 	}
-	JSValue PlatformModule::getLocaleArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getLocaleArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_locale_ArgumentValidator();
 	}
-	JSValue PlatformModule::getMacaddressArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getMacaddressArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_macaddress_ArgumentValidator();
 	}
-	JSValue PlatformModule::getManufacturerArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getManufacturerArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_manufacturer_ArgumentValidator();
 	}
-	JSValue PlatformModule::getModelArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getModelArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_model_ArgumentValidator();
 	}
-	JSValue PlatformModule::getNameArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getNameArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_name_ArgumentValidator();
 	}
-	JSValue PlatformModule::getNetmaskArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getNetmaskArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_netmask_ArgumentValidator();
 	}
-	JSValue PlatformModule::getOsnameArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getOsnameArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_osname_ArgumentValidator();
 	}
-	JSValue PlatformModule::getOstypeArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getOstypeArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_ostype_ArgumentValidator();
 	}
-	JSValue PlatformModule::getProcessorCountArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getProcessorCountArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_processorCount_ArgumentValidator();
 	}
-	JSValue PlatformModule::getRuntimeArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getRuntimeArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_runtime_ArgumentValidator();
 	}
-	JSValue PlatformModule::getUsernameArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getUsernameArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_username_ArgumentValidator();
 	}
-	JSValue PlatformModule::getVersionArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getVersionArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return get_version_ArgumentValidator();
 	}
 
-	JSValue PlatformModule::createUUIDArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue PlatformModule::createUUIDArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateString(createUUID());
 	}
 
-	JSValue PlatformModule::canOpenURLArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue PlatformModule::canOpenURLArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		if (arguments.size() < 1) {
 			return get_context().CreateBoolean(false);
 		}
-		const auto _0 = static_cast< std::string >(arguments.at(0));
+		const auto _0 = static_cast<std::string>(arguments.at(0));
 		return get_context().CreateBoolean(canOpenURL(_0));
 	}
-	JSValue PlatformModule::openURLArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue PlatformModule::openURLArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		if (arguments.size() < 1) {
 			return get_context().CreateBoolean(false);
 		}
-		const auto _0 = static_cast< std::string >(arguments.at(0));
+		const auto _0 = static_cast<std::string>(arguments.at(0));
 		return get_context().CreateBoolean(openURL(_0));
 	}
-	JSValue PlatformModule::is24HourTimeFormatArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue PlatformModule::is24HourTimeFormatArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateBoolean(is24HourTimeFormat());
 	}
@@ -315,7 +315,7 @@ namespace Titanium
 		return displayCaps__;
 	}
 
-	JSValue PlatformModule::getDisplayCapsArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+	JSValue PlatformModule::getDisplayCapsArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
 	{
 		return get_displayCaps_ArgumentValidator();
 	}
@@ -342,54 +342,54 @@ namespace Titanium
 
 	void PlatformModule::JSExportInitialize()
 	{
-		JSExport< PlatformModule >::SetClassVersion(1);
-		JSExport< PlatformModule >::SetParent(JSExport< Module >::Class());
-		JSExport< PlatformModule >::AddValueProperty("address", std::mem_fn(&PlatformModule::get_address_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("architecture", std::mem_fn(&PlatformModule::get_architecture_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("availableMemory", std::mem_fn(&PlatformModule::get_availableMemory_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("batteryState", std::mem_fn(&PlatformModule::get_batteryState_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("id", std::mem_fn(&PlatformModule::get_id_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("locale", std::mem_fn(&PlatformModule::get_locale_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("macaddress", std::mem_fn(&PlatformModule::get_macaddress_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("manufacturer", std::mem_fn(&PlatformModule::get_manufacturer_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("model", std::mem_fn(&PlatformModule::get_model_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("name", std::mem_fn(&PlatformModule::get_name_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("netmask", std::mem_fn(&PlatformModule::get_netmask_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("osname", std::mem_fn(&PlatformModule::get_osname_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("ostype", std::mem_fn(&PlatformModule::get_ostype_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("processorCount", std::mem_fn(&PlatformModule::get_processorCount_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("runtime", std::mem_fn(&PlatformModule::get_runtime_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("username", std::mem_fn(&PlatformModule::get_username_ArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("version", std::mem_fn(&PlatformModule::get_version_ArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getAddress", std::mem_fn(&PlatformModule::getAddressArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getArchitecture", std::mem_fn(&PlatformModule::getArchitectureArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getAvailableMemory", std::mem_fn(&PlatformModule::getAvailableMemoryArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getBatteryLevel", std::mem_fn(&PlatformModule::getBatteryLevelArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getBatteryMonitoring", std::mem_fn(&PlatformModule::getBatteryMonitoringArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getBatteryState", std::mem_fn(&PlatformModule::getBatteryStateArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getId", std::mem_fn(&PlatformModule::getIdArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getLocale", std::mem_fn(&PlatformModule::getLocaleArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getMacaddress", std::mem_fn(&PlatformModule::getMacaddressArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getManufacturer", std::mem_fn(&PlatformModule::getManufacturerArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getModel", std::mem_fn(&PlatformModule::getModelArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getName", std::mem_fn(&PlatformModule::getNameArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getNetmask", std::mem_fn(&PlatformModule::getNetmaskArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getOsname", std::mem_fn(&PlatformModule::getOsnameArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getOstype", std::mem_fn(&PlatformModule::getOstypeArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getProcessorCount", std::mem_fn(&PlatformModule::getProcessorCountArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getRuntime", std::mem_fn(&PlatformModule::getRuntimeArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getUsername", std::mem_fn(&PlatformModule::getUsernameArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getVersion", std::mem_fn(&PlatformModule::getVersionArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("createUUID", std::mem_fn(&PlatformModule::createUUIDArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("canOpenURL", std::mem_fn(&PlatformModule::canOpenURLArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("openURL", std::mem_fn(&PlatformModule::openURLArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("is24HourTimeFormat", std::mem_fn(&PlatformModule::is24HourTimeFormatArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("displayCaps", std::mem_fn(&PlatformModule::get_displayCaps_ArgumentValidator));
-		JSExport< PlatformModule >::AddFunctionProperty("getDisplayCaps", std::mem_fn(&PlatformModule::getDisplayCapsArgumentValidator));
-		JSExport< PlatformModule >::AddValueProperty("BATTERY_STATE_CHARGING", std::mem_fn(&PlatformModule::get_BATTERY_STATE_CHARGING));
-		JSExport< PlatformModule >::AddValueProperty("BATTERY_STATE_FULL", std::mem_fn(&PlatformModule::get_BATTERY_STATE_FULL));
-		JSExport< PlatformModule >::AddValueProperty("BATTERY_STATE_UNKNOWN", std::mem_fn(&PlatformModule::get_BATTERY_STATE_UNKNOWN));
-		JSExport< PlatformModule >::AddValueProperty("BATTERY_STATE_UNPLUGGED", std::mem_fn(&PlatformModule::get_BATTERY_STATE_UNPLUGGED));
+		JSExport<PlatformModule>::SetClassVersion(1);
+		JSExport<PlatformModule>::SetParent(JSExport<Module>::Class());
+		JSExport<PlatformModule>::AddValueProperty("address", std::mem_fn(&PlatformModule::get_address_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("architecture", std::mem_fn(&PlatformModule::get_architecture_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("availableMemory", std::mem_fn(&PlatformModule::get_availableMemory_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("batteryState", std::mem_fn(&PlatformModule::get_batteryState_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("id", std::mem_fn(&PlatformModule::get_id_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("locale", std::mem_fn(&PlatformModule::get_locale_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("macaddress", std::mem_fn(&PlatformModule::get_macaddress_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("manufacturer", std::mem_fn(&PlatformModule::get_manufacturer_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("model", std::mem_fn(&PlatformModule::get_model_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("name", std::mem_fn(&PlatformModule::get_name_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("netmask", std::mem_fn(&PlatformModule::get_netmask_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("osname", std::mem_fn(&PlatformModule::get_osname_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("ostype", std::mem_fn(&PlatformModule::get_ostype_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("processorCount", std::mem_fn(&PlatformModule::get_processorCount_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("runtime", std::mem_fn(&PlatformModule::get_runtime_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("username", std::mem_fn(&PlatformModule::get_username_ArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("version", std::mem_fn(&PlatformModule::get_version_ArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getAddress", std::mem_fn(&PlatformModule::getAddressArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getArchitecture", std::mem_fn(&PlatformModule::getArchitectureArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getAvailableMemory", std::mem_fn(&PlatformModule::getAvailableMemoryArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getBatteryLevel", std::mem_fn(&PlatformModule::getBatteryLevelArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getBatteryMonitoring", std::mem_fn(&PlatformModule::getBatteryMonitoringArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getBatteryState", std::mem_fn(&PlatformModule::getBatteryStateArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getId", std::mem_fn(&PlatformModule::getIdArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getLocale", std::mem_fn(&PlatformModule::getLocaleArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getMacaddress", std::mem_fn(&PlatformModule::getMacaddressArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getManufacturer", std::mem_fn(&PlatformModule::getManufacturerArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getModel", std::mem_fn(&PlatformModule::getModelArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getName", std::mem_fn(&PlatformModule::getNameArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getNetmask", std::mem_fn(&PlatformModule::getNetmaskArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getOsname", std::mem_fn(&PlatformModule::getOsnameArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getOstype", std::mem_fn(&PlatformModule::getOstypeArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getProcessorCount", std::mem_fn(&PlatformModule::getProcessorCountArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getRuntime", std::mem_fn(&PlatformModule::getRuntimeArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getUsername", std::mem_fn(&PlatformModule::getUsernameArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getVersion", std::mem_fn(&PlatformModule::getVersionArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("createUUID", std::mem_fn(&PlatformModule::createUUIDArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("canOpenURL", std::mem_fn(&PlatformModule::canOpenURLArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("openURL", std::mem_fn(&PlatformModule::openURLArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("is24HourTimeFormat", std::mem_fn(&PlatformModule::is24HourTimeFormatArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("displayCaps", std::mem_fn(&PlatformModule::get_displayCaps_ArgumentValidator));
+		JSExport<PlatformModule>::AddFunctionProperty("getDisplayCaps", std::mem_fn(&PlatformModule::getDisplayCapsArgumentValidator));
+		JSExport<PlatformModule>::AddValueProperty("BATTERY_STATE_CHARGING", std::mem_fn(&PlatformModule::get_BATTERY_STATE_CHARGING));
+		JSExport<PlatformModule>::AddValueProperty("BATTERY_STATE_FULL", std::mem_fn(&PlatformModule::get_BATTERY_STATE_FULL));
+		JSExport<PlatformModule>::AddValueProperty("BATTERY_STATE_UNKNOWN", std::mem_fn(&PlatformModule::get_BATTERY_STATE_UNKNOWN));
+		JSExport<PlatformModule>::AddValueProperty("BATTERY_STATE_UNPLUGGED", std::mem_fn(&PlatformModule::get_BATTERY_STATE_UNPLUGGED));
 	}
 
 }  // namespace Titanium

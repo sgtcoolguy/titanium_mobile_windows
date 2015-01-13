@@ -32,7 +32,7 @@ protected:
 
 TEST_F(AccelerometerTests, logging)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< Titanium::GlobalObject >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
 	auto global_object = js_context.get_global_object();
 
 	XCTAssertFalse(global_object.HasProperty("Titanium"));
@@ -46,11 +46,11 @@ TEST_F(AccelerometerTests, logging)
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
 	XCTAssertFalse(Titanium.HasProperty("Accelerometer"));
-	auto Accelerometer = js_context.CreateObject(JSExport< NativeAccelerometerExample >::Class());
+	auto Accelerometer = js_context.CreateObject(JSExport<NativeAccelerometerExample>::Class());
 	Titanium.SetProperty("Accelerometer", Accelerometer, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("Accelerometer"));
 
-	auto Accelerometer_ptr = Accelerometer.GetPrivate< NativeAccelerometerExample >();
+	auto Accelerometer_ptr = Accelerometer.GetPrivate<NativeAccelerometerExample>();
 	XCTAssertNotEqual(nullptr, Accelerometer_ptr);
 
 	XCTAssertTrue(Accelerometer.HasProperty("addEventListener"));

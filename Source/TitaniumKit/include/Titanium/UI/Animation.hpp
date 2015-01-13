@@ -25,7 +25,7 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Animation
 		*/
-		class TITANIUMKIT_EXPORT Animation : public Module, public JSExport< Animation >
+		class TITANIUMKIT_EXPORT Animation : public Module, public JSExport<Animation>
 		{
 		public:
 			/*!
@@ -40,7 +40,7 @@ namespace Titanium
 			virtual void set_curve(const ANIMATION_CURVE& curve) TITANIUM_NOEXCEPT;
 
 			Animation(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			Animation(const Animation&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			Animation(const Animation&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~Animation() = default;
 			Animation(const Animation&) = default;

@@ -19,7 +19,7 @@ namespace Titanium
 		{
 		}
 
-		ListView::ListView(const ListView& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		ListView::ListView(const ListView& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : View(rhs, arguments),
 		      defaultItemTemplate__(rhs.defaultItemTemplate__)
 		{
@@ -40,20 +40,20 @@ namespace Titanium
 
 		void ListView::JSExportInitialize()
 		{
-			JSExport< ListView >::SetClassVersion(1);
-			JSExport< ListView >::SetParent(JSExport< View >::Class());
-			JSExport< ListView >::AddValueProperty("defaultItemTemplate", std::mem_fn(&ListView::getDefaultItemTemplateArgumentValidator), std::mem_fn(&ListView::setDefaultItemTemplateArgumentValidator));
+			JSExport<ListView>::SetClassVersion(1);
+			JSExport<ListView>::SetParent(JSExport<View>::Class());
+			JSExport<ListView>::AddValueProperty("defaultItemTemplate", std::mem_fn(&ListView::getDefaultItemTemplateArgumentValidator), std::mem_fn(&ListView::setDefaultItemTemplateArgumentValidator));
 		}
 
 		JSValue ListView::getDefaultItemTemplateArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< LIST_ITEM_TEMPLATE >::type >(get_defaultItemTemplate()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<LIST_ITEM_TEMPLATE>::type>(get_defaultItemTemplate()));
 		}
 
 		bool ListView::setDefaultItemTemplateArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			defaultItemTemplate__ = Constants::to_LIST_ITEM_TEMPLATE(static_cast< std::underlying_type< LIST_ITEM_TEMPLATE >::type >(argument));
+			defaultItemTemplate__ = Constants::to_LIST_ITEM_TEMPLATE(static_cast<std::underlying_type<LIST_ITEM_TEMPLATE>::type>(argument));
 			set_defaultItemTemplate(defaultItemTemplate__);
 			return true;
 		}

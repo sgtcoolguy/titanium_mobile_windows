@@ -18,7 +18,7 @@ namespace Titanium
 	  @discussion This is the Titanium.Blob module.
 	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Blob
 	*/
-	class TITANIUMKIT_EXPORT Blob : public Module, public JSExport< Blob >
+	class TITANIUMKIT_EXPORT Blob : public Module, public JSExport<Blob>
 	{
 	public:
 		/*!
@@ -75,10 +75,10 @@ namespace Titanium
 		  @abstract append
 		  @discussion Appends the data from another blob to this blob.
 		*/
-		virtual void append(std::shared_ptr< Blob >&) TITANIUM_NOEXCEPT;
+		virtual void append(std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT;
 
 		Blob(const JSContext& js_context) TITANIUM_NOEXCEPT;
-		Blob(const Blob&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+		Blob(const Blob&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 		virtual ~Blob() = default;
 		Blob(const Blob&) = default;
@@ -99,16 +99,16 @@ namespace Titanium
 		virtual JSValue get_text_ArgumentValidator() const TITANIUM_NOEXCEPT final;
 		virtual JSValue get_width_ArgumentValidator() const TITANIUM_NOEXCEPT final;
 
-		virtual JSValue append_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getFile_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getHeight_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getLength_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getMimeType_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getNativePath_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getSize_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getText_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getWidth_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue toString_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue append_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue getFile_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue getHeight_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue getLength_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue getMimeType_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue getNativePath_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue getSize_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue getText_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue getWidth_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue toString_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 	};
 }  // namespace Titanium {
 

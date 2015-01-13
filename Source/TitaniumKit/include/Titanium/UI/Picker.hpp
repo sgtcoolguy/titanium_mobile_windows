@@ -25,7 +25,7 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Picker
 		*/
-		class TITANIUMKIT_EXPORT Picker : public View, public JSExport< Picker >
+		class TITANIUMKIT_EXPORT Picker : public View, public JSExport<Picker>
 		{
 		public:
 			/*!
@@ -42,7 +42,7 @@ namespace Titanium
 			virtual void set_type(const PICKER_TYPE& type) TITANIUM_NOEXCEPT;
 
 			Picker(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			Picker(const Picker&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			Picker(const Picker&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~Picker() = default;
 			Picker(const Picker&) = default;

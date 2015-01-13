@@ -23,7 +23,7 @@ namespace Titanium
 		{
 		}
 
-		Label::Label(const Label& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		Label::Label(const Label& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : View(rhs, arguments),
 		      color__(rhs.color__),
 		      text__(rhs.text__),
@@ -119,14 +119,14 @@ namespace Titanium
 
 		void Label::JSExportInitialize()
 		{
-			JSExport< Label >::SetClassVersion(1);
-			JSExport< Label >::SetParent(JSExport< View >::Class());
-			JSExport< Label >::AddValueProperty("color", std::mem_fn(&Label::getColorArgumentValidator), std::mem_fn(&Label::setColorArgumentValidator));
-			JSExport< Label >::AddValueProperty("font", std::mem_fn(&Label::getFontArgumentValidator), std::mem_fn(&Label::setFontArgumentValidator));
-			JSExport< Label >::AddValueProperty("text", std::mem_fn(&Label::getTextArgumentValidator), std::mem_fn(&Label::setTextArgumentValidator));
-			JSExport< Label >::AddValueProperty("textAlign", std::mem_fn(&Label::getTextAlignArgumentValidator), std::mem_fn(&Label::setTextAlignArgumentValidator));
-			JSExport< Label >::AddValueProperty("verticalAlign", std::mem_fn(&Label::getVerticalAlignArgumentValidator), std::mem_fn(&Label::setVerticalAlignArgumentValidator));
-			JSExport< Label >::AddValueProperty("wordWrap", std::mem_fn(&Label::getWordWrapArgumentValidator), std::mem_fn(&Label::setWordWrapArgumentValidator));
+			JSExport<Label>::SetClassVersion(1);
+			JSExport<Label>::SetParent(JSExport<View>::Class());
+			JSExport<Label>::AddValueProperty("color", std::mem_fn(&Label::getColorArgumentValidator), std::mem_fn(&Label::setColorArgumentValidator));
+			JSExport<Label>::AddValueProperty("font", std::mem_fn(&Label::getFontArgumentValidator), std::mem_fn(&Label::setFontArgumentValidator));
+			JSExport<Label>::AddValueProperty("text", std::mem_fn(&Label::getTextArgumentValidator), std::mem_fn(&Label::setTextArgumentValidator));
+			JSExport<Label>::AddValueProperty("textAlign", std::mem_fn(&Label::getTextAlignArgumentValidator), std::mem_fn(&Label::setTextAlignArgumentValidator));
+			JSExport<Label>::AddValueProperty("verticalAlign", std::mem_fn(&Label::getVerticalAlignArgumentValidator), std::mem_fn(&Label::setVerticalAlignArgumentValidator));
+			JSExport<Label>::AddValueProperty("wordWrap", std::mem_fn(&Label::getWordWrapArgumentValidator), std::mem_fn(&Label::setWordWrapArgumentValidator));
 		}
 
 		JSValue Label::getColorArgumentValidator() const TITANIUM_NOEXCEPT
@@ -137,7 +137,7 @@ namespace Titanium
 		bool Label::setColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			color__ = get_context().CreateString(static_cast< std::string >(argument));
+			color__ = get_context().CreateString(static_cast<std::string>(argument));
 			set_color(color__);
 			return true;
 		}
@@ -151,7 +151,7 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(font.IsObject());
 			// FIXME Should we save the individual values? We're not making a copy of the object here!
-			font__ = static_cast< JSObject >(font);
+			font__ = static_cast<JSObject>(font);
 
 			// Number/String
 			if (font__.HasProperty("fontSize")) {
@@ -185,7 +185,7 @@ namespace Titanium
 			if (font__.HasProperty("textStyle")) {
 				const auto font_text_style = font__.GetProperty("textStyle");
 				TITANIUM_ASSERT(font_text_style.IsString());
-				const auto font_text_style_enum = Constants::to_TEXT_STYLE(static_cast< std::string >(font_text_style));
+				const auto font_text_style_enum = Constants::to_TEXT_STYLE(static_cast<std::string>(font_text_style));
 				set_textStyle(font_text_style_enum);
 			}
 
@@ -200,25 +200,25 @@ namespace Titanium
 		bool Label::setTextArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			text__ = get_context().CreateString(static_cast< std::string >(argument));
+			text__ = get_context().CreateString(static_cast<std::string>(argument));
 			set_text(text__);
 			return true;
 		}
 
 		JSValue Label::getTextAlignArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< TEXT_ALIGNMENT >::type >(get_textAlign()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_ALIGNMENT>::type>(get_textAlign()));
 		}
 
 		bool Label::setTextAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			bool result = false;
 			if (argument.IsNumber()) {
-				textAlign__ = Constants::to_TEXT_ALIGNMENT(static_cast< std::underlying_type< TEXT_ALIGNMENT >::type >(argument));
+				textAlign__ = Constants::to_TEXT_ALIGNMENT(static_cast<std::underlying_type<TEXT_ALIGNMENT>::type>(argument));
 				set_textAlign(textAlign__);
 				result = true;
 			} else if (argument.IsString()) {
-				textAlign__ = Constants::to_TEXT_ALIGNMENT(static_cast< std::string >(argument));
+				textAlign__ = Constants::to_TEXT_ALIGNMENT(static_cast<std::string>(argument));
 				set_textAlign(textAlign__);
 				result = true;
 			}
@@ -228,18 +228,18 @@ namespace Titanium
 
 		JSValue Label::getVerticalAlignArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type >(get_verticalAlign()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type>(get_verticalAlign()));
 		}
 
 		bool Label::setVerticalAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			bool result = false;
 			if (argument.IsNumber()) {
-				verticalAlign__ = Constants::to_TEXT_VERTICAL_ALIGNMENT(static_cast< std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type >(argument));
+				verticalAlign__ = Constants::to_TEXT_VERTICAL_ALIGNMENT(static_cast<std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type>(argument));
 				set_verticalAlign(verticalAlign__);
 				result = true;
 			} else if (argument.IsString()) {
-				verticalAlign__ = Constants::to_TEXT_VERTICAL_ALIGNMENT(static_cast< std::string >(argument));
+				verticalAlign__ = Constants::to_TEXT_VERTICAL_ALIGNMENT(static_cast<std::string>(argument));
 				set_verticalAlign(verticalAlign__);
 				result = true;
 			}
@@ -255,7 +255,7 @@ namespace Titanium
 		bool Label::setWordWrapArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
-			wordWrap__ = get_context().CreateBoolean(static_cast< bool >(argument));
+			wordWrap__ = get_context().CreateBoolean(static_cast<bool>(argument));
 			set_wordWrap(wordWrap__);
 			return true;
 		}

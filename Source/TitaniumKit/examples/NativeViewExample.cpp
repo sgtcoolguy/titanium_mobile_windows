@@ -14,7 +14,7 @@ NativeViewExample::NativeViewExample(const JSContext& js_context) TITANIUM_NOEXC
 	TITANIUM_LOG_DEBUG("NativeViewExample:: ctor 1 ", this);
 }
 
-NativeViewExample::NativeViewExample(const NativeViewExample& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+NativeViewExample::NativeViewExample(const NativeViewExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::UI::View(rhs, arguments)
 {
 	TITANIUM_LOG_DEBUG("NativeViewExample:: ctor 2 ", this);
@@ -27,15 +27,15 @@ NativeViewExample::~NativeViewExample() TITANIUM_NOEXCEPT
 
 void NativeViewExample::JSExportInitialize()
 {
-	JSExport< NativeViewExample >::SetClassVersion(1);
-	JSExport< NativeViewExample >::SetParent(JSExport< Titanium::UI::View >::Class());
+	JSExport<NativeViewExample>::SetClassVersion(1);
+	JSExport<NativeViewExample>::SetParent(JSExport<Titanium::UI::View>::Class());
 }
 
 bool NativeViewExample::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 {
 	assert(argument.IsString());
 	bool result = false;
-	std::string backgroundColor = static_cast< std::string >(argument);
+	std::string backgroundColor = static_cast<std::string>(argument);
 	TITANIUM_LOG_INFO("NativeViewExample::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColor);
 	set_backgroundColor(argument);
 	result = true;

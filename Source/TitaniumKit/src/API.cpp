@@ -18,7 +18,7 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("API:: ctor 1 ", this);
 	}
 
-	API::API(const API& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+	API::API(const API& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 	    : Module(rhs, arguments)
 	{
 		TITANIUM_LOG_DEBUG("API:: ctor 2 ", this);
@@ -100,7 +100,7 @@ namespace Titanium
 
 	API::LogSeverityLevel API::ToLogLevel(const std::string& level)
 	{
-		static std::unordered_map< std::string, LogSeverityLevel > log_severity_level_map;
+		static std::unordered_map<std::string, LogSeverityLevel> log_severity_level_map;
 		static std::once_flag of;
 		std::call_once(of, []() {
       log_severity_level_map.emplace("info" , LogSeverityLevel::API_INFO);
@@ -125,69 +125,69 @@ namespace Titanium
 
 	void API::JSExportInitialize()
 	{
-		JSExport< API >::SetClassVersion(1);
-		JSExport< API >::SetParent(JSExport< Module >::Class());
-		JSExport< API >::AddFunctionProperty("info", std::mem_fn(&API::infoArgumentValidator));
-		JSExport< API >::AddFunctionProperty("warn", std::mem_fn(&API::warnArgumentValidator));
-		JSExport< API >::AddFunctionProperty("error", std::mem_fn(&API::errorArgumentValidator));
-		JSExport< API >::AddFunctionProperty("debug", std::mem_fn(&API::debugArgumentValidator));
-		JSExport< API >::AddFunctionProperty("trace", std::mem_fn(&API::traceArgumentValidator));
-		JSExport< API >::AddFunctionProperty("log", std::mem_fn(&API::logArgumentValidator));
+		JSExport<API>::SetClassVersion(1);
+		JSExport<API>::SetParent(JSExport<Module>::Class());
+		JSExport<API>::AddFunctionProperty("info", std::mem_fn(&API::infoArgumentValidator));
+		JSExport<API>::AddFunctionProperty("warn", std::mem_fn(&API::warnArgumentValidator));
+		JSExport<API>::AddFunctionProperty("error", std::mem_fn(&API::errorArgumentValidator));
+		JSExport<API>::AddFunctionProperty("debug", std::mem_fn(&API::debugArgumentValidator));
+		JSExport<API>::AddFunctionProperty("trace", std::mem_fn(&API::traceArgumentValidator));
+		JSExport<API>::AddFunctionProperty("log", std::mem_fn(&API::logArgumentValidator));
 	}
 
-	JSValue API::infoArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue API::infoArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 1);
 		const auto _0 = arguments.at(0);
-		std::string message = static_cast< std::string >(_0);
-		this_object.GetPrivate< API >()->info(message);
+		std::string message = static_cast<std::string>(_0);
+		this_object.GetPrivate<API>()->info(message);
 		return this_object.get_context().CreateUndefined();
 	}
 
-	JSValue API::warnArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue API::warnArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 1);
 		const auto _0 = arguments.at(0);
-		std::string message = static_cast< std::string >(_0);
-		this_object.GetPrivate< API >()->warn(message);
+		std::string message = static_cast<std::string>(_0);
+		this_object.GetPrivate<API>()->warn(message);
 		return this_object.get_context().CreateUndefined();
 	}
 
-	JSValue API::errorArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue API::errorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 1);
 		const auto _0 = arguments.at(0);
-		std::string message = static_cast< std::string >(_0);
-		this_object.GetPrivate< API >()->error(message);
+		std::string message = static_cast<std::string>(_0);
+		this_object.GetPrivate<API>()->error(message);
 		return this_object.get_context().CreateUndefined();
 	}
 
-	JSValue API::debugArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue API::debugArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 1);
 		const auto _0 = arguments.at(0);
-		std::string message = static_cast< std::string >(_0);
-		this_object.GetPrivate< API >()->debug(message);
+		std::string message = static_cast<std::string>(_0);
+		this_object.GetPrivate<API>()->debug(message);
 		return this_object.get_context().CreateUndefined();
 	}
 
-	JSValue API::traceArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue API::traceArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 1);
 		const auto _0 = arguments.at(0);
-		std::string message = static_cast< std::string >(_0);
-		this_object.GetPrivate< API >()->trace(message);
+		std::string message = static_cast<std::string>(_0);
+		this_object.GetPrivate<API>()->trace(message);
 		return this_object.get_context().CreateUndefined();
 	}
 
-	JSValue API::logArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue API::logArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 2);
 		const auto _0 = arguments.at(0);
-		std::string level = static_cast< std::string >(_0);
+		std::string level = static_cast<std::string>(_0);
 		const auto _1 = arguments.at(1);
-		std::string message = static_cast< std::string >(_1);
-		this_object.GetPrivate< API >()->log(level, message);
+		std::string message = static_cast<std::string>(_1);
+		this_object.GetPrivate<API>()->log(level, message);
 		return this_object.get_context().CreateUndefined();
 	}
 

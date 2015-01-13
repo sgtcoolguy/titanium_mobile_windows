@@ -35,7 +35,7 @@ protected:
 
 TEST_F(ButtonTests, basic_functionality)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< Titanium::GlobalObject >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
 	auto global_object = js_context.get_global_object();
 
 	XCTAssertFalse(global_object.HasProperty("Titanium"));
@@ -49,7 +49,7 @@ TEST_F(ButtonTests, basic_functionality)
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
 	XCTAssertFalse(Titanium.HasProperty("UI"));
-	auto UI = js_context.CreateObject(JSExport< Titanium::UIModule >::Class());
+	auto UI = js_context.CreateObject(JSExport<Titanium::UIModule>::Class());
 	Titanium.SetProperty("UI", UI, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("UI"));
 
@@ -63,8 +63,8 @@ TEST_F(ButtonTests, basic_functionality)
 	XCTAssertTrue(UI.HasProperty("createWindow"));
 	XCTAssertTrue(UI.HasProperty("createButton"));
 
-	auto Button = js_context.CreateObject(JSExport< NativeButtonExample >::Class());
-	auto button_ptr = Button.GetPrivate< NativeButtonExample >();
+	auto Button = js_context.CreateObject(JSExport<NativeButtonExample>::Class());
+	auto button_ptr = Button.GetPrivate<NativeButtonExample>();
 	XCTAssertNotEqual(nullptr, button_ptr);
 
 	UI.SetProperty("Button", Button);

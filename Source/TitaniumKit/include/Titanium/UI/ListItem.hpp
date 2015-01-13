@@ -25,7 +25,7 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ListItem
 		*/
-		class TITANIUMKIT_EXPORT ListItem : public Module, public JSExport< ListItem >
+		class TITANIUMKIT_EXPORT ListItem : public Module, public JSExport<ListItem>
 		{
 		public:
 			/*!
@@ -39,7 +39,7 @@ namespace Titanium
 			virtual void set_accessoryType(const LIST_ACCESSORY_TYPE& accessoryType) TITANIUM_NOEXCEPT;
 
 			ListItem(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			ListItem(const ListItem&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			ListItem(const ListItem&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~ListItem() = default;
 			ListItem(const ListItem&) = default;

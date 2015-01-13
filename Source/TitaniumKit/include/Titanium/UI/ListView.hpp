@@ -25,7 +25,7 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ListView
 		*/
-		class TITANIUMKIT_EXPORT ListView : public View, public JSExport< ListView >
+		class TITANIUMKIT_EXPORT ListView : public View, public JSExport<ListView>
 		{
 		public:
 			/*!
@@ -42,7 +42,7 @@ namespace Titanium
 			virtual void set_defaultItemTemplate(const LIST_ITEM_TEMPLATE& defaultItemTemplate) TITANIUM_NOEXCEPT;
 
 			ListView(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			ListView(const ListView&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			ListView(const ListView&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~ListView() = default;
 			ListView(const ListView&) = default;

@@ -16,11 +16,11 @@ using namespace HAL;
  @discussion This is an example of how to implement Titanium::File
  for a native File.
  */
-class NativeFileExample final : public Titanium::Filesystem::File, public JSExport< NativeFileExample >
+class NativeFileExample final : public Titanium::Filesystem::File, public JSExport<NativeFileExample>
 {
 public:
 	NativeFileExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeFileExample(const NativeFileExample&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+	NativeFileExample(const NativeFileExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeFileExample() = default;
 	NativeFileExample(const NativeFileExample&) = default;
@@ -52,12 +52,12 @@ public:
 	virtual bool deleteFile() TITANIUM_NOEXCEPT;
 	virtual bool exists() TITANIUM_NOEXCEPT;
 	virtual std::string extension() TITANIUM_NOEXCEPT;
-	virtual std::vector< JSValue > getDirectoryListing() TITANIUM_NOEXCEPT;
+	virtual std::vector<JSValue> getDirectoryListing() TITANIUM_NOEXCEPT;
 	virtual bool isDirectory() TITANIUM_NOEXCEPT;
 	virtual bool isFile() TITANIUM_NOEXCEPT;
 	virtual unsigned modificationTimestamp() TITANIUM_NOEXCEPT;
 	virtual bool move(const std::string& newpath) TITANIUM_NOEXCEPT;
-	virtual JSValue open(const std::unordered_set< Titanium::Filesystem::MODE >&) TITANIUM_NOEXCEPT;
+	virtual JSValue open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT;
 	virtual JSValue read() TITANIUM_NOEXCEPT;
 	virtual bool rename(const std::string& newname) TITANIUM_NOEXCEPT;
 	virtual std::string resolve() TITANIUM_NOEXCEPT;

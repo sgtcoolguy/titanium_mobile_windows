@@ -12,15 +12,15 @@ NativeGestureExample::NativeGestureExample(const JSContext& js_context) TITANIUM
 {
 }
 
-NativeGestureExample::NativeGestureExample(const NativeGestureExample& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+NativeGestureExample::NativeGestureExample(const NativeGestureExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::Gesture(rhs, arguments)
 {
 }
 
 void NativeGestureExample::JSExportInitialize()
 {
-	JSExport< NativeGestureExample >::SetClassVersion(1);
-	JSExport< NativeGestureExample >::SetParent(JSExport< Titanium::Gesture >::Class());
+	JSExport<NativeGestureExample>::SetClassVersion(1);
+	JSExport<NativeGestureExample>::SetParent(JSExport<Titanium::Gesture>::Class());
 }
 
 void NativeGestureExample::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT

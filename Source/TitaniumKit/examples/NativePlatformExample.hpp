@@ -16,11 +16,11 @@ using namespace HAL;
  @discussion This is an example of how to implement Titanium::Platform
  for a native platform.
  */
-class NativePlatformExample final : public Titanium::PlatformModule, public JSExport< NativePlatformExample >
+class NativePlatformExample final : public Titanium::PlatformModule, public JSExport<NativePlatformExample>
 {
 public:
 	NativePlatformExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativePlatformExample(const NativePlatformExample&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+	NativePlatformExample(const NativePlatformExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 	virtual ~NativePlatformExample() = default;
 	NativePlatformExample(const NativePlatformExample&) = default;

@@ -22,7 +22,7 @@ namespace Titanium
 		  @discussion This is the Titanium.Filesystem.File module.
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Filesystem.File
 		*/
-		class TITANIUMKIT_EXPORT File : public Module, public JSExport< File >
+		class TITANIUMKIT_EXPORT File : public Module, public JSExport<File>
 		{
 		public:
 			/*!
@@ -146,7 +146,7 @@ namespace Titanium
 			  @discussion Returns a listing of the directory identified by this file object, or null
 			  if this object doesn't identify a directory.
 			*/
-			virtual std::vector< JSValue > getDirectoryListing() TITANIUM_NOEXCEPT;
+			virtual std::vector<JSValue> getDirectoryListing() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract isDirectory
@@ -176,7 +176,7 @@ namespace Titanium
 			  @abstract open
 			  @discussion Opens the file identified by this file object for random access.
 			*/
-			virtual JSValue open(const std::unordered_set< MODE >&) TITANIUM_NOEXCEPT;
+			virtual JSValue open(const std::unordered_set<MODE>&) TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract read
@@ -209,7 +209,7 @@ namespace Titanium
 			virtual bool write(const JSValue& data, bool append) TITANIUM_NOEXCEPT;
 
 			File(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			File(const File&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			File(const File&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~File() = default;
 			File(const File&) = default;
@@ -232,37 +232,37 @@ namespace Titanium
 			virtual JSValue get_symbolicLink_ArgumentValidator() const TITANIUM_NOEXCEPT final;
 			virtual JSValue get_writable_ArgumentValidator() const TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getExecutable_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue getHidden_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue getName_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue getNativePath_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue getParent_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue getReadonly_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue getRemoteBackup_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue getSize_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue getSymbolicLink_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue getWritable_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue getExecutable_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue getHidden_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue getName_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue getNativePath_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue getParent_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue getReadonly_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue getRemoteBackup_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue getSize_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue getSymbolicLink_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue getWritable_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue append_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue copy_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue createDirectory_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue createFile_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue createTimestamp_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue deleteDirectory_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue deleteFile_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue exists_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue extension_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue getDirectoryListing_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue isDirectory_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue isFile_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue modificationTimestamp_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue move_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue open_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue read_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue rename_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue resolve_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue spaceAvailable_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue write_ArgumentValidator(const std::vector< JSValue >&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue append_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue copy_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue createDirectory_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue createFile_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue createTimestamp_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue deleteDirectory_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue deleteFile_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue exists_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue extension_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue getDirectoryListing_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue isDirectory_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue isFile_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue modificationTimestamp_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue move_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue open_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue read_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue rename_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue resolve_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue spaceAvailable_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue write_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		};
 	}
 }  // namespace Titanium { namespace Filesystem {

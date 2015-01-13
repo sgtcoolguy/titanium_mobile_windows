@@ -25,7 +25,7 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Label
 		*/
-		class TITANIUMKIT_EXPORT Label : public View, public JSExport< Label >
+		class TITANIUMKIT_EXPORT Label : public View, public JSExport<Label>
 		{
 		public:
 			/*!
@@ -93,7 +93,7 @@ namespace Titanium
 			virtual void set_wordWrap(const JSValue& wordWrap) TITANIUM_NOEXCEPT;
 
 			Label(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			Label(const Label&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			Label(const Label&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~Label() = default;
 			Label(const Label&) = default;

@@ -16,11 +16,11 @@ using namespace HAL;
  @discussion This is an example of how to implement Titanium::Gesture
  for a native Gesture.
  */
-class NativeGestureExample final : public Titanium::Gesture, public JSExport< NativeGestureExample >
+class NativeGestureExample final : public Titanium::Gesture, public JSExport<NativeGestureExample>
 {
 public:
 	NativeGestureExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeGestureExample(const NativeGestureExample&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+	NativeGestureExample(const NativeGestureExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeGestureExample() = default;
 	NativeGestureExample(const NativeGestureExample&) = default;

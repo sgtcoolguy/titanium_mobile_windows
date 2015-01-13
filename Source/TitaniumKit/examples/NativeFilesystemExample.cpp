@@ -12,15 +12,15 @@ NativeFilesystemExample::NativeFilesystemExample(const JSContext& js_context) TI
 {
 }
 
-NativeFilesystemExample::NativeFilesystemExample(const NativeFilesystemExample& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+NativeFilesystemExample::NativeFilesystemExample(const NativeFilesystemExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::FilesystemModule(rhs, arguments)
 {
 }
 
 void NativeFilesystemExample::JSExportInitialize()
 {
-	JSExport< NativeFilesystemExample >::SetClassVersion(1);
-	JSExport< NativeFilesystemExample >::SetParent(JSExport< Titanium::FilesystemModule >::Class());
+	JSExport<NativeFilesystemExample>::SetClassVersion(1);
+	JSExport<NativeFilesystemExample>::SetParent(JSExport<Titanium::FilesystemModule>::Class());
 }
 
 JSValue NativeFilesystemExample::getFile(const std::string&) TITANIUM_NOEXCEPT
@@ -39,7 +39,7 @@ bool NativeFilesystemExample::isExternalStoragePresent() TITANIUM_NOEXCEPT
 {
 	return false;
 }
-JSValue NativeFilesystemExample::openStream(std::unordered_set< Titanium::Filesystem::MODE > modes, const std::string& path) TITANIUM_NOEXCEPT
+JSValue NativeFilesystemExample::openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT
 {
 	return get_context().CreateNull();
 }

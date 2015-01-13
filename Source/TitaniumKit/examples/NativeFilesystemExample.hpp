@@ -16,14 +16,14 @@ using namespace HAL;
  @discussion This is an example of how to implement Titanium::File
  for a native File.
  */
-class NativeFilesystemExample final : public Titanium::FilesystemModule, public JSExport< NativeFilesystemExample >
+class NativeFilesystemExample final : public Titanium::FilesystemModule, public JSExport<NativeFilesystemExample>
 {
 public:
 	virtual JSValue getFile(const std::string&) TITANIUM_NOEXCEPT;
 	virtual JSValue createTempDirectory() TITANIUM_NOEXCEPT;
 	virtual JSValue createTempFile() TITANIUM_NOEXCEPT;
 	virtual bool isExternalStoragePresent() TITANIUM_NOEXCEPT;
-	virtual JSValue openStream(std::unordered_set< Titanium::Filesystem::MODE > modes, const std::string& path) TITANIUM_NOEXCEPT;
+	virtual JSValue openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT;
 
 	virtual std::string separator() const TITANIUM_NOEXCEPT;
 	virtual std::string applicationCacheDirectory() const TITANIUM_NOEXCEPT;
@@ -36,7 +36,7 @@ public:
 	virtual std::string tempDirectory() const TITANIUM_NOEXCEPT;
 
 	NativeFilesystemExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeFilesystemExample(const NativeFilesystemExample&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+	NativeFilesystemExample(const NativeFilesystemExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeFilesystemExample() = default;
 	NativeFilesystemExample(const NativeFilesystemExample&) = default;

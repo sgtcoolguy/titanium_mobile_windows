@@ -26,7 +26,7 @@ namespace Titanium
 		{
 		}
 
-		TextField::TextField(const TextField& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		TextField::TextField(const TextField& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : View(rhs, arguments),
 		      borderStyle__(rhs.borderStyle__),
 		      clearButtonMode__(rhs.clearButtonMode__),
@@ -134,111 +134,111 @@ namespace Titanium
 
 		void TextField::JSExportInitialize()
 		{
-			JSExport< TextField >::SetClassVersion(1);
-			JSExport< TextField >::SetParent(JSExport< View >::Class());
-			JSExport< TextField >::AddValueProperty("curve", std::mem_fn(&TextField::getBorderStyleArgumentValidator), std::mem_fn(&TextField::setBorderStyleArgumentValidator));
-			JSExport< TextField >::AddValueProperty("clearButtonMode", std::mem_fn(&TextField::getClearButtonModeArgumentValidator), std::mem_fn(&TextField::setClearButtonModeArgumentValidator));
-			JSExport< TextField >::AddValueProperty("leftButtonMode", std::mem_fn(&TextField::getLeftButtonModeArgumentValidator), std::mem_fn(&TextField::setLeftButtonModeArgumentValidator));
-			JSExport< TextField >::AddValueProperty("rightButtonMode", std::mem_fn(&TextField::getRightButtonModeArgumentValidator), std::mem_fn(&TextField::setRightButtonModeArgumentValidator));
-			JSExport< TextField >::AddValueProperty("keyboardType", std::mem_fn(&TextField::getKeyboardTypeArgumentValidator), std::mem_fn(&TextField::setKeyboardTypeArgumentValidator));
-			JSExport< TextField >::AddValueProperty("returnKeyType", std::mem_fn(&TextField::getReturnKeyTypeArgumentValidator), std::mem_fn(&TextField::setReturnKeyTypeArgumentValidator));
-			JSExport< TextField >::AddValueProperty("textAlign", std::mem_fn(&TextField::getTextAlignArgumentValidator), std::mem_fn(&TextField::setTextAlignArgumentValidator));
-			JSExport< TextField >::AddValueProperty("autocapitalization", std::mem_fn(&TextField::getAutoCapitalizationArgumentValidator), std::mem_fn(&TextField::setAutoCapitalizationArgumentValidator));
-			JSExport< TextField >::AddValueProperty("verticalAlign", std::mem_fn(&TextField::getVerticalAlignArgumentValidator), std::mem_fn(&TextField::setVerticalAlignArgumentValidator));
+			JSExport<TextField>::SetClassVersion(1);
+			JSExport<TextField>::SetParent(JSExport<View>::Class());
+			JSExport<TextField>::AddValueProperty("curve", std::mem_fn(&TextField::getBorderStyleArgumentValidator), std::mem_fn(&TextField::setBorderStyleArgumentValidator));
+			JSExport<TextField>::AddValueProperty("clearButtonMode", std::mem_fn(&TextField::getClearButtonModeArgumentValidator), std::mem_fn(&TextField::setClearButtonModeArgumentValidator));
+			JSExport<TextField>::AddValueProperty("leftButtonMode", std::mem_fn(&TextField::getLeftButtonModeArgumentValidator), std::mem_fn(&TextField::setLeftButtonModeArgumentValidator));
+			JSExport<TextField>::AddValueProperty("rightButtonMode", std::mem_fn(&TextField::getRightButtonModeArgumentValidator), std::mem_fn(&TextField::setRightButtonModeArgumentValidator));
+			JSExport<TextField>::AddValueProperty("keyboardType", std::mem_fn(&TextField::getKeyboardTypeArgumentValidator), std::mem_fn(&TextField::setKeyboardTypeArgumentValidator));
+			JSExport<TextField>::AddValueProperty("returnKeyType", std::mem_fn(&TextField::getReturnKeyTypeArgumentValidator), std::mem_fn(&TextField::setReturnKeyTypeArgumentValidator));
+			JSExport<TextField>::AddValueProperty("textAlign", std::mem_fn(&TextField::getTextAlignArgumentValidator), std::mem_fn(&TextField::setTextAlignArgumentValidator));
+			JSExport<TextField>::AddValueProperty("autocapitalization", std::mem_fn(&TextField::getAutoCapitalizationArgumentValidator), std::mem_fn(&TextField::setAutoCapitalizationArgumentValidator));
+			JSExport<TextField>::AddValueProperty("verticalAlign", std::mem_fn(&TextField::getVerticalAlignArgumentValidator), std::mem_fn(&TextField::setVerticalAlignArgumentValidator));
 		}
 
 		JSValue TextField::getBorderStyleArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< INPUT_BORDERSTYLE >::type >(get_borderStyle()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<INPUT_BORDERSTYLE>::type>(get_borderStyle()));
 		}
 
 		bool TextField::setBorderStyleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			borderStyle__ = Constants::to_INPUT_BORDERSTYLE(static_cast< std::underlying_type< INPUT_BORDERSTYLE >::type >(argument));
+			borderStyle__ = Constants::to_INPUT_BORDERSTYLE(static_cast<std::underlying_type<INPUT_BORDERSTYLE>::type>(argument));
 			set_borderStyle(borderStyle__);
 			return true;
 		}
 
 		JSValue TextField::getClearButtonModeArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< INPUT_BUTTONMODE >::type >(get_clearButtonMode()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<INPUT_BUTTONMODE>::type>(get_clearButtonMode()));
 		}
 
 		bool TextField::setClearButtonModeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			clearButtonMode__ = Constants::to_INPUT_BUTTONMODE(static_cast< std::underlying_type< INPUT_BUTTONMODE >::type >(argument));
+			clearButtonMode__ = Constants::to_INPUT_BUTTONMODE(static_cast<std::underlying_type<INPUT_BUTTONMODE>::type>(argument));
 			set_clearButtonMode(clearButtonMode__);
 			return true;
 		}
 
 		JSValue TextField::getLeftButtonModeArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< INPUT_BUTTONMODE >::type >(get_leftButtonMode()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<INPUT_BUTTONMODE>::type>(get_leftButtonMode()));
 		}
 
 		bool TextField::setLeftButtonModeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			leftButtonMode__ = Constants::to_INPUT_BUTTONMODE(static_cast< std::underlying_type< INPUT_BUTTONMODE >::type >(argument));
+			leftButtonMode__ = Constants::to_INPUT_BUTTONMODE(static_cast<std::underlying_type<INPUT_BUTTONMODE>::type>(argument));
 			set_leftButtonMode(leftButtonMode__);
 			return true;
 		}
 
 		JSValue TextField::getRightButtonModeArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< INPUT_BUTTONMODE >::type >(get_rightButtonMode()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<INPUT_BUTTONMODE>::type>(get_rightButtonMode()));
 		}
 
 		bool TextField::setRightButtonModeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			rightButtonMode__ = Constants::to_INPUT_BUTTONMODE(static_cast< std::underlying_type< KEYBOARD >::type >(argument));
+			rightButtonMode__ = Constants::to_INPUT_BUTTONMODE(static_cast<std::underlying_type<KEYBOARD>::type>(argument));
 			set_rightButtonMode(rightButtonMode__);
 			return true;
 		}
 
 		JSValue TextField::getKeyboardTypeArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< KEYBOARD >::type >(get_keyboardType()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<KEYBOARD>::type>(get_keyboardType()));
 		}
 
 		bool TextField::setKeyboardTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			keyboardType__ = Constants::to_KEYBOARD(static_cast< std::underlying_type< KEYBOARD >::type >(argument));
+			keyboardType__ = Constants::to_KEYBOARD(static_cast<std::underlying_type<KEYBOARD>::type>(argument));
 			set_keyboardType(keyboardType__);
 			return true;
 		}
 
 		JSValue TextField::getReturnKeyTypeArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< RETURNKEY >::type >(get_returnKeyType()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<RETURNKEY>::type>(get_returnKeyType()));
 		}
 
 		bool TextField::setReturnKeyTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			returnKeyType__ = Constants::to_RETURNKEY(static_cast< std::underlying_type< RETURNKEY >::type >(argument));
+			returnKeyType__ = Constants::to_RETURNKEY(static_cast<std::underlying_type<RETURNKEY>::type>(argument));
 			set_returnKeyType(returnKeyType__);
 			return true;
 		}
 
 		JSValue TextField::getTextAlignArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< TEXT_ALIGNMENT >::type >(get_textAlign()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_ALIGNMENT>::type>(get_textAlign()));
 		}
 
 		bool TextField::setTextAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			bool result = false;
 			if (argument.IsNumber()) {
-				textAlign__ = Constants::to_TEXT_ALIGNMENT(static_cast< std::underlying_type< TEXT_ALIGNMENT >::type >(argument));
+				textAlign__ = Constants::to_TEXT_ALIGNMENT(static_cast<std::underlying_type<TEXT_ALIGNMENT>::type>(argument));
 				set_textAlign(textAlign__);
 				result = true;
 			} else if (argument.IsString()) {
-				textAlign__ = Constants::to_TEXT_ALIGNMENT(static_cast< std::string >(argument));
+				textAlign__ = Constants::to_TEXT_ALIGNMENT(static_cast<std::string>(argument));
 				set_textAlign(textAlign__);
 				result = true;
 			}
@@ -248,31 +248,31 @@ namespace Titanium
 
 		JSValue TextField::getAutoCapitalizationArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< TEXT_AUTOCAPITALIZATION >::type >(get_autoCapitalization()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(get_autoCapitalization()));
 		}
 
 		bool TextField::setAutoCapitalizationArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			autoCapitalization__ = Constants::to_TEXT_AUTOCAPITALIZATION(static_cast< std::underlying_type< TEXT_AUTOCAPITALIZATION >::type >(argument));
+			autoCapitalization__ = Constants::to_TEXT_AUTOCAPITALIZATION(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(argument));
 			set_autoCapitalization(autoCapitalization__);
 			return true;
 		}
 
 		JSValue TextField::getVerticalAlignArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type >(get_verticalAlign()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type>(get_verticalAlign()));
 		}
 
 		bool TextField::setVerticalAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			bool result = false;
 			if (argument.IsNumber()) {
-				verticalAlign__ = Constants::to_TEXT_VERTICAL_ALIGNMENT(static_cast< std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type >(argument));
+				verticalAlign__ = Constants::to_TEXT_VERTICAL_ALIGNMENT(static_cast<std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type>(argument));
 				set_verticalAlign(verticalAlign__);
 				result = true;
 			} else if (argument.IsString()) {
-				verticalAlign__ = Constants::to_TEXT_VERTICAL_ALIGNMENT(static_cast< std::string >(argument));
+				verticalAlign__ = Constants::to_TEXT_VERTICAL_ALIGNMENT(static_cast<std::string>(argument));
 				set_verticalAlign(verticalAlign__);
 				result = true;
 			}

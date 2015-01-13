@@ -25,7 +25,7 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Window
 		*/
-		class TITANIUMKIT_EXPORT Window : public View, public JSExport< Window >
+		class TITANIUMKIT_EXPORT Window : public View, public JSExport<Window>
 		{
 		public:
 			/*!
@@ -49,11 +49,11 @@ namespace Titanium
 
 			  @discussion An array of supported values specified using the EXTEND_EDGE constants in Titanium.UI.
 			*/
-			virtual std::unordered_set< EXTEND_EDGE > get_extendEdges() const TITANIUM_NOEXCEPT final;
-			virtual void set_extendEdges(const std::unordered_set< EXTEND_EDGE >& extendEdges) TITANIUM_NOEXCEPT;
+			virtual std::unordered_set<EXTEND_EDGE> get_extendEdges() const TITANIUM_NOEXCEPT final;
+			virtual void set_extendEdges(const std::unordered_set<EXTEND_EDGE>& extendEdges) TITANIUM_NOEXCEPT;
 
 			Window(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			Window(const Window&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			Window(const Window&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~Window() TITANIUM_NOEXCEPT;  //= default;
 			Window(const Window&) = default;
@@ -67,7 +67,7 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue openArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue openArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 			virtual JSValue getExtendEdgesArgumentValidator() const TITANIUM_NOEXCEPT final;
 			virtual bool setExtendEdgesArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
@@ -76,7 +76,7 @@ namespace Titanium
 // need to be exported from a DLL.
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			std::unordered_set< EXTEND_EDGE > extendEdges__;
+			std::unordered_set<EXTEND_EDGE> extendEdges__;
 #pragma warning(pop)
 		};
 	}

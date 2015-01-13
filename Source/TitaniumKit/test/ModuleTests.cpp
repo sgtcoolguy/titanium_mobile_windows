@@ -35,7 +35,7 @@ protected:
 
 TEST_F(ModuleTests, properties)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< Titanium::GlobalObject >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
 	auto global_object = js_context.get_global_object();
 
 	XCTAssertFalse(global_object.HasProperty("Titanium"));
@@ -49,7 +49,7 @@ TEST_F(ModuleTests, properties)
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
 	XCTAssertFalse(Titanium.HasProperty("Module"));
-	auto Module = js_context.CreateObject(JSExport< Titanium::Module >::Class());
+	auto Module = js_context.CreateObject(JSExport<Titanium::Module>::Class());
 	Titanium.SetProperty("Module", Module, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("Module"));
 
@@ -57,7 +57,7 @@ TEST_F(ModuleTests, properties)
 	XCTAssertTrue(Module.HasProperty("applyProperties"));
 	XCTAssertTrue(Module.HasProperty("fireEvent"));
 
-	auto nativeModuleExample = js_context.CreateObject(JSExport< NativeModuleExample >::Class());
+	auto nativeModuleExample = js_context.CreateObject(JSExport<NativeModuleExample>::Class());
 	global_object.SetProperty("NativeModuleExample", nativeModuleExample, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(global_object.HasProperty("NativeModuleExample"));
 
@@ -66,7 +66,7 @@ TEST_F(ModuleTests, properties)
 	XCTAssertTrue(result.IsObject());
 
 	JSObject module = result;
-	auto module_ptr = module.GetPrivate< NativeModuleExample >();
+	auto module_ptr = module.GetPrivate<NativeModuleExample>();
 	XCTAssertNotEqual(nullptr, module_ptr);
 
 	// Set the name of the event that "enables" the native module. This could be
@@ -79,7 +79,7 @@ TEST_F(ModuleTests, properties)
 	// listeners registered yet.
 	XCTAssertNoThrow(result = js_context.JSEvaluateScript("module.enabled;"));
 	XCTAssertTrue(result.IsBoolean());
-	XCTAssertFalse(static_cast< bool >(result));
+	XCTAssertFalse(static_cast<bool>(result));
 
 	// Create a listener interested in 'foo' events.
 	XCTAssertNoThrow(result = js_context.JSEvaluateScript("function fooEventListener(event){};"));
@@ -92,7 +92,7 @@ TEST_F(ModuleTests, properties)
 	// listeners registered.
 	XCTAssertNoThrow(result = js_context.JSEvaluateScript("module.enabled;"));
 	XCTAssertTrue(result.IsBoolean());
-	XCTAssertTrue(static_cast< bool >(result));
+	XCTAssertTrue(static_cast<bool>(result));
 
 	// Now remove the event listener.
 	XCTAssertNoThrow(js_context.JSEvaluateScript("module.removeEventListener('foo', fooEventListener);"));
@@ -101,5 +101,5 @@ TEST_F(ModuleTests, properties)
 	// event listeners registered.
 	XCTAssertNoThrow(result = js_context.JSEvaluateScript("module.enabled;"));
 	XCTAssertTrue(result.IsBoolean());
-	XCTAssertFalse(static_cast< bool >(result));
+	XCTAssertFalse(static_cast<bool>(result));
 }

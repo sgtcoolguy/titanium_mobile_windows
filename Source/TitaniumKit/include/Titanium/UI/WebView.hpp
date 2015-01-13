@@ -26,11 +26,11 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.WebView
 		*/
-		class TITANIUMKIT_EXPORT WebView : public View, public JSExport< WebView >
+		class TITANIUMKIT_EXPORT WebView : public View, public JSExport<WebView>
 		{
 		public:
 			WebView(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			WebView(const WebView&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			WebView(const WebView&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~WebView() = default;
 			WebView(const WebView&) = default;

@@ -13,13 +13,13 @@ NativePlatformDisplayCapsExample::NativePlatformDisplayCapsExample(const JSConte
 	TITANIUM_LOG_DEBUG("NativePlatformDisplayCapsExample::ctor");
 }
 
-NativePlatformDisplayCapsExample::NativePlatformDisplayCapsExample(const NativePlatformDisplayCapsExample& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+NativePlatformDisplayCapsExample::NativePlatformDisplayCapsExample(const NativePlatformDisplayCapsExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::Platform::DisplayCaps(rhs, arguments)
 {
 }
 
 void NativePlatformDisplayCapsExample::JSExportInitialize()
 {
-	JSExport< NativePlatformDisplayCapsExample >::SetClassVersion(1);
-	JSExport< NativePlatformDisplayCapsExample >::SetParent(JSExport< Titanium::Platform::DisplayCaps >::Class());
+	JSExport<NativePlatformDisplayCapsExample>::SetClassVersion(1);
+	JSExport<NativePlatformDisplayCapsExample>::SetParent(JSExport<Titanium::Platform::DisplayCaps>::Class());
 }

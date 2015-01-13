@@ -15,14 +15,14 @@ namespace Titanium
 	{
 	}
 
-	Accelerometer::Accelerometer(const Accelerometer& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+	Accelerometer::Accelerometer(const Accelerometer& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 	    : Module(rhs, arguments)
 	{
 	}
 	void Accelerometer::JSExportInitialize()
 	{
-		JSExport< Accelerometer >::SetClassVersion(1);
-		JSExport< Accelerometer >::SetParent(JSExport< Module >::Class());
+		JSExport<Accelerometer>::SetClassVersion(1);
+		JSExport<Accelerometer>::SetParent(JSExport<Module>::Class());
 	}
 
 	void Accelerometer::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT

@@ -19,7 +19,7 @@ namespace Titanium
 		{
 		}
 
-		WebViewErrorEvent::WebViewErrorEvent(const WebViewErrorEvent& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		WebViewErrorEvent::WebViewErrorEvent(const WebViewErrorEvent& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : JSExportObject(rhs, arguments),
 		      error__(rhs.error__)
 		{
@@ -40,20 +40,20 @@ namespace Titanium
 
 		void WebViewErrorEvent::JSExportInitialize()
 		{
-			JSExport< WebViewErrorEvent >::SetClassVersion(1);
-			JSExport< WebViewErrorEvent >::SetParent(JSExport< JSExportObject >::Class());
-			JSExport< WebViewErrorEvent >::AddValueProperty("error", std::mem_fn(&WebViewErrorEvent::getErrorArgumentValidator), std::mem_fn(&WebViewErrorEvent::setErrorArgumentValidator));
+			JSExport<WebViewErrorEvent>::SetClassVersion(1);
+			JSExport<WebViewErrorEvent>::SetParent(JSExport<JSExportObject>::Class());
+			JSExport<WebViewErrorEvent>::AddValueProperty("error", std::mem_fn(&WebViewErrorEvent::getErrorArgumentValidator), std::mem_fn(&WebViewErrorEvent::setErrorArgumentValidator));
 		}
 
 		JSValue WebViewErrorEvent::getErrorArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< URL_ERROR >::type >(get_error()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<URL_ERROR>::type>(get_error()));
 		}
 
 		bool WebViewErrorEvent::setErrorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			error__ = Constants::to_URL_ERROR(static_cast< std::underlying_type< URL_ERROR >::type >(argument));
+			error__ = Constants::to_URL_ERROR(static_cast<std::underlying_type<URL_ERROR>::type>(argument));
 			set_error(error__);
 			return true;
 		}

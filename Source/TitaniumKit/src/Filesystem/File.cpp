@@ -16,57 +16,57 @@ namespace Titanium
 		{
 		}
 
-		File::File(const File& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		File::File(const File& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : Module(rhs, arguments)
 		{
 		}
 
 		void File::JSExportInitialize()
 		{
-			JSExport< File >::SetClassVersion(1);
-			JSExport< File >::SetParent(JSExport< Module >::Class());
-			JSExport< File >::AddValueProperty("executable", std::mem_fn(&File::get_executable_ArgumentValidator));
-			JSExport< File >::AddValueProperty("hidden", std::mem_fn(&File::get_hidden_ArgumentValidator));
-			JSExport< File >::AddValueProperty("name", std::mem_fn(&File::get_name_ArgumentValidator));
-			JSExport< File >::AddValueProperty("nativePath", std::mem_fn(&File::get_nativePath_ArgumentValidator));
-			JSExport< File >::AddValueProperty("parent", std::mem_fn(&File::get_parent_ArgumentValidator));
-			JSExport< File >::AddValueProperty("readonly", std::mem_fn(&File::get_readonly_ArgumentValidator));
-			JSExport< File >::AddValueProperty("remoteBackup", std::mem_fn(&File::get_remoteBackup_ArgumentValidator));
-			JSExport< File >::AddValueProperty("size", std::mem_fn(&File::get_size_ArgumentValidator));
-			JSExport< File >::AddValueProperty("symbolicLink", std::mem_fn(&File::get_symbolicLink_ArgumentValidator));
-			JSExport< File >::AddValueProperty("writable", std::mem_fn(&File::get_writable_ArgumentValidator));
+			JSExport<File>::SetClassVersion(1);
+			JSExport<File>::SetParent(JSExport<Module>::Class());
+			JSExport<File>::AddValueProperty("executable", std::mem_fn(&File::get_executable_ArgumentValidator));
+			JSExport<File>::AddValueProperty("hidden", std::mem_fn(&File::get_hidden_ArgumentValidator));
+			JSExport<File>::AddValueProperty("name", std::mem_fn(&File::get_name_ArgumentValidator));
+			JSExport<File>::AddValueProperty("nativePath", std::mem_fn(&File::get_nativePath_ArgumentValidator));
+			JSExport<File>::AddValueProperty("parent", std::mem_fn(&File::get_parent_ArgumentValidator));
+			JSExport<File>::AddValueProperty("readonly", std::mem_fn(&File::get_readonly_ArgumentValidator));
+			JSExport<File>::AddValueProperty("remoteBackup", std::mem_fn(&File::get_remoteBackup_ArgumentValidator));
+			JSExport<File>::AddValueProperty("size", std::mem_fn(&File::get_size_ArgumentValidator));
+			JSExport<File>::AddValueProperty("symbolicLink", std::mem_fn(&File::get_symbolicLink_ArgumentValidator));
+			JSExport<File>::AddValueProperty("writable", std::mem_fn(&File::get_writable_ArgumentValidator));
 
-			JSExport< File >::AddFunctionProperty("getExecutable", std::mem_fn(&File::getExecutable_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("getHidden", std::mem_fn(&File::getHidden_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("getName", std::mem_fn(&File::getName_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("getNativePath", std::mem_fn(&File::getNativePath_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("getParent", std::mem_fn(&File::getParent_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("getReadonly", std::mem_fn(&File::getReadonly_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("getRemoteBackup", std::mem_fn(&File::getRemoteBackup_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("getSize", std::mem_fn(&File::getSize_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("getSymbolicLink", std::mem_fn(&File::getSymbolicLink_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("getWritable", std::mem_fn(&File::getWritable_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("getExecutable", std::mem_fn(&File::getExecutable_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("getHidden", std::mem_fn(&File::getHidden_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("getName", std::mem_fn(&File::getName_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("getNativePath", std::mem_fn(&File::getNativePath_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("getParent", std::mem_fn(&File::getParent_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("getReadonly", std::mem_fn(&File::getReadonly_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("getRemoteBackup", std::mem_fn(&File::getRemoteBackup_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("getSize", std::mem_fn(&File::getSize_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("getSymbolicLink", std::mem_fn(&File::getSymbolicLink_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("getWritable", std::mem_fn(&File::getWritable_ArgumentValidator));
 
-			JSExport< File >::AddFunctionProperty("append", std::mem_fn(&File::append_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("copy", std::mem_fn(&File::copy_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("createDirectory", std::mem_fn(&File::createDirectory_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("createFile", std::mem_fn(&File::createFile_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("createTimestamp", std::mem_fn(&File::createTimestamp_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("deleteDirectory", std::mem_fn(&File::deleteDirectory_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("deleteFile", std::mem_fn(&File::deleteFile_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("exists", std::mem_fn(&File::exists_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("extension", std::mem_fn(&File::extension_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("getDirectoryListing", std::mem_fn(&File::getDirectoryListing_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("isDirectory", std::mem_fn(&File::isDirectory_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("isFile", std::mem_fn(&File::isFile_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("modificationTimestamp", std::mem_fn(&File::modificationTimestamp_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("move", std::mem_fn(&File::move_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("open", std::mem_fn(&File::open_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("read", std::mem_fn(&File::read_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("rename", std::mem_fn(&File::rename_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("resolve", std::mem_fn(&File::resolve_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("spaceAvailable", std::mem_fn(&File::spaceAvailable_ArgumentValidator));
-			JSExport< File >::AddFunctionProperty("write", std::mem_fn(&File::write_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("append", std::mem_fn(&File::append_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("copy", std::mem_fn(&File::copy_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("createDirectory", std::mem_fn(&File::createDirectory_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("createFile", std::mem_fn(&File::createFile_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("createTimestamp", std::mem_fn(&File::createTimestamp_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("deleteDirectory", std::mem_fn(&File::deleteDirectory_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("deleteFile", std::mem_fn(&File::deleteFile_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("exists", std::mem_fn(&File::exists_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("extension", std::mem_fn(&File::extension_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("getDirectoryListing", std::mem_fn(&File::getDirectoryListing_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("isDirectory", std::mem_fn(&File::isDirectory_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("isFile", std::mem_fn(&File::isFile_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("modificationTimestamp", std::mem_fn(&File::modificationTimestamp_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("move", std::mem_fn(&File::move_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("open", std::mem_fn(&File::open_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("read", std::mem_fn(&File::read_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("rename", std::mem_fn(&File::rename_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("resolve", std::mem_fn(&File::resolve_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("spaceAvailable", std::mem_fn(&File::spaceAvailable_ArgumentValidator));
+			JSExport<File>::AddFunctionProperty("write", std::mem_fn(&File::write_ArgumentValidator));
 		}
 
 		bool File::get_executable() const TITANIUM_NOEXCEPT
@@ -165,10 +165,10 @@ namespace Titanium
 			TITANIUM_LOG_WARN("File::extension: Unimplemented");
 			return "";
 		}
-		std::vector< JSValue > File::getDirectoryListing() TITANIUM_NOEXCEPT
+		std::vector<JSValue> File::getDirectoryListing() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::getDirectoryListing: Unimplemented");
-			std::vector< JSValue > list;
+			std::vector<JSValue> list;
 			return list;
 		}
 		bool File::isDirectory() TITANIUM_NOEXCEPT
@@ -191,7 +191,7 @@ namespace Titanium
 			TITANIUM_LOG_WARN("File::move: Unimplemented");
 			return false;
 		}
-		JSValue File::open(const std::unordered_set< MODE >&) TITANIUM_NOEXCEPT
+		JSValue File::open(const std::unordered_set<MODE>&) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::open: Unimplemented");
 			return get_context().CreateNull();
@@ -262,127 +262,127 @@ namespace Titanium
 		{
 			return get_context().CreateNumber(get_size());
 		}
-		JSValue File::getSize_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::getSize_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_size_ArgumentValidator();
 		}
 
-		JSValue File::getExecutable_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::getExecutable_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_executable_ArgumentValidator();
 		}
-		JSValue File::getHidden_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::getHidden_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_hidden_ArgumentValidator();
 		}
-		JSValue File::getName_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::getName_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_name_ArgumentValidator();
 		}
-		JSValue File::getNativePath_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::getNativePath_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_nativePath_ArgumentValidator();
 		}
-		JSValue File::getParent_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::getParent_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_parent_ArgumentValidator();
 		}
-		JSValue File::getReadonly_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::getReadonly_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_readonly_ArgumentValidator();
 		}
-		JSValue File::getRemoteBackup_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::getRemoteBackup_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_remoteBackup_ArgumentValidator();
 		}
-		JSValue File::getSymbolicLink_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::getSymbolicLink_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_symbolicLink_ArgumentValidator();
 		}
-		JSValue File::getWritable_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::getWritable_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_writable_ArgumentValidator();
 		}
 
-		JSValue File::append_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::append_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() == 0) {
 				return get_context().CreateUndefined();
 			}
 			return get_context().CreateBoolean(append(arguments.at(0)));
 		}
-		JSValue File::copy_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::copy_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() == 0) {
 				return get_context().CreateUndefined();
 			}
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsString());
-			const auto destinationPath = static_cast< std::string >(_0);
+			const auto destinationPath = static_cast<std::string>(_0);
 			return get_context().CreateBoolean(copy(destinationPath));
 		}
-		JSValue File::createDirectory_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::createDirectory_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateBoolean(createDirectory());
 		}
-		JSValue File::createFile_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::createFile_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateBoolean(createFile());
 		}
-		JSValue File::createTimestamp_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::createTimestamp_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(createTimestamp());
 		}
-		JSValue File::deleteDirectory_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::deleteDirectory_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			bool recursive = false;
 			if (arguments.size() > 0) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsBoolean());
-				recursive = static_cast< bool >(_0);
+				recursive = static_cast<bool>(_0);
 			}
 
 			return get_context().CreateBoolean(deleteDirectory(recursive));
 		}
-		JSValue File::deleteFile_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::deleteFile_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateBoolean(deleteFile());
 		}
-		JSValue File::exists_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::exists_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateBoolean(exists());
 		}
-		JSValue File::extension_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::extension_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(extension());
 		}
-		JSValue File::getDirectoryListing_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::getDirectoryListing_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateArray(getDirectoryListing());
 		}
-		JSValue File::isDirectory_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::isDirectory_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateBoolean(isDirectory());
 		}
-		JSValue File::isFile_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::isFile_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateBoolean(isFile());
 		}
-		JSValue File::modificationTimestamp_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::modificationTimestamp_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(modificationTimestamp());
 		}
-		JSValue File::move_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::move_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() == 0) {
 				return get_context().CreateUndefined();
 			}
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsString());
-			const auto newpath = static_cast< std::string >(_0);
+			const auto newpath = static_cast<std::string>(_0);
 			return get_context().CreateBoolean(move(newpath));
 		}
-		JSValue File::open_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::open_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() == 0) {
 				return get_context().CreateUndefined();
@@ -390,31 +390,31 @@ namespace Titanium
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsNumber());
 
-			return open(Constants::to_MODE(static_cast< std::underlying_type< MODE >::type >(_0)));
+			return open(Constants::to_MODE(static_cast<std::underlying_type<MODE>::type>(_0)));
 		}
-		JSValue File::read_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::read_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return read();
 		}
-		JSValue File::rename_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::rename_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() == 0) {
 				return get_context().CreateUndefined();
 			}
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsString());
-			const auto newname = static_cast< std::string >(_0);
+			const auto newname = static_cast<std::string>(_0);
 			return get_context().CreateBoolean(rename(newname));
 		}
-		JSValue File::resolve_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::resolve_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(resolve());
 		}
-		JSValue File::spaceAvailable_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::spaceAvailable_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(spaceAvailable());
 		}
-		JSValue File::write_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue File::write_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() < 2) {
 				return get_context().CreateUndefined();
@@ -424,7 +424,7 @@ namespace Titanium
 
 			const auto _1 = arguments.at(1);
 			TITANIUM_ASSERT(_1.IsBoolean());
-			const auto append = static_cast< bool >(_1);
+			const auto append = static_cast<bool>(_1);
 
 			return get_context().CreateBoolean(write(_0, append));
 		}

@@ -25,7 +25,7 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.TextArea
 		*/
-		class TITANIUMKIT_EXPORT TextArea : public View, public JSExport< TextArea >
+		class TITANIUMKIT_EXPORT TextArea : public View, public JSExport<TextArea>
 		{
 		public:
 			/*!
@@ -39,8 +39,8 @@ namespace Titanium
 
 			  textArea.autoLink = AUTOLINK_MAP_ADDRESSES|AUTOLINK_PHONE_NUMBERS;
 			*/
-			virtual std::unordered_set< AUTOLINK > get_autoLink() const TITANIUM_NOEXCEPT final;
-			virtual void set_autoLink(const std::unordered_set< AUTOLINK >& autoLink) TITANIUM_NOEXCEPT;
+			virtual std::unordered_set<AUTOLINK> get_autoLink() const TITANIUM_NOEXCEPT final;
+			virtual void set_autoLink(const std::unordered_set<AUTOLINK>& autoLink) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -96,7 +96,7 @@ namespace Titanium
 			virtual void set_verticalAlign(const TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT;
 
 			TextArea(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			TextArea(const TextArea&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			TextArea(const TextArea&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~TextArea() = default;
 			TextArea(const TextArea&) = default;
@@ -129,7 +129,7 @@ namespace Titanium
 			virtual bool setVerticalAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
-			std::unordered_set< AUTOLINK > autoLink__;
+			std::unordered_set<AUTOLINK> autoLink__;
 			KEYBOARD keyboardType__;
 			RETURNKEY returnKeyType__;
 			TEXT_ALIGNMENT textAlign__;

@@ -32,11 +32,11 @@ protected:
 
 TEST_F(TitaniumTests, logging)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< Titanium::GlobalObject >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
 	auto global_object = js_context.get_global_object();
 
 	XCTAssertFalse(global_object.HasProperty("Titanium"));
-	auto Titanium = js_context.CreateObject(JSExport< NativeTiExample >::Class());
+	auto Titanium = js_context.CreateObject(JSExport<NativeTiExample>::Class());
 	global_object.SetProperty("Titanium", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(global_object.HasProperty("Titanium"));
 
@@ -45,7 +45,7 @@ TEST_F(TitaniumTests, logging)
 	global_object.SetProperty("Ti", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
-	auto Titanium_ptr = Titanium.GetPrivate< NativeTiExample >();
+	auto Titanium_ptr = Titanium.GetPrivate<NativeTiExample>();
 	XCTAssertNotEqual(nullptr, Titanium_ptr);
 
 	XCTAssertTrue(Titanium.HasProperty("version"));
@@ -54,21 +54,21 @@ TEST_F(TitaniumTests, logging)
 
 	auto result = js_context.JSEvaluateScript("Ti.version;");
 	XCTAssertTrue(result.IsString());
-	std::string version = static_cast< std::string >(result);
+	std::string version = static_cast<std::string>(result);
 	XCTAssertEqual("__TITANIUM_VERSION__", version);
 
 	result = js_context.JSEvaluateScript("Ti.buildDate;");
 	XCTAssertTrue(result.IsString());
-	std::string buildDate = static_cast< std::string >(result);
+	std::string buildDate = static_cast<std::string>(result);
 	XCTAssertEqual("__TITANIUM_BUILD_DATE__", buildDate);
 
 	result = js_context.JSEvaluateScript("Ti.buildHash;");
 	XCTAssertTrue(result.IsString());
-	std::string buildHash = static_cast< std::string >(result);
+	std::string buildHash = static_cast<std::string>(result);
 	XCTAssertEqual("__TITANIUM_BUILD_HASH__", buildHash);
 
 	result = js_context.JSEvaluateScript("Ti.userAgent;");
 	XCTAssertTrue(result.IsString());
-	std::string userAgent = static_cast< std::string >(result);
+	std::string userAgent = static_cast<std::string>(result);
 	XCTAssertEqual("__TITANIUM_USER_AGENT__", userAgent);
 }

@@ -19,7 +19,7 @@ using namespace HAL;
  @discussion This is an example of how to implement a native module
  derived from Titanium::UI::Module for a native platform.
  */
-class NativeModuleExample final : public Titanium::Module, public JSExport< NativeModuleExample >
+class NativeModuleExample final : public Titanium::Module, public JSExport<NativeModuleExample>
 {
 public:
 	JSValue get_enabled() const;
@@ -28,7 +28,7 @@ public:
 	void set_event_name(const std::string& event_name) TITANIUM_NOEXCEPT;
 
 	NativeModuleExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeModuleExample(const NativeModuleExample&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+	NativeModuleExample(const NativeModuleExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeModuleExample() = default;
 	NativeModuleExample(const NativeModuleExample&) = default;

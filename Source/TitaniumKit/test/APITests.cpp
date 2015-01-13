@@ -35,7 +35,7 @@ protected:
 
 TEST_F(APITests, logging)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< Titanium::GlobalObject >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
 	auto global_object = js_context.get_global_object();
 
 	XCTAssertFalse(global_object.HasProperty("Titanium"));
@@ -49,11 +49,11 @@ TEST_F(APITests, logging)
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
 	XCTAssertFalse(Titanium.HasProperty("API"));
-	auto API = js_context.CreateObject(JSExport< NativeAPIExample >::Class());
+	auto API = js_context.CreateObject(JSExport<NativeAPIExample>::Class());
 	Titanium.SetProperty("API", API, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("API"));
 
-	auto api_ptr = API.GetPrivate< NativeAPIExample >();
+	auto api_ptr = API.GetPrivate<NativeAPIExample>();
 	XCTAssertNotEqual(nullptr, api_ptr);
 
 	XCTAssertTrue(API.HasProperty("info"));

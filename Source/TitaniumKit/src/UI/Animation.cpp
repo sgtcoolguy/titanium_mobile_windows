@@ -19,7 +19,7 @@ namespace Titanium
 		{
 		}
 
-		Animation::Animation(const Animation& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		Animation::Animation(const Animation& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : Module(rhs, arguments),
 		      curve__(rhs.curve__)
 		{
@@ -40,21 +40,21 @@ namespace Titanium
 
 		void Animation::JSExportInitialize()
 		{
-			JSExport< Animation >::SetClassVersion(1);
-			JSExport< Animation >::SetParent(JSExport< Module >::Class());
-			JSExport< Animation >::AddValueProperty("curve", std::mem_fn(&Animation::getCurveArgumentValidator), std::mem_fn(&Animation::setCurveArgumentValidator));
+			JSExport<Animation>::SetClassVersion(1);
+			JSExport<Animation>::SetParent(JSExport<Module>::Class());
+			JSExport<Animation>::AddValueProperty("curve", std::mem_fn(&Animation::getCurveArgumentValidator), std::mem_fn(&Animation::setCurveArgumentValidator));
 		}
 
 		JSValue Animation::getCurveArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< ANIMATION_CURVE >::type >(curve__));
+			return get_context().CreateNumber(static_cast<std::underlying_type<ANIMATION_CURVE>::type>(curve__));
 		}
 
 		bool Animation::setCurveArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Animation::setCurveArgumentValidator: Unimplemented");
 			TITANIUM_ASSERT(argument.IsNumber());
-			curve__ = Constants::to_ANIMATION_CURVE(static_cast< std::underlying_type< ANIMATION_CURVE >::type >(argument));
+			curve__ = Constants::to_ANIMATION_CURVE(static_cast<std::underlying_type<ANIMATION_CURVE>::type>(argument));
 
 			TITANIUM_LOG_DEBUG("Animation::setCurveArgumentValidator: set_curve(", Constants::to_string(curve__), ")");
 			set_curve(curve__);

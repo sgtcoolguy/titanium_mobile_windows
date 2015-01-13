@@ -21,7 +21,7 @@ namespace Titanium
       @discussion This is the Ti.Gesture Module.
       See http://docs.appcelerator.com/titanium/latest/#!/api/Ti.Gesture
     */
-	class TITANIUMKIT_EXPORT Gesture : public Module, public JSExport< Gesture >
+	class TITANIUMKIT_EXPORT Gesture : public Module, public JSExport<Gesture>
 	{
 	public:
 		/*!
@@ -32,7 +32,7 @@ namespace Titanium
 		virtual Titanium::UI::ORIENTATION get_orientation() const TITANIUM_NOEXCEPT;
 
 		Gesture(const JSContext& js_context) TITANIUM_NOEXCEPT;
-		Gesture(const Gesture&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+		Gesture(const Gesture&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 		virtual ~Gesture() = default;
 		Gesture(const Gesture&) = default;
@@ -69,37 +69,37 @@ namespace Titanium
           @abstract getLandscape_ArgumentValidator
           @discussion Gets the value of the landscape property.
         */
-		virtual JSValue getLandscape_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue getLandscape_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
 		/*!
           @method
           @abstract getPortrait_ArgumentValidator
           @discussion Gets the value of the portrait property.
         */
-		virtual JSValue getPortrait_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue getPortrait_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
 		/*!
           @method
           @abstract getOrientation_ArgumentValidator
           @discussion Gets the value of the orientation property.
         */
-		virtual JSValue getOrientation_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue getOrientation_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
 		/*!
           @method
           @abstract isFaceDown_ArgumentValidator
           @discussion Returns whether current window is considered face down by the device.
         */
-		virtual JSValue isFaceDown_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue isFaceDown_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
 		/*!
           @method
           @abstract isFaceUp_ArgumentValidator
           @discussion Returns whether current window is considered face up by the device.
         */
-		virtual JSValue isFaceUp_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue isLandscape_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue isPortrait_ArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue isFaceUp_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue isLandscape_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue isPortrait_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
 		virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 		virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;

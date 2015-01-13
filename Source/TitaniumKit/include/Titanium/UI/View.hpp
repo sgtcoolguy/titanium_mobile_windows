@@ -21,8 +21,8 @@ namespace Titanium
 
 		class View;
 
-		using NativeChildPtr_t = std::shared_ptr< Titanium::UI::View >;
-		using NativeChildrenList_t = std::vector< NativeChildPtr_t >;
+		using NativeChildPtr_t = std::shared_ptr<Titanium::UI::View>;
+		using NativeChildrenList_t = std::vector<NativeChildPtr_t>;
 
 		/*!
 		  @class
@@ -31,7 +31,7 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.View
 		*/
-		class TITANIUMKIT_EXPORT View : public Module, public JSExport< View >
+		class TITANIUMKIT_EXPORT View : public Module, public JSExport<View>
 		{
 		public:
 			/*!
@@ -105,7 +105,7 @@ namespace Titanium
 			virtual void set_layout(const JSValue& height) TITANIUM_NOEXCEPT final;
 
 			View(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			View(const View&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			View(const View&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~View() TITANIUM_NOEXCEPT;  //= default;
 			View(const View&) = default;
@@ -119,9 +119,9 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue addArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue hideArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue showArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue hideArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue showArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
 			// Base classes must implement this method. This is the minimum
 			// functionality that you should perform:

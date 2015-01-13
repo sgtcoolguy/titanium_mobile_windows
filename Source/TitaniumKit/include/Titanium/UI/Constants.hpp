@@ -601,301 +601,301 @@ namespace std
 {
 	using Titanium::UI::ANIMATION_CURVE;
 	template <>
-	struct hash< ANIMATION_CURVE >
+	struct hash<ANIMATION_CURVE>
 	{
 		using argument_type = ANIMATION_CURVE;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::AUTOLINK;
 	template <>
-	struct hash< AUTOLINK >
+	struct hash<AUTOLINK>
 	{
 		using argument_type = AUTOLINK;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::EXTEND_EDGE;
 	template <>
-	struct hash< EXTEND_EDGE >
+	struct hash<EXTEND_EDGE>
 	{
 		using argument_type = EXTEND_EDGE;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::ORIENTATION;
 	template <>
-	struct hash< ORIENTATION >
+	struct hash<ORIENTATION>
 	{
 		using argument_type = ORIENTATION;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::INPUT_BORDERSTYLE;
 	template <>
-	struct hash< INPUT_BORDERSTYLE >
+	struct hash<INPUT_BORDERSTYLE>
 	{
 		using argument_type = INPUT_BORDERSTYLE;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::INPUT_BUTTONMODE;
 	template <>
-	struct hash< INPUT_BUTTONMODE >
+	struct hash<INPUT_BUTTONMODE>
 	{
 		using argument_type = INPUT_BUTTONMODE;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::KEYBOARD_APPEARANCE;
 	template <>
-	struct hash< KEYBOARD_APPEARANCE >
+	struct hash<KEYBOARD_APPEARANCE>
 	{
 		using argument_type = KEYBOARD_APPEARANCE;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::KEYBOARD;
 	template <>
-	struct hash< KEYBOARD >
+	struct hash<KEYBOARD>
 	{
 		using argument_type = KEYBOARD;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::LIST_ACCESSORY_TYPE;
 	template <>
-	struct hash< LIST_ACCESSORY_TYPE >
+	struct hash<LIST_ACCESSORY_TYPE>
 	{
 		using argument_type = LIST_ACCESSORY_TYPE;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::LIST_ITEM_TEMPLATE;
 	template <>
-	struct hash< LIST_ITEM_TEMPLATE >
+	struct hash<LIST_ITEM_TEMPLATE>
 	{
 		using argument_type = LIST_ITEM_TEMPLATE;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::NOTIFICATION_DURATION;
 	template <>
-	struct hash< NOTIFICATION_DURATION >
+	struct hash<NOTIFICATION_DURATION>
 	{
 		using argument_type = NOTIFICATION_DURATION;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::PICKER_TYPE;
 	template <>
-	struct hash< PICKER_TYPE >
+	struct hash<PICKER_TYPE>
 	{
 		using argument_type = PICKER_TYPE;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::RETURNKEY;
 	template <>
-	struct hash< RETURNKEY >
+	struct hash<RETURNKEY>
 	{
 		using argument_type = RETURNKEY;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::TEXT_ALIGNMENT;
 	template <>
-	struct hash< TEXT_ALIGNMENT >
+	struct hash<TEXT_ALIGNMENT>
 	{
 		using argument_type = TEXT_ALIGNMENT;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::TEXT_AUTOCAPITALIZATION;
 	template <>
-	struct hash< TEXT_AUTOCAPITALIZATION >
+	struct hash<TEXT_AUTOCAPITALIZATION>
 	{
 		using argument_type = TEXT_AUTOCAPITALIZATION;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::TEXT_VERTICAL_ALIGNMENT;
 	template <>
-	struct hash< TEXT_VERTICAL_ALIGNMENT >
+	struct hash<TEXT_VERTICAL_ALIGNMENT>
 	{
 		using argument_type = TEXT_VERTICAL_ALIGNMENT;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::URL_ERROR;
 	template <>
-	struct hash< URL_ERROR >
+	struct hash<URL_ERROR>
 	{
 		using argument_type = URL_ERROR;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::LAYOUT;
 	template <>
-	struct hash< LAYOUT >
+	struct hash<LAYOUT>
 	{
 		using argument_type = LAYOUT;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::TEXT_STYLE;
 	template <>
-	struct hash< TEXT_STYLE >
+	struct hash<TEXT_STYLE>
 	{
 		using argument_type = TEXT_STYLE;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 
 	using Titanium::UI::UNIT;
 	template <>
-	struct hash< UNIT >
+	struct hash<UNIT>
 	{
 		using argument_type = UNIT;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 }  // namespace std {
@@ -909,105 +909,105 @@ namespace Titanium
 		public:
 			static std::string to_string(const ANIMATION_CURVE&) TITANIUM_NOEXCEPT;
 			static ANIMATION_CURVE to_ANIMATION_CURVE(const std::string& animationCurveName) TITANIUM_NOEXCEPT;
-			static ANIMATION_CURVE to_ANIMATION_CURVE(std::underlying_type< ANIMATION_CURVE >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< ANIMATION_CURVE >::type to_underlying_type(const ANIMATION_CURVE&) TITANIUM_NOEXCEPT;
+			static ANIMATION_CURVE to_ANIMATION_CURVE(std::underlying_type<ANIMATION_CURVE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<ANIMATION_CURVE>::type to_underlying_type(const ANIMATION_CURVE&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const AUTOLINK&) TITANIUM_NOEXCEPT;
 			static AUTOLINK to_AUTOLINK(const std::string& autoLinkName) TITANIUM_NOEXCEPT;
-			static std::unordered_set< AUTOLINK > to_AUTOLINK(std::underlying_type< AUTOLINK >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< AUTOLINK >::type to_underlying_type(const std::unordered_set< AUTOLINK >&) TITANIUM_NOEXCEPT;
-			static std::underlying_type< AUTOLINK >::type to_underlying_type(const AUTOLINK&) TITANIUM_NOEXCEPT;
+			static std::unordered_set<AUTOLINK> to_AUTOLINK(std::underlying_type<AUTOLINK>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<AUTOLINK>::type to_underlying_type(const std::unordered_set<AUTOLINK>&) TITANIUM_NOEXCEPT;
+			static std::underlying_type<AUTOLINK>::type to_underlying_type(const AUTOLINK&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const EXTEND_EDGE&) TITANIUM_NOEXCEPT;
 			static EXTEND_EDGE to_EXTEND_EDGE(const std::string& extendEdgeName) TITANIUM_NOEXCEPT;
-			static std::unordered_set< EXTEND_EDGE > to_EXTEND_EDGE(std::underlying_type< EXTEND_EDGE >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< EXTEND_EDGE >::type to_underlying_type(const std::unordered_set< EXTEND_EDGE >& extendEdge_set) TITANIUM_NOEXCEPT;
-			static std::underlying_type< EXTEND_EDGE >::type to_underlying_type(const EXTEND_EDGE&) TITANIUM_NOEXCEPT;
+			static std::unordered_set<EXTEND_EDGE> to_EXTEND_EDGE(std::underlying_type<EXTEND_EDGE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<EXTEND_EDGE>::type to_underlying_type(const std::unordered_set<EXTEND_EDGE>& extendEdge_set) TITANIUM_NOEXCEPT;
+			static std::underlying_type<EXTEND_EDGE>::type to_underlying_type(const EXTEND_EDGE&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const ORIENTATION&) TITANIUM_NOEXCEPT;
 			static ORIENTATION to_ORIENTATION(const std::string& orientationName) TITANIUM_NOEXCEPT;
-			static ORIENTATION to_ORIENTATION(std::underlying_type< ORIENTATION >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< ORIENTATION >::type to_underlying_type(const ORIENTATION&) TITANIUM_NOEXCEPT;
+			static ORIENTATION to_ORIENTATION(std::underlying_type<ORIENTATION>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<ORIENTATION>::type to_underlying_type(const ORIENTATION&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const INPUT_BORDERSTYLE&) TITANIUM_NOEXCEPT;
 			static INPUT_BORDERSTYLE to_INPUT_BORDERSTYLE(const std::string& inputBorderstyleName) TITANIUM_NOEXCEPT;
-			static INPUT_BORDERSTYLE to_INPUT_BORDERSTYLE(std::underlying_type< INPUT_BORDERSTYLE >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< INPUT_BORDERSTYLE >::type to_underlying_type(const INPUT_BORDERSTYLE&) TITANIUM_NOEXCEPT;
+			static INPUT_BORDERSTYLE to_INPUT_BORDERSTYLE(std::underlying_type<INPUT_BORDERSTYLE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<INPUT_BORDERSTYLE>::type to_underlying_type(const INPUT_BORDERSTYLE&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const INPUT_BUTTONMODE&) TITANIUM_NOEXCEPT;
 			static INPUT_BUTTONMODE to_INPUT_BUTTONMODE(const std::string& inputButtonmodeName) TITANIUM_NOEXCEPT;
-			static INPUT_BUTTONMODE to_INPUT_BUTTONMODE(std::underlying_type< INPUT_BUTTONMODE >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< INPUT_BUTTONMODE >::type to_underlying_type(const INPUT_BUTTONMODE&) TITANIUM_NOEXCEPT;
+			static INPUT_BUTTONMODE to_INPUT_BUTTONMODE(std::underlying_type<INPUT_BUTTONMODE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<INPUT_BUTTONMODE>::type to_underlying_type(const INPUT_BUTTONMODE&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const KEYBOARD_APPEARANCE&) TITANIUM_NOEXCEPT;
 			static KEYBOARD_APPEARANCE to_KEYBOARD_APPEARANCE(const std::string& keyboardAppearanceName) TITANIUM_NOEXCEPT;
-			static KEYBOARD_APPEARANCE to_KEYBOARD_APPEARANCE(std::underlying_type< KEYBOARD_APPEARANCE >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< KEYBOARD_APPEARANCE >::type to_underlying_type(const KEYBOARD_APPEARANCE&) TITANIUM_NOEXCEPT;
+			static KEYBOARD_APPEARANCE to_KEYBOARD_APPEARANCE(std::underlying_type<KEYBOARD_APPEARANCE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<KEYBOARD_APPEARANCE>::type to_underlying_type(const KEYBOARD_APPEARANCE&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const KEYBOARD&) TITANIUM_NOEXCEPT;
 			static KEYBOARD to_KEYBOARD(const std::string& keyboardName) TITANIUM_NOEXCEPT;
-			static KEYBOARD to_KEYBOARD(std::underlying_type< KEYBOARD >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< KEYBOARD >::type to_underlying_type(const KEYBOARD&) TITANIUM_NOEXCEPT;
+			static KEYBOARD to_KEYBOARD(std::underlying_type<KEYBOARD>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<KEYBOARD>::type to_underlying_type(const KEYBOARD&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const LIST_ACCESSORY_TYPE&) TITANIUM_NOEXCEPT;
 			static LIST_ACCESSORY_TYPE to_LIST_ACCESSORY_TYPE(const std::string& listAccessoryTypeName) TITANIUM_NOEXCEPT;
-			static LIST_ACCESSORY_TYPE to_LIST_ACCESSORY_TYPE(std::underlying_type< LIST_ACCESSORY_TYPE >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< LIST_ACCESSORY_TYPE >::type to_underlying_type(const LIST_ACCESSORY_TYPE&) TITANIUM_NOEXCEPT;
+			static LIST_ACCESSORY_TYPE to_LIST_ACCESSORY_TYPE(std::underlying_type<LIST_ACCESSORY_TYPE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<LIST_ACCESSORY_TYPE>::type to_underlying_type(const LIST_ACCESSORY_TYPE&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const LIST_ITEM_TEMPLATE&) TITANIUM_NOEXCEPT;
 			static LIST_ITEM_TEMPLATE to_LIST_ITEM_TEMPLATE(const std::string& listItemTemplateName) TITANIUM_NOEXCEPT;
-			static LIST_ITEM_TEMPLATE to_LIST_ITEM_TEMPLATE(std::underlying_type< LIST_ITEM_TEMPLATE >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< LIST_ITEM_TEMPLATE >::type to_underlying_type(const LIST_ITEM_TEMPLATE&) TITANIUM_NOEXCEPT;
+			static LIST_ITEM_TEMPLATE to_LIST_ITEM_TEMPLATE(std::underlying_type<LIST_ITEM_TEMPLATE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<LIST_ITEM_TEMPLATE>::type to_underlying_type(const LIST_ITEM_TEMPLATE&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const NOTIFICATION_DURATION&) TITANIUM_NOEXCEPT;
 			static NOTIFICATION_DURATION to_NOTIFICATION_DURATION(const std::string& notificationDurationName) TITANIUM_NOEXCEPT;
-			static NOTIFICATION_DURATION to_NOTIFICATION_DURATION(std::underlying_type< NOTIFICATION_DURATION >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< NOTIFICATION_DURATION >::type to_underlying_type(const NOTIFICATION_DURATION&) TITANIUM_NOEXCEPT;
+			static NOTIFICATION_DURATION to_NOTIFICATION_DURATION(std::underlying_type<NOTIFICATION_DURATION>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<NOTIFICATION_DURATION>::type to_underlying_type(const NOTIFICATION_DURATION&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const PICKER_TYPE&) TITANIUM_NOEXCEPT;
 			static PICKER_TYPE to_PICKER_TYPE(const std::string& pickerTypeName) TITANIUM_NOEXCEPT;
-			static PICKER_TYPE to_PICKER_TYPE(std::underlying_type< PICKER_TYPE >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< PICKER_TYPE >::type to_underlying_type(const PICKER_TYPE&) TITANIUM_NOEXCEPT;
+			static PICKER_TYPE to_PICKER_TYPE(std::underlying_type<PICKER_TYPE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<PICKER_TYPE>::type to_underlying_type(const PICKER_TYPE&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const RETURNKEY&) TITANIUM_NOEXCEPT;
 			static RETURNKEY to_RETURNKEY(const std::string& returnKeyName) TITANIUM_NOEXCEPT;
-			static RETURNKEY to_RETURNKEY(std::underlying_type< RETURNKEY >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< RETURNKEY >::type to_underlying_type(const RETURNKEY&) TITANIUM_NOEXCEPT;
+			static RETURNKEY to_RETURNKEY(std::underlying_type<RETURNKEY>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<RETURNKEY>::type to_underlying_type(const RETURNKEY&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const TEXT_ALIGNMENT&) TITANIUM_NOEXCEPT;
 			static TEXT_ALIGNMENT to_TEXT_ALIGNMENT(const std::string& textAlignmentName) TITANIUM_NOEXCEPT;
-			static TEXT_ALIGNMENT to_TEXT_ALIGNMENT(std::underlying_type< TEXT_ALIGNMENT >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< TEXT_ALIGNMENT >::type to_underlying_type(const TEXT_ALIGNMENT&) TITANIUM_NOEXCEPT;
+			static TEXT_ALIGNMENT to_TEXT_ALIGNMENT(std::underlying_type<TEXT_ALIGNMENT>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<TEXT_ALIGNMENT>::type to_underlying_type(const TEXT_ALIGNMENT&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const TEXT_AUTOCAPITALIZATION&) TITANIUM_NOEXCEPT;
 			static TEXT_AUTOCAPITALIZATION to_TEXT_AUTOCAPITALIZATION(const std::string& textAutoCapitalizationName) TITANIUM_NOEXCEPT;
-			static TEXT_AUTOCAPITALIZATION to_TEXT_AUTOCAPITALIZATION(std::underlying_type< TEXT_AUTOCAPITALIZATION >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< TEXT_AUTOCAPITALIZATION >::type to_underlying_type(const TEXT_AUTOCAPITALIZATION&) TITANIUM_NOEXCEPT;
+			static TEXT_AUTOCAPITALIZATION to_TEXT_AUTOCAPITALIZATION(std::underlying_type<TEXT_AUTOCAPITALIZATION>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<TEXT_AUTOCAPITALIZATION>::type to_underlying_type(const TEXT_AUTOCAPITALIZATION&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const TEXT_VERTICAL_ALIGNMENT&) TITANIUM_NOEXCEPT;
 			static TEXT_VERTICAL_ALIGNMENT to_TEXT_VERTICAL_ALIGNMENT(const std::string& textVerticalAlignmentName) TITANIUM_NOEXCEPT;
-			static TEXT_VERTICAL_ALIGNMENT to_TEXT_VERTICAL_ALIGNMENT(std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type to_underlying_type(const TEXT_VERTICAL_ALIGNMENT&) TITANIUM_NOEXCEPT;
+			static TEXT_VERTICAL_ALIGNMENT to_TEXT_VERTICAL_ALIGNMENT(std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type to_underlying_type(const TEXT_VERTICAL_ALIGNMENT&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const URL_ERROR&) TITANIUM_NOEXCEPT;
 			static URL_ERROR to_URL_ERROR(const std::string& urlErrorName) TITANIUM_NOEXCEPT;
-			static URL_ERROR to_URL_ERROR(std::underlying_type< URL_ERROR >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< URL_ERROR >::type to_underlying_type(const URL_ERROR&) TITANIUM_NOEXCEPT;
+			static URL_ERROR to_URL_ERROR(std::underlying_type<URL_ERROR>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<URL_ERROR>::type to_underlying_type(const URL_ERROR&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const LAYOUT&) TITANIUM_NOEXCEPT;
 			static LAYOUT to_LAYOUT(const std::string& layoutName) TITANIUM_NOEXCEPT;
-			static LAYOUT to_LAYOUT(std::underlying_type< LAYOUT >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< LAYOUT >::type to_underlying_type(const LAYOUT&) TITANIUM_NOEXCEPT;
+			static LAYOUT to_LAYOUT(std::underlying_type<LAYOUT>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<LAYOUT>::type to_underlying_type(const LAYOUT&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const TEXT_STYLE&) TITANIUM_NOEXCEPT;
 			static TEXT_STYLE to_TEXT_STYLE(const std::string& textStyleName) TITANIUM_NOEXCEPT;
-			static TEXT_STYLE to_TEXT_STYLE(std::underlying_type< TEXT_STYLE >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< TEXT_STYLE >::type to_underlying_type(const TEXT_STYLE&) TITANIUM_NOEXCEPT;
+			static TEXT_STYLE to_TEXT_STYLE(std::underlying_type<TEXT_STYLE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<TEXT_STYLE>::type to_underlying_type(const TEXT_STYLE&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const UNIT&) TITANIUM_NOEXCEPT;
 			static UNIT to_UNIT(const std::string& textStyleName) TITANIUM_NOEXCEPT;
-			static UNIT to_UNIT(std::underlying_type< UNIT >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< UNIT >::type to_underlying_type(const UNIT&) TITANIUM_NOEXCEPT;
+			static UNIT to_UNIT(std::underlying_type<UNIT>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<UNIT>::type to_underlying_type(const UNIT&) TITANIUM_NOEXCEPT;
 		};
 	}
 }  // namespace Titanium { namespace UI {

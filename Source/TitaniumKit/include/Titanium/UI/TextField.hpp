@@ -25,7 +25,7 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.TextField
 		*/
-		class TITANIUMKIT_EXPORT TextField : public View, public JSExport< TextField >
+		class TITANIUMKIT_EXPORT TextField : public View, public JSExport<TextField>
 		{
 		public:
 			/*!
@@ -122,7 +122,7 @@ namespace Titanium
 			virtual void set_verticalAlign(const TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT;
 
 			TextField(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			TextField(const TextField&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			TextField(const TextField&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~TextField() = default;
 			TextField(const TextField&) = default;

@@ -46,7 +46,7 @@ namespace Titanium
 			os
 			    << "TitaniumKit "
 			    << std::setfill('0')
-			    << std::setw(std::numeric_limits< uint32_t >::digits10)
+			    << std::setw(std::numeric_limits<uint32_t>::digits10)
 			    << log_line_number
 			    << " "
 			    << to_string(std::chrono::system_clock::now())

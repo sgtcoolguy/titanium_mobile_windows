@@ -33,7 +33,7 @@ protected:
 
 TEST_F(GestureTests, logging)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< Titanium::GlobalObject >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
 	auto global_object = js_context.get_global_object();
 
 	XCTAssertFalse(global_object.HasProperty("Titanium"));
@@ -47,11 +47,11 @@ TEST_F(GestureTests, logging)
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
 	XCTAssertFalse(Titanium.HasProperty("Gesture"));
-	auto Gesture = js_context.CreateObject(JSExport< NativeGestureExample >::Class());
+	auto Gesture = js_context.CreateObject(JSExport<NativeGestureExample>::Class());
 	Titanium.SetProperty("Gesture", Gesture, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("Gesture"));
 
-	auto Gesture_ptr = Gesture.GetPrivate< NativeGestureExample >();
+	auto Gesture_ptr = Gesture.GetPrivate<NativeGestureExample>();
 	XCTAssertNotEqual(nullptr, Gesture_ptr);
 
 	XCTAssertTrue(Gesture.HasProperty("addEventListener"));

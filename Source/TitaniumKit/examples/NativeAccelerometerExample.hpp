@@ -16,11 +16,11 @@ using namespace HAL;
  @discussion This is an example of how to implement Titanium::Accelerometer
  for a native Accelerometer.
  */
-class NativeAccelerometerExample final : public Titanium::Accelerometer, public JSExport< NativeAccelerometerExample >
+class NativeAccelerometerExample final : public Titanium::Accelerometer, public JSExport<NativeAccelerometerExample>
 {
 public:
 	NativeAccelerometerExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeAccelerometerExample(const NativeAccelerometerExample&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+	NativeAccelerometerExample(const NativeAccelerometerExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeAccelerometerExample() = default;
 	NativeAccelerometerExample(const NativeAccelerometerExample&) = default;

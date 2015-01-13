@@ -29,16 +29,16 @@ namespace std
 {
 	using Titanium::Filesystem::MODE;
 	template <>
-	struct hash< MODE >
+	struct hash<MODE>
 	{
 		using argument_type = MODE;
 		using result_type = std::size_t;
-		using underlying_type = std::underlying_type< argument_type >::type;
-		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
 
 		result_type operator()(const argument_type& property_attribute) const
 		{
-			return hash_function(static_cast< underlying_type >(property_attribute));
+			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
 }  // namespace std {
@@ -52,9 +52,9 @@ namespace Titanium
 		public:
 			static std::string to_string(const MODE&) TITANIUM_NOEXCEPT;
 			static MODE to_MODE(const std::string& modeName) TITANIUM_NOEXCEPT;
-			static std::unordered_set< MODE > to_MODE(std::underlying_type< MODE >::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type< MODE >::type to_underlying_type(const std::unordered_set< MODE >&) TITANIUM_NOEXCEPT;
-			static std::underlying_type< MODE >::type to_underlying_type(const MODE&) TITANIUM_NOEXCEPT;
+			static std::unordered_set<MODE> to_MODE(std::underlying_type<MODE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<MODE>::type to_underlying_type(const std::unordered_set<MODE>&) TITANIUM_NOEXCEPT;
+			static std::underlying_type<MODE>::type to_underlying_type(const MODE&) TITANIUM_NOEXCEPT;
 		};
 	}
 }  // namespace Titanium { namespace Filesystem {

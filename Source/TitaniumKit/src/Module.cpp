@@ -18,7 +18,7 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("Module:: ctor 1 ", this);
 	}
 
-	Module::Module(const Module& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+	Module::Module(const Module& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 	    : JSExportObject(rhs, arguments),
 	      event_listener_map__(get_context().CreateObject())
 	{
@@ -71,7 +71,7 @@ namespace Titanium
 				enableEvent(name);
 			}
 			TITANIUM_LOG_DEBUG("Module::addEventListener: add listener at index ", callback_list_index, " for event '", name, "' for ", this);
-			event_listener_list.SetProperty(static_cast< unsigned >(callback_list_index), callback_payload);
+			event_listener_list.SetProperty(static_cast<unsigned>(callback_list_index), callback_payload);
 		}
 	}
 
@@ -126,7 +126,7 @@ namespace Titanium
 	void Module::applyProperties(const JSObject& props, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("Module::applyProperties: Unimplemented");
-		for (const auto& property_name : static_cast< std::vector< JSString > >(props.GetPropertyNames())) {
+		for (const auto& property_name : static_cast<std::vector<JSString>>(props.GetPropertyNames())) {
 			this_object.SetProperty(property_name, props.GetProperty(property_name));
 		}
 	}
@@ -174,7 +174,7 @@ namespace Titanium
 			JSObject this_object = this_object_property;
 
 			TITANIUM_LOG_DEBUG("Module::fireEvent: name = '", name, "' for listener at index ", i, " for ", this);
-			callback({static_cast< JSValue >(event)}, this_object);
+			callback({static_cast<JSValue>(event)}, this_object);
 		}
 	}
 
@@ -222,15 +222,15 @@ namespace Titanium
 
 	void Module::JSExportInitialize()
 	{
-		JSExport< Module >::SetClassVersion(1);
-		JSExport< Module >::SetParent(JSExport< JSExportObject >::Class());
-		JSExport< Module >::AddFunctionProperty("addEventListener", std::mem_fn(&Module::addEventListenerArgumentValidator));
-		JSExport< Module >::AddFunctionProperty("removeEventListener", std::mem_fn(&Module::removeEventListenerArgumentValidator));
-		JSExport< Module >::AddFunctionProperty("applyProperties", std::mem_fn(&Module::applyPropertiesArgumentValidator));
-		JSExport< Module >::AddFunctionProperty("fireEvent", std::mem_fn(&Module::fireEventArgumentValidator));
+		JSExport<Module>::SetClassVersion(1);
+		JSExport<Module>::SetParent(JSExport<JSExportObject>::Class());
+		JSExport<Module>::AddFunctionProperty("addEventListener", std::mem_fn(&Module::addEventListenerArgumentValidator));
+		JSExport<Module>::AddFunctionProperty("removeEventListener", std::mem_fn(&Module::removeEventListenerArgumentValidator));
+		JSExport<Module>::AddFunctionProperty("applyProperties", std::mem_fn(&Module::applyPropertiesArgumentValidator));
+		JSExport<Module>::AddFunctionProperty("fireEvent", std::mem_fn(&Module::fireEventArgumentValidator));
 	}
 
-	JSValue Module::addEventListenerArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue Module::addEventListenerArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.
@@ -239,14 +239,14 @@ namespace Titanium
 		const auto _1 = arguments.at(1);
 		TITANIUM_ASSERT(_0.IsString());
 		TITANIUM_ASSERT(_1.IsObject());
-		std::string name = static_cast< std::string >(_0);
+		std::string name = static_cast<std::string>(_0);
 		JSObject callback = _1;
 		TITANIUM_ASSERT(callback.IsFunction());
 		addEventListener(name, callback, this_object);
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Module::removeEventListenerArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue Module::removeEventListenerArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.
@@ -255,14 +255,14 @@ namespace Titanium
 		const auto _1 = arguments.at(1);
 		TITANIUM_ASSERT(_0.IsString());
 		TITANIUM_ASSERT(_1.IsObject());
-		std::string name = static_cast< std::string >(_0);
+		std::string name = static_cast<std::string>(_0);
 		JSObject callback = _1;
 		TITANIUM_ASSERT(callback.IsFunction());
 		removeEventListener(name, callback, this_object);
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Module::applyPropertiesArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue Module::applyPropertiesArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.
@@ -274,7 +274,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Module::fireEventArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object)
+	JSValue Module::fireEventArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.
@@ -283,7 +283,7 @@ namespace Titanium
 		const auto _1 = arguments.at(1);
 		TITANIUM_ASSERT(_0.IsString());
 		TITANIUM_ASSERT(_1.IsObject());
-		std::string name = static_cast< std::string >(_0);
+		std::string name = static_cast<std::string>(_0);
 		JSObject event = _1;
 		//fireEvent(name, event, this_object);
 		fireEvent(name, event);

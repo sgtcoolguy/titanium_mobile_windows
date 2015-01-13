@@ -29,7 +29,7 @@ namespace Titanium
 	  Every Titanium platform provides a Platform Delegate that this
 	  class delegates to for platform-specific capabilities.
 	*/
-	class TITANIUMKIT_EXPORT GlobalObject : public JSExportObject, public JSExport< GlobalObject >
+	class TITANIUMKIT_EXPORT GlobalObject : public JSExportObject, public JSExport<GlobalObject>
 	{
 	public:
 		/*!
@@ -159,7 +159,7 @@ namespace Titanium
 		virtual void clearInterval(const unsigned& timerId) TITANIUM_NOEXCEPT final;
 
 		GlobalObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
-		GlobalObject(const GlobalObject&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+		GlobalObject(const GlobalObject&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 		virtual ~GlobalObject() TITANIUM_NOEXCEPT;  //= default;
 		GlobalObject(const GlobalObject&) = default;
@@ -173,13 +173,13 @@ namespace Titanium
 		// from the YAML API docs.
 		static void JSExportInitialize();
 		JSValue globalArgumentValidator() const TITANIUM_NOEXCEPT;
-		JSValue requireArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue setTimeoutArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue clearTimeoutArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue setIntervalArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue clearIntervalArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
+		JSValue requireArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue setTimeoutArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue clearTimeoutArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue setIntervalArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue clearIntervalArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
 
-		using Callback_t = std::function< void() >;
+		using Callback_t = std::function<void()>;
 
 		/*!
 		  @class
@@ -276,7 +276,7 @@ namespace Titanium
 		  the given callback at the given interval after its Start method
 		  is called.
 		*/
-		virtual std::shared_ptr< Timer > CreateTimer(Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT;
+		virtual std::shared_ptr<Timer> CreateTimer(Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT;
 
 	private:
 		JSFunction createRequireFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT;
@@ -294,15 +294,15 @@ namespace Titanium
 // need to be exported from a DLL.
 #pragma warning(push)
 #pragma warning(disable : 4251)
-		std::unordered_map< unsigned, std::shared_ptr< Timer > > timer_map__;
+		std::unordered_map<unsigned, std::shared_ptr<Timer>> timer_map__;
 
-		static std::atomic< unsigned > timer_id_generator__;
+		static std::atomic<unsigned> timer_id_generator__;
 #pragma warning(pop)
 
 #undef TITANIUM_GLOBALOBJECT_LOCK_GUARD
 #ifdef TITANIUM_THREAD_SAFE
 		std::recursive_mutex mutex__;
-#define TITANIUM_GLOBALOBJECT_LOCK_GUARD std::lock_guard< std::recursive_mutex > lock(mutex__)
+#define TITANIUM_GLOBALOBJECT_LOCK_GUARD std::lock_guard<std::recursive_mutex> lock(mutex__)
 #else
 #define TITANIUM_GLOBALOBJECT_LOCK_GUARD
 #endif  // TITANIUM_THREAD_SAFE

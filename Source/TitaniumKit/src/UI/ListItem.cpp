@@ -19,7 +19,7 @@ namespace Titanium
 		{
 		}
 
-		ListItem::ListItem(const ListItem& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		ListItem::ListItem(const ListItem& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : Module(rhs, arguments),
 		      accessoryType__(rhs.accessoryType__)
 		{
@@ -40,20 +40,20 @@ namespace Titanium
 
 		void ListItem::JSExportInitialize()
 		{
-			JSExport< ListItem >::SetClassVersion(1);
-			JSExport< ListItem >::SetParent(JSExport< Module >::Class());
-			JSExport< ListItem >::AddValueProperty("accessoryType", std::mem_fn(&ListItem::getAccessoryTypeArgumentValidator), std::mem_fn(&ListItem::setAccessoryTypeArgumentValidator));
+			JSExport<ListItem>::SetClassVersion(1);
+			JSExport<ListItem>::SetParent(JSExport<Module>::Class());
+			JSExport<ListItem>::AddValueProperty("accessoryType", std::mem_fn(&ListItem::getAccessoryTypeArgumentValidator), std::mem_fn(&ListItem::setAccessoryTypeArgumentValidator));
 		}
 
 		JSValue ListItem::getAccessoryTypeArgumentValidator() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast< std::underlying_type< LIST_ACCESSORY_TYPE >::type >(get_accessoryType()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<LIST_ACCESSORY_TYPE>::type>(get_accessoryType()));
 		}
 
 		bool ListItem::setAccessoryTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			accessoryType__ = Constants::to_LIST_ACCESSORY_TYPE(static_cast< std::underlying_type< LIST_ACCESSORY_TYPE >::type >(argument));
+			accessoryType__ = Constants::to_LIST_ACCESSORY_TYPE(static_cast<std::underlying_type<LIST_ACCESSORY_TYPE>::type>(argument));
 			set_accessoryType(accessoryType__);
 			return true;
 		}

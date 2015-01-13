@@ -33,7 +33,7 @@ protected:
 
 TEST_F(PlatformTests, logging)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< Titanium::GlobalObject >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
 	auto global_object = js_context.get_global_object();
 
 	XCTAssertFalse(global_object.HasProperty("Titanium"));
@@ -47,11 +47,11 @@ TEST_F(PlatformTests, logging)
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
 	XCTAssertFalse(Titanium.HasProperty("Platform"));
-	auto Platform = js_context.CreateObject(JSExport< NativePlatformExample >::Class());
+	auto Platform = js_context.CreateObject(JSExport<NativePlatformExample>::Class());
 	Titanium.SetProperty("Platform", Platform, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("Platform"));
 
-	auto Platform_ptr = Platform.GetPrivate< NativePlatformExample >();
+	auto Platform_ptr = Platform.GetPrivate<NativePlatformExample>();
 	XCTAssertNotEqual(nullptr, Platform_ptr);
 
 	XCTAssertTrue(Platform.HasProperty("BATTERY_STATE_CHARGING"));
@@ -105,7 +105,7 @@ TEST_F(PlatformTests, logging)
 	auto DisplayCaps = Platform.GetProperty("displayCaps");
 	XCTAssertTrue(DisplayCaps.IsObject());
 	JSObject displayCaps = DisplayCaps;
-	auto displayCaps_ptr = displayCaps.GetPrivate< NativePlatformDisplayCapsExample >();
+	auto displayCaps_ptr = displayCaps.GetPrivate<NativePlatformDisplayCapsExample>();
 	XCTAssertNotEqual(nullptr, displayCaps_ptr);
 
 	XCTAssertTrue(displayCaps.HasProperty("density"));
@@ -118,6 +118,6 @@ TEST_F(PlatformTests, logging)
 
 	auto result = js_context.JSEvaluateScript("Ti.Platform.osname;");
 	XCTAssertTrue(result.IsString());
-	std::string SIZE = static_cast< std::string >(result);
+	std::string SIZE = static_cast<std::string>(result);
 	XCTAssertEqual("osx", SIZE);
 }

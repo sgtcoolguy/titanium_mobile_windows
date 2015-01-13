@@ -17,11 +17,11 @@ using namespace HAL;
  @discussion This is an example of how to implement Titanium::Platform::DisplayCaps
  for a native platform.
  */
-class NativePlatformDisplayCapsExample final : public Titanium::Platform::DisplayCaps, public JSExport< NativePlatformDisplayCapsExample >
+class NativePlatformDisplayCapsExample final : public Titanium::Platform::DisplayCaps, public JSExport<NativePlatformDisplayCapsExample>
 {
 public:
 	NativePlatformDisplayCapsExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativePlatformDisplayCapsExample(const NativePlatformDisplayCapsExample&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+	NativePlatformDisplayCapsExample(const NativePlatformDisplayCapsExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 	virtual ~NativePlatformDisplayCapsExample() = default;
 	NativePlatformDisplayCapsExample(const NativePlatformDisplayCapsExample&) = default;

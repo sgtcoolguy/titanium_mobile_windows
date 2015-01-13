@@ -19,7 +19,7 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("Window:: ctor 1 ", this);
 		}
 
-		Window::Window(const Window& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		Window::Window(const Window& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : View(rhs, arguments),
 		      extendEdges__(rhs.extendEdges__)
 		{
@@ -36,12 +36,12 @@ namespace Titanium
 			TITANIUM_LOG_WARN("Window::open: Unimplemented");
 		}
 
-		std::unordered_set< EXTEND_EDGE > Window::get_extendEdges() const TITANIUM_NOEXCEPT
+		std::unordered_set<EXTEND_EDGE> Window::get_extendEdges() const TITANIUM_NOEXCEPT
 		{
 			return extendEdges__;
 		}
 
-		void Window::set_extendEdges(const std::unordered_set< EXTEND_EDGE >& autoLink) TITANIUM_NOEXCEPT
+		void Window::set_extendEdges(const std::unordered_set<EXTEND_EDGE>& autoLink) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Window::set_extendEdges: Unimplemented");
 		}
@@ -51,12 +51,12 @@ namespace Titanium
 
 		void Window::JSExportInitialize()
 		{
-			JSExport< Window >::SetClassVersion(1);
-			JSExport< Window >::SetParent(JSExport< View >::Class());
-			JSExport< Window >::AddFunctionProperty("open", std::mem_fn(&Window::openArgumentValidator));
+			JSExport<Window>::SetClassVersion(1);
+			JSExport<Window>::SetParent(JSExport<View>::Class());
+			JSExport<Window>::AddFunctionProperty("open", std::mem_fn(&Window::openArgumentValidator));
 		}
 
-		JSValue Window::openArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue Window::openArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.
@@ -78,7 +78,7 @@ namespace Titanium
 		bool Window::setExtendEdgesArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			extendEdges__ = Constants::to_EXTEND_EDGE(static_cast< std::underlying_type< EXTEND_EDGE >::type >(argument));
+			extendEdges__ = Constants::to_EXTEND_EDGE(static_cast<std::underlying_type<EXTEND_EDGE>::type>(argument));
 			set_extendEdges(extendEdges__);
 			return true;
 		}

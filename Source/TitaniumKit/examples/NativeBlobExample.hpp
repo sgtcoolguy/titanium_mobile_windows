@@ -16,11 +16,11 @@ using namespace HAL;
  @discussion This is an example of how to implement Titanium::Blob
  for a native Blob.
  */
-class NativeBlobExample final : public Titanium::Blob, public JSExport< NativeBlobExample >
+class NativeBlobExample final : public Titanium::Blob, public JSExport<NativeBlobExample>
 {
 public:
 	NativeBlobExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeBlobExample(const NativeBlobExample&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+	NativeBlobExample(const NativeBlobExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeBlobExample() = default;
 	NativeBlobExample(const NativeBlobExample&) = default;
@@ -39,7 +39,7 @@ public:
 	virtual unsigned get_size() const TITANIUM_NOEXCEPT;
 	virtual std::string get_text() const TITANIUM_NOEXCEPT;
 	virtual unsigned get_width() const TITANIUM_NOEXCEPT;
-	virtual void append(std::shared_ptr< Blob >&) TITANIUM_NOEXCEPT;
+	virtual void append(std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT;
 
 protected:
 };

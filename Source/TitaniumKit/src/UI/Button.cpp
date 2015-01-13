@@ -19,7 +19,7 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("Button:: ctor 1 ", this);
 		}
 
-		Button::Button(const Button& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		Button::Button(const Button& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : View(rhs, arguments),
 		      title__(rhs.title__)
 		{
@@ -40,7 +40,7 @@ namespace Titanium
 		{
 			// FIXME WORKAROUND: default app crashed here due to context issue.
 			TITANIUM_ASSERT(title.IsString());
-			title__ = get_context().CreateString(static_cast< std::string >(title));
+			title__ = get_context().CreateString(static_cast<std::string>(title));
 		}
 
 		// TODO: The following functions can automatically be generated from
@@ -48,9 +48,9 @@ namespace Titanium
 
 		void Button::JSExportInitialize()
 		{
-			JSExport< Button >::SetClassVersion(1);
-			JSExport< Button >::SetParent(JSExport< View >::Class());
-			JSExport< Button >::AddValueProperty("title", std::mem_fn(&Button::get_title), std::mem_fn(&Button::setTitleArgumentValidator));
+			JSExport<Button>::SetClassVersion(1);
+			JSExport<Button>::SetParent(JSExport<View>::Class());
+			JSExport<Button>::AddValueProperty("title", std::mem_fn(&Button::get_title), std::mem_fn(&Button::setTitleArgumentValidator));
 		}
 
 		bool Button::setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT

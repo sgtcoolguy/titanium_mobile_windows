@@ -13,7 +13,7 @@ NativeTiExample::NativeTiExample(const JSContext& js_context) TITANIUM_NOEXCEPT
 	setUserAgent(get_context().CreateString("__TITANIUM_USER_AGENT__"));
 }
 
-NativeTiExample::NativeTiExample(const NativeTiExample& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+NativeTiExample::NativeTiExample(const NativeTiExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::TiModule(rhs, arguments)
 {
 }
@@ -38,6 +38,6 @@ std::string NativeTiExample::buildHash() const TITANIUM_NOEXCEPT
 
 void NativeTiExample::JSExportInitialize()
 {
-	JSExport< NativeTiExample >::SetClassVersion(1);
-	JSExport< NativeTiExample >::SetParent(JSExport< Titanium::TiModule >::Class());
+	JSExport<NativeTiExample>::SetClassVersion(1);
+	JSExport<NativeTiExample>::SetParent(JSExport<Titanium::TiModule>::Class());
 }

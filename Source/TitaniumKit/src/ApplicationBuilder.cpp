@@ -22,26 +22,26 @@ namespace Titanium
 	ApplicationBuilder::ApplicationBuilder(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : js_context__(js_context),
 	      global_object__(js_context__.get_global_object()),
-	      ti__(js_context__.CreateObject< Titanium::TiModule >()),
-	      api__(js_context__.CreateObject< Titanium::API >()),
-	      view__(js_context__.CreateObject< Titanium::UI::View >()),
-	      window__(js_context__.CreateObject< Titanium::UI::Window >()),
-	      button__(js_context__.CreateObject< Titanium::UI::Button >()),
-	      imageview__(js_context__.CreateObject< Titanium::UI::ImageView >()),
-	      label__(js_context__.CreateObject< Titanium::UI::Label >()),
-	      scrollview__(js_context__.CreateObject< Titanium::UI::ScrollView >()),
-	      platform__(js_context__.CreateObject< Titanium::PlatformModule >()),
-	      accelerometer__(js_context__.CreateObject< Titanium::Accelerometer >()),
-	      gesture__(js_context__.CreateObject< Titanium::Gesture >()),
-	      blob__(js_context__.CreateObject< Titanium::Blob >()),
-	      file__(js_context__.CreateObject< Titanium::Filesystem::File >()),
-	      filesystem__(js_context__.CreateObject< Titanium::FilesystemModule >())
+	      ti__(js_context__.CreateObject<Titanium::TiModule>()),
+	      api__(js_context__.CreateObject<Titanium::API>()),
+	      view__(js_context__.CreateObject<Titanium::UI::View>()),
+	      window__(js_context__.CreateObject<Titanium::UI::Window>()),
+	      button__(js_context__.CreateObject<Titanium::UI::Button>()),
+	      imageview__(js_context__.CreateObject<Titanium::UI::ImageView>()),
+	      label__(js_context__.CreateObject<Titanium::UI::Label>()),
+	      scrollview__(js_context__.CreateObject<Titanium::UI::ScrollView>()),
+	      platform__(js_context__.CreateObject<Titanium::PlatformModule>()),
+	      accelerometer__(js_context__.CreateObject<Titanium::Accelerometer>()),
+	      gesture__(js_context__.CreateObject<Titanium::Gesture>()),
+	      blob__(js_context__.CreateObject<Titanium::Blob>()),
+	      file__(js_context__.CreateObject<Titanium::Filesystem::File>()),
+	      filesystem__(js_context__.CreateObject<Titanium::FilesystemModule>())
 	{
 	}
 
 	Application ApplicationBuilder::build()
 	{
-		JSObject ui = js_context__.CreateObject< Titanium::UIModule >();
+		JSObject ui = js_context__.CreateObject<Titanium::UIModule>();
 		ui.SetProperty("View", view__);
 		ui.SetProperty("Window", window__);
 		ui.SetProperty("Button", button__);

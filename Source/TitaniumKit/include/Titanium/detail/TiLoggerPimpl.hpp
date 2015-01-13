@@ -15,7 +15,7 @@
 
 namespace Titanium
 {
-	template < typename TiLoggerPolicy >
+	template <typename TiLoggerPolicy>
 	class TiLogger;
 }
 

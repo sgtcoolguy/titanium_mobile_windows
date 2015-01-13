@@ -24,14 +24,14 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Button
 		*/
-		class TITANIUMKIT_EXPORT Button : public View, public JSExport< Button >
+		class TITANIUMKIT_EXPORT Button : public View, public JSExport<Button>
 		{
 		public:
 			virtual JSValue get_title() const TITANIUM_NOEXCEPT final;
 			virtual void set_title(const JSValue& title) TITANIUM_NOEXCEPT final;
 
 			Button(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			Button(const Button&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			Button(const Button&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~Button() TITANIUM_NOEXCEPT;  //= default;
 			Button(const Button&) = default;

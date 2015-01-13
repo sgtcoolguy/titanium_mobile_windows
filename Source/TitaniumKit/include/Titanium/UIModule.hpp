@@ -28,7 +28,7 @@ namespace Titanium
 
 	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI
    */
-	class TITANIUMKIT_EXPORT UIModule final : public Module, public JSExport< UIModule >
+	class TITANIUMKIT_EXPORT UIModule final : public Module, public JSExport<UIModule>
 	{
 	public:
 		/*!
@@ -220,7 +220,7 @@ namespace Titanium
 		virtual JSValue URL_ERROR_UNSUPPORTED_SCHEME() const TITANIUM_NOEXCEPT final;
 
 		UIModule(const JSContext& js_context) TITANIUM_NOEXCEPT;
-		UIModule(const UIModule&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+		UIModule(const UIModule&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 		virtual ~UIModule() TITANIUM_NOEXCEPT;  //= default;
 		UIModule(const UIModule&) = default;
@@ -233,15 +233,15 @@ namespace Titanium
 		// TODO: The following functions can automatically be generated from
 		// the YAML API docs.
 		static void JSExportInitialize();
-		JSValue createViewArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue createWindowArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue createButtonArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue createTabArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue createTabGroupArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue createScrollViewArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue createImageViewArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue createLabelArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
-		JSValue setBackgroundColorArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
+		JSValue createViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue createWindowArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue createButtonArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue createTabArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue createTabGroupArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue createScrollViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue createImageViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue createLabelArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue setBackgroundColorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
 
 	private:
 		JSValue animation_curve_ease_in__;

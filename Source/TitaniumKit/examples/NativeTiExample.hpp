@@ -16,11 +16,11 @@ using namespace HAL;
  @discussion This is an example of how to implement Titanium::Titanium
  for a native Titanium.
  */
-class NativeTiExample final : public Titanium::TiModule, public JSExport< NativeTiExample >
+class NativeTiExample final : public Titanium::TiModule, public JSExport<NativeTiExample>
 {
 public:
 	NativeTiExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeTiExample(const NativeTiExample&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+	NativeTiExample(const NativeTiExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeTiExample() = default;
 	NativeTiExample(const NativeTiExample&) = default;

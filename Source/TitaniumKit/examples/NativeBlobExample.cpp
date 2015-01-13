@@ -12,15 +12,15 @@ NativeBlobExample::NativeBlobExample(const JSContext& js_context) TITANIUM_NOEXC
 {
 }
 
-NativeBlobExample::NativeBlobExample(const NativeBlobExample& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+NativeBlobExample::NativeBlobExample(const NativeBlobExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::Blob(rhs, arguments)
 {
 }
 
 void NativeBlobExample::JSExportInitialize()
 {
-	JSExport< NativeBlobExample >::SetClassVersion(1);
-	JSExport< NativeBlobExample >::SetParent(JSExport< Titanium::Blob >::Class());
+	JSExport<NativeBlobExample>::SetClassVersion(1);
+	JSExport<NativeBlobExample>::SetParent(JSExport<Titanium::Blob>::Class());
 }
 
 unsigned NativeBlobExample::get_length() const TITANIUM_NOEXCEPT
@@ -65,7 +65,7 @@ unsigned NativeBlobExample::get_width() const TITANIUM_NOEXCEPT
 	return 0;
 }
 
-void NativeBlobExample::append(std::shared_ptr< Blob >&) TITANIUM_NOEXCEPT
+void NativeBlobExample::append(std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeBlobExample::append");
 }

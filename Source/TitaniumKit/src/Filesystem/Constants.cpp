@@ -15,7 +15,7 @@ namespace Titanium
 		std::string Constants::to_string(const MODE& modeName) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "MODE::Unknown";
-			static std::unordered_map< MODE, std::string > map;
+			static std::unordered_map<MODE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[MODE::READ]   = "MODE_READ";
@@ -34,7 +34,7 @@ namespace Titanium
 
 		MODE Constants::to_MODE(const std::string& modeName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map< std::string, MODE > map;
+			static std::unordered_map<std::string, MODE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map["MODE_READ"]   = MODE::READ;
@@ -53,28 +53,28 @@ namespace Titanium
 			return mode;
 		}
 
-		std::unordered_set< MODE > Constants::to_MODE(std::underlying_type< MODE >::type modes) TITANIUM_NOEXCEPT
+		std::unordered_set<MODE> Constants::to_MODE(std::underlying_type<MODE>::type modes) TITANIUM_NOEXCEPT
 		{
-			std::unordered_set< MODE > mode_set;
-			static_cast< void >((modes & (1 << 0)) && mode_set.emplace(MODE::READ).second);
-			static_cast< void >((modes & (1 << 1)) && mode_set.emplace(MODE::WRITE).second);
-			static_cast< void >((modes & (1 << 2)) && mode_set.emplace(MODE::APPEND).second);
+			std::unordered_set<MODE> mode_set;
+			static_cast<void>((modes & (1 << 0)) && mode_set.emplace(MODE::READ).second);
+			static_cast<void>((modes & (1 << 1)) && mode_set.emplace(MODE::WRITE).second);
+			static_cast<void>((modes & (1 << 2)) && mode_set.emplace(MODE::APPEND).second);
 			return mode_set;
 		}
 
-		std::underlying_type< MODE >::type Constants::to_underlying_type(const std::unordered_set< MODE >& mode_set) TITANIUM_NOEXCEPT
+		std::underlying_type<MODE>::type Constants::to_underlying_type(const std::unordered_set<MODE>& mode_set) TITANIUM_NOEXCEPT
 		{
-			std::underlying_type< MODE >::type result = 0;
+			std::underlying_type<MODE>::type result = 0;
 			for (auto mode : mode_set) {
-				result |= static_cast< std::underlying_type< MODE >::type >(mode);
+				result |= static_cast<std::underlying_type<MODE>::type>(mode);
 			}
 
 			return result;
 		}
 
-		std::underlying_type< MODE >::type Constants::to_underlying_type(const MODE& mode) TITANIUM_NOEXCEPT
+		std::underlying_type<MODE>::type Constants::to_underlying_type(const MODE& mode) TITANIUM_NOEXCEPT
 		{
-			return static_cast< std::underlying_type< MODE >::type >(mode);
+			return static_cast<std::underlying_type<MODE>::type>(mode);
 		}
 	}
 }  // namespace Titanium { namespace Filesystem {

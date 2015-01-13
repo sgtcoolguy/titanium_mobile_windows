@@ -24,14 +24,14 @@ namespace Titanium
 
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ImageView
 		*/
-		class TITANIUMKIT_EXPORT ImageView : public View, public JSExport< ImageView >
+		class TITANIUMKIT_EXPORT ImageView : public View, public JSExport<ImageView>
 		{
 		public:
 			virtual JSValue get_image() const TITANIUM_NOEXCEPT final;
 			virtual void set_image(const JSValue& image) TITANIUM_NOEXCEPT final;
 
 			ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			ImageView(const ImageView&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+			ImageView(const ImageView&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 			virtual ~ImageView() = default;
 			ImageView(const ImageView&) = default;

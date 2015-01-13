@@ -19,11 +19,11 @@ using namespace HAL;
  @discussion This is an example of how to implement Titanium::UI::View
  for a native platform.
  */
-class NativeViewExample : public Titanium::UI::View, public JSExport< NativeViewExample >
+class NativeViewExample : public Titanium::UI::View, public JSExport<NativeViewExample>
 {
 public:
 	NativeViewExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeViewExample(const NativeViewExample&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+	NativeViewExample(const NativeViewExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeViewExample() TITANIUM_NOEXCEPT;  //= default;
 	NativeViewExample(const NativeViewExample&) = default;

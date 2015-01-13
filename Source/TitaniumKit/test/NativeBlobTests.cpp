@@ -33,7 +33,7 @@ protected:
 
 TEST_F(BlobTests, logging)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< Titanium::GlobalObject >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
 	auto global_object = js_context.get_global_object();
 
 	XCTAssertFalse(global_object.HasProperty("Titanium"));
@@ -47,11 +47,11 @@ TEST_F(BlobTests, logging)
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
 	XCTAssertFalse(Titanium.HasProperty("Blob"));
-	auto Blob = js_context.CreateObject(JSExport< NativeBlobExample >::Class());
+	auto Blob = js_context.CreateObject(JSExport<NativeBlobExample>::Class());
 	Titanium.SetProperty("Blob", Blob, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("Blob"));
 
-	auto Blob_ptr = Blob.GetPrivate< NativeBlobExample >();
+	auto Blob_ptr = Blob.GetPrivate<NativeBlobExample>();
 	XCTAssertNotEqual(nullptr, Blob_ptr);
 
 	JSValue result = js_context.CreateNull();

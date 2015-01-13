@@ -35,7 +35,7 @@ protected:
 
 TEST_F(ViewTests, basic_functionality)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< Titanium::GlobalObject >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
 	auto global_object = js_context.get_global_object();
 
 	XCTAssertFalse(global_object.HasProperty("Titanium"));
@@ -49,12 +49,12 @@ TEST_F(ViewTests, basic_functionality)
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
 	XCTAssertFalse(Titanium.HasProperty("API"));
-	auto API = js_context.CreateObject(JSExport< Titanium::API >::Class());
+	auto API = js_context.CreateObject(JSExport<Titanium::API>::Class());
 	Titanium.SetProperty("API", API, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("API"));
 
 	XCTAssertFalse(Titanium.HasProperty("UI"));
-	auto UI = js_context.CreateObject(JSExport< Titanium::UIModule >::Class());
+	auto UI = js_context.CreateObject(JSExport<Titanium::UIModule>::Class());
 	Titanium.SetProperty("UI", UI, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("UI"));
 
@@ -69,8 +69,8 @@ TEST_F(ViewTests, basic_functionality)
 	XCTAssertTrue(UI.HasProperty("createButton"));
 	XCTAssertTrue(UI.HasProperty("SIZE"));
 
-	auto View = js_context.CreateObject(JSExport< NativeViewExample >::Class());
-	auto view_ptr = View.GetPrivate< NativeViewExample >();
+	auto View = js_context.CreateObject(JSExport<NativeViewExample>::Class());
+	auto view_ptr = View.GetPrivate<NativeViewExample>();
 	XCTAssertNotEqual(nullptr, view_ptr);
 
 	UI.SetProperty("View", View);
@@ -81,10 +81,10 @@ TEST_F(ViewTests, basic_functionality)
 	JSObject view = result;
 	XCTAssertTrue(view.HasProperty("add"));
 
-	UI.SetProperty("Window", js_context.CreateObject(JSExport< Titanium::UI::Window >::Class()));
+	UI.SetProperty("Window", js_context.CreateObject(JSExport<Titanium::UI::Window>::Class()));
 	XCTAssertTrue(UI.HasProperty("Window"));
 
-	UI.SetProperty("Button", js_context.CreateObject(JSExport< Titanium::UI::Button >::Class()));
+	UI.SetProperty("Button", js_context.CreateObject(JSExport<Titanium::UI::Button>::Class()));
 	XCTAssertTrue(UI.HasProperty("Button"));
 
 	std::string app_js = R"js(

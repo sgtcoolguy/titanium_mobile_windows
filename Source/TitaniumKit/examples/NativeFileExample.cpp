@@ -12,15 +12,15 @@ NativeFileExample::NativeFileExample(const JSContext& js_context) TITANIUM_NOEXC
 {
 }
 
-NativeFileExample::NativeFileExample(const NativeFileExample& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+NativeFileExample::NativeFileExample(const NativeFileExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::Filesystem::File(rhs, arguments)
 {
 }
 
 void NativeFileExample::JSExportInitialize()
 {
-	JSExport< NativeFileExample >::SetClassVersion(1);
-	JSExport< NativeFileExample >::SetParent(JSExport< Titanium::Filesystem::File >::Class());
+	JSExport<NativeFileExample>::SetClassVersion(1);
+	JSExport<NativeFileExample>::SetParent(JSExport<Titanium::Filesystem::File>::Class());
 }
 
 bool NativeFileExample::get_executable() const TITANIUM_NOEXCEPT
@@ -119,10 +119,10 @@ std::string NativeFileExample::extension() TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::extension");
 	return "";
 }
-std::vector< JSValue > NativeFileExample::getDirectoryListing() TITANIUM_NOEXCEPT
+std::vector<JSValue> NativeFileExample::getDirectoryListing() TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::getDirectoryListing");
-	std::vector< JSValue > list;
+	std::vector<JSValue> list;
 	return list;
 }
 bool NativeFileExample::isDirectory() TITANIUM_NOEXCEPT
@@ -145,7 +145,7 @@ bool NativeFileExample::move(const std::string& newpath) TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::move");
 	return false;
 }
-JSValue NativeFileExample::open(const std::unordered_set< Titanium::Filesystem::MODE >&) TITANIUM_NOEXCEPT
+JSValue NativeFileExample::open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::open");
 	return get_context().CreateNull();

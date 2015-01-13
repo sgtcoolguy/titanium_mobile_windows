@@ -15,7 +15,7 @@ NativeModuleExample::NativeModuleExample(const JSContext& js_context) TITANIUM_N
 {
 }
 
-NativeModuleExample::NativeModuleExample(const NativeModuleExample& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+NativeModuleExample::NativeModuleExample(const NativeModuleExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::Module(rhs, arguments),
       event_name__(rhs.event_name__),
       enabled__(rhs.enabled__)
@@ -39,9 +39,9 @@ void NativeModuleExample::set_event_name(const std::string& event_name) TITANIUM
 
 void NativeModuleExample::JSExportInitialize()
 {
-	JSExport< NativeModuleExample >::SetClassVersion(1);
-	JSExport< NativeModuleExample >::SetParent(JSExport< Titanium::Module >::Class());
-	JSExport< NativeModuleExample >::AddValueProperty("enabled", std::mem_fn(&NativeModuleExample::get_enabled));
+	JSExport<NativeModuleExample>::SetClassVersion(1);
+	JSExport<NativeModuleExample>::SetParent(JSExport<Titanium::Module>::Class());
+	JSExport<NativeModuleExample>::AddValueProperty("enabled", std::mem_fn(&NativeModuleExample::get_enabled));
 }
 
 void NativeModuleExample::enableEvent(const std::string& eventName) TITANIUM_NOEXCEPT

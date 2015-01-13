@@ -28,7 +28,7 @@ namespace Titanium
 	  @discussion This is the Titanium Platform Module.
 	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Platform
 	*/
-	class TITANIUMKIT_EXPORT PlatformModule : public Module, public JSExport< PlatformModule >
+	class TITANIUMKIT_EXPORT PlatformModule : public Module, public JSExport<PlatformModule>
 	{
 	public:
 		virtual std::string address() const TITANIUM_NOEXCEPT;
@@ -56,7 +56,7 @@ namespace Titanium
 		virtual bool is24HourTimeFormat() TITANIUM_NOEXCEPT;
 
 		PlatformModule(const JSContext& js_context) TITANIUM_NOEXCEPT;
-		PlatformModule(const PlatformModule&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+		PlatformModule(const PlatformModule&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 		virtual ~PlatformModule() = default;
 		PlatformModule(const PlatformModule&) = default;
@@ -88,33 +88,33 @@ namespace Titanium
 		virtual JSValue get_username_ArgumentValidator() const TITANIUM_NOEXCEPT final;
 		virtual JSValue get_version_ArgumentValidator() const TITANIUM_NOEXCEPT final;
 
-		virtual JSValue getAddressArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getArchitectureArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getAvailableMemoryArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getBatteryLevelArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getBatteryMonitoringArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getBatteryStateArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getIdArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getLocaleArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getMacaddressArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getManufacturerArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getModelArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getNameArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getNetmaskArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getOsnameArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getOstypeArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getProcessorCountArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getRuntimeArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getUsernameArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getVersionArgumentValidator(const std::vector< JSValue >&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getAddressArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getArchitectureArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getAvailableMemoryArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getBatteryLevelArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getBatteryMonitoringArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getBatteryStateArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getIdArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getLocaleArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getMacaddressArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getManufacturerArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getModelArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getNameArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getNetmaskArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getOsnameArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getOstypeArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getProcessorCountArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getRuntimeArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getUsernameArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getVersionArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
 
-		virtual JSValue createUUIDArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue canOpenURLArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue openURLArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue is24HourTimeFormatArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue createUUIDArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue canOpenURLArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue openURLArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue is24HourTimeFormatArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
 		virtual JSValue get_displayCaps_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue getDisplayCapsArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT final;
+		virtual JSValue getDisplayCapsArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT final;
 
 		virtual JSValue get_BATTERY_STATE_CHARGING() const TITANIUM_NOEXCEPT final;
 		virtual JSValue get_BATTERY_STATE_FULL() const TITANIUM_NOEXCEPT final;

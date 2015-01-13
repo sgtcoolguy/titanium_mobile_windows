@@ -33,7 +33,7 @@ protected:
 
 TEST_F(UITests, properties)
 {
-	JSContext js_context = js_context_group.CreateContext(JSExport< Titanium::GlobalObject >::Class());
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
 	auto global_object = js_context.get_global_object();
 
 	XCTAssertFalse(global_object.HasProperty("Titanium"));
@@ -47,7 +47,7 @@ TEST_F(UITests, properties)
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
 	XCTAssertFalse(Titanium.HasProperty("UI"));
-	auto UI = js_context.CreateObject(JSExport< Titanium::UIModule >::Class());
+	auto UI = js_context.CreateObject(JSExport<Titanium::UIModule>::Class());
 	Titanium.SetProperty("UI", UI, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("UI"));
 

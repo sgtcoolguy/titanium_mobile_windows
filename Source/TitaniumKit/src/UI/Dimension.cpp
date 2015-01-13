@@ -21,7 +21,7 @@ namespace Titanium
 		{
 		}
 
-		Dimension::Dimension(const Dimension& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		Dimension::Dimension(const Dimension& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : JSExportObject(rhs, arguments),
 		      height__(rhs.height__),
 		      width__(rhs.width__),
@@ -75,12 +75,12 @@ namespace Titanium
 
 		void Dimension::JSExportInitialize()
 		{
-			JSExport< Dimension >::SetClassVersion(1);
-			JSExport< Dimension >::SetParent(JSExport< JSExportObject >::Class());
-			JSExport< Dimension >::AddValueProperty("height", std::mem_fn(&Dimension::getHeightArgumentValidator), std::mem_fn(&Dimension::setHeightArgumentValidator));
-			JSExport< Dimension >::AddValueProperty("width", std::mem_fn(&Dimension::getWidthArgumentValidator), std::mem_fn(&Dimension::setWidthArgumentValidator));
-			JSExport< Dimension >::AddValueProperty("x", std::mem_fn(&Dimension::getXArgumentValidator), std::mem_fn(&Dimension::setXArgumentValidator));
-			JSExport< Dimension >::AddValueProperty("y", std::mem_fn(&Dimension::getYArgumentValidator), std::mem_fn(&Dimension::setYArgumentValidator));
+			JSExport<Dimension>::SetClassVersion(1);
+			JSExport<Dimension>::SetParent(JSExport<JSExportObject>::Class());
+			JSExport<Dimension>::AddValueProperty("height", std::mem_fn(&Dimension::getHeightArgumentValidator), std::mem_fn(&Dimension::setHeightArgumentValidator));
+			JSExport<Dimension>::AddValueProperty("width", std::mem_fn(&Dimension::getWidthArgumentValidator), std::mem_fn(&Dimension::setWidthArgumentValidator));
+			JSExport<Dimension>::AddValueProperty("x", std::mem_fn(&Dimension::getXArgumentValidator), std::mem_fn(&Dimension::setXArgumentValidator));
+			JSExport<Dimension>::AddValueProperty("y", std::mem_fn(&Dimension::getYArgumentValidator), std::mem_fn(&Dimension::setYArgumentValidator));
 		}
 
 		JSValue Dimension::getHeightArgumentValidator() const
@@ -93,7 +93,7 @@ namespace Titanium
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.
 			TITANIUM_ASSERT(argument.IsNumber());
-			const auto height = static_cast< std::uint32_t >(argument);
+			const auto height = static_cast<std::uint32_t>(argument);
 			bool result = false;
 			if (height > 0) {
 				set_height(height);
@@ -112,7 +112,7 @@ namespace Titanium
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.
 			TITANIUM_ASSERT(argument.IsNumber());
-			const auto width = static_cast< std::uint32_t >(argument);
+			const auto width = static_cast<std::uint32_t>(argument);
 			bool result = false;
 			if (width > 0) {
 				set_width(width);
@@ -131,7 +131,7 @@ namespace Titanium
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.
 			TITANIUM_ASSERT(argument.IsNumber());
-			const auto x = static_cast< std::uint32_t >(argument);
+			const auto x = static_cast<std::uint32_t>(argument);
 			bool result = false;
 			// TODO: Are there additional preconditions on x?
 			set_x(x);
@@ -149,7 +149,7 @@ namespace Titanium
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.
 			TITANIUM_ASSERT(argument.IsNumber());
-			const auto y = static_cast< std::uint32_t >(argument);
+			const auto y = static_cast<std::uint32_t>(argument);
 			bool result = false;
 			// TODO: Are there additional preconditions on y?
 			set_y(y);

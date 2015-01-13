@@ -28,7 +28,7 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("View:: ctor 1 ", this);
 		}
 
-		View::View(const View& rhs, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT
+		View::View(const View& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : Module(rhs, arguments),
 		      children__(rhs.children__),
 		      backgroundColor__(rhs.backgroundColor__),
@@ -54,11 +54,11 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("View::add");
 
 			// precondition
-			auto native_view_ptr = view.GetPrivate< View >();
+			auto native_view_ptr = view.GetPrivate<View>();
 			TITANIUM_ASSERT(native_view_ptr.get());
 
 			const auto view_count = children__.GetPropertyNames().GetCount();
-			children__.SetProperty(static_cast< unsigned >(view_count), view);
+			children__.SetProperty(static_cast<unsigned>(view_count), view);
 		}
 
 		void View::hide(JSObject& this_object) TITANIUM_NOEXCEPT
@@ -180,7 +180,7 @@ namespace Titanium
 				JSObject child = child_property;
 
 				// precondition
-				auto native_child_ptr = child.GetPrivate< View >();
+				auto native_child_ptr = child.GetPrivate<View>();
 				TITANIUM_ASSERT(native_child_ptr);
 
 				native_children_list.push_back(native_child_ptr);
@@ -194,24 +194,24 @@ namespace Titanium
 
 		void View::JSExportInitialize()
 		{
-			JSExport< View >::SetClassVersion(1);
-			JSExport< View >::SetParent(JSExport< Module >::Class());
-			JSExport< View >::AddFunctionProperty("add", std::mem_fn(&View::addArgumentValidator));
-			JSExport< View >::AddFunctionProperty("hide", std::mem_fn(&View::hideArgumentValidator));
-			JSExport< View >::AddFunctionProperty("show", std::mem_fn(&View::showArgumentValidator));
-			JSExport< View >::AddValueProperty("children", std::mem_fn(&View::get_children));
-			JSExport< View >::AddValueProperty("backgroundColor", std::mem_fn(&View::get_backgroundColor), std::mem_fn(&View::setBackgroundColorArgumentValidator));
-			JSExport< View >::AddValueProperty("top", std::mem_fn(&View::get_top), std::mem_fn(&View::setTopArgumentValidator));
-			JSExport< View >::AddValueProperty("left", std::mem_fn(&View::get_left), std::mem_fn(&View::setLeftArgumentValidator));
-			JSExport< View >::AddValueProperty("bottom", std::mem_fn(&View::get_bottom), std::mem_fn(&View::setBottomArgumentValidator));
-			JSExport< View >::AddValueProperty("center", std::mem_fn(&View::get_center), std::mem_fn(&View::setCenterArgumentValidator));
-			JSExport< View >::AddValueProperty("right", std::mem_fn(&View::get_right), std::mem_fn(&View::setRightArgumentValidator));
-			JSExport< View >::AddValueProperty("width", std::mem_fn(&View::get_width), std::mem_fn(&View::setWidthArgumentValidator));
-			JSExport< View >::AddValueProperty("height", std::mem_fn(&View::get_height), std::mem_fn(&View::setHeightArgumentValidator));
-			JSExport< View >::AddValueProperty("layout", std::mem_fn(&View::get_layout), std::mem_fn(&View::setLayoutArgumentValidator));
+			JSExport<View>::SetClassVersion(1);
+			JSExport<View>::SetParent(JSExport<Module>::Class());
+			JSExport<View>::AddFunctionProperty("add", std::mem_fn(&View::addArgumentValidator));
+			JSExport<View>::AddFunctionProperty("hide", std::mem_fn(&View::hideArgumentValidator));
+			JSExport<View>::AddFunctionProperty("show", std::mem_fn(&View::showArgumentValidator));
+			JSExport<View>::AddValueProperty("children", std::mem_fn(&View::get_children));
+			JSExport<View>::AddValueProperty("backgroundColor", std::mem_fn(&View::get_backgroundColor), std::mem_fn(&View::setBackgroundColorArgumentValidator));
+			JSExport<View>::AddValueProperty("top", std::mem_fn(&View::get_top), std::mem_fn(&View::setTopArgumentValidator));
+			JSExport<View>::AddValueProperty("left", std::mem_fn(&View::get_left), std::mem_fn(&View::setLeftArgumentValidator));
+			JSExport<View>::AddValueProperty("bottom", std::mem_fn(&View::get_bottom), std::mem_fn(&View::setBottomArgumentValidator));
+			JSExport<View>::AddValueProperty("center", std::mem_fn(&View::get_center), std::mem_fn(&View::setCenterArgumentValidator));
+			JSExport<View>::AddValueProperty("right", std::mem_fn(&View::get_right), std::mem_fn(&View::setRightArgumentValidator));
+			JSExport<View>::AddValueProperty("width", std::mem_fn(&View::get_width), std::mem_fn(&View::setWidthArgumentValidator));
+			JSExport<View>::AddValueProperty("height", std::mem_fn(&View::get_height), std::mem_fn(&View::setHeightArgumentValidator));
+			JSExport<View>::AddValueProperty("layout", std::mem_fn(&View::get_layout), std::mem_fn(&View::setLayoutArgumentValidator));
 		}
 
-		JSValue View::addArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue View::addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.
@@ -223,7 +223,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue View::hideArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue View::hideArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.
@@ -232,7 +232,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue View::showArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue View::showArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.

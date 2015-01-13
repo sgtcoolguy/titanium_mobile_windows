@@ -20,11 +20,11 @@ using namespace HAL;
  @discussion This is an example of how to implement Titanium::UI::Button
  for a native platform.
  */
-class NativeButtonExample final : public Titanium::UI::Button, public JSExport< NativeButtonExample >
+class NativeButtonExample final : public Titanium::UI::Button, public JSExport<NativeButtonExample>
 {
 public:
 	NativeButtonExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeButtonExample(const NativeButtonExample&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+	NativeButtonExample(const NativeButtonExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeButtonExample() TITANIUM_NOEXCEPT;  //= default;
 	NativeButtonExample(const NativeButtonExample&) = default;
