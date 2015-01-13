@@ -310,5 +310,5 @@ namespace Titanium
 			(*element).layoutCoefficients.top.x3 = x3;
 			(*element).layoutCoefficients.top.x4 = x4;
 		}
-	}
-}  // namespace Titanium { namespace LayoutEngine {
+	} // namespace LayoutEngine
+} // namespace Titanium

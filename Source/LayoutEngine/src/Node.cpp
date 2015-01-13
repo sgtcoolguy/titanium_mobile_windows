@@ -99,5 +99,5 @@ namespace Titanium
 			// Pass 3 - Invoke post layout callbacks.
 			invokeLayoutCallback(root);
 		}
-	}
-}  // namespace Titanium { namespace LayoutEngine {
+	} // namespace LayoutEngine
+} // namespace Titanium

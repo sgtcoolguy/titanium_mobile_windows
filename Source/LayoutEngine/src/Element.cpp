@@ -63,5 +63,5 @@ namespace Titanium
 				parent->children.erase(i);
 			}
 		}
-	}
-}  // namespace Titanium { namespace LayoutEngine {
+	} // namespace LayoutEngine
+} // namespace Titanium

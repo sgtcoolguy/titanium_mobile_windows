@@ -141,5 +141,5 @@ namespace Titanium
 			(*layoutProperties).centerX.valueType = None;
 			(*layoutProperties).centerY.valueType = None;
 		}
-	}
-}  // namespace Titanium { namespace LayoutEngine {
+	} // namespace LayoutEngine
+} // namespace Titanium

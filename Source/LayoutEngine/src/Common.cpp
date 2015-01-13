@@ -54,5 +54,5 @@ namespace Titanium
 					break;
 			}
 		}
-	}
-}  // namespace Titanium { namespace LayoutEngine {
+	} // namespace LayoutEngine
+} // namespace Titanium

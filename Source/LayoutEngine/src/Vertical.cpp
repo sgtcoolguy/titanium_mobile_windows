@@ -289,5 +289,5 @@ namespace Titanium
 			(*element).layoutCoefficients.top.x1 = topType == Percent ? topValue : 0;
 			(*element).layoutCoefficients.top.x2 = topType == Fixed ? topValue : 0;
 		}
-	}
-}  // namespace Titanium { namespace LayoutEngine {
+	} // namespace LayoutEngine
+} // namespace Titanium

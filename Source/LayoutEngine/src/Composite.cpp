@@ -435,5 +435,5 @@ namespace Titanium
 			(*element).layoutCoefficients.sandboxHeight.x1 = (bottomType == Percent ? bottomValue : 0);
 			(*element).layoutCoefficients.sandboxHeight.x2 = (bottomType == Fixed ? bottomValue : 0);
 		}
-	}
-}  // namespace Titanium { namespace LayoutEngine {
+	} // namespace LayoutEngine
+} // namespace Titanium

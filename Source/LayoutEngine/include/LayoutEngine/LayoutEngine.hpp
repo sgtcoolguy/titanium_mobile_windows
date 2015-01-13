@@ -29,12 +29,15 @@ namespace Titanium
 			double y = 0;
 		};
 
-		enum LayoutType {
+		enum LayoutType
+		{
 			Composite = 0,
 			Horizontal,
 			Vertical
 		};
-		enum ElementAlignment {
+
+		enum ElementAlignment
+		{
 			Start = 0,
 			Center,
 			End
@@ -98,7 +101,8 @@ namespace Titanium
 			bool childrenLaidOut = false;
 		};
 
-		enum ValueName {
+		enum ValueName
+		{
 			Top = 0,
 			Bottom,
 			Left,
@@ -110,13 +114,17 @@ namespace Titanium
 			CenterX,
 			CenterY
 		};
-		enum ValueType { Fill = 1,
-			             Size = 2,
-			             Percent = 3,
-			             Defer = 4,
-			             Auto = 5,
-			             Fixed = 0,
-			             None = -1 };
+
+		enum ValueType
+		{ 
+			Fill = 1,
+			Size = 2,
+			Percent = 3,
+			Defer = 4,
+			Auto = 5,
+			Fixed = 0,
+			None = -1
+		};
 
 		struct InputProperty
 		{
@@ -200,7 +208,7 @@ namespace Titanium
 		{
 			return rect1.x == rect2.x && rect1.y == rect2.y && rect1.width == rect2.width && rect1.height == rect2.height;
 		}
-	}
-}  // namespace Titanium { namespace LayoutEngine {
+	} // namespace LayoutEngine
+} // namespace Titanium
 
 #endif  // _LAYOUTENGINE_LAYOUTENGINE_HPP_
