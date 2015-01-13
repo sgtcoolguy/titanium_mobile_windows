@@ -13,22 +13,21 @@
 #include <unordered_map>
 #include <vector>
 
-namespace Titanium {
-  
-  using namespace HAL;
-  
-  /*!
+namespace Titanium
+{
+	using namespace HAL;
+
+	/*!
    @class
    
    @discussion This is the Titanium Module.
    
    See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium
    */
-  class TITANIUMKIT_EXPORT Module : public JSExportObject, public JSExport<Module> {
-    
-  public:
-    
-    /*!
+	class TITANIUMKIT_EXPORT Module : public JSExportObject, public JSExport< Module >
+	{
+	public:
+		/*!
      @method
      
      @abstract addEventListener( name, callback ) : void
@@ -43,9 +42,9 @@ namespace Titanium {
      
      @result void
      */
-    virtual void addEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT final;
-    
-    /*!
+		virtual void addEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+		/*!
      @method
      
      @abstract addEventListener( name, callback ) : void
@@ -66,9 +65,9 @@ namespace Titanium {
      
      @result void
      */
-    virtual void removeEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT final;
-    
-    /*!
+		virtual void removeEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+		/*!
      @method
      
      @abstract applyProperties( props ) : void
@@ -81,9 +80,9 @@ namespace Titanium {
      
      @result void
      */
-    virtual void applyProperties(const JSObject& props, JSObject& this_object) TITANIUM_NOEXCEPT;
-    
-    /*!
+		virtual void applyProperties(const JSObject& props, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
      @method
      
      @abstract fireEvent( name, event ) : void
@@ -98,31 +97,29 @@ namespace Titanium {
      
      @result void
      */
-    virtual void fireEvent(const std::string& name, const JSObject& event) const TITANIUM_NOEXCEPT final;
-    
-    Module(const JSContext& js_context)                          TITANIUM_NOEXCEPT;
-    Module(const Module&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
-    
-    virtual ~Module() TITANIUM_NOEXCEPT;//= default;
-    Module(const Module&)            = default;
-    Module& operator=(const Module&) = default;
+		virtual void fireEvent(const std::string& name, const JSObject& event) const TITANIUM_NOEXCEPT final;
+
+		Module(const JSContext& js_context) TITANIUM_NOEXCEPT;
+		Module(const Module&, const std::vector< JSValue >& arguments) TITANIUM_NOEXCEPT;
+
+		virtual ~Module() TITANIUM_NOEXCEPT;  //= default;
+		Module(const Module&) = default;
+		Module& operator=(const Module&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-    Module(Module&&)                 = default;
-    Module& operator=(Module&&)      = default;
+		Module(Module&&) = default;
+		Module& operator=(Module&&) = default;
 #endif
-    
-    // TODO: The following functions can automatically be generated from
-    // the YAML API docs.
-    static void JSExportInitialize();
-    JSValue addEventListenerArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-    JSValue removeEventListenerArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-    JSValue applyPropertiesArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-    JSValue fireEventArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-    
-  protected:
-    
-    
-    /*!
+
+		// TODO: The following functions can automatically be generated from
+		// the YAML API docs.
+		static void JSExportInitialize();
+		JSValue addEventListenerArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
+		JSValue removeEventListenerArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
+		JSValue applyPropertiesArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
+		JSValue fireEventArgumentValidator(const std::vector< JSValue >& arguments, JSObject& this_object);
+
+	protected:
+		/*!
      @method
      
      @abstract Notify Module subclasses that there are event listeners
@@ -133,9 +130,9 @@ namespace Titanium {
      
      @result void
      */
-    virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
-    
-    /*!
+		virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
+
+		/*!
      @method
      
      @abstract Notify Module subclasses that there are no longer any
@@ -148,14 +145,13 @@ namespace Titanium {
      
      @result void
      */
-    virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
-    
-  private:
-    
-    static unsigned eventListenerIndex(const JSObject& event_listener_list, const std::string& name, JSObject& callback) TITANIUM_NOEXCEPT;
-    
-    JSObject event_listener_map__;
-  };
-} // namespace Titanium {
+		virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
 
-#endif // _TITANIUM_MODULE_HPP_
+	private:
+		static unsigned eventListenerIndex(const JSObject& event_listener_list, const std::string& name, JSObject& callback) TITANIUM_NOEXCEPT;
+
+		JSObject event_listener_map__;
+	};
+}  // namespace Titanium {
+
+#endif  // _TITANIUM_MODULE_HPP_

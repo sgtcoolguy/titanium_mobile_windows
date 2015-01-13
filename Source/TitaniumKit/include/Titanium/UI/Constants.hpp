@@ -13,9 +13,11 @@
 #include <unordered_set>
 #include <functional>
 
-namespace Titanium { namespace UI {
-  
-  /*!
+namespace Titanium
+{
+	namespace UI
+	{
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -33,14 +35,14 @@ namespace Titanium { namespace UI {
    @constant CURVE_LINEAR Specify that an animation that proceeds at a
    constant rate.
    */
-  enum class TITANIUMKIT_EXPORT ANIMATION_CURVE {
-    EASE_IN,
-    EASE_IN_OUT,
-    EASE_OUT,
-    LINEAR
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT ANIMATION_CURVE {
+			EASE_IN,
+			EASE_IN_OUT,
+			EASE_OUT,
+			LINEAR
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -67,17 +69,17 @@ namespace Titanium { namespace UI {
    links. This property will also convert strings formatted as email
    addresses into clickable links.
    */
-  enum class TITANIUMKIT_EXPORT AUTOLINK {
-    ALL             = 1 << 0, // 1 << 0 == 1
-    CALENDAR        = 1 << 1, // 1 << 1 == 2
-    EMAIL_ADDRESSES = 1 << 2, // 1 << 2 == 4
-    MAP_ADDRESSES   = 1 << 3, // 1 << 3 == 8
-    NONE            = 1 << 4, // 1 << 4 == 16
-    PHONE_NUMBERS   = 1 << 5, // 1 << 5 == 32
-    URLS            = 1 << 6  // 1 << 6 == 64
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT AUTOLINK {
+			ALL = 1 << 0,              // 1 << 0 == 1
+			CALENDAR = 1 << 1,         // 1 << 1 == 2
+			EMAIL_ADDRESSES = 1 << 2,  // 1 << 2 == 4
+			MAP_ADDRESSES = 1 << 3,    // 1 << 3 == 8
+			NONE = 1 << 4,             // 1 << 4 == 16
+			PHONE_NUMBERS = 1 << 5,    // 1 << 5 == 32
+			URLS = 1 << 6              // 1 << 6 == 64
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -100,16 +102,16 @@ namespace Titanium { namespace UI {
    
    @constant TOP Specifies that the top edge of the window can extend.
    */
-  enum class TITANIUMKIT_EXPORT EXTEND_EDGE {
-    ALL    = 1 << 0, // 1 << 0 == 1
-    BOTTOM = 1 << 1, // 1 << 1 == 2
-    LEFT   = 1 << 2, // 1 << 2 == 4
-    NONE   = 1 << 3, // 1 << 3 == 8
-    RIGHT  = 1 << 4, // 1 << 4 == 16
-    TOP    = 1 << 5  // 1 << 5 == 32
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT EXTEND_EDGE {
+			ALL = 1 << 0,     // 1 << 0 == 1
+			BOTTOM = 1 << 1,  // 1 << 1 == 2
+			LEFT = 1 << 2,    // 1 << 2 == 4
+			NONE = 1 << 3,    // 1 << 3 == 8
+			RIGHT = 1 << 4,   // 1 << 4 == 16
+			TOP = 1 << 5      // 1 << 5 == 32
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -134,17 +136,17 @@ namespace Titanium { namespace UI {
    @constant UNKNOWN Orientation constant representing an unknown
    orientation.
    */
-  enum class TITANIUMKIT_EXPORT ORIENTATION {
-    PORTRAIT,
-    UPSIDE_PORTRAIT,
-    LANDSCAPE_LEFT,
-    LANDSCAPE_RIGHT,
-    FACE_UP,
-    FACE_DOWN,
-    UNKNOWN
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT ORIENTATION {
+			PORTRAIT,
+			UPSIDE_PORTRAIT,
+			LANDSCAPE_LEFT,
+			LANDSCAPE_RIGHT,
+			FACE_UP,
+			FACE_DOWN,
+			UNKNOWN
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -159,14 +161,14 @@ namespace Titanium { namespace UI {
    @constant ROUNDED Use a rounded-rectangle border on the input
    field.
    */
-  enum class TITANIUMKIT_EXPORT INPUT_BORDERSTYLE {
-    BEZEL,
-    LINE,
-    NONE,
-    ROUNDED
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT INPUT_BORDERSTYLE {
+			BEZEL,
+			LINE,
+			NONE,
+			ROUNDED
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -184,14 +186,14 @@ namespace Titanium { namespace UI {
    @constant ONFOCUS Show buttons on the input field when it gains
    focus.
    */
-  enum class TITANIUMKIT_EXPORT INPUT_BUTTONMODE {
-    ALWAYS,
-    NEVER,
-    ONBLUR,
-    ONFOCUS
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT INPUT_BUTTONMODE {
+			ALWAYS,
+			NEVER,
+			ONBLUR,
+			ONFOCUS
+		};
+
+		/*!
    @enum
    
    @constant ALERT Use a keyboard appearance suitable for entering
@@ -200,12 +202,12 @@ namespace Titanium { namespace UI {
    @constant DEFAULT Use the platform-specific default keyboard
    appearance.
    */
-  enum class TITANIUMKIT_EXPORT KEYBOARD_APPEARANCE {
-    ALERT,
-    DEFAULT
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT KEYBOARD_APPEARANCE {
+			ALERT,
+			DEFAULT
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -239,19 +241,19 @@ namespace Titanium { namespace UI {
    @constant URL Use an keyboard optimized for entering URLs, with the
    standard keyboard layout.
    */
-  enum class TITANIUMKIT_EXPORT KEYBOARD {
-    ASCII,
-    DECIMAL_PAD,
-    DEFAULT,
-    EMAIL,
-    NAMEPHONE_PAD,
-    NUMBERS_PUNCTUATION,
-    NUMBER_PAD,
-    PHONE_PAD,
-    URL
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT KEYBOARD {
+			ASCII,
+			DECIMAL_PAD,
+			DEFAULT,
+			EMAIL,
+			NAMEPHONE_PAD,
+			NUMBERS_PUNCTUATION,
+			NUMBER_PAD,
+			PHONE_PAD,
+			URL
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -272,14 +274,14 @@ namespace Titanium { namespace UI {
    @constant NONE Do not display anything on the right side of an item
    in a list view.
    */
-  enum class TITANIUMKIT_EXPORT LIST_ACCESSORY_TYPE {
-    CHECKMARK,
-    DETAIL,
-    DISCLOSURE,
-    NONE
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT LIST_ACCESSORY_TYPE {
+			CHECKMARK,
+			DETAIL,
+			DISCLOSURE,
+			NONE
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -312,14 +314,14 @@ namespace Titanium { namespace UI {
    subtitle and image properties, respectively, of the data item. If a
    property is not set, that element is not displayed.
    */
-  enum class TITANIUMKIT_EXPORT LIST_ITEM_TEMPLATE {
-    CONTACTS,
-    DEFAULT,
-    SETTINGS,
-    SUBTITLE
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT LIST_ITEM_TEMPLATE {
+			CONTACTS,
+			DEFAULT,
+			SETTINGS,
+			SUBTITLE
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -330,12 +332,12 @@ namespace Titanium { namespace UI {
    @constant SHORT Specifies a short duration for a Toast
    notification.
    */
-  enum class TITANIUMKIT_EXPORT NOTIFICATION_DURATION {
-    LONG,
-    SHORT
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT NOTIFICATION_DURATION {
+			LONG,
+			SHORT
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -355,15 +357,15 @@ namespace Titanium { namespace UI {
    
    @constant TIME Use a time picker.
    */
-  enum class TITANIUMKIT_EXPORT PICKER_TYPE {
-    COUNT_DOWN_TIMER,
-    DATE,
-    DATE_AND_TIME,
-    PLAIN,
-    TIME
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT PICKER_TYPE {
+			COUNT_DOWN_TIMER,
+			DATE,
+			DATE_AND_TIME,
+			PLAIN,
+			TIME
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -394,21 +396,21 @@ namespace Titanium { namespace UI {
    
    @constant YAHOO Set the return key text to "Yahoo".
    */
-  enum class TITANIUMKIT_EXPORT RETURNKEY {
-    DEFAULT,
-    DONE,
-    EMERGENCY_CALL,
-    GO,
-    GOOGLE,
-    JOIN,
-    NEXT,
-    ROUTE,
-    SEARCH,
-    SEND,
-    YAHOO
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT RETURNKEY {
+			DEFAULT,
+			DONE,
+			EMERGENCY_CALL,
+			GO,
+			GOOGLE,
+			JOIN,
+			NEXT,
+			ROUTE,
+			SEARCH,
+			SEND,
+			YAHOO
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -421,13 +423,13 @@ namespace Titanium { namespace UI {
    
    @constant RIGHT Right align text.
    */
-  enum class TITANIUMKIT_EXPORT TEXT_ALIGNMENT {
-    CENTER,
-    LEFT,
-    RIGHT
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT TEXT_ALIGNMENT {
+			CENTER,
+			LEFT,
+			RIGHT
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -444,14 +446,14 @@ namespace Titanium { namespace UI {
    @constant WORDS Auto-capitalize the first letter of each word in
    the input field.
    */
-  enum class TITANIUMKIT_EXPORT TEXT_AUTOCAPITALIZATION {
-    ALL,
-    NONE,
-    SENTENCES,
-    WORDS
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT TEXT_AUTOCAPITALIZATION {
+			ALL,
+			NONE,
+			SENTENCES,
+			WORDS
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -464,13 +466,13 @@ namespace Titanium { namespace UI {
    
    @constant TOP Align text to the top of the view.
    */
-  enum class TITANIUMKIT_EXPORT TEXT_VERTICAL_ALIGNMENT {
-    BOTTOM,
-    CENTER,
-    TOP
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT TEXT_VERTICAL_ALIGNMENT {
+			BOTTOM,
+			CENTER,
+			TOP
+		};
+
+		/*!
    @enum
    
    @abstract These constants are for use with the
@@ -505,21 +507,21 @@ namespace Titanium { namespace UI {
    @constant UNSUPPORTED_SCHEME Error code reported when a url
    contains an unsupported scheme.
    */
-  enum class TITANIUMKIT_EXPORT URL_ERROR {
-    AUTHENTICATION,
-    BAD_URL,
-    CONNECT,
-    FILE,
-    FILE_NOT_FOUND,
-    HOST_LOOKUP,
-    REDIRECT_LOOP,
-    SSL_FAILED,
-    TIMEOUT,
-    UNKNOWN,
-    UNSUPPORTED_SCHEME
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT URL_ERROR {
+			AUTHENTICATION,
+			BAD_URL,
+			CONNECT,
+			FILE,
+			FILE_NOT_FOUND,
+			HOST_LOOKUP,
+			REDIRECT_LOOP,
+			SSL_FAILED,
+			TIMEOUT,
+			UNKNOWN,
+			UNSUPPORTED_SCHEME
+		};
+
+		/*!
    @enum
    
    @abstract These constants specify UI layout behavior.
@@ -535,13 +537,13 @@ namespace Titanium { namespace UI {
    @constant SIZE UI layout behavior where the view will constrain its
    size to fit its contents.
    */
-  enum class TITANIUMKIT_EXPORT LAYOUT {
-    FILL,
-    INHERIT,
-    SIZE
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT LAYOUT {
+			FILL,
+			INHERIT,
+			SIZE
+		};
+
+		/*!
    @enum
    
    @abstract These constants specify text styles for the Font Object.
@@ -558,16 +560,16 @@ namespace Titanium { namespace UI {
    
    @constant SUBHEADLINE
    */
-  enum class TITANIUMKIT_EXPORT TEXT_STYLE {
-    BODY,
-    CAPTION1,
-    CAPTION2,
-    FOOTNOTE,
-    HEADLINE,
-    SUBHEADLINE
-  };
-  
-  /*!
+		enum class TITANIUMKIT_EXPORT TEXT_STYLE {
+			BODY,
+			CAPTION1,
+			CAPTION2,
+			FOOTNOTE,
+			HEADLINE,
+			SUBHEADLINE
+		};
+
+		/*!
    @enum
    
    @abstract These constants specify text styles for the Font Object.
@@ -583,389 +585,431 @@ namespace Titanium { namespace UI {
    
    @constant PX Unit constant representing units in pixels.
    */
-  enum class TITANIUMKIT_EXPORT UNIT {
-    CM,
-    DIP,
-    IN,
-    MM,
-    PX
-  };
-  
-}} // namespace Titanium { namespace UI {
+		enum class TITANIUMKIT_EXPORT UNIT {
+			CM,
+			DIP,
+			IN,
+			MM,
+			PX
+		};
+	}
+}  // namespace Titanium { namespace UI {
 
 // Provide a hash function so that a Titanium::UI::AUTOLINK can be stored in an
 // unordered container.
-namespace std {
-  
-  using Titanium::UI::ANIMATION_CURVE;
-  template<>
-  struct hash<ANIMATION_CURVE> {
-    using argument_type   = ANIMATION_CURVE;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::AUTOLINK;
-  template<>
-  struct hash<AUTOLINK> {
-    using argument_type   = AUTOLINK;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::EXTEND_EDGE;
-  template<>
-  struct hash<EXTEND_EDGE> {
-    using argument_type   = EXTEND_EDGE;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::ORIENTATION;
-  template<>
-  struct hash<ORIENTATION> {
-    using argument_type   = ORIENTATION;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::INPUT_BORDERSTYLE;
-  template<>
-  struct hash<INPUT_BORDERSTYLE> {
-    using argument_type   = INPUT_BORDERSTYLE;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::INPUT_BUTTONMODE;
-  template<>
-  struct hash<INPUT_BUTTONMODE> {
-    using argument_type   = INPUT_BUTTONMODE;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::KEYBOARD_APPEARANCE;
-  template<>
-  struct hash<KEYBOARD_APPEARANCE> {
-    using argument_type   = KEYBOARD_APPEARANCE;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::KEYBOARD;
-  template<>
-  struct hash<KEYBOARD> {
-    using argument_type   = KEYBOARD;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::LIST_ACCESSORY_TYPE;
-  template<>
-  struct hash<LIST_ACCESSORY_TYPE> {
-    using argument_type   = LIST_ACCESSORY_TYPE;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::LIST_ITEM_TEMPLATE;
-  template<>
-  struct hash<LIST_ITEM_TEMPLATE> {
-    using argument_type   = LIST_ITEM_TEMPLATE;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::NOTIFICATION_DURATION;
-  template<>
-  struct hash<NOTIFICATION_DURATION> {
-    using argument_type   = NOTIFICATION_DURATION;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::PICKER_TYPE;
-  template<>
-  struct hash<PICKER_TYPE> {
-    using argument_type   = PICKER_TYPE;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::RETURNKEY;
-  template<>
-  struct hash<RETURNKEY> {
-    using argument_type   = RETURNKEY;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::TEXT_ALIGNMENT;
-  template<>
-  struct hash<TEXT_ALIGNMENT> {
-    using argument_type   = TEXT_ALIGNMENT;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::TEXT_AUTOCAPITALIZATION;
-  template<>
-  struct hash<TEXT_AUTOCAPITALIZATION> {
-    using argument_type   = TEXT_AUTOCAPITALIZATION;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::TEXT_VERTICAL_ALIGNMENT;
-  template<>
-  struct hash<TEXT_VERTICAL_ALIGNMENT> {
-    using argument_type   = TEXT_VERTICAL_ALIGNMENT;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::URL_ERROR;
-  template<>
-  struct hash<URL_ERROR> {
-    using argument_type   = URL_ERROR;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::LAYOUT;
-  template<>
-  struct hash<LAYOUT> {
-    using argument_type   = LAYOUT;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::TEXT_STYLE;
-  template<>
-  struct hash<TEXT_STYLE> {
-    using argument_type   = TEXT_STYLE;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
-  
-  using Titanium::UI::UNIT;
-  template<>
-  struct hash<UNIT> {
-    using argument_type   = UNIT;
-    using result_type     = std::size_t;
-    using underlying_type = std::underlying_type<argument_type>::type;
-    std::hash<underlying_type> hash_function = std::hash<underlying_type>();
-    
-    result_type operator()(const argument_type& property_attribute) const {
-      return hash_function(static_cast<underlying_type>(property_attribute));
-    }
-  };
+namespace std
+{
+	using Titanium::UI::ANIMATION_CURVE;
+	template <>
+	struct hash< ANIMATION_CURVE >
+	{
+		using argument_type = ANIMATION_CURVE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::AUTOLINK;
+	template <>
+	struct hash< AUTOLINK >
+	{
+		using argument_type = AUTOLINK;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::EXTEND_EDGE;
+	template <>
+	struct hash< EXTEND_EDGE >
+	{
+		using argument_type = EXTEND_EDGE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::ORIENTATION;
+	template <>
+	struct hash< ORIENTATION >
+	{
+		using argument_type = ORIENTATION;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::INPUT_BORDERSTYLE;
+	template <>
+	struct hash< INPUT_BORDERSTYLE >
+	{
+		using argument_type = INPUT_BORDERSTYLE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::INPUT_BUTTONMODE;
+	template <>
+	struct hash< INPUT_BUTTONMODE >
+	{
+		using argument_type = INPUT_BUTTONMODE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::KEYBOARD_APPEARANCE;
+	template <>
+	struct hash< KEYBOARD_APPEARANCE >
+	{
+		using argument_type = KEYBOARD_APPEARANCE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::KEYBOARD;
+	template <>
+	struct hash< KEYBOARD >
+	{
+		using argument_type = KEYBOARD;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::LIST_ACCESSORY_TYPE;
+	template <>
+	struct hash< LIST_ACCESSORY_TYPE >
+	{
+		using argument_type = LIST_ACCESSORY_TYPE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::LIST_ITEM_TEMPLATE;
+	template <>
+	struct hash< LIST_ITEM_TEMPLATE >
+	{
+		using argument_type = LIST_ITEM_TEMPLATE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::NOTIFICATION_DURATION;
+	template <>
+	struct hash< NOTIFICATION_DURATION >
+	{
+		using argument_type = NOTIFICATION_DURATION;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::PICKER_TYPE;
+	template <>
+	struct hash< PICKER_TYPE >
+	{
+		using argument_type = PICKER_TYPE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::RETURNKEY;
+	template <>
+	struct hash< RETURNKEY >
+	{
+		using argument_type = RETURNKEY;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::TEXT_ALIGNMENT;
+	template <>
+	struct hash< TEXT_ALIGNMENT >
+	{
+		using argument_type = TEXT_ALIGNMENT;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::TEXT_AUTOCAPITALIZATION;
+	template <>
+	struct hash< TEXT_AUTOCAPITALIZATION >
+	{
+		using argument_type = TEXT_AUTOCAPITALIZATION;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::TEXT_VERTICAL_ALIGNMENT;
+	template <>
+	struct hash< TEXT_VERTICAL_ALIGNMENT >
+	{
+		using argument_type = TEXT_VERTICAL_ALIGNMENT;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::URL_ERROR;
+	template <>
+	struct hash< URL_ERROR >
+	{
+		using argument_type = URL_ERROR;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::LAYOUT;
+	template <>
+	struct hash< LAYOUT >
+	{
+		using argument_type = LAYOUT;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::TEXT_STYLE;
+	template <>
+	struct hash< TEXT_STYLE >
+	{
+		using argument_type = TEXT_STYLE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
+
+	using Titanium::UI::UNIT;
+	template <>
+	struct hash< UNIT >
+	{
+		using argument_type = UNIT;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type< argument_type >::type;
+		std::hash< underlying_type > hash_function = std::hash< underlying_type >();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast< underlying_type >(property_attribute));
+		}
+	};
 }  // namespace std {
 
-namespace Titanium { namespace UI {
-  
-  class TITANIUMKIT_EXPORT Constants final {
-  public:
-    
-    static std::string                                         to_string(const ANIMATION_CURVE&)                                               TITANIUM_NOEXCEPT;
-    static ANIMATION_CURVE                                     to_ANIMATION_CURVE(const std::string& animationCurveName)                       TITANIUM_NOEXCEPT;
-    static ANIMATION_CURVE                                     to_ANIMATION_CURVE(std::underlying_type<ANIMATION_CURVE>::type)                 TITANIUM_NOEXCEPT;
-    static std::underlying_type<ANIMATION_CURVE>::type         to_underlying_type(const ANIMATION_CURVE&)                                      TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const AUTOLINK&)                                                      TITANIUM_NOEXCEPT;
-    static AUTOLINK                                            to_AUTOLINK(const std::string& autoLinkName)                                    TITANIUM_NOEXCEPT;
-    static std::unordered_set<AUTOLINK>                        to_AUTOLINK(std::underlying_type<AUTOLINK>::type)                               TITANIUM_NOEXCEPT;
-    static std::underlying_type<AUTOLINK>::type                to_underlying_type(const std::unordered_set<AUTOLINK>&)                         TITANIUM_NOEXCEPT;
-    static std::underlying_type<AUTOLINK>::type                to_underlying_type(const AUTOLINK&)                                             TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const EXTEND_EDGE&)                                                   TITANIUM_NOEXCEPT;
-    static EXTEND_EDGE                                         to_EXTEND_EDGE(const std::string& extendEdgeName)                               TITANIUM_NOEXCEPT;
-    static std::unordered_set<EXTEND_EDGE>                     to_EXTEND_EDGE(std::underlying_type<EXTEND_EDGE>::type)                         TITANIUM_NOEXCEPT;
-    static std::underlying_type<EXTEND_EDGE>::type             to_underlying_type(const std::unordered_set<EXTEND_EDGE>& extendEdge_set)       TITANIUM_NOEXCEPT;
-    static std::underlying_type<EXTEND_EDGE>::type             to_underlying_type(const EXTEND_EDGE&)                                          TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const ORIENTATION&)                                                   TITANIUM_NOEXCEPT;
-    static ORIENTATION                                         to_ORIENTATION(const std::string& orientationName)                              TITANIUM_NOEXCEPT;
-    static ORIENTATION                                         to_ORIENTATION(std::underlying_type<ORIENTATION>::type)                         TITANIUM_NOEXCEPT;
-    static std::underlying_type<ORIENTATION>::type             to_underlying_type(const ORIENTATION&)                                          TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const INPUT_BORDERSTYLE&)                                             TITANIUM_NOEXCEPT;
-    static INPUT_BORDERSTYLE                                   to_INPUT_BORDERSTYLE(const std::string& inputBorderstyleName)                   TITANIUM_NOEXCEPT;
-    static INPUT_BORDERSTYLE                                   to_INPUT_BORDERSTYLE(std::underlying_type<INPUT_BORDERSTYLE>::type)             TITANIUM_NOEXCEPT;
-    static std::underlying_type<INPUT_BORDERSTYLE>::type       to_underlying_type(const INPUT_BORDERSTYLE&)                                    TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const INPUT_BUTTONMODE&)                                              TITANIUM_NOEXCEPT;
-    static INPUT_BUTTONMODE                                    to_INPUT_BUTTONMODE(const std::string& inputButtonmodeName)                     TITANIUM_NOEXCEPT;
-    static INPUT_BUTTONMODE                                    to_INPUT_BUTTONMODE(std::underlying_type<INPUT_BUTTONMODE>::type)               TITANIUM_NOEXCEPT;
-    static std::underlying_type<INPUT_BUTTONMODE>::type        to_underlying_type(const INPUT_BUTTONMODE&)                                     TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const KEYBOARD_APPEARANCE&)                                           TITANIUM_NOEXCEPT;
-    static KEYBOARD_APPEARANCE                                 to_KEYBOARD_APPEARANCE(const std::string& keyboardAppearanceName)               TITANIUM_NOEXCEPT;
-    static KEYBOARD_APPEARANCE                                 to_KEYBOARD_APPEARANCE(std::underlying_type<KEYBOARD_APPEARANCE>::type)         TITANIUM_NOEXCEPT;
-    static std::underlying_type<KEYBOARD_APPEARANCE>::type     to_underlying_type(const KEYBOARD_APPEARANCE&)                                  TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const KEYBOARD&)                                                      TITANIUM_NOEXCEPT;
-    static KEYBOARD                                            to_KEYBOARD(const std::string& keyboardName)                                    TITANIUM_NOEXCEPT;
-    static KEYBOARD                                            to_KEYBOARD(std::underlying_type<KEYBOARD>::type)                               TITANIUM_NOEXCEPT;
-    static std::underlying_type<KEYBOARD>::type                to_underlying_type(const KEYBOARD&)                                             TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const LIST_ACCESSORY_TYPE&)                                           TITANIUM_NOEXCEPT;
-    static LIST_ACCESSORY_TYPE                                 to_LIST_ACCESSORY_TYPE(const std::string& listAccessoryTypeName)                TITANIUM_NOEXCEPT;
-    static LIST_ACCESSORY_TYPE                                 to_LIST_ACCESSORY_TYPE(std::underlying_type<LIST_ACCESSORY_TYPE>::type)         TITANIUM_NOEXCEPT;
-    static std::underlying_type<LIST_ACCESSORY_TYPE>::type     to_underlying_type(const LIST_ACCESSORY_TYPE&)                                  TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const LIST_ITEM_TEMPLATE&)                                            TITANIUM_NOEXCEPT;
-    static LIST_ITEM_TEMPLATE                                  to_LIST_ITEM_TEMPLATE(const std::string& listItemTemplateName)                  TITANIUM_NOEXCEPT;
-    static LIST_ITEM_TEMPLATE                                  to_LIST_ITEM_TEMPLATE(std::underlying_type<LIST_ITEM_TEMPLATE>::type)           TITANIUM_NOEXCEPT;
-    static std::underlying_type<LIST_ITEM_TEMPLATE>::type      to_underlying_type(const LIST_ITEM_TEMPLATE&)                                   TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const NOTIFICATION_DURATION&)                                         TITANIUM_NOEXCEPT;
-    static NOTIFICATION_DURATION                               to_NOTIFICATION_DURATION(const std::string& notificationDurationName)           TITANIUM_NOEXCEPT;
-    static NOTIFICATION_DURATION                               to_NOTIFICATION_DURATION(std::underlying_type<NOTIFICATION_DURATION>::type)     TITANIUM_NOEXCEPT;
-    static std::underlying_type<NOTIFICATION_DURATION>::type   to_underlying_type(const NOTIFICATION_DURATION&)                                TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const PICKER_TYPE&)                                                   TITANIUM_NOEXCEPT;
-    static PICKER_TYPE                                         to_PICKER_TYPE(const std::string& pickerTypeName)                               TITANIUM_NOEXCEPT;
-    static PICKER_TYPE                                         to_PICKER_TYPE(std::underlying_type<PICKER_TYPE>::type)                         TITANIUM_NOEXCEPT;
-    static std::underlying_type<PICKER_TYPE>::type             to_underlying_type(const PICKER_TYPE&)                                          TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const RETURNKEY&)                                                     TITANIUM_NOEXCEPT;
-    static RETURNKEY                                           to_RETURNKEY(const std::string& returnKeyName)                                  TITANIUM_NOEXCEPT;
-    static RETURNKEY                                           to_RETURNKEY(std::underlying_type<RETURNKEY>::type)                             TITANIUM_NOEXCEPT;
-    static std::underlying_type<RETURNKEY>::type               to_underlying_type(const RETURNKEY&)                                            TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const TEXT_ALIGNMENT&)                                                TITANIUM_NOEXCEPT;
-    static TEXT_ALIGNMENT                                      to_TEXT_ALIGNMENT(const std::string& textAlignmentName)                         TITANIUM_NOEXCEPT;
-    static TEXT_ALIGNMENT                                      to_TEXT_ALIGNMENT(std::underlying_type<TEXT_ALIGNMENT>::type)                   TITANIUM_NOEXCEPT;
-    static std::underlying_type<TEXT_ALIGNMENT>::type          to_underlying_type(const TEXT_ALIGNMENT&)                                       TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const TEXT_AUTOCAPITALIZATION&)                                       TITANIUM_NOEXCEPT;
-    static TEXT_AUTOCAPITALIZATION                             to_TEXT_AUTOCAPITALIZATION(const std::string& textAutoCapitalizationName)       TITANIUM_NOEXCEPT;
-    static TEXT_AUTOCAPITALIZATION                             to_TEXT_AUTOCAPITALIZATION(std::underlying_type<TEXT_AUTOCAPITALIZATION>::type) TITANIUM_NOEXCEPT;
-    static std::underlying_type<TEXT_AUTOCAPITALIZATION>::type to_underlying_type(const TEXT_AUTOCAPITALIZATION&)                              TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const TEXT_VERTICAL_ALIGNMENT&)                                       TITANIUM_NOEXCEPT;
-    static TEXT_VERTICAL_ALIGNMENT                             to_TEXT_VERTICAL_ALIGNMENT(const std::string& textVerticalAlignmentName)        TITANIUM_NOEXCEPT;
-    static TEXT_VERTICAL_ALIGNMENT                             to_TEXT_VERTICAL_ALIGNMENT(std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type) TITANIUM_NOEXCEPT;
-    static std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type to_underlying_type(const TEXT_VERTICAL_ALIGNMENT&)                              TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const URL_ERROR&)                                                     TITANIUM_NOEXCEPT;
-    static URL_ERROR                                           to_URL_ERROR(const std::string& urlErrorName)                                   TITANIUM_NOEXCEPT;
-    static URL_ERROR                                           to_URL_ERROR(std::underlying_type<URL_ERROR>::type)                             TITANIUM_NOEXCEPT;
-    static std::underlying_type<URL_ERROR>::type               to_underlying_type(const URL_ERROR&)                                            TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const LAYOUT&)                                                        TITANIUM_NOEXCEPT;
-    static LAYOUT                                              to_LAYOUT(const std::string& layoutName)                                        TITANIUM_NOEXCEPT;
-    static LAYOUT                                              to_LAYOUT(std::underlying_type<LAYOUT>::type)                                   TITANIUM_NOEXCEPT;
-    static std::underlying_type<LAYOUT>::type                  to_underlying_type(const LAYOUT&)                                               TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const TEXT_STYLE&)                                                    TITANIUM_NOEXCEPT;
-    static TEXT_STYLE                                          to_TEXT_STYLE(const std::string& textStyleName)                                 TITANIUM_NOEXCEPT;
-    static TEXT_STYLE                                          to_TEXT_STYLE(std::underlying_type<TEXT_STYLE>::type)                           TITANIUM_NOEXCEPT;
-    static std::underlying_type<TEXT_STYLE>::type              to_underlying_type(const TEXT_STYLE&)                                           TITANIUM_NOEXCEPT;
-    
-    static std::string                                         to_string(const UNIT&)                                                          TITANIUM_NOEXCEPT;
-    static UNIT                                                to_UNIT(const std::string& textStyleName)                                       TITANIUM_NOEXCEPT;
-    static UNIT                                                to_UNIT(std::underlying_type<UNIT>::type)                                       TITANIUM_NOEXCEPT;
-    static std::underlying_type<UNIT>::type                    to_underlying_type(const UNIT&)                                                 TITANIUM_NOEXCEPT;
-  };
-  
-}} // namespace Titanium { namespace UI {
+namespace Titanium
+{
+	namespace UI
+	{
+		class TITANIUMKIT_EXPORT Constants final
+		{
+		public:
+			static std::string to_string(const ANIMATION_CURVE&) TITANIUM_NOEXCEPT;
+			static ANIMATION_CURVE to_ANIMATION_CURVE(const std::string& animationCurveName) TITANIUM_NOEXCEPT;
+			static ANIMATION_CURVE to_ANIMATION_CURVE(std::underlying_type< ANIMATION_CURVE >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< ANIMATION_CURVE >::type to_underlying_type(const ANIMATION_CURVE&) TITANIUM_NOEXCEPT;
 
-#endif // _TITANIUM_UI_CONSTANTS_HPP_
+			static std::string to_string(const AUTOLINK&) TITANIUM_NOEXCEPT;
+			static AUTOLINK to_AUTOLINK(const std::string& autoLinkName) TITANIUM_NOEXCEPT;
+			static std::unordered_set< AUTOLINK > to_AUTOLINK(std::underlying_type< AUTOLINK >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< AUTOLINK >::type to_underlying_type(const std::unordered_set< AUTOLINK >&) TITANIUM_NOEXCEPT;
+			static std::underlying_type< AUTOLINK >::type to_underlying_type(const AUTOLINK&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const EXTEND_EDGE&) TITANIUM_NOEXCEPT;
+			static EXTEND_EDGE to_EXTEND_EDGE(const std::string& extendEdgeName) TITANIUM_NOEXCEPT;
+			static std::unordered_set< EXTEND_EDGE > to_EXTEND_EDGE(std::underlying_type< EXTEND_EDGE >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< EXTEND_EDGE >::type to_underlying_type(const std::unordered_set< EXTEND_EDGE >& extendEdge_set) TITANIUM_NOEXCEPT;
+			static std::underlying_type< EXTEND_EDGE >::type to_underlying_type(const EXTEND_EDGE&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const ORIENTATION&) TITANIUM_NOEXCEPT;
+			static ORIENTATION to_ORIENTATION(const std::string& orientationName) TITANIUM_NOEXCEPT;
+			static ORIENTATION to_ORIENTATION(std::underlying_type< ORIENTATION >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< ORIENTATION >::type to_underlying_type(const ORIENTATION&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const INPUT_BORDERSTYLE&) TITANIUM_NOEXCEPT;
+			static INPUT_BORDERSTYLE to_INPUT_BORDERSTYLE(const std::string& inputBorderstyleName) TITANIUM_NOEXCEPT;
+			static INPUT_BORDERSTYLE to_INPUT_BORDERSTYLE(std::underlying_type< INPUT_BORDERSTYLE >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< INPUT_BORDERSTYLE >::type to_underlying_type(const INPUT_BORDERSTYLE&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const INPUT_BUTTONMODE&) TITANIUM_NOEXCEPT;
+			static INPUT_BUTTONMODE to_INPUT_BUTTONMODE(const std::string& inputButtonmodeName) TITANIUM_NOEXCEPT;
+			static INPUT_BUTTONMODE to_INPUT_BUTTONMODE(std::underlying_type< INPUT_BUTTONMODE >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< INPUT_BUTTONMODE >::type to_underlying_type(const INPUT_BUTTONMODE&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const KEYBOARD_APPEARANCE&) TITANIUM_NOEXCEPT;
+			static KEYBOARD_APPEARANCE to_KEYBOARD_APPEARANCE(const std::string& keyboardAppearanceName) TITANIUM_NOEXCEPT;
+			static KEYBOARD_APPEARANCE to_KEYBOARD_APPEARANCE(std::underlying_type< KEYBOARD_APPEARANCE >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< KEYBOARD_APPEARANCE >::type to_underlying_type(const KEYBOARD_APPEARANCE&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const KEYBOARD&) TITANIUM_NOEXCEPT;
+			static KEYBOARD to_KEYBOARD(const std::string& keyboardName) TITANIUM_NOEXCEPT;
+			static KEYBOARD to_KEYBOARD(std::underlying_type< KEYBOARD >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< KEYBOARD >::type to_underlying_type(const KEYBOARD&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const LIST_ACCESSORY_TYPE&) TITANIUM_NOEXCEPT;
+			static LIST_ACCESSORY_TYPE to_LIST_ACCESSORY_TYPE(const std::string& listAccessoryTypeName) TITANIUM_NOEXCEPT;
+			static LIST_ACCESSORY_TYPE to_LIST_ACCESSORY_TYPE(std::underlying_type< LIST_ACCESSORY_TYPE >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< LIST_ACCESSORY_TYPE >::type to_underlying_type(const LIST_ACCESSORY_TYPE&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const LIST_ITEM_TEMPLATE&) TITANIUM_NOEXCEPT;
+			static LIST_ITEM_TEMPLATE to_LIST_ITEM_TEMPLATE(const std::string& listItemTemplateName) TITANIUM_NOEXCEPT;
+			static LIST_ITEM_TEMPLATE to_LIST_ITEM_TEMPLATE(std::underlying_type< LIST_ITEM_TEMPLATE >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< LIST_ITEM_TEMPLATE >::type to_underlying_type(const LIST_ITEM_TEMPLATE&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const NOTIFICATION_DURATION&) TITANIUM_NOEXCEPT;
+			static NOTIFICATION_DURATION to_NOTIFICATION_DURATION(const std::string& notificationDurationName) TITANIUM_NOEXCEPT;
+			static NOTIFICATION_DURATION to_NOTIFICATION_DURATION(std::underlying_type< NOTIFICATION_DURATION >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< NOTIFICATION_DURATION >::type to_underlying_type(const NOTIFICATION_DURATION&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const PICKER_TYPE&) TITANIUM_NOEXCEPT;
+			static PICKER_TYPE to_PICKER_TYPE(const std::string& pickerTypeName) TITANIUM_NOEXCEPT;
+			static PICKER_TYPE to_PICKER_TYPE(std::underlying_type< PICKER_TYPE >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< PICKER_TYPE >::type to_underlying_type(const PICKER_TYPE&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const RETURNKEY&) TITANIUM_NOEXCEPT;
+			static RETURNKEY to_RETURNKEY(const std::string& returnKeyName) TITANIUM_NOEXCEPT;
+			static RETURNKEY to_RETURNKEY(std::underlying_type< RETURNKEY >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< RETURNKEY >::type to_underlying_type(const RETURNKEY&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const TEXT_ALIGNMENT&) TITANIUM_NOEXCEPT;
+			static TEXT_ALIGNMENT to_TEXT_ALIGNMENT(const std::string& textAlignmentName) TITANIUM_NOEXCEPT;
+			static TEXT_ALIGNMENT to_TEXT_ALIGNMENT(std::underlying_type< TEXT_ALIGNMENT >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< TEXT_ALIGNMENT >::type to_underlying_type(const TEXT_ALIGNMENT&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const TEXT_AUTOCAPITALIZATION&) TITANIUM_NOEXCEPT;
+			static TEXT_AUTOCAPITALIZATION to_TEXT_AUTOCAPITALIZATION(const std::string& textAutoCapitalizationName) TITANIUM_NOEXCEPT;
+			static TEXT_AUTOCAPITALIZATION to_TEXT_AUTOCAPITALIZATION(std::underlying_type< TEXT_AUTOCAPITALIZATION >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< TEXT_AUTOCAPITALIZATION >::type to_underlying_type(const TEXT_AUTOCAPITALIZATION&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const TEXT_VERTICAL_ALIGNMENT&) TITANIUM_NOEXCEPT;
+			static TEXT_VERTICAL_ALIGNMENT to_TEXT_VERTICAL_ALIGNMENT(const std::string& textVerticalAlignmentName) TITANIUM_NOEXCEPT;
+			static TEXT_VERTICAL_ALIGNMENT to_TEXT_VERTICAL_ALIGNMENT(std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< TEXT_VERTICAL_ALIGNMENT >::type to_underlying_type(const TEXT_VERTICAL_ALIGNMENT&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const URL_ERROR&) TITANIUM_NOEXCEPT;
+			static URL_ERROR to_URL_ERROR(const std::string& urlErrorName) TITANIUM_NOEXCEPT;
+			static URL_ERROR to_URL_ERROR(std::underlying_type< URL_ERROR >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< URL_ERROR >::type to_underlying_type(const URL_ERROR&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const LAYOUT&) TITANIUM_NOEXCEPT;
+			static LAYOUT to_LAYOUT(const std::string& layoutName) TITANIUM_NOEXCEPT;
+			static LAYOUT to_LAYOUT(std::underlying_type< LAYOUT >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< LAYOUT >::type to_underlying_type(const LAYOUT&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const TEXT_STYLE&) TITANIUM_NOEXCEPT;
+			static TEXT_STYLE to_TEXT_STYLE(const std::string& textStyleName) TITANIUM_NOEXCEPT;
+			static TEXT_STYLE to_TEXT_STYLE(std::underlying_type< TEXT_STYLE >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< TEXT_STYLE >::type to_underlying_type(const TEXT_STYLE&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const UNIT&) TITANIUM_NOEXCEPT;
+			static UNIT to_UNIT(const std::string& textStyleName) TITANIUM_NOEXCEPT;
+			static UNIT to_UNIT(std::underlying_type< UNIT >::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type< UNIT >::type to_underlying_type(const UNIT&) TITANIUM_NOEXCEPT;
+		};
+	}
+}  // namespace Titanium { namespace UI {
+
+#endif  // _TITANIUM_UI_CONSTANTS_HPP_
