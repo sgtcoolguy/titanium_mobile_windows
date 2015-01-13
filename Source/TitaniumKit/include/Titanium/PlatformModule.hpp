@@ -24,10 +24,10 @@ namespace Titanium
 	using namespace HAL;
 
 	/*!
-   @class
-   @discussion This is the Titanium Platform Module.
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Platform
-   */
+	  @class
+	  @discussion This is the Titanium Platform Module.
+	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Platform
+	*/
 	class TITANIUMKIT_EXPORT PlatformModule : public Module, public JSExport< PlatformModule >
 	{
 	public:

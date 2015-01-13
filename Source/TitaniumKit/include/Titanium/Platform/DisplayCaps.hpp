@@ -16,10 +16,10 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   @discussion This is the Ti.Platform.DisplayCaps Module.
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Ti.Platform.DisplayCaps
-  */
+		  @class
+		  @discussion This is the Ti.Platform.DisplayCaps Module.
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Ti.Platform.DisplayCaps
+		*/
 		class TITANIUMKIT_EXPORT DisplayCaps : public Module, public JSExport< DisplayCaps >
 		{
 		public:

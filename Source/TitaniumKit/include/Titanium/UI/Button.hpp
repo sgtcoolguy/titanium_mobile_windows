@@ -18,12 +18,12 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium UI Button.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Button
-   */
+		  @class
+
+		  @discussion This is the Titanium UI Button.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Button
+		*/
 		class TITANIUMKIT_EXPORT Button : public View, public JSExport< Button >
 		{
 		public:

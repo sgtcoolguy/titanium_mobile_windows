@@ -20,12 +20,12 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium.UI.WebView module.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.WebView
-   */
+		  @class
+
+		  @discussion This is the Titanium.UI.WebView module.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.WebView
+		*/
 		class TITANIUMKIT_EXPORT WebView : public View, public JSExport< WebView >
 		{
 		public:

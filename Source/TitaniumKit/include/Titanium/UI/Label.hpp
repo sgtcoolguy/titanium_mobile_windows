@@ -19,32 +19,32 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium UI Label.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Label
-   */
+		  @class
+
+		  @discussion This is the Titanium UI Label.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Label
+		*/
 		class TITANIUMKIT_EXPORT Label : public View, public JSExport< Label >
 		{
 		public:
 			/*!
-    @method
+			  @method
 
-    @abstract color : String
+			  @abstract color : String
 
-    @discussion Color of the label text, as a color name or hex triplet.
-    */
+			  @discussion Color of the label text, as a color name or hex triplet.
+			*/
 			virtual JSValue get_color() const TITANIUM_NOEXCEPT final;
 			virtual void set_color(const JSValue& color) TITANIUM_NOEXCEPT;
 
 			/*!
-    @method
+			  @method
 
-    @abstract font : Font
+			  @abstract font : Font
 
-    @discussion Font to use for the label text.
-    */
+			  @discussion Font to use for the label text.
+			*/
 			virtual JSValue get_font() const TITANIUM_NOEXCEPT final;
 			virtual void set_fontFamily(const JSValue& family) TITANIUM_NOEXCEPT;
 			virtual void set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT;
@@ -53,42 +53,42 @@ namespace Titanium
 			virtual void set_textStyle(const TEXT_STYLE& style) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract text : String
-     
-     @discussion Label text.
-    */
+			  @method
+
+			  @abstract text : String
+
+			  @discussion Label text.
+			*/
 			virtual JSValue get_text() const TITANIUM_NOEXCEPT final;
 			virtual void set_text(const JSValue& title) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract textAlign : String/Number
-     
-     @discussion Text alignment.
-    */
+			  @method
+
+			  @abstract textAlign : String/Number
+
+			  @discussion Text alignment.
+			*/
 			virtual TEXT_ALIGNMENT get_textAlign() const TITANIUM_NOEXCEPT final;
 			virtual void set_textAlign(const TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT;
 
 			/*!
-    @method
+			  @method
 
-    @abstract verticalAlign : String/Number
+			  @abstract verticalAlign : String/Number
 
-    @discussion Vertical text alignment, specified using one of the vertical alignment constants from Titanium.UI.
-    */
+			  @discussion Vertical text alignment, specified using one of the vertical alignment constants from Titanium.UI.
+			*/
 			virtual TEXT_VERTICAL_ALIGNMENT get_verticalAlign() const TITANIUM_NOEXCEPT final;
 			virtual void set_verticalAlign(const TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT;
 
 			/*!
-    @method
+			  @method
 
-    @abstract wordWrap : Boolean
+			  @abstract wordWrap : Boolean
 
-    @discussion Enable or disable word wrapping in the label.
-    */
+			  @discussion Enable or disable word wrapping in the label.
+			*/
 			virtual JSValue get_wordWrap() const TITANIUM_NOEXCEPT final;
 			virtual void set_wordWrap(const JSValue& wordWrap) TITANIUM_NOEXCEPT;
 

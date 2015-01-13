@@ -18,12 +18,12 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium UI ImageView.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ImageView
-   */
+		  @class
+
+		  @discussion This is the Titanium UI ImageView.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ImageView
+		*/
 		class TITANIUMKIT_EXPORT ImageView : public View, public JSExport< ImageView >
 		{
 		public:

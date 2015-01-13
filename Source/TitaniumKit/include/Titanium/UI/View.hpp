@@ -25,54 +25,54 @@ namespace Titanium
 		using NativeChildrenList_t = std::vector< NativeChildPtr_t >;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium UI View.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.View
-   */
+		  @class
+
+		  @discussion This is the Titanium UI View.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.View
+		*/
 		class TITANIUMKIT_EXPORT View : public Module, public JSExport< View >
 		{
 		public:
 			/*!
-     @method
-     
-     @abstract add( view ) : void
-     
-     @discussion Adds a child to this view's hierarchy. The child view
-     is added as the last child in this view's hierarchy.
-     
-     @param view View to add to this view's
-     hierarchy. (Titanium.UI.View)
-     
-     @result void
-     */
+			  @method
+
+			  @abstract add( view ) : void
+
+			  @discussion Adds a child to this view's hierarchy. The child view
+			  is added as the last child in this view's hierarchy.
+
+			  @param view View to add to this view's
+			  hierarchy. (Titanium.UI.View)
+
+			  @result void
+			*/
 			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 			/*!
-	@method
+			  @method
 
-	@abstract hide() : void
+			  @abstract hide() : void
 
-	@discussion Hides the view and it's chldren in the view's hierarchy.
+			  @discussion Hides the view and it's chldren in the view's hierarchy.
 
-	@param 
+			  @param 
 
-	@result void
-	*/
+			  @result void
+			*/
 			virtual void hide(JSObject& this_object) TITANIUM_NOEXCEPT;
 
 			/*!
-	@method
+			  @method
 
-	@abstract show() : void
+			  @abstract show() : void
 
-	@discussion Causes the view and the view's hierarchy to be displayed. 
+			  @discussion Causes the view and the view's hierarchy to be displayed. 
 
-	@param 
+			  @param 
 
-	@result void
-	*/
+			  @result void
+			*/
 			virtual void show(JSObject& this_object) TITANIUM_NOEXCEPT;
 
 			virtual JSArray get_children() const TITANIUM_NOEXCEPT final;

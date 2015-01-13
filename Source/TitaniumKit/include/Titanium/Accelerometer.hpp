@@ -14,9 +14,9 @@ namespace Titanium
 	using namespace HAL;
 
 	/*!
-	 @class
-	 @discussion This is the Ti.Accelerometer Module.
-	 See http://docs.appcelerator.com/titanium/latest/#!/api/Ti.Accelerometer
+	  @class
+	  @discussion This is the Ti.Accelerometer Module.
+	  See http://docs.appcelerator.com/titanium/latest/#!/api/Ti.Accelerometer
 	*/
 	class TITANIUMKIT_EXPORT Accelerometer : public Module, public JSExport< Accelerometer >
 	{

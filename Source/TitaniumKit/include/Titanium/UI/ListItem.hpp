@@ -19,22 +19,22 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium.UI.ListItem module.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ListItem
-   */
+		  @class
+
+		  @discussion This is the Titanium.UI.ListItem module.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ListItem
+		*/
 		class TITANIUMKIT_EXPORT ListItem : public Module, public JSExport< ListItem >
 		{
 		public:
 			/*!
-     @method
-     
-     @abstract accessoryType : Number
+			  @method
 
-     @discussion Sets an accessory on the right side of an item.
-     */
+			  @abstract accessoryType : Number
+
+			  @discussion Sets an accessory on the right side of an item.
+			*/
 			virtual LIST_ACCESSORY_TYPE get_accessoryType() const TITANIUM_NOEXCEPT final;
 			virtual void set_accessoryType(const LIST_ACCESSORY_TYPE& accessoryType) TITANIUM_NOEXCEPT;
 

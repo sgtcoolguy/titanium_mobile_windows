@@ -19,22 +19,22 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium.UI.WebView.error event module. This event is fired when the web view cannot load the content.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.WebView-event-error
-   */
+		  @class
+
+		  @discussion This is the Titanium.UI.WebView.error event module. This event is fired when the web view cannot load the content.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.WebView-event-error
+		*/
 		class TITANIUMKIT_EXPORT WebViewErrorEvent : public JSExportObject, public JSExport< WebViewErrorEvent >
 		{
 		public:
 			/*!
-     @method
-     
-     @abstract error : Event
+			  @method
 
-     @discussion Fired when the web view cannot load the content.
-     */
+			  @abstract error : Event
+
+			  @discussion Fired when the web view cannot load the content.
+			*/
 			virtual URL_ERROR get_error() const TITANIUM_NOEXCEPT final;
 			virtual void set_error(const URL_ERROR& error) TITANIUM_NOEXCEPT;
 

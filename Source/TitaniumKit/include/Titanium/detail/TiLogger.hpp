@@ -29,22 +29,22 @@ namespace Titanium
 		// http://www.drdobbs.com/cpp/a-lightweight-logger-for-c/240147505
 
 		/*!
-   @class
-   
-   @abstract The logging infrastructure used by the Titanium
-   library.
-   
-   @discussion Here is an example of how to use the Titanium
-   logging facility:
-   
-   TITANIUM_LOG_DEBUG("Before loop.");
-   for(short i = 0 ; i < 3 ; ++i)
-   {
-   TITANIUM_LOG_DEBUG("The value of 'i' is ", i , ". " , 3 - i - 1 , " more iterations left ");
-   }
-   TITANIUM_LOG_WARN("After loop.");
-   TITANIUM_LOG_ERROR("All good things come to an end.");
-   */
+		  @class
+
+		  @abstract The logging infrastructure used by the Titanium
+		  library.
+
+		  @discussion Here is an example of how to use the Titanium
+		  logging facility:
+
+		  TITANIUM_LOG_DEBUG("Before loop.");
+		  for(short i = 0 ; i < 3 ; ++i)
+		  {
+			  TITANIUM_LOG_DEBUG("The value of 'i' is ", i , ". " , 3 - i - 1 , " more iterations left ");
+		  }
+		  TITANIUM_LOG_WARN("After loop.");
+		  TITANIUM_LOG_ERROR("All good things come to an end.");
+		*/
 
 		enum class TITANIUMKIT_EXPORT TiLoggerSeverityType {
 			Ti_TRACE,

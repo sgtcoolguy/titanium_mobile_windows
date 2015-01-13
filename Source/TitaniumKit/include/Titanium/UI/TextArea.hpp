@@ -19,79 +19,79 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium.UI.TextArea module.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.TextArea
-   */
+		  @class
+
+		  @discussion This is the Titanium.UI.TextArea module.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.TextArea
+		*/
 		class TITANIUMKIT_EXPORT TextArea : public View, public JSExport< TextArea >
 		{
 		public:
 			/*!
-     @method
-     
-     @abstract autoLink : Number
+			  @method
 
-     @discussion Automatically convert text to clickable
-     links. Multiple autolink values can be combined with a bitwise
-     OR. For example:
+			  @abstract autoLink : Number
 
-     textArea.autoLink = AUTOLINK_MAP_ADDRESSES|AUTOLINK_PHONE_NUMBERS;
-     */
+			  @discussion Automatically convert text to clickable
+			  links. Multiple autolink values can be combined with a bitwise
+			  OR. For example:
+
+			  textArea.autoLink = AUTOLINK_MAP_ADDRESSES|AUTOLINK_PHONE_NUMBERS;
+			*/
 			virtual std::unordered_set< AUTOLINK > get_autoLink() const TITANIUM_NOEXCEPT final;
 			virtual void set_autoLink(const std::unordered_set< AUTOLINK >& autoLink) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract  keyboardType : Number
-     
-     @discussion Keyboard type to display when this text field is
-     focused. When asking for a specific kind of user input, such as a
-     phone number or email address, you should always specify the
-     appropriate keyboard type.
-     */
+			  @method
+
+			  @abstract  keyboardType : Number
+
+			  @discussion Keyboard type to display when this text field is
+			  focused. When asking for a specific kind of user input, such as a
+			  phone number or email address, you should always specify the
+			  appropriate keyboard type.
+			*/
 			virtual KEYBOARD get_keyboardType() const TITANIUM_NOEXCEPT final;
 			virtual void set_keyboardType(const KEYBOARD& keyboardType) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract returnKeyType : Number
-     
-     @discussion Specifies the text to display on the keyboard Return key when this text area is focused.
-     */
+			  @method
+
+			  @abstract returnKeyType : Number
+
+			  @discussion Specifies the text to display on the keyboard Return key when this text area is focused.
+			*/
 			virtual RETURNKEY get_returnKeyType() const TITANIUM_NOEXCEPT final;
 			virtual void set_returnKeyType(const RETURNKEY& returnKeyType) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract textAlign : String/Number
-     
-     @discussion Text alignment within this text field.
-     */
+			  @method
+
+			  @abstract textAlign : String/Number
+
+			  @discussion Text alignment within this text field.
+			*/
 			virtual TEXT_ALIGNMENT get_textAlign() const TITANIUM_NOEXCEPT final;
 			virtual void set_textAlign(const TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract autocapitalization : Number
-     
-     @discussion Determines how text is capitalized during typing.
-     */
+			  @method
+
+			  @abstract autocapitalization : Number
+
+			  @discussion Determines how text is capitalized during typing.
+			*/
 			virtual TEXT_AUTOCAPITALIZATION get_autoCapitalization() const TITANIUM_NOEXCEPT final;
 			virtual void set_autoCapitalization(const TEXT_AUTOCAPITALIZATION& autoCapitalization) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract verticalAlign : Number/String
-     
-     @discussion Vertical alignment within this text field.
-     */
+			  @method
+
+			  @abstract verticalAlign : Number/String
+
+			  @discussion Vertical alignment within this text field.
+			*/
 			virtual TEXT_VERTICAL_ALIGNMENT get_verticalAlign() const TITANIUM_NOEXCEPT final;
 			virtual void set_verticalAlign(const TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT;
 

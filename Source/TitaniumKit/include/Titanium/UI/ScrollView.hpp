@@ -18,12 +18,12 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium UI ScrollView.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ScrollView
-   */
+		  @class
+
+		  @discussion This is the Titanium UI ScrollView.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ScrollView
+		*/
 		class TITANIUMKIT_EXPORT ScrollView : public View, public JSExport< ScrollView >
 		{
 		public:

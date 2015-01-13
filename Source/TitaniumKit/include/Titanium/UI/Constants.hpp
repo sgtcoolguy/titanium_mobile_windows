@@ -18,23 +18,23 @@ namespace Titanium
 	namespace UI
 	{
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.Animation.curve property.
-   
-   @constant EASE_IN Specify that an animation that starts slowly and
-   speeds up.
-   
-   @constant EASE_IN_OUT Specify that an animation that starts slowly,
-   and speeds up, then slows down at the end of the animation.
-   
-   @constant EASE_OUT Specify that an animation that starts quickly,
-   then slows down at the end of the animation.
-   
-   @constant CURVE_LINEAR Specify that an animation that proceeds at a
-   constant rate.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.Animation.curve property.
+
+		  @constant EASE_IN Specify that an animation that starts slowly and
+		  speeds up.
+
+		  @constant EASE_IN_OUT Specify that an animation that starts slowly,
+		  and speeds up, then slows down at the end of the animation.
+
+		  @constant EASE_OUT Specify that an animation that starts quickly,
+		  then slows down at the end of the animation.
+
+		  @constant CURVE_LINEAR Specify that an animation that proceeds at a
+		  constant rate.
+		*/
 		enum class TITANIUMKIT_EXPORT ANIMATION_CURVE {
 			EASE_IN,
 			EASE_IN_OUT,
@@ -43,32 +43,32 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.TextArea.autoLink property.
-   
-   @constant ALL Converts all detectable types of data into clickable
-   links.
-   
-   @constant CALENDAR Converts strings formatted as calendar events
-   into clickable links.
-   
-   @constant EMAIL_ADDRESSES Converts strings formatted as email
-   addresses into clickable links.
-   
-   @constant MAP_ADDRESSES Converts strings formatted as addresses
-   into clickable links.
-   
-   @constant NONE Disables converting strings into clickable links.
-   
-   @constant PHONE_NUMBERS Converts strings formatted as phone numbers
-   into clickable links.
-   
-   @constant URLS Converts strings formatted as URLs into clickable
-   links. This property will also convert strings formatted as email
-   addresses into clickable links.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.TextArea.autoLink property.
+
+		  @constant ALL Converts all detectable types of data into clickable
+		  links.
+
+		  @constant CALENDAR Converts strings formatted as calendar events
+		  into clickable links.
+
+		  @constant EMAIL_ADDRESSES Converts strings formatted as email
+		  addresses into clickable links.
+
+		  @constant MAP_ADDRESSES Converts strings formatted as addresses
+		  into clickable links.
+
+		  @constant NONE Disables converting strings into clickable links.
+
+		  @constant PHONE_NUMBERS Converts strings formatted as phone numbers
+		  into clickable links.
+
+		  @constant URLS Converts strings formatted as URLs into clickable
+		  links. This property will also convert strings formatted as email
+		  addresses into clickable links.
+		*/
 		enum class TITANIUMKIT_EXPORT AUTOLINK {
 			ALL = 1 << 0,              // 1 << 0 == 1
 			CALENDAR = 1 << 1,         // 1 << 1 == 2
@@ -80,28 +80,28 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.Window.extendEdges property.
-   
-   @constant ALL Specifies that all the edges of the window can
-   extend.
-   
-   @constant BOTTOM Specifies that the bottom edge of the window can
-   extend.
-   
-   @constant LEFT Specifies that the left edge of the window can
-   extend.
-   
-   @constant NONE Specifies that none of the edges of the window can
-   extend.
-   
-   @constant RIGHT Specifies that the right edge of the window can
-   extend.
-   
-   @constant TOP Specifies that the top edge of the window can extend.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.Window.extendEdges property.
+
+		  @constant ALL Specifies that all the edges of the window can
+		  extend.
+
+		  @constant BOTTOM Specifies that the bottom edge of the window can
+		  extend.
+
+		  @constant LEFT Specifies that the left edge of the window can
+		  extend.
+
+		  @constant NONE Specifies that none of the edges of the window can
+		  extend.
+
+		  @constant RIGHT Specifies that the right edge of the window can
+		  extend.
+
+		  @constant TOP Specifies that the top edge of the window can extend.
+		*/
 		enum class TITANIUMKIT_EXPORT EXTEND_EDGE {
 			ALL = 1 << 0,     // 1 << 0 == 1
 			BOTTOM = 1 << 1,  // 1 << 1 == 2
@@ -112,30 +112,30 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.Gesture.orientation property.
-   
-   @constant PORTRAIT Orientation constant for portrait mode
-   orientation.
-   
-   @constant UPSIDE_PORTRAIT Orientation constant for inverted portait
-   orientation.
-   
-   @constant LANDSCAPE_LEFT Standard landscape orientation (home
-   button on left).
-   
-   @constant LANDSCAPE_RIGHT Reverse landscape orientation (home
-   button on right).
-   
-   @constant FACE_UP Constant value for face-up orientation.
-   
-   @constant FACE_DOWN Constant value for face-down orientation.
-   
-   @constant UNKNOWN Orientation constant representing an unknown
-   orientation.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.Gesture.orientation property.
+
+		  @constant PORTRAIT Orientation constant for portrait mode
+		  orientation.
+
+		  @constant UPSIDE_PORTRAIT Orientation constant for inverted portait
+		  orientation.
+
+		  @constant LANDSCAPE_LEFT Standard landscape orientation (home
+		  button on left).
+
+		  @constant LANDSCAPE_RIGHT Reverse landscape orientation (home
+		  button on right).
+
+		  @constant FACE_UP Constant value for face-up orientation.
+
+		  @constant FACE_DOWN Constant value for face-down orientation.
+
+		  @constant UNKNOWN Orientation constant representing an unknown
+		  orientation.
+		*/
 		enum class TITANIUMKIT_EXPORT ORIENTATION {
 			PORTRAIT,
 			UPSIDE_PORTRAIT,
@@ -147,20 +147,20 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.TextField.borderStyle property.
-   
-   @constant BEZEL Use a bezel-style border on the input field.
-   
-   @constant LINE Use a simple line border on the input field.
-   
-   @constant NONE Use no border on the input field.
-   
-   @constant ROUNDED Use a rounded-rectangle border on the input
-   field.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.TextField.borderStyle property.
+
+		  @constant BEZEL Use a bezel-style border on the input field.
+
+		  @constant LINE Use a simple line border on the input field.
+
+		  @constant NONE Use no border on the input field.
+
+		  @constant ROUNDED Use a rounded-rectangle border on the input
+		  field.
+		*/
 		enum class TITANIUMKIT_EXPORT INPUT_BORDERSTYLE {
 			BEZEL,
 			LINE,
@@ -169,23 +169,23 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.TextField.clearButtonMode,
-   Titanium.UI.TextField.leftButtonMode, and
-   Titanium.UI.TextField.rightButtonMode properties.
-   
-   @constant ALWAYS Always show buttons on the input field.
-   
-   @constant NEVER Never show buttons on the input field.
-   
-   @constant ONBLUR Show buttons on the input field when it loses
-   focus.
-   
-   @constant ONFOCUS Show buttons on the input field when it gains
-   focus.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.TextField.clearButtonMode,
+		  Titanium.UI.TextField.leftButtonMode, and
+		  Titanium.UI.TextField.rightButtonMode properties.
+
+		  @constant ALWAYS Always show buttons on the input field.
+
+		  @constant NEVER Never show buttons on the input field.
+
+		  @constant ONBLUR Show buttons on the input field when it loses
+		  focus.
+
+		  @constant ONFOCUS Show buttons on the input field when it gains
+		  focus.
+		*/
 		enum class TITANIUMKIT_EXPORT INPUT_BUTTONMODE {
 			ALWAYS,
 			NEVER,
@@ -194,53 +194,53 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @constant ALERT Use a keyboard appearance suitable for entering
-   text on an alert.
-   
-   @constant DEFAULT Use the platform-specific default keyboard
-   appearance.
-   */
+		  @enum
+
+		  @constant ALERT Use a keyboard appearance suitable for entering
+		  text on an alert.
+
+		  @constant DEFAULT Use the platform-specific default keyboard
+		  appearance.
+		*/
 		enum class TITANIUMKIT_EXPORT KEYBOARD_APPEARANCE {
 			ALERT,
 			DEFAULT
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.TextField.keyboardType and
-   Titanium.UI.TextArea.keyboardType properties.
-   
-   @constant ASCII Use an ASCII keyboard, with the standard keyboard
-   layout.
-   
-   @constant DECIMAL_PAD Use a keyboard with decimal numbers only,
-   with the pad keyboard layout.
-   
-   @constant DEFAULT Use the default keyboard, depending on the
-   platform.
-   
-   @constant EMAIL Use a keyboard suitable for composing email, with
-   the standard keyboard layout.
-   
-   @constant NAMEPHONE_PAD Use a keyboard suitable for entering names
-   and phone numbers, with the pad keyboard layout.
-   
-   @constant NUMBERS_PUNCTUATION Use a keyboard with numbers and
-   punctuation only, with the standard keyboard layout.
-   
-   @constant NUMBER_PAD Use a keyboard with a number pad only, with
-   the pad keyboard layout.
-   
-   @constant PHONE_PAD Use a keyboard with a phone-style number pad,
-   with the pad keyboard layout.
-   
-   @constant URL Use an keyboard optimized for entering URLs, with the
-   standard keyboard layout.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.TextField.keyboardType and
+		  Titanium.UI.TextArea.keyboardType properties.
+
+		  @constant ASCII Use an ASCII keyboard, with the standard keyboard
+		  layout.
+
+		  @constant DECIMAL_PAD Use a keyboard with decimal numbers only,
+		  with the pad keyboard layout.
+
+		  @constant DEFAULT Use the default keyboard, depending on the
+		  platform.
+
+		  @constant EMAIL Use a keyboard suitable for composing email, with
+		  the standard keyboard layout.
+
+		  @constant NAMEPHONE_PAD Use a keyboard suitable for entering names
+		  and phone numbers, with the pad keyboard layout.
+
+		  @constant NUMBERS_PUNCTUATION Use a keyboard with numbers and
+		  punctuation only, with the standard keyboard layout.
+
+		  @constant NUMBER_PAD Use a keyboard with a number pad only, with
+		  the pad keyboard layout.
+
+		  @constant PHONE_PAD Use a keyboard with a phone-style number pad,
+		  with the pad keyboard layout.
+
+		  @constant URL Use an keyboard optimized for entering URLs, with the
+		  standard keyboard layout.
+		*/
 		enum class TITANIUMKIT_EXPORT KEYBOARD {
 			ASCII,
 			DECIMAL_PAD,
@@ -254,26 +254,26 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.ListItem.accessoryType property.
-   
-   @constant CHECKMARK Displays a checkmark on the right side of an
-   item in a list view. Use to indicate an item in a list is selected.
-   
-   @constant DETAIL Displays a detail disclosure button on the right
-   side of an item in a list view. Use to indicate that selecting this
-   item results in the display of a detailed view of that item.
-   
-   @constant DISCLOSURE Displays a disclosure indicator on the right
-   side of an item in a list view. Use to indicate that selecting this
-   item results in the display of another list, reflecting the next
-   level in the data model hierarchy.
-   
-   @constant NONE Do not display anything on the right side of an item
-   in a list view.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.ListItem.accessoryType property.
+
+		  @constant CHECKMARK Displays a checkmark on the right side of an
+		  item in a list view. Use to indicate an item in a list is selected.
+
+		  @constant DETAIL Displays a detail disclosure button on the right
+		  side of an item in a list view. Use to indicate that selecting this
+		  item results in the display of a detailed view of that item.
+
+		  @constant DISCLOSURE Displays a disclosure indicator on the right
+		  side of an item in a list view. Use to indicate that selecting this
+		  item results in the display of another list, reflecting the next
+		  level in the data model hierarchy.
+
+		  @constant NONE Do not display anything on the right side of an item
+		  in a list view.
+		*/
 		enum class TITANIUMKIT_EXPORT LIST_ACCESSORY_TYPE {
 			CHECKMARK,
 			DETAIL,
@@ -282,38 +282,38 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.ListView.defaultItemTemplate and ListDataItem.template
-   properties.
-   
-   @constant CONTACTS A built-in style for an item with a title label
-   on the left side of the cell with right-aligned, blue text, which
-   is next to a subtitle label with left-aligned, black text. The
-   title label value and subtitle label value bind to the title and
-   subtitle properties, respectively, of the data item. If a property
-   is not set, that element is not displayed.
-   
-   @constant DEFAULT A built-in style for an item with an image view
-   and black, left-aligned title label. The text label value and image
-   value bind to the title and image properties, respectively, of the
-   data item. If a property is not set, that element is not displayed.
-   
-   @constant SETTINGS A built-in style for a item with an image view;
-   a black, left-aligned title label; and a smaller blue,
-   right-aligned subtitle label. The title label value, subtitle label
-   value and image value bind to the title, subtitle and image
-   properties, respectively, of the data item. If a property is not
-   set, that element is not displayed.
-   
-   @constant SUBTITLE A built-in style for an item with an image view;
-   a black, left-aligned title label across the top of the cell and a
-   subtitle label below it in smaller gray text. The title label
-   value, subtitle label value and image value bind to the title,
-   subtitle and image properties, respectively, of the data item. If a
-   property is not set, that element is not displayed.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.ListView.defaultItemTemplate and ListDataItem.template
+		  properties.
+
+		  @constant CONTACTS A built-in style for an item with a title label
+		  on the left side of the cell with right-aligned, blue text, which
+		  is next to a subtitle label with left-aligned, black text. The
+		  title label value and subtitle label value bind to the title and
+		  subtitle properties, respectively, of the data item. If a property
+		  is not set, that element is not displayed.
+
+		  @constant DEFAULT A built-in style for an item with an image view
+		  and black, left-aligned title label. The text label value and image
+		  value bind to the title and image properties, respectively, of the
+		  data item. If a property is not set, that element is not displayed.
+
+		  @constant SETTINGS A built-in style for a item with an image view;
+		  a black, left-aligned title label; and a smaller blue,
+		  right-aligned subtitle label. The title label value, subtitle label
+		  value and image value bind to the title, subtitle and image
+		  properties, respectively, of the data item. If a property is not
+		  set, that element is not displayed.
+
+		  @constant SUBTITLE A built-in style for an item with an image view;
+		  a black, left-aligned title label across the top of the cell and a
+		  subtitle label below it in smaller gray text. The title label
+		  value, subtitle label value and image value bind to the title,
+		  subtitle and image properties, respectively, of the data item. If a
+		  property is not set, that element is not displayed.
+		*/
 		enum class TITANIUMKIT_EXPORT LIST_ITEM_TEMPLATE {
 			CONTACTS,
 			DEFAULT,
@@ -322,41 +322,41 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.Notification.duration property.
-   
-   @constant LONG Specifies a long duration for a Toast notification.
-   
-   @constant SHORT Specifies a short duration for a Toast
-   notification.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.Notification.duration property.
+
+		  @constant LONG Specifies a long duration for a Toast notification.
+
+		  @constant SHORT Specifies a short duration for a Toast
+		  notification.
+		*/
 		enum class TITANIUMKIT_EXPORT NOTIFICATION_DURATION {
 			LONG,
 			SHORT
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.Picker.type property.
-   
-   @constant COUNT_DOWN_TIMER Use a picker with a countdown timer
-   appearance, showing hours and minutes. For an actual countdown
-   timer, the application is responsible for setting a timer to update
-   the picker values.
-   
-   @constant DATE Use a date picker.
-   
-   @constant DATE_AND_TIME Use a date and time picker.
-   
-   @constant PLAIN Use a plain picker (for values other than date or
-   time).
-   
-   @constant TIME Use a time picker.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.Picker.type property.
+
+		  @constant COUNT_DOWN_TIMER Use a picker with a countdown timer
+		  appearance, showing hours and minutes. For an actual countdown
+		  timer, the application is responsible for setting a timer to update
+		  the picker values.
+
+		  @constant DATE Use a date picker.
+
+		  @constant DATE_AND_TIME Use a date and time picker.
+
+		  @constant PLAIN Use a plain picker (for values other than date or
+		  time).
+
+		  @constant TIME Use a time picker.
+		*/
 		enum class TITANIUMKIT_EXPORT PICKER_TYPE {
 			COUNT_DOWN_TIMER,
 			DATE,
@@ -366,36 +366,36 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.TextField.returnKeyType and
-   Titanium.UI.TextArea.returnKeyType properties.
-   
-   @constant DEFAULT Use the default return key on the virtual
-   keyboard.
-   
-   @constant DONE Set the return key text to "Done".
-   
-   @constant EMERGENCY_CALL Set the return key text to "Emergency
-   Call".
-   
-   @constant GO Set the return key text to "Go".
-   
-   @constant GOOGLE Set the return key text to "Google".
-   
-   @constant JOIN Set the return key text to "Join".
-   
-   @constant NEXT Set the return key text to "Next".
-   
-   @constant ROUTE Set the return key text to "Route".
-   
-   @constant SEARCH Set the return key text to "Search".
-   
-   @constant SEND Set the return key text to "Send".
-   
-   @constant YAHOO Set the return key text to "Yahoo".
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.TextField.returnKeyType and
+		  Titanium.UI.TextArea.returnKeyType properties.
+
+		  @constant DEFAULT Use the default return key on the virtual
+		  keyboard.
+
+		  @constant DONE Set the return key text to "Done".
+
+		  @constant EMERGENCY_CALL Set the return key text to "Emergency
+		  Call".
+
+		  @constant GO Set the return key text to "Go".
+
+		  @constant GOOGLE Set the return key text to "Google".
+
+		  @constant JOIN Set the return key text to "Join".
+
+		  @constant NEXT Set the return key text to "Next".
+
+		  @constant ROUTE Set the return key text to "Route".
+
+		  @constant SEARCH Set the return key text to "Search".
+
+		  @constant SEND Set the return key text to "Send".
+
+		  @constant YAHOO Set the return key text to "Yahoo".
+		*/
 		enum class TITANIUMKIT_EXPORT RETURNKEY {
 			DEFAULT,
 			DONE,
@@ -411,18 +411,18 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.TextField.textAlign and Titanium.UI.TextArea.textAlign
-   properties.
-   
-   @constant CENTER Center align text.
-   
-   @constant LEFT Left align text.
-   
-   @constant RIGHT Right align text.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.TextField.textAlign and Titanium.UI.TextArea.textAlign
+		  properties.
+
+		  @constant CENTER Center align text.
+
+		  @constant LEFT Left align text.
+
+		  @constant RIGHT Right align text.
+		*/
 		enum class TITANIUMKIT_EXPORT TEXT_ALIGNMENT {
 			CENTER,
 			LEFT,
@@ -430,22 +430,22 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.TextField.autocapitalization and
-   Titanium.UI.TextArea.autocapitalization properties.
-   
-   @constant ALL Auto-capitalize all text in the input field.
-   
-   @constant NONE Do not auto-capitalize.
-   
-   @constant SENTENCES Use sentence-style auto-capitalization in the
-   input field.
-   
-   @constant WORDS Auto-capitalize the first letter of each word in
-   the input field.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.TextField.autocapitalization and
+		  Titanium.UI.TextArea.autocapitalization properties.
+
+		  @constant ALL Auto-capitalize all text in the input field.
+
+		  @constant NONE Do not auto-capitalize.
+
+		  @constant SENTENCES Use sentence-style auto-capitalization in the
+		  input field.
+
+		  @constant WORDS Auto-capitalize the first letter of each word in
+		  the input field.
+		*/
 		enum class TITANIUMKIT_EXPORT TEXT_AUTOCAPITALIZATION {
 			ALL,
 			NONE,
@@ -454,18 +454,18 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.TextField.verticalAlign and
-   Titanium.UI.TextArea.verticalAlign properties.
-   
-   @constant BOTTOM Align text to the bottom of the view.
-   
-   @constant CENTER Vertically align text to the center of the view.
-   
-   @constant TOP Align text to the top of the view.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.TextField.verticalAlign and
+		  Titanium.UI.TextArea.verticalAlign properties.
+
+		  @constant BOTTOM Align text to the bottom of the view.
+
+		  @constant CENTER Vertically align text to the center of the view.
+
+		  @constant TOP Align text to the top of the view.
+		*/
 		enum class TITANIUMKIT_EXPORT TEXT_VERTICAL_ALIGNMENT {
 			BOTTOM,
 			CENTER,
@@ -473,40 +473,40 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants are for use with the
-   Titanium.UI.WebView.error.code property.
-   
-   @constant AUTHENTICATION Authentication error code.
-   
-   @constant BAD_URL Bad url error code.
-   
-   @constant CONNECT Error code reported for a failure to connect to
-   host.
-   
-   @constant FILE Error code reported for a failure to access a file
-   resource on a host, except "file not found", which has its own
-   constant.
-   
-   @constant FILE_NOT_FOUND Error code reported when a requested file
-   does not exist on the host.
-   
-   @constant HOST_LOOKUP Error code reported when a host name cannot
-   be resolved, such as via a DNS lookup error.
-   
-   @constant REDIRECT_LOOP Error code reported when a redirect loop is
-   detected.
-   
-   @constant SSL_FAILED Error code reported for an SSL failure.
-   
-   @constant TIMEOUT Error code reported when a timeout occurs.
-   
-   @constant UNKNOWN Error code reported when an unknown error occurs.
-   
-   @constant UNSUPPORTED_SCHEME Error code reported when a url
-   contains an unsupported scheme.
-   */
+		  @enum
+
+		  @abstract These constants are for use with the
+		  Titanium.UI.WebView.error.code property.
+
+		  @constant AUTHENTICATION Authentication error code.
+
+		  @constant BAD_URL Bad url error code.
+
+		  @constant CONNECT Error code reported for a failure to connect to
+		  host.
+
+		  @constant FILE Error code reported for a failure to access a file
+		  resource on a host, except "file not found", which has its own
+		  constant.
+
+		  @constant FILE_NOT_FOUND Error code reported when a requested file
+		  does not exist on the host.
+
+		  @constant HOST_LOOKUP Error code reported when a host name cannot
+		  be resolved, such as via a DNS lookup error.
+
+		  @constant REDIRECT_LOOP Error code reported when a redirect loop is
+		  detected.
+
+		  @constant SSL_FAILED Error code reported for an SSL failure.
+
+		  @constant TIMEOUT Error code reported when a timeout occurs.
+
+		  @constant UNKNOWN Error code reported when an unknown error occurs.
+
+		  @constant UNSUPPORTED_SCHEME Error code reported when a url
+		  contains an unsupported scheme.
+		*/
 		enum class TITANIUMKIT_EXPORT URL_ERROR {
 			AUTHENTICATION,
 			BAD_URL,
@@ -522,21 +522,21 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants specify UI layout behavior.
-   
-   @constant FILL UI layout behavior where the view will grow its size
-   to fill its parent.
-   
-   @constant INHERIT UI layout behavior which allows the width/height
-   of a view to be determined by the parent. If a parent has a size of
-   SIZE, then the child will inherit a size of SIZE. Otherwise, the
-   child inherits a size of FILL.
-   
-   @constant SIZE UI layout behavior where the view will constrain its
-   size to fit its contents.
-   */
+		  @enum
+
+		  @abstract These constants specify UI layout behavior.
+
+		  @constant FILL UI layout behavior where the view will grow its size
+		  to fill its parent.
+
+		  @constant INHERIT UI layout behavior which allows the width/height
+		  of a view to be determined by the parent. If a parent has a size of
+		  SIZE, then the child will inherit a size of SIZE. Otherwise, the
+		  child inherits a size of FILL.
+
+		  @constant SIZE UI layout behavior where the view will constrain its
+		  size to fit its contents.
+		*/
 		enum class TITANIUMKIT_EXPORT LAYOUT {
 			FILL,
 			INHERIT,
@@ -544,22 +544,22 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants specify text styles for the Font Object.
-   
-   @constant BODY
-   
-   @constant CAPTION1
-   
-   @constant CAPTION2
-   
-   @constant FOOTNOTE
-   
-   @constant HEADLINE
-   
-   @constant SUBHEADLINE
-   */
+		  @enum
+
+		  @abstract These constants specify text styles for the Font Object.
+
+		  @constant BODY
+
+		  @constant CAPTION1
+
+		  @constant CAPTION2
+
+		  @constant FOOTNOTE
+
+		  @constant HEADLINE
+
+		  @constant SUBHEADLINE
+		*/
 		enum class TITANIUMKIT_EXPORT TEXT_STYLE {
 			BODY,
 			CAPTION1,
@@ -570,21 +570,21 @@ namespace Titanium
 		};
 
 		/*!
-   @enum
-   
-   @abstract These constants specify text styles for the Font Object.
-   
-   @constant CM Unit constant representing units in centimeters.
-   
-   @constant DIP Unit constant representing units in
-   density-independent pixels.
-   
-   @constant IN Unit constant representing units in inches.
-   
-   @constant MM Unit constant representing units in millimeters.
-   
-   @constant PX Unit constant representing units in pixels.
-   */
+		  @enum
+
+		  @abstract These constants specify text styles for the Font Object.
+
+		  @constant CM Unit constant representing units in centimeters.
+
+		  @constant DIP Unit constant representing units in
+		  density-independent pixels.
+
+		  @constant IN Unit constant representing units in inches.
+
+		  @constant MM Unit constant representing units in millimeters.
+
+		  @constant PX Unit constant representing units in pixels.
+		*/
 		enum class TITANIUMKIT_EXPORT UNIT {
 			CM,
 			DIP,

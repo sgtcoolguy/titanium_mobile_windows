@@ -19,25 +19,25 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium.UI.ListView module.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ListView
-   */
+		  @class
+
+		  @discussion This is the Titanium.UI.ListView module.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ListView
+		*/
 		class TITANIUMKIT_EXPORT ListView : public View, public JSExport< ListView >
 		{
 		public:
 			/*!
-     @method
-     
-     @abstract defaultItemTemplate : String/Number
+			  @method
 
-     @discussion Sets the default template for list data items that do
-     not specify the template property. Can be set to any of the
-     built-in templates or those defined in the templates
-     property. Can be changed dynamically.
-     */
+			  @abstract defaultItemTemplate : String/Number
+
+			  @discussion Sets the default template for list data items that do
+			  not specify the template property. Can be set to any of the
+			  built-in templates or those defined in the templates
+			  property. Can be changed dynamically.
+			*/
 			virtual LIST_ITEM_TEMPLATE get_defaultItemTemplate() const TITANIUM_NOEXCEPT final;
 			virtual void set_defaultItemTemplate(const LIST_ITEM_TEMPLATE& defaultItemTemplate) TITANIUM_NOEXCEPT;
 

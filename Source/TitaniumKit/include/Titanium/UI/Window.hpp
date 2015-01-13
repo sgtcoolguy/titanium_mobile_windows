@@ -19,36 +19,36 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium UI Window.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Window
-   */
+		  @class
+
+		  @discussion This is the Titanium UI Window.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Window
+		*/
 		class TITANIUMKIT_EXPORT Window : public View, public JSExport< Window >
 		{
 		public:
 			/*!
-     @method
-     
-     @abstract open( [params] ) : void
-     
-     @discussion Opens the window.
-     
-     @param params Optimized animation or display properties to use
-     when opening the window. (openWindowParams)
-     
-     @result void
-     */
+			  @method
+
+			  @abstract open( [params] ) : void
+
+			  @discussion Opens the window.
+
+			  @param params Optimized animation or display properties to use
+			  when opening the window. (openWindowParams)
+
+			  @result void
+			*/
 			virtual void open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract extendEdges : Number[]
-     
-     @discussion An array of supported values specified using the EXTEND_EDGE constants in Titanium.UI.
-     */
+			  @method
+
+			  @abstract extendEdges : Number[]
+
+			  @discussion An array of supported values specified using the EXTEND_EDGE constants in Titanium.UI.
+			*/
 			virtual std::unordered_set< EXTEND_EDGE > get_extendEdges() const TITANIUM_NOEXCEPT final;
 			virtual void set_extendEdges(const std::unordered_set< EXTEND_EDGE >& extendEdges) TITANIUM_NOEXCEPT;
 

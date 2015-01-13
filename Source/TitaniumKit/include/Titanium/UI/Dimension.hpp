@@ -18,12 +18,12 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium Dimension.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Dimension
-   */
+		  @class
+
+		  @discussion This is the Titanium Dimension.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Dimension
+		*/
 		class TITANIUMKIT_EXPORT Dimension final : public JSExportObject, public JSExport< Dimension >
 		{
 		public:

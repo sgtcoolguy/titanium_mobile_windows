@@ -14,10 +14,10 @@ namespace Titanium
 	using namespace HAL;
 
 	/*!
-   @class
-   @discussion This is the top-level Titanium Module.
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium
-   */
+	  @class
+	  @discussion This is the top-level Titanium Module.
+	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium
+	*/
 	class TITANIUMKIT_EXPORT TiModule : public Module, public JSExport< TiModule >
 	{
 	public:

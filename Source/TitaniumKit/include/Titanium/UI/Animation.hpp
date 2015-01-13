@@ -19,23 +19,23 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium.UI.Animation module.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Animation
-   */
+		  @class
+
+		  @discussion This is the Titanium.UI.Animation module.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Animation
+		*/
 		class TITANIUMKIT_EXPORT Animation : public Module, public JSExport< Animation >
 		{
 		public:
 			/*!
-     @method
-     
-     @abstract curve property: Number
-     
-     @discussion Animation curve or easing function to apply to the
-     animation.
-     */
+			  @method
+
+			  @abstract curve property: Number
+
+			  @discussion Animation curve or easing function to apply to the
+			  animation.
+			*/
 			virtual ANIMATION_CURVE get_curve() const TITANIUM_NOEXCEPT final;
 			virtual void set_curve(const ANIMATION_CURVE& curve) TITANIUM_NOEXCEPT;
 

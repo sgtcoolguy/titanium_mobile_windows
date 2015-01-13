@@ -19,25 +19,25 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium.UI.Picker module.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Picker
-   */
+		  @class
+
+		  @discussion This is the Titanium.UI.Picker module.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Picker
+		*/
 		class TITANIUMKIT_EXPORT Picker : public View, public JSExport< Picker >
 		{
 		public:
 			/*!
-     @method
-     
-     @abstract type : Number
+			  @method
 
-     @discussion Determines the type of picker displayed. You can only
-     set columns for the plain picker. If you set the type to anything
-     else except Titanium.UI.PICKER_TYPE_PLAIN, you cannot modify the
-     columns.
-     */
+			  @abstract type : Number
+
+			  @discussion Determines the type of picker displayed. You can only
+			  set columns for the plain picker. If you set the type to anything
+			  else except Titanium.UI.PICKER_TYPE_PLAIN, you cannot modify the
+			  columns.
+			*/
 			virtual PICKER_TYPE get_type() const TITANIUM_NOEXCEPT final;
 			virtual void set_type(const PICKER_TYPE& type) TITANIUM_NOEXCEPT;
 

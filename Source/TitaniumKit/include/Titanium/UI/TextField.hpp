@@ -19,105 +19,105 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
-   @class
-   
-   @discussion This is the Titanium.UI.TextField module.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.TextField
-   */
+		  @class
+
+		  @discussion This is the Titanium.UI.TextField module.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.TextField
+		*/
 		class TITANIUMKIT_EXPORT TextField : public View, public JSExport< TextField >
 		{
 		public:
 			/*!
-     @method
-     
-     @abstract borderStyle : Number
+			  @method
 
-     @discussion Border style for the field.
-     */
+			  @abstract borderStyle : Number
+
+			  @discussion Border style for the field.
+			*/
 			virtual INPUT_BORDERSTYLE get_borderStyle() const TITANIUM_NOEXCEPT final;
 			virtual void set_borderStyle(const INPUT_BORDERSTYLE& borderStyle) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract clearButtonMode : Number
-     
-     @discussion Determines when the clear button is displayed.
-     */
+			  @method
+
+			  @abstract clearButtonMode : Number
+
+			  @discussion Determines when the clear button is displayed.
+			*/
 			virtual INPUT_BUTTONMODE get_clearButtonMode() const TITANIUM_NOEXCEPT final;
 			virtual void set_clearButtonMode(const INPUT_BUTTONMODE& clearButtonMode) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract leftButtonMode : Number
-     
-     @discussion Determines when to display the left button view.
-     */
+			  @method
+
+			  @abstract leftButtonMode : Number
+
+			  @discussion Determines when to display the left button view.
+			*/
 			virtual INPUT_BUTTONMODE get_leftButtonMode() const TITANIUM_NOEXCEPT final;
 			virtual void set_leftButtonMode(const INPUT_BUTTONMODE& leftButtonMode) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract rightButtonMode : Number
-     
-     @discussion Determines when to display the right button view.
-     */
+			  @method
+
+			  @abstract rightButtonMode : Number
+
+			  @discussion Determines when to display the right button view.
+			*/
 			virtual INPUT_BUTTONMODE get_rightButtonMode() const TITANIUM_NOEXCEPT final;
 			virtual void set_rightButtonMode(const INPUT_BUTTONMODE& rightButtonMode) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract keyboardType : Number
-     
-     @discussion Keyboard type to display when this text field is
-     focused. When asking for a specific kind of user input, such as a
-     phone number or email address, you should always specify the
-     appropriate keyboard type.
-     */
+			  @method
+
+			  @abstract keyboardType : Number
+
+			  @discussion Keyboard type to display when this text field is
+			  focused. When asking for a specific kind of user input, such as a
+			  phone number or email address, you should always specify the
+			  appropriate keyboard type.
+			*/
 			virtual KEYBOARD get_keyboardType() const TITANIUM_NOEXCEPT final;
 			virtual void set_keyboardType(const KEYBOARD& keyboardType) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract returnKeyType : Number
-     
-     @discussion Specifies the text to display on the keyboard Return key when this field is focused.
-     */
+			  @method
+
+			  @abstract returnKeyType : Number
+
+			  @discussion Specifies the text to display on the keyboard Return key when this field is focused.
+			*/
 			virtual RETURNKEY get_returnKeyType() const TITANIUM_NOEXCEPT final;
 			virtual void set_returnKeyType(const RETURNKEY& returnKeyType) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract textAlign : String/Number
-     
-     @discussion Text alignment within this text field.
-     */
+			  @method
+
+			  @abstract textAlign : String/Number
+
+			  @discussion Text alignment within this text field.
+			*/
 			virtual TEXT_ALIGNMENT get_textAlign() const TITANIUM_NOEXCEPT final;
 			virtual void set_textAlign(const TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract autocapitalization : Number
-     
-     @discussion Determines how text is capitalized during typing.
-     */
+			  @method
+
+			  @abstract autocapitalization : Number
+
+			  @discussion Determines how text is capitalized during typing.
+			*/
 			virtual TEXT_AUTOCAPITALIZATION get_autoCapitalization() const TITANIUM_NOEXCEPT final;
 			virtual void set_autoCapitalization(const TEXT_AUTOCAPITALIZATION& autoCapitalization) TITANIUM_NOEXCEPT;
 
 			/*!
-     @method
-     
-     @abstract verticalAlign : Number/String
-     
-     @discussion Vertical alignment within this text field.
-     */
+			  @method
+
+			  @abstract verticalAlign : Number/String
+
+			  @discussion Vertical alignment within this text field.
+			*/
 			virtual TEXT_VERTICAL_ALIGNMENT get_verticalAlign() const TITANIUM_NOEXCEPT final;
 			virtual void set_verticalAlign(const TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT;
 
