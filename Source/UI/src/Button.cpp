@@ -33,75 +33,59 @@ namespace TitaniumWindows
 			JSExport<Button>::SetParent(JSExport<Titanium::UI::Button>::Class());
 		}
 
-		bool Button::setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Button::set_title(const std::string& title) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString());
-			const std::string title = static_cast<std::string>(argument);
+			Titanium::UI::Button::set_title(title);
 			button__->Content = ref new Platform::String(std::wstring(title.begin(), title.end()).c_str());
-			TITANIUM_LOG_DEBUG("Button::setTitleArgumentValidator: title = ", title);
-			set_title(argument);
-			return true;
 		}
 
-		bool Button::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Button::set_backgroundColor(const std::string& backgroundColorName) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString());
-			bool result = false;
-			std::string backgroundColorName = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Button::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColorName);
+			Titanium::UI::View::set_backgroundColor(backgroundColorName);
 			const auto backgroundColor = ColorForName(backgroundColorName);
 			button__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
-			set_backgroundColor(argument);
-			result = true;
-			return result;
 		}
 
-		bool Button::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Button::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Button::setTopArgumentValidator: top = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, static_cast<std::string>(argument));
-			set_top(argument);
-			result = true;
-			return result;
+			Titanium::UI::View::set_bottom(bottom);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
 		}
 
-		bool Button::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Button::set_height(const std::string& height) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Button::setLeftArgumentValidator: left = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, static_cast<std::string>(argument));
-			set_left(argument);
-			result = true;
-			return result;
+			Titanium::UI::View::set_height(height);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
 		}
 
-		bool Button::setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Button::set_left(const std::string& left) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Button::setWidthArgumentValidator: width = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, static_cast<std::string>(argument));
-			set_width(argument);
-			result = true;
-			return result;
+			Titanium::UI::View::set_left(left);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
 		}
 
-		bool Button::setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Button::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Button::setHeightArgumentValidator: height = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, static_cast<std::string>(argument));
-			set_height(argument);
-			result = true;
-			return result;
+			Titanium::UI::View::set_layout(layout);
+			setLayout(layout);
+		}
+
+		void Button::set_right(const std::string& right) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_right(right);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
+		}
+
+		void Button::set_top(const std::string& top) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_top(top);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
+		}
+
+		void Button::set_width(const std::string& width) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_width(width);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 		}
 
 		void Button::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT

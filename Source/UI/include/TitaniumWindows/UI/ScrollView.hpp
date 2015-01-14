@@ -49,21 +49,14 @@ namespace TitaniumWindows
 			}
 
 			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT override;
-			virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundColor(const std::string& backgroundColorName) TITANIUM_NOEXCEPT override;
 
 			virtual void scrollTo(double x, double y) TITANIUM_NOEXCEPT override;
 			virtual void scrollToBottom() TITANIUM_NOEXCEPT override;
-			virtual JSValue getContentWidth() const TITANIUM_NOEXCEPT override;
-			virtual JSValue getContentHeight() const TITANIUM_NOEXCEPT override;
-			virtual bool setContentWidth(const JSValue& width) TITANIUM_NOEXCEPT override;
-			virtual bool setContentHeight(const JSValue& height) TITANIUM_NOEXCEPT override;
+			virtual std::string getContentWidth() const TITANIUM_NOEXCEPT override;
+			virtual std::string getContentHeight() const TITANIUM_NOEXCEPT override;
+			virtual bool setContentWidth(const double& width) TITANIUM_NOEXCEPT override;
+			virtual bool setContentHeight(const double& height) TITANIUM_NOEXCEPT override;
 			virtual bool getScrollingEnabled() const TITANIUM_NOEXCEPT;
 			virtual bool setScrollingEnabled(bool enabled) TITANIUM_NOEXCEPT;
 			virtual bool getShowHorizontalScrollIndicator() const TITANIUM_NOEXCEPT;

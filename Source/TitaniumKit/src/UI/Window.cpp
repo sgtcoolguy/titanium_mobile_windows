@@ -82,5 +82,5 @@ namespace Titanium
 			set_extendEdges(extendEdges__);
 			return true;
 		}
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium

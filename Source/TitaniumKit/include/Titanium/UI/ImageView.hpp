@@ -27,8 +27,8 @@ namespace Titanium
 		class TITANIUMKIT_EXPORT ImageView : public View, public JSExport<ImageView>
 		{
 		public:
-			virtual JSValue get_image() const TITANIUM_NOEXCEPT final;
-			virtual void set_image(const JSValue& image) TITANIUM_NOEXCEPT final;
+			virtual std::string get_image() const TITANIUM_NOEXCEPT final;
+			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT;
 
 			ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT;
 			ImageView(const ImageView&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
@@ -45,18 +45,13 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			// Base classes must implement this method. This is the minimum
-			// functionality that you should perform:
-			//
-			// assert(argument.IsString());
-			// set_image(argument);
-			// return true;
-			virtual bool setImageArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
+			virtual JSValue getImageArgumentValidator() const TITANIUM_NOEXCEPT final;
+			virtual bool setImageArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
-			JSValue image__;
+			std::string image__;
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_IMAGEVIEW_HPP_

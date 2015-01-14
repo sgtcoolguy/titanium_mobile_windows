@@ -44,7 +44,7 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_WEBVIEW_HPP_

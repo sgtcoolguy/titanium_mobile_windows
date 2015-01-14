@@ -42,7 +42,7 @@ namespace TitaniumWindows
 
 	protected:
 	private:
-		void setupOrieintationListener();
+		void setupOrientationListener();
 		bool orientationEventSet_{false};
 		Titanium::UI::ORIENTATION updateOrientation();
 

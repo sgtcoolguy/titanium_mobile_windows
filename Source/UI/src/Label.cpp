@@ -39,19 +39,17 @@ namespace TitaniumWindows
 			JSExport<Label>::SetParent(JSExport<Titanium::UI::Label>::Class());
 		}
 
-		void Label::set_color(const JSValue& color) TITANIUM_NOEXCEPT
+		void Label::set_color(const std::string& colorName) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::Label::set_color(color);
-			std::string colorName = static_cast<std::string>(color);
+			Titanium::UI::Label::set_color(colorName);
 			const auto color_obj = ColorForName(colorName);
 			label__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(color_obj);
 		}
 
-		void Label::set_text(const JSValue& text) TITANIUM_NOEXCEPT
+		void Label::set_text(const std::string& text) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_text(text);
-			std::string text_string = static_cast<std::string>(text);
-			label__->Text = ref new Platform::String(std::wstring(text_string.begin(), text_string.end()).c_str());
+			label__->Text = ref new Platform::String(std::wstring(text.begin(), text.end()).c_str());
 		}
 
 		void Label::set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT
@@ -80,17 +78,15 @@ namespace TitaniumWindows
 			// TODO Windows supports stretch!
 		}
 
-		void Label::set_wordWrap(const JSValue& wordWrap) TITANIUM_NOEXCEPT
+		void Label::set_wordWrap(const bool& wordWrap) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_wordWrap(wordWrap);
-			bool is_wrapping = static_cast<bool>(wordWrap);
-			label__->TextWrapping = is_wrapping ? Windows::UI::Xaml::TextWrapping::Wrap : Windows::UI::Xaml::TextWrapping::NoWrap;
+			label__->TextWrapping = wordWrap ? Windows::UI::Xaml::TextWrapping::Wrap : Windows::UI::Xaml::TextWrapping::NoWrap;
 		}
 
-		void Label::set_fontFamily(const JSValue& family) TITANIUM_NOEXCEPT
+		void Label::set_fontFamily(const std::string& family) TITANIUM_NOEXCEPT
 		{
-			std::string text_string = static_cast<std::string>(family);
-			label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(ref new Platform::String(std::wstring(text_string.begin(), text_string.end()).c_str()));
+			label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(ref new Platform::String(std::wstring(family.begin(), family.end()).c_str()));
 		}
 
 		void Label::set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT
@@ -98,25 +94,23 @@ namespace TitaniumWindows
 			label__->FontSize = static_cast<double>(size);
 		}
 
-		void Label::set_fontStyle(const JSValue& style) TITANIUM_NOEXCEPT
+		void Label::set_fontStyle(const std::string& style) TITANIUM_NOEXCEPT
 		{
-			std::string text_string = static_cast<std::string>(style);
-			if (text_string == "italic") {
+			if (style == "italic") {
 				label__->FontStyle = Windows::UI::Text::FontStyle::Italic;
-			} else if (text_string == "normal") {
+			} else if (style == "normal") {
 				label__->FontStyle = Windows::UI::Text::FontStyle::Normal;
 			}
 			// TODO Windows supports Oblique: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontstyle.aspx
 		}
 
-		void Label::set_fontWeight(const JSValue& weight) TITANIUM_NOEXCEPT
+		void Label::set_fontWeight(const std::string& weight) TITANIUM_NOEXCEPT
 		{
-			std::string text_string = static_cast<std::string>(weight);
-			if (text_string == "bold") {
+			if (weight == "bold") {
 				label__->FontWeight = Windows::UI::Text::FontWeights::Bold;
-			} else if (text_string == "normal") {
+			} else if (weight == "normal") {
 				label__->FontWeight = Windows::UI::Text::FontWeights::Normal;
-			} else if (text_string == "semibold") {
+			} else if (weight == "semibold") {
 				label__->FontWeight = Windows::UI::Text::FontWeights::SemiBold;
 			}
 			// TODO Windows supports a large number of other weights: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontweights
@@ -125,54 +119,6 @@ namespace TitaniumWindows
 		void Label::set_textStyle(const Titanium::UI::TEXT_STYLE& textStyle) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_textStyle(textStyle);
-		}
-
-		bool Label::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Label::setTopArgumentValidator: top = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, static_cast<std::string>(argument));
-			set_top(argument);
-			result = true;
-			return result;
-		}
-
-		bool Label::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Label::setLeftArgumentValidator: left = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, static_cast<std::string>(argument));
-			set_left(argument);
-			result = true;
-			return result;
-		}
-
-		bool Label::setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Label::setWidthArgumentValidator: width = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, static_cast<std::string>(argument));
-			set_width(argument);
-			result = true;
-			return result;
-		}
-
-		bool Label::setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Label::setHeightArgumentValidator: height = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, static_cast<std::string>(argument));
-			set_height(argument);
-			result = true;
-			return result;
 		}
 
 		void Label::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT

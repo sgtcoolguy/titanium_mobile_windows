@@ -27,8 +27,16 @@ namespace Titanium
 		class TITANIUMKIT_EXPORT Button : public View, public JSExport<Button>
 		{
 		public:
-			virtual JSValue get_title() const TITANIUM_NOEXCEPT final;
-			virtual void set_title(const JSValue& title) TITANIUM_NOEXCEPT final;
+
+			/*!
+			  @method
+
+			  @abstract title : String
+
+			  @discussion Button title.
+			*/
+			virtual std::string get_title() const TITANIUM_NOEXCEPT final;
+			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT;
 
 			Button(const JSContext& js_context) TITANIUM_NOEXCEPT;
 			Button(const Button&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
@@ -45,18 +53,13 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			// Base classes must implement this method. This is the minimum
-			// functionality that you should perform:
-			//
-			// assert(argument.IsString());
-			// set_title(argument);
-			// return true;
-			virtual bool setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
+			virtual JSValue getTitleArgumentValidator() const TITANIUM_NOEXCEPT final;
+			virtual bool setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
-			JSValue title__;
+			std::string title__;
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_BUTTON_HPP_

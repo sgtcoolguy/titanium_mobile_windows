@@ -88,77 +88,53 @@ namespace TitaniumWindows
 			JSExport<Window>::SetParent(JSExport<Titanium::UI::Window>::Class());
 		}
 
-		bool Window::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Window::set_backgroundColor(const std::string& backgroundColorName) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Window::setBackgroundColorArgumentValidator: backgroundColor = ", value);
-			const auto backgroundColor = ColorForName(value);
+			Titanium::UI::View::set_backgroundColor(backgroundColorName);
+			const auto backgroundColor = ColorForName(backgroundColorName);
 			canvas__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
-			set_backgroundColor(argument);
-			result = true;
-			return result;
 		}
 
-		bool Window::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Window::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Window::setTopArgumentValidator: top = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, static_cast<std::string>(argument));
-			set_top(argument);
-			result = true;
-			return result;
+			Titanium::UI::View::set_bottom(bottom);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
 		}
 
-		bool Window::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Window::set_height(const std::string& height) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Window::setLeftArgumentValidator: left = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, static_cast<std::string>(argument));
-			set_left(argument);
-			result = true;
-			return result;
+			Titanium::UI::View::set_height(height);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
 		}
 
-		bool Window::setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Window::set_left(const std::string& left) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Window::setWidthArgumentValidator: width = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, static_cast<std::string>(argument));
-			set_width(argument);
-			result = true;
-			return result;
+			Titanium::UI::View::set_left(left);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
 		}
 
-		bool Window::setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Window::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Window::setHeightArgumentValidator: height = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, static_cast<std::string>(argument));
-			set_height(argument);
-			result = true;
-			return result;
+			Titanium::UI::View::set_layout(layout);
+			setLayout(layout);
 		}
 
-		bool Window::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void Window::set_right(const std::string& right) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("Window::setLayoutArgumentValidator: layout = ", value);
-			setLayout(value);
-			set_layout(argument);
-			result = true;
-			return result;
+			Titanium::UI::View::set_right(right);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
+		}
+
+		void Window::set_top(const std::string& top) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_top(top);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
+		}
+
+		void Window::set_width(const std::string& width) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_width(width);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 		}
 
 		///////////////// Layout //////////////

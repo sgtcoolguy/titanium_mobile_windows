@@ -59,7 +59,7 @@ namespace Titanium
 		private:
 			URL_ERROR error__;
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_WEBVIEWERROREVENT_HPP_

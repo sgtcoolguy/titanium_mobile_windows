@@ -79,7 +79,7 @@ namespace Titanium
 			std::unordered_set<EXTEND_EDGE> extendEdges__;
 #pragma warning(pop)
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_WINDOW_HPP_

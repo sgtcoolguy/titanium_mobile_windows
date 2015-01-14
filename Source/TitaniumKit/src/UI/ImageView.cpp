@@ -24,14 +24,14 @@ namespace Titanium
 		{
 		}
 
-		JSValue ImageView::get_image() const TITANIUM_NOEXCEPT
+		std::string ImageView::get_image() const TITANIUM_NOEXCEPT
 		{
 			return image__;
 		}
 
-		void ImageView::set_image(const JSValue& title) TITANIUM_NOEXCEPT
+		void ImageView::set_image(const std::string& image) TITANIUM_NOEXCEPT
 		{
-			image__ = title;
+			image__ = image;
 		}
 
 		// TODO: The following functions can automatically be generated from
@@ -41,21 +41,21 @@ namespace Titanium
 		{
 			JSExport<ImageView>::SetClassVersion(1);
 			JSExport<ImageView>::SetParent(JSExport<View>::Class());
-			JSExport<ImageView>::AddValueProperty("image", std::mem_fn(&ImageView::get_image), std::mem_fn(&ImageView::setImageArgumentValidator));
+			JSExport<ImageView>::AddValueProperty("image", std::mem_fn(&ImageView::getImageArgumentValidator), std::mem_fn(&ImageView::setImageArgumentValidator));
+		}
+
+		JSValue ImageView::getImageArgumentValidator() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateString(image__);
 		}
 
 		bool ImageView::setImageArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Image::setImageArgumentValidator: Unimplemented");
-
-			// Base classes must implement this method. This is the minimum
-			// functionality that you should perform:
-			//
-			// TITANIUM_ASSERT(argument.IsString());
-			// set_image(argument);
-			// return true;
-
-			return false;
+			TITANIUM_ASSERT(argument.IsString());
+			std::string path = static_cast<std::string>(argument);
+			TITANIUM_LOG_DEBUG("ImageView::setImageArgumentValidator: image = ", path);
+			set_image(path);
+			return true;
 		}
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium

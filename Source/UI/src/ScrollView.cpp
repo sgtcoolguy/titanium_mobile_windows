@@ -62,87 +62,11 @@ namespace TitaniumWindows
 			content->add(view, this_object);
 		}
 
-		bool ScrollView::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void ScrollView::set_backgroundColor(const std::string& backgroundColorName) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString());
-			std::string backgroundColorName = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ScrollView::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColorName);
+			Titanium::UI::View::set_backgroundColor(backgroundColorName);
 			const auto backgroundColor = ColorForName(backgroundColorName);
 			scroll_viewer__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
-			set_backgroundColor(argument);
-			return true;
-		}
-
-		bool ScrollView::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ScrollView::setTopArgumentValidator: top = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, value);
-			set_top(argument);
-			return true;
-		}
-
-		bool ScrollView::setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ScrollView::setBottomArgumentValidator: bottom = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, value);
-			set_bottom(argument);
-			return true;
-		}
-
-		bool ScrollView::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ScrollView::setLeftArgumentValidator: left = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, value);
-			set_left(argument);
-			return true;
-		}
-
-		bool ScrollView::setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ScrollView::setRightArgumentValidator: right = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, value);
-			set_right(argument);
-			return true;
-		}
-
-		bool ScrollView::setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ScrollView::setWidthArgumentValidator: width = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, value);
-			set_width(argument);
-			return true;
-		}
-
-		bool ScrollView::setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ScrollView::setHeightArgumentValidator: height = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, value);
-			set_height(argument);
-			return true;
-		}
-
-		bool ScrollView::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ScrollView::setLayoutArgumentValidator: layout = ", value);
-			setLayout(value);
-			set_layout(argument);
-			result = true;
-			return result;
 		}
 
 		void ScrollView::scrollTo(double x, double y)
@@ -159,38 +83,33 @@ namespace TitaniumWindows
 			scroll_viewer__->ChangeView(nullptr, ref new Platform::Box<double>(scroll_viewer__->ScrollableHeight), nullptr);
 		}
 
-		JSValue ScrollView::getContentWidth() const
+		std::string ScrollView::getContentWidth() const
 		{
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
 			return content->get_width();
 		}
-		JSValue ScrollView::getContentHeight() const
+
+		std::string ScrollView::getContentHeight() const
 		{
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
 			return content->get_height();
 		}
-		bool ScrollView::setContentWidth(const JSValue& width)
+
+		bool ScrollView::setContentWidth(const double& width)
 		{
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
 			bool result = false;
-			if (width.IsNumber()) {
-				content->getComponent()->Width = static_cast<double>(width);
-				result = true;
-			} else {
-				TITANIUM_LOG_WARN("ScrollView::setContentWidth from auto - Unimplemented");
-			}
+			content->getComponent()->Width = width;
+			result = true;
 			return result;
 		}
-		bool ScrollView::setContentHeight(const JSValue& height)
+
+		bool ScrollView::setContentHeight(const double& height)
 		{
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
 			bool result = false;
-			if (height.IsNumber()) {
-				content->getComponent()->Height = static_cast<double>(height);
-				result = true;
-			} else {
-				TITANIUM_LOG_WARN("ScrollView::setContentWidth from auto - Unimplemented");
-			}
+			content->getComponent()->Height = height;
+			result = true;
 			return result;
 		}
 

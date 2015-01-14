@@ -42,11 +42,7 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-			virtual bool setImageArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-			virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-			virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-			virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-			virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 

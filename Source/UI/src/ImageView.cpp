@@ -48,74 +48,21 @@ namespace TitaniumWindows
 			JSExport<ImageView>::SetParent(JSExport<Titanium::UI::ImageView>::Class());
 		}
 
-		bool ImageView::setImageArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		void ImageView::set_image(const std::string& path) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString());
-			std::string path = static_cast<std::string>(argument);
-			path_ = path;
+			std::string modified = path;
 			// if the path isn't an http/s URI already, fix URI to point to local files in app
-			if (!boost::starts_with(path, "http://") && !boost::starts_with(path, "https://")) {
+			if (!boost::starts_with(modified, "http://") && !boost::starts_with(modified, "https://")) {
 				// URIs must be absolute
-				if (!boost::starts_with(path, "/")) {
-					path = "/" + path;
+				if (!boost::starts_with(modified, "/")) {
+					modified = "/" + modified;
 				}
 				// use MS's in-app URL scheme
-				path = "ms-appx://" + path;
+				modified = "ms-appx://" + modified;
 			}
-			auto uri = ref new Windows::Foundation::Uri(ref new Platform::String(std::wstring(path.begin(), path.end()).c_str()));
+			auto uri = ref new Windows::Foundation::Uri(ref new Platform::String(std::wstring(modified.begin(), modified.end()).c_str()));
 			auto image = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(uri);
 			image__->Source = image;
-			TITANIUM_LOG_DEBUG("ImageView::setImageArgumentValidator: image = ", path);
-			set_image(argument);
-			return true;
-		}
-
-		bool ImageView::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ImageView::setTopArgumentValidator: top = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, static_cast<std::string>(argument));
-			set_top(argument);
-			result = true;
-			return result;
-		}
-
-		bool ImageView::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ImageView::setLeftArgumentValidator: left = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, static_cast<std::string>(argument));
-			set_left(argument);
-			result = true;
-			return result;
-		}
-
-		bool ImageView::setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ImageView::setWidthArgumentValidator: width = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, static_cast<std::string>(argument));
-			set_width(argument);
-			result = true;
-			return result;
-		}
-
-		bool ImageView::setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("ImageView::setHeightArgumentValidator: height = ", value);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, static_cast<std::string>(argument));
-			set_height(argument);
-			result = true;
-			return result;
 		}
 
 		void ImageView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
