@@ -308,6 +308,6 @@ namespace Titanium
 #endif  // TITANIUM_THREAD_SAFE
 	};
 
-}  // namespace Titanium {
+}  // namespace Titanium
 
 #endif  // _TITANIUM_GLOBALOBJECT_HPP_

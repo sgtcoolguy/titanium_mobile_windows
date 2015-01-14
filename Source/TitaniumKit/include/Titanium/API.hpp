@@ -16,101 +16,101 @@ namespace Titanium
 	using namespace HAL;
 
 	/*!
-       @class
+	  @class
 
-       @discussion This is the Titanium API Module.
+	  @discussion This is the Titanium API Module.
 
-       See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.API
-     */
+	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.API
+	*/
 	class TITANIUMKIT_EXPORT API : public Module, public JSExport<API>
 	{
 	public:
 		/*!
-            @method
+		  @method
 
-            @abstract info( message ) : void
+		  @abstract info( message ) : void
 
-            @discussion Logs messages with an 'info' severity-level.
+		  @discussion Logs messages with an 'info' severity-level.
 
-            @param message Message to log. Accepts an array on iOS
-            only. (String[]/String)
+		  @param message Message to log. Accepts an array on iOS
+		  only. (String[]/String)
 
-            @result void
-          */
+		  @result void
+		*/
 		virtual void info(const std::string& message) const TITANIUM_NOEXCEPT final;
 
 		/*!
-            @method
+		  @method
 
-            @abstract warn( message ) : void
+		  @abstract warn( message ) : void
 
-            @discussion Logs messages with a 'warn' severity-level.
+		  @discussion Logs messages with a 'warn' severity-level.
 
-            @param message Message to log. Accepts an array on iOS
-            only. (String[]/String)
+		  @param message Message to log. Accepts an array on iOS
+		  only. (String[]/String)
 
-            @result void
-          */
+		  @result void
+		*/
 		virtual void warn(const std::string& message) const TITANIUM_NOEXCEPT final;
 
 		/*!
-            @method
+		  @method
 
-            @abstract error( message ) : void
+		  @abstract error( message ) : void
 
-            @discussion Logs messages with an 'error' severity-level.
+		  @discussion Logs messages with an 'error' severity-level.
 
-            @param message Message to log. Accepts an array on iOS
-            only. (String[]/String)
+		  @param message Message to log. Accepts an array on iOS
+		  only. (String[]/String)
 
-            @result void
-          */
+		  @result void
+		*/
 		virtual void error(const std::string& message) const TITANIUM_NOEXCEPT final;
 
 		/*!
-            @method
+		  @method
 
-            @abstract debug( message ) : void
+		  @abstract debug( message ) : void
 
-            @discussion Logs messages with a 'debug' severity-level.
+		  @discussion Logs messages with a 'debug' severity-level.
 
-            @param message Message to log. Accepts an array on iOS
-            only. (String[]/String)
+		  @param message Message to log. Accepts an array on iOS
+		  only. (String[]/String)
 
-            @result void
-          */
+		  @result void
+		*/
 		virtual void debug(const std::string& message) const TITANIUM_NOEXCEPT final;
 
 		/*!
-            @method
+		  @method
 
-            @abstract trace( message ) : void
+		  @abstract trace( message ) : void
 
-            @discussion Logs messages with a 'trace' severity-level.
+		  @discussion Logs messages with a 'trace' severity-level.
 
-            @param message Message to log. Accepts an array on iOS
-            only. (String[]/String)
+		  @param message Message to log. Accepts an array on iOS
+		  only. (String[]/String)
 
-            @result void
-          */
+		  @result void
+		 */
 		virtual void trace(const std::string& message) const TITANIUM_NOEXCEPT final;
 
 		/*!
-            @method
+		  @method
 
-            @abstract log( level, message ) : void
+		  @abstract log( level, message ) : void
 
-            @discussion Logs messages with the specified severity-level.
+		  @discussion Logs messages with the specified severity-level.
 
-            @param level One of 'info', 'warn', 'error', 'debug' and
-            'trace'. If the value is not recognized, an info-level message
-            prefixed with the value is logged. (String)
+		  @param level One of 'info', 'warn', 'error', 'debug' and
+		  'trace'. If the value is not recognized, an info-level message
+		  prefixed with the value is logged. (String)
 
-            @param message Message to log. Accepts an array on iOS
-            only. (String[]/String)
+		  @param message Message to log. Accepts an array on iOS
+		  only. (String[]/String)
 
-            @result void
-          */
+		  @result void
+		*/
 		virtual void log(const std::string& level, const std::string& message) const TITANIUM_NOEXCEPT final;
 
 		API(const JSContext& js_context) TITANIUM_NOEXCEPT;

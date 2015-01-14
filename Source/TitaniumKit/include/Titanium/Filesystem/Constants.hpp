@@ -20,8 +20,8 @@ namespace Titanium
 			WRITE = 1 << 1,
 			APPEND = 1 << 2,
 		};
-	}
-}  // namespace Titanium { namespace Filesystem {
+	} // namespace Filesystem
+}  // namespace Titanium
 
 // Provide a hash function so that a Titanium::Filesystem::MODE can be stored in an
 // unordered container.
@@ -56,7 +56,7 @@ namespace Titanium
 			static std::underlying_type<MODE>::type to_underlying_type(const std::unordered_set<MODE>&) TITANIUM_NOEXCEPT;
 			static std::underlying_type<MODE>::type to_underlying_type(const MODE&) TITANIUM_NOEXCEPT;
 		};
-	}
-}  // namespace Titanium { namespace Filesystem {
+	} // namespace Filesystem
+}  // namespace Titanium
 
 #endif  // _TITANIUM_FILESYSTEM_CONSTANTS_HPP_

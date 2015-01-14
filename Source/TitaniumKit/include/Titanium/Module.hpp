@@ -18,85 +18,85 @@ namespace Titanium
 	using namespace HAL;
 
 	/*!
-       @class
+	  @class
 
-       @discussion This is the Titanium Module.
+	  @discussion This is the Titanium Module.
 
-       See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium
-     */
+	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium
+	 */
 	class TITANIUMKIT_EXPORT Module : public JSExportObject, public JSExport<Module>
 	{
 	public:
 		/*!
-            @method
+		  @method
 
-            @abstract addEventListener( name, callback ) : void
+		  @abstract addEventListener( name, callback ) : void
 
-            @discussion Adds the specified callback as an event listener for
-            the named event.
+		  @discussion Adds the specified callback as an event listener for
+		  the named event.
 
-            @param name Name of the event (String).
+		  @param name Name of the event (String).
 
-            @param callback Callback function to invoke when the event is
-            fired (Function).
+		  @param callback Callback function to invoke when the event is
+		  fired (Function).
 
-            @result void
-          */
+		  @result void
+		*/
 		virtual void addEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
 		/*!
-            @method
+		  @method
 
-            @abstract addEventListener( name, callback ) : void
+		  @abstract addEventListener( name, callback ) : void
 
-            @discussion Removes the specified callback as an event listener
-            for the named event.
+		  @discussion Removes the specified callback as an event listener
+		  for the named event.
 
-            Multiple listeners can be registered for the same event, so the
-            callback parameter is used to determine which listener to remove.
+		  Multiple listeners can be registered for the same event, so the
+		  callback parameter is used to determine which listener to remove.
 
-            When adding a listener, you must save a reference to the callback
-            function in order to remove the listener later:
+		  When adding a listener, you must save a reference to the callback
+		  function in order to remove the listener later:
 
-            @param name Name of the event (String).
+		  @param name Name of the event (String).
 
-            @param callback Callback function to invoke when the event is
-            fired (Function).
+		  @param callback Callback function to invoke when the event is
+		  fired (Function).
 
-            @result void
-          */
+		  @result void
+		*/
 		virtual void removeEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
 		/*!
-            @method
+		  @method
 
-            @abstract applyProperties( props ) : void
+		  @abstract applyProperties( props ) : void
 
-            @discussion Copy the enumerable properties from the given
-            JavaScript object to this JavaScript object.
+		  @discussion Copy the enumerable properties from the given
+		  JavaScript object to this JavaScript object.
 
-            @param props The JavaScript object to copy the properties from
-            (Dictionary).
+		  @param props The JavaScript object to copy the properties from
+		  (Dictionary).
 
-            @result void
-          */
+		  @result void
+		*/
 		virtual void applyProperties(const JSObject& props, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
-            @method
+		  @method
 
-            @abstract fireEvent( name, event ) : void
+		  @abstract fireEvent( name, event ) : void
 
-            @discussion Fires a synthesized event to any registered
-            listeners.
+		  @discussion Fires a synthesized event to any registered
+		  listeners.
 
-            @param name Name of the event (String).
+		  @param name Name of the event (String).
 
-            @param event A dictionary of keys and values to add to the
-            Titanium.Event object sent to the listeners. (Dictionary).
+		  @param event A dictionary of keys and values to add to the
+		  Titanium.Event object sent to the listeners. (Dictionary).
 
-            @result void
-          */
+		  @result void
+		*/
 		virtual void fireEvent(const std::string& name, const JSObject& event) const TITANIUM_NOEXCEPT final;
 
 		Module(const JSContext& js_context) TITANIUM_NOEXCEPT;
@@ -120,31 +120,31 @@ namespace Titanium
 
 	protected:
 		/*!
-            @method
+		  @method
 
-            @abstract Notify Module subclasses that there are event listeners
-            for the event with the given name.
+		  @abstract Notify Module subclasses that there are event listeners
+		  for the event with the given name.
 
-            @param event_name Name of the event for which there are event
-            listeners.
+		  @param event_name Name of the event for which there are event
+		  listeners.
 
-            @result void
-          */
+		  @result void
+		*/
 		virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
 
 		/*!
-            @method
+		  @method
 
-            @abstract Notify Module subclasses that there are no longer any
-            event listeners for the event with the given name. It is
-            guaranteed that the method enableEvent will have been called
-            before disableEvent.
+		  @abstract Notify Module subclasses that there are no longer any
+		  event listeners for the event with the given name. It is
+		  guaranteed that the method enableEvent will have been called
+		  before disableEvent.
 
-            @param event_name Name of the event for which there are no longer
-            any event listeners.
+		  @param event_name Name of the event for which there are no longer
+		  any event listeners.
 
-            @result void
-          */
+		  @result void
+		*/
 		virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
 
 	private:
@@ -152,6 +152,6 @@ namespace Titanium
 
 		JSObject event_listener_map__;
 	};
-}  // namespace Titanium {
+}  // namespace Titanium
 
 #endif  // _TITANIUM_MODULE_HPP_
