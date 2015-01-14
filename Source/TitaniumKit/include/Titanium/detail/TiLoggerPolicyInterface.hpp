@@ -30,7 +30,7 @@ namespace Titanium
 
 			virtual void Write(const std::string& log_message) = 0;
 		};
-	}
-}  // namespace Titanium { namespace detail {
+	} // namespace detail
+}  // namespace Titanium
 
 #endif  // _TITANIUM_DETAIL_TILOGGERPOLICYINTERFACE_HPP_

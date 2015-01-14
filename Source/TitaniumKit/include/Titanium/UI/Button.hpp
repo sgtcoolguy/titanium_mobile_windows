@@ -53,8 +53,8 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue getTitleArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_title() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
 			std::string title__;

@@ -100,20 +100,20 @@ namespace Titanium
 		{
 			JSExport<TextArea>::SetClassVersion(1);
 			JSExport<TextArea>::SetParent(JSExport<View>::Class());
-			JSExport<TextArea>::AddValueProperty("curve", std::mem_fn(&TextArea::getAutoLinkArgumentValidator), std::mem_fn(&TextArea::setAutoLinkArgumentValidator));
-			JSExport<TextArea>::AddValueProperty("keyboardType", std::mem_fn(&TextArea::getKeyboardTypeArgumentValidator), std::mem_fn(&TextArea::setKeyboardTypeArgumentValidator));
-			JSExport<TextArea>::AddValueProperty("returnKeyType", std::mem_fn(&TextArea::getReturnKeyTypeArgumentValidator), std::mem_fn(&TextArea::setReturnKeyTypeArgumentValidator));
-			JSExport<TextArea>::AddValueProperty("textAlign", std::mem_fn(&TextArea::getTextAlignArgumentValidator), std::mem_fn(&TextArea::setTextAlignArgumentValidator));
-			JSExport<TextArea>::AddValueProperty("autocapitalization", std::mem_fn(&TextArea::getAutoCapitalizationArgumentValidator), std::mem_fn(&TextArea::setAutoCapitalizationArgumentValidator));
-			JSExport<TextArea>::AddValueProperty("verticalAlign", std::mem_fn(&TextArea::getVerticalAlignArgumentValidator), std::mem_fn(&TextArea::setVerticalAlignArgumentValidator));
+			JSExport<TextArea>::AddValueProperty("autoLink", std::mem_fn(&TextArea::js_get_autoLink), std::mem_fn(&TextArea::js_set_autoLink));
+			JSExport<TextArea>::AddValueProperty("keyboardType", std::mem_fn(&TextArea::js_get_keyboardType), std::mem_fn(&TextArea::js_set_keyboardType));
+			JSExport<TextArea>::AddValueProperty("returnKeyType", std::mem_fn(&TextArea::js_get_returnKeyType), std::mem_fn(&TextArea::js_set_returnKeyType));
+			JSExport<TextArea>::AddValueProperty("textAlign", std::mem_fn(&TextArea::js_get_textAlign), std::mem_fn(&TextArea::js_set_textAlign));
+			JSExport<TextArea>::AddValueProperty("autocapitalization", std::mem_fn(&TextArea::js_get_autoCapitalization), std::mem_fn(&TextArea::js_set_autoCapitalization));
+			JSExport<TextArea>::AddValueProperty("verticalAlign", std::mem_fn(&TextArea::js_get_verticalAlign), std::mem_fn(&TextArea::js_set_verticalAlign));
 		}
 
-		JSValue TextArea::getAutoLinkArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue TextArea::js_get_autoLink() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(Constants::to_underlying_type(autoLink__));
 		}
 
-		bool TextArea::setAutoLinkArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool TextArea::js_set_autoLink(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			autoLink__ = Constants::to_AUTOLINK(static_cast<std::underlying_type<AUTOLINK>::type>(argument));
@@ -121,12 +121,12 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue TextArea::getKeyboardTypeArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue TextArea::js_get_keyboardType() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<KEYBOARD>::type>(get_keyboardType()));
 		}
 
-		bool TextArea::setKeyboardTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool TextArea::js_set_keyboardType(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			keyboardType__ = Constants::to_KEYBOARD(static_cast<std::underlying_type<KEYBOARD>::type>(argument));
@@ -134,12 +134,12 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue TextArea::getReturnKeyTypeArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue TextArea::js_get_returnKeyType() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<RETURNKEY>::type>(get_returnKeyType()));
 		}
 
-		bool TextArea::setReturnKeyTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool TextArea::js_set_returnKeyType(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			returnKeyType__ = Constants::to_RETURNKEY(static_cast<std::underlying_type<RETURNKEY>::type>(argument));
@@ -147,12 +147,12 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue TextArea::getTextAlignArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue TextArea::js_get_textAlign() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_ALIGNMENT>::type>(get_textAlign()));
 		}
 
-		bool TextArea::setTextAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool TextArea::js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			bool result = false;
 			if (argument.IsNumber()) {
@@ -168,12 +168,12 @@ namespace Titanium
 			return result;
 		}
 
-		JSValue TextArea::getAutoCapitalizationArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue TextArea::js_get_autoCapitalization() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(get_autoCapitalization()));
 		}
 
-		bool TextArea::setAutoCapitalizationArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool TextArea::js_set_autoCapitalization(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			autoCapitalization__ = Constants::to_TEXT_AUTOCAPITALIZATION(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(argument));
@@ -181,12 +181,12 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue TextArea::getVerticalAlignArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue TextArea::js_get_verticalAlign() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type>(get_verticalAlign()));
 		}
 
-		bool TextArea::setVerticalAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool TextArea::js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			bool result = false;
 			if (argument.IsNumber()) {
@@ -201,5 +201,5 @@ namespace Titanium
 
 			return result;
 		}
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium

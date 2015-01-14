@@ -67,9 +67,10 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue openArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue getExtendEdgesArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setExtendEdgesArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_extendEdges() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_extendEdges(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
 // Silence 4251 on Windows since private member variables do not

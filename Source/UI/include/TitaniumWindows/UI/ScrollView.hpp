@@ -53,16 +53,21 @@ namespace TitaniumWindows
 
 			virtual void scrollTo(double x, double y) TITANIUM_NOEXCEPT override;
 			virtual void scrollToBottom() TITANIUM_NOEXCEPT override;
-			virtual std::string getContentWidth() const TITANIUM_NOEXCEPT override;
-			virtual std::string getContentHeight() const TITANIUM_NOEXCEPT override;
-			virtual bool setContentWidth(const double& width) TITANIUM_NOEXCEPT override;
-			virtual bool setContentHeight(const double& height) TITANIUM_NOEXCEPT override;
-			virtual bool getScrollingEnabled() const TITANIUM_NOEXCEPT;
-			virtual bool setScrollingEnabled(bool enabled) TITANIUM_NOEXCEPT;
-			virtual bool getShowHorizontalScrollIndicator() const TITANIUM_NOEXCEPT;
-			virtual bool setShowHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
-			virtual bool getShowVerticalScrollIndicator() const TITANIUM_NOEXCEPT;
-			virtual bool setShowVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
+
+			virtual std::string get_contentWidth() const TITANIUM_NOEXCEPT override;
+			virtual std::string get_contentHeight() const TITANIUM_NOEXCEPT override;
+
+			virtual bool set_contentWidth(const double& width) TITANIUM_NOEXCEPT override;
+			virtual bool set_contentHeight(const double& height) TITANIUM_NOEXCEPT override;
+
+			virtual bool get_scrollingEnabled() const TITANIUM_NOEXCEPT;
+			virtual bool set_scrollingEnabled(bool enabled) TITANIUM_NOEXCEPT;
+
+			virtual bool get_showHorizontalScrollIndicator() const TITANIUM_NOEXCEPT;
+			virtual bool set_showHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
+
+			virtual bool get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT;
+			virtual bool set_showVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
 
 			static void JSExportInitialize();
 

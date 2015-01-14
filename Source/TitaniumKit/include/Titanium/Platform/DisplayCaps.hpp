@@ -44,22 +44,21 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue get_density_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual JSValue getDensityArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-			virtual JSValue get_dpi_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual JSValue getDpiArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-			virtual JSValue get_logicalDensityFactor_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual JSValue getLogicalDensityFactorArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-			virtual JSValue get_platformHeight_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual JSValue getPlatformHeightArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-			virtual JSValue get_platformWidth_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual JSValue getPlatformWidthArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-			virtual JSValue get_xdpi_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual JSValue getXdpiArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-			virtual JSValue get_ydpi_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual JSValue getYdpiArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_density() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getDensity(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_dpi() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getDpi(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_logicalDensityFactor() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getLogicalDensityFactor(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_platformHeight() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getPlatformHeight(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_platformWidth() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getPlatformWidth(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_xdpi() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getXdpi(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_ydpi() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getYdpi(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
 		};
-	}
-}  // namespace Titanium { namespace Platform {
-
+	} // namespace Platform
+}  // namespace Titanium
 #endif  // _TITANIUM_PLATFORM_DISPLAYCAPS_HPP_

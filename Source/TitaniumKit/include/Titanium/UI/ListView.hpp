@@ -56,13 +56,13 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue getDefaultItemTemplateArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setDefaultItemTemplateArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_defaultItemTemplate() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_defaultItemTemplate(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
 			LIST_ITEM_TEMPLATE defaultItemTemplate__;
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_LISTVIEW_HPP_

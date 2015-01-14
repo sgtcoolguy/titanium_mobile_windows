@@ -42,20 +42,20 @@ namespace Titanium
 		{
 			JSExport<ListView>::SetClassVersion(1);
 			JSExport<ListView>::SetParent(JSExport<View>::Class());
-			JSExport<ListView>::AddValueProperty("defaultItemTemplate", std::mem_fn(&ListView::getDefaultItemTemplateArgumentValidator), std::mem_fn(&ListView::setDefaultItemTemplateArgumentValidator));
+			JSExport<ListView>::AddValueProperty("defaultItemTemplate", std::mem_fn(&ListView::js_get_defaultItemTemplate), std::mem_fn(&ListView::js_set_defaultItemTemplate));
 		}
 
-		JSValue ListView::getDefaultItemTemplateArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue ListView::js_get_defaultItemTemplate() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<LIST_ITEM_TEMPLATE>::type>(get_defaultItemTemplate()));
 		}
 
-		bool ListView::setDefaultItemTemplateArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool ListView::js_set_defaultItemTemplate(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			defaultItemTemplate__ = Constants::to_LIST_ITEM_TEMPLATE(static_cast<std::underlying_type<LIST_ITEM_TEMPLATE>::type>(argument));
 			set_defaultItemTemplate(defaultItemTemplate__);
 			return true;
 		}
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium

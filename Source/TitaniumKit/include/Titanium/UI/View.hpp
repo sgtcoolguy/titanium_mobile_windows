@@ -236,35 +236,35 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue hideArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue showArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_add(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_hide(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_show(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getBackgroundColorArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_backgroundColor() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_backgroundColor(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			
-			virtual JSValue getTopArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_top() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_top(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getLeftArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_left() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_left(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getBottomArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_bottom() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_bottom(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getRightArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_right() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_right(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual bool setCenterArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual bool js_set_center(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			
-			virtual JSValue getWidthArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_width() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_width(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getHeightArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_height() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_height(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getLayoutArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_layout() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_layout(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		protected:
 			virtual NativeChildrenList_t get_native_children() const TITANIUM_NOEXCEPT final;

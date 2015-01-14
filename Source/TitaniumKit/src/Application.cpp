@@ -29,4 +29,4 @@ namespace Titanium
 		return js_context__;
 	}
 
-}  // namespace Titanium {
+}  // namespace Titanium

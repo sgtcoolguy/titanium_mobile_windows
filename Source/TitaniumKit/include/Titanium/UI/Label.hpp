@@ -107,23 +107,23 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue getColorArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_color() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getFontArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setFontArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_font() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_font(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getTextArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setTextArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_text() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_text(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getTextAlignArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setTextAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_textAlign() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getVerticalAlignArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setVerticalAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_verticalAlign() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getWordWrapArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setWordWrapArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_wordWrap() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_wordWrap(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
 			std::string color__;

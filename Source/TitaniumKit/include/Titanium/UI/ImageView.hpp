@@ -45,8 +45,8 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue getImageArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setImageArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_image() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_image(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
 			std::string image__;

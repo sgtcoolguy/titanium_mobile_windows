@@ -53,8 +53,8 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue getErrorArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setErrorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_error() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_error(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
 			URL_ERROR error__;

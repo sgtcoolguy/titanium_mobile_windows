@@ -127,12 +127,12 @@ namespace Titanium
 		// TODO: The following functions can automatically be generated from
 		// the YAML API docs.
 		static void JSExportInitialize();
-		JSValue infoArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue warnArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue errorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue debugArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue traceArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue logArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_info(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_warn(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_error(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_debug(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_trace(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_log(const std::vector<JSValue>& arguments, JSObject& this_object);
 
 	protected:
 		virtual void log(const std::string& message) const TITANIUM_NOEXCEPT;

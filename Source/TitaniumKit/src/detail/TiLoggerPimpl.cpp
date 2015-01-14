@@ -61,5 +61,5 @@ namespace Titanium
 
 			return os.str();
 		}
-	}
-}  // namespace Titanium { namespace detail {
+	} // namespace detail
+}  // namespace Titanium

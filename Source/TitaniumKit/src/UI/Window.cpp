@@ -53,10 +53,11 @@ namespace Titanium
 		{
 			JSExport<Window>::SetClassVersion(1);
 			JSExport<Window>::SetParent(JSExport<View>::Class());
-			JSExport<Window>::AddFunctionProperty("open", std::mem_fn(&Window::openArgumentValidator));
+			JSExport<Window>::AddFunctionProperty("open", std::mem_fn(&Window::js_open));
+			JSExport<Window>::AddValueProperty("extendEdges", std::mem_fn(&Window::js_get_extendEdges), std::mem_fn(&Window::js_set_extendEdges));
 		}
 
-		JSValue Window::openArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue Window::js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.
@@ -70,12 +71,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue Window::getExtendEdgesArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue Window::js_get_extendEdges() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(Constants::to_underlying_type(extendEdges__));
 		}
 
-		bool Window::setExtendEdgesArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool Window::js_set_extendEdges(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			extendEdges__ = Constants::to_EXTEND_EDGE(static_cast<std::underlying_type<EXTEND_EDGE>::type>(argument));

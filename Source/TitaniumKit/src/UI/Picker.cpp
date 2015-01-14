@@ -42,20 +42,20 @@ namespace Titanium
 		{
 			JSExport<Picker>::SetClassVersion(1);
 			JSExport<Picker>::SetParent(JSExport<View>::Class());
-			JSExport<Picker>::AddValueProperty("type", std::mem_fn(&Picker::getTypeArgumentValidator), std::mem_fn(&Picker::setTypeArgumentValidator));
+			JSExport<Picker>::AddValueProperty("type", std::mem_fn(&Picker::js_get_type), std::mem_fn(&Picker::js_set_type));
 		}
 
-		JSValue Picker::getTypeArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue Picker::js_get_type() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<PICKER_TYPE>::type>(get_type()));
 		}
 
-		bool Picker::setTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool Picker::js_set_type(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			type__ = Constants::to_PICKER_TYPE(static_cast<std::underlying_type<PICKER_TYPE>::type>(argument));
 			set_type(type__);
 			return true;
 		}
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium

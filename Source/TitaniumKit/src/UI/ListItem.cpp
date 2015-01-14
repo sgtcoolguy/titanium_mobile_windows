@@ -42,20 +42,20 @@ namespace Titanium
 		{
 			JSExport<ListItem>::SetClassVersion(1);
 			JSExport<ListItem>::SetParent(JSExport<Module>::Class());
-			JSExport<ListItem>::AddValueProperty("accessoryType", std::mem_fn(&ListItem::getAccessoryTypeArgumentValidator), std::mem_fn(&ListItem::setAccessoryTypeArgumentValidator));
+			JSExport<ListItem>::AddValueProperty("accessoryType", std::mem_fn(&ListItem::js_get_accessoryType), std::mem_fn(&ListItem::js_set_accessoryType));
 		}
 
-		JSValue ListItem::getAccessoryTypeArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue ListItem::js_get_accessoryType() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<LIST_ACCESSORY_TYPE>::type>(get_accessoryType()));
 		}
 
-		bool ListItem::setAccessoryTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool ListItem::js_set_accessoryType(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			accessoryType__ = Constants::to_LIST_ACCESSORY_TYPE(static_cast<std::underlying_type<LIST_ACCESSORY_TYPE>::type>(argument));
 			set_accessoryType(accessoryType__);
 			return true;
 		}
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium

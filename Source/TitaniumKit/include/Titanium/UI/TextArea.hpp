@@ -110,23 +110,23 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue getAutoLinkArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setAutoLinkArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_autoLink() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_autoLink(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getKeyboardTypeArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setKeyboardTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_keyboardType() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_keyboardType(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getReturnKeyTypeArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setReturnKeyTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_returnKeyType() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_returnKeyType(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getTextAlignArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setTextAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_textAlign() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getAutoCapitalizationArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setAutoCapitalizationArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_autoCapitalization() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_autoCapitalization(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getVerticalAlignArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setVerticalAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_verticalAlign() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
 			std::unordered_set<AUTOLINK> autoLink__;
@@ -136,7 +136,7 @@ namespace Titanium
 			TEXT_AUTOCAPITALIZATION autoCapitalization__;
 			TEXT_VERTICAL_ALIGNMENT verticalAlign__;
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_TEXTAREA_HPP_

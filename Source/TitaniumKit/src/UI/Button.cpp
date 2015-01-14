@@ -48,19 +48,19 @@ namespace Titanium
 		{
 			JSExport<Button>::SetClassVersion(1);
 			JSExport<Button>::SetParent(JSExport<View>::Class());
-			JSExport<Button>::AddValueProperty("title", std::mem_fn(&Button::getTitleArgumentValidator), std::mem_fn(&Button::setTitleArgumentValidator));
+			JSExport<Button>::AddValueProperty("title", std::mem_fn(&Button::js_get_title), std::mem_fn(&Button::js_set_title));
 		}
 
-		JSValue Button::getTitleArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue Button::js_get_title() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(title__);
 		}
 
-		bool Button::setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool Button::js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			const std::string title = static_cast<std::string>(argument);
-			TITANIUM_LOG_DEBUG("Button::setTitleArgumentValidator: title = ", title);
+			TITANIUM_LOG_DEBUG("Button::js_set_title: title = ", title);
 			set_title(title);
 			return true;
 		}

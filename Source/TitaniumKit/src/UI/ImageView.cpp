@@ -41,19 +41,19 @@ namespace Titanium
 		{
 			JSExport<ImageView>::SetClassVersion(1);
 			JSExport<ImageView>::SetParent(JSExport<View>::Class());
-			JSExport<ImageView>::AddValueProperty("image", std::mem_fn(&ImageView::getImageArgumentValidator), std::mem_fn(&ImageView::setImageArgumentValidator));
+			JSExport<ImageView>::AddValueProperty("image", std::mem_fn(&ImageView::js_get_image), std::mem_fn(&ImageView::js_set_image));
 		}
 
-		JSValue ImageView::getImageArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue ImageView::js_get_image() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(image__);
 		}
 
-		bool ImageView::setImageArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool ImageView::js_set_image(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			std::string path = static_cast<std::string>(argument);
-			TITANIUM_LOG_DEBUG("ImageView::setImageArgumentValidator: image = ", path);
+			TITANIUM_LOG_DEBUG("ImageView::js_set_image: image = ", path);
 			set_image(path);
 			return true;
 		}

@@ -196,22 +196,22 @@ namespace Titanium
 		{
 			JSExport<View>::SetClassVersion(1);
 			JSExport<View>::SetParent(JSExport<Module>::Class());
-			JSExport<View>::AddFunctionProperty("add", std::mem_fn(&View::addArgumentValidator));
-			JSExport<View>::AddFunctionProperty("hide", std::mem_fn(&View::hideArgumentValidator));
-			JSExport<View>::AddFunctionProperty("show", std::mem_fn(&View::showArgumentValidator));
+			JSExport<View>::AddFunctionProperty("add", std::mem_fn(&View::js_add));
+			JSExport<View>::AddFunctionProperty("hide", std::mem_fn(&View::js_hide));
+			JSExport<View>::AddFunctionProperty("show", std::mem_fn(&View::js_show));
 			JSExport<View>::AddValueProperty("children", std::mem_fn(&View::get_children));
-			JSExport<View>::AddValueProperty("backgroundColor", std::mem_fn(&View::getBackgroundColorArgumentValidator), std::mem_fn(&View::setBackgroundColorArgumentValidator));
-			JSExport<View>::AddValueProperty("top", std::mem_fn(&View::getTopArgumentValidator), std::mem_fn(&View::setTopArgumentValidator));
-			JSExport<View>::AddValueProperty("left", std::mem_fn(&View::getLeftArgumentValidator), std::mem_fn(&View::setLeftArgumentValidator));
-			JSExport<View>::AddValueProperty("bottom", std::mem_fn(&View::getBottomArgumentValidator), std::mem_fn(&View::setBottomArgumentValidator));
-			JSExport<View>::AddValueProperty("center", std::mem_fn(&View::get_center), std::mem_fn(&View::setCenterArgumentValidator));
-			JSExport<View>::AddValueProperty("right", std::mem_fn(&View::getRightArgumentValidator), std::mem_fn(&View::setRightArgumentValidator));
-			JSExport<View>::AddValueProperty("width", std::mem_fn(&View::getWidthArgumentValidator), std::mem_fn(&View::setWidthArgumentValidator));
-			JSExport<View>::AddValueProperty("height", std::mem_fn(&View::getHeightArgumentValidator), std::mem_fn(&View::setHeightArgumentValidator));
-			JSExport<View>::AddValueProperty("layout", std::mem_fn(&View::getLayoutArgumentValidator), std::mem_fn(&View::setLayoutArgumentValidator));
+			JSExport<View>::AddValueProperty("backgroundColor", std::mem_fn(&View::js_get_backgroundColor), std::mem_fn(&View::js_set_backgroundColor));
+			JSExport<View>::AddValueProperty("top", std::mem_fn(&View::js_get_top), std::mem_fn(&View::js_set_top));
+			JSExport<View>::AddValueProperty("left", std::mem_fn(&View::js_get_left), std::mem_fn(&View::js_set_left));
+			JSExport<View>::AddValueProperty("bottom", std::mem_fn(&View::js_get_bottom), std::mem_fn(&View::js_set_bottom));
+			JSExport<View>::AddValueProperty("center", std::mem_fn(&View::get_center), std::mem_fn(&View::js_set_center));
+			JSExport<View>::AddValueProperty("right", std::mem_fn(&View::js_get_right), std::mem_fn(&View::js_set_right));
+			JSExport<View>::AddValueProperty("width", std::mem_fn(&View::js_get_width), std::mem_fn(&View::js_set_width));
+			JSExport<View>::AddValueProperty("height", std::mem_fn(&View::js_get_height), std::mem_fn(&View::js_set_height));
+			JSExport<View>::AddValueProperty("layout", std::mem_fn(&View::js_get_layout), std::mem_fn(&View::js_set_layout));
 		}
 
-		JSValue View::addArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue View::js_add(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.
@@ -223,7 +223,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue View::hideArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue View::js_hide(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.
@@ -232,7 +232,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue View::showArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue View::js_show(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			// TODO: Validate these precondition checks (which could be
 			// automaticaly generated) with the team.
@@ -241,25 +241,25 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue View::getBackgroundColorArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue View::js_get_backgroundColor() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(backgroundColor__);
 		}
 
-		bool View::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool View::js_set_backgroundColor(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			bool result = false;
 			std::string backgroundColorName = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColorName);
+			TITANIUM_LOG_INFO("View::js_set_backgroundColor: backgroundColor = ", backgroundColorName);
 			set_backgroundColor(backgroundColorName);
 			result = true;
 			return result;
 		}
 
-		bool View::setCenterArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool View::js_set_center(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("View::setCenterArgumentValidator: Unimplemented");
+			TITANIUM_LOG_WARN("View::js_set_center: Unimplemented");
 
 			// Base classes must implement this method. This is the minimum
 			// functionality that you should perform:
@@ -279,113 +279,113 @@ namespace Titanium
 			return false;
 		}
 
-		JSValue View::getTopArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue View::js_get_top() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(top__);
 		}
 
-		bool View::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool View::js_set_top(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
 			bool result = false;
 			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::setTopArgumentValidator: top = ", value);
+			TITANIUM_LOG_INFO("View::js_set_top: top = ", value);
 			set_top(value);
 			result = true;
 			return result;
 		}
 
-		JSValue View::getLeftArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue View::js_get_left() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(left__);
 		}
 
-		bool View::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool View::js_set_left(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
 			bool result = false;
 			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::setLeftArgumentValidator: left = ", value);
+			TITANIUM_LOG_INFO("View::js_set_left: left = ", value);
 			set_left(value);
 			result = true;
 			return result;
 		}
 
-		JSValue View::getWidthArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue View::js_get_width() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(width__);
 		}
 
-		bool View::setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool View::js_set_width(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
 			bool result = false;
 			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::setWidthArgumentValidator: width = ", value);
+			TITANIUM_LOG_INFO("View::js_set_width: width = ", value);
 			set_width(value);
 			result = true;
 			return result;
 		}
 
-		JSValue View::getHeightArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue View::js_get_height() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(height__);
 		}
 
-		bool View::setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool View::js_set_height(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
 			bool result = false;
 			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::setHeightArgumentValidator: height = ", value);
+			TITANIUM_LOG_INFO("View::js_set_height: height = ", value);
 			set_height(value);
 			result = true;
 			return result;
 		}
 
-		JSValue View::getBottomArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue View::js_get_bottom() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(bottom__);
 		}
 
-		bool View::setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool View::js_set_bottom(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
 			bool result = false;
 			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::setBottomArgumentValidator: bottom = ", value);
+			TITANIUM_LOG_INFO("View::js_set_bottom: bottom = ", value);
 			set_bottom(value);
 			result = true;
 			return result;
 		}
 
-		JSValue View::getRightArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue View::js_get_right() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(right__);
 		}
 
-		bool View::setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool View::js_set_right(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
 			bool result = false;
 			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::setRightArgumentValidator: right = ", value);
+			TITANIUM_LOG_INFO("View::js_set_right: right = ", value);
 			set_right(value);
 			result = true;
 			return result;
 		}
 
-		JSValue View::getLayoutArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue View::js_get_layout() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(layout__);
 		}
 
-		bool View::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool View::js_set_layout(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			bool result = false;
 			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::setLayoutArgumentValidator: layout = ", value);
+			TITANIUM_LOG_INFO("View::js_set_layout: layout = ", value);
 			set_layout(value);
 			result = true;
 			return result;

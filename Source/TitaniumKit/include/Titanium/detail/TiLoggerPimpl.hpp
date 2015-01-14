@@ -35,7 +35,7 @@ namespace Titanium
 
 			static std::string GetLoglineHeader(uint32_t log_line_number);
 		};
-	}
-}  // namespace Titanium { namespace detail
+	} // namespace detail
+}  // namespace Titanium
 
 #endif  // _TITANIUM_DETAIL_TILOGGERPIMPL_HPP_

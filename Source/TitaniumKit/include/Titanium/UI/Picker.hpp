@@ -56,13 +56,13 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue getTypeArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_type() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_type(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
 			PICKER_TYPE type__;
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_LISTVIEW_HPP_

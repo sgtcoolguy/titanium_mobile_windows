@@ -33,5 +33,5 @@ namespace Titanium
 			TITANIUM_LOG_ERROR(internal_component_name, ": ", message);
 			throw std::invalid_argument(message);
 		}
-	}
-}  // namespace Titanium { namespace detail {
+	} // namespace detail
+}  // namespace Titanium

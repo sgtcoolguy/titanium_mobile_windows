@@ -127,15 +127,15 @@ namespace Titanium
 	{
 		JSExport<API>::SetClassVersion(1);
 		JSExport<API>::SetParent(JSExport<Module>::Class());
-		JSExport<API>::AddFunctionProperty("info", std::mem_fn(&API::infoArgumentValidator));
-		JSExport<API>::AddFunctionProperty("warn", std::mem_fn(&API::warnArgumentValidator));
-		JSExport<API>::AddFunctionProperty("error", std::mem_fn(&API::errorArgumentValidator));
-		JSExport<API>::AddFunctionProperty("debug", std::mem_fn(&API::debugArgumentValidator));
-		JSExport<API>::AddFunctionProperty("trace", std::mem_fn(&API::traceArgumentValidator));
-		JSExport<API>::AddFunctionProperty("log", std::mem_fn(&API::logArgumentValidator));
+		JSExport<API>::AddFunctionProperty("info", std::mem_fn(&API::js_info));
+		JSExport<API>::AddFunctionProperty("warn", std::mem_fn(&API::js_warn));
+		JSExport<API>::AddFunctionProperty("error", std::mem_fn(&API::js_error));
+		JSExport<API>::AddFunctionProperty("debug", std::mem_fn(&API::js_debug));
+		JSExport<API>::AddFunctionProperty("trace", std::mem_fn(&API::js_trace));
+		JSExport<API>::AddFunctionProperty("log", std::mem_fn(&API::js_log));
 	}
 
-	JSValue API::infoArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue API::js_info(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 1);
 		const auto _0 = arguments.at(0);
@@ -144,7 +144,7 @@ namespace Titanium
 		return this_object.get_context().CreateUndefined();
 	}
 
-	JSValue API::warnArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue API::js_warn(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 1);
 		const auto _0 = arguments.at(0);
@@ -153,7 +153,7 @@ namespace Titanium
 		return this_object.get_context().CreateUndefined();
 	}
 
-	JSValue API::errorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue API::js_error(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 1);
 		const auto _0 = arguments.at(0);
@@ -162,7 +162,7 @@ namespace Titanium
 		return this_object.get_context().CreateUndefined();
 	}
 
-	JSValue API::debugArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue API::js_debug(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 1);
 		const auto _0 = arguments.at(0);
@@ -171,7 +171,7 @@ namespace Titanium
 		return this_object.get_context().CreateUndefined();
 	}
 
-	JSValue API::traceArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue API::js_trace(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 1);
 		const auto _0 = arguments.at(0);
@@ -180,7 +180,7 @@ namespace Titanium
 		return this_object.get_context().CreateUndefined();
 	}
 
-	JSValue API::logArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue API::js_log(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_ASSERT(arguments.size() >= 2);
 		const auto _0 = arguments.at(0);

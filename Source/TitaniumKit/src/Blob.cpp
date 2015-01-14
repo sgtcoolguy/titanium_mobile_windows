@@ -23,26 +23,26 @@ namespace Titanium
 	{
 		JSExport<Blob>::SetClassVersion(1);
 		JSExport<Blob>::SetParent(JSExport<Module>::Class());
-		JSExport<Blob>::AddValueProperty("length", std::mem_fn(&Blob::get_length_ArgumentValidator));
-		JSExport<Blob>::AddValueProperty("file", std::mem_fn(&Blob::get_file_ArgumentValidator));
-		JSExport<Blob>::AddValueProperty("height", std::mem_fn(&Blob::get_height_ArgumentValidator));
-		JSExport<Blob>::AddValueProperty("mimeType", std::mem_fn(&Blob::get_mimeType_ArgumentValidator));
-		JSExport<Blob>::AddValueProperty("nativePath", std::mem_fn(&Blob::get_nativePath_ArgumentValidator));
-		JSExport<Blob>::AddValueProperty("size", std::mem_fn(&Blob::get_size_ArgumentValidator));
-		JSExport<Blob>::AddValueProperty("text", std::mem_fn(&Blob::get_text_ArgumentValidator));
-		JSExport<Blob>::AddValueProperty("width", std::mem_fn(&Blob::get_width_ArgumentValidator));
+		JSExport<Blob>::AddValueProperty("length", std::mem_fn(&Blob::js_get_length));
+		JSExport<Blob>::AddValueProperty("file", std::mem_fn(&Blob::js_get_file));
+		JSExport<Blob>::AddValueProperty("height", std::mem_fn(&Blob::js_get_height));
+		JSExport<Blob>::AddValueProperty("mimeType", std::mem_fn(&Blob::js_get_mimeType));
+		JSExport<Blob>::AddValueProperty("nativePath", std::mem_fn(&Blob::js_get_nativePath));
+		JSExport<Blob>::AddValueProperty("size", std::mem_fn(&Blob::js_get_size));
+		JSExport<Blob>::AddValueProperty("text", std::mem_fn(&Blob::js_get_text));
+		JSExport<Blob>::AddValueProperty("width", std::mem_fn(&Blob::js_get_width));
 
-		JSExport<Blob>::AddFunctionProperty("getLength", std::mem_fn(&Blob::getLength_ArgumentValidator));
-		JSExport<Blob>::AddFunctionProperty("getFile", std::mem_fn(&Blob::getFile_ArgumentValidator));
-		JSExport<Blob>::AddFunctionProperty("getHeight", std::mem_fn(&Blob::getHeight_ArgumentValidator));
-		JSExport<Blob>::AddFunctionProperty("getMimeType", std::mem_fn(&Blob::getMimeType_ArgumentValidator));
-		JSExport<Blob>::AddFunctionProperty("getNativePath", std::mem_fn(&Blob::getNativePath_ArgumentValidator));
-		JSExport<Blob>::AddFunctionProperty("getSize", std::mem_fn(&Blob::getSize_ArgumentValidator));
-		JSExport<Blob>::AddFunctionProperty("getText", std::mem_fn(&Blob::getText_ArgumentValidator));
-		JSExport<Blob>::AddFunctionProperty("getWidth", std::mem_fn(&Blob::getWidth_ArgumentValidator));
+		JSExport<Blob>::AddFunctionProperty("getLength", std::mem_fn(&Blob::js_getLength));
+		JSExport<Blob>::AddFunctionProperty("getFile", std::mem_fn(&Blob::js_getFile));
+		JSExport<Blob>::AddFunctionProperty("getHeight", std::mem_fn(&Blob::js_getHeight));
+		JSExport<Blob>::AddFunctionProperty("getMimeType", std::mem_fn(&Blob::js_getMimeType));
+		JSExport<Blob>::AddFunctionProperty("getNativePath", std::mem_fn(&Blob::js_getNativePath));
+		JSExport<Blob>::AddFunctionProperty("getSize", std::mem_fn(&Blob::js_getSize));
+		JSExport<Blob>::AddFunctionProperty("getText", std::mem_fn(&Blob::js_getText));
+		JSExport<Blob>::AddFunctionProperty("getWidth", std::mem_fn(&Blob::js_getWidth));
 
-		JSExport<Blob>::AddFunctionProperty("append", std::mem_fn(&Blob::append_ArgumentValidator));
-		JSExport<Blob>::AddFunctionProperty("toString", std::mem_fn(&Blob::toString_ArgumentValidator));
+		JSExport<Blob>::AddFunctionProperty("append", std::mem_fn(&Blob::js_append));
+		JSExport<Blob>::AddFunctionProperty("toString", std::mem_fn(&Blob::js_toString));
 	}
 
 	unsigned Blob::get_length() const TITANIUM_NOEXCEPT
@@ -109,27 +109,27 @@ namespace Titanium
 		TITANIUM_LOG_WARN("Blob::append: Unimplemented");
 	}
 
-	JSValue Blob::get_length_ArgumentValidator() const TITANIUM_NOEXCEPT
+	JSValue Blob::js_get_length() const TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateNumber(get_length());
 	}
 
-	JSValue Blob::get_file_ArgumentValidator() const TITANIUM_NOEXCEPT
+	JSValue Blob::js_get_file() const TITANIUM_NOEXCEPT
 	{
 		return get_file();
 	}
 
-	JSValue Blob::get_height_ArgumentValidator() const TITANIUM_NOEXCEPT
+	JSValue Blob::js_get_height() const TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateNumber(get_height());
 	}
 
-	JSValue Blob::get_mimeType_ArgumentValidator() const TITANIUM_NOEXCEPT
+	JSValue Blob::js_get_mimeType() const TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateString(get_mimeType());
 	}
 
-	JSValue Blob::get_nativePath_ArgumentValidator() const TITANIUM_NOEXCEPT
+	JSValue Blob::js_get_nativePath() const TITANIUM_NOEXCEPT
 	{
 		const auto path = get_nativePath();
 		if (path.size() > 0) {
@@ -139,12 +139,12 @@ namespace Titanium
 		}
 	}
 
-	JSValue Blob::get_size_ArgumentValidator() const TITANIUM_NOEXCEPT
+	JSValue Blob::js_get_size() const TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateNumber(get_size());
 	}
 
-	JSValue Blob::get_text_ArgumentValidator() const TITANIUM_NOEXCEPT
+	JSValue Blob::js_get_text() const TITANIUM_NOEXCEPT
 	{
 		const auto text = get_text();
 		if (text.size() > 0) {
@@ -154,12 +154,12 @@ namespace Titanium
 		}
 	}
 
-	JSValue Blob::get_width_ArgumentValidator() const TITANIUM_NOEXCEPT
+	JSValue Blob::js_get_width() const TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateNumber(get_width());
 	}
 
-	JSValue Blob::append_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Blob::js_append(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		if (arguments.size() < 1) {
 			return get_context().CreateUndefined();
@@ -176,49 +176,49 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Blob::getFile_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Blob::js_getFile(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_file_ArgumentValidator();
+		return js_get_file();
 	}
 
-	JSValue Blob::getHeight_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Blob::js_getHeight(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_height_ArgumentValidator();
+		return js_get_height();
 	}
 
-	JSValue Blob::getLength_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Blob::js_getLength(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_length_ArgumentValidator();
+		return js_get_length();
 	}
 
-	JSValue Blob::getMimeType_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Blob::js_getMimeType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_mimeType_ArgumentValidator();
+		return js_get_mimeType();
 	}
 
-	JSValue Blob::getNativePath_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Blob::js_getNativePath(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_nativePath_ArgumentValidator();
+		return js_get_nativePath();
 	}
 
-	JSValue Blob::getSize_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Blob::js_getSize(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_size_ArgumentValidator();
+		return js_get_size();
 	}
 
-	JSValue Blob::getText_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Blob::js_getText(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_text_ArgumentValidator();
+		return js_get_text();
 	}
 
-	JSValue Blob::getWidth_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Blob::js_getWidth(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_width_ArgumentValidator();
+		return js_get_width();
 	}
 
-	JSValue Blob::toString_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Blob::js_toString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_text_ArgumentValidator();
+		return js_get_text();
 	}
 
-}  // namespace Titanium {
+}  // namespace Titanium

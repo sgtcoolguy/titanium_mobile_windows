@@ -29,7 +29,7 @@ namespace Titanium
 		TITANIUMKIT_EXPORT void ThrowLogicError(const std::string& internal_component_name, const std::string& message);
 		TITANIUMKIT_EXPORT void ThrowRuntimeError(const std::string& internal_component_name, const std::string& message);
 		TITANIUMKIT_EXPORT void ThrowInvalidArgument(const std::string& internal_component_name, const std::string& message);
-	}
-}  // namespace Titanium { namespace detail {
+	} // namespace detail
+}  // namespace Titanium
 
 #endif  // _TITANIUM_TIUTIL_HPP_
