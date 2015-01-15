@@ -42,20 +42,20 @@ namespace Titanium
 		{
 			JSExport<WebViewErrorEvent>::SetClassVersion(1);
 			JSExport<WebViewErrorEvent>::SetParent(JSExport<JSExportObject>::Class());
-			JSExport<WebViewErrorEvent>::AddValueProperty("error", std::mem_fn(&WebViewErrorEvent::getErrorArgumentValidator), std::mem_fn(&WebViewErrorEvent::setErrorArgumentValidator));
+			JSExport<WebViewErrorEvent>::AddValueProperty("error", std::mem_fn(&WebViewErrorEvent::js_get_error), std::mem_fn(&WebViewErrorEvent::js_set_error));
 		}
 
-		JSValue WebViewErrorEvent::getErrorArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue WebViewErrorEvent::js_get_error() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<URL_ERROR>::type>(get_error()));
 		}
 
-		bool WebViewErrorEvent::setErrorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool WebViewErrorEvent::js_set_error(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			error__ = Constants::to_URL_ERROR(static_cast<std::underlying_type<URL_ERROR>::type>(argument));
 			set_error(error__);
 			return true;
 		}
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium

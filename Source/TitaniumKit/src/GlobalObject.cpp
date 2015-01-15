@@ -252,20 +252,20 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("GlobalObject::JSExportInitialize");
 		JSExport<GlobalObject>::SetClassVersion(1);
 		JSExport<GlobalObject>::SetParent(JSExport<JSExportObject>::Class());
-		JSExport<GlobalObject>::AddValueProperty("global", std::mem_fn(&GlobalObject::globalArgumentValidator));
-		JSExport<GlobalObject>::AddFunctionProperty("require", std::mem_fn(&GlobalObject::requireArgumentValidator));
-		JSExport<GlobalObject>::AddFunctionProperty("setTimeout", std::mem_fn(&GlobalObject::setTimeoutArgumentValidator));
-		JSExport<GlobalObject>::AddFunctionProperty("clearTimeout", std::mem_fn(&GlobalObject::clearTimeoutArgumentValidator));
-		JSExport<GlobalObject>::AddFunctionProperty("setInterval", std::mem_fn(&GlobalObject::setIntervalArgumentValidator));
-		JSExport<GlobalObject>::AddFunctionProperty("clearInterval", std::mem_fn(&GlobalObject::clearIntervalArgumentValidator));
+		JSExport<GlobalObject>::AddValueProperty("global", std::mem_fn(&GlobalObject::js_global));
+		JSExport<GlobalObject>::AddFunctionProperty("require", std::mem_fn(&GlobalObject::js_require));
+		JSExport<GlobalObject>::AddFunctionProperty("setTimeout", std::mem_fn(&GlobalObject::js_setTimeout));
+		JSExport<GlobalObject>::AddFunctionProperty("clearTimeout", std::mem_fn(&GlobalObject::js_clearTimeout));
+		JSExport<GlobalObject>::AddFunctionProperty("setInterval", std::mem_fn(&GlobalObject::js_setInterval));
+		JSExport<GlobalObject>::AddFunctionProperty("clearInterval", std::mem_fn(&GlobalObject::js_clearInterval));
 	}
 
-	JSValue GlobalObject::globalArgumentValidator() const TITANIUM_NOEXCEPT
+	JSValue GlobalObject::js_global() const TITANIUM_NOEXCEPT
 	{
 		return get_context().JSEvaluateScript("this;");
 	}
 
-	JSValue GlobalObject::requireArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue GlobalObject::js_require(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.
@@ -276,7 +276,7 @@ namespace Titanium
 		return xrequire(moduleId);
 	}
 
-	JSValue GlobalObject::setTimeoutArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue GlobalObject::js_setTimeout(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.
@@ -292,7 +292,7 @@ namespace Titanium
 		return timerId;
 	}
 
-	JSValue GlobalObject::clearTimeoutArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue GlobalObject::js_clearTimeout(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.
@@ -304,7 +304,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue GlobalObject::setIntervalArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue GlobalObject::js_setInterval(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.
@@ -321,7 +321,7 @@ namespace Titanium
 		return timerId;
 	}
 
-	JSValue GlobalObject::clearIntervalArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue GlobalObject::js_clearInterval(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.

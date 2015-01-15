@@ -172,12 +172,12 @@ namespace Titanium
 		// TODO: The following functions can automatically be generated
 		// from the YAML API docs.
 		static void JSExportInitialize();
-		JSValue globalArgumentValidator() const TITANIUM_NOEXCEPT;
-		JSValue requireArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue setTimeoutArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue clearTimeoutArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue setIntervalArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue clearIntervalArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_global() const TITANIUM_NOEXCEPT;
+		JSValue js_require(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_setTimeout(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_clearTimeout(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_setInterval(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_clearInterval(const std::vector<JSValue>& arguments, JSObject& this_object);
 
 		using Callback_t = std::function<void()>;
 

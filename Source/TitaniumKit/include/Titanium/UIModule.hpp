@@ -233,15 +233,15 @@ namespace Titanium
 		// TODO: The following functions can automatically be generated from
 		// the YAML API docs.
 		static void JSExportInitialize();
-		JSValue createViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue createWindowArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue createButtonArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue createTabArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue createTabGroupArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue createScrollViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue createImageViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue createLabelArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue setBackgroundColorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createView(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createWindow(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createButton(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createTab(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createTabGroup(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createScrollView(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createImageView(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createLabel(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_setBackgroundColor(const std::vector<JSValue>& arguments, JSObject& this_object);
 
 	private:
 		JSValue animation_curve_ease_in__;

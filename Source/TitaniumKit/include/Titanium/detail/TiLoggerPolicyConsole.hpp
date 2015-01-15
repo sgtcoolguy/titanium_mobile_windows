@@ -38,7 +38,7 @@ namespace Titanium
 				std::clog << log_message << std::endl;
 			}
 		};
-	}
-}  // namespace Titanium { namespace detail {
+	} // namespace detail
+}  // namespace Titanium
 
 #endif  // _TITANIUM_DETAIL_TILOGGERPOLICYCONSOLE_HPP_

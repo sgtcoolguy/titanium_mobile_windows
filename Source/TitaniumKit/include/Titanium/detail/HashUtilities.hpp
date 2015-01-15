@@ -49,7 +49,7 @@ namespace Titanium
 			hash_val(seed, args...);
 			return seed;
 		}
-	}
-}  // namespace Titanium { namespace detail {
+	} // namespace detail
+}  // namespace Titanium
 
 #endif  // _TITANIUM_DETAIL_HASHUTILITIES_HPP_

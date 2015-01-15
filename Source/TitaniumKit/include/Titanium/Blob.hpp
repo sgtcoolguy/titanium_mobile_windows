@@ -90,26 +90,26 @@ namespace Titanium
 
 		static void JSExportInitialize();
 
-		virtual JSValue get_length_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue get_file_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue get_height_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue get_mimeType_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue get_nativePath_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue get_size_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue get_text_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue get_width_ArgumentValidator() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_length() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_file() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_height() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_mimeType() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_nativePath() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_size() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_text() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_width() const TITANIUM_NOEXCEPT final;
 
-		virtual JSValue append_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getFile_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getHeight_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getLength_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getMimeType_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getNativePath_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getSize_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getText_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue getWidth_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue toString_ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_append(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getFile(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getHeight(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getLength(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getMimeType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getNativePath(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getSize(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getText(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getWidth(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_toString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 	};
-}  // namespace Titanium {
+}  // namespace Titanium
 
 #endif  // _TITANIUM_BLOB_HPP_

@@ -139,31 +139,31 @@ namespace Titanium
 
 		static void JSExportInitialize();
 
-		virtual JSValue getFile_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue createTempDirectory_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue createTempFile_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue isExternalStoragePresent_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue openStream_ArgumentValidator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getFile(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_createTempDirectory(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_createTempFile(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_isExternalStoragePresent(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_openStream(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
-		virtual JSValue getSeparator_ArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getApplicationCacheDirectory_ArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getApplicationDataDirectory_ArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getApplicationDirectory_ArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getApplicationSupportDirectory_ArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getExternalStorageDirectory_ArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getLineEnding_ArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getResourcesDirectory_ArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue getTempDirectory_ArgumentValidator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getSeparator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getApplicationCacheDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getApplicationDataDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getApplicationDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getApplicationSupportDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getExternalStorageDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getLineEnding(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getResourcesDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getTempDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
 
-		virtual JSValue separator_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue applicationCacheDirectory_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue applicationDataDirectory_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue applicationDirectory_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue applicationSupportDirectory_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue externalStorageDirectory_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue lineEnding_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue resourcesDirectory_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue tempDirectory_ArgumentValidator() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_separator() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_applicationCacheDirectory() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_applicationDataDirectory() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_applicationDirectory() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_applicationSupportDirectory() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_externalStorageDirectory() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_lineEnding() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_resourcesDirectory() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_tempDirectory() const TITANIUM_NOEXCEPT final;
 
 	private:
 		JSValue mode_read__;
@@ -171,6 +171,6 @@ namespace Titanium
 		JSValue mode_append__;
 	};
 
-}  // namespace Titanium {
+}  // namespace Titanium
 
 #endif  // _TITANIUM_FILESYSTEM_HPP_

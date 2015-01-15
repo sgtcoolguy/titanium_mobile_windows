@@ -40,21 +40,16 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-			virtual void set_color(const JSValue& color) TITANIUM_NOEXCEPT override final;
-			virtual void set_text(const JSValue& text) TITANIUM_NOEXCEPT override final;
+			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT override final;
+			virtual void set_text(const std::string& text) TITANIUM_NOEXCEPT override final;
 			virtual void set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT override final;
 			virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
-			virtual void set_wordWrap(const JSValue& wordWrap) TITANIUM_NOEXCEPT override final;
-			virtual void set_fontFamily(const JSValue& family) TITANIUM_NOEXCEPT override final;
+			virtual void set_wordWrap(const bool& wordWrap) TITANIUM_NOEXCEPT override final;
+			virtual void set_fontFamily(const std::string& family) TITANIUM_NOEXCEPT override final;
 			virtual void set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT override final;
-			virtual void set_fontStyle(const JSValue& style) TITANIUM_NOEXCEPT override final;
-			virtual void set_fontWeight(const JSValue& weight) TITANIUM_NOEXCEPT override final;
+			virtual void set_fontStyle(const std::string& style) TITANIUM_NOEXCEPT override final;
+			virtual void set_fontWeight(const std::string& weight) TITANIUM_NOEXCEPT override final;
 			virtual void set_textStyle(const Titanium::UI::TEXT_STYLE& style) TITANIUM_NOEXCEPT override final;
-
-			virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-			virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-			virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-			virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 

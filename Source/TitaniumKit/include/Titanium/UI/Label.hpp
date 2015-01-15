@@ -35,8 +35,8 @@ namespace Titanium
 
 			  @discussion Color of the label text, as a color name or hex triplet.
 			*/
-			virtual JSValue get_color() const TITANIUM_NOEXCEPT final;
-			virtual void set_color(const JSValue& color) TITANIUM_NOEXCEPT;
+			virtual std::string get_color() const TITANIUM_NOEXCEPT final;
+			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -46,10 +46,10 @@ namespace Titanium
 			  @discussion Font to use for the label text.
 			*/
 			virtual JSValue get_font() const TITANIUM_NOEXCEPT final;
-			virtual void set_fontFamily(const JSValue& family) TITANIUM_NOEXCEPT;
+			virtual void set_fontFamily(const std::string& family) TITANIUM_NOEXCEPT;
 			virtual void set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT;
-			virtual void set_fontStyle(const JSValue& style) TITANIUM_NOEXCEPT;
-			virtual void set_fontWeight(const JSValue& weight) TITANIUM_NOEXCEPT;
+			virtual void set_fontStyle(const std::string& style) TITANIUM_NOEXCEPT;
+			virtual void set_fontWeight(const std::string& weight) TITANIUM_NOEXCEPT;
 			virtual void set_textStyle(const TEXT_STYLE& style) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -59,8 +59,8 @@ namespace Titanium
 
 			  @discussion Label text.
 			*/
-			virtual JSValue get_text() const TITANIUM_NOEXCEPT final;
-			virtual void set_text(const JSValue& title) TITANIUM_NOEXCEPT;
+			virtual std::string get_text() const TITANIUM_NOEXCEPT final;
+			virtual void set_text(const std::string& title) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -89,8 +89,8 @@ namespace Titanium
 
 			  @discussion Enable or disable word wrapping in the label.
 			*/
-			virtual JSValue get_wordWrap() const TITANIUM_NOEXCEPT final;
-			virtual void set_wordWrap(const JSValue& wordWrap) TITANIUM_NOEXCEPT;
+			virtual bool get_wordWrap() const TITANIUM_NOEXCEPT final;
+			virtual void set_wordWrap(const bool& wordWrap) TITANIUM_NOEXCEPT;
 
 			Label(const JSContext& js_context) TITANIUM_NOEXCEPT;
 			Label(const Label&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
@@ -107,33 +107,33 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue getColorArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_color() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getFontArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setFontArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_font() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_font(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getTextArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setTextArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_text() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_text(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getTextAlignArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setTextAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_textAlign() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getVerticalAlignArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setVerticalAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_verticalAlign() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getWordWrapArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setWordWrapArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_wordWrap() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_wordWrap(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
-			JSValue color__;
+			std::string color__;
 			JSObject font__;
-			JSValue text__;
+			std::string text__;
 			TEXT_ALIGNMENT textAlign__;
 			TEXT_VERTICAL_ALIGNMENT verticalAlign__;
-			JSValue wordWrap__;
+			bool wordWrap__;
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_LABEL_HPP_

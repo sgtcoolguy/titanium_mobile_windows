@@ -947,15 +947,15 @@ namespace Titanium
 	{
 		JSExport<UIModule>::SetClassVersion(1);
 		JSExport<UIModule>::SetParent(JSExport<Module>::Class());
-		JSExport<UIModule>::AddFunctionProperty("createView", std::mem_fn(&UIModule::createViewArgumentValidator));
-		JSExport<UIModule>::AddFunctionProperty("createWindow", std::mem_fn(&UIModule::createWindowArgumentValidator));
-		JSExport<UIModule>::AddFunctionProperty("createButton", std::mem_fn(&UIModule::createButtonArgumentValidator));
-		JSExport<UIModule>::AddFunctionProperty("createTab", std::mem_fn(&UIModule::createTabArgumentValidator));
-		JSExport<UIModule>::AddFunctionProperty("createTabGroup", std::mem_fn(&UIModule::createTabGroupArgumentValidator));
-		JSExport<UIModule>::AddFunctionProperty("createScrollView", std::mem_fn(&UIModule::createScrollViewArgumentValidator));
-		JSExport<UIModule>::AddFunctionProperty("createImageView", std::mem_fn(&UIModule::createImageViewArgumentValidator));
-		JSExport<UIModule>::AddFunctionProperty("createLabel", std::mem_fn(&UIModule::createLabelArgumentValidator));
-		JSExport<UIModule>::AddFunctionProperty("setBackgroundColor", std::mem_fn(&UIModule::setBackgroundColorArgumentValidator));
+		JSExport<UIModule>::AddFunctionProperty("createView", std::mem_fn(&UIModule::js_createView));
+		JSExport<UIModule>::AddFunctionProperty("createWindow", std::mem_fn(&UIModule::js_createWindow));
+		JSExport<UIModule>::AddFunctionProperty("createButton", std::mem_fn(&UIModule::js_createButton));
+		JSExport<UIModule>::AddFunctionProperty("createTab", std::mem_fn(&UIModule::js_createTab));
+		JSExport<UIModule>::AddFunctionProperty("createTabGroup", std::mem_fn(&UIModule::js_createTabGroup));
+		JSExport<UIModule>::AddFunctionProperty("createScrollView", std::mem_fn(&UIModule::js_createScrollView));
+		JSExport<UIModule>::AddFunctionProperty("createImageView", std::mem_fn(&UIModule::js_createImageView));
+		JSExport<UIModule>::AddFunctionProperty("createLabel", std::mem_fn(&UIModule::js_createLabel));
+		JSExport<UIModule>::AddFunctionProperty("setBackgroundColor", std::mem_fn(&UIModule::js_setBackgroundColor));
 		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN));
 		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN_OUT));
 		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_OUT));
@@ -1062,7 +1062,7 @@ namespace Titanium
 		JSExport<UIModule>::AddValueProperty("URL_ERROR_UNSUPPORTED_SCHEME", std::mem_fn(&UIModule::URL_ERROR_UNSUPPORTED_SCHEME));
 	}
 
-	JSValue UIModule::createViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue UIModule::js_createView(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1073,7 +1073,7 @@ namespace Titanium
 		return createView(parameters, this_object);
 	}
 
-	JSValue UIModule::createWindowArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue UIModule::js_createWindow(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1084,7 +1084,7 @@ namespace Titanium
 		return createWindow(parameters, this_object);
 	}
 
-	JSValue UIModule::createButtonArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue UIModule::js_createButton(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1095,7 +1095,7 @@ namespace Titanium
 		return createButton(parameters, this_object);
 	}
 
-	JSValue UIModule::createImageViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue UIModule::js_createImageView(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1106,7 +1106,7 @@ namespace Titanium
 		return createImageView(parameters, this_object);
 	}
 
-	JSValue UIModule::createLabelArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue UIModule::js_createLabel(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1117,7 +1117,7 @@ namespace Titanium
 		return createLabel(parameters, this_object);
 	}
 
-	JSValue UIModule::createTabArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue UIModule::js_createTab(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1128,7 +1128,7 @@ namespace Titanium
 		return createTab(parameters, this_object);
 	}
 
-	JSValue UIModule::createTabGroupArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue UIModule::js_createTabGroup(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1139,7 +1139,7 @@ namespace Titanium
 		return createTabGroup(parameters, this_object);
 	}
 
-	JSValue UIModule::createScrollViewArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue UIModule::js_createScrollView(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1151,7 +1151,7 @@ namespace Titanium
 	}
 
 	// TODO empty implementation so that it won't break default app template. Need to implement later on.
-	JSValue UIModule::setBackgroundColorArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue UIModule::js_setBackgroundColor(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_LOG_DEBUG("UI::setBackgroundColor Not implemented");
 		return get_context().CreateUndefined();

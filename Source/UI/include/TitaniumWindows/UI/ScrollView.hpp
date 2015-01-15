@@ -49,27 +49,25 @@ namespace TitaniumWindows
 			}
 
 			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT override;
-			virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
-			virtual bool setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundColor(const std::string& backgroundColorName) TITANIUM_NOEXCEPT override;
 
 			virtual void scrollTo(double x, double y) TITANIUM_NOEXCEPT override;
 			virtual void scrollToBottom() TITANIUM_NOEXCEPT override;
-			virtual JSValue getContentWidth() const TITANIUM_NOEXCEPT override;
-			virtual JSValue getContentHeight() const TITANIUM_NOEXCEPT override;
-			virtual bool setContentWidth(const JSValue& width) TITANIUM_NOEXCEPT override;
-			virtual bool setContentHeight(const JSValue& height) TITANIUM_NOEXCEPT override;
-			virtual bool getScrollingEnabled() const TITANIUM_NOEXCEPT;
-			virtual bool setScrollingEnabled(bool enabled) TITANIUM_NOEXCEPT;
-			virtual bool getShowHorizontalScrollIndicator() const TITANIUM_NOEXCEPT;
-			virtual bool setShowHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
-			virtual bool getShowVerticalScrollIndicator() const TITANIUM_NOEXCEPT;
-			virtual bool setShowVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
+
+			virtual std::string get_contentWidth() const TITANIUM_NOEXCEPT override;
+			virtual std::string get_contentHeight() const TITANIUM_NOEXCEPT override;
+
+			virtual bool set_contentWidth(const double& width) TITANIUM_NOEXCEPT override;
+			virtual bool set_contentHeight(const double& height) TITANIUM_NOEXCEPT override;
+
+			virtual bool get_scrollingEnabled() const TITANIUM_NOEXCEPT;
+			virtual bool set_scrollingEnabled(bool enabled) TITANIUM_NOEXCEPT;
+
+			virtual bool get_showHorizontalScrollIndicator() const TITANIUM_NOEXCEPT;
+			virtual bool set_showHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
+
+			virtual bool get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT;
+			virtual bool set_showVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
 
 			static void JSExportInitialize();
 

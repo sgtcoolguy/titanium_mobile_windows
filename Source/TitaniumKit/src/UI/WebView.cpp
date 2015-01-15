@@ -31,5 +31,5 @@ namespace Titanium
 			JSExport<WebView>::SetClassVersion(1);
 			JSExport<WebView>::SetParent(JSExport<View>::Class());
 		}
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium

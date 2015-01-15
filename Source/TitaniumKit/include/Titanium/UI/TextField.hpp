@@ -136,32 +136,32 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue getBorderStyleArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setBorderStyleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_borderStyle() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_borderStyle(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getClearButtonModeArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setClearButtonModeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_clearButtonMode() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_clearButtonMode(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getLeftButtonModeArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setLeftButtonModeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_leftButtonMode() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_leftButtonMode(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getRightButtonModeArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setRightButtonModeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_rightButtonMode() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_rightButtonMode(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getKeyboardTypeArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setKeyboardTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_keyboardType() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_keyboardType(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getReturnKeyTypeArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setReturnKeyTypeArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_returnKeyType() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_returnKeyType(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getTextAlignArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setTextAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_textAlign() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getAutoCapitalizationArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setAutoCapitalizationArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_autoCapitalization() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_autoCapitalization(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue getVerticalAlignArgumentValidator() const TITANIUM_NOEXCEPT final;
-			virtual bool setVerticalAlignArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_verticalAlign() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
 			INPUT_BORDERSTYLE borderStyle__;
@@ -174,7 +174,7 @@ namespace Titanium
 			TEXT_AUTOCAPITALIZATION autoCapitalization__;
 			TEXT_VERTICAL_ALIGNMENT verticalAlign__;
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_TEXTFIELD_HPP_

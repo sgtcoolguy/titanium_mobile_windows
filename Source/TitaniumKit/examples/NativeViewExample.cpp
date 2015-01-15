@@ -31,13 +31,7 @@ void NativeViewExample::JSExportInitialize()
 	JSExport<NativeViewExample>::SetParent(JSExport<Titanium::UI::View>::Class());
 }
 
-bool NativeViewExample::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+void NativeViewExample::set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT
 {
-	assert(argument.IsString());
-	bool result = false;
-	std::string backgroundColor = static_cast<std::string>(argument);
-	TITANIUM_LOG_INFO("NativeViewExample::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColor);
-	set_backgroundColor(argument);
-	result = true;
-	return result;
+	TITANIUM_LOG_INFO("NativeViewExample::set_backgroundColor: backgroundColor = ", backgroundColor);
 }

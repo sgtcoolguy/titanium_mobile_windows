@@ -31,16 +31,14 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("Button:: dtor ", this);
 		}
 
-		JSValue Button::get_title() const TITANIUM_NOEXCEPT
+		std::string Button::get_title() const TITANIUM_NOEXCEPT
 		{
 			return title__;
 		}
 
-		void Button::set_title(const JSValue& title) TITANIUM_NOEXCEPT
+		void Button::set_title(const std::string& title) TITANIUM_NOEXCEPT
 		{
-			// FIXME WORKAROUND: default app crashed here due to context issue.
-			TITANIUM_ASSERT(title.IsString());
-			title__ = get_context().CreateString(static_cast<std::string>(title));
+			title__ = title;
 		}
 
 		// TODO: The following functions can automatically be generated from
@@ -50,21 +48,21 @@ namespace Titanium
 		{
 			JSExport<Button>::SetClassVersion(1);
 			JSExport<Button>::SetParent(JSExport<View>::Class());
-			JSExport<Button>::AddValueProperty("title", std::mem_fn(&Button::get_title), std::mem_fn(&Button::setTitleArgumentValidator));
+			JSExport<Button>::AddValueProperty("title", std::mem_fn(&Button::js_get_title), std::mem_fn(&Button::js_set_title));
 		}
 
-		bool Button::setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		JSValue Button::js_get_title() const TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Button::setTitleArgumentValidator: Unimplemented");
-
-			// Base classes must implement this method. This is the minimum
-			// functionality that you should perform:
-			//
-			// TITANIUM_ASSERT(argument.IsString());
-			// set_title(argument);
-			// return true;
-
-			return false;
+			return get_context().CreateString(title__);
 		}
-	}
-}  // namespace Titanium { namespace UI {
+
+		bool Button::js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			const std::string title = static_cast<std::string>(argument);
+			TITANIUM_LOG_DEBUG("Button::js_set_title: title = ", title);
+			set_title(title);
+			return true;
+		}
+	} // namespace UI
+}  // namespace Titanium

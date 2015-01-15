@@ -14,7 +14,7 @@ namespace TitaniumWindows
 	// Setup orientation event listener
 	// This method should be called after main Window is initialized,
 	// otherwise DisplayInformation::GetForCurrentView() will fail.
-	void Gesture::setupOrieintationListener()
+	void Gesture::setupOrientationListener()
 	{
 		using namespace std::placeholders;
 		using namespace Windows::Graphics::Display;
@@ -37,7 +37,7 @@ namespace TitaniumWindows
 	    : Titanium::Gesture(js_context)
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::Gesture::ctor Initialize");
-		setupOrieintationListener();
+		setupOrientationListener();
 	}
 
 	Gesture::Gesture(const Gesture& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT

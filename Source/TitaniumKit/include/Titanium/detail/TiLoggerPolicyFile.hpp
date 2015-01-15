@@ -54,7 +54,7 @@ namespace Titanium
 			std::ofstream ofstream__;
 #pragma warning(pop)
 		};
-	}
-}  // namespace Titanium { namespace detail {
+	} // namespace detail
+}  // namespace Titanium
 
 #endif  // _TITANIUM_DETAIL_TILOGGERPOLICYFILE_HPP_

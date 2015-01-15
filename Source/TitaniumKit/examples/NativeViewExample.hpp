@@ -35,7 +35,7 @@ public:
 
 	static void JSExportInitialize();
 
-	virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT final;
+	virtual void set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT override final;
 };
 
 #endif  // _TITANIUM_EXAMPLES_NATIVEVIEW_HPP_

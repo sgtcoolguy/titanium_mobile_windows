@@ -183,7 +183,7 @@ namespace Titanium
 #define TITANIUM_LOG_WARN(...)
 #define TITANIUM_LOG_ERROR(...)
 #endif
-	}
-}  // namespace Titanium { namespace detail {
+	} // namespace detail
+}  // namespace Titanium
 
 #endif  // _TITANIUM_DETAIL_TILOGGER_HPP_

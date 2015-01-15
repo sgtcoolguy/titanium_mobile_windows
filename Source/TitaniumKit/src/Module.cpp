@@ -224,13 +224,13 @@ namespace Titanium
 	{
 		JSExport<Module>::SetClassVersion(1);
 		JSExport<Module>::SetParent(JSExport<JSExportObject>::Class());
-		JSExport<Module>::AddFunctionProperty("addEventListener", std::mem_fn(&Module::addEventListenerArgumentValidator));
-		JSExport<Module>::AddFunctionProperty("removeEventListener", std::mem_fn(&Module::removeEventListenerArgumentValidator));
-		JSExport<Module>::AddFunctionProperty("applyProperties", std::mem_fn(&Module::applyPropertiesArgumentValidator));
-		JSExport<Module>::AddFunctionProperty("fireEvent", std::mem_fn(&Module::fireEventArgumentValidator));
+		JSExport<Module>::AddFunctionProperty("addEventListener", std::mem_fn(&Module::js_addEventListener));
+		JSExport<Module>::AddFunctionProperty("removeEventListener", std::mem_fn(&Module::js_removeEventListener));
+		JSExport<Module>::AddFunctionProperty("applyProperties", std::mem_fn(&Module::js_applyProperties));
+		JSExport<Module>::AddFunctionProperty("fireEvent", std::mem_fn(&Module::js_fireEvent));
 	}
 
-	JSValue Module::addEventListenerArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue Module::js_addEventListener(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.
@@ -246,7 +246,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Module::removeEventListenerArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue Module::js_removeEventListener(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.
@@ -262,7 +262,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Module::applyPropertiesArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue Module::js_applyProperties(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.
@@ -274,7 +274,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Module::fireEventArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue Module::js_fireEvent(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		// TODO: Validate these precondition checks (which could be
 		// automaticaly generated) with the team.

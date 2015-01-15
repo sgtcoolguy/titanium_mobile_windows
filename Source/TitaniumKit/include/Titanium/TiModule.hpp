@@ -40,18 +40,18 @@ namespace Titanium
 
 		static void JSExportInitialize();
 
-		virtual JSValue get_version_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue getVersionArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue get_buildDate_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue getBuildDateArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue get_buildHash_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue getBuildHashArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue get_userAgent_ArgumentValidator() const TITANIUM_NOEXCEPT final;
-		virtual bool set_userAgent_ArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
-		virtual JSValue getUserAgentArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue setUserAgentArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_version() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getVersion(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_buildDate() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getBuildDate(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_buildHash() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getBuildHash(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_get_userAgent() const TITANIUM_NOEXCEPT final;
+		virtual bool js_set_userAgent(const JSValue& argument) TITANIUM_NOEXCEPT;
+		virtual JSValue js_getUserAgent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_setUserAgent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
-		virtual JSValue createBufferArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
+		virtual JSValue js_createBuffer(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 	private:
 		JSValue userAgent__;

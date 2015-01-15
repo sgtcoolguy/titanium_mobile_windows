@@ -26,26 +26,26 @@ namespace Titanium
 		{
 			JSExport<ScrollView>::SetClassVersion(1);
 			JSExport<ScrollView>::SetParent(JSExport<View>::Class());
-			JSExport<ScrollView>::AddFunctionProperty("scrollTo", std::mem_fn(&ScrollView::scrollToArgumentValidator));
-			JSExport<ScrollView>::AddFunctionProperty("scrollToBottom", std::mem_fn(&ScrollView::scrollToBottomArgumentValidator));
-			JSExport<ScrollView>::AddValueProperty("contentWidth", std::mem_fn(&ScrollView::getContentWidth), std::mem_fn(&ScrollView::setContentWidth));
-			JSExport<ScrollView>::AddValueProperty("contentHeight", std::mem_fn(&ScrollView::getContentHeight), std::mem_fn(&ScrollView::setContentHeight));
-			JSExport<ScrollView>::AddFunctionProperty("setContentWidth", std::mem_fn(&ScrollView::setContentWidthArgumentValidator));
-			JSExport<ScrollView>::AddFunctionProperty("setContentHeight", std::mem_fn(&ScrollView::setContentHeightArgumentValidator));
-			JSExport<ScrollView>::AddFunctionProperty("getContentWidth", std::mem_fn(&ScrollView::getContentWidthArgumentValidator));
-			JSExport<ScrollView>::AddFunctionProperty("getContentHeight", std::mem_fn(&ScrollView::getContentHeightArgumentValidator));
+			JSExport<ScrollView>::AddFunctionProperty("scrollTo", std::mem_fn(&ScrollView::js_scrollTo));
+			JSExport<ScrollView>::AddFunctionProperty("scrollToBottom", std::mem_fn(&ScrollView::js_scrollToBottom));
+			JSExport<ScrollView>::AddValueProperty("contentWidth", std::mem_fn(&ScrollView::js_get_contentWidth), std::mem_fn(&ScrollView::js_set_contentWidth));
+			JSExport<ScrollView>::AddValueProperty("contentHeight", std::mem_fn(&ScrollView::js_get_contentHeight), std::mem_fn(&ScrollView::js_set_contentHeight));
+			JSExport<ScrollView>::AddFunctionProperty("setContentWidth", std::mem_fn(&ScrollView::js_setContentWidth));
+			JSExport<ScrollView>::AddFunctionProperty("setContentHeight", std::mem_fn(&ScrollView::js_setContentHeight));
+			JSExport<ScrollView>::AddFunctionProperty("getContentWidth", std::mem_fn(&ScrollView::js_getContentWidth));
+			JSExport<ScrollView>::AddFunctionProperty("getContentHeight", std::mem_fn(&ScrollView::js_getContentHeight));
 
-			JSExport<ScrollView>::AddValueProperty("scrollingEnabled", std::mem_fn(&ScrollView::get_ScrollingEnabledArgumentValidator), std::mem_fn(&ScrollView::set_ScrollingEnabledArgumentValidator));
-			JSExport<ScrollView>::AddFunctionProperty("setScrollingEnabled", std::mem_fn(&ScrollView::setScrollingEnabledArgumentValidator));
-			JSExport<ScrollView>::AddFunctionProperty("getScrollingEnabled", std::mem_fn(&ScrollView::getScrollingEnabledArgumentValidator));
+			JSExport<ScrollView>::AddValueProperty("scrollingEnabled", std::mem_fn(&ScrollView::js_get_scrollingEnabled), std::mem_fn(&ScrollView::js_set_scrollingEnabled));
+			JSExport<ScrollView>::AddFunctionProperty("setScrollingEnabled", std::mem_fn(&ScrollView::js_setScrollingEnabled));
+			JSExport<ScrollView>::AddFunctionProperty("getScrollingEnabled", std::mem_fn(&ScrollView::js_getScrollingEnabled));
 
-			JSExport<ScrollView>::AddValueProperty("showHorizontalScrollIndicator", std::mem_fn(&ScrollView::get_ShowHorizontalScrollIndicatorArgumentValidator), std::mem_fn(&ScrollView::set_ShowHorizontalScrollIndicatorArgumentValidator));
-			JSExport<ScrollView>::AddFunctionProperty("setShowHorizontalScrollIndicator", std::mem_fn(&ScrollView::setShowHorizontalScrollIndicatorArgumentValidator));
-			JSExport<ScrollView>::AddFunctionProperty("getShowHorizontalScrollIndicator", std::mem_fn(&ScrollView::getShowHorizontalScrollIndicatorArgumentValidator));
+			JSExport<ScrollView>::AddValueProperty("showHorizontalScrollIndicator", std::mem_fn(&ScrollView::js_get_showHorizontalScrollIndicator), std::mem_fn(&ScrollView::js_set_showHorizontalScrollIndicator));
+			JSExport<ScrollView>::AddFunctionProperty("setShowHorizontalScrollIndicator", std::mem_fn(&ScrollView::js_setShowHorizontalScrollIndicator));
+			JSExport<ScrollView>::AddFunctionProperty("getShowHorizontalScrollIndicator", std::mem_fn(&ScrollView::js_getShowHorizontalScrollIndicator));
 
-			JSExport<ScrollView>::AddValueProperty("showVerticalScrollIndicator", std::mem_fn(&ScrollView::get_ShowVerticalScrollIndicatorArgumentValidator), std::mem_fn(&ScrollView::set_ShowVerticalScrollIndicatorArgumentValidator));
-			JSExport<ScrollView>::AddFunctionProperty("setShowVerticalScrollIndicator", std::mem_fn(&ScrollView::setShowVerticalScrollIndicatorArgumentValidator));
-			JSExport<ScrollView>::AddFunctionProperty("getShowVerticalScrollIndicator", std::mem_fn(&ScrollView::getShowVerticalScrollIndicatorArgumentValidator));
+			JSExport<ScrollView>::AddValueProperty("showVerticalScrollIndicator", std::mem_fn(&ScrollView::js_get_showVerticalScrollIndicator), std::mem_fn(&ScrollView::js_set_showVerticalScrollIndicator));
+			JSExport<ScrollView>::AddFunctionProperty("setShowVerticalScrollIndicator", std::mem_fn(&ScrollView::js_setShowVerticalScrollIndicator));
+			JSExport<ScrollView>::AddFunctionProperty("getShowVerticalScrollIndicator", std::mem_fn(&ScrollView::js_getShowVerticalScrollIndicator));
 		}
 
 		void ScrollView::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -64,64 +64,79 @@ namespace Titanium
 			TITANIUM_LOG_WARN("ScrollView::scrollToBottom: Unimplemented");
 		}
 
-		JSValue ScrollView::getContentWidth() const TITANIUM_NOEXCEPT
+		std::string ScrollView::get_contentWidth() const TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ScrollView::getContentWidth: Unimplemented");
-			return get_context().CreateUndefined();
+			TITANIUM_LOG_WARN("ScrollView::get_contentWidth: Unimplemented");
+			return "";
 		}
-		JSValue ScrollView::getContentHeight() const TITANIUM_NOEXCEPT
+
+		std::string ScrollView::get_contentHeight() const TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ScrollView::getContentHeight: Unimplemented");
-			return get_context().CreateUndefined();
+			TITANIUM_LOG_WARN("ScrollView::get_contentHeight: Unimplemented");
+			return "";
 		}
-		bool ScrollView::setContentWidth(const JSValue& width) TITANIUM_NOEXCEPT
+
+		bool ScrollView::set_contentWidth(const std::string& width) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ScrollView::setContentWidth: Unimplemented");
-			return false;
-		}
-		bool ScrollView::setContentHeight(const JSValue& height) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::setContentHeight: Unimplemented");
+			TITANIUM_LOG_WARN("ScrollView::set_contentWidth(std::string): Unimplemented");
 			return false;
 		}
 
-		bool ScrollView::getScrollingEnabled() const TITANIUM_NOEXCEPT
+		bool ScrollView::set_contentHeight(const std::string& height) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ScrollView::getScrollingEnabled: Unimplemented");
+			TITANIUM_LOG_WARN("ScrollView::set_contentHeight(std::string): Unimplemented");
 			return false;
 		}
 
-		bool ScrollView::setScrollingEnabled(bool enabled) TITANIUM_NOEXCEPT
+		bool ScrollView::set_contentWidth(const double& width) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ScrollView::setScrollingEnabled: Unimplemented");
+			TITANIUM_LOG_WARN("ScrollView::set_contentWidth(double): Unimplemented");
 			return false;
 		}
 
-		bool ScrollView::getShowHorizontalScrollIndicator() const TITANIUM_NOEXCEPT
+		bool ScrollView::set_contentHeight(const double& height) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ScrollView::getShowHorizontalScrollIndicator: Unimplemented");
+			TITANIUM_LOG_WARN("ScrollView::set_contentHeight(double): Unimplemented");
 			return false;
 		}
 
-		bool ScrollView::setShowHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT
+		bool ScrollView::get_scrollingEnabled() const TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ScrollView::setShowHorizontalScrollIndicator: Unimplemented");
+			TITANIUM_LOG_WARN("ScrollView::get_scrollingEnabled: Unimplemented");
 			return false;
 		}
 
-		bool ScrollView::getShowVerticalScrollIndicator() const TITANIUM_NOEXCEPT
+		bool ScrollView::set_scrollingEnabled(bool enabled) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ScrollView::getShowVerticalScrollIndicator: Unimplemented");
+			TITANIUM_LOG_WARN("ScrollView::set_scrollingEnabled: Unimplemented");
 			return false;
 		}
 
-		bool ScrollView::setShowVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT
+		bool ScrollView::get_showHorizontalScrollIndicator() const TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ScrollView::setShowVerticalScrollIndicator: Unimplemented");
+			TITANIUM_LOG_WARN("ScrollView::get_showHorizontalScrollIndicator: Unimplemented");
 			return false;
 		}
 
-		JSValue ScrollView::scrollToArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		bool ScrollView::set_showHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("ScrollView::set_showHorizontalScrollIndicator: Unimplemented");
+			return false;
+		}
+
+		bool ScrollView::get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("ScrollView::get_showVerticalScrollIndicator: Unimplemented");
+			return false;
+		}
+
+		bool ScrollView::set_showVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("ScrollView::set_showVerticalScrollIndicator: Unimplemented");
+			return false;
+		}
+
+		JSValue ScrollView::js_scrollTo(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() < 2) {
 				return get_context().CreateUndefined();
@@ -134,117 +149,142 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ScrollView::scrollToBottomArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_scrollToBottom(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
 		{
 			scrollToBottom();
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ScrollView::setContentWidthArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		bool ScrollView::js_set_contentWidth(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+			set_contentWidth(static_cast<std::string>(argument));
+			return true;
+		}
+
+		JSValue ScrollView::js_setContentWidth(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() == 0) {
 				return get_context().CreateUndefined();
 			}
 			const auto _0 = arguments.at(0);
-			setContentWidth(_0);
+			js_set_contentWidth(_0);
 			return get_context().CreateUndefined();
 		}
-		JSValue ScrollView::getContentWidthArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+
+		JSValue ScrollView::js_get_contentWidth() const TITANIUM_NOEXCEPT
 		{
-			return getContentWidth();
+			return get_context().CreateString(get_contentWidth());
 		}
 
-		JSValue ScrollView::setContentHeightArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_getContentWidth(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		{
+			return js_get_contentWidth();
+		}
+
+		bool ScrollView::js_set_contentHeight(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+			set_contentHeight(static_cast<std::string>(argument));
+			return true;
+		}
+
+		JSValue ScrollView::js_setContentHeight(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() == 0) {
 				return get_context().CreateUndefined();
 			}
 			const auto _0 = arguments.at(0);
-			setContentHeight(_0);
+			js_set_contentHeight(_0);
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ScrollView::getContentHeightArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_get_contentHeight() const TITANIUM_NOEXCEPT
 		{
-			return getContentHeight();
+			return get_context().CreateString(get_contentHeight());
 		}
 
-		JSValue ScrollView::get_ScrollingEnabledArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_getContentHeight(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateBoolean(getScrollingEnabled());
+			return js_get_contentHeight();
 		}
 
-		bool ScrollView::set_ScrollingEnabledArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_get_scrollingEnabled() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateBoolean(get_scrollingEnabled());
+		}
+
+		JSValue ScrollView::js_getScrollingEnabled(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		{
+			return js_get_scrollingEnabled();
+		}
+
+		bool ScrollView::js_set_scrollingEnabled(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
-			return setScrollingEnabled(static_cast<bool>(argument));
+			return set_scrollingEnabled(static_cast<bool>(argument));
 		}
 
-		JSValue ScrollView::setScrollingEnabledArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_setScrollingEnabled(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() == 0) {
 				return get_context().CreateUndefined();
 			}
 			const auto _0 = arguments.at(0);
-			set_ScrollingEnabledArgumentValidator(_0);
+			js_set_scrollingEnabled(_0);
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ScrollView::getScrollingEnabledArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_get_showHorizontalScrollIndicator() const TITANIUM_NOEXCEPT
 		{
-			return get_ScrollingEnabledArgumentValidator();
+			return get_context().CreateBoolean(get_showHorizontalScrollIndicator());
 		}
 
-		JSValue ScrollView::get_ShowHorizontalScrollIndicatorArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_getShowHorizontalScrollIndicator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateBoolean(getShowHorizontalScrollIndicator());
+			return js_get_showHorizontalScrollIndicator();
 		}
 
-		bool ScrollView::set_ShowHorizontalScrollIndicatorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool ScrollView::js_set_showHorizontalScrollIndicator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
-			return setShowHorizontalScrollIndicator(static_cast<bool>(argument));
+			return set_showHorizontalScrollIndicator(static_cast<bool>(argument));
 		}
 
-		JSValue ScrollView::setShowHorizontalScrollIndicatorArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_setShowHorizontalScrollIndicator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() == 0) {
 				return get_context().CreateUndefined();
 			}
 			const auto _0 = arguments.at(0);
-			set_ShowHorizontalScrollIndicatorArgumentValidator(_0);
+			js_set_showHorizontalScrollIndicator(_0);
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ScrollView::getShowHorizontalScrollIndicatorArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT
 		{
-			return get_ShowHorizontalScrollIndicatorArgumentValidator();
+			return get_context().CreateBoolean(get_showVerticalScrollIndicator());
 		}
 
-		JSValue ScrollView::get_ShowVerticalScrollIndicatorArgumentValidator() const TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_getShowVerticalScrollIndicator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateBoolean(getShowVerticalScrollIndicator());
+			return js_get_showVerticalScrollIndicator();
 		}
 
-		bool ScrollView::set_ShowVerticalScrollIndicatorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool ScrollView::js_set_showVerticalScrollIndicator(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
-			return setShowVerticalScrollIndicator(static_cast<bool>(argument));
+			return set_showVerticalScrollIndicator(static_cast<bool>(argument));
 		}
 
-		JSValue ScrollView::setShowVerticalScrollIndicatorArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
+		JSValue ScrollView::js_setShowVerticalScrollIndicator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() == 0) {
 				return get_context().CreateUndefined();
 			}
 			const auto _0 = arguments.at(0);
-			set_ShowVerticalScrollIndicatorArgumentValidator(_0);
+			js_set_showVerticalScrollIndicator(_0);
 			return get_context().CreateUndefined();
 		}
-
-		JSValue ScrollView::getShowVerticalScrollIndicatorArgumentValidator(const std::vector<JSValue>& arguments, JSObject&) TITANIUM_NOEXCEPT
-		{
-			return get_ShowVerticalScrollIndicatorArgumentValidator();
-		}
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
