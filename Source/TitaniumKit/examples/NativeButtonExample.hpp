@@ -36,7 +36,7 @@ public:
 
 	static void JSExportInitialize();
 
-	virtual bool setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+	virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override final;
 };
 
 #endif  // _TITANIUM_EXAMPLES_NATIVEBUTTONEXAMPLE_HPP_
