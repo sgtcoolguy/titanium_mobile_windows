@@ -1,11 +1,23 @@
-/**
- * Titanium for Windows
- *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
- * Licensed under the terms of the Apache Public License.
- * Please see the LICENSE included with this distribution for details.
- */
-'use strict';
+// this sets the background color of the master UIView (when there are no windows/tab groups on it)
+Titanium.UI.setBackgroundColor('#000');
+
+// create tab group
+var tabGroup = Titanium.UI.createTabGroup();
+
+
+//
+// create base UI tab and root window
+//
+var win1 = Titanium.UI.createWindow({
+    title: 'Tab 1',
+    backgroundColor: 'Blue'
+});
+var tab1 = Titanium.UI.createTab({
+    icon: 'KS_nav_views.png',
+    title: 'Tab 1',
+    window: win1
+});
+
 
 var label = Ti.UI.createLabel({
     'text': 'quotes go here',
@@ -13,9 +25,6 @@ var label = Ti.UI.createLabel({
     'top': 500,
     'left': 10
 });
-
-//label.width = 145;
-//label.height = 50;
 
 var imageView = Ti.UI.createImageView({
     'top': 420,
@@ -81,15 +90,45 @@ var view3 = Ti.UI.createView({
 });
 view3.add(button3);
 
-var window = Ti.UI.createWindow({
-    'backgroundColor': "Blue"
+win1.add(label);
+win1.add(imageView);
+win1.add(view);
+win1.add(view2);
+win1.add(view3);
+
+
+//
+// create controls tab and root window
+//
+var win2 = Titanium.UI.createWindow({
+    title: 'Tab 2',
+    backgroundColor: '#fff'
 });
-window.add(label);
-window.add(imageView);
-window.add(view);
-window.add(view2);
-window.add(view3);
-window.open();
+var tab2 = Titanium.UI.createTab({
+    icon: 'KS_nav_ui.png',
+    title: 'Tab 2',
+    window: win2
+});
+
+var label2 = Titanium.UI.createLabel({
+    color: '#999',
+    text: 'I am Window 2',
+    font: { fontSize: 20, fontFamily: 'Helvetica Neue' },
+    textAlign: 'center',
+    width: 'auto'
+});
+
+win2.add(label2);
+
+
+//
+//  add tabs
+//
+tabGroup.addTab(tab1);
+tabGroup.addTab(tab2);
+
+// open tab group
+tabGroup.open();
 
 Ti.API.info('app.js running...');
 
