@@ -103,8 +103,11 @@ namespace TitaniumWindows
 		}
 
 	private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 		Titanium::GlobalObject::Callback_t callback__;
 		std::once_flag dispatcher_timer_once_flag__;
+#pragma warning(pop)
 		Windows::UI::Xaml::DispatcherTimer^ dispatcher_timer__;
 		Windows::Foundation::EventRegistrationToken event_registration_token__;
 	};

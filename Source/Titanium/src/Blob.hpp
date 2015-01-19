@@ -60,12 +60,15 @@ namespace TitaniumWindows
 
 	protected:
 	private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 		std::string path_;
 		std::string mimetype_;
 		unsigned width_;
 		unsigned height_;
 		BlobModule::TYPE type_;
 		std::vector<unsigned char> data_;
+#pragma warning(pop)
 	};
 
 }  // namespace TitaniumWindows

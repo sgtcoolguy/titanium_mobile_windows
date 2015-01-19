@@ -153,15 +153,18 @@ namespace TitaniumWindows
 				return content.size();
 			}
 
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			std::string name_;
 			std::string path_;
+#pragma warning(pop)
 
 			// We need both file and folder because Windows Runtime
 			// distinguishes it.
 			Windows::Storage::StorageFile^ file_;
 			Windows::Storage::StorageFolder^ folder_;
 		};
-	}
-}  // namespace TitaniumWindows { namespace Filesystem {
+	} // namespace Filesystem
+}  // namespace TitaniumWindows
 
 #endif  // _TITANIUMWINDOWS_FILE_HPP_

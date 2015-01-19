@@ -49,7 +49,10 @@ namespace TitaniumWindows
 		private:
 			Windows::Foundation::EventRegistrationToken internal_load_event_;
 			Windows::UI::Xaml::Controls::Image^ image__;
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			std::string path_;
+#pragma warning(pop)
 
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken click_event_;
