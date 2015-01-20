@@ -131,7 +131,7 @@ export(EXPORT TitaniumWindows_Accelerometer_Targets
 
 configure_file(cmake/TitaniumWindows_Accelerometer_Config.cmake
   "${CMAKE_BINARY_DIR}/TitaniumWindows_Accelerometer_Config.cmake"
-  COPY_ONLY
+  COPYONLY
   )
 
 include(CMakePackageConfigHelpers)

@@ -263,7 +263,7 @@ export(EXPORT TitaniumKitTargets
 
 configure_file(cmake/TitaniumKitConfig.cmake
   "${CMAKE_BINARY_DIR}/TitaniumKitConfig.cmake"
-  COPY_ONLY
+  COPYONLY
   )
 
 include(CMakePackageConfigHelpers)

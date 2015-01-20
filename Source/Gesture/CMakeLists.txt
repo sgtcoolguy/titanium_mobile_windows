@@ -133,7 +133,7 @@ export(EXPORT TitaniumWindows_Gesture_Targets
 
 configure_file(cmake/TitaniumWindows_Gesture_Config.cmake
   "${CMAKE_BINARY_DIR}/TitaniumWindows_Gesture_Config.cmake"
-  COPY_ONLY
+  COPYONLY
   )
 
 include(CMakePackageConfigHelpers)

@@ -146,7 +146,7 @@ export(EXPORT TitaniumWindows_UI_Targets
 
 configure_file(cmake/TitaniumWindows_UI_Config.cmake
   "${CMAKE_BINARY_DIR}/TitaniumWindows_UI_Config.cmake"
-  COPY_ONLY
+  COPYONLY
   )
 
 include(CMakePackageConfigHelpers)
