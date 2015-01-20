@@ -39,7 +39,7 @@ public:
 	virtual JSValue get_parent() const TITANIUM_NOEXCEPT;
 	virtual bool get_readonly() const TITANIUM_NOEXCEPT;
 	virtual bool get_remoteBackup() const TITANIUM_NOEXCEPT;
-	virtual unsigned get_size() const TITANIUM_NOEXCEPT;
+	virtual unsigned long long get_size() const TITANIUM_NOEXCEPT;
 	virtual bool get_symbolicLink() const TITANIUM_NOEXCEPT;
 	virtual bool get_writable() const TITANIUM_NOEXCEPT;
 
@@ -47,7 +47,7 @@ public:
 	virtual bool copy(const std::string& dest) TITANIUM_NOEXCEPT;
 	virtual bool createDirectory() TITANIUM_NOEXCEPT;
 	virtual bool createFile() TITANIUM_NOEXCEPT;
-	virtual unsigned createTimestamp() TITANIUM_NOEXCEPT;
+	virtual unsigned long long createTimestamp() TITANIUM_NOEXCEPT;
 	virtual bool deleteDirectory(bool recursive) TITANIUM_NOEXCEPT;
 	virtual bool deleteFile() TITANIUM_NOEXCEPT;
 	virtual bool exists() TITANIUM_NOEXCEPT;
@@ -55,13 +55,13 @@ public:
 	virtual std::vector<JSValue> getDirectoryListing() TITANIUM_NOEXCEPT;
 	virtual bool isDirectory() TITANIUM_NOEXCEPT;
 	virtual bool isFile() TITANIUM_NOEXCEPT;
-	virtual unsigned modificationTimestamp() TITANIUM_NOEXCEPT;
+	virtual unsigned long long modificationTimestamp() TITANIUM_NOEXCEPT;
 	virtual bool move(const std::string& newpath) TITANIUM_NOEXCEPT;
 	virtual JSValue open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT;
 	virtual JSValue read() TITANIUM_NOEXCEPT;
 	virtual bool rename(const std::string& newname) TITANIUM_NOEXCEPT;
 	virtual std::string resolve() TITANIUM_NOEXCEPT;
-	virtual unsigned spaceAvailable() TITANIUM_NOEXCEPT;
+	virtual unsigned long long spaceAvailable() TITANIUM_NOEXCEPT;
 	virtual bool write(const JSValue& data, bool append) TITANIUM_NOEXCEPT;
 
 protected:
