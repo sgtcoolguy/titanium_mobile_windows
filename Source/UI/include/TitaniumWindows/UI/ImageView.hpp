@@ -46,6 +46,14 @@ namespace TitaniumWindows
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
+			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT override final;
+			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override final;
+			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override final;
+			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT override final;
+			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT override final;
+			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT override final;
+			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override final;
+
 		private:
 			Windows::Foundation::EventRegistrationToken internal_load_event_;
 			Windows::UI::Xaml::Controls::Image^ image__;
