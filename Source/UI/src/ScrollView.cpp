@@ -101,8 +101,6 @@ namespace TitaniumWindows
 
 		void ScrollView::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::View::set_layout(layout);
-			setLayout(layout);
 			contentView__.SetProperty("layout", get_context().CreateString(layout));
 		}
 
