@@ -103,6 +103,7 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::View::set_layout(layout);
 			setLayout(layout);
+			contentView__.SetProperty("layout", get_context().CreateString(layout));
 		}
 
 		void ScrollView::set_right(const std::string& right) TITANIUM_NOEXCEPT
@@ -154,6 +155,7 @@ namespace TitaniumWindows
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
 			bool result = false;
 			content->getComponent()->Width = width;
+      contentView__.SetProperty("width", get_context().CreateNumber(width));
 			result = true;
 			return result;
 		}
@@ -163,6 +165,7 @@ namespace TitaniumWindows
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
 			bool result = false;
 			content->getComponent()->Height = height;
+      contentView__.SetProperty("height", get_context().CreateNumber(height));
 			result = true;
 			return result;
 		}
