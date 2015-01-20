@@ -9,219 +9,207 @@
 #include "TitaniumWindows/UI/ScrollView.hpp"
 #include "TitaniumWindows/UI/View.hpp"
 
-namespace TitaniumWindows { namespace UI {
+namespace TitaniumWindows
+{
+	namespace UI
+	{
+		void ScrollView::setupViewer()
+		{
+			using namespace Windows::UI::Xaml::Controls;
+			scroll_viewer__->HorizontalScrollBarVisibility = ScrollBarVisibility::Auto;
+			scroll_viewer__->VerticalScrollBarVisibility = ScrollBarVisibility::Auto;
+			scroll_viewer__->HorizontalScrollMode = ScrollMode::Enabled;
+			scroll_viewer__->VerticalScrollMode = ScrollMode::Enabled;
 
-  void ScrollView::setupViewer() {
-    using namespace Windows::UI::Xaml::Controls;
-    scroll_viewer__->HorizontalScrollBarVisibility = ScrollBarVisibility::Auto;
-    scroll_viewer__->VerticalScrollBarVisibility = ScrollBarVisibility::Auto;
-    scroll_viewer__->HorizontalScrollMode = ScrollMode::Enabled;
-    scroll_viewer__->VerticalScrollMode = ScrollMode::Enabled;
+			contentView__.SetProperty("top", get_context().CreateNumber(0));
+			contentView__.SetProperty("left", get_context().CreateNumber(0));
+			contentView__.SetProperty("width", get_context().CreateString(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)));
+			contentView__.SetProperty("height", get_context().CreateString(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)));
 
-    contentView__.SetProperty("top", get_context().CreateNumber(0));
-    contentView__.SetProperty("left", get_context().CreateNumber(0));
-    contentView__.SetProperty("width", get_context().CreateString(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)));
-    contentView__.SetProperty("height", get_context().CreateString(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)));
+			auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
+			scroll_viewer__->Content = content->getComponent();
+		}
 
-    auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
-    scroll_viewer__->Content = content->getComponent();
-  }
+		ScrollView::ScrollView(const JSContext& js_context) TITANIUM_NOEXCEPT
+		    : Titanium::UI::ScrollView(js_context),
+		      scroll_viewer__(ref new Windows::UI::Xaml::Controls::ScrollViewer()),
+		      contentView__(js_context.CreateObject(JSExport<TitaniumWindows::UI::View>::Class()).CallAsConstructor())
+		{
+			TITANIUM_LOG_DEBUG("ScrollView::ctor Initialize");
+		}
 
-  ScrollView::ScrollView(const JSContext& js_context) TITANIUM_NOEXCEPT
-    : Titanium::UI::ScrollView(js_context)
-    , scroll_viewer__(ref new Windows::UI::Xaml::Controls::ScrollViewer())
-    , contentView__(js_context.CreateObject(JSExport<TitaniumWindows::UI::View>::Class()).CallAsConstructor())
-  {
-    TITANIUM_LOG_DEBUG("ScrollView::ctor Initialize");
-  }
+		ScrollView::ScrollView(const ScrollView& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		    : Titanium::UI::ScrollView(rhs, arguments),
+		      scroll_viewer__(ref new Windows::UI::Xaml::Controls::ScrollViewer()),
+		      contentView__(get_context().CreateObject(JSExport<TitaniumWindows::UI::View>::Class()).CallAsConstructor())
+		{
+			TITANIUM_LOG_DEBUG("ScrollView::ctor CallAsConstructor");
+			setupViewer();
+			setComponent(scroll_viewer__);
 
-  ScrollView::ScrollView(const ScrollView& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-    : Titanium::UI::ScrollView(rhs, arguments)
-    , scroll_viewer__(ref new Windows::UI::Xaml::Controls::ScrollViewer()) 
-    , contentView__(get_context().CreateObject(JSExport<TitaniumWindows::UI::View>::Class()).CallAsConstructor())
-  {
-    TITANIUM_LOG_DEBUG("ScrollView::ctor CallAsConstructor");
-    setupViewer();
-    setComponent(scroll_viewer__);
+			auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
+			auto nativeChildView = content->getComponent();
+			if (nativeChildView != nullptr) {
+				Titanium::LayoutEngine::nodeAddChild(layout_node_, content->layout_node_);
+				if (isLoaded()) {
+					auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node_);
+					if (root) {
+						Titanium::LayoutEngine::nodeLayout(root);
+					}
+				}
+			} else {
+				TITANIUM_LOG_DEBUG("ScrollView::setupViewer: nativeChildView = nullptr");
+			}
+		}
 
-    auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
-    auto nativeChildView = content->getComponent();
-    if (nativeChildView != nullptr) {
-      Titanium::LayoutEngine::nodeAddChild(layout_node_, content->layout_node_);
-      if (isLoaded()) {
-        auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node_);
-        if (root) {
-          Titanium::LayoutEngine::nodeLayout(root);
-        }
-      }
-    }
-    else {
-      TITANIUM_LOG_DEBUG("ScrollView::setupViewer: nativeChildView = nullptr");
-    }
-  }
+		void ScrollView::JSExportInitialize()
+		{
+			JSExport<ScrollView>::SetClassVersion(1);
+			JSExport<ScrollView>::SetParent(JSExport<Titanium::UI::ScrollView>::Class());
+		}
 
-  void ScrollView::JSExportInitialize() {
-    JSExport<ScrollView>::SetClassVersion(1);
-    JSExport<ScrollView>::SetParent(JSExport<Titanium::UI::ScrollView>::Class());
-  }
+		void ScrollView::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
+			content->add(view, this_object);
+		}
 
-  void ScrollView::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT {
-    auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
-    content->add(view, this_object);
-  }
+		void ScrollView::set_backgroundColor(const std::string& backgroundColorName) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_backgroundColor(backgroundColorName);
+			const auto backgroundColor = ColorForName(backgroundColorName);
+			scroll_viewer__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
+		}
 
-  bool ScrollView::setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(argument.IsString());
-    std::string backgroundColorName = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("ScrollView::setBackgroundColorArgumentValidator: backgroundColor = ", backgroundColorName);
-    const auto backgroundColor = ColorForName(backgroundColorName);
-    scroll_viewer__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
-    set_backgroundColor(argument);
-    return true;
-  }
+		void ScrollView::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_bottom(bottom);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
+		}
 
-  bool ScrollView::setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-    std::string value = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("ScrollView::setTopArgumentValidator: top = ", value);
-    setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, value);
-    set_top(argument);
-    return true;
-  }
+		void ScrollView::set_height(const std::string& height) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_height(height);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
+		}
 
-  bool ScrollView::setBottomArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-    std::string value = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("ScrollView::setBottomArgumentValidator: bottom = ", value);
-    setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, value);
-    set_bottom(argument);
-    return true;
-  }
+		void ScrollView::set_left(const std::string& left) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_left(left);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
+		}
 
-  bool ScrollView::setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-    std::string value = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("ScrollView::setLeftArgumentValidator: left = ", value);
-    setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, value);
-    set_left(argument);
-    return true;
-  }
+		void ScrollView::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_layout(layout);
+			setLayout(layout);
+		}
 
-  bool ScrollView::setRightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-    std::string value = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("ScrollView::setRightArgumentValidator: right = ", value);
-    setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, value);
-    set_right(argument);
-    return true;
-  }
+		void ScrollView::set_right(const std::string& right) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_right(right);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
+		}
 
-  bool ScrollView::setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-    std::string value = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("ScrollView::setWidthArgumentValidator: width = ", value);
-    setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, value);
-    set_width(argument);
-    return true;
-  }
+		void ScrollView::set_top(const std::string& top) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_top(top);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
+		}
 
-  bool ScrollView::setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-    std::string value = static_cast<std::string>(argument);
-    TITANIUM_LOG_INFO("ScrollView::setHeightArgumentValidator: height = ", value);
-    setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, value);
-    set_height(argument);
-    return true;
-  }
+		void ScrollView::set_width(const std::string& width) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_width(width);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
+		}
 
-  bool ScrollView::setLayoutArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-    contentView__.SetProperty("layout", argument);
-    return true;
-  }
+		void ScrollView::scrollTo(double x, double y)
+		{
+			scroll_viewer__->ChangeView(
+			    ref new Platform::Box<double>(x),
+			    ref new Platform::Box<double>(y),
+			    nullptr,
+			    true /* disableAnimation: should we support scroll animation? */);
+		}
 
-  void ScrollView::scrollTo(double x, double y) {
-    scroll_viewer__->ChangeView(
-      ref new Platform::Box<double>(x),
-      ref new Platform::Box<double>(y),
-      nullptr,
-      true /* disableAnimation: should we support scroll animation? */
-      );
-  }
+		void ScrollView::scrollToBottom()
+		{
+			scroll_viewer__->ChangeView(nullptr, ref new Platform::Box<double>(scroll_viewer__->ScrollableHeight), nullptr);
+		}
 
-  void ScrollView::scrollToBottom() {
-    scroll_viewer__->ChangeView(nullptr, ref new Platform::Box<double>(scroll_viewer__->ScrollableHeight), nullptr);
-  }
+		std::string ScrollView::get_contentWidth() const
+		{
+			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
+			return content->get_width();
+		}
 
-  JSValue ScrollView::getContentWidth() const {
-    auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
-    return content->get_width();
-  }
-  JSValue ScrollView::getContentHeight() const {
-    auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
-    return content->get_height();
-  }
-  bool ScrollView::setContentWidth(const JSValue& width) {
-    auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
-    bool result = false;
-    if (width.IsNumber()) {
-      content->getComponent()->Width = static_cast<double>(width);
-      contentView__.SetProperty("width", width);
-      result = true;
-    } else {
-      TITANIUM_LOG_WARN("ScrollView::setContentWidth from auto - Unimplemented");
-    }
-    return result;
-  }
-  bool ScrollView::setContentHeight(const JSValue& height) {
-    auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
-    bool result = false;
-    if (height.IsNumber()) {
-      content->getComponent()->Height = static_cast<double>(height);
-      contentView__.SetProperty("height", height);
-      result = true;
-    } else {
-      TITANIUM_LOG_WARN("ScrollView::setContentWidth from auto - Unimplemented");
-    }
-    return result;
-  }
+		std::string ScrollView::get_contentHeight() const
+		{
+			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
+			return content->get_height();
+		}
 
-  bool ScrollView::getScrollingEnabled() const TITANIUM_NOEXCEPT {
-    return scroll_viewer__->HorizontalScrollMode != Windows::UI::Xaml::Controls::ScrollMode::Disabled;
-  }
+		bool ScrollView::set_contentWidth(const double& width)
+		{
+			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
+			bool result = false;
+			content->getComponent()->Width = width;
+			result = true;
+			return result;
+		}
 
-  bool ScrollView::setScrollingEnabled(bool enabled) TITANIUM_NOEXCEPT {
-    if (enabled) {
-      scroll_viewer__->HorizontalScrollMode = Windows::UI::Xaml::Controls::ScrollMode::Auto;
-    } else {
-      scroll_viewer__->HorizontalScrollMode = Windows::UI::Xaml::Controls::ScrollMode::Disabled;
-    }
-    return true;
-  }
+		bool ScrollView::set_contentHeight(const double& height)
+		{
+			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
+			bool result = false;
+			content->getComponent()->Height = height;
+			result = true;
+			return result;
+		}
 
-  bool ScrollView::getShowHorizontalScrollIndicator() const TITANIUM_NOEXCEPT {
-    return scroll_viewer__->HorizontalScrollBarVisibility != Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
-  }
+		bool ScrollView::get_scrollingEnabled() const TITANIUM_NOEXCEPT
+		{
+			return scroll_viewer__->HorizontalScrollMode != Windows::UI::Xaml::Controls::ScrollMode::Disabled;
+		}
 
-  bool ScrollView::setShowHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT {
-    if (enabled) {
-      scroll_viewer__->HorizontalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Auto;
-    } else {
-      scroll_viewer__->HorizontalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
-    }
-    return true;
-  }
+		bool ScrollView::set_scrollingEnabled(bool enabled) TITANIUM_NOEXCEPT
+		{
+			if (enabled) {
+				scroll_viewer__->HorizontalScrollMode = Windows::UI::Xaml::Controls::ScrollMode::Auto;
+			} else {
+				scroll_viewer__->HorizontalScrollMode = Windows::UI::Xaml::Controls::ScrollMode::Disabled;
+			}
+			return true;
+		}
 
-  bool ScrollView::getShowVerticalScrollIndicator() const TITANIUM_NOEXCEPT {
-    return scroll_viewer__->VerticalScrollBarVisibility != Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
-  }
+		bool ScrollView::get_showHorizontalScrollIndicator() const TITANIUM_NOEXCEPT
+		{
+			return scroll_viewer__->HorizontalScrollBarVisibility != Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
+		}
 
-  bool ScrollView::setShowVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT {
-    if (enabled) {
-      scroll_viewer__->VerticalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Auto;
-    } else {
-      scroll_viewer__->VerticalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
-    }
-    return true;
-  }
+		bool ScrollView::set_showHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT
+		{
+			if (enabled) {
+				scroll_viewer__->HorizontalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Auto;
+			} else {
+				scroll_viewer__->HorizontalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
+			}
+			return true;
+		}
 
-}}  // namespace TitaniumWindows { namespace UI {
+		bool ScrollView::get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT
+		{
+			return scroll_viewer__->VerticalScrollBarVisibility != Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
+		}
+
+		bool ScrollView::set_showVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT
+		{
+			if (enabled) {
+				scroll_viewer__->VerticalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Auto;
+			} else {
+				scroll_viewer__->VerticalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
+			}
+			return true;
+		}
+	} // namespace UI
+} // namespace TitaniumWindows

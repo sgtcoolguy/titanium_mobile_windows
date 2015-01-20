@@ -12,60 +12,63 @@
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "ViewBase.hpp"
 
-namespace TitaniumWindows { namespace UI {
+namespace TitaniumWindows
+{
+	namespace UI
+	{
+		using namespace HAL;
 
-  using namespace HAL;
+		/*!
+		  @class
 
-  /*!
-  @class
+		  @discussion This is the Titanium.UI.Button implementation for
+		  Windows.
+		*/
+		class TITANIUMWINDOWS_UI_EXPORT Button final : public Titanium::UI::Button, public JSExport<Button>, public ViewBase
+		{
+		public:
+			Button(const JSContext& js_context) TITANIUM_NOEXCEPT;
+			Button(const Button&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
 
-  @discussion This is the Titanium.UI.Button implementation for
-  Windows.
-  */
-  class TITANIUMWINDOWS_UI_EXPORT Button final : public Titanium::UI::Button, public JSExport < Button >, public ViewBase {
-
-  public:
-
-    Button(const JSContext& js_context)                        TITANIUM_NOEXCEPT;
-    Button(const Button&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
-
-    virtual ~Button() = default;
-    Button(const Button&) = default;
-    Button& operator=(const Button&) = default;
+			virtual ~Button() = default;
+			Button(const Button&) = default;
+			Button& operator=(const Button&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-    Button(Button&&) = default;
-    Button& operator=(Button&&) = default;
+			Button(Button&&) = default;
+			Button& operator=(Button&&) = default;
 #endif
 
-    static void JSExportInitialize();
+			static void JSExportInitialize();
 
-    virtual bool setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-    virtual bool setBackgroundColorArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-    virtual bool setTopArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-    virtual bool setLeftArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-    virtual bool setWidthArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
-    virtual bool setHeightArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT override final;
+			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override final;
+			virtual void set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT override final;
+			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT override final;
+			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override final;
+			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override final;
+			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT override final;
+			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT override final;
+			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT override final;
+			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override final;
 
-    virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
-  private:
+		private:
+			Windows::UI::Xaml::Controls::Button^ button__;
 
-    Windows::UI::Xaml::Controls::Button^ button__;
+			// Event handlers
+			Windows::Foundation::EventRegistrationToken click_event_;
+			unsigned int click_event_count_{0};
+			Windows::Foundation::EventRegistrationToken touch_start_event_;
+			unsigned int touch_start_event_count_{0};
+			Windows::Foundation::EventRegistrationToken touch_end_event_;
+			unsigned int touch_end_event_count_{0};
+			Windows::Foundation::EventRegistrationToken touch_move_event_;
+			unsigned int touch_move_event_count_{0};
+			Windows::Foundation::EventRegistrationToken touch_cancel_event_;
+			unsigned int touch_cancel_event_count_{0};
+			unsigned int post_layout_event_count_{0};
+		};
+	} // namespace UI
+} // namespace TitaniumWindows
 
-    // Event handlers
-    Windows::Foundation::EventRegistrationToken click_event_;
-    unsigned int click_event_count_ { 0 };
-    Windows::Foundation::EventRegistrationToken touch_start_event_;
-    unsigned int touch_start_event_count_ { 0 };
-    Windows::Foundation::EventRegistrationToken touch_end_event_;
-    unsigned int touch_end_event_count_ { 0 };
-    Windows::Foundation::EventRegistrationToken touch_move_event_;
-    unsigned int touch_move_event_count_ { 0 };
-    Windows::Foundation::EventRegistrationToken touch_cancel_event_;
-    unsigned int touch_cancel_event_count_ { 0 };
-    unsigned int post_layout_event_count_ { 0 };
-  };
-
-}}  // namespace TitaniumWindows { namespace UI {
-
-#endif // _TITANIUMWINDOWS_UI_BUTTON_HPP_
+#endif  // _TITANIUMWINDOWS_UI_BUTTON_HPP_

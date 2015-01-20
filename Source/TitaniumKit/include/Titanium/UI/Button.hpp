@@ -11,51 +11,55 @@
 
 #include "Titanium/UI/View.hpp"
 
-namespace Titanium { namespace UI {
-  
-  using namespace HAL;
-  
-  /*!
-   @class
-   
-   @discussion This is the Titanium UI Button.
-   
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Button
-   */
-  class TITANIUMKIT_EXPORT Button : public View, public JSExport<Button> {
-    
-  public:
-    
-    virtual JSValue get_title() const               TITANIUM_NOEXCEPT final;
-    virtual void    set_title(const JSValue& title) TITANIUM_NOEXCEPT final;
-    
-    Button(const JSContext& js_context)                          TITANIUM_NOEXCEPT;
-    Button(const Button&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
-    
-    virtual ~Button() TITANIUM_NOEXCEPT;//= default;
-    Button(const Button&)               = default;
-    Button& operator=(const Button&)    = default;
-#ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-    Button(Button&&)                    = default;
-    Button& operator=(Button&&)         = default;
-#endif
-    
-    // TODO: The following functions can automatically be generated
-    // from the YAML API docs.
-    static void JSExportInitialize();
-    
-    // Base classes must implement this method. This is the minimum
-    // functionality that you should perform:
-    //
-    // assert(argument.IsString());
-    // set_title(argument);
-    // return true;
-    virtual bool setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT;
-    
-  private:
-    
-    JSValue title__;
-  };
-}} // namespace Titanium { namespace UI {
+namespace Titanium
+{
+	namespace UI
+	{
+		using namespace HAL;
 
-#endif // _TITANIUM_UI_BUTTON_HPP_
+		/*!
+		  @class
+
+		  @discussion This is the Titanium UI Button.
+
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.Button
+		*/
+		class TITANIUMKIT_EXPORT Button : public View, public JSExport<Button>
+		{
+		public:
+
+			/*!
+			  @method
+
+			  @abstract title : String
+
+			  @discussion Button title.
+			*/
+			virtual std::string get_title() const TITANIUM_NOEXCEPT final;
+			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT;
+
+			Button(const JSContext& js_context) TITANIUM_NOEXCEPT;
+			Button(const Button&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+
+			virtual ~Button() TITANIUM_NOEXCEPT;  //= default;
+			Button(const Button&) = default;
+			Button& operator=(const Button&) = default;
+#ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
+			Button(Button&&) = default;
+			Button& operator=(Button&&) = default;
+#endif
+
+			// TODO: The following functions can automatically be generated
+			// from the YAML API docs.
+			static void JSExportInitialize();
+
+			virtual JSValue js_get_title() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+		private:
+			std::string title__;
+		};
+	} // namespace UI
+}  // namespace Titanium
+
+#endif  // _TITANIUM_UI_BUTTON_HPP_

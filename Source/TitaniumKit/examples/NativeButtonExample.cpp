@@ -9,28 +9,29 @@
 #include "NativeButtonExample.hpp"
 
 NativeButtonExample::NativeButtonExample(const JSContext& js_context) TITANIUM_NOEXCEPT
-: Titanium::UI::Button(js_context) {
-  TITANIUM_LOG_DEBUG("NativeButtonExample:: ctor 1 ", this);
+    : Titanium::UI::Button(js_context)
+{
+	TITANIUM_LOG_DEBUG("NativeButtonExample:: ctor 1 ", this);
 }
 
 NativeButtonExample::NativeButtonExample(const NativeButtonExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-: Titanium::UI::Button(rhs, arguments) {
-  TITANIUM_LOG_DEBUG("NativeButtonExample:: ctor 1 ", this);
+    : Titanium::UI::Button(rhs, arguments)
+{
+	TITANIUM_LOG_DEBUG("NativeButtonExample:: ctor 1 ", this);
 }
 
-NativeButtonExample::~NativeButtonExample() TITANIUM_NOEXCEPT {
-  TITANIUM_LOG_DEBUG("NativeButtonExample:: dtor ", this);
+NativeButtonExample::~NativeButtonExample() TITANIUM_NOEXCEPT
+{
+	TITANIUM_LOG_DEBUG("NativeButtonExample:: dtor ", this);
 }
 
-void NativeButtonExample::JSExportInitialize() {
-  JSExport<NativeButtonExample>::SetClassVersion(1);
-  JSExport<NativeButtonExample>::SetParent(JSExport<Titanium::UI::Button>::Class());
+void NativeButtonExample::JSExportInitialize()
+{
+	JSExport<NativeButtonExample>::SetClassVersion(1);
+	JSExport<NativeButtonExample>::SetParent(JSExport<Titanium::UI::Button>::Class());
 }
 
-bool NativeButtonExample::setTitleArgumentValidator(const JSValue& argument) TITANIUM_NOEXCEPT {
-  assert(argument.IsString());
-  std::string title = static_cast<std::string>(argument);
-  TITANIUM_LOG_WARN("NativeButtonExample::setTitleArgumentValidator: title = ", title);
-  set_title(argument);
-  return true;
+void NativeButtonExample::set_title(const std::string& title) TITANIUM_NOEXCEPT
+{
+	TITANIUM_LOG_WARN("NativeButtonExample::set_title");
 }
