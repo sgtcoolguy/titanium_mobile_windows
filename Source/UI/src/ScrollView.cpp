@@ -153,7 +153,7 @@ namespace TitaniumWindows
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
 			bool result = false;
 			content->getComponent()->Width = width;
-      contentView__.SetProperty("width", get_context().CreateNumber(width));
+			contentView__.SetProperty("width", get_context().CreateNumber(width));
 			result = true;
 			return result;
 		}
@@ -163,7 +163,7 @@ namespace TitaniumWindows
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
 			bool result = false;
 			content->getComponent()->Height = height;
-      contentView__.SetProperty("height", get_context().CreateNumber(height));
+			contentView__.SetProperty("height", get_context().CreateNumber(height));
 			result = true;
 			return result;
 		}

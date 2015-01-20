@@ -158,11 +158,11 @@ namespace Titanium
 		bool ScrollView::js_set_contentWidth(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-      if (argument.IsNumber()) {
-        set_contentWidth(static_cast<double>(argument));
-      } else {
-        set_contentWidth(static_cast<std::string>(argument));
-      }
+			if (argument.IsNumber()) {
+				set_contentWidth(static_cast<double>(argument));
+			} else {
+				set_contentWidth(static_cast<std::string>(argument));
+			}
 			return true;
 		}
 
@@ -189,11 +189,11 @@ namespace Titanium
 		bool ScrollView::js_set_contentHeight(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-      if (argument.IsNumber()) {
-        set_contentHeight(static_cast<double>(argument));
-      } else {
-        set_contentHeight(static_cast<std::string>(argument));
-      }
+			if (argument.IsNumber()) {
+				set_contentHeight(static_cast<double>(argument));
+			} else {
+				set_contentHeight(static_cast<std::string>(argument));
+			}
 			return true;
 		}
 
