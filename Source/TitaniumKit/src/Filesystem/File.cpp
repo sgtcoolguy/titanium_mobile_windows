@@ -260,7 +260,7 @@ namespace Titanium
 		}
 		JSValue File::js_get_size() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(get_size());
+			return get_context().CreateNumber(static_cast<double>(get_size()));
 		}
 		JSValue File::js_getSize(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
@@ -412,7 +412,7 @@ namespace Titanium
 		}
 		JSValue File::js_spaceAvailable(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(spaceAvailable());
+			return get_context().CreateNumber(static_cast<double>(spaceAvailable()));
 		}
 		JSValue File::js_write(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
