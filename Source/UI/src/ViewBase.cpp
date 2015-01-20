@@ -256,7 +256,7 @@ namespace TitaniumWindows
 		Windows::UI::Color ViewBase::ColorForHexCode(const std::string& hexCode)
 		{
 			unsigned length = hexCode.size();
-			char alpha = 255;
+			unsigned char alpha = 255;
 			if ((length != 3) && (length != 4) && (length != 6) && (length != 7) && (length != 8)) {
 				TITANIUM_LOG_WARN("View::ColorForHexCode: invalid hexCode = ", hexCode);
 				return Windows::UI::Colors::Transparent;
