@@ -331,7 +331,7 @@ namespace Titanium
 		}
 		JSValue File::js_createTimestamp(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(createTimestamp());
+			return get_context().CreateNumber(static_cast<double>(createTimestamp()));
 		}
 		JSValue File::js_deleteDirectory(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
@@ -370,7 +370,7 @@ namespace Titanium
 		}
 		JSValue File::js_modificationTimestamp(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(modificationTimestamp());
+			return get_context().CreateNumber(static_cast<double>(modificationTimestamp()));
 		}
 		JSValue File::js_move(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
