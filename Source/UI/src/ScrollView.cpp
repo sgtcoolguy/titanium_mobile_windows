@@ -23,13 +23,11 @@ namespace TitaniumWindows
 
 			contentView__.SetProperty("top", get_context().CreateNumber(0));
 			contentView__.SetProperty("left", get_context().CreateNumber(0));
-			contentView__.SetProperty("width", get_context().CreateString("Ti.UI.FILL"));
-			contentView__.SetProperty("height", get_context().CreateString("Ti.UI.FILL"));
+			contentView__.SetProperty("width", get_context().CreateString(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)));
+			contentView__.SetProperty("height", get_context().CreateString(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)));
 
 			auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
 			scroll_viewer__->Content = content->getComponent();
-
-			View::add(contentView__, get_context().CreateObject());
 		}
 
 		ScrollView::ScrollView(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -48,6 +46,20 @@ namespace TitaniumWindows
 			TITANIUM_LOG_DEBUG("ScrollView::ctor CallAsConstructor");
 			setupViewer();
 			setComponent(scroll_viewer__);
+
+			auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
+			auto nativeChildView = content->getComponent();
+			if (nativeChildView != nullptr) {
+				Titanium::LayoutEngine::nodeAddChild(layout_node_, content->layout_node_);
+				if (isLoaded()) {
+					auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node_);
+					if (root) {
+						Titanium::LayoutEngine::nodeLayout(root);
+					}
+				}
+			} else {
+				TITANIUM_LOG_DEBUG("ScrollView::setupViewer: nativeChildView = nullptr");
+			}
 		}
 
 		void ScrollView::JSExportInitialize()
@@ -69,13 +81,54 @@ namespace TitaniumWindows
 			scroll_viewer__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
 		}
 
+		void ScrollView::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_bottom(bottom);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
+		}
+
+		void ScrollView::set_height(const std::string& height) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_height(height);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
+		}
+
+		void ScrollView::set_left(const std::string& left) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_left(left);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
+		}
+
+		void ScrollView::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
+		{
+			contentView__.SetProperty("layout", get_context().CreateString(layout));
+		}
+
+		void ScrollView::set_right(const std::string& right) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_right(right);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
+		}
+
+		void ScrollView::set_top(const std::string& top) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_top(top);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
+		}
+
+		void ScrollView::set_width(const std::string& width) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::View::set_width(width);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
+		}
+
 		void ScrollView::scrollTo(double x, double y)
 		{
 			scroll_viewer__->ChangeView(
 			    ref new Platform::Box<double>(x),
 			    ref new Platform::Box<double>(y),
 			    nullptr,
-			    false);
+			    true /* disableAnimation: should we support scroll animation? */);
 		}
 
 		void ScrollView::scrollToBottom()
@@ -100,6 +153,7 @@ namespace TitaniumWindows
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
 			bool result = false;
 			content->getComponent()->Width = width;
+			contentView__.SetProperty("width", get_context().CreateNumber(width));
 			result = true;
 			return result;
 		}
@@ -109,6 +163,7 @@ namespace TitaniumWindows
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
 			bool result = false;
 			content->getComponent()->Height = height;
+			contentView__.SetProperty("height", get_context().CreateNumber(height));
 			result = true;
 			return result;
 		}

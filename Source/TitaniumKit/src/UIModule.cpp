@@ -344,7 +344,6 @@ namespace Titanium
   });
   Tab.prototype.setWindow = function (_window) {
       this.__ti_private__.window = _window;
-      this.__ti_private__.window.width = Ti.UI.FILL;
       this.__ti_private__.window.height = Ti.UI.FILL;
   };
   Tab.prototype.getWindow = function () {
@@ -404,10 +403,14 @@ namespace Titanium
     this.__ti_private__.bar.backgroundColor = 'red';
     this.__ti_private__.bar.layout = 'horizontal';
     this.__ti_private__.bar.name = 'tabBar';
-    this.__ti_private__.content = Ti.UI.createView();
+    this.__ti_private__.content = Ti.UI.createScrollView();
+    this.__ti_private__.content.scrollingEnabled = false;
+    this.__ti_private__.content.showHorizontalScrollIndicator = false;
+    this.__ti_private__.content.showVerticalScrollIndicator = false;
     this.__ti_private__.content.top = 0;
     this.__ti_private__.content.width  = Ti.UI.FILL;
     this.__ti_private__.content.height = Ti.UI.FILL;
+    this.__ti_private__.content.layout = "horizontal";
     this.__ti_private__.content.name = 'scrollView';
     this.__ti_private__.content.backgroundColor = '#ccc';
     this.__ti_private__.window.add(this.__ti_private__.bar);
@@ -423,31 +426,32 @@ namespace Titanium
       }
   };
   TabGroup.prototype.setActiveTab = function (_n) {
-      this.__ti_private__.tabs[this.__ti_private__.index].window.hide();
       this.__ti_private__.index = _n;
-      this.__ti_private__.tabs[this.__ti_private__.index].window.show();
+      this.__ti_private__.content.scrollTo(this.__ti_private__.windowWidth*_n, 0);
   }
   TabGroup.prototype.open = function () {
       this.__ti_private__.window.open();
-      // show/hide workaround: we add components in reverse order
-      for (var i = this.__ti_private__.tabs.length-1; i >= 0; i--) {
-        var _tab = this.__ti_private__.tabs[i];
-        this.__ti_private__.content.add(_tab.window);
-      }
       this.setActiveTab(0);
   };
   TabGroup.prototype.addTab = function (_tab) {
       var self = this;
       this.__ti_private__.tabs.push(_tab);
       this.__ti_private__.bar.add(_tab.__ti_private__.title);
+      this.__ti_private__.content.add(_tab.window);
 
       var tabLength = this.__ti_private__.tabs.length;
       var width = (1 / tabLength * 100) + '%';
       this.__ti_private__.tabs.forEach(function (tab) {
           tab.title.width = width;
+          tab.window.width = width;
       });
+
+      // TODO This works only when TabGroup is filled fulll screen.
+      // This should be set from actual window width
+      this.__ti_private__.windowWidth = Ti.Platform.displayCaps.platformWidth;
+      this.__ti_private__.content.contentWidth = Ti.Platform.displayCaps.platformWidth * tabLength;
+      
       _tab.__ti_private__.index = tabLength - 1;
-      // WORKAROUND FIXME we needed to capture tab index because e.source did not work
       var index = _tab.__ti_private__.index;
       _tab.__ti_private__.title.addEventListener('click', function (e) {
           self.setActiveTab(index);

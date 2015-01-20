@@ -49,7 +49,15 @@ namespace TitaniumWindows
 			}
 
 			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT override;
+
 			virtual void set_backgroundColor(const std::string& backgroundColorName) TITANIUM_NOEXCEPT override;
+			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT override final;
+			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override final;
+			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override final;
+			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT override final;
+			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT override final;
+			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT override final;
+			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override final;
 
 			virtual void scrollTo(double x, double y) TITANIUM_NOEXCEPT override;
 			virtual void scrollToBottom() TITANIUM_NOEXCEPT override;
