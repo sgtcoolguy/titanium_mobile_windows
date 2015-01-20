@@ -72,7 +72,7 @@ namespace Titanium
 			  @abstract get_size
 			  @discussion Size, in bytes, of the file identified by this object.
 			*/
-			virtual unsigned get_size() const TITANIUM_NOEXCEPT;
+			virtual unsigned long long get_size() const TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract get_symbolicLink
@@ -200,7 +200,7 @@ namespace Titanium
 			  @abstract spaceAvailable
 			  @discussion Returns the amount of free space available on the device where the file identified by this file object is stored.
 			*/
-			virtual unsigned spaceAvailable() TITANIUM_NOEXCEPT;
+			virtual unsigned long long spaceAvailable() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract write

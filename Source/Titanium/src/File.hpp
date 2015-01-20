@@ -32,7 +32,7 @@ namespace TitaniumWindows
 			virtual JSValue get_parent() const TITANIUM_NOEXCEPT override;
 			virtual bool get_readonly() const TITANIUM_NOEXCEPT override;
 			virtual bool get_remoteBackup() const TITANIUM_NOEXCEPT override;
-			virtual unsigned get_size() const TITANIUM_NOEXCEPT override;
+			virtual unsigned long long get_size() const TITANIUM_NOEXCEPT override;
 			virtual bool get_symbolicLink() const TITANIUM_NOEXCEPT override;
 			virtual bool get_writable() const TITANIUM_NOEXCEPT override;
 
@@ -54,7 +54,7 @@ namespace TitaniumWindows
 			virtual JSValue read() TITANIUM_NOEXCEPT override;
 			virtual bool rename(const std::string& newname) TITANIUM_NOEXCEPT override;
 			virtual std::string resolve() TITANIUM_NOEXCEPT override;
-			virtual unsigned spaceAvailable() TITANIUM_NOEXCEPT override;
+			virtual unsigned long long spaceAvailable() TITANIUM_NOEXCEPT override;
 			virtual bool write(const JSValue& data, bool append) TITANIUM_NOEXCEPT override;
 
 			File(const JSContext& js_context) TITANIUM_NOEXCEPT;

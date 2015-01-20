@@ -215,7 +215,7 @@ namespace TitaniumWindows
 			return ((item->Attributes & FileAttributes::ReadOnly) != FileAttributes::ReadOnly);
 		}
 
-		unsigned File::get_size() const TITANIUM_NOEXCEPT
+		unsigned long long File::get_size() const TITANIUM_NOEXCEPT
 		{
 			const auto prop = getStorageProperties(getStorageItem());
 			if (prop == nullptr) {
@@ -496,7 +496,7 @@ namespace TitaniumWindows
 		{
 			return path_;
 		}
-		unsigned File::spaceAvailable() TITANIUM_NOEXCEPT
+		unsigned long long File::spaceAvailable() TITANIUM_NOEXCEPT
 		{
 			const auto prop = getStorageProperties(getStorageItem());
 			const auto propertiesName = ref new Platform::Collections::Vector<Platform::String^>();
