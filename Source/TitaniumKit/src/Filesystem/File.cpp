@@ -140,7 +140,7 @@ namespace Titanium
 			TITANIUM_LOG_WARN("File::createFile: Unimplemented");
 			return false;
 		}
-		unsigned File::createTimestamp() TITANIUM_NOEXCEPT
+		unsigned long long File::createTimestamp() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::createTimestamp: Unimplemented");
 			return 0;
@@ -181,7 +181,7 @@ namespace Titanium
 			TITANIUM_LOG_WARN("File::isFile: Unimplemented");
 			return false;
 		}
-		unsigned File::modificationTimestamp() TITANIUM_NOEXCEPT
+		unsigned long long File::modificationTimestamp() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::modificationTimestamp: Unimplemented");
 			return 0;

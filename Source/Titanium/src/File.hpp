@@ -40,7 +40,7 @@ namespace TitaniumWindows
 			virtual bool copy(const std::string& dest) TITANIUM_NOEXCEPT override;
 			virtual bool createDirectory() TITANIUM_NOEXCEPT override;
 			virtual bool createFile() TITANIUM_NOEXCEPT override;
-			virtual unsigned createTimestamp() TITANIUM_NOEXCEPT override;
+			virtual unsigned long long createTimestamp() TITANIUM_NOEXCEPT override;
 			virtual bool deleteDirectory(bool recursive) TITANIUM_NOEXCEPT override;
 			virtual bool deleteFile() TITANIUM_NOEXCEPT override;
 			virtual bool exists() TITANIUM_NOEXCEPT override;
@@ -48,7 +48,7 @@ namespace TitaniumWindows
 			virtual std::vector<JSValue> getDirectoryListing() TITANIUM_NOEXCEPT override;
 			virtual bool isDirectory() TITANIUM_NOEXCEPT override;
 			virtual bool isFile() TITANIUM_NOEXCEPT override;
-			virtual unsigned modificationTimestamp() TITANIUM_NOEXCEPT override;
+			virtual unsigned long long modificationTimestamp() TITANIUM_NOEXCEPT override;
 			virtual bool move(const std::string& newpath) TITANIUM_NOEXCEPT override;
 			virtual JSValue open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT override;
 			virtual JSValue read() TITANIUM_NOEXCEPT override;

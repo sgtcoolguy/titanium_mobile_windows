@@ -289,7 +289,7 @@ namespace TitaniumWindows
 			}
 			return result;
 		}
-		unsigned File::createTimestamp() TITANIUM_NOEXCEPT
+		unsigned long long File::createTimestamp() TITANIUM_NOEXCEPT
 		{
 			auto item = getStorageItem();
 			if (item == nullptr) {
@@ -402,7 +402,7 @@ namespace TitaniumWindows
 			using namespace Windows::Storage;
 			return ((item->Attributes & FileAttributes::Directory) != FileAttributes::Directory);
 		}
-		unsigned File::modificationTimestamp() TITANIUM_NOEXCEPT
+		unsigned long long File::modificationTimestamp() TITANIUM_NOEXCEPT
 		{
 			const auto prop = getStorageProperties(getStorageItem());
 			if (prop == nullptr) {

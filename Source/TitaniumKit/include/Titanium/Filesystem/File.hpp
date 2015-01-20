@@ -115,7 +115,7 @@ namespace Titanium
 			  @abstract createTimestamp
 			  @discussion Returns the creation timestamp for the file identified by this file object.
 			*/
-			virtual unsigned createTimestamp() TITANIUM_NOEXCEPT;
+			virtual unsigned long long createTimestamp() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract deleteDirectory
@@ -164,7 +164,7 @@ namespace Titanium
 			  @abstract modificationTimestamp
 			  @discussion Returns the last modification time for this file.
 			*/
-			virtual unsigned modificationTimestamp() TITANIUM_NOEXCEPT;
+			virtual unsigned long long modificationTimestamp() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract move

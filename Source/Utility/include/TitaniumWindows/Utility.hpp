@@ -76,7 +76,7 @@ namespace TitaniumWindows
 			return "application/octet-stream";
 		}
 
-		static unsigned GetMSecSinceEpoch(Windows::Foundation::DateTime d)
+		static unsigned long long GetMSecSinceEpoch(Windows::Foundation::DateTime d)
 		{
 			Windows::Globalization::Calendar^ cal = ref new Windows::Globalization::Calendar();
 			cal->SetDateTime(d);
