@@ -29,6 +29,7 @@ namespace Titanium
 	      button__(js_context__.CreateObject<Titanium::UI::Button>()),
 	      imageview__(js_context__.CreateObject<Titanium::UI::ImageView>()),
 	      label__(js_context__.CreateObject<Titanium::UI::Label>()),
+		  slider__(js_context__.CreateObject<Titanium::UI::Slider>()),
 	      scrollview__(js_context__.CreateObject<Titanium::UI::ScrollView>()),
 	      platform__(js_context__.CreateObject<Titanium::PlatformModule>()),
 	      accelerometer__(js_context__.CreateObject<Titanium::Accelerometer>()),
@@ -47,6 +48,7 @@ namespace Titanium
 		ui.SetProperty("Button", button__);
 		ui.SetProperty("ImageView", imageview__);
 		ui.SetProperty("Label", label__);
+		ui.SetProperty("Slider", slider__);
 		ui.SetProperty("ScrollView", scrollview__);
 
 		filesystem__.SetProperty("File", file__);
@@ -127,6 +129,17 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::ButtonObject(const JSObject& button) TITANIUM_NOEXCEPT
 	{
 		button__ = button;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::SliderObject() const TITANIUM_NOEXCEPT
+	{
+		return slider__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::SliderObject(const JSObject& slider) TITANIUM_NOEXCEPT
+	{
+		slider__ = slider;
 		return *this;
 	}
 
@@ -228,4 +241,4 @@ namespace Titanium
 		return *this;
 	}
 
-}  // namespace Titanium {
+}  // namespace Titanium
