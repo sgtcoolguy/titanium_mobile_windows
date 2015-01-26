@@ -9,6 +9,7 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Filesystem/Constants.hpp"
+#include <chrono>
 #include <vector>
 
 namespace Titanium
@@ -115,7 +116,7 @@ namespace Titanium
 			  @abstract createTimestamp
 			  @discussion Returns the creation timestamp for the file identified by this file object.
 			*/
-			virtual unsigned long long createTimestamp() TITANIUM_NOEXCEPT;
+			virtual std::chrono::milliseconds createTimestamp() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract deleteDirectory
@@ -164,7 +165,7 @@ namespace Titanium
 			  @abstract modificationTimestamp
 			  @discussion Returns the last modification time for this file.
 			*/
-			virtual unsigned long long modificationTimestamp() TITANIUM_NOEXCEPT;
+			virtual std::chrono::milliseconds modificationTimestamp() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract move
