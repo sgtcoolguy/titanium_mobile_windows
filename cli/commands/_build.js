@@ -745,7 +745,7 @@ WindowsBuilder.prototype.initialize = function initialize(next) {
 	// directories
 	// FIXME If we're building to temp, we need to copy the build results back over to the origin build dir!
 	this.outputDir             = argv['output-dir'] ? appc.fs.resolvePath(argv['output-dir']) : null;
-	this.buildTargetDir        = path.join(this.buildDir, 'src'); // where we stuff the cmake inputs, 
+	this.buildTargetDir        = path.join(this.buildDir, 'src'); // where we stuff the cmake inputs,
 	this.cmakeTargetDir		   = path.join(this.buildDir, this.cmakeTarget); // where cmake generate the VS solution
 	this.buildTargetAssetsDir  = path.join(this.buildTargetDir, 'Assets');
 	this.buildTargetStringsDir = path.join(this.buildTargetDir, 'Strings');
@@ -1328,7 +1328,7 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 	this.modules.forEach(function (module) {
 		platformPaths.push(path.join(module.modulePath, 'platform', 'windows'));
 	});
-	platformPaths.push(path.join(this.projectDir, 'platform', 'windows'));
+	platformPaths.push(path.join(this.projectDir, this.cli.argv['platform-directory'] || 'platform', 'windows'));
 	platformPaths.forEach(function (dir) {
 		if (fs.existsSync(dir)) {
 			tasks.push(function (cb) {
@@ -1500,11 +1500,11 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	    var fileContents = fs.readdirSync(folder),
 	        fileTree = [],
 	        stats;
-	 
+
 	    fileContents.forEach(function (fileName) {
 	    	var child = path.join(folder, fileName);
 	        stats = fs.lstatSync(child);
-	 
+
 	        if (stats.isDirectory()) {
 	            getFilesRecursive(child).forEach(function (file) {
 	            	fileTree.push(fileName + '/' + file);  // cmake likes unix separators
@@ -1513,7 +1513,7 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	            fileTree.push(fileName);
 	        }
 	    });
-	 
+
 	    return fileTree;
 	}
 	// Recursively read all files under Assets and populate the cmake listing with it.
@@ -1570,13 +1570,13 @@ WindowsBuilder.prototype.runCmake = function runCmake(next) {
 
 	fs.existsSync(this.cmakeTargetDir) || wrench.mkdirSyncRecursive(this.cmakeTargetDir);
 	// Use spawn directly so we can pipe output as we go
-	p = spawn(this.cmake, 
+	p = spawn(this.cmake,
 		[
 			'-G', generatorName,
 			'-DCMAKE_SYSTEM_NAME=' + this.cmakePlatform,
 			'-DCMAKE_SYSTEM_VERSION=' + this.wpsdk,
 			this.buildDir
-		], 
+		],
 		{
 			cwd: this.cmakeTargetDir
 		});
@@ -1587,11 +1587,11 @@ WindowsBuilder.prototype.runCmake = function runCmake(next) {
   		_t.logger.warn(data.toString().trim());
 	});
 	p.on('close', function (code) {
-  		
+
 		if (code != 0) {
 			process.exit(1); // Exit with code from cmake?
 		}
-			
+
 		next();
 	});
 };
@@ -1643,11 +1643,11 @@ WindowsBuilder.prototype.compileApp = function compileApp(next) {
   			_t.logger.warn(data.toString().trim());
 		});
 		p.on('close', function (code) {
-  		
+
 			if (code != 0) {
 				process.exit(1); // Exit with code from msbuild?
 			}
-			
+
 			next();
 		});
 	});
