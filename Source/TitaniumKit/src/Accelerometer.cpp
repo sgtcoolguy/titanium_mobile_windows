@@ -10,13 +10,8 @@
 
 namespace Titanium
 {
-	Accelerometer::Accelerometer(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Module(js_context)
-	{
-	}
-
-	Accelerometer::Accelerometer(const Accelerometer& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : Module(rhs, arguments)
+	Accelerometer::Accelerometer(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+	    : Module(js_context, arguments)
 	{
 	}
 	void Accelerometer::JSExportInitialize()

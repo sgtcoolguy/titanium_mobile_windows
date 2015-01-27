@@ -11,23 +11,16 @@
 
 namespace Titanium
 {
-	Module::Module(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : JSExportObject(js_context),
+	Module::Module(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+	    : JSExportObject(js_context, arguments),
 	      event_listener_map__(js_context.CreateObject())
 	{
-		TITANIUM_LOG_DEBUG("Module:: ctor 1 ", this);
-	}
-
-	Module::Module(const Module& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : JSExportObject(rhs.get_context(), arguments),
-	      event_listener_map__(get_context().CreateObject())
-	{
-		TITANIUM_LOG_DEBUG("Module:: ctor 2 ", this);
+		TITANIUM_LOG_DEBUG("Module:: ctor ", this);
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			if (_0.IsObject()) {
 				JSObject properties = static_cast<JSObject>(_0);
-				TITANIUM_LOG_DEBUG("Module:: ctor 2 has ", properties.GetPropertyNames().GetCount(), " properties for ", this);
+				TITANIUM_LOG_DEBUG("Module:: ctor has ", properties.GetPropertyNames().GetCount(), " properties for ", this);
 			}
 		}
 	}

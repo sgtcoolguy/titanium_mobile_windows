@@ -9,16 +9,10 @@
 #include "NativeWindowExample.hpp"
 #include "NativeViewExample.hpp"
 
-NativeWindowExample::NativeWindowExample(const JSContext& js_context) TITANIUM_NOEXCEPT
+NativeWindowExample::NativeWindowExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::UI::Window(js_context)
 {
-	TITANIUM_LOG_DEBUG("NativeWindowExample:: ctor 1 ", this);
-}
-
-NativeWindowExample::NativeWindowExample(const NativeWindowExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-    : Titanium::UI::Window(rhs, arguments)
-{
-	TITANIUM_LOG_DEBUG("NativeWindowExample:: ctor 2 ", this);
+	TITANIUM_LOG_DEBUG("NativeWindowExample:: ctor ", this);
 }
 
 NativeWindowExample::~NativeWindowExample() TITANIUM_NOEXCEPT

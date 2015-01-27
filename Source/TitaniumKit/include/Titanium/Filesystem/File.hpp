@@ -209,8 +209,7 @@ namespace Titanium
 			*/
 			virtual bool write(const JSValue& data, bool append) TITANIUM_NOEXCEPT;
 
-			File(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			File(const File&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+			File(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 			virtual ~File() = default;
 			File(const File&) = default;

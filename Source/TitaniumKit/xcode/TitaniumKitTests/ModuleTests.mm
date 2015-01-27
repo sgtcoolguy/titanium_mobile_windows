@@ -60,7 +60,7 @@ using namespace HAL;
   XCTAssertNoThrow(result = js_context.JSEvaluateScript("var module = new NativeModuleExample(); module;"));
   XCTAssertTrue(result.IsObject());
   
-  JSObject module = result;
+  JSObject module = static_cast<JSObject>(result);
   auto module_ptr = module.GetPrivate<NativeModuleExample>();
   XCTAssertNotEqual(nullptr, module_ptr);
 

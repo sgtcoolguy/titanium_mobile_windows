@@ -73,7 +73,7 @@ using namespace HAL;
   
   auto result = js_context.JSEvaluateScript("Ti.UI.createView();");
   XCTAssertTrue(result.IsObject());
-  JSObject view = result;
+  JSObject view = static_cast<JSObject>(result);
   XCTAssertTrue(view.HasProperty("add"));
   
   UI.SetProperty("Window", js_context.CreateObject(JSExport<Titanium::UI::Window>::Class()));

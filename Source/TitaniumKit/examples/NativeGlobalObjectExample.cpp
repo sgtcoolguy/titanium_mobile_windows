@@ -59,16 +59,10 @@ std::shared_ptr<Titanium::GlobalObject::Timer> NativeGlobalObjectExample::Create
 	return std::make_shared<NativeGlobalObjectTimerExample>(callback, interval);
 }
 
-NativeGlobalObjectExample::NativeGlobalObjectExample(const JSContext& js_context) TITANIUM_NOEXCEPT
+NativeGlobalObjectExample::NativeGlobalObjectExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::GlobalObject(js_context)
 {
-	TITANIUM_LOG_DEBUG("NativeGlobalObjectExample:: ctor 1 ", this);
-}
-
-NativeGlobalObjectExample::NativeGlobalObjectExample(const NativeGlobalObjectExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-    : Titanium::GlobalObject(rhs, arguments)
-{
-	TITANIUM_LOG_DEBUG("NativeGlobalObjectExample:: ctor 2 ", this);
+	TITANIUM_LOG_DEBUG("NativeGlobalObjectExample:: ctor ", this);
 }
 
 NativeGlobalObjectExample::~NativeGlobalObjectExample() TITANIUM_NOEXCEPT
