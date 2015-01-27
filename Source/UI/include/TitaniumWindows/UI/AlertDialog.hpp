@@ -47,14 +47,14 @@ namespace TitaniumWindows
 			virtual void show(JSObject& this_object) TITANIUM_NOEXCEPT;
 
 			virtual void addButton(const std::string& buttonName) TITANIUM_NOEXCEPT override final;
-			virtual void set_message(const std::string& message) TITANIUM_NOEXCEPT override final;
-			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override final;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 		private:
-			Windows::UI::Popups::MessageDialog^ dialog__;
-
+#pragma warning(push)
+#pragma warning(disable : 4251)
+			std::vector<std::string> buttons__;
+#pragma warning(pop)
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken click_event_;
 			unsigned int click_event_count_{0};

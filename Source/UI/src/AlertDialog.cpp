@@ -14,7 +14,7 @@ namespace TitaniumWindows
 	{
 		AlertDialog::AlertDialog(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : Titanium::UI::AlertDialog(js_context, arguments),
-		      dialog__(ref new Windows::UI::Popups::MessageDialog(""))
+			buttons__()
 		{
 			TITANIUM_LOG_DEBUG("AlertDialog::ctor");
 		}
@@ -32,39 +32,36 @@ namespace TitaniumWindows
 
 		void AlertDialog::show(JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			// TODO If we never set any button names, we need to set default buttons here now!
-			dialog__->ShowAsync();
+			std::string title = get_title();
+			std::string message = get_message();
+			Windows::UI::Popups::MessageDialog^ dialog = ref new Windows::UI::Popups::MessageDialog(ref new Platform::String(std::wstring(message.begin(), message.end()).c_str()), ref new Platform::String(std::wstring(title.begin(), title.end()).c_str()));
+			
+			// Set up buttons
+			if (buttons__.size() > 0) {
+				// TODO If user set no custom buttons, we still need to hook click listeners to the defaults!
+				const JSContext ctx = this->get_context();
+				for (std::vector<std::string>::size_type i = 0; i != buttons__.size(); i++) {
+					std::string buttonName = buttons__[i];
+
+					// TODO Take into account the click_event_count?
+					auto command_invoked_handler = ref new Windows::UI::Popups::UICommandInvokedHandler([this, ctx, i](Windows::UI::Popups::IUICommand^ command) {
+						JSObject eventArgs = ctx.CreateObject();
+						eventArgs.SetProperty("index", ctx.CreateNumber(i));
+
+						this->fireEvent("click", eventArgs);
+					});
+
+					// The alert's "buttons" are UICommand, they take a title and an action.
+					const std::wstring wButtonName = std::wstring(buttonName.begin(), buttonName.end());
+					dialog->Commands->Append(ref new Windows::UI::Popups::UICommand(ref new Platform::String(wButtonName.c_str()), command_invoked_handler));
+				}
+			}
+			dialog->ShowAsync();
 		}
 
 		void AlertDialog::addButton(const std::string& buttonName) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = this->get_context();
-			const auto index = dialog__->Commands->Size;
-
-			// TODO Take into account the click_event_count?
-			auto command_invoked_handler = ref new Windows::UI::Popups::UICommandInvokedHandler([this, ctx, index](Windows::UI::Popups::IUICommand^ command) {
-				JSObject eventArgs = ctx.CreateObject();
-				eventArgs.SetProperty("index", ctx.CreateNumber(index));
-
-				this->fireEvent("click", eventArgs);
-			});
-
-			// The alert's "buttons" are UICommand, they take a title and an
-			// action.
-			const std::wstring wButtonName = std::wstring(buttonName.begin(), buttonName.end());
-			dialog__->Commands->Append(ref new Windows::UI::Popups::UICommand(ref new Platform::String(wButtonName.c_str()), command_invoked_handler));
-		}
-
-		void AlertDialog::set_message(const std::string& message) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::AlertDialog::set_message(message);
-			dialog__->Content = ref new Platform::String(std::wstring(message.begin(), message.end()).c_str());
-		}
-
-		void AlertDialog::set_title(const std::string& title) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::AlertDialog::set_title(title);
-			dialog__->Title = ref new Platform::String(std::wstring(title.begin(), title.end()).c_str());
+			buttons__.push_back(buttonName);
 		}
 
 		void AlertDialog::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
