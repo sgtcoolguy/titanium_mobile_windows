@@ -12,15 +12,8 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		Slider::Slider(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : Titanium::UI::Slider(js_context),
-		      slider__(ref new Windows::UI::Xaml::Controls::Slider())
-		{
-			TITANIUM_LOG_DEBUG("Slider::ctor Initialize");
-		}
-
-		Slider::Slider(const Slider& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : Titanium::UI::Slider(rhs, arguments),
+		Slider::Slider(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+			  : Titanium::UI::Slider(js_context, arguments),
 		      slider__(ref new Windows::UI::Xaml::Controls::Slider())
 		{
 			setDefaultWidth(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));

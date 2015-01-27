@@ -12,19 +12,11 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		AlertDialog::AlertDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : Titanium::UI::AlertDialog(js_context),
+		AlertDialog::AlertDialog(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		    : Titanium::UI::AlertDialog(js_context, arguments),
 		      dialog__(ref new Windows::UI::Popups::MessageDialog(""))
 		{
-			TITANIUM_LOG_DEBUG("AlertDialog::ctor Initialize");
-		}
-
-		AlertDialog::AlertDialog(const AlertDialog& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : Titanium::UI::AlertDialog(rhs, arguments),
-		      dialog__(ref new Windows::UI::Popups::MessageDialog(""))
-		{
-			//setComponent(dialog__);
-			TITANIUM_LOG_DEBUG("AlertDialog::ctor CallAsConstructor");
+			TITANIUM_LOG_DEBUG("AlertDialog::ctor");
 		}
 
 		void AlertDialog::JSExportInitialize()
