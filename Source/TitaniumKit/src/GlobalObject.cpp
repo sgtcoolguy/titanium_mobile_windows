@@ -136,6 +136,8 @@ namespace Titanium
 	void GlobalObject::RegisterCallback(JSObject&& function, const unsigned& timerId) TITANIUM_NOEXCEPT
 	{
 		const std::string timerId_str = "callback_" + std::to_string(timerId);
+		TITANIUM_ASSERT(function.IsFunction());
+		TITANIUM_ASSERT(!callback_map__.HasProperty(timerId_str));
 		callback_map__.SetProperty(timerId_str, function);
 	}
 

@@ -46,11 +46,8 @@ namespace TitaniumWindows
 		GUID gdn;
 		CoCreateGuid(&gdn);
 		::Platform::Guid guid(gdn);
-		if (guid.ToString()->Length() > 0) {
-			std::string guid_str = std::string(guid.ToString()->Begin(), guid.ToString()->End());
-			return guid_str;
-		}
-		return "";
+		auto guid_str = guid.ToString();
+		return std::string(guid_str->Begin(), guid_str->End());
 	}
 
 	std::string Platform::address() const TITANIUM_NOEXCEPT
