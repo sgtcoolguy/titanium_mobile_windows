@@ -146,7 +146,7 @@ export(EXPORT LayoutEngineTargets
 
 configure_file(cmake/LayoutEngineConfig.cmake
   "${CMAKE_BINARY_DIR}/LayoutEngineConfig.cmake"
-  COPY_ONLY
+  COPYONLY
   )
 
 include(CMakePackageConfigHelpers)

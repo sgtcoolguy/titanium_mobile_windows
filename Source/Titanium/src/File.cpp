@@ -161,6 +161,7 @@ namespace TitaniumWindows
 			// privide a way to get executable attribute
 			return false;
 		}
+
 		bool File::get_hidden() const TITANIUM_NOEXCEPT
 		{
 			auto item = getStorageItem();
@@ -170,15 +171,18 @@ namespace TitaniumWindows
 			using namespace Windows::Storage;
 			return ((item->Attributes & FileAttributes::Normal) != FileAttributes::Normal);
 		}
+
 		std::string File::get_name() const TITANIUM_NOEXCEPT
 		{
 			return name_;
 		}
+
 		std::string File::get_nativePath() const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("TitaniumWindows::File::get_nativePath");
 			return path_;
 		}
+
 		JSValue File::get_parent() const TITANIUM_NOEXCEPT
 		{
 			const std::string path = path_;
@@ -187,6 +191,7 @@ namespace TitaniumWindows
 			auto File = get_context().CreateObject(JSExport<Titanium::Filesystem::File>::Class());
 			return File.CallAsConstructor(parent);
 		}
+
 		bool File::get_readonly() const TITANIUM_NOEXCEPT
 		{
 			auto item = getStorageItem();
@@ -196,10 +201,12 @@ namespace TitaniumWindows
 			using namespace Windows::Storage;
 			return ((item->Attributes & FileAttributes::ReadOnly) == FileAttributes::ReadOnly);
 		}
+
 		bool File::get_remoteBackup() const TITANIUM_NOEXCEPT
 		{
 			return false;
 		}
+
 		bool File::get_symbolicLink() const TITANIUM_NOEXCEPT
 		{
 			return false;
@@ -215,7 +222,7 @@ namespace TitaniumWindows
 			return ((item->Attributes & FileAttributes::ReadOnly) != FileAttributes::ReadOnly);
 		}
 
-		unsigned File::get_size() const TITANIUM_NOEXCEPT
+		unsigned long long File::get_size() const TITANIUM_NOEXCEPT
 		{
 			const auto prop = getStorageProperties(getStorageItem());
 			if (prop == nullptr) {
@@ -278,6 +285,7 @@ namespace TitaniumWindows
 			}
 			return result;
 		}
+
 		bool File::createFile() TITANIUM_NOEXCEPT
 		{
 			const bool result = createEmptyFile(path_);
@@ -289,11 +297,12 @@ namespace TitaniumWindows
 			}
 			return result;
 		}
-		unsigned File::createTimestamp() TITANIUM_NOEXCEPT
+
+		std::chrono::milliseconds File::createTimestamp() TITANIUM_NOEXCEPT
 		{
 			auto item = getStorageItem();
 			if (item == nullptr) {
-				return 0;
+				return std::chrono::milliseconds(0);
 			} else {
 				return TitaniumWindows::Utility::GetMSecSinceEpoch(item->DateCreated);
 			}
@@ -330,6 +339,7 @@ namespace TitaniumWindows
 			}
 			return result;
 		}
+
 		bool File::exists() TITANIUM_NOEXCEPT
 		{
 			return (getStorageItem() != nullptr);
@@ -340,6 +350,7 @@ namespace TitaniumWindows
 			const std::string path = path_;
 			return path.substr(path.find_last_of(".") + 1);
 		}
+
 		std::vector<JSValue> File::getDirectoryListing() TITANIUM_NOEXCEPT
 		{
 			std::vector<JSValue> filenames;
@@ -402,15 +413,17 @@ namespace TitaniumWindows
 			using namespace Windows::Storage;
 			return ((item->Attributes & FileAttributes::Directory) != FileAttributes::Directory);
 		}
-		unsigned File::modificationTimestamp() TITANIUM_NOEXCEPT
+
+		std::chrono::milliseconds File::modificationTimestamp() TITANIUM_NOEXCEPT
 		{
 			const auto prop = getStorageProperties(getStorageItem());
 			if (prop == nullptr) {
-				return 0;
+				return std::chrono::milliseconds(0);
 			} else {
 				return TitaniumWindows::Utility::GetMSecSinceEpoch(prop->DateModified);
 			}
 		}
+
 		bool File::move(const std::string& newpath) TITANIUM_NOEXCEPT
 		{
 			// if this item is folder, call rename
@@ -454,11 +467,13 @@ namespace TitaniumWindows
 
 			return result;
 		}
+
 		JSValue File::open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::open: Unimplemented");
 			return get_context().CreateNull();
 		}
+
 		JSValue File::read() TITANIUM_NOEXCEPT
 		{
 			if (file_ == nullptr) {
@@ -472,6 +487,7 @@ namespace TitaniumWindows
 
 			return blob;
 		}
+
 		bool File::rename(const std::string& desiredName) TITANIUM_NOEXCEPT
 		{
 			auto item = getStorageItem();
@@ -492,11 +508,13 @@ namespace TitaniumWindows
 
 			return result;
 		}
+
 		std::string File::resolve() TITANIUM_NOEXCEPT
 		{
 			return path_;
 		}
-		unsigned File::spaceAvailable() TITANIUM_NOEXCEPT
+
+		unsigned long long File::spaceAvailable() TITANIUM_NOEXCEPT
 		{
 			const auto prop = getStorageProperties(getStorageItem());
 			const auto propertiesName = ref new Platform::Collections::Vector<Platform::String^>();
@@ -517,6 +535,7 @@ namespace TitaniumWindows
 			event.wait();
 			return freeSpace;
 		}
+
 		bool File::write(const JSValue& data, bool append) TITANIUM_NOEXCEPT
 		{
 			// if this item represents folder, write will never work
@@ -576,5 +595,5 @@ namespace TitaniumWindows
 
 			return result;
 		}
-	} // namespace Filesystem {
-} // namespace TitaniumWindows {
+	} // namespace Filesystem
+} // namespace TitaniumWindows

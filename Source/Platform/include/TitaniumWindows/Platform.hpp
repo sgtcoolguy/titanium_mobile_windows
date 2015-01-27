@@ -59,7 +59,10 @@ namespace TitaniumWindows
 		virtual bool is24HourTimeFormat() TITANIUM_NOEXCEPT;
 
 	private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 		std::string osname__;
+#pragma warning(pop)
 	};
 
 }  // namespace TitaniumWindows

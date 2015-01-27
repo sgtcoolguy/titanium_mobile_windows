@@ -54,7 +54,10 @@ namespace TitaniumWindows
 		Windows::Foundation::EventRegistrationToken shake_event_;
 		Windows::Foundation::EventRegistrationToken orientationchange_event_;
 
+#pragma warning(push)
+#pragma warning(disable : 4251)
 		TitaniumWindows::Gesture::ShakeGestureHelper shakeGestureHelper;
+#pragma warning(pop)
 	};
 
 }  // namespace TitaniumWindows

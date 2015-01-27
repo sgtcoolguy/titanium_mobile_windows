@@ -68,7 +68,7 @@ bool NativeFileExample::get_writable() const TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::get_writable");
 	return false;
 }
-unsigned NativeFileExample::get_size() const TITANIUM_NOEXCEPT
+unsigned long long NativeFileExample::get_size() const TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::get_size");
 	return 0;
@@ -94,10 +94,10 @@ bool NativeFileExample::createFile() TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::createFile");
 	return false;
 }
-unsigned NativeFileExample::createTimestamp() TITANIUM_NOEXCEPT
+std::chrono::milliseconds NativeFileExample::createTimestamp() TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::createTimestamp");
-	return 0;
+	return std::chrono::milliseconds(0);
 }
 bool NativeFileExample::deleteDirectory(bool recursive) TITANIUM_NOEXCEPT
 {
@@ -135,10 +135,10 @@ bool NativeFileExample::isFile() TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::isFile");
 	return false;
 }
-unsigned NativeFileExample::modificationTimestamp() TITANIUM_NOEXCEPT
+std::chrono::milliseconds NativeFileExample::modificationTimestamp() TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::modificationTimestamp");
-	return 0;
+	return std::chrono::milliseconds(0);
 }
 bool NativeFileExample::move(const std::string& newpath) TITANIUM_NOEXCEPT
 {
@@ -165,7 +165,7 @@ std::string NativeFileExample::resolve() TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::resolve");
 	return "";
 }
-unsigned NativeFileExample::spaceAvailable() TITANIUM_NOEXCEPT
+unsigned long long NativeFileExample::spaceAvailable() TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::spaceAvailable");
 	return false;

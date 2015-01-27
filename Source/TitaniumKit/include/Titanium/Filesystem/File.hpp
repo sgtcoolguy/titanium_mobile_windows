@@ -9,6 +9,7 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Filesystem/Constants.hpp"
+#include <chrono>
 #include <vector>
 
 namespace Titanium
@@ -72,7 +73,7 @@ namespace Titanium
 			  @abstract get_size
 			  @discussion Size, in bytes, of the file identified by this object.
 			*/
-			virtual unsigned get_size() const TITANIUM_NOEXCEPT;
+			virtual unsigned long long get_size() const TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract get_symbolicLink
@@ -115,7 +116,7 @@ namespace Titanium
 			  @abstract createTimestamp
 			  @discussion Returns the creation timestamp for the file identified by this file object.
 			*/
-			virtual unsigned createTimestamp() TITANIUM_NOEXCEPT;
+			virtual std::chrono::milliseconds createTimestamp() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract deleteDirectory
@@ -164,7 +165,7 @@ namespace Titanium
 			  @abstract modificationTimestamp
 			  @discussion Returns the last modification time for this file.
 			*/
-			virtual unsigned modificationTimestamp() TITANIUM_NOEXCEPT;
+			virtual std::chrono::milliseconds modificationTimestamp() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract move
@@ -200,7 +201,7 @@ namespace Titanium
 			  @abstract spaceAvailable
 			  @discussion Returns the amount of free space available on the device where the file identified by this file object is stored.
 			*/
-			virtual unsigned spaceAvailable() TITANIUM_NOEXCEPT;
+			virtual unsigned long long spaceAvailable() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract write
