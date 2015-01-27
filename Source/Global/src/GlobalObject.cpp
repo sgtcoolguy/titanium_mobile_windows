@@ -30,9 +30,11 @@ namespace TitaniumWindows
 		buffer << ifs.rdbuf();
 		return buffer.str();
 	}
-
+#pragma warning(push)
+#pragma warning(disable : 4251)
 	class TITANIUMWINDOWS_GLOBAL_EXPORT Timer final : public Titanium::GlobalObject::Timer, public std::enable_shared_from_this<Timer>
 	{
+#pragma warning(pop)
 	public:
 		Timer(Titanium::GlobalObject::Callback_t callback, const std::chrono::milliseconds& interval)
 		    : Titanium::GlobalObject::Timer(callback, interval), callback__(callback)
@@ -103,8 +105,11 @@ namespace TitaniumWindows
 		}
 
 	private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 		Titanium::GlobalObject::Callback_t callback__;
 		std::once_flag dispatcher_timer_once_flag__;
+#pragma warning(pop)
 		Windows::UI::Xaml::DispatcherTimer^ dispatcher_timer__;
 		Windows::Foundation::EventRegistrationToken event_registration_token__;
 	};

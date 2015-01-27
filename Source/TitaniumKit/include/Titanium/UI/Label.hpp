@@ -126,12 +126,15 @@ namespace Titanium
 			virtual bool js_set_wordWrap(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			std::string color__;
 			JSObject font__;
 			std::string text__;
 			TEXT_ALIGNMENT textAlign__;
 			TEXT_VERTICAL_ALIGNMENT verticalAlign__;
 			bool wordWrap__;
+#pragma warning(pop)
 		};
 	} // namespace UI
 }  // namespace Titanium

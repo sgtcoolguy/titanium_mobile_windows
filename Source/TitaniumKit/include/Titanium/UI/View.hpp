@@ -270,6 +270,8 @@ namespace Titanium
 			virtual NativeChildrenList_t get_native_children() const TITANIUM_NOEXCEPT final;
 
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			JSArray children__;
 			std::string backgroundColor__;
 			std::string top__;
@@ -280,6 +282,7 @@ namespace Titanium
 			std::string width__;
 			std::string height__;
 			std::string layout__;
+#pragma warning(pop)
 		};
 	} // namespace UI
 }  // namespace Titanium

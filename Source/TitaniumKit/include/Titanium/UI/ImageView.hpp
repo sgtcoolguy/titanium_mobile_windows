@@ -49,7 +49,10 @@ namespace Titanium
 			virtual bool js_set_image(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			std::string image__;
+#pragma warning(pop)
 		};
 	} // namespace UI
 }  // namespace Titanium

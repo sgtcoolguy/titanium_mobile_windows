@@ -15,6 +15,7 @@
 #include <codecvt>
 #include <ppltasks.h>
 #include <unordered_map>
+#include <chrono>
 
 namespace TitaniumWindows
 {
@@ -76,15 +77,13 @@ namespace TitaniumWindows
 			return "application/octet-stream";
 		}
 
-		static unsigned GetMSecSinceEpoch(Windows::Foundation::DateTime d)
+		static std::chrono::milliseconds GetMSecSinceEpoch(Windows::Foundation::DateTime d)
 		{
-			Windows::Globalization::Calendar^ cal = ref new Windows::Globalization::Calendar();
-			cal->SetDateTime(d);
-
-			std::tm tm = {cal->Second, cal->Minute, cal->Hour + (cal->Period == 1 ? 0 : 12), cal->Day, cal->Month - 1, cal->Year - 1900, 0, 0, -1};
-			const std::time_t t = std::mktime(&tm);
-
-			return t * 1000;
+			auto dt = new Windows::Foundation::DateTime();
+			const long long bias = 116444736000000000; // Number of 100 nanosecond units from 1/1/1601 (windows epoch) to 1/1/1970 (unix epoch)
+			long long intervals = dt->UniversalTime - bias; // this gives us number of 100 nanosecond intervals since unix epoch
+			long long milliseconds = intervals / 10000; // convert 100 nanosecond intervals to milliseconds
+			return std::chrono::milliseconds(milliseconds); // wrap in data type
 		}
 
 	}  // namespace Utility

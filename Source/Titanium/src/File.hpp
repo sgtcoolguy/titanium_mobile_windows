@@ -32,7 +32,7 @@ namespace TitaniumWindows
 			virtual JSValue get_parent() const TITANIUM_NOEXCEPT override;
 			virtual bool get_readonly() const TITANIUM_NOEXCEPT override;
 			virtual bool get_remoteBackup() const TITANIUM_NOEXCEPT override;
-			virtual unsigned get_size() const TITANIUM_NOEXCEPT override;
+			virtual unsigned long long get_size() const TITANIUM_NOEXCEPT override;
 			virtual bool get_symbolicLink() const TITANIUM_NOEXCEPT override;
 			virtual bool get_writable() const TITANIUM_NOEXCEPT override;
 
@@ -40,7 +40,7 @@ namespace TitaniumWindows
 			virtual bool copy(const std::string& dest) TITANIUM_NOEXCEPT override;
 			virtual bool createDirectory() TITANIUM_NOEXCEPT override;
 			virtual bool createFile() TITANIUM_NOEXCEPT override;
-			virtual unsigned createTimestamp() TITANIUM_NOEXCEPT override;
+			virtual std::chrono::milliseconds createTimestamp() TITANIUM_NOEXCEPT override;
 			virtual bool deleteDirectory(bool recursive) TITANIUM_NOEXCEPT override;
 			virtual bool deleteFile() TITANIUM_NOEXCEPT override;
 			virtual bool exists() TITANIUM_NOEXCEPT override;
@@ -48,13 +48,13 @@ namespace TitaniumWindows
 			virtual std::vector<JSValue> getDirectoryListing() TITANIUM_NOEXCEPT override;
 			virtual bool isDirectory() TITANIUM_NOEXCEPT override;
 			virtual bool isFile() TITANIUM_NOEXCEPT override;
-			virtual unsigned modificationTimestamp() TITANIUM_NOEXCEPT override;
+			virtual std::chrono::milliseconds modificationTimestamp() TITANIUM_NOEXCEPT override;
 			virtual bool move(const std::string& newpath) TITANIUM_NOEXCEPT override;
 			virtual JSValue open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT override;
 			virtual JSValue read() TITANIUM_NOEXCEPT override;
 			virtual bool rename(const std::string& newname) TITANIUM_NOEXCEPT override;
 			virtual std::string resolve() TITANIUM_NOEXCEPT override;
-			virtual unsigned spaceAvailable() TITANIUM_NOEXCEPT override;
+			virtual unsigned long long spaceAvailable() TITANIUM_NOEXCEPT override;
 			virtual bool write(const JSValue& data, bool append) TITANIUM_NOEXCEPT override;
 
 			File(const JSContext& js_context) TITANIUM_NOEXCEPT;
@@ -153,15 +153,18 @@ namespace TitaniumWindows
 				return content.size();
 			}
 
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			std::string name_;
 			std::string path_;
+#pragma warning(pop)
 
 			// We need both file and folder because Windows Runtime
 			// distinguishes it.
 			Windows::Storage::StorageFile^ file_;
 			Windows::Storage::StorageFolder^ folder_;
 		};
-	}
-}  // namespace TitaniumWindows { namespace Filesystem {
+	} // namespace Filesystem
+}  // namespace TitaniumWindows
 
 #endif  // _TITANIUMWINDOWS_FILE_HPP_

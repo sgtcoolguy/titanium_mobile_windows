@@ -57,7 +57,10 @@ namespace Titanium
 			virtual bool js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			std::string title__;
+#pragma warning(pop)
 		};
 	} // namespace UI
 }  // namespace Titanium
