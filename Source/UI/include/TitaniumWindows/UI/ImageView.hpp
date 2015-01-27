@@ -26,8 +26,12 @@ namespace TitaniumWindows
 		  @discussion This is the Titanium.UI.ImageView implementation for
 		  Windows.
 		*/
+// Silence 4275 about ViewBase for now. We need to merge View and ViewBase and then remove this pragma! TIMOB-18422
+#pragma warning(push)
+#pragma warning(disable : 4275)
 		class TITANIUMWINDOWS_UI_EXPORT ImageView final : public Titanium::UI::ImageView, public JSExport<ImageView>, public ViewBase
 		{
+#pragma warning(pop)
 		public:
 			ImageView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
