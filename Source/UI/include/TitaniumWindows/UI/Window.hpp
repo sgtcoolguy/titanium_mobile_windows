@@ -24,8 +24,12 @@ namespace TitaniumWindows
 		  @discussion This is the Titanium.UI.Window implementation for
 		  Windows.
 		*/
+// Silence 4275 about ViewBase for now. We need to merge View and ViewBase and then remove this pragma! TIMOB-18422
+#pragma warning(push)
+#pragma warning(disable : 4275)
 		class TITANIUMWINDOWS_UI_EXPORT Window final : public Titanium::UI::Window, public JSExport<Window>, public ViewBase
 		{
+#pragma warning(pop)
 		public:
 			virtual void open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT override final;
 			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;

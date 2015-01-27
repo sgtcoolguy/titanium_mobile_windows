@@ -48,16 +48,16 @@ namespace TitaniumWindows
 					const auto ctx = self->get_context();
 					auto obj = ctx.CreateObject();
 					const auto reading = self->accelerometer_->GetCurrentReading();
-					unsigned timestamp = 0;
+					unsigned long long timestamp = 0;
 					if (self->previous_acceleromter_time_.UniversalTime > 0) {
-						timestamp = (reading->Timestamp.UniversalTime - self->previous_acceleromter_time_.UniversalTime) / 10000.0;
+						timestamp = (reading->Timestamp.UniversalTime - self->previous_acceleromter_time_.UniversalTime) / 10000;
 						// Suppress fireEvent so that it doesn't block UI thread (taken from Titanium Android)
 						if (timestamp < 100) {
 							return;
 						}
 					}
 					self->previous_acceleromter_time_ = reading->Timestamp;
-					obj.SetProperty("timestamp", ctx.CreateNumber(timestamp));
+					obj.SetProperty("timestamp", ctx.CreateNumber(static_cast<double>(timestamp)));
 					obj.SetProperty("x", ctx.CreateNumber(reading->AccelerationX));
 					obj.SetProperty("y", ctx.CreateNumber(reading->AccelerationY));
 					obj.SetProperty("z", ctx.CreateNumber(reading->AccelerationZ));
