@@ -13,19 +13,14 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : Titanium::UI::ImageView(js_context),
-		      image__(ref new Windows::UI::Xaml::Controls::Image())
-		{
-			TITANIUM_LOG_DEBUG("ImageView::ctor Initialize");
-		}
-
-		ImageView::ImageView(const ImageView& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : Titanium::UI::ImageView(rhs, arguments),
+		ImageView::ImageView(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+			  : Titanium::UI::ImageView(js_context, arguments),
 		      image__(ref new Windows::UI::Xaml::Controls::Image())
 		{
 			using namespace Windows::UI::Xaml;
 			using namespace Windows::UI::Xaml::Controls;
+
+			TITANIUM_LOG_DEBUG("ImageView::ctor");
 
 			setComponent(image__);
 
@@ -39,7 +34,6 @@ namespace TitaniumWindows
 				this->onComponentSizeChange(rect);
 			});
 
-			TITANIUM_LOG_DEBUG("ImageView::ctor CallAsConstructor");
 		}
 
 		void ImageView::JSExportInitialize()

@@ -9,19 +9,11 @@
 
 namespace Titanium
 {
-	FilesystemModule::FilesystemModule(const JSContext& js_context) TITANIUM_NOEXCEPT
+	FilesystemModule::FilesystemModule(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 	    : Module(js_context),
 	      mode_read__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::READ))),
 	      mode_write__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::WRITE))),
 	      mode_append__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::APPEND)))
-	{
-	}
-
-	FilesystemModule::FilesystemModule(const FilesystemModule& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : Module(rhs, arguments),
-	      mode_read__(rhs.mode_read__),
-	      mode_write__(rhs.mode_write__),
-	      mode_append__(rhs.mode_append__)
 	{
 	}
 
@@ -49,15 +41,15 @@ namespace Titanium
 
 		JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = Titanium_property;
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
 		JSValue FS_property = Titanium.GetProperty("Filesystem");
 		TITANIUM_ASSERT(FS_property.IsObject());  // precondition
-		JSObject FS = FS_property;
+		JSObject FS = static_cast<JSObject>(FS_property);
 
 		JSValue File_property = FS.GetProperty("File");
 		TITANIUM_ASSERT(File_property.IsObject());  // precondition
-		JSObject File = File_property;
+		JSObject File = static_cast<JSObject>(File_property);
 
 		return File.CallAsConstructor(path);
 	}
@@ -158,11 +150,11 @@ namespace Titanium
 	{
 		JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = Titanium_property;
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
 		JSValue FS_property = Titanium.GetProperty("Filesystem");
 		TITANIUM_ASSERT(FS_property.IsObject());  // precondition
-		JSObject FS = FS_property;
+		JSObject FS = static_cast<JSObject>(FS_property);
 
 		JSValue sep_property = FS.GetProperty("separator");
 		TITANIUM_ASSERT(sep_property.IsString());  // precondition

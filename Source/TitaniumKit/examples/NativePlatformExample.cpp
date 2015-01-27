@@ -8,15 +8,10 @@
 #include "NativePlatformDisplayCapsExample.hpp"
 #include <iostream>
 
-NativePlatformExample::NativePlatformExample(const JSContext& js_context) TITANIUM_NOEXCEPT
+NativePlatformExample::NativePlatformExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::PlatformModule(js_context)
 {
 	setDisplayCaps(get_context().CreateObject(JSExport<NativePlatformDisplayCapsExample>::Class()));
-}
-
-NativePlatformExample::NativePlatformExample(const NativePlatformExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-    : Titanium::PlatformModule(rhs, arguments)
-{
 }
 
 std::string NativePlatformExample::osname() const TITANIUM_NOEXCEPT

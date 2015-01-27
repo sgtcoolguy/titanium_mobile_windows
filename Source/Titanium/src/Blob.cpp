@@ -12,16 +12,10 @@
 
 namespace TitaniumWindows
 {
-	Blob::Blob(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Titanium::Blob(js_context)
+	Blob::Blob(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+	    : Titanium::Blob(js_context, arguments)
 	{
-		TITANIUM_LOG_DEBUG("TitaniumWindows::Blob::ctor Initialize");
-	}
-
-	Blob::Blob(const Blob& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : Titanium::Blob(rhs, arguments)
-	{
-		TITANIUM_LOG_DEBUG("TitaniumWindows::Blob::ctor CallAsConstructor");
+		TITANIUM_LOG_DEBUG("TitaniumWindows::Blob::ctor");
 	}
 
 	Blob::~Blob()
@@ -68,7 +62,7 @@ namespace TitaniumWindows
 		return data_.size();
 	}
 
-	JSObject Blob::get_file() const TITANIUM_NOEXCEPT
+	JSValue Blob::get_file() const TITANIUM_NOEXCEPT
 	{
 		if (path_.size() > 0) {
 			auto File = get_context().CreateObject(JSExport<TitaniumWindows::Filesystem::File>::Class());

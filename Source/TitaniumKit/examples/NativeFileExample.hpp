@@ -19,8 +19,7 @@ using namespace HAL;
 class NativeFileExample final : public Titanium::Filesystem::File, public JSExport<NativeFileExample>
 {
 public:
-	NativeFileExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeFileExample(const NativeFileExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+	NativeFileExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeFileExample() = default;
 	NativeFileExample(const NativeFileExample&) = default;

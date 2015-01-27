@@ -85,8 +85,7 @@ namespace Titanium
 			virtual std::string get_title() const TITANIUM_NOEXCEPT final;
 			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT;
 
-			AlertDialog(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			AlertDialog(const AlertDialog&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+			AlertDialog(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 			virtual ~AlertDialog() TITANIUM_NOEXCEPT;  //= default;
 			AlertDialog(const AlertDialog&) = default;

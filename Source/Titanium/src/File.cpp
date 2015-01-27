@@ -20,18 +20,17 @@ namespace TitaniumWindows
 {
 	namespace Filesystem
 	{
-		File::File(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : Titanium::Filesystem::File(js_context)
+		File::File(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		    : Titanium::Filesystem::File(js_context, arguments)
 		{
-			TITANIUM_LOG_DEBUG("TitaniumWindows::Filesystem::File::ctor Initialize");
-		}
+			TITANIUM_LOG_DEBUG("TitaniumWindows::Filesystem::File::ctor");
 
-		File::File(const File& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : Titanium::Filesystem::File(rhs, arguments)
-		{
-			TITANIUM_LOG_DEBUG("TitaniumWindows::Filesystem::File::ctor CallAsConstructor");
+			// TODO: if argument is empty, we assumes it's called from initializer.
+			if (arguments.empty()) {
+				return;
+			}
 
-			TITANIUM_ASSERT(!arguments.empty());
+			TITANIUM_ASSERT(arguments.size() > 0);
 			TITANIUM_ASSERT(arguments.at(0).IsString());
 
 			// this assumes we already joins the arguments with separater
@@ -560,7 +559,7 @@ namespace TitaniumWindows
 				const auto content = static_cast<std::string>(data);
 				buffer = getBufferFromString(content, append, file_);
 			} else if (data.IsObject()) {
-				JSObject obj = data;
+				JSObject obj = static_cast<JSObject>(data);
 				auto file = obj.GetPrivate<TitaniumWindows::Filesystem::File>();
 				if (file) {
 					auto content = file->getContent();

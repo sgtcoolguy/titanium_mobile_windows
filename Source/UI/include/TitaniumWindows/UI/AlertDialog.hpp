@@ -27,8 +27,7 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT AlertDialog final : public Titanium::UI::AlertDialog, public JSExport<AlertDialog>, public ViewBase
 		{
 		public:
-			AlertDialog(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			AlertDialog(const AlertDialog&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+			AlertDialog(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 			virtual ~AlertDialog() = default;
 			AlertDialog(const AlertDialog&) = default;

@@ -21,7 +21,7 @@ namespace Titanium
 		}
 	}
 
-	UIModule::UIModule(const JSContext& js_context) TITANIUM_NOEXCEPT
+	UIModule::UIModule(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 	    : Module(js_context),
 	      animation_curve_ease_in__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ANIMATION_CURVE::EASE_IN))),
 	      animation_curve_ease_in_out__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ANIMATION_CURVE::EASE_IN_OUT))),
@@ -128,117 +128,7 @@ namespace Titanium
 	      url_error_unknown__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::URL_ERROR::UNKNOWN))),
 	      url_error_unsupported_scheme__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::URL_ERROR::UNSUPPORTED_SCHEME)))
 	{
-		TITANIUM_LOG_DEBUG("UIModule:: ctor 1 ", this);
-	}
-
-	UIModule::UIModule(const UIModule& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : Module(rhs, arguments),
-	      animation_curve_ease_in__(rhs.animation_curve_ease_in__),
-	      animation_curve_ease_in_out__(rhs.animation_curve_ease_in_out__),
-	      animation_curve_ease_out__(rhs.animation_curve_ease_out__),
-	      animation_curve_linear__(rhs.animation_curve_linear__),
-	      autolink_all__(rhs.autolink_all__),
-	      autolink_calendar__(rhs.autolink_calendar__),
-	      autolink_email_addresses__(rhs.autolink_email_addresses__),
-	      autolink_map_addresses__(rhs.autolink_map_addresses__),
-	      autolink_none__(rhs.autolink_none__),
-	      autolink_phone_numbers__(rhs.autolink_phone_numbers__),
-	      autolink_urls__(rhs.autolink_urls__),
-	      extend_edge_all__(rhs.extend_edge_all__),
-	      extend_edge_bottom__(rhs.extend_edge_bottom__),
-	      extend_edge_left__(rhs.extend_edge_left__),
-	      extend_edge_none__(rhs.extend_edge_none__),
-	      extend_edge_right__(rhs.extend_edge_right__),
-	      extend_edge_top__(rhs.extend_edge_top__),
-	      face_down__(rhs.face_down__),
-	      face_up__(rhs.face_up__),
-	      fill__(rhs.fill__),
-	      inherit__(rhs.inherit__),
-	      input_borderstyle_bezel__(rhs.input_borderstyle_bezel__),
-	      input_borderstyle_line__(rhs.input_borderstyle_line__),
-	      input_borderstyle_none__(rhs.input_borderstyle_none__),
-	      input_borderstyle_rounded__(rhs.input_borderstyle_rounded__),
-	      input_buttonmode_always__(rhs.input_buttonmode_always__),
-	      input_buttonmode_never__(rhs.input_buttonmode_never__),
-	      input_buttonmode_onblur__(rhs.input_buttonmode_onblur__),
-	      input_buttonmode_onfocus__(rhs.input_buttonmode_onfocus__),
-	      keyboard_appearance_alert__(rhs.keyboard_appearance_alert__),
-	      keyboard_appearance_default__(rhs.keyboard_appearance_default__),
-	      keyboard_ascii__(rhs.keyboard_ascii__),
-	      keyboard_decimal_pad__(rhs.keyboard_decimal_pad__),
-	      keyboard_default__(rhs.keyboard_default__),
-	      keyboard_email__(rhs.keyboard_email__),
-	      keyboard_namephone_pad__(rhs.keyboard_namephone_pad__),
-	      keyboard_numbers_punctuation__(rhs.keyboard_numbers_punctuation__),
-	      keyboard_number_pad__(rhs.keyboard_number_pad__),
-	      keyboard_phone_pad__(rhs.keyboard_phone_pad__),
-	      keyboard_url__(rhs.keyboard_url__),
-	      landscape_left__(rhs.landscape_left__),
-	      landscape_right__(rhs.landscape_right__),
-	      list_accessory_type_checkmark__(rhs.list_accessory_type_checkmark__),
-	      list_accessory_type_detail__(rhs.list_accessory_type_detail__),
-	      list_accessory_type_disclosure__(rhs.list_accessory_type_disclosure__),
-	      list_accessory_type_none__(rhs.list_accessory_type_none__),
-	      list_item_template_contacts__(rhs.list_item_template_contacts__),
-	      list_item_template_default__(rhs.list_item_template_default__),
-	      list_item_template_settings__(rhs.list_item_template_settings__),
-	      list_item_template_subtitle__(rhs.list_item_template_subtitle__),
-	      notification_duration_long__(rhs.notification_duration_long__),
-	      notification_duration_short__(rhs.notification_duration_short__),
-	      picker_type_count_down_timer__(rhs.picker_type_count_down_timer__),
-	      picker_type_date__(rhs.picker_type_date__),
-	      picker_type_date_and_time__(rhs.picker_type_date_and_time__),
-	      picker_type_plain__(rhs.picker_type_plain__),
-	      picker_type_time__(rhs.picker_type_time__),
-	      portrait__(rhs.portrait__),
-	      returnkey_default__(rhs.returnkey_default__),
-	      returnkey_done__(rhs.returnkey_done__),
-	      returnkey_emergency_call__(rhs.returnkey_emergency_call__),
-	      returnkey_go__(rhs.returnkey_go__),
-	      returnkey_google__(rhs.returnkey_google__),
-	      returnkey_join__(rhs.returnkey_join__),
-	      returnkey_next__(rhs.returnkey_next__),
-	      returnkey_route__(rhs.returnkey_route__),
-	      returnkey_search__(rhs.returnkey_search__),
-	      returnkey_send__(rhs.returnkey_send__),
-	      returnkey_yahoo__(rhs.returnkey_yahoo__),
-	      size__(rhs.size__),
-	      text_alignment_center__(rhs.text_alignment_center__),
-	      text_alignment_left__(rhs.text_alignment_left__),
-	      text_alignment_right__(rhs.text_alignment_right__),
-	      text_autocapitalization_all__(rhs.text_autocapitalization_all__),
-	      text_autocapitalization_none__(rhs.text_autocapitalization_none__),
-	      text_autocapitalization_sentences__(rhs.text_autocapitalization_sentences__),
-	      text_autocapitalization_words__(rhs.text_autocapitalization_words__),
-	      text_style_body__(rhs.text_style_body__),
-	      text_style_caption1__(rhs.text_style_caption1__),
-	      text_style_caption2__(rhs.text_style_caption2__),
-	      text_style_footnote__(rhs.text_style_footnote__),
-	      text_style_headline__(rhs.text_style_headline__),
-	      text_style_subheadline__(rhs.text_style_subheadline__),
-	      text_vertical_alignment_bottom__(rhs.text_vertical_alignment_bottom__),
-	      text_vertical_alignment_center__(rhs.text_vertical_alignment_center__),
-	      text_vertical_alignment_top__(rhs.text_vertical_alignment_top__),
-	      unit_cm__(rhs.unit_cm__),
-	      unit_dip__(rhs.unit_dip__),
-	      unit_in__(rhs.unit_in__),
-	      unit_mm__(rhs.unit_mm__),
-	      unit_px__(rhs.unit_px__),
-	      unknown__(rhs.unknown__),
-	      upside_portrait__(rhs.upside_portrait__),
-	      url_error_authentication__(rhs.url_error_authentication__),
-	      url_error_bad_url__(rhs.url_error_bad_url__),
-	      url_error_connect__(rhs.url_error_connect__),
-	      url_error_file__(rhs.url_error_file__),
-	      url_error_file_not_found__(rhs.url_error_file_not_found__),
-	      url_error_host_lookup__(rhs.url_error_host_lookup__),
-	      url_error_redirect_loop__(rhs.url_error_redirect_loop__),
-	      url_error_ssl_failed__(rhs.url_error_ssl_failed__),
-	      url_error_timeout__(rhs.url_error_timeout__),
-	      url_error_unknown__(rhs.url_error_unknown__),
-	      url_error_unsupported_scheme__(rhs.url_error_unsupported_scheme__)
-	{
-		TITANIUM_LOG_DEBUG("UIModule:: ctor 2 ", this);
+		TITANIUM_LOG_DEBUG("UIModule:: ctor ", this);
 	}
 
 	UIModule::~UIModule() TITANIUM_NOEXCEPT
@@ -252,15 +142,15 @@ namespace Titanium
 
 		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = Titanium_property;
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
 		JSValue UI_property = Titanium.GetProperty("UI");
 		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-		JSObject UI = UI_property;
+		JSObject UI = static_cast<JSObject>(UI_property);
 
 		JSValue View_property = UI.GetProperty("View");
 		TITANIUM_ASSERT(View_property.IsObject());  // precondition
-		JSObject View = View_property;
+		JSObject View = static_cast<JSObject>(View_property);
 
 		auto view = View.CallAsConstructor(parameters);
 		Titanium::applyProperties(view, parameters);
@@ -273,15 +163,15 @@ namespace Titanium
 
 		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = Titanium_property;
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
 		JSValue UI_property = Titanium.GetProperty("UI");
 		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-		JSObject UI = UI_property;
+		JSObject UI = static_cast<JSObject>(UI_property);
 
 		JSValue Window_property = UI.GetProperty("Window");
 		TITANIUM_ASSERT(Window_property.IsObject());  // precondition
-		JSObject Window = Window_property;
+		JSObject Window = static_cast<JSObject>(Window_property);
 
 		auto window = Window.CallAsConstructor(parameters);
 		Titanium::applyProperties(window, parameters);
@@ -294,15 +184,15 @@ namespace Titanium
 
 		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = Titanium_property;
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
 		JSValue UI_property = Titanium.GetProperty("UI");
 		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-		JSObject UI = UI_property;
+		JSObject UI = static_cast<JSObject>(UI_property);
 
 		JSValue Button_property = UI.GetProperty("Button");
 		TITANIUM_ASSERT(Button_property.IsObject());  // precondition
-		JSObject Button = Button_property;
+		JSObject Button = static_cast<JSObject>(Button_property);
 
 		auto button = Button.CallAsConstructor(parameters);
 		Titanium::applyProperties(button, parameters);
@@ -315,15 +205,15 @@ namespace Titanium
 
 		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = Titanium_property;
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
 		JSValue UI_property = Titanium.GetProperty("UI");
 		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-		JSObject UI = UI_property;
+		JSObject UI = static_cast<JSObject>(UI_property);
 
 		JSValue Slider_property = UI.GetProperty("Slider");
 		TITANIUM_ASSERT(Slider_property.IsObject());  // precondition
-		JSObject Slider = Slider_property;
+		JSObject Slider = static_cast<JSObject>(Slider_property);
 
 		auto slider = Slider.CallAsConstructor(parameters);
 		Titanium::applyProperties(slider, parameters);
@@ -336,15 +226,15 @@ namespace Titanium
 
 		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = Titanium_property;
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
 		JSValue UI_property = Titanium.GetProperty("UI");
 		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-		JSObject UI = UI_property;
+		JSObject UI = static_cast<JSObject>(UI_property);
 
 		JSValue AlertDialog_property = UI.GetProperty("AlertDialog");
 		TITANIUM_ASSERT(AlertDialog_property.IsObject());  // precondition
-		JSObject AlertDialog = AlertDialog_property;
+		JSObject AlertDialog = static_cast<JSObject>(AlertDialog_property);
 
 		auto alertDialog = AlertDialog.CallAsConstructor(parameters);
 		Titanium::applyProperties(alertDialog, parameters);
@@ -420,7 +310,7 @@ namespace Titanium
   return ui;
     )JS";
 
-		return get_context().CreateFunction(script, {"_arguments"})({parameters}, this_object);
+		return static_cast<JSObject>(get_context().CreateFunction(script, { "_arguments" })({ parameters }, this_object));
 	}
 
 	JSObject UIModule::createTabGroup(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -503,7 +393,7 @@ namespace Titanium
   ui.applyProperties(_arguments);
   return ui;
     )JS";
-		return get_context().CreateFunction(script, {"_arguments"})({parameters}, this_object);
+		return static_cast<JSObject>(get_context().CreateFunction(script, { "_arguments" })({ parameters }, this_object));
 	}
 
 	JSObject UIModule::createScrollView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -512,15 +402,15 @@ namespace Titanium
 
 		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = Titanium_property;
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
 		JSValue UI_property = Titanium.GetProperty("UI");
 		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-		JSObject UI = UI_property;
+		JSObject UI = static_cast<JSObject>(UI_property);
 
 		JSValue ScrollView_property = UI.GetProperty("ScrollView");
 		TITANIUM_ASSERT(ScrollView_property.IsObject());  // precondition
-		JSObject ScrollView = ScrollView_property;
+		JSObject ScrollView = static_cast<JSObject>(ScrollView_property);
 
 		auto view = ScrollView.CallAsConstructor(parameters);
 		Titanium::applyProperties(view, parameters);
@@ -533,15 +423,15 @@ namespace Titanium
 
 		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = Titanium_property;
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
 		JSValue UI_property = Titanium.GetProperty("UI");
 		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-		JSObject UI = UI_property;
+		JSObject UI = static_cast<JSObject>(UI_property);
 
 		JSValue Label_property = UI.GetProperty("Label");
 		TITANIUM_ASSERT(Label_property.IsObject());  // precondition
-		JSObject Label = Label_property;
+		JSObject Label = static_cast<JSObject>(Label_property);
 
 		auto label = Label.CallAsConstructor(parameters);
 		Titanium::applyProperties(label, parameters);
@@ -554,15 +444,15 @@ namespace Titanium
 
 		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = Titanium_property;
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
 		JSValue UI_property = Titanium.GetProperty("UI");
 		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-		JSObject UI = UI_property;
+		JSObject UI = static_cast<JSObject>(UI_property);
 
 		JSValue ImageView_property = UI.GetProperty("ImageView");
 		TITANIUM_ASSERT(ImageView_property.IsObject());  // precondition
-		JSObject ImageView = ImageView_property;
+		JSObject ImageView = static_cast<JSObject>(ImageView_property);
 
 		auto image_view = ImageView.CallAsConstructor(parameters);
 		Titanium::applyProperties(image_view, parameters);
@@ -1116,7 +1006,7 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			parameters = _0;
+			parameters = static_cast<JSObject>(_0);
 		}
 		return createView(parameters, this_object);
 	}
@@ -1127,7 +1017,7 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			parameters = _0;
+			parameters = static_cast<JSObject>(_0);
 		}
 		return createWindow(parameters, this_object);
 	}
@@ -1138,7 +1028,7 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			parameters = _0;
+			parameters = static_cast<JSObject>(_0);
 		}
 		return createButton(parameters, this_object);
 	}
@@ -1149,7 +1039,7 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			parameters = _0;
+			parameters = static_cast<JSObject>(_0);
 		}
 		return createSlider(parameters, this_object);
 	}
@@ -1160,7 +1050,7 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			parameters = _0;
+			parameters = static_cast<JSObject>(_0);
 		}
 		return createAlertDialog(parameters, this_object);
 	}
@@ -1171,7 +1061,7 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			parameters = _0;
+			parameters = static_cast<JSObject>(_0);
 		}
 		return createImageView(parameters, this_object);
 	}
@@ -1182,7 +1072,7 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			parameters = _0;
+			parameters = static_cast<JSObject>(_0);
 		}
 		return createLabel(parameters, this_object);
 	}
@@ -1193,7 +1083,7 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			parameters = _0;
+			parameters = static_cast<JSObject>(_0);
 		}
 		return createTab(parameters, this_object);
 	}
@@ -1204,7 +1094,7 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			parameters = _0;
+			parameters = static_cast<JSObject>(_0);
 		}
 		return createTabGroup(parameters, this_object);
 	}
@@ -1215,7 +1105,7 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			parameters = _0;
+			parameters = static_cast<JSObject>(_0);
 		}
 		return createScrollView(parameters, this_object);
 	}

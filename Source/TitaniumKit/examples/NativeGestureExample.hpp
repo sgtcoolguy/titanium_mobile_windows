@@ -19,8 +19,7 @@ using namespace HAL;
 class NativeGestureExample final : public Titanium::Gesture, public JSExport<NativeGestureExample>
 {
 public:
-	NativeGestureExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeGestureExample(const NativeGestureExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+	NativeGestureExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeGestureExample() = default;
 	NativeGestureExample(const NativeGestureExample&) = default;

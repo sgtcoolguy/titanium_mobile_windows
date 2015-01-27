@@ -18,8 +18,8 @@
 
 namespace TitaniumWindows
 {
-	Platform::Platform(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Titanium::PlatformModule(js_context),
+	Platform::Platform(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+	    : Titanium::PlatformModule(js_context, arguments),
 #if defined(__cplusplus_winrt)
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 	      osname__("windowsphone")
@@ -30,15 +30,8 @@ namespace TitaniumWindows
 	      osname__("unknown")
 #endif
 	{
-		TITANIUM_LOG_DEBUG("Platform::ctor Initialize");
+		TITANIUM_LOG_DEBUG("Platform::ctor");
 		setDisplayCaps(get_context().CreateObject(JSExport<TitaniumWindows::DisplayCaps>::Class()));
-	}
-
-	Platform::Platform(const Platform& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : Titanium::PlatformModule(rhs, arguments),
-	      osname__(rhs.osname__)
-	{
-		TITANIUM_LOG_DEBUG("Platform::ctor CallAsConstructor");
 	}
 
 	std::string Platform::osname() const TITANIUM_NOEXCEPT
@@ -53,8 +46,8 @@ namespace TitaniumWindows
 		GUID gdn;
 		CoCreateGuid(&gdn);
 		::Platform::Guid guid(gdn);
-		std::string guid_str = std::string(guid.ToString()->Begin(), guid.ToString()->End());
-		return guid_str;
+		auto guid_str = guid.ToString();
+		return std::string(guid_str->Begin(), guid_str->End());
 	}
 
 	std::string Platform::address() const TITANIUM_NOEXCEPT

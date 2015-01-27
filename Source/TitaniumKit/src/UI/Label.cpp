@@ -12,7 +12,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		Label::Label(const JSContext& js_context) TITANIUM_NOEXCEPT
+		Label::Label(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      color__(js_context.CreateString()),
 		      text__(js_context.CreateString()),
@@ -20,17 +20,6 @@ namespace Titanium
 		      verticalAlign__(TEXT_VERTICAL_ALIGNMENT::CENTER),
 		      wordWrap__(js_context.CreateBoolean(true)),
 		      font__(js_context.CreateObject())
-		{
-		}
-
-		Label::Label(const Label& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : View(rhs, arguments),
-		      color__(rhs.color__),
-		      text__(rhs.text__),
-		      textAlign__(rhs.textAlign__),
-		      verticalAlign__(rhs.verticalAlign__),
-		      wordWrap__(rhs.wordWrap__),
-		      font__(rhs.font__)
 		{
 		}
 

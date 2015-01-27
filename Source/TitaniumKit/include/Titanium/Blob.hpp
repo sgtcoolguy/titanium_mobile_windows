@@ -33,7 +33,7 @@ namespace Titanium
 		  @discussion File object represented by this blob, or null if this blob is not
 		  associated with a file.
 		*/
-		virtual JSObject get_file() const TITANIUM_NOEXCEPT;
+		virtual JSValue get_file() const TITANIUM_NOEXCEPT;
 		/*!
 		  @method
 		  @abstract get_height
@@ -77,8 +77,7 @@ namespace Titanium
 		*/
 		virtual void append(std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT;
 
-		Blob(const JSContext& js_context) TITANIUM_NOEXCEPT;
-		Blob(const Blob&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+		Blob(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 		virtual ~Blob() = default;
 		Blob(const Blob&) = default;

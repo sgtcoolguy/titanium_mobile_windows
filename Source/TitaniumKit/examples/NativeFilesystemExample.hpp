@@ -35,8 +35,7 @@ public:
 	virtual std::string resourcesDirectory() const TITANIUM_NOEXCEPT;
 	virtual std::string tempDirectory() const TITANIUM_NOEXCEPT;
 
-	NativeFilesystemExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeFilesystemExample(const NativeFilesystemExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+	NativeFilesystemExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeFilesystemExample() = default;
 	NativeFilesystemExample(const NativeFilesystemExample&) = default;

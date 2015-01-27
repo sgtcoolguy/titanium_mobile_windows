@@ -12,19 +12,11 @@ namespace Titanium
 {
 	namespace UI
 	{
-		Slider::Slider(const JSContext& js_context) TITANIUM_NOEXCEPT
+		Slider::Slider(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      max__(js_context.CreateNumber(1)),
 		      min__(js_context.CreateNumber(0)),
 		      value__(js_context.CreateNumber(0))
-		{
-		}
-
-		Slider::Slider(const Slider& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : View(rhs, arguments),
-		      max__(rhs.max__),
-		      min__(rhs.min__),
-		      value__(rhs.value__)
 		{
 		}
 

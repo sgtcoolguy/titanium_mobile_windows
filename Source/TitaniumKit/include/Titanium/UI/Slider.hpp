@@ -62,8 +62,7 @@ namespace Titanium
 			virtual double get_value() const TITANIUM_NOEXCEPT final;
 			virtual void set_value(const double& value) TITANIUM_NOEXCEPT;
 
-			Slider(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			Slider(const Slider&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+			Slider(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 			virtual ~Slider() = default;
 			Slider(const Slider&) = default;

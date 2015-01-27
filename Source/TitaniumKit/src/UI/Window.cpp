@@ -12,18 +12,11 @@ namespace Titanium
 {
 	namespace UI
 	{
-		Window::Window(const JSContext& js_context) TITANIUM_NOEXCEPT
+		Window::Window(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      extendEdges__({EXTEND_EDGE::NONE})
 		{
-			TITANIUM_LOG_DEBUG("Window:: ctor 1 ", this);
-		}
-
-		Window::Window(const Window& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : View(rhs, arguments),
-		      extendEdges__(rhs.extendEdges__)
-		{
-			TITANIUM_LOG_DEBUG("Window:: ctor 1 ", this);
+			TITANIUM_LOG_DEBUG("Window:: ctor ", this);
 		}
 
 		Window::~Window() TITANIUM_NOEXCEPT
@@ -65,7 +58,7 @@ namespace Titanium
 			if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
-				params = _0;
+				params = static_cast<JSObject>(_0);
 			}
 			open(params, this_object);
 			return get_context().CreateUndefined();

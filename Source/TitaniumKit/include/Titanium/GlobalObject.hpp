@@ -85,7 +85,7 @@ namespace Titanium
 
 		  @result Exported exports object of the required module (Object).
 		*/
-		virtual JSObject xrequire(const std::string& moduleId) TITANIUM_NOEXCEPT final;
+		virtual JSValue xrequire(const std::string& moduleId) TITANIUM_NOEXCEPT final;
 
 		/*!
 		  @method
@@ -158,8 +158,7 @@ namespace Titanium
 		*/
 		virtual void clearInterval(const unsigned& timerId) TITANIUM_NOEXCEPT final;
 
-		GlobalObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
-		GlobalObject(const GlobalObject&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+		GlobalObject(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 		virtual ~GlobalObject() TITANIUM_NOEXCEPT;  //= default;
 		GlobalObject(const GlobalObject&) = default;

@@ -7,13 +7,8 @@
 #include "NativeGestureExample.hpp"
 #include <iostream>
 
-NativeGestureExample::NativeGestureExample(const JSContext& js_context) TITANIUM_NOEXCEPT
+NativeGestureExample::NativeGestureExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
     : Titanium::Gesture(js_context)
-{
-}
-
-NativeGestureExample::NativeGestureExample(const NativeGestureExample& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-    : Titanium::Gesture(rhs, arguments)
 {
 }
 

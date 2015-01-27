@@ -27,8 +27,7 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT Slider final : public Titanium::UI::Slider, public JSExport<Slider>, public ViewBase
 		{
 		public:
-			Slider(const JSContext& js_context) TITANIUM_NOEXCEPT;
-			Slider(const Slider&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+			Slider(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 			virtual ~Slider() = default;
 			Slider(const Slider&) = default;

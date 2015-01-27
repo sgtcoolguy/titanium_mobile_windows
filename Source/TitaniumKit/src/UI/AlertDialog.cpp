@@ -12,20 +12,12 @@ namespace Titanium
 {
 	namespace UI
 	{
-		AlertDialog::AlertDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
+		AlertDialog::AlertDialog(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 		    : Module(js_context),
 		      message__(js_context.CreateString()),
 		      title__(js_context.CreateString())
 		{
-			TITANIUM_LOG_DEBUG("AlertDialog:: ctor 1 ", this);
-		}
-
-		AlertDialog::AlertDialog(const AlertDialog& rhs, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : Module(rhs, arguments),
-		      message__(rhs.message__),
-		      title__(rhs.title__)
-		{
-			TITANIUM_LOG_DEBUG("AlertDialog:: ctor 2 ", this);
+			TITANIUM_LOG_DEBUG("AlertDialog:: ctor ", this);
 		}
 
 		AlertDialog::~AlertDialog() TITANIUM_NOEXCEPT

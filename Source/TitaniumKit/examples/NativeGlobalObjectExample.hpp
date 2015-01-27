@@ -25,8 +25,7 @@ public:
 	std::string get_example_resource() const TITANIUM_NOEXCEPT;
 	void set_example_resource(const std::string& example_resource) TITANIUM_NOEXCEPT;
 
-	NativeGlobalObjectExample(const JSContext& js_context) TITANIUM_NOEXCEPT;
-	NativeGlobalObjectExample(const NativeGlobalObjectExample&, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT;
+	NativeGlobalObjectExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeGlobalObjectExample() TITANIUM_NOEXCEPT;  //= default;
 	NativeGlobalObjectExample(const NativeGlobalObjectExample&) = default;
