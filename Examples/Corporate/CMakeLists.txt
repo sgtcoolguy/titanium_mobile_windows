@@ -73,18 +73,12 @@ configure_file(
 
 set(SOURCE_Assets
   ${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}
-"src/Assets/accelerometer.js"
   "src/Assets/alloy.js"
   "src/Assets/app.js"
   "src/Assets/appicon-72.png"
   "src/Assets/appicon-72@2x.png"
   "src/Assets/appicon.png"
   "src/Assets/appicon@2x.png"
-  "src/Assets/attrs.xml"
-  "src/Assets/blob.js"
-  "src/Assets/cdata.xml"
-  "src/Assets/cdataEntities.xml"
-  "src/Assets/database.js"
   "src/Assets/Default-568h@2x.png"
   "src/Assets/Default-Landscape.png"
   "src/Assets/Default-Landscape@2x.png"
@@ -92,61 +86,19 @@ set(SOURCE_Assets
   "src/Assets/Default-Portrait@2x.png"
   "src/Assets/Default.png"
   "src/Assets/Default@2x.png"
-  "src/Assets/element.xml"
-  "src/Assets/elementNS.xml"
-  "src/Assets/email.js"
-  "src/Assets/gesture.js"
   "src/Assets/Icon-50.png"
   "src/Assets/Icon-50@2x.png"
   "src/Assets/Icon-Small-50.png"
   "src/Assets/Icon-Small.png"
   "src/Assets/Icon-Small@2x.png"
-  "src/Assets/imageview.js"
   "src/Assets/iTunesArtwork"
   "src/Assets/iTunesArtwork@2x"
   "src/Assets/Logo.png"
-  "src/Assets/mismatched_tag.xml"
-  "src/Assets/nodeCount.xml"
-  "src/Assets/nodes.xml"
-  "src/Assets/no_end.xml"
-  "src/Assets/no_toplevel.xml"
-  "src/Assets/should.js"
   "src/Assets/SmallLogo.png"
-  "src/Assets/soap.xml"
   "src/Assets/SplashScreen.png"
-  "src/Assets/SplashScreen.scale-240.png"
-  "src/Assets/Square44x44Logo.scale-100.png"
   "src/Assets/StoreLogo.png"
-  "src/Assets/testDbResource.db"
-  "src/Assets/ti-mocha.js"
-  "src/Assets/ti.app.js"
-  "src/Assets/ti.filesystem.test.js"
-  "src/Assets/ti.geolocation.js"
-  "src/Assets/ti.internal.js"
-  "src/Assets/ti.network.httpclient.test.js"
-  "src/Assets/ti.platform.test.js"
-  "src/Assets/ti.require.test.js"
-  "src/Assets/ti.require.test_test.js"
-  "src/Assets/ti.test.js"
-  "src/Assets/ti.ui.activityindicator.test.js"
-  "src/Assets/ti.ui.constants.test.js"
-  "src/Assets/ti.ui.label.test.js"
-  "src/Assets/ti.ui.layout.js"
-  "src/Assets/ti.ui.progressbar.test.js"
-  "src/Assets/ti.ui.textfield.test.js"
-  "src/Assets/ti.ui.window.test.js"
-  "src/Assets/ti.xml.test.js"
-  "src/Assets/titanium_settings.ini"
-  "src/Assets/utilities.js"
-  "src/Assets/webview.js"
-  "src/Assets/with_dtd.xml"
-  "src/Assets/with_ns.xml"
-  "src/Assets/xpath.xml"
-  "src/Assets/_app_props_.json"
   )
 set_property(SOURCE ${SOURCE_Assets} PROPERTY VS_DEPLOYMENT_CONTENT 1)
-
-
 
 set(SOURCE_alloy
       "src/Assets/alloy/backbone.js"
@@ -177,7 +129,7 @@ source_group("alloy/controllers" FILES
       "src/Assets/alloy/controllers/index.js"
       "src/Assets/alloy/controllers/profile.js"
   )
-set_property(SOURCE ${SOURCE_alloy_controllers} PROPERTY VS_DEPLOYMENT_LOCATION "alloy/controllers")
+set_property(SOURCE ${SOURCE_alloy_controllers} PROPERTY VS_DEPLOYMENT_LOCATION "alloy\\controllers")
 set_property(SOURCE ${SOURCE_alloy_controllers} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 
 set(SOURCE_alloy_models
@@ -186,7 +138,7 @@ set(SOURCE_alloy_models
 source_group("alloy/models" FILES 
       "src/Assets/alloy/models/Users.js"
   )
-set_property(SOURCE ${SOURCE_alloy_models} PROPERTY VS_DEPLOYMENT_LOCATION "alloy/models")
+set_property(SOURCE ${SOURCE_alloy_models} PROPERTY VS_DEPLOYMENT_LOCATION "alloy\\models")
 set_property(SOURCE ${SOURCE_alloy_models} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 
 set(SOURCE_alloy_styles
@@ -199,7 +151,7 @@ source_group("alloy/styles" FILES
       "src/Assets/alloy/styles/index.js"
       "src/Assets/alloy/styles/profile.js"
   )
-set_property(SOURCE ${SOURCE_alloy_styles} PROPERTY VS_DEPLOYMENT_LOCATION "alloy/styles")
+set_property(SOURCE ${SOURCE_alloy_styles} PROPERTY VS_DEPLOYMENT_LOCATION "alloy\\styles")
 set_property(SOURCE ${SOURCE_alloy_styles} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 
 set(SOURCE_alloy_sync
@@ -212,26 +164,26 @@ source_group("alloy/sync" FILES
       "src/Assets/alloy/sync/properties.js"
       "src/Assets/alloy/sync/sql.js"
   )
-set_property(SOURCE ${SOURCE_alloy_sync} PROPERTY VS_DEPLOYMENT_LOCATION "alloy/sync")
+set_property(SOURCE ${SOURCE_alloy_sync} PROPERTY VS_DEPLOYMENT_LOCATION "alloy\\sync")
 set_property(SOURCE ${SOURCE_alloy_sync} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 
-set(SOURCE_alloy_widgets/net.hoyohoyo.iconiclabel/controllers
+set(SOURCE_alloy_widgets_net.hoyohoyo.iconiclabel_controllers
       "src/Assets/alloy/widgets/net.hoyohoyo.iconiclabel/controllers/widget.js"
   )
 source_group("alloy/widgets/net.hoyohoyo.iconiclabel/controllers" FILES 
       "src/Assets/alloy/widgets/net.hoyohoyo.iconiclabel/controllers/widget.js"
   )
-set_property(SOURCE ${SOURCE_alloy_widgets/net.hoyohoyo.iconiclabel/controllers} PROPERTY VS_DEPLOYMENT_LOCATION "alloy/widgets/net.hoyohoyo.iconiclabel/controllers")
-set_property(SOURCE ${SOURCE_alloy_widgets/net.hoyohoyo.iconiclabel/controllers} PROPERTY VS_DEPLOYMENT_CONTENT 1)
+set_property(SOURCE ${SOURCE_alloy_widgets_net.hoyohoyo.iconiclabel_controllers} PROPERTY VS_DEPLOYMENT_LOCATION "alloy\\widgets\\net.hoyohoyo.iconiclabel\\controllers")
+set_property(SOURCE ${SOURCE_alloy_widgets_net.hoyohoyo.iconiclabel_controllers} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 
-set(SOURCE_alloy_widgets/net.hoyohoyo.iconiclabel/styles
+set(SOURCE_alloy_widgets_net.hoyohoyo.iconiclabel_styles
       "src/Assets/alloy/widgets/net.hoyohoyo.iconiclabel/styles/widget.js"
   )
 source_group("alloy/widgets/net.hoyohoyo.iconiclabel/styles" FILES 
       "src/Assets/alloy/widgets/net.hoyohoyo.iconiclabel/styles/widget.js"
   )
-set_property(SOURCE ${SOURCE_alloy_widgets/net.hoyohoyo.iconiclabel/styles} PROPERTY VS_DEPLOYMENT_LOCATION "alloy/widgets/net.hoyohoyo.iconiclabel/styles")
-set_property(SOURCE ${SOURCE_alloy_widgets/net.hoyohoyo.iconiclabel/styles} PROPERTY VS_DEPLOYMENT_CONTENT 1)
+set_property(SOURCE ${SOURCE_alloy_widgets_net.hoyohoyo.iconiclabel_styles} PROPERTY VS_DEPLOYMENT_LOCATION "alloy\\widgets\\net.hoyohoyo.iconiclabel\\styles")
+set_property(SOURCE ${SOURCE_alloy_widgets_net.hoyohoyo.iconiclabel_styles} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 
 set(SOURCE_fonts
       "src/Assets/fonts/fontawesome-webfont.ttf"
@@ -294,8 +246,8 @@ add_executable(${EXE_NAME} WIN32
     ${SOURCE_alloy_models}
     ${SOURCE_alloy_styles}
     ${SOURCE_alloy_sync}
-    ${SOURCE_alloy_widgets/net.hoyohoyo.iconiclabel/controllers}
-    ${SOURCE_alloy_widgets/net.hoyohoyo.iconiclabel/styles}
+    ${SOURCE_alloy_widgets_net.hoyohoyo.iconiclabel_controllers}
+    ${SOURCE_alloy_widgets_net.hoyohoyo.iconiclabel_styles}
     ${SOURCE_fonts}
     ${SOURCE_images}
     ${SOURCE_net.hoyohoyo.iconiclabel}
