@@ -21,7 +21,7 @@ Alloy.Globals.App = {
         versionMinor: true && parseInt(Ti.Platform.version.split(".")[1], 10),
         width: null,
         height: null,
-        dpi: Ti.Platform.displayCaps.dpi,
+        //dpi: Ti.Platform.displayCaps.dpi, // FIXME TIMOB-18458
         orientation: Ti.Gesture.orientation == Ti.UI.LANDSCAPE_LEFT || Ti.Gesture.orientation == Ti.UI.LANDSCAPE_RIGHT ? "landscape" : "portrait"
     },
     Navigator: {
