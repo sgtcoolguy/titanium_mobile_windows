@@ -103,6 +103,47 @@ set(SOURCE_Assets
   src/Assets/SmallLogo.png
   src/Assets/SplashScreen.png
   src/Assets/StoreLogo.png
+  src/Assets/accelerometer.js
+src/Assets/attrs.xml
+src/Assets/blob.js
+src/Assets/cdata.xml
+src/Assets/cdataEntities.xml
+src/Assets/database.js
+src/Assets/element.xml
+src/Assets/elementNS.xml
+src/Assets/email.js
+src/Assets/gesture.js
+src/Assets/imageview.js
+src/Assets/mismatched_tag.xml
+src/Assets/nodeCount.xml
+src/Assets/nodes.xml
+src/Assets/no_end.xml
+src/Assets/no_toplevel.xml
+src/Assets/should.js
+src/Assets/soap.xml
+src/Assets/testDbResource.db
+src/Assets/ti-mocha.js
+src/Assets/ti.app.js
+src/Assets/ti.filesystem.test.js
+src/Assets/ti.geolocation.js
+src/Assets/ti.internal.js
+src/Assets/ti.network.httpclient.test.js
+src/Assets/ti.platform.test.js
+src/Assets/ti.require.test.js
+src/Assets/ti.require.test_test.js
+src/Assets/ti.test.js
+src/Assets/ti.ui.activityindicator.test.js
+src/Assets/ti.ui.constants.test.js
+src/Assets/ti.ui.label.test.js
+src/Assets/ti.ui.layout.js
+src/Assets/ti.ui.progressbar.test.js
+src/Assets/ti.ui.textfield.test.js
+src/Assets/ti.ui.window.test.js
+src/Assets/ti.xml.test.js
+src/Assets/webview.js
+src/Assets/with_dtd.xml
+src/Assets/with_ns.xml
+src/Assets/xpath.xml
   )
 
 set_property(SOURCE ${SOURCE_Assets} PROPERTY VS_DEPLOYMENT_CONTENT 1)
