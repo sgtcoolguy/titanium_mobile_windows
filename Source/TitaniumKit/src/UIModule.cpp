@@ -136,9 +136,9 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("UIModule:: dtor ", this);
 	}
 
-	JSObject UIModule::createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSObject UIModule::createAlertDialog(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_DEBUG("UI::createView");
+		TITANIUM_LOG_DEBUG("UI::createAlertDialog");
 
 		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
@@ -148,34 +148,13 @@ namespace Titanium
 		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
 		JSObject UI = static_cast<JSObject>(UI_property);
 
-		JSValue View_property = UI.GetProperty("View");
-		TITANIUM_ASSERT(View_property.IsObject());  // precondition
-		JSObject View = static_cast<JSObject>(View_property);
+		JSValue AlertDialog_property = UI.GetProperty("AlertDialog");
+		TITANIUM_ASSERT(AlertDialog_property.IsObject());  // precondition
+		JSObject AlertDialog = static_cast<JSObject>(AlertDialog_property);
 
-		auto view = View.CallAsConstructor(parameters);
-		Titanium::applyProperties(view, parameters);
-		return view;
-	}
-
-	JSObject UIModule::createWindow(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_DEBUG("UI::createWindow");
-
-		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
-		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = static_cast<JSObject>(Titanium_property);
-
-		JSValue UI_property = Titanium.GetProperty("UI");
-		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-		JSObject UI = static_cast<JSObject>(UI_property);
-
-		JSValue Window_property = UI.GetProperty("Window");
-		TITANIUM_ASSERT(Window_property.IsObject());  // precondition
-		JSObject Window = static_cast<JSObject>(Window_property);
-
-		auto window = Window.CallAsConstructor(parameters);
-		Titanium::applyProperties(window, parameters);
-		return window;
+		auto alertDialog = AlertDialog.CallAsConstructor(parameters);
+		Titanium::applyProperties(alertDialog, parameters);
+		return alertDialog;
 	}
 
 	JSObject UIModule::createButton(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -199,6 +178,69 @@ namespace Titanium
 		return button;
 	}
 
+	JSObject UIModule::createImageView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createImageView");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue ImageView_property = UI.GetProperty("ImageView");
+		TITANIUM_ASSERT(ImageView_property.IsObject());  // precondition
+		JSObject ImageView = static_cast<JSObject>(ImageView_property);
+
+		auto image_view = ImageView.CallAsConstructor(parameters);
+		Titanium::applyProperties(image_view, parameters);
+		return image_view;
+	}
+
+	JSObject UIModule::createLabel(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createLabel");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue Label_property = UI.GetProperty("Label");
+		TITANIUM_ASSERT(Label_property.IsObject());  // precondition
+		JSObject Label = static_cast<JSObject>(Label_property);
+
+		auto label = Label.CallAsConstructor(parameters);
+		Titanium::applyProperties(label, parameters);
+		return label;
+	}
+
+	JSObject UIModule::createScrollView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createScrollView");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue ScrollView_property = UI.GetProperty("ScrollView");
+		TITANIUM_ASSERT(ScrollView_property.IsObject());  // precondition
+		JSObject ScrollView = static_cast<JSObject>(ScrollView_property);
+
+		auto view = ScrollView.CallAsConstructor(parameters);
+		Titanium::applyProperties(view, parameters);
+		return view;
+	}
+
 	JSObject UIModule::createSlider(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("UI::createSlider");
@@ -218,27 +260,6 @@ namespace Titanium
 		auto slider = Slider.CallAsConstructor(parameters);
 		Titanium::applyProperties(slider, parameters);
 		return slider;
-	}
-
-	JSObject UIModule::createAlertDialog(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_DEBUG("UI::createAlertDialog");
-
-		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
-		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = static_cast<JSObject>(Titanium_property);
-
-		JSValue UI_property = Titanium.GetProperty("UI");
-		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-		JSObject UI = static_cast<JSObject>(UI_property);
-
-		JSValue AlertDialog_property = UI.GetProperty("AlertDialog");
-		TITANIUM_ASSERT(AlertDialog_property.IsObject());  // precondition
-		JSObject AlertDialog = static_cast<JSObject>(AlertDialog_property);
-
-		auto alertDialog = AlertDialog.CallAsConstructor(parameters);
-		Titanium::applyProperties(alertDialog, parameters);
-		return alertDialog;
 	}
 
 	JSObject UIModule::createTab(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -396,9 +417,9 @@ namespace Titanium
 		return static_cast<JSObject>(get_context().CreateFunction(script, { "_arguments" })({ parameters }, this_object));
 	}
 
-	JSObject UIModule::createScrollView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSObject UIModule::createTextField(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_DEBUG("UI::createScrollView");
+		TITANIUM_LOG_DEBUG("UI::createTextField");
 
 		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
@@ -408,18 +429,39 @@ namespace Titanium
 		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
 		JSObject UI = static_cast<JSObject>(UI_property);
 
-		JSValue ScrollView_property = UI.GetProperty("ScrollView");
-		TITANIUM_ASSERT(ScrollView_property.IsObject());  // precondition
-		JSObject ScrollView = static_cast<JSObject>(ScrollView_property);
+		JSValue TextField_property = UI.GetProperty("TextField");
+		TITANIUM_ASSERT(TextField_property.IsObject());  // precondition
+		JSObject TextField = static_cast<JSObject>(TextField_property);
 
-		auto view = ScrollView.CallAsConstructor(parameters);
+		auto textField = TextField.CallAsConstructor(parameters);
+		Titanium::applyProperties(textField, parameters);
+		return textField;
+	}
+
+	JSObject UIModule::createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createView");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue View_property = UI.GetProperty("View");
+		TITANIUM_ASSERT(View_property.IsObject());  // precondition
+		JSObject View = static_cast<JSObject>(View_property);
+
+		auto view = View.CallAsConstructor(parameters);
 		Titanium::applyProperties(view, parameters);
 		return view;
 	}
 
-	JSObject UIModule::createLabel(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSObject UIModule::createWindow(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_DEBUG("UI::createLabel");
+		TITANIUM_LOG_DEBUG("UI::createWindow");
 
 		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
@@ -429,34 +471,13 @@ namespace Titanium
 		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
 		JSObject UI = static_cast<JSObject>(UI_property);
 
-		JSValue Label_property = UI.GetProperty("Label");
-		TITANIUM_ASSERT(Label_property.IsObject());  // precondition
-		JSObject Label = static_cast<JSObject>(Label_property);
+		JSValue Window_property = UI.GetProperty("Window");
+		TITANIUM_ASSERT(Window_property.IsObject());  // precondition
+		JSObject Window = static_cast<JSObject>(Window_property);
 
-		auto label = Label.CallAsConstructor(parameters);
-		Titanium::applyProperties(label, parameters);
-		return label;
-	}
-
-	JSObject UIModule::createImageView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_DEBUG("UI::createImageView");
-
-		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
-		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = static_cast<JSObject>(Titanium_property);
-
-		JSValue UI_property = Titanium.GetProperty("UI");
-		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-		JSObject UI = static_cast<JSObject>(UI_property);
-
-		JSValue ImageView_property = UI.GetProperty("ImageView");
-		TITANIUM_ASSERT(ImageView_property.IsObject());  // precondition
-		JSObject ImageView = static_cast<JSObject>(ImageView_property);
-
-		auto image_view = ImageView.CallAsConstructor(parameters);
-		Titanium::applyProperties(image_view, parameters);
-		return image_view;
+		auto window = Window.CallAsConstructor(parameters);
+		Titanium::applyProperties(window, parameters);
+		return window;
 	}
 
 	JSValue UIModule::ANIMATION_CURVE_EASE_IN() const TITANIUM_NOEXCEPT
@@ -883,16 +904,17 @@ namespace Titanium
 	{
 		JSExport<UIModule>::SetClassVersion(1);
 		JSExport<UIModule>::SetParent(JSExport<Module>::Class());
-		JSExport<UIModule>::AddFunctionProperty("createView", std::mem_fn(&UIModule::js_createView));
-		JSExport<UIModule>::AddFunctionProperty("createWindow", std::mem_fn(&UIModule::js_createWindow));
+		JSExport<UIModule>::AddFunctionProperty("createAlertDialog", std::mem_fn(&UIModule::js_createAlertDialog));
 		JSExport<UIModule>::AddFunctionProperty("createButton", std::mem_fn(&UIModule::js_createButton));
-		JSExport<UIModule>::AddFunctionProperty("createTab", std::mem_fn(&UIModule::js_createTab));
-		JSExport<UIModule>::AddFunctionProperty("createTabGroup", std::mem_fn(&UIModule::js_createTabGroup));
-		JSExport<UIModule>::AddFunctionProperty("createScrollView", std::mem_fn(&UIModule::js_createScrollView));
 		JSExport<UIModule>::AddFunctionProperty("createImageView", std::mem_fn(&UIModule::js_createImageView));
 		JSExport<UIModule>::AddFunctionProperty("createLabel", std::mem_fn(&UIModule::js_createLabel));
+		JSExport<UIModule>::AddFunctionProperty("createScrollView", std::mem_fn(&UIModule::js_createScrollView));
 		JSExport<UIModule>::AddFunctionProperty("createSlider", std::mem_fn(&UIModule::js_createSlider));
-		JSExport<UIModule>::AddFunctionProperty("createAlertDialog", std::mem_fn(&UIModule::js_createAlertDialog));
+		JSExport<UIModule>::AddFunctionProperty("createTab", std::mem_fn(&UIModule::js_createTab));
+		JSExport<UIModule>::AddFunctionProperty("createTabGroup", std::mem_fn(&UIModule::js_createTabGroup));
+		JSExport<UIModule>::AddFunctionProperty("createTextField", std::mem_fn(&UIModule::js_createTextField));
+		JSExport<UIModule>::AddFunctionProperty("createView", std::mem_fn(&UIModule::js_createView));
+		JSExport<UIModule>::AddFunctionProperty("createWindow", std::mem_fn(&UIModule::js_createWindow));
 		JSExport<UIModule>::AddFunctionProperty("setBackgroundColor", std::mem_fn(&UIModule::js_setBackgroundColor));
 		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN));
 		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN_OUT));
@@ -1000,7 +1022,7 @@ namespace Titanium
 		JSExport<UIModule>::AddValueProperty("URL_ERROR_UNSUPPORTED_SCHEME", std::mem_fn(&UIModule::URL_ERROR_UNSUPPORTED_SCHEME));
 	}
 
-	JSValue UIModule::js_createView(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue UIModule::js_createAlertDialog(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1008,18 +1030,7 @@ namespace Titanium
 			TITANIUM_ASSERT(_0.IsObject());
 			parameters = static_cast<JSObject>(_0);
 		}
-		return createView(parameters, this_object);
-	}
-
-	JSValue UIModule::js_createWindow(const std::vector<JSValue>& arguments, JSObject& this_object)
-	{
-		JSObject parameters = get_context().CreateObject();
-		if (arguments.size() >= 1) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsObject());
-			parameters = static_cast<JSObject>(_0);
-		}
-		return createWindow(parameters, this_object);
+		return createAlertDialog(parameters, this_object);
 	}
 
 	JSValue UIModule::js_createButton(const std::vector<JSValue>& arguments, JSObject& this_object)
@@ -1031,28 +1042,6 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 		return createButton(parameters, this_object);
-	}
-
-	JSValue UIModule::js_createSlider(const std::vector<JSValue>& arguments, JSObject& this_object)
-	{
-		JSObject parameters = get_context().CreateObject();
-		if (arguments.size() >= 1) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsObject());
-			parameters = static_cast<JSObject>(_0);
-		}
-		return createSlider(parameters, this_object);
-	}
-
-	JSValue UIModule::js_createAlertDialog(const std::vector<JSValue>& arguments, JSObject& this_object)
-	{
-		JSObject parameters = get_context().CreateObject();
-		if (arguments.size() >= 1) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsObject());
-			parameters = static_cast<JSObject>(_0);
-		}
-		return createAlertDialog(parameters, this_object);
 	}
 
 	JSValue UIModule::js_createImageView(const std::vector<JSValue>& arguments, JSObject& this_object)
@@ -1077,6 +1066,28 @@ namespace Titanium
 		return createLabel(parameters, this_object);
 	}
 
+	JSValue UIModule::js_createScrollView(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createScrollView(parameters, this_object);
+	}
+
+	JSValue UIModule::js_createSlider(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createSlider(parameters, this_object);
+	}
+
 	JSValue UIModule::js_createTab(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
@@ -1099,7 +1110,7 @@ namespace Titanium
 		return createTabGroup(parameters, this_object);
 	}
 
-	JSValue UIModule::js_createScrollView(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue UIModule::js_createTextField(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -1107,7 +1118,29 @@ namespace Titanium
 			TITANIUM_ASSERT(_0.IsObject());
 			parameters = static_cast<JSObject>(_0);
 		}
-		return createScrollView(parameters, this_object);
+		return createTextField(parameters, this_object);
+	}
+
+	JSValue UIModule::js_createView(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createView(parameters, this_object);
+	}
+
+	JSValue UIModule::js_createWindow(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createWindow(parameters, this_object);
 	}
 
 	// TODO empty implementation so that it won't break default app template. Need to implement later on.

@@ -120,7 +120,7 @@ namespace Titanium
 
 		JSValue Label::js_get_color() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(color__);
+			return get_context().CreateString(get_color());
 		}
 
 		bool Label::js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT

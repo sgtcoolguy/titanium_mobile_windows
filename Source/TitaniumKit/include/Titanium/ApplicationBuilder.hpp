@@ -52,6 +52,9 @@ namespace Titanium
 		JSObject ScrollViewObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ScrollViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject TextFieldObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& TextFieldObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject PlatformObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& PlatformObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -97,6 +100,7 @@ namespace Titanium
 		JSObject label__;
 		JSObject slider__;
 		JSObject scrollview__;
+		JSObject textField__;
 		JSObject platform__;
 		JSObject accelerometer__;
 		JSObject gesture__;

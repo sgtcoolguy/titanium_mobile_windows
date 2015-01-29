@@ -18,6 +18,23 @@ var tab1 = Titanium.UI.createTab({
     window: win1
 });
 
+var textField = Ti.UI.createTextField({
+    top: 290,
+    width: 200
+});
+textField.addEventListener('change', function (e) {
+    Ti.API.info('The text field changed: ' + e.value);
+});
+textField.addEventListener('blur', function (e) {
+    Ti.API.info('The text field lost focus!');
+});
+textField.addEventListener('focus', function (e) {
+    Ti.API.info('The text field gained focus!');
+});
+textField.addEventListener('return', function (e) {
+    Ti.API.info('The text field return key was hit!');
+});
+win1.add(textField);
 
 var label = Ti.UI.createLabel({
     'text': 'quotes go here',
