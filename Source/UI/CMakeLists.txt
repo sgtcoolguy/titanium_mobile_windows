@@ -63,6 +63,8 @@ set(SOURCE_UI
   src/ScrollView.cpp
   include/TitaniumWindows/UI/Slider.hpp
   src/Slider.cpp
+  include/TitaniumWindows/UI/TextField.hpp
+  src/TextField.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})

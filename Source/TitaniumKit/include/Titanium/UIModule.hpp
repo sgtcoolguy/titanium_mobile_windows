@@ -10,14 +10,15 @@
 #define _TITANIUM_UI_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/UI/View.hpp"
-#include "Titanium/UI/Window.hpp"
-#include "Titanium/UI/Button.hpp"
-#include "Titanium/UI/ScrollView.hpp"
+#include "Titanium/UI/AlertDialog.hpp"
+#include "Titanium/UI/Button.hpp" 
 #include "Titanium/UI/ImageView.hpp"
 #include "Titanium/UI/Label.hpp"
+#include "Titanium/UI/ScrollView.hpp"
 #include "Titanium/UI/Slider.hpp"
-#include "Titanium/UI/AlertDialog.hpp"
+#include "Titanium/UI/TextField.hpp"
+#include "Titanium/UI/View.hpp"
+#include "Titanium/UI/Window.hpp"
 
 namespace Titanium
 {
@@ -36,6 +37,150 @@ namespace Titanium
 		/*!
 		  @method
 
+		  @abstract createAlertDialog( [parameters] ) : Titanium.UI.AlertDialog
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.AlertDialog.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.AlertDialog except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.AlertDialog>)
+
+		  @result Titanium.UI.AlertDialog
+		*/
+		JSObject createAlertDialog(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createButton( [parameters] ) : Titanium.UI.Button
+     
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.Button.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.Button except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.Button>)
+
+		  @result Titanium.UI.Button
+		*/
+		JSObject createButton(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createImageView( [parameters] ) : Titanium.UI.ImageView
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.ImageView.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.ImageView except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.ImageView>)
+
+		  @result Titanium.UI.ImageView
+		*/
+		JSObject createImageView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createLabel( [parameters] ) : Titanium.UI.Label
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.Label.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.Label except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.Label>)
+
+		  @result Titanium.UI.Label
+		*/
+		JSObject createLabel(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createScrolView( [parameters] ) : Titanium.UI.ScrolView
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.ScrolView.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.ScrolView except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.ScrolView>)
+
+		  @result Titanium.UI.ScrolView
+		*/
+		JSObject createScrollView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createSlider( [parameters] ) : Titanium.UI.Slider
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.Slider.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.Slider except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.Slider>)
+
+		  @result Titanium.UI.Slider
+		*/
+		JSObject createSlider(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createTab( [parameters] ) : Titanium.UI.Tab
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.Tab.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.Tab except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.Tab>)
+
+		  @result Titanium.UI.Tab
+		*/
+		JSObject createTab(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createTabGroup( [parameters] ) : Titanium.UI.TabGroup
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.TabGroup.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.TabGroup except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.TabGroup>)
+
+		  @result Titanium.UI.TabGroup
+		*/
+		JSObject createTabGroup(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createTextField( [parameters] ) : Titanium.UI.TextField
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.TextField.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.TextField except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.TextField>)
+
+		  @result Titanium.UI.TextField
+		*/
+		JSObject createTextField(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
 		  @abstract createView( [parameters] ) : Titanium.UI.View
 
 		  @discussion Creates and returns an instance of Titanium.UI.View.
@@ -44,7 +189,7 @@ namespace Titanium
 		  any defined by Titanium.UI.View except those marked not-creation
 		  or read-only.  (Dictionary<Titanium.UI.View>)
 
-		  @result Titanium.UI.Window
+		  @result Titanium.UI.View
 		*/
 		JSObject createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
@@ -63,60 +208,6 @@ namespace Titanium
 		  @result Titanium.UI.Window
 		*/
 		JSObject createWindow(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createButton( [parameters] ) : Titanium.UI.Button
-     
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.Button.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.Button except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.Button>)
-
-		  @result Titanium.UI.Window
-		*/
-		JSObject createButton(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createImageView( [parameters] ) : Titanium.UI.ImageView
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.ImageView.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.ImageView except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.ImageView>)
-
-		  @result Titanium.UI.Window
-		*/
-		JSObject createImageView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createLabel( [parameters] ) : Titanium.UI.Label
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.Label.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.Label except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.Label>)
-
-		  @result Titanium.UI.Window
-		*/
-		JSObject createLabel(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		JSObject createTab(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-		JSObject createTabGroup(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-		JSObject createScrollView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-		JSObject createSlider(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-		JSObject createAlertDialog(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		virtual JSValue ANIMATION_CURVE_EASE_IN() const TITANIUM_NOEXCEPT final;
 		virtual JSValue ANIMATION_CURVE_EASE_IN_OUT() const TITANIUM_NOEXCEPT final;
@@ -236,16 +327,17 @@ namespace Titanium
 		// TODO: The following functions can automatically be generated from
 		// the YAML API docs.
 		static void JSExportInitialize();
-		JSValue js_createView(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createWindow(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createButton(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createTab(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createTabGroup(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createScrollView(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createAlertDialog(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createButton(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createImageView(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createLabel(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createScrollView(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createSlider(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createTab(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createTabGroup(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createTextField(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createView(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createWindow(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_setBackgroundColor(const std::vector<JSValue>& arguments, JSObject& this_object);
 
 	private:

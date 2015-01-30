@@ -31,6 +31,16 @@ namespace Titanium
 			/*!
 			  @method
 
+			  @abstract autocapitalization : Number
+
+			  @discussion Determines how text is capitalized during typing.
+			*/
+			virtual TEXT_AUTOCAPITALIZATION get_autoCapitalization() const TITANIUM_NOEXCEPT final;
+			virtual void set_autoCapitalization(const TEXT_AUTOCAPITALIZATION& autoCapitalization) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract borderStyle : Number
 
 			  @discussion Border style for the field.
@@ -51,22 +61,64 @@ namespace Titanium
 			/*!
 			  @method
 
-			  @abstract leftButtonMode : Number
+			  @abstract color : String
 
-			  @discussion Determines when to display the left button view.
+			  @discussion Color of the text in this text field, as a color name or hex triplet.
 			*/
-			virtual INPUT_BUTTONMODE get_leftButtonMode() const TITANIUM_NOEXCEPT final;
-			virtual void set_leftButtonMode(const INPUT_BUTTONMODE& leftButtonMode) TITANIUM_NOEXCEPT;
+			virtual std::string get_color() const TITANIUM_NOEXCEPT final;
+			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 
-			  @abstract rightButtonMode : Number
+			  @abstract editable : Boolean
 
-			  @discussion Determines when to display the right button view.
+			  @discussion Determines whether this field can be edited.
 			*/
-			virtual INPUT_BUTTONMODE get_rightButtonMode() const TITANIUM_NOEXCEPT final;
-			virtual void set_rightButtonMode(const INPUT_BUTTONMODE& rightButtonMode) TITANIUM_NOEXCEPT;
+			virtual bool get_editable() const TITANIUM_NOEXCEPT final;
+			virtual void set_editable(const bool& editable) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract ellipsize : Boolean
+
+			  @discussion Determines whether an ellipsis (...) should be used to indicate truncated text.
+			*/
+			virtual bool get_ellipsize() const TITANIUM_NOEXCEPT final;
+			virtual void set_ellipsize(const bool& ellipsize) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract enableReturnKey : Boolean
+
+			  @discussion Determines whether the return key is enabled automatically when there is text in this text field.
+
+			  If true, the return key is disabled when this text field is empty, and automatically enabled as soon as the user types any text in the field.
+
+			  On Android, if true, return event will not fire. Clicking on the return key will do nothing, but the key itself won't be disabled.
+			*/
+			virtual bool get_enableReturnKey() const TITANIUM_NOEXCEPT final;
+			virtual void set_enableReturnKey(const bool& enableReturnKey) TITANIUM_NOEXCEPT;
+
+// TODO font!
+
+			/*!
+			  @method
+
+			  @abstract hintText : String
+
+			  @discussion Hint text to display when the field is empty.
+
+			  Hint text is hidden when the user enters text into this text field.
+
+			  Use the backslash and letter n line feed character combination, ie \n, to force a new line.
+
+			  Use unicode characters, such as those included in (but not limited to) the Unicode List of Useful Symbols section of wikipedia, to insert special characters and symbols.
+			*/
+			virtual std::string get_hintText() const TITANIUM_NOEXCEPT final;
+			virtual void set_hintText(const std::string& hintText) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -84,12 +136,70 @@ namespace Titanium
 			/*!
 			  @method
 
+			  @abstract leftButtonMode : Number
+
+			  @discussion Determines when to display the left button view.
+			*/
+			virtual INPUT_BUTTONMODE get_leftButtonMode() const TITANIUM_NOEXCEPT final;
+			virtual void set_leftButtonMode(const INPUT_BUTTONMODE& leftButtonMode) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract maxLength : Number
+
+			  @discussion Maximum length of text field input.
+
+			  Any attempt to input text beyond this length (including pasting a string larger than maxLength) will not edit the field's contents. A value of -1 indicates unlimited length.
+			*/
+			virtual int32_t get_maxLength() const TITANIUM_NOEXCEPT final;
+			virtual void set_maxLength(const int32_t& maxLength) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract passwordMask : Boolean
+
+			  @discussion Obscure the input text from the user.
+
+			  Set to true to hide entered characters.
+
+			  On Mobile Web, if you set a keyboardType and enable the passwordMask, the passwordMask will always take precedence and the default keyboard will be used.
+
+			  Note: on iOS, passwordMask must be specified when this text field is created.
+			*/
+			virtual bool get_passwordMask() const TITANIUM_NOEXCEPT final;
+			virtual void set_passwordMask(const bool& passwordMask) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract returnKeyType : Number
 
 			  @discussion Specifies the text to display on the keyboard Return key when this field is focused.
 			*/
 			virtual RETURNKEY get_returnKeyType() const TITANIUM_NOEXCEPT final;
 			virtual void set_returnKeyType(const RETURNKEY& returnKeyType) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract rightButtonMode : Number
+
+			  @discussion Determines when to display the right button view.
+			*/
+			virtual INPUT_BUTTONMODE get_rightButtonMode() const TITANIUM_NOEXCEPT final;
+			virtual void set_rightButtonMode(const INPUT_BUTTONMODE& rightButtonMode) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract suppressReturn : String/Number
+
+			  @discussion Determines whether the return key should be suppressed during entry.
+			*/
+			virtual bool get_suppressReturn() const TITANIUM_NOEXCEPT final;
+			virtual void set_suppressReturn(const bool& suppressReturn) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -104,12 +214,16 @@ namespace Titanium
 			/*!
 			  @method
 
-			  @abstract autocapitalization : Number
+			  @abstract value : String
 
-			  @discussion Determines how text is capitalized during typing.
+			  @discussion Value of this text field, which may be set programmatically and modified by the user.
+
+			  Use the backslash and letter n line feed character combination, ie \n, to force a new line.
+
+			  Use unicode characters, such as those included in (but not limited to) the Unicode List of Useful Symbols section of wikipedia, to insert special characters and symbols.
 			*/
-			virtual TEXT_AUTOCAPITALIZATION get_autoCapitalization() const TITANIUM_NOEXCEPT final;
-			virtual void set_autoCapitalization(const TEXT_AUTOCAPITALIZATION& autoCapitalization) TITANIUM_NOEXCEPT;
+			virtual std::string get_value() const TITANIUM_NOEXCEPT final;
+			virtual void set_value(const std::string& value) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -120,6 +234,45 @@ namespace Titanium
 			*/
 			virtual TEXT_VERTICAL_ALIGNMENT get_verticalAlign() const TITANIUM_NOEXCEPT final;
 			virtual void set_verticalAlign(const TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract blur() : void
+
+			  @discussion Forces the field to lose focus.
+
+			  @param
+
+			  @result void
+			*/
+			virtual void blur() TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract focus() : void
+
+			  @discussion Forces the field to gain focus.
+
+			  @param 
+
+			  @result void
+			*/
+			virtual void focus() TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract hasText() : Boolean
+
+			  @discussion Returns true if this text field contains text.
+
+			  @param 
+
+			  @result bool
+			*/
+			virtual bool hasText() TITANIUM_NOEXCEPT;
 
 			TextField(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
@@ -135,43 +288,86 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
+			virtual JSValue js_get_autoCapitalization() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_autoCapitalization(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
 			virtual JSValue js_get_borderStyle() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_borderStyle(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_clearButtonMode() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_clearButtonMode(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue js_get_leftButtonMode() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_leftButtonMode(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_color() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue js_get_rightButtonMode() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_rightButtonMode(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_editable() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_editable(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_ellipsize() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_ellipsize(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_enableReturnKey() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_enableReturnKey(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_hintText() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_hintText(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_keyboardType() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_keyboardType(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
+			virtual JSValue js_get_leftButtonMode() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_leftButtonMode(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_maxLength() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_maxLength(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_passwordMask() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_passwordMask(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
 			virtual JSValue js_get_returnKeyType() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_returnKeyType(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_rightButtonMode() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_rightButtonMode(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_suppressReturn() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_suppressReturn(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_textAlign() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue js_get_autoCapitalization() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_autoCapitalization(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_value() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_value(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_verticalAlign() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
+			virtual JSValue js_blur(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_focus(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_hasText(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
+			TEXT_AUTOCAPITALIZATION autoCapitalization__;
 			INPUT_BORDERSTYLE borderStyle__;
 			INPUT_BUTTONMODE clearButtonMode__;
-			INPUT_BUTTONMODE leftButtonMode__;
-			INPUT_BUTTONMODE rightButtonMode__;
+			std::string color__;
+			bool editable__;
+			bool ellipsize__;
+			bool enableReturnKey__;
+			std::string hintText__;
 			KEYBOARD keyboardType__;
+			INPUT_BUTTONMODE leftButtonMode__;
+			int32_t maxLength__;
+			bool passwordMask__;
 			RETURNKEY returnKeyType__;
+			INPUT_BUTTONMODE rightButtonMode__;
+			bool suppressReturn__;
 			TEXT_ALIGNMENT textAlign__;
-			TEXT_AUTOCAPITALIZATION autoCapitalization__;
+			std::string value__;
 			TEXT_VERTICAL_ALIGNMENT verticalAlign__;
+#pragma warning(pop)
 		};
 	} // namespace UI
 }  // namespace Titanium

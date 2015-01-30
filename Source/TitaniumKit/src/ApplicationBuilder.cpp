@@ -32,6 +32,7 @@ namespace Titanium
 	      label__(js_context__.CreateObject<Titanium::UI::Label>()),
 		  slider__(js_context__.CreateObject<Titanium::UI::Slider>()),
 	      scrollview__(js_context__.CreateObject<Titanium::UI::ScrollView>()),
+	      textField__(js_context__.CreateObject<Titanium::UI::TextField>()),
 	      platform__(js_context__.CreateObject<Titanium::PlatformModule>()),
 	      accelerometer__(js_context__.CreateObject<Titanium::Accelerometer>()),
 	      gesture__(js_context__.CreateObject<Titanium::Gesture>()),
@@ -44,14 +45,15 @@ namespace Titanium
 	Application ApplicationBuilder::build()
 	{
 		JSObject ui = js_context__.CreateObject<Titanium::UIModule>();
-		ui.SetProperty("View", view__);
-		ui.SetProperty("Window", window__);
+		ui.SetProperty("AlertDialog", alertDialog__);
 		ui.SetProperty("Button", button__);
 		ui.SetProperty("ImageView", imageview__);
 		ui.SetProperty("Label", label__);
 		ui.SetProperty("Slider", slider__);
 		ui.SetProperty("ScrollView", scrollview__);
-		ui.SetProperty("AlertDialog", alertDialog__);
+		ui.SetProperty("TextField", textField__);
+		ui.SetProperty("View", view__);
+		ui.SetProperty("Window", window__);
 
 		filesystem__.SetProperty("File", file__);
 
@@ -194,6 +196,17 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::ScrollViewObject(const JSObject& view) TITANIUM_NOEXCEPT
 	{
 		scrollview__ = view;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::TextFieldObject() const TITANIUM_NOEXCEPT
+	{
+		return textField__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::TextFieldObject(const JSObject& view) TITANIUM_NOEXCEPT
+	{
+		textField__ = view;
 		return *this;
 	}
 
