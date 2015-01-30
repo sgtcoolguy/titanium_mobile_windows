@@ -19,6 +19,14 @@ set(NMocha_VERSION 0.1.0)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
+# Locate cmake module path
+get_filename_component(APPCELERATOR_CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../../Source/cmake ABSOLUTE)
+list(INSERT CMAKE_MODULE_PATH 0 ${APPCELERATOR_CMAKE_MODULE_PATH})
+
+# Search for SQLite DLL
+find_package(SQLite REQUIRED)
+string(REGEX REPLACE ".lib$" ".dll" SQLite_LIBRARIES_DLL ${SQLite_LIBRARIES})
+
 # Use solution folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -98,6 +106,7 @@ file(GLOB_RECURSE ASSETS_DIRECTORY "src/Assets/*.*")
 
 set(SOURCE_Assets
   ${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}
+  ${SQLite_LIBRARIES_DLL}
   ${ASSETS_DIRECTORY}
   )
 

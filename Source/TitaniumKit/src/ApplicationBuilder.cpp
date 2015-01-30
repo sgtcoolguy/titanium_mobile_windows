@@ -16,6 +16,7 @@
 #include "Titanium/Blob.hpp"
 #include "Titanium/FilesystemModule.hpp"
 #include "Titanium/Filesystem/File.hpp"
+#include "Titanium/DatabaseModule.hpp"
 
 namespace Titanium
 {
@@ -38,7 +39,8 @@ namespace Titanium
 	      gesture__(js_context__.CreateObject<Titanium::Gesture>()),
 	      blob__(js_context__.CreateObject<Titanium::Blob>()),
 	      file__(js_context__.CreateObject<Titanium::Filesystem::File>()),
-	      filesystem__(js_context__.CreateObject<Titanium::FilesystemModule>())
+	      filesystem__(js_context__.CreateObject<Titanium::FilesystemModule>()),
+	      database__(js_context__.CreateObject<Titanium::DatabaseModule>())
 	{
 	}
 
@@ -68,6 +70,7 @@ namespace Titanium
 		titanium.SetProperty("Gesture", gesture__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Blob", blob__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Filesystem", filesystem__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("Database", database__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		JSString builtin_functions_script = R"js(
       console = {};
       console.log   = Ti.API.info;
@@ -272,6 +275,16 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::FilesystemObject(const JSObject& filesystem) TITANIUM_NOEXCEPT
 	{
 		filesystem__ = filesystem;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::DatabaseObject() const TITANIUM_NOEXCEPT
+	{
+		return database__;
+	}
+	ApplicationBuilder& ApplicationBuilder::DatabaseObject(const JSObject& database) TITANIUM_NOEXCEPT
+	{
+		database__ = database;
 		return *this;
 	}
 
