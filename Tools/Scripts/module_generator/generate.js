@@ -1,568 +1,385 @@
 /**
  * Windows Titanium Module Generator
- * Author: Gary Mathews
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
 
 var fs = require('fs.extra');
+var ejs = require('ejs');
+var inq = require('inquirer');
 var path = require('path');
 var async = require('async');
-var fields = require('fields');
 
-const AUTHOR = 'Gary Mathews';
-const API_FILE = 'API.json';
+const API_FILE = 'api.jsca';
 
 const MODULE_FOLDER = 'module_template';
-const SUB_CLASS_FOLDER = 'sub_class_template';
 const SOURCE_FOLDER = '../../../Source/';
 
-function generateModule(name, proxy) {
-	var name_array = (name+'').split('.');
-	name_array.shift();
+String.prototype.contains = function(str) {
+	return this.indexOf(str) != -1;
+}
+String.prototype.endsWith = function(str) {
+    return this.indexOf(str, this.length - str.length) !== -1;
+};
+String.prototype.startsWith = function(str) {
+    return this.indexOf(str, 0) !== -1;
+};
+String.prototype.repeat = function(x){
+	return (new Array(x+1)).join(this);
+}
 
-	var module_name = null, sub_class_name = null, sub_class_name_upper = null, sub_class_name_lower;
+var jsca = JSON.parse(fs.readFileSync('api.jsca'));
+var modules = [];
 
-	module_name = name_array[0];
-	if (name_array.length > 1) {
-		sub_class_name = name_array[1];
-		sub_class_name_upper = sub_class_name.toUpperCase();
-		sub_class_name_lower = sub_class_name.toLowerCase();
+// List modules
+for (module in jsca) if(module.contains('Titanium')) modules.push(module);
+
+// Module selection
+inq.prompt(
+	[{
+		type: "list",
+		name: "module",
+		message: "Select a module to generate",
+		choices: modules
+	}],
+	function(result) {
+		generateModule(result.module);
 	}
+);
 
-	var module_name_upper = module_name.toUpperCase();
-	var module_name_lower = module_name.toLowerCase();
+function generateModule(module) {
 
-	var class_name = (sub_class_name == null ? module_name : sub_class_name);
-	var class_name_lower = class_name.toLowerCase();
+	console.log('Generating '+module+'...');
 
-	var namespace = (sub_class_name == null ? module_name+'Module' : sub_class_name);
+	var module_data = jsca[module];
 
-	console.log('Generating Titanium.' + module_name + (sub_class_name != null ? '.'+sub_class_name : '') + '...\n');
+	var module_classes = module.split('.');
+	var module_name = module_classes[module_classes.length-1];
+	var module_parent = module_classes[1];
+	var module_path = divideArray(module_classes, '/', 1);
+	var sub_class = (module_classes.length > 2);
+	var namespace = (sub_class ? module_name : module_name+'Module');
+	var full_namespace =  (sub_class ? divideArray(module_classes, '::', 1) : module_name+'Module');
 
-	var module_properties = '', module_property_definitions = '';
-	var module_methods = '', module_method_definitions = '';
-	var kit_method_validators = '', kit_method_validator_definitions = '';
-	var kit_methods = '', kit_method_definitions = '';
-	var kit_property_methods = '', kit_property_definitions = '';
-	var kit_property_validators = '', kit_property_validator_definitions = '';
-	var kit_add_properties = '', kit_add_functions = '';
+	var data = {module: module, module_parent: module_parent, module_classes: module_classes, module_path: module_path, sub_class: sub_class, full_namespace: full_namespace, namespace: namespace, name:module_name, name_upper:module_name.toUpperCase(), name_lower:module_name.toLowerCase(), data: module_data};
 
-	var cmake_set_source = "set(SOURCE_"+module_name+"\n"+
-   						   "\tinclude/Titanium/"+module_name+".hpp\n"+
-   						   "\tsrc/"+module_name+".cpp\n"+
-   						   ")\n\n"+
-						   "set(SOURCE_TitaniumKit";
-	var cmake_add_library = "add_library(TitaniumKit SHARED\n"+
-							"  ${SOURCE_"+module_name+"}";
-	var cmake_source_group = "source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})\n"+
-							 "source_group(TitaniumKit\\\\"+module_name+((18-module_name.length > 0) ? Array(18-module_name.length).join(' ') : '')+" FILES ${SOURCE_"+module_name+"})";
-	var cmake_get_filename_component = "get_filename_component(Global_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../Global            ABSOLUTE)\n"+
-				 					   "get_filename_component("+module_name+"_SOURCE_DIR"+((18-module_name.length > 0) ? Array(18-module_name.length).join(' ') : '')+" ${PROJECT_SOURCE_DIR}/../"+module_name+((18-module_name.length > 0) ? Array(18-module_name.length).join(' ') : '')+" ABSOLUTE)";
-	var cmake_add_subdirectory = "add_subdirectory(${Global_SOURCE_DIR}        ${CMAKE_CURRENT_BINARY_DIR}/Global        EXCLUDE_FROM_ALL)\n"+
-				 				 "add_subdirectory(${"+module_name+"_SOURCE_DIR}"+((14-module_name.length > 0) ? Array(14-module_name.length).join(' ') : '')+" ${CMAKE_CURRENT_BINARY_DIR}/"+module_name+((14-module_name.length > 0) ? Array(14-module_name.length).join(' ') : '')+" EXCLUDE_FROM_ALL)";
-	var cmake_target_link_libraries = "target_link_libraries(TitaniumWindows\n"+
-				 					  "  TitaniumWindows_"+module_name;
-	var cmake_target_include_directories = "target_include_directories(TitaniumWindows PUBLIC\n"+
-				 						   "  $<TARGET_PROPERTY:TitaniumWindows_"+module_name+",INTERFACE_INCLUDE_DIRECTORIES>";
-	var kit_header_definition = "#include \"Titanium/GlobalObject.hpp\"\n"+
-								"#include \"Titanium/"+module_name+".hpp\"";
-	var ti_windows_header = "#include \"TitaniumWindows/GlobalObject.hpp\"\n"+
-							"#include \"TitaniumWindows/"+class_name+".hpp\"";
-
-	var ti_windows_constructor = "t<TitaniumWindows::API>())\n"+
-								 "\t."+class_name+"Object(js_context__.CreateObject<TitaniumWindows::"+(sub_class_name == null ? namespace : (module_name+'::'+namespace))+">())";
-	var app_builder_definition = "Application build();\n\n"+
-								 "    JSObject        "+class_name+"Object() const                 TITANIUM_NOEXCEPT;\n"+
-    							 "    ApplicationBuilder& "+class_name+"Object(const JSObject&)    TITANIUM_NOEXCEPT;";
-	var app_builder_variable = "JSObject  api__;\n"+
-							   "    JSObject  "+class_name_lower+"__;";
-	var app_builder_include = "#include \"Titanium/ApplicationBuilder.hpp\"\n"+
-							  "#include \"Titanium/"+module_name+".hpp\"";
-	var app_builder_build = "CreateObject<Titanium::API>())\n"+
-							"  , "+module_name_lower+"__(js_context__.CreateObject<Titanium::"+(sub_class_name == null ? namespace : (module_name+'::'+namespace))+">())";
-	var app_builder_property = "api__          , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});\n"+
-    						   "    titanium.SetProperty(\""+module_name+"\"           , "+module_name_lower+"__             , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});";
-    
-    var app_builder_class = "  JSObject ApplicationBuilder::"+class_name+"Object() const TITANIUM_NOEXCEPT {\n"+
-							"    return "+class_name_lower+"__;\n"+
-							"  }\n\n"+
-							"  ApplicationBuilder& ApplicationBuilder::"+class_name+"Object(const JSObject& "+class_name_lower+") TITANIUM_NOEXCEPT {\n"+
-							"    "+class_name_lower+"__ = "+class_name_lower+";\n"+
-							"    return *this;\n"+
-							"  }\n\n"+
-    						"  JSObject ApplicationBuilder::APIObject";
-
-	var build_and_test = "Global_DISABLE_TESTS=ON\"\n"+
-						 "cmd+=\" -DTitaniumWindows_"+module_name+"_DISABLE_TESTS=ON\"";
-	var module_cmake_source = "set(SOURCE_"+module_name+"\n"+
-							  "  include/TitaniumWindows/"+sub_class_name+".hpp\n"+
-							  "  src/"+sub_class_name+".cpp";
-	var kit_cmake_source = "set(SOURCE_"+module_name+"\n"+
-						   "  include/Titanium/"+module_name+"/"+sub_class_name+".hpp\n"+
-						   "  src/"+module_name+"/"+sub_class_name+".cpp";
-	var kit_module_header_definition = "Module.hpp\"\n"+
-									   "#include \"Titanium/"+module_name+"/"+sub_class_name+".hpp\"";
-
-	var module_header_definition = module_name_lower+", {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});\n"+
-								   "    "+module_name_lower+".SetProperty(\""+sub_class_name+"\", js_context__.CreateObject(*"+class_name_lower+"_class_ptr__));";
-
-	// Generate methods and definitions
-	for (var method in proxy.methods) {
-
-		// Generate module method definitions
-		module_method_definitions += "\tvirtual JSString "+method+"() TITANIUM_NOEXCEPT override final;\n";
-
-		// Generate module methods
-		module_methods += "\t// " + proxy.methods[method].summary.replace(/\n/g, "") + "\n"+
-						  "\tJSString "+namespace+"::"+method+"() TITANIUM_NOEXCEPT {\n"+
-						  "\t\tTITANIUM_LOG_DEBUG(\""+namespace+"::"+method+" Unimplemented\");\n"+
-						  "\t\treturn \""+namespace+"::"+method+" Unimplemented\";\n"+
-						  "\t}\n";
-
-		// Generate titanium kit method definitions
-		kit_method_definitions += "\t\tvirtual JSString "+method+"() TITANIUM_NOEXCEPT;\n";
-
-		// Generate titanium kit method validator definitions
-		kit_method_validator_definitions += "\t\tvirtual JSValue "+method+"ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;\n";
-
-		// Generate titanium kit method validators
-		kit_method_validators += "\tJSValue "+namespace+"::"+method+"ArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT {\n";
-		kit_method_validators += "\t\treturn get_context().CreateString("+method+"());\n";
-		kit_method_validators += "\t}\n";
-
-		// Generate titanium kit function exports
-		kit_add_functions += "\t\tJSExport<"+namespace+">::AddFunctionProperty(\""+method+"\", std::mem_fn(&"+namespace+"::"+method+"ArgumentValidator));\n";
-	}
-	kit_methods = module_methods;
-
-	// Generate properties and definitions
-	for (var property in proxy.properties) {
-
-		// Generate module property definitions
-		module_property_definitions += "\tvirtual JSString get_"+property+"() const TITANIUM_NOEXCEPT override final;\n"
-
-		// Generate module property methods
-		module_properties += "\t// " + proxy.properties[property].summary.replace(/\n/g, "") + "\n"+
-							 "\tJSString "+namespace+"::get_"+property+"() const TITANIUM_NOEXCEPT {\n"+
-							 "\t\tTITANIUM_LOG_DEBUG(\""+namespace+"::get_"+property+" Unimplemented\");\n"+
-							 "\t\treturn \""+namespace+"::get_"+property+": Unimplemented\";\n"+
-							 "\t}\n";
-
-		// Generate titanium kit property definitions
-		kit_property_definitions += "\t\tvirtual JSString get_"+property+"() const TITANIUM_NOEXCEPT;\n";
-
-		// Generate titanium kit property methods
-		kit_property_methods += "\t// " + proxy.properties[property].summary.replace(/\n/g, "") + "\n"+
-								"\tJSString "+namespace+"::get_"+property+"() const TITANIUM_NOEXCEPT {\n"+
-								"\t\treturn \"\";\n"+
-								"\t}\n";
-
-		// Generate titanium kit property validator definitions
-		kit_property_validator_definitions += "\t\tvirtual JSValue get_"+property+"Validator() const TITANIUM_NOEXCEPT final;\n"
-
-		// Generate titanium kit property validators
-		kit_property_validators += "\tJSValue "+namespace+"::get_"+property+"Validator() const TITANIUM_NOEXCEPT {\n"+
-								   "\t\treturn get_context().CreateString(get_"+property+"());\n"+
-								   "\t}\n";
-
-		// Generate titanium kit property exports
-		kit_add_properties += "\t\tJSExport<"+namespace+">::AddValueProperty(\""+property+"\", std::mem_fn(&"+namespace+"::get_"+property+"Validator));\n";
-	}
-
-	// Create module if not sub class
-	if (sub_class_name == null) {
-
-		// Create Module files
-		fs.walk(MODULE_FOLDER).on("file", function(root, stat, next) {
-			
+	var walker = fs.walk(MODULE_FOLDER);
+	walker.on("file", function(root, stat, next) {
+		if ((sub_class && stat.name.startsWith("Module")) || !sub_class) {
 			var file = path.join(root, stat.name);
+			var r = ejs.render(''+fs.readFileSync(file), data);
 
-			fs.readFile(file, 'utf8',
-				function(err, data) {
-					if (err) throw err;
-					
-					// Process
-					data = data.replace(/{#Module#}/g, module_name)
-					.replace(/{#MODULE#}/g, module_name_upper)
-					.replace(/{#ModuleName#}/g, namespace)
-					.replace(/{#Author#}/g, AUTHOR)
+			if (sub_class && !root.contains('TitaniumKit')) {
+				file = file.replace(/Module/, module_parent);
+			}
 
-					.replace(/{#MODULE_METHODS#}/g, module_methods)
-					.replace(/{#MODULE_METHOD_DEFINITIONS#}/g, module_method_definitions)
-
-					.replace(/{#MODULE_PROPERTIES#}/g, module_properties)
-					.replace(/{#MODULE_PROPERTY_DEFINITIONS#}/g, module_property_definitions)
-
-					.replace(/{#KIT_PROPERTIES#}/g, kit_property_methods)
-					.replace(/{#KIT_METHODS#}/g, kit_methods)
-					.replace(/{#KIT_VALIDATORS#}/g, kit_method_validators)
-					.replace(/{#KIT_PROPERTY_VALIDATORS#}/g, kit_property_validators)
-					   
-					.replace(/{#ADD_PROPERTIES#}/g, kit_add_properties)
-					.replace(/{#ADD_FUNCTIONS#}/g, kit_add_functions)
-					   
-					.replace(/{#KIT_PROPERTY_DEFINITIONS#}/g, kit_property_definitions)
-					.replace(/{#KIT_METHOD_DEFINITIONS#}/g, kit_method_definitions)
-					.replace(/{#KIT_PROPERTY_VALIDATOR_DEFINITIONS#}/g, kit_property_validator_definitions)
-					.replace(/{#KIT_METHOD_VALIDATOR_DEFINITIONS#}/g, kit_method_validator_definitions);
-							   
-					// Write file
-					var filePath = SOURCE_FOLDER + file.substring(MODULE_FOLDER.length+1).replace(/Module/g, module_name);
-					console.log('Creating ' + filePath);
-					writeFile(filePath, data);
-					next();
-				}
-			);
-		});
-
-	} else {
-
-		// Creates sub class files
-		fs.walk(SUB_CLASS_FOLDER).on("file", function(root, stat, next) {
-			var file = path.join(root, stat.name);
-			fs.readFile(file, 'utf8',
-				function(err, data) {
-					if (err) throw err;
-					
-					// Process
-					data = data.replace(/{#Module#}/g, module_name)
-					.replace(/{#MODULE#}/g, module_name_upper)
-					.replace(/{#SubClass#}/g, sub_class_name)
-					.replace(/{#subclass#}/g, sub_class_name_lower)
-					.replace(/{#SUBCLASS#}/g, sub_class_name_upper)
-					.replace(/{#Author#}/g, AUTHOR)
-
-					.replace(/{#MODULE_METHODS#}/g, module_methods)
-					.replace(/{#MODULE_METHOD_DEFINITIONS#}/g, module_method_definitions)
-
-					.replace(/{#MODULE_PROPERTIES#}/g, module_properties)
-					.replace(/{#MODULE_PROPERTY_DEFINITIONS#}/g, module_property_definitions)
-
-					.replace(/{#KIT_PROPERTIES#}/g, kit_property_methods)
-					.replace(/{#KIT_METHODS#}/g, kit_methods)
-					.replace(/{#KIT_VALIDATORS#}/g, kit_method_validators)
-					.replace(/{#KIT_PROPERTY_VALIDATORS#}/g, kit_property_validators)
-					   
-					.replace(/{#ADD_PROPERTIES#}/g, kit_add_properties)
-					.replace(/{#ADD_FUNCTIONS#}/g, kit_add_functions)
-					   
-					.replace(/{#KIT_PROPERTY_DEFINITIONS#}/g, kit_property_definitions)
-					.replace(/{#KIT_METHOD_DEFINITIONS#}/g, kit_method_definitions)
-					.replace(/{#KIT_PROPERTY_VALIDATOR_DEFINITIONS#}/g, kit_property_validator_definitions)
-					.replace(/{#KIT_METHOD_VALIDATOR_DEFINITIONS#}/g, kit_method_validator_definitions);
-							   
-					// Write file
-					var filePath = SOURCE_FOLDER + file.substring(SUB_CLASS_FOLDER.length+1).replace(/Module/g, module_name).replace(/SubClass/g, sub_class_name);
-					console.log('Creating ' + filePath);
-					writeFile(filePath, data);
-					next();
-				}
-			);
-		});
-	}
-
-	var kit_cmakelists_file = SOURCE_FOLDER + 'TitaniumKit/CMakeLists.txt';
-	var ti_cmakelists_file = SOURCE_FOLDER + 'Titanium/CMakeLists.txt';
-	var ti_build_test_file = SOURCE_FOLDER + 'Titanium/build_and_test.sh';
-	var kit_titanium_header_file = SOURCE_FOLDER + 'TitaniumKit/include/Titanium/Titanium.hpp';
-	var ti_titanium_windows_cpp_file = SOURCE_FOLDER + 'Titanium/src/TitaniumWindows.cpp';
-	var kit_application_builder_header_file = SOURCE_FOLDER + 'TitaniumKit/include/Titanium/ApplicationBuilder.hpp';
-	var kit_application_builder_cpp_file = SOURCE_FOLDER + 'TitaniumKit/src/ApplicationBuilder.cpp';
-	var kit_module_header_file = SOURCE_FOLDER + 'TitaniumKit/include/Titanium/'+module_name+'.hpp';
-	var module_cmakelists_file = SOURCE_FOLDER + module_name + '/CMakeLists.txt';
-
-	function asyncRenameFile(source, destination) {
-		return function(next) {
-			fs.rename(source, destination,
-				function(error) {
-					if (error) throw error;
-					next();
-				}
-			);
+			var filePath = SOURCE_FOLDER + file.substring(MODULE_FOLDER.length+1).replace(/Module/g, module_path);
+			writeFile(filePath, r);
 		}
-	}
+		next();
+	});
+	walker.on("end", function() {
+		includeModule(data);
+	});
+}
 
-	var asyncTasks = [];
+function includeModule(module_data) {
 
-	if (sub_class_name == null) {
-		asyncTasks.push(asyncRenameFile(kit_cmakelists_file, kit_cmakelists_file + ".bak"));
-		asyncTasks.push(asyncRenameFile(ti_cmakelists_file, ti_cmakelists_file + ".bak"));
-		asyncTasks.push(asyncRenameFile(ti_build_test_file, ti_build_test_file + ".bak"));
-		asyncTasks.push(asyncRenameFile(kit_titanium_header_file, kit_titanium_header_file + ".bak"));
-		asyncTasks.push(asyncRenameFile(ti_titanium_windows_cpp_file, ti_titanium_windows_cpp_file + ".bak"));
-		asyncTasks.push(asyncRenameFile(kit_application_builder_header_file, kit_application_builder_header_file + ".bak"));
-		asyncTasks.push(asyncRenameFile(kit_application_builder_cpp_file, kit_application_builder_cpp_file + ".bak"));
+	console.log('Implementing '+module_data.module+'...');
+
+	// File paths
+	var path_tik_cmake = SOURCE_FOLDER + 'TitaniumKit/CMakeLists.txt';
+	var path_ti_cmake = SOURCE_FOLDER + 'Titanium/CMakeLists.txt';
+	var path_ti_bt = SOURCE_FOLDER + 'Titanium/build_and_test.sh';
+	var path_tik_ti = SOURCE_FOLDER + 'TitaniumKit/include/Titanium/Titanium.hpp';
+	var path_ti_tiw = SOURCE_FOLDER + 'Titanium/src/TitaniumWindows.cpp';
+	var path_tik_app_hpp = SOURCE_FOLDER + 'TitaniumKit/include/Titanium/ApplicationBuilder.hpp';
+	var path_tik_app_cpp = SOURCE_FOLDER + 'TitaniumKit/src/ApplicationBuilder.cpp';
+	var path_tik_module = SOURCE_FOLDER + 'TitaniumKit/include/Titanium/'+module_data.module_parent+'.hpp';
+	var path_module_cmake = SOURCE_FOLDER + module_data.module_parent + '/CMakeLists.txt';
+
+	// TitaniumKit CMakeLists.txt modifications
+	var regex_tik_cmake_1 = /source_group\(TitaniumKit /g;
+	var mod_tik_cmake_1 = "set(SOURCE_"+module_data.name+"\n"+
+		                  "  include/Titanium/"+module_data.module_path+".hpp\n"+
+		                  "  src/"+module_data.module_path+".cpp\n"+
+		                  ")\n\n"+
+                          "source_group(TitaniumKit ";
+
+    var regex_tik_cmake_2 = /source_group\(TitaniumKit\\\\UI /g;
+    var mod_tik_cmake_2 = "source_group(TitaniumKit\\\\"+module_data.module_path.replace(/\//g,'\\\\')+"       FILES ${SOURCE_"+module_data.name+"})\n"+
+                          "source_group(TitaniumKit\\\\UI ";
+
+    var regex_tik_cmake_3 = /  \${SOURCE_UI}/g;
+    var mod_tik_cmake_3 = "  ${SOURCE_"+module_data.name+"}\n"+
+                          "  ${SOURCE_UI}";
+
+    // Titaniumkit ApplicationBuilder.hpp modifications
+    var regex_tik_app_1 = /JSObject ViewObject\(/g;
+    var mod_tik_app_1 = "JSObject "+module_data.name+"Object() const TITANIUM_NOEXCEPT;\n\t\t"+
+						"ApplicationBuilder& "+module_data.name+"Object(const JSObject&) TITANIUM_NOEXCEPT;\n\n\t\t"+
+    					"JSObject ViewObject(";
+
+    var regex_tik_app_2 = / view__;/g;
+    var mod_tik_app_2 = " view__;\n\t\t"+
+    					"JSObject "+module_data.name.toLowerCase()+"__;";
+
+    // Titaniumkit ApplicationBuilder.cpp modifications
+    var regex_tik_app_3 = /:View>\(\)\),/g;
+    var mod_tik_app_3 = ":View>()),\n	      "+
+    					module_data.name.toLowerCase()+"__(js_context__.CreateObject<Titanium::"+module_data.full_namespace+">()),";
+
+    var regex_tik_app_4 = /UIModule.hpp\"/g;
+    var mod_tik_app_4 = "UIModule.hpp\"\n"+
+    					"#include \"Titanium/"+module_data.module_path+".hpp\"";
+
+    var regex_tik_app_5 = /JSString builtin/g;
+    var mod_tik_app_5 = (module_data.sub_class ? module_data.module_parent.toLowerCase()+"__" : "titanium")+".SetProperty(\""+module_data.name+"\", "+module_data.name.toLowerCase()+"__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});\n"+
+    					"JSString builtin";
+
+    var regex_tik_app_6 = /JSObject ApplicationBuilder::ViewObject\(/g;
+    var mod_tik_app_6 = "JSObject ApplicationBuilder::"+module_data.name+"Object() const TITANIUM_NOEXCEPT\n\t"+
+						"{\n\t\t"+
+						"return "+module_data.name.toLowerCase()+"__;\n\t"+
+						"}\n\n\t"+
+						"ApplicationBuilder& ApplicationBuilder::"+module_data.name+"Object(const JSObject& "+module_data.name+") TITANIUM_NOEXCEPT\n\t"+
+						"{\n\t\t"+
+						module_data.name.toLowerCase()+"__ = "+module_data.name+";\n\t\t"+
+						"return *this;\n\t"+
+						"}\n\n\t"+
+    					"JSObject ApplicationBuilder::ViewObject(";
+
+    // Titanium CMakeLists.txt modifications
+    var regex_ti_cmake_1 = /get_filename_component\(UI_SOURCE_DIR/g;
+    var mod_ti_cmake_1 = "get_filename_component("+module_data.name+"_SOURCE_DIR        ${PROJECT_SOURCE_DIR}/../"+module_data.name+"        ABSOLUTE)\n"+
+                         "get_filename_component(UI_SOURCE_DIR";
+
+    var regex_ti_cmake_2 = /add_subdirectory\(\${UI_SOURCE_DIR}/g;
+    var mod_ti_cmake_2 = "add_subdirectory(${"+module_data.name+"_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/"+module_data.name+"    EXCLUDE_FROM_ALL)\n"+
+                         "add_subdirectory(${UI_SOURCE_DIR}";
+
+    var regex_ti_cmake_3 = /  \$<TARGET_PROPERTY:TitaniumWindows_UI/g;
+    var mod_ti_cmake_3 = "  $<TARGET_PROPERTY:TitaniumWindows_"+module_data.name+",INTERFACE_INCLUDE_DIRECTORIES>\n"+
+                         "  $<TARGET_PROPERTY:TitaniumWindows_UI";
+
+    var regex_ti_cmake_4 = /  TitaniumWindows_UI/g;
+    var mod_ti_cmake_4 = "  TitaniumWindows_"+module_data.name+"\n"+
+    					 "  TitaniumWindows_UI";
+
+    // Titanium Titanium.hpp modifications
+    var regex_tik_ti_1 = /UIModule.hpp\"/g;
+    var mod_tik_ti_1 = "UIModule.hpp\"\n"+
+    				  "#include \"Titanium/"+module_data.name+".hpp\""
+
+    // Titanium TitaniumWindows.cpp modifications
+    var regex_ti_tiw_1 = /UI.hpp\"/g;
+    var mod_ti_tiw_1 = "UI.hpp\"\n"+
+    					 "#include \"TitaniumWindows/"+module_data.module_path+".hpp\"";
+
+    var regex_ti_tiw_2 = /UI::View>\(\)\)/g;
+	var mod_ti_tiw_2 = "UI::View>())\n		                                                            "+
+						 "."+module_data.name+"Object(js_context__.CreateObject<TitaniumWindows::"+module_data.full_namespace+">())";
+
+    // Titanium build_and_test.sh modifications
+    var regex_ti_bt_1 = /cmd\+=\" \-DTitaniumWindows_UI_/g;
+    var mod_ti_bt_1 = "cmd+=\" -DTitaniumWindows_"+module_data.name+"_DISABLE_TESTS=ON\"\n"+
+    				  "cmd+=\" -DTitaniumWindows_UI_";
+
+    // Titanium module CMakeLists.txt modifications
+    var regex_tim_cmake_1 = new RegExp("set\\(SOURCE_"+module_data.module_parent,"g");
+    var mod_tim_cmake_1 = "set(SOURCE_"+module_data.module_parent+"\n"+
+						  "  include/TitaniumWindows/"+module_data.module_path+".hpp\n"+
+						  "  src/"+module_data.module_path+".cpp";
+
+	var regex_tikm_head_1 = /Module.hpp\"/g
+	var mod_tikm_head_1 = "Module.hpp\"\n"+
+						  "#include \"Titanium/"+module_data.module_path+".hpp\"";
+
+    // Async task to create backups before modifications
+    var asyncTasks = [];
+    asyncTasks.push(asyncRenameFile(path_tik_cmake, path_tik_cmake + ".bak"));
+	asyncTasks.push(asyncRenameFile(path_ti_tiw, path_ti_tiw + ".bak"));
+	asyncTasks.push(asyncRenameFile(path_tik_app_hpp, path_tik_app_hpp + ".bak"));
+	asyncTasks.push(asyncRenameFile(path_tik_app_cpp, path_tik_app_cpp + ".bak"));
+	if (module_data.sub_class) {
+		asyncTasks.push(asyncRenameFile(path_tik_module, path_tik_module + ".bak"));
+		asyncTasks.push(asyncRenameFile(path_module_cmake, path_module_cmake + ".bak"));
 	} else {
-		asyncTasks.push(asyncRenameFile(module_cmakelists_file, module_cmakelists_file + ".bak"));
-		asyncTasks.push(asyncRenameFile(kit_cmakelists_file, kit_cmakelists_file + ".bak"));
-		asyncTasks.push(asyncRenameFile(kit_module_header_file, kit_module_header_file + ".bak"));
-		asyncTasks.push(asyncRenameFile(ti_titanium_windows_cpp_file, ti_titanium_windows_cpp_file + ".bak"));
-		asyncTasks.push(asyncRenameFile(kit_application_builder_header_file, kit_application_builder_header_file + ".bak"));
-		asyncTasks.push(asyncRenameFile(kit_application_builder_cpp_file, kit_application_builder_cpp_file + ".bak"));
+		asyncTasks.push(asyncRenameFile(path_ti_cmake, path_ti_cmake + ".bak"));
+		asyncTasks.push(asyncRenameFile(path_ti_bt, path_ti_bt + ".bak"));
+		asyncTasks.push(asyncRenameFile(path_tik_ti, path_tik_ti + ".bak"));
 	}
-
 	async.parallel(asyncTasks,
 		function(error) {
 			if (error) throw error;
 
-			// Modify TitaniumWindows ApplicationBuilder.hpp
-			fs.readFile(kit_application_builder_header_file + ".bak", 'utf8',
-				function(err, data) {
-					if (err) throw err;
-					
-					// Update definition
-					data = data.replace(/Application build\(\);/g, app_builder_definition)
+			// Modify TitaniumKit CMakeLists.txt
+			fs.readFile(path_tik_cmake + ".bak", 'utf8',
+				function(error, data) {
+					if (error) throw error;
 
-					// Update variable
-					.replace(/JSObject  api__;/g, app_builder_variable);
+					data = [data];
+					modify(data, regex_tik_cmake_1, mod_tik_cmake_1);
+					modify(data, regex_tik_cmake_2, mod_tik_cmake_2);
+					modify(data, regex_tik_cmake_3, mod_tik_cmake_3);
+					data = data[0];
 
-					console.log('Patching ' + kit_application_builder_header_file);
-
-					// Write file
-					writeFile(kit_application_builder_header_file, data);
+					writeFile(path_tik_cmake, data);
 				}
 			);
 
-			// Modify TitaniumWindows ApplicationBuilder.cpp
-			fs.readFile(kit_application_builder_cpp_file + ".bak", 'utf8',
-				function(err, data) {
-					if (err) throw err;
+			if (!module_data.sub_class) {
 
-					data = data.replace(/#include \"Titanium\/ApplicationBuilder.hpp\"/g, app_builder_include)
-					
-					// Update definition
-					.replace(/CreateObject<Titanium::API>\(\)\)/g, app_builder_build)
+				// Modify Titanium CMakeLists.txt
+				fs.readFile(path_ti_cmake + ".bak", 'utf8',
+					function(error, data) {
+						if (error) throw error;
 
-					// Update variable
-					.replace(/  JSObject ApplicationBuilder::APIObject/, app_builder_class);
+						data = [data];
+						modify(data, regex_ti_cmake_1, mod_ti_cmake_1);
+						modify(data, regex_ti_cmake_2, mod_ti_cmake_2);
+						modify(data, regex_ti_cmake_3, mod_ti_cmake_3);
+						modify(data, regex_ti_cmake_4, mod_ti_cmake_4);
+						data = data[0];
 
-					if (sub_class_name != null) {
-						data = data.replace(new RegExp(module_name_lower+", {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete}\\);", "g"), module_header_definition);
-					} else {
-						data = data.replace(/api__          , {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete}\);/g, app_builder_property);
+						writeFile(path_ti_cmake, data);
 					}
+				);
 
-					console.log('Patching ' + kit_application_builder_cpp_file);
+				// Modify Titanium build_and_test.sh
+				fs.readFile(path_ti_bt + ".bak", 'utf8',
+					function(error, data) {
+						if (error) throw error;
 
-					// Write file
-					writeFile(kit_application_builder_cpp_file, data);
+						data = [data];
+						modify(data, regex_ti_bt_1, mod_ti_bt_1);
+						data = data[0];
+
+						writeFile(path_ti_bt, data);
+					}
+				);
+
+				// Modify TitaniumKit Titanium.hpp
+				fs.readFile(path_tik_ti + ".bak", 'utf8',
+					function(error, data) {
+						if (error) throw error;
+
+						data = [data];
+						modify(data, regex_tik_ti_1, mod_tik_ti_1);
+						data = data[0];
+
+						writeFile(path_tik_ti, data);
+					}
+				);
+			}
+
+			// Modify Titanium TitaniumWindows.cpp
+			fs.readFile(path_ti_tiw + ".bak", 'utf8',
+				function(error, data) {
+					if (error) throw error;
+
+					data = [data];
+					modify(data, regex_ti_tiw_1, mod_ti_tiw_1);
+					modify(data, regex_ti_tiw_2, mod_ti_tiw_2);
+					data = data[0];
+
+					writeFile(path_ti_tiw, data);
 				}
 			);
 
-			// Modify TitaniumWindows constructor
-			fs.readFile(ti_titanium_windows_cpp_file + ".bak", 'utf8',
-				function(err, data) {
-					if (err) throw err;
-					
-					// Update header
-					data = data.replace(/\#include \"TitaniumWindows\/GlobalObject.hpp\"/g, ti_windows_header)
+			// Modify TitaniumKit ApplicationBuilder.hpp
+			fs.readFile(path_tik_app_hpp + ".bak", 'utf8',
+				function(error, data) {
+					if (error) throw error;
 
-					// Update TitaniumWindows constructor
-					.replace(/t<TitaniumWindows::API>\(\)\)/g, ti_windows_constructor);
+					data = [data];
+					modify(data, regex_tik_app_1, mod_tik_app_1);
+					modify(data, regex_tik_app_2, mod_tik_app_2);
+					data = data[0];
 
-					console.log('Patching ' + ti_titanium_windows_cpp_file);
-
-					// Write file
-					writeFile(ti_titanium_windows_cpp_file, data);
+					writeFile(path_tik_app_hpp, data);
 				}
 			);
 
-			// Module
-			if (sub_class_name == null) {
+			// Modify Titaniumkit ApplicationBuilder.cpp
+			fs.readFile(path_tik_app_cpp + ".bak", 'utf8',
+				function(error, data) {
+					if (error) throw error;
 
-				// Modify TitaniumKit Titanium header
-				fs.readFile(kit_titanium_header_file + ".bak", 'utf8',
-					function(err, data) {
-						if (err) throw err;
-						
-						// Update Titanium Kit header
-						data = data.replace(/\#include \"Titanium\/GlobalObject.hpp\"/g, kit_header_definition);
+					data = [data];
+					modify(data, regex_tik_app_3, mod_tik_app_3);
+					modify(data, regex_tik_app_4, mod_tik_app_4);
+					modify(data, regex_tik_app_5, mod_tik_app_5);
+					modify(data, regex_tik_app_6, mod_tik_app_6);
+					data = data[0];
 
-						console.log('Patching ' + kit_titanium_header_file);
+					writeFile(path_tik_app_cpp, data);
+				}
+			);
 
-						// Write file
-						writeFile(kit_titanium_header_file, data);
+			if (module_data.sub_class) {
+
+				// Modify TitaniumKit Module.hpp
+				fs.readFile(path_tik_module + ".bak", 'utf8',
+					function(error, data) {
+						if (error) throw error;
+
+						data = [data];
+						modify(data, regex_tikm_head_1, mod_tikm_head_1);
+						data = data[0];
+
+						writeFile(path_tik_module, data);
 					}
 				);
 
-				// Modify TitaniumKit CMakeList
-				fs.readFile(kit_cmakelists_file + ".bak", 'utf8',
-					function(err, data) {
-						if (err) throw err;
-						
-					   // Update Titanium Kit CMake
-					   data = data.replace(/set\(SOURCE_TitaniumKit/g, cmake_set_source)
-					   .replace(/add_library\(TitaniumKit SHARED/g, cmake_add_library)
-					   .replace(/source_group\(TitaniumKit                   FILES \${SOURCE_TitaniumKit}\)/g, cmake_source_group);
+				// Modify TitaniumKit module CMakeLists.txt
+				fs.readFile(path_module_cmake + ".bak", 'utf8',
+					function(error, data) {
+						if (error) throw error;
 
-					   console.log('Patching ' + kit_cmakelists_file);
+						data = [data];
+						modify(data, regex_tim_cmake_1, mod_tim_cmake_1);
+						data = data[0];
 
-						// Write file
-						writeFile(kit_cmakelists_file, data);
+						writeFile(path_module_cmake, data);
 					}
 				);
-
-				// Modify Titanium CMakeList
-				fs.readFile(ti_cmakelists_file + ".bak", 'utf8',
-					function(err, data) {
-						if (err) throw err;
-						
-						// Update Titanium Kit CMake
-						data = data.replace(/get_filename_component\(Global_SOURCE_DIR            \${PROJECT_SOURCE_DIR}\/\.\.\/Global            ABSOLUTE\)/g, cmake_get_filename_component)
-						.replace(/add_subdirectory\(\${Global_SOURCE_DIR}        \${CMAKE_CURRENT_BINARY_DIR}\/Global        EXCLUDE_FROM_ALL\)/g, cmake_add_subdirectory)
-						.replace(/target_link_libraries\(TitaniumWindows/g, cmake_target_link_libraries)
-						.replace(/target_include_directories\(TitaniumWindows PUBLIC/g, cmake_target_include_directories);
-
-						console.log('Patching ' + ti_cmakelists_file);
-
-						// Write file
-						writeFile(ti_cmakelists_file, data);
-					}
-				);
-
-				// Modify Titanium Build and Test
-				fs.readFile(ti_build_test_file + ".bak", 'utf8',
-					function(err, data) {
-						if (err) throw err;
-						
-						// Update Titanium Kit CMake
-						data = data.replace(/Global_DISABLE_TESTS=ON\"/g, build_and_test);
-
-						console.log('Patching ' + ti_build_test_file);
-						
-						// Write file
-						writeFile(ti_build_test_file, data);
-					}
-				);
-
-			// Sub Class
-			} else {
-
-				// Modify Module CMakeLists.txt
-				fs.readFile(module_cmakelists_file + ".bak", 'utf8',
-					function(err, data) {
-						if (err) throw err;
-
-						data = data.replace(new RegExp("set\\(SOURCE_"+module_name,"g"), module_cmake_source);
-
-						console.log('Patching ' + module_cmakelists_file);
-						
-						// Write file
-						writeFile(module_cmakelists_file, data);
-					}
-				);
-
-				// Modify Titanium Kit CMakeLists.txt
-				fs.readFile(kit_cmakelists_file + ".bak", 'utf8',
-					function(err, data) {
-						if (err) throw err;
-						
-						// Update Titanium Kit CMake
-						data = data.replace(new RegExp("set\\(SOURCE_"+module_name, "g"), kit_cmake_source);
-
-						console.log('Patching ' + kit_cmakelists_file);
-						
-						// Write file
-						writeFile(kit_cmakelists_file, data);
-					}
-				);
-
-				// Modify Titanium Kit Module header
-				fs.readFile(kit_module_header_file + ".bak", 'utf8',
-					function(err, data) {
-						if (err) throw err;
-
-						// Update Titanium Kit CMake
-						data = data.replace(/Module.hpp\"/g, kit_module_header_definition);
-
-						console.log('Patching ' + kit_module_header_file);
-						
-						// Write file
-						writeFile(kit_module_header_file, data);
-					}
-				);
-
 			}
 		}
 	);
 }
-function sortByKey(array, key) {
-    return array.sort(
-    	function(a, b) {
-        	var x = a[key]; var y = b[key];
-        	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-    	}
-    );
+function asyncRenameFile(source, destination) {
+	return function(next) {
+		fs.rename(source, destination,
+			function(error) {
+				if (error) throw error;
+				next();
+			}
+		);
+	}
 }
-
-var api = JSON.parse(fs.readFileSync(API_FILE));
-selectModule();
-function selectModule() {
-	var moduleSelector = fields.select({
-		title: 'Select Module',
-		formatters: {
-			option: function (opt, idx, num) {
-				return num + opt.value.white;
-			}
-		},
-		numbered: true,
-		complete: true,
-		suggest: true,
-		options: {
-			'Modules : ': (function(){
-				var options = [];
-				for(var key in api) {
-					options.push({value: key})
-				}
-				return sortByKey(options, 'value');
-			})()
-		}
-	});
-	fields.set([
-		moduleSelector
-	]).prompt(function (err, value) {
-		if (err) {
-			process.stdout.write('\n');
-			process.exit(0);
-		} else {
-			selectProxy(value);
-		}
-	});
+function divideArray(array, divider, i) {
+	var ret = '';
+	if (i == undefined) i=0;
+	while (i<array.length) {
+		ret += array[i];
+		if (i < array.length-1) ret += divider;
+		i++
+	}
+	return ret;
 }
-function selectProxy(_proxy) {
-	var moduleSelector = fields.select({
-		title: 'Select Proxy',
-		formatters: {
-			option: function (opt, idx, num) {
-				return num + opt.value.white;
-			}
-		},
-		numbered: true,
-		complete: true,
-		suggest: true,
-		options: {
-			'Proxies : ': (function(){
-				var options = [];
-				for(var key in api[_proxy]) {
-					options.push({value: key})
-				}
-				return sortByKey(options, 'value');
-			})()
-		}
-	});
-	fields.set([moduleSelector]).prompt(
-		function (err, value) {
-			if (err) {
-				process.stdout.write('\n');
-				process.exit(0);
-			} else {
-				generateModule(value, api[_proxy][value]);
-			}
+function modify(string, regex, replace) {
+	var ret = false;
+	string[0] = string[0].replace(regex,
+		function(token) {
+			ret = true;
+			return replace;
 		}
 	);
+	if (!ret) console.log('Error : Could not find signature \''+regex+'\'');
+	return ret;
 }
 function mkdir(dirname, cb) {
 	if (cb) {

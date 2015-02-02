@@ -6,7 +6,8 @@
     "fs.extra": "1.2.x",
     "path": "0.4.x",
     "async": "0.9.x",
-    "fields": "0.1.x",
+    "ejs": "garymathews/ejs",
+    "inquirer": "0.8.x"
   },
   "engine": "node >= 0.10.x"
 }
