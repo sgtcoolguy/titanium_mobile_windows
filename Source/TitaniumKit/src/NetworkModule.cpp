@@ -48,10 +48,10 @@ namespace Titanium
 	{
 		JSExport<NetworkModule>::SetClassVersion(1);
 		JSExport<NetworkModule>::SetParent(JSExport<Module>::Class());
-		JSExport<NetworkModule>::AddFunctionProperty("createHTTPClient", std::mem_fn(&NetworkModule::createHTTPClientArgumentValidator));
+		JSExport<NetworkModule>::AddFunctionProperty("createHTTPClient", std::mem_fn(&NetworkModule::js_createHTTPClient));
 	}
 
-	JSObject NetworkModule::createHTTPClientArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSObject NetworkModule::js_createHTTPClient(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		JSObject parameters = get_context().CreateObject();
 		if (arguments.size() >= 1) {
@@ -69,4 +69,4 @@ namespace Titanium
 
 		return createHTTPClient(parameters, this_object);
 	}
-}  
+}

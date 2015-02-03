@@ -23,5 +23,6 @@
 #include "Titanium/Gesture.hpp"
 #include "Titanium/Blob.hpp"
 #include "Titanium/FilesystemModule.hpp"
+#include "Titanium/NetworkModule.hpp"
 
 #endif  // _TITANIUM_HPP_

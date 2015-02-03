@@ -15,18 +15,18 @@ namespace Titanium
 	using namespace HAL;
 
 	/*!
-   @class
-   @discussion This is the Ti.Network Module.
-   See http://docs.appcelerator.com/titanium/latest/#!/api/Ti.Network
-  */
+    @class
+    @discussion This is the Ti.Network Module.
+    See http://docs.appcelerator.com/titanium/latest/#!/api/Ti.Network
+    */
 	class TITANIUMKIT_EXPORT NetworkModule : public Module, public JSExport<NetworkModule>
 	{
 	public:
 		/*!
-     @method
-     @abstract createHTTPClient 
-     @discussion Returns a HTTP object allowing users to make http request and query the HTTP object.
-    */
+		@method
+		@abstract createHTTPClient 
+		@discussion Returns a HTTP object allowing users to make http request and query the HTTP object.
+		*/
 		virtual JSObject createHTTPClient(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		NetworkModule(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
@@ -41,9 +41,8 @@ namespace Titanium
 
 		static void JSExportInitialize();
 
-		JSObject createHTTPClientArgumentValidator(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSObject js_createHTTPClient(const std::vector<JSValue>& arguments, JSObject& this_object);
 	};
-
-} 
+}
 
 #endif  // _TITANIUM_NETWORK_HPP_

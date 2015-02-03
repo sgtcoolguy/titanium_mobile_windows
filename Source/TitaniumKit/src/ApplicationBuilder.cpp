@@ -16,6 +16,8 @@
 #include "Titanium/Blob.hpp"
 #include "Titanium/FilesystemModule.hpp"
 #include "Titanium/Filesystem/File.hpp"
+#include "Titanium/NetworkModule.hpp"
+#include "Titanium/Network/HTTPClient.hpp"
 
 namespace Titanium
 {
@@ -27,17 +29,19 @@ namespace Titanium
 	      view__(js_context__.CreateObject<Titanium::UI::View>()),
 	      window__(js_context__.CreateObject<Titanium::UI::Window>()),
 	      button__(js_context__.CreateObject<Titanium::UI::Button>()),
-		  alertDialog__(js_context__.CreateObject<Titanium::UI::AlertDialog>()),
+	      alertDialog__(js_context__.CreateObject<Titanium::UI::AlertDialog>()),
 	      imageview__(js_context__.CreateObject<Titanium::UI::ImageView>()),
 	      label__(js_context__.CreateObject<Titanium::UI::Label>()),
-		  slider__(js_context__.CreateObject<Titanium::UI::Slider>()),
+	      slider__(js_context__.CreateObject<Titanium::UI::Slider>()),
 	      scrollview__(js_context__.CreateObject<Titanium::UI::ScrollView>()),
 	      platform__(js_context__.CreateObject<Titanium::PlatformModule>()),
 	      accelerometer__(js_context__.CreateObject<Titanium::Accelerometer>()),
 	      gesture__(js_context__.CreateObject<Titanium::Gesture>()),
 	      blob__(js_context__.CreateObject<Titanium::Blob>()),
 	      file__(js_context__.CreateObject<Titanium::Filesystem::File>()),
-	      filesystem__(js_context__.CreateObject<Titanium::FilesystemModule>())
+	      filesystem__(js_context__.CreateObject<Titanium::FilesystemModule>()),
+	      httpclient__(js_context__.CreateObject<Titanium::Network::HTTPClient>()),
+	      network__(js_context__.CreateObject<Titanium::NetworkModule>())
 	{
 	}
 
@@ -54,6 +58,7 @@ namespace Titanium
 		ui.SetProperty("AlertDialog", alertDialog__);
 
 		filesystem__.SetProperty("File", file__);
+		network__.SetProperty("HTTPClient", httpclient__);
 
 		JSObject titanium = ti__;
 		global_object__.SetProperty("Titanium", titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -66,6 +71,7 @@ namespace Titanium
 		titanium.SetProperty("Gesture", gesture__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Blob", blob__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Filesystem", filesystem__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("Network", network__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		JSString builtin_functions_script = R"js(
       console = {};
       console.log   = Ti.API.info;
@@ -259,6 +265,27 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::FilesystemObject(const JSObject& filesystem) TITANIUM_NOEXCEPT
 	{
 		filesystem__ = filesystem;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::HTTPClientObject() const TITANIUM_NOEXCEPT
+	{
+		return httpclient__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::HTTPClientObject(const JSObject& httpclient) TITANIUM_NOEXCEPT
+	{
+		httpclient__ = httpclient;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::NetworkObject() const TITANIUM_NOEXCEPT
+	{
+		return network__;
+	}
+	ApplicationBuilder& ApplicationBuilder::NetworkObject(const JSObject& network) TITANIUM_NOEXCEPT
+	{
+		network__ = network;
 		return *this;
 	}
 
