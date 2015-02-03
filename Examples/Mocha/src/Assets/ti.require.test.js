@@ -150,7 +150,6 @@ describe("cache", function () {
     // Make sure to clear garbage on each test
 
     it("test1", function (finish) {
-        Ti.GC();
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -158,7 +157,6 @@ describe("cache", function () {
         finish();
     });
     it("test2", function (finish) {
-        Ti.GC();
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -166,7 +164,6 @@ describe("cache", function () {
         finish();
     });
     it("test3", function (finish) {
-        Ti.GC();
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -174,7 +171,6 @@ describe("cache", function () {
         finish();
     });
     it("test4", function (finish) {
-        Ti.GC();
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -182,7 +178,6 @@ describe("cache", function () {
         finish();
     });
     it("test5", function (finish) {
-        Ti.GC();
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -190,7 +185,6 @@ describe("cache", function () {
         finish();
     });
     it("test6", function (finish) {
-        Ti.GC();
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -198,7 +192,6 @@ describe("cache", function () {
         finish();
     });
     it("test7", function (finish) {
-        Ti.GC();
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -206,7 +199,6 @@ describe("cache", function () {
         finish();
     });
     it("test8", function (finish) {
-        Ti.GC();
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -214,7 +206,6 @@ describe("cache", function () {
         finish();
     });
     it("test9", function (finish) {
-        Ti.GC();
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -222,7 +213,6 @@ describe("cache", function () {
         finish();
     });
     it("test10", function (finish) {
-        Ti.GC();
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -230,7 +220,6 @@ describe("cache", function () {
         finish();
     });
     it("test11", function (finish) {
-        Ti.GC();
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });

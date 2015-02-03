@@ -12,12 +12,6 @@ describe("webview", function () {
     // so that test won't fail due to the timeout from server
     this.timeout(30000);
 
-    // Make sure to clear garbage on each test
-    // This is needed because WebView uses a lot of resources
-    beforeEach(function () {
-        Ti.GC();
-    });
-
     it("Ti.UI.createWebView", function (finish) {
         should(Ti.UI.createWebView).be.a.Function;
         should(Ti.UI.createWebView()).be.an.Object;
