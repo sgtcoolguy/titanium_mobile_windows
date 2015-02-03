@@ -9,20 +9,15 @@
 #include "NativeGlobalObjectExample.hpp"
 #include "Titanium/detail/TiBase.hpp"
 
-std::string NativeGlobalObjectExample::get_example_resource() const TITANIUM_NOEXCEPT
+void NativeGlobalObjectExample::add_require(const std::string& name, const std::string& body) TITANIUM_NOEXCEPT
 {
-	return example_resource__;
-}
-
-void NativeGlobalObjectExample::set_example_resource(const std::string& example_resource) TITANIUM_NOEXCEPT
-{
-	example_resource__ = example_resource;
+	require_resource__[name] = body;
 }
 
 std::string NativeGlobalObjectExample::LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("GlobalObjectDelegateExample::LoadResource for ", moduleId);
-	return example_resource__;
+	return require_resource__.at(moduleId);
 }
 
 class NativeGlobalObjectTimerExample final : public Titanium::GlobalObject::Timer

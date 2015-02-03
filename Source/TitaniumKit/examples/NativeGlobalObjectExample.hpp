@@ -10,6 +10,7 @@
 #define _TITANIUM_EXAMPLES_NATIVEGLOBALOBJECTEXAMPLE_HPP_
 
 #include "Titanium/Titanium.hpp"
+#include <unordered_map>
 
 using namespace HAL;
 
@@ -22,8 +23,7 @@ using namespace HAL;
 class NativeGlobalObjectExample final : public Titanium::GlobalObject, public JSExport<NativeGlobalObjectExample>
 {
 public:
-	std::string get_example_resource() const TITANIUM_NOEXCEPT;
-	void set_example_resource(const std::string& example_resource) TITANIUM_NOEXCEPT;
+	void add_require(const std::string& name, const std::string& body) TITANIUM_NOEXCEPT;
 
 	NativeGlobalObjectExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
@@ -42,7 +42,7 @@ protected:
 	virtual std::shared_ptr<Timer> CreateTimer(Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT override final;
 
 private:
-	std::string example_resource__;
+	std::unordered_map<std::string, std::string> require_resource__;
 };
 
 #endif  // _TITANIUM_EXAMPLES_NATIVEGLOBALOBJECTEXAMPLE_HPP_

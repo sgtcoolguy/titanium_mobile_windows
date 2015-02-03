@@ -76,7 +76,7 @@ using namespace HAL;
   .build();
   
   auto global_object_ptr = app.get_context().get_global_object().GetPrivate<NativeGlobalObjectExample>();
-  global_object_ptr -> set_example_resource(app_js);
+  global_object_ptr -> add_require("/app.js", app_js);
   
   JSValue reslut = app.Run("app.js");
 }
@@ -101,7 +101,7 @@ using namespace HAL;
   .build();
   
   auto global_object_ptr = app.get_context().get_global_object().GetPrivate<NativeGlobalObjectExample>();
-  global_object_ptr -> set_example_resource(app_js);
+  global_object_ptr -> add_require("/app.js", app_js);
   
   JSValue reslut = app.Run("app.js");
 }
