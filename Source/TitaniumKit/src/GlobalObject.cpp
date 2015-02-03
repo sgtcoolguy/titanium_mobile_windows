@@ -20,7 +20,15 @@ namespace Titanium
 
 	JSFunction GlobalObject::createRequireFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateFunction("var __OXP=exports;var module={'exports':exports}; eval(module_js); if(module.exports !== __OXP){return module.exports;} return exports;", {"__filename", "exports", "module_js"});
+		return get_context().CreateFunction(R"JS(
+      var exports={},__OXP=exports,module={'exports':exports};
+      eval(module_js);
+      if(module.exports !== __OXP){
+          return module.exports;
+      }
+      return exports;
+      )JS",
+		  {"__filename", "module_js"});
 	}
 
 	GlobalObject::GlobalObject(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
@@ -36,60 +44,214 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("GlobalObject:: dtor ", this);
 	}
 
-	JSValue GlobalObject::xrequire(const std::string& moduleId) TITANIUM_NOEXCEPT
+	static std::vector<std::string> pathSplit(const std::string & path)
+	{
+		std::vector<std::string> parts;
+		size_t pos = 0;
+		size_t len = path.length();
+			
+		while (pos <= len) {
+			size_t idx = path.find("/",pos);
+			if (idx == std::string::npos) {
+				parts.push_back(path.substr(pos));
+				break;
+			} else {
+				if (idx > 0) {
+					parts.push_back(path.substr(pos,idx-pos));
+				}
+				pos = idx + 1;
+			}
+		}
+		return parts;
+	}
+
+	static std::string pathJoin(std::vector<std::string> newparts)
+	{
+		std::string newpath = "/";
+		for (std::vector<std::string>::iterator i = newparts.begin(); i!=newparts.end(); i++) {
+			newpath+=*i;
+			i++;
+			if (i!=newparts.end()) {
+				newpath+="/";
+			}
+			i--;
+		}
+		return newpath;
+	}
+
+	static std::vector<std::string> slice(const std::vector<std::string> & list, const size_t & begin, const size_t & end=std::string::npos)
+	{
+		std::vector<std::string> newlist;
+		for (size_t i=begin; i<end; i++) {
+			newlist.push_back(list[i]);
+		}
+		return newlist;
+	}
+
+	std::vector<std::string> GlobalObject::resolveRequirePaths(const std::string & dirname) const TITANIUM_NOEXCEPT
+	{
+		std::vector<std::string> paths;
+		if (dirname == "/") {
+			paths.push_back("/node_modules");
+		} else {
+			auto parts = pathSplit(dirname);
+			for (size_t i = 0, len = parts.size(); i < len; i++) {
+				auto p = slice(parts, 0, len-i);
+				auto path = pathJoin(p) + "/node_modules";
+				std::vector<std::string>::iterator it = paths.begin();
+				paths.insert(it, path);
+			}
+		}
+		return paths;
+	}
+
+	std::string GlobalObject::resolvePath(const std::string& path, const std::string& basedir) const TITANIUM_NOEXCEPT
+	{
+		std::string dir = basedir.length()==1 || basedir.rfind("/")==basedir.length() ? basedir : basedir + "/";
+		bool resolvedAbsolute = path.find("/")==0;
+			
+		std::vector<std::string> parts = pathSplit(path);
+			
+		size_t up = 0;
+		bool allowAboveRoot = !resolvedAbsolute;
+		std::vector<std::string> newparts;
+		for (std::vector<std::string>::reverse_iterator rit=parts.rbegin(); rit!=parts.rend(); rit++) {
+			std::string last = *rit;
+			if (last == ".") {
+				// skip
+			} else if (last == "..") {
+				// skip
+				up++;
+			} else if (up) {
+				// skip
+				up--;
+			} else {
+				std::vector<std::string>::iterator it = newparts.begin();
+				newparts.insert(it, last);
+			}
+		}
+			
+		if (allowAboveRoot) {
+			for (; up--;) {
+				std::vector<std::string>::iterator it = newparts.begin();
+				newparts.insert(it, "..");
+			}
+		}
+			
+		std::string newpath = pathJoin(newparts);
+		return resolvedAbsolute ? newpath : dir + newpath;
+	}
+
+	std::string GlobalObject::resolvePathAsFile(const JSObject& parent, const std::string& path) const TITANIUM_NOEXCEPT
+	{
+		std::vector<std::string> checks;
+		checks.push_back(path);
+		checks.push_back(path+".js");
+		checks.push_back(path+".json");
+		
+		for (std::vector<std::string>::iterator i = checks.begin(); i!=checks.end(); i++) {
+			auto check = *i;
+			if (requiredModuleExists(check)) {
+				return check;
+			}
+		}
+		return std::string();
+	}
+
+	std::string GlobalObject::resolvePathAsDirectory(const JSObject& parent, const std::string& path) const TITANIUM_NOEXCEPT
+	{
+		auto packageJSONFile = path + "/package.json";
+		if (requiredModuleExists(packageJSONFile)) {
+				const auto content = loadRequiredModule(packageJSONFile);
+				auto result = get_context().JSEvaluateScript(content);
+				if (result.IsObject()) {
+					JSObject json = static_cast<JSObject>(result);
+					JSValue mainValue = json.GetProperty("main");
+					if (mainValue.IsString()) {
+						return resolvePath(path+"/"+static_cast<std::string>(mainValue));
+					}
+				}
+		}
+		auto indexFile = path + "/index.js";
+		if (requiredModuleExists(indexFile)) {
+			return indexFile;
+		}
+		return std::string();
+	}
+
+	std::string GlobalObject::resolvePathAsModule(const JSObject& parent, const std::string& path, const std::string& dirname) const TITANIUM_NOEXCEPT
+	{
+		auto reqPaths = resolveRequirePaths(dirname);
+		std::string modulePath;
+		std::string resolvedPath = path;
+		if (resolvedPath.find("/")!=0) {
+			resolvedPath = "/" + resolvedPath;
+		}
+		for (size_t i=0, len=reqPaths.size(); i<len; i++) {
+			auto newResolvedPath = reqPaths[i] + resolvedPath;
+			modulePath = resolvePathAsFile(parent,newResolvedPath);
+			if (!modulePath.empty()) {
+				break;
+			}
+			modulePath = resolvePathAsDirectory(parent,newResolvedPath);
+			if (!modulePath.empty()) {
+				break;
+			}
+		}
+		return modulePath;
+	}
+
+	std::string GlobalObject::requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname) TITANIUM_NOEXCEPT
+	{
+		auto isNodeModule = false;
+		std::string rawPath;
+
+		if (moduleId.find("/")==0) {
+			rawPath = moduleId;
+		} else if (moduleId.find("../")==0 || moduleId.find("./")==0) {
+			rawPath = dirname + (dirname=="/" ? "" : "/") + moduleId;
+		} else {
+			isNodeModule = true;
+			rawPath = moduleId;
+		}
+
+		auto resolvedPath = resolvePath(rawPath,dirname);
+		std::string modulePath;
+
+		if (isNodeModule) {
+			modulePath = resolvePathAsModule(parent,resolvedPath,dirname);
+			if (modulePath.empty()) {
+				modulePath = resolvePathAsModule(parent,moduleId,dirname);
+			}
+		} else {
+			// load as file or load as directory
+			modulePath = resolvePathAsFile(parent,resolvedPath);
+			if (modulePath.empty()) {
+				modulePath = resolvePathAsDirectory(parent,resolvedPath);
+			}
+		}
+		return modulePath;
+	}
+
+	JSValue GlobalObject::requireModule(const JSObject& parent, const std::string& moduleId) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_GLOBALOBJECT_LOCK_GUARD;
-
-		// The module is initially empty.
-		JSObject module = get_context().CreateObject();
-
-		// Try to load the CommonJS resource.
-
-		// TODO: Normalize moduleId (i.e. trim surrounding whitespace, append .js
-		// if it's not already there, etc.).
-
-		std::string module_path = moduleId;
-		if (!boost::starts_with(module_path, "/")) {
-			module_path = "/" + module_path;
-		}
-		if (!boost::ends_with(module_path, ".js")) {
-			module_path += ".js";
-		}
-
-		std::string module_js = LoadResource(module_path);
-		if (module_js.empty()) {
-			TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' failed to load");
-			return get_context().CreateUndefined();
-		}
+		std::string module_path = requestResolveModule(parent, moduleId);
+		std::string module_js = loadRequiredModule(module_path);
 
 		if (get_context().JSCheckScriptSyntax(module_js, moduleId)) {
 			try {
-				// Evaluate module_js to allow it to either populate the exports object
-				// with properties or to replace the exports object wholesale.
-				JSValue result = require_function__({get_context().CreateString(moduleId), module, get_context().CreateString(module_js)}, get_context().get_global_object());
-
-				if (!result.IsObject()) {
-					TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' replaced 'exports' with a non-object: ", to_string(result));
-				} else {
-					module = static_cast<JSObject>(result);
-				}
-
-				if (module.IsFunction()) {
-					TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' is a function");
-				} else {
-					TITANIUM_LOG_DEBUG("GlobalObject::require: module '", moduleId, "' is not a function");
-				}
+				JSValue result = require_function__({get_context().CreateString(moduleId), get_context().CreateString(module_js)}, get_context().get_global_object());
+				return result;
 			} catch (const std::exception& exception) {
-				TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' threw exception ", exception.what());
+				detail::ThrowRuntimeError("require", "Error while require("+moduleId+") "+static_cast<std::string>(exception.what()));
 			} catch (...) {
-				TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' threw unknown exception");
+				detail::ThrowRuntimeError("require", "Unknown error while require("+moduleId+")");
 			}
 		} else {
-			// The script had a syntax error.
-			TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' has syntax error");
+			detail::ThrowRuntimeError("require", "Could not load module "+moduleId);
 		}
-
-		return module;
+		return get_context().CreateUndefined();
 	}
 
 	unsigned GlobalObject::setTimeout(JSObject&& function, const std::chrono::milliseconds& delay) TITANIUM_NOEXCEPT
@@ -99,8 +261,8 @@ namespace Titanium
 		RegisterCallback(std::move(function), timerId);
 
 		Callback_t callback = [this, timerId]() mutable {
-      InvokeCallback(timerId);
-      clearTimeout(timerId);
+			InvokeCallback(timerId);
+			clearTimeout(timerId);
 		};
 
 		StartTimer(std::move(callback), timerId, delay);
@@ -120,7 +282,7 @@ namespace Titanium
 		RegisterCallback(std::move(function), timerId);
 
 		Callback_t callback = [this, timerId]() mutable {
-      InvokeCallback(timerId);
+			InvokeCallback(timerId);
 		};
 
 		StartTimer(std::move(callback), timerId, delay);
@@ -189,10 +351,16 @@ namespace Titanium
 			TITANIUM_LOG_WARN("GlobalObject::clearTimeout: timerId ", timerId, " is not registered");
 		}
 	}
-
-	std::string GlobalObject::LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT
+  
+	bool GlobalObject::requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_ERROR("GlobalObject::LoadResource: Unimplemented");
+		TITANIUM_LOG_ERROR("GlobalObject::requiredModuleExists: Unimplemented");
+		return false;
+	}
+
+	std::string GlobalObject::loadRequiredModule(const std::string& path) const TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_ERROR("GlobalObject::loadRequiredModule: Unimplemented");
 		return "";
 	}
 
@@ -266,7 +434,7 @@ namespace Titanium
 		const auto _0 = arguments.at(0);
 		TITANIUM_ASSERT(_0.IsString());
 		std::string moduleId = static_cast<std::string>(_0);
-		return xrequire(moduleId);
+		return requireModule(this_object, moduleId);
 	}
 
 	JSValue GlobalObject::js_setTimeout(const std::vector<JSValue>& arguments, JSObject& this_object)

@@ -85,7 +85,7 @@ namespace Titanium
 
 		  @result Exported exports object of the required module (Object).
 		*/
-		virtual JSValue xrequire(const std::string& moduleId) TITANIUM_NOEXCEPT final;
+		virtual JSValue requireModule(const JSObject& parent, const std::string& moduleId) TITANIUM_NOEXCEPT final;
 
 		/*!
 		  @method
@@ -254,8 +254,17 @@ namespace Titanium
 		};
 
 	protected:
-		virtual std::string LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT;
-
+		virtual std::string requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname = "/") TITANIUM_NOEXCEPT final;
+		virtual std::string resolvePath(const std::string& path, const std::string& dir = "/") const TITANIUM_NOEXCEPT final;
+		virtual std::string resolvePathAsModule(const JSObject& parent, const std::string& resolvedPath, const std::string& dirname) const TITANIUM_NOEXCEPT final;
+		virtual std::string resolvePathAsDirectory(const JSObject& parent, const std::string& resolvedPath) const TITANIUM_NOEXCEPT final;
+		virtual std::string resolvePathAsFile(const JSObject& parent, const std::string& resolvedPath) const TITANIUM_NOEXCEPT final;
+		virtual std::vector<std::string> resolveRequirePaths(const std::string& dirname) const TITANIUM_NOEXCEPT final;
+    
+		// platform-dependent functions
+		virtual bool requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT;
+		virtual std::string loadRequiredModule(const std::string& path) const TITANIUM_NOEXCEPT;
+    
 		/*!
 		  @method
 

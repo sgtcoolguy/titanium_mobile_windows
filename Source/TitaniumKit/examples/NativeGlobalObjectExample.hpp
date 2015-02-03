@@ -38,7 +38,8 @@ public:
 	static void JSExportInitialize();
 
 protected:
-	virtual std::string LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT override final;
+	virtual std::string loadRequiredModule(const std::string& path) const TITANIUM_NOEXCEPT override final;
+	virtual bool requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT override final;
 	virtual std::shared_ptr<Timer> CreateTimer(Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT override final;
 
 private:
