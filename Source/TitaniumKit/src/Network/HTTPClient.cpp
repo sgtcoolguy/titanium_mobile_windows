@@ -27,19 +27,19 @@ namespace Titanium
 			JSExport<HTTPClient>::SetClassVersion(1);
 			JSExport<HTTPClient>::SetParent(JSExport<Module>::Class());
 
-			JSExport<HTTPClient>::AddValueProperty("LOADING", std::mem_fn(&HTTPClient::js_getLOADING), nullptr);
-			JSExport<HTTPClient>::AddValueProperty("OPENED", std::mem_fn(&HTTPClient::js_getOPENED), nullptr);
-			JSExport<HTTPClient>::AddValueProperty("DONE", std::mem_fn(&HTTPClient::js_getDONE), nullptr);
-			JSExport<HTTPClient>::AddValueProperty("UNSENT", std::mem_fn(&HTTPClient::js_getUNSENT), nullptr);
-			JSExport<HTTPClient>::AddValueProperty("HEADERS_RECEIVED", std::mem_fn(&HTTPClient::js_getHEADERS_RECEIVED), nullptr);
+			JSExport<HTTPClient>::AddValueProperty("LOADING", std::mem_fn(&HTTPClient::js_getLOADING));
+			JSExport<HTTPClient>::AddValueProperty("OPENED", std::mem_fn(&HTTPClient::js_getOPENED));
+			JSExport<HTTPClient>::AddValueProperty("DONE", std::mem_fn(&HTTPClient::js_getDONE));
+			JSExport<HTTPClient>::AddValueProperty("UNSENT", std::mem_fn(&HTTPClient::js_getUNSENT));
+			JSExport<HTTPClient>::AddValueProperty("HEADERS_RECEIVED", std::mem_fn(&HTTPClient::js_getHEADERS_RECEIVED));
 
 			JSExport<HTTPClient>::AddValueProperty("timeout", std::mem_fn(&HTTPClient::js_getTimeout), std::mem_fn(&HTTPClient::js_setTimeout));
-			JSExport<HTTPClient>::AddValueProperty("responseText", std::mem_fn(&HTTPClient::js_getResponseText), nullptr);
-			JSExport<HTTPClient>::AddValueProperty("responseData", std::mem_fn(&HTTPClient::js_getResponseData), nullptr);
-			JSExport<HTTPClient>::AddValueProperty("allResponseHeaders", std::mem_fn(&HTTPClient::js_getAllResponseHeaders), nullptr);
-			JSExport<HTTPClient>::AddValueProperty("readyState", std::mem_fn(&HTTPClient::js_getReadyState), nullptr);
-			JSExport<HTTPClient>::AddValueProperty("status", std::mem_fn(&HTTPClient::js_getStatus), nullptr);
-			JSExport<HTTPClient>::AddValueProperty("statusText", std::mem_fn(&HTTPClient::js_getStatusText), nullptr);
+			JSExport<HTTPClient>::AddValueProperty("responseText", std::mem_fn(&HTTPClient::js_getResponseText));
+			JSExport<HTTPClient>::AddValueProperty("responseData", std::mem_fn(&HTTPClient::js_getResponseData));
+			JSExport<HTTPClient>::AddValueProperty("allResponseHeaders", std::mem_fn(&HTTPClient::js_getAllResponseHeaders));
+			JSExport<HTTPClient>::AddValueProperty("readyState", std::mem_fn(&HTTPClient::js_getReadyState));
+			JSExport<HTTPClient>::AddValueProperty("status", std::mem_fn(&HTTPClient::js_getStatus));
+			JSExport<HTTPClient>::AddValueProperty("statusText", std::mem_fn(&HTTPClient::js_getStatusText));
 			JSExport<HTTPClient>::AddValueProperty("onload", std::mem_fn(&HTTPClient::js_getOnLoad), std::mem_fn(&HTTPClient::js_setOnLoad));
 			JSExport<HTTPClient>::AddValueProperty("onerror", std::mem_fn(&HTTPClient::js_getOnError), std::mem_fn(&HTTPClient::js_setOnError));
 			JSExport<HTTPClient>::AddValueProperty("ondatastream", std::mem_fn(&HTTPClient::js_getOnDataStream), std::mem_fn(&HTTPClient::js_setOnDataStream));
