@@ -93,7 +93,7 @@ using namespace HAL;
   auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
   XCTAssertNotEqual(nullptr, global_object_ptr);
 
-  global_object_ptr->add_require("/hello.js", hello_js);
+  global_object_ptr->add_require("/node_modules/hello.js", hello_js);
   JSValue result = js_context.JSEvaluateScript(app_js);
 
   XCTAssertTrue(result.IsString());
@@ -106,8 +106,8 @@ using namespace HAL;
   auto global_object = js_context.get_global_object();
 
   std::string app_js = R"js(
-      var module = require('hello');
-      module.hello('World');
+      var m = require('hello');
+      m.hello('World');
     )js";
 
   std::string hello_js = R"js(
@@ -120,7 +120,7 @@ using namespace HAL;
   auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
   XCTAssertNotEqual(nullptr, global_object_ptr);
 
-  global_object_ptr->add_require("/hello.js", hello_js);
+  global_object_ptr->add_require("/node_modules/hello.js", hello_js);
   JSValue result = js_context.JSEvaluateScript(app_js);
 
   XCTAssertTrue(result.IsString());
@@ -148,7 +148,7 @@ using namespace HAL;
   auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
   XCTAssertNotEqual(nullptr, global_object_ptr);
 
-  global_object_ptr->add_require("/hello.js", hello_js);
+  global_object_ptr->add_require("/node_modules/hello.js", hello_js);
   JSValue result = js_context.JSEvaluateScript(app_js);
 
   XCTAssertTrue(result.IsString());
@@ -161,7 +161,7 @@ using namespace HAL;
   auto global_object = js_context.get_global_object();
 
   std::string app_js = R"js(
-      var hello = require('module');
+      var hello = require('m');
       hello('World');
     )js";
 
@@ -180,8 +180,8 @@ using namespace HAL;
   auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
   XCTAssertNotEqual(nullptr, global_object_ptr);
 
-  global_object_ptr->add_require("/hello.js", hello_js);
-  global_object_ptr->add_require("/module.js", module_js);
+  global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+  global_object_ptr->add_require("/node_modules/m.js", module_js);
   JSValue result = js_context.JSEvaluateScript(app_js);
 
   XCTAssertTrue(result.IsString());
@@ -194,8 +194,8 @@ using namespace HAL;
   auto global_object = js_context.get_global_object();
 
   std::string app_js = R"js(
-      var module = require('module');
-      module.hello('World');
+      var m = require('m');
+      m.hello('World');
     )js";
 
   std::string module_js = R"js(
@@ -213,8 +213,8 @@ using namespace HAL;
   auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
   XCTAssertNotEqual(nullptr, global_object_ptr);
 
-  global_object_ptr->add_require("/hello.js", hello_js);
-  global_object_ptr->add_require("/module.js", module_js);
+  global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+  global_object_ptr->add_require("/node_modules/m.js", module_js);
   JSValue result = js_context.JSEvaluateScript(app_js);
 
   XCTAssertTrue(result.IsString());
@@ -227,8 +227,8 @@ using namespace HAL;
   auto global_object = js_context.get_global_object();
 
   std::string app_js = R"js(
-      var module = require('module');
-      module.hello('World');
+      var m = require('./m');
+      m.hello('World');
     )js";
 
   std::string module_js = R"js(
@@ -246,43 +246,10 @@ using namespace HAL;
   auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
   XCTAssertNotEqual(nullptr, global_object_ptr);
 
-  global_object_ptr->add_require("./hello.js", hello_js);
-  global_object_ptr->add_require("/module.js", module_js);
+  global_object_ptr->add_require("hello.js", hello_js);
+  global_object_ptr->add_require("m.js", module_js);
   JSValue result = js_context.JSEvaluateScript(app_js);
 
-  XCTAssertTrue(result.IsString());
-  XCTAssertEqual("Hello, World", static_cast<std::string>(result));
-}
-
-- (void)testRequireNestedFromNodeModule
-{
-  JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
-  auto global_object = js_context.get_global_object();
-  
-  std::string app_js = R"js(
-  var module = require('module');
-  module.hello('World');
-  )js";
-  
-  std::string module_js = R"js(
-  var hello = require('./hello');
-  exports.hello = hello.hello;
-  )js";
-  
-  std::string hello_js = R"js(
-  exports.hello = sayHello;
-  function sayHello(name) {
-    return 'Hello, ' + name;
-  }
-  )js";
-  
-  auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
-  XCTAssertNotEqual(nullptr, global_object_ptr);
-  
-  global_object_ptr->add_require("/node_modules/hello.js", hello_js);
-  global_object_ptr->add_require("/node_modules/module.js", module_js);
-  JSValue result = js_context.JSEvaluateScript(app_js);
-  
   XCTAssertTrue(result.IsString());
   XCTAssertEqual("Hello, World", static_cast<std::string>(result));
 }
@@ -293,12 +260,12 @@ using namespace HAL;
   auto global_object = js_context.get_global_object();
   
   std::string app_js = R"js(
-  var module = require('module');
-  module.hello('World');
+  var m = require('m');
+  m.hello('World');
   )js";
   
   std::string module_js = R"js(
-  var hello = require('./hello');
+  var hello = require('hello');
   exports.hello = hello.hello;
   )js";
   
@@ -313,7 +280,7 @@ using namespace HAL;
   XCTAssertNotEqual(nullptr, global_object_ptr);
   
   global_object_ptr->add_require("/node_modules/hello/index.js", hello_js);
-  global_object_ptr->add_require("/node_modules/module.js", module_js);
+  global_object_ptr->add_require("/node_modules/m.js", module_js);
   JSValue result = js_context.JSEvaluateScript(app_js);
   
   XCTAssertTrue(result.IsString());

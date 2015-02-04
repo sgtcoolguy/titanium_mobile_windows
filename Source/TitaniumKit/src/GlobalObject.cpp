@@ -67,7 +67,7 @@ namespace Titanium
 
 	static std::string pathJoin(std::vector<std::string> newparts)
 	{
-		std::string newpath = "/";
+		std::string newpath;
 		for (std::vector<std::string>::iterator i = newparts.begin(); i!=newparts.end(); i++) {
 			newpath+=*i;
 			i++;
@@ -220,9 +220,6 @@ namespace Titanium
 
 		if (isNodeModule) {
 			modulePath = resolvePathAsModule(parent,resolvedPath,dirname);
-			if (modulePath.empty()) {
-				modulePath = resolvePathAsModule(parent,moduleId,dirname);
-			}
 		} else {
 			// load as file or load as directory
 			modulePath = resolvePathAsFile(parent,resolvedPath);
@@ -242,6 +239,9 @@ namespace Titanium
 		if (get_context().JSCheckScriptSyntax(module_js, moduleId)) {
 			try {
 				JSValue result = require_function__({get_context().CreateString(moduleId), get_context().CreateString(module_js)}, get_context().get_global_object());
+				if (!result.IsObject()) {
+					TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' replaced 'exports' with a non-object: ", to_string(result));
+				}
 				return result;
 			} catch (const std::exception& exception) {
 				detail::ThrowRuntimeError("require", "Error while require("+moduleId+") "+static_cast<std::string>(exception.what()));
@@ -475,7 +475,7 @@ namespace Titanium
 		TITANIUM_ASSERT(_0.IsObject());
 		TITANIUM_ASSERT(_1.IsNumber());
 		JSObject function = static_cast<JSObject>(_0);
-		;
+		
 		TITANIUM_ASSERT(function.IsFunction());
 		const auto delay = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(_1)));
 		JSNumber timerId = get_context().CreateNumber(setInterval(std::move(function), delay));
