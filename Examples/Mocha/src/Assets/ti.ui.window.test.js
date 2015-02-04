@@ -10,12 +10,6 @@ var should = require('should');
 
 describe("ui_window", function () {
 
-    beforeEach(function () {
-        setTimeout(function () {
-            Ti.GC();
-        }, 10);
-    });
-
     it("window_size_is_read_only", function (finish) {
         this.timeout(1000);
         var w = Ti.UI.createWindow({

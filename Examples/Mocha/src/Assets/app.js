@@ -83,6 +83,4 @@ mocha.run(function () {
         results: $results
     }, null, '\t'));
     Ti.API.info('!TEST_RESULTS_STOP!');
-
-    Ti.GC();
 });
