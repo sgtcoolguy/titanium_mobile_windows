@@ -44,7 +44,7 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("GlobalObject:: dtor ", this);
 	}
 
-	static std::vector<std::string> pathSplit(const std::string & path)
+	static std::vector<std::string> pathSplit(const std::string& path)
 	{
 		std::vector<std::string> parts;
 		size_t pos = 0;
@@ -68,10 +68,10 @@ namespace Titanium
 	static std::string pathJoin(std::vector<std::string> newparts)
 	{
 		std::string newpath;
-		for (std::vector<std::string>::iterator i = newparts.begin(); i!=newparts.end(); i++) {
-			newpath+=*i;
+		for (std::vector<std::string>::iterator i = newparts.begin(); i != newparts.end(); i++) {
+			newpath += *i;
 			i++;
-			if (i!=newparts.end()) {
+			if (i != newparts.end()) {
 				newpath+="/";
 			}
 			i--;
@@ -79,16 +79,16 @@ namespace Titanium
 		return newpath;
 	}
 
-	static std::vector<std::string> slice(const std::vector<std::string> & list, const size_t & begin, const size_t & end=std::string::npos)
+	static std::vector<std::string> slice(const std::vector<std::string>& list, const size_t& begin, const size_t& end=std::string::npos)
 	{
 		std::vector<std::string> newlist;
-		for (size_t i=begin; i<end; i++) {
+		for (size_t i = begin; i < end; i++) {
 			newlist.push_back(list[i]);
 		}
 		return newlist;
 	}
 
-	std::vector<std::string> GlobalObject::resolveRequirePaths(const std::string & dirname) const TITANIUM_NOEXCEPT
+	std::vector<std::string> GlobalObject::resolveRequirePaths(const std::string& dirname) const TITANIUM_NOEXCEPT
 	{
 		std::vector<std::string> paths;
 		if (dirname == "/") {
@@ -107,15 +107,15 @@ namespace Titanium
 
 	std::string GlobalObject::resolvePath(const std::string& path, const std::string& basedir) const TITANIUM_NOEXCEPT
 	{
-		std::string dir = basedir.length()==1 || basedir.rfind("/")==basedir.length() ? basedir : basedir + "/";
-		bool resolvedAbsolute = path.find("/")==0;
+		std::string dir = basedir.length() == 1 || basedir.rfind("/") == basedir.length() ? basedir : basedir + "/";
+		const bool resolvedAbsolute = path.find("/")==0;
 			
 		std::vector<std::string> parts = pathSplit(path);
 			
 		size_t up = 0;
-		bool allowAboveRoot = !resolvedAbsolute;
+		const bool allowAboveRoot = !resolvedAbsolute;
 		std::vector<std::string> newparts;
-		for (std::vector<std::string>::reverse_iterator rit=parts.rbegin(); rit!=parts.rend(); rit++) {
+		for (std::vector<std::string>::reverse_iterator rit = parts.rbegin(); rit != parts.rend(); rit++) {
 			std::string last = *rit;
 			if (last == ".") {
 				// skip
@@ -163,10 +163,10 @@ namespace Titanium
 		const auto packageJSONFile = path + "/package.json";
 		if (requiredModuleExists(packageJSONFile)) {
 				const auto content = loadRequiredModule(packageJSONFile);
-				auto result = get_context().CreateValueFromJSON(content);
+				const auto result = get_context().CreateValueFromJSON(content);
 				if (result.IsObject()) {
-					JSObject json = static_cast<JSObject>(result);
-					JSValue mainValue = json.GetProperty("main");
+					const auto json = static_cast<JSObject>(result);
+					auto mainValue = json.GetProperty("main");
 					if (mainValue.IsString()) {
 						return path+"/"+static_cast<std::string>(mainValue);
 					}
@@ -191,7 +191,7 @@ namespace Titanium
 		if (resolvedPath.find("/")!=0) {
 			resolvedPath = "/" + resolvedPath;
 		}
-		for (size_t i=0, len=reqPaths.size(); i<len; i++) {
+		for (size_t i = 0, len = reqPaths.size(); i < len; i++) {
 			auto newResolvedPath = reqPaths[i] + resolvedPath;
 			modulePath = resolvePathAsFile(parent,newResolvedPath);
 			if (!modulePath.empty()) {
@@ -212,14 +212,14 @@ namespace Titanium
 
 		if (moduleId.find("/")==0) {
 			rawPath = moduleId;
-		} else if (moduleId.find("../")==0 || moduleId.find("./")==0) {
-			rawPath = dirname + (dirname=="/" ? "" : "/") + moduleId;
+		} else if (moduleId.find("../") == 0 || moduleId.find("./") == 0) {
+			rawPath = dirname + (dirname == "/" ? "" : "/") + moduleId;
 		} else {
 			isNodeModule = true;
 			rawPath = moduleId;
 		}
 
-		auto resolvedPath = resolvePath(rawPath,dirname);
+		const auto resolvedPath = resolvePath(rawPath,dirname);
 		std::string modulePath;
 
 		if (isNodeModule) {
@@ -237,8 +237,8 @@ namespace Titanium
 	JSValue GlobalObject::requireModule(const JSObject& parent, const std::string& moduleId) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_GLOBALOBJECT_LOCK_GUARD;
-		std::string module_path = requestResolveModule(parent, moduleId);
-		std::string module_js = loadRequiredModule(module_path);
+		const auto module_path = requestResolveModule(parent, moduleId);
+		const auto module_js = loadRequiredModule(module_path);
 
 		try {
 			JSValue result = get_context().CreateUndefined();

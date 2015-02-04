@@ -76,64 +76,278 @@ TEST_F(GlobalObjectTests, basicFeatures)
 	XCTAssertTrue(global_object.HasProperty("clearTimeout"));
 }
 
-TEST_F(GlobalObjectTests, requireFunctionModuleExports)
+TEST_F(GlobalObjectTests, requireModuleExports)
 {
 	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
 	auto global_object = js_context.get_global_object();
 
 	std::string app_js = R"js(
-      var hello = require('hello');
-      hello('World');
-    )js";
+		var hello = require('hello');
+		hello('World');
+	)js";
 
 	std::string hello_js = R"js(
-      module.exports = sayHello;
-      function sayHello(name) {
-        return 'Hello, ' + name;
-      }
-    )js";
+		module.exports = sayHello;
+		function sayHello(name) {
+			return 'Hello, ' + name;
+		}
+	)js";
 
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/hello.js", hello_js);
+	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsString());
 	XCTAssertEqual("Hello, World", static_cast<std::string>(result));
 }
 
-TEST_F(GlobalObjectTests, requireFunctionExports)
+TEST_F(GlobalObjectTests, requireExports)
 {
 	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
 	auto global_object = js_context.get_global_object();
 
 	std::string app_js = R"js(
-      var module = require('hello');
-      module.hello('World');
-    )js";
+		var m = require('hello');
+		m.hello('World');
+	)js";
 
 	std::string hello_js = R"js(
-      exports.hello = sayHello;
-      function sayHello(name) {
-        return 'Hello, ' + name;
-      }
-    )js";
+		exports.hello = sayHello;
+		function sayHello(name) {
+			return 'Hello, ' + name;
+		}
+	)js";
 
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/hello.js", hello_js);
+	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsString());
 	XCTAssertEqual("Hello, World", static_cast<std::string>(result));
 }
 
-TEST_F(GlobalObjectTests, timeout)
+TEST_F(GlobalObjectTests, requireFromCurrent)
 {
+	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+	auto global_object = js_context.get_global_object();
+
+	std::string app_js = R"js(
+		var hello = require('./hello');
+		hello('World');
+	)js";
+
+	std::string hello_js = R"js(
+		module.exports = sayHello;
+		function sayHello(name) {
+			return 'Hello, ' + name;
+		}
+	)js";
+
+	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
+	XCTAssertNotEqual(nullptr, global_object_ptr);
+
+	global_object_ptr->add_require("hello.js", hello_js);
+	JSValue result = js_context.JSEvaluateScript(app_js);
+
+	XCTAssertTrue(result.IsString());
+	XCTAssertEqual("Hello, World", static_cast<std::string>(result));
 }
 
-TEST_F(GlobalObjectTests, interval)
+TEST_F(GlobalObjectTests, requireWithJS)
 {
+	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+	auto global_object = js_context.get_global_object();
+
+	std::string app_js = R"js(
+		var hello = require('hello.js');
+		hello('World');
+	)js";
+
+	std::string hello_js = R"js(
+		module.exports = sayHello;
+		function sayHello(name) {
+			return 'Hello, ' + name;
+		}
+	)js";
+
+	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
+	XCTAssertNotEqual(nullptr, global_object_ptr);
+
+	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+	JSValue result = js_context.JSEvaluateScript(app_js);
+
+	XCTAssertTrue(result.IsString());
+	XCTAssertEqual("Hello, World", static_cast<std::string>(result));
+}
+
+TEST_F(GlobalObjectTests, requireWithJSON)
+{
+	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+	auto global_object = js_context.get_global_object();
+
+	std::string app_js = R"js(
+		var hello = require('hello');
+		hello.name
+	)js";
+
+	std::string hello_js = R"js(
+		{"name":"Hello, World"}
+	)js";
+
+	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
+	XCTAssertNotEqual(nullptr, global_object_ptr);
+
+	global_object_ptr->add_require("/node_modules/hello.json", hello_js);
+	JSValue result = js_context.JSEvaluateScript(app_js);
+
+	XCTAssertTrue(result.IsString());
+	XCTAssertEqual("Hello, World", static_cast<std::string>(result));
+}
+
+TEST_F(GlobalObjectTests, requireWithIndexJSON)
+{
+	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+	auto global_object = js_context.get_global_object();
+
+	std::string app_js = R"js(
+		var hello = require('hello');
+		hello.name
+	)js";
+
+	std::string hello_js = R"js(
+		{"name":"Hello, World"}
+	)js";
+
+	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
+	XCTAssertNotEqual(nullptr, global_object_ptr);
+
+	global_object_ptr->add_require("/node_modules/hello/index.json", hello_js);
+	JSValue result = js_context.JSEvaluateScript(app_js);
+
+	XCTAssertTrue(result.IsString());
+	XCTAssertEqual("Hello, World", static_cast<std::string>(result));
+}
+
+TEST_F(GlobalObjectTests, requireFromDirectory)
+{
+	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+	auto global_object = js_context.get_global_object();
+
+	std::string app_js = R"js(
+		var hello = require('hello');
+		hello('World');
+	)js";
+
+	std::string hello_js = R"js(
+		module.exports = sayHello;
+		function sayHello(name) {
+			return 'Hello, ' + name;
+		}
+	)js";
+
+	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
+	XCTAssertNotEqual(nullptr, global_object_ptr);
+
+	global_object_ptr->add_require("/node_modules/hello/index.js", hello_js);
+	JSValue result = js_context.JSEvaluateScript(app_js);
+
+	XCTAssertTrue(result.IsString());
+	XCTAssertEqual("Hello, World", static_cast<std::string>(result));
+}
+
+TEST_F(GlobalObjectTests, requireFromPackageJSON)
+{
+	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+	auto global_object = js_context.get_global_object();
+
+	std::string app_js = R"js(
+		var hello = require('hello');
+		hello('World');
+	)js";
+
+	std::string package_json = R"js(
+		{"main": "main.js"}
+	)js";
+
+	std::string hello_js = R"js(
+		module.exports = sayHello;
+		function sayHello(name) {
+			return 'Hello, ' + name;
+		}
+	)js";
+
+	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
+	XCTAssertNotEqual(nullptr, global_object_ptr);
+
+	global_object_ptr->add_require("/node_modules/hello/package.json", package_json);
+	global_object_ptr->add_require("/node_modules/hello/main.js", hello_js);
+	JSValue result = js_context.JSEvaluateScript(app_js);
+
+	XCTAssertTrue(result.IsString());
+	XCTAssertEqual("Hello, World", static_cast<std::string>(result));
+}
+
+TEST_F(GlobalObjectTests, requireDuplicateModules)
+{
+	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+	auto global_object = js_context.get_global_object();
+
+	std::string app_js = R"js(
+		var hello1 = require('hello');
+		var hello2 = require('hello');
+		hello1('World1 ') + hello2('World2');
+	)js";
+
+	std::string hello_js = R"js(
+		module.exports = sayHello;
+		function sayHello(name) {
+			return 'Hello, ' + name;
+		}
+	)js";
+
+	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
+	XCTAssertNotEqual(nullptr, global_object_ptr);
+
+	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+	JSValue result = js_context.JSEvaluateScript(app_js);
+
+	XCTAssertTrue(result.IsString());
+	XCTAssertEqual("Hello, World1 Hello, World2", static_cast<std::string>(result));
+}
+
+TEST_F(GlobalObjectTests, requireNestedModule)
+{
+	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+	auto global_object = js_context.get_global_object();
+
+	std::string app_js = R"js(
+		var hello = require('m');
+		hello('World');
+	)js";
+
+	std::string module_js = R"js(
+		var hello = require('hello');
+		module.exports = hello;
+	)js";
+
+	std::string hello_js = R"js(
+		module.exports = sayHello;
+		function sayHello(name) {
+			return 'Hello, ' + name;
+		}
+	)js";
+
+	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
+	XCTAssertNotEqual(nullptr, global_object_ptr);
+
+	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+	global_object_ptr->add_require("/node_modules/m.js", module_js);
+	JSValue result = js_context.JSEvaluateScript(app_js);
+
+	XCTAssertTrue(result.IsString());
+	XCTAssertEqual("Hello, World", static_cast<std::string>(result));
 }
