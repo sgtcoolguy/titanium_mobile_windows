@@ -7,11 +7,7 @@
 #ifndef _TITANIUM_DATABASE_DB_HPP_
 #define _TITANIUM_DATABASE_DB_HPP_
 
-#include "Titanium/Module.hpp"
-#include "Titanium/Database/Constants.hpp"
 #include "Titanium/Database/ResultSet.hpp"
-#include <vector>
-#include <sqlite3.h>
 
 namespace Titanium
 {

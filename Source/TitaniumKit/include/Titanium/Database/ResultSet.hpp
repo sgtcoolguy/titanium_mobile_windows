@@ -10,7 +10,7 @@
 #include "Titanium/Module.hpp"
 #include "Titanium/Database/Constants.hpp"
 #include <vector>
-#include <sqlite3.h>
+#include "sqlite3.h"
 
 namespace Titanium
 {

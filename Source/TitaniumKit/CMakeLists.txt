@@ -33,7 +33,6 @@ endif()
 
 get_filename_component(APPCELERATOR_CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake ABSOLUTE)
 list(INSERT CMAKE_MODULE_PATH 0 ${APPCELERATOR_CMAKE_MODULE_PATH})
-find_package(SQLite REQUIRED)
 
 set(Boost_USE_STATIC_LIBS ON )
 set(Boost_USE_MULTITHREADED ON )
@@ -83,6 +82,8 @@ set(SOURCE_Database
   src/Database/ResultSet.cpp
   include/Titanium/Database/Constants.hpp
   src/Database/Constants.cpp
+  include/sqlite3.h
+  src/sqlite3.c
   )
 
 set(SOURCE_Platform
@@ -210,13 +211,11 @@ target_include_directories(TitaniumKit PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
   ${Boost_INCLUDE_DIRS}
-  ${SQLite_INCLUDE_DIRS}
   )
 
 target_link_libraries(TitaniumKit
   HAL
   ${Boost_LIBRARIES}
-  ${SQLite_LIBRARIES}
   )
 
 if (WIN32)
@@ -266,6 +265,12 @@ if (NOT TitaniumKit_DISABLE_TESTS)
   add_subdirectory(test)
 endif()
 
+# When building sqlite3 for Windows Phone, set special flags!
+# TODO Do the same for WindowsStore! This info is hard to find and lives in http://www.sqlite.org/cgi/src/artifact/fc6b0b233b5621f3
+if(CMAKE_SYSTEM_NAME MATCHES "^Windows(Phone|Store)$")
+  # For Store, we need /DWINAPI_FAMILY=WINAPI_FAMILY_APP but I think that's already done for us!
+  set_source_files_properties(src/sqlite3.c PROPERTIES COMPILE_FLAGS "/DSQLITE_OS_WINRT=1 /DSQLITE_OMIT_LOAD_EXTENSION=1 /DSQLITE_WIN32_FILEMAPPING_API=1")
+endif()
 
 # Support find_package(TitaniumKit 0.1 REQUIRED)
 

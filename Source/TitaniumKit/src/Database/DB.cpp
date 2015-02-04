@@ -109,9 +109,6 @@ namespace Titanium
 				return get_context().CreateNull();
 			}
 
-			// Create vector to store memory buffers
-			std::vector<char*> buffers;
-
 			if (args.size() > 1) {
 				for (int i = 1, len = args.size(); i < len; i++) {
 					JSValue arg = args.at(i);
@@ -119,7 +116,6 @@ namespace Titanium
 					JSObject arg_object = get_context().CreateObject();
 					if (arg.IsObject()) {
 						arg_object = static_cast<JSObject>(arg);
-						// FIXME There is no IsArray() for JSObject (yet)!
 						if (arg_object.IsArray()) {
 							parameter_count = static_cast<uint32_t>(arg_object.GetProperty("length"));
 						}
@@ -127,17 +123,14 @@ namespace Titanium
 
 					for (int j = 0; j < parameter_count; j++) {
 						int bind_index = i;
-						if (arg_object.IsArray()) { // FIXME There is no IsArray()!
+						if (arg_object.IsArray()) {
 							arg = arg_object.GetProperty(j);
 							bind_index = j + 1;
 						}
 						if (arg.IsString()) {
 							const std::string str = static_cast<std::string>(arg);
 							const int length = str.size() + 1;
-							char* buffer = static_cast<char*>(std::malloc(length));
-							buffers.push_back(buffer);
-							strcpy_s(buffer, length, str.c_str());
-							error = sqlite3_bind_text(statement, bind_index, buffer, length, 0);
+							error = sqlite3_bind_text(statement, bind_index, str.c_str(), length, 0);
 						} else if (arg.IsBoolean()) {
 							// SQLite cant bind booleans so the next best is an integer
 							error = sqlite3_bind_int(statement, bind_index, static_cast<int>(static_cast<bool>(arg)));
@@ -155,12 +148,6 @@ namespace Titanium
 
 			// Execute query statement
 			int stepResult = sqlite3_step(statement);
-
-			// Free all memory buffers
-			for (int i = 0; i < buffers.size(); i++) {
-				std::free(buffers[i]);
-				buffers[i] = nullptr;
-			}
 
 			// Now let's wrap the results in our ResultSet proxy
 			// FIXME Pass these values into the constructor, don't expose the fields

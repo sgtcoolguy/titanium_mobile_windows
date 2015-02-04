@@ -104,7 +104,7 @@ namespace Titanium
 
 		int ResultSet::fieldIndex(const std::string& name) TITANIUM_NOEXCEPT
 		{
-			for (int i = 0, len = column_names__.size(); i < len; i++) {
+			for (size_t i = 0, len = column_names__.size(); i < len; i++) {
 				if (column_names__[i] == name) {
 					return i;
 				}
@@ -114,7 +114,7 @@ namespace Titanium
 
 		std::string ResultSet::fieldName(const uint32_t& index) TITANIUM_NOEXCEPT
 		{
-			if (index <= sqlite3_column_count(statement__) && strlen(reinterpret_cast<const char*>(sqlite3_column_text(statement__, index))) > 0) {
+			if (index <= (size_t) sqlite3_column_count(statement__) && strlen(reinterpret_cast<const char*>(sqlite3_column_text(statement__, index))) > 0) {
 				std::string text(reinterpret_cast<const char*>(sqlite3_column_name(statement__, index)));
 				return text;
 			}
