@@ -316,6 +316,34 @@ using namespace HAL;
   XCTAssertEqual("Hello, World1 Hello, World2", static_cast<std::string>(result));
 }
 
+- (void)testRequireModuleCache
+{
+  JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
+  auto global_object = js_context.get_global_object();
+
+  std::string app_js = R"js(
+      var hello1 = require('hello');
+      var hello2 = require('hello');
+      (hello1 === hello2);
+    )js";
+
+  std::string hello_js = R"js(
+      module.exports = sayHello;
+      function sayHello(name) {
+        return 'Hello, ' + name;
+      }
+    )js";
+
+  auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
+  XCTAssertNotEqual(nullptr, global_object_ptr);
+
+  global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+  JSValue result = js_context.JSEvaluateScript(app_js);
+
+  XCTAssertTrue(result.IsBoolean());
+  XCTAssertTrue(static_cast<bool>(result));
+}
+
 - (void)testRequireNestedModule
 {
   JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());

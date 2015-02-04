@@ -85,7 +85,7 @@ namespace Titanium
 
 		  @result Exported exports object of the required module (Object).
 		*/
-		virtual JSValue requireModule(const JSObject& parent, const std::string& moduleId) TITANIUM_NOEXCEPT final;
+		virtual JSValue requireModule(const JSObject& parent, const std::string& moduleId) final;
 
 		/*!
 		  @method
@@ -302,6 +302,7 @@ namespace Titanium
 // need to be exported from a DLL.
 #pragma warning(push)
 #pragma warning(disable : 4251)
+		std::unordered_map<std::string, JSValue> module_cache__;
 		std::unordered_map<unsigned, std::shared_ptr<Timer>> timer_map__;
 
 		static std::atomic<unsigned> timer_id_generator__;

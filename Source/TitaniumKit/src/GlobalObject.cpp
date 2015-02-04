@@ -234,14 +234,25 @@ namespace Titanium
 		return modulePath;
 	}
 
-	JSValue GlobalObject::requireModule(const JSObject& parent, const std::string& moduleId) TITANIUM_NOEXCEPT
+	JSValue GlobalObject::requireModule(const JSObject& parent, const std::string& moduleId)
 	{
 		TITANIUM_GLOBALOBJECT_LOCK_GUARD;
+
 		const auto module_path = requestResolveModule(parent, moduleId);
 		if (module_path.empty()) {
 			detail::ThrowRuntimeError("require", "Could not load module " + moduleId);
 		}
+
+		// check if we have already loaded the module
+		if (module_cache__.find(module_path) != module_cache__.end()) {
+			return module_cache__.at(module_path);
+		}
+
 		const auto module_js = readRequiredModule(module_path);
+
+		if (module_js.empty()) {
+			detail::ThrowRuntimeError("require", "Could not load module " + moduleId);
+		}
 
 		try {
 			JSValue result = get_context().CreateUndefined();
@@ -256,6 +267,8 @@ namespace Titanium
 			if (!result.IsObject()) {
 				TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' replaced 'exports' with a non-object: ", to_string(result));
 			}
+			// cache it so that we can reuse it
+			module_cache__.insert({module_path, result});
 			return result;
 		} catch (const std::exception& exception) {
 			detail::ThrowRuntimeError("require", "Error while require("+moduleId+") "+static_cast<std::string>(exception.what()));

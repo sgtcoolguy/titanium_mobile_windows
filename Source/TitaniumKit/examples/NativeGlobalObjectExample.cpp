@@ -11,7 +11,7 @@
 
 void NativeGlobalObjectExample::add_require(const std::string& name, const std::string& body) TITANIUM_NOEXCEPT
 {
-	require_resource__[name] = body;
+	require_resource__.insert({name, body});
 }
 
 bool NativeGlobalObjectExample::requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT
