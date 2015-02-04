@@ -10,26 +10,71 @@
 #include "Titanium/detail/TiBase.hpp"
 #include <ratio>
 #include <sstream>
+#include <boost/algorithm/string.hpp>
+#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
 {
-	std::string GlobalObject::LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT
+	static Platform::String^ resolve(const std::string& path) 
 	{
-		TITANIUM_LOG_DEBUG("GlobalObject::LoadResource for ", moduleId);
+		const auto newpath = TitaniumWindows::Utility::ConvertUTF8String(boost::algorithm::replace_all_copy(path, "/", "\\"));
 
 		Windows::ApplicationModel::Package^ package = Windows::ApplicationModel::Package::Current;
 		Windows::Storage::StorageFolder^ installed_location = package->InstalledLocation;
-		Platform::String^ path = installed_location->Path;
+		Platform::String^ location = installed_location->Path;
 
-		std::string app_root_path(path->Begin(), path->End());
-		std::string module_path = app_root_path + static_cast<std::string>(moduleId);
-		TITANIUM_LOG_DEBUG("GlobalObject::LoadResource: module_path = ", module_path);
-
-		std::ifstream ifs(module_path);
-		std::stringstream buffer;
-		buffer << ifs.rdbuf();
-		return buffer.str();
+		return location + "\\" + newpath;
 	}
+
+	bool GlobalObject::requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT
+	{
+		auto module_path = resolve(path);
+		TITANIUM_LOG_DEBUG("GlobalObject::requiredModuleExists: ", TitaniumWindows::Utility::ConvertUTF8String(module_path));
+
+		bool exists = false;
+		concurrency::event event;
+		concurrency::task<Windows::Storage::StorageFile^>(Windows::Storage::StorageFile::GetFileFromPathAsync(module_path)).then([&exists, &event](concurrency::task<Windows::Storage::StorageFile^> task) {
+			try {
+				task.get();
+				exists = true;
+			} catch (Platform::COMException^ ex) {
+				exists = false;
+			}
+			event.set();
+		}, concurrency::task_continuation_context::use_arbitrary());
+		event.wait();
+
+		return exists;
+	}
+
+	std::string GlobalObject::readRequiredModule(const std::string& path) const
+	{
+		auto module_path = resolve(path);
+		TITANIUM_LOG_DEBUG("GlobalObject::loadRequiredModule: module_path = ", TitaniumWindows::Utility::ConvertUTF8String(module_path));
+
+		Platform::String^ content;
+		bool hasError = false;
+		concurrency::event event;
+		concurrency::task<Windows::Storage::StorageFile^>(Windows::Storage::StorageFile::GetFileFromPathAsync(module_path)).then([&content, &hasError, &event](concurrency::task<Windows::Storage::StorageFile^> task) {
+			try {
+				concurrency::task<Platform::String^>(Windows::Storage::FileIO::ReadTextAsync(task.get(), Windows::Storage::Streams::UnicodeEncoding::Utf8)).then([&content, &hasError, &event](concurrency::task<Platform::String^> task) {
+					content = task.get();
+					event.set();
+				}, concurrency::task_continuation_context::use_arbitrary());
+			} catch (Platform::COMException^ ex) {
+				hasError = true;
+				event.set();
+			}
+		}, concurrency::task_continuation_context::use_arbitrary());
+		event.wait();
+
+		if (hasError) {
+			detail::ThrowRuntimeError("require", "Could not load module: module_path = " + TitaniumWindows::Utility::ConvertUTF8String(module_path));
+		}
+
+		return TitaniumWindows::Utility::ConvertUTF8String(content);
+	}
+
 #pragma warning(push)
 #pragma warning(disable : 4251)
 	class TITANIUMWINDOWS_GLOBAL_EXPORT Timer final : public Titanium::GlobalObject::Timer, public std::enable_shared_from_this<Timer>

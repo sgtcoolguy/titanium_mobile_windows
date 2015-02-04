@@ -10,20 +10,19 @@ var win = Ti.UI.createWindow({
 });
 win.open();
 
-require('ti-mocha');
-var should = require('should');
+require('./ti-mocha');
 var $results = [];
 
 // ============================================================================
 // Add the tests here using "require"
-require('ti.builtin.test');
-require('ti.require.test');
-require('ti.platform.test');
-require('ti.test');
-require('ti.accelerometer.test');
-require('ti.gesture.test');
-require('ti.blob.test');
-require('ti.filesystem.test');
+require('./ti.builtin.test');
+require('./ti.require.test');
+require('./ti.platform.test');
+require('./ti.test');
+require('./ti.accelerometer.test');
+require('./ti.gesture.test');
+require('./ti.blob.test');
+require('./ti.filesystem.test');
 // ============================================================================
 
 // add a special mocha reporter that will time each test run using

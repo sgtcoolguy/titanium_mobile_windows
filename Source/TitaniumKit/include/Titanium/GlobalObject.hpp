@@ -263,7 +263,7 @@ namespace Titanium
     
 		// platform-dependent functions
 		virtual bool requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT;
-		virtual std::string loadRequiredModule(const std::string& path) const TITANIUM_NOEXCEPT;
+		virtual std::string readRequiredModule(const std::string& path) const;
     
 		/*!
 		  @method

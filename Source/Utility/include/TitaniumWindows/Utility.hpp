@@ -21,12 +21,35 @@ namespace TitaniumWindows
 {
 	namespace Utility
 	{
+		//
+		// Convert std::string into Platform::String^
+		//
 		static ::Platform::String^ ConvertString(const std::string& str)
 		{
 			return ref new ::Platform::String(std::wstring(str.begin(), str.end()).c_str());
 		}
 
+		//
+		// Convert Platform::String^ into std::string
+		//
 		static std::string ConvertString(::Platform::String^ str)
+		{
+			return std::string(str->Begin(), str->End());
+		}
+
+		//
+		// Convert UTF-8 std::string into Platform::String^
+		//
+		static ::Platform::String^ ConvertUTF8String(const std::string& str) 
+		{
+			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+			return ref new ::Platform::String(converter.from_bytes(str).data());
+		}
+
+		//
+		// Convert Platform::String^ into UTF-8 std::string
+		//
+		static std::string ConvertUTF8String(::Platform::String^ str)
 		{
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 			return std::string(converter.to_bytes(str->Data()));

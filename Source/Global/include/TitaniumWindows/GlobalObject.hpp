@@ -24,8 +24,6 @@ namespace TitaniumWindows
 	class TITANIUMWINDOWS_GLOBAL_EXPORT GlobalObject final : public Titanium::GlobalObject, public JSExport<GlobalObject>
 	{
 	public:
-		std::string get_example_resource() const TITANIUM_NOEXCEPT;
-		void set_example_resource(const std::string& example_resource) TITANIUM_NOEXCEPT;
 
 		GlobalObject(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
@@ -40,13 +38,14 @@ namespace TitaniumWindows
 		static void JSExportInitialize();
 
 	protected:
-		virtual std::string LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT override final;
+		virtual std::string readRequiredModule(const std::string& path) const override final;
+		virtual bool requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT override final;
 		virtual std::shared_ptr<Titanium::GlobalObject::Timer> CreateTimer(Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT override final;
 
 	private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-		std::string example_resource__;
+
 #pragma warning(pop)
 	};
 

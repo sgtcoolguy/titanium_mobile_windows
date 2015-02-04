@@ -162,7 +162,7 @@ namespace Titanium
 	{
 		const auto packageJSONFile = path + "/package.json";
 		if (requiredModuleExists(packageJSONFile)) {
-				const auto content = loadRequiredModule(packageJSONFile);
+				const auto content = readRequiredModule(packageJSONFile);
 				const auto result = get_context().CreateValueFromJSON(content);
 				if (result.IsObject()) {
 					const auto json = static_cast<JSObject>(result);
@@ -238,14 +238,18 @@ namespace Titanium
 	{
 		TITANIUM_GLOBALOBJECT_LOCK_GUARD;
 		const auto module_path = requestResolveModule(parent, moduleId);
-		const auto module_js = loadRequiredModule(module_path);
+		if (module_path.empty()) {
+			detail::ThrowRuntimeError("require", "Could not load module " + moduleId);
+		}
+		const auto module_js = readRequiredModule(module_path);
 
 		try {
 			JSValue result = get_context().CreateUndefined();
 			if (boost::ends_with(module_path, ".json")){
 				result = get_context().CreateValueFromJSON(module_js);
 			} else if (get_context().JSCheckScriptSyntax(module_js, moduleId)) {
-				result = require_function__({get_context().CreateString(moduleId), get_context().CreateString(module_js)}, get_context().get_global_object());
+				const std::vector<JSValue> args = { get_context().CreateString(moduleId), get_context().CreateString(module_js) };
+				result = require_function__(args, get_context().get_global_object());
 			} else {
 				detail::ThrowRuntimeError("require", "Could not load module "+moduleId);
 			}
@@ -365,7 +369,7 @@ namespace Titanium
 		return false;
 	}
 
-	std::string GlobalObject::loadRequiredModule(const std::string& path) const TITANIUM_NOEXCEPT
+	std::string GlobalObject::readRequiredModule(const std::string& path) const
 	{
 		TITANIUM_LOG_ERROR("GlobalObject::loadRequiredModule: Unimplemented");
 		return "";
