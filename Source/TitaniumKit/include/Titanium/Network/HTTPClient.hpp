@@ -180,11 +180,14 @@ namespace Titanium
 			virtual void onreadystatechange(const std::uint32_t state) TITANIUM_NOEXCEPT final;
 
 			/////// signals
+#pragma warning(push)
+#pragma warning(disable: 4251)
 			boost::signals2::signal<void(const std::uint32_t id, const std::string error, const bool success)> loaded;
 			boost::signals2::signal<void(const std::uint32_t id, const std::string error, const bool success)> error;
 			boost::signals2::signal<void(const std::uint32_t progress)> datastream;
 			boost::signals2::signal<void(const std::uint32_t progress)> sendstream;
 			boost::signals2::signal<void(const std::uint32_t state)> readystatechange;
+#pragma warning(pop)
 
 		private:
 			JSValue timeout__;
