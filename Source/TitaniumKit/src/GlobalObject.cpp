@@ -160,21 +160,25 @@ namespace Titanium
 
 	std::string GlobalObject::resolvePathAsDirectory(const JSObject& parent, const std::string& path) const TITANIUM_NOEXCEPT
 	{
-		auto packageJSONFile = path + "/package.json";
+		const auto packageJSONFile = path + "/package.json";
 		if (requiredModuleExists(packageJSONFile)) {
 				const auto content = loadRequiredModule(packageJSONFile);
-				auto result = get_context().JSEvaluateScript(content);
+				auto result = get_context().CreateValueFromJSON(content);
 				if (result.IsObject()) {
 					JSObject json = static_cast<JSObject>(result);
 					JSValue mainValue = json.GetProperty("main");
 					if (mainValue.IsString()) {
-						return resolvePath(path+"/"+static_cast<std::string>(mainValue));
+						return path+"/"+static_cast<std::string>(mainValue);
 					}
 				}
 		}
-		auto indexFile = path + "/index.js";
+		const auto indexFile = path + "/index.js";
 		if (requiredModuleExists(indexFile)) {
 			return indexFile;
+		}
+		const auto indexJSON = path + "/index.json";
+		if (requiredModuleExists(indexJSON)) {
+			return indexJSON;
 		}
 		return std::string();
 	}
@@ -236,20 +240,23 @@ namespace Titanium
 		std::string module_path = requestResolveModule(parent, moduleId);
 		std::string module_js = loadRequiredModule(module_path);
 
-		if (get_context().JSCheckScriptSyntax(module_js, moduleId)) {
-			try {
-				JSValue result = require_function__({get_context().CreateString(moduleId), get_context().CreateString(module_js)}, get_context().get_global_object());
-				if (!result.IsObject()) {
-					TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' replaced 'exports' with a non-object: ", to_string(result));
-				}
-				return result;
-			} catch (const std::exception& exception) {
-				detail::ThrowRuntimeError("require", "Error while require("+moduleId+") "+static_cast<std::string>(exception.what()));
-			} catch (...) {
-				detail::ThrowRuntimeError("require", "Unknown error while require("+moduleId+")");
+		try {
+			JSValue result = get_context().CreateUndefined();
+			if (boost::ends_with(module_path, ".json")){
+				result = get_context().CreateValueFromJSON(module_js);
+			} else if (get_context().JSCheckScriptSyntax(module_js, moduleId)) {
+				result = require_function__({get_context().CreateString(moduleId), get_context().CreateString(module_js)}, get_context().get_global_object());
+			} else {
+				detail::ThrowRuntimeError("require", "Could not load module "+moduleId);
 			}
-		} else {
-			detail::ThrowRuntimeError("require", "Could not load module "+moduleId);
+			if (!result.IsObject()) {
+				TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' replaced 'exports' with a non-object: ", to_string(result));
+			}
+			return result;
+		} catch (const std::exception& exception) {
+			detail::ThrowRuntimeError("require", "Error while require("+moduleId+") "+static_cast<std::string>(exception.what()));
+		} catch (...) {
+			detail::ThrowRuntimeError("require", "Unknown error while require("+moduleId+")");
 		}
 		return get_context().CreateUndefined();
 	}
