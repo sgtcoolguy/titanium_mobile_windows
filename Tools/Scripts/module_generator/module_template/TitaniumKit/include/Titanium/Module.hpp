@@ -59,7 +59,7 @@ namespace <%= module_classes[i] %> {
           @discussion <%= property.summary.replace(/\n/g,'') %>
         */
 <% if (property.type == 'Number' && property.permission == 'read-only') { -%>
-<% property.type = 'JSValue' -%>
+<% property.isJS = true -%>
         virtual JSValue <%= property.name %>() const TITANIUM_NOEXCEPT final;
 <% } else { -%>
         virtual <%= getType(property.type) %> <%= property.name %>() const TITANIUM_NOEXCEPT;
@@ -94,7 +94,7 @@ namespace <%= module_classes[i] %> {
 
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
-<% if (property.type != 'JSValue' && property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
+<% if (!property.isJS && property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
         virtual JSValue js_<%= property.name %>() const TITANIUM_NOEXCEPT final;
 <% } -%>
 <% } -%>
@@ -105,10 +105,20 @@ namespace <%= module_classes[i] %> {
 <% } -%>
 <% } -%>
 
+<% if (data.properties.length > 0) { -%>
+        protected:
+#pragma warning(push)
+#pragma warning(disable : 4251)
+<% for (i in data.properties) { -%>
+<% var property = data.properties[i] -%>
+<% if (!property.isJS && property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
+            <%= getType(property.type) %> <%= property.name %>__;
+<% } -%>
+<% } -%>
+#pragma warning(pop)
+<% } -%>
     };
-
 <% for (var i=0;i<module_classes.length-1;i++) { -%>
 }
 <% } -%>
-
 #endif // _TITANIUM_<%= name_upper %>_HPP_

@@ -55,11 +55,11 @@ namespace <%= module_classes[i] %> {
     <%= getType(property.type) %> <%= namespace %>::<%= property.name %>() const TITANIUM_NOEXCEPT
 	{
 <% if (property.type == 'String') { -%>
-		return "";
+		return <%= property.name %>__;
 <% } else if (property.type == 'Boolean') { -%>
-	    return false;
+	    return <%= property.name %>__;
 <% } else if (property.type == 'Number') { -%>
-	    return 0;
+	    return <%= property.name %>__;
 <% } else { -%>
 	    const auto script = "";
 		return get_context().JSEvaluateScript(script);

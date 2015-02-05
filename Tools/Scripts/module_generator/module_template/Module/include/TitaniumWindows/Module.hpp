@@ -53,7 +53,7 @@ namespace <%= module_classes[i] %> {
 
     @discussion This is the Titanium.<%= full_namespace.replace(/::/g,'.') %> implementation for Windows.
     */
-  class TITANIUMWINDOWS_<%= module_parent.toUpperCase() %>_EXPORT <%= namespace %> final : public Titanium::<%= full_namespace %>, public JSExport <<%= namespace %>> {
+  class TITANIUMWINDOWS_<%= module_parent.toUpperCase() %>_EXPORT <%= namespace %> final : public Titanium::<%= full_namespace %>, public JSExport<<%= namespace %>> {
 
   public:
     <%= namespace %>(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;

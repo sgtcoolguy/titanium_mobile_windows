@@ -136,7 +136,7 @@ function includeModule(module_data) {
     					"#include \"Titanium/"+module_data.module_path+".hpp\"";
 
     var regex_tik_app_5 = /JSString builtin/g;
-    var mod_tik_app_5 = (module_data.sub_class ? module_data.module_parent.toLowerCase()+"__" : "titanium")+".SetProperty(\""+module_data.name+"\", "+module_data.name.toLowerCase()+"__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});\n"+
+    var mod_tik_app_5 = (module_data.sub_class ? '\t\t'+module_data.module_parent.toLowerCase()+"__" : "titanium")+".SetProperty(\""+module_data.name+"\", "+module_data.name.toLowerCase()+"__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});\n"+
     					"JSString builtin";
 
     var regex_tik_app_6 = /JSObject ApplicationBuilder::ViewObject\(/g;
