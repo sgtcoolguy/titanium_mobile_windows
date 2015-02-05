@@ -36,8 +36,29 @@
 namespace <%= module_classes[i] %> {
 <% } -%>
 
+<% var valid_properties = 0 -%>
+<% for (i in data.properties) { -%>
+<% var property = data.properties[i] -%>
+<% if (property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
+<% valid_properties++ -%>
+<% } -%>
+<% } -%>
+
     <%= namespace %>::<%= namespace %>(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-        : Module(js_context, arguments)
+        : Module(js_context, arguments)<%= (valid_properties > 0 ? ',' : '') %>
+<% for (i in data.properties) { -%>
+<% var property = data.properties[i] -%>
+<% if (property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
+<% if (property.type == 'String') { -%>
+        <%= property.name %>__(<%= ('default' in property ? property.default : "\"\"") %>)<%= (valid_properties > 1 ? ',' : '') %>
+<% } else if (property.type == 'Boolean') { -%>
+        <%= property.name %>__(<%= ('default' in property ? property.default : "false") %>)<%= (valid_properties > 1 ? ',' : '') %>
+<% } else if (property.type == 'Number') { -%>
+        <%= property.name %>__(<%= ('default' in property ? property.default : "0") %>)<%= (valid_properties > 1 ? ',' : '') %>
+<% } -%>
+<% valid_properties-- -%>
+<% } -%>
+<% } -%>
     {
     }
 
@@ -51,12 +72,13 @@ namespace <%= module_classes[i] %> {
     <%= getType(property.type) %> <%= namespace %>::<%= property.name %>() const TITANIUM_NOEXCEPT
 <% } -%>
     {
+        TITANIUM_LOG_WARN("<%= namespace %>::<%= property.name %>: Unimplemented");
 <% if (property.type == 'String') { -%>
-        return "";
+        return <%= property.name %>__;
 <% } else if (property.type == 'Boolean') { -%>
-        return false;
+        return <%= property.name %>__;
 <% } else if (property.type == 'Number') { -%>
-        return 0;
+        return <%= property.name %>__;
 <% } else if (property.type == 'JSValue') { -%>
         return get_context().CreateNull();
 <% } else { -%>
@@ -138,33 +160,61 @@ namespace <%= module_classes[i] %> {
 
         if (arguments.size() < <%= method.parameters.length %>) {
             return get_context().CreateUndefined();
-        }
-<% for (var i=0;i<method.parameters.length;i++) { -%>
-        const auto _<%= i %> = arguments.at(<%= i %>);
+        
+        }<% for (var p=method.parameters.length;p>0;p--) { var z = p -%> else if (arguments.size() >= <%= z %>) {
+
+<% for (var i=0;i<z;i++) { -%>
+            const auto _<%= i %> = arguments.at(<%= i %>);
 <% } -%>
 
-<% for (var i=0;i<method.parameters.length;i++) { -%>
-        <%= (typeof method.parameters[i].type === 'string' ? '' : '// ') %>TITANIUM_ASSERT(_<%= i %>.Is<%= method.parameters[i].type %>());
+<% for (var i=0;i<z;i++) { -%>
+            TITANIUM_ASSERT(_<%= i %>.Is<%= (typeof method.parameters[i].type === 'string' && !method.parameters[i].type.contains('<') ? method.parameters[i].type : 'Object') %>());
 <% } -%>
 
 <% var parameters = '' -%>
-<% for (var i=0;i<method.parameters.length;i++) { -%>
+<% for (var i=0;i<z;i++) { -%>
 <% var parameter = method.parameters[i] -%>
 <% parameters += parameter.name -%>
-<% if (i < method.parameters.length-1) parameters += ', ' -%>
+<% if (i < z-1) parameters += ', ' -%>
 <% if (parameter.type == 'String') { -%>
-        const std::string <%= parameter.name %> = static_cast<std::string>(_<%= i %>);
+            const std::string <%= parameter.name %> = static_cast<std::string>(_<%= i %>);
 <% } else if (parameter.type == 'Number') { -%>
-        const double <%= parameter.name %> = static_cast<double>(_<%= i %>);
+            const double <%= parameter.name %> = static_cast<double>(_<%= i %>);
 <% } else if (parameter.type == 'Boolean') { -%>
-        const bool <%= parameter.name %> = static_cast<bool>(_<%= i %>);
+            const bool <%= parameter.name %> = static_cast<bool>(_<%= i %>);
 <% } else { -%>
-        //const auto <%= parameter.name %> = static_cast<>(_<%= i %>);
-<% } -%>
+            const auto <%= parameter.name %> = _<%= i %>;
 <% } -%>
 <% } -%>
 
-        return get_context().CreateUndefined(); // <%= method.name %>(<%= parameters %>);
+<% if (type == 'String') { -%>
+        // return get_context().CreateString(<%= method.name %>(<%= parameters %>));
+<% } else if (type == 'Number') { -%>
+        // return get_context().CreateNumber(<%= method.name %>(<%= parameters %>));
+<% } else if (type == 'Boolean') { -%>
+        // return get_context().CreateBoolean(<%= method.name %>(<%= parameters %>));
+<% } else if (type == 'JSValue') { -%>
+        // <%= method.name %>(<%= parameters %>);
+<% } else { -%>
+        // return <%= method.name %>(<%= parameters %>);
+<% } -%>
+
+<%= '        }' -%>
+<% } -%>
+<% } -%>
+
+<% if (type == 'String') { -%>
+        // return get_context().CreateString(<%= method.name %>());
+<% } else if (type == 'Number') { -%>
+        // return get_context().CreateNumber(<%= method.name %>());
+<% } else if (type == 'Boolean') { -%>
+        // return get_context().CreateBoolean(<%= method.name %>());
+<% } else if (type == 'JSValue') { -%>
+        // <%= method.name %>();
+<% } else { -%>
+        // return <%= method.name %>();
+<% } -%>
+        return get_context().CreateUndefined();
     }
 
 <% } -%>
