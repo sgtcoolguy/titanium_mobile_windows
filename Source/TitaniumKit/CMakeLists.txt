@@ -237,6 +237,9 @@ if (WIN32)
   
   # Fix error C1128: number of sections exceeded object file format limit
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS "/bigobj")
+
+  # Fix error C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe (needed by boost::split)
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -D_SCL_SECURE_NO_WARNINGS")
 endif()
 
 if (NOT TitaniumKit_DISABLE_TESTS)

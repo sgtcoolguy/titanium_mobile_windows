@@ -254,8 +254,13 @@ namespace Titanium
 		};
 
 	protected:
+		// Silence 4251 on Windows since private member variables do not
+		// need to be exported from a DLL.
+#pragma warning(push)
+#pragma warning(disable : 4251)
 		static const std::string COMMONJS_SEPARATOR__;
-    
+#pragma warning(pop)
+
 		virtual std::string requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname = COMMONJS_SEPARATOR__) TITANIUM_NOEXCEPT final;
 		virtual std::string resolvePath(const std::string& path, const std::string& dir = COMMONJS_SEPARATOR__) const TITANIUM_NOEXCEPT final;
 		virtual std::string resolvePathAsModule(const JSObject& parent, const std::string& resolvedPath, const std::string& dirname) const TITANIUM_NOEXCEPT final;

@@ -62,8 +62,11 @@ namespace Titanium
 		if (dirname == COMMONJS_SEPARATOR__) {
 			paths.push_back("/node_modules");
 		} else {
+#pragma warning(push)
+#pragma warning(disable:4996)
 			std::vector<std::string> parts;
 			boost::split(parts, dirname, boost::is_any_of(COMMONJS_SEPARATOR__));
+#pragma warning(pop)
 			for (size_t i = 0, len = parts.size(); i < len; i++) {
 				auto p = slice(parts, 0, len-i);
 				auto path =  boost::algorithm::join(p, COMMONJS_SEPARATOR__) + "/node_modules";
@@ -78,10 +81,13 @@ namespace Titanium
 	{
 		std::string dir = basedir.length() == 1 || basedir.rfind(COMMONJS_SEPARATOR__) == basedir.length() ? basedir : basedir + COMMONJS_SEPARATOR__;
 		const bool resolvedAbsolute = path.find(COMMONJS_SEPARATOR__)==0;
-			
+
+#pragma warning(push)
+#pragma warning(disable:4996)
 		std::vector<std::string> parts;
 		boost::split(parts, path, boost::is_any_of(COMMONJS_SEPARATOR__));
-			
+#pragma warning(pop)
+
 		size_t up = 0;
 		const bool allowAboveRoot = !resolvedAbsolute;
 		std::vector<std::string> newparts;
