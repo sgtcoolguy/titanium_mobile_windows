@@ -104,7 +104,7 @@ namespace TitaniumWindows
 
 			// Place the frame in the current Window.
 			Windows::UI::Xaml::Window::Current->Content = rootFrame;
-			application__->Run("/app.js");
+			application__->Run("./app");
 		}
 		// Ensure the current Window is active.
 		Windows::UI::Xaml::Window::Current->Activate();

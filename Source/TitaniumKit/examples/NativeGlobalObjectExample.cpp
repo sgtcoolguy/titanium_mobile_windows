@@ -9,20 +9,24 @@
 #include "NativeGlobalObjectExample.hpp"
 #include "Titanium/detail/TiBase.hpp"
 
-std::string NativeGlobalObjectExample::get_example_resource() const TITANIUM_NOEXCEPT
+void NativeGlobalObjectExample::add_require(const std::string& name, const std::string& body) TITANIUM_NOEXCEPT
 {
-	return example_resource__;
+	require_resource__.insert({name, body});
 }
 
-void NativeGlobalObjectExample::set_example_resource(const std::string& example_resource) TITANIUM_NOEXCEPT
+bool NativeGlobalObjectExample::requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT
 {
-	example_resource__ = example_resource;
+	TITANIUM_LOG_DEBUG("GlobalObjectDelegateExample::requiredModuleExists for ", path);
+	return (require_resource__.find(path) != require_resource__.end());
 }
 
-std::string NativeGlobalObjectExample::LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT
+std::string NativeGlobalObjectExample::readRequiredModule(const std::string& path) const
 {
-	TITANIUM_LOG_DEBUG("GlobalObjectDelegateExample::LoadResource for ", moduleId);
-	return example_resource__;
+	TITANIUM_LOG_DEBUG("GlobalObjectDelegateExample::loadRequiredModule for ", path);
+	if (require_resource__.find(path) == require_resource__.end()) {
+		return "";
+	}
+	return require_resource__.at(path);
 }
 
 class NativeGlobalObjectTimerExample final : public Titanium::GlobalObject::Timer

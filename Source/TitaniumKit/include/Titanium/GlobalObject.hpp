@@ -85,7 +85,7 @@ namespace Titanium
 
 		  @result Exported exports object of the required module (Object).
 		*/
-		virtual JSValue xrequire(const std::string& moduleId) TITANIUM_NOEXCEPT final;
+		virtual JSValue requireModule(const JSObject& parent, const std::string& moduleId) final;
 
 		/*!
 		  @method
@@ -254,8 +254,24 @@ namespace Titanium
 		};
 
 	protected:
-		virtual std::string LoadResource(const std::string& moduleId) const TITANIUM_NOEXCEPT;
+		// Silence 4251 on Windows since private member variables do not
+		// need to be exported from a DLL.
+#pragma warning(push)
+#pragma warning(disable : 4251)
+		static const std::string COMMONJS_SEPARATOR__;
+#pragma warning(pop)
 
+		virtual std::string requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname = COMMONJS_SEPARATOR__) TITANIUM_NOEXCEPT final;
+		virtual std::string resolvePath(const std::string& path, const std::string& dir = COMMONJS_SEPARATOR__) const TITANIUM_NOEXCEPT final;
+		virtual std::string resolvePathAsModule(const JSObject& parent, const std::string& resolvedPath, const std::string& dirname) const TITANIUM_NOEXCEPT final;
+		virtual std::string resolvePathAsDirectory(const JSObject& parent, const std::string& resolvedPath) const TITANIUM_NOEXCEPT final;
+		virtual std::string resolvePathAsFile(const JSObject& parent, const std::string& resolvedPath) const TITANIUM_NOEXCEPT final;
+		virtual std::vector<std::string> resolveRequirePaths(const std::string& dirname) const TITANIUM_NOEXCEPT final;
+    
+		// platform-dependent functions
+		virtual bool requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT;
+		virtual std::string readRequiredModule(const std::string& path) const;
+    
 		/*!
 		  @method
 
@@ -293,6 +309,7 @@ namespace Titanium
 // need to be exported from a DLL.
 #pragma warning(push)
 #pragma warning(disable : 4251)
+		std::unordered_map<std::string, JSValue> module_cache__;
 		std::unordered_map<unsigned, std::shared_ptr<Timer>> timer_map__;
 
 		static std::atomic<unsigned> timer_id_generator__;

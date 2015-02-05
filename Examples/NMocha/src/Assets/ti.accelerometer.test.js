@@ -5,7 +5,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-var should = require('should');
+var should = require('./should');
 
 describe('accelerometer', function () {
     it('Ti.Accelerometer', function (finish) {
