@@ -38,6 +38,7 @@ get_filename_component(APPCELERATOR_CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmak
 list(INSERT CMAKE_MODULE_PATH 0 ${APPCELERATOR_CMAKE_MODULE_PATH})
 
 find_package(HAL REQUIRED)
+find_package(SQLite REQUIRED)
 find_package(TitaniumKit REQUIRED)
 find_package(TitaniumWindows REQUIRED)
 find_package(TitaniumWindows_API REQUIRED)
@@ -72,6 +73,7 @@ set(SOURCE_Assets
   ${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}
   src/TitaniumKit.dll
   src/HAL.dll
+  src/sqlite3.dll
   # Include the "." assets here!
 <% for(var i=0; i<sourceGroups['.'].length; i++) { -%>
   "<%= sourceGroups['.'][i] %>"
@@ -109,6 +111,7 @@ add_executable(${EXE_NAME} WIN32
 set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_COMPONENT TRUE)
 
 target_link_libraries(${EXE_NAME} HAL)
+target_link_libraries(${EXE_NAME} SQLite)
 target_link_libraries(${EXE_NAME} TitaniumKit)
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_API_LIBRARIES})
@@ -124,6 +127,7 @@ target_link_libraries(${EXE_NAME} ${LayoutEngine_LIBRARIES})
 
 target_include_directories(${EXE_NAME} PUBLIC
   $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:SQLite,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
   ${TitaniumWindows_INCLUDE_DIRS}
   ${TitaniumWindows_API_INCLUDE_DIRS}

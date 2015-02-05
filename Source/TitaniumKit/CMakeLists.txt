@@ -31,6 +31,9 @@ endif()
 
 # find_package(HAL REQUIRED)
 
+get_filename_component(APPCELERATOR_CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake ABSOLUTE)
+list(INSERT CMAKE_MODULE_PATH 0 ${APPCELERATOR_CMAKE_MODULE_PATH})
+
 set(Boost_USE_STATIC_LIBS ON )
 set(Boost_USE_MULTITHREADED ON )
 set(Boost_USE_STATIC_RUNTIME OFF)
@@ -68,6 +71,19 @@ set(SOURCE_Ti
 set(SOURCE_API
   include/Titanium/API.hpp
   src/API.cpp
+  )
+
+set(SOURCE_Database
+  include/Titanium/DatabaseModule.hpp
+  src/DatabaseModule.cpp
+  include/Titanium/Database/DB.hpp
+  src/Database/DB.cpp
+  include/Titanium/Database/ResultSet.hpp
+  src/Database/ResultSet.cpp
+  include/Titanium/Database/Constants.hpp
+  src/Database/Constants.cpp
+  include/sqlite3.h
+  src/sqlite3.c
   )
 
 set(SOURCE_Platform
@@ -155,6 +171,7 @@ source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
 source_group(TitaniumKit\\detail           FILES ${SOURCE_TitaniumKit_detail})
 source_group(TitaniumKit\\Ti               FILES ${SOURCE_Ti})
 source_group(TitaniumKit\\API              FILES ${SOURCE_API})
+source_group(TitaniumKit\\Database         FILES ${SOURCE_Database})
 source_group(TitaniumKit\\Platform         FILES ${SOURCE_Platform})
 source_group(TitaniumKit\\Accelerometer    FILES ${SOURCE_Accelerometer})
 source_group(TitaniumKit\\Gesture          FILES ${SOURCE_Gesture})
@@ -171,6 +188,7 @@ add_library(TitaniumKit SHARED
   ${SOURCE_TitaniumKit_detail}
   ${SOURCE_Ti}
   ${SOURCE_API}
+  ${SOURCE_Database}
   ${SOURCE_Platform}
   ${SOURCE_Accelerometer}
   ${SOURCE_Gesture}
@@ -247,6 +265,12 @@ if (NOT TitaniumKit_DISABLE_TESTS)
   add_subdirectory(test)
 endif()
 
+# When building sqlite3 for Windows Phone, set special flags!
+# TODO Do the same for WindowsStore! This info is hard to find and lives in http://www.sqlite.org/cgi/src/artifact/fc6b0b233b5621f3
+if(CMAKE_SYSTEM_NAME MATCHES "^Windows(Phone|Store)$")
+  # For Store, we need /DWINAPI_FAMILY=WINAPI_FAMILY_APP but I think that's already done for us!
+  set_source_files_properties(src/sqlite3.c PROPERTIES COMPILE_FLAGS "/DSQLITE_OS_WINRT=1 /DSQLITE_OMIT_LOAD_EXTENSION=1 /DSQLITE_WIN32_FILEMAPPING_API=1")
+endif()
 
 # Support find_package(TitaniumKit 0.1 REQUIRED)
 
