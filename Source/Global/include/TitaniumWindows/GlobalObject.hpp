@@ -41,12 +41,6 @@ namespace TitaniumWindows
 		virtual std::string readRequiredModule(const std::string& path) const override final;
 		virtual bool requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT override final;
 		virtual std::shared_ptr<Titanium::GlobalObject::Timer> CreateTimer(Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT override final;
-
-	private:
-#pragma warning(push)
-#pragma warning(disable : 4251)
-
-#pragma warning(pop)
 	};
 
 }  // namespace TitaniumWindows {
