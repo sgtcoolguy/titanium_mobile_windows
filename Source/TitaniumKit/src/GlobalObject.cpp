@@ -11,11 +11,14 @@
 #include <sstream>
 #include <functional>
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/join.hpp>
 
 namespace Titanium
 {
 	using namespace Titanium::detail;
 
+	const std::string GlobalObject::COMMONJS_SEPARATOR__{"/"};
 	std::atomic<std::uint32_t> GlobalObject::timer_id_generator__;
 
 	JSFunction GlobalObject::createRequireFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT
@@ -44,41 +47,6 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("GlobalObject:: dtor ", this);
 	}
 
-	static std::vector<std::string> pathSplit(const std::string& path)
-	{
-		std::vector<std::string> parts;
-		size_t pos = 0;
-		size_t len = path.length();
-			
-		while (pos <= len) {
-			size_t idx = path.find("/",pos);
-			if (idx == std::string::npos) {
-				parts.push_back(path.substr(pos));
-				break;
-			} else {
-				if (idx > 0) {
-					parts.push_back(path.substr(pos,idx-pos));
-				}
-				pos = idx + 1;
-			}
-		}
-		return parts;
-	}
-
-	static std::string pathJoin(std::vector<std::string> newparts)
-	{
-		std::string newpath;
-		for (std::vector<std::string>::iterator i = newparts.begin(); i != newparts.end(); i++) {
-			newpath += *i;
-			i++;
-			if (i != newparts.end()) {
-				newpath+="/";
-			}
-			i--;
-		}
-		return newpath;
-	}
-
 	static std::vector<std::string> slice(const std::vector<std::string>& list, const size_t& begin, const size_t& end=std::string::npos)
 	{
 		std::vector<std::string> newlist;
@@ -91,13 +59,14 @@ namespace Titanium
 	std::vector<std::string> GlobalObject::resolveRequirePaths(const std::string& dirname) const TITANIUM_NOEXCEPT
 	{
 		std::vector<std::string> paths;
-		if (dirname == "/") {
+		if (dirname == COMMONJS_SEPARATOR__) {
 			paths.push_back("/node_modules");
 		} else {
-			auto parts = pathSplit(dirname);
+			std::vector<std::string> parts;
+			boost::split(parts, dirname, boost::is_any_of(COMMONJS_SEPARATOR__));
 			for (size_t i = 0, len = parts.size(); i < len; i++) {
 				auto p = slice(parts, 0, len-i);
-				auto path = pathJoin(p) + "/node_modules";
+				auto path =  boost::algorithm::join(p, COMMONJS_SEPARATOR__) + "/node_modules";
 				std::vector<std::string>::iterator it = paths.begin();
 				paths.insert(it, path);
 			}
@@ -107,17 +76,20 @@ namespace Titanium
 
 	std::string GlobalObject::resolvePath(const std::string& path, const std::string& basedir) const TITANIUM_NOEXCEPT
 	{
-		std::string dir = basedir.length() == 1 || basedir.rfind("/") == basedir.length() ? basedir : basedir + "/";
-		const bool resolvedAbsolute = path.find("/")==0;
+		std::string dir = basedir.length() == 1 || basedir.rfind(COMMONJS_SEPARATOR__) == basedir.length() ? basedir : basedir + COMMONJS_SEPARATOR__;
+		const bool resolvedAbsolute = path.find(COMMONJS_SEPARATOR__)==0;
 			
-		std::vector<std::string> parts = pathSplit(path);
+		std::vector<std::string> parts;
+		boost::split(parts, path, boost::is_any_of(COMMONJS_SEPARATOR__));
 			
 		size_t up = 0;
 		const bool allowAboveRoot = !resolvedAbsolute;
 		std::vector<std::string> newparts;
 		for (std::vector<std::string>::reverse_iterator rit = parts.rbegin(); rit != parts.rend(); rit++) {
 			std::string last = *rit;
-			if (last == ".") {
+			if (last == "") {
+				// skip
+			} else if (last == ".") {
 				// skip
 			} else if (last == "..") {
 				// skip
@@ -138,7 +110,7 @@ namespace Titanium
 			}
 		}
 			
-		std::string newpath = pathJoin(newparts);
+		std::string newpath =  boost::algorithm::join(newparts, COMMONJS_SEPARATOR__);
 		return resolvedAbsolute ? newpath : dir + newpath;
 	}
 
@@ -168,7 +140,7 @@ namespace Titanium
 					const auto json = static_cast<JSObject>(result);
 					auto mainValue = json.GetProperty("main");
 					if (mainValue.IsString()) {
-						return path+"/"+static_cast<std::string>(mainValue);
+						return path+COMMONJS_SEPARATOR__+static_cast<std::string>(mainValue);
 					}
 				}
 		}
@@ -188,8 +160,8 @@ namespace Titanium
 		auto reqPaths = resolveRequirePaths(dirname);
 		std::string modulePath;
 		std::string resolvedPath = path;
-		if (resolvedPath.find("/")!=0) {
-			resolvedPath = "/" + resolvedPath;
+		if (resolvedPath.find(COMMONJS_SEPARATOR__)!=0) {
+			resolvedPath = COMMONJS_SEPARATOR__ + resolvedPath;
 		}
 		for (size_t i = 0, len = reqPaths.size(); i < len; i++) {
 			auto newResolvedPath = reqPaths[i] + resolvedPath;
@@ -210,10 +182,10 @@ namespace Titanium
 		auto isNodeModule = false;
 		std::string rawPath;
 
-		if (moduleId.find("/")==0) {
+		if (moduleId.find(COMMONJS_SEPARATOR__)==0) {
 			rawPath = moduleId;
 		} else if (moduleId.find("../") == 0 || moduleId.find("./") == 0) {
-			rawPath = dirname + (dirname == "/" ? "" : "/") + moduleId;
+			rawPath = dirname + (dirname == COMMONJS_SEPARATOR__ ? "" : COMMONJS_SEPARATOR__) + moduleId;
 		} else {
 			isNodeModule = true;
 			rawPath = moduleId;
@@ -384,7 +356,7 @@ namespace Titanium
 
 	std::string GlobalObject::readRequiredModule(const std::string& path) const
 	{
-		TITANIUM_LOG_ERROR("GlobalObject::loadRequiredModule: Unimplemented");
+		TITANIUM_LOG_ERROR("GlobalObject::readRequiredModule: Unimplemented");
 		return "";
 	}
 

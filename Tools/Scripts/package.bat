@@ -81,9 +81,9 @@ robocopy build\ARM\UI\Release dist\windows\lib\TitaniumWindows_UI\ARM TitaniumWi
 robocopy build\x86\UI dist\windows\lib\TitaniumWindows_UI\include titaniumwindows_ui_export.h
 
 echo Titanium Windows Utility
-robocopy build\x86\API\Utility\Release dist\windows\lib\TitaniumWindows_Utility\x86 TitaniumWindows_Utility.*
-robocopy build\ARM\API\Utility\Release dist\windows\lib\TitaniumWindows_Utility\ARM TitaniumWindows_Utility.*
-robocopy build\x86\API\Utility dist\windows\lib\TitaniumWindows_Utility\include titaniumwindows_utility_export.h
+robocopy build\x86\Global\Utility\Release dist\windows\lib\TitaniumWindows_Utility\x86 TitaniumWindows_Utility.*
+robocopy build\ARM\Global\Utility\Release dist\windows\lib\TitaniumWindows_Utility\ARM TitaniumWindows_Utility.*
+robocopy build\x86\Global\Utility dist\windows\lib\TitaniumWindows_Utility\include titaniumwindows_utility_export.h
 
 
 IF %ERRORLEVEL% LEQ 4 exit /B 0
