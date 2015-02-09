@@ -117,6 +117,13 @@ set(SOURCE_Filesystem
   src/Filesystem/Constants.cpp
   )
 
+set(SOURCE_Network
+  include/Titanium/NetworkModule.hpp
+  src/NetworkModule.cpp
+  include/Titanium/Network/HTTPClient.hpp
+  src/Network/HTTPClient.cpp
+  )
+
 set(SOURCE_UI
   include/Titanium/UIModule.hpp
   src/UIModule.cpp
@@ -177,6 +184,7 @@ source_group(TitaniumKit\\Accelerometer    FILES ${SOURCE_Accelerometer})
 source_group(TitaniumKit\\Gesture          FILES ${SOURCE_Gesture})
 source_group(TitaniumKit\\Blob             FILES ${SOURCE_Blob})
 source_group(TitaniumKit\\Filesystem       FILES ${SOURCE_Filesystem})
+source_group(TitaniumKit\\Network       FILES ${SOURCE_Network})
 source_group(TitaniumKit\\UI               FILES ${SOURCE_UI})
 source_group(TitaniumKit\\TiLogger\\detail FILES ${SOURCE_TiLogger_detail})
 
@@ -194,6 +202,7 @@ add_library(TitaniumKit SHARED
   ${SOURCE_Gesture}
   ${SOURCE_Blob}
   ${SOURCE_Filesystem}
+  ${SOURCE_Network}
   ${SOURCE_UI}
   ${SOURCE_TiLogger_detail}
   )
