@@ -73,9 +73,11 @@ namespace Titanium
 		JSObject FilesystemObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& FilesystemObject(const JSObject&) TITANIUM_NOEXCEPT;
 
-
 		JSObject DatabaseObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& DatabaseObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject WebViewObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& WebViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
 		JSObject HTTPClientObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& HTTPClientObject(const JSObject&) TITANIUM_NOEXCEPT;
@@ -118,6 +120,7 @@ namespace Titanium
 		JSObject file__;
 		JSObject filesystem__;
 		JSObject database__;
+		JSObject webview__;
 		JSObject httpclient__;
 		JSObject network__;
 		
