@@ -183,6 +183,8 @@ namespace Titanium
 			for (int i = 0, len = sqlite3_column_count(statement); i < len; i++) {
 				resultSet->column_names__.push_back(sqlite3_column_name(statement,i));
 			}
+
+			// FIXME Do we need to hold references to these to close them on DB#close?
 			return resultSet_object;
 		}
 

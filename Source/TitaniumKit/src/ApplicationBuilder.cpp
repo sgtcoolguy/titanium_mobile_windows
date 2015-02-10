@@ -12,6 +12,7 @@
 #include "Titanium/UIModule.hpp"
 #include "Titanium/App/Properties.hpp"
 #include "Titanium/App.hpp"
+#include "Titanium/Analytics.hpp"
 #include "Titanium/PlatformModule.hpp"
 #include "Titanium/Accelerometer.hpp"
 #include "Titanium/Gesture.hpp"
@@ -31,6 +32,7 @@ namespace Titanium
 	      api__(js_context__.CreateObject<Titanium::API>()),
 	      view__(js_context__.CreateObject<Titanium::UI::View>()),
 	      properties__(js_context__.CreateObject<Titanium::App::Properties>()),
+	      analytics__(js_context__.CreateObject<Titanium::Analytics>()),
 	      window__(js_context__.CreateObject<Titanium::UI::Window>()),
 	      button__(js_context__.CreateObject<Titanium::UI::Button>()),
 	      alertDialog__(js_context__.CreateObject<Titanium::UI::AlertDialog>()),
@@ -85,6 +87,7 @@ namespace Titanium
 		titanium.SetProperty("App", app__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		app__.SetProperty("Properties", properties__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Network", network__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("Analytics", analytics__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
 		JSString builtin_functions_script = R"js(
 			  console = {};
@@ -151,6 +154,17 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::PropertiesObject(const JSObject& Properties) TITANIUM_NOEXCEPT
 	{
 		properties__ = Properties;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::AnalyticsObject() const TITANIUM_NOEXCEPT
+	{
+		return analytics__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::AnalyticsObject(const JSObject& analytics) TITANIUM_NOEXCEPT
+	{
+		analytics__ = analytics;
 		return *this;
 	}
 

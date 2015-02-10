@@ -138,7 +138,7 @@ export(EXPORT TitaniumWindows_Network_Targets
 
 configure_file(cmake/TitaniumWindows_Network_Config.cmake
   "${CMAKE_BINARY_DIR}/TitaniumWindows_Network_Config.cmake"
-  COPY_ONLY
+  COPYONLY
   )
 
 include(CMakePackageConfigHelpers)
