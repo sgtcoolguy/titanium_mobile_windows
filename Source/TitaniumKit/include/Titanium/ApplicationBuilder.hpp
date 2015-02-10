@@ -73,8 +73,15 @@ namespace Titanium
 		JSObject FilesystemObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& FilesystemObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+
 		JSObject DatabaseObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& DatabaseObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject HTTPClientObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& HTTPClientObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject NetworkObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& NetworkObject(const JSObject&) TITANIUM_NOEXCEPT;
 
 		virtual ~ApplicationBuilder() = default;
 		ApplicationBuilder(const ApplicationBuilder&) = default;
@@ -111,6 +118,9 @@ namespace Titanium
 		JSObject file__;
 		JSObject filesystem__;
 		JSObject database__;
+		JSObject httpclient__;
+		JSObject network__;
+		
 #pragma warning(pop)
 	};
 
