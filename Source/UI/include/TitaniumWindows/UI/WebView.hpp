@@ -6,8 +6,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUMWINDOWS_WEBVIEW_HPP_
-#define _TITANIUMWINDOWS_WEBVIEW_HPP_
+#ifndef _TITANIUMWINDOWS_UI_WEBVIEW_HPP_
+#define _TITANIUMWINDOWS_UI_WEBVIEW_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "ViewBase.hpp"
@@ -84,4 +84,4 @@ namespace TitaniumWindows
 		};
 	} // namespace UI
 }  // namespace Titanium
-#endif // _TITANIUMWINDOWS_WEBVIEW_HPP_
+#endif // _TITANIUMWINDOWS_UI_WEBVIEW_HPP_

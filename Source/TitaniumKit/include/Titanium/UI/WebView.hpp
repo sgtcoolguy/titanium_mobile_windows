@@ -6,8 +6,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUM_WEBVIEW_HPP_
-#define _TITANIUM_WEBVIEW_HPP_
+#ifndef _TITANIUM_UI_WEBVIEW_HPP_
+#define _TITANIUM_UI_WEBVIEW_HPP_
 
 #include "Titanium/UI/View.hpp"
 #include <unordered_map>
@@ -180,4 +180,4 @@ namespace Titanium
 		};
 	} // namespace UI
 }  // namespace Titanium
-#endif // _TITANIUM_WEBVIEW_HPP_
+#endif // _TITANIUM_UI_WEBVIEW_HPP_
