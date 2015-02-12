@@ -157,8 +157,6 @@ set(SOURCE_UI
   src/UI/WebView.cpp
   include/Titanium/UI/AlertDialog.hpp
   src/UI/AlertDialog.cpp
-  include/Titanium/UI/WebViewErrorEvent.hpp
-  src/UI/WebViewErrorEvent.cpp
   include/Titanium/UI/ScrollView.hpp
   src/UI/ScrollView.cpp
   include/Titanium/UI/Slider.hpp

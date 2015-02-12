@@ -53,12 +53,13 @@ namespace TitaniumWindows
 		                                                            .LabelObject(js_context__.CreateObject<TitaniumWindows::UI::Label>())
 		                                                            .ScrollViewObject(js_context__.CreateObject<TitaniumWindows::UI::ScrollView>())
 		                                                            .SliderObject(js_context__.CreateObject<TitaniumWindows::UI::Slider>())
-																	.TextFieldObject(js_context__.CreateObject<TitaniumWindows::UI::TextField>())
-																	.BlobObject(js_context__.CreateObject<TitaniumWindows::Blob>())
+		                                                            .TextFieldObject(js_context__.CreateObject<TitaniumWindows::UI::TextField>())
+		                                                            .BlobObject(js_context__.CreateObject<TitaniumWindows::Blob>())
 		                                                            .FilesystemObject(js_context__.CreateObject<TitaniumWindows::FilesystemModule>())
 		                                                            .FileObject(js_context__.CreateObject<TitaniumWindows::Filesystem::File>())
 		                                                            .NetworkObject(js_context__.CreateObject<TitaniumWindows::NetworkModule>())
 		                                                            .HTTPClientObject(js_context__.CreateObject<TitaniumWindows::Network::HTTPClient>())
+		                                                            .WebViewObject(js_context__.CreateObject<TitaniumWindows::UI::WebView>())
 		                                                            .build());
 
 		Suspending += ref new Windows::UI::Xaml::SuspendingEventHandler(this, &Application::OnSuspending);
