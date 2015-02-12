@@ -35,7 +35,7 @@ namespace Titanium
 			TITANIUM_LOG_WARN("WebView::getHtml: Unimplemented");
 			return "";
 		}
-		bool WebView::setHtml(std::string html, std::unordered_map<std::string, std::string> options) TITANIUM_NOEXCEPT
+		bool WebView::setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("WebView::setHtml: Unimplemented");
 			return false;
@@ -47,7 +47,7 @@ namespace Titanium
 			return false;
 		}
 
-		bool WebView::setLoading(bool value) TITANIUM_NOEXCEPT
+		bool WebView::setLoading(const bool& value) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("WebView::setLoading: Unimplemented");
 			return false;
@@ -59,7 +59,7 @@ namespace Titanium
 			return false;
 		}
 
-		bool WebView::setScalesPageToFit(bool value) TITANIUM_NOEXCEPT
+		bool WebView::setScalesPageToFit(const bool& value) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("WebView::setScalesPageToFit: Unimplemented");
 			return false;
@@ -71,7 +71,7 @@ namespace Titanium
 			return "";
 		}
 
-		bool WebView::setUrl(std::string url) TITANIUM_NOEXCEPT
+		bool WebView::setUrl(const std::string& url) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("WebView::setUrl: Unimplemented");
 			return false;
@@ -116,7 +116,7 @@ namespace Titanium
 			return false;
 		}
 
-		void WebView::stopLoading(bool hardStop) TITANIUM_NOEXCEPT
+		void WebView::stopLoading(const bool& hardStop) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("WebView::stopLoading: Unimplemented");
 		}

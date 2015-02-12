@@ -161,7 +161,7 @@ namespace TitaniumWindows
 			return "";
 		}
 
-		bool WebView::setHtml(std::string html, std::unordered_map<std::string, std::string> options) TITANIUM_NOEXCEPT
+		bool WebView::setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT
 		{
 			webview__->NavigateToString(TitaniumWindows::Utility::ConvertString(html));
 			return true;
@@ -181,7 +181,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		bool WebView::setUrl(std::string url) TITANIUM_NOEXCEPT
+		bool WebView::setUrl(const std::string& url) TITANIUM_NOEXCEPT
 		{
 			webview__->Navigate(ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url)));
 			return true;
@@ -216,7 +216,7 @@ namespace TitaniumWindows
 			webview__->Refresh();
 		}
 
-		void WebView::stopLoading(bool hardStop) TITANIUM_NOEXCEPT
+		void WebView::stopLoading(const bool& hardStop) TITANIUM_NOEXCEPT
 		{
 			webview__->Stop();
 		}
