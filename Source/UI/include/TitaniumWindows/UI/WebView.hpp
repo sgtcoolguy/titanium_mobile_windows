@@ -59,17 +59,17 @@ namespace TitaniumWindows
 			void initWebViewListeners() TITANIUM_NOEXCEPT;
 
 			virtual std::string getHtml() const TITANIUM_NOEXCEPT override;
-			virtual bool setHtml(std::string html, std::unordered_map<std::string, std::string> options) TITANIUM_NOEXCEPT override;
+			virtual bool setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT override;
 			virtual bool getLoading() const TITANIUM_NOEXCEPT override;
 			virtual std::string getUrl() const TITANIUM_NOEXCEPT override;
-			virtual bool setUrl(std::string url) TITANIUM_NOEXCEPT override;
+			virtual bool setUrl(const std::string& url) TITANIUM_NOEXCEPT override;
 
 			virtual bool canGoBack() TITANIUM_NOEXCEPT override;
 			virtual bool canGoForward() TITANIUM_NOEXCEPT override;
 			virtual void goBack() TITANIUM_NOEXCEPT override;
 			virtual void goForward() TITANIUM_NOEXCEPT override;
 			virtual void reload() TITANIUM_NOEXCEPT override;
-			virtual void stopLoading(bool hardStop) TITANIUM_NOEXCEPT override;
+			virtual void stopLoading(const bool& hardStop) TITANIUM_NOEXCEPT override;
 
 			bool navigating__ { false };
 			bool error_event_enabled__ { false };

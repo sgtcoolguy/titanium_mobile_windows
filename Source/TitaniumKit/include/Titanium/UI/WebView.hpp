@@ -52,7 +52,7 @@ namespace Titanium
 			  @abstract setHtml
 			  @discussion Sets the value of [html](Titanium.UI.WebView.html) property.
 			*/
-			virtual bool setHtml(std::string html, std::unordered_map<std::string, std::string> options) TITANIUM_NOEXCEPT;
+			virtual bool setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT;
 			/*!
 			  @property
 			  @abstract loading
@@ -64,7 +64,7 @@ namespace Titanium
 			  @abstract setLoading
 			  @discussion
 			*/
-			virtual bool setLoading(bool value) TITANIUM_NOEXCEPT;
+			virtual bool setLoading(const bool& value) TITANIUM_NOEXCEPT;
 			/*!
 			  @property
 			  @abstract getScalesPageToFit
@@ -76,7 +76,7 @@ namespace Titanium
 			  @abstract setScalesPageToFit
 			  @discussion Sets the value of the scalesPageToFit property.
 			*/
-			virtual bool setScalesPageToFit(bool value) TITANIUM_NOEXCEPT;
+			virtual bool setScalesPageToFit(const bool& value) TITANIUM_NOEXCEPT;
 			/*!
 			  @property
 			  @abstract getUrl
@@ -88,7 +88,7 @@ namespace Titanium
 			  @abstract setUrl
 			  @discussion Sets URL to the web document.
 			*/
-			virtual bool setUrl(std::string url) TITANIUM_NOEXCEPT;
+			virtual bool setUrl(const std::string& url) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -137,7 +137,7 @@ namespace Titanium
 			  @abstract stopLoading
 			  @discussion Stops loading a currently loading page.
 			*/
-			virtual void stopLoading(bool hardStop) TITANIUM_NOEXCEPT;
+			virtual void stopLoading(const bool& hardStop) TITANIUM_NOEXCEPT;
 
 			WebView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
