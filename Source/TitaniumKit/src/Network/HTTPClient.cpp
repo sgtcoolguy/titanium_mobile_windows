@@ -381,7 +381,7 @@ namespace Titanium
 		}
 
 		////// slots
-		void HTTPClient::onload(const std::uint32_t id, const std::string error, const bool success)
+		void HTTPClient::onload(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
 			const JSContext ctx = get_context();
 
@@ -396,7 +396,7 @@ namespace Titanium
 			//onload_callback__.CallAsFunction(arguments, this);
 		}
 
-		void HTTPClient::onerror(const std::uint32_t id, const std::string error, const bool success)
+		void HTTPClient::onerror(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
 			const JSContext ctx = get_context();
 
@@ -411,7 +411,7 @@ namespace Titanium
 			//onerror_callback__.CallAsFunction(arguments, this);
 		}
 
-		void HTTPClient::ondatastream(const std::uint32_t progress)
+		void HTTPClient::ondatastream(const std::uint32_t progress) TITANIUM_NOEXCEPT
 		{
 			const JSContext ctx = get_context();
 
@@ -424,7 +424,7 @@ namespace Titanium
 			//ondatastream_callback__.CallAsFunction(arguments, this);
 		}
 
-		void HTTPClient::onsendstream(const std::uint32_t progress)
+		void HTTPClient::onsendstream(const std::uint32_t progress) TITANIUM_NOEXCEPT
 		{
 			const JSContext ctx = get_context();
 
@@ -437,7 +437,7 @@ namespace Titanium
 			//ondatastream_callback__.CallAsFunction(arguments, this);
 		}
 
-		void HTTPClient::onreadystatechange(const std::uint32_t state)
+		void HTTPClient::onreadystatechange(const std::uint32_t state) TITANIUM_NOEXCEPT
 		{
 			const JSContext ctx = get_context();
 

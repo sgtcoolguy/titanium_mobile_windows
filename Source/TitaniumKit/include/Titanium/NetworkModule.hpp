@@ -41,7 +41,7 @@ namespace Titanium
 
 		static void JSExportInitialize();
 
-		JSObject js_createHTTPClient(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSObject js_createHTTPClient(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
 	};
 } // namespace Titanium
 
