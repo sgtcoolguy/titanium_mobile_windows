@@ -123,8 +123,8 @@ namespace TitaniumWindows
 				const auto arg2    = value.substr(command.length() + arg1.length() + 2);
 
 				if (command == "log") {
-					// TODO: we should leverage Ti.API functions for logging
-					std::clog << "[" << arg1 << "] " << arg2 << std::endl;
+					const auto script = (boost::format("Ti.API.log('%1%', '%2%');\r\n") % arg1 % arg2).str();
+					get_context().JSEvaluateScript(script);
 				} else if (command == "event") {
 					// Event execution shortcut: let's do just like the way Ti Blackberry does for now
 					const auto script = (boost::format("Ti.App.fireEvent('%1%', %2%);\r\n") % arg1 % arg2).str();
