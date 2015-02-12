@@ -379,89 +379,89 @@ namespace Titanium
 		////// slots
 		void HTTPClient::onload(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = get_context();
-
-			JSObject this_object = get_object();
-
-			JSObject eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("id", ctx.CreateNumber(id));
-			eventArgs.SetProperty("error", ctx.CreateString(error));
-			eventArgs.SetProperty("success", ctx.CreateBoolean(success));
-
-			std::vector<JSValue> arguments;
-			arguments.push_back(eventArgs);
-
 			if (onload_callback__.IsFunction()) {
+				const JSContext ctx = get_context();
+
+				JSObject this_object = get_object();
+
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("id", ctx.CreateNumber(id));
+				eventArgs.SetProperty("error", ctx.CreateString(error));
+				eventArgs.SetProperty("success", ctx.CreateBoolean(success));
+
+				std::vector<JSValue> arguments;
+				arguments.push_back(eventArgs);
+
 				onload_callback__(arguments, this_object);
 			}
 		}
 
 		void HTTPClient::onerror(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = get_context();
-
-			JSObject this_object = get_object();
-
-			JSObject eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("id", ctx.CreateNumber(id));
-			eventArgs.SetProperty("error", ctx.CreateString(error));
-			eventArgs.SetProperty("success", ctx.CreateBoolean(success));
-
-			std::vector<JSValue> arguments;
-			arguments.push_back(eventArgs);
-
 			if (onerror_callback__.IsFunction()) {
+				const JSContext ctx = get_context();
+
+				JSObject this_object = get_object();
+
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("id", ctx.CreateNumber(id));
+				eventArgs.SetProperty("error", ctx.CreateString(error));
+				eventArgs.SetProperty("success", ctx.CreateBoolean(success));
+
+				std::vector<JSValue> arguments;
+				arguments.push_back(eventArgs);
+
 				onerror_callback__(arguments, this_object);
 			}
 		}
 
 		void HTTPClient::ondatastream(const std::uint32_t progress) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = get_context();
-
-			JSObject this_object = get_object();
-
-			JSObject eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
-
-			std::vector<JSValue> arguments;
-			arguments.push_back(eventArgs);
-
 			if (ondatastream_callback__.IsFunction()) {
+				const JSContext ctx = get_context();
+
+				JSObject this_object = get_object();
+
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
+
+				std::vector<JSValue> arguments;
+				arguments.push_back(eventArgs);
+
 				ondatastream_callback__(arguments, this_object);
 			}
 		}
 
 		void HTTPClient::onsendstream(const std::uint32_t progress) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = get_context();
-
-			JSObject this_object = get_object();
-
-			JSObject eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
-
-			std::vector<JSValue> arguments;
-			arguments.push_back(eventArgs);
-
 			if (onsendstream_callback__.IsFunction()) {
+				const JSContext ctx = get_context();
+
+				JSObject this_object = get_object();
+
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
+
+				std::vector<JSValue> arguments;
+				arguments.push_back(eventArgs);
+
 				onsendstream_callback__(arguments, this_object);
 			}
 		}
 
 		void HTTPClient::onreadystatechange(const std::uint32_t state) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = get_context();
-
-			JSObject this_object = get_object();
-
-			JSObject eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("readyState", ctx.CreateNumber(state));
-
-			std::vector<JSValue> arguments;
-			arguments.push_back(eventArgs);
-
 			if (onreadystatechange_callback__.IsFunction()) {
+				const JSContext ctx = get_context();
+
+				JSObject this_object = get_object();
+
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("readyState", ctx.CreateNumber(state));
+
+				std::vector<JSValue> arguments;
+				arguments.push_back(eventArgs);
+
 				onreadystatechange_callback__(arguments, this_object);
 			}
 		}
