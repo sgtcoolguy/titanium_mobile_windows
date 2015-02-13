@@ -129,8 +129,7 @@ namespace Titanium
 						}
 						if (arg.IsString()) {
 							const std::string str = static_cast<std::string>(arg);
-							const int length = str.size() + 1;
-							error = sqlite3_bind_text(statement, bind_index, str.c_str(), length, 0);
+							error = sqlite3_bind_text(statement, bind_index, str.c_str(), str.size(), SQLITE_TRANSIENT);
 						} else if (arg.IsBoolean()) {
 							// SQLite cant bind booleans so the next best is an integer
 							error = sqlite3_bind_int(statement, bind_index, static_cast<int>(static_cast<bool>(arg)));
