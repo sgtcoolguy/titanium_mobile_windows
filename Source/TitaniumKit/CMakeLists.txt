@@ -36,7 +36,7 @@ list(INSERT CMAKE_MODULE_PATH 0 ${APPCELERATOR_CMAKE_MODULE_PATH})
 
 # Convert analytics.js into a c string in an hpp that we can include
 include(GenerateCPPHeaderFile)
-generate_cpp_header_file(resource_analytics_js_hpp ${PROJECT_SOURCE_DIR}/src analytics.js ${PROJECT_SOURCE_DIR}/include/Titanium/analytics_js.hpp)
+generate_cpp_header_file(resource_analytics_js_hpp ${PROJECT_SOURCE_DIR}/src/analytics.js ${PROJECT_SOURCE_DIR}/include/Titanium/analytics_js.hpp)
 
 set(Boost_USE_STATIC_LIBS ON )
 set(Boost_USE_MULTITHREADED ON )
@@ -126,6 +126,8 @@ set(SOURCE_Network
   src/NetworkModule.cpp
   include/Titanium/Network/HTTPClient.hpp
   src/Network/HTTPClient.cpp
+  include/Titanium/Network/Constants.hpp
+  src/Network/Constants.cpp
   )
 
 set(SOURCE_UI
@@ -231,6 +233,8 @@ add_library(TitaniumKit SHARED
   ${SOURCE_UI}
   ${SOURCE_TiLogger_detail}
   )
+
+add_dependencies(TitaniumKit resource_analytics_js_hpp)
 
 include(GenerateExportHeader)
 generate_export_header(TitaniumKit)

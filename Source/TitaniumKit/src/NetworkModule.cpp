@@ -19,8 +19,39 @@ namespace Titanium
 	}
 
 	NetworkModule::NetworkModule(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : Module(js_context)
+	    : Module(js_context),
+		network_lan__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TYPE::LAN))),
+		network_mobile__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TYPE::MOBILE))),
+		network_none__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TYPE::NONE))),
+		network_unknown__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TYPE::UNKNOWN))),
+		network_wifi__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TYPE::WIFI))),
+		notification_type_alert__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::NOTIFICATION_TYPE::ALERT))),
+		notification_type_badge__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::NOTIFICATION_TYPE::BADGE))),
+		notification_type_newsstand__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::NOTIFICATION_TYPE::NEWSSTAND))),
+		notification_type_sound__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::NOTIFICATION_TYPE::SOUND))),
+		progress_unknown__(js_context.CreateNumber(Titanium::Network::Constants::PROGRESS_UNKNOWN)),
+		tls_version_1_0__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TLS_VERSION::ONE_ZERO))),
+		tls_version_1_1__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TLS_VERSION::ONE_ONE))),
+		tls_version_1_2__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TLS_VERSION::ONE_TWO)))
 	{
+	}
+
+	Titanium::Network::TYPE NetworkModule::get_networkType() const TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("NetworkModule::get_networkType: Unimplemented");
+		return Titanium::Network::TYPE::UNKNOWN;
+	}
+
+	std::string NetworkModule::get_networkTypeName() const TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("NetworkModule::get_networkTypeName: Unimplemented");
+		return Titanium::Network::Constants::to_string(get_networkType());
+	}
+
+	bool NetworkModule::get_online() const TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("NetworkModule::get_online: Unimplemented");
+		return false;
 	}
 
 	JSObject NetworkModule::createHTTPClient(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -44,10 +75,92 @@ namespace Titanium
 		return httpClient;
 	}
 
+	JSValue NetworkModule::NETWORK_LAN() const TITANIUM_NOEXCEPT
+	{
+		return network_lan__;
+	}
+
+	JSValue NetworkModule::NETWORK_MOBILE() const TITANIUM_NOEXCEPT
+	{
+		return network_mobile__;
+	}
+
+	JSValue NetworkModule::NETWORK_NONE() const TITANIUM_NOEXCEPT
+	{
+		return network_none__;
+	}
+
+	JSValue NetworkModule::NETWORK_UNKNOWN() const TITANIUM_NOEXCEPT
+	{
+		return network_none__;
+	}
+
+	JSValue NetworkModule::NETWORK_WIFI() const TITANIUM_NOEXCEPT
+	{
+		return network_wifi__;
+	}
+
+	JSValue NetworkModule::NOTIFICATION_TYPE_ALERT() const TITANIUM_NOEXCEPT
+	{
+		return notification_type_alert__;
+	}
+
+	JSValue NetworkModule::NOTIFICATION_TYPE_BADGE() const TITANIUM_NOEXCEPT
+	{
+		return notification_type_badge__;
+	}
+
+	JSValue NetworkModule::NOTIFICATION_TYPE_NEWSSTAND() const TITANIUM_NOEXCEPT
+	{
+		return notification_type_newsstand__;
+	}
+
+	JSValue NetworkModule::NOTIFICATION_TYPE_SOUND() const TITANIUM_NOEXCEPT
+	{
+		return notification_type_sound__;
+	}
+
+	JSValue NetworkModule::PROGRESS_UNKNOWN() const TITANIUM_NOEXCEPT
+	{
+		return progress_unknown__;
+	}
+
+	JSValue NetworkModule::TLS_VERSION_1_0() const TITANIUM_NOEXCEPT
+	{
+		return tls_version_1_0__;
+	}
+
+	JSValue NetworkModule::TLS_VERSION_1_1() const TITANIUM_NOEXCEPT
+	{
+		return tls_version_1_1__;
+	}
+
+	JSValue NetworkModule::TLS_VERSION_1_2() const TITANIUM_NOEXCEPT
+	{
+		return tls_version_1_2__;
+	}
+
 	void NetworkModule::JSExportInitialize()
 	{
 		JSExport<NetworkModule>::SetClassVersion(1);
 		JSExport<NetworkModule>::SetParent(JSExport<Module>::Class());
+		JSExport<NetworkModule>::AddValueProperty("NETWORK_LAN", std::mem_fn(&NetworkModule::NETWORK_LAN));
+		JSExport<NetworkModule>::AddValueProperty("NETWORK_MOBILE", std::mem_fn(&NetworkModule::NETWORK_MOBILE));
+		JSExport<NetworkModule>::AddValueProperty("NETWORK_NONE", std::mem_fn(&NetworkModule::NETWORK_NONE));
+		JSExport<NetworkModule>::AddValueProperty("NETWORK_UNKNOWN", std::mem_fn(&NetworkModule::NETWORK_UNKNOWN));
+		JSExport<NetworkModule>::AddValueProperty("NETWORK_WIFI", std::mem_fn(&NetworkModule::NETWORK_WIFI));
+		JSExport<NetworkModule>::AddValueProperty("NOTIFICATION_TYPE_ALERT", std::mem_fn(&NetworkModule::NOTIFICATION_TYPE_ALERT));
+		JSExport<NetworkModule>::AddValueProperty("NOTIFICATION_TYPE_BADGE", std::mem_fn(&NetworkModule::NOTIFICATION_TYPE_BADGE));
+		JSExport<NetworkModule>::AddValueProperty("NOTIFICATION_TYPE_NEWSSTAND", std::mem_fn(&NetworkModule::NOTIFICATION_TYPE_NEWSSTAND));
+		JSExport<NetworkModule>::AddValueProperty("NOTIFICATION_TYPE_SOUND", std::mem_fn(&NetworkModule::NOTIFICATION_TYPE_SOUND));
+		JSExport<NetworkModule>::AddValueProperty("PROGRESS_UNKNOWN", std::mem_fn(&NetworkModule::PROGRESS_UNKNOWN));
+		JSExport<NetworkModule>::AddValueProperty("TLS_VERSION_1_0", std::mem_fn(&NetworkModule::TLS_VERSION_1_0));
+		JSExport<NetworkModule>::AddValueProperty("TLS_VERSION_1_1", std::mem_fn(&NetworkModule::TLS_VERSION_1_1));
+		JSExport<NetworkModule>::AddValueProperty("TLS_VERSION_1_2", std::mem_fn(&NetworkModule::TLS_VERSION_1_2));
+		JSExport<NetworkModule>::AddValueProperty("networkType", std::mem_fn(&NetworkModule::js_get_networkType));
+		JSExport<NetworkModule>::AddValueProperty("networkTypeName", std::mem_fn(&NetworkModule::js_get_networkTypeName));
+		JSExport<NetworkModule>::AddValueProperty("online", std::mem_fn(&NetworkModule::js_get_online));
+
 		JSExport<NetworkModule>::AddFunctionProperty("createHTTPClient", std::mem_fn(&NetworkModule::js_createHTTPClient));
 	}
 
@@ -68,5 +181,20 @@ namespace Titanium
 		TITANIUM_ASSERT(network_property.IsObject());  // precondition
 
 		return createHTTPClient(parameters, this_object);
+	}
+
+	JSValue NetworkModule::js_get_networkType() const TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateNumber(Titanium::Network::Constants::to_underlying_type(get_networkType()));
+	}
+
+	JSValue NetworkModule::js_get_networkTypeName() const TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateString(get_networkTypeName());
+	}
+
+	JSValue NetworkModule::js_get_online() const TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateBoolean(get_online());
 	}
 }

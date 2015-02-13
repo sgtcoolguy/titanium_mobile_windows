@@ -33,6 +33,9 @@ namespace TitaniumWindows
 
 		static void JSExportInitialize();
 
+		virtual Titanium::Network::TYPE get_networkType() const TITANIUM_NOEXCEPT override final;
+		virtual bool get_online() const TITANIUM_NOEXCEPT override final;
+
 	protected:
 	private:
 	};

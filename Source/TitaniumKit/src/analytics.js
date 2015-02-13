@@ -70,25 +70,24 @@ Analytics.prototype.createAnalyticsEvent = function createAnalyticsEvent(eventTy
  */
 Analytics.prototype.createAppEnrollEvent = function createAppEnrollEvent(deployType) {
 	Ti.API.info('createAppEnrollEvent');
-	var json = {
+	return createAnalyticsEvent(EVENT_APP_ENROLL, {
 		app_name: Ti.App.name,
-		oscpu: Ti.Platform.processorCount,
-		platform: Ti.Platform.name,
+		//oscpu: Ti.Platform.processorCount,
+		//platform: Ti.Platform.name,
 		app_id: Ti.App.id,
-		ostype: Ti.Platform.ostype,
-		osarch: Ti.Platform.architecture,
-		model: Ti.Platform.model,
-		deploytype: deployType,
+		//ostype: Ti.Platform.ostype,
+		//osarch: Ti.Platform.architecture,
+		//model: Ti.Platform.model,
+		//deploytype: deployType,
 		app_version: Ti.App.version,
-		tz: Date.now().getTimezoneOffset(),
-		os: Ti.Platform.osname,
-		osver: Ti.Platform.version,
-		sdkver: Ti.version,
+		//tz: Date.now().getTimezoneOffset(),
+		//os: Ti.Platform.osname,
+		//osver: Ti.Platform.version,
+		//sdkver: Ti.version,
 		nettype: Ti.Network.networkTypeName,
 		sequence: undefined
 		//		buildtype: 
-	};
-	return createAnalyticsEvent(EVENT_APP_ENROLL, json);
+	});
 };
 
 /**
@@ -100,7 +99,7 @@ Analytics.prototype.createAppEnrollEvent = function createAppEnrollEvent(deployT
 Analytics.prototype.createEvent = function createEvent(type, name, data) {
 	Ti.API.info('createEvent');
 	var eventData = data || {};
-	eventData['eventName'] = name;
+	eventData.eventName = name;
 	return createAnalyticsEvent(type, eventData);
 };
 
@@ -128,7 +127,7 @@ Analytics.prototype.postAnalyticsEvent = function postAnalyticsEvent(event) {
 			// If the new activity starts immediately after the previous activity pauses, we consider
 			// the app is still in foreground so will not send any analytics events
 			if (start - lastEnd < DEFAULT_TIME_SEPARATION_ANALYTICS) {
-				deleteEvents([ lastEvent['_id'] ]);
+				deleteEvents([ lastEvent._id ]);
 				return;
 			}
 		}
@@ -150,7 +149,7 @@ Analytics.prototype.postAnalyticsEvent = function postAnalyticsEvent(event) {
 		lastEventID = addEvent(event);
 		sendAnalytics(false);
 	}
-}
+};
 
 /**
  * Schedules the run method to trigger after a delay to send along events.
@@ -164,10 +163,10 @@ Analytics.prototype.sendAnalytics = function sendAnalytics(useSessionTimeout) {
 		delay += DEFAULT_TIME_SEPARATION_ANALYTICS;
 	}
 	setTimeout(run, delay); // send the events after a delay
-}
+};
 
 /**
- * Returns a boolean indicating if we are online/in a network state where we shoudl send along events to the server.
+ * Returns a boolean indicating if we are online/in a network state where we should send along events to the server.
  * @returns {Boolean}
  * @private
  */
@@ -185,7 +184,7 @@ Analytics.prototype.canSend = function canSend() {
 	// TODO What about UNKNOWN or NONE?
 
 	return true;
-}
+};
 
 /**
  * The heart of the service, this is meant to run as a scheduled task to send along events to the analytics server via POSTs.
@@ -237,23 +236,23 @@ Analytics.prototype.run = function run() {
 		Ti.API.debug("Sending " + records.length + " analytics events.");
 		
 		var jsonData = records.toString() + "\n";
-		var postUrl = (Ti.App.guid == null) ? ANALYTICS_URL : (ANALYTICS_URL + Ti.App.guid);
+		var postUrl = (Ti.App.guid === null) ? ANALYTICS_URL : (ANALYTICS_URL + Ti.App.guid);
 
 		function postRecords() {
 			var client = Ti.Network.createHTTPClient({
-			    onload : function(e) {
-			    	// we posted the events, let's delete them from the DB and reschedule run loop to send next batch of events
-			        deleteEvents(eventIds);
+				onload : function(e) {
+					// we posted the events, let's delete them from the DB and reschedule run loop to send next batch of events
+				deleteEvents(eventIds);
 					sending = false;
-			        setTimeout(run, 1); // try to send the next set of records
-			    },
+					setTimeout(run, 1); // try to send the next set of records
+				},
 
-			    onerror : function(e) {
-			    	// We failed to send
-			        Ti.API.debug("Error posting events: " + e.error);
-			        retryCount++;
+				onerror : function(e) {
+					// We failed to send
+					Ti.API.debug("Error posting events: " + e.error);
+					retryCount++;
 
-			        // Stop retrying after 5 attempts, leave the events in the DB.
+					// Stop retrying after 5 attempts, leave the events in the DB.
 					if (retryCount >= 5) {
 						Ti.API.error("Failed to send analytics events after 5 attempts");
 						Ti.API.info("Stopping Analytics Service");
@@ -263,8 +262,8 @@ Analytics.prototype.run = function run() {
 						Ti.API.debug("Failed to send analytics events. Retrying in 15 seconds");
 						setTimeout(postRecords, 15000);
 					}
-			    },
-			    timeout : 5000  // in milliseconds
+				},
+				timeout : 5000  // in milliseconds
 			});
 			// Prepare the connection.
 			client.open("POST", postUrl);
@@ -273,14 +272,13 @@ Analytics.prototype.run = function run() {
 			client.send(jsonData);
 
 			//client.params["http.protocol.expect-continue"] = false; // FIXME Do we need this? How would we do it in Titanium?
-		};
+		}
 		postRecords();
 	} else {
 		Ti.API.info("Stopping Analytics Service");
 		sending = false;
 	}
-	
-}
+};
 
 /**
  * Determine if the tables we need are in the database.
@@ -301,8 +299,7 @@ Analytics.prototype.databaseExists = function databaseExists() {
 		db.close();
 	}
 	return false;
-}
-
+};
 
 /**
  * Create the database we use to store analytics events to send along, and other properties we care about.
@@ -321,7 +318,7 @@ Analytics.prototype.createDatabase = function createDatabase() {
 	finally {
 		db.close();
 	}
-}
+};
 
 /**
  * Creates the event id to uniquely identify the event.
@@ -330,7 +327,7 @@ Analytics.prototype.createDatabase = function createDatabase() {
  */
 Analytics.prototype.createEventId = function createEventId() {
 	return Ti.Platform.createUUID() + ":" + Ti.Platform.id;
-}
+};
 
 /**
  * Looks up a property value by name in the database.
@@ -355,7 +352,7 @@ Analytics.prototype.getProps = function getProps(name) {
 	finally {
 		db.close();
 	}
-}
+};
 
 /**
  * Stores a value under a name in the database.
@@ -371,7 +368,7 @@ Analytics.prototype.updateProps = function updateProps(name, value) {
 	} finally {
 		db.close();
 	}
-}
+};
 
 /**
  * Determines if we've enrolled this app before. If we are enrolled this will also check if the app version has
@@ -431,7 +428,8 @@ Analytics.prototype.addEvent = function addEvent(event) {
 	updateProps(SEQUENCE, String.valueOf(sequence + 1));
 
 	return eventID;
-}
+};
+
 /**
  * Deletes a set of events from the database.
  * @param {Array} records - an Array of integer ids to delete
@@ -439,7 +437,7 @@ Analytics.prototype.addEvent = function addEvent(event) {
  */
 Analytics.prototype.deleteEvents = function deleteEvents(records) {
 	Ti.API.info('deleteEvents');
-	if (!records || records.length == 0) {
+	if (!records || records.length === 0) {
 		return;
 	}
 
@@ -471,7 +469,7 @@ Analytics.prototype.hasEvents = function hasEvents() {
 	try {
 		var resultSet = db.execute("SELECT exists(SELECT _id FROM Events)");
 		try {
-			return (resultSet.field(0, Ti.Database.FIELD_TYPE_INT) != 0);
+			return (resultSet.field(0, Ti.Database.FIELD_TYPE_INT) !== 0);
 		} finally {
 			resultSet.close();
 		}
@@ -492,27 +490,27 @@ Analytics.prototype.deserializeEvent = function deserializeEvent(resultSet) {
 	var result = {};
 
 	if (resultSet.isValidRow()) {
-		result['ver'] = '3';
-		result['id'] = resultSet.fieldByName('EventId');
-		result['event'] = resultSet.fieldByName('Event');
-		result['ts'] = resultSet.fieldByName('Timestamp');
-		result['mid'] = resultSet.fieldByName('MID');
-		result['sid'] = resultSet.fieldByName('SID');
-		result['aguid'] = resultSet.fieldByName('AppGUID');
+		result.ver = '3';
+		result.id = resultSet.fieldByName('EventId');
+		result.event = resultSet.fieldByName('Event');
+		result.ts = resultSet.fieldByName('Timestamp');
+		result.mid = resultSet.fieldByName('MID');
+		result.sid = resultSet.fieldByName('SID');
+		result.aguid = resultSet.fieldByName('AppGUID');
 
 		var isJSON = (resultSet.fieldByName('isJSON', FIELD_TYPE_INT) == 1) ? true : false;
 		if (isJSON) {
-			result['data'] = JSON.parse(resultSet.fieldByName('Payload'));
+			result.data = JSON.parse(resultSet.fieldByName('Payload'));
 		} else {
-			result['data'] = resultSet.fieldByName('Payload');
+			result.data = resultSet.fieldByName('Payload');
 		}
-		result['seq'] = resultSet.fieldByName(SEQUENCE, FIELD_TYPE_INT);
+		result.seq = resultSet.fieldByName(SEQUENCE, FIELD_TYPE_INT);
 
-		result['_id'] = resultSet.fieldByName('_id'); // cheat and store the db id in here too
+		result._id = resultSet.fieldByName('_id'); // cheat and store the db id in here too
 	}
 
 	return result;
-}
+};
 
 /*
  * Get the most recent event given the type.
@@ -535,7 +533,7 @@ Analytics.prototype.getLastEventForType = function getLastEventForType(eventType
 		db.close();
 	}
 	return {}; // return empty object if we fail?
-}
+};
 
 /*
  * Grab events out of the database
@@ -553,7 +551,7 @@ Analytics.prototype.getEventsAsJSON = function getEventsAsJSON(limit) {
 		try {
 			while (resultSet.isValidRow()) {
 				var event = deserializeEvent(resultSet);
-				result[event['_id']] = event;
+				result[event._id] = event;
 				resultSet.next();
 			}
 		} finally {
@@ -571,7 +569,7 @@ Analytics.prototype.getEventsAsJSON = function getEventsAsJSON(limit) {
  * @param {Object} [data] - Extra data related to the event, not displayed in Analytics UI. The object must be serializable as JSON.
  */
 Analytics.prototype.featureEvent = function featureEvent(name, data) {
-	Ti.API.info('navEvent');
+	Ti.API.info('featureEvent');
 	postAnalyticsEvent(createAppEnrollEvent('development'));
 };
 
@@ -585,9 +583,9 @@ Analytics.prototype.featureEvent = function featureEvent(name, data) {
 Analytics.prototype.navEvent = function navEvent(from, to, name, data) {
 	Ti.API.info('navEvent');
 	var eventData = data || {};
-	eventData['from'] = from;
-	eventData['to'] = to;
-	postAnalyticsEvent(createEvent("app.nav", name, eventData)); // FIXME We need to fix the createEvent method to handle both invocation types!
+	eventData.from = from;
+	eventData.to = to;
+	postAnalyticsEvent(createEvent("app.nav", name, eventData)); 
 };
 
 // TODO Remove once Ti.App module exists!
@@ -595,7 +593,7 @@ var app = {
 	version: '1.2.3',
 	guid: 'a00c4252-eac5-44ac-a9f2-b007391ab119',
 	name: 'my_app_name',
-	id: 'com.example.app.id',
+	id: 'com.example.app.id'
 };
 Ti.App = app;
 
