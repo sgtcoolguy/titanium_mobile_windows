@@ -19,6 +19,7 @@ require('./ti.builtin.test');
 require('./ti.require.test');
 require('./ti.platform.test');
 require('./ti.test');
+require('./ti.app.test');
 require('./ti.accelerometer.test');
 require('./ti.gesture.test');
 require('./ti.blob.test');
@@ -37,6 +38,7 @@ function $Reporter(runner) {
     });
 
     runner.on('test', function (test) {
+        Ti.API.info('Started: ' + test.title);
         started = new Date().getTime();
     });
 
@@ -63,10 +65,10 @@ mocha.setup({
 
 // dump the output, which will get interpreted above in the logging code
 mocha.run(function () {
-    Ti.API.info('!TEST_RESULTS_START!');
-    Ti.API.info(JSON.stringify({
+    Ti.API.info('!TEST_RESULTS_START!\n' +
+    (JSON.stringify({
         date: new Date,
         results: $results
-    }, null, '\t'));
-    Ti.API.info('!TEST_RESULTS_STOP!');
+    }, null, '\t')) +
+    '\n!TEST_RESULTS_STOP!');
 });
