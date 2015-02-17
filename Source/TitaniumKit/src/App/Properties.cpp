@@ -183,7 +183,7 @@ namespace Titanium
 
 				const auto _0 = arguments.at(0);
 
-				TITANIUM_ASSERT(_0.IsNumber());
+				TITANIUM_ASSERT(_0.IsString());
 
 				const std::string property = static_cast<std::string>(_0);
 
@@ -215,7 +215,7 @@ namespace Titanium
 
 				const auto _0 = arguments.at(0);
 
-				TITANIUM_ASSERT(_0.IsNumber());
+				TITANIUM_ASSERT(_0.IsString());
 
 				const std::string property = static_cast<std::string>(_0);
 
@@ -401,7 +401,7 @@ namespace Titanium
 				TITANIUM_ASSERT(_1.IsNumber());
 
 				const std::string property = static_cast<std::string>(_0);
-				const int value = static_cast<int>(_1);
+				const double value = static_cast<double>(_1);
 
 				setDouble(property, value);
 

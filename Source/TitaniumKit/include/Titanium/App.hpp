@@ -69,6 +69,19 @@ namespace Titanium
 		virtual std::string description() const TITANIUM_NOEXCEPT;
 		/*!
 		  @property
+		  @abstract disableNetworkActivityIndicator
+		  @discussion Prevents network activity indicator from being displayed.
+		*/
+		virtual bool disableNetworkActivityIndicator() const TITANIUM_NOEXCEPT; 
+		/*!
+		  @property
+		  @abstract forceSplashAsSnapshot
+		  @discussion Shows the application's splash screen on app resume.
+		*/
+		virtual bool forceSplashAsSnapshot() const TITANIUM_NOEXCEPT;
+		
+		/*!
+		  @property
 		  @abstract guid
 		  @discussion Application globally-unique ID, determined by `tiapp.xml`.
 		*/
@@ -79,6 +92,24 @@ namespace Titanium
 		  @discussion Application ID, from `tiapp.xml`.
 		*/
 		virtual std::string id() const TITANIUM_NOEXCEPT;
+		/*!
+		  @property
+		  @abstract idleTimerDisabled
+		  @discussion Determines whether the screen is locked when the device is idle.
+		*/
+		virtual bool idleTimerDisabled() const TITANIUM_NOEXCEPT;
+		/*!
+		  @property
+		  @abstract installId
+		  @discussion The install ID for this application.
+		*/
+		virtual std::string installId() const TITANIUM_NOEXCEPT;
+		/*!
+		  @property
+		  @abstract keyboardVisible
+		  @discussion Indicates whether or not the soft keyboard is visible.
+		*/
+		virtual bool keyboardVisible() const TITANIUM_NOEXCEPT;
 		/*!
 		  @property
 		  @abstract name
@@ -149,8 +180,13 @@ namespace Titanium
 		virtual JSValue js_copyright() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_deployType() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_description() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_disableNetworkActivityIndicator() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_forceSplashAsSnapshot() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_guid() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_id() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_idleTimerDisabled() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_installId() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_keyboardVisible() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_name() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_proximityDetection() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_proximityState() const TITANIUM_NOEXCEPT final;
@@ -165,8 +201,13 @@ namespace Titanium
 		virtual JSValue js_getCopyright(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getDeployType(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getDescription(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getDisableNetworkActivityIndicator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getForceSplashAsSnapshot(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getGuid(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getId(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getIdleTimerDisabled(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getInstallId(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getKeyboardVisible(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getName(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getProximityDetection(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_setProximityDetection(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
@@ -184,8 +225,13 @@ namespace Titanium
 		std::string copyright__;
 		std::string deployType__;
 		std::string description__;
+		bool disableNetworkActivityIndicator__;
+		bool forceSplashAsSnapshot__;
 		std::string guid__;
 		std::string id__;
+		bool idleTimerDisabled__;
+		std::string installId__;
+		bool keyboardVisible__;
 		std::string name__;
 		bool proximityDetection__;
 		bool proximityState__;

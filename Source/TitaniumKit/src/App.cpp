@@ -50,8 +50,12 @@ namespace Titanium
 		copyright__("__COPYRIGHT__"),
 		deployType__("__DEPLOY_TYPE__"),
 		description__("__DESCRIPTION__"),
+		disableNetworkActivityIndicator__(false),
+		forceSplashAsSnapshot__(false),
 		guid__("__GUID__"),
 		id__("__ID__"),
+		idleTimerDisabled__(false),
+		keyboardVisible__(false),
 		name__("__NAME__"),
 		proximityDetection__(false),
 		proximityState__(false),
@@ -68,8 +72,13 @@ namespace Titanium
 		copyright__ = getAppInfo<std::string>("copyright", copyright__);
 		deployType__ = getAppInfo<std::string>("deployType", deployType__);
 		description__ = getAppInfo<std::string>("description", description__);
+		disableNetworkActivityIndicator__ = getAppInfo<bool>("disableNetworkActivityIndicator", disableNetworkActivityIndicator__);
+		forceSplashAsSnapshot__ = getAppInfo<bool>("forceSplashAsSnapshot ", forceSplashAsSnapshot__);
 		guid__ = getAppInfo<std::string>("guid", guid__);
 		id__ = getAppInfo<std::string>("id", id__);
+		idleTimerDisabled__ = getAppInfo<bool>("idleTimerDisabled__", idleTimerDisabled__);
+		installId__ = getAppInfo<std::string>("installId", installId__);
+		keyboardVisible__ = getAppInfo<bool>("keyboardVisible", keyboardVisible__);
 		name__ = getAppInfo<std::string>("name", name__);
 		publisher__ = getAppInfo<std::string>("publisher", publisher__);
 		url__ = getAppInfo<std::string>("url", url__);
@@ -111,6 +120,16 @@ namespace Titanium
 		return description__;
 	}
 
+	bool AppModule::disableNetworkActivityIndicator() const TITANIUM_NOEXCEPT
+	{
+		return disableNetworkActivityIndicator__;
+	}
+
+	bool AppModule::forceSplashAsSnapshot() const TITANIUM_NOEXCEPT
+	{
+		return forceSplashAsSnapshot__;
+	}
+
 	std::string AppModule::guid() const TITANIUM_NOEXCEPT
 	{
 		return guid__;
@@ -119,6 +138,21 @@ namespace Titanium
 	std::string AppModule::id() const TITANIUM_NOEXCEPT
 	{
 		return id__;
+	}
+
+	bool AppModule::idleTimerDisabled() const TITANIUM_NOEXCEPT
+	{
+		return idleTimerDisabled__;
+	}
+
+	std::string AppModule::installId() const TITANIUM_NOEXCEPT
+	{
+		return installId__;
+	}
+
+	bool AppModule::keyboardVisible() const TITANIUM_NOEXCEPT
+	{
+		return keyboardVisible__;
 	}
 
 	std::string AppModule::name() const TITANIUM_NOEXCEPT
@@ -176,8 +210,13 @@ namespace Titanium
 		JSExport<AppModule>::AddValueProperty("copyright", std::mem_fn(&AppModule::js_copyright));
 		JSExport<AppModule>::AddValueProperty("deployType", std::mem_fn(&AppModule::js_deployType));
 		JSExport<AppModule>::AddValueProperty("description", std::mem_fn(&AppModule::js_description));
+		JSExport<AppModule>::AddValueProperty("disableNetworkActivityIndicator", std::mem_fn(&AppModule::js_disableNetworkActivityIndicator));
+		JSExport<AppModule>::AddValueProperty("forceSplashAsSnapshot", std::mem_fn(&AppModule::js_forceSplashAsSnapshot));
 		JSExport<AppModule>::AddValueProperty("guid", std::mem_fn(&AppModule::js_guid));
 		JSExport<AppModule>::AddValueProperty("id", std::mem_fn(&AppModule::js_id));
+		JSExport<AppModule>::AddValueProperty("installId", std::mem_fn(&AppModule::js_installId));
+		JSExport<AppModule>::AddValueProperty("idleTimerDisabled", std::mem_fn(&AppModule::js_idleTimerDisabled));
+		JSExport<AppModule>::AddValueProperty("keyboardVisible", std::mem_fn(&AppModule::js_keyboardVisible));
 		JSExport<AppModule>::AddValueProperty("name", std::mem_fn(&AppModule::js_name));
 		JSExport<AppModule>::AddValueProperty("proximityDetection", std::mem_fn(&AppModule::js_proximityDetection));
 		JSExport<AppModule>::AddValueProperty("proximityState", std::mem_fn(&AppModule::js_proximityState));
@@ -192,8 +231,13 @@ namespace Titanium
 		JSExport<AppModule>::AddFunctionProperty("getCopyright", std::mem_fn(&AppModule::js_getCopyright));
 		JSExport<AppModule>::AddFunctionProperty("getDeployType", std::mem_fn(&AppModule::js_getDeployType));
 		JSExport<AppModule>::AddFunctionProperty("getDescription", std::mem_fn(&AppModule::js_getDescription));
+		JSExport<AppModule>::AddFunctionProperty("getDisableNetworkActivityIndicator", std::mem_fn(&AppModule::js_getDisableNetworkActivityIndicator));
+		JSExport<AppModule>::AddFunctionProperty("getForceSplashAsSnapshot", std::mem_fn(&AppModule::js_getForceSplashAsSnapshot));
 		JSExport<AppModule>::AddFunctionProperty("getGuid", std::mem_fn(&AppModule::js_getGuid));
 		JSExport<AppModule>::AddFunctionProperty("getId", std::mem_fn(&AppModule::js_getId));
+		JSExport<AppModule>::AddFunctionProperty("getIdleTimerDisabled", std::mem_fn(&AppModule::js_getIdleTimerDisabled));
+		JSExport<AppModule>::AddFunctionProperty("getInstallId", std::mem_fn(&AppModule::js_getInstallId));
+		JSExport<AppModule>::AddFunctionProperty("getKeyboardVisible", std::mem_fn(&AppModule::js_getKeyboardVisible));
 		JSExport<AppModule>::AddFunctionProperty("getName", std::mem_fn(&AppModule::js_getName));
 		JSExport<AppModule>::AddFunctionProperty("getProximityDetection", std::mem_fn(&AppModule::js_getProximityDetection));
 		JSExport<AppModule>::AddFunctionProperty("setProximityDetection", std::mem_fn(&AppModule::js_setProximityDetection));
@@ -235,6 +279,16 @@ namespace Titanium
 		return get_context().CreateString(description());
 	}
 
+	JSValue AppModule::js_disableNetworkActivityIndicator() const TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateBoolean(disableNetworkActivityIndicator());
+	}
+
+	JSValue AppModule::js_forceSplashAsSnapshot() const TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateBoolean(forceSplashAsSnapshot());
+	}
+
 	JSValue AppModule::js_guid() const TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateString(guid());
@@ -243,6 +297,21 @@ namespace Titanium
 	JSValue AppModule::js_id() const TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateString(id());
+	}
+
+	JSValue AppModule::js_idleTimerDisabled() const TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateBoolean(idleTimerDisabled());
+	}
+
+	JSValue AppModule::js_installId() const TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateString(installId());
+	}
+
+	JSValue AppModule::js_keyboardVisible() const TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateBoolean(keyboardVisible());
 	}
 
 	JSValue AppModule::js_name() const TITANIUM_NOEXCEPT
@@ -336,6 +405,16 @@ namespace Titanium
 		return get_context().CreateString(description());
 	}
 
+	JSValue AppModule::js_getDisableNetworkActivityIndicator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateBoolean(disableNetworkActivityIndicator());
+	}
+
+	JSValue AppModule::js_getForceSplashAsSnapshot(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateBoolean(forceSplashAsSnapshot());
+	}
+
 	JSValue AppModule::js_getGuid(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateString(guid());
@@ -344,6 +423,21 @@ namespace Titanium
 	JSValue AppModule::js_getId(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateString(id());
+	}
+
+	JSValue AppModule::js_getIdleTimerDisabled(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateBoolean(idleTimerDisabled());
+	}
+
+	JSValue AppModule::js_getInstallId(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateString(installId());
+	}
+
+	JSValue AppModule::js_getKeyboardVisible(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		return get_context().CreateBoolean(keyboardVisible());
 	}
 
 	JSValue AppModule::js_getName(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
