@@ -78,8 +78,10 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::DispatcherTimer ^ dispatcherTimer__;
 			// responseStream__ - holds response string, the stream is not exposed
 			Windows::Storage::Streams::IBuffer ^ responseStream__;
-			// responseBuffer__ - buffer used holds raw response data
-			Windows::Storage::Streams::IBuffer ^ responseBuffer__;
+			// responseData__ - vector used holds raw response data
+			std::vector<unsigned char>  responseData__;
+			// responseDataLen__ - count of character contained in data vector
+			long responseDataLen__;
 			// timeoutSpan__ - the span in milliseconds during which the request is active
 			Windows::Foundation::TimeSpan timeoutSpan__;
 			// requestStatus__ - the http status returned from the server

@@ -189,17 +189,17 @@ namespace Titanium
 			/////// slots
 			virtual void onload(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT final;
 			virtual void onerror(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT final;
-			virtual void ondatastream(const std::uint32_t progress) TITANIUM_NOEXCEPT final;
-			virtual void onsendstream(const std::uint32_t progress) TITANIUM_NOEXCEPT final;
+			virtual void ondatastream(const double progress) TITANIUM_NOEXCEPT final;
+			virtual void onsendstream(const double progress) TITANIUM_NOEXCEPT final;
 			virtual void onreadystatechange(const std::uint32_t state) TITANIUM_NOEXCEPT final;
 
 			/////// signals
 #pragma warning(push)
 #pragma warning(disable: 4251)
-			boost::signals2::signal<void(const std::uint32_t id, const std::string error, const bool success)> loaded;
-			boost::signals2::signal<void(const std::uint32_t id, const std::string error, const bool success)> error;
-			boost::signals2::signal<void(const std::uint32_t progress)> datastream;
-			boost::signals2::signal<void(const std::uint32_t progress)> sendstream;
+			boost::signals2::signal<void(const std::uint32_t code, const std::string error, const bool success)> loaded;
+			boost::signals2::signal<void(const std::uint32_t code, const std::string error, const bool success)> error;
+			boost::signals2::signal<void(const double progress)> datastream;
+			boost::signals2::signal<void(const double progress)> sendstream;
 			boost::signals2::signal<void(const std::uint32_t state)> readystatechange;
 #pragma warning(pop)
 

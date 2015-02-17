@@ -67,7 +67,7 @@ namespace Titanium
 		std::string HTTPClient::getResponseText() const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("HTTPClient::getResponseText: Unimplemented");
-			return std::string();  // empty
+			return "";
 		}
 
 		std::vector<unsigned char> HTTPClient::getResponseData() const TITANIUM_NOEXCEPT
@@ -79,7 +79,7 @@ namespace Titanium
 		std::string HTTPClient::getAllResponseHeaders() const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("HTTPClient::getAllResponseHeaders: Unimplemented");
-			return std::string();  // empty
+			return "";
 		}
 
 		std::uint32_t HTTPClient::getReadyState() const TITANIUM_NOEXCEPT
@@ -97,7 +97,7 @@ namespace Titanium
 		std::string HTTPClient::getStatusText() const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("HTTPClient::getStatusText: Unimplemented");
-			return std::string();
+			return "";
 		}
 
 		void HTTPClient::open(const std::string& method, const std::string& url) TITANIUM_NOEXCEPT
@@ -377,7 +377,7 @@ namespace Titanium
 		}
 
 		////// slots
-		void HTTPClient::onload(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT
+		void HTTPClient::onload(const std::uint32_t code, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
 			if (onload_callback__.IsFunction()) {
 				const JSContext ctx = get_context();
@@ -385,7 +385,7 @@ namespace Titanium
 				JSObject this_object = get_object();
 
 				JSObject eventArgs = ctx.CreateObject();
-				eventArgs.SetProperty("id", ctx.CreateNumber(id));
+				eventArgs.SetProperty("code", ctx.CreateNumber(code));
 				eventArgs.SetProperty("error", ctx.CreateString(error));
 				eventArgs.SetProperty("success", ctx.CreateBoolean(success));
 
@@ -396,7 +396,7 @@ namespace Titanium
 			}
 		}
 
-		void HTTPClient::onerror(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT
+		void HTTPClient::onerror(const std::uint32_t code, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
 			if (onerror_callback__.IsFunction()) {
 				const JSContext ctx = get_context();
@@ -404,7 +404,7 @@ namespace Titanium
 				JSObject this_object = get_object();
 
 				JSObject eventArgs = ctx.CreateObject();
-				eventArgs.SetProperty("id", ctx.CreateNumber(id));
+				eventArgs.SetProperty("code", ctx.CreateNumber(code));
 				eventArgs.SetProperty("error", ctx.CreateString(error));
 				eventArgs.SetProperty("success", ctx.CreateBoolean(success));
 
@@ -415,7 +415,7 @@ namespace Titanium
 			}
 		}
 
-		void HTTPClient::ondatastream(const std::uint32_t progress) TITANIUM_NOEXCEPT
+		void HTTPClient::ondatastream(const double progress) TITANIUM_NOEXCEPT
 		{
 			if (ondatastream_callback__.IsFunction()) {
 				const JSContext ctx = get_context();
@@ -432,7 +432,7 @@ namespace Titanium
 			}
 		}
 
-		void HTTPClient::onsendstream(const std::uint32_t progress) TITANIUM_NOEXCEPT
+		void HTTPClient::onsendstream(const double progress) TITANIUM_NOEXCEPT
 		{
 			if (onsendstream_callback__.IsFunction()) {
 				const JSContext ctx = get_context();
