@@ -48,7 +48,7 @@ namespace TitaniumWindows
 
 		void HTTPClient::open(const std::string& method, const std::string& url) TITANIUM_NOEXCEPT
 		{
-			auto method__ = N_HTTPCLIENT_METHOD_GET;
+			method__ = N_HTTPCLIENT_METHOD_GET;
 			if (method == "DELETE") {
 				method__ = N_HTTPCLIENT_METHOD_DELETE;
 			} else if (method == "POST") {

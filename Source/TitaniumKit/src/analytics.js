@@ -222,7 +222,7 @@ Analytics.prototype.run = function run() {
 
 	var events = this.getEventsAsJSON(BUCKET_SIZE_FAST_NETWORK); // map from event id to actual event
 	
-	var eventIds = Object.keys(events.keys); // event ids
+	var eventIds = Object.keys(events); // event ids
 	Ti.API.info("Event ids: " + JSON.stringify(eventIds));
 
 	var records = []; // the events to send
