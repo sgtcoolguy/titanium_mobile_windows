@@ -178,7 +178,6 @@ set(SOURCE_TiLogger_detail
   src/detail/TiLoggerPimpl.cpp
   )
 
-<<<<<<< HEAD
 set(SOURCE_App
   include/Titanium/App.hpp
   src/App.cpp

@@ -609,15 +609,6 @@ Analytics.prototype.sendAppEnrollEvent = function sendAppEnrollEvent() {
 	this.postAnalyticsEvent(this.createAppEnrollEvent('development'));
 };
 
-// TODO Remove once Ti.App module exists!
-var app = {
-	version: '1.2.3',
-	guid: 'a00c4252-eac5-44ac-a9f2-b007391ab119',
-	name: 'my_app_name',
-	id: 'com.example.app.id'
-};
-Ti.App = app;
-
 // Create an instance of the module and expose just the methods we want
 Ti.API.info('creating instance of Analytics class');
 var analytics = new Analytics();
