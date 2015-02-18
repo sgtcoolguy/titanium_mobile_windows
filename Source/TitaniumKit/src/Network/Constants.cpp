@@ -18,11 +18,11 @@ namespace Titanium
 			static std::unordered_map<TYPE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-      map[TYPE::LAN]     = "LAN";
-      map[TYPE::MOBILE] = "MOBILE";
-      map[TYPE::NONE]    = "NONE";
-      map[TYPE::UNKNOWN]      = "UNKNOWN";
-      map[TYPE::WIFI]		= "WIFI";
+				map[TYPE::LAN]    = "LAN";
+				map[TYPE::MOBILE] = "MOBILE";
+				map[TYPE::NONE]   = "NONE";
+				map[TYPE::UNKNOWN] = "UNKNOWN";
+				map[TYPE::WIFI]	= "WIFI";
 			});
 
 			std::string string = unknown_string;
@@ -39,11 +39,11 @@ namespace Titanium
 			static std::unordered_map<std::string, TYPE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-      map["LAN"]     = TYPE::LAN;
-      map["MOBILE"] = TYPE::MOBILE;
-      map["NONE"]    = TYPE::NONE;
-      map["UNKNOWN"]      = TYPE::UNKNOWN;
-      map["WIFI"]      = TYPE::WIFI;
+				map["LAN"]    = TYPE::LAN;
+				map["MOBILE"] = TYPE::MOBILE;
+				map["NONE"]   = TYPE::NONE;
+				map["UNKNOWN"] = TYPE::UNKNOWN;
+				map["WIFI"]    = TYPE::WIFI;
 			});
 
 			TYPE networkType = TYPE::UNKNOWN;
@@ -62,11 +62,11 @@ namespace Titanium
 			static std::unordered_map<std::underlying_type<TYPE>::type, TYPE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-      map[static_cast<std::underlying_type<TYPE>::type>(TYPE::LAN)]     = TYPE::LAN;
-      map[static_cast<std::underlying_type<TYPE>::type>(TYPE::MOBILE)] = TYPE::MOBILE;
-      map[static_cast<std::underlying_type<TYPE>::type>(TYPE::NONE)] = TYPE::NONE;
-      map[static_cast<std::underlying_type<TYPE>::type>(TYPE::UNKNOWN)]    = TYPE::UNKNOWN;
-      map[static_cast<std::underlying_type<TYPE>::type>(TYPE::WIFI)]      = TYPE::WIFI;
+				map[static_cast<std::underlying_type<TYPE>::type>(TYPE::LAN)]    = TYPE::LAN;
+				map[static_cast<std::underlying_type<TYPE>::type>(TYPE::MOBILE)] = TYPE::MOBILE;
+				map[static_cast<std::underlying_type<TYPE>::type>(TYPE::NONE)] = TYPE::NONE;
+				map[static_cast<std::underlying_type<TYPE>::type>(TYPE::UNKNOWN)] = TYPE::UNKNOWN;
+				map[static_cast<std::underlying_type<TYPE>::type>(TYPE::WIFI)]    = TYPE::WIFI;
 			});
 
 			TYPE networkType = TYPE::UNKNOWN;
@@ -91,10 +91,10 @@ namespace Titanium
 			static std::unordered_map<NOTIFICATION_TYPE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-      map[NOTIFICATION_TYPE::ALERT]     = "ALERT";
-      map[NOTIFICATION_TYPE::BADGE] = "BADGE";
-      map[NOTIFICATION_TYPE::NEWSSTAND]    = "NEWSSTAND";
-      map[NOTIFICATION_TYPE::SOUND]      = "SOUND";
+				map[NOTIFICATION_TYPE::ALERT] = "ALERT";
+				map[NOTIFICATION_TYPE::BADGE] = "BADGE";
+				map[NOTIFICATION_TYPE::NEWSSTAND] = "NEWSSTAND";
+				map[NOTIFICATION_TYPE::SOUND]     = "SOUND";
 			});
 
 			std::string string = unknown_string;
@@ -111,10 +111,10 @@ namespace Titanium
 			static std::unordered_map<std::string, NOTIFICATION_TYPE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-      map["ALERT"]     = NOTIFICATION_TYPE::ALERT;
-      map["BADGE"] = NOTIFICATION_TYPE::BADGE;
-      map["NEWSSTAND"]    = NOTIFICATION_TYPE::NEWSSTAND;
-      map["SOUND"]      = NOTIFICATION_TYPE::SOUND;
+				map["ALERT"] = NOTIFICATION_TYPE::ALERT;
+				map["BADGE"] = NOTIFICATION_TYPE::BADGE;
+				map["NEWSSTAND"] = NOTIFICATION_TYPE::NEWSSTAND;
+				map["SOUND"]     = NOTIFICATION_TYPE::SOUND;
 			});
 
 			NOTIFICATION_TYPE notificationType = NOTIFICATION_TYPE::ALERT;
@@ -133,10 +133,10 @@ namespace Titanium
 			static std::unordered_map<std::underlying_type<NOTIFICATION_TYPE>::type, NOTIFICATION_TYPE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-      map[static_cast<std::underlying_type<NOTIFICATION_TYPE>::type>(NOTIFICATION_TYPE::ALERT)]     = NOTIFICATION_TYPE::ALERT;
-      map[static_cast<std::underlying_type<NOTIFICATION_TYPE>::type>(NOTIFICATION_TYPE::BADGE)] = NOTIFICATION_TYPE::BADGE;
-      map[static_cast<std::underlying_type<NOTIFICATION_TYPE>::type>(NOTIFICATION_TYPE::NEWSSTAND)] = NOTIFICATION_TYPE::NEWSSTAND;
-      map[static_cast<std::underlying_type<NOTIFICATION_TYPE>::type>(NOTIFICATION_TYPE::SOUND)]    = NOTIFICATION_TYPE::SOUND;
+				map[static_cast<std::underlying_type<NOTIFICATION_TYPE>::type>(NOTIFICATION_TYPE::ALERT)]     = NOTIFICATION_TYPE::ALERT;
+				map[static_cast<std::underlying_type<NOTIFICATION_TYPE>::type>(NOTIFICATION_TYPE::BADGE)] = NOTIFICATION_TYPE::BADGE;
+				map[static_cast<std::underlying_type<NOTIFICATION_TYPE>::type>(NOTIFICATION_TYPE::NEWSSTAND)] = NOTIFICATION_TYPE::NEWSSTAND;
+				map[static_cast<std::underlying_type<NOTIFICATION_TYPE>::type>(NOTIFICATION_TYPE::SOUND)]     = NOTIFICATION_TYPE::SOUND;
 			});
 
 			NOTIFICATION_TYPE notificationType = NOTIFICATION_TYPE::ALERT;
@@ -161,9 +161,9 @@ namespace Titanium
 			static std::unordered_map<TLS_VERSION, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-      map[TLS_VERSION::ONE_ZERO]     = "1_0";
-      map[TLS_VERSION::ONE_ONE] 	 = "1_1";
-      map[TLS_VERSION::ONE_TWO]      = "1_2";
+				map[TLS_VERSION::ONE_ZERO] = "1_0";
+				map[TLS_VERSION::ONE_ONE]  = "1_1";
+				map[TLS_VERSION::ONE_TWO]  = "1_2";
 			});
 
 			std::string string = unknown_string;
@@ -180,9 +180,9 @@ namespace Titanium
 			static std::unordered_map<std::string, TLS_VERSION> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-      map["1_0"]    = TLS_VERSION::ONE_ZERO;
-      map["1_1"] 	= TLS_VERSION::ONE_ONE;
-      map["1_2"]    = TLS_VERSION::ONE_TWO;
+				map["1_0"]  = TLS_VERSION::ONE_ZERO;
+				map["1_1"] 	= TLS_VERSION::ONE_ONE;
+				map["1_2"]  = TLS_VERSION::ONE_TWO;
 			});
 
 			TLS_VERSION version = TLS_VERSION::ONE_ZERO;
@@ -201,9 +201,9 @@ namespace Titanium
 			static std::unordered_map<std::underlying_type<TLS_VERSION>::type, TLS_VERSION> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-      map[static_cast<std::underlying_type<TLS_VERSION>::type>(TLS_VERSION::ONE_ZERO)]     = TLS_VERSION::ONE_ZERO;
-      map[static_cast<std::underlying_type<TLS_VERSION>::type>(TLS_VERSION::ONE_ONE)] = TLS_VERSION::ONE_ONE;
-      map[static_cast<std::underlying_type<TLS_VERSION>::type>(TLS_VERSION::ONE_TWO)] = TLS_VERSION::ONE_TWO;
+				map[static_cast<std::underlying_type<TLS_VERSION>::type>(TLS_VERSION::ONE_ZERO)] = TLS_VERSION::ONE_ZERO;
+				map[static_cast<std::underlying_type<TLS_VERSION>::type>(TLS_VERSION::ONE_ONE)] = TLS_VERSION::ONE_ONE;
+				map[static_cast<std::underlying_type<TLS_VERSION>::type>(TLS_VERSION::ONE_TWO)] = TLS_VERSION::ONE_TWO;
 			});
 
 			TLS_VERSION version = TLS_VERSION::ONE_ZERO;
