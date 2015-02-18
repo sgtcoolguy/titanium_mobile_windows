@@ -155,36 +155,7 @@ var timerId = setInterval(function () {
     if (++count > 10) {
         clearInterval(timerId);
 
-        Ti.API.info("Playing with database API...");
-
-        var db = Ti.Database.open('mydb1Installed');
-        Ti.API.info("Opened DB");
-        db.execute('CREATE TABLE IF NOT EXISTS people (name TEXT, phone_number TEXT, city TEXT)');
-        Ti.API.info("Created people table");
-        db.execute('DELETE FROM people');
-
-        var thisName = 'Arthur';
-        var thisPhoneNo = '1-617-000-0000';
-        var thisCity = 'Mountain View';
-        db.execute('INSERT INTO people (name, phone_number, city) VALUES (?, ?, ?)', thisName, thisPhoneNo, thisCity);
-        Ti.API.info("Inserted person into people table");
-
-        var personArray = ['Paul', '020 7000 0000', 'London'];
-        db.execute('INSERT INTO people (name, phone_number, city) VALUES (?, ?, ?)', personArray);
-        Ti.API.info("Inserted person into people table");
-
-        var rows = db.execute('SELECT rowid,name,phone_number,city FROM people');
-
-        Ti.API.info('Row count: ' + rows.rowCount);
-        var fieldCount = rows.fieldCount;
-        Ti.API.info('Field count: ' + fieldCount);
-
-        while (rows.isValidRow()) {
-            Ti.API.info('Person ---> ROWID: ' + rows.fieldByName('rowid') + ', name:' + rows.field(1) + ', phone_number: ' + rows.fieldByName('phone_number') + ', city: ' + rows.field(3));
-            rows.next();
-        }
-        rows.close();
-        db.close();
+        Ti.Analytics.featureEvent("my.event");
     }
 }, 1000 /* ms */);
 

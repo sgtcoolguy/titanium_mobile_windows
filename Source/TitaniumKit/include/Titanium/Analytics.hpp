@@ -1,0 +1,53 @@
+/**
+ * Titanium.Analytics for Windows
+ *
+ * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License.
+ * Please see the LICENSE included with this distribution for details.
+ */
+
+#ifndef _TITANIUM_ANALYTICS_HPP_
+#define _TITANIUM_ANALYTICS_HPP_
+
+#include "Titanium/Module.hpp"
+
+namespace Titanium
+{
+
+	using namespace HAL;
+
+	/*!
+	  @class
+	  @discussion This is the Titanium Analytics Module.
+	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Analytics
+	*/
+	class TITANIUMKIT_EXPORT Analytics : public Module, public JSExport<Analytics>
+	{
+
+	public:
+
+		Analytics(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+
+		virtual ~Analytics() = default;
+		Analytics(const Analytics&) = default;
+		Analytics& operator=(const Analytics&) = default;
+#ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
+		Analytics(Analytics&&)                 = default;
+		Analytics& operator=(Analytics&&)      = default;
+#endif
+
+		static void JSExportInitialize();
+
+		virtual JSValue js_lastEvent() const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_featureEvent(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_navEvent(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_getLastEvent(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+		bool loadJS();
+
+	private:
+		JSObject ti_analytics__;
+	};
+
+} // namespace Titanium
+#endif // _TITANIUM_ANALYTICS_HPP_
