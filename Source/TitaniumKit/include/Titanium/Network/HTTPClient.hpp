@@ -210,6 +210,13 @@ namespace Titanium
 			JSObject ondatastream_callback__;
 			JSObject onsendstream_callback__;
 			JSObject onreadystatechange_callback__;
+
+#pragma warning(push)
+#pragma warning(disable: 4251)
+			std::map<uint32_t, std::string> httpStatusPhrase__;
+#pragma warning(pop)
+
+			void setHTTPStatusPhrase();
 		};
 	} // namespace Network
 } // namespace Titanium

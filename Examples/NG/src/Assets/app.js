@@ -155,10 +155,12 @@ var url = "http://www.appcelerator.com";
 var client = Ti.Network.createHTTPClient({
     // function called when the response data is available
     onload: function (e) {
+        Ti.API.info("Response code: " + this.statusText);
         Ti.API.info("Received text: " + this.responseText);
         //alert('success');
     },
     onerror: function (e) {
+        Ti.API.info("Response code: " + this.statusText);
         Ti.API.debug(e.error);
         //alert('error');
     },

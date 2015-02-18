@@ -283,11 +283,6 @@ namespace TitaniumWindows
 			return requestStatus__;
 		}
 
-		std::string HTTPClient::getStatusText() const TITANIUM_NOEXCEPT
-		{
-			return requestStatusText__;
-		}
-
 		void HTTPClient::clearCookies(const std::string& url) TITANIUM_NOEXCEPT
 		{
 			auto filter = ref new Windows::Web::Http::Filters::HttpBaseProtocolFilter();
@@ -412,8 +407,6 @@ namespace TitaniumWindows
 		void HTTPClient::SerializeHeaders(Windows::Web::Http::HttpResponseMessage ^ response)
 		{
 			requestStatus__ = (std::uint32_t)response->StatusCode;
-			std::wstring w_str = response->ReasonPhrase->Data();
-			requestStatusText__ = std::string((const char*)&w_str[0], sizeof(wchar_t) / sizeof(char) * w_str.size());
 
 			SerializeHeaderCollection(response->Headers);
 			SerializeHeaderCollection(response->Content->Headers);
