@@ -34,6 +34,9 @@ namespace Titanium
 		JSObject PropertiesObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& PropertiesObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject AnalyticsObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& AnalyticsObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject ViewObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -113,6 +116,7 @@ namespace Titanium
 		JSObject view__;
 		JSObject properties__;
 		JSObject app__;
+		JSObject analytics__;
 		JSObject window__;
 		JSObject button__;
 		JSObject alertDialog__;
@@ -131,7 +135,6 @@ namespace Titanium
 		JSObject webview__;
 		JSObject httpclient__;
 		JSObject network__;
-		
 #pragma warning(pop)
 	};
 
