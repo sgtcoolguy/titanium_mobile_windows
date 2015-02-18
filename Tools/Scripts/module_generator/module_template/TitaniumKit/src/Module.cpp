@@ -147,7 +147,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 <% } else if (property.type == 'Number') { -%>
 			return get_context().CreateNumber(<%= property.name %>());
 <% } else { -%>
-			return <%= property.name %>()
+			return <%= property.name %>();
 <% } -%>
 		}
 
@@ -162,8 +162,11 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 		{
 			TITANIUM_LOG_WARN("<%= name %>.<%= method.name %> is not implemented yet");
 <% if ('parameters' in method) { -%>
-
+<% if method.parameters.length == 1 -%>
+			if (arguments.empty()) {
+<% else -%>
 			if (arguments.size() < <%= method.parameters.length %>) {
+<% } -%>
 				return get_context().CreateUndefined();
 			}
 <% for (var p=method.parameters.length;p>0;p--) { var z = p -%>
@@ -184,7 +187,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 <% } else if (parameter.type == 'Boolean') { -%>
 				const bool <%= parameter.name %> = static_cast<bool>(_<%= i %>);
 <% } else { -%>
-				const auto <%= parameter.name %> = _<%= i %>;
+				const auto <%= parameter.name %> = static_cast<JSObject>(_<%= i %>);
 <% } -%>
 <% } -%>
 <% if (type == 'String') { -%>

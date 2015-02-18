@@ -25,6 +25,7 @@ require('./ti.gesture.test');
 require('./ti.blob.test');
 require('./ti.filesystem.test');
 require('./ti.database.test');
+require('./ti.email.test');
 // ============================================================================
 
 // add a special mocha reporter that will time each test run using
