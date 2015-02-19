@@ -149,6 +149,31 @@ tabGroup.open();
 
 Ti.API.info('app.js running...');
 
+Ti.API.info("Sending Basic HTTP Get Request...");
+
+var url = "http://www.appcelerator.com";
+var client = Ti.Network.createHTTPClient({
+    // function called when the response data is available
+    onload: function (e) {
+        Ti.API.info("Response code: " + this.statusText);
+        Ti.API.info("Received text: " + this.responseText);
+        //alert('success');
+    },
+    onerror: function (e) {
+        Ti.API.info("Response code: " + this.statusText);
+        Ti.API.debug(e.error);
+        //alert('error');
+    },
+    timeout: 10000
+});
+
+// Prepare the connection.
+client.open("GET", url);
+// Send the request.
+client.send();
+
+
+
 var count = 0;
 var timerId = setInterval(function () {
     Ti.API.info('setInterval: timerId = ' + timerId + ', count = ' + count);
@@ -160,3 +185,4 @@ var timerId = setInterval(function () {
 }, 1000 /* ms */);
 
 Ti.API.info('setInterval: timerId = ' + timerId);
+

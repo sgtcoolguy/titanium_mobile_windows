@@ -21,7 +21,8 @@ namespace TitaniumWindows
 		{
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Network::HTTPClient::ctor Initialize");
 
-			responseBuffer__ = ref new Windows::Storage::Streams::Buffer(1000);
+			responseData__ = std::vector<unsigned char>();
+			responseDataLen__ = 0;
 			readyState__ = Titanium::Network::N_REQUEST_STATE_UNSENT;
 		}
 
@@ -31,7 +32,6 @@ namespace TitaniumWindows
 			filter__ = nullptr;
 			httpClient__ = nullptr;
 			dispatcherTimer__ = nullptr;
-			responseBuffer__ = nullptr;
 		}
 
 		void HTTPClient::JSExportInitialize()
@@ -103,12 +103,12 @@ namespace TitaniumWindows
 			  onreadystatechange(Titanium::Network::N_REQUEST_STATE_DONE);
 		  }
 		  catch (const task_canceled&) {
-			 onerror(0, "Session Cancelled", false);
+			 onerror(-1, "Session Cancelled", false);
 		  }
 		  catch (Platform::Exception^ ex) {
 			  std::wstring werror = ex->Message->Data();
 			  std::string error(werror.begin(), werror.end());
-			  onerror(0, error, false);
+			  onerror(ex->HResult, error, false);
 		  } });
 		}
 
@@ -175,14 +175,17 @@ namespace TitaniumWindows
 
 			  readyState__ = Titanium::Network::N_REQUEST_STATE_DONE;
 			  onreadystatechange(Titanium::Network::N_REQUEST_STATE_DONE);
+
+			  onload(0, "Response has been loaded.", true);
+			  onsendstream(1.0);
 		  }
 		  catch (const task_canceled&) {
-			  onerror(0, "Session Cancelled", false);
+			  onerror(-1, "Session Cancelled", false);
 		  }
 		  catch (Platform::Exception^ ex) {
 			  std::wstring werror = ex->Message->Data();
 			  std::string error(werror.begin(), werror.end());
-			  onerror(0, error, false);
+			  onerror(ex->HResult, error, false);
 		  } }, task_continuation_context::use_current());
 		}
 
@@ -225,47 +228,28 @@ namespace TitaniumWindows
 
 						readyState__ = Titanium::Network::N_REQUEST_STATE_DONE;
 						onreadystatechange(Titanium::Network::N_REQUEST_STATE_DONE);
+
+						onload(0, "Response has been loaded.", true);
+						onsendstream(1.0); 
 					}
 					catch (const task_canceled&) {
-						onerror(0, "Session Cancelled", false);
+						onerror(-1, "Session Cancelled", false);
 					}
 					catch (Platform::Exception^ ex) {
 						std::wstring werror = ex->Message->Data();
 						std::string error(werror.begin(), werror.end());
-						onerror(0, error, false);
+						onerror(ex->HResult, error, false);
 					} }, task_continuation_context::use_current());
 		}
 
 		std::string HTTPClient::getResponseText() const TITANIUM_NOEXCEPT
 		{
-			unsigned char* bytes;
-			Microsoft::WRL::ComPtr<Windows::Storage::Streams::IBufferByteAccess> bufferByteAccess;
-			Microsoft::WRL::ComPtr<IInspectable> insp(reinterpret_cast<IInspectable*>(responseBuffer__));
-			HRESULT hr = insp.As(&bufferByteAccess);
-			if (FAILED(hr)) {
-				throw ::Platform::Exception::CreateException(hr);
-			}
-			hr = bufferByteAccess->Buffer(&bytes);
-			if (FAILED(hr)) {
-				throw ::Platform::Exception::CreateException(hr);
-			}
-			return std::string(reinterpret_cast<const char*>(bytes));
+			return std::string(responseData__.begin(), responseData__.end());
 		}
 
 		std::vector<unsigned char> HTTPClient::getResponseData() const TITANIUM_NOEXCEPT
 		{
-			unsigned char* bytes;
-			Microsoft::WRL::ComPtr<Windows::Storage::Streams::IBufferByteAccess> bufferByteAccess;
-			Microsoft::WRL::ComPtr<IInspectable> insp(reinterpret_cast<IInspectable*>(responseBuffer__));
-			HRESULT hr = insp.As(&bufferByteAccess);
-			if (FAILED(hr)) {
-				throw ::Platform::Exception::CreateException(hr);
-			}
-			hr = bufferByteAccess->Buffer(&bytes);
-			if (FAILED(hr)) {
-				throw ::Platform::Exception::CreateException(hr);
-			}
-			return std::vector<unsigned char>(bytes, bytes + responseBuffer__->Length);
+			return responseData__; 
 		}
 
 		void HTTPClient::abort() TITANIUM_NOEXCEPT
@@ -297,11 +281,6 @@ namespace TitaniumWindows
 		std::uint32_t HTTPClient::getStatus() const TITANIUM_NOEXCEPT
 		{
 			return requestStatus__;
-		}
-
-		std::string HTTPClient::getStatusText() const TITANIUM_NOEXCEPT
-		{
-			return requestStatusText__;
 		}
 
 		void HTTPClient::clearCookies(const std::string& url) TITANIUM_NOEXCEPT
@@ -357,25 +336,34 @@ namespace TitaniumWindows
 		task<Windows::Storage::Streams::IBuffer ^> HTTPClient::HTTPResultAsync(
 		    Windows::Storage::Streams::IInputStream ^ stream)
 		{
+			Windows::Storage::Streams::IBuffer ^ responseBuffer = ref new Windows::Storage::Streams::Buffer(1000); // Default size from MS samples
 			return create_task(
-			           stream->ReadAsync(responseBuffer__, responseBuffer__->Capacity, Windows::Storage::Streams::InputStreamOptions::Partial),
+			           stream->ReadAsync(responseBuffer, responseBuffer->Capacity, Windows::Storage::Streams::InputStreamOptions::Partial),
 			           cancellationTokenSource__.get_token()).then([=](task<Windows::Storage::Streams::IBuffer ^> readTask) {
 
 				// Stop the timeout timer
 				dispatcherTimer__->Stop();
 
 				if (contentLength__ != -1) {
-					ondatastream(responseBuffer__->Length / contentLength__);
+					ondatastream(responseBuffer->Length / contentLength__);
 				}
 				else {
-					ondatastream(-1); // chunked encoding was used
+					ondatastream(-1.0); // chunked encoding was used
 				}
 
-				if (!responseBuffer__->Length) {
+				if (!responseBuffer->Length) {
 					onload(0, "Response has been loaded.", true);
 				}
+				else {
+					auto reader = ::Windows::Storage::Streams::DataReader::FromBuffer(responseBuffer);
+					responseData__.resize(responseDataLen__ + responseBuffer->Length);
+					reader->ReadBytes(
+						::Platform::ArrayReference<unsigned char>(
+						&responseData__[responseDataLen__], responseBuffer->Length));
+					responseDataLen__ += responseBuffer->Length;
+				}
 
-				return responseBuffer__->Length ? HTTPResultAsync(stream) : readTask; }, task_continuation_context::use_current());
+				return responseBuffer->Length ? HTTPResultAsync(stream) : readTask; }, task_continuation_context::use_current());
 		}
 
 		void HTTPClient::startDispatcherTimer()
@@ -419,8 +407,6 @@ namespace TitaniumWindows
 		void HTTPClient::SerializeHeaders(Windows::Web::Http::HttpResponseMessage ^ response)
 		{
 			requestStatus__ = (std::uint32_t)response->StatusCode;
-			std::wstring w_str = response->ReasonPhrase->Data();
-			requestStatusText__ = std::string((const char*)&w_str[0], sizeof(wchar_t) / sizeof(char) * w_str.size());
 
 			SerializeHeaderCollection(response->Headers);
 			SerializeHeaderCollection(response->Content->Headers);
@@ -481,11 +467,11 @@ namespace TitaniumWindows
 					} catch (Platform::InvalidArgumentException ^ ex) {
 						std::wstring werror = ex->Message->Data();
 						std::string error(werror.begin(), werror.end());
-						onerror(0, error, false);
+						onerror(ex->HResult, error, false);
 					} catch (Platform::Exception ^ ex) {
 						std::wstring werror = ex->Message->Data();
 						std::string error(werror.begin(), werror.end());
-						onerror(0, error, false);
+						onerror(ex->HResult, error, false);
 					}
 				}
 			}
