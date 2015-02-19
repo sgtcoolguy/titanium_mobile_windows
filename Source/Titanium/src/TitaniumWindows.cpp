@@ -58,6 +58,7 @@ namespace TitaniumWindows
 		                                                            .ScrollViewObject(js_context__.CreateObject<TitaniumWindows::UI::ScrollView>())
 		                                                            .SliderObject(js_context__.CreateObject<TitaniumWindows::UI::Slider>())
 		                                                            .TextFieldObject(js_context__.CreateObject<TitaniumWindows::UI::TextField>())
+		                                                            .ListViewObject(js_context__.CreateObject<TitaniumWindows::UI::ListView>())
 		                                                            .BlobObject(js_context__.CreateObject<TitaniumWindows::Blob>())
 		                                                            .FilesystemObject(js_context__.CreateObject<TitaniumWindows::FilesystemModule>())
 		                                                            .FileObject(js_context__.CreateObject<TitaniumWindows::Filesystem::File>())

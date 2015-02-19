@@ -85,7 +85,11 @@ namespace TitaniumWindows
 
 		void Label::set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT
 		{
-			label__->FontSize = static_cast<double>(size);
+			if (size.IsNumber()) {
+				label__->FontSize = static_cast<double>(size);
+			} else {
+				label__->FontSize = std::stod(static_cast<std::string>(size));
+			}
 		}
 
 		void Label::set_fontStyle(const std::string& style) TITANIUM_NOEXCEPT

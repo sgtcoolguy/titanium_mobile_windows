@@ -10,6 +10,8 @@
 #include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
+#include "Titanium/UI/ListSection.hpp"
+#include "Titanium/UI/ListView.hpp"
 #include "Titanium/App/Properties.hpp"
 #include "Titanium/App.hpp"
 #include "Titanium/Analytics.hpp"
@@ -31,6 +33,8 @@ namespace Titanium
 	      ti__(js_context__.CreateObject<Titanium::TiModule>()),
 	      api__(js_context__.CreateObject<Titanium::API>()),
 	      view__(js_context__.CreateObject<Titanium::UI::View>()),
+	      listsection__(js_context__.CreateObject<Titanium::UI::ListSection>()),
+	      listview__(js_context__.CreateObject<Titanium::UI::ListView>()),
 	      properties__(js_context__.CreateObject<Titanium::App::Properties>()),
 	      analytics__(js_context__.CreateObject<Titanium::Analytics>()),
 	      window__(js_context__.CreateObject<Titanium::UI::Window>()),
@@ -67,6 +71,8 @@ namespace Titanium
 		ui.SetProperty("TextField", textField__);
 		ui.SetProperty("View", view__);
 		ui.SetProperty("Window", window__);
+		ui.SetProperty("ListView", listview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("ListSection", listsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("WebView", webview__);
 
 		filesystem__.SetProperty("File", file__);
@@ -132,6 +138,28 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::APIObject(const JSObject& api) TITANIUM_NOEXCEPT
 	{
 		api__ = api;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::ListViewObject() const TITANIUM_NOEXCEPT
+	{
+		return listview__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::ListViewObject(const JSObject& ListView) TITANIUM_NOEXCEPT
+	{
+		listview__ = ListView;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::ListSectionObject() const TITANIUM_NOEXCEPT
+	{
+		return listsection__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::ListSectionObject(const JSObject& ListSection) TITANIUM_NOEXCEPT
+	{
+		listsection__ = ListSection;
 		return *this;
 	}
 

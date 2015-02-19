@@ -28,6 +28,12 @@ namespace Titanium
 		JSObject APIObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& APIObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject ListViewObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& ListViewObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject ListSectionObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& ListSectionObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject AppObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& AppObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -114,6 +120,8 @@ namespace Titanium
 		JSObject ti__;
 		JSObject api__;
 		JSObject view__;
+		JSObject listsection__;
+		JSObject listview__;
 		JSObject properties__;
 		JSObject app__;
 		JSObject analytics__;

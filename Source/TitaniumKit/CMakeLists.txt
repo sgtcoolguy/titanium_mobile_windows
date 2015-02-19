@@ -37,6 +37,7 @@ list(INSERT CMAKE_MODULE_PATH 0 ${APPCELERATOR_CMAKE_MODULE_PATH})
 # Convert analytics.js into a c string in an hpp that we can include
 include(GenerateCPPHeaderFile)
 generate_cpp_header_file(resource_analytics_js_hpp ${PROJECT_SOURCE_DIR}/src/analytics.js ${PROJECT_SOURCE_DIR}/include/Titanium/analytics_js.hpp)
+generate_cpp_header_file(resource_listview_js_hpp ${PROJECT_SOURCE_DIR}/src/UI/listview.js ${PROJECT_SOURCE_DIR}/include/Titanium/UI/listview_js.hpp)
 
 set(Boost_USE_STATIC_LIBS ON )
 set(Boost_USE_MULTITHREADED ON )
@@ -47,6 +48,14 @@ find_package(Boost 1.55.0 REQUIRED)
 
 set(SOURCE_TitaniumKit
   include/Titanium/Titanium.hpp
+  include/Titanium/Dimension.hpp
+  src/Dimension.cpp
+  include/Titanium/Point.hpp
+  src/Point.cpp
+  include/Titanium/Font.hpp
+  src/Font.cpp
+  include/Titanium/Gradient.hpp
+  src/Gradient.cpp
   include/Titanium/ApplicationBuilder.hpp
   src/ApplicationBuilder.cpp
   include/Titanium/Application.hpp
@@ -135,8 +144,6 @@ set(SOURCE_UI
   src/UIModule.cpp
   include/Titanium/UI/Constants.hpp
   src/UI/Constants.cpp
-  include/Titanium/UI/Dimension.hpp
-  src/UI/Dimension.cpp
   include/Titanium/UI/ImageView.hpp
   src/UI/ImageView.cpp
   include/Titanium/UI/View.hpp
@@ -153,10 +160,6 @@ set(SOURCE_UI
   src/UI/Button.cpp
   include/Titanium/UI/TextField.hpp
   src/UI/TextField.cpp
-  include/Titanium/UI/ListItem.hpp
-  src/UI/ListItem.cpp
-  include/Titanium/UI/ListView.hpp
-  src/UI/ListView.cpp
   include/Titanium/UI/Picker.hpp
   src/UI/Picker.cpp
   include/Titanium/UI/WebView.hpp
@@ -167,6 +170,13 @@ set(SOURCE_UI
   src/UI/ScrollView.cpp
   include/Titanium/UI/Slider.hpp
   src/UI/Slider.cpp
+  include/Titanium/UI/ListViewAnimationProperties.hpp
+  src/UI/ListViewAnimationProperties.cpp
+  include/Titanium/UI/ListView.hpp
+  src/UI/ListView.cpp
+  include/Titanium/UI/ListSection.hpp
+  src/UI/ListSection.cpp
+  include/Titanium/UI/listview_js.hpp
   )
 
 set(SOURCE_TiLogger_detail
@@ -234,6 +244,7 @@ add_library(TitaniumKit SHARED
   )
 
 add_dependencies(TitaniumKit resource_analytics_js_hpp)
+add_dependencies(TitaniumKit resource_listview_js_hpp)
 
 include(GenerateExportHeader)
 generate_export_header(TitaniumKit)

@@ -438,6 +438,69 @@ namespace Titanium
 		return textField;
 	}
 
+	JSObject UIModule::createListView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createListView");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue View_property = UI.GetProperty("ListView");
+		TITANIUM_ASSERT(View_property.IsObject());  // precondition
+		JSObject View = static_cast<JSObject>(View_property);
+
+		auto view = View.CallAsConstructor(parameters);
+		Titanium::applyProperties(view, parameters);
+		return view;
+	}
+
+	JSObject UIModule::createListSection(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createListSection");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue View_property = UI.GetProperty("ListSection");
+		TITANIUM_ASSERT(View_property.IsObject());  // precondition
+		JSObject View = static_cast<JSObject>(View_property);
+
+		auto view = View.CallAsConstructor(parameters);
+		Titanium::applyProperties(view, parameters);
+		return view;
+	}
+
+	JSObject UIModule::createListItem(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createListItem");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue View_property = UI.GetProperty("ListItem");
+		TITANIUM_ASSERT(View_property.IsObject());  // precondition
+		JSObject View = static_cast<JSObject>(View_property);
+
+		auto view = View.CallAsConstructor(parameters);
+		Titanium::applyProperties(view, parameters);
+		return view;
+	}
+
 	JSObject UIModule::createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("UI::createView");
@@ -936,6 +999,9 @@ namespace Titanium
 		JSExport<UIModule>::AddFunctionProperty("createTextField", std::mem_fn(&UIModule::js_createTextField));
 		JSExport<UIModule>::AddFunctionProperty("createView", std::mem_fn(&UIModule::js_createView));
 		JSExport<UIModule>::AddFunctionProperty("createWindow", std::mem_fn(&UIModule::js_createWindow));
+		JSExport<UIModule>::AddFunctionProperty("createListView", std::mem_fn(&UIModule::js_createListView));
+		JSExport<UIModule>::AddFunctionProperty("createListSection", std::mem_fn(&UIModule::js_createListSection));
+		JSExport<UIModule>::AddFunctionProperty("createListItem", std::mem_fn(&UIModule::js_createListItem));
 		JSExport<UIModule>::AddFunctionProperty("createWebView", std::mem_fn(&UIModule::js_createWebView));
 		JSExport<UIModule>::AddFunctionProperty("setBackgroundColor", std::mem_fn(&UIModule::js_setBackgroundColor));
 		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN));
@@ -1046,7 +1112,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createAlertDialog(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1057,7 +1123,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createButton(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1068,7 +1134,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createImageView(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1079,7 +1145,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createLabel(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1090,7 +1156,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createScrollView(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1101,7 +1167,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createSlider(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1112,7 +1178,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createTab(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1123,7 +1189,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createTabGroup(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1134,7 +1200,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createTextField(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1143,9 +1209,42 @@ namespace Titanium
 		return createTextField(parameters, this_object);
 	}
 
+	JSValue UIModule::js_createListView(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = this_object.get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createListView(parameters, this_object);
+	}
+
+	JSValue UIModule::js_createListSection(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = this_object.get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createListSection(parameters, this_object);
+	}
+
+	JSValue UIModule::js_createListItem(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = this_object.get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createListItem(parameters, this_object);
+	}
+
 	JSValue UIModule::js_createView(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1156,7 +1255,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createWindow(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1167,7 +1266,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createWebView(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -1180,7 +1279,7 @@ namespace Titanium
 	JSValue UIModule::js_setBackgroundColor(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
 		TITANIUM_LOG_DEBUG("UI::setBackgroundColor Not implemented");
-		return get_context().CreateUndefined();
+		return this_object.get_context().CreateUndefined();
 	}
 
 }  // namespace Titanium {
