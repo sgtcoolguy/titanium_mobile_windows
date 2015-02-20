@@ -48,14 +48,6 @@ find_package(Boost 1.55.0 REQUIRED)
 
 set(SOURCE_TitaniumKit
   include/Titanium/Titanium.hpp
-  include/Titanium/Dimension.hpp
-  src/Dimension.cpp
-  include/Titanium/Point.hpp
-  src/Point.cpp
-  include/Titanium/Font.hpp
-  src/Font.cpp
-  include/Titanium/Gradient.hpp
-  src/Gradient.cpp
   include/Titanium/ApplicationBuilder.hpp
   src/ApplicationBuilder.cpp
   include/Titanium/Application.hpp
@@ -144,6 +136,14 @@ set(SOURCE_UI
   src/UIModule.cpp
   include/Titanium/UI/Constants.hpp
   src/UI/Constants.cpp
+  include/Titanium/UI/Point.hpp
+  src/UI/Point.cpp
+  include/Titanium/UI/Dimension.hpp
+  src/UI/Dimension.cpp
+  include/Titanium/UI/Font.hpp
+  src/UI/Font.cpp
+  include/Titanium/UI/Gradient.hpp
+  src/UI/Gradient.cpp
   include/Titanium/UI/ImageView.hpp
   src/UI/ImageView.cpp
   include/Titanium/UI/View.hpp
@@ -172,6 +172,8 @@ set(SOURCE_UI
   src/UI/Slider.cpp
   include/Titanium/UI/ListViewAnimationProperties.hpp
   src/UI/ListViewAnimationProperties.cpp
+  include/Titanium/UI/ListViewMarkerProps.hpp
+  src/UI/ListViewMarkerProps.cpp
   include/Titanium/UI/ListView.hpp
   src/UI/ListView.cpp
   include/Titanium/UI/ListSection.hpp

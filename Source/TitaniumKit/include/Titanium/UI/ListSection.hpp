@@ -10,7 +10,7 @@
 #define _TITANIUM_UI_LISTSECTION_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/UIModule.hpp"
+#include "Titanium/UI/View.hpp"
 #include "Titanium/UI/ListViewAnimationProperties.hpp"
 
 namespace Titanium
@@ -19,6 +19,7 @@ namespace Titanium
 	{
 
 		using namespace HAL;
+		using View_shared_ptr_t = std::shared_ptr<View>;
 
 		/*!
 		  @struct
@@ -59,15 +60,6 @@ namespace Titanium
 
 			/*!
 			  @property
-			  @abstract footerView
-			  @discussion View to use for this section footer.
-			*/
-			virtual JSValue get_footerView() const TITANIUM_NOEXCEPT;
-			virtual void set_footerView(const JSValue& value) TITANIUM_NOEXCEPT;
-			virtual void footerView_set_notify(View& view); // for subclass
-
-			/*!
-			  @property
 			  @abstract headerTitle
 			  @discussion Title of this section header.
 			*/
@@ -76,12 +68,19 @@ namespace Titanium
 
 			/*!
 			  @property
-			  @abstract headerView
-			  @discussion View to use for this section header.
+			  @abstract footerView
+			  @discussion View to use for this section footer.
 			*/
-			virtual JSValue get_headerView() const TITANIUM_NOEXCEPT;
-			virtual void set_headerView(const JSValue& value) TITANIUM_NOEXCEPT;
-			virtual void headerView_set_notify(View& view); // for subclass
+			virtual View_shared_ptr_t get_footerView() const TITANIUM_NOEXCEPT;
+			virtual void set_footerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @property
+			  @abstract headerView
+			  @discussion View to use for this section header
+			*/
+			virtual View_shared_ptr_t get_headerView() const TITANIUM_NOEXCEPT;
+			virtual void set_headerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
@@ -155,10 +154,10 @@ namespace Titanium
 
 			virtual JSValue js_get_footerTitle() const TITANIUM_NOEXCEPT final;
 			virtual bool    js_set_footerTitle(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_footerView() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_footerView(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_headerTitle() const TITANIUM_NOEXCEPT final;
 			virtual bool    js_set_headerTitle(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_footerView() const TITANIUM_NOEXCEPT final;
+			virtual bool    js_set_footerView(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_headerView() const TITANIUM_NOEXCEPT final;
 			virtual bool    js_set_headerView(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_items() const TITANIUM_NOEXCEPT final;
@@ -185,8 +184,8 @@ namespace Titanium
 #pragma warning(disable : 4251)
 			std::string footerTitle__;
 			std::string headerTitle__;
-			JSValue footerView__;
-			JSValue headerView__;
+			View_shared_ptr_t footerView__;
+			View_shared_ptr_t headerView__;
 			std::vector<ListDataItem> items__;
 #pragma warning(pop)
 		};

@@ -18,6 +18,7 @@ namespace TitaniumWindows
 	{
 
 		using namespace HAL;
+		using ListSection_shared_ptr_t = std::shared_ptr <Titanium::UI::ListSection>;
 
 		/*!
 		  @class
@@ -42,8 +43,7 @@ namespace TitaniumWindows
 #endif
 
 			static void JSExportInitialize();
-
-			virtual void sections_set_notify() override;
+			virtual void set_sections(const std::vector<ListSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT override;
 
 		private:
 			Windows::UI::Xaml::Controls::ListView^ listview__;

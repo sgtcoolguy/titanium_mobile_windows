@@ -165,7 +165,6 @@ TEST_F(ListViewTests, basic_functionality)
 	XCTAssertTrue(result.IsObject());
 	JSObject view = static_cast<JSObject>(result);
 
-	XCTAssertTrue(view.HasProperty("templates"));
 	XCTAssertTrue(view.HasProperty("sections"));
 	XCTAssertTrue(view.HasProperty("footerTitle"));
 	XCTAssertTrue(view.HasProperty("headerTitle"));

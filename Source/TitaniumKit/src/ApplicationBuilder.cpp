@@ -10,8 +10,6 @@
 #include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
-#include "Titanium/UI/ListSection.hpp"
-#include "Titanium/UI/ListView.hpp"
 #include "Titanium/App/Properties.hpp"
 #include "Titanium/App.hpp"
 #include "Titanium/Analytics.hpp"

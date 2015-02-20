@@ -13,33 +13,18 @@ namespace Titanium
 {
 	namespace UI
 	{
-		// TODO: move to utility class
-		static std::vector<JSValue> js_to_array(const JSObject& js_array) 
+		static std::vector<ListSection_shared_ptr_t> js_to_ListSection_array(const JSObject& js_array)
 		{
-			std::vector<JSValue> items;
+			std::vector<ListSection_shared_ptr_t> items;
 			const auto length = static_cast<uint32_t>(js_array.GetProperty("length"));
 			for (uint32_t i = 0; i < length; i++) {
-				items.push_back(js_array.GetProperty(i));
+				const auto js_item_prop = js_array.GetProperty(i);
+				if (js_item_prop.IsObject()) {
+					const auto js_item = static_cast<JSObject>(js_item_prop);
+					items.push_back(js_item.GetPrivate<ListSection>());
+				}
 			}
 			return items;
-		}
-
-		static std::unordered_map<std::string, JSValue> js_to_dictionary(const JSObject& js_dictionary) 
-		{
-			std::unordered_map<std::string, JSValue> dictionary;
-			for (const auto& name : static_cast<std::vector<JSString>>(js_dictionary.GetPropertyNames())) {
-				dictionary.emplace(name, js_dictionary.GetProperty(name));
-			}
-			return dictionary;
-		}
-
-		static JSObject dictionary_to_js(const JSContext& js_context, const std::unordered_map<std::string, JSValue>& dictionary) 
-		{
-			auto js_dictionary = js_context.CreateObject();
-			for (auto kv : dictionary) {
-				js_dictionary.SetProperty(kv.first, kv.second);
-			}
-			return js_dictionary;
 		}
 
 		ListView::ListView(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
@@ -50,39 +35,19 @@ namespace Titanium
 			caseInsensitiveSearch__(true),
 			showVerticalScrollIndicator__(true),
 			separatorColor__(""),
-			footerView__(js_context.CreateNull()),
-			headerView__(js_context.CreateNull()),
-			searchView__(js_context.CreateNull()),
-			templates__(js_context.CreateArray()),
 			ti_listview_exports__(js_context.CreateObject()),
 			sectionViewCreateFunction__(js_context.CreateObject())
 		{
 		}
 
-		JSValue ListView::get_templates() const TITANIUM_NOEXCEPT
-		{
-			return templates__;
-		}
-
-		void ListView::set_templates(const JSValue& templates) TITANIUM_NOEXCEPT
-		{
-			templates__ = templates;
-		}
-
-		std::vector<JSValue> ListView::get_sections() const TITANIUM_NOEXCEPT
+		std::vector<ListSection_shared_ptr_t> ListView::get_sections() const TITANIUM_NOEXCEPT
 		{
 			return sections__;
 		}
 
-		void ListView::set_sections(const std::vector<JSValue>& sections) TITANIUM_NOEXCEPT
+		void ListView::set_sections(const std::vector<ListSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT
 		{
 			sections__ = sections;
-			sections_set_notify();
-		}
-		
-		void ListView::sections_set_notify()
-		{
-			// for subclass
 		}
 
 		void ListView::loadJS()
@@ -106,24 +71,6 @@ namespace Titanium
 			TITANIUM_ASSERT(sectionViewCreateFunction__.IsFunction());
 		}
 
-		std::vector<JSObject> ListView::createSectionViewAt(uint32_t index)
-		{
-			// lazy loading
-			loadJS();
-			
-			std::vector<JSObject> items;
-			auto result = sectionViewCreateFunction__({get_object(), sections__.at(index)}, ti_listview_exports__);
-			TITANIUM_ASSERT(result.IsObject());
-			auto js_items = static_cast<JSObject>(result);
-
-			const auto length = static_cast<uint32_t>(js_items.GetProperty("length"));
-			for (uint32_t i = 0; i < length; i++) {
-				items.push_back(static_cast<JSObject>(js_items.GetProperty(i)));
-			}
-
-			return items;
-		}
-
 		std::string ListView::get_footerTitle() const TITANIUM_NOEXCEPT
 		{
 			return footerTitle__;
@@ -132,22 +79,6 @@ namespace Titanium
 		void ListView::set_footerTitle(const std::string& footerTitle) TITANIUM_NOEXCEPT
 		{
 			footerTitle__ = footerTitle;
-		}
-
-		JSValue ListView::get_footerView() const TITANIUM_NOEXCEPT
-		{
-			return footerView__;
-		}
-
-		void ListView::set_footerView(const JSValue& footerView) TITANIUM_NOEXCEPT
-		{
-			footerView__ = footerView;
-			if (footerView__.IsObject()) {
-				auto view = static_cast<JSObject>(footerView__).GetPrivate<Titanium::UI::View>();
-				if (view != nullptr) {
-					footerView_set_notify(*view);
-				}
-			}
 		}
 
 		std::string ListView::get_headerTitle() const TITANIUM_NOEXCEPT
@@ -160,42 +91,36 @@ namespace Titanium
 			headerTitle__ = headerTitle;
 		}
 
-		JSValue ListView::get_headerView() const TITANIUM_NOEXCEPT
+		View_shared_ptr_t ListView::get_footerView() const TITANIUM_NOEXCEPT
+		{
+			return footerView__;
+		}
+		
+		void ListView::set_footerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT
+		{
+			footerView__ = value;
+		}
+		
+		View_shared_ptr_t ListView::get_headerView() const TITANIUM_NOEXCEPT
 		{
 			return headerView__;
 		}
-
-		void ListView::set_headerView(const JSValue& headerView) TITANIUM_NOEXCEPT
-		{
-			headerView__ = headerView;
-			if (headerView__.IsObject()) {
-				auto view = static_cast<JSObject>(headerView__).GetPrivate<Titanium::UI::View>();
-				if (view != nullptr) {
-					headerView_set_notify(*view);
-				}
-			}
-		}
 		
-		void ListView::headerView_set_notify(View& view)
+		void ListView::set_headerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT
 		{
-			// for subclass
-		}
-		
-		void ListView::footerView_set_notify(View& view)
-		{
-			// for subclass
+			headerView__ = value;
 		}
 
-		JSValue ListView::get_searchView() const TITANIUM_NOEXCEPT
+		View_shared_ptr_t ListView::get_searchView() const TITANIUM_NOEXCEPT
 		{
 			return searchView__;
 		}
-
-		void ListView::set_searchView(const JSValue& searchView) TITANIUM_NOEXCEPT
+		
+		void ListView::set_searchView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT
 		{
-			searchView__ = searchView;
+			searchView__ = value;
 		}
-
+		
 		std::string ListView::get_searchText() const TITANIUM_NOEXCEPT
 		{
 			return searchText__;
@@ -256,7 +181,7 @@ namespace Titanium
 			TITANIUM_LOG_WARN("ListView::scrollToItem: Unimplemented");
 		}
 
-		void ListView::appendSection(const std::vector<JSValue>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListView::appendSection(const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ListView::appendSection: Unimplemented");
 		}
@@ -266,33 +191,34 @@ namespace Titanium
 			TITANIUM_LOG_WARN("ListView::deleteSectionAt: Unimplemented");
 		}
 
-		void ListView::insertSectionAt(uint32_t sectionIndex, const std::vector<JSValue>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListView::insertSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ListView::insertSectionAt: Unimplemented");
 		}
 
-		void ListView::replaceSectionAt(uint32_t sectionIndex, const std::vector<JSValue>& section, const ListViewAnimationProperties& animationn) TITANIUM_NOEXCEPT
+		void ListView::replaceSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animationn) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ListView::replaceSectionAt: Unimplemented");
 		}
 
-		void ListView::setMarker(const std::unordered_map<std::string, JSValue>& props) TITANIUM_NOEXCEPT
+		void ListView::setMarker(const ListViewMarkerProps& marker) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ListView::setMarker: Unimplemented");
+			marker__ = marker;
 		}
 
 		void ListView::JSExportInitialize() {
 			JSExport<ListView>::SetClassVersion(1);
 			JSExport<ListView>::SetParent(JSExport<Module>::Class());
 
-			JSExport<ListView>::AddValueProperty("templates", std::mem_fn(&ListView::js_get_templates),     std::mem_fn(&ListView::js_set_templates));
 			JSExport<ListView>::AddValueProperty("sections", std::mem_fn(&ListView::js_get_sections),       std::mem_fn(&ListView::js_set_sections));
 			JSExport<ListView>::AddValueProperty("footerTitle", std::mem_fn(&ListView::js_get_footerTitle), std::mem_fn(&ListView::js_set_footerTitle));
-			JSExport<ListView>::AddValueProperty("footerView", std::mem_fn(&ListView::js_get_footerView),   std::mem_fn(&ListView::js_set_footerView));
 			JSExport<ListView>::AddValueProperty("headerTitle", std::mem_fn(&ListView::js_get_headerTitle), std::mem_fn(&ListView::js_set_headerTitle));
-			JSExport<ListView>::AddValueProperty("headerView", std::mem_fn(&ListView::js_get_headerView),   std::mem_fn(&ListView::js_set_headerView));
-			JSExport<ListView>::AddValueProperty("searchView", std::mem_fn(&ListView::js_get_searchView),   std::mem_fn(&ListView::js_set_searchView));
 			JSExport<ListView>::AddValueProperty("searchText", std::mem_fn(&ListView::js_get_searchText),   std::mem_fn(&ListView::js_set_searchText));
+			
+			JSExport<ListView>::AddValueProperty("footerView", std::mem_fn(&ListView::js_get_footerView), std::mem_fn(&ListView::js_set_footerView));
+			JSExport<ListView>::AddValueProperty("headerView", std::mem_fn(&ListView::js_get_headerView), std::mem_fn(&ListView::js_set_headerView));
+			JSExport<ListView>::AddValueProperty("searchView", std::mem_fn(&ListView::js_get_searchView),   std::mem_fn(&ListView::js_set_searchView));
+
 			JSExport<ListView>::AddValueProperty("caseInsensitiveSearch", std::mem_fn(&ListView::js_get_caseInsensitiveSearch), std::mem_fn(&ListView::js_set_caseInsensitiveSearch));
 			JSExport<ListView>::AddValueProperty("sectionCount", std::mem_fn(&ListView::js_get_sectionCount));
 			JSExport<ListView>::AddValueProperty("showVerticalScrollIndicator", std::mem_fn(&ListView::js_get_showVerticalScrollIndicator), std::mem_fn(&ListView::js_set_showVerticalScrollIndicator));
@@ -332,20 +258,14 @@ namespace Titanium
 			JSExport<ListView>::AddFunctionProperty("setDefaultItemTemplate", std::mem_fn(&ListView::js_setDefaultItemTemplate));
 		}
 
-		JSValue ListView::js_get_templates() const TITANIUM_NOEXCEPT
-		{
-			return get_templates();
-		}
-
-		bool ListView::js_set_templates(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			set_templates(argument);
-			return true;
-		}
-
 		JSValue ListView::js_get_sections() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateArray(get_sections());
+			std::vector<JSValue> js_sections;
+			const auto sections = get_sections();
+			for (auto section : sections) {
+				js_sections.push_back(section->get_object());
+			}
+			return get_context().CreateArray(js_sections);
 		}
 
 		bool ListView::js_set_sections(const JSValue& argument) TITANIUM_NOEXCEPT
@@ -357,7 +277,7 @@ namespace Titanium
 			if (!sections.IsArray()) {
 				return false;
 			}
-			set_sections(js_to_array(sections));
+			set_sections(js_to_ListSection_array(sections));
 			return true;
 		}
 
@@ -378,20 +298,6 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue ListView::js_get_footerView() const TITANIUM_NOEXCEPT
-		{
-			return get_footerView();
-		}
-
-		bool ListView::js_set_footerView(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			if (!argument.IsObject()) {
-				return false;
-			}
-			set_footerView(argument);
-			return true;
-		}
-
 		JSValue ListView::js_get_headerTitle() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(get_headerTitle());
@@ -403,29 +309,55 @@ namespace Titanium
 			set_headerTitle(static_cast<std::string>(argument));
 			return true;
 		}
-
-		JSValue ListView::js_get_headerView() const TITANIUM_NOEXCEPT
+		
+		JSValue ListView::js_get_footerView() const TITANIUM_NOEXCEPT
 		{
-			return get_headerView();
-		}
-
-		bool ListView::js_set_headerView(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			if (!argument.IsObject()) {
-				return false;
+			auto view = get_footerView();
+			if (view) {
+				return view->get_object();
+			}  else {
+				return get_context().CreateNull();	
 			}
-			set_headerView(argument);
+		}
+		
+		bool ListView::js_set_footerView(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+			set_footerView(static_cast<JSObject>(argument).GetPrivate<View>());
 			return true;
 		}
-
+		
+		JSValue ListView::js_get_headerView() const TITANIUM_NOEXCEPT
+		{
+			auto view = get_headerView();
+			if (view) {
+				return view->get_object();
+			}  else {
+				return get_context().CreateNull();	
+			}
+		}
+		
+		bool ListView::js_set_headerView(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+			set_headerView(static_cast<JSObject>(argument).GetPrivate<View>());
+			return true;
+		}
+		
 		JSValue ListView::js_get_searchView() const TITANIUM_NOEXCEPT
 		{
-			return get_searchView();
+			auto view = get_searchView();
+			if (view) {
+				return view->get_object();
+			}  else {
+				return get_context().CreateNull();	
+			}
 		}
-
+		
 		bool ListView::js_set_searchView(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
-			set_searchView(argument);
+			TITANIUM_ASSERT(argument.IsObject());
+			set_searchView(static_cast<JSObject>(argument).GetPrivate<View>());
 			return true;
 		}
 
@@ -516,20 +448,18 @@ namespace Titanium
 
 		JSValue ListView::js_appendSection(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ListView.appendSection is not implemented yet");
-
 			if (arguments.size() >= 2) {
 				ListViewAnimationProperties animation;
-				std::vector<JSValue> sections;
+				std::vector<ListSection_shared_ptr_t> sections;
 
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
 				const auto js_sections = static_cast<JSObject>(_0);
 
 				if (js_sections.IsArray()) {
-					sections = js_to_array(js_sections);
+					sections = js_to_ListSection_array(js_sections);
 				} else {
-					sections.push_back(_0);
+					sections.push_back(js_sections.GetPrivate<ListSection>());
 				}
 
 				if (arguments.size() >= 3) {
@@ -569,7 +499,7 @@ namespace Titanium
 		{
 			if (arguments.size() >= 2) {
 				ListViewAnimationProperties animation;
-				std::vector<JSValue> sections;
+				std::vector<ListSection_shared_ptr_t> sections;
 
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
@@ -580,9 +510,9 @@ namespace Titanium
 				const auto js_sections = static_cast<JSObject>(_1);
 
 				if (js_sections.IsArray()) {
-					sections = js_to_array(js_sections);
+					sections = js_to_ListSection_array(js_sections);
 				} else {
-					sections.push_back(_1);
+					sections.push_back(js_sections.GetPrivate<ListSection>());
 				}
 
 				if (arguments.size() >= 3) {
@@ -601,7 +531,7 @@ namespace Titanium
 		{
 			if (arguments.size() >= 2) {
 				ListViewAnimationProperties animation;
-				std::vector<JSValue> sections;
+				std::vector<ListSection_shared_ptr_t> sections;
 
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
@@ -612,9 +542,9 @@ namespace Titanium
 				const auto js_sections = static_cast<JSObject>(_1);
 
 				if (js_sections.IsArray()) {
-					sections = js_to_array(js_sections);
+					sections = js_to_ListSection_array(js_sections);
 				} else {
-					sections.push_back(_1);
+					sections.push_back(js_sections.GetPrivate<ListSection>());
 				}
 
 				if (arguments.size() >= 3) {
@@ -634,21 +564,20 @@ namespace Titanium
 			if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
-				setMarker(js_to_dictionary(static_cast<JSObject>(_0)));
+				setMarker(js_to_ListViewMarkerProps(static_cast<JSObject>(_0)));
 			}
 			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue ListView::js_getTemplates(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_get_templates();
+			return this_object.GetProperty("templates");
 		}
 
 		JSValue ListView::js_setTemplates(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_templates(_0);
+				this_object.SetProperty("templates", arguments.at(0));
 			}
 			return this_object.get_context().CreateUndefined();
 		}
@@ -683,14 +612,13 @@ namespace Titanium
 
 		JSValue ListView::js_getFooterView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_get_footerView();
+			return this_object.GetProperty("footerView");;
 		}
 
 		JSValue ListView::js_setFooterView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_footerView(_0);
+				this_object.SetProperty("footerView", arguments.at(0));
 			}
 			return this_object.get_context().CreateUndefined();
 		}
@@ -711,28 +639,26 @@ namespace Titanium
 
 		JSValue ListView::js_getHeaderView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_get_headerView();
+			return this_object.GetProperty("headerView");;
 		}
 
 		JSValue ListView::js_setHeaderView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_headerView(_0);
+				this_object.SetProperty("headerView", arguments.at(0));
 			}
 			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue ListView::js_getSearchView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_get_searchView();
+			return this_object.GetProperty("searchView");;
 		}
 
 		JSValue ListView::js_setSearchView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_searchView(_0);
+				this_object.SetProperty("searchView", arguments.at(0));
 			}
 			return this_object.get_context().CreateUndefined();
 		}

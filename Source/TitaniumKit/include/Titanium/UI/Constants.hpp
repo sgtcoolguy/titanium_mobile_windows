@@ -572,6 +572,37 @@ namespace Titanium
 		/*!
 		  @enum
 
+		  @abstract These constants specify font weight for the Font Object.
+
+		  @constant NORMAL
+
+		  @constant SEMIBOLD
+
+		  @constant BOLD
+		*/
+		enum class TITANIUMKIT_EXPORT FONT_WEIGHT {
+			NORMAL,
+			SEMIBOLD,
+			BOLD
+		};
+
+		/*!
+		  @enum
+
+		  @abstract These constants specify font style for the Font Object.
+
+		  @constant NORMAL
+
+		  @constant ITALIC
+		*/
+		enum class TITANIUMKIT_EXPORT FONT_STYLE {
+			NORMAL,
+			ITALIC
+		};
+
+		/*!
+		  @enum
+
 		  @abstract These constants specify text styles for the Font Object.
 
 		  @constant CM Unit constant representing units in centimeters.
@@ -591,6 +622,20 @@ namespace Titanium
 			IN,
 			MM,
 			PX
+		};
+
+		/*!
+		  @enum
+
+		  @abstract These constants specify type of gradient for the Gradient Object.
+
+		  @constant LINEAR
+
+		  @constant RADIAL
+		*/
+		enum class TITANIUMKIT_EXPORT GRADIENT_TYPE {
+			LINEAR,
+			RADIAL
 		};
 	}
 }  // namespace Titanium { namespace UI {
@@ -884,6 +929,51 @@ namespace std
 		}
 	};
 
+	using Titanium::UI::FONT_WEIGHT;
+	template <>
+	struct hash<FONT_WEIGHT>
+	{
+		using argument_type = FONT_WEIGHT;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast<underlying_type>(property_attribute));
+		}
+	};
+
+	using Titanium::UI::FONT_STYLE;
+	template <>
+	struct hash<FONT_STYLE>
+	{
+		using argument_type = FONT_STYLE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast<underlying_type>(property_attribute));
+		}
+	};
+
+	using Titanium::UI::GRADIENT_TYPE;
+	template <>
+	struct hash<GRADIENT_TYPE>
+	{
+		using argument_type = GRADIENT_TYPE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast<underlying_type>(property_attribute));
+		}
+	};
+
 	using Titanium::UI::UNIT;
 	template <>
 	struct hash<UNIT>
@@ -1003,6 +1093,21 @@ namespace Titanium
 			static TEXT_STYLE to_TEXT_STYLE(const std::string& textStyleName) TITANIUM_NOEXCEPT;
 			static TEXT_STYLE to_TEXT_STYLE(std::underlying_type<TEXT_STYLE>::type) TITANIUM_NOEXCEPT;
 			static std::underlying_type<TEXT_STYLE>::type to_underlying_type(const TEXT_STYLE&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const FONT_WEIGHT&) TITANIUM_NOEXCEPT;
+			static FONT_WEIGHT to_FONT_WEIGHT(const std::string& fontWeightName) TITANIUM_NOEXCEPT;
+			static FONT_WEIGHT to_FONT_WEIGHT(std::underlying_type<FONT_WEIGHT>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<FONT_WEIGHT>::type to_underlying_type(const FONT_WEIGHT&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const FONT_STYLE&) TITANIUM_NOEXCEPT;
+			static FONT_STYLE to_FONT_STYLE(const std::string& fontStyleName) TITANIUM_NOEXCEPT;
+			static FONT_STYLE to_FONT_STYLE(std::underlying_type<FONT_STYLE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<FONT_STYLE>::type to_underlying_type(const FONT_STYLE&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const GRADIENT_TYPE&) TITANIUM_NOEXCEPT;
+			static GRADIENT_TYPE to_GRADIENT_TYPE(const std::string& gradientTypeName) TITANIUM_NOEXCEPT;
+			static GRADIENT_TYPE to_GRADIENT_TYPE(std::underlying_type<GRADIENT_TYPE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<GRADIENT_TYPE>::type to_underlying_type(const GRADIENT_TYPE&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const UNIT&) TITANIUM_NOEXCEPT;
 			static UNIT to_UNIT(const std::string& textStyleName) TITANIUM_NOEXCEPT;

@@ -1409,6 +1409,201 @@ namespace Titanium
 			return static_cast<std::underlying_type<TEXT_STYLE>::type>(textStyle);
 		}
 
+		std::string Constants::to_string(const FONT_WEIGHT& value) TITANIUM_NOEXCEPT
+		{
+			static std::string unknown_string = "FONT_WEIGHT::Unknown";
+			static std::unordered_map<FONT_WEIGHT, std::string> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+			map[FONT_WEIGHT::NORMAL]    = "FONT_WEIGHT_NORMAL";
+			map[FONT_WEIGHT::SEMIBOLD]  = "FONT_WEIGHT_SEMIBOLD";
+			map[FONT_WEIGHT::BOLD]      = "FONT_WEIGHT_BOLD";
+			});
+
+			std::string string = unknown_string;
+			const auto position = map.find(value);
+			if (position != map.end()) {
+				string = position->second;
+			}
+
+			return string;
+		}
+
+		FONT_WEIGHT Constants::to_FONT_WEIGHT(const std::string& valueName) TITANIUM_NOEXCEPT
+		{
+			static std::unordered_map<std::string, FONT_WEIGHT> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+			map["FONT_WEIGHT_NORMAL"]   = FONT_WEIGHT::NORMAL;
+			map["FONT_WEIGHT_SEMIBOLD"] = FONT_WEIGHT::SEMIBOLD;
+			map["FONT_WEIGHT_BOLD"]     = FONT_WEIGHT::BOLD;
+			});
+
+			FONT_WEIGHT value = FONT_WEIGHT::NORMAL;
+			const auto position = map.find(valueName);
+			if (position != map.end()) {
+				value = position->second;
+			} else {
+				TITANIUM_LOG_WARN("Constants::to_FONT_WEIGHT: Titanium::UI::FONT_WEIGHT with name '", valueName, "' does not exist");
+			}
+
+			return value;
+		}
+
+		FONT_WEIGHT Constants::to_FONT_WEIGHT(std::underlying_type<FONT_WEIGHT>::type value_underlying_type) TITANIUM_NOEXCEPT
+		{
+			static std::unordered_map<std::underlying_type<FONT_WEIGHT>::type, FONT_WEIGHT> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+			map[static_cast<std::underlying_type<FONT_WEIGHT>::type>(FONT_WEIGHT::NORMAL)]   = FONT_WEIGHT::NORMAL;
+			map[static_cast<std::underlying_type<FONT_WEIGHT>::type>(FONT_WEIGHT::SEMIBOLD)] = FONT_WEIGHT::SEMIBOLD;
+			map[static_cast<std::underlying_type<FONT_WEIGHT>::type>(FONT_WEIGHT::BOLD)]     = FONT_WEIGHT::BOLD;
+			});
+
+			FONT_WEIGHT value = FONT_WEIGHT::NORMAL;
+			const auto position = map.find(value_underlying_type);
+			if (position != map.end()) {
+				value = position->second;
+			} else {
+				TITANIUM_LOG_WARN("Constants::to_FONT_WEIGHT: Titanium::UI::FONT_WEIGHT with value '", value_underlying_type, "' does not exist");
+			}
+
+			return value;
+		}
+
+		std::underlying_type<FONT_WEIGHT>::type Constants::to_underlying_type(const FONT_WEIGHT& value) TITANIUM_NOEXCEPT
+		{
+			return static_cast<std::underlying_type<FONT_WEIGHT>::type>(value);
+		}
+
+		std::string Constants::to_string(const FONT_STYLE& value) TITANIUM_NOEXCEPT
+		{
+			static std::string unknown_string = "FONT_STYLE::Unknown";
+			static std::unordered_map<FONT_STYLE, std::string> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+			map[FONT_STYLE::NORMAL]    = "FONT_STYLE_NORMAL";
+			map[FONT_STYLE::ITALIC]      = "FONT_STYLE_ITALIC";
+			});
+
+			std::string string = unknown_string;
+			const auto position = map.find(value);
+			if (position != map.end()) {
+				string = position->second;
+			}
+
+			return string;
+		}
+
+		FONT_STYLE Constants::to_FONT_STYLE(const std::string& valueName) TITANIUM_NOEXCEPT
+		{
+			static std::unordered_map<std::string, FONT_STYLE> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+			map["FONT_STYLE_NORMAL"]   = FONT_STYLE::NORMAL;
+			map["FONT_STYLE_ITALIC"]   = FONT_STYLE::ITALIC;
+			});
+
+			FONT_STYLE value = FONT_STYLE::NORMAL;
+			const auto position = map.find(valueName);
+			if (position != map.end()) {
+				value = position->second;
+			} else {
+				TITANIUM_LOG_WARN("Constants::to_FONT_STYLE: Titanium::UI::FONT_STYLE with name '", valueName, "' does not exist");
+			}
+
+			return value;
+		}
+
+		FONT_STYLE Constants::to_FONT_STYLE(std::underlying_type<FONT_STYLE>::type value_underlying_type) TITANIUM_NOEXCEPT
+		{
+			static std::unordered_map<std::underlying_type<FONT_STYLE>::type, FONT_STYLE> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+			map[static_cast<std::underlying_type<FONT_STYLE>::type>(FONT_STYLE::NORMAL)]   = FONT_STYLE::NORMAL;
+			map[static_cast<std::underlying_type<FONT_STYLE>::type>(FONT_STYLE::ITALIC)]   = FONT_STYLE::ITALIC;
+			});
+
+			FONT_STYLE value = FONT_STYLE::NORMAL;
+			const auto position = map.find(value_underlying_type);
+			if (position != map.end()) {
+				value = position->second;
+			} else {
+				TITANIUM_LOG_WARN("Constants::to_FONT_STYLE: Titanium::UI::FONT_STYLE with value '", value_underlying_type, "' does not exist");
+			}
+
+			return value;
+		}
+
+		std::underlying_type<FONT_STYLE>::type Constants::to_underlying_type(const FONT_STYLE& value) TITANIUM_NOEXCEPT
+		{
+			return static_cast<std::underlying_type<FONT_STYLE>::type>(value);
+		}
+
+		std::string Constants::to_string(const GRADIENT_TYPE& value) TITANIUM_NOEXCEPT
+		{
+			static std::string unknown_string = "GRADIENT_TYPE::Unknown";
+			static std::unordered_map<GRADIENT_TYPE, std::string> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+			map[GRADIENT_TYPE::LINEAR]    = "GRADIENT_TYPE_LINEAR";
+			map[GRADIENT_TYPE::RADIAL]    = "GRADIENT_TYPE_RADIAL";
+			});
+
+			std::string string = unknown_string;
+			const auto position = map.find(value);
+			if (position != map.end()) {
+				string = position->second;
+			}
+
+			return string;
+		}
+
+		GRADIENT_TYPE Constants::to_GRADIENT_TYPE(const std::string& valueName) TITANIUM_NOEXCEPT
+		{
+			static std::unordered_map<std::string, GRADIENT_TYPE> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+			map["GRADIENT_TYPE_LINEAR"]   = GRADIENT_TYPE::LINEAR;
+			map["GRADIENT_TYPE_RADIAL"]   = GRADIENT_TYPE::RADIAL;
+			});
+
+			GRADIENT_TYPE value = GRADIENT_TYPE::LINEAR;
+			const auto position = map.find(valueName);
+			if (position != map.end()) {
+				value = position->second;
+			} else {
+				TITANIUM_LOG_WARN("Constants::to_GRADIENT_TYPE: Titanium::UI::GRADIENT_TYPE with name '", valueName, "' does not exist");
+			}
+
+			return value;
+		}
+
+		GRADIENT_TYPE Constants::to_GRADIENT_TYPE(std::underlying_type<GRADIENT_TYPE>::type value_underlying_type) TITANIUM_NOEXCEPT
+		{
+			static std::unordered_map<std::underlying_type<GRADIENT_TYPE>::type, GRADIENT_TYPE> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+			map[static_cast<std::underlying_type<GRADIENT_TYPE>::type>(GRADIENT_TYPE::LINEAR)]   = GRADIENT_TYPE::LINEAR;
+			map[static_cast<std::underlying_type<GRADIENT_TYPE>::type>(GRADIENT_TYPE::RADIAL)]   = GRADIENT_TYPE::RADIAL;
+			});
+
+			GRADIENT_TYPE value = GRADIENT_TYPE::LINEAR;
+			const auto position = map.find(value_underlying_type);
+			if (position != map.end()) {
+				value = position->second;
+			} else {
+				TITANIUM_LOG_WARN("Constants::to_GRADIENT_TYPE: Titanium::UI::GRADIENT_TYPE with value '", value_underlying_type, "' does not exist");
+			}
+
+			return value;
+		}
+
+		std::underlying_type<GRADIENT_TYPE>::type Constants::to_underlying_type(const GRADIENT_TYPE& value) TITANIUM_NOEXCEPT
+		{
+			return static_cast<std::underlying_type<GRADIENT_TYPE>::type>(value);
+		}
+
 		std::string Constants::to_string(const UNIT& unit) TITANIUM_NOEXCEPT
 		{
 			static std::string unknown_string = "UNIT::Unknown";

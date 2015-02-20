@@ -42,23 +42,24 @@ namespace TitaniumWindows
 			JSExport<ListView>::SetParent(JSExport<Titanium::UI::ListView>::Class());
 		}
 
-		void ListView::sections_set_notify()
+		void ListView::set_sections(const std::vector<ListSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT
 		{
+			Titanium::UI::ListView::set_sections(sections);
+
 			collectionViewItems__->Clear();
 			
 			for (uint32_t i = 0; i < get_sectionCount(); i++) {
-				auto v = createSectionViewAt(i);
+				auto views = createSectionViewAt<TitaniumWindows::UI::View>(i);
 				auto group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
-				for (uint32_t j = 0; j < v.size(); j++) {
-					auto content = v.at(j).GetPrivate<TitaniumWindows::UI::View>();
-					auto nativeChildView = content->getComponent();
+				for (auto view : views) {
+					auto nativeChildView = view->getComponent();
 					TITANIUM_ASSERT(nativeChildView);
 
 					// Add as list item
 					group->Append(nativeChildView);
 
 					// Add as child view to make layout engine work
-					Titanium::LayoutEngine::nodeAddChild(layout_node_, content->layout_node_);
+					Titanium::LayoutEngine::nodeAddChild(layout_node_, view->layout_node_);
 					if (isLoaded()) {
 						auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node_);
 						if (root) {

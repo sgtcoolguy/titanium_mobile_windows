@@ -10,7 +10,9 @@
 #define _TITANIUM_UI_LISTVIEW_HPP_
 
 #include "Titanium/UI/View.hpp"
+#include "Titanium/UI/ListSection.hpp"
 #include "Titanium/UI/ListViewAnimationProperties.hpp"
+#include "Titanium/UI/ListViewMarkerProps.hpp"
 #include <vector>
 #include <unordered_map>
 
@@ -20,6 +22,8 @@ namespace Titanium
 	{
 
 		using namespace HAL;
+		using ListSection_shared_ptr_t = std::shared_ptr<ListSection>;
+		using View_shared_ptr_t = std::shared_ptr<View>;
 		
 		/*!
 		  @class
@@ -33,22 +37,32 @@ namespace Titanium
 
 			/*!
 			  @property
-			  @abstract templates
-			  @discussion Contain key-value pairs mapping a style name (key) to an <ItemTemplate> (value).
-			*/
-			virtual JSValue get_templates() const TITANIUM_NOEXCEPT;
-			virtual void set_templates(const JSValue& templates) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @property
 			  @abstract sections
 			  @discussion Sections of this list.
 			*/
-			virtual std::vector<JSValue> get_sections() const TITANIUM_NOEXCEPT;
-			virtual void set_sections(const std::vector<JSValue>& sections) TITANIUM_NOEXCEPT;
-			virtual void sections_set_notify(); // for subclass
-			virtual	std::vector<JSObject> createSectionViewAt(uint32_t index);
+			virtual std::vector<ListSection_shared_ptr_t> get_sections() const TITANIUM_NOEXCEPT;
+			virtual void set_sections(const std::vector<ListSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT;
 
+			template<typename T>
+			std::vector<std::shared_ptr<T>> createSectionViewAt(uint32_t index)
+			{
+				// lazy loading
+				loadJS();
+				
+				std::vector<std::shared_ptr<T>> items;
+				const std::vector<JSValue> args { get_object(), sections__.at(index)->get_object() };
+				JSValue result = sectionViewCreateFunction__(args, ti_listview_exports__);
+				TITANIUM_ASSERT(result.IsObject());
+				auto js_items = static_cast<JSObject>(result);
+				TITANIUM_ASSERT(js_items.IsArray());
+				
+				const auto length = static_cast<uint32_t>(js_items.GetProperty("length"));
+				for (uint32_t i = 0; i < length; i++) {
+					items.push_back(static_cast<JSObject>(js_items.GetProperty(i)).GetPrivate<T>());
+				}
+				
+				return items;
+			}
 
 			/*!
 			  @property
@@ -60,37 +74,35 @@ namespace Titanium
 
 			/*!
 			  @property
-			  @abstract footerView
-			  @discussion List view footer as a view that will be rendered instead of a label.
-			*/
-			virtual JSValue get_footerView() const TITANIUM_NOEXCEPT;
-			virtual void set_footerView(const JSValue& footerView) TITANIUM_NOEXCEPT;
-			virtual void footerView_set_notify(Titanium::UI::View& view); // for subclass
-
-			/*!
-			  @property
 			  @abstract headerTitle
 			  @discussion List view header title.
 			*/
 			virtual std::string get_headerTitle() const TITANIUM_NOEXCEPT;
 			virtual void set_headerTitle(const std::string& headerTitle) TITANIUM_NOEXCEPT;
-
+			
 			/*!
-			  @property
-			  @abstract headerView
-			  @discussion List view header as a view that will be rendered instead of a label.
-			*/
-			virtual JSValue get_headerView() const TITANIUM_NOEXCEPT;
-			virtual void set_headerView(const JSValue& headerView) TITANIUM_NOEXCEPT;
-			virtual void headerView_set_notify(Titanium::UI::View& view); // for subclass
-
+			 @property
+			 @abstract footerView
+			 @discussion List view footer as a view that will be rendered instead of a label.
+			 */
+			virtual View_shared_ptr_t get_footerView() const TITANIUM_NOEXCEPT;
+			virtual void set_footerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT;
+			
 			/*!
-			  @property
-			  @abstract searchView
-			  @discussion Search field to use for the list view.
-			*/
-			virtual JSValue get_searchView() const TITANIUM_NOEXCEPT;
-			virtual void set_searchView(const JSValue& searchView) TITANIUM_NOEXCEPT;
+			 @property
+			 @abstract headerView
+			 @discussion List view header as a view that will be rendered instead of a label.
+			 */
+			virtual View_shared_ptr_t get_headerView() const TITANIUM_NOEXCEPT;
+			virtual void set_headerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT;
+			
+			/*!
+			 @property
+			 @abstract searchView
+			 @discussion Search field to use for the list view.
+			 */
+			virtual View_shared_ptr_t get_searchView() const TITANIUM_NOEXCEPT;
+			virtual void set_searchView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
@@ -151,7 +163,7 @@ namespace Titanium
 			  @abstract appendSection
 			  @discussion Appends a single section or an array of sections to the end of the list.
 			*/
-			virtual void appendSection(const std::vector<JSValue>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void appendSection(const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -165,21 +177,21 @@ namespace Titanium
 			  @abstract insertSectionAt
 			  @discussion Inserts a section or an array of sections at a specific index.
 			*/
-			virtual void insertSectionAt(uint32_t sectionIndex, const std::vector<JSValue>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract replaceSectionAt
 			  @discussion Replaces an existing section.
 			*/
-			virtual void replaceSectionAt(uint32_t sectionIndex, const std::vector<JSValue>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void replaceSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract setMarker
 			  @discussion Sets a reference item in the list view.
 			*/
-			virtual void setMarker(const std::unordered_map<std::string, JSValue>& props) TITANIUM_NOEXCEPT;
+			virtual void setMarker(const ListViewMarkerProps& marker) TITANIUM_NOEXCEPT;
 
 			ListView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
@@ -193,22 +205,20 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_templates() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_templates(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_sections() const TITANIUM_NOEXCEPT final;
 			virtual bool    js_set_sections(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_footerTitle() const TITANIUM_NOEXCEPT final;
 			virtual bool    js_set_footerTitle(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_footerView() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_footerView(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_headerTitle() const TITANIUM_NOEXCEPT final;
 			virtual bool    js_set_headerTitle(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_searchText() const TITANIUM_NOEXCEPT final;
+			virtual bool    js_set_searchText(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_footerView() const TITANIUM_NOEXCEPT final;
+			virtual bool    js_set_footerView(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_headerView() const TITANIUM_NOEXCEPT final;
 			virtual bool    js_set_headerView(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_searchView() const TITANIUM_NOEXCEPT final;
 			virtual bool    js_set_searchView(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_searchText() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_searchText(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_caseInsensitiveSearch() const TITANIUM_NOEXCEPT final;
 			virtual bool    js_set_caseInsensitiveSearch(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_sectionCount() const TITANIUM_NOEXCEPT final; // read only
@@ -256,18 +266,18 @@ namespace Titanium
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			JSValue templates__;
-			std::vector<JSValue> sections__;
+			std::vector<ListSection_shared_ptr_t> sections__;
 			std::string footerTitle__;
 			std::string headerTitle__;
-			JSValue footerView__;
-			JSValue headerView__;
-			JSValue searchView__;
+			View_shared_ptr_t footerView__;
+			View_shared_ptr_t headerView__;
+			View_shared_ptr_t searchView__;
 			std::string searchText__;
 			bool caseInsensitiveSearch__ { false };
 			bool showVerticalScrollIndicator__;
 			std::string separatorColor__;
 			std::string defaultItemTemplate__;
+			ListViewMarkerProps marker__;
 
 			JSObject ti_listview_exports__;
 			JSObject sectionViewCreateFunction__;
