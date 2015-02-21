@@ -51,6 +51,7 @@ namespace Titanium
 	      database__(js_context__.CreateObject<Titanium::DatabaseModule>()),
 		  app__(js_context__.CreateObject<Titanium::AppModule>()),
 	      httpclient__(js_context__.CreateObject<Titanium::Network::HTTPClient>()),
+		  mapview__(js_context__.CreateObject<Titanium::UI::MapView>()),
 	      network__(js_context__.CreateObject<Titanium::NetworkModule>())
 	{
 	}
@@ -88,6 +89,7 @@ namespace Titanium
 		app__.SetProperty("Properties", properties__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Network", network__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Analytics", analytics__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		map__.SetProperty("View", mapview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
 		JSString builtin_functions_script = R"js(
 			  console = {};
@@ -370,6 +372,16 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::NetworkObject(const JSObject& network) TITANIUM_NOEXCEPT
 	{
 		network__ = network;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::MapViewObject() const TITANIUM_NOEXCEPT
+	{
+		return mapview__;
+	}
+	ApplicationBuilder& ApplicationBuilder::MapViewObject(const JSObject& mapview) TITANIUM_NOEXCEPT
+	{
+		mapview__ = mapview;
 		return *this;
 	}
 

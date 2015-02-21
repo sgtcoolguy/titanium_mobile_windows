@@ -20,6 +20,7 @@
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/Window.hpp"
 #include "Titanium/UI/WebView.hpp"
+#include "Titanium/UI/MapView.hpp"
 
 namespace Titanium
 {

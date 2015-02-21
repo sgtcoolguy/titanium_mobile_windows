@@ -72,6 +72,8 @@ set(SOURCE_UI
   src/TextField.cpp
   include/TitaniumWindows/UI/WebView.hpp
   src/WebView.cpp
+  include/TitaniumWindows/UI/MapView.hpp
+  src/MapView.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})

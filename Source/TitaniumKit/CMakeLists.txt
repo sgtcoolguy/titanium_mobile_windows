@@ -167,6 +167,8 @@ set(SOURCE_UI
   src/UI/ScrollView.cpp
   include/Titanium/UI/Slider.hpp
   src/UI/Slider.cpp
+  include/Titanium/UI/MapView.hpp
+  src/UI/MapView.cpp
   )
 
 set(SOURCE_TiLogger_detail
