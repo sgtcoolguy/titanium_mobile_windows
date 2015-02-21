@@ -49,9 +49,9 @@ namespace Titanium
 	      file__(js_context__.CreateObject<Titanium::Filesystem::File>()),
 	      filesystem__(js_context__.CreateObject<Titanium::FilesystemModule>()),
 	      database__(js_context__.CreateObject<Titanium::DatabaseModule>()),
-		  app__(js_context__.CreateObject<Titanium::AppModule>()),
+	      app__(js_context__.CreateObject<Titanium::AppModule>()),
 	      httpclient__(js_context__.CreateObject<Titanium::Network::HTTPClient>()),
-		  mapview__(js_context__.CreateObject<Titanium::UI::MapView>()),
+	      mapview__(js_context__.CreateObject<Titanium::UI::MapView>()),
 	      network__(js_context__.CreateObject<Titanium::NetworkModule>())
 	{
 	}
