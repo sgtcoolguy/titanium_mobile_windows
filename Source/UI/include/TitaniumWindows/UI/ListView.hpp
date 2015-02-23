@@ -45,10 +45,16 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 			virtual void set_sections(const std::vector<ListSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT override;
 
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+
 		private:
 			Windows::UI::Xaml::Controls::ListView^ listview__;
 			Windows::UI::Xaml::Data::CollectionViewSource^ collectionViewSource__;
-			Windows::Foundation::Collections::IObservableVector<Platform::Object^>^ collectionViewItems__;			
+			Windows::Foundation::Collections::IObservableVector<Platform::Object^>^ collectionViewItems__;
+
+			Windows::Foundation::EventRegistrationToken click_event__;
+
 		};
 	}  // namespace UI
 }  // namespace TitaniumWindows

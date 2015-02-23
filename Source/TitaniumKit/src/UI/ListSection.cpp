@@ -13,32 +13,13 @@ namespace Titanium
 	namespace UI
 	{
 
-		// TODO: move to utility class
-		static std::unordered_map<std::string, JSValue> js_to_dictionary(const JSObject& js_dictionary) 
-		{
-			std::unordered_map<std::string, JSValue> dictionary;
-			for (const auto& name : static_cast<std::vector<JSString>>(js_dictionary.GetPropertyNames())) {
-				dictionary.emplace(name, js_dictionary.GetProperty(name));
-			}
-			return dictionary;
-		}
-
-		static JSObject dictionary_to_js(const JSContext& js_context, const std::unordered_map<std::string, JSValue>& dictionary) 
-		{
-			auto js_dictionary = js_context.CreateObject();
-			for (auto kv : dictionary) {
-				js_dictionary.SetProperty(kv.first, kv.second);
-			}
-			return js_dictionary;
-		}
-
 		ListDataItem js_to_ListDataItem(const JSObject& object)
 		{
 			ListDataItem item;
 
 			auto properties = object.GetProperty("properties");
 			if (properties.IsObject()) {
-				item.properties = js_to_dictionary(static_cast<JSObject>(properties));
+				item.properties = static_cast<JSObject>(properties).GetProperties();
 			} else {
 				TITANIUM_LOG_WARN("Failed to process ListDataItem.properties: Not a JSObject");
 			}
@@ -58,35 +39,23 @@ namespace Titanium
 		{
 			auto object = js_context.CreateObject();
 			object.SetProperty("template", js_context.CreateString(item.templateId));
-			object.SetProperty("properties", dictionary_to_js(js_context, item.properties));
+			object.SetProperty("properties", js_context.CreateObject(item.properties));
 			for (auto kv : item.bindings) {
 				object.SetProperty(kv.first, kv.second);
 			}
 			return object;
 		}
 
-		static std::vector<ListDataItem> js_to_ListDataItem_array(const JSObject& js_array)
+		static std::vector<ListDataItem> js_to_ListDataItem_array(const JSArray& js_array)
 		{
 			std::vector<ListDataItem> items;
-			const auto length = static_cast<uint32_t>(js_array.GetProperty("length"));
-			for (uint32_t i = 0; i < length; i++) {
-				auto value = js_array.GetProperty(i);
-				if (value.IsObject()) {
-					items.push_back(js_to_ListDataItem(static_cast<JSObject>(value)));
-				} else {
-					TITANIUM_LOG_WARN("Failed to process ListDataItem: Not a JSObject");
+			const auto js_items = static_cast<std::vector<JSValue>>(js_array);
+			for (const auto js_item : js_items) {
+				if (js_item.IsObject()) {
+					items.push_back(js_to_ListDataItem(static_cast<JSObject>(js_item)));
 				}
 			}
 			return items;
-		}
-
-		static JSValue ListDataItem_array_to_js(const JSContext& js_context, const std::vector<ListDataItem>& items)
-		{
-			std::vector<JSValue> js_items;
-			for (auto & item : items) {
-				js_items.push_back(ListDataItem_to_js(js_context, item));
-			}
-			return js_context.CreateArray(js_items);
 		}
 
 		ListSection::ListSection(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
@@ -190,7 +159,7 @@ namespace Titanium
 
 		void ListSection::items_set_notify(size_t index, size_t count)
 		{
-			// for subclass
+			TITANIUM_LOG_WARN("ListSection::items_set_notify: Unimplemented");
 		}
 		
 		void ListSection::JSExportInitialize() {
@@ -281,7 +250,11 @@ namespace Titanium
 
 		JSValue ListSection::js_get_items() const TITANIUM_NOEXCEPT
 		{
-			return ListDataItem_array_to_js(get_context(), get_items());
+			std::vector<JSValue> js_items;
+			for (auto & item : get_items()) {
+				js_items.push_back(ListDataItem_to_js(get_context(), item));
+			}
+			return get_context().CreateArray(js_items);
 		}
 
 		bool ListSection::js_set_items(const JSValue& argument) TITANIUM_NOEXCEPT

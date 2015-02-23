@@ -31,15 +31,45 @@ namespace TitaniumWindows
 			binding->Source = collectionViewSource__;
 			Windows::UI::Xaml::Data::BindingOperations::SetBinding(listview__, Windows::UI::Xaml::Controls::ListView::ItemsSourceProperty, binding);
 
+			// Use "SelectionChanged" event to handle click event
+			listview__->IsItemClickEnabled = false;
+
 			setDefaultHeight(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
 			setDefaultWidth(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
 
 			setComponent(listview__);
 		}
 
-		void ListView::JSExportInitialize() {
+		void ListView::JSExportInitialize() 
+		{
 			JSExport<ListView>::SetClassVersion(1);
 			JSExport<ListView>::SetParent(JSExport<Titanium::UI::ListView>::Class());
+		}
+
+		void ListView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			const JSContext ctx = this->get_context();
+
+			if (event_name == "itemclick") {
+				click_event__ = listview__->SelectionChanged += ref new Windows::UI::Xaml::Controls::SelectionChangedEventHandler(
+					[this, ctx](::Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
+					auto listview = safe_cast<Windows::UI::Xaml::Controls::ListView^>(sender);
+
+					auto selectedItem = listview->SelectedItem;
+
+					JSObject  eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("itemIndex", ctx.CreateNumber(listview->SelectedIndex));
+					// TODO more properties
+					this->fireEvent("itemclick", eventArgs);
+				});
+			}
+		}
+
+		void ListView::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			if (event_name == "itemclick") {
+				listview__->ItemClick -= click_event__;
+			}
 		}
 
 		void ListView::set_sections(const std::vector<ListSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT

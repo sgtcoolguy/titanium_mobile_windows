@@ -1415,9 +1415,9 @@ namespace Titanium
 			static std::unordered_map<FONT_WEIGHT, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-			map[FONT_WEIGHT::NORMAL]    = "FONT_WEIGHT_NORMAL";
-			map[FONT_WEIGHT::SEMIBOLD]  = "FONT_WEIGHT_SEMIBOLD";
-			map[FONT_WEIGHT::BOLD]      = "FONT_WEIGHT_BOLD";
+			map[FONT_WEIGHT::NORMAL]    = "normal";
+			map[FONT_WEIGHT::SEMIBOLD]  = "semibold";
+			map[FONT_WEIGHT::BOLD]      = "bold";
 			});
 
 			std::string string = unknown_string;
@@ -1434,9 +1434,9 @@ namespace Titanium
 			static std::unordered_map<std::string, FONT_WEIGHT> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-			map["FONT_WEIGHT_NORMAL"]   = FONT_WEIGHT::NORMAL;
-			map["FONT_WEIGHT_SEMIBOLD"] = FONT_WEIGHT::SEMIBOLD;
-			map["FONT_WEIGHT_BOLD"]     = FONT_WEIGHT::BOLD;
+			map["normal"]   = FONT_WEIGHT::NORMAL;
+			map["semibold"] = FONT_WEIGHT::SEMIBOLD;
+			map["bold"]     = FONT_WEIGHT::BOLD;
 			});
 
 			FONT_WEIGHT value = FONT_WEIGHT::NORMAL;
@@ -1482,8 +1482,8 @@ namespace Titanium
 			static std::unordered_map<FONT_STYLE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-			map[FONT_STYLE::NORMAL]    = "FONT_STYLE_NORMAL";
-			map[FONT_STYLE::ITALIC]      = "FONT_STYLE_ITALIC";
+			map[FONT_STYLE::NORMAL]    = "normal";
+			map[FONT_STYLE::ITALIC]    = "italic";
 			});
 
 			std::string string = unknown_string;
@@ -1500,8 +1500,8 @@ namespace Titanium
 			static std::unordered_map<std::string, FONT_STYLE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-			map["FONT_STYLE_NORMAL"]   = FONT_STYLE::NORMAL;
-			map["FONT_STYLE_ITALIC"]   = FONT_STYLE::ITALIC;
+			map["normal"]   = FONT_STYLE::NORMAL;
+			map["italic"]   = FONT_STYLE::ITALIC;
 			});
 
 			FONT_STYLE value = FONT_STYLE::NORMAL;

@@ -20,12 +20,6 @@ namespace Titanium
 			if (object.HasProperty("animated")) {
 				animation.animated = static_cast<bool>(object.GetProperty("animated"));
 			}
-			if (object.HasProperty("animationStyle")) {
-				animation.animationStyle = static_cast<uint32_t>(object.GetProperty("animationStyle"));
-			}
-			if (object.HasProperty("position")) {
-				animation.position = static_cast<uint32_t>(object.GetProperty("position"));
-			}
 			return animation;
 		};
 	} // namespace UI

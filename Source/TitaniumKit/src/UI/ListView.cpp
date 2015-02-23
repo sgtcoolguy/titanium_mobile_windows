@@ -13,19 +13,6 @@ namespace Titanium
 {
 	namespace UI
 	{
-		static std::vector<ListSection_shared_ptr_t> js_to_ListSection_array(const JSObject& js_array)
-		{
-			std::vector<ListSection_shared_ptr_t> items;
-			const auto length = static_cast<uint32_t>(js_array.GetProperty("length"));
-			for (uint32_t i = 0; i < length; i++) {
-				const auto js_item_prop = js_array.GetProperty(i);
-				if (js_item_prop.IsObject()) {
-					const auto js_item = static_cast<JSObject>(js_item_prop);
-					items.push_back(js_item.GetPrivate<ListSection>());
-				}
-			}
-			return items;
-		}
 
 		ListView::ListView(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 			: View(js_context, arguments),
@@ -181,24 +168,27 @@ namespace Titanium
 			TITANIUM_LOG_WARN("ListView::scrollToItem: Unimplemented");
 		}
 
-		void ListView::appendSection(const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListView::appendSection(const std::vector<ListSection_shared_ptr_t>& sections, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ListView::appendSection: Unimplemented");
+			for (const auto section : sections) {
+				sections__.push_back(section);
+			}
 		}
 
-		void ListView::deleteSectionAt(uint32_t sectionIndex, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListView::deleteSectionAt(uint32_t index, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ListView::deleteSectionAt: Unimplemented");
+			sections__.erase(sections__.begin()+index);
 		}
 
-		void ListView::insertSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListView::insertSectionAt(uint32_t index, const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ListView::insertSectionAt: Unimplemented");
+			sections__.insert(sections__.begin() + index, section.begin(), section.end());
 		}
 
-		void ListView::replaceSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animationn) TITANIUM_NOEXCEPT
+		void ListView::replaceSectionAt(uint32_t index, const std::vector<ListSection_shared_ptr_t>& sections, const ListViewAnimationProperties& animationn) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("ListView::replaceSectionAt: Unimplemented");
+			sections__.erase (sections__.begin() + index, sections__.begin() + index + sections.size());
+			sections__.insert(sections__.begin() + index, sections.begin(), sections.end());
 		}
 
 		void ListView::setMarker(const ListViewMarkerProps& marker) TITANIUM_NOEXCEPT
@@ -277,7 +267,7 @@ namespace Titanium
 			if (!sections.IsArray()) {
 				return false;
 			}
-			set_sections(js_to_ListSection_array(sections));
+			set_sections(static_cast<JSArray>(sections).GetPrivateItems<ListSection>());
 			return true;
 		}
 
@@ -457,7 +447,7 @@ namespace Titanium
 				const auto js_sections = static_cast<JSObject>(_0);
 
 				if (js_sections.IsArray()) {
-					sections = js_to_ListSection_array(js_sections);
+					sections = static_cast<JSArray>(js_sections).GetPrivateItems<ListSection>();
 				} else {
 					sections.push_back(js_sections.GetPrivate<ListSection>());
 				}
@@ -510,7 +500,7 @@ namespace Titanium
 				const auto js_sections = static_cast<JSObject>(_1);
 
 				if (js_sections.IsArray()) {
-					sections = js_to_ListSection_array(js_sections);
+					sections = static_cast<JSArray>(js_sections).GetPrivateItems<ListSection>();
 				} else {
 					sections.push_back(js_sections.GetPrivate<ListSection>());
 				}
@@ -542,7 +532,7 @@ namespace Titanium
 				const auto js_sections = static_cast<JSObject>(_1);
 
 				if (js_sections.IsArray()) {
-					sections = js_to_ListSection_array(js_sections);
+					sections = static_cast<JSArray>(js_sections).GetPrivateItems<ListSection>();
 				} else {
 					sections.push_back(js_sections.GetPrivate<ListSection>());
 				}

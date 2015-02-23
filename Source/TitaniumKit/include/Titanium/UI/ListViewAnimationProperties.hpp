@@ -19,14 +19,13 @@ namespace Titanium
 
 		/*!
 		  @struct
-		  @discussion This is the ListViewAnimationProperties
+		  @discussion This is the ListViewAnimationProperties.
+		  Extend this struct to implement platform-specific properties like animation style.
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/ListViewAnimationProperties
 		*/
 		struct ListViewAnimationProperties
 		{
-			bool animated {false};
-			int32_t animationStyle {0};
-			int32_t position {0};
+			bool animated {true};
 		};
 		
 		ListViewAnimationProperties js_to_ListViewAnimationProperties(const JSObject& object);
