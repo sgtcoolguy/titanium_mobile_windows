@@ -50,7 +50,15 @@ var imageView = Ti.UI.createImageView({
 });
 
 imageView.addEventListener('click', function (e) {
-    Ti.API.warn('Image, Art, Faith, Mystery.');
+    var emailDialog = Ti.UI.createEmailDialog({
+        toRecipients: ['me@example.com'],
+        subject: 'My Subject',
+        messageBody: "This is an example email"
+    });
+    emailDialog.addEventListener('complete', function (e) {
+        Ti.API.info("Email sent!");
+    })
+    emailDialog.open();
 });
 
 var button = Ti.UI.createButton({
@@ -127,15 +135,11 @@ var tab2 = Titanium.UI.createTab({
     window: win2
 });
 
-var label2 = Titanium.UI.createLabel({
-    color: '#999',
-    text: 'I am Window 2',
-    font: { fontSize: 20, fontFamily: 'Helvetica Neue' },
-    textAlign: 'center',
-    width: 'auto'
+var slider = Ti.UI.createSlider({ left: '20px', right: 20, backgroundColor: 'green' });
+slider.addEventListener('change', function (e) {
+    btn.title = 'Slider value: ' + e.value;
 });
-
-win2.add(label2);
+win2.add(slider);
 
 
 //

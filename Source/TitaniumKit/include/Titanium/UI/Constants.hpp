@@ -592,8 +592,8 @@ namespace Titanium
 			MM,
 			PX
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 // Provide a hash function so that a Titanium::UI::AUTOLINK can be stored in an
 // unordered container.
@@ -898,7 +898,7 @@ namespace std
 			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
-}  // namespace std {
+}  // namespace std
 
 namespace Titanium
 {
@@ -1009,7 +1009,7 @@ namespace Titanium
 			static UNIT to_UNIT(std::underlying_type<UNIT>::type) TITANIUM_NOEXCEPT;
 			static std::underlying_type<UNIT>::type to_underlying_type(const UNIT&) TITANIUM_NOEXCEPT;
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_CONSTANTS_HPP_

@@ -11,7 +11,8 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/UI/AlertDialog.hpp"
-#include "Titanium/UI/Button.hpp" 
+#include "Titanium/UI/Button.hpp"
+#include "Titanium/UI/EmailDialog.hpp" 
 #include "Titanium/UI/ImageView.hpp"
 #include "Titanium/UI/Label.hpp"
 #include "Titanium/UI/ScrollView.hpp"
@@ -66,6 +67,22 @@ namespace Titanium
 		  @result Titanium.UI.Button
 		*/
 		JSObject createButton(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createEmailDialog( [parameters] ) : Titanium.UI.EmailDialog
+     
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.EmailDialog.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.EmailDialog except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.EmailDialog>)
+
+		  @result Titanium.UI.EmailDialog
+		*/
+		JSObject createEmailDialog(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -341,11 +358,10 @@ namespace Titanium
 		UIModule& operator=(UIModule&&) = default;
 #endif
 
-		// TODO: The following functions can automatically be generated from
-		// the YAML API docs.
 		static void JSExportInitialize();
 		JSValue js_createAlertDialog(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createButton(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createEmailDialog(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createImageView(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createLabel(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createScrollView(const std::vector<JSValue>& arguments, JSObject& this_object);

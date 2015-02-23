@@ -37,6 +37,9 @@ namespace Titanium
 		JSObject AnalyticsObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& AnalyticsObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject EmailDialogObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& EmailDialogObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject ViewObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -114,6 +117,7 @@ namespace Titanium
 		JSObject ti__;
 		JSObject api__;
 		JSObject view__;
+		JSObject emaildialog__;
 		JSObject properties__;
 		JSObject app__;
 		JSObject analytics__;

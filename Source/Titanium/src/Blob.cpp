@@ -60,7 +60,7 @@ namespace TitaniumWindows
 		if (mimetype_ == "image/png") {
 			return Windows::Graphics::Imaging::BitmapEncoder::PngEncoderId;
 		} else if (mimetype_ == "image/jpg") {
-			return Windows::Graphics::Imaging::BitmapEncoder::PngEncoderId;
+			return Windows::Graphics::Imaging::BitmapEncoder::JpegEncoderId;
 		} else {
 			return Windows::Graphics::Imaging::BitmapEncoder::BmpEncoderId;
 		}
