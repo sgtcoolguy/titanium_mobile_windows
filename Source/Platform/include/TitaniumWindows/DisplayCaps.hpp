@@ -29,18 +29,6 @@ namespace TitaniumWindows
 		virtual double xdpi() const TITANIUM_NOEXCEPT;
 		virtual double ydpi() const TITANIUM_NOEXCEPT;
 
-		// TODO:
-		// This method should be called after main Window is initialized,
-		// otherwise DisplayInformation::GetForCurrentView() will fail.
-		// This is why we can't setup this on constructor.
-		// Also, we can't do "lazy loading" at getter because getters are all const.
-		void GetForCurrentView()
-		{
-			if (!display_) {
-				display_ = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
-			}
-		}
-
 		DisplayCaps(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 		virtual ~DisplayCaps() = default;
@@ -55,7 +43,6 @@ namespace TitaniumWindows
 
 	protected:
 	private:
-		Windows::Graphics::Display::DisplayInformation^ display_;
 	};
 
 }  // namespace TitaniumWindows

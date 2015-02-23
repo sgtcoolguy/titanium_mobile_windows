@@ -32,17 +32,19 @@ namespace TitaniumWindows
 
 	double DisplayCaps::dpi() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_ASSERT(display_);
-		return display_->LogicalDpi;
+		auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
+		TITANIUM_ASSERT(display);
+		return display->LogicalDpi;
 	}
 
 	double DisplayCaps::logicalDensityFactor() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_ASSERT(display_);
+		auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
+		TITANIUM_ASSERT(display);
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-		return display_->RawPixelsPerViewPixel;
+		return display->RawPixelsPerViewPixel;
 #else
-		return static_cast<int>(display_->ResolutionScale) / 100.0;
+		return static_cast<int>(display->ResolutionScale) / 100.0;
 #endif
 	}
 
@@ -60,13 +62,15 @@ namespace TitaniumWindows
 
 	double DisplayCaps::xdpi() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_ASSERT(display_);
-		return display_->RawDpiX;
+		auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
+		TITANIUM_ASSERT(display);
+		return display->RawDpiX;
 	}
 
 	double DisplayCaps::ydpi() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_ASSERT(display_);
-		return display_->RawDpiY;
+		auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
+		TITANIUM_ASSERT(display);
+		return display->RawDpiY;
 	}
 }  // namespace TitaniumWindows
