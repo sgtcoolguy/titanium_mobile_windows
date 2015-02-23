@@ -195,8 +195,8 @@ set(SOURCE_Analytics
 )
 
 set(SOURCE_Map
-  include/Titanium/Map.hpp
-  src/Map.cpp
+  include/Titanium/MapModule.hpp
+  src/MapModule.cpp
 )
 
 source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
