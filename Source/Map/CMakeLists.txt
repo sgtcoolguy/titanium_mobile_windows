@@ -140,7 +140,7 @@ export(EXPORT TitaniumWindows_Map_Targets
 
 configure_file(cmake/TitaniumWindows_Map_Config.cmake
   "${CMAKE_BINARY_DIR}/TitaniumWindows_Map_Config.cmake"
-  COPY_ONLY
+  COPYONLY
   )
 
 include(CMakePackageConfigHelpers)

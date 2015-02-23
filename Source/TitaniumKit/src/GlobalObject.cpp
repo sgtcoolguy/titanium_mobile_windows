@@ -216,6 +216,17 @@ namespace Titanium
 	{
 		TITANIUM_GLOBALOBJECT_LOCK_GUARD;
 
+		if (moduleId == "ti.map") {
+			JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
+			TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+			JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+			JSValue Map_property = Titanium.GetProperty("Map");
+			TITANIUM_ASSERT(Map_property.IsObject());  // precondition
+			
+			return Map_property;
+		}
+
 		const auto module_path = requestResolveModule(parent, moduleId);
 		if (module_path.empty()) {
 			detail::ThrowRuntimeError("require", "Could not load module " + moduleId);

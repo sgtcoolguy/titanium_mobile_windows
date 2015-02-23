@@ -16,9 +16,9 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-		@class
+	  @class
 
-		@discussion This is the Titanium.Map implementation for Windows.
+	  @discussion This is the Titanium.Map implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_MAP_EXPORT MapModule final : public Titanium::MapModule, public JSExport<MapModule>
 	{
