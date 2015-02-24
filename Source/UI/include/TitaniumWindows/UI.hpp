@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows/UI/AlertDialog.hpp"
 #include "TitaniumWindows/UI/Button.hpp"
+#include "TitaniumWindows/UI/EmailDialog.hpp"
 #include "TitaniumWindows/UI/ImageView.hpp"
 #include "TitaniumWindows/UI/Label.hpp"
 #include "TitaniumWindows/UI/ScrollView.hpp"

@@ -16,10 +16,11 @@ namespace Titanium
 		      timeout__(js_context.CreateString()),
 		      onload_callback__(js_context.CreateObject()),
 		      onerror_callback__(js_context.CreateObject()),
-		      ondatastream_callback__(js_context.CreateObject()),
+			  ondatastream_callback__(js_context.CreateObject()),
 		      onsendstream_callback__(js_context.CreateObject()),
 		      onreadystatechange_callback__(js_context.CreateObject())
 		{
+			setHTTPStatusPhrase();
 		}
 
 		void HTTPClient::JSExportInitialize()
@@ -54,7 +55,76 @@ namespace Titanium
 			JSExport<HTTPClient>::AddFunctionProperty("clearCookies", std::mem_fn(&HTTPClient::js_clearCookies));
 		}
 
-		// constant properties
+		void HTTPClient::clearCookies(const std::string& url) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::clearCookies: Unimplemented");
+		}
+
+		void HTTPClient::setTimeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::setTimeout: Unimplemented");
+		}
+
+		std::string HTTPClient::getResponseText() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::getResponseText: Unimplemented");
+			return "";
+		}
+
+		std::vector<unsigned char> HTTPClient::getResponseData() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::getResponseData: Unimplemented");
+			return std::vector<unsigned char>();  //empty
+		}
+
+		std::string HTTPClient::getAllResponseHeaders() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::getAllResponseHeaders: Unimplemented");
+			return "";
+		}
+
+		std::uint32_t HTTPClient::getReadyState() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::getReadyState: Unimplemented");
+			return std::uint32_t();
+		}
+
+		std::uint32_t HTTPClient::getStatus() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::getStatus: Unimplemented");
+			return std::uint32_t();
+		}
+
+		std::string HTTPClient::getStatusText() const TITANIUM_NOEXCEPT
+		{
+			auto it = httpStatusPhrase__.find(getStatus());
+			if (it != httpStatusPhrase__.end()) {
+				return it->second;
+			}
+
+			return "HTTP Status Phrase Not Found";
+		}
+
+		void HTTPClient::open(const std::string& method, const std::string& url) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::open: Unimplemented");
+		}
+
+		void HTTPClient::send() TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::send: Unimplemented");
+		}
+
+		void HTTPClient::send(const std::map<std::string, std::vector<unsigned char>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::send<data>: Unimplemented");
+		}
+
+		void HTTPClient::send(const std::string& postDataStr) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::send<data string>: Unimplemented");
+		}
+
 		JSValue HTTPClient::js_getLOADING() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(N_REQUEST_STATE_LOADING);
@@ -80,12 +150,6 @@ namespace Titanium
 			return get_context().CreateNumber(N_REQUEST_STATE_HEADERS_RECEIVED);
 		}
 
-		// properties
-		void HTTPClient::setTimeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::setTimeout: Unimplemented");
-		}
-
 		bool HTTPClient::js_setTimeout(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
@@ -101,21 +165,9 @@ namespace Titanium
 			return timeout__;
 		}
 
-		std::string HTTPClient::getResponseText() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getResponseText: Unimplemented");
-			return std::string();  // empty
-		}
-
 		JSValue HTTPClient::js_getResponseText() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(getResponseText());
-		}
-
-		std::vector<unsigned char> HTTPClient::getResponseData() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getResponseData: Unimplemented");
-			return std::vector<unsigned char>();  //empty
 		}
 
 		JSValue HTTPClient::js_getResponseData() const TITANIUM_NOEXCEPT
@@ -124,16 +176,9 @@ namespace Titanium
 			auto blob = Blob.CallAsConstructor();
 			auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
 
-			// ToDo hookup to blob object
 			blob_ptr->construct(getResponseData());
 
 			return blob;
-		}
-
-		std::string HTTPClient::getAllResponseHeaders() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getAllResponseHeaders: Unimplemented");
-			return std::string();  // empty
 		}
 
 		JSValue HTTPClient::js_getAllResponseHeaders() const TITANIUM_NOEXCEPT
@@ -141,33 +186,15 @@ namespace Titanium
 			return get_context().CreateString(getAllResponseHeaders());
 		}
 
-		std::uint32_t HTTPClient::getReadyState() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getReadyState: Unimplemented");
-			return std::uint32_t();
-		}
-
 		JSValue HTTPClient::js_getReadyState() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(getReadyState());
 		}
 
-		std::uint32_t HTTPClient::getStatus() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getStatus: Unimplemented");
-			return std::uint32_t();
-		}
-
 		JSValue HTTPClient::js_getStatus() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(getStatus());
-		}
-
-		std::string HTTPClient::getStatusText() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getStatusText: Unimplemented");
-			return std::string();
-		}
+		}		
 
 		JSValue HTTPClient::js_getStatusText() const TITANIUM_NOEXCEPT
 		{
@@ -257,13 +284,7 @@ namespace Titanium
 		JSValue HTTPClient::js_getOnReadyStateChange() const TITANIUM_NOEXCEPT
 		{
 			return onreadystatechange_callback__;
-		}
-
-		// methods
-		void HTTPClient::open(const std::string& method, const std::string& url) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::open: Unimplemented");
-		}
+		}		
 
 		JSValue HTTPClient::js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
@@ -274,21 +295,6 @@ namespace Titanium
 			const auto url = static_cast<std::string>(_1);
 			open(method, url);
 			return get_context().CreateUndefined();
-		}
-
-		void HTTPClient::send() TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::send: Unimplemented");
-		}
-
-		void HTTPClient::send(const std::map<std::string, std::vector<unsigned char>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::send<data>: Unimplemented");
-		}
-
-		void HTTPClient::send(const std::string& postDataStr) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::send<data string>: Unimplemented");
 		}
 
 		JSValue HTTPClient::js_send(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -366,11 +372,6 @@ namespace Titanium
 			return get_context().CreateString(getResponseHeader(name));
 		}
 
-		void HTTPClient::clearCookies(const std::string& url) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::clearCookies: Unimplemented");
-		}
-
 		JSValue HTTPClient::js_clearCookies(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			const auto _0 = arguments.at(0);
@@ -381,73 +382,153 @@ namespace Titanium
 		}
 
 		////// slots
-		void HTTPClient::onload(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT
+		void HTTPClient::onload(const std::uint32_t code, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = get_context();
+			if (onload_callback__.IsFunction()) {
+				const JSContext ctx = get_context();
 
-			JSObject eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("id", ctx.CreateNumber(id));
-			eventArgs.SetProperty("error", ctx.CreateString(error));
-			eventArgs.SetProperty("success", ctx.CreateBoolean(success));
+				JSObject this_object = get_object();
 
-			std::vector<JSValue> arguments;
-			arguments.push_back(eventArgs);
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("code", ctx.CreateNumber(code));
+				eventArgs.SetProperty("error", ctx.CreateString(error));
+				eventArgs.SetProperty("success", ctx.CreateBoolean(success));
 
-			//onload_callback__.CallAsFunction(arguments, this);
+				std::vector<JSValue> arguments;
+				arguments.push_back(eventArgs);
+
+				onload_callback__(arguments, this_object);
+			}
 		}
 
-		void HTTPClient::onerror(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT
+		void HTTPClient::onerror(const std::uint32_t code, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = get_context();
+			if (onerror_callback__.IsFunction()) {
+				const JSContext ctx = get_context();
 
-			JSObject eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("id", ctx.CreateNumber(id));
-			eventArgs.SetProperty("error", ctx.CreateString(error));
-			eventArgs.SetProperty("success", ctx.CreateBoolean(success));
+				JSObject this_object = get_object();
 
-			std::vector<JSValue> arguments;
-			arguments.push_back(eventArgs);
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("code", ctx.CreateNumber(code));
+				eventArgs.SetProperty("error", ctx.CreateString(error));
+				eventArgs.SetProperty("success", ctx.CreateBoolean(success));
 
-			//onerror_callback__.CallAsFunction(arguments, this);
+				std::vector<JSValue> arguments;
+				arguments.push_back(eventArgs);
+
+				onerror_callback__(arguments, this_object);
+			}
 		}
 
-		void HTTPClient::ondatastream(const std::uint32_t progress) TITANIUM_NOEXCEPT
+		void HTTPClient::ondatastream(const double progress) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = get_context();
+			if (ondatastream_callback__.IsFunction()) {
+				const JSContext ctx = get_context();
 
-			JSObject eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
+				JSObject this_object = get_object();
 
-			std::vector<JSValue> arguments;
-			arguments.push_back(eventArgs);
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
 
-			//ondatastream_callback__.CallAsFunction(arguments, this);
+				std::vector<JSValue> arguments;
+				arguments.push_back(eventArgs);
+
+				ondatastream_callback__(arguments, this_object);
+			}
 		}
 
-		void HTTPClient::onsendstream(const std::uint32_t progress) TITANIUM_NOEXCEPT
+		void HTTPClient::onsendstream(const double progress) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = get_context();
+			if (onsendstream_callback__.IsFunction()) {
+				const JSContext ctx = get_context();
 
-			JSObject eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
+				JSObject this_object = get_object();
 
-			std::vector<JSValue> arguments;
-			arguments.push_back(eventArgs);
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
 
-			//ondatastream_callback__.CallAsFunction(arguments, this);
+				std::vector<JSValue> arguments;
+				arguments.push_back(eventArgs);
+
+				onsendstream_callback__(arguments, this_object);
+			}
 		}
 
 		void HTTPClient::onreadystatechange(const std::uint32_t state) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = get_context();
+			if (onreadystatechange_callback__.IsFunction()) {
+				const JSContext ctx = get_context();
 
-			JSObject eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("readyState", ctx.CreateNumber(state));
+				JSObject this_object = get_object();
 
-			std::vector<JSValue> arguments;
-			arguments.push_back(eventArgs);
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("readyState", ctx.CreateNumber(state));
 
-			//onreadystate_callback__.CallAsFunction(arguments, this);
+				std::vector<JSValue> arguments;
+				arguments.push_back(eventArgs);
+
+				onreadystatechange_callback__(arguments, this_object);
+			}
+		}
+
+		void HTTPClient::setHTTPStatusPhrase()
+		{
+			httpStatusPhrase__[100] = "Continue";
+			httpStatusPhrase__[101] = "Processing";
+			httpStatusPhrase__[102] = "Processing";
+			httpStatusPhrase__[200] = "OK";
+			httpStatusPhrase__[201] = "Created";
+			httpStatusPhrase__[202] = "Accepted";
+			httpStatusPhrase__[203] = "Non-Authoritative Information";
+			httpStatusPhrase__[204] = "No Content";
+			httpStatusPhrase__[205] = "Reset Content";
+			httpStatusPhrase__[206] = "Partial Content";
+			httpStatusPhrase__[207] = "Multi-Status";
+			httpStatusPhrase__[300] = "Multiple Choices";
+			httpStatusPhrase__[301] = "Moved Permanently";
+			httpStatusPhrase__[302] = "Moved Temporarily";
+			httpStatusPhrase__[303] = "See Other";
+			httpStatusPhrase__[304] = "Not Modified";
+			httpStatusPhrase__[305] = "Use Proxy";
+			httpStatusPhrase__[307] = "Temporary Redirect";
+			httpStatusPhrase__[400] = "Bad Request";
+			httpStatusPhrase__[401] = "Unauthorized";
+			httpStatusPhrase__[402] = "Payment Required";
+			httpStatusPhrase__[403] = "Forbidden";
+			httpStatusPhrase__[404] = "Not Found";
+			httpStatusPhrase__[405] = "Method Not Allowed";
+			httpStatusPhrase__[406] = "Not Acceptable";
+			httpStatusPhrase__[407] = "Proxy Authentication Required";
+			httpStatusPhrase__[408] = "Request Time-out";
+			httpStatusPhrase__[409] = "Conflict";
+			httpStatusPhrase__[410] = "Gone";
+			httpStatusPhrase__[411] = "Length Required";
+			httpStatusPhrase__[412] = "Precondition Failed";
+			httpStatusPhrase__[413] = "Request Entity Too Large";
+			httpStatusPhrase__[414] = "Request-URI Too Large";
+			httpStatusPhrase__[415] = "Unsupported Media Type";
+			httpStatusPhrase__[416] = "Requested Range Not Satisfiable";
+			httpStatusPhrase__[417] = "Expectation Failed";
+			httpStatusPhrase__[418] = "I'm a teapot";
+			httpStatusPhrase__[422] = "Unprocessable Entity";
+			httpStatusPhrase__[423] = "Locked";
+			httpStatusPhrase__[424] = "Failed Dependency";
+			httpStatusPhrase__[425] = "Unordered Collection";
+			httpStatusPhrase__[426] = "Upgrade Required";
+			httpStatusPhrase__[428] = "Precondition Required";
+			httpStatusPhrase__[429] = "Too Many Requests";
+			httpStatusPhrase__[431] = "Request Header Fields Too Large";
+			httpStatusPhrase__[500] = "Internal Server Error";
+			httpStatusPhrase__[501] = "Not Implemented";
+			httpStatusPhrase__[502] = "Bad Gateway";
+			httpStatusPhrase__[503] = "Service Unavailable";
+			httpStatusPhrase__[504] = "Gateway Time-out";
+			httpStatusPhrase__[505] = "HTTP Version Not Supported";
+			httpStatusPhrase__[506] = "Variant Also Negotiates";
+			httpStatusPhrase__[507] = "Insufficient Storage";
+			httpStatusPhrase__[509] = "Bandwidth Limit Exceeded";
+			httpStatusPhrase__[510] = "Not Extended";
+			httpStatusPhrase__[511] = "Network Authentication Required";
 		}
 	}
 }

@@ -112,6 +112,7 @@ function runBuild(next) {
 		inResults = false;
 	prc = spawn('node', [titanium, 'build', '-d', 'mocha', '-p', 'windows', '-T', 'wp-emulator', '--wp-publisher-guid', '00000000-0000-1000-8000-000000000000', '-C', '8-1-1', '--no-prompt', '--no-colors']);
 	prc.stdout.on('data', function (data) {
+		console.log(data.toString());
 		var lines = data.toString().trim().match(/^.*([\n\r]+|$)/gm);
 		for (var i = 0; i < lines.length; i++) {
 	    	var str = lines[i],
@@ -139,9 +140,9 @@ function runBuild(next) {
 		}
 		
 	});
-//	prc.stderr.on('data', function (data) {
-//		//console.log(data.toString());
-//	});
+	prc.stderr.on('data', function (data) {
+		console.log(data.toString());
+	});
 
 	prc.on('close', function (code) {
 		next();

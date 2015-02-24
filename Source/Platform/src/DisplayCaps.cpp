@@ -32,41 +32,59 @@ namespace TitaniumWindows
 
 	double DisplayCaps::dpi() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_ASSERT(display_);
-		return display_->LogicalDpi;
+		auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
+		if (display) {
+			return display->LogicalDpi;
+		}
+		return Titanium::Platform::DisplayCaps::dpi();
 	}
 
 	double DisplayCaps::logicalDensityFactor() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_ASSERT(display_);
+		auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
+		if (display) {
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-		return display_->RawPixelsPerViewPixel;
+			return display->RawPixelsPerViewPixel;
 #else
-		return static_cast<int>(display_->ResolutionScale) / 100.0;
+			return static_cast<int>(display->ResolutionScale) / 100.0;
 #endif
+		}
+		return Titanium::Platform::DisplayCaps::logicalDensityFactor();
 	}
 
 	double DisplayCaps::platformHeight() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_ASSERT(Windows::UI::Xaml::Window::Current);
-		return Windows::UI::Xaml::Window::Current->Bounds.Height;
+		auto current = Windows::UI::Xaml::Window::Current;
+		if (current) {
+			return current->Bounds.Height;
+		}
+		return Titanium::Platform::DisplayCaps::platformHeight();
 	}
 
 	double DisplayCaps::platformWidth() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_ASSERT(Windows::UI::Xaml::Window::Current);
-		return Windows::UI::Xaml::Window::Current->Bounds.Width;
+		auto current = Windows::UI::Xaml::Window::Current;
+		if (current) {
+			return current->Bounds.Width;
+		}
+		return Titanium::Platform::DisplayCaps::platformWidth();
 	}
 
 	double DisplayCaps::xdpi() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_ASSERT(display_);
-		return display_->RawDpiX;
+		auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
+		if (display) {
+			return display->RawDpiX;
+		}
+		return Titanium::Platform::DisplayCaps::xdpi();
 	}
 
 	double DisplayCaps::ydpi() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_ASSERT(display_);
-		return display_->RawDpiY;
+		auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
+		if (display) {
+			return display->RawDpiY;
+		}
+		return Titanium::Platform::DisplayCaps::ydpi();
 	}
 }  // namespace TitaniumWindows

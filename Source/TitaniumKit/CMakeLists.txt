@@ -179,6 +179,8 @@ set(SOURCE_UI
   include/Titanium/UI/ListSection.hpp
   src/UI/ListSection.cpp
   include/Titanium/UI/listview_js.hpp
+  include/Titanium/UI/EmailDialog.hpp
+  src/UI/EmailDialog.cpp
   )
 
 set(SOURCE_TiLogger_detail

@@ -59,7 +59,7 @@ namespace Titanium
 		private:
 			ANIMATION_CURVE curve__;
 		};
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
 
 #endif  // _TITANIUM_UI_ANIMATION_HPP_

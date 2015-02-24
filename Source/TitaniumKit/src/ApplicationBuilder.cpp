@@ -33,6 +33,7 @@ namespace Titanium
 	      view__(js_context__.CreateObject<Titanium::UI::View>()),
 	      listsection__(js_context__.CreateObject<Titanium::UI::ListSection>()),
 	      listview__(js_context__.CreateObject<Titanium::UI::ListView>()),
+	      emaildialog__(js_context__.CreateObject<Titanium::UI::EmailDialog>()),
 	      properties__(js_context__.CreateObject<Titanium::App::Properties>()),
 	      analytics__(js_context__.CreateObject<Titanium::Analytics>()),
 	      window__(js_context__.CreateObject<Titanium::UI::Window>()),
@@ -62,6 +63,7 @@ namespace Titanium
 		JSObject ui = js_context__.CreateObject<Titanium::UIModule>();
 		ui.SetProperty("AlertDialog", alertDialog__);
 		ui.SetProperty("Button", button__);
+		ui.SetProperty("EmailDialog", emaildialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("ImageView", imageview__);
 		ui.SetProperty("Label", label__);
 		ui.SetProperty("Slider", slider__);
@@ -191,6 +193,17 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::AnalyticsObject(const JSObject& analytics) TITANIUM_NOEXCEPT
 	{
 		analytics__ = analytics;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::EmailDialogObject() const TITANIUM_NOEXCEPT
+	{
+		return emaildialog__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::EmailDialogObject(const JSObject& EmailDialog) TITANIUM_NOEXCEPT
+	{
+		emaildialog__ = EmailDialog;
 		return *this;
 	}
 

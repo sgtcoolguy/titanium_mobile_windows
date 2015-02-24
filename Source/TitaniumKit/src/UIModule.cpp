@@ -178,6 +178,27 @@ namespace Titanium
 		return button;
 	}
 
+	JSObject UIModule::createEmailDialog(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createEmailDialog");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue EmailDialog_property = UI.GetProperty("EmailDialog");
+		TITANIUM_ASSERT(EmailDialog_property.IsObject());  // precondition
+		JSObject EmailDialog = static_cast<JSObject>(EmailDialog_property);
+
+		auto emailDialog = EmailDialog.CallAsConstructor(parameters);
+		Titanium::applyProperties(emailDialog, parameters);
+		return emailDialog;
+	}
+
 	JSObject UIModule::createImageView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("UI::createImageView");
@@ -990,6 +1011,7 @@ namespace Titanium
 		JSExport<UIModule>::SetParent(JSExport<Module>::Class());
 		JSExport<UIModule>::AddFunctionProperty("createAlertDialog", std::mem_fn(&UIModule::js_createAlertDialog));
 		JSExport<UIModule>::AddFunctionProperty("createButton", std::mem_fn(&UIModule::js_createButton));
+		JSExport<UIModule>::AddFunctionProperty("createEmailDialog", std::mem_fn(&UIModule::js_createEmailDialog));
 		JSExport<UIModule>::AddFunctionProperty("createImageView", std::mem_fn(&UIModule::js_createImageView));
 		JSExport<UIModule>::AddFunctionProperty("createLabel", std::mem_fn(&UIModule::js_createLabel));
 		JSExport<UIModule>::AddFunctionProperty("createScrollView", std::mem_fn(&UIModule::js_createScrollView));
@@ -1130,6 +1152,17 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 		return createButton(parameters, this_object);
+	}
+
+	JSValue UIModule::js_createEmailDialog(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createEmailDialog(parameters, this_object);
 	}
 
 	JSValue UIModule::js_createImageView(const std::vector<JSValue>& arguments, JSObject& this_object)
@@ -1282,4 +1315,4 @@ namespace Titanium
 		return this_object.get_context().CreateUndefined();
 	}
 
-}  // namespace Titanium {
+}  // namespace Titanium

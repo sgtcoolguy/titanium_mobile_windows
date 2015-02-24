@@ -1724,8 +1724,10 @@ WindowsBuilder.prototype.writeBuildManifest = function writeBuildManifest(next) 
 WindowsBuilder.prototype.copyResultsToProject = function copyResultsToProject(next) {
 	if (this.originalBuildDir) {
 		this.logger.info(__('Copying results back to project build directory'));
-		// make sure destination exists
+		// if already exists, wipe it
 		fs.existsSync(this.originalBuildDir) && wrench.rmdirSyncRecursive(this.originalBuildDir);
+		// make sure destination exists
+		fs.existsSync(this.originalBuildDir) || wrench.mkdirSyncRecursive(this.originalBuildDir);
 		// Now copy this.buildDir into this.originalBuildDir
 		wrench.copyDirSyncRecursive(this.buildDir, this.originalBuildDir);
 	}

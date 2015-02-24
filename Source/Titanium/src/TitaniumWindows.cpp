@@ -12,6 +12,7 @@
 #include "TitaniumWindows/TiModule.hpp"
 #include "TitaniumWindows/API.hpp"
 #include "TitaniumWindows/UI.hpp"
+#include "TitaniumWindows/UI/EmailDialog.hpp"
 #include "TitaniumWindows/App/Properties.hpp"
 #include "TitaniumWindows/App.hpp"
 #include "TitaniumWindows/Platform.hpp"
@@ -49,6 +50,7 @@ namespace TitaniumWindows
 		                                                            .AccelerometerObject(js_context__.CreateObject<TitaniumWindows::Accelerometer>())
 		                                                            .ViewObject(js_context__.CreateObject<TitaniumWindows::UI::View>())
 		                                                            .PropertiesObject(js_context__.CreateObject<TitaniumWindows::App::Properties>())
+		                                                            .EmailDialogObject(js_context__.CreateObject<TitaniumWindows::UI::EmailDialog>())
 		                                                            .AppObject(js_context__.CreateObject<TitaniumWindows::AppModule>())
 		                                                            .WindowObject(js_context__.CreateObject<TitaniumWindows::UI::Window>())
 		                                                            .ButtonObject(js_context__.CreateObject<TitaniumWindows::UI::Button>())

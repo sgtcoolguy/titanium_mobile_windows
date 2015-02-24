@@ -55,7 +55,6 @@ namespace TitaniumWindows
 			virtual std::uint32_t getReadyState() const TITANIUM_NOEXCEPT override final;
 			virtual std::string getResponseHeader(const std::string& name) TITANIUM_NOEXCEPT override final;
 			virtual std::uint32_t getStatus() const TITANIUM_NOEXCEPT override final;
-			virtual std::string getStatusText() const TITANIUM_NOEXCEPT override final;
 			virtual void clearCookies(const std::string& url) TITANIUM_NOEXCEPT override final;
 
 		private:
@@ -78,14 +77,14 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::DispatcherTimer ^ dispatcherTimer__;
 			// responseStream__ - holds response string, the stream is not exposed
 			Windows::Storage::Streams::IBuffer ^ responseStream__;
-			// responseBuffer__ - buffer used holds raw response data
-			Windows::Storage::Streams::IBuffer ^ responseBuffer__;
+			// responseData__ - vector used holds raw response data
+			std::vector<unsigned char>  responseData__;
+			// responseDataLen__ - count of character contained in data vector
+			long responseDataLen__;
 			// timeoutSpan__ - the span in milliseconds during which the request is active
 			Windows::Foundation::TimeSpan timeoutSpan__;
 			// requestStatus__ - the http status returned from the server
 			std::uint32_t requestStatus__;
-			// requestStatus__ - the http status returned from the server in text from
-			std::string requestStatusText__;
 			// readyState__ - current state of the connection
 			std::uint32_t readyState__;
 			// responseHeaders__ - the collection of key value pairs returned from the server

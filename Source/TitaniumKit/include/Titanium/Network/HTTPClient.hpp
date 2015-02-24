@@ -152,54 +152,54 @@ namespace Titanium
 			static void JSExportInitialize();
 
 			/////// constant properties
-			virtual JSValue js_getLOADING() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getOPENED() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getDONE() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getUNSENT() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getHEADERS_RECEIVED() const TITANIUM_NOEXCEPT final;
+			JSValue js_getLOADING() const TITANIUM_NOEXCEPT;
+			JSValue js_getOPENED() const TITANIUM_NOEXCEPT;
+			JSValue js_getDONE() const TITANIUM_NOEXCEPT;
+			JSValue js_getUNSENT() const TITANIUM_NOEXCEPT;
+			JSValue js_getHEADERS_RECEIVED() const TITANIUM_NOEXCEPT;
 
 			/////// properties
-			virtual bool js_setTimeout(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getTimeout() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getResponseText() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getResponseData() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getAllResponseHeaders() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getReadyState() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getStatus() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getStatusText() const TITANIUM_NOEXCEPT final;
-			virtual bool js_setOnLoad(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getOnLoad() const TITANIUM_NOEXCEPT final;
-			virtual bool js_setOnError(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getOnError() const TITANIUM_NOEXCEPT final;
-			virtual bool js_setOnDataStream(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getOnDataStream() const TITANIUM_NOEXCEPT final;
-			virtual bool js_setOnSendStream(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getOnSendStream() const TITANIUM_NOEXCEPT final;
-			virtual bool js_setOnReadyStateChange(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getOnReadyStateChange() const TITANIUM_NOEXCEPT final;
+			bool js_setTimeout(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_getTimeout() const TITANIUM_NOEXCEPT;
+			JSValue js_getResponseText() const TITANIUM_NOEXCEPT;
+			JSValue js_getResponseData() const TITANIUM_NOEXCEPT;
+			JSValue js_getAllResponseHeaders() const TITANIUM_NOEXCEPT;
+			JSValue js_getReadyState() const TITANIUM_NOEXCEPT;
+			JSValue js_getStatus() const TITANIUM_NOEXCEPT;
+			JSValue js_getStatusText() const TITANIUM_NOEXCEPT;
+			bool js_setOnLoad(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_getOnLoad() const TITANIUM_NOEXCEPT;
+			bool js_setOnError(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_getOnError() const TITANIUM_NOEXCEPT;
+			bool js_setOnDataStream(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_getOnDataStream() const TITANIUM_NOEXCEPT;
+			bool js_setOnSendStream(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_getOnSendStream() const TITANIUM_NOEXCEPT;
+			bool js_setOnReadyStateChange(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_getOnReadyStateChange() const TITANIUM_NOEXCEPT;
 
 			/////// methods
-			virtual JSValue js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_send(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_abort(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setRequestHeader(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getResponseHeader(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_clearCookies(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			JSValue js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
+			JSValue js_send(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
+			JSValue js_abort(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
+			JSValue js_setRequestHeader(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
+			JSValue js_getResponseHeader(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
+			JSValue js_clearCookies(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 			/////// slots
-			virtual void onload(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT final;
-			virtual void onerror(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT final;
-			virtual void ondatastream(const std::uint32_t progress) TITANIUM_NOEXCEPT final;
-			virtual void onsendstream(const std::uint32_t progress) TITANIUM_NOEXCEPT final;
-			virtual void onreadystatechange(const std::uint32_t state) TITANIUM_NOEXCEPT final;
+			void onload(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT;
+			void onerror(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT;
+			void ondatastream(const double progress) TITANIUM_NOEXCEPT;
+		    void onsendstream(const double progress) TITANIUM_NOEXCEPT;
+			void onreadystatechange(const std::uint32_t state) TITANIUM_NOEXCEPT;
 
 			/////// signals
 #pragma warning(push)
 #pragma warning(disable: 4251)
-			boost::signals2::signal<void(const std::uint32_t id, const std::string error, const bool success)> loaded;
-			boost::signals2::signal<void(const std::uint32_t id, const std::string error, const bool success)> error;
-			boost::signals2::signal<void(const std::uint32_t progress)> datastream;
-			boost::signals2::signal<void(const std::uint32_t progress)> sendstream;
+			boost::signals2::signal<void(const std::uint32_t code, const std::string error, const bool success)> loaded;
+			boost::signals2::signal<void(const std::uint32_t code, const std::string error, const bool success)> error;
+			boost::signals2::signal<void(const double progress)> datastream;
+			boost::signals2::signal<void(const double progress)> sendstream;
 			boost::signals2::signal<void(const std::uint32_t state)> readystatechange;
 #pragma warning(pop)
 
@@ -210,6 +210,13 @@ namespace Titanium
 			JSObject ondatastream_callback__;
 			JSObject onsendstream_callback__;
 			JSObject onreadystatechange_callback__;
+
+#pragma warning(push)
+#pragma warning(disable: 4251)
+			std::map<uint32_t, std::string> httpStatusPhrase__;
+#pragma warning(pop)
+
+			void setHTTPStatusPhrase();
 		};
 	} // namespace Network
 } // namespace Titanium

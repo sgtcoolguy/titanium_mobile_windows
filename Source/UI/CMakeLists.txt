@@ -48,6 +48,8 @@ if(NOT TARGET TitaniumWindows_Utility)
 endif()
 
 set(SOURCE_UI
+  include/TitaniumWindows/UI/EmailDialog.hpp
+  src/EmailDialog.cpp
   include/TitaniumWindows/UI/ViewBase.hpp
   src/ViewBase.cpp
   include/TitaniumWindows/UI/View.hpp
