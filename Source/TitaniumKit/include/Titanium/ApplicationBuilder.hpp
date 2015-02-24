@@ -96,6 +96,9 @@ namespace Titanium
 
 		JSObject NetworkObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& NetworkObject(const JSObject&) TITANIUM_NOEXCEPT;
+		
+		JSObject XMLObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& XMLObject(const JSObject&) TITANIUM_NOEXCEPT;
 
 		virtual ~ApplicationBuilder() = default;
 		ApplicationBuilder(const ApplicationBuilder&) = default;
@@ -139,6 +142,7 @@ namespace Titanium
 		JSObject webview__;
 		JSObject httpclient__;
 		JSObject network__;
+		JSObject xml__;
 #pragma warning(pop)
 	};
 
