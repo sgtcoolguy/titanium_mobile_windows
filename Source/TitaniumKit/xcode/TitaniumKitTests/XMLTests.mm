@@ -128,8 +128,8 @@ using namespace HAL;
 
   const std::vector<JSValue> args { js_context.CreateString("<test/>") };
   auto js_dom = parse(args, XML);
-	XCTAssertTrue(js_dom.IsObject());
-	auto dom = static_cast<JSObject>(js_dom);
+  XCTAssertTrue(js_dom.IsObject());
+  auto dom = static_cast<JSObject>(js_dom);
   XCTAssertTrue(dom.HasProperty("documentElement"));
 
   const std::vector<JSValue> serialize_args { dom };
