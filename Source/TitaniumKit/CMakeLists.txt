@@ -37,6 +37,9 @@ list(INSERT CMAKE_MODULE_PATH 0 ${APPCELERATOR_CMAKE_MODULE_PATH})
 # Convert analytics.js into a c string in an hpp that we can include
 include(GenerateCPPHeaderFile)
 generate_cpp_header_file(resource_analytics_js_hpp ${PROJECT_SOURCE_DIR}/src/analytics.js ${PROJECT_SOURCE_DIR}/include/Titanium/analytics_js.hpp)
+generate_cpp_header_file(resource_xml_dom_js_hpp ${PROJECT_SOURCE_DIR}/src/XML/dom.js ${PROJECT_SOURCE_DIR}/include/Titanium/XML/dom_js.hpp)
+generate_cpp_header_file(resource_xml_dom_parser_js_hpp ${PROJECT_SOURCE_DIR}/src/XML/dom-parser.js ${PROJECT_SOURCE_DIR}/include/Titanium/XML/dom_parser_js.hpp)
+generate_cpp_header_file(resource_xml_sax_js_hpp ${PROJECT_SOURCE_DIR}/src/XML/sax.js ${PROJECT_SOURCE_DIR}/include/Titanium/XML/sax_js.hpp)
 
 set(Boost_USE_STATIC_LIBS ON )
 set(Boost_USE_MULTITHREADED ON )
@@ -196,6 +199,15 @@ set(SOURCE_Analytics
   src/Analytics.cpp
 )
 
+set(SOURCE_XML
+  include/Titanium/XML.hpp
+  include/Titanium/XML/dom_js.hpp
+  include/Titanium/XML/dom_parser_js.hpp
+  include/Titanium/XML/sax_js.hpp
+  src/XML.cpp
+)
+
+
 source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
 source_group(TitaniumKit\\detail           FILES ${SOURCE_TitaniumKit_detail})
 source_group(TitaniumKit\\Ti               FILES ${SOURCE_Ti})
@@ -210,6 +222,7 @@ source_group(TitaniumKit\\App              FILES ${SOURCE_App})
 source_group(TitaniumKit\\App\\Properties  FILES ${SOURCE_Properties})
 source_group(TitaniumKit\\Network          FILES ${SOURCE_Network})
 source_group(TitaniumKit\\Analytics        FILES ${SOURCE_Analytics})
+source_group(TitaniumKit\\XML              FILES ${SOURCE_XML})
 source_group(TitaniumKit\\UI               FILES ${SOURCE_UI})
 source_group(TitaniumKit\\TiLogger\\detail FILES ${SOURCE_TiLogger_detail})
 
@@ -231,11 +244,15 @@ add_library(TitaniumKit SHARED
   ${SOURCE_Properties}
   ${SOURCE_Network}
   ${SOURCE_Analytics}
+  ${SOURCE_XML}
   ${SOURCE_UI}
   ${SOURCE_TiLogger_detail}
   )
 
 add_dependencies(TitaniumKit resource_analytics_js_hpp)
+add_dependencies(TitaniumKit resource_xml_dom_js_hpp)
+add_dependencies(TitaniumKit resource_xml_dom_parser_js_hpp)
+add_dependencies(TitaniumKit resource_xml_sax_js_hpp)
 
 include(GenerateExportHeader)
 generate_export_header(TitaniumKit)
