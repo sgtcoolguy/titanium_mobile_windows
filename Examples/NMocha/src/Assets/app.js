@@ -15,17 +15,29 @@ var $results = [];
 
 // ============================================================================
 // Add the tests here using "require"
-require('./ti.builtin.test');
-require('./ti.require.test');
-require('./ti.platform.test');
-require('./ti.test');
-require('./ti.app.test');
 require('./ti.accelerometer.test');
-require('./ti.gesture.test');
+require('./ti.app.test');
 require('./ti.blob.test');
-require('./ti.filesystem.test');
+require('./ti.builtin.test');
 require('./ti.database.test');
-require('./ti.email.test');
+require('./ti.filesystem.test');
+//require('./ti.geolocation.test');
+require('./ti.gesture.test');
+require('./ti.internal.test');
+require('./ti.network.httpclient.test');
+require('./ti.platform.test');
+require('./ti.require.test');
+require('./ti.test');
+//require('./ti.ui.activityindicator.test');
+require('./ti.ui.constants.test');
+require('./ti.ui.emaildialog.test');
+require('./ti.ui.imageview.test');
+require('./ti.ui.label.test');
+require('./ti.ui.layout.test');
+//require('./ti.ui.progressbar.test');
+require('./ti.ui.textfield.test');
+require('./ti.ui.window.test');
+require('./ti.xml.test');
 // ============================================================================
 
 // add a special mocha reporter that will time each test run using
