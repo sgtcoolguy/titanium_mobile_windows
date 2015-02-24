@@ -219,6 +219,10 @@ set(SOURCE_XML
   src/XML.cpp
 )
 
+set(SOURCE_Map
+  include/Titanium/MapModule.hpp
+  src/MapModule.cpp
+)
 
 source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
 source_group(TitaniumKit\\detail           FILES ${SOURCE_TitaniumKit_detail})
@@ -235,6 +239,7 @@ source_group(TitaniumKit\\App\\Properties  FILES ${SOURCE_Properties})
 source_group(TitaniumKit\\Network          FILES ${SOURCE_Network})
 source_group(TitaniumKit\\Analytics        FILES ${SOURCE_Analytics})
 source_group(TitaniumKit\\XML              FILES ${SOURCE_XML})
+source_group(TitaniumKit\\Map              FILES ${SOURCE_Map})
 source_group(TitaniumKit\\UI               FILES ${SOURCE_UI})
 source_group(TitaniumKit\\TiLogger\\detail FILES ${SOURCE_TiLogger_detail})
 
@@ -258,6 +263,7 @@ add_library(TitaniumKit SHARED
   ${SOURCE_Analytics}
   ${SOURCE_XML}
   ${SOURCE_UI}
+  ${SOURCE_Map}
   ${SOURCE_TiLogger_detail}
   )
 
