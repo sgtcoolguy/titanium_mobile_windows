@@ -22,7 +22,7 @@
 #include "Titanium/DatabaseModule.hpp"
 #include "Titanium/NetworkModule.hpp"
 #include "Titanium/Network/HTTPClient.hpp"
-#include "Titanium/Map.hpp"
+#include "Titanium/MapModule.hpp"
 
 namespace Titanium
 {

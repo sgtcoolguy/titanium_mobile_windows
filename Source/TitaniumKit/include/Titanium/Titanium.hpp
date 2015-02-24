@@ -27,6 +27,6 @@
 #include "Titanium/FilesystemModule.hpp"
 #include "Titanium/DatabaseModule.hpp"
 #include "Titanium/NetworkModule.hpp"
-#include "Titanium/Map.hpp"
+#include "Titanium/MapModule.hpp"
 
 #endif  // _TITANIUM_HPP_
