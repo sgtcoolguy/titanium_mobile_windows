@@ -174,8 +174,7 @@ namespace Titanium
 		TITANIUM_ASSERT(View_property.IsObject());  // precondition
 		JSObject MapView = static_cast<JSObject>(View_property);
 
-		Titanium::Module::applyProperties(MapView, parameters);
-		
+		Titanium::Module::applyProperties(parameters, MapView);
 		return MapView.CallAsConstructor(parameters);
 	}
 

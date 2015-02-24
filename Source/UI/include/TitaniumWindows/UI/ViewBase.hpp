@@ -17,8 +17,11 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
+#pragma warning(push)
+#pragma warning(disable : 4275)
 		class ViewBase
 		{
+#pragma warning(push)
 		public:
 			ViewBase();
 

@@ -184,6 +184,8 @@ set(SOURCE_UI
   include/Titanium/UI/listview_js.hpp
   include/Titanium/UI/EmailDialog.hpp
   src/UI/EmailDialog.cpp
+  include/Titanium/UI/MapView.hpp
+  src/UI/MapView.cpp
   )
 
 set(SOURCE_TiLogger_detail

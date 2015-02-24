@@ -23,6 +23,7 @@
 #include "Titanium/UI/ListView.hpp"
 #include "Titanium/UI/ListSection.hpp"
 #include "Titanium/UI/WebView.hpp"
+#include "Titanium/UI/MapView.hpp"
 
 namespace Titanium
 {

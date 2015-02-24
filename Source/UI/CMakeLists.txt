@@ -76,6 +76,8 @@ set(SOURCE_UI
   src/ListView.cpp
   include/TitaniumWindows/UI/WebView.hpp
   src/WebView.cpp
+  include/TitaniumWindows/UI/MapView.hpp
+  src/MapView.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})
