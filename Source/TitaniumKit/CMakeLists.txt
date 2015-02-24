@@ -222,6 +222,8 @@ set(SOURCE_XML
 set(SOURCE_Map
   include/Titanium/MapModule.hpp
   src/MapModule.cpp
+  include/Titanium/Map/Constants.hpp
+  src/Map/Constants.cpp
 )
 
 source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
