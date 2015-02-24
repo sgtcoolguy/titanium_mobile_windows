@@ -90,5 +90,9 @@ robocopy build\x86\Global\Utility\Release dist\windows\lib\TitaniumWindows_Utili
 robocopy build\ARM\Global\Utility\Release dist\windows\lib\TitaniumWindows_Utility\ARM TitaniumWindows_Utility.*
 robocopy build\x86\Global\Utility dist\windows\lib\TitaniumWindows_Utility\include titaniumwindows_utility_export.h
 
+echo Titanium Windows Map
+robocopy build\x86\Map\Release dist\windows\lib\TitaniumWindows_Map\x86 TitaniumWindows_Map.*
+robocopy build\ARM\Map\Release dist\windows\lib\TitaniumWindows_Map\ARM TitaniumWindows_Map.*
+robocopy build\x86\Map dist\windows\lib\TitaniumWindows_Map\include titaniumwindows_map_export.h
 
 IF %ERRORLEVEL% LEQ 4 exit /B 0

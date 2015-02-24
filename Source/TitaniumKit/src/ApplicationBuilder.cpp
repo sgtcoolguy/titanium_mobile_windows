@@ -23,6 +23,7 @@
 #include "Titanium/NetworkModule.hpp"
 #include "Titanium/Network/HTTPClient.hpp"
 #include "Titanium/XML.hpp"
+#include "Titanium/MapModule.hpp"
 
 namespace Titanium
 {
@@ -56,7 +57,8 @@ namespace Titanium
 	      database__(js_context__.CreateObject<Titanium::DatabaseModule>()),
 		  app__(js_context__.CreateObject<Titanium::AppModule>()),
 	      httpclient__(js_context__.CreateObject<Titanium::Network::HTTPClient>()),
-	      network__(js_context__.CreateObject<Titanium::NetworkModule>())
+	      network__(js_context__.CreateObject<Titanium::NetworkModule>()),
+	      map__(js_context__.CreateObject<Titanium::MapModule>())
 	{
 	}
 
@@ -97,6 +99,7 @@ namespace Titanium
 		titanium.SetProperty("Network", network__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Analytics", analytics__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("XML", xml__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("Map", map__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
 		JSString builtin_functions_script = R"js(
 			  console = {};
@@ -412,6 +415,28 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::NetworkObject(const JSObject& network) TITANIUM_NOEXCEPT
 	{
 		network__ = network;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::XMLObject() const TITANIUM_NOEXCEPT
+	{
+		return xml__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::XMLObject(const JSObject& XML) TITANIUM_NOEXCEPT
+	{
+		xml__ = XML;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::MapObject() const TITANIUM_NOEXCEPT
+	{
+		return map__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::MapObject(const JSObject& Map) TITANIUM_NOEXCEPT
+	{
+		map__ = Map;
 		return *this;
 	}
 

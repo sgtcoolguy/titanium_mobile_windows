@@ -24,6 +24,7 @@ require('./ti.filesystem.test');
 //require('./ti.geolocation.test');
 require('./ti.gesture.test');
 require('./ti.internal.test');
+require('./ti.map.test');
 require('./ti.network.httpclient.test');
 require('./ti.platform.test');
 require('./ti.require.test');
