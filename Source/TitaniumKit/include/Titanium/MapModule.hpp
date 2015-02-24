@@ -19,7 +19,7 @@ namespace Titanium
 	/*!
 	  @class
 	  @discussion This is the Titanium Map Module.
-	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.MapModule
+	  See http://docs.appcelerator.com/titanium/3.0/#!/api/Modules.Map
 	*/
 	class TITANIUMKIT_EXPORT MapModule : public Module, public JSExport<MapModule>
 	{

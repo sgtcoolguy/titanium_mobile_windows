@@ -31,7 +31,7 @@ namespace Titanium
 
 		  @constant TERRAIN Used with mapType to display the terrain that shows the position of all roads and some road names.
 		*/
-		enum class TITANIUMKIT_EXPORT TYPE {
+		enum class TITANIUMKIT_EXPORT MAP_TYPE {
 			HYBRID,
 			SATELLITE,
 			NORMAL,
@@ -122,15 +122,15 @@ namespace Titanium
 	} // namespace Map
 }  // namespace Titanium
 
-// Provide a hash function so that a Titanium::Map::TYPE can be stored in an
+// Provide a hash function so that a Titanium::Map::MAP_TYPE can be stored in an
 // unordered container.
 namespace std
 {
-	using Titanium::Map::TYPE;
+	using Titanium::Map::MAP_TYPE;
 	template <>
-	struct hash<TYPE>
+	struct hash<MAP_TYPE>
 	{
-		using argument_type = TYPE;
+		using argument_type = MAP_TYPE;
 		using result_type = std::size_t;
 		using underlying_type = std::underlying_type<argument_type>::type;
 		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
@@ -143,7 +143,7 @@ namespace std
 
 	using Titanium::Map::OVERLAY_LEVEL;
 	template <>
-	struct hash<TYPE>
+	struct hash<OVERLAY_LEVEL>
 	{
 		using argument_type = OVERLAY_LEVEL;
 		using result_type = std::size_t;
@@ -158,7 +158,7 @@ namespace std
 
 	using Titanium::Map::ANNOTATION_DRAG_STATE;
 	template <>
-	struct hash<TYPE>
+	struct hash<ANNOTATION_DRAG_STATE>
 	{
 		using argument_type = ANNOTATION_DRAG_STATE;
 		using result_type = std::size_t;
@@ -173,7 +173,7 @@ namespace std
 
 	using Titanium::Map::ANNOTATION_COLOR;
 	template <>
-	struct hash<TYPE>
+	struct hash<ANNOTATION_COLOR>
 	{
 		using argument_type = ANNOTATION_COLOR;
 		using result_type = std::size_t;
@@ -188,7 +188,7 @@ namespace std
 
 	using Titanium::Map::GOOGLE_PLAY_SERVICE_STATE;
 	template <>
-	struct hash<TYPE>
+	struct hash<GOOGLE_PLAY_SERVICE_STATE>
 	{
 		using argument_type = GOOGLE_PLAY_SERVICE_STATE;
 		using result_type = std::size_t;
@@ -209,10 +209,10 @@ namespace Titanium
 		class TITANIUMKIT_EXPORT Constants final
 		{
 		public:
-			static std::string to_string(const TYPE&) TITANIUM_NOEXCEPT;
-			static TYPE to_TYPE(const std::string& typeName) TITANIUM_NOEXCEPT;
-			static TYPE to_TYPE(std::underlying_type<TYPE>::type) TITANIUM_NOEXCEPT;
-			static std::underlying_type<TYPE>::type to_underlying_type(const TYPE&) TITANIUM_NOEXCEPT;
+			static std::string to_string(const MAP_TYPE&) TITANIUM_NOEXCEPT;
+			static MAP_TYPE to_MAP_TYPE(const std::string& typeName) TITANIUM_NOEXCEPT;
+			static MAP_TYPE to_MAP_TYPE(std::underlying_type<MAP_TYPE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<MAP_TYPE>::type to_underlying_type(const MAP_TYPE&) TITANIUM_NOEXCEPT;
 
 			static std::string to_string(const OVERLAY_LEVEL&) TITANIUM_NOEXCEPT;
 			static OVERLAY_LEVEL to_OVERLAY_LEVEL(const std::string& overlayLevelName) TITANIUM_NOEXCEPT;

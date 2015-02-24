@@ -14,16 +14,16 @@ namespace Titanium
 {
 	namespace Map
 	{
-		std::string Constants::to_string(const TYPE& type) TITANIUM_NOEXCEPT
+		std::string Constants::to_string(const MAP_TYPE& type) TITANIUM_NOEXCEPT
 		{
-			static std::string unknown_string = "TYPE::Unknown";
-			static std::unordered_map<TYPE, std::string> map;
+			static std::string unknown_string = "MAP_TYPE::Unknown";
+			static std::unordered_map<MAP_TYPE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-				map[TYPE::HYBRID]    = "HYBRID_TYPE";
-				map[TYPE::SATELLITE] = "SATELLITE_TYPE";
-				map[TYPE::NORMAL]    = "NORMAL_TYPE";
-				map[TYPE::TERRAIN]   = "TERRAIN_TYPE";
+				map[MAP_TYPE::HYBRID] = "HYBRID_TYPE";
+				map[MAP_TYPE::SATELLITE] = "SATELLITE_TYPE";
+				map[MAP_TYPE::NORMAL] = "NORMAL_TYPE";
+				map[MAP_TYPE::TERRAIN] = "TERRAIN_TYPE";
 			});
 
 			std::string string = unknown_string;
@@ -35,53 +35,53 @@ namespace Titanium
 			return string;
 		}
 
-		TYPE Constants::to_TYPE(const std::string& typeName) TITANIUM_NOEXCEPT
+		MAP_TYPE Constants::to_MAP_TYPE(const std::string& typeName) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map<std::string, TYPE> map;
+			static std::unordered_map<std::string, MAP_TYPE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-				map["HYBRID_TYPE"]    = TYPE::HYBRID;
-				map["SATELLITE_TYPE"] = TYPE::SATELLITE;
-				map["NORMAL_TYPE"]    = TYPE::NORMAL;
-				map["TERRAIN_TYPE"]   = TYPE::TERRAIN;
+				map["HYBRID_TYPE"] = MAP_TYPE::HYBRID;
+				map["SATELLITE_TYPE"] = MAP_TYPE::SATELLITE;
+				map["NORMAL_TYPE"] = MAP_TYPE::NORMAL;
+				map["TERRAIN_TYPE"] = MAP_TYPE::TERRAIN;
 			});
 
-			TYPE type = TYPE::NORMAL;
+			MAP_TYPE type = MAP_TYPE::NORMAL;
 			const auto position = map.find(typeName);
 			if (position != map.end()) {
 				type = position->second;
 			} else {
-				TITANIUM_LOG_WARN("Constants::to_TYPE: Titanium::Map::TYPE with name '", typeName, "' does not exist");
+				TITANIUM_LOG_WARN("Constants::to_MAP_TYPE: Titanium::Map::MAP_TYPE with name '", typeName, "' does not exist");
 			}
 
 			return type;
 		}
 
-		TYPE Constants::to_TYPE(std::underlying_type<TYPE>::type type_underlying_type) TITANIUM_NOEXCEPT
+		MAP_TYPE Constants::to_MAP_TYPE(std::underlying_type<MAP_TYPE>::type type_underlying_type) TITANIUM_NOEXCEPT
 		{
-			static std::unordered_map<std::underlying_type<TYPE>::type, TYPE> map;
+			static std::unordered_map<std::underlying_type<MAP_TYPE>::type, MAP_TYPE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-				map[static_cast<std::underlying_type<TYPE>::type>(TYPE::HYBRID)]    = TYPE::HYBRID;
-				map[static_cast<std::underlying_type<TYPE>::type>(TYPE::SATELLITE)] = TYPE::SATELLITE;
-				map[static_cast<std::underlying_type<TYPE>::type>(TYPE::NORMAL)]    = TYPE::NORMAL;
-				map[static_cast<std::underlying_type<TYPE>::type>(TYPE::TERRAIN)]   = TYPE::TERRAIN;
+				map[static_cast<std::underlying_type<MAP_TYPE>::type>(MAP_TYPE::HYBRID)] = MAP_TYPE::HYBRID;
+				map[static_cast<std::underlying_type<MAP_TYPE>::type>(MAP_TYPE::SATELLITE)] = MAP_TYPE::SATELLITE;
+				map[static_cast<std::underlying_type<MAP_TYPE>::type>(MAP_TYPE::NORMAL)] = MAP_TYPE::NORMAL;
+				map[static_cast<std::underlying_type<MAP_TYPE>::type>(MAP_TYPE::TERRAIN)] = MAP_TYPE::TERRAIN;
 			});
 
-			TYPE type = TYPE::NORMAL;
+			MAP_TYPE type = MAP_TYPE::NORMAL;
 			const auto position = map.find(type_underlying_type);
 			if (position != map.end()) {
 				type = position->second;
 			} else {
-				TITANIUM_LOG_WARN("Constants::to_TYPE: Titanium::Map::TYPE with value '", type_underlying_type, "' does not exist");
+				TITANIUM_LOG_WARN("Constants::to_MAP_TYPE: Titanium::Map::MAP_TYPE with value '", type_underlying_type, "' does not exist");
 			}
 
 			return type;
 		}
 
-		std::underlying_type<TYPE>::type Constants::to_underlying_type(const TYPE& type) TITANIUM_NOEXCEPT
+		std::underlying_type<MAP_TYPE>::type Constants::to_underlying_type(const MAP_TYPE& mapType) TITANIUM_NOEXCEPT
 		{
-			return static_cast<std::underlying_type<TYPE>::type>(type);
+			return static_cast<std::underlying_type<MAP_TYPE>::type>(mapType);
 		}
 
 		std::string Constants::to_string(const OVERLAY_LEVEL& overlayLevel) TITANIUM_NOEXCEPT
@@ -112,7 +112,7 @@ namespace Titanium
 				map["OVERLAY_LEVEL_ABOVE_ROADS"]  = OVERLAY_LEVEL::ABOVE_ROADS;
 			});
 
-			OVERLAY_LEVEL level = OVERLAY_LEVEL::NORMAL;
+			OVERLAY_LEVEL level = OVERLAY_LEVEL::ABOVE_LABELS;
 			const auto position = map.find(overlayLevelName);
 			if (position != map.end()) {
 				level = position->second;

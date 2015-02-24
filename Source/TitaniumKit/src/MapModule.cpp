@@ -12,10 +12,10 @@ namespace Titanium
 {
     MapModule::MapModule(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
         : Module(js_context, arguments),
-		hybrid_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::TYPE::HYBRID))),
-		satellite_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::TYPE::SATELLITE))),
-		normal_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::TYPE::NORMAL))),
-		terrain_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::TYPE::TERRAIN))),
+		hybrid_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::MAP_TYPE::HYBRID))),
+		satellite_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::MAP_TYPE::SATELLITE))),
+		normal_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::MAP_TYPE::NORMAL))),
+		terrain_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::MAP_TYPE::TERRAIN))),
 		annotation_drag_state_end__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_DRAG_STATE::END))),
 		annotation_drag_state_start__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_DRAG_STATE::START))),
 		annotation_azure__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::AZURE))),
@@ -34,7 +34,7 @@ namespace Titanium
 		service_disabled__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::GOOGLE_PLAY_SERVICE_STATE::DISABLED))),
 		service_invalid__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::GOOGLE_PLAY_SERVICE_STATE::INVALID))),
 		service_missing__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::GOOGLE_PLAY_SERVICE_STATE::MISSING))),
-		service_version_update_required__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::GOOGLE_PLAY_SERVICE_STATE:VERSION_UPDATE_REQUIRED))),
+		service_version_update_required__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::GOOGLE_PLAY_SERVICE_STATE::VERSION_UPDATE_REQUIRED))),
 		success__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::GOOGLE_PLAY_SERVICE_STATE::SUCCESS)))
     {
 	}
@@ -69,9 +69,34 @@ namespace Titanium
 		return annotation_drag_state_start__;
 	}
 
+	JSValue MapModule::ANNOTATION_AZURE() const TITANIUM_NOEXCEPT
+	{
+		return annotation_azure__;
+	}
+	
+	JSValue MapModule::ANNOTATION_BLUE() const TITANIUM_NOEXCEPT
+	{
+		return annotation_blue__;
+	}
+	
+	JSValue MapModule::ANNOTATION_CYAN() const TITANIUM_NOEXCEPT
+	{
+		return annotation_cyan__;
+	}
+		
 	JSValue MapModule::ANNOTATION_GREEN() const TITANIUM_NOEXCEPT
 	{
 		return annotation_green__;
+	}
+
+	JSValue MapModule::ANNOTATION_MAGENTA() const TITANIUM_NOEXCEPT
+	{
+		return annotation_magenta__;
+	}
+
+	JSValue MapModule::ANNOTATION_ORANGE() const TITANIUM_NOEXCEPT
+	{
+		return annotation_orange__;
 	}
 
 	JSValue MapModule::ANNOTATION_PURPLE() const TITANIUM_NOEXCEPT
@@ -84,6 +109,20 @@ namespace Titanium
 		return annotation_red__;
 	}
 
+	JSValue MapModule::ANNOTATION_ROSE() const TITANIUM_NOEXCEPT
+	{
+		return annotation_rose__;
+	}
+		
+	JSValue MapModule::ANNOTATION_VIOLET() const TITANIUM_NOEXCEPT
+	{
+		return annotation_violet__;
+	}
+		
+	JSValue MapModule::ANNOTATION_YELLOW() const TITANIUM_NOEXCEPT
+	{
+		return annotation_yellow__;
+	}
 	JSValue MapModule::OVERLAY_LEVEL_ABOVE_LABELS() const TITANIUM_NOEXCEPT
 	{
 		return overlay_level_above_labels__;
