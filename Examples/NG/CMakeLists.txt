@@ -30,6 +30,9 @@ get_filename_component(Ti_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../../Sour
 get_filename_component(API_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/API           ABSOLUTE)
 get_filename_component(Gesture_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../../Source/Gesture       ABSOLUTE)
 get_filename_component(Accelerometer_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../../Source/Accelerometer ABSOLUTE)
+get_filename_component(App_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/App           ABSOLUTE)
+get_filename_component(Map_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/Map           ABSOLUTE)
+get_filename_component(Network_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../../Source/Network       ABSOLUTE)
 get_filename_component(Filesystem_SOURCE_DIR    ${PROJECT_SOURCE_DIR}/../../Source/Filesystem    ABSOLUTE)
 get_filename_component(Utility_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../../Source/Utility       ABSOLUTE)
 get_filename_component(UI_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../../Source/UI            ABSOLUTE)
@@ -58,6 +61,18 @@ endif()
 
 if(NOT TARGET TitaniumWindows_Accelerometer)
   add_subdirectory(${Accelerometer_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Accelerometer EXCLUDE_FROM_ALL)
+endif()
+
+if(NOT TARGET TitaniumWindows_App)
+  add_subdirectory(${App_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/App EXCLUDE_FROM_ALL)
+endif()
+
+if(NOT TARGET TitaniumWindows_Map)
+  add_subdirectory(${Map_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Map EXCLUDE_FROM_ALL)
+endif()
+
+if(NOT TARGET TitaniumWindows_Network)
+  add_subdirectory(${Network_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Network EXCLUDE_FROM_ALL)
 endif()
 
 if(NOT TARGET TitaniumWindows_Filesystem)
