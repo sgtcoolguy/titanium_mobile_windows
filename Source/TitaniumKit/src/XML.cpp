@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -31,10 +31,10 @@ this.exports.serializeToString = function(_xml) {
 
 
 	XML::XML(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : Module(js_context, arguments)
-	    , func_parseString__(js_context.CreateObject())
-	    , func_serializeToString__(js_context.CreateObject())
-			, ti_xml__(js_context.CreateObject())
+	    : Module(js_context, arguments),
+	      func_parseString__(js_context.CreateObject()),
+	      func_serializeToString__(js_context.CreateObject()),
+		  ti_xml__(js_context.CreateObject())
 	{
 		// There's no "new Ti.XML()" 
 	}
