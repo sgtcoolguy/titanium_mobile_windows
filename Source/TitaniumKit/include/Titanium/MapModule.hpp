@@ -27,7 +27,7 @@ namespace Titanium
 
 		enum class MapType {
 			HYBRID_TYPE,
-			SATELITE_TYPE,
+			SATELLITE_TYPE,
 			STANDARD_TYPE,
 			TERRAIN_TYPE
 		};
@@ -56,7 +56,7 @@ namespace Titanium
 		};
 
 		virtual JSValue HYBRID_TYPE() const TITANIUM_NOEXCEPT;
-		virtual JSValue SATELITE_TYPE() const TITANIUM_NOEXCEPT;
+		virtual JSValue SATELLITE_TYPE() const TITANIUM_NOEXCEPT;
 		virtual JSValue STANDARD_TYPE() const TITANIUM_NOEXCEPT;
 		virtual JSValue TERRAIN_TYPE() const TITANIUM_NOEXCEPT;
 
@@ -139,7 +139,7 @@ namespace Titanium
 
 	private:
 		JSValue hybrid_type__;
-		JSValue satelite_type__;
+		JSValue satellite_type__;
 		JSValue standard_type__;
 		JSValue terrain_type__;
 		JSValue annotation_drag_state_cancel__;

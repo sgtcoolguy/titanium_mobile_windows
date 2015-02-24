@@ -13,7 +13,7 @@ namespace Titanium
     MapModule::MapModule(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
         : Module(js_context, arguments),
 		hybrid_type__(get_context().CreateNumber(static_cast<int>(MapType::HYBRID_TYPE))),
-		satelite_type__(get_context().CreateNumber(static_cast<int>(MapType::SATELITE_TYPE))),
+		satellite_type__(get_context().CreateNumber(static_cast<int>(MapType::SATELLITE_TYPE))),
 		standard_type__(get_context().CreateNumber(static_cast<int>(MapType::STANDARD_TYPE))),
 		terrain_type__(get_context().CreateNumber(static_cast<int>(MapType::TERRAIN_TYPE))),
 		annotation_drag_state_cancel__(get_context().CreateNumber(static_cast<int>(AnnotationType::ANNOTATION_DRAG_STATE_CANCEL))),
@@ -49,9 +49,9 @@ namespace Titanium
 		return hybrid_type__;
 	}
 
-	JSValue MapModule::SATELITE_TYPE() const TITANIUM_NOEXCEPT
+	JSValue MapModule::SATELLITE_TYPE() const TITANIUM_NOEXCEPT
 	{
-		return satelite_type__;
+		return satellite_type__;
 	}
 
 	JSValue MapModule::STANDARD_TYPE() const TITANIUM_NOEXCEPT
@@ -189,7 +189,7 @@ namespace Titanium
 		JSExport<MapModule>::SetParent(JSExport<Module>::Class());
 
 		JSExport<MapModule>::AddValueProperty("HYBRID_TYPE", std::mem_fn(&MapModule::HYBRID_TYPE));
-		JSExport<MapModule>::AddValueProperty("SATELLITE_TYPE", std::mem_fn(&MapModule::SATELITE_TYPE));
+		JSExport<MapModule>::AddValueProperty("SATELLITE_TYPE", std::mem_fn(&MapModule::SATELLITE_TYPE));
 		JSExport<MapModule>::AddValueProperty("STANDARD_TYPE", std::mem_fn(&MapModule::STANDARD_TYPE));
 		JSExport<MapModule>::AddValueProperty("ANNOTATION_DRAG_STATE_CANCEL", std::mem_fn(&ANNOTATION_DRAG_STATE_CANCEL));
 		JSExport<MapModule>::AddValueProperty("ANNOTATION_DRAG_STATE_DRAG", std::mem_fn(&ANNOTATION_DRAG_STATE_DRAG));
