@@ -22,6 +22,7 @@
 #include "Titanium/DatabaseModule.hpp"
 #include "Titanium/NetworkModule.hpp"
 #include "Titanium/Network/HTTPClient.hpp"
+#include "Titanium/XML.hpp"
 
 namespace Titanium
 {
@@ -46,6 +47,7 @@ namespace Titanium
 	      textField__(js_context__.CreateObject<Titanium::UI::TextField>()),
 	      webview__(js_context__.CreateObject<Titanium::UI::WebView>()),
 	      platform__(js_context__.CreateObject<Titanium::PlatformModule>()),
+	      xml__(js_context__.CreateObject<Titanium::XML>()),
 	      accelerometer__(js_context__.CreateObject<Titanium::Accelerometer>()),
 	      gesture__(js_context__.CreateObject<Titanium::Gesture>()),
 	      blob__(js_context__.CreateObject<Titanium::Blob>()),
@@ -94,6 +96,7 @@ namespace Titanium
 		app__.SetProperty("Properties", properties__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Network", network__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Analytics", analytics__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("XML", xml__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
 		JSString builtin_functions_script = R"js(
 			  console = {};

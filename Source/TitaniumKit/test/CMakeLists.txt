@@ -1,6 +1,6 @@
 # TitaniumKit
 #
-# Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+# Copyright (c) 20154-2015 by Appcelerator, Inc. All Rights Reserved.
 # Licensed under the terms of the Apache Public License.
 # Please see the LICENSE included with this distribution for details.
 
@@ -24,3 +24,4 @@ cxx_test(NativeFileTests . TitaniumKit_examples)
 cxx_test(NativeTiTests   . TitaniumKit_examples)
 cxx_test(NativeListViewTests   . TitaniumKit_examples)
 cxx_test(NativeWebViewTests   . TitaniumKit_examples)
+cxx_test(NativeXMLTests   . TitaniumKit_examples)
