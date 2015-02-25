@@ -44,6 +44,7 @@ namespace TitaniumWindows
 
 		void ImageView::set_image(const std::string& path) TITANIUM_NOEXCEPT
 		{
+			Titanium::UI::ImageView::set_image(path);
 			std::string modified = path;
 			// if the path isn't an http/s URI already, fix URI to point to local files in app
 			if (!boost::starts_with(modified, "http://") && !boost::starts_with(modified, "https://")) {
@@ -57,6 +58,13 @@ namespace TitaniumWindows
 			auto uri = ref new Windows::Foundation::Uri(ref new Platform::String(std::wstring(modified.begin(), modified.end()).c_str()));
 			auto image = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(uri);
 			image__->Source = image;
+		}
+
+		void ImageView::set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ImageView::set_images(images);
+			// HACK For now let's cheat and just set the first image as a static one
+			set_image(images.at(0));
 		}
 
 		void ImageView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT

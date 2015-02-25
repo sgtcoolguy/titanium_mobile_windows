@@ -60,7 +60,7 @@ namespace Titanium
 	
 			// For now, can we cheat and just pretend the animation happened immediately and fire the callback?
 			if (callback.IsFunction()) {
-				callback(get_context().CreateObject(), this_object);
+				callback(this_object);
 			}
 		}
 

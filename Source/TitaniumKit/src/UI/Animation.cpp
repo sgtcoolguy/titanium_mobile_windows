@@ -19,7 +19,7 @@ namespace Titanium
 			autoreverse__(false),
 			backgroundColor__(""),
 			bottom__(0),
-			center__(),
+			center__(js_context.CreateObject()),
 			color__(""),
 			curve__(ANIMATION_CURVE::EASE_IN),
 			delay__(0),
@@ -31,9 +31,9 @@ namespace Titanium
 			repeat__(1),
 			right__(0),
 			top__(0),
-			transform__(),
+			transform__(js_context.CreateNull()),
 			transition__(0),
-			view__(),
+			view__(js_context.CreateNull()),
 			visible__(true),
 			width__(0),
 			zIndex__(1)
@@ -394,7 +394,7 @@ namespace Titanium
 
 		JSValue Animation::js_get_delay() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(get_delay());
+			return get_context().CreateNumber(static_cast<double>(get_delay().count()));
 		}
 
 		bool Animation::js_set_delay(const JSValue& argument) TITANIUM_NOEXCEPT
@@ -407,7 +407,7 @@ namespace Titanium
 
 		JSValue Animation::js_get_duration() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(get_duration());
+			return get_context().CreateNumber(static_cast<double>(get_duration().count()));
 		}
 
 		bool Animation::js_set_duration(const JSValue& argument) TITANIUM_NOEXCEPT
