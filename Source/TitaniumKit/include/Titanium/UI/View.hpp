@@ -70,7 +70,7 @@ namespace Titanium
 
 			  @result void
 			*/
-			virtual void animate(const JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT;
+			virtual void animate(const JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
