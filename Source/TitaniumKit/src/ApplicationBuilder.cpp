@@ -10,6 +10,7 @@
 #include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
+#include "Titanium/UI/Animation.hpp"
 #include "Titanium/App/Properties.hpp"
 #include "Titanium/App.hpp"
 #include "Titanium/Analytics.hpp"
@@ -33,6 +34,7 @@ namespace Titanium
 	      ti__(js_context__.CreateObject<Titanium::TiModule>()),
 	      api__(js_context__.CreateObject<Titanium::API>()),
 	      view__(js_context__.CreateObject<Titanium::UI::View>()),
+	      animation__(js_context__.CreateObject<Titanium::UI::Animation>()),
 	      listsection__(js_context__.CreateObject<Titanium::UI::ListSection>()),
 	      listview__(js_context__.CreateObject<Titanium::UI::ListView>()),
 	      emaildialog__(js_context__.CreateObject<Titanium::UI::EmailDialog>()),
@@ -65,19 +67,20 @@ namespace Titanium
 	Application ApplicationBuilder::build()
 	{
 		JSObject ui = js_context__.CreateObject<Titanium::UIModule>();
-		ui.SetProperty("AlertDialog", alertDialog__);
-		ui.SetProperty("Button", button__);
+		ui.SetProperty("AlertDialog", alertDialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("Animation", animation__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("Button", button__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("EmailDialog", emaildialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("ImageView", imageview__);
-		ui.SetProperty("Label", label__);
-		ui.SetProperty("Slider", slider__);
-		ui.SetProperty("ScrollView", scrollview__);
-		ui.SetProperty("TextField", textField__);
-		ui.SetProperty("View", view__);
-		ui.SetProperty("Window", window__);
+		ui.SetProperty("ImageView", imageview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("Label", label__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("Slider", slider__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("ScrollView", scrollview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("TextField", textField__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("View", view__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("Window", window__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("ListView", listview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("ListSection", listsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("WebView", webview__);
+		ui.SetProperty("WebView", webview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
 		filesystem__.SetProperty("File", file__);
 		network__.SetProperty("HTTPClient", httpclient__);
@@ -210,6 +213,17 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::EmailDialogObject(const JSObject& EmailDialog) TITANIUM_NOEXCEPT
 	{
 		emaildialog__ = EmailDialog;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::AnimationObject() const TITANIUM_NOEXCEPT
+	{
+		return animation__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::AnimationObject(const JSObject& Animation) TITANIUM_NOEXCEPT
+	{
+		animation__ = Animation;
 		return *this;
 	}
 
