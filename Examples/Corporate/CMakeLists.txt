@@ -14,9 +14,9 @@ else()
   message(FATAL_ERROR "This app supports Store / Phone only.")
 endif()
 
-project(CORPORATE)
+project(Corporate)
 
-set(CORPORATE_VERSION 0.1.0)
+set(Corporate_VERSION 0.1.0)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)

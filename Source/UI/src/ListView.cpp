@@ -57,7 +57,7 @@ namespace TitaniumWindows
 					[this, ctx](::Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
 					auto listview = safe_cast<Windows::UI::Xaml::Controls::ListView^>(sender);
 
-					TITANIUM_ASSERT(listViewItems__->Size > listview->SelectedIndex);
+					TITANIUM_ASSERT((listview->SelectedIndex < 0) || (static_cast<unsigned int>(listview->SelectedIndex) < listViewItems__->Size));
 					auto listViewItem = listViewItems__->GetAt(listview->SelectedIndex);
 
 					JSObject  eventArgs = ctx.CreateObject();
