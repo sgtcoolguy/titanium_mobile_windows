@@ -71,7 +71,7 @@ namespace TitaniumWindows
 	{
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 		const auto value = Windows::Storage::ApplicationData::Current->LocalCacheFolder->Path;
-		return TitaniumWindows::Utility::ConvertString(value);
+		return TitaniumWindows::Utility::ConvertString(value) + separator();
 #else
 		TITANIUM_LOG_WARN("Filesystem.applicationCacheDirectory is not supported on Windows Store.");
 		return "";
@@ -81,13 +81,13 @@ namespace TitaniumWindows
 	std::string FilesystemModule::applicationDataDirectory() const TITANIUM_NOEXCEPT
 	{
 		const auto value = Windows::Storage::ApplicationData::Current->LocalFolder->Path;
-		return TitaniumWindows::Utility::ConvertString(value);
+		return TitaniumWindows::Utility::ConvertString(value) + separator();
 	}
 
 	std::string FilesystemModule::applicationDirectory() const TITANIUM_NOEXCEPT
 	{
 		const auto value = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
-		return TitaniumWindows::Utility::ConvertString(value);
+		return TitaniumWindows::Utility::ConvertString(value) + separator();
 	}
 
 	std::string FilesystemModule::applicationSupportDirectory() const TITANIUM_NOEXCEPT
@@ -95,7 +95,7 @@ namespace TitaniumWindows
 		// Need to check exception here because this requires "Documents" capability
 		try {
 			const auto value = Windows::Storage::KnownFolders::DocumentsLibrary->Path;
-			return TitaniumWindows::Utility::ConvertString(value);
+			return TitaniumWindows::Utility::ConvertString(value) + separator();
 		} catch (Platform::AccessDeniedException^ e) {
 			return "";
 		}
@@ -106,7 +106,7 @@ namespace TitaniumWindows
 		// Need to check exception here because this requires "Removable Storage" capability
 		try {
 			const auto value = Windows::Storage::KnownFolders::RemovableDevices->Path;
-			return TitaniumWindows::Utility::ConvertString(value);
+			return TitaniumWindows::Utility::ConvertString(value) + separator();
 		} catch (Platform::AccessDeniedException^ e) {
 			return "";
 		}
@@ -120,12 +120,12 @@ namespace TitaniumWindows
 	std::string FilesystemModule::resourcesDirectory() const TITANIUM_NOEXCEPT
 	{
 		const auto value = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
-		return TitaniumWindows::Utility::ConvertString(value);
+		return TitaniumWindows::Utility::ConvertString(value) + separator();
 	}
 
 	std::string FilesystemModule::tempDirectory() const TITANIUM_NOEXCEPT
 	{
 		const auto value = Windows::Storage::ApplicationData::Current->TemporaryFolder->Path;
-		return TitaniumWindows::Utility::ConvertString(value);
+		return TitaniumWindows::Utility::ConvertString(value) + separator();
 	}
 }  // namespace TitaniumWindows
