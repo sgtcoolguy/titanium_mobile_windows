@@ -33,25 +33,29 @@ var LISTVIEW_LIST_ITEM_TEMPLATE_DEFAULT = {
 
 //Recursive function that process childTemplates and append corresponding proxy constructors to
 //property 'constructor'. I.e: type: "Titanium.UI.Label" -> constructor: LabelProxy constructor
-function processChildTemplates(properties) {
-	if (!properties.hasOwnProperty('childTemplates')) return;
+function processTemplates(template) {
+	lookupCreateFunction(template);
 
-	var childProperties = properties.childTemplates;
-	if (childProperties === void 0 || childProperties === null) return;
+	if (!template.hasOwnProperty('childTemplates')) return;
 
-	for (var i = 0; i < childProperties.length; i++) {
-		var child = childProperties[i];
-		var proxyType = child.type;
-		if (proxyType !== void 0 && child.createView === void 0) {
-			var creationProperties = child.properties;
-			var creationFunction = lookup(proxyType);
-			var func = creationFunction;
-			func.properties = creationProperties;
-			func.events = child.events;
-			child.createView = func;
+	var childTemplates = template.childTemplates;
+	if (childTemplates === void 0 || childTemplates === null) return;
+
+	for (var i = 0; i < childTemplates.length; i++) {
+		lookupCreateFunction(childTemplates[i]);
+		processTemplates(childTemplates[i]);
+	}
+}
+
+function lookupCreateFunction(template) {
+	if (template.createView === void 0) {
+		var proxyType = template.type;
+		if (proxyType !== void 0) {
+			var func = lookup(proxyType);
+			template.createView = func;
+		} else {
+			template.createView = Ti.UI.createView;
 		}
-
-		processChildTemplates(child);
 	}
 }
 
@@ -77,7 +81,7 @@ function createSectionView(listview, section) {
 		listview.templates[Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT] = LISTVIEW_LIST_ITEM_TEMPLATE_DEFAULT;
 
 		for (var binding in listview.templates) {
-			processChildTemplates(listview.templates[binding]);
+			processTemplates(listview.templates[binding]);
 		}
 		this.loaded = true;
 	}
@@ -89,41 +93,41 @@ function createSectionView(listview, section) {
 	return section.views;
 }
 
-	// Create list item for custom template
-function createSectionItemAt(listview, section, index) {
-	var item = section.items[index];
-	var template = listview.templates[listview.defaultItemTemplate];
-
-	var view = Ti.UI.createView({top:0, left:0, width:Ti.UI.SIZE, height:Ti.UI.SIZE});
+function createSectionItemView(item, template, parent) {
+	var options = template.properties;
+	if (!options) {
+		options = {top:0, left:0, width:Ti.UI.SIZE, height:Ti.UI.SIZE};
+	}
+	var view = template.createView(options);
+	if (item[template.bindId]) {
+		view.applyProperties(item[template.bindId]);
+	} else if (item.properties) {
+		// builtin template has different format
+		if (template.type == 'Ti.UI.Label' && item.properties.title) {
+			view.applyProperties({text:item.properties.title});
+		} else if (template.type == 'Ti.UI.ImageView' && item.properties.image) {
+			view.applyProperties({image:item.properties.image});
+		}
+	}
 	if (template.childTemplates && Array.isArray(template.childTemplates)) {
-		template.childTemplates.forEach(function (ctemplate) {
-			try {
-				var cview;
-				if (item[ctemplate.bindId]) {
-					cview = ctemplate.createView(ctemplate.properties);
-					cview.applyProperties(item[ctemplate.bindId]);
-				} else if (item.properties) {
-					// builtin template has different format
-					if (ctemplate.type == 'Ti.UI.Label' && item.properties.title) {
-						cview = ctemplate.createView(ctemplate.properties);
-						cview.applyProperties({text:item.properties.title});
-					} else if (ctemplate.type == 'Ti.UI.ImageView' && item.properties.image) {
-						cview = ctemplate.createView(ctemplate.properties);
-						cview.applyProperties({image:item.properties.image});
-					}
-				}
-				if (cview) {
-					view.add(cview);
-				}
-			} catch (E) {
-				Ti.API.warn(E);
-			}
-		});
+		for (var i = 0; i < template.childTemplates.length; i++) {
+			createSectionItemView(item, template.childTemplates[i], view);
+		}
+	}
+	if (parent) {
+		parent.add(view);
 	}
 	return view;
 }
 
+// Create list item for custom template
+function createSectionItemAt(listview, section, index) {
+	var item = section.items[index];
+	var template = listview.templates[listview.defaultItemTemplate];
+	return createSectionItemView(item, template);
+}
+
 this.exports = {};
 this.exports.createSectionView = createSectionView;
-this.exports.processChildTemplates = processChildTemplates;
+this.exports.processTemplates  = processTemplates;
 this.exports.loaded = false;
