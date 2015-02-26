@@ -251,122 +251,6 @@ protected:
 			childTemplates: __Id2
 		};
 		__Id0["userTemplate"] = __Id1;
-		var __Id16 = [];
-		var __Id18 = {
-			type: "Ti.UI.View",
-			childTemplates: function() {
-				var __Id19 = [];
-				var __Id20 = {
-					type: "Ti.UI.ImageView",
-					bindId: "userPhoto",
-					properties: {
-						preventDefaultImage: true,
-						border: 1,
-						borderColor: "#acacac",
-						height: 75,
-						width: Ti.UI.SIZE,
-						top: 12,
-						left: 0,
-						borderRadius: 35,
-						bindId: "userPhoto"
-					}
-				};
-				__Id19.push(__Id20);
-				var __Id22 = {
-					type: "Ti.UI.View",
-					childTemplates: function() {
-						var __Id23 = [];
-						var __Id24 = {
-							type: "Ti.UI.Label",
-							bindId: "userName",
-							properties: {
-								font: {
-									fontSize: 14
-								},
-								left: 85,
-								color: "#444",
-								bindId: "userName"
-							}
-						};
-						__Id23.push(__Id24);
-						var __Id25 = {
-							type: "Ti.UI.Label",
-							bindId: "userEmail",
-							properties: {
-								font: {
-									fontSize: 10
-								},
-								left: 85,
-								height: 20,
-								color: "#666",
-								bindId: "userEmail"
-							}
-						};
-						__Id23.push(__Id25);
-						var __Id26 = {
-							type: "Ti.UI.Label",
-							bindId: "userCompany",
-							properties: {
-								font: {
-									fontSize: 10
-								},
-								left: 85,
-								height: 20,
-								color: "#666",
-								bindId: "userCompany"
-							}
-						};
-						__Id23.push(__Id26);
-						return __Id23;
-					}(),
-					properties: {
-						layout: "vertical",
-						height: Ti.UI.SIZE,
-						width: Ti.UI.SIZE,
-						left: 10
-					}
-				};
-				__Id19.push(__Id22);
-				var __Id28 = {
-					type: "Ti.UI.Label",
-					properties: {
-						font: {
-							fontSize: 20,
-							fontFamily: "icomoon"
-						},
-						text: "",
-						color: "#038BC8",
-						right: 10,
-						top: -2
-					}
-				};
-				__Id19.push(__Id28);
-				var __Id30 = {
-					type: "Ti.UI.View",
-					properties: {
-						bottom: 0,
-						backgroundColor: "#ececec",
-						width: Ti.UI.FILL,
-						height: 1
-					}
-				};
-				__Id19.push(__Id30);
-				return __Id19;
-			}(),
-			properties: {
-				left: 10
-			}
-		};
-		__Id16.push(__Id18);
-		var __Id15 = {
-			properties: {
-				height: 100,
-				width: Ti.UI.FILL,
-				name: "favoriteTemplate"
-			},
-			childTemplates: __Id16
-		};
-		__Id0["favoriteTemplate"] = __Id15;
 		__Id0;
    	)js";
 };
@@ -853,11 +737,8 @@ TEST_F(ListViewTests, createSectionView_resource_listview_js_corporate)
 	XCTAssertEqual("carrot.png", static_cast<std::string>(js_context.JSEvaluateScript("result[0].views[0].properties.image")));
 	XCTAssertEqual("potato.png", static_cast<std::string>(js_context.JSEvaluateScript("result[1].views[0].properties.image")));
 
-	XCTAssertEqual(3, static_cast<std::string>(js_context.JSEvaluateScript("result[0].views[0].view_count")));
-	XCTAssertEqual(3, static_cast<std::string>(js_context.JSEvaluateScript("result[1].views[0].view_count")));
-	
-	XCTAssertEqual(3, static_cast<std::string>(js_context.JSEvaluateScript("result[0].views[1].view_count")));
-	XCTAssertEqual(3, static_cast<std::string>(js_context.JSEvaluateScript("result[1].views[1].view_count")));
+	XCTAssertEqual(3, static_cast<uint32_t>(js_context.JSEvaluateScript("result[0].views[1].view_count")));
+	XCTAssertEqual(3, static_cast<uint32_t>(js_context.JSEvaluateScript("result[1].views[1].view_count")));
 
 	XCTAssertEqual("Carrot", static_cast<std::string>(js_context.JSEvaluateScript("result[0].views[1].views[0].properties.text")));
 	XCTAssertEqual("Potato", static_cast<std::string>(js_context.JSEvaluateScript("result[1].views[1].views[0].properties.text")));
