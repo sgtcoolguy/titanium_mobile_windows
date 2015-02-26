@@ -24,6 +24,10 @@ function Controller() {
     }
     var $ = this;
     var exports = {};
+    $.__views.index = Alloy.createController("directory", {
+        id: "index"
+    });
+    $.__views.index && $.addTopLevelView($.__views.index);
     exports.destroy = function() {};
     _.extend($, $.__views);
     Alloy.Globals.Navigator = {
