@@ -104,7 +104,7 @@ namespace TitaniumWindows
 
 			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, this_object](Platform::Object^ sender, Platform::Object ^ e) mutable {
 				if (callback.IsFunction()) {
-					callback(this_object); // FIXME Can't call this because emthod is not const, but var is when in lambda!
+					callback(this_object);
 				}
 				// TODO Fire complete event on animation object!
 			});
