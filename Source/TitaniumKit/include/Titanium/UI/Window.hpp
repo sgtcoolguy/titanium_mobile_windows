@@ -31,6 +31,19 @@ namespace Titanium
 			/*!
 			  @method
 
+			  @abstract close( [params] ) : void
+
+			  @discussion Closes the window.
+
+			  @param params Animation or display properties to use when closing the window.
+
+			  @result void
+			*/
+			virtual void close(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract open( [params] ) : void
 
 			  @discussion Opens the window.
@@ -231,6 +244,7 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
+			virtual JSValue js_close(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_barColor() const TITANIUM_NOEXCEPT final;

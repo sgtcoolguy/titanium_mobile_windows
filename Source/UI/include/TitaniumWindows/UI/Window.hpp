@@ -31,6 +31,7 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
+			virtual void close(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT override final;
 			virtual void open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT override final;
 			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;
 
@@ -50,6 +51,7 @@ namespace TitaniumWindows
 			virtual void hide(JSObject& this_object) TITANIUM_NOEXCEPT;
 			virtual void show(JSObject& this_object) TITANIUM_NOEXCEPT;
 
+			virtual void set_fullscreen(const bool& fullscreen) TITANIUM_NOEXCEPT override final;
 			virtual void set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT override final;
 			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT override final;
 			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override final;

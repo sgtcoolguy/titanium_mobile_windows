@@ -55,13 +55,6 @@ namespace Titanium
 		void View::animate(const JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("View::animate");
-
-			// TODO Set up an actual animation!
-	
-			// For now, can we cheat and just pretend the animation happened immediately and fire the callback?
-			if (callback.IsFunction()) {
-				callback(this_object);
-			}
 		}
 
 		void View::hide(JSObject& this_object) TITANIUM_NOEXCEPT

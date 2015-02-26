@@ -45,6 +45,8 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
+			virtual void animate(const JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT override;
+
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
 			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
 
