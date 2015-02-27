@@ -8,6 +8,7 @@
 
 #include "TitaniumWindows/UI/Window.hpp"
 #include "TitaniumWindows/UI/View.hpp"
+#include <windows.h>
 
 namespace TitaniumWindows
 {
@@ -66,6 +67,24 @@ namespace TitaniumWindows
 			}
 		}
 
+		void Window::close(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_DEBUG("Window::close");
+			// FIXME How do we handle this? It should navigate to the next window/page in a stack...
+			getComponent()->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+			// See https://github.com/appcelerator/titanium_mobile_windows.bak/blob/master/Source/TitaniumPedro/Modules/UI/TiPageManager.cpp
+			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
+			if (rootFrame->CanGoBack) {
+				// Since all the pages in the frame back stack are the same
+				// type (Page::typeid) Just remove the first one
+				rootFrame->BackStack->RemoveAt(0);
+			} else {
+				// This is the first and only window, remove it
+				rootFrame->Content = nullptr;
+				Windows::UI::Xaml::Application::Current->Exit();
+			}
+		}
+
 		void Window::open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("Window::open");
@@ -80,6 +99,16 @@ namespace TitaniumWindows
 		{
 			JSExport<Window>::SetClassVersion(1);
 			JSExport<Window>::SetParent(JSExport<Titanium::UI::Window>::Class());
+		}
+
+		void Window::set_fullscreen(const bool& fullscreen) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Window::set_fullscreen(fullscreen);
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+
+			auto statusBar = Windows::UI::ViewManagement::StatusBar::GetForCurrentView();
+			fullscreen ? statusBar->HideAsync() : statusBar->ShowAsync();
+#endif
 		}
 
 		void Window::set_backgroundColor(const std::string& backgroundColorName) TITANIUM_NOEXCEPT

@@ -157,6 +157,27 @@ namespace Titanium
 		return alertDialog;
 	}
 
+	JSObject UIModule::createAnimation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createAnimation");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue Animation_property = UI.GetProperty("Animation");
+		TITANIUM_ASSERT(Animation_property.IsObject());  // precondition
+		JSObject Animation = static_cast<JSObject>(Animation_property);
+
+		auto animation = Animation.CallAsConstructor(parameters);
+		Titanium::applyProperties(animation, parameters);
+		return animation;
+	}
+
 	JSObject UIModule::createButton(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("UI::createButton");

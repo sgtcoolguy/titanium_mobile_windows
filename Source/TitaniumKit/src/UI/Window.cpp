@@ -35,6 +35,11 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("Window:: dtor ", this);
 		}
 
+		void Window::close(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("Window::close: Unimplemented");
+		}
+
 		void Window::open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Window::open: Unimplemented");
@@ -171,6 +176,7 @@ namespace Titanium
 		{
 			JSExport<Window>::SetClassVersion(1);
 			JSExport<Window>::SetParent(JSExport<View>::Class());
+			JSExport<Window>::AddFunctionProperty("close", std::mem_fn(&Window::js_close));
 			JSExport<Window>::AddFunctionProperty("open", std::mem_fn(&Window::js_open));
 			JSExport<Window>::AddValueProperty("barColor", std::mem_fn(&Window::js_get_barColor), std::mem_fn(&Window::js_set_barColor));
 			JSExport<Window>::AddValueProperty("exitOnClose", std::mem_fn(&Window::js_get_exitOnClose), std::mem_fn(&Window::js_set_exitOnClose));
@@ -184,6 +190,18 @@ namespace Titanium
 			JSExport<Window>::AddValueProperty("theme", std::mem_fn(&Window::js_get_theme), std::mem_fn(&Window::js_set_theme));
 			JSExport<Window>::AddValueProperty("titleAttributes", std::mem_fn(&Window::js_get_titleAttributes), std::mem_fn(&Window::js_set_titleAttributes));
 			JSExport<Window>::AddValueProperty("translucent", std::mem_fn(&Window::js_get_translucent), std::mem_fn(&Window::js_set_translucent));
+		}
+
+		JSValue Window::js_close(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			JSObject params = get_context().CreateObject();
+			if (arguments.size() >= 1) {
+				const auto _0 = arguments.at(0);
+				TITANIUM_ASSERT(_0.IsObject());
+				params = static_cast<JSObject>(_0);
+			}
+			close(params, this_object);
+			return get_context().CreateUndefined();
 		}
 
 		JSValue Window::js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT

@@ -11,6 +11,7 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/UI/AlertDialog.hpp"
+#include "Titanium/UI/Animation.hpp"
 #include "Titanium/UI/Button.hpp"
 #include "Titanium/UI/EmailDialog.hpp" 
 #include "Titanium/UI/ImageView.hpp"
@@ -53,6 +54,22 @@ namespace Titanium
 		  @result Titanium.UI.AlertDialog
 		*/
 		JSObject createAlertDialog(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createAnimation( [parameters] ) : Titanium.UI.Animation
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.Animation.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.Animation except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.Animation>)
+
+		  @result Titanium.UI.Animation
+		*/
+		JSObject createAnimation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method

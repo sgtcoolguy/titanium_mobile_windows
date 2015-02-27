@@ -46,6 +46,9 @@ namespace Titanium
 		JSObject EmailDialogObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& EmailDialogObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject AnimationObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& AnimationObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject ViewObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -129,6 +132,7 @@ namespace Titanium
 		JSObject ti__;
 		JSObject api__;
 		JSObject view__;
+		JSObject animation__;
 		JSObject listsection__;
 		JSObject listview__;
 		JSObject emaildialog__;

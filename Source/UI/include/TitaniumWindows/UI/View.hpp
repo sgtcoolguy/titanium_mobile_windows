@@ -44,10 +44,11 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;
+			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT override;
+			virtual void animate(const JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT override;
 
-			virtual void hide(JSObject& this_object) TITANIUM_NOEXCEPT;
-			virtual void show(JSObject& this_object) TITANIUM_NOEXCEPT;
+			virtual void hide(JSObject& this_object) TITANIUM_NOEXCEPT override;
+			virtual void show(JSObject& this_object) TITANIUM_NOEXCEPT override;
 
 			virtual void set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT override final;
 			virtual void set_opacity(const double& opacity) TITANIUM_NOEXCEPT override final;

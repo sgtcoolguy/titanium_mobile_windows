@@ -52,7 +52,7 @@ namespace Titanium
 			children__.SetProperty(static_cast<unsigned>(view_count), view);
 		}
 
-		void View::animate(const JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT
+		void View::animate(const JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("View::animate");
 		}
@@ -287,8 +287,6 @@ namespace Titanium
 
 		JSValue View::js_add(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			// TODO: Validate these precondition checks (which could be
-			// automaticaly generated) with the team.
 			TITANIUM_ASSERT(arguments.size() >= 1);
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
@@ -299,12 +297,11 @@ namespace Titanium
 
 		JSValue View::js_animate(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			// TODO: Validate these precondition checks (which could be
-			// automaticaly generated) with the team.
 			TITANIUM_ASSERT(arguments.size() >= 1);
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
 			JSObject animation = static_cast<JSObject>(_0);
+			// TODO Convert the animation object into a Ti.UI.Animation if it isn't one already?
 
 			JSObject callback = this_object.get_context().CreateObject();
 			if (arguments.size() > 1) {
@@ -314,14 +311,12 @@ namespace Titanium
 				TITANIUM_ASSERT(callback.IsFunction());
 			}
 
-			animate(animation, callback);
+			animate(animation, callback, this_object);
 			return get_context().CreateUndefined();
 		}
 
 		JSValue View::js_hide(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			// TODO: Validate these precondition checks (which could be
-			// automaticaly generated) with the team.
 			TITANIUM_ASSERT(arguments.size() == 0);
 			hide(this_object);
 			return get_context().CreateUndefined();
@@ -329,8 +324,6 @@ namespace Titanium
 
 		JSValue View::js_show(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			// TODO: Validate these precondition checks (which could be
-			// automaticaly generated) with the team.
 			TITANIUM_ASSERT(arguments.size() == 0);
 			show(this_object);
 			return get_context().CreateUndefined();

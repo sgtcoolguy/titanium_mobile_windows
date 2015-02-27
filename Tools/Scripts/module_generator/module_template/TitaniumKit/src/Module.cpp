@@ -162,9 +162,9 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 		{
 			TITANIUM_LOG_WARN("<%= name %>.<%= method.name %> is not implemented yet");
 <% if ('parameters' in method) { -%>
-<% if method.parameters.length == 1 -%>
+<% if (method.parameters.length == 1) { -%>
 			if (arguments.empty()) {
-<% else -%>
+<% } else { -%>
 			if (arguments.size() < <%= method.parameters.length %>) {
 <% } -%>
 				return get_context().CreateUndefined();

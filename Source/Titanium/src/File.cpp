@@ -6,6 +6,7 @@
 
 #include "File.hpp"
 #include "Titanium/detail/TiBase.hpp"
+#include <algorithm>
 #include <iostream>
 #include <objbase.h>
 #include <ppltasks.h>
@@ -35,6 +36,8 @@ namespace TitaniumWindows
 
 			// this assumes we already joins the arguments with separater
 			std::string name = static_cast<std::string>(arguments.at(0));
+			// Convert "/" to "\\"
+			std::replace(name.begin(), name.end(), '/', '\\');
 
 			const auto location = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
 			// if this path is relative path, let's use application installed location path

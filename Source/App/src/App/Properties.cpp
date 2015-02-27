@@ -36,39 +36,58 @@ namespace TitaniumWindows
 		bool Properties::getBool(const std::string& property, bool default) TITANIUM_NOEXCEPT
 		{
 			auto values = local_settings_->Values;
-			auto value = safe_cast<IPropertyValue^>(values->Lookup(Utility::ConvertString(property)))->GetBoolean();
-			return value;
+			const auto key = Utility::ConvertString(property);
+			if (values->HasKey(key)) {
+				return safe_cast<IPropertyValue^>(values->Lookup(key))->GetBoolean();
+			}
+			return default;
 		}
 
 		double Properties::getDouble(const std::string& property, double default) TITANIUM_NOEXCEPT
 		{
 			auto values = local_settings_->Values;
-			auto value = safe_cast<IPropertyValue^>(values->Lookup(Utility::ConvertString(property)))->GetDouble();
-			return value;
+			const auto key = Utility::ConvertString(property);
+			if (values->HasKey(key)) {
+				return safe_cast<IPropertyValue^>(values->Lookup(key))->GetDouble();
+			}
+			return default;
 		}
 
 		double Properties::getInt(const std::string& property, double default) TITANIUM_NOEXCEPT
 		{
 			auto values = local_settings_->Values;
-			auto value = safe_cast<IPropertyValue^>(values->Lookup(Utility::ConvertString(property)))->GetInt32();
-			return value;
+			const auto key = Utility::ConvertString(property);
+			if (values->HasKey(key)) {
+				return safe_cast<IPropertyValue^>(values->Lookup(key))->GetInt32();
+			}
+			return default;
 		}
 
 		JSValue Properties::getList(const std::string& property, JSValue default) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateValueFromJSON(getString(property, ""));
+			if (hasProperty(property)) {
+				return get_context().CreateValueFromJSON(getString(property, ""));
+			}
+			return default;
 		}
 
 		JSValue Properties::getObject(const std::string& property, JSValue default) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateValueFromJSON(getString(property, ""));
+			if (hasProperty(property)) {
+				return get_context().CreateValueFromJSON(getString(property, ""));
+			}
+			return default;
 		}
 
 		std::string Properties::getString(const std::string& property, const std::string& default = "") TITANIUM_NOEXCEPT
 		{
 			auto values = local_settings_->Values;
-			auto value = safe_cast<IPropertyValue^>(values->Lookup(Utility::ConvertString(property)))->GetString();
-			return Utility::ConvertString(value);
+			const auto key = Utility::ConvertString(property);
+			if (values->HasKey(key)) {
+				auto value = safe_cast<IPropertyValue^>(values->Lookup(key))->GetString();
+				return Utility::ConvertString(value);
+			}
+			return default;
 		}
 
 		bool Properties::hasProperty(const std::string& property) TITANIUM_NOEXCEPT
