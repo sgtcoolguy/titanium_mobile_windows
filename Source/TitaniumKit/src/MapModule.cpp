@@ -174,8 +174,9 @@ namespace Titanium
 		TITANIUM_ASSERT(View_property.IsObject());  // precondition
 		JSObject MapView = static_cast<JSObject>(View_property);
 
-		Titanium::Module::applyProperties(parameters, MapView);
-		return MapView.CallAsConstructor(parameters);
+		auto mapView = MapView.CallAsConstructor(parameters);
+		Titanium::Module::applyProperties(parameters, mapView);
+		return mapView;
 	}
 
 	JSValue MapModule::createAnnotation(JSObject parameters) TITANIUM_NOEXCEPT

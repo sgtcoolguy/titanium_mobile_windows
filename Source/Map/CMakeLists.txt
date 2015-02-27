@@ -54,10 +54,9 @@ endif()
 
 set(SOURCE_Map
   include/TitaniumWindows/Map/View.hpp
-  src/Map/View.cpp
+  src/View.cpp
   include/TitaniumWindows/Map.hpp
-  src/Map.cpp
-  include/TitaniumWindows/detail/MapBase.hpp
+  include/TitaniumWindows/Map/detail/MapBase.hpp
   )
 
 source_group(Titanium\\Map FILES ${SOURCE_Map})
