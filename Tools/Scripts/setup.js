@@ -184,7 +184,7 @@ async.series([
     		setENV('BOOST_ROOT', boostRoot, next);
     	} else {
     		// no env var and no destination. Download, extract, and set env var
-		    downloadURL("http://timobile.appcelerator.com.s3.amazonaws.com/boost_1_57_0.zip", function (filename) {
+		    downloadURL("http://softlayer-dal.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.zip", function (filename) {
 				extract(filename, home, true, function () {
 					setENV('BOOST_ROOT', boostRoot, next);
 				});
