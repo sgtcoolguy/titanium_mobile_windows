@@ -115,6 +115,8 @@ function createSectionItemView(item, template, parent) {
 		}
 	}
 	if (parent) {
+		item.views = item.views || [];
+		item.views.push(view);
 		parent.add(view);
 	}
 	return view;
