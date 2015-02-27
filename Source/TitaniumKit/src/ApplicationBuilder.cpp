@@ -10,6 +10,7 @@
 #include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
+#include "Titanium/Map/View.hpp"
 #include "Titanium/App/Properties.hpp"
 #include "Titanium/App.hpp"
 #include "Titanium/Analytics.hpp"
@@ -59,7 +60,7 @@ namespace Titanium
 	      httpclient__(js_context__.CreateObject<Titanium::Network::HTTPClient>()),
 	      network__(js_context__.CreateObject<Titanium::NetworkModule>()),
 	      map__(js_context__.CreateObject<Titanium::MapModule>()),
-	      mapview__(js_context__.CreateObject<Titanium::UI::MapView>())
+	      mapview__(js_context__.CreateObject<Titanium::Map::View>())
 	{
 	}
 
@@ -103,7 +104,8 @@ namespace Titanium
 		titanium.SetProperty("Map", map__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		map__.SetProperty("View", mapview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
-		JSString builtin_functions_script = R"js(
+				map__.SetProperty("View", view__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+JSString builtin_functions_script = R"js(
 			  console = {};
 			  console.log   = Ti.API.info;
 			  console.info  = Ti.API.info;
@@ -220,9 +222,9 @@ namespace Titanium
 		return view__;
 	}
 
-	ApplicationBuilder& ApplicationBuilder::ViewObject(const JSObject& view) TITANIUM_NOEXCEPT
+	ApplicationBuilder& ApplicationBuilder::ViewObject(const JSObject& View) TITANIUM_NOEXCEPT
 	{
-		view__ = view;
+		view__ = View;
 		return *this;
 	}
 

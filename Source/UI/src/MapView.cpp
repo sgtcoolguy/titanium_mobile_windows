@@ -7,9 +7,7 @@
  */
 
 #include "TitaniumWindows/UI/MapView.hpp"
-
 #include "Titanium/MapModule.hpp"
-
 #include "Titanium/detail/TiBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
 

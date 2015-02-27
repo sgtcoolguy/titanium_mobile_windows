@@ -19,9 +19,9 @@ namespace TitaniumWindows
 	{
 #pragma warning(push)
 #pragma warning(disable : 4275)
-		class ViewBase
+		class TITANIUMWINDOWS_UI_EXPORT ViewBase
 		{
-#pragma warning(push)
+#pragma warning(pop)
 		public:
 			ViewBase();
 
@@ -79,6 +79,8 @@ namespace TitaniumWindows
 			}
 
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			std::string defaultWidth__;
 			std::string defaultHeight__;
 
@@ -92,6 +94,7 @@ namespace TitaniumWindows
 			bool is_loaded_{false};
 
 			Titanium::LayoutEngine::Rect oldRect;
+#pragma warning(pop)
 
 		public:
 			Windows::UI::Xaml::FrameworkElement^ component_ { nullptr };
