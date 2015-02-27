@@ -53,7 +53,7 @@ function Controller() {
         _args.restrictBookmarks && false;
     }
     function onItemClick(e) {
-        //Ti.Analytics.featureEvent("windows." + title + ".contact.clicked");
+        Ti.Analytics.featureEvent("windows." + title + ".contact.clicked");
         var item = $.listView.sections[e.sectionIndex].items[e.itemIndex];
         Alloy.Globals.Navigator.open("profile", item.properties.user);
     }
@@ -315,7 +315,7 @@ function Controller() {
     _.extend($, $.__views);
     var _args = arguments[0] || {}, users = (Alloy.Globals.App, null), indexes = [];
     var title = _args.title ? _args.title.toLowerCase() : "directory";
-    //Ti.Analytics.featureEvent("windows." + title + ".viewed");
+    Ti.Analytics.featureEvent("windows." + title + ".viewed");
     var preprocessForListView = function(rawData) {
         var bookmarks = Ti.App.Properties.getList("bookmarks", []);
         _args.restrictBookmarks && (rawData = _.filter(rawData, function(item) {
