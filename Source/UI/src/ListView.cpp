@@ -14,7 +14,6 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-
 		ListView::ListView(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 			: Titanium::UI::ListView(js_context, arguments)
 		{
