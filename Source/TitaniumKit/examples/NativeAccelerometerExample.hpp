@@ -19,7 +19,7 @@ using namespace HAL;
 class NativeAccelerometerExample final : public Titanium::Accelerometer, public JSExport<NativeAccelerometerExample>
 {
 public:
-	NativeAccelerometerExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+	NativeAccelerometerExample(const JSContext&) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeAccelerometerExample() = default;
 	NativeAccelerometerExample(const NativeAccelerometerExample&) = default;

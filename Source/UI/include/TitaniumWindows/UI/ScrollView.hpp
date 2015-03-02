@@ -31,7 +31,7 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
-			ScrollView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			ScrollView(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ScrollView() = default;
 			ScrollView(const ScrollView&) = default;

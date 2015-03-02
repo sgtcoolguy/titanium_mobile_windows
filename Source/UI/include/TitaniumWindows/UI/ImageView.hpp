@@ -33,7 +33,7 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
-			ImageView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			ImageView(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ImageView() = default;
 			ImageView(const ImageView&) = default;

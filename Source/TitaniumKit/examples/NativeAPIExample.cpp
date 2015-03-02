@@ -9,8 +9,8 @@
 #include "NativeAPIExample.hpp"
 #include <iostream>
 
-NativeAPIExample::NativeAPIExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-    : Titanium::API(js_context, arguments)
+NativeAPIExample::NativeAPIExample(const JSContext& js_context) TITANIUM_NOEXCEPT
+    : Titanium::API(js_context)
 {
 	TITANIUM_LOG_DEBUG("NativeAPIExample:: ctor ", this);
 }

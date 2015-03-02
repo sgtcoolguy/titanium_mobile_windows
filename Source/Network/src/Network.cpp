@@ -9,8 +9,8 @@
 
 namespace TitaniumWindows
 {
-	NetworkModule::NetworkModule(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		: Titanium::NetworkModule(js_context, arguments)
+	NetworkModule::NetworkModule(const JSContext& js_context) TITANIUM_NOEXCEPT
+		: Titanium::NetworkModule(js_context)
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::NetworkModule::ctor Initialize");
 	}

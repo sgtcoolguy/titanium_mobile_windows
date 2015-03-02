@@ -11,7 +11,7 @@ namespace Titanium
 {
 	namespace Network
 	{
-		HTTPClient::HTTPClient(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		HTTPClient::HTTPClient(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Module(js_context),
 		      timeout__(js_context.CreateString()),
 		      onload_callback__(js_context.CreateObject()),

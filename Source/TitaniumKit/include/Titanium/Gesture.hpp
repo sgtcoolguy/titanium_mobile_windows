@@ -31,7 +31,7 @@ namespace Titanium
 		*/
 		virtual Titanium::UI::ORIENTATION get_orientation() const TITANIUM_NOEXCEPT;
 
-		Gesture(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+		Gesture(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~Gesture() = default;
 		Gesture(const Gesture&) = default;

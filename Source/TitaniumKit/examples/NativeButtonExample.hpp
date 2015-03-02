@@ -23,7 +23,7 @@ using namespace HAL;
 class NativeButtonExample final : public Titanium::UI::Button, public JSExport<NativeButtonExample>
 {
 public:
-	NativeButtonExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+	NativeButtonExample(const JSContext&) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeButtonExample() TITANIUM_NOEXCEPT;  //= default;
 	NativeButtonExample(const NativeButtonExample&) = default;

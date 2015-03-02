@@ -21,7 +21,7 @@ namespace Titanium
 		}
 	}
 
-	UIModule::UIModule(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+	UIModule::UIModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : Module(js_context),
 	      animation_curve_ease_in__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ANIMATION_CURVE::EASE_IN))),
 	      animation_curve_ease_in_out__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ANIMATION_CURVE::EASE_IN_OUT))),

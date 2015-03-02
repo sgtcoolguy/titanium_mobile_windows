@@ -12,7 +12,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		AlertDialog::AlertDialog(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		AlertDialog::AlertDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Module(js_context),
 		      message__(js_context.CreateString()),
 		      title__(js_context.CreateString())

@@ -13,7 +13,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		Picker::Picker(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		Picker::Picker(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      type__(PICKER_TYPE::PLAIN)
 		{

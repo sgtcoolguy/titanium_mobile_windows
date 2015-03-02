@@ -20,7 +20,7 @@ using namespace HAL;
 class NativePlatformDisplayCapsExample final : public Titanium::Platform::DisplayCaps, public JSExport<NativePlatformDisplayCapsExample>
 {
 public:
-	NativePlatformDisplayCapsExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+	NativePlatformDisplayCapsExample(const JSContext&) TITANIUM_NOEXCEPT;
 
 	virtual ~NativePlatformDisplayCapsExample() = default;
 	NativePlatformDisplayCapsExample(const NativePlatformDisplayCapsExample&) = default;

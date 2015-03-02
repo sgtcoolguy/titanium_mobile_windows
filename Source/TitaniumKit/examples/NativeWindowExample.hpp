@@ -24,7 +24,7 @@ class NativeWindowExample final : public Titanium::UI::Window, public JSExport<N
 public:
 	virtual void open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT override final;
 
-	NativeWindowExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+	NativeWindowExample(const JSContext&) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeWindowExample() TITANIUM_NOEXCEPT;  //= default;
 	NativeWindowExample(const NativeWindowExample&) = default;

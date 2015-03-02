@@ -11,7 +11,7 @@
 
 namespace Titanium
 {
-	PlatformModule::PlatformModule(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+	PlatformModule::PlatformModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : Module(js_context),
 	      displayCaps__(get_context().CreateObject(JSExport<Titanium::Platform::DisplayCaps>::Class())),
 	      BATTERY_STATE_CHARGING__(get_context().CreateNumber(Platform::BatteryState::CHARGING)),

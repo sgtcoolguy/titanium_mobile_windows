@@ -8,7 +8,7 @@
 
 #include "NativeModuleExample.hpp"
 
-NativeModuleExample::NativeModuleExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+NativeModuleExample::NativeModuleExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::Module(js_context),
       event_name__("foo"),
       enabled__(js_context.CreateBoolean(false))

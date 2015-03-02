@@ -7,7 +7,7 @@
 #include "NativeBlobExample.hpp"
 #include <iostream>
 
-NativeBlobExample::NativeBlobExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+NativeBlobExample::NativeBlobExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::Blob(js_context)
 {
 }

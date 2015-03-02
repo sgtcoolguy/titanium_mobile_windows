@@ -21,11 +21,13 @@ namespace TitaniumWindows
 {
 	namespace Filesystem
 	{
-		File::File(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : Titanium::Filesystem::File(js_context, arguments)
+		File::File(const JSContext& js_context) TITANIUM_NOEXCEPT
+		    : Titanium::Filesystem::File(js_context)
 		{
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Filesystem::File::ctor");
+		}
 
+		void File::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
 			// TODO: if argument is empty, we assumes it's called from initializer.
 			if (arguments.empty()) {
 				return;
