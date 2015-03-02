@@ -32,6 +32,8 @@ namespace TitaniumWindows
 
 		void View::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			Titanium::UI::View::add(view, this_object);
+
 			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
 
 			if (nativeView == nullptr) {
