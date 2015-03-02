@@ -26,7 +26,11 @@
 	"vendorDependencies": {
 		"visual studio": "12.x",
 		"windows phone sdk": "8.1",
-		"msbuild": ">=4.0"
+		"msbuild": ">=4.0",
+		"node": ">=0.10.0 <=0.12.x"
+	},
+	"engines": {
+		"node": ">=0.10.13"
 	},
 	"repository": {
 		"type": "git",
