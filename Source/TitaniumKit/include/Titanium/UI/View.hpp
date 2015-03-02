@@ -406,7 +406,7 @@ namespace Titanium
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			JSArray children__;
+			JSObject children__;
 			std::string backgroundColor__;
 			std::string borderColor__;
 			uint32_t borderRadius__;
