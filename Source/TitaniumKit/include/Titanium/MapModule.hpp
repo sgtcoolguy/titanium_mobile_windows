@@ -16,6 +16,12 @@
 #include "Titanium/Map/Route.hpp"
 #include "Titanium/Map/View.hpp"
 
+#ifdef SERVICE_DISABLED
+#pragma push_macro("SERVICE_DISABLED")
+#undef SERVICE_DISABLED
+#define _restore_SERVICE_DISABLED_
+#endif
+
 namespace Titanium
 {
 	using namespace HAL;
@@ -139,4 +145,10 @@ namespace Titanium
 		JSValue success__;
 	};
 } // namespace Titanium
+
+#ifdef _restore_SERVICE_DISABLED_
+#pragma pop_macro("SERVICE_DISABLED")
+#undef _restore_SERVICE_DISABLED_
+#endif
+
 #endif // _TITANIUM_MAP_HPP_

@@ -51,79 +51,6 @@ namespace TitaniumWindows
 			JSExport<ImageView>::SetParent(JSExport<Titanium::UI::ImageView>::Class());
 		}
 
-		void ImageView::animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::animate(animation, callback);
-
-			// Convert duration to type we need
-			const auto raw_duration = animation.GetProperty("duration");
-			const auto duration = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(raw_duration)));
-			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = duration;
-			Windows::Foundation::TimeSpan time_span;
-			time_span.Duration = timer_interval_ticks.count();
-
-			bool has_delay = false;
-			Windows::Foundation::TimeSpan begin_time;
-			if (animation.HasProperty("delay")) {
-				has_delay = true;
-				const auto raw_delay = animation.GetProperty("delay");
-				const auto delay = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(raw_delay)));
-				std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> delay_ticks = delay;
-				begin_time.Duration = delay_ticks.count();
-			}
-
-			bool autoreverse = false;
-			if (animation.HasProperty("autoreverse")) {
-				autoreverse = static_cast<bool>(animation.GetProperty("autoreverse"));
-			}
-			// repeat count
-			uint32_t repeat = 1;
-			if (animation.HasProperty("repeat")) {
-				repeat = static_cast<uint32_t>(animation.GetProperty("repeat"));
-			}
-			repeat--;
-
-			// Storyboard where we attach all the animations
-			const auto storyboard = ref new Windows::UI::Xaml::Media::Animation::Storyboard();
-			storyboard->Duration = time_span;
-			if (has_delay) {
-				storyboard->BeginTime = begin_time;
-			}
-
-			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
-
-			const auto propertyNames = animation.GetPropertyNames();
-			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
-				auto property = animation.GetProperty(property_name);
-				if (property_name == "opacity") {
-					auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-					double_anim->AutoReverse = autoreverse;
-
-					double_anim->Duration = time_span;
-					if (has_delay) {
-						double_anim->BeginTime = begin_time;
-					}
-					if (repeat > 0) {
-						double_anim->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::FromCount(repeat);
-					}
-					double_anim->To = static_cast<double>(property);
-					storyboard->Children->Append(double_anim);
-					storyboard->SetTarget(double_anim, component);
-					storyboard->SetTargetProperty(double_anim, "Opacity");
-				}
-			}
-
-			auto this_object = get_object();
-
-			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, this_object](Platform::Object^ sender, Platform::Object ^ e) mutable {
-				if (callback.IsFunction()) {
-					callback(this_object);
-				}
-				// TODO Fire complete event on animation object!
-			});
-			storyboard->Begin();
-		}
-
 		void ImageView::set_image(const std::string& path) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ImageView::set_image(path);
@@ -172,5 +99,29 @@ namespace TitaniumWindows
 			}
 		}
 
+		void ImageView::start(JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			using namespace concurrency;
+
+			const auto current_window = Windows::UI::Xaml::Window::Current;
+			const auto current_duration = get_duration().count();
+			create_task([this, current_window, current_duration] {
+				for (const auto& image : get_images()) {
+					interruption_point(); // Check for cancellation.
+
+					// Set new image on UI thread
+					current_window->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler([this, image]() {
+						set_image(image);
+					}));
+					// then wait for duration
+					wait(current_duration); // FIXME signed/unsigned conversion!
+				}
+			}, start_token__.get_token());
+		}
+
+		void ImageView::stop(JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			start_token__.cancel();
+		}
 	} // namespace UI
 } // namespace TitaniumWindows

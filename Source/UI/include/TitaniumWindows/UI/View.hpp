@@ -27,8 +27,6 @@ namespace TitaniumWindows
 		{
 
 		public:
-			virtual void animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT override;
-
 			View(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~View() = default;

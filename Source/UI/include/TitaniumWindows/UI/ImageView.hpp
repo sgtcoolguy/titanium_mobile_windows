@@ -12,6 +12,7 @@
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
+#include <ppltasks.h>
 #include "Titanium/UI/Animation.hpp"
 
 namespace TitaniumWindows
@@ -43,10 +44,10 @@ namespace TitaniumWindows
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
-			virtual void animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT override;
-
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
 			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
+			virtual void start(JSObject& this_object) TITANIUM_NOEXCEPT override final;
+			virtual void stop(JSObject& this_object) TITANIUM_NOEXCEPT override final;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
@@ -56,6 +57,7 @@ namespace TitaniumWindows
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			std::string path_;
+			concurrency::cancellation_token_source start_token__;
 #pragma warning(pop)
 
 			// Event handlers

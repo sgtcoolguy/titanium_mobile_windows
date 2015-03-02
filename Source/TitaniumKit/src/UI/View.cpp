@@ -35,7 +35,7 @@ namespace Titanium
 
 		void View::animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("View::animate: Not implemented");
+			layoutPolicy__->animate(animation, callback, get_object());
 		}
 
 		void View::JSExportInitialize()

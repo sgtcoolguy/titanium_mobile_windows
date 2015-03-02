@@ -39,6 +39,8 @@ namespace TitaniumWindows
 			*/
 			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
 
+			virtual void animate(JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT;
+
 			/*!
 			  @method
 

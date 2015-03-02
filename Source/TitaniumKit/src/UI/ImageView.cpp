@@ -8,6 +8,8 @@
 
 #include "Titanium/UI/ImageView.hpp"
 
+#define IMAGEVIEW_MIN_INTERVAL 30
+
 namespace Titanium
 {
 	namespace UI
@@ -38,7 +40,12 @@ namespace Titanium
 
 		void ImageView::set_duration(const std::chrono::milliseconds& duration) TITANIUM_NOEXCEPT
 		{
-			duration__ = duration;
+			// enforce minimum
+			if (duration.count() < IMAGEVIEW_MIN_INTERVAL) {
+				duration__ = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(IMAGEVIEW_MIN_INTERVAL));
+			} else {
+				duration__ = duration;
+			}
 		}
 
 		std::string ImageView::get_image() const TITANIUM_NOEXCEPT

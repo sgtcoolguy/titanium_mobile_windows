@@ -34,6 +34,11 @@ namespace Titanium
 			children__.push_back(view);
 		}
 
+		void ViewLayoutPolicy::animate(JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("ViewLayoutPolicy::animate: Unimplemented");
+		}
+
 		void ViewLayoutPolicy::hide() TITANIUM_NOEXCEPT
 		{
 			set_visible(false);
