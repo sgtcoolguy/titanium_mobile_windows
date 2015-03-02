@@ -25,7 +25,8 @@ namespace TitaniumWindows
 
 		  @discussion This is the Titanium.App.Properties implementation for Windows.
 		*/
-		class TITANIUMWINDOWS_APP_EXPORT Properties final : public Titanium::App::Properties, public JSExport<Properties>{
+		class TITANIUMWINDOWS_APP_EXPORT Properties final : public Titanium::App::Properties, public JSExport<Properties>
+		{
 
 		public:
 			Properties(const JSContext&) TITANIUM_NOEXCEPT;
@@ -64,6 +65,6 @@ namespace TitaniumWindows
 			ApplicationDataContainer^ local_settings_;
 
 		};
-	}
+	} // namespace App
 }  // namespace TitaniumWindows
 #endif // _TITANIUMWINDOWS_PROPERTIES_HPP_

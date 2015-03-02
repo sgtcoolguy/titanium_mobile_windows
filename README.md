@@ -17,7 +17,7 @@ git submodule update
 
 Step 1. Install Visual Studio 2013
 
-Step 2. Install this version of [CMake](https://cmakems.codeplex.com/releases/view/126914) in order to generate VS 2013 project files.
+Step 2. Install this version of [CMake](http://www.cmake.org/files/v3.1/cmake-3.1.3-win32-x86.exe) in order to generate VS 2013 project files.
 
 Step 3. Install [64-bit Cygwin](http://cygwin.com/setup-x86_64.exe).
 
