@@ -170,5 +170,5 @@ namespace TitaniumWindows
 			return get_context().CreateUndefined();
 		}
 
-	}
+	} // namespace App
 }  // namespace TitaniumWindows

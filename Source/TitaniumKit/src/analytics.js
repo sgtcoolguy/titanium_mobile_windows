@@ -162,10 +162,7 @@ Analytics.prototype.sendAnalytics = function sendAnalytics(useSessionTimeout) {
 	if (useSessionTimeout) {
 		delay += DEFAULT_TIME_SEPARATION_ANALYTICS;
 	}
-	var that = this;
-	setTimeout(function () {
-    	that.run();
- 	}, delay); // send the events after a delay
+	setTimeout(this.run.bind(this), delay); // send the events after a delay
 };
 
 /**
@@ -236,21 +233,21 @@ Analytics.prototype.run = function run() {
 		
 		Ti.API.debug("Sending event: type = " + event.event + ", timestamp = " + event.ts);
 	}
-	events = null; // we don't need this map now. We;ve split them into ids (eventIds) and actual events (records)
+	events = null; // we don't need this map now. We've split them into ids (eventIds) and actual events (records)
 
 	if (records.length > 0) {		
 		Ti.API.debug("Sending " + records.length + " analytics events.");
 		
 		var jsonData = records.toString() + "\n";
 		var postUrl = (Ti.App.guid === null) ? ANALYTICS_URL : (ANALYTICS_URL + Ti.App.guid);
-		var self = this;
 		function postRecords() {
+			var self = this;
 			var client = Ti.Network.createHTTPClient({
 				onload : function(e) {
 					// we posted the events, let's delete them from the DB and reschedule run loop to send next batch of events
 					self.deleteEvents(eventIds);
 					self.sending = false;
-					setTimeout(run, 1); // try to send the next set of records
+					setTimeout(self.run.bind(self), 1); // try to send the next set of records
 				},
 
 				onerror : function(e) {
@@ -266,7 +263,7 @@ Analytics.prototype.run = function run() {
 					} else {
 						// if count is 1-4, retry to send this set after 15 seconds
 						Ti.API.debug("Failed to send analytics events. Retrying in 15 seconds");
-						setTimeout(postRecords, 15000);
+						setTimeout(postRecords.bind(self), 15000);
 					}
 				},
 				timeout : 5000  // in milliseconds
@@ -279,7 +276,7 @@ Analytics.prototype.run = function run() {
 
 			//client.params["http.protocol.expect-continue"] = false; // FIXME Do we need this? How would we do it in Titanium?
 		}
-		postRecords();
+		postRecords.bind(this)();
 	} else {
 		Ti.API.info("Stopping Analytics Service");
 		this.sending = false;
