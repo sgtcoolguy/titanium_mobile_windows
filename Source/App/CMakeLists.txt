@@ -49,9 +49,8 @@ endif()
 
 set(SOURCE_App
   include/TitaniumWindows/App/Properties.hpp
-  src/App/Properties.cpp
+  src/Properties.cpp
   include/TitaniumWindows/App.hpp
-  src/App.cpp
   include/TitaniumWindows/detail/AppBase.hpp
   )
 
