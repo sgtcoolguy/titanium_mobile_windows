@@ -115,7 +115,7 @@ describe("ti_internal", function () {
     });
 
     // make sure addEventListener adds listener
-    it("tiproxy_add_length", function (finish) {
+    it.skip("tiproxy_add_length", function (finish) {
         var view = Ti.UI.createView();
         view.addEventListener("tiproxy_add_length", function (e) {
             should(e.source).be.an.Object;
@@ -132,7 +132,7 @@ describe("ti_internal", function () {
     }
 
     // make sure removeEventListener removes listener
-    it("tiproxy_remove_length", function (finish) {
+    it.skip("tiproxy_remove_length", function (finish) {
         var view = Ti.UI.createView();
         view.addEventListener("tiproxy_remove_length", tiproxy_remove_fire_listener);
         should.exist(view.__ti_private__.events["tiproxy_remove_length"]);
@@ -144,7 +144,7 @@ describe("ti_internal", function () {
     });
 
     // make sure fireEvent invokes listener
-    it("tiproxy_add_fire", function (finish) {
+    it.skip("tiproxy_add_fire", function (finish) {
         var view = Ti.UI.createView();
         view.addEventListener("tiproxy_add_fire", function (e) {
             should(e.source).be.an.Object;
@@ -156,7 +156,7 @@ describe("ti_internal", function () {
     });
 
     // make sure fireEvent doesn't invoke removed listener
-    it("tiproxy_remove_fire", function (finish) {
+    it.skip("tiproxy_remove_fire", function (finish) {
         var view = Ti.UI.createView();
         view.addEventListener("tiproxy_remove_fire", tiproxy_remove_fire_listener);
         view.removeEventListener("tiproxy_remove_fire", tiproxy_remove_fire_listener);
