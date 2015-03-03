@@ -18,7 +18,7 @@ namespace Titanium
 		}
 	}
 
-	NetworkModule::NetworkModule(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+	NetworkModule::NetworkModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : Module(js_context),
 		network_lan__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TYPE::LAN))),
 		network_mobile__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TYPE::MOBILE))),

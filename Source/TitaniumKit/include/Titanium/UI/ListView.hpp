@@ -193,7 +193,7 @@ namespace Titanium
 			*/
 			virtual void setMarker(const ListViewMarkerProps& marker) TITANIUM_NOEXCEPT;
 
-			ListView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			ListView(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ListView() = default;
 			ListView(const ListView&) = default;

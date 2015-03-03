@@ -30,7 +30,7 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_EXPORT HTTPClient final : public Titanium::Network::HTTPClient, public JSExport<HTTPClient>
 		{
 		public:
-			HTTPClient(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			HTTPClient(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~HTTPClient();
 			HTTPClient(const HTTPClient&) = default;

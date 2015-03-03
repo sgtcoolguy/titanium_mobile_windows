@@ -12,7 +12,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		Window::Window(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		Window::Window(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      barColor__(""),
 		      exitOnClose__(false),

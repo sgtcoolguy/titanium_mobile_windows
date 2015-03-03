@@ -31,7 +31,7 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
-			Slider(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Slider(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Slider() = default;
 			Slider(const Slider&) = default;

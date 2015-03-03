@@ -7,7 +7,7 @@
 #include "NativeAccelerometerExample.hpp"
 #include <iostream>
 
-NativeAccelerometerExample::NativeAccelerometerExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+NativeAccelerometerExample::NativeAccelerometerExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::Accelerometer(js_context)
 {
 }

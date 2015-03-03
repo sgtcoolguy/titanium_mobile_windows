@@ -7,7 +7,7 @@
 #include "NativeTiExample.hpp"
 #include <iostream>
 
-NativeTiExample::NativeTiExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+NativeTiExample::NativeTiExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::TiModule(js_context)
 {
 	setUserAgent(get_context().CreateString("__TITANIUM_USER_AGENT__"));

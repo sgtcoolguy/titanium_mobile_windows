@@ -139,7 +139,7 @@ namespace Titanium
 			*/
 			virtual void stopLoading(const bool& hardStop) TITANIUM_NOEXCEPT;
 
-			WebView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			WebView(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~WebView() = default;
 			WebView(const WebView&) = default;

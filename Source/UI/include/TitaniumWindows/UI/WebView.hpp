@@ -29,7 +29,7 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
-			WebView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			WebView(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~WebView();
 			WebView(const WebView&)            = default;

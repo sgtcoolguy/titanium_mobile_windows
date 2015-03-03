@@ -17,8 +17,8 @@ namespace TitaniumWindows
 	namespace UI
 	{
 
-		WebView::WebView(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Titanium::UI::WebView(js_context, arguments)
+		WebView::WebView(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Titanium::UI::WebView(js_context)
 		{
 			TITANIUM_LOG_DEBUG("WebView::ctor Initialize");
 

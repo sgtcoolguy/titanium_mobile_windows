@@ -33,8 +33,8 @@ namespace TitaniumWindows
 		}
 	}
 
-	Gesture::Gesture(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : Titanium::Gesture(js_context, arguments)
+	Gesture::Gesture(const JSContext& js_context) TITANIUM_NOEXCEPT
+	    : Titanium::Gesture(js_context)
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::Gesture::ctor");
 		setupOrientationListener();

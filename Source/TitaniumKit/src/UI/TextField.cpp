@@ -13,7 +13,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		TextField::TextField(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		TextField::TextField(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      autoCapitalization__(TEXT_AUTOCAPITALIZATION::NONE),
 		      borderStyle__(INPUT_BORDERSTYLE::NONE),

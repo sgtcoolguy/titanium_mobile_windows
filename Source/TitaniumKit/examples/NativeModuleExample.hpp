@@ -27,7 +27,7 @@ public:
 	std::string get_event_name() const TITANIUM_NOEXCEPT;
 	void set_event_name(const std::string& event_name) TITANIUM_NOEXCEPT;
 
-	NativeModuleExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+	NativeModuleExample(const JSContext&) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeModuleExample() = default;
 	NativeModuleExample(const NativeModuleExample&) = default;

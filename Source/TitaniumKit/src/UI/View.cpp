@@ -12,7 +12,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		View::View(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Module(js_context),
 		      children__(js_context.CreateArray()),
 		      backgroundColor__(js_context.CreateString()),
@@ -388,8 +388,9 @@ namespace Titanium
 
 		bool View::js_set_opacity(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_opacity(static_cast<double>(argument));
+			if (argument.IsNumber()) {
+				set_opacity(static_cast<double>(argument));
+			}
 			return true;
 		}
 

@@ -23,7 +23,7 @@ using namespace HAL;
 class NativeListViewExample final : public Titanium::UI::ListView, public JSExport<NativeListViewExample>
 {
 public:
-	NativeListViewExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+	NativeListViewExample(const JSContext&) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeListViewExample() TITANIUM_NOEXCEPT;  //= default;
 	NativeListViewExample(const NativeListViewExample&) = default;

@@ -13,8 +13,8 @@
 
 namespace TitaniumWindows
 {
-	FilesystemModule::FilesystemModule(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : Titanium::FilesystemModule(js_context, arguments)
+	FilesystemModule::FilesystemModule(const JSContext& js_context) TITANIUM_NOEXCEPT
+	    : Titanium::FilesystemModule(js_context)
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::FilesystemModule::ctor");
 	}

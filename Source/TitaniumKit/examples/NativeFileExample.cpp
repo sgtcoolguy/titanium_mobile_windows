@@ -7,7 +7,7 @@
 #include "NativeFileExample.hpp"
 #include <iostream>
 
-NativeFileExample::NativeFileExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+NativeFileExample::NativeFileExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::Filesystem::File(js_context)
 {
 }
