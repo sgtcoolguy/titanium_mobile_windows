@@ -14,8 +14,8 @@ namespace Titanium
 	namespace UI
 	{
 
-		ListView::ListView(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: View(js_context, arguments),
+		ListView::ListView(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: View(js_context),
 			footerTitle__(""),
 			headerTitle__(""),
 			searchText__(""),

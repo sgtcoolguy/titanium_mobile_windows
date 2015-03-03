@@ -12,7 +12,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		Button::Button(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		Button::Button(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      title__(js_context.CreateString())
 		{

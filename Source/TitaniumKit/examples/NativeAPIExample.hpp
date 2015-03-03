@@ -22,7 +22,7 @@ using namespace HAL;
 class NativeAPIExample final : public Titanium::API, public JSExport<NativeAPIExample>
 {
 public:
-	NativeAPIExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+	NativeAPIExample(const JSContext&) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeAPIExample() TITANIUM_NOEXCEPT;  //= default;
 	NativeAPIExample(const NativeAPIExample&) = default;

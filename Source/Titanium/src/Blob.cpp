@@ -12,8 +12,8 @@
 
 namespace TitaniumWindows
 {
-	Blob::Blob(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : Titanium::Blob(js_context, arguments)
+	Blob::Blob(const JSContext& js_context) TITANIUM_NOEXCEPT
+	    : Titanium::Blob(js_context)
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::Blob::ctor");
 	}

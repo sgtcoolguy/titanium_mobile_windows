@@ -232,7 +232,7 @@ namespace Titanium
 			virtual bool get_translucent() const TITANIUM_NOEXCEPT final;
 			virtual void set_translucent(const bool& translucent) TITANIUM_NOEXCEPT;
 
-			Window(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Window(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Window() TITANIUM_NOEXCEPT;  //= default;
 			Window(const Window&) = default;

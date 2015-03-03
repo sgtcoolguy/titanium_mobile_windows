@@ -12,7 +12,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		ImageView::ImageView(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      duration__(200),
 		      image__(js_context.CreateString()),

@@ -31,7 +31,7 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
-			Button(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Button(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Button() = default;
 			Button(const Button&) = default;

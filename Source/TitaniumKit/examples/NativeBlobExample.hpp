@@ -19,7 +19,7 @@ using namespace HAL;
 class NativeBlobExample final : public Titanium::Blob, public JSExport<NativeBlobExample>
 {
 public:
-	NativeBlobExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+	NativeBlobExample(const JSContext&) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeBlobExample() = default;
 	NativeBlobExample(const NativeBlobExample&) = default;

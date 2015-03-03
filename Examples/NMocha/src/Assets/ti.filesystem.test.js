@@ -626,7 +626,7 @@ describe('filesystem', function () {
     });
 
     // File.spaceAvailable
-    it('File_spaceAvailable', function (finish) {
+    it.skip('File_spaceAvailable', function (finish) {
         var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
         should(file.exists()).be.true;
         var space = file.spaceAvailable();

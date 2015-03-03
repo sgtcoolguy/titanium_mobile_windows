@@ -12,7 +12,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		Label::Label(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		Label::Label(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      color__(js_context.CreateString()),
 		      text__(js_context.CreateString()),

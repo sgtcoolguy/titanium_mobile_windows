@@ -12,7 +12,7 @@ namespace Titanium
 {
 	namespace Platform
 	{
-		DisplayCaps::DisplayCaps(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		DisplayCaps::DisplayCaps(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Module(js_context)
 		{
 		}

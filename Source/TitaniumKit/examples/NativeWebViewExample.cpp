@@ -8,8 +8,8 @@
 
 #include "NativeWebViewExample.hpp"
 
-NativeWebViewExample::NativeWebViewExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-    : Titanium::UI::WebView(js_context, arguments)
+NativeWebViewExample::NativeWebViewExample(const JSContext& js_context) TITANIUM_NOEXCEPT
+    : Titanium::UI::WebView(js_context)
 {
 	TITANIUM_LOG_DEBUG("NativeWebViewExample:: ctor ", this);
 }

@@ -23,7 +23,7 @@ class NativeWebViewExample final : public Titanium::UI::WebView, public JSExport
 public:
 	virtual bool canGoBack() TITANIUM_NOEXCEPT override final;
 
-	NativeWebViewExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+	NativeWebViewExample(const JSContext&) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeWebViewExample() TITANIUM_NOEXCEPT;  //= default;
 	NativeWebViewExample(const NativeWebViewExample&) = default;
