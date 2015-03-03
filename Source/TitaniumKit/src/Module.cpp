@@ -118,10 +118,17 @@ namespace Titanium
 
 	void Module::applyProperties(const JSObject& props, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Module::applyProperties: Unimplemented");
-		for (const auto& property_name : static_cast<std::vector<JSString>>(props.GetPropertyNames())) {
-			this_object.SetProperty(property_name, props.GetProperty(property_name));
+		if (props.GetPropertyNames().GetCount() > 0) {
+			const auto propertyNames = props.GetPropertyNames();
+			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
+				this_object.SetProperty(property_name, props.GetProperty(property_name));
+			}
 		}
+
+		//TITANIUM_LOG_WARN("Module::applyProperties: Unimplemented");
+		//for (const auto& property_name : static_cast<std::vector<JSString>>(props.GetPropertyNames())) {
+		//	this_object.SetProperty(property_name, props.GetProperty(property_name));
+		//}
 	}
 
 	void Module::fireEvent(const std::string& name, const JSObject& event) const TITANIUM_NOEXCEPT

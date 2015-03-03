@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows/UI/ViewBase.hpp"
 #include "TitaniumWindows/Map/detail/MapBase.hpp"
+#include "Titanium/Map/View.hpp"
 
 using namespace Windows::UI::Xaml::Controls::Maps;
 using namespace Windows::Services::Maps;
@@ -20,6 +21,7 @@ namespace TitaniumWindows
 	namespace Map
 	{
 		using namespace HAL;
+		using Annotation_shared_ptr_t = std::shared_ptr<Titanium::Map::Annotation>;
 
 		/*!
 		  @class
@@ -40,13 +42,20 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
+			// properties
 			virtual uint32_t get_maxZoomLevel() const TITANIUM_NOEXCEPT override final;
 			virtual uint32_t get_minZoomLevel() const TITANIUM_NOEXCEPT override final;
-
-			virtual void set_region(const MapRegionType& region) TITANIUM_NOEXCEPT override final;
 			virtual void set_mapType(const Titanium::Map::MAP_TYPE& mapType) TITANIUM_NOEXCEPT override final;
+			virtual void set_region(const Titanium::Map::MapRegionTypev2& region) TITANIUM_NOEXCEPT override final;
+			virtual void set_showsBuildings(const bool& buildings) TITANIUM_NOEXCEPT;
+			virtual void set_traffic(const bool& traffic) TITANIUM_NOEXCEPT;
+			
+			// methods
+			virtual void addAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT;
+			virtual void removeAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT;
 			virtual void zoom(const uint32_t& zoom) TITANIUM_NOEXCEPT override final;
 
+			// Properties for View/ViewBase
 			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT override final;
 			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override final;
 			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override final;

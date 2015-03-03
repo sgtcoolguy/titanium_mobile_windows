@@ -32,12 +32,15 @@ namespace Titanium
 		
 		void View::addAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT
 		{
+			annotations__.push_back(annotation);
 			TITANIUM_LOG_WARN("Map::View::addAnnotation: Unimplemented");
 		}
 		
 		void View::addAnnotations(const std::vector<Annotation_shared_ptr_t>& annotations) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Map::View::addAnnotations: Unimplemented");
+			for (Annotation_shared_ptr_t annotation : annotations) {
+				addAnnotation(annotation);
+			}
 		}
 		
 		void View::addRoute(const Route_shared_ptr_t& route) TITANIUM_NOEXCEPT
@@ -57,17 +60,20 @@ namespace Titanium
 		
 		void View::removeAllAnnotations() TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Map::View::removeAllAnnotations: Unimplemented");
+			removeAnnotations(get_annotations());
 		}
 		
 		void View::removeAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT
 		{
+			annotations__.erase(std::remove(annotations__.begin(), annotations__.end(), annotation), annotations__.end());
 			TITANIUM_LOG_WARN("Map::View::removeAnnotation: Unimplemented");
 		}
 		
 		void View::removeAnnotations(const std::vector<Annotation_shared_ptr_t>& annotations) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Map::View::removeAnnotations: Unimplemented");
+			for (Annotation_shared_ptr_t annotation : annotations) {
+				removeAnnotation(annotation); 
+			}
 		}
 		
 		void View::removeRoute(const Route_shared_ptr_t& route) TITANIUM_NOEXCEPT
@@ -118,7 +124,8 @@ namespace Titanium
 
 		void View::set_annotations(const std::vector<Annotation_shared_ptr_t>& annotations) TITANIUM_NOEXCEPT
 		{
-			annotations__ = annotations;
+			removeAllAnnotations();
+			addAnnotations(annotations);
 		}
 
 		Camera_shared_ptr_t View::get_camera() const TITANIUM_NOEXCEPT

@@ -21,7 +21,7 @@ namespace Titanium
 		/*!
 		  @class
 		  @discussion This is the Titanium Route Module.
-		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Map.Route
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Modules.Map.Route
 		*/
 		class TITANIUMKIT_EXPORT Route : public Module, public JSExport<Route>
 		{

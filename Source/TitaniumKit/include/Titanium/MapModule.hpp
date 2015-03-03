@@ -10,8 +10,11 @@
 #define _TITANIUM_MAP_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/Map/View.hpp"
 #include "Titanium/Map/Constants.hpp"
+#include "Titanium/Map/Annotation.hpp"
+#include "Titanium/Map/Camera.hpp"
+#include "Titanium/Map/Route.hpp"
+#include "Titanium/Map/View.hpp"
 
 namespace Titanium
 {
@@ -57,31 +60,31 @@ namespace Titanium
 
 		/*!
 		  @method
-		  @abstract createMapView
-		  @discussion Creates and returns an instance of <Titanium.Map.View>.
-		*/
-		virtual JSValue createView(JSObject parameters) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
 		  @abstract createAnnotation
 		  @discussion Creates and returns an instance of <Titanium.Map.Annotation>.
 		*/
-		virtual JSValue createAnnotation(JSObject parameters) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-		  @abstract createRoute
-		  @discussion Creates and returns an instance of <Titanium.Map.Route>.
-		*/
-		virtual JSValue createRoute(JSObject parameters) TITANIUM_NOEXCEPT;
+		virtual JSValue createAnnotation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
 		  @abstract createCamera
 		  @discussion Creates and returns an instance of <Titanium.Map.Camera>.
 		*/
-		virtual JSValue createCamera(JSObject parameters) TITANIUM_NOEXCEPT;
+		virtual JSValue createCamera(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract createRoute
+		  @discussion Creates and returns an instance of <Titanium.Map.Route>.
+		*/
+		virtual JSValue createRoute(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract createMapView
+		  @discussion Creates and returns an instance of <Titanium.Map.View>.
+		*/
+		virtual JSValue createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -101,10 +104,10 @@ namespace Titanium
 
 		static void JSExportInitialize();
 
-		virtual JSValue js_createView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_createAnnotation(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_createRoute(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_createCamera(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_createRoute(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_createView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_isGoogleMapServicesAvailable(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 	private:

@@ -36,7 +36,7 @@ namespace Titanium
 				value.tilt = static_cast<double>(object.GetProperty("tilt"));
 			}
 			if (object.HasProperty("zoom")) {
-				value.zoom = static_cast<double>(object.GetProperty("zoom"));
+				value.zoom = static_cast<uint32_t>(object.GetProperty("zoom"));
 			}
 			return value;
 		};

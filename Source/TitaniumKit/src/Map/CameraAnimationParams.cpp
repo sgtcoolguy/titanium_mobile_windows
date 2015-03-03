@@ -36,7 +36,7 @@ namespace Titanium
 				}
 			}
 			if (object.HasProperty("duration")) {
-				value.duration = static_cast<double>(object.GetProperty("duration"));
+				value.duration = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(object.GetProperty("duration"))));
 			}
 			return value;
 		};
@@ -46,7 +46,7 @@ namespace Titanium
 			auto object = js_context.CreateObject();
 			object.SetProperty("camera", value.camera->get_object());
 			object.SetProperty("curve",  js_context.CreateNumber(static_cast<std::underlying_type<Titanium::UI::ANIMATION_CURVE>::type>(value.curve)));
-			object.SetProperty("duration", js_context.CreateNumber(value.duration));
+			object.SetProperty("duration", js_context.CreateNumber(static_cast<double>(value.duration.count())));
 			return object;
 		}
 	} // namespace Map

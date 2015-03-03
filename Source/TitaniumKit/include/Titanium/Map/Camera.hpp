@@ -21,7 +21,7 @@ namespace Titanium
 		/*!
 		  @class
 		  @discussion This is the Titanium Camera Module.
-		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Map.Camera
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Modules.Map.Camera
 		*/
 		class TITANIUMKIT_EXPORT Camera : public Module, public JSExport<Camera>
 		{

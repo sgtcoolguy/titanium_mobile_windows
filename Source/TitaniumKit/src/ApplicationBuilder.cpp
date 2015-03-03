@@ -57,7 +57,10 @@ namespace Titanium
 	      httpclient__(js_context__.CreateObject<Titanium::Network::HTTPClient>()),
 	      network__(js_context__.CreateObject<Titanium::NetworkModule>()),
 	      map__(js_context__.CreateObject<Titanium::MapModule>()),
-	      mapview__(js_context__.CreateObject<Titanium::Map::View>())
+		  mapAnnotation__(js_context__.CreateObject<Titanium::Map::Annotation>()),
+		  mapCamera__(js_context__.CreateObject<Titanium::Map::Camera>()),
+		  mapRoute__(js_context__.CreateObject<Titanium::Map::Route>()),
+	      mapView__(js_context__.CreateObject<Titanium::Map::View>())
 	{
 	}
 
@@ -94,13 +97,20 @@ namespace Titanium
 		titanium.SetProperty("Blob", blob__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Filesystem", filesystem__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Database", database__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		// App
 		titanium.SetProperty("App", app__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		app__.SetProperty("Properties", properties__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+
 		titanium.SetProperty("Network", network__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Analytics", analytics__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		titanium.SetProperty("XML", xml__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		// Map
 		titanium.SetProperty("Map", map__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		map__.SetProperty("View", mapview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		map__.SetProperty("Annotation", mapAnnotation__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		map__.SetProperty("Camera", mapCamera__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		map__.SetProperty("Route", mapRoute__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		map__.SetProperty("View", mapView__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		// XML
+		titanium.SetProperty("XML", xml__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 
 		JSString builtin_functions_script = R"js(
 			  console = {};
@@ -456,14 +466,47 @@ namespace Titanium
 		return *this;
 	}
 
-	JSObject ApplicationBuilder::MapViewObject() const TITANIUM_NOEXCEPT
+	JSObject ApplicationBuilder::MapAnnotationObject() const TITANIUM_NOEXCEPT
 	{
-		return mapview__;
+		return mapAnnotation__;
 	}
 
-	ApplicationBuilder& ApplicationBuilder::MapViewObject(const JSObject& mapview) TITANIUM_NOEXCEPT
+	ApplicationBuilder& ApplicationBuilder::MapAnnotationObject(const JSObject& mapAnnotation) TITANIUM_NOEXCEPT
 	{
-		mapview__ = mapview;
+		mapAnnotation__ = mapAnnotation;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::MapCameraObject() const TITANIUM_NOEXCEPT
+	{
+		return mapCamera__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::MapCameraObject(const JSObject& mapCamera) TITANIUM_NOEXCEPT
+	{
+		mapCamera__ = mapCamera;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::MapRouteObject() const TITANIUM_NOEXCEPT
+	{
+		return mapRoute__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::MapRouteObject(const JSObject& mapRoute) TITANIUM_NOEXCEPT
+	{
+		mapRoute__ = mapRoute;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::MapViewObject() const TITANIUM_NOEXCEPT
+	{
+		return mapView__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::MapViewObject(const JSObject& mapView) TITANIUM_NOEXCEPT
+	{
+		mapView__ = mapView;
 		return *this;
 	}
 

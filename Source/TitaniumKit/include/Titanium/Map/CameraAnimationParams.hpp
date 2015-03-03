@@ -28,7 +28,7 @@ namespace Titanium
 		struct CameraAnimationParams {
 			std::shared_ptr<Camera> camera;
 			Titanium::UI::ANIMATION_CURVE curve;
-			double duration;
+			std::chrono::milliseconds duration;
 		};
 		
 		CameraAnimationParams js_to_CameraAnimationParams(const JSObject& object);
