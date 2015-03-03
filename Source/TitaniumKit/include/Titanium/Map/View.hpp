@@ -11,12 +11,23 @@
 
 #include "Titanium/UI/View.hpp"
 #include "Titanium/Map/Constants.hpp"
+#include "Titanium/Map/MapRegionTypev2.hpp"
+#include "Titanium/Map/MapLocationTypev2.hpp"
+#include "Titanium/Map/CameraAnimationParams.hpp"
+#include "Titanium/Map/Annotation.hpp"
+#include "Titanium/Map/Route.hpp"
+#include "Titanium/Map/Camera.hpp"
+
+#include <vector>
 
 namespace Titanium 
 {
 	namespace Map
 	{
 		using namespace HAL;
+		using Annotation_shared_ptr_t = std::shared_ptr<Annotation>;
+		using Route_shared_ptr_t = std::shared_ptr<Route>;
+		using Camera_shared_ptr_t = std::shared_ptr<Camera>;
 
 		/*!
 		  @class
@@ -28,24 +39,15 @@ namespace Titanium
 
 		public:
 
-			struct MapRegionType {
-				double bearing;
-				double latitude;
-				double latitudeDelta;
-				double longitude;
-				double longitudeDelta;
-				double tilt;
-				uint32_t zoom;
-			};
 			// properties
 			virtual bool get_animate() const TITANIUM_NOEXCEPT final;
 			virtual void set_animate(const bool& animate) TITANIUM_NOEXCEPT;
 
-			//virtual JSObject get_annotations() const TITANIUM_NOEXCEPT final;
-			//virtual void set_annotations(const JSObject& annotations) TITANIUM_NOEXCEPT;
+			virtual std::vector<Annotation_shared_ptr_t> get_annotations() const TITANIUM_NOEXCEPT final;
+			virtual void set_annotations(const std::vector<Annotation_shared_ptr_t>& annotations) TITANIUM_NOEXCEPT;
 
-			//virtual JSObject get_camera() const TITANIUM_NOEXCEPT final;
-			//virtual void set_camera(JSObject& camera) TITANIUM_NOEXCEPT;
+			virtual Camera_shared_ptr_t get_camera() const TITANIUM_NOEXCEPT final;
+			virtual void set_camera(const Camera_shared_ptr_t& camera) TITANIUM_NOEXCEPT;
 
 			virtual bool get_compassEnabled() const TITANIUM_NOEXCEPT final;
 			virtual void set_compassEnabled(const bool& compass) TITANIUM_NOEXCEPT;
@@ -63,8 +65,8 @@ namespace Titanium
 			virtual bool get_pitchEnabled() const TITANIUM_NOEXCEPT final;
 			virtual void set_pitchEnabled(const bool& pitch) TITANIUM_NOEXCEPT;
 
-			virtual MapRegionType get_region() const TITANIUM_NOEXCEPT final;
-			virtual void set_region(const MapRegionType& region) TITANIUM_NOEXCEPT;
+			virtual MapRegionTypev2 get_region() const TITANIUM_NOEXCEPT final;
+			virtual void set_region(const MapRegionTypev2& region) TITANIUM_NOEXCEPT;
 
 			virtual bool get_rotateEnabled() const TITANIUM_NOEXCEPT final;
 			virtual void set_rotateEnabled(const bool& rotate) TITANIUM_NOEXCEPT;
@@ -88,19 +90,18 @@ namespace Titanium
 			virtual void set_zOrderOnTop(const bool& zOrderOnTop) TITANIUM_NOEXCEPT;
 
 			// Methods
-			virtual void addAnnotation(JSObject& annotation) TITANIUM_NOEXCEPT;
-			virtual void addAnnotations(JSObject& annotations) TITANIUM_NOEXCEPT;
-			virtual void addRoute(JSObject& route) TITANIUM_NOEXCEPT;
-			virtual void animateCamera(JSObject& animationParams, JSObject& callback) TITANIUM_NOEXCEPT;
-			virtual void deselectAnnotation(JSObject& annotation) TITANIUM_NOEXCEPT;
+			virtual void addAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT;
+			virtual void addAnnotations(const std::vector<Annotation_shared_ptr_t>& annotations) TITANIUM_NOEXCEPT;
+			virtual void addRoute(const Route_shared_ptr_t& route) TITANIUM_NOEXCEPT;
+			virtual void animateCamera(const CameraAnimationParams& animationParams, JSObject& callback) TITANIUM_NOEXCEPT;
+			virtual void deselectAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT;
 			virtual void removeAllAnnotations() TITANIUM_NOEXCEPT;
-			virtual void removeAnnotation(JSObject& annotation) TITANIUM_NOEXCEPT;
-			virtual void removeAnnotations(JSObject& annotations) TITANIUM_NOEXCEPT;
-			virtual void removeRoute(JSObject& route) TITANIUM_NOEXCEPT;
-			virtual void selectAnnotation(JSObject& annotation) TITANIUM_NOEXCEPT;
-			virtual void setLocation(JSObject& annotation) TITANIUM_NOEXCEPT;
-			virtual void showAnnotations() TITANIUM_NOEXCEPT;
-			virtual void showAnnotations(JSObject& annotations) TITANIUM_NOEXCEPT;
+			virtual void removeAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT;
+			virtual void removeAnnotations(const std::vector<Annotation_shared_ptr_t>& annotations) TITANIUM_NOEXCEPT;
+			virtual void removeRoute(const Route_shared_ptr_t& route) TITANIUM_NOEXCEPT;
+			virtual void selectAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT;
+			virtual void setLocation(const MapLocationTypev2& location) TITANIUM_NOEXCEPT;
+			virtual void showAnnotations(const std::vector<Annotation_shared_ptr_t>& annotations) TITANIUM_NOEXCEPT;
 			virtual void snapshot() TITANIUM_NOEXCEPT;
 			virtual void zoom(const uint32_t& level) TITANIUM_NOEXCEPT;
 
@@ -134,13 +135,13 @@ namespace Titanium
 			virtual bool js_set_animate(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setAnimate(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
-			//virtual JSValue js_get_annotations() const TITANIUM_NOEXCEPT final;
-			//virtual bool js_set_annotations(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			//virtual JSValue js_setAnnotations(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_annotations() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_annotations(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setAnnotations(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
-			//virtual JSValue js_get_camera() const TITANIUM_NOEXCEPT final;
-			//virtual bool js_set_camera(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			//virtual JSValue js_setCamera(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_camera() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_camera(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setCamera(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_compassEnabled() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_compassEnabled(const JSValue& argument) TITANIUM_NOEXCEPT final;
@@ -198,13 +199,13 @@ namespace Titanium
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			bool animate__;
-			// Titanium::Map::Annotation annotations__[];
-			// Titanium::Map::Camera camera__;
+			std::vector<Annotation_shared_ptr_t> annotations__;
+			Camera_shared_ptr_t camera__;
 			bool compassEnabled__;
 			bool enableZoomControls__;
 			Titanium::Map::MAP_TYPE mapType__;
 			bool pitchEnabled__;
-			MapRegionType region__;
+			MapRegionTypev2 region__;
 			bool rotateEnabled__;
 			bool showsBuildings__;
 			bool showsPointsOfInterest__;

@@ -30,27 +30,27 @@ namespace Titanium
 		{
 		}
 		
-		void View::addAnnotation(JSObject& annotation) TITANIUM_NOEXCEPT
+		void View::addAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Map::View::addAnnotation: Unimplemented");
 		}
 		
-		void View::addAnnotations(JSObject& annotations) TITANIUM_NOEXCEPT
+		void View::addAnnotations(const std::vector<Annotation_shared_ptr_t>& annotations) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Map::View::addAnnotations: Unimplemented");
 		}
 		
-		void View::addRoute(JSObject& route) TITANIUM_NOEXCEPT
+		void View::addRoute(const Route_shared_ptr_t& route) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Map::View::addRoute: Unimplemented");
 		}
 		
-		void View::animateCamera(JSObject& animationParams, JSObject& callback) TITANIUM_NOEXCEPT
+		void View::animateCamera(const CameraAnimationParams& animationParams, JSObject& callback) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Map::View::animateCamera: Unimplemented");
 		}
 		
-		void View::deselectAnnotation(JSObject& annotation) TITANIUM_NOEXCEPT
+		void View::deselectAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Map::View::deselectAnnotation: Unimplemented");
 		}
@@ -60,37 +60,32 @@ namespace Titanium
 			TITANIUM_LOG_WARN("Map::View::removeAllAnnotations: Unimplemented");
 		}
 		
-		void View::removeAnnotation(JSObject& annotation) TITANIUM_NOEXCEPT
+		void View::removeAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Map::View::removeAnnotation: Unimplemented");
 		}
 		
-		void View::removeAnnotations(JSObject& annotations) TITANIUM_NOEXCEPT
+		void View::removeAnnotations(const std::vector<Annotation_shared_ptr_t>& annotations) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Map::View::removeAnnotations: Unimplemented");
 		}
 		
-		void View::removeRoute(JSObject& route) TITANIUM_NOEXCEPT
+		void View::removeRoute(const Route_shared_ptr_t& route) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Map::View::removeRoute: Unimplemented");
 		}
 		
-		void View::selectAnnotation(JSObject& annotation) TITANIUM_NOEXCEPT
+		void View::selectAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Map::View::selectAnnotation: Unimplemented");
 		}
 
-		void View::setLocation(JSObject& location) TITANIUM_NOEXCEPT
+		void View::setLocation(const MapLocationTypev2& location) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Map::View::setLocation: Unimplemented");
 		}
 
-		void View::showAnnotations() TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Map::View::showAnnotations: Unimplemented");
-		}
-
-		void View::showAnnotations(JSObject& annotations) TITANIUM_NOEXCEPT
+		void View::showAnnotations(const std::vector<Annotation_shared_ptr_t>& annotations) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Map::View::showAnnotations: Unimplemented");
 		}
@@ -116,22 +111,25 @@ namespace Titanium
 			animate__ = animate;
 		}
 
-		// TODO : Implement Titanium.Map.Annotation and Titanium.Map.Camera
-		/*JSObject View::get_annotations() const TITANIUM_NOEXCEPT
+		std::vector<Annotation_shared_ptr_t> View::get_annotations() const TITANIUM_NOEXCEPT
 		{
+			return annotations__;
 		}
 
-		void View::set_annotations(const JSObject& annotations) TITANIUM_NOEXCEPT
+		void View::set_annotations(const std::vector<Annotation_shared_ptr_t>& annotations) TITANIUM_NOEXCEPT
 		{
+			annotations__ = annotations;
 		}
 
-		JSObject View::get_camera() const TITANIUM_NOEXCEPT
+		Camera_shared_ptr_t View::get_camera() const TITANIUM_NOEXCEPT
 		{
+			return camera__;
 		}
 
-		void View::set_camera(const JSObject& camera) TITANIUM_NOEXCEPT
+		void View::set_camera(const Camera_shared_ptr_t& camera) TITANIUM_NOEXCEPT
 		{
-		}*/
+			camera__ = camera;
+		}
 
 		bool View::get_compassEnabled() const TITANIUM_NOEXCEPT
 		{
@@ -185,12 +183,12 @@ namespace Titanium
 			pitchEnabled__ = pitch;
 		}
 
-		View::MapRegionType View::get_region() const TITANIUM_NOEXCEPT
+		MapRegionTypev2 View::get_region() const TITANIUM_NOEXCEPT
 		{
 			return region__;
 		}
 
-		void View::set_region(const View::MapRegionType& region) TITANIUM_NOEXCEPT
+		void View::set_region(const MapRegionTypev2& region) TITANIUM_NOEXCEPT
 		{
 			region__ = region;
 		}
@@ -287,6 +285,8 @@ namespace Titanium
 
 			// properties
 			JSExport<View>::AddValueProperty("animate", std::mem_fn(&View::js_get_animate), std::mem_fn(&View::js_set_animate));
+			JSExport<View>::AddValueProperty("camera", std::mem_fn(&View::js_get_camera), std::mem_fn(&View::js_set_camera));
+			JSExport<View>::AddValueProperty("annotations", std::mem_fn(&View::js_get_annotations), std::mem_fn(&View::js_set_annotations));
 			JSExport<View>::AddValueProperty("compassEnabled", std::mem_fn(&View::js_get_compassEnabled), std::mem_fn(&View::js_set_compassEnabled));
 			JSExport<View>::AddValueProperty("enableZoomControls", std::mem_fn(&View::js_get_enableZoomControls), std::mem_fn(&View::js_set_enableZoomControls));
 			JSExport<View>::AddValueProperty("mapType", std::mem_fn(&View::js_get_mapType), std::mem_fn(&View::js_set_mapType));
@@ -303,6 +303,8 @@ namespace Titanium
 			JSExport<View>::AddValueProperty("zOrderOnTop", std::mem_fn(&View::js_get_zOrderOnTop), std::mem_fn(&View::js_set_zOrderOnTop));
 
 			// prperty setter functions
+			JSExport<View>::AddFunctionProperty("setCamera", std::mem_fn(&View::js_setCamera));
+			JSExport<View>::AddFunctionProperty("setAnnotations", std::mem_fn(&View::js_setAnnotations));
 			JSExport<View>::AddFunctionProperty("setAnimate", std::mem_fn(&View::js_setAnimate));
 			JSExport<View>::AddFunctionProperty("setCompassEnabled", std::mem_fn(&View::js_setCompassEnabled));
 			JSExport<View>::AddFunctionProperty("setEnableZoomControls", std::mem_fn(&View::js_setEnableZoomControls));
@@ -322,9 +324,9 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() == 1);
 
-			auto _0 = arguments[0];
+			auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			addAnnotation(static_cast<JSObject>(_0));
+			addAnnotation(static_cast<JSObject>(_0).GetPrivate<Annotation>());
 			
 			return get_context().CreateUndefined();
 		}
@@ -333,10 +335,12 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() > 0);
 
-			auto _0 = arguments[0];
+			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			addAnnotations(static_cast<JSObject>(_0));
-			
+			const auto _0Obj = static_cast<JSObject>(_0);
+			TITANIUM_ASSERT(_0Obj.IsArray());
+			const auto annotations = static_cast<JSArray>(_0Obj);
+			addAnnotations(annotations.GetPrivateItems<Annotation>());
 			return get_context().CreateUndefined();
 		}
 
@@ -344,9 +348,9 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() == 1);
 
-			auto _0 = arguments[0];
+			auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			addRoute(static_cast<JSObject>(_0));
+			addRoute(static_cast<JSObject>(_0).GetPrivate<Route>());
 			
 			return get_context().CreateUndefined();
 		}
@@ -354,11 +358,12 @@ namespace Titanium
 		JSValue View::js_animateCamera(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() > 1) {
-				auto _0 = arguments[0];
-				auto _1 = arguments[1];
+				auto _0 = arguments.at(0);
+				auto _1 = arguments.at(1);
 				TITANIUM_ASSERT(_0.IsObject());
 				TITANIUM_ASSERT(_1.IsObject());
-				animateCamera(static_cast<JSObject>(_0), static_cast<JSObject>(_1));
+				auto callback = static_cast<JSObject>(_1);
+				animateCamera(js_to_CameraAnimationParams(static_cast<JSObject>(_0)), callback);
 			}
 			return get_context().CreateUndefined();
 		}
@@ -367,9 +372,9 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() == 1);
 
-			auto _0 = arguments[0];
+			auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			deselectAnnotation(static_cast<JSObject>(_0));
+			deselectAnnotation(static_cast<JSObject>(_0).GetPrivate<Annotation>());
 			
 			return get_context().CreateUndefined();
 		}
@@ -384,9 +389,9 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() == 1);
 
-			auto _0 = arguments[0];
+			auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			removeAnnotation(static_cast<JSObject>(_0));
+			removeAnnotation(static_cast<JSObject>(_0).GetPrivate<Annotation>());
 			
 			return get_context().CreateUndefined();
 		}
@@ -395,9 +400,12 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() > 0);
 
-			auto _0 = arguments[0];
+			auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			removeAnnotations(static_cast<JSObject>(_0));
+			const auto _0Obj = static_cast<JSObject>(_0);
+			TITANIUM_ASSERT(_0Obj.IsArray());
+			const auto annotations = static_cast<JSArray>(_0Obj);
+			removeAnnotations(annotations.GetPrivateItems<Annotation>());
 			
 			return get_context().CreateUndefined();
 		}
@@ -406,9 +414,9 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() == 1);
 			
-			auto _0 = arguments[0];
+			auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			removeRoute(static_cast<JSObject>(_0));
+			removeRoute(static_cast<JSObject>(_0).GetPrivate<Route>());
 			
 			return get_context().CreateUndefined();
 		}
@@ -417,9 +425,9 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() == 1);
 			
-			auto _0 = arguments[0];
+			auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			selectAnnotation(static_cast<JSObject>(_0));
+			selectAnnotation(static_cast<JSObject>(_0).GetPrivate<Annotation>());
 			
 			return get_context().CreateUndefined();
 		}
@@ -428,20 +436,22 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() == 1);
 			
-			auto _0 = arguments[0];
+			auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			setLocation(static_cast<JSObject>(_0));
+			setLocation(js_to_MapLocationTypev2(static_cast<JSObject>(_0)));
 			
 			return get_context().CreateUndefined();
 		}
 
 		JSValue View::js_showAnnotations(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			if (arguments.size() > 0) {
-				showAnnotations(static_cast<JSObject>(arguments.at(0)));
-			} else {
-				showAnnotations();
-			}
+			TITANIUM_ASSERT(arguments.size() > 0);
+			auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			const auto _0Obj = static_cast<JSObject>(_0);
+			TITANIUM_ASSERT(_0Obj.IsArray());
+			const auto annotations = static_cast<JSArray>(_0Obj);
+			showAnnotations(annotations.GetPrivateItems<Annotation>());
 			return get_context().CreateUndefined();
 		}
 
@@ -455,7 +465,7 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() == 1);
 			
-			auto _0 = arguments[0];
+			auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsNumber());
 			zoom(static_cast<uint32_t>(_0));
 			
@@ -472,6 +482,57 @@ namespace Titanium
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_animate(static_cast<bool>(argument));
 			return true;
+		}
+
+		JSValue View::js_get_annotations() const TITANIUM_NOEXCEPT
+		{
+			std::vector<JSValue> js_annotations;
+			const auto annotations = get_annotations();
+			for (auto annotation : annotations) {
+				js_annotations.push_back(annotation->get_object());
+			}
+			return get_context().CreateArray(js_annotations);
+		}
+
+		bool View::js_set_annotations(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			if (!argument.IsObject()) {
+				return false;
+			}
+			const auto annotations = static_cast<JSObject>(argument);
+			if (!annotations.IsArray()) {
+				return false;
+			}
+			set_annotations(static_cast<JSArray>(annotations).GetPrivateItems<Annotation>());
+			return true;
+		}
+
+		JSValue View::js_get_camera() const TITANIUM_NOEXCEPT
+		{
+			return get_camera()->get_object();
+		}
+
+		bool View::js_set_camera(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+			set_camera(static_cast<JSObject>(argument).GetPrivate<Camera>());
+			return true;
+		}
+
+		JSValue View::js_setAnnotations(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_annotations(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
+		JSValue View::js_setCamera(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_camera(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 
 		JSValue View::js_setAnimate(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -574,34 +635,14 @@ namespace Titanium
 
 		JSValue View::js_get_region() const TITANIUM_NOEXCEPT
 		{
-			const auto region = get_region();
-			// convert struct to JSObject
-			JSObject object = get_context().CreateObject();
-			object.SetProperty("bearing", get_context().CreateNumber(region.bearing));
-			object.SetProperty("latitude", get_context().CreateNumber(region.latitude));
-			object.SetProperty("latitudeDelta", get_context().CreateNumber(region.latitudeDelta));
-			object.SetProperty("longitude", get_context().CreateNumber(region.longitude));
-			object.SetProperty("longitudeDelta", get_context().CreateNumber(region.longitudeDelta));
-			object.SetProperty("tilt", get_context().CreateNumber(region.tilt));
-			object.SetProperty("zoom", get_context().CreateNumber(region.zoom));
-			return static_cast<JSValue>(object);
+			return MapRegionTypev2_to_js(get_context(), get_region());
 		}
 
 		bool View::js_set_region(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsObject());
-			const auto mapRegionType = static_cast<JSObject>(argument);
-
-			MapRegionType region;
-			region.bearing = static_cast<double>(mapRegionType.GetProperty("bearing"));
-			region.latitude = static_cast<double>(mapRegionType.GetProperty("latitude"));
-			region.latitudeDelta = static_cast<double>(mapRegionType.GetProperty("latitudeDelta"));
-			region.longitude = static_cast<double>(mapRegionType.GetProperty("longitude"));
-			region.longitudeDelta = static_cast<double>(mapRegionType.GetProperty("longitudeDelta"));
-			region.tilt = static_cast<double>(mapRegionType.GetProperty("tilt"));
-			region.zoom = static_cast<uint32_t>(mapRegionType.GetProperty("zoom"));
-
-			set_region(region);
+			const auto region = static_cast<JSObject>(argument);
+			set_region(js_to_MapRegionTypev2(region));
 			return true;
 		}
 
