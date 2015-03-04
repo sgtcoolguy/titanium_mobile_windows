@@ -105,7 +105,7 @@ namespace Titanium
 			virtual void snapshot() TITANIUM_NOEXCEPT;
 			virtual void zoom(const uint32_t& level) TITANIUM_NOEXCEPT;
 
-			View(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			View(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~View() = default;
 			View(const View&) = default;
 			View& operator=(const View&) = default;

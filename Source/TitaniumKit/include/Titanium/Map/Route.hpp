@@ -28,7 +28,7 @@ namespace Titanium
 
 		public:
 
-			Route(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Route(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Route() = default;
 			Route(const Route&) = default;

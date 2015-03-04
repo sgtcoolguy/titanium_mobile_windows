@@ -184,7 +184,7 @@ namespace Titanium
 			virtual std::string get_titleid() const TITANIUM_NOEXCEPT;
 			virtual void set_titleid(const std::string& titleid) TITANIUM_NOEXCEPT;
 
-			Annotation(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Annotation(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Annotation() = default;
 			Annotation(const Annotation&) = default;

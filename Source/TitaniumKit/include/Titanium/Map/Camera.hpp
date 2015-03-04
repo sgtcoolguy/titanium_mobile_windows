@@ -28,7 +28,7 @@ namespace Titanium
 
 		public:
 
-			Camera(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Camera(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Camera() = default;
 			Camera(const Camera&) = default;

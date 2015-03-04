@@ -13,8 +13,8 @@ namespace Titanium
 	namespace Map
 	{
 
-		Route::Route(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Module(js_context, arguments)
+		Route::Route(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Module(js_context)
 		{
 		}
 

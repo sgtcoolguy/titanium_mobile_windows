@@ -13,8 +13,8 @@ namespace Titanium
 	namespace Map
 	{
 
-		Annotation::Annotation(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Module(js_context, arguments),
+		Annotation::Annotation(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Module(js_context),
 			canShowCallout__(true),
 			draggable__(false),
 			latitude__(0),
