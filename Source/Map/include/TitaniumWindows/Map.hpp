@@ -10,5 +10,6 @@
 #define _TITANIUMWINDOWS_MAP_HPP_
 
 #include "TitaniumWindows/Map/View.hpp"
+#include "TitaniumWindows/Map/Annotation.hpp"
 
 #endif  // _TITANIUMWINDOWS_MAP_HPP_

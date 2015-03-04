@@ -13,8 +13,10 @@
 #include "TitaniumWindows/Map/detail/MapBase.hpp"
 #include "Titanium/Map/View.hpp"
 
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 using namespace Windows::UI::Xaml::Controls::Maps;
 using namespace Windows::Services::Maps;
+#endif
 
 namespace TitaniumWindows
 {
@@ -30,7 +32,7 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_MAP_EXPORT View final : public Titanium::Map::View, public JSExport<View>, public TitaniumWindows::UI::ViewBase 
 		{
 		public:
-			View(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			View(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~View();
 			View(const View&)            = default;
@@ -68,7 +70,9 @@ namespace TitaniumWindows
 
 		private:
 
-			MapControl^ mapview__ = {nullptr};
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			MapControl^ mapview__ = { nullptr };
+#endif
 		};
 	} // namespace Map
 }  // namespace Titanium

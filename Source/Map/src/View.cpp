@@ -8,20 +8,25 @@
 
 #include "TitaniumWindows/Map/View.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "TitaniumWindows/Map/Annotation.hpp"
 
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 using namespace Windows::Devices::Geolocation;
+#endif
 
 namespace TitaniumWindows
 {
 	namespace Map
 	{
-		View::View(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Titanium::Map::View(js_context, arguments),
-			mapview__(ref new MapControl())
+		View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Titanium::Map::View(js_context)
 		{
 			TITANIUM_LOG_DEBUG("View::ctor Initialize");
 
-			// Set service token
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			mapview__ = ref new MapControl();
+
+				// Set service token
 			// TODO : Load this from app properties, windows_map_service_token?
 			mapview__->MapServiceToken = "VrSrmXR8B5bgklWrs0CK_w";
 
@@ -31,11 +36,14 @@ namespace TitaniumWindows
 			TitaniumWindows::UI::ViewBase::setComponent(mapview__);
 
 			zoom(12); // use a default zoom of 12 for Windows?
+#endif
 		}
 
 		View::~View()
 		{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			mapview__ = nullptr;
+#endif
 		}
 
 		void View::JSExportInitialize() 
@@ -46,17 +54,26 @@ namespace TitaniumWindows
 
 		uint32_t View::get_maxZoomLevel() const TITANIUM_NOEXCEPT
 		{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			return static_cast<uint32_t>(mapview__->MaxZoomLevel); // should be 20
+#else
+			return 20;
+#endif
 		}
 
 		uint32_t View::get_minZoomLevel() const TITANIUM_NOEXCEPT
 		{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			return static_cast<uint32_t>(mapview__->MinZoomLevel); // should be 1
+#else
+			return 1;
+#endif
 		}
 
 		void View::set_mapType(const Titanium::Map::MAP_TYPE& mapType) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::set_mapType(mapType);
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			if (mapType == Titanium::Map::MAP_TYPE::HYBRID) {
 				mapview__->Style = MapStyle::AerialWithRoads;
 			} else if (mapType == Titanium::Map::MAP_TYPE::SATELLITE) {
@@ -64,12 +81,14 @@ namespace TitaniumWindows
 			} else if (mapType == Titanium::Map::MAP_TYPE::NORMAL) {
 				mapview__->Style = MapStyle::Road;
 			}
+#endif
 		}
 
 		void View::set_region(const Titanium::Map::MapRegionTypev2& region) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::set_region(region);
-			
+
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			// If there are deltas, use them
 			if (region.latitudeDelta > 0 && region.longitudeDelta > 0) {
 				BasicGeoposition top_left = { region.latitude - region.latitudeDelta, region.longitude - region.longitudeDelta };
@@ -88,69 +107,67 @@ namespace TitaniumWindows
 					mapview__->TrySetViewAsync(gp);
 				}
 			}
+#endif
 		}
 
 		void View::set_showsBuildings(const bool& buildings) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::set_showsBuildings(buildings);
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			mapview__->LandmarksVisible = buildings;
+#endif
 		}
 
 		void View::set_traffic(const bool& traffic) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::set_traffic(traffic);
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			mapview__->TrafficFlowVisible = traffic;
+#endif
 		}
 
 		void View::addAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::addAnnotation(annotation);
-			BasicGeoposition bgp = { annotation->get_latitude(), annotation->get_longitude() };
-			auto gp = ref new Geopoint(bgp);
-
-			auto mapIcon1 = ref new MapIcon();
-			mapIcon1->Title = TitaniumWindows::Utility::ConvertString(annotation->get_title());
-			mapIcon1->Location = gp;
-			mapIcon1->NormalizedAnchorPoint = Windows::Foundation::Point(0.5, 1.0);
-			mapIcon1->ZIndex = 2;
-			mapview__->MapElements->Append(mapIcon1);
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			auto native_annotation_ptr = annotation->get_object().GetPrivate<TitaniumWindows::Map::Annotation>();
+			if (native_annotation_ptr != nullptr) {
+				mapview__->MapElements->Append(native_annotation_ptr->GetMapIcon());
+			}
+#endif
 		}
 
 		void View::removeAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::removeAnnotation(annotation);
 
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			for (size_t i = 0; i < mapview__->MapElements->Size; i++) {
 				auto element = mapview__->MapElements->GetAt(i);
 				MapIcon^ icon = dynamic_cast<MapIcon^>(element);
 				if (icon == nullptr) {
 					continue; // not an annotation
 				}
-				// Determine if the icon matches the annotation!
-				if (annotation->get_latitude() != icon->Location->Position.Latitude) {
-					continue; // latitude doesn't match
+				// find annotation identified by title or a reference.
+				auto annotation_ptr = annotation->get_object().GetPrivate<TitaniumWindows::Map::Annotation>()->GetMapIcon();
+				if (icon == annotation_ptr || annotation_ptr->Title->Equals(icon->Title)) {
+					mapview__->MapElements->RemoveAt(i);
+					break;
 				}
-				if (annotation->get_longitude() != icon->Location->Position.Longitude) {
-					continue; // longitude doesn't match
-				}
-				// FIXME Title is optional!
-				if (!TitaniumWindows::Utility::ConvertString(annotation->get_title())->Equals(icon->Title)) {
-					continue; // title doesn't match
-				}
-				// match, let's get rid of it!
-				mapview__->MapElements->RemoveAt(i);
-				break;
 			}
+#endif
 		}
 
 		void View::zoom(const uint32_t& zoom) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::zoom(zoom);
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			if (zoom != 0) // no zoom specified in the region object?
 			{
 				// TODO Enforce min/max zoom levels?
 				mapview__->ZoomLevel = zoom;
 			}
+#endif
 		}
 
 		void View::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
