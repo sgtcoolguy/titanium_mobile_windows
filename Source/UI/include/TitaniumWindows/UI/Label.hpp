@@ -31,7 +31,7 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
-			Label(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Label(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Label() = default;
 			Label(const Label&) = default;

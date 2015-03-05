@@ -67,7 +67,7 @@ namespace Titanium
 		virtual JSValue TLS_VERSION_1_1() const TITANIUM_NOEXCEPT final;
 		virtual JSValue TLS_VERSION_1_2() const TITANIUM_NOEXCEPT final;
 
-		NetworkModule(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+		NetworkModule(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~NetworkModule() = default;
 		NetworkModule(const NetworkModule&) = default;

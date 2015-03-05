@@ -11,14 +11,19 @@ namespace Titanium
 {
 	namespace Database
 	{
-		ResultSet::ResultSet(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : Module(js_context, arguments)
+		ResultSet::ResultSet(const JSContext& js_context) TITANIUM_NOEXCEPT
+		    : Module(js_context)
 		{
+			TITANIUM_LOG_DEBUG("ResultSet:: ctor ", this);
+		}
+
+		void ResultSet::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
+			HAL_LOG_DEBUG("ResultSet:: postCallAsConstructor ", this);
 		}
 
 		uint32_t ResultSet::get_fieldCount() const TITANIUM_NOEXCEPT
 		{
-			return column_names__.size();
+			return static_cast<uint32_t>(column_names__.size());
 		}
 
 		uint32_t ResultSet::get_rowCount() const TITANIUM_NOEXCEPT
@@ -102,9 +107,9 @@ namespace Titanium
 			return field(index, fieldType);
 		}
 
-		int ResultSet::fieldIndex(const std::string& name) TITANIUM_NOEXCEPT
+		uint32_t ResultSet::fieldIndex(const std::string& name) TITANIUM_NOEXCEPT
 		{
-			for (size_t i = 0, len = column_names__.size(); i < len; i++) {
+			for (uint32_t i = 0, len = static_cast<uint32_t>(column_names__.size()); i < len; i++) {
 				if (column_names__[i] == name) {
 					return i;
 				}

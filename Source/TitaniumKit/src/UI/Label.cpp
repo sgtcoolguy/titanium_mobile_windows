@@ -12,14 +12,14 @@ namespace Titanium
 {
 	namespace UI
 	{
-		Label::Label(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		Label::Label(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      color__(js_context.CreateString()),
+		      font__(js_context.CreateObject()),
 		      text__(js_context.CreateString()),
 		      textAlign__(TEXT_ALIGNMENT::LEFT),
 		      verticalAlign__(TEXT_VERTICAL_ALIGNMENT::CENTER),
-		      wordWrap__(js_context.CreateBoolean(true)),
-		      font__(js_context.CreateObject())
+		      wordWrap__(js_context.CreateBoolean(true))
 		{
 		}
 

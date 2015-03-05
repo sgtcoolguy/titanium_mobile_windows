@@ -230,6 +230,20 @@ set(SOURCE_Map
   src/MapModule.cpp
   include/Titanium/Map/Constants.hpp
   src/Map/Constants.cpp
+  include/Titanium/Map/View.hpp
+  src/Map/View.cpp
+  include/Titanium/Map/Annotation.hpp
+  src/Map/Annotation.cpp
+  include/Titanium/Map/Camera.hpp
+  src/Map/Camera.cpp
+  include/Titanium/Map/Route.hpp
+  src/Map/Route.cpp
+  include/Titanium/Map/MapRegionTypev2.hpp
+  src/Map/MapRegionTypev2.cpp
+  include/Titanium/Map/MapLocationTypev2.hpp
+  src/Map/MapLocationTypev2.cpp
+  include/Titanium/Map/CameraAnimationParams.hpp
+  src/Map/CameraAnimationParams.cpp
 )
 
 source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
@@ -341,6 +355,15 @@ if (WIN32)
 
   # Fix error C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe (needed by boost::split)
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -D_SCL_SECURE_NO_WARNINGS")
+else()
+  # enable well-known compiler warnings
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS "-Wall")
+
+  # exclude Windows-specific unknown-pragmas
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unknown-pragmas")
+
+  # exclude unused-parameter because most TitaniumKit methods are meant to be virtual and overridden
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-parameter")
 endif()
 
 if (NOT TitaniumKit_DISABLE_TESTS)

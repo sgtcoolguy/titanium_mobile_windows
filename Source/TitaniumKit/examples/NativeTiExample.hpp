@@ -19,7 +19,7 @@ using namespace HAL;
 class NativeTiExample final : public Titanium::TiModule, public JSExport<NativeTiExample>
 {
 public:
-	NativeTiExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+	NativeTiExample(const JSContext&) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeTiExample() = default;
 	NativeTiExample(const NativeTiExample&) = default;

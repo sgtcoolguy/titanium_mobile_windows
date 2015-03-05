@@ -12,7 +12,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		View::View(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Module(js_context),
 		      children__(js_context.CreateArray()),
 		      backgroundColor__(js_context.CreateString()),
@@ -20,9 +20,6 @@ namespace Titanium
 		      borderRadius__(0),
 		      borderWidth__(0),
 		      opacity__(js_context.CreateNumber(1.0)),
-		      tintColor__(js_context.CreateString()),
-		      touchEnabled__(true),
-		      visible__(true),
 		      top__(js_context.CreateString()),
 		      left__(js_context.CreateString()),
 		      bottom__(js_context.CreateString()),
@@ -30,7 +27,10 @@ namespace Titanium
 		      center__(js_context.CreateObject()),
 		      width__(js_context.CreateString()),
 		      height__(js_context.CreateString()),
-		      layout__(js_context.CreateString())
+		      layout__(js_context.CreateString()),
+		      tintColor__(js_context.CreateString()),
+		      touchEnabled__(true),
+		      visible__(true)
 		{
 			TITANIUM_LOG_DEBUG("View:: ctor ", this);
 		}
@@ -388,8 +388,9 @@ namespace Titanium
 
 		bool View::js_set_opacity(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_opacity(static_cast<double>(argument));
+			if (argument.IsNumber()) {
+				set_opacity(static_cast<double>(argument));
+			}
 			return true;
 		}
 

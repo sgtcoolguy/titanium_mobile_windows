@@ -12,8 +12,8 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		TextField::TextField(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			  : Titanium::UI::TextField(js_context, arguments),
+		TextField::TextField(const JSContext& js_context) TITANIUM_NOEXCEPT
+			  : Titanium::UI::TextField(js_context),
 		      text_box__(ref new Windows::UI::Xaml::Controls::TextBox())
 		{
 			TITANIUM_LOG_DEBUG("TextField::ctor");

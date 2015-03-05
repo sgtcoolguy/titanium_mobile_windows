@@ -16,8 +16,8 @@ namespace TitaniumWindows
 {
 	namespace Network
 	{
-		HTTPClient::HTTPClient(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : Titanium::Network::HTTPClient(js_context, arguments)
+		HTTPClient::HTTPClient(const JSContext& js_context) TITANIUM_NOEXCEPT
+		    : Titanium::Network::HTTPClient(js_context)
 		{
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Network::HTTPClient::ctor Initialize");
 

@@ -29,7 +29,7 @@ namespace TitaniumWindows
 		{
 
 		public:
-			Properties(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Properties(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Properties() = default;
 			Properties(const Properties&) = default;

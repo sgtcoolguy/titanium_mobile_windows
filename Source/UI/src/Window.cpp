@@ -14,8 +14,8 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		Window::Window(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-  			: Titanium::UI::Window(js_context, arguments),
+		Window::Window(const JSContext& js_context) TITANIUM_NOEXCEPT
+  			: Titanium::UI::Window(js_context),
 		      canvas__(ref new Windows::UI::Xaml::Controls::Canvas())
 		{
 			TITANIUM_LOG_DEBUG("Window::ctor");

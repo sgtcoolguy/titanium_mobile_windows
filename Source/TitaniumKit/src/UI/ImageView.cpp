@@ -12,7 +12,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		ImageView::ImageView(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      duration__(200),
 		      image__(js_context.CreateString()),
@@ -141,7 +141,7 @@ namespace Titanium
 			
 			std::vector<std::string> images;
 			const auto item_count = object.GetPropertyNames().GetCount();
-			for (size_t i = 0; i < item_count; ++i) {
+			for (uint32_t i = 0; i < item_count; ++i) {
 				JSValue item = object.GetProperty(i);
 				TITANIUM_ASSERT(item.IsString());
 				images.push_back(static_cast<std::string>(item));

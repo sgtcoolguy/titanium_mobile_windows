@@ -108,7 +108,7 @@ namespace Titanium
 			virtual bool get_preventDefaultImage() const TITANIUM_NOEXCEPT final;
 			virtual void set_preventDefaultImage(const bool& preventDefaultImage) TITANIUM_NOEXCEPT;
 
-			ImageView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			ImageView(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ImageView() = default;
 			ImageView(const ImageView&) = default;

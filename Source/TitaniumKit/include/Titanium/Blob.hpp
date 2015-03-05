@@ -80,7 +80,7 @@ namespace Titanium
 		virtual void construct(std::vector<unsigned char> data) TITANIUM_NOEXCEPT;
 		virtual std::vector<unsigned char> getData() TITANIUM_NOEXCEPT;
 
-		Blob(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+		Blob(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~Blob() = default;
 		Blob(const Blob&) = default;

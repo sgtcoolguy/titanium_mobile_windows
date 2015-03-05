@@ -139,7 +139,7 @@ namespace Titanium
 			*/
 			virtual void clearCookies(const std::string& url) TITANIUM_NOEXCEPT;
 
-			HTTPClient(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			HTTPClient(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~HTTPClient() = default;
 			HTTPClient(const HTTPClient&) = default;

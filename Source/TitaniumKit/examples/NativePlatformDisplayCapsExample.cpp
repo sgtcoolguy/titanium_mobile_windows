@@ -7,7 +7,7 @@
 #include "NativePlatformDisplayCapsExample.hpp"
 #include <iostream>
 
-NativePlatformDisplayCapsExample::NativePlatformDisplayCapsExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+NativePlatformDisplayCapsExample::NativePlatformDisplayCapsExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::Platform::DisplayCaps(js_context)
 {
 	TITANIUM_LOG_DEBUG("NativePlatformDisplayCapsExample::ctor");

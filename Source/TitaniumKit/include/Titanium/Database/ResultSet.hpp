@@ -132,7 +132,8 @@ namespace Titanium
 			*/
 			virtual bool next() TITANIUM_NOEXCEPT;
 
-			ResultSet(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			ResultSet(const JSContext&) TITANIUM_NOEXCEPT;
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			virtual ~ResultSet() = default;
 			ResultSet(const ResultSet&) = default;
@@ -171,7 +172,7 @@ namespace Titanium
 			  @abstract fieldIndex( name ) : int
 			  @discussion Finds the index of the field with the given name. Returns -1 if not found.
 			*/
-			virtual int fieldIndex(const std::string& fieldName) TITANIUM_NOEXCEPT final;
+			virtual uint32_t fieldIndex(const std::string& fieldName) TITANIUM_NOEXCEPT final;
 
 		};
 	} // namespace Database

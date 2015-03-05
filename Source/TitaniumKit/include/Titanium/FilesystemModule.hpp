@@ -126,7 +126,7 @@ namespace Titanium
 		*/
 		virtual std::string tempDirectory() const TITANIUM_NOEXCEPT;
 
-		FilesystemModule(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+		FilesystemModule(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~FilesystemModule() = default;
 		FilesystemModule(const FilesystemModule&) = default;

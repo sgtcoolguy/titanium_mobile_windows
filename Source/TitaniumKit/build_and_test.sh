@@ -45,7 +45,30 @@ function echo_and_eval {
 echo_and_eval "rm -rf \"${BUILD_DIR}\""
 echo_and_eval "mkdir -p \"${BUILD_DIR}\""
 echo_and_eval "pushd \"${BUILD_DIR}\""
-echo_and_eval "${cmd}"
+
+# detect use of HAL types for interface (search for virtual, non-final, non-override methods which uses HAL types)
+echo_and_eval "find -E ../include -type f -and -name \"*.hpp\" -exec grep -E -H \"JS\w+\" {} \; | grep virtual | grep -v final | grep -v override > DETECT_HAL_TYPES.log"
+#
+# uncomment following block if you want to exit(1) on use of HAL types for interface
+#
+
+#if [ -s DETECT_HAL_TYPES.log ]; then
+#  echo "[ERROR] Found virtual and non-final methods which uses HAL types"
+#  cat ./DETECT_HAL_TYPES.log
+#  exit 1
+#fi
+
+echo_and_eval "${cmd} 2>error.log | tee ./build.log"
+
+#
+# uncomment following block if you want to exit(1) on compiler warnings
+#
+
+#if [ -s error.log ]; then
+#  echo "[ERROR] stderr output found on build."
+#  cat ./error.log
+#  exit 1
+#fi
 
 if [[ ${CMAKE_HOST_WIN32} == 0 ]]; then
     # On Windows we need to copy the DLL to the location of the

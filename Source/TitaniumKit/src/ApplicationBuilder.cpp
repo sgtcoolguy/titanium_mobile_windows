@@ -10,8 +10,6 @@
 #include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
-#include "Titanium/UI/Animation.hpp"
-#include "Titanium/App/Properties.hpp"
 #include "Titanium/App.hpp"
 #include "Titanium/Analytics.hpp"
 #include "Titanium/PlatformModule.hpp"
@@ -19,51 +17,53 @@
 #include "Titanium/Gesture.hpp"
 #include "Titanium/Blob.hpp"
 #include "Titanium/FilesystemModule.hpp"
-#include "Titanium/Filesystem/File.hpp"
 #include "Titanium/DatabaseModule.hpp"
 #include "Titanium/NetworkModule.hpp"
-#include "Titanium/Network/HTTPClient.hpp"
 #include "Titanium/XML.hpp"
 #include "Titanium/MapModule.hpp"
 
 namespace Titanium
 {
 	ApplicationBuilder::ApplicationBuilder(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : js_context__(js_context),
-	      global_object__(js_context__.get_global_object()),
-	      ti__(js_context__.CreateObject<Titanium::TiModule>()),
-	      api__(js_context__.CreateObject<Titanium::API>()),
-	      view__(js_context__.CreateObject<Titanium::UI::View>()),
-	      animation__(js_context__.CreateObject<Titanium::UI::Animation>()),
-	      listsection__(js_context__.CreateObject<Titanium::UI::ListSection>()),
-	      listview__(js_context__.CreateObject<Titanium::UI::ListView>()),
-	      emaildialog__(js_context__.CreateObject<Titanium::UI::EmailDialog>()),
-	      properties__(js_context__.CreateObject<Titanium::App::Properties>()),
-	      analytics__(js_context__.CreateObject<Titanium::Analytics>()),
-	      window__(js_context__.CreateObject<Titanium::UI::Window>()),
-	      button__(js_context__.CreateObject<Titanium::UI::Button>()),
-	      alertDialog__(js_context__.CreateObject<Titanium::UI::AlertDialog>()),
-	      imageview__(js_context__.CreateObject<Titanium::UI::ImageView>()),
-	      label__(js_context__.CreateObject<Titanium::UI::Label>()),
-	      slider__(js_context__.CreateObject<Titanium::UI::Slider>()),
-	      scrollview__(js_context__.CreateObject<Titanium::UI::ScrollView>()),
-	      textField__(js_context__.CreateObject<Titanium::UI::TextField>()),
-	      webview__(js_context__.CreateObject<Titanium::UI::WebView>()),
-	      platform__(js_context__.CreateObject<Titanium::PlatformModule>()),
-	      xml__(js_context__.CreateObject<Titanium::XML>()),
-	      accelerometer__(js_context__.CreateObject<Titanium::Accelerometer>()),
-	      gesture__(js_context__.CreateObject<Titanium::Gesture>()),
-	      blob__(js_context__.CreateObject<Titanium::Blob>()),
-	      file__(js_context__.CreateObject<Titanium::Filesystem::File>()),
-	      filesystem__(js_context__.CreateObject<Titanium::FilesystemModule>()),
-	      database__(js_context__.CreateObject<Titanium::DatabaseModule>()),
+		: js_context__(js_context),
+		  global_object__(js_context__.get_global_object()),
+		  ti__(js_context__.CreateObject<Titanium::TiModule>()),
+		  api__(js_context__.CreateObject<Titanium::API>()),
+		  view__(js_context__.CreateObject<Titanium::UI::View>()),
+		  animation__(js_context__.CreateObject<Titanium::UI::Animation>()),
+		  listsection__(js_context__.CreateObject<Titanium::UI::ListSection>()),
+		  listview__(js_context__.CreateObject<Titanium::UI::ListView>()),
+		  emaildialog__(js_context__.CreateObject<Titanium::UI::EmailDialog>()),
+		  properties__(js_context__.CreateObject<Titanium::App::Properties>()),
 		  app__(js_context__.CreateObject<Titanium::AppModule>()),
-	      httpclient__(js_context__.CreateObject<Titanium::Network::HTTPClient>()),
-	      network__(js_context__.CreateObject<Titanium::NetworkModule>()),
 		  tableview__(js_context__.CreateObject<Titanium::UI::TableView>()),
 		  tableviewsection__(js_context__.CreateObject<Titanium::UI::TableViewSection>()),
 		  tableviewrow__(js_context__.CreateObject<Titanium::UI::TableViewRow>()),
-	      map__(js_context__.CreateObject<Titanium::MapModule>())
+		  analytics__(js_context__.CreateObject<Titanium::Analytics>()),
+		  window__(js_context__.CreateObject<Titanium::UI::Window>()),
+		  button__(js_context__.CreateObject<Titanium::UI::Button>()),
+		  alertDialog__(js_context__.CreateObject<Titanium::UI::AlertDialog>()),
+		  imageview__(js_context__.CreateObject<Titanium::UI::ImageView>()),
+		  label__(js_context__.CreateObject<Titanium::UI::Label>()),
+		  slider__(js_context__.CreateObject<Titanium::UI::Slider>()),
+		  scrollview__(js_context__.CreateObject<Titanium::UI::ScrollView>()),
+		  textField__(js_context__.CreateObject<Titanium::UI::TextField>()),
+		  platform__(js_context__.CreateObject<Titanium::PlatformModule>()),
+		  accelerometer__(js_context__.CreateObject<Titanium::Accelerometer>()),
+		  gesture__(js_context__.CreateObject<Titanium::Gesture>()),
+		  blob__(js_context__.CreateObject<Titanium::Blob>()),
+		  file__(js_context__.CreateObject<Titanium::Filesystem::File>()),
+		  filesystem__(js_context__.CreateObject<Titanium::FilesystemModule>()),
+		  database__(js_context__.CreateObject<Titanium::DatabaseModule>()),
+		  webview__(js_context__.CreateObject<Titanium::UI::WebView>()),
+		  httpclient__(js_context__.CreateObject<Titanium::Network::HTTPClient>()),
+		  network__(js_context__.CreateObject<Titanium::NetworkModule>()),
+		  xml__(js_context__.CreateObject<Titanium::XML>()),
+		  map__(js_context__.CreateObject<Titanium::MapModule>()),
+		  mapAnnotation__(js_context__.CreateObject<Titanium::Map::Annotation>()),
+		  mapCamera__(js_context__.CreateObject<Titanium::Map::Camera>()),
+		  mapRoute__(js_context__.CreateObject<Titanium::Map::Route>()),
+		  mapView__(js_context__.CreateObject<Titanium::Map::View>())
 	{
 	}
 
@@ -103,12 +103,20 @@ namespace Titanium
 		titanium.SetProperty("Blob", blob__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Filesystem", filesystem__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Database", database__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		// App
 		titanium.SetProperty("App", app__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		app__.SetProperty("Properties", properties__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+
 		titanium.SetProperty("Network", network__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Analytics", analytics__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		titanium.SetProperty("XML", xml__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		// Map
 		titanium.SetProperty("Map", map__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		map__.SetProperty("Annotation", mapAnnotation__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		map__.SetProperty("Camera", mapCamera__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		map__.SetProperty("Route", mapRoute__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		map__.SetProperty("View", mapView__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		// XML
+		titanium.SetProperty("XML", xml__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 
 		JSString builtin_functions_script = R"js(
 			  console = {};
@@ -124,7 +132,7 @@ namespace Titanium
 					  message: _msg
 				  }).show();
 			  };
-      
+
 			  // Load _app_info_.json
 			  Ti.App._loadAppInfo();
 			)js";
@@ -238,9 +246,9 @@ namespace Titanium
 		return view__;
 	}
 
-	ApplicationBuilder& ApplicationBuilder::ViewObject(const JSObject& view) TITANIUM_NOEXCEPT
+	ApplicationBuilder& ApplicationBuilder::ViewObject(const JSObject& View) TITANIUM_NOEXCEPT
 	{
-		view__ = view;
+		view__ = View;
 		return *this;
 	}
 
@@ -391,6 +399,7 @@ namespace Titanium
 	{
 		return filesystem__;
 	}
+	
 	ApplicationBuilder& ApplicationBuilder::FilesystemObject(const JSObject& filesystem) TITANIUM_NOEXCEPT
 	{
 		filesystem__ = filesystem;
@@ -401,6 +410,7 @@ namespace Titanium
 	{
 		return database__;
 	}
+
 	ApplicationBuilder& ApplicationBuilder::DatabaseObject(const JSObject& database) TITANIUM_NOEXCEPT
 	{
 		database__ = database;
@@ -411,6 +421,7 @@ namespace Titanium
 	{
 		return webview__;
 	}
+
 	ApplicationBuilder& ApplicationBuilder::WebViewObject(const JSObject& webview) TITANIUM_NOEXCEPT
 	{
 		webview__ = webview;
@@ -432,6 +443,7 @@ namespace Titanium
 	{
 		return network__;
 	}
+
 	ApplicationBuilder& ApplicationBuilder::NetworkObject(const JSObject& network) TITANIUM_NOEXCEPT
 	{
 		network__ = network;
@@ -490,6 +502,50 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::MapObject(const JSObject& Map) TITANIUM_NOEXCEPT
 	{
 		map__ = Map;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::MapAnnotationObject() const TITANIUM_NOEXCEPT
+	{
+		return mapAnnotation__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::MapAnnotationObject(const JSObject& mapAnnotation) TITANIUM_NOEXCEPT
+	{
+		mapAnnotation__ = mapAnnotation;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::MapCameraObject() const TITANIUM_NOEXCEPT
+	{
+		return mapCamera__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::MapCameraObject(const JSObject& mapCamera) TITANIUM_NOEXCEPT
+	{
+		mapCamera__ = mapCamera;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::MapRouteObject() const TITANIUM_NOEXCEPT
+	{
+		return mapRoute__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::MapRouteObject(const JSObject& mapRoute) TITANIUM_NOEXCEPT
+	{
+		mapRoute__ = mapRoute;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::MapViewObject() const TITANIUM_NOEXCEPT
+	{
+		return mapView__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::MapViewObject(const JSObject& mapView) TITANIUM_NOEXCEPT
+	{
+		mapView__ = mapView;
 		return *this;
 	}
 

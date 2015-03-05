@@ -21,7 +21,7 @@ namespace TitaniumWindows
 	class TITANIUMWINDOWS_NETWORK_EXPORT NetworkModule final : public Titanium::NetworkModule, public JSExport<NetworkModule>
 	{
 	public:
-		NetworkModule(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+		NetworkModule(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~NetworkModule();
 		NetworkModule(const NetworkModule&) = default;

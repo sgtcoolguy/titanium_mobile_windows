@@ -19,19 +19,24 @@ namespace Titanium
 	namespace UI
 	{
 
-		EmailDialog::EmailDialog(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Module(js_context, arguments),
+		EmailDialog::EmailDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Module(js_context),
 			cancelled__(js_context.CreateNumber(0)),
 			failed__(js_context.CreateNumber(3)),
 			saved__(js_context.CreateNumber(1)),
 			sent__(js_context.CreateNumber(2)),
+			bccRecipients__(js_context.CreateArray()),
+			ccRecipients__(js_context.CreateArray()),
 			html__(js_context.CreateBoolean(false)),
 			messageBody__(js_context.CreateString()),
 			subject__(js_context.CreateString()),
-			bccRecipients__(js_context.CreateArray()),
-			ccRecipients__(js_context.CreateArray()),
 			toRecipients__(js_context.CreateArray())
 		{
+			TITANIUM_LOG_DEBUG("EmailDialog:: ctor ", this);
+		}
+
+		void EmailDialog::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
+			HAL_LOG_DEBUG("EmailDialog:: postCallAsConstructor ", this);
 		}
 
 		JSValue EmailDialog::CANCELLED() const TITANIUM_NOEXCEPT

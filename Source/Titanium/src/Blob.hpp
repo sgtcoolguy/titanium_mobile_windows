@@ -36,7 +36,7 @@ namespace TitaniumWindows
 		void construct(Windows::Storage::StorageFile^ file);
 		virtual void construct(std::vector<unsigned char> data) TITANIUM_NOEXCEPT override;
 
-		Blob(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+		Blob(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~Blob();
 		Blob(const Blob&) = default;

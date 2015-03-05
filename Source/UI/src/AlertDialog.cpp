@@ -12,8 +12,8 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		AlertDialog::AlertDialog(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : Titanium::UI::AlertDialog(js_context, arguments),
+		AlertDialog::AlertDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
+		    : Titanium::UI::AlertDialog(js_context),
 			buttons__()
 		{
 			TITANIUM_LOG_DEBUG("AlertDialog::ctor");

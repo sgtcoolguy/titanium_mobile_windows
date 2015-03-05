@@ -464,7 +464,7 @@ namespace Titanium
 		virtual JSValue URL_ERROR_UNKNOWN() const TITANIUM_NOEXCEPT final;
 		virtual JSValue URL_ERROR_UNSUPPORTED_SCHEME() const TITANIUM_NOEXCEPT final;
 
-		UIModule(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+		UIModule(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~UIModule() TITANIUM_NOEXCEPT;  //= default;
 		UIModule(const UIModule&) = default;

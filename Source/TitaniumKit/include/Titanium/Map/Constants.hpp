@@ -1,5 +1,5 @@
 /**
- * TitaniumKit
+ * TitaniumKit Titanium.Map Constants
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.

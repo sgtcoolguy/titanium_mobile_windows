@@ -12,8 +12,8 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		Button::Button(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		    : Titanium::UI::Button(js_context, arguments),
+		Button::Button(const JSContext& js_context) TITANIUM_NOEXCEPT
+		    : Titanium::UI::Button(js_context),
 		      button__(ref new Windows::UI::Xaml::Controls::Button())
 		{
 			TITANIUM_LOG_DEBUG("Button::ctor");

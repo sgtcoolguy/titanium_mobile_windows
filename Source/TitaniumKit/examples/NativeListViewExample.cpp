@@ -8,7 +8,7 @@
 
 #include "NativeListViewExample.hpp"
 
-NativeListViewExample::NativeListViewExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+NativeListViewExample::NativeListViewExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::UI::ListView(js_context)
 {
 	TITANIUM_LOG_DEBUG("NativeListViewExample:: ctor ", this);

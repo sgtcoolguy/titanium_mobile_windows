@@ -25,7 +25,7 @@ class NativeGlobalObjectExample final : public Titanium::GlobalObject, public JS
 public:
 	void add_require(const std::string& name, const std::string& body) TITANIUM_NOEXCEPT;
 
-	NativeGlobalObjectExample(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+	NativeGlobalObjectExample(const JSContext&) TITANIUM_NOEXCEPT;
 
 	virtual ~NativeGlobalObjectExample() TITANIUM_NOEXCEPT;  //= default;
 	NativeGlobalObjectExample(const NativeGlobalObjectExample&) = default;

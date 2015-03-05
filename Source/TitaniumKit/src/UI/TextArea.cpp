@@ -13,7 +13,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-		TextArea::TextArea(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		TextArea::TextArea(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      autoLink__({AUTOLINK::NONE}),
 		      returnKeyType__(RETURNKEY::DEFAULT),

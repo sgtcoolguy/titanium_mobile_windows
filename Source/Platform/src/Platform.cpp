@@ -18,8 +18,8 @@
 
 namespace TitaniumWindows
 {
-	Platform::Platform(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-	    : Titanium::PlatformModule(js_context, arguments),
+	Platform::Platform(const JSContext& js_context) TITANIUM_NOEXCEPT
+	    : Titanium::PlatformModule(js_context),
 #if defined(__cplusplus_winrt)
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 	      osname__("windowsphone")

@@ -8,7 +8,7 @@
 
 #include "NativeButtonExample.hpp"
 
-NativeButtonExample::NativeButtonExample(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+NativeButtonExample::NativeButtonExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::UI::Button(js_context)
 {
 	TITANIUM_LOG_DEBUG("NativeButtonExample:: ctor ", this);

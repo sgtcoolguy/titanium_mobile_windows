@@ -31,7 +31,7 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
-			AlertDialog(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			AlertDialog(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~AlertDialog() = default;
 			AlertDialog(const AlertDialog&) = default;

@@ -11,7 +11,7 @@ namespace Titanium
 {
 	namespace Filesystem
 	{
-		File::File(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+		File::File(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Module(js_context)
 		{
 		}

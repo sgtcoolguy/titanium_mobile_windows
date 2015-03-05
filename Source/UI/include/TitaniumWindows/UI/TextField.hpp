@@ -31,7 +31,7 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
-			TextField(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			TextField(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~TextField() = default;
 			TextField(const TextField&) = default;
