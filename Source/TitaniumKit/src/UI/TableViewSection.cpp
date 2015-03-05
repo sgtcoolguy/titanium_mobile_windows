@@ -12,8 +12,8 @@ namespace Titanium
 {
 	namespace UI
 	{
-    	TableViewSection::TableViewSection(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-        	: Module(js_context, arguments),
+    	TableViewSection::TableViewSection(const JSContext& js_context) TITANIUM_NOEXCEPT
+        	: Module(js_context),
         	footerTitle__(""),
         	headerTitle__(""),
         	rowCount__(0)

@@ -31,7 +31,7 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
-			TableView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			TableView(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableView()                  = default;
 			TableView(const TableView&)            = default;
 			TableView& operator=(const TableView&) = default;

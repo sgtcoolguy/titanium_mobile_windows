@@ -87,7 +87,7 @@ namespace Titanium
 			*/
 			virtual void remove(TableViewRow_shared_ptr_t row) TITANIUM_NOEXCEPT;
 
-			TableViewSection(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			TableViewSection(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableViewSection() = default;
 			TableViewSection(const TableViewSection&) = default;
 			TableViewSection& operator=(const TableViewSection&) = default;

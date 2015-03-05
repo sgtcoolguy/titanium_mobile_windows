@@ -16,8 +16,8 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		TableView::TableView(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Titanium::UI::TableView(js_context, arguments)
+		TableView::TableView(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Titanium::UI::TableView(js_context)
 		{
 			TITANIUM_LOG_DEBUG("TableView::ctor Initialize");
 
@@ -160,9 +160,18 @@ namespace TitaniumWindows
 				collectionViewItems__->Append(group);
 				return;
 
+			// JSObject array
+			} else if (item.IsArray()) {
+				std::vector<JSValue> items = static_cast<std::vector<JSValue>>(static_cast<JSArray>(item));;
+				for (uint32_t i=0;i<items.size();i++) {
+					addTableItem(static_cast<JSObject>(items[i]));
+				}
+				return;
+
 			// JSObject to create TableViewSection
 			} else if (item.HasProperty("headerTitle")) {
 				// TODO : Create section
+				return;
 			}
 
 			// JSObject to create TableViewRow

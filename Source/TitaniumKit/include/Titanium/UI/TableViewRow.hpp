@@ -68,7 +68,7 @@ namespace Titanium
 			virtual std::string title() const TITANIUM_NOEXCEPT;
 			virtual void setTitle(std::string title) TITANIUM_NOEXCEPT;
 
-			TableViewRow(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			TableViewRow(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableViewRow() = default;
 			TableViewRow(const TableViewRow&) = default;
 			TableViewRow& operator=(const TableViewRow&) = default;

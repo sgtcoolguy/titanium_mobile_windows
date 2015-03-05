@@ -239,7 +239,7 @@ namespace Titanium
 			*/
 			virtual void updateSection(uint32_t index, TableViewSection_shared_ptr_t section, JSValue animation) TITANIUM_NOEXCEPT;
 
-			TableView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			TableView(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableView() = default;
 			TableView(const TableView&) = default;
 			TableView& operator=(const TableView&) = default;

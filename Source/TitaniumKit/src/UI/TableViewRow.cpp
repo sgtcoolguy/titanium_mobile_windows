@@ -12,8 +12,8 @@ namespace Titanium
 {
 	namespace UI
 	{
-    	TableViewRow::TableViewRow(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-        	: View(js_context, arguments),
+    	TableViewRow::TableViewRow(const JSContext& js_context) TITANIUM_NOEXCEPT
+        	: View(js_context),
         	color__(""),
         	hasCheck__(false),
         	hasChild__(false),

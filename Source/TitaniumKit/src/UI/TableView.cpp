@@ -12,8 +12,8 @@ namespace Titanium
 {
 	namespace UI
 	{
-    	TableView::TableView(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-        	: View(js_context, arguments),
+    	TableView::TableView(const JSContext& js_context) TITANIUM_NOEXCEPT
+        	: View(js_context),
 			search__(get_context().CreateUndefined()),
         	filterAttribute__(""),
         	filterAnchored__(false),

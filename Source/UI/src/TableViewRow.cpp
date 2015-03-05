@@ -15,8 +15,8 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		TableViewRow::TableViewRow(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Titanium::UI::TableViewRow(js_context, arguments)
+		TableViewRow::TableViewRow(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Titanium::UI::TableViewRow(js_context)
 		{
 			TITANIUM_LOG_DEBUG("TableViewRow::ctor Initialize");
 
