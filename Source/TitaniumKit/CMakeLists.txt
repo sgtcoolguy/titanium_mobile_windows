@@ -224,6 +224,20 @@ set(SOURCE_Map
   src/MapModule.cpp
   include/Titanium/Map/Constants.hpp
   src/Map/Constants.cpp
+  include/Titanium/Map/View.hpp
+  src/Map/View.cpp
+  include/Titanium/Map/Annotation.hpp
+  src/Map/Annotation.cpp
+  include/Titanium/Map/Camera.hpp
+  src/Map/Camera.cpp
+  include/Titanium/Map/Route.hpp
+  src/Map/Route.cpp
+  include/Titanium/Map/MapRegionTypev2.hpp
+  src/Map/MapRegionTypev2.cpp
+  include/Titanium/Map/MapLocationTypev2.hpp
+  src/Map/MapLocationTypev2.cpp
+  include/Titanium/Map/CameraAnimationParams.hpp
+  src/Map/CameraAnimationParams.cpp
 )
 
 source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})

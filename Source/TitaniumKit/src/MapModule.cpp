@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/MapModule.hpp"
+#include "Titanium/UIModule.hpp"
 
 namespace Titanium
 {
@@ -163,11 +164,11 @@ namespace Titanium
 		return success__;
 	}
 
-	JSValue MapModule::createView(JSObject parameters) TITANIUM_NOEXCEPT
+	JSValue MapModule::createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("Map::createView");
 
-		JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
 		JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
@@ -179,27 +180,72 @@ namespace Titanium
 		TITANIUM_ASSERT(View_property.IsObject());  // precondition
 		JSObject MapView = static_cast<JSObject>(View_property);
 
-		Titanium::Module::applyProperties(MapView, parameters);
-		
-		return MapView.CallAsConstructor(parameters);
+		auto mapView = MapView.CallAsConstructor(parameters);
+		Titanium::Module::applyProperties(parameters, mapView);
+		return mapView;
 	}
 
-	JSValue MapModule::createAnnotation(JSObject parameters) TITANIUM_NOEXCEPT
+	JSValue MapModule::createAnnotation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Map::createAnnotation: Unimplemented");
-		return get_context().CreateUndefined();
+		TITANIUM_LOG_DEBUG("Map::createAnnotation");
+
+		JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue Map_property = Titanium.GetProperty("Map");
+		TITANIUM_ASSERT(Map_property.IsObject());  // precondition
+		JSObject Map = static_cast<JSObject>(Map_property);
+
+		JSValue Proxy_property = Map.GetProperty("Annotation");
+		TITANIUM_ASSERT(Proxy_property.IsObject());  // precondition
+		JSObject Proxy = static_cast<JSObject>(Proxy_property);
+
+		auto proxy = Proxy.CallAsConstructor(parameters);
+		Titanium::Module::applyProperties(parameters, proxy);
+		return proxy;
 	}
 
-	JSValue MapModule::createRoute(JSObject parameters) TITANIUM_NOEXCEPT
+	JSValue MapModule::createRoute(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Map::createRoute: Unimplemented");
-		return get_context().CreateUndefined();
+		TITANIUM_LOG_DEBUG("Map::createRoute");
+
+		JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue Map_property = Titanium.GetProperty("Map");
+		TITANIUM_ASSERT(Map_property.IsObject());  // precondition
+		JSObject Map = static_cast<JSObject>(Map_property);
+
+		JSValue Proxy_property = Map.GetProperty("Route");
+		TITANIUM_ASSERT(Proxy_property.IsObject());  // precondition
+		JSObject Proxy = static_cast<JSObject>(Proxy_property);
+
+		auto proxy = Proxy.CallAsConstructor(parameters);
+		Titanium::Module::applyProperties(parameters, proxy);
+		return proxy;
 	}
 
-	JSValue MapModule::createCamera(JSObject parameters) TITANIUM_NOEXCEPT
+	JSValue MapModule::createCamera(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Map::createCamera: Unimplemented");
-		return get_context().CreateUndefined();
+		TITANIUM_LOG_DEBUG("Map::createCamera");
+
+		JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue Map_property = Titanium.GetProperty("Map");
+		TITANIUM_ASSERT(Map_property.IsObject());  // precondition
+		JSObject Map = static_cast<JSObject>(Map_property);
+
+		JSValue Proxy_property = Map.GetProperty("Camera");
+		TITANIUM_ASSERT(Proxy_property.IsObject());  // precondition
+		JSObject Proxy = static_cast<JSObject>(Proxy_property);
+
+		auto proxy = Proxy.CallAsConstructor(parameters);
+		Titanium::Module::applyProperties(parameters, proxy);
+		return proxy;
 	}
 
 	Titanium::Map::GOOGLE_PLAY_SERVICE_STATE MapModule::isGooglePlayServicesAvailable() TITANIUM_NOEXCEPT
@@ -214,7 +260,7 @@ namespace Titanium
 		JSExport<MapModule>::AddValueProperty("HYBRID_TYPE", std::mem_fn(&MapModule::HYBRID_TYPE));
 		JSExport<MapModule>::AddValueProperty("SATELLITE_TYPE", std::mem_fn(&MapModule::SATELLITE_TYPE));
 		JSExport<MapModule>::AddValueProperty("NORMAL_TYPE", std::mem_fn(&MapModule::NORMAL_TYPE));
-		JSExport<MapModule>::AddValueProperty("TERRAIN_TYPE", std::mem_fn(&MapModule::NORMAL_TYPE));
+		JSExport<MapModule>::AddValueProperty("TERRAIN_TYPE", std::mem_fn(&MapModule::TERRAIN_TYPE));
 		JSExport<MapModule>::AddValueProperty("ANNOTATION_DRAG_STATE_END", std::mem_fn(&MapModule::ANNOTATION_DRAG_STATE_END));
 		JSExport<MapModule>::AddValueProperty("ANNOTATION_DRAG_STATE_START", std::mem_fn(&MapModule::ANNOTATION_DRAG_STATE_START));
 		JSExport<MapModule>::AddValueProperty("ANNOTATION_AZURE", std::mem_fn(&MapModule::ANNOTATION_AZURE));
@@ -243,9 +289,9 @@ namespace Titanium
 		JSExport<MapModule>::AddFunctionProperty("isGoogleMapServicesAvailable", std::mem_fn(&MapModule::js_isGoogleMapServicesAvailable));
 	}
 
-	JSValue MapModule::js_createView(const std::vector<JSValue>& arguments, JSObject& this_object)
+	JSValue MapModule::js_createView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
@@ -253,12 +299,12 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 
-		return createView(parameters);
+		return createView(parameters, this_object);
 	}
 
 	JSValue MapModule::js_createAnnotation(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
@@ -266,12 +312,12 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 
-		return createAnnotation(parameters);
+		return createAnnotation(parameters, this_object);
 	}
 
 	JSValue MapModule::js_createRoute(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
@@ -279,12 +325,12 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 
-		return createRoute(parameters);
+		return createRoute(parameters, this_object);
 	}
 
 	JSValue MapModule::js_createCamera(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
@@ -292,12 +338,12 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 
-		return createCamera(parameters);
+		return createCamera(parameters, this_object);
 	}
 
 	JSValue MapModule::js_isGoogleMapServicesAvailable(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(isGooglePlayServicesAvailable()));
+		return this_object.get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(isGooglePlayServicesAvailable()));
 	}
 
 } // namespace Titanium

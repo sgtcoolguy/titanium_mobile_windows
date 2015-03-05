@@ -24,5 +24,13 @@ namespace Titanium
 			}
 			return point;
 		};
+
+		JSObject Point_to_js(const JSContext& js_context, Point point)
+		{
+			auto object = js_context.CreateObject();
+			object.SetProperty("x", js_context.CreateNumber(point.x));
+			object.SetProperty("y", js_context.CreateNumber(point.y));
+			return object;
+		};
 	} // namespace UI
 } // namespace Titanium
