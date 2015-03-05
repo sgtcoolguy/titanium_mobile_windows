@@ -32,9 +32,9 @@ this.exports.serializeToString = function(_xml) {
 
 	XML::XML(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : Module(js_context),
+		  ti_xml__(js_context.CreateObject()),
 	      func_parseString__(js_context.CreateObject()),
-	      func_serializeToString__(js_context.CreateObject()),
-		  ti_xml__(js_context.CreateObject())
+	      func_serializeToString__(js_context.CreateObject())
 	{
 		// There's no "new Ti.XML()" 
 		TITANIUM_LOG_DEBUG("XML:: ctor ", this);

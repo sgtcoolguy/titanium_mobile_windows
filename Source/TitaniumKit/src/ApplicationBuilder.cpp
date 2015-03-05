@@ -39,6 +39,7 @@ namespace Titanium
 	      listview__(js_context__.CreateObject<Titanium::UI::ListView>()),
 	      emaildialog__(js_context__.CreateObject<Titanium::UI::EmailDialog>()),
 	      properties__(js_context__.CreateObject<Titanium::App::Properties>()),
+		  app__(js_context__.CreateObject<Titanium::AppModule>()),
 	      analytics__(js_context__.CreateObject<Titanium::Analytics>()),
 	      window__(js_context__.CreateObject<Titanium::UI::Window>()),
 	      button__(js_context__.CreateObject<Titanium::UI::Button>()),
@@ -48,18 +49,17 @@ namespace Titanium
 	      slider__(js_context__.CreateObject<Titanium::UI::Slider>()),
 	      scrollview__(js_context__.CreateObject<Titanium::UI::ScrollView>()),
 	      textField__(js_context__.CreateObject<Titanium::UI::TextField>()),
-	      webview__(js_context__.CreateObject<Titanium::UI::WebView>()),
 	      platform__(js_context__.CreateObject<Titanium::PlatformModule>()),
-	      xml__(js_context__.CreateObject<Titanium::XML>()),
 	      accelerometer__(js_context__.CreateObject<Titanium::Accelerometer>()),
 	      gesture__(js_context__.CreateObject<Titanium::Gesture>()),
 	      blob__(js_context__.CreateObject<Titanium::Blob>()),
 	      file__(js_context__.CreateObject<Titanium::Filesystem::File>()),
 	      filesystem__(js_context__.CreateObject<Titanium::FilesystemModule>()),
 	      database__(js_context__.CreateObject<Titanium::DatabaseModule>()),
-		  app__(js_context__.CreateObject<Titanium::AppModule>()),
+	      webview__(js_context__.CreateObject<Titanium::UI::WebView>()),
 	      httpclient__(js_context__.CreateObject<Titanium::Network::HTTPClient>()),
 	      network__(js_context__.CreateObject<Titanium::NetworkModule>()),
+	      xml__(js_context__.CreateObject<Titanium::XML>()),
 	      map__(js_context__.CreateObject<Titanium::MapModule>())
 	{
 	}
