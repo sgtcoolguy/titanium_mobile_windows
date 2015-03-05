@@ -76,6 +76,10 @@ set(SOURCE_UI
   src/ListView.cpp
   include/TitaniumWindows/UI/WebView.hpp
   src/WebView.cpp
+  include/TitaniumWindows/UI/TableView.hpp
+  src/TableView.cpp
+  include/TitaniumWindows/UI/TableViewRow.hpp
+  src/TableViewRow.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})

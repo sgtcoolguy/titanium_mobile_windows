@@ -60,6 +60,9 @@ namespace Titanium
 		  app__(js_context__.CreateObject<Titanium::AppModule>()),
 	      httpclient__(js_context__.CreateObject<Titanium::Network::HTTPClient>()),
 	      network__(js_context__.CreateObject<Titanium::NetworkModule>()),
+		  tableview__(js_context__.CreateObject<Titanium::UI::TableView>()),
+		  tableviewsection__(js_context__.CreateObject<Titanium::UI::TableViewSection>()),
+		  tableviewrow__(js_context__.CreateObject<Titanium::UI::TableViewRow>()),
 	      map__(js_context__.CreateObject<Titanium::MapModule>())
 	{
 	}
@@ -81,6 +84,9 @@ namespace Titanium
 		ui.SetProperty("ListView", listview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("ListSection", listsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("WebView", webview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("TableView",tableview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("TableViewSection", tableviewsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("TableViewRow", tableviewrow__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
 		filesystem__.SetProperty("File", file__);
 		network__.SetProperty("HTTPClient", httpclient__);
@@ -440,6 +446,39 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::XMLObject(const JSObject& XML) TITANIUM_NOEXCEPT
 	{
 		xml__ = XML;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::TableViewObject() const TITANIUM_NOEXCEPT
+	{
+		return tableview__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::TableViewObject(const JSObject& TableView) TITANIUM_NOEXCEPT
+	{
+		tableview__ = TableView;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::TableViewSectionObject() const TITANIUM_NOEXCEPT
+	{
+		return tableviewsection__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::TableViewSectionObject(const JSObject& TableViewSection) TITANIUM_NOEXCEPT
+	{
+		tableviewsection__ = TableViewSection;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::TableViewRowObject() const TITANIUM_NOEXCEPT
+	{
+		return tableviewrow__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::TableViewRowObject(const JSObject& TableViewRow) TITANIUM_NOEXCEPT
+	{
+		tableviewrow__ = TableViewRow;
 		return *this;
 	}
 

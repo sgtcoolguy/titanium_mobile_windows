@@ -25,6 +25,10 @@
 #include "Titanium/UI/ListSection.hpp"
 #include "Titanium/UI/WebView.hpp"
 
+#include "Titanium/UI/TableView.hpp"
+#include "Titanium/UI/TableViewRow.hpp"
+#include "Titanium/UI/TableViewSection.hpp"
+
 namespace Titanium
 {
 	using namespace HAL;
@@ -307,6 +311,54 @@ namespace Titanium
 		*/
 		JSObject createWebView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
+		/*!
+		  @method
+
+		  @abstract createTableView( [parameters] ) : Titanium.UI.TableView
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.TableView.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.TableView except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.TableView>)
+
+		  @result Titanium.UI.TableView
+		*/
+		JSObject createTableView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createTableViewSection( [parameters] ) : Titanium.UI.TableViewSection
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.TableViewSection.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.TableViewSection except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.TableViewSection>)
+
+		  @result Titanium.UI.TableViewSection
+		*/
+		JSObject createTableViewSection(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createTableViewRow( [parameters] ) : Titanium.UI.TableViewRow
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.TableViewRow.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.TableViewRow except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.TableViewRow>)
+
+		  @result Titanium.UI.TableViewRow
+		*/
+		JSObject createTableViewRow(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
 		virtual JSValue ANIMATION_CURVE_EASE_IN() const TITANIUM_NOEXCEPT final;
 		virtual JSValue ANIMATION_CURVE_EASE_IN_OUT() const TITANIUM_NOEXCEPT final;
 		virtual JSValue ANIMATION_CURVE_EASE_OUT() const TITANIUM_NOEXCEPT final;
@@ -440,6 +492,9 @@ namespace Titanium
 		JSValue js_createListItem(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createWebView(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_setBackgroundColor(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createTableView(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createTableViewSection(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createTableViewRow(const std::vector<JSValue>& arguments, JSObject& this_object);
 
 	private:
 		JSValue animation_curve_ease_in__;

@@ -17,7 +17,6 @@ namespace Titanium
 {
 	namespace UI
 	{
-
 		using namespace HAL;
 		using TableViewRow_shared_ptr_t = std::shared_ptr<TableViewRow>;
 		using View_shared_ptr_t = std::shared_ptr<View>;
@@ -44,7 +43,7 @@ namespace Titanium
 			  @abstract footerView
 			  @discussion View to use for this section footer.
 			*/
-			virtual JSValue footerView() const TITANIUM_NOEXCEPT;
+			virtual View_shared_ptr_t footerView() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
@@ -58,38 +57,37 @@ namespace Titanium
 			  @abstract headerView
 			  @discussion View to use for this section header.
 			*/
-			virtual JSValue headerView() const TITANIUM_NOEXCEPT;
+			virtual View_shared_ptr_t headerView() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract rowCount
 			  @discussion Number of rows in this section.
 			*/
-			virtual JSValue rowCount() const TITANIUM_NOEXCEPT;
+			virtual uint32_t rowCount() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract rows
 			  @discussion Rows in this section.
 			*/
-			virtual JSValue rows() const TITANIUM_NOEXCEPT;
+			virtual std::vector<TableViewRow_shared_ptr_t> rows() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract add
 			  @discussion Adds a table view row to this section.
 			*/
-			virtual JSValue add(JSValue row) TITANIUM_NOEXCEPT;
+			virtual void add(TableViewRow_shared_ptr_t row) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract remove
 			  @discussion Removes a table view row from this section.
 			*/
-			virtual JSValue remove(JSValue row) TITANIUM_NOEXCEPT;
+			virtual void remove(TableViewRow_shared_ptr_t row) TITANIUM_NOEXCEPT;
 
 			TableViewSection(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
-
 			virtual ~TableViewSection() = default;
 			TableViewSection(const TableViewSection&) = default;
 			TableViewSection& operator=(const TableViewSection&) = default;
@@ -99,6 +97,8 @@ namespace Titanium
 #endif
 
 			static void JSExportInitialize();
+
+			virtual JSValue TableViewSection::_TableViewSection() const TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_footerTitle() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_footerView() const TITANIUM_NOEXCEPT final;
@@ -127,10 +127,9 @@ namespace Titanium
 				std::string headerTitle__;
 				View_shared_ptr_t headerView__;
 				uint32_t rowCount__;
-				TableViewRow_shared_ptr_t rows__;
+				std::vector<TableViewRow_shared_ptr_t> rows__;
 #pragma warning(pop)
 		};
-
 	} // namespace UI
 } // namespace Titanium
 #endif // _TITANIUM_TABLEVIEWSECTION_HPP_

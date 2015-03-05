@@ -37,17 +37,17 @@ namespace Titanium
 
 			/*!
 			  @property
-			  @abstract backgroundColor
-			  @discussion Background color of the view, as a color name or hex triplet.
-			*/
-			virtual std::string backgroundColor() const TITANIUM_NOEXCEPT;
-
-			/*!
-			  @property
 			  @abstract data
 			  @discussion Rows of the table view.
 			*/
-			virtual std::vector<TableViewRow_shared_ptr_t> data() const TITANIUM_NOEXCEPT;
+			virtual std::vector<JSObject> data() const TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+			  @abstract setData
+			  @discussion Sets the data in the table.
+			*/
+			virtual void setData(std::vector<JSObject>& data, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
@@ -82,7 +82,7 @@ namespace Titanium
 			  @abstract footerView
 			  @discussion Table view footer as a view that will be rendered instead of a label.
 			*/
-			virtual JSValue footerView() const TITANIUM_NOEXCEPT;
+			virtual View_shared_ptr_t footerView() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
@@ -96,7 +96,7 @@ namespace Titanium
 			  @abstract headerView
 			  @discussion Table view header as a view that will be rendered instead of a label.
 			*/
-			virtual JSValue headerView() const TITANIUM_NOEXCEPT;
+			virtual View_shared_ptr_t headerView() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
@@ -138,7 +138,8 @@ namespace Titanium
 			  @abstract sections
 			  @discussion Sections of this table.
 			*/
-			virtual JSValue sections() const TITANIUM_NOEXCEPT;
+			virtual std::vector<TableViewSection_shared_ptr_t> sections() const TITANIUM_NOEXCEPT;
+			virtual void set_sections(const std::vector<TableViewSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
@@ -152,101 +153,93 @@ namespace Titanium
 			  @abstract appendRow
 			  @discussion Appends a single row or an array of rows to the end of the table.
 			*/
-			virtual JSValue appendRow(JSValue row, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void appendRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract appendSection
 			  @discussion Appends a single section or an array of sections to the end of the table.
 			*/
-			virtual JSValue appendSection(JSValue section, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void appendSection(const TableViewSection_shared_ptr_t section, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract deleteRow
 			  @discussion Deletes an existing row.
 			*/
-			virtual JSValue deleteRow(JSValue row, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void deleteRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract deleteSection
 			  @discussion Deletes an existing section.
 			*/
-			virtual JSValue deleteSection(double section, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void deleteSection(uint32_t section, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertRowAfter
 			  @discussion Inserts a row after another row.
 			*/
-			virtual JSValue insertRowAfter(double index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void insertRowAfter(uint32_t index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertSectionAfter
 			  @discussion Inserts a section after another section.
 			*/
-			virtual JSValue insertSectionAfter(double index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionAfter(uint32_t index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertRowBefore
 			  @discussion Inserts a row before another row.
 			*/
-			virtual JSValue insertRowBefore(double index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void insertRowBefore(uint32_t index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertSectionBefore
 			  @discussion Inserts a section before another section.
 			*/
-			virtual JSValue insertSectionBefore(double index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionBefore(uint32_t index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract scrollToIndex
 			  @discussion Scrolls the table view to ensure that the specified row is on screen.
 			*/
-			virtual JSValue scrollToIndex(double index, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void scrollToIndex(uint32_t index, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract scrollToTop
 			  @discussion Scrolls the table to a specific top position where 0 is the topmost y position in the table view.
 			*/
-			virtual JSValue scrollToTop(double top, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void scrollToTop(uint32_t top, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract selectRow
 			  @discussion Programmatically selects a row. In Android, it sets the currently selected item. If in touch mode,the item will not be selected but it will still be positioned appropriately. If the specified selection position is less than 0, then the item at position 0 will be selected.
 			*/
-			virtual JSValue selectRow(double row) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-			  @abstract setData
-			  @discussion Sets the data in the table.
-			*/
-			virtual JSValue setData(JSValue data, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void selectRow(uint32_t row) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract updateRow
 			  @discussion Updates an existing row, optionally with animation.
 			*/
-			virtual JSValue updateRow(double index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void updateRow(uint32_t index, TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract updateSection
 			  @discussion Updates an existing section, optionally with animation.
 			*/
-			virtual JSValue updateSection(double index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void updateSection(uint32_t index, TableViewSection_shared_ptr_t section, JSValue animation) TITANIUM_NOEXCEPT;
 
 			TableView(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
-
 			virtual ~TableView() = default;
 			TableView(const TableView&) = default;
 			TableView& operator=(const TableView&) = default;
@@ -257,7 +250,8 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_backgroundColor() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_data(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
 			virtual JSValue js_data() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_filterAttribute() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_filterAnchored() const TITANIUM_NOEXCEPT final;
@@ -286,8 +280,6 @@ namespace Titanium
 			virtual JSValue js_selectRow(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_updateRow(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_updateSection(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getBackgroundColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setBackgroundColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getData(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setData(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getFilterAttribute(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
@@ -321,8 +313,7 @@ namespace Titanium
 			protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-				std::string backgroundColor__;
-				std::vector<TableViewRow_shared_ptr_t> data__;
+				std::vector<JSObject> data__;
 				std::string filterAttribute__;
 				bool filterAnchored__;
 				bool filterCaseInsensitive__;

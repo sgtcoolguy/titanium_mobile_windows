@@ -14,7 +14,6 @@ namespace Titanium
 	{
     	TableView::TableView(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
         	: View(js_context, arguments),
-        	backgroundColor__(""),
 			search__(get_context().CreateUndefined()),
         	filterAttribute__(""),
         	filterAnchored__(false),
@@ -27,76 +26,77 @@ namespace Titanium
         	sectionCount__(0),
         	separatorColor__("")
     	{
+			TITANIUM_LOG_INFO("TableView ctor");
     	}
 
-		std::string TableView::backgroundColor() const TITANIUM_NOEXCEPT
+		std::vector<TableViewSection_shared_ptr_t> TableView::sections() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::backgroundColor: Unimplemented");
-        	return backgroundColor__;
+        	return sections__;
 		}
 
-		std::vector<TableViewRow_shared_ptr_t> TableView::data() const TITANIUM_NOEXCEPT
+		void TableView::set_sections(const std::vector<TableViewSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT
+    	{
+        	sections__ = sections;
+			sectionCount__ = sections__.size();
+		}
+
+		std::vector<JSObject> TableView::data() const TITANIUM_NOEXCEPT
     	{
         	return data__;
 		}
 
+		void TableView::setData(std::vector<JSObject>& data, JSValue animation) TITANIUM_NOEXCEPT
+		{
+			data__ = data;
+		}
+
 		std::string TableView::filterAttribute() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::filterAttribute: Unimplemented");
         	return filterAttribute__;
 		}
 
 		bool TableView::filterAnchored() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::filterAnchored: Unimplemented");
         	return filterAnchored__;
 		}
 
 		bool TableView::filterCaseInsensitive() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::filterCaseInsensitive: Unimplemented");
         	return filterCaseInsensitive__;
 		}
 
 		std::string TableView::footerTitle() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::footerTitle: Unimplemented");
         	return footerTitle__;
 		}
 
-		JSValue TableView::footerView() const TITANIUM_NOEXCEPT
+		View_shared_ptr_t TableView::footerView() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::footerView: Unimplemented");
-			return get_context().CreateUndefined();
+			return footerView__;
 		}
 
 		std::string TableView::headerTitle() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::headerTitle: Unimplemented");
         	return headerTitle__;
 		}
 
-		JSValue TableView::headerView() const TITANIUM_NOEXCEPT
+		View_shared_ptr_t TableView::headerView() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::headerView: Unimplemented");
-			return get_context().CreateUndefined();
+			return headerView__;
 		}
 
 		double TableView::maxRowHeight() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::maxRowHeight: Unimplemented");
         	return maxRowHeight__;
 		}
 
 		double TableView::minRowHeight() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::minRowHeight: Unimplemented");
         	return minRowHeight__;
 		}
 
 		double TableView::rowHeight() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::rowHeight: Unimplemented");
         	return rowHeight__;
 		}
 
@@ -107,112 +107,87 @@ namespace Titanium
 
 		uint32_t TableView::sectionCount() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::sectionCount: Unimplemented");
-			return 0;
-		}
-
-		JSValue TableView::sections() const TITANIUM_NOEXCEPT
-    	{
-        	TITANIUM_LOG_WARN("TableView::sections: Unimplemented");
-			return get_context().CreateUndefined();
+			return sectionCount__;
 		}
 
 		std::string TableView::separatorColor() const TITANIUM_NOEXCEPT
     	{
-        	TITANIUM_LOG_WARN("TableView::separatorColor: Unimplemented");
         	return separatorColor__;
 		}
 
-		JSValue TableView::appendRow(JSValue row, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::appendRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::appendRow: Unimplemented");
-			return get_context().CreateUndefined();
 		}
 
-		JSValue TableView::appendSection(JSValue section, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::appendSection(const TableViewSection_shared_ptr_t section, JSValue animation) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TableView::appendSection: Unimplemented");
-			return get_context().CreateUndefined();
+			sections__.push_back(section);
 		}
 
-		JSValue TableView::deleteRow(JSValue row, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::deleteRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::deleteRow: Unimplemented");
-			return get_context().CreateUndefined();
 		}
 
-		JSValue TableView::deleteSection(double section, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::deleteSection(uint32_t section, JSValue animation) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TableView::deleteSection: Unimplemented");
-			return get_context().CreateUndefined();
+			sections__.erase(sections__.begin()+section);
 		}
 
-		JSValue TableView::insertRowAfter(double index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::insertRowAfter(uint32_t index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::insertRowAfter: Unimplemented");
-			return get_context().CreateUndefined();
 		}
 
-		JSValue TableView::insertSectionAfter(double index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::insertSectionAfter(uint32_t index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::insertSectionAfter: Unimplemented");
-			return get_context().CreateUndefined();
 		}
 
-		JSValue TableView::insertRowBefore(double index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::insertRowBefore(uint32_t index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::insertRowBefore: Unimplemented");
-			return get_context().CreateUndefined();
 		}
 
-		JSValue TableView::insertSectionBefore(double index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::insertSectionBefore(uint32_t index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::insertSectionBefore: Unimplemented");
-			return get_context().CreateUndefined();
 		}
 
-		JSValue TableView::scrollToIndex(double index, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::scrollToIndex(uint32_t index, JSValue animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::scrollToIndex: Unimplemented");
-			return get_context().CreateUndefined();
 		}
 
-		JSValue TableView::scrollToTop(double top, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::scrollToTop(uint32_t top, JSValue animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::scrollToTop: Unimplemented");
-			return get_context().CreateUndefined();
 		}
 
-		JSValue TableView::selectRow(double row) TITANIUM_NOEXCEPT
+		void TableView::selectRow(uint32_t row) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::selectRow: Unimplemented");
-			return get_context().CreateUndefined();
 		}
 
-		JSValue TableView::setData(JSValue data, JSValue animation) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("TableView::setData: Unimplemented");
-			return get_context().CreateUndefined();
-		}
-
-		JSValue TableView::updateRow(double index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::updateRow(uint32_t index, TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::updateRow: Unimplemented");
-			return get_context().CreateUndefined();
 		}
 
-		JSValue TableView::updateSection(double index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::updateSection(uint32_t index, TableViewSection_shared_ptr_t section, JSValue animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::updateSection: Unimplemented");
-			return get_context().CreateUndefined();
 		}
 
 		void TableView::JSExportInitialize() {
 			JSExport<TableView>::SetClassVersion(1);
 			JSExport<TableView>::SetParent(JSExport<Module>::Class());
 
-			JSExport<TableView>::AddValueProperty("backgroundColor", std::mem_fn(&TableView::js_backgroundColor));
-			JSExport<TableView>::AddValueProperty("data", std::mem_fn(&TableView::js_data));
+			JSExport<TableView>::AddValueProperty("data", std::mem_fn(&TableView::js_data), std::mem_fn(&TableView::js_set_data));
+			JSExport<TableView>::AddFunctionProperty("getData", std::mem_fn(&TableView::js_getData));
+			JSExport<TableView>::AddFunctionProperty("setData", std::mem_fn(&TableView::js_setData));
+
 			JSExport<TableView>::AddValueProperty("filterAttribute", std::mem_fn(&TableView::js_filterAttribute));
 			JSExport<TableView>::AddValueProperty("filterAnchored", std::mem_fn(&TableView::js_filterAnchored));
 			JSExport<TableView>::AddValueProperty("filterCaseInsensitive", std::mem_fn(&TableView::js_filterCaseInsensitive));
@@ -239,13 +214,8 @@ namespace Titanium
 			JSExport<TableView>::AddFunctionProperty("scrollToIndex", std::mem_fn(&TableView::js_scrollToIndex));
 			JSExport<TableView>::AddFunctionProperty("scrollToTop", std::mem_fn(&TableView::js_scrollToTop));
 			JSExport<TableView>::AddFunctionProperty("selectRow", std::mem_fn(&TableView::js_selectRow));
-			JSExport<TableView>::AddFunctionProperty("setData", std::mem_fn(&TableView::js_setData));
 			JSExport<TableView>::AddFunctionProperty("updateRow", std::mem_fn(&TableView::js_updateRow));
 			JSExport<TableView>::AddFunctionProperty("updateSection", std::mem_fn(&TableView::js_updateSection));
-			JSExport<TableView>::AddFunctionProperty("getBackgroundColor", std::mem_fn(&TableView::js_getBackgroundColor));
-			JSExport<TableView>::AddFunctionProperty("setBackgroundColor", std::mem_fn(&TableView::js_setBackgroundColor));
-			JSExport<TableView>::AddFunctionProperty("getData", std::mem_fn(&TableView::js_getData));
-			JSExport<TableView>::AddFunctionProperty("setData", std::mem_fn(&TableView::js_setData));
 			JSExport<TableView>::AddFunctionProperty("getFilterAttribute", std::mem_fn(&TableView::js_getFilterAttribute));
 			JSExport<TableView>::AddFunctionProperty("setFilterAttribute", std::mem_fn(&TableView::js_setFilterAttribute));
 			JSExport<TableView>::AddFunctionProperty("getFilterAnchored", std::mem_fn(&TableView::js_getFilterAnchored));
@@ -275,19 +245,45 @@ namespace Titanium
 			JSExport<TableView>::AddFunctionProperty("setSeparatorColor", std::mem_fn(&TableView::js_setSeparatorColor));
 		}
 
-		JSValue TableView::js_backgroundColor() const TITANIUM_NOEXCEPT
-		{
-			return get_context().CreateString(backgroundColor());
-		}
-
 		JSValue TableView::js_data() const TITANIUM_NOEXCEPT
 		{
 			std::vector<JSValue> data_array;
 			const auto rows = data();
 			for (auto row : rows) {
-				data_array.push_back(row->get_object());
+				data_array.push_back(row);
 			}
 			return get_context().CreateArray(data_array);
+		}
+
+		bool TableView::js_set_data(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+
+			auto data_obj = static_cast<JSObject>(argument);
+			TITANIUM_ASSERT(data_obj.IsArray());
+			auto data = static_cast<std::vector<JSValue>>(static_cast<JSArray>(data_obj));
+
+			std::vector<JSObject> tableObjects;
+			for (uint32_t i=0;i<data.size();i++) {
+				auto tableObject = static_cast<JSObject>(data[i]);
+				tableObjects.push_back(tableObject);
+			}
+			setData(tableObjects, get_context().CreateUndefined());
+
+			return false;
+		}
+
+		JSValue TableView::js_getData(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_data();
+		}
+
+		JSValue TableView::js_setData(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_data(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 
 		JSValue TableView::js_filterAttribute() const TITANIUM_NOEXCEPT
@@ -312,7 +308,7 @@ namespace Titanium
 
 		JSValue TableView::js_footerView() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateUndefined(); //footerView();
+			return static_cast<JSValue>(footerView()->get_object());
 		}
 
 		JSValue TableView::js_headerTitle() const TITANIUM_NOEXCEPT
@@ -322,7 +318,7 @@ namespace Titanium
 
 		JSValue TableView::js_headerView() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateUndefined(); //headerView();
+			return static_cast<JSValue>(headerView()->get_object());
 		}
 
 		JSValue TableView::js_maxRowHeight() const TITANIUM_NOEXCEPT
@@ -347,7 +343,17 @@ namespace Titanium
 
 		JSValue TableView::js_sections() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateUndefined(); //sections();
+			std::vector<JSValue> section_array;
+			const auto section_objects = sections();
+			for (auto section : section_objects) {
+				section_array.push_back(section->get_object());
+			}
+			return get_context().CreateArray(section_array);
+		}
+
+		JSValue TableView::js_sectionCount() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateNumber(sectionCount());
 		}
 
 		JSValue TableView::js_separatorColor() const TITANIUM_NOEXCEPT
@@ -358,9 +364,7 @@ namespace Titanium
 		JSValue TableView::js_appendRow(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView.appendRow is not implemented yet");
-			if (arguments.size() < 2) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 2) {
+			if (arguments.size() >= 2) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
 				const auto _1 = arguments.at(1);
@@ -695,46 +699,6 @@ namespace Titanium
 				TITANIUM_ASSERT(_0.IsNumber());
 				const double index = static_cast<double>(_0);
 				// updateSection(index);
-			}
-			return get_context().CreateUndefined();
-		}
-
-		JSValue TableView::js_getBackgroundColor(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("TableView.getBackgroundColor is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		JSValue TableView::js_setBackgroundColor(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("TableView.setBackgroundColor is not implemented yet");
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsString());
-				const std::string backgroundColor = static_cast<std::string>(_0);
-				// setBackgroundColor(backgroundColor);
-			}
-			return get_context().CreateUndefined();
-		}
-
-		JSValue TableView::js_getData(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("TableView.getData is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		JSValue TableView::js_setData(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("TableView.setData is not implemented yet");
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsObject());
-				const auto data = static_cast<JSObject>(_0);
-				// setData(data);
 			}
 			return get_context().CreateUndefined();
 		}

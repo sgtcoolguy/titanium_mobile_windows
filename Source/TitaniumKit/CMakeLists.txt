@@ -188,7 +188,7 @@ set(SOURCE_UI
   src/UI/TableView.cpp
   include/Titanium/UI/TableViewRow.hpp
   src/UI/TableViewRow.cpp
-  include/Titanium/UI/TableViewection.hpp
+  include/Titanium/UI/TableViewSection.hpp
   src/UI/TableViewSection.cpp
   )
 

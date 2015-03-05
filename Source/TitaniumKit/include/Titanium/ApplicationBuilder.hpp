@@ -109,6 +109,15 @@ namespace Titanium
 		JSObject XMLObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& XMLObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject TableViewObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& TableViewObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject TableViewSectionObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& TableViewSectionObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject TableViewRowObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& TableViewRowObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject MapObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& MapObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -158,6 +167,9 @@ namespace Titanium
 		JSObject httpclient__;
 		JSObject network__;
 		JSObject xml__;
+		JSObject tableview__;
+		JSObject tableviewsection__;
+		JSObject tableviewrow__;
 		JSObject map__;
 #pragma warning(pop)
 	};
