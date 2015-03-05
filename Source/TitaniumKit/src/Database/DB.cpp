@@ -108,7 +108,7 @@ namespace Titanium
 			int error;
 			sqlite3_stmt* statement;
 			
-			error = sqlite3_prepare_v2(db__, sql.c_str(), sql.size(), &statement, NULL);
+			error = sqlite3_prepare_v2(db__, sql.c_str(), static_cast<int>(sql.size()), &statement, NULL);
 			if (error != SQLITE_OK) {
 				TITANIUM_LOG_WARN("[ERROR] SQLite prepare error!");
 				sqlite3_finalize(statement);
@@ -116,7 +116,7 @@ namespace Titanium
 			}
 
 			if (args.size() > 1) {
-				for (int i = 1, len = args.size(); i < len; i++) {
+				for (int i = 1, len = static_cast<int>(args.size()); i < len; i++) {
 					JSValue arg = args.at(i);
 					auto parameter_count = 1;
 					JSObject arg_object = get_context().CreateObject();
@@ -135,7 +135,7 @@ namespace Titanium
 						}
 						if (arg.IsString()) {
 							const std::string str = static_cast<std::string>(arg);
-							error = sqlite3_bind_text(statement, bind_index, str.c_str(), str.size(), SQLITE_TRANSIENT);
+							error = sqlite3_bind_text(statement, bind_index, str.c_str(), static_cast<int>(str.size()), SQLITE_TRANSIENT);
 						} else if (arg.IsBoolean()) {
 							// SQLite cant bind booleans so the next best is an integer
 							error = sqlite3_bind_int(statement, bind_index, static_cast<int>(static_cast<bool>(arg)));

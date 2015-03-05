@@ -23,7 +23,7 @@ namespace Titanium
 
 		uint32_t ResultSet::get_fieldCount() const TITANIUM_NOEXCEPT
 		{
-			return column_names__.size();
+			return static_cast<uint32_t>(column_names__.size());
 		}
 
 		uint32_t ResultSet::get_rowCount() const TITANIUM_NOEXCEPT
@@ -107,9 +107,9 @@ namespace Titanium
 			return field(index, fieldType);
 		}
 
-		int ResultSet::fieldIndex(const std::string& name) TITANIUM_NOEXCEPT
+		uint32_t ResultSet::fieldIndex(const std::string& name) TITANIUM_NOEXCEPT
 		{
-			for (size_t i = 0, len = column_names__.size(); i < len; i++) {
+			for (uint32_t i = 0, len = static_cast<uint32_t>(column_names__.size()); i < len; i++) {
 				if (column_names__[i] == name) {
 					return i;
 				}

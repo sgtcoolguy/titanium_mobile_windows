@@ -349,6 +349,15 @@ if (WIN32)
 
   # Fix error C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe (needed by boost::split)
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -D_SCL_SECURE_NO_WARNINGS")
+else()
+  # enable well-known compiler warnings
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS "-Wall")
+
+  # exclude Windows-specific unknown-pragmas
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unknown-pragmas")
+
+  # exclude unused-parameter because most TitaniumKit methods are meant to be virtual and overridden
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-parameter")
 endif()
 
 if (NOT TitaniumKit_DISABLE_TESTS)
