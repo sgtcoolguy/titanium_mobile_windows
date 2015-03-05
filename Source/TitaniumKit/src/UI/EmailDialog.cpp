@@ -25,11 +25,11 @@ namespace Titanium
 			failed__(js_context.CreateNumber(3)),
 			saved__(js_context.CreateNumber(1)),
 			sent__(js_context.CreateNumber(2)),
+			bccRecipients__(js_context.CreateArray()),
+			ccRecipients__(js_context.CreateArray()),
 			html__(js_context.CreateBoolean(false)),
 			messageBody__(js_context.CreateString()),
 			subject__(js_context.CreateString()),
-			bccRecipients__(js_context.CreateArray()),
-			ccRecipients__(js_context.CreateArray()),
 			toRecipients__(js_context.CreateArray())
 		{
 			TITANIUM_LOG_DEBUG("EmailDialog:: ctor ", this);

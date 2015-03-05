@@ -44,11 +44,11 @@ namespace Titanium
 
 	DatabaseModule::DatabaseModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : Module(js_context),
-	      ti_db__(js_context.CreateObject()),
 	      field_type_double__(js_context.CreateNumber(Titanium::Database::Constants::to_underlying_type(Titanium::Database::FIELD_TYPE::DOUBLE))),
 	      field_type_float__(js_context.CreateNumber(Titanium::Database::Constants::to_underlying_type(Titanium::Database::FIELD_TYPE::FLOAT))),
 	      field_type_int__(js_context.CreateNumber(Titanium::Database::Constants::to_underlying_type(Titanium::Database::FIELD_TYPE::INT))),
-	      field_type_string__(js_context.CreateNumber(Titanium::Database::Constants::to_underlying_type(Titanium::Database::FIELD_TYPE::STRING)))
+	      field_type_string__(js_context.CreateNumber(Titanium::Database::Constants::to_underlying_type(Titanium::Database::FIELD_TYPE::STRING))),
+	      ti_db__(js_context.CreateObject())
 	{
 		TITANIUM_LOG_DEBUG("DatabaseModule:: ctor ", this);
 	}

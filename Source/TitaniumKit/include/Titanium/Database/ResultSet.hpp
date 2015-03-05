@@ -172,7 +172,7 @@ namespace Titanium
 			  @abstract fieldIndex( name ) : int
 			  @discussion Finds the index of the field with the given name. Returns -1 if not found.
 			*/
-			virtual int fieldIndex(const std::string& fieldName) TITANIUM_NOEXCEPT final;
+			virtual uint32_t fieldIndex(const std::string& fieldName) TITANIUM_NOEXCEPT final;
 
 		};
 	} // namespace Database
