@@ -7,100 +7,116 @@
 */
 #define _SCL_SECURE_NO_WARNINGS
 
-#include "TitaniumWindows/API.hpp"
-#include "TitaniumWindows/Utility.hpp"
-#include "Titanium/detail/TiBase.hpp"
 #include <iostream>
-#include <ppltasks.h>
-#include <agents.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
+#include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/API.hpp"
+#include "TitaniumWindows/Utility.hpp"
 
-namespace TitaniumWindows {
+namespace TitaniumWindows
+{
 
 	concurrency::unbounded_buffer <std::string> API::buffer__;
 	bool API::done__ { false };
 
-	void file_reader::run() {
-
-		// TODO Read in the settings, try to connect to the host/port/etc
+	void log_forwarder::run()
+	{
 		using namespace Windows::Storage;
 		using namespace concurrency;
 
-		// clang-format off
-
-		// clang-format on
-		// Parse the ini, try to connect using settings found in INI
 		Windows::Storage::Streams::DataWriter^ writer = nullptr;
+		auto tcp_socket = ref new Windows::Networking::Sockets::StreamSocket();
 		try {
-			// Get a handle on titanium_settings.ini file
-			Platform::String^ content;
 			concurrency::event read_event;
-			create_task(Windows::ApplicationModel::Package::Current->InstalledLocation->GetFileAsync("titanium_settings.ini"))
-				.then([](task<StorageFile^> task) {
-				return FileIO::ReadTextAsync(task.get());
-			}).then([&content, &read_event](task<Platform::String^> task) {
+			// Get a handle on titanium_settings.ini file
+			create_task(Windows::ApplicationModel::Package::Current->InstalledLocation->GetFileAsync("titanium_settings.ini"), task_continuation_context::use_arbitrary())
+			.then([](StorageFile^ file) { // don't wrap in task, so next continuation handles any exception from file not existing
+				return FileIO::ReadTextAsync(file);
+			}, task_continuation_context::use_arbitrary())
+			.then([&writer, &read_event, &tcp_socket](task<Platform::String^> task) {
+				Platform::String^ content;
 				try {
 					content = task.get();
-				} catch (...) { }
-				read_event.set();
-			}, concurrency::task_continuation_context::use_arbitrary());
-			read_event.wait();
-
-			std::stringstream ss(TitaniumWindows::Utility::ConvertString(content)); // put string into stream
-
-			// Parse stream with INI parser
-			boost::property_tree::ptree pt;
-			boost::property_tree::ini_parser::read_ini(ss, pt);
-
-			// Now pull out the ips/secret/port from the map
-			auto port = TitaniumWindows::Utility::ConvertString(pt.get<std::string>("tcpPort"));
-			Platform::String^ server_token = TitaniumWindows::Utility::ConvertString(pt.get<std::string>("serverToken"));
-
-			std::vector<std::string> hosts;
-			std::string ip_address_list = pt.get<std::string>("ipAddressList");
-			boost::algorithm::split(hosts, ip_address_list, boost::algorithm::is_any_of(","));
-			auto tcp_socket = ref new Windows::Networking::Sockets::StreamSocket();
-			for (auto ip_address : hosts) {
-				try {
-					// Connect to the tcp socket on log relay!
-					// TODO Set timeout based on value from ini! We need to use a cancellation token somehow!
-					auto host = ref new Windows::Networking::HostName(TitaniumWindows::Utility::ConvertString(ip_address));
-
-					concurrency::event connect_event;
-					create_task(tcp_socket->ConnectAsync(host, port))
-						.then([&writer, tcp_socket, &connect_event](task<void> connectTask) {
-						try {
-							connectTask.get();
-							writer = ref new Windows::Storage::Streams::DataWriter(tcp_socket->OutputStream);
-						} catch (...) { }
-						connect_event.set();
-					}, concurrency::task_continuation_context::use_arbitrary());
-					connect_event.wait();
-
-					// we write the server token to see if this log relay is really the log relay we're looking for
-					if (writer != nullptr) {
-						writer->WriteString(server_token + "\n");  // Logger assumes \n for newlines!
-						writer->StoreAsync();
-						break;
-					}
-				} catch (...) {
-					// try next ip!
-					TITANIUM_LOG_DEBUG("API::connect: Trying to connect failed, trying next IP...");
+				} catch (...) { 
+					return; // file didn't exist (non-CLI run?) or we had trouble reading it. We'll log to std::clog.
 				}
-			}
+
+				std::stringstream ss(TitaniumWindows::Utility::ConvertString(content)); // put string into stream
+
+				// Parse stream with INI parser
+				boost::property_tree::ptree pt;
+				boost::property_tree::ini_parser::read_ini(ss, pt);
+
+				// Now pull out the ips/secret/port from the map
+				auto port = std::make_shared<Platform::String^>(TitaniumWindows::Utility::ConvertString(pt.get<std::string>("tcpPort", "8666")));
+				auto server_token = std::make_shared<Platform::String^>(TitaniumWindows::Utility::ConvertString(pt.get<std::string>("serverToken")));
+				// timeout value
+				std::chrono::milliseconds timeout((long long)pt.get<double>("logConnectionTimeout", 2000));
+				std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = timeout;
+				Windows::Foundation::TimeSpan time_span;
+				time_span.Duration = timer_interval_ticks.count();
+
+				std::vector<std::string> hosts;
+				std::string ip_address_list = pt.get<std::string>("ipAddressList", "127.0.0.1");
+				boost::algorithm::split(hosts, ip_address_list, boost::algorithm::is_any_of(","));
+				
+				for (auto ip_address : hosts) {
+					try {
+						auto host = std::make_shared<Windows::Networking::HostName^>(ref new Windows::Networking::HostName(TitaniumWindows::Utility::ConvertString(ip_address)));
+						// Create token to use to hold cencellation for tasks
+						auto cancel_token_source = cancellation_token_source();
+						// Now create a timer to fire cancellation on token after timeout
+						Windows::System::Threading::ThreadPoolTimer::CreateTimer(ref new Windows::System::Threading::TimerElapsedHandler([cancel_token_source](Windows::System::Threading::ThreadPoolTimer^ timer) {
+							cancel_token_source.cancel();
+						}), time_span);
+
+						concurrency::event connect_event;
+						// emtpy task so we can set the context for connection
+						create_task([]() {})
+						// try to connect to host, use current thread, use token to cancel based on timeout
+						.then([host, port, &tcp_socket]() {
+							return tcp_socket->ConnectAsync(*host, *port);
+						}, cancel_token_source.get_token(), concurrency::task_continuation_context::use_current())
+						// get connection, attach writer to stream
+						.then([&writer, &tcp_socket, &connect_event, server_token](concurrency::task<void> connectTask) {
+							try {
+								connectTask.get();
+								writer = ref new Windows::Storage::Streams::DataWriter(tcp_socket->OutputStream);
+								// we write the server token to see if this log relay is really the log relay we're looking for
+								writer->WriteString(*server_token + "\n");  // Logger assumes \n for newlines!
+								writer->StoreAsync();
+							}
+							catch (...) {} // TODO delete writer?
+							connect_event.set();
+						}, concurrency::task_continuation_context::use_current());
+						connect_event.wait();
+
+						if (writer != nullptr) { // did we get a connection? If so, don't try other IPs
+							break;
+						}
+					}
+					catch (...) {
+						// try next ip!
+						TITANIUM_LOG_DEBUG("API::connect: Trying to connect failed, trying next IP...");
+					}
+				}
+				read_event.set();
+			}, concurrency::task_continuation_context::use_current());
+			read_event.wait();
 		} catch (...) {
 			TITANIUM_LOG_DEBUG("API::connect: will use console log...");
 		}
 
+		// Main logging loop
 		try {
 			std::string message;
 			while (!API::done__) {
-				message = concurrency::receive(API::buffer__);
-				if (writer == nullptr) {
+				message = concurrency::receive(API::buffer__); // wait for next message to log
+				if (writer == nullptr) { // no TCP connection
 					std::clog << message << std::endl;
-				} else {
+				} else { // forward over tcp socket
 					writer->WriteString(TitaniumWindows::Utility::ConvertString(message) + "\n");  // Logger assumes \n for newlines!
 					writer->StoreAsync();
 				}
@@ -108,6 +124,7 @@ namespace TitaniumWindows {
 		} catch (...) {
 			TITANIUM_LOG_ERROR("API::connect: Error");
 		}
+		// TODO Clean up the socket and writer!
 		done();
 	}
 

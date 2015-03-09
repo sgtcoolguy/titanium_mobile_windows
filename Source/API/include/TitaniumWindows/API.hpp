@@ -11,28 +11,37 @@
 
 #include "TitaniumWindows/detail/APIBase.hpp"
 #include <agents.h>
-#include <ppl.h>
 
-namespace TitaniumWindows {
+namespace TitaniumWindows
+{
 	using namespace HAL;
 
-	class file_reader : public concurrency::agent {
+	/*!
+	  This is an agent that is meant to connect over TCP to the CLi and forward logs over the socket. If unable to make a connection,
+	  or not running under CLI we will forward logs to std::clog.
+	*/
+	class log_forwarder : public concurrency::agent
+	{
 	public:
-		explicit file_reader() {}
+		explicit log_forwarder() {}
+
 		// Retrieves any error that occurs during the life of the agent.
-		bool get_error(std::exception& e) {
+		bool get_error(std::exception& e)
+		{
 			return try_receive(_error, e);
 		}
+
 	protected:
 		void run();
+
 	private:
 		concurrency::overwrite_buffer<std::exception> _error;
 	};
 
 	/*!
-	@class
+	  @class
 
-	@discussion This is the Titanium.API implementation for Windows.
+	  @discussion This is the Titanium.API implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_API_EXPORT API final : public Titanium::API, public JSExport<API>
 	{
@@ -40,8 +49,8 @@ namespace TitaniumWindows {
 		static bool done__;
 #pragma warning(push)
 #pragma warning(disable : 4251)
-		static concurrency::unbounded_buffer<std::string> buffer__;
-		file_reader reader__;
+		static concurrency::unbounded_buffer<std::string> buffer__; // Buffer used to store log messages that we haven't written yet
+		log_forwarder reader__; // agent/thread that writes the actual log messages to CLI/debug
 #pragma warning(pop)
 
 		virtual void postInitialize(JSObject& js_object) override;
