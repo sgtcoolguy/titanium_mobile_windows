@@ -57,9 +57,6 @@ TEST_F(FileTests, logging)
 	Filesystem.SetProperty("File", File, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Filesystem.HasProperty("File"));
 
-	auto Filesystem_ptr = File.GetPrivate<NativeFilesystemExample>();
-	XCTAssertNotEqual(nullptr, Filesystem_ptr);
-
 	XCTAssertTrue(Filesystem.HasProperty("createTempDirectory"));
 	XCTAssertTrue(Filesystem.HasProperty("createTempFile"));
 	XCTAssertTrue(Filesystem.HasProperty("getFile"));

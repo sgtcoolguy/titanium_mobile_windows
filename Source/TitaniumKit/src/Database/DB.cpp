@@ -157,7 +157,7 @@ namespace Titanium
 			// Now let's wrap the results in our ResultSet proxy
 			// FIXME Pass these values into the constructor, don't expose the fields
 			// How would we pass along the statement pointer?
-			JSObject resultSet_object = get_context().CreateObject<Titanium::Database::ResultSet>();
+			JSObject resultSet_object = get_context().CreateObject(JSExport<Titanium::Database::ResultSet>::Class());
 			std::shared_ptr<ResultSet> resultSet = resultSet_object.GetPrivate<Titanium::Database::ResultSet>();
 			int affectedRows = 0;
 			if (stepResult == SQLITE_DONE) {

@@ -91,9 +91,9 @@ namespace Titanium
 		JSContext context = get_context();
 		auto export_object = context.CreateObject();
 		export_object.SetProperty("global", context.get_global_object());
-		export_object.SetProperty("TiDatabase", context.CreateObject<Titanium::DatabaseModule>());
-		export_object.SetProperty("TiDatabaseDB", context.CreateObject<Titanium::Database::DB>());
-		export_object.SetProperty("TiDatabaseResultSet", context.CreateObject<Titanium::Database::ResultSet>());
+		export_object.SetProperty("TiDatabase", context.CreateObject(JSExport<Titanium::DatabaseModule>::Class()));
+		export_object.SetProperty("TiDatabaseDB", context.CreateObject(JSExport<Titanium::Database::DB>::Class()));
+		export_object.SetProperty("TiDatabaseResultSet", context.CreateObject(JSExport<Titanium::Database::ResultSet>::Class()));
 
 		context.JSEvaluateScript(ti_db_js, export_object);
 		if (export_object.HasProperty("exports")) {
