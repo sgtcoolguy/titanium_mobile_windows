@@ -125,8 +125,7 @@ function runBuild(next) {
 					str = str.slice(0, index).trim();
 					inResults = false;
 				} else if ((index = str.indexOf('-- End application log ----')) != -1) {
-					str = ''; // add empty string
-					inResults = false;
+					next("failed to get test results before log ended!");
 				}
 
 				testResults += str;
