@@ -102,7 +102,7 @@ function copyMochaAssets(next) {
 	var mochaAssetsDir = path.join(__dirname, '..', '..', '..', 'Examples', 'NMocha', 'src', 'Assets'),
 		dest = path.join(__dirname, 'mocha', 'Resources');
 	wrench.copyDirSyncRecursive(mochaAssetsDir, dest, {
-    	forceDelete: true
+		forceDelete: true
 	});
 	next();
 }
@@ -115,9 +115,9 @@ function runBuild(next) {
 		console.log(data.toString());
 		var lines = data.toString().trim().match(/^.*([\n\r]+|$)/gm);
 		for (var i = 0; i < lines.length; i++) {
-	    	var str = lines[i],
-	    		index = -1;
-	    	if (inResults) {
+			var str = lines[i],
+				index = -1;
+			if (inResults) {
 				if ((index = str.indexOf('[INFO]')) != -1) {
 					str = str.slice(index + 8).trim();
 				}
@@ -152,19 +152,23 @@ function runBuild(next) {
 }
 
 function parseTestResults(testResults, next) {
-	// preserve newlines, etc - use valid JSON
-	testResults = testResults.replace(/\\n/g, "\\n")  
-               .replace(/\\'/g, "\\'")
-               .replace(/\\"/g, '\\"')
-               .replace(/\\&/g, "\\&")
-               .replace(/\\r/g, "\\r")
-               .replace(/\\t/g, "\\t")
-               .replace(/\\b/g, "\\b")
-               .replace(/\\f/g, "\\f");
-	// remove non-printable and other non-valid JSON chars
-	testResults = testResults.replace(/[\u0000-\u0019]+/g,""); 
-	jsonResults = JSON.parse(testResults);
-	next();
+	if (!testResults) {
+		next("Failed to retrieve any tests results!");
+	} else {
+		// preserve newlines, etc - use valid JSON
+		testResults = testResults.replace(/\\n/g, "\\n")  
+				   .replace(/\\'/g, "\\'")
+				   .replace(/\\"/g, '\\"')
+				   .replace(/\\&/g, "\\&")
+				   .replace(/\\r/g, "\\r")
+				   .replace(/\\t/g, "\\t")
+				   .replace(/\\b/g, "\\b")
+				   .replace(/\\f/g, "\\f");
+		// remove non-printable and other non-valid JSON chars
+		testResults = testResults.replace(/[\u0000-\u0019]+/g,""); 
+		jsonResults = JSON.parse(testResults);
+		next();
+	}
 }
 
 function outputJUnitXML(jsonResults, next) {
@@ -235,5 +239,7 @@ async.series([
 	if (err) {
 		console.error(err.toString().red);
 		process.exit(1);
+	} else {
+		process.exit(0);
 	}
 });
