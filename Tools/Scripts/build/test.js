@@ -124,6 +124,9 @@ function runBuild(next) {
 				if ((index = str.indexOf('!TEST_RESULTS_STOP!')) != -1) {
 					str = str.slice(0, index).trim();
 					inResults = false;
+				} else if ((index = str.indexOf('-- End application log ----')) != -1) {
+					str = ''; // add empty string
+					inResults = false;
 				}
 
 				testResults += str;
