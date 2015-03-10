@@ -1,5 +1,5 @@
 /**
- * Titanium.UI.TableView for Windows
+ * Titanium.UI.TableView
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -12,7 +12,7 @@ namespace Titanium
 {
 	namespace UI
 	{
-    	TableView::TableView(const JSContext& js_context) TITANIUM_NOEXCEPT
+		TableView::TableView(const JSContext& js_context) TITANIUM_NOEXCEPT
         	: View(js_context),
 			search__(get_context().CreateUndefined()),
         	filterAttribute__(""),
@@ -23,13 +23,12 @@ namespace Titanium
         	maxRowHeight__(0),
         	minRowHeight__(0),
         	rowHeight__(0),
-        	sectionCount__(0),
         	separatorColor__("")
     	{
 			TITANIUM_LOG_INFO("TableView ctor");
     	}
 
-		std::vector<TableViewSection_shared_ptr_t> TableView::sections() const TITANIUM_NOEXCEPT
+		std::vector<TableViewSection_shared_ptr_t> TableView::get_sections() const TITANIUM_NOEXCEPT
     	{
         	return sections__;
 		}
@@ -37,10 +36,9 @@ namespace Titanium
 		void TableView::set_sections(const std::vector<TableViewSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT
     	{
         	sections__ = sections;
-			sectionCount__ = sections__.size();
 		}
 
-		std::vector<JSObject> TableView::data() const TITANIUM_NOEXCEPT
+		std::vector<JSObject> TableView::get_data() const TITANIUM_NOEXCEPT
     	{
         	return data__;
 		}
@@ -50,67 +48,67 @@ namespace Titanium
 			data__ = data;
 		}
 
-		std::string TableView::filterAttribute() const TITANIUM_NOEXCEPT
+		std::string TableView::get_filterAttribute() const TITANIUM_NOEXCEPT
     	{
         	return filterAttribute__;
 		}
 
-		bool TableView::filterAnchored() const TITANIUM_NOEXCEPT
+		bool TableView::get_filterAnchored() const TITANIUM_NOEXCEPT
     	{
         	return filterAnchored__;
 		}
 
-		bool TableView::filterCaseInsensitive() const TITANIUM_NOEXCEPT
+		bool TableView::get_filterCaseInsensitive() const TITANIUM_NOEXCEPT
     	{
         	return filterCaseInsensitive__;
 		}
 
-		std::string TableView::footerTitle() const TITANIUM_NOEXCEPT
+		std::string TableView::get_footerTitle() const TITANIUM_NOEXCEPT
     	{
         	return footerTitle__;
 		}
 
-		View_shared_ptr_t TableView::footerView() const TITANIUM_NOEXCEPT
+		View_shared_ptr_t TableView::get_footerView() const TITANIUM_NOEXCEPT
     	{
 			return footerView__;
 		}
 
-		std::string TableView::headerTitle() const TITANIUM_NOEXCEPT
+		std::string TableView::get_headerTitle() const TITANIUM_NOEXCEPT
     	{
         	return headerTitle__;
 		}
 
-		View_shared_ptr_t TableView::headerView() const TITANIUM_NOEXCEPT
+		View_shared_ptr_t TableView::get_headerView() const TITANIUM_NOEXCEPT
     	{
 			return headerView__;
 		}
 
-		double TableView::maxRowHeight() const TITANIUM_NOEXCEPT
+		double TableView::get_maxRowHeight() const TITANIUM_NOEXCEPT
     	{
         	return maxRowHeight__;
 		}
 
-		double TableView::minRowHeight() const TITANIUM_NOEXCEPT
+		double TableView::get_minRowHeight() const TITANIUM_NOEXCEPT
     	{
         	return minRowHeight__;
 		}
 
-		double TableView::rowHeight() const TITANIUM_NOEXCEPT
+		double TableView::get_rowHeight() const TITANIUM_NOEXCEPT
     	{
         	return rowHeight__;
 		}
 
-		JSValue TableView::search() const TITANIUM_NOEXCEPT
+		JSValue TableView::get_search() const TITANIUM_NOEXCEPT
     	{
 			return get_context().CreateUndefined();
 		}
 
-		uint32_t TableView::sectionCount() const TITANIUM_NOEXCEPT
+		uint32_t TableView::get_sectionCount() const TITANIUM_NOEXCEPT
     	{
-			return sectionCount__;
+			return sections__.size();
 		}
 
-		std::string TableView::separatorColor() const TITANIUM_NOEXCEPT
+		std::string TableView::get_separatorColor() const TITANIUM_NOEXCEPT
     	{
         	return separatorColor__;
 		}
@@ -184,24 +182,24 @@ namespace Titanium
 			JSExport<TableView>::SetClassVersion(1);
 			JSExport<TableView>::SetParent(JSExport<Module>::Class());
 
-			JSExport<TableView>::AddValueProperty("data", std::mem_fn(&TableView::js_data), std::mem_fn(&TableView::js_set_data));
+			JSExport<TableView>::AddValueProperty("data", std::mem_fn(&TableView::js_get_data), std::mem_fn(&TableView::js_set_data));
 			JSExport<TableView>::AddFunctionProperty("getData", std::mem_fn(&TableView::js_getData));
 			JSExport<TableView>::AddFunctionProperty("setData", std::mem_fn(&TableView::js_setData));
 
-			JSExport<TableView>::AddValueProperty("filterAttribute", std::mem_fn(&TableView::js_filterAttribute));
-			JSExport<TableView>::AddValueProperty("filterAnchored", std::mem_fn(&TableView::js_filterAnchored));
-			JSExport<TableView>::AddValueProperty("filterCaseInsensitive", std::mem_fn(&TableView::js_filterCaseInsensitive));
-			JSExport<TableView>::AddValueProperty("footerTitle", std::mem_fn(&TableView::js_footerTitle));
-			JSExport<TableView>::AddValueProperty("footerView", std::mem_fn(&TableView::js_footerView));
-			JSExport<TableView>::AddValueProperty("headerTitle", std::mem_fn(&TableView::js_headerTitle));
-			JSExport<TableView>::AddValueProperty("headerView", std::mem_fn(&TableView::js_headerView));
-			JSExport<TableView>::AddValueProperty("maxRowHeight", std::mem_fn(&TableView::js_maxRowHeight));
-			JSExport<TableView>::AddValueProperty("minRowHeight", std::mem_fn(&TableView::js_minRowHeight));
-			JSExport<TableView>::AddValueProperty("rowHeight", std::mem_fn(&TableView::js_rowHeight));
-			JSExport<TableView>::AddValueProperty("search", std::mem_fn(&TableView::js_search));
-			JSExport<TableView>::AddValueProperty("sectionCount", std::mem_fn(&TableView::js_sectionCount));
-			JSExport<TableView>::AddValueProperty("sections", std::mem_fn(&TableView::js_sections));
-			JSExport<TableView>::AddValueProperty("separatorColor", std::mem_fn(&TableView::js_separatorColor));
+			JSExport<TableView>::AddValueProperty("filterAttribute", std::mem_fn(&TableView::js_get_filterAttribute));
+			JSExport<TableView>::AddValueProperty("filterAnchored", std::mem_fn(&TableView::js_get_filterAnchored));
+			JSExport<TableView>::AddValueProperty("filterCaseInsensitive", std::mem_fn(&TableView::js_get_filterCaseInsensitive));
+			JSExport<TableView>::AddValueProperty("footerTitle", std::mem_fn(&TableView::js_get_footerTitle));
+			JSExport<TableView>::AddValueProperty("footerView", std::mem_fn(&TableView::js_get_footerView));
+			JSExport<TableView>::AddValueProperty("headerTitle", std::mem_fn(&TableView::js_get_headerTitle));
+			JSExport<TableView>::AddValueProperty("headerView", std::mem_fn(&TableView::js_get_headerView));
+			JSExport<TableView>::AddValueProperty("maxRowHeight", std::mem_fn(&TableView::js_get_maxRowHeight));
+			JSExport<TableView>::AddValueProperty("minRowHeight", std::mem_fn(&TableView::js_get_minRowHeight));
+			JSExport<TableView>::AddValueProperty("rowHeight", std::mem_fn(&TableView::js_get_rowHeight));
+			JSExport<TableView>::AddValueProperty("search", std::mem_fn(&TableView::js_get_search));
+			JSExport<TableView>::AddValueProperty("sectionCount", std::mem_fn(&TableView::js_get_sectionCount));
+			JSExport<TableView>::AddValueProperty("sections", std::mem_fn(&TableView::js_get_sections));
+			JSExport<TableView>::AddValueProperty("separatorColor", std::mem_fn(&TableView::js_get_separatorColor));
 
 			JSExport<TableView>::AddFunctionProperty("appendRow", std::mem_fn(&TableView::js_appendRow));
 			JSExport<TableView>::AddFunctionProperty("appendSection", std::mem_fn(&TableView::js_appendSection));
@@ -245,10 +243,10 @@ namespace Titanium
 			JSExport<TableView>::AddFunctionProperty("setSeparatorColor", std::mem_fn(&TableView::js_setSeparatorColor));
 		}
 
-		JSValue TableView::js_data() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_data() const TITANIUM_NOEXCEPT
 		{
 			std::vector<JSValue> data_array;
-			const auto rows = data();
+			const auto rows = get_data();
 			for (auto row : rows) {
 				data_array.push_back(row);
 			}
@@ -275,7 +273,7 @@ namespace Titanium
 
 		JSValue TableView::js_getData(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_data();
+			return js_get_data();
 		}
 
 		JSValue TableView::js_setData(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -286,79 +284,79 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue TableView::js_filterAttribute() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_filterAttribute() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(filterAttribute());
+			return get_context().CreateString(get_filterAttribute());
 		}
 
-		JSValue TableView::js_filterAnchored() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_filterAnchored() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateBoolean(filterAnchored());
+			return get_context().CreateBoolean(get_filterAnchored());
 		}
 
-		JSValue TableView::js_filterCaseInsensitive() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_filterCaseInsensitive() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateBoolean(filterCaseInsensitive());
+			return get_context().CreateBoolean(get_filterCaseInsensitive());
 		}
 
-		JSValue TableView::js_footerTitle() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_footerTitle() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(footerTitle());
+			return get_context().CreateString(get_footerTitle());
 		}
 
-		JSValue TableView::js_footerView() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_footerView() const TITANIUM_NOEXCEPT
 		{
-			return static_cast<JSValue>(footerView()->get_object());
+			return static_cast<JSValue>(get_footerView()->get_object());
 		}
 
-		JSValue TableView::js_headerTitle() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_headerTitle() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(headerTitle());
+			return get_context().CreateString(get_headerTitle());
 		}
 
-		JSValue TableView::js_headerView() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_headerView() const TITANIUM_NOEXCEPT
 		{
-			return static_cast<JSValue>(headerView()->get_object());
+			return static_cast<JSValue>(get_headerView()->get_object());
 		}
 
-		JSValue TableView::js_maxRowHeight() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_maxRowHeight() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(maxRowHeight());
+			return get_context().CreateNumber(get_maxRowHeight());
 		}
 
-		JSValue TableView::js_minRowHeight() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_minRowHeight() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(minRowHeight());
+			return get_context().CreateNumber(get_minRowHeight());
 		}
 
-		JSValue TableView::js_rowHeight() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_rowHeight() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(rowHeight());
+			return get_context().CreateNumber(get_rowHeight());
 		}
 
-		JSValue TableView::js_search() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_search() const TITANIUM_NOEXCEPT
 		{
-			return search();
+			return get_search();
 		}
 
-		JSValue TableView::js_sections() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_sections() const TITANIUM_NOEXCEPT
 		{
 			std::vector<JSValue> section_array;
-			const auto section_objects = sections();
+			const auto section_objects = get_sections();
 			for (auto section : section_objects) {
 				section_array.push_back(section->get_object());
 			}
 			return get_context().CreateArray(section_array);
 		}
 
-		JSValue TableView::js_sectionCount() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_sectionCount() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(sectionCount());
+			return get_context().CreateNumber(get_sectionCount());
 		}
 
-		JSValue TableView::js_separatorColor() const TITANIUM_NOEXCEPT
+		JSValue TableView::js_get_separatorColor() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(separatorColor());
+			return get_context().CreateString(get_separatorColor());
 		}
 
 		JSValue TableView::js_appendRow(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT

@@ -33,7 +33,7 @@ namespace Titanium
 			  @abstract color
 			  @discussion Default text color of the row when not selected, as a color name or hex triplet.
 			*/
-			virtual std::string color() const TITANIUM_NOEXCEPT;
+			virtual std::string get_color() const TITANIUM_NOEXCEPT;
 			virtual void setColor(std::string color) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -41,7 +41,7 @@ namespace Titanium
 			  @abstract font
 			  @discussion Font to use for the row title.
 			*/
-			virtual Font font() const TITANIUM_NOEXCEPT;
+			virtual Font get_font() const TITANIUM_NOEXCEPT;
 			virtual void setFont(Font font) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -49,7 +49,7 @@ namespace Titanium
 			  @abstract hasCheck
 			  @discussion Determines whether a system-provided checkmark is displayed on the right-hand side of the row.
 			*/
-			virtual bool hasCheck() const TITANIUM_NOEXCEPT;
+			virtual bool get_hasCheck() const TITANIUM_NOEXCEPT;
 			virtual void setHasCheck(bool hasCheck) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -57,7 +57,7 @@ namespace Titanium
 			  @abstract hasChild
 			  @discussion Determines whether a system-provided arrow is displayed on the right-hand side of the row.
 			*/
-			virtual bool hasChild() const TITANIUM_NOEXCEPT;
+			virtual bool get_hasChild() const TITANIUM_NOEXCEPT;
 			virtual void setHasChild(bool hasChild) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -65,7 +65,7 @@ namespace Titanium
 			  @abstract title
 			  @discussion Text to display on the row.
 			*/
-			virtual std::string title() const TITANIUM_NOEXCEPT;
+			virtual std::string get_title() const TITANIUM_NOEXCEPT;
 			virtual void setTitle(std::string title) TITANIUM_NOEXCEPT;
 
 			TableViewRow(const JSContext&) TITANIUM_NOEXCEPT;
@@ -79,30 +79,30 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue TableViewRow::_TableViewRow() const TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_color() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_font() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_hasCheck() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_hasChild() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_title() const TITANIUM_NOEXCEPT final;
-
-			virtual bool js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT;
+			virtual JSValue js_get_font() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_font(const JSValue& argument) TITANIUM_NOEXCEPT;
-			virtual bool js_set_hasCheck(const JSValue& argument) TITANIUM_NOEXCEPT;
-			virtual bool js_set_hasChild(const JSValue& argument) TITANIUM_NOEXCEPT;
-			virtual bool js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT;
-
-			virtual JSValue js_getColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getFont(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setFont(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			
+			virtual JSValue js_get_hasCheck() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_hasCheck(const JSValue& argument) TITANIUM_NOEXCEPT;
 			virtual JSValue js_getHasCheck(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setHasCheck(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			
+			virtual JSValue js_get_hasChild() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_hasChild(const JSValue& argument) TITANIUM_NOEXCEPT;
 			virtual JSValue js_getHasChild(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setHasChild(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			
+			virtual JSValue js_get_title() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT;
 			virtual JSValue js_getTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			
+			virtual JSValue js_get_color() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT;
+			virtual JSValue js_getColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			protected:
 #pragma warning(push)

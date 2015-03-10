@@ -1,5 +1,5 @@
 /**
- * Titanium.UI.TableViewRow for Windows
+ * Titanium.UI.TableViewRow
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -21,7 +21,7 @@ namespace Titanium
     	{
     	}
 
-		std::string TableViewRow::color() const TITANIUM_NOEXCEPT
+		std::string TableViewRow::get_color() const TITANIUM_NOEXCEPT
     	{
         	return color__;
 		}
@@ -30,7 +30,7 @@ namespace Titanium
 			color__ = color;
 		}
 
-		Font TableViewRow::font() const TITANIUM_NOEXCEPT
+		Font TableViewRow::get_font() const TITANIUM_NOEXCEPT
     	{
         	return font__;
 		}
@@ -39,7 +39,7 @@ namespace Titanium
 			font__ = font;
 		}
 
-		bool TableViewRow::hasCheck() const TITANIUM_NOEXCEPT
+		bool TableViewRow::get_hasCheck() const TITANIUM_NOEXCEPT
     	{
         	return hasCheck__;
 		}
@@ -48,7 +48,7 @@ namespace Titanium
 			hasCheck__ = hasCheck;
 		}
 
-		bool TableViewRow::hasChild() const TITANIUM_NOEXCEPT
+		bool TableViewRow::get_hasChild() const TITANIUM_NOEXCEPT
     	{
         	return hasChild__;
 		}
@@ -57,7 +57,7 @@ namespace Titanium
 			hasChild__ = hasChild;
 		}
 
-		std::string TableViewRow::title() const TITANIUM_NOEXCEPT
+		std::string TableViewRow::get_title() const TITANIUM_NOEXCEPT
     	{
         	return title__;
 		}
@@ -70,11 +70,11 @@ namespace Titanium
 			JSExport<TableViewRow>::SetClassVersion(1);
 			JSExport<TableViewRow>::SetParent(JSExport<View>::Class());
 
-			JSExport<TableViewRow>::AddValueProperty("color", std::mem_fn(&TableViewRow::js_color), std::mem_fn(&TableViewRow::js_set_color));
-			JSExport<TableViewRow>::AddValueProperty("font", std::mem_fn(&TableViewRow::js_font), std::mem_fn(&TableViewRow::js_set_font));
-			JSExport<TableViewRow>::AddValueProperty("hasCheck", std::mem_fn(&TableViewRow::js_hasCheck), std::mem_fn(&TableViewRow::js_set_hasCheck));
-			JSExport<TableViewRow>::AddValueProperty("hasChild", std::mem_fn(&TableViewRow::js_hasChild), std::mem_fn(&TableViewRow::js_set_hasChild));
-			JSExport<TableViewRow>::AddValueProperty("title", std::mem_fn(&TableViewRow::js_title), std::mem_fn(&TableViewRow::js_set_title));
+			JSExport<TableViewRow>::AddValueProperty("color", std::mem_fn(&TableViewRow::js_get_color), std::mem_fn(&TableViewRow::js_set_color));
+			JSExport<TableViewRow>::AddValueProperty("font", std::mem_fn(&TableViewRow::js_get_font), std::mem_fn(&TableViewRow::js_set_font));
+			JSExport<TableViewRow>::AddValueProperty("hasCheck", std::mem_fn(&TableViewRow::js_get_hasCheck), std::mem_fn(&TableViewRow::js_set_hasCheck));
+			JSExport<TableViewRow>::AddValueProperty("hasChild", std::mem_fn(&TableViewRow::js_get_hasChild), std::mem_fn(&TableViewRow::js_set_hasChild));
+			JSExport<TableViewRow>::AddValueProperty("title", std::mem_fn(&TableViewRow::js_get_title), std::mem_fn(&TableViewRow::js_set_title));
 
 			JSExport<TableViewRow>::AddFunctionProperty("getColor", std::mem_fn(&TableViewRow::js_getColor));
 			JSExport<TableViewRow>::AddFunctionProperty("setColor", std::mem_fn(&TableViewRow::js_setColor));
@@ -86,43 +86,36 @@ namespace Titanium
 			JSExport<TableViewRow>::AddFunctionProperty("setHasChild", std::mem_fn(&TableViewRow::js_setHasChild));
 			JSExport<TableViewRow>::AddFunctionProperty("getTitle", std::mem_fn(&TableViewRow::js_getTitle));
 			JSExport<TableViewRow>::AddFunctionProperty("setTitle", std::mem_fn(&TableViewRow::js_setTitle));
-
-			JSExport<TableViewRow>::AddValueProperty("_TableViewRow", std::mem_fn(&TableViewRow::_TableViewRow));
 		}
 
-		JSValue TableViewRow::_TableViewRow() const TITANIUM_NOEXCEPT
+		JSValue TableViewRow::js_get_color() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateUndefined();
+			return get_context().CreateString(get_color());
 		}
 
-		JSValue TableViewRow::js_color() const TITANIUM_NOEXCEPT
+		JSValue TableViewRow::js_get_font() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(color());
+			return Font_to_js(get_context(), get_font());
 		}
 
-		JSValue TableViewRow::js_font() const TITANIUM_NOEXCEPT
+		JSValue TableViewRow::js_get_hasCheck() const TITANIUM_NOEXCEPT
 		{
-			return Font_to_js(get_context(), font());
+			return get_context().CreateBoolean(get_hasCheck());
 		}
 
-		JSValue TableViewRow::js_hasCheck() const TITANIUM_NOEXCEPT
+		JSValue TableViewRow::js_get_hasChild() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateBoolean(hasCheck());
+			return get_context().CreateBoolean(get_hasChild());
 		}
 
-		JSValue TableViewRow::js_hasChild() const TITANIUM_NOEXCEPT
+		JSValue TableViewRow::js_get_title() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateBoolean(hasChild());
-		}
-
-		JSValue TableViewRow::js_title() const TITANIUM_NOEXCEPT
-		{
-			return get_context().CreateString(title());
+			return get_context().CreateString(get_title());
 		}
 
 		JSValue TableViewRow::js_getColor(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_color();
+			return js_get_color();
 		}
 
 		bool TableViewRow::js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT {
@@ -141,7 +134,7 @@ namespace Titanium
 
 		JSValue TableViewRow::js_getFont(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_font();
+			return js_get_font();
 		}
 
 		bool TableViewRow::js_set_font(const JSValue& argument) TITANIUM_NOEXCEPT {
@@ -160,7 +153,7 @@ namespace Titanium
 
 		JSValue TableViewRow::js_getHasCheck(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_hasCheck();
+			return js_get_hasCheck();
 		}
 
 		bool TableViewRow::js_set_hasCheck(const JSValue& argument) TITANIUM_NOEXCEPT {
@@ -179,7 +172,7 @@ namespace Titanium
 
 		JSValue TableViewRow::js_getHasChild(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_hasChild();
+			return js_get_hasChild();
 		}
 
 		bool TableViewRow::js_set_hasChild(const JSValue& argument) TITANIUM_NOEXCEPT {
@@ -198,7 +191,7 @@ namespace Titanium
 
 		JSValue TableViewRow::js_getTitle(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_title();
+			return js_get_title();
 		}
 
 		bool TableViewRow::js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT {

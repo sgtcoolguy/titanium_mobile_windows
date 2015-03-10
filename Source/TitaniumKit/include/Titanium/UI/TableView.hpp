@@ -1,5 +1,5 @@
 /**
- * Titanium.UI.TableView for Windows
+ * Titanium.UI.TableView
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -12,6 +12,7 @@
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/TableViewRow.hpp"
 #include "Titanium/UI/TableViewSection.hpp"
+
 #include <vector>
 #include <unordered_map>
 
@@ -40,7 +41,7 @@ namespace Titanium
 			  @abstract data
 			  @discussion Rows of the table view.
 			*/
-			virtual std::vector<JSObject> data() const TITANIUM_NOEXCEPT;
+			virtual std::vector<JSObject> get_data() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -54,91 +55,91 @@ namespace Titanium
 			  @abstract filterAttribute
 			  @discussion Filter attribute to be used when searching.
 			*/
-			virtual std::string filterAttribute() const TITANIUM_NOEXCEPT;
+			virtual std::string get_filterAttribute() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract filterAnchored
 			  @discussion Determines whether the search is limited to the start of the string
 			*/
-			virtual bool filterAnchored() const TITANIUM_NOEXCEPT;
+			virtual bool get_filterAnchored() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract filterCaseInsensitive
 			  @discussion Determines whether the search is case insensitive.
 			*/
-			virtual bool filterCaseInsensitive() const TITANIUM_NOEXCEPT;
+			virtual bool get_filterCaseInsensitive() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract footerTitle
 			  @discussion Table view footer title.
 			*/
-			virtual std::string footerTitle() const TITANIUM_NOEXCEPT;
+			virtual std::string get_footerTitle() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract footerView
 			  @discussion Table view footer as a view that will be rendered instead of a label.
 			*/
-			virtual View_shared_ptr_t footerView() const TITANIUM_NOEXCEPT;
+			virtual View_shared_ptr_t get_footerView() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract headerTitle
 			  @discussion Table view header title.
 			*/
-			virtual std::string headerTitle() const TITANIUM_NOEXCEPT;
+			virtual std::string get_headerTitle() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract headerView
 			  @discussion Table view header as a view that will be rendered instead of a label.
 			*/
-			virtual View_shared_ptr_t headerView() const TITANIUM_NOEXCEPT;
+			virtual View_shared_ptr_t get_headerView() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract maxRowHeight
 			  @discussion Maximum row height for table view rows.
 			*/
-			virtual double maxRowHeight() const TITANIUM_NOEXCEPT;
+			virtual double get_maxRowHeight() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract minRowHeight
 			  @discussion Minimum row height for table view rows.
 			*/
-			virtual double minRowHeight() const TITANIUM_NOEXCEPT;
+			virtual double get_minRowHeight() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract rowHeight
 			  @discussion Default row height for table view rows.
 			*/
-			virtual double rowHeight() const TITANIUM_NOEXCEPT;
+			virtual double get_rowHeight() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract search
 			  @discussion Search field to use for the table view.
 			*/
-			virtual JSValue search() const TITANIUM_NOEXCEPT;
+			virtual JSValue get_search() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract sectionCount
 			  @discussion Number of sections in this table view.
 			*/
-			virtual uint32_t sectionCount() const TITANIUM_NOEXCEPT;
+			virtual uint32_t get_sectionCount() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract sections
 			  @discussion Sections of this table.
 			*/
-			virtual std::vector<TableViewSection_shared_ptr_t> sections() const TITANIUM_NOEXCEPT;
+			virtual std::vector<TableViewSection_shared_ptr_t> get_sections() const TITANIUM_NOEXCEPT;
 			virtual void set_sections(const std::vector<TableViewSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -146,7 +147,7 @@ namespace Titanium
 			  @abstract separatorColor
 			  @discussion Separator line color between rows, as a color name or hex triplet.
 			*/
-			virtual std::string separatorColor() const TITANIUM_NOEXCEPT;
+			virtual std::string get_separatorColor() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -252,21 +253,21 @@ namespace Titanium
 
 			virtual bool js_set_data(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue js_data() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_filterAttribute() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_filterAnchored() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_filterCaseInsensitive() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_footerTitle() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_footerView() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_headerTitle() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_headerView() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_maxRowHeight() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_minRowHeight() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_rowHeight() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_search() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_sectionCount() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_sections() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_separatorColor() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_data() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_filterAttribute() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_filterAnchored() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_filterCaseInsensitive() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_footerTitle() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_footerView() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_headerTitle() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_headerView() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_maxRowHeight() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_minRowHeight() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_rowHeight() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_search() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_sectionCount() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_sections() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_separatorColor() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_appendRow(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_appendSection(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_deleteRow(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
@@ -325,7 +326,6 @@ namespace Titanium
 				double minRowHeight__;
 				double rowHeight__;
 				JSValue search__;
-				uint32_t sectionCount__;
 				std::vector<TableViewSection_shared_ptr_t> sections__;
 				std::string separatorColor__;
 #pragma warning(pop)

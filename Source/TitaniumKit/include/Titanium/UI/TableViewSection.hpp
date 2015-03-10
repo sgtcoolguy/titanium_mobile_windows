@@ -36,42 +36,42 @@ namespace Titanium
 			  @abstract footerTitle
 			  @discussion Title of this section footer.
 			*/
-			virtual std::string footerTitle() const TITANIUM_NOEXCEPT;
+			virtual std::string get_footerTitle() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract footerView
 			  @discussion View to use for this section footer.
 			*/
-			virtual View_shared_ptr_t footerView() const TITANIUM_NOEXCEPT;
+			virtual View_shared_ptr_t get_footerView() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract headerTitle
 			  @discussion Title of this section header.
 			*/
-			virtual std::string headerTitle() const TITANIUM_NOEXCEPT;
+			virtual std::string get_headerTitle() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract headerView
 			  @discussion View to use for this section header.
 			*/
-			virtual View_shared_ptr_t headerView() const TITANIUM_NOEXCEPT;
+			virtual View_shared_ptr_t get_headerView() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract rowCount
 			  @discussion Number of rows in this section.
 			*/
-			virtual uint32_t rowCount() const TITANIUM_NOEXCEPT;
+			virtual uint32_t get_rowCount() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract rows
 			  @discussion Rows in this section.
 			*/
-			virtual std::vector<TableViewRow_shared_ptr_t> rows() const TITANIUM_NOEXCEPT;
+			virtual std::vector<TableViewRow_shared_ptr_t> get_rows() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -98,14 +98,12 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue TableViewSection::_TableViewSection() const TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_footerTitle() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_footerView() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_headerTitle() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_headerView() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_rowCount() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_rows() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_footerTitle() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_footerView() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_headerTitle() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_headerView() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_rowCount() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_rows() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_add(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_remove(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getFooterTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
@@ -126,7 +124,6 @@ namespace Titanium
 				View_shared_ptr_t footerView__;
 				std::string headerTitle__;
 				View_shared_ptr_t headerView__;
-				uint32_t rowCount__;
 				std::vector<TableViewRow_shared_ptr_t> rows__;
 #pragma warning(pop)
 		};

@@ -10,6 +10,7 @@
 #include "TitaniumWindows/UI/TableView.hpp"
 #include "TitaniumWindows/UI/TableViewRow.hpp"
 #include "TitaniumWindows/UI/View.hpp"
+
 #include <collection.h>
 
 namespace TitaniumWindows
@@ -60,8 +61,8 @@ namespace TitaniumWindows
 		void TableView::set_sections(const std::vector<TableViewSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT
 		{
 			tableViewItems__->Clear();
-			for (uint32_t i=0;i<sectionCount();i++) {
-				auto section = this->sections()[i]->get_object();
+			for (uint32_t i=0;i<get_sectionCount();i++) {
+				auto section = this->get_sections()[i]->get_object();
 				addTableItem(section);
 			}
 			Titanium::UI::TableView::set_sections(sections);
@@ -92,10 +93,8 @@ namespace TitaniumWindows
 
 		void TableView::addTableItem(JSObject& item) TITANIUM_NOEXCEPT
 		{
-			JSValue js_item = static_cast<JSValue>(item);
-
 			// Add TableViewRow
-			if (js_item.IsObjectOfClass(JSExport<TitaniumWindows::UI::TableViewRow>::Class())) {
+			if (item.GetPrivate<TitaniumWindows::UI::TableViewRow>()) {
 				auto view = item.GetPrivate<TitaniumWindows::UI::TableViewRow>();
 				auto rowContent = view->getComponent();
 				TITANIUM_ASSERT(rowContent);
@@ -107,7 +106,7 @@ namespace TitaniumWindows
 				auto item = ref new ListViewItem();
 				item->View = rowContent;
 				item->ItemIndex = tableViewItems__->Size;
-				item->SectionIndex = sectionCount()-1;
+				item->SectionIndex = get_sectionCount()-1;
 				tableViewItems__->Append(item);
 
 				// Add as child view to make layout engine work
@@ -123,9 +122,9 @@ namespace TitaniumWindows
 				return;
 
 			// Add TableViewSection
-			} else if (js_item.IsObjectOfClass(JSExport<Titanium::UI::TableViewSection>::Class())) {
+			} else if (item.GetPrivate<Titanium::UI::TableViewSection>()) {
 				auto section = item.GetPrivate<Titanium::UI::TableViewSection>();
-				auto rows = section->rows();
+				auto rows = section->get_rows();
 				auto group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
 
 				sections__.push_back(section);
@@ -143,7 +142,7 @@ namespace TitaniumWindows
 					auto item = ref new ListViewItem();
 					item->View = rowContent;
 					item->ItemIndex = i;
-					item->SectionIndex = sectionCount();
+					item->SectionIndex = get_sectionCount();
 					tableViewItems__->Append(item);
 
 					// Add as child view to make layout engine work
@@ -155,8 +154,6 @@ namespace TitaniumWindows
 						}
 					}
 				}
-
-				sectionCount__++;
 				collectionViewItems__->Append(group);
 				return;
 
