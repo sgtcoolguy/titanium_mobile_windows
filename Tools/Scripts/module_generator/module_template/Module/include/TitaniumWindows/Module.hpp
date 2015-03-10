@@ -2,9 +2,9 @@
 function getType(type, parameter) {
     var r = 'JSValue';
     if (type == 'Number') {
-        r = 'double';
+        r = (parameter ? 'const double&' : 'double');
     } else if (type == 'Boolean') {
-        r = 'bool';
+        r = (parameter ? 'const bool&' : 'bool');
     } else if (type == 'void') {
         r = 'void';
     } else if (type == 'String') {
@@ -79,7 +79,9 @@ namespace TitaniumWindows
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
 <% if (property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
-			virtual <%= getType(property.type) %> <%= property.name %>() const TITANIUM_NOEXCEPT;
+<% if (!property.__permission || property.__permission != "read-only") {-%>
+			virtual void set_<%= property.name %>(<%= getType(property.type, true) %>) TITANIUM_NOEXCEPT;
+<% } -%>
 <% } -%>
 <% } -%>
 
@@ -87,7 +89,7 @@ namespace TitaniumWindows
 <% var method = data.methods[i] -%>
 <% if (method.__accessor != true && method.__inherits == module && (method.platforms.contains('android') && method.platforms.contains('iphone'))) {-%>
 <% var parameters = ('parameters' in method ? getParameters(method.parameters) : '') -%>
-<% var type = ('returns' in method ? method.returns[0].type : 'JSValue') -%>
+<% var type = ('returns' in method ? method.returns[0].type : 'void') -%>
 			virtual <%= getType(type) %> <%= method.name -%>(<%= parameters %>) TITANIUM_NOEXCEPT;
 <% } -%>
 <% } -%>

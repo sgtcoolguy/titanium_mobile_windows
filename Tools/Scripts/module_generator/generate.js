@@ -140,9 +140,9 @@ function includeModule(module_data) {
     					"JSObject "+module_data.name.toLowerCase()+"__;";
 
     // Titaniumkit ApplicationBuilder.cpp modifications
-    var regex_tik_app_3 = /:View>\(\)\),/g;
-    var mod_tik_app_3 = ":View>()),\n	      "+
-    					module_data.name.toLowerCase()+"__(js_context__.CreateObject<Titanium::"+module_data.full_namespace+">()),";
+    var regex_tik_app_3 = /:View>::Class\(\)\)\),/g;
+    var mod_tik_app_3 = ":View>::Class())),\n	      "+
+    					module_data.name.toLowerCase()+"__(js_context__.CreateObject(JSExport<Titanium::"+module_data.full_namespace+">::Class())),";
 
     var regex_tik_app_4 = /UIModule.hpp\"/g;
     var mod_tik_app_4 = "UIModule.hpp\"\n"+
@@ -191,9 +191,9 @@ function includeModule(module_data) {
     var mod_ti_tiw_1 = "UI.hpp\"\n"+
     					 "#include \"TitaniumWindows/"+module_data.module_path+".hpp\"";
 
-    var regex_ti_tiw_2 = /UI::View>\(\)\)/g;
-	var mod_ti_tiw_2 = "UI::View>())\n		                                                            "+
-						 "."+module_data.name+"Object(js_context__.CreateObject<TitaniumWindows::"+module_data.full_namespace+">())";
+    var regex_ti_tiw_2 = /UI::View>::Class\(\)\)/g;
+	var mod_ti_tiw_2 = "UI::View>::Class()))\n		                                                            "+
+						 "."+module_data.name+"Object(js_context__.CreateObject(JSExport<TitaniumWindows::"+module_data.full_namespace+">::Class()))";
 
     // Titanium build_and_test.sh modifications
     var regex_ti_bt_1 = /cmd\+=\" \-DTitaniumWindows_UI_/g;
