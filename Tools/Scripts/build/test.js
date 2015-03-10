@@ -107,9 +107,10 @@ function copyMochaAssets(next) {
 	next();
 }
 
-function runBuild(next) {
+function runBuild(next, count) {
 	var prc,
-		inResults = false;
+		inResults = false,
+		done = false;
 	prc = spawn('node', [titanium, 'build', '-d', 'mocha', '-p', 'windows', '-T', 'wp-emulator', '--wp-publisher-guid', '00000000-0000-1000-8000-000000000000', '-C', '8-1-1', '--no-prompt', '--no-colors']);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
@@ -117,6 +118,7 @@ function runBuild(next) {
 		for (var i = 0; i < lines.length; i++) {
 			var str = lines[i],
 				index = -1;
+
 			if (inResults) {
 				if ((index = str.indexOf('[INFO]')) != -1) {
 					str = str.slice(index + 8).trim();
@@ -124,8 +126,7 @@ function runBuild(next) {
 				if ((index = str.indexOf('!TEST_RESULTS_STOP!')) != -1) {
 					str = str.slice(0, index).trim();
 					inResults = false;
-				} else if ((index = str.indexOf('-- End application log ----')) != -1) {
-					next("failed to get test results before log ended!");
+					done = true; // we got the results we need, when we kill this process we'll move on
 				}
 
 				testResults += str;
@@ -139,6 +140,16 @@ function runBuild(next) {
 				inResults = true;
 				testResults = str.substr(index + 20).trim();
 			}
+
+			// Handle when app crashes and we haven't finished tests yet! 
+			if ((index = str.indexOf('-- End application log ----')) != -1) {
+				prc.kill(); // quit this build...
+				if (count > 3) {
+					next("failed to get test results before log ended!"); // failed too many times
+				} else {
+					runBuild(next, count + 1); // retry
+				}
+			}
 		}
 		
 	});
@@ -147,7 +158,9 @@ function runBuild(next) {
 	});
 
 	prc.on('close', function (code) {
-		next();
+		if (done) {
+			next(); // only move forward if we got results and killed the process!
+		}
 	});
 }
 
@@ -227,7 +240,7 @@ async.series([
 	},
 	function (next) {
 		console.log("Launching test project in simulator");
-		runBuild(next);
+		runBuild(next, 1);
 	},
 	function (next) {
 		parseTestResults(testResults, next);
