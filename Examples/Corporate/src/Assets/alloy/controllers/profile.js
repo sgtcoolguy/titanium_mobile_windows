@@ -79,14 +79,25 @@ function Controller() {
         id: "contactInfo"
     });
     $.__views.profile.add($.__views.contactInfo);
-    $.__views.__alloyId33 = Ti.UI.createView({
+    var __alloyId35 = [];
+    $.__views.mapview = (require("ti.map").createView || Ti.UI.createView)({
+        top: 0,
+        touchEnabled: false,
+        enableZoomControls: false,
+        compassEnabled: false,
+        height: "30%",
+        annotations: __alloyId35,
+        id: "mapview"
+    });
+    $.__views.contactInfo.add($.__views.mapview);
+    $.__views.__alloyId36 = Ti.UI.createView({
         layout: "vertical",
         height: Ti.UI.SIZE,
         width: Ti.UI.SIZE,
         top: 0,
-        id: "__alloyId33"
+        id: "__alloyId36"
     });
-    $.__views.contactInfo.add($.__views.__alloyId33);
+    $.__views.contactInfo.add($.__views.__alloyId36);
     $.__views.name = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
         top: 10,
@@ -98,7 +109,7 @@ function Controller() {
         text: "Kelly Smith",
         id: "name"
     });
-    $.__views.__alloyId33.add($.__views.name);
+    $.__views.__alloyId36.add($.__views.name);
     $.__views.job = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
         font: {
@@ -109,7 +120,7 @@ function Controller() {
         text: "Account Rep",
         id: "job"
     });
-    $.__views.__alloyId33.add($.__views.job);
+    $.__views.__alloyId36.add($.__views.job);
     $.__views.company = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
         font: {
@@ -120,7 +131,7 @@ function Controller() {
         text: "Appcelerator, Inc",
         id: "company"
     });
-    $.__views.__alloyId33.add($.__views.company);
+    $.__views.__alloyId36.add($.__views.company);
     $.__views.addBookmarkBtn = Ti.UI.createButton({
         top: 10,
         width: "100%",
@@ -132,22 +143,18 @@ function Controller() {
         id: "addBookmarkBtn",
         textid: "bookmarkBtn"
     });
-    $.__views.__alloyId33.add($.__views.addBookmarkBtn);
+    $.__views.__alloyId36.add($.__views.addBookmarkBtn);
     toggleBookmark ? $.__views.addBookmarkBtn.addEventListener("click", toggleBookmark) : __defers["$.__views.addBookmarkBtn!click!toggleBookmark"] = true;
-    $.__views.__alloyId34 = Ti.UI.createView({
+    $.__views.__alloyId37 = Ti.UI.createView({
         layout: "horizontal",
         top: 10,
         height: Ti.UI.SIZE,
         width: Ti.UI.SIZE,
-        id: "__alloyId34"
+        id: "__alloyId37"
     });
-    $.__views.contactInfo.add($.__views.__alloyId34);
+    $.__views.contactInfo.add($.__views.__alloyId37);
     $.__views.callBtn = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
-        font: {
-            fontFamily: "icomoon",
-            fontSize: 24
-        },
         text: "",
         height: 60,
         width: 60,
@@ -157,17 +164,17 @@ function Controller() {
         borderColor: "#C41230",
         backgroundColor: "#33C41230",
         textAlign: "center",
+        font: {
+            fontSize: 20,
+            fontFamily: "icomoon"
+        },
         left: "10%",
         id: "callBtn"
     });
-    $.__views.__alloyId34.add($.__views.callBtn);
+    $.__views.__alloyId37.add($.__views.callBtn);
     callContact ? $.__views.callBtn.addEventListener("click", callContact) : __defers["$.__views.callBtn!click!callContact"] = true;
     $.__views.emailBtn = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
-        font: {
-            fontFamily: "icomoon",
-            fontSize: 24
-        },
         text: "",
         height: 60,
         width: 60,
@@ -177,17 +184,17 @@ function Controller() {
         borderColor: "#C41230",
         backgroundColor: "#33C41230",
         textAlign: "center",
+        font: {
+            fontSize: 20,
+            fontFamily: "icomoon"
+        },
         left: "10%",
         id: "emailBtn"
     });
-    $.__views.__alloyId34.add($.__views.emailBtn);
+    $.__views.__alloyId37.add($.__views.emailBtn);
     emailContact ? $.__views.emailBtn.addEventListener("click", emailContact) : __defers["$.__views.emailBtn!click!emailContact"] = true;
     $.__views.msgBtn = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
-        font: {
-            fontFamily: "icomoon",
-            fontSize: 24
-        },
         text: "",
         height: 60,
         width: 60,
@@ -197,19 +204,23 @@ function Controller() {
         borderColor: "#C41230",
         backgroundColor: "#33C41230",
         textAlign: "center",
+        font: {
+            fontSize: 20,
+            fontFamily: "icomoon"
+        },
         left: "10%",
         id: "msgBtn"
     });
-    $.__views.__alloyId34.add($.__views.msgBtn);
-    $.__views.__alloyId35 = Ti.UI.createView({
+    $.__views.__alloyId37.add($.__views.msgBtn);
+    $.__views.__alloyId38 = Ti.UI.createView({
         top: 25,
         height: 1,
         width: "90%",
         backgroundColor: "#acacac",
-        id: "__alloyId35"
+        id: "__alloyId38"
     });
-    $.__views.contactInfo.add($.__views.__alloyId35);
-    $.__views.__alloyId36 = Ti.UI.createView({
+    $.__views.contactInfo.add($.__views.__alloyId38);
+    $.__views.__alloyId39 = Ti.UI.createView({
         layout: "vertical",
         top: 10,
         left: 10,
@@ -217,31 +228,31 @@ function Controller() {
         bottom: 10,
         height: Ti.UI.SIZE,
         width: Ti.UI.SIZE,
-        id: "__alloyId36"
+        id: "__alloyId39"
     });
-    $.__views.contactInfo.add($.__views.__alloyId36);
-    $.__views.__alloyId37 = Ti.UI.createView({
+    $.__views.contactInfo.add($.__views.__alloyId39);
+    $.__views.__alloyId40 = Ti.UI.createView({
         layout: "horizontal",
         top: 10,
         left: 10,
         height: Ti.UI.SIZE,
         width: Ti.UI.SIZE,
-        id: "__alloyId37"
+        id: "__alloyId40"
     });
-    $.__views.__alloyId36.add($.__views.__alloyId37);
-    $.__views.__alloyId38 = Ti.UI.createLabel({
+    $.__views.__alloyId39.add($.__views.__alloyId40);
+    $.__views.__alloyId41 = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
         top: 0,
         left: 0,
+        text: "",
         font: {
-            fontSize: 18,
+            fontSize: 20,
             fontFamily: "icomoon"
         },
         color: "#C41230",
-        text: "",
-        id: "__alloyId38"
+        id: "__alloyId41"
     });
-    $.__views.__alloyId37.add($.__views.__alloyId38);
+    $.__views.__alloyId40.add($.__views.__alloyId41);
     $.__views.phone = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
         left: 10,
@@ -252,29 +263,29 @@ function Controller() {
         text: "512-555-1212",
         id: "phone"
     });
-    $.__views.__alloyId37.add($.__views.phone);
-    $.__views.__alloyId39 = Ti.UI.createView({
+    $.__views.__alloyId40.add($.__views.phone);
+    $.__views.__alloyId42 = Ti.UI.createView({
         layout: "horizontal",
         top: 10,
         left: 10,
         height: Ti.UI.SIZE,
         width: Ti.UI.SIZE,
-        id: "__alloyId39"
+        id: "__alloyId42"
     });
-    $.__views.__alloyId36.add($.__views.__alloyId39);
-    $.__views.__alloyId40 = Ti.UI.createLabel({
+    $.__views.__alloyId39.add($.__views.__alloyId42);
+    $.__views.__alloyId43 = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
         top: 0,
         left: 0,
+        text: "",
         font: {
-            fontSize: 18,
+            fontSize: 20,
             fontFamily: "icomoon"
         },
         color: "#C41230",
-        text: "",
-        id: "__alloyId40"
+        id: "__alloyId43"
     });
-    $.__views.__alloyId39.add($.__views.__alloyId40);
+    $.__views.__alloyId42.add($.__views.__alloyId43);
     $.__views.email = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
         left: 10,
@@ -285,29 +296,29 @@ function Controller() {
         text: "kelly.smith@appcelerator.com",
         id: "email"
     });
-    $.__views.__alloyId39.add($.__views.email);
-    $.__views.__alloyId41 = Ti.UI.createView({
+    $.__views.__alloyId42.add($.__views.email);
+    $.__views.__alloyId44 = Ti.UI.createView({
         layout: "horizontal",
         top: 10,
         left: 10,
         height: Ti.UI.SIZE,
         width: Ti.UI.SIZE,
-        id: "__alloyId41"
+        id: "__alloyId44"
     });
-    $.__views.__alloyId36.add($.__views.__alloyId41);
-    $.__views.__alloyId42 = Ti.UI.createLabel({
+    $.__views.__alloyId39.add($.__views.__alloyId44);
+    $.__views.__alloyId45 = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
         top: 0,
         left: 0,
+        text: "",
         font: {
-            fontSize: 18,
+            fontSize: 20,
             fontFamily: "icomoon"
         },
         color: "#C41230",
-        text: "",
-        id: "__alloyId42"
+        id: "__alloyId45"
     });
-    $.__views.__alloyId41.add($.__views.__alloyId42);
+    $.__views.__alloyId44.add($.__views.__alloyId45);
     $.__views.im = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
         left: 10,
@@ -319,29 +330,29 @@ function Controller() {
         text: "kelly.smith",
         id: "im"
     });
-    $.__views.__alloyId41.add($.__views.im);
-    $.__views.__alloyId43 = Ti.UI.createView({
+    $.__views.__alloyId44.add($.__views.im);
+    $.__views.__alloyId46 = Ti.UI.createView({
         layout: "horizontal",
         top: 10,
         left: 10,
         height: Ti.UI.SIZE,
         width: Ti.UI.SIZE,
-        id: "__alloyId43"
+        id: "__alloyId46"
     });
-    $.__views.__alloyId36.add($.__views.__alloyId43);
-    $.__views.__alloyId44 = Ti.UI.createLabel({
+    $.__views.__alloyId39.add($.__views.__alloyId46);
+    $.__views.__alloyId47 = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
         top: 0,
         left: 0,
+        text: "",
         font: {
-            fontSize: 18,
+            fontSize: 20,
             fontFamily: "icomoon"
         },
         color: "#C41230",
-        text: "",
-        id: "__alloyId44"
+        id: "__alloyId47"
     });
-    $.__views.__alloyId43.add($.__views.__alloyId44);
+    $.__views.__alloyId46.add($.__views.__alloyId47);
     $.__views.start_date = Ti.UI.createLabel({
         autoLink: Ti.UI.AUTOLINK_ALL,
         left: 10,
@@ -353,7 +364,7 @@ function Controller() {
         text: "July 27, 2001",
         id: "start_date"
     });
-    $.__views.__alloyId43.add($.__views.start_date);
+    $.__views.__alloyId46.add($.__views.start_date);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var _args = arguments[0] || {}, Map = require("ti.map"), bookmarks = (require("utilities"), 
