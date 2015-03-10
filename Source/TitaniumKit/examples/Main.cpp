@@ -61,15 +61,15 @@ Ti.API.info('ng.js running...');
 	JSContextGroup js_context_group;
 	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
 	Titanium::Application app = Titanium::ApplicationBuilder(js_context)
-	                                .APIObject(js_context.CreateObject<NativeAPIExample>())
-	                                .ViewObject(js_context.CreateObject<NativeViewExample>())
-	                                .WindowObject(js_context.CreateObject<NativeWindowExample>())
-	                                .ButtonObject(js_context.CreateObject<NativeButtonExample>())
-	                                .PlatformObject(js_context.CreateObject<NativePlatformExample>())
-	                                .AccelerometerObject(js_context.CreateObject<NativeAccelerometerExample>())
-	                                .GestureObject(js_context.CreateObject<NativeGestureExample>())
-	                                .FilesystemObject(js_context.CreateObject<NativeFilesystemExample>())
-	                                .FileObject(js_context.CreateObject<NativeFileExample>())
+	                                .APIObject(js_context.CreateObject(JSExport<NativeAPIExample>::Class()))
+	                                .ViewObject(js_context.CreateObject(JSExport<NativeViewExample>::Class()))
+	                                .WindowObject(js_context.CreateObject(JSExport<NativeWindowExample>::Class()))
+	                                .ButtonObject(js_context.CreateObject(JSExport<NativeButtonExample>::Class()))
+	                                .PlatformObject(js_context.CreateObject(JSExport<NativePlatformExample>::Class()))
+	                                .AccelerometerObject(js_context.CreateObject(JSExport<NativeAccelerometerExample>::Class()))
+	                                .GestureObject(js_context.CreateObject(JSExport<NativeGestureExample>::Class()))
+	                                .FilesystemObject(js_context.CreateObject(JSExport<NativeFilesystemExample>::Class()))
+	                                .FileObject(js_context.CreateObject(JSExport<NativeFileExample>::Class()))
 	                                .build();
 
 	JSValue reslut = app.Run("app.js");
