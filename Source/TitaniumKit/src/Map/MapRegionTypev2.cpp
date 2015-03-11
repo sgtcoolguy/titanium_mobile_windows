@@ -16,7 +16,7 @@ namespace Titanium
 
 		MapRegionTypev2 js_to_MapRegionTypev2(const JSObject& object)
 		{
-			MapRegionTypev2 value;
+			MapRegionTypev2 value { 0, 0, 0, 0, 0, 0, 0 };
 			if (object.HasProperty("bearing")) {
 				value.bearing = static_cast<double>(object.GetProperty("bearing"));
 			}

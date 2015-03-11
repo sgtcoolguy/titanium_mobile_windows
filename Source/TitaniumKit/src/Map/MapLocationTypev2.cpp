@@ -16,7 +16,7 @@ namespace Titanium
 
 		MapLocationTypev2 js_to_MapLocationTypev2(const JSObject& object)
 		{
-			MapLocationTypev2 value;
+			MapLocationTypev2 value { false, 0, 0, 0, 0 };
 			if (object.HasProperty("animate")) {
 				value.animate = static_cast<bool>(object.GetProperty("animate"));
 			}

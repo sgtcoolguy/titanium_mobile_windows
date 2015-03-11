@@ -100,7 +100,6 @@ namespace TitaniumWindows
 				BasicGeoposition bottom_right = { region.latitude + region.latitudeDelta, region.longitude + region.longitudeDelta };
 
 				auto bounds = ref new GeoboundingBox(bottom_right, top_left);
-				region.tilt;
 				mapview__->TrySetViewBoundsAsync(bounds, nullptr, get_animate() ? MapAnimationKind::Default : MapAnimationKind::None);
 				mapview__->DesiredPitch = region.tilt;
 			} else {
