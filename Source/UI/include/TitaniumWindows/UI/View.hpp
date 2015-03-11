@@ -27,7 +27,7 @@ namespace TitaniumWindows
 		{
 
 		public:
-			virtual void animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback) TITANIUM_NOEXCEPT override;
+			virtual void animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT override;
 
 			View(const JSContext&) TITANIUM_NOEXCEPT;
 

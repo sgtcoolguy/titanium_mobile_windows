@@ -35,7 +35,7 @@ namespace Titanium
 			setLayoutPolicy<ViewLayoutPolicy>();
 		}
 
-		void View::animate(const std::shared_ptr<Animation>& animation, JSObject& callback) TITANIUM_NOEXCEPT
+		void View::animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("View::animate");
 		}
@@ -93,7 +93,7 @@ namespace Titanium
 				TITANIUM_ASSERT(callback.IsFunction());
 			}
 
-			animate(animation.GetPrivate<Animation>(), callback);
+			animate(animation, callback);
 			return get_context().CreateUndefined();
 		}
 

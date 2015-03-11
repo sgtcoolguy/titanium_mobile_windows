@@ -51,11 +51,9 @@ namespace TitaniumWindows
 			JSExport<ImageView>::SetParent(JSExport<Titanium::UI::ImageView>::Class());
 		}
 
-		void ImageView::animate(const std::shared_ptr<Titanium::UI::Animation>& animation_ptr, JSObject& callback) TITANIUM_NOEXCEPT
+		void ImageView::animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::View::animate(animation_ptr, callback);
-
-			auto animation = animation_ptr->get_object();
+			Titanium::UI::View::animate(animation, callback);
 
 			// Convert duration to type we need
 			const auto raw_duration = animation.GetProperty("duration");

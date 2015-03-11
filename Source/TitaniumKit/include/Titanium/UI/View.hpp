@@ -54,7 +54,7 @@ namespace Titanium
 
 			  @result void
 			*/
-			virtual void animate(const std::shared_ptr<Animation>& animation, JSObject& callback) TITANIUM_NOEXCEPT;
+			virtual void animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT;
 
 			View(const JSContext&) TITANIUM_NOEXCEPT;
 

@@ -44,12 +44,9 @@ namespace TitaniumWindows
 			return getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
 		}
 
-		void View::animate(const std::shared_ptr<Titanium::UI::Animation>& animation_ptr, JSObject& callback) TITANIUM_NOEXCEPT
+		void View::animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::View::animate(animation_ptr, callback);
-
-			// TODO: use native pointer instead of JSObject
-			const auto animation = animation_ptr->get_object();
+			Titanium::UI::View::animate(animation, callback);
 
 			// Convert duration to type we need
 			const auto raw_duration = animation.GetProperty("duration");
