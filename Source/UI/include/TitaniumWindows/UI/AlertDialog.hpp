@@ -10,7 +10,6 @@
 #define _TITANIUMWINDOWS_UI_ALERTDIALOG_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "ViewBase.hpp"
 
 namespace TitaniumWindows
 {
@@ -24,12 +23,8 @@ namespace TitaniumWindows
 		  @discussion This is the Titanium.UI.AlertDialog implementation for
 		  Windows.
 		*/
-// Silence 4275 about ViewBase for now. We need to merge View and ViewBase and then remove this pragma! TIMOB-18422
-#pragma warning(push)
-#pragma warning(disable : 4275)
-		class TITANIUMWINDOWS_UI_EXPORT AlertDialog final : public Titanium::UI::AlertDialog, public JSExport<AlertDialog>, public ViewBase
+		class TITANIUMWINDOWS_UI_EXPORT AlertDialog final : public Titanium::UI::AlertDialog, public JSExport<AlertDialog>
 		{
-#pragma warning(pop)
 		public:
 			AlertDialog(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -43,11 +38,9 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-			virtual void hide(JSObject& this_object) TITANIUM_NOEXCEPT;
-			virtual void show(JSObject& this_object) TITANIUM_NOEXCEPT;
-
+			virtual void hide() TITANIUM_NOEXCEPT override;
+			virtual void show() TITANIUM_NOEXCEPT override;
 			virtual void addButton(const std::string& buttonName) TITANIUM_NOEXCEPT override final;
-
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 		private:
@@ -57,7 +50,6 @@ namespace TitaniumWindows
 #pragma warning(pop)
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken click_event_;
-			unsigned int click_event_count_{0};
 		};
 	} // namespace UI
 } // namespace TitaniumWindows

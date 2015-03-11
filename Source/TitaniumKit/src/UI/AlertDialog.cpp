@@ -25,12 +25,12 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("AlertDialog:: dtor ", this);
 		}
 
-		void AlertDialog::hide(JSObject& this_object) TITANIUM_NOEXCEPT
+		void AlertDialog::hide() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("AlertDialog::hide");
 		}
 
-		void AlertDialog::show(JSObject& this_object) TITANIUM_NOEXCEPT
+		void AlertDialog::show() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("AlertDialog::show");
 		}
@@ -87,14 +87,14 @@ namespace Titanium
 		JSValue AlertDialog::js_hide(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(arguments.size() == 0);
-			hide(this_object);
+			hide();
 			return get_context().CreateUndefined();
 		}
 
 		JSValue AlertDialog::js_show(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(arguments.size() == 0);
-			show(this_object);
+			show();
 			return get_context().CreateUndefined();
 		}
 

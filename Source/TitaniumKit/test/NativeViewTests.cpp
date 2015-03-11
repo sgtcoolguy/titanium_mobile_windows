@@ -76,10 +76,13 @@ TEST_F(ViewTests, basic_functionality)
 	UI.SetProperty("View", View);
 	XCTAssertTrue(UI.HasProperty("View"));
 
-	auto result = js_context.JSEvaluateScript("Ti.UI.createView();");
+	auto result = js_context.JSEvaluateScript("Ti.UI.createView({backgroundColor:'white'});");
 	XCTAssertTrue(result.IsObject());
 	JSObject view = static_cast<JSObject>(result);
 	XCTAssertTrue(view.HasProperty("add"));
+
+	XCTAssertTrue(view.HasProperty("NativeViewLayoutPolicy_called"));
+	XCTAssertTrue(static_cast<bool>(view.GetProperty("NativeViewLayoutPolicy_called")));
 
 	UI.SetProperty("Window", js_context.CreateObject(JSExport<Titanium::UI::Window>::Class()));
 	XCTAssertTrue(UI.HasProperty("Window"));

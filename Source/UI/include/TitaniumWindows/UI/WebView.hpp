@@ -10,7 +10,6 @@
 #define _TITANIUMWINDOWS_UI_WEBVIEW_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "ViewBase.hpp"
 
 namespace TitaniumWindows
 {
@@ -22,12 +21,8 @@ namespace TitaniumWindows
 		  @class
  		  @discussion This is the Titanium.UI.WebView implementation for Windows.
 		*/
-// Silence 4275 about ViewBase for now. We need to merge View and ViewBase and then remove this pragma! TIMOB-18422
-#pragma warning(push)
-#pragma warning(disable : 4275)
-		class TITANIUMWINDOWS_UI_EXPORT WebView final : public Titanium::UI::WebView, public JSExport<WebView>, public ViewBase 
+		class TITANIUMWINDOWS_UI_EXPORT WebView final : public Titanium::UI::WebView, public JSExport<WebView>
 		{
-#pragma warning(pop)
 		public:
 			WebView(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -40,14 +35,8 @@ namespace TitaniumWindows
 		#endif
 
 			static void JSExportInitialize();
-
-			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT override final;
-			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override final;
-			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override final;
-			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT override final;
-			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT override final;
-			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT override final;
-			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override final;
+			
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 		protected:
 			virtual void enableEvent(const std::string& event_name)  TITANIUM_NOEXCEPT;
