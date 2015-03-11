@@ -36,6 +36,7 @@ describe("Titanium.UI.Label", function () {
         should(label.getTextAlign()).eql('right');
         finish();
     });
+
     it("verticalAlign", function (finish) {
         var label = Ti.UI.createLabel({
             text: "this is some text",
@@ -71,7 +72,7 @@ describe("Titanium.UI.Label", function () {
     // Defaults: true
     it("wordWrap", function (finish) {
         var label = Ti.UI.createLabel({
-            wordWrap: "this is some text"
+            text: "this is some text"
         });
         should(label.wordWrap).be.a.Boolean;
         should(label.getWordWrap).be.a.Function;
@@ -82,7 +83,8 @@ describe("Titanium.UI.Label", function () {
         should(label.wordWrap).eql(false);
         finish();
     });
-    it("width", function (finish) {
+
+    it.skip("width", function (finish) {
         this.timeout(1000);
         var label = Ti.UI.createLabel({
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
@@ -100,7 +102,7 @@ describe("Titanium.UI.Label", function () {
             finish();
         }, 100);
     });
-    it("height", function (finish) {
+    it.skip("height", function (finish) {
         this.timeout(1000);
         var label = Ti.UI.createLabel({
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',

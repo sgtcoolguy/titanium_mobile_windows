@@ -108,21 +108,33 @@ namespace Titanium
 
 			virtual JSValue js_get_color() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_font() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_font(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getFont(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setFont(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_text() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_text(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getText(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setText(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_textAlign() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getTextAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setTextAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_verticalAlign() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getVerticalAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setVerticalAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_wordWrap() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_wordWrap(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getWordWrap(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setWordWrap(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 		private:
 #pragma warning(push)

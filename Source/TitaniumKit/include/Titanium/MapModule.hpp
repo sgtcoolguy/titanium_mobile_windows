@@ -110,7 +110,7 @@ namespace Titanium
 		virtual JSValue js_createCamera(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_createRoute(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_createView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_isGoogleMapServicesAvailable(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		virtual JSValue js_isGooglePlayServicesAvailable(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 	private:
 		JSValue hybrid_type__;

@@ -34,7 +34,7 @@ require('./ti.test');
 require('./ti.ui.constants.test');
 require('./ti.ui.emaildialog.test');
 require('./ti.ui.imageview.test');
-//require('./ti.ui.label.test'); // FIXME Crashes at label_text_width_size
+require('./ti.ui.label.test');
 require('./ti.ui.layout.test');
 //require('./ti.ui.progressbar.test'); // TODO Implement progressbar
 require('./ti.ui.textfield.test');

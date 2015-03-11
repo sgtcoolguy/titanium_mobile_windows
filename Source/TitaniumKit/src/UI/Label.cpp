@@ -103,9 +103,6 @@ namespace Titanium
 			TITANIUM_LOG_WARN("Label::set_textStyle: Unimplemented");
 		}
 
-		// TODO: The following functions can automatically be generated from
-		// the YAML API docs.
-
 		void Label::JSExportInitialize()
 		{
 			JSExport<Label>::SetClassVersion(1);
@@ -116,6 +113,19 @@ namespace Titanium
 			JSExport<Label>::AddValueProperty("textAlign", std::mem_fn(&Label::js_get_textAlign), std::mem_fn(&Label::js_set_textAlign));
 			JSExport<Label>::AddValueProperty("verticalAlign", std::mem_fn(&Label::js_get_verticalAlign), std::mem_fn(&Label::js_set_verticalAlign));
 			JSExport<Label>::AddValueProperty("wordWrap", std::mem_fn(&Label::js_get_wordWrap), std::mem_fn(&Label::js_set_wordWrap));
+
+			JSExport<Label>::AddFunctionProperty("getColor", std::mem_fn(&Label::js_getColor));
+			JSExport<Label>::AddFunctionProperty("setColor", std::mem_fn(&Label::js_setColor));
+			JSExport<Label>::AddFunctionProperty("getFont", std::mem_fn(&Label::js_getFont));
+			JSExport<Label>::AddFunctionProperty("setFont", std::mem_fn(&Label::js_setFont));
+			JSExport<Label>::AddFunctionProperty("getText", std::mem_fn(&Label::js_getText));
+			JSExport<Label>::AddFunctionProperty("setText", std::mem_fn(&Label::js_setText));
+			JSExport<Label>::AddFunctionProperty("getTextAlign", std::mem_fn(&Label::js_getTextAlign));
+			JSExport<Label>::AddFunctionProperty("setTextAlign", std::mem_fn(&Label::js_setTextAlign));
+			JSExport<Label>::AddFunctionProperty("getVerticalAlign", std::mem_fn(&Label::js_getVerticalAlign));
+			JSExport<Label>::AddFunctionProperty("setVerticalAlign", std::mem_fn(&Label::js_setVerticalAlign));
+			JSExport<Label>::AddFunctionProperty("getWordWrap", std::mem_fn(&Label::js_getWordWrap));
+			JSExport<Label>::AddFunctionProperty("setWordWrap", std::mem_fn(&Label::js_setWordWrap));
 		}
 
 		JSValue Label::js_get_color() const TITANIUM_NOEXCEPT
@@ -239,6 +249,84 @@ namespace Titanium
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_wordWrap(static_cast<bool>(argument));
 			return true;
+		}
+
+		JSValue Label::js_getColor(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_color();
+		}
+
+		JSValue Label::js_setColor(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_color(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
+		JSValue Label::js_getFont(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_font();
+		}
+
+		JSValue Label::js_setFont(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_font(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
+		JSValue Label::js_getText(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_text();
+		}
+
+		JSValue Label::js_setText(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_text(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
+		JSValue Label::js_getTextAlign(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_textAlign();
+		}
+
+		JSValue Label::js_setTextAlign(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_textAlign(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
+		JSValue Label::js_getVerticalAlign(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_verticalAlign();
+		}
+
+		JSValue Label::js_setVerticalAlign(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_verticalAlign(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
+		JSValue Label::js_getWordWrap(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_wordWrap();
+		}
+
+		JSValue Label::js_setWordWrap(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_wordWrap(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 	} // namespace UI
 }  // namespace Titanium

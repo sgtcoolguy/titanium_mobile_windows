@@ -286,7 +286,7 @@ namespace Titanium
 		JSExport<MapModule>::AddFunctionProperty("createAnnotation", std::mem_fn(&MapModule::js_createAnnotation));
 		JSExport<MapModule>::AddFunctionProperty("createRoute", std::mem_fn(&MapModule::js_createRoute));
 		JSExport<MapModule>::AddFunctionProperty("createCamera", std::mem_fn(&MapModule::js_createCamera));
-		JSExport<MapModule>::AddFunctionProperty("isGoogleMapServicesAvailable", std::mem_fn(&MapModule::js_isGoogleMapServicesAvailable));
+		JSExport<MapModule>::AddFunctionProperty("isGooglePlayServicesAvailable", std::mem_fn(&MapModule::js_isGooglePlayServicesAvailable));
 	}
 
 	JSValue MapModule::js_createView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -341,7 +341,7 @@ namespace Titanium
 		return createCamera(parameters, this_object);
 	}
 
-	JSValue MapModule::js_isGoogleMapServicesAvailable(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue MapModule::js_isGooglePlayServicesAvailable(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		return this_object.get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(isGooglePlayServicesAvailable()));
 	}
