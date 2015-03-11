@@ -46,11 +46,11 @@ namespace TitaniumWindows
 			Windows::ApplicationModel::Email::EmailMessage^ email_message = ref new Windows::ApplicationModel::Email::EmailMessage();
 
 			// Set up all the fields!
-			email_message->Body = TitaniumWindows::Utility::ConvertString(messageBody());
-			email_message->Subject = TitaniumWindows::Utility::ConvertString(subject());
-			setRecipients(static_cast<JSObject>(toRecipients()), email_message->To);
-			setRecipients(static_cast<JSObject>(ccRecipients()), email_message->CC);
-			setRecipients(static_cast<JSObject>(bccRecipients()), email_message->Bcc);
+			email_message->Body = TitaniumWindows::Utility::ConvertString(get_messageBody());
+			email_message->Subject = TitaniumWindows::Utility::ConvertString(get_subject());
+			setRecipients(static_cast<JSObject>(get_toRecipients()), email_message->To);
+			setRecipients(static_cast<JSObject>(get_ccRecipients()), email_message->CC);
+			setRecipients(static_cast<JSObject>(get_bccRecipients()), email_message->Bcc);
 			// TODO Hook up attachments!
 
 			auto composer = Windows::ApplicationModel::Email::EmailManager::ShowComposeNewEmailAsync(email_message);

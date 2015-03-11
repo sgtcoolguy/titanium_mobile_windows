@@ -75,6 +75,7 @@ function processClass(root, file, next) {
 				var name = line.split('\"')[1];
 
 				if (module_name == null) module_name = namespaces.join('.')+(module != '' ? '.'+module : '');
+				if (module_name == "Titanium.GlobalObject") module_name = "Global";
 
 				if (isProperty) properties.push(name);
 				if (isMethod) methods.push(name);

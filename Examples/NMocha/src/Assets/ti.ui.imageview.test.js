@@ -6,8 +6,8 @@
  */
 var should = require('./should');
 
-describe("ui_imageview", function() {
-	it("imageview_image", function (finish) {
+describe("Titanium.UI.ImageView", function() {
+	it("image", function (finish) {
         var label = Ti.UI.createImageView({
             image: "https://www.google.com/images/srpr/logo11w.png"
         });

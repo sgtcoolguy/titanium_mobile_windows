@@ -19,7 +19,7 @@ function createWindow(_args, _finish) {
     return win;
 }
 
-describe("ui_layout", function () {
+describe("Titanium.UI.Layout", function () {
     // functional test cases #1010, #1011, #1025, #1025a
     //rect and size properties should not be undefined
     it("viewSizeAndRectPx", function (finish) {

@@ -43,12 +43,6 @@ namespace Titanium
 			JSExport<ScrollView>::AddFunctionProperty("getShowVerticalScrollIndicator", std::mem_fn(&ScrollView::js_getShowVerticalScrollIndicator));
 		}
 
-		void ScrollView::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::add: Unimplemented");
-			View::add(view, this_object);
-		}
-
 		void ScrollView::scrollTo(double x, double y) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ScrollView::scrollTo: Unimplemented");

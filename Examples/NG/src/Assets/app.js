@@ -135,9 +135,9 @@ var tab2 = Titanium.UI.createTab({
     window: win2
 });
 
-var slider = Ti.UI.createSlider({ left: '20px', right: 20, backgroundColor: 'green' });
+var slider = Ti.UI.createSlider({ left: 20, right: 20, backgroundColor: 'green' });
 slider.addEventListener('change', function (e) {
-    btn.title = 'Slider value: ' + e.value;
+    Ti.API.info('Slider value: ' + e.value);
 });
 win2.add(slider);
 

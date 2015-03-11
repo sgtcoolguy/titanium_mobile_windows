@@ -7,7 +7,7 @@
 
 var should = require('./should');
 
-describe('filesystem', function () {
+describe('Titanium.Filesystem', function () {
     // Check if applicationDirectory exists and make sure it does not throw exception
     it('applicationDirectory', function (finish) {
         should(function () {
@@ -257,8 +257,11 @@ describe('filesystem', function () {
             finish();
         }
     });
+});
+
+describe('Titanium.Filesystem.File', function () {
     // Check if name exists and returns string
-    it('File_name', function (finish) {
+    it('name', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         should(file.name).not.be.undefined;
         should(file.name).be.a.String;
@@ -270,7 +273,7 @@ describe('filesystem', function () {
         finish();
     });
     // Check if nativePath exists and returns string
-    it('File_nativePath', function (finish) {
+    it('nativePath', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         should(file.nativePath).not.be.undefined;
         should(file.nativePath).be.a.String;
@@ -281,7 +284,7 @@ describe('filesystem', function () {
         finish();
     });
     // Check if resolve exists and returns string
-    it('File_resolve', function (finish) {
+    it('resolve', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         should(file.resolve).not.be.undefined;
         should(file.resolve).be.a.Function;
@@ -295,7 +298,7 @@ describe('filesystem', function () {
         finish();
     });
     // Check if executable exists and returns boolean
-    it('File_executable', function (finish) {
+    it('executable', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         should(file.executable).not.be.undefined;
         should(file.executable).be.a.Boolean;
@@ -306,7 +309,7 @@ describe('filesystem', function () {
         finish();
     });
     // Check if hidden exists and returns boolean
-    it('File_hidden', function (finish) {
+    it('hidden', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         should(file.hidden).not.be.undefined;
         should(file.hidden).be.a.Boolean;
@@ -317,7 +320,7 @@ describe('filesystem', function () {
         finish();
     });
     // Check if readonly exists and returns boolean
-    it('File_readonly', function (finish) {
+    it('readonly', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         should(file.readonly).not.be.undefined;
         should(file.readonly).be.a.Boolean;
@@ -328,7 +331,7 @@ describe('filesystem', function () {
         finish();
     });
     // Check if writable exists and returns boolean
-    it('File_writable', function (finish) {
+    it('writable', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         should(file.writable).not.be.undefined;
         should(file.writable).be.a.Boolean;
@@ -339,7 +342,7 @@ describe('filesystem', function () {
         finish();
     });
     // Check if symbolicLink exists and returns boolean
-    it('File_symbolicLink', function (finish) {
+    it('symbolicLink', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         should(file.symbolicLink).not.be.undefined;
         should(file.symbolicLink).be.a.Boolean;
@@ -350,7 +353,7 @@ describe('filesystem', function () {
         finish();
     });
     // Check if parent exists and returns File
-    it('File_parent', function (finish) {
+    it('parent', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         should(file.parent).not.be.undefined;
         should(file.parent).not.be.null;
@@ -358,7 +361,7 @@ describe('filesystem', function () {
         finish();
     });
     // Check if size exists and returns number
-    it('File_size', function (finish) {
+    it('size', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         should(file.size).not.be.undefined;
         should(file.size).be.a.Number;
@@ -421,7 +424,7 @@ describe('filesystem', function () {
     });
 
     // createTimestamp should return number
-    it('File_createTimestamp', function (finish) {
+    it('createTimestamp', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         var create_date = file.createTimestamp();
         should(create_date).be.a.Number;
@@ -430,7 +433,7 @@ describe('filesystem', function () {
     });
 
     // modificationTimestamp should return number
-    it('File_modificationTimestamp', function (finish) {
+    it('modificationTimestamp', function (finish) {
         var file = Ti.Filesystem.getFile('app.js');
         var mod_date = file.modificationTimestamp();
         should(mod_date).be.a.Number;
@@ -461,7 +464,7 @@ describe('filesystem', function () {
     });
 
     // File.read
-    it('File_read', function (finish) {
+    it('read', function (finish) {
         var newFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
         should(newFile.exists()).be.true;
         var blob = newFile.read();
@@ -473,7 +476,7 @@ describe('filesystem', function () {
     });
 
     // File.write from String
-    it.skip('File_write_String', function (finish) {
+    it.skip('write_String', function (finish) {
         var msg = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(msg.write('Appcelerator', false)).be.true;
         should(msg.exists()).be.true;
@@ -491,7 +494,7 @@ describe('filesystem', function () {
     });
 
     // File.write from String (append)
-    it.skip('File_write_String_append', function (finish) {
+    it.skip('write_String_append', function (finish) {
         var msg = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(msg.write('Appcelerator', false)).be.true;
         should(msg.exists()).be.true;
@@ -511,7 +514,7 @@ describe('filesystem', function () {
     });
 
     // File.write from File
-    it.skip('File_write_File', function (finish) {
+    it.skip('write_File', function (finish) {
         var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(from.write('Appcelerator', false)).be.true;
         should(from.exists()).be.true;
@@ -536,7 +539,7 @@ describe('filesystem', function () {
     });
 
     // File.write from File (append)
-    it.skip('File_write_File_append', function (finish) {
+    it.skip('write_File_append', function (finish) {
         var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(from.write('Appcelerator', false)).be.true;
         should(from.exists()).be.true;
@@ -563,7 +566,7 @@ describe('filesystem', function () {
     });
 
     // File.write from Blob
-    it.skip('File_write_Blob', function (finish) {
+    it.skip('write_Blob', function (finish) {
         var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(from.write('Appcelerator', false)).be.true;
         should(from.exists()).be.true;
@@ -588,7 +591,7 @@ describe('filesystem', function () {
     });
 
     // File.write from Blob (append)
-    it.skip('File_write_Blob_append', function (finish) {
+    it.skip('write_Blob_append', function (finish) {
         var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(from.write('Appcelerator', false)).be.true;
         should(from.exists()).be.true;
@@ -615,7 +618,7 @@ describe('filesystem', function () {
     });
 
     // File.open
-    it.skip('File_open', function (finish) {
+    it.skip('open', function (finish) {
         var newFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
         should(newFile.exists()).be.true;
         var stream = newFile.open();
@@ -626,7 +629,7 @@ describe('filesystem', function () {
     });
 
     // File.spaceAvailable
-    it.skip('File_spaceAvailable', function (finish) {
+    it.skip('spaceAvailable', function (finish) {
         var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
         should(file.exists()).be.true;
         var space = file.spaceAvailable();
@@ -636,7 +639,7 @@ describe('filesystem', function () {
     });
 
     // File.copy
-    it('File_copy', function (finish) {
+    it('copy', function (finish) {
         var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
         should(file.exists()).be.true;
         var newpath = Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + 'app.js';
@@ -649,7 +652,7 @@ describe('filesystem', function () {
     });
 
     // File copy and move
-    it('File_copy_move', function (finish) {
+    it('copy_move', function (finish) {
         var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
         should(file.exists()).be.true;
 
@@ -671,7 +674,7 @@ describe('filesystem', function () {
     });
 
     // Directory listing
-    it('File_directoryListing', function (finish) {
+    it('directoryListing', function (finish) {
         var dir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory);
         should(dir.exists()).be.true;
         should(dir.getDirectoryListing).be.a.Function;

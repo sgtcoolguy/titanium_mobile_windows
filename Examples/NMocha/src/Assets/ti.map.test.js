@@ -6,7 +6,7 @@
  */
 var should = require('./should');
 
-describe('Ti.Map', function () {
+describe('Titanium.Map', function () {
     it('ANNOTATION_AZURE', function (finish) {
         should(function () {
             should(Ti.Map.ANNOTATION_AZURE).not.be.undefined;

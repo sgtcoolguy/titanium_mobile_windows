@@ -159,6 +159,8 @@
 		F9BD6BA11A96FA4E00D721A9 /* ListViewMarkerProps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9BD6BA01A96FA4E00D721A9 /* ListViewMarkerProps.cpp */; };
 		F9BE4A7C1A88999400301999 /* NativeWebViewExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9BE4A7A1A88999400301999 /* NativeWebViewExample.cpp */; };
 		F9BE4A7D1A88999400301999 /* NativeWebViewExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9BE4A7B1A88999400301999 /* NativeWebViewExample.hpp */; };
+		F9DD758C1AAEA2BE002D3AAA /* ViewLayoutPolicy.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9DD758B1AAEA2BE002D3AAA /* ViewLayoutPolicy.hpp */; };
+		F9DD758E1AAEA3E2002D3AAA /* ViewLayoutPolicy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9DD758D1AAEA3E2002D3AAA /* ViewLayoutPolicy.cpp */; };
 		F9E96F891A415D62001E0EC4 /* DisplayCaps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F881A415D62001E0EC4 /* DisplayCaps.cpp */; };
 		F9E96F8B1A415D6E001E0EC4 /* DisplayCaps.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F8A1A415D6E001E0EC4 /* DisplayCaps.hpp */; };
 /* End PBXBuildFile section */
@@ -332,6 +334,8 @@
 		F9BD6BA01A96FA4E00D721A9 /* ListViewMarkerProps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ListViewMarkerProps.cpp; path = src/UI/ListViewMarkerProps.cpp; sourceTree = "<group>"; };
 		F9BE4A7A1A88999400301999 /* NativeWebViewExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeWebViewExample.cpp; sourceTree = "<group>"; };
 		F9BE4A7B1A88999400301999 /* NativeWebViewExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeWebViewExample.hpp; sourceTree = "<group>"; };
+		F9DD758B1AAEA2BE002D3AAA /* ViewLayoutPolicy.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ViewLayoutPolicy.hpp; path = include/Titanium/UI/ViewLayoutPolicy.hpp; sourceTree = "<group>"; };
+		F9DD758D1AAEA3E2002D3AAA /* ViewLayoutPolicy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ViewLayoutPolicy.cpp; path = src/UI/ViewLayoutPolicy.cpp; sourceTree = "<group>"; };
 		F9E96F881A415D62001E0EC4 /* DisplayCaps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DisplayCaps.cpp; path = src/Platform/DisplayCaps.cpp; sourceTree = "<group>"; };
 		F9E96F8A1A415D6E001E0EC4 /* DisplayCaps.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DisplayCaps.hpp; path = include/Titanium/Platform/DisplayCaps.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -450,6 +454,8 @@
 		C974544B1A02A2B000CB4CA9 /* TitaniumKit */ = {
 			isa = PBXGroup;
 			children = (
+				F9DD758D1AAEA3E2002D3AAA /* ViewLayoutPolicy.cpp */,
+				F9DD758B1AAEA2BE002D3AAA /* ViewLayoutPolicy.hpp */,
 				F965FF2F1AA5899D0092ABBA /* Map */,
 				F96A53DF1AA5D00F00AD4011 /* Analytics.cpp */,
 				F96A53E11AA5D03E00AD4011 /* XML.cpp */,
@@ -675,6 +681,7 @@
 				C90B90131A1ADC7D005F3210 /* NativeViewExample.hpp in Headers */,
 				F965FF241AA588010092ABBA /* Annotation.hpp in Headers */,
 				C9BED2261A28F4CD00CFF800 /* Constants.hpp in Headers */,
+				F9DD758C1AAEA2BE002D3AAA /* ViewLayoutPolicy.hpp in Headers */,
 				C90950921A2951A7002133E1 /* Gesture.hpp in Headers */,
 				F913EFC71A836026009080D1 /* Slider.hpp in Headers */,
 				C9E6AFEF1A13F95D00FED053 /* TiLoggerPolicyFile.hpp in Headers */,
@@ -841,6 +848,7 @@
 				C90950971A2954B3002133E1 /* TextField.cpp in Sources */,
 				C909508B1A292CEF002133E1 /* TextArea.cpp in Sources */,
 				C9E6AFE81A13F94200FED053 /* TiBase.cpp in Sources */,
+				F9DD758E1AAEA3E2002D3AAA /* ViewLayoutPolicy.cpp in Sources */,
 				C90950A31A296802002133E1 /* Picker.cpp in Sources */,
 				C90B8F881A167E36005F3210 /* Module.cpp in Sources */,
 				F965FF2D1AA588230092ABBA /* Constants.cpp in Sources */,

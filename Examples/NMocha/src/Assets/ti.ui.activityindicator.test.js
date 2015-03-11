@@ -7,8 +7,8 @@
  */
 var should = require('./should');
 
-describe("ui_activityindicator", function () {
-    it("activityindicator_text", function (finish) {
+describe("Titanium.UI.ActivityIndicator", function () {
+    it("text", function (finish) {
         var activityIndicator = Ti.UI.createActivityIndicator({
             message: "this is some text"
         });

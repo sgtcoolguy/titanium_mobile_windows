@@ -6,7 +6,7 @@
  */
 var should = require('./should');
 
-describe("xml", function () {
+describe("Titanium.XML", function () {
 
     // some common initialization specific to the xml suite
     function countNodes(node, type) {
@@ -37,7 +37,7 @@ describe("xml", function () {
         }
     });
 
-    it("Ti.XML.parseString", function (finish) {
+    it("parseString", function (finish) {
         should(Ti.XML.parseString).be.a.Function;
         should(function () {
             var xml = Ti.XML.parseString("<test>content</test>");
@@ -46,7 +46,7 @@ describe("xml", function () {
         finish();
     });
 
-    it("Ti.XML.serializeToString", function (finish) {
+    it("serializeToString", function (finish) {
         should(Ti.XML.serializeToString).be.a.Function;
         should(function () {
             var xml = Ti.XML.parseString("<test>content</test>");

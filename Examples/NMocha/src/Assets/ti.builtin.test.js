@@ -9,7 +9,7 @@ var should = require('./should');
 //
 // Unit test for Titanium events and some other global functions
 //
-describe("ti_internal", function () {
+describe("Global", function () {
 
     // make sure we have require
     it("require", function (finish) {
@@ -38,71 +38,6 @@ describe("ti_internal", function () {
     // make sure we have clearInterval
     it("clearInterval", function (finish) {
         should(clearInterval).be.a.Function;
-        finish();
-    });
-
-    // make sure we have Ti.API.info
-    it("Ti.API.info", function (finish) {
-        should(Ti.API.info).be.a.Function;
-        finish();
-    });
-
-    // make sure we have Ti.API.debug
-    it("Ti.API.debug", function (finish) {
-        should(Ti.API.debug).be.a.Function;
-        finish();
-    });
-
-    // make sure we have Ti.API.error
-    it("Ti.API.error", function (finish) {
-        should(Ti.API.error).be.a.Function;
-        finish();
-    });
-
-    // make sure we have Ti.API.log
-    it("Ti.API.log", function (finish) {
-        should(Ti.API.log).be.a.Function;
-        finish();
-    });
-    // make sure we have Ti.API.trace
-    it("Ti.API.trace", function (finish) {
-        should(Ti.API.trace).be.a.Function;
-        finish();
-    });
-    // make sure we have Ti.API.warn
-    it("Ti.API.warn", function (finish) {
-        should(Ti.API.warn).be.a.Function;
-        finish();
-    });
-
-    // make sure Ti.API.info accepts string
-    it("Ti.API.info", function (finish) {
-        Ti.API.info("Hello");
-        finish();
-    });
-    // make sure Ti.API.info accepts object
-    it("Ti.API.info", function (finish) {
-        Ti.API.info({});
-        finish();
-    });
-    // make sure Ti.API.info accepts null
-    it("Ti.API.info", function (finish) {
-        Ti.API.info(null);
-        finish();
-    });
-    // make sure Ti.API.info accepts undefined
-    it("Ti.API.info", function (finish) {
-        Ti.API.info(undefined);
-        finish();
-    });
-    // make sure Ti.API.info accepts array
-    it("Ti.API.info", function (finish) {
-        Ti.API.info([]);
-        finish();
-    });
-    // make sure Ti.API.info accepts number
-    it("Ti.API.info", function (finish) {
-        Ti.API.info(101);
         finish();
     });
 
@@ -140,4 +75,71 @@ describe("ti_internal", function () {
         finish();
     });
 
+});
+
+describe("Titanium.API", function () {
+    // make sure we have Ti.API.info
+    it("info", function (finish) {
+        should(Ti.API.info).be.a.Function;
+        finish();
+    });
+
+    // make sure we have Ti.API.debug
+    it("debug", function (finish) {
+        should(Ti.API.debug).be.a.Function;
+        finish();
+    });
+
+    // make sure we have Ti.API.error
+    it("error", function (finish) {
+        should(Ti.API.error).be.a.Function;
+        finish();
+    });
+
+    // make sure we have Ti.API.log
+    it("log", function (finish) {
+        should(Ti.API.log).be.a.Function;
+        finish();
+    });
+    // make sure we have Ti.API.trace
+    it("trace", function (finish) {
+        should(Ti.API.trace).be.a.Function;
+        finish();
+    });
+    // make sure we have Ti.API.warn
+    it("warn", function (finish) {
+        should(Ti.API.warn).be.a.Function;
+        finish();
+    });
+
+    // make sure Ti.API.info accepts string
+    it("info accepts String", function (finish) {
+        Ti.API.info("Hello");
+        finish();
+    });
+    // make sure Ti.API.info accepts object
+    it("info accepts Object", function (finish) {
+        Ti.API.info({});
+        finish();
+    });
+    // make sure Ti.API.info accepts null
+    it("info accepts null", function (finish) {
+        Ti.API.info(null);
+        finish();
+    });
+    // make sure Ti.API.info accepts undefined
+    it("info accepts undefined", function (finish) {
+        Ti.API.info(undefined);
+        finish();
+    });
+    // make sure Ti.API.info accepts array
+    it("info accepts Array", function (finish) {
+        Ti.API.info([]);
+        finish();
+    });
+    // make sure Ti.API.info accepts number
+    it("info accepts Number", function (finish) {
+        Ti.API.info(101);
+        finish();
+    });
 });

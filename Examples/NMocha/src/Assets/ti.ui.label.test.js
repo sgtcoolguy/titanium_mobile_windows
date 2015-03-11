@@ -7,8 +7,8 @@
  */
 var should = require('./should');
 
-describe("ui_label", function () {
-    it("label_text", function (finish) {
+describe("Titanium.UI.Label", function () {
+    it("text", function (finish) {
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -22,7 +22,7 @@ describe("ui_label", function () {
         finish();
     });
 
-    it("label_text_align", function (finish) {
+    it("textAlign", function (finish) {
         var label = Ti.UI.createLabel({
             text: "this is some text",
             textAlign: 'center'
@@ -36,7 +36,7 @@ describe("ui_label", function () {
         should(label.getTextAlign()).eql('right');
         finish();
     });
-    it("label_text_vertical_align", function (finish) {
+    it("verticalAlign", function (finish) {
         var label = Ti.UI.createLabel({
             text: "this is some text",
             verticalAlign: 'bottom'
@@ -53,7 +53,7 @@ describe("ui_label", function () {
 
     // Turn on/off the addition of ellipses at the end of the label if the text is too large to fit.
     // Default: false
-    it("label_text_ellipsize", function (finish) {
+    it("ellipsize", function (finish) {
         var label = Ti.UI.createLabel({
             text: "this is some text"
         });
@@ -69,7 +69,7 @@ describe("ui_label", function () {
 
     // Enable or disable word wrapping in the label.
     // Defaults: true
-    it("label_text_word_wrap", function (finish) {
+    it("wordWrap", function (finish) {
         var label = Ti.UI.createLabel({
             wordWrap: "this is some text"
         });
@@ -82,7 +82,7 @@ describe("ui_label", function () {
         should(label.wordWrap).eql(false);
         finish();
     });
-    it("label_text_width_size", function (finish) {
+    it("width", function (finish) {
         this.timeout(1000);
         var label = Ti.UI.createLabel({
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
@@ -100,7 +100,7 @@ describe("ui_label", function () {
             finish();
         }, 100);
     });
-    it("label_text_height_size", function (finish) {
+    it("height", function (finish) {
         this.timeout(1000);
         var label = Ti.UI.createLabel({
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',

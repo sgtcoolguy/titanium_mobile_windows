@@ -7,8 +7,8 @@
  */
 var should = require('./should');
 
-describe("ui_progressbar", function () {
-    it("progressbar_message", function (finish) {
+describe("Titanium.UI.ProgressBar", function () {
+    it("message", function (finish) {
         var bar = Ti.UI.createProgressBar({
             message: "this is some text"
         });
@@ -22,7 +22,7 @@ describe("ui_progressbar", function () {
         finish();
     });
 
-    it("progressbar_min", function (finish) {
+    it("min", function (finish) {
         var bar = Ti.UI.createProgressBar({
             min: 0
         });
@@ -36,7 +36,7 @@ describe("ui_progressbar", function () {
         finish();
     });
 
-    it("progressbar_max", function (finish) {
+    it("max", function (finish) {
         var bar = Ti.UI.createProgressBar({
             max: 0
         });
@@ -50,7 +50,7 @@ describe("ui_progressbar", function () {
         finish();
     });
 
-    it("progressbar_value", function (finish) {
+    it("value", function (finish) {
         var bar = Ti.UI.createProgressBar({
             value: 0
         });

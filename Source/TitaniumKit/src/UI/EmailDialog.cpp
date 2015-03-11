@@ -1,5 +1,5 @@
 /**
- * Titanium.UI.EmailDialog for Windows
+ * TitaniumKit Titanium.UI.EmailDialog
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -59,62 +59,62 @@ namespace Titanium
 			return sent__;
 		}
 
-		JSValue EmailDialog::bccRecipients() const TITANIUM_NOEXCEPT
+		JSValue EmailDialog::get_bccRecipients() const TITANIUM_NOEXCEPT
 		{
 			return bccRecipients__;
 		}
 
-		void EmailDialog::setBccRecipients(const JSObject& bcc) TITANIUM_NOEXCEPT
+		void EmailDialog::set_bccRecipients(const JSObject& bcc) TITANIUM_NOEXCEPT
 		{
 			bccRecipients__ = bcc;
 		}
 
-		JSValue EmailDialog::ccRecipients() const TITANIUM_NOEXCEPT
+		JSValue EmailDialog::get_ccRecipients() const TITANIUM_NOEXCEPT
 		{
 			return ccRecipients__;
 		}
 
-		void EmailDialog::setCcRecipients(const JSObject& cc) TITANIUM_NOEXCEPT
+		void EmailDialog::set_ccRecipients(const JSObject& cc) TITANIUM_NOEXCEPT
 		{
 			ccRecipients__ = cc;
 		}
 
-		bool EmailDialog::html() const TITANIUM_NOEXCEPT
+		bool EmailDialog::get_html() const TITANIUM_NOEXCEPT
 		{
 			return html__;
 		}
 
-		void EmailDialog::setHtml(const bool& html) TITANIUM_NOEXCEPT
+		void EmailDialog::set_html(const bool& html) TITANIUM_NOEXCEPT
 		{
 			html__ = html;
 		}
 
-		std::string EmailDialog::messageBody() const TITANIUM_NOEXCEPT
+		std::string EmailDialog::get_messageBody() const TITANIUM_NOEXCEPT
 		{
 			return messageBody__;
 		}
 
-		void EmailDialog::setMessageBody(const std::string& body) TITANIUM_NOEXCEPT
+		void EmailDialog::set_messageBody(const std::string& body) TITANIUM_NOEXCEPT
 		{
 			messageBody__ = body;
 		}
 
-		std::string EmailDialog::subject() const TITANIUM_NOEXCEPT
+		std::string EmailDialog::get_subject() const TITANIUM_NOEXCEPT
 		{
 			return subject__;
 		}
 
-		void EmailDialog::setSubject(const std::string& subject) TITANIUM_NOEXCEPT
+		void EmailDialog::set_subject(const std::string& subject) TITANIUM_NOEXCEPT
 		{
 			subject__ = subject;
 		}
 
-		JSValue EmailDialog::toRecipients() const TITANIUM_NOEXCEPT
+		JSValue EmailDialog::get_toRecipients() const TITANIUM_NOEXCEPT
 		{
 			return toRecipients__;
 		}
 
-		void EmailDialog::setToRecipients(const JSObject& toRecipients) TITANIUM_NOEXCEPT
+		void EmailDialog::set_toRecipients(const JSObject& toRecipients) TITANIUM_NOEXCEPT
 		{
 			toRecipients__ = toRecipients;
 		}
@@ -143,12 +143,12 @@ namespace Titanium
 			JSExport<EmailDialog>::AddValueProperty("FAILED", std::mem_fn(&EmailDialog::FAILED));
 			JSExport<EmailDialog>::AddValueProperty("SAVED", std::mem_fn(&EmailDialog::SAVED));
 			JSExport<EmailDialog>::AddValueProperty("SENT", std::mem_fn(&EmailDialog::SENT));
-			JSExport<EmailDialog>::AddValueProperty("bccRecipients", std::mem_fn(&EmailDialog::js_bccRecipients));
-			JSExport<EmailDialog>::AddValueProperty("ccRecipients", std::mem_fn(&EmailDialog::js_ccRecipients));
-			JSExport<EmailDialog>::AddValueProperty("html", std::mem_fn(&EmailDialog::js_html));
-			JSExport<EmailDialog>::AddValueProperty("messageBody", std::mem_fn(&EmailDialog::js_messageBody));
-			JSExport<EmailDialog>::AddValueProperty("subject", std::mem_fn(&EmailDialog::js_subject));
-			JSExport<EmailDialog>::AddValueProperty("toRecipients", std::mem_fn(&EmailDialog::js_toRecipients));
+			JSExport<EmailDialog>::AddValueProperty("bccRecipients", std::mem_fn(&EmailDialog::js_get_bccRecipients), std::mem_fn(&EmailDialog::js_set_bccRecipients));
+			JSExport<EmailDialog>::AddValueProperty("ccRecipients", std::mem_fn(&EmailDialog::js_get_ccRecipients), std::mem_fn(&EmailDialog::js_set_ccRecipients));
+			JSExport<EmailDialog>::AddValueProperty("html", std::mem_fn(&EmailDialog::js_get_html), std::mem_fn(&EmailDialog::js_set_html));
+			JSExport<EmailDialog>::AddValueProperty("messageBody", std::mem_fn(&EmailDialog::js_get_messageBody), std::mem_fn(&EmailDialog::js_set_messageBody));
+			JSExport<EmailDialog>::AddValueProperty("subject", std::mem_fn(&EmailDialog::js_get_subject), std::mem_fn(&EmailDialog::js_set_subject));
+			JSExport<EmailDialog>::AddValueProperty("toRecipients", std::mem_fn(&EmailDialog::js_get_toRecipients), std::mem_fn(&EmailDialog::js_set_toRecipients));
 
 			JSExport<EmailDialog>::AddFunctionProperty("addAttachment", std::mem_fn(&EmailDialog::js_addAttachment));
 			JSExport<EmailDialog>::AddFunctionProperty("isSupported", std::mem_fn(&EmailDialog::js_isSupported));
@@ -167,34 +167,82 @@ namespace Titanium
 			JSExport<EmailDialog>::AddFunctionProperty("setToRecipients", std::mem_fn(&EmailDialog::js_setToRecipients));
 		}
 
-		JSValue EmailDialog::js_bccRecipients() const TITANIUM_NOEXCEPT
+		JSValue EmailDialog::js_get_bccRecipients() const TITANIUM_NOEXCEPT
 		{
-			return bccRecipients();
+			return get_bccRecipients();
 		}
 
-		JSValue EmailDialog::js_ccRecipients() const TITANIUM_NOEXCEPT
+		bool EmailDialog::js_set_bccRecipients(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
-			return ccRecipients();
+			TITANIUM_ASSERT(argument.IsObject());
+			const auto bccRecipients = static_cast<JSObject>(argument);
+			TITANIUM_ASSERT(bccRecipients.IsArray());
+			set_bccRecipients(bccRecipients);
+			return true;
 		}
 
-		JSValue EmailDialog::js_html() const TITANIUM_NOEXCEPT
+		JSValue EmailDialog::js_get_ccRecipients() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateBoolean(html());
+			return get_ccRecipients();
 		}
 
-		JSValue EmailDialog::js_messageBody() const TITANIUM_NOEXCEPT
+		bool EmailDialog::js_set_ccRecipients(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(messageBody());
+			TITANIUM_ASSERT(argument.IsObject());
+			const auto ccRecipients = static_cast<JSObject>(argument);
+			TITANIUM_ASSERT(ccRecipients.IsArray());
+			set_ccRecipients(ccRecipients);
+			return true;
 		}
 
-		JSValue EmailDialog::js_subject() const TITANIUM_NOEXCEPT
+		JSValue EmailDialog::js_get_html() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(subject());
+			return get_context().CreateBoolean(get_html());
 		}
 
-		JSValue EmailDialog::js_toRecipients() const TITANIUM_NOEXCEPT
+		bool EmailDialog::js_set_html(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
-			return toRecipients();
+			TITANIUM_ASSERT(argument.IsBoolean());
+			set_html(static_cast<bool>(argument));
+			return true;
+		}
+
+		JSValue EmailDialog::js_get_messageBody() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateString(get_messageBody());
+		}
+
+		bool EmailDialog::js_set_messageBody(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			set_messageBody(static_cast<std::string>(argument));
+			return true;
+		}
+
+		JSValue EmailDialog::js_get_subject() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateString(get_subject());
+		}
+
+		bool EmailDialog::js_set_subject(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			set_subject(static_cast<std::string>(argument));
+			return true;
+		}
+
+		JSValue EmailDialog::js_get_toRecipients() const TITANIUM_NOEXCEPT
+		{
+			return get_toRecipients();
+		}
+
+		bool EmailDialog::js_set_toRecipients(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+			const auto toRecipients = static_cast<JSObject>(argument);
+			TITANIUM_ASSERT(toRecipients.IsArray());
+			set_toRecipients(toRecipients);
+			return true;
 		}
 
 		JSValue EmailDialog::js_addAttachment(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -231,111 +279,78 @@ namespace Titanium
 
 		JSValue EmailDialog::js_getBccRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_bccRecipients();
+			return js_get_bccRecipients();
 		}
 
 		JSValue EmailDialog::js_setBccRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsObject());
-				const auto bccRecipients = static_cast<JSObject>(_0);
-				TITANIUM_ASSERT(bccRecipients.IsArray());
-				setBccRecipients(bccRecipients);
+			if (arguments.size() >= 1) {
+				js_set_bccRecipients(arguments.at(0));
 			}
 			return get_context().CreateUndefined();
 		}
 
 		JSValue EmailDialog::js_getCcRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_ccRecipients();
+			return js_get_ccRecipients();
 		}
 
 		JSValue EmailDialog::js_setCcRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsObject());
-				const auto ccRecipients = static_cast<JSObject>(_0);
-				TITANIUM_ASSERT(ccRecipients.IsArray());
-				setCcRecipients(ccRecipients);
+			if (arguments.size() >= 1) {
+				js_set_ccRecipients(arguments.at(0));
 			}
 			return get_context().CreateUndefined();
 		}
 
 		JSValue EmailDialog::js_getHtml(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_html();
+			return js_get_html();
 		}
 
 		JSValue EmailDialog::js_setHtml(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsBoolean());
-				const bool html = static_cast<bool>(_0);
-				setHtml(html);
+			if (arguments.size() >= 1) {
+				js_set_html(arguments.at(0));
 			}
 			return get_context().CreateUndefined();
 		}
 
 		JSValue EmailDialog::js_getMessageBody(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_messageBody();
+			return js_get_messageBody();
 		}
 
 		JSValue EmailDialog::js_setMessageBody(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsString());
-				const std::string messageBody = static_cast<std::string>(_0);
-				setMessageBody(messageBody);
+			if (arguments.size() >= 1) {
+				js_set_messageBody(arguments.at(0));
 			}
 			return get_context().CreateUndefined();
 		}
 
 		JSValue EmailDialog::js_getSubject(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_subject();
+			return js_get_subject();
 		}
 
 		JSValue EmailDialog::js_setSubject(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsString());
-				const std::string subject = static_cast<std::string>(_0);
-				setSubject(subject);
+			 if (arguments.size() >= 1) {
+				js_set_subject(arguments.at(0));
 			}
 			return get_context().CreateUndefined();
 		}
 
 		JSValue EmailDialog::js_getToRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_toRecipients();
+			return js_get_toRecipients();
 		}
 
 		JSValue EmailDialog::js_setToRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsObject());
-				const auto toRecipients =static_cast<JSObject>(_0);
-				TITANIUM_ASSERT(toRecipients.IsArray());
-				setToRecipients(toRecipients);
+			if (arguments.size() >= 1) {
+				js_set_toRecipients(arguments.at(0));
 			}
 			return get_context().CreateUndefined();
 		}

@@ -1,16 +1,16 @@
 <% 
 function getType(type, parameter) {
-	var r = 'JSValue';
-	if (type == 'Number') {
-		r = 'double';
-	} else if (type == 'Boolean') {
-		r = 'bool';
-	} else if (type == 'void') {
-		r = 'void';
-	} else if (type == 'String') {
-		r = (parameter ? 'const std::string&' : 'std::string');
-	}
-	return r;
+    var r = 'JSValue';
+    if (type == 'Number') {
+        r = (parameter ? 'const double&' : 'double');
+    } else if (type == 'Boolean') {
+        r = (parameter ? 'const bool&' : 'bool');
+    } else if (type == 'void') {
+        r = 'void';
+    } else if (type == 'String') {
+        r = (parameter ? 'const std::string&' : 'std::string');
+    }
+    return r;
 }
 function getParameters(parameters) {
 	var r = '';
@@ -58,27 +58,20 @@ namespace TitaniumWindows
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
 <% if (property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
-		<%= getType(property.type) %> <%= namespace %>::<%= property.name %>() const TITANIUM_NOEXCEPT
+<% if (!property.__permission || property.__permission != "read-only") {-%>
+		void <%= namespace %>::set_<%= property.name %>(<%= getType(property.type, true) %> <%= property.name %>) TITANIUM_NOEXCEPT
 		{
-<% if (property.type == 'String') { -%>
-			return <%= property.name %>__;
-<% } else if (property.type == 'Boolean') { -%>
-			return <%= property.name %>__;
-<% } else if (property.type == 'Number') { -%>
-			return <%= property.name %>__;
-<% } else { -%>
-			const auto script = "";
-			return get_context().JSEvaluateScript(script);
-<% } -%>
+			TITANIUM_LOG_WARN("<%= namespace %>::set_<%= property.name %>: Unimplemented");
 		}
 
+<% } -%>
 <% } -%>
 <% } -%>
 <% for (i in data.methods) { -%>
 <% var method = data.methods[i] -%>
 <% if (method.__accessor != true && method.__inherits == module && (method.platforms.contains('android') && method.platforms.contains('iphone'))) {-%>
 <% var parameters = ('parameters' in method ? getParameters(method.parameters) : '') -%>
-<% var type = ('returns' in method ? method.returns[0].type : 'JSValue') -%>
+<% var type = ('returns' in method ? method.returns[0].type : 'void') -%>
 		<%= getType(type) %> <%= namespace %>::<%= method.name %>(<%= parameters %>) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("<%= name %>.<%= method.name %> is not implemented yet");

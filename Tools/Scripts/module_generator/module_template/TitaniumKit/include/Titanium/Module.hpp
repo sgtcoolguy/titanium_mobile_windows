@@ -1,16 +1,16 @@
 <% 
 function getType(type, parameter) {
-	var r = 'JSValue';
-	if (type == 'Number') {
-		r = 'double';
-	} else if (type == 'Boolean') {
-		r = 'bool';
-	} else if (type == 'void') {
-		r = 'void';
-	} else if (type == 'String') {
-		r = (parameter ? 'const std::string&' : 'std::string');
-	}
-	return r;
+    var r = 'JSValue';
+    if (type == 'Number') {
+        r = (parameter ? 'const double&' : 'double');
+    } else if (type == 'Boolean') {
+        r = (parameter ? 'const bool&' : 'bool');
+    } else if (type == 'void') {
+        r = 'void';
+    } else if (type == 'String') {
+        r = (parameter ? 'const std::string&' : 'std::string');
+    }
+    return r;
 }
 function getParameters(parameters) {
 	var r = '';
@@ -27,7 +27,7 @@ function getParameters(parameters) {
 Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 -%>
 /**
- * <%= module %> for Windows
+ * TitaniumKit <%= module %>
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -51,7 +51,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 		  @discussion This is the Titanium <%= name %> Module.
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.<%= full_namespace.replace(/::/g,'.') %>
 		*/
-		class TITANIUMKIT_EXPORT <%= namespace %> : public Module, public JSExport<<%= namespace %>>
+		class TITANIUMKIT_EXPORT <%= namespace %> : public <%= module_classes.contains('UI') ? 'View' : 'Module' %>, public JSExport<<%= namespace %>>
 		{
 
 		public:
@@ -68,8 +68,9 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 <% property.isJS = true -%>
 			virtual JSValue <%= property.name %>() const TITANIUM_NOEXCEPT final;
 <% } else { -%>
-			virtual <%= getType(property.type) %> <%= property.name %>() const TITANIUM_NOEXCEPT;
+			virtual <%= getType(property.type) %> get_<%= property.name %>() const TITANIUM_NOEXCEPT;
 <% } -%>
+			virtual void set_<%= property.name %>(<%= getType(property.type, true) %> <%= property.name %>) TITANIUM_NOEXCEPT;
 <% } -%>
 <% } -%>
 <% for (i in data.methods) { -%>
@@ -82,7 +83,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 			  @discussion <%= method.summary.replace(/\n/g,'') %>
 			*/
 <% var parameters = ('parameters' in method ? getParameters(method.parameters) : '') -%>
-<% var type = ('returns' in method ? method.returns[0].type : 'JSValue') -%>
+<% var type = ('returns' in method ? method.returns[0].type : 'void') -%>
 			virtual <%= getType(type) %> <%= method.name -%>(<%= parameters %>) TITANIUM_NOEXCEPT;
 <% } -%>
 <% } -%>
@@ -102,7 +103,8 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
 <% if (!property.isJS && property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
-			virtual JSValue js_<%= property.name %>() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_<%= property.name %>() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_<%= property.name %>(const JSValue& argument) TITANIUM_NOEXCEPT final;
 <% } -%>
 <% } -%>
 <% for (i in data.methods) { -%>

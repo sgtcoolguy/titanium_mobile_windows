@@ -8,7 +8,7 @@
 require('ti-mocha');
 var should = require('should');
 
-describe("ui_window", function () {
+describe("Titanium.UI.Windows", function () {
 
     it("window_size_is_read_only", function (finish) {
         this.timeout(1000);

@@ -13,9 +13,32 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		void ScrollView::setupViewer()
+
+		ScrollViewLayoutPolicy::ScrollViewLayoutPolicy(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT
+			: WindowsViewLayoutPolicy()
+			, view__(view)
+		{
+			TITANIUM_LOG_DEBUG("ScrollViewLayoutPolicy::ctor");
+		}
+		
+		void ScrollViewLayoutPolicy::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
+		{
+			view__->getViewLayoutPolicy<WindowsViewLayoutPolicy>()->add(view);
+		}
+
+		void ScrollViewLayoutPolicy::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
+		{
+			view__->getViewLayoutPolicy<WindowsViewLayoutPolicy>()->set_layout(layout);
+		}
+
+		void ScrollView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
 			using namespace Windows::UI::Xaml::Controls;
+			
+			Titanium::UI::ScrollView::postCallAsConstructor(js_context, arguments);	
+			
+			scroll_viewer__ = ref new Windows::UI::Xaml::Controls::ScrollViewer();
+
 			scroll_viewer__->HorizontalScrollBarVisibility = ScrollBarVisibility::Auto;
 			scroll_viewer__->VerticalScrollBarVisibility = ScrollBarVisibility::Auto;
 			scroll_viewer__->HorizontalScrollMode = ScrollMode::Enabled;
@@ -28,24 +51,20 @@ namespace TitaniumWindows
 
 			auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
 			scroll_viewer__->Content = content->getComponent();
-		}
 
-		ScrollView::ScrollView(const JSContext& js_context) TITANIUM_NOEXCEPT
-			  : Titanium::UI::ScrollView(js_context),
-		      scroll_viewer__(ref new Windows::UI::Xaml::Controls::ScrollViewer()),
-		      contentView__(get_context().CreateObject(JSExport<TitaniumWindows::UI::View>::Class()).CallAsConstructor())
-		{
-			TITANIUM_LOG_DEBUG("ScrollView::ctor");
+			Titanium::UI::ScrollView::setLayoutPolicy<ScrollViewLayoutPolicy>(content);
 
-			setupViewer();
-			setComponent(scroll_viewer__);
+			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 
-			auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
+			getViewLayoutPolicy<ScrollViewLayoutPolicy>()->setComponent(scroll_viewer__);
+
+			auto layoutPolicy = getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>();
 			auto nativeChildView = content->getComponent();
 			if (nativeChildView != nullptr) {
-				Titanium::LayoutEngine::nodeAddChild(layout_node_, content->layout_node_);
-				if (isLoaded()) {
-					auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node_);
+				Titanium::LayoutEngine::nodeAddChild(layoutPolicy->getLayoutNode(), content->getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>()->getLayoutNode());
+				if (layoutPolicy->isLoaded()) {
+					auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutPolicy->getLayoutNode());
 					if (root) {
 						Titanium::LayoutEngine::nodeLayout(root);
 					}
@@ -55,64 +74,17 @@ namespace TitaniumWindows
 			}
 		}
 
+		ScrollView::ScrollView(const JSContext& js_context) TITANIUM_NOEXCEPT
+			  : Titanium::UI::ScrollView(js_context),
+		      contentView__(get_context().CreateObject(JSExport<TitaniumWindows::UI::View>::Class()).CallAsConstructor())
+		{
+			TITANIUM_LOG_DEBUG("ScrollView::ctor");
+		}
+
 		void ScrollView::JSExportInitialize()
 		{
 			JSExport<ScrollView>::SetClassVersion(1);
 			JSExport<ScrollView>::SetParent(JSExport<Titanium::UI::ScrollView>::Class());
-		}
-
-		void ScrollView::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT
-		{
-			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
-			content->add(view, this_object);
-		}
-
-		void ScrollView::set_backgroundColor(const std::string& backgroundColorName) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_backgroundColor(backgroundColorName);
-			const auto backgroundColor = ColorForName(backgroundColorName);
-			scroll_viewer__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
-		}
-
-		void ScrollView::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_bottom(bottom);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
-		}
-
-		void ScrollView::set_height(const std::string& height) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_height(height);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
-		}
-
-		void ScrollView::set_left(const std::string& left) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_left(left);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
-		}
-
-		void ScrollView::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
-		{
-			contentView__.SetProperty("layout", get_context().CreateString(layout));
-		}
-
-		void ScrollView::set_right(const std::string& right) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_right(right);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
-		}
-
-		void ScrollView::set_top(const std::string& top) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_top(top);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
-		}
-
-		void ScrollView::set_width(const std::string& width) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_width(width);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 		}
 
 		void ScrollView::scrollTo(double x, double y)
@@ -131,14 +103,12 @@ namespace TitaniumWindows
 
 		std::string ScrollView::get_contentWidth() const
 		{
-			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
-			return content->get_width();
+			return static_cast<std::string>(contentView__.GetProperty("width"));
 		}
 
 		std::string ScrollView::get_contentHeight() const
 		{
-			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
-			return content->get_height();
+			return static_cast<std::string>(contentView__.GetProperty("height"));
 		}
 
 		bool ScrollView::set_contentWidth(const double& width)
