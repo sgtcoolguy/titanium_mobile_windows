@@ -7,7 +7,7 @@
 
 var should = require('./should');
 
-describe('titanium', function () {
+describe('Titanium', function () {
     it('version', function (finish) {
         should(Ti.version).be.a.String;
         should(Ti.getVersion).be.a.Function;

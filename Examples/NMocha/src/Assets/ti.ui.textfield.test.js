@@ -6,8 +6,8 @@
  */
 var should = require('./should');
 
-describe("ui_textfield", function () {
-    it("textfield_value", function (finish) {
+describe("Titanium.UI.TextField", function () {
+    it("value", function (finish) {
         var textfield = Ti.UI.createTextField({
             value: "this is some text"
         });
@@ -21,7 +21,7 @@ describe("ui_textfield", function () {
         finish();
     });
 
-    it("textfield_text_align", function (finish) {
+    it("textAlign", function (finish) {
         var textfield = Ti.UI.createTextField({
             value: "this is some text",
             textAlign: 'center'
@@ -35,7 +35,7 @@ describe("ui_textfield", function () {
         should(textfield.getTextAlign()).eql('right');
         finish();
     });
-    it("textfield_text_vertical_align", function (finish) {
+    it("verticalAlign", function (finish) {
         var textfield = Ti.UI.createTextField({
             value: "this is some text",
             verticalAlign: 'bottom'
@@ -67,7 +67,7 @@ describe("ui_textfield", function () {
     // selection
     // suppressReturn
 
-    it.skip("textfield_text_width_size", function (finish) {
+    it.skip("width", function (finish) {
         this.timeout(1000);
         var textfield = Ti.UI.createTextField({
             value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
@@ -85,7 +85,7 @@ describe("ui_textfield", function () {
         win.open();
     });
 
-    it.skip("textfield_text_height_size", function (finish) {
+    it.skip("height", function (finish) {
         this.timeout(1000);
         var textfield = Ti.UI.createTextField({
             value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',

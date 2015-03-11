@@ -7,8 +7,8 @@
 
 var should = require('./should');
 
-describe('accelerometer', function () {
-    it('Ti.Accelerometer', function (finish) {
+describe('Titanium.Accelerometer', function () {
+    it('exists', function (finish) {
         should(Ti.Accelerometer).not.be.undefined;
         should(Ti.Accelerometer).not.be.null;
         should(Ti.Accelerometer.addEventListener).be.a.Function;

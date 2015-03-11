@@ -6,7 +6,7 @@
  */
 var should = require('./should');
 
-describe('database', function () {
+describe('Titanium.Database', function () {
 
     // Check if FIELD_TYPE_DOUBLE exists and make sure it does not throw exception
     it('FIELD_TYPE_DOUBLE', function (finish) {

@@ -6,7 +6,7 @@
  */
 var should = require('./should');
 
-describe('ti.geolocation', function () {
+describe('Ti.Geolocation', function () {
 
     // Check if ACCURACY_BEST exists and make sure it does not throw exception
     it('ACCURACY_BEST', function (finish) {
@@ -112,7 +112,7 @@ describe('ti.geolocation', function () {
         finish();
     });
 
-    it('Accuracy', function (finish) {
+    it('accuracy', function (finish) {
         should(Ti.Geolocation.getAccuracy()).be.a.Number;
         should(Ti.Geolocation.getAccuracy).be.a.Function;
         should(Ti.Geolocation.setAccuracy).be.a.Function;
@@ -121,7 +121,7 @@ describe('ti.geolocation', function () {
         finish();
     });
 
-    it('DistanceFilter', function (finish) {
+    it('distanceFilter', function (finish) {
         should(Ti.Geolocation.getDistanceFilter()).be.a.Number;
         should(Ti.Geolocation.getDistanceFilter).be.a.Function;
         should(Ti.Geolocation.setDistanceFilter).be.a.Function;
@@ -130,7 +130,7 @@ describe('ti.geolocation', function () {
         finish();
     });
 
-    it('HeadingFilter', function (finish) {
+    it('headingFilter', function (finish) {
         should(Ti.Geolocation.getHeadingFilter()).be.a.Number;
         should(Ti.Geolocation.getHeadingFilter).be.a.Function;
         should(Ti.Geolocation.setHeadingFilter).be.a.Function;
@@ -139,19 +139,19 @@ describe('ti.geolocation', function () {
         finish();
     });
 
-    it('LastGeolocation', function (finish) {
+    it('lastGeolocation', function (finish) {
         should(Ti.Geolocation.getLastGeolocation()).be.a.Object;
         should(Ti.Geolocation.getLastGeolocation).be.a.Function;
         finish();
     });
 
-    it('LocationServicesEnabled', function (finish) {
+    it('locationServicesEnabled', function (finish) {
         should(Ti.Geolocation.getLocationServicesEnabled()).be.a.Boolean;
         should(Ti.Geolocation.getLocationServicesEnabled).be.a.Function;
         finish();
     });
 
-    it('ForwardGeocoder', function (finish) {
+    it('forwardGeocoder', function (finish) {
         should(Ti.Geolocation.forwardGeocoder).be.a.Function;
         Ti.Geolocation.forwardGeocoder('440 N Bernardo Ave, Mountain View', function (data) {
             should(data.latitude).be.eql(37.3883645);
@@ -160,7 +160,7 @@ describe('ti.geolocation', function () {
         finish();
     });
 
-    it('ReverseGeocoder', function (finish) {
+    it('reverseGeocoder', function (finish) {
         should(Ti.Geolocation.reverseGeocoder).be.a.Function;
         Ti.Geolocation.reverseGeocoder(37.3883645, -122.0512682, function (data) {
             should(data.zipcode).be.eql('94043');
@@ -168,12 +168,12 @@ describe('ti.geolocation', function () {
         finish();
     });
 
-    it('CurrentPosition', function (finish) {
+    it('currentPosition', function (finish) {
         should(Ti.Geolocation.getCurrentPosition).be.a.Function;
         finish();
     });
 
-    it('CurrentHeading', function (finish) {
+    it('currentHeading', function (finish) {
         should(Ti.Geolocation.getCurrentHeading).be.a.Function;
         finish();
     });

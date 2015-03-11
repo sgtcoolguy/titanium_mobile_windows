@@ -12,7 +12,7 @@ Array.prototype.contains = function (obj) {
     return false;
 }
 
-describe('ti.app', function () {
+describe('Titanium.App', function () {
 
     // Check if EVENT_ACCESSIBILITY_ANNOUNCEMENT exists and make sure it does not throw exception
     it('EVENT_ACCESSIBILITY_ANNOUNCEMENT', function (finish) {
@@ -173,7 +173,7 @@ describe('ti.app', function () {
     });
 });
 
-describe('ti.app.properties', function () {
+describe('Titanium.App.Properties', function () {
 
     it('Bool', function (finish) {
         Ti.App.Properties.setBool('test_bool', true);
@@ -240,5 +240,4 @@ describe('ti.app.properties', function () {
         should(Ti.App.Properties.hasProperty('test_has_property')).be.eql(true);
         finish();
     });
-
 });
