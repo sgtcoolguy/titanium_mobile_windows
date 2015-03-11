@@ -1,5 +1,5 @@
 /**
- * Titanium.UI.EmailDialog for Windows
+ * TitaniumKit Titanium.UI.EmailDialog
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -66,48 +66,48 @@ namespace Titanium
 			  @abstract bccRecipients
 			  @discussion Recipients of the email included via the `BCC` (Blind Carbon Copy) field.
 			*/
-			virtual JSValue bccRecipients() const TITANIUM_NOEXCEPT final;
-			virtual void setBccRecipients(const JSObject& bcc) TITANIUM_NOEXCEPT;
+			virtual JSValue get_bccRecipients() const TITANIUM_NOEXCEPT final;
+			virtual void set_bccRecipients(const JSObject& bcc) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract ccRecipients
 			  @discussion Recipients of the email included via the `CC` (Carbon Copy) field.
 			*/
-			virtual JSValue ccRecipients() const TITANIUM_NOEXCEPT final;
-			virtual void setCcRecipients(const JSObject& cc) TITANIUM_NOEXCEPT;
+			virtual JSValue get_ccRecipients() const TITANIUM_NOEXCEPT final;
+			virtual void set_ccRecipients(const JSObject& cc) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract html
 			  @discussion Determines whether the email message, specifically the contents of [messageBody](Titanium.UI.EmailDialog.messageBody), should be sent as HTML content type rather than plain text.
 			*/
-			virtual bool html() const TITANIUM_NOEXCEPT final;
-			virtual void setHtml(const bool& html) TITANIUM_NOEXCEPT;
+			virtual bool get_html() const TITANIUM_NOEXCEPT final;
+			virtual void set_html(const bool& html) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract messageBody
 			  @discussion Email message body.
 			*/
-			virtual std::string messageBody() const TITANIUM_NOEXCEPT final;
-			virtual void setMessageBody(const std::string& body) TITANIUM_NOEXCEPT;
+			virtual std::string get_messageBody() const TITANIUM_NOEXCEPT final;
+			virtual void set_messageBody(const std::string& body) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract subject
 			  @discussion Subject line for the email.
 			*/
-			virtual std::string subject() const TITANIUM_NOEXCEPT final;
-			virtual void setSubject(const std::string& subject) TITANIUM_NOEXCEPT;
+			virtual std::string get_subject() const TITANIUM_NOEXCEPT final;
+			virtual void set_subject(const std::string& subject) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract toRecipients
 			  @discussion Recipients of the email included via the main `TO` field.
 			*/
-			virtual JSValue toRecipients() const TITANIUM_NOEXCEPT final;
-			virtual void setToRecipients(const JSObject& toRecipients) TITANIUM_NOEXCEPT;
+			virtual JSValue get_toRecipients() const TITANIUM_NOEXCEPT final;
+			virtual void set_toRecipients(const JSObject& toRecipients) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -143,12 +143,18 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_bccRecipients() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_ccRecipients() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_html() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_messageBody() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_subject() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_toRecipients() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_bccRecipients() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_bccRecipients(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_ccRecipients() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_ccRecipients(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_html() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_html(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_messageBody() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_messageBody(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_subject() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_subject(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_toRecipients() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_toRecipients(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_addAttachment(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_isSupported(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_open(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
