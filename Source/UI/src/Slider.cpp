@@ -7,18 +7,27 @@
 */
 
 #include "TitaniumWindows/UI/Slider.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
 		Slider::Slider(const JSContext& js_context) TITANIUM_NOEXCEPT
-			  : Titanium::UI::Slider(js_context),
-		      slider__(ref new Windows::UI::Xaml::Controls::Slider())
+			  : Titanium::UI::Slider(js_context)
 		{
-			setDefaultWidth(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
-			setComponent(slider__);
 			TITANIUM_LOG_DEBUG("Slider::ctor CallAsConstructor");
+		}
+
+		void Slider::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		{
+			Titanium::UI::Slider::postCallAsConstructor(js_context, arguments);	
+			
+			slider__ = ref new Windows::UI::Xaml::Controls::Slider();
+
+			Titanium::UI::Slider::setLayoutPolicy<WindowsViewLayoutPolicy>();
+			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(slider__);
 		}
 
 		void Slider::JSExportInitialize()
@@ -45,55 +54,6 @@ namespace TitaniumWindows
 			slider__->Value = value;
 		}
 
-		void Slider::set_backgroundColor(const std::string& backgroundColorName) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_backgroundColor(backgroundColorName);
-			const auto backgroundColor = ColorForName(backgroundColorName);
-			slider__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
-		}
-
-		void Slider::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_bottom(bottom);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
-		}
-
-		void Slider::set_height(const std::string& height) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_height(height);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
-		}
-
-		void Slider::set_left(const std::string& left) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_left(left);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
-		}
-
-		void Slider::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_layout(layout);
-			setLayout(layout);
-		}
-
-		void Slider::set_right(const std::string& right) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_right(right);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
-		}
-
-		void Slider::set_top(const std::string& top) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_top(top);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
-		}
-
-		void Slider::set_width(const std::string& width) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_width(width);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
-		}
-
 		void Slider::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("Slider::enableEvent: (event name '", event_name, "'");
@@ -103,36 +63,28 @@ namespace TitaniumWindows
 			using namespace Windows::UI::Xaml::Input;
 			using namespace Windows::UI::Xaml;
 
+			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+
 			if (event_name == "click") {
-				if (click_event_count_ == 0) {
-					click_event_ = getComponent()->Tapped += ref new TappedEventHandler([this, ctx](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
-						auto component = safe_cast<FrameworkElement^>(sender);
-						auto position = e->GetPosition(component);
+				click_event_ = component->Tapped += ref new TappedEventHandler([this, ctx](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
+					auto component = safe_cast<FrameworkElement^>(sender);
+					auto position = e->GetPosition(component);
 
-						JSObject eventArgs = ctx.CreateObject();
-						eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
-						eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
+					eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
 
-						this->fireEvent("click", eventArgs);
-					});
-				}
-
-				++click_event_count_;
-				return;
+					this->fireEvent("click", eventArgs);
+				});
 			}
 			else if (event_name == "change") {
-				if (change_event_count_ == 0) {
-					change_event_ = slider__->ValueChanged += ref new Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler([this, ctx](Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {						
+				change_event_ = slider__->ValueChanged += ref new Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler([this, ctx](Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {						
 
-						JSObject eventArgs = ctx.CreateObject();
-						eventArgs.SetProperty("value", ctx.CreateNumber(slider__->Value));
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("value", ctx.CreateNumber(slider__->Value));
 
-						this->fireEvent("change", eventArgs);
-					});
-				}
-
-				++change_event_count_;
-				return;
+					this->fireEvent("change", eventArgs);
+				});
 			}
 		}
 	} // namespace UI

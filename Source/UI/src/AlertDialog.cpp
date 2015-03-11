@@ -25,21 +25,22 @@ namespace TitaniumWindows
 			JSExport<AlertDialog>::SetParent(JSExport<Titanium::UI::AlertDialog>::Class());
 		}
 
-		void AlertDialog::hide(JSObject& this_object) TITANIUM_NOEXCEPT
+		void AlertDialog::hide() TITANIUM_NOEXCEPT
 		{
 			// TODO Implement!
 		}
 
-		void AlertDialog::show(JSObject& this_object) TITANIUM_NOEXCEPT
+		void AlertDialog::show() TITANIUM_NOEXCEPT
 		{
-			std::string title = get_title();
+			std::string title   = get_title();
 			std::string message = get_message();
+
 			Windows::UI::Popups::MessageDialog^ dialog = ref new Windows::UI::Popups::MessageDialog(ref new Platform::String(std::wstring(message.begin(), message.end()).c_str()), ref new Platform::String(std::wstring(title.begin(), title.end()).c_str()));
 			
 			// Set up buttons
 			if (buttons__.size() > 0) {
 				// TODO If user set no custom buttons, we still need to hook click listeners to the defaults!
-				const JSContext ctx = this->get_context();
+				const JSContext ctx = get_context();
 				for (std::vector<std::string>::size_type i = 0; i != buttons__.size(); i++) {
 					std::string buttonName = buttons__[i];
 
@@ -69,7 +70,6 @@ namespace TitaniumWindows
 			TITANIUM_LOG_DEBUG("AlertDialog::enableEvent: (event name '", event_name, "'");
 
 			if (event_name == "click") {
-				++click_event_count_;
 				return;
 			}
 		}

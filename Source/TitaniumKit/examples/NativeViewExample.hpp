@@ -10,8 +10,18 @@
 #define _TITANIUM_EXAMPLES_NATIVEVIEW_HPP_
 
 #include "Titanium/Titanium.hpp"
+#include "Titanium/UI/ViewLayoutPolicy.hpp"
 
 using namespace HAL;
+
+class NativeViewLayoutPolicy : public Titanium::UI::ViewLayoutPolicy
+{
+public:
+	NativeViewLayoutPolicy(JSObject& this_object);
+	virtual ~NativeViewLayoutPolicy() = default;
+	
+	virtual void set_backgroundColor(const std::string&) TITANIUM_NOEXCEPT override;
+};
 
 /*!
  @class
@@ -31,10 +41,10 @@ public:
 	NativeViewExample(NativeViewExample&&) = default;
 	NativeViewExample& operator=(NativeViewExample&&) = default;
 #endif
-
+	
 	static void JSExportInitialize();
-
-	virtual void set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT override final;
+	
+	virtual void postInitialize(JSObject& js_object) override;
 };
 
 #endif  // _TITANIUM_EXAMPLES_NATIVEVIEW_HPP_

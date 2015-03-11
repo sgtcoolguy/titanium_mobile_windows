@@ -9,7 +9,6 @@
 #ifndef _TITANIUMWINDOWS_MAP_VIEW_HPP_
 #define _TITANIUMWINDOWS_MAP_VIEW_HPP_
 
-#include "TitaniumWindows/UI/ViewBase.hpp"
 #include "TitaniumWindows/Map/detail/MapBase.hpp"
 #include "Titanium/Map/View.hpp"
 
@@ -29,7 +28,7 @@ namespace TitaniumWindows
 		  @class
  		  @discussion This is the Titanium.Map.View implementation for Windows.
 		*/
-		class TITANIUMWINDOWS_MAP_EXPORT View final : public Titanium::Map::View, public JSExport<View>, public TitaniumWindows::UI::ViewBase 
+		class TITANIUMWINDOWS_MAP_EXPORT View final : public Titanium::Map::View, public JSExport<View>
 		{
 		public:
 			View(const JSContext&) TITANIUM_NOEXCEPT;
@@ -44,6 +43,8 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
 			// properties
 			virtual uint32_t get_maxZoomLevel() const TITANIUM_NOEXCEPT override final;
 			virtual uint32_t get_minZoomLevel() const TITANIUM_NOEXCEPT override final;
@@ -56,15 +57,6 @@ namespace TitaniumWindows
 			virtual void addAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT;
 			virtual void removeAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT;
 			virtual void zoom(const uint32_t& zoom) TITANIUM_NOEXCEPT override final;
-
-			// Properties for View/ViewBase
-			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT override final;
-			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override final;
-			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override final;
-			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT override final;
-			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT override final;
-			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT override final;
-			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override final;
 
 		protected:
 

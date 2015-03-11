@@ -9,6 +9,7 @@
 #include "TitaniumWindows/UI/ListView.hpp"
 #include "TitaniumWindows/UI/View.hpp"
 #include <collection.h>
+#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
 namespace TitaniumWindows
 {
@@ -19,7 +20,12 @@ namespace TitaniumWindows
 			: Titanium::UI::ListView(js_context)
 		{
 			TITANIUM_LOG_DEBUG("ListView::ctor Initialize");
+		}
 
+		void ListView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		{
+			Titanium::UI::ListView::postCallAsConstructor(js_context, arguments);	
+			
 			listview__ = ref new Windows::UI::Xaml::Controls::ListView();
 
 			collectionViewSource__ = ref new Windows::UI::Xaml::Data::CollectionViewSource();
@@ -34,12 +40,13 @@ namespace TitaniumWindows
 			// Use "SelectionChanged" event to handle click event
 			listview__->IsItemClickEnabled = false;
 
-			setDefaultHeight(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
-			setDefaultWidth(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
-
 			listViewItems__ = ref new ::Platform::Collections::Vector<ListViewItem^>();
 
-			setComponent(listview__);
+			Titanium::UI::ListView::setLayoutPolicy<WindowsViewLayoutPolicy>();
+			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+
+			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(listview__);
 		}
 
 		void ListView::JSExportInitialize() 
@@ -103,9 +110,10 @@ namespace TitaniumWindows
 					listViewItems__->Append(item);
 
 					// Add as child view to make layout engine work
-					Titanium::LayoutEngine::nodeAddChild(layout_node_, view->layout_node_);
-					if (isLoaded()) {
-						auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node_);
+					auto layoutPolicy = getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>();
+					Titanium::LayoutEngine::nodeAddChild(layoutPolicy->getLayoutNode(), view->getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>()->getLayoutNode());
+					if (layoutPolicy->isLoaded()) {
+						auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutPolicy->getLayoutNode());
 						if (root) {
 							Titanium::LayoutEngine::nodeLayout(root);
 						}
