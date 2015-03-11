@@ -10,7 +10,6 @@
 #define _TITANIUMWINDOWS_UI_BUTTON_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "ViewBase.hpp"
 
 namespace TitaniumWindows
 {
@@ -24,12 +23,8 @@ namespace TitaniumWindows
 		  @discussion This is the Titanium.UI.Button implementation for
 		  Windows.
 		*/
-// Silence 4275 about ViewBase for now. We need to merge View and ViewBase and then remove this pragma! TIMOB-18422
-#pragma warning(push)
-#pragma warning(disable : 4275)
-		class TITANIUMWINDOWS_UI_EXPORT Button final : public Titanium::UI::Button, public JSExport<Button>, public ViewBase
+		class TITANIUMWINDOWS_UI_EXPORT Button final : public Titanium::UI::Button, public JSExport<Button>
 		{
-#pragma warning(pop)
 		public:
 			Button(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -42,17 +37,10 @@ namespace TitaniumWindows
 #endif
 
 			static void JSExportInitialize();
+			
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override final;
-			virtual void set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT override final;
-			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT override final;
-			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override final;
-			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override final;
-			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT override final;
-			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT override final;
-			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT override final;
-			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override final;
-
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 		private:

@@ -7,6 +7,7 @@
 */
 
 #include "TitaniumWindows/UI/Label.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
 #define DEFAULT_FONT_SIZE 20
 
@@ -15,16 +16,25 @@ namespace TitaniumWindows
 	namespace UI
 	{
 		Label::Label(const JSContext& js_context) TITANIUM_NOEXCEPT
-			  : Titanium::UI::Label(js_context),
-		      label__(ref new Windows::UI::Xaml::Controls::TextBlock())
+			  : Titanium::UI::Label(js_context)
 		{
 			TITANIUM_LOG_DEBUG("Label::ctor");
+		}
+
+		void Label::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		{
+			Titanium::UI::Label::postCallAsConstructor(js_context, arguments);	
+			
+			label__ = ref new Windows::UI::Xaml::Controls::TextBlock();
+			Titanium::UI::Label::setLayoutPolicy<WindowsViewLayoutPolicy>();
 
 			label__->TextWrapping = Windows::UI::Xaml::TextWrapping::Wrap;
 			label__->TextTrimming = Windows::UI::Xaml::TextTrimming::Clip;
 			label__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Center;
 			label__->FontSize = DEFAULT_FONT_SIZE;
-			setComponent(label__);
+
+			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(label__);
+
 		}
 
 		void Label::JSExportInitialize()
@@ -36,7 +46,7 @@ namespace TitaniumWindows
 		void Label::set_color(const std::string& colorName) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_color(colorName);
-			const auto color_obj = ColorForName(colorName);
+			const auto color_obj = WindowsViewLayoutPolicy::ColorForName(colorName);
 			label__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(color_obj);
 		}
 
@@ -128,66 +138,20 @@ namespace TitaniumWindows
 			using namespace Windows::UI::Xaml::Input;
 			using namespace Windows::UI::Xaml;
 
+			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+
 			if (event_name == "click") {
-				if (click_event_count_ == 0) {
-					click_event_ = getComponent()->Tapped += ref new TappedEventHandler([this, ctx](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
-						auto component = safe_cast<FrameworkElement^>(sender);
-						auto position = e->GetPosition(component);
+				click_event_ = component->Tapped += ref new TappedEventHandler([this, ctx](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
+					auto component = safe_cast<FrameworkElement^>(sender);
+					auto position = e->GetPosition(component);
 
-						JSObject  eventArgs = ctx.CreateObject();
-						eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
-						eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
+					JSObject  eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
+					eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
 
-						this->fireEvent("click", eventArgs);
-					});
-				}
-
-				++click_event_count_;
-
-				return;
+					this->fireEvent("click", eventArgs);
+				});
 			}
-		}
-
-		void Label::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_bottom(bottom);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
-		}
-
-		void Label::set_height(const std::string& height) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_height(height);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
-		}
-
-		void Label::set_left(const std::string& left) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_left(left);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
-		}
-
-		void Label::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_layout(layout);
-			setLayout(layout);
-		}
-
-		void Label::set_right(const std::string& right) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_right(right);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
-		}
-
-		void Label::set_top(const std::string& top) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_top(top);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
-		}
-
-		void Label::set_width(const std::string& width) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_width(width);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 		}
 
 	} // namespace UI

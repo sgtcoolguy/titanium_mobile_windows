@@ -23,7 +23,7 @@ NativeWindowExample::~NativeWindowExample() TITANIUM_NOEXCEPT
 void NativeWindowExample::open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeWindowExample::open");
-	for (auto native_view_ptr : get_native_children()) {
+	for (auto native_view_ptr : layoutPolicy__->get_children()) {
 		auto view_ptr = std::dynamic_pointer_cast<NativeViewExample>(native_view_ptr);
 		TITANIUM_LOG_DEBUG("NativeWindowExample::open: add child ", view_ptr);
 	}

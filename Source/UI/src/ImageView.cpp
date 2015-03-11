@@ -8,21 +8,26 @@
 
 #include "TitaniumWindows/UI/ImageView.hpp"
 #include "LayoutEngine/LayoutEngine.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
 		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
-			  : Titanium::UI::ImageView(js_context),
-		      image__(ref new Windows::UI::Xaml::Controls::Image())
+			  : Titanium::UI::ImageView(js_context)
+		{
+			TITANIUM_LOG_DEBUG("ImageView::ctor");
+		}
+
+		void ImageView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
 			using namespace Windows::UI::Xaml;
 			using namespace Windows::UI::Xaml::Controls;
 
-			TITANIUM_LOG_DEBUG("ImageView::ctor");
+			Titanium::UI::ImageView::postCallAsConstructor(js_context, arguments);	
 
-			setComponent(image__);
+			image__ = ref new Windows::UI::Xaml::Controls::Image();
 
 			internal_load_event_ = image__->ImageOpened += ref new RoutedEventHandler([this](::Platform::Object^ sender, RoutedEventArgs^ e) {
 				auto rect = Titanium::LayoutEngine::RectMake(
@@ -31,8 +36,12 @@ namespace TitaniumWindows
 					this->image__->ActualWidth,
 					this->image__->ActualHeight
 				);
-				this->onComponentSizeChange(rect);
+				getViewLayoutPolicy<WindowsViewLayoutPolicy>()->onComponentSizeChange(rect);
 			});
+
+			Titanium::UI::ImageView::setLayoutPolicy<WindowsViewLayoutPolicy>();
+
+			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(image__);
 
 		}
 
@@ -42,9 +51,11 @@ namespace TitaniumWindows
 			JSExport<ImageView>::SetParent(JSExport<Titanium::UI::ImageView>::Class());
 		}
 
-		void ImageView::animate(const JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
+		void ImageView::animate(const std::shared_ptr<Titanium::UI::Animation>& animation_ptr, JSObject& callback) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::View::animate(animation, callback, this_object);
+			Titanium::UI::View::animate(animation_ptr, callback);
+
+			auto animation = animation_ptr->get_object();
 
 			// Convert duration to type we need
 			const auto raw_duration = animation.GetProperty("duration");
@@ -81,6 +92,8 @@ namespace TitaniumWindows
 				storyboard->BeginTime = begin_time;
 			}
 
+			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+
 			const auto propertyNames = animation.GetPropertyNames();
 			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
 				auto property = animation.GetProperty(property_name);
@@ -97,10 +110,12 @@ namespace TitaniumWindows
 					}
 					double_anim->To = static_cast<double>(property);
 					storyboard->Children->Append(double_anim);
-					storyboard->SetTarget(double_anim, getComponent());
+					storyboard->SetTarget(double_anim, component);
 					storyboard->SetTargetProperty(double_anim, "Opacity");
 				}
 			}
+
+			auto this_object = get_object();
 
 			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, this_object](Platform::Object^ sender, Platform::Object ^ e) mutable {
 				if (callback.IsFunction()) {
@@ -145,66 +160,20 @@ namespace TitaniumWindows
 			using namespace Windows::UI::Xaml::Input;
 			using namespace Windows::UI::Xaml;
 
+			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+
 			if (event_name == "click") {
-				if (click_event_count_ == 0) {
-					click_event_ = getComponent()->Tapped += ref new TappedEventHandler([this, ctx](::Platform::Object^ sender, TappedRoutedEventArgs^ e) {
-						auto component = safe_cast<FrameworkElement^>(sender);
-						auto position = e->GetPosition(component);
+				click_event_ = component->Tapped += ref new TappedEventHandler([this, ctx](::Platform::Object^ sender, TappedRoutedEventArgs^ e) {
+					auto component = safe_cast<FrameworkElement^>(sender);
+					auto position = e->GetPosition(component);
 
-						JSObject  eventArgs = ctx.CreateObject();
-						eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
-						eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
+					JSObject  eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
+					eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
 
-						this->fireEvent("click", eventArgs);
-					});
-				}
-
-				++click_event_count_;
-
-				return;
+					this->fireEvent("click", eventArgs);
+				});
 			}
-		}
-
-		void ImageView::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_bottom(bottom);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
-		}
-
-		void ImageView::set_height(const std::string& height) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_height(height);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
-		}
-
-		void ImageView::set_left(const std::string& left) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_left(left);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
-		}
-
-		void ImageView::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_layout(layout);
-			setLayout(layout);
-		}
-
-		void ImageView::set_right(const std::string& right) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_right(right);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
-		}
-
-		void ImageView::set_top(const std::string& top) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_top(top);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
-		}
-
-		void ImageView::set_width(const std::string& width) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_width(width);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 		}
 
 	} // namespace UI

@@ -11,6 +11,7 @@
 #include "TitaniumWindows/Utility.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
 namespace TitaniumWindows
 {
@@ -21,22 +22,26 @@ namespace TitaniumWindows
 			: Titanium::UI::WebView(js_context)
 		{
 			TITANIUM_LOG_DEBUG("WebView::ctor Initialize");
+		}
 
+		void WebView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		{
+			Titanium::UI::WebView::postCallAsConstructor(js_context, arguments);	
+			
 			webview__ = ref new Windows::UI::Xaml::Controls::WebView();
 			initWebViewListeners();
 
-			setDefaultHeight(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
-			setDefaultWidth(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
+			Titanium::UI::WebView::setLayoutPolicy<WindowsViewLayoutPolicy>();
 
-			setComponent(webview__);
+			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+
+			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(webview__);
 		}
 
 		WebView::~WebView() 
 		{
-			webview__->NavigationCompleted -= load_event__;
-			webview__->NavigationStarting  -= beforeload_event__;
-			webview__->ScriptNotify        -= script_event__;
-			webview__ = nullptr;
+			
 		}
 
 		void WebView::JSExportInitialize() 
@@ -219,48 +224,6 @@ namespace TitaniumWindows
 		void WebView::stopLoading(const bool& hardStop) TITANIUM_NOEXCEPT
 		{
 			webview__->Stop();
-		}
-
-		void WebView::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_bottom(bottom);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
-		}
-
-		void WebView::set_height(const std::string& height) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_height(height);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
-		}
-
-		void WebView::set_left(const std::string& left) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_left(left);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
-		}
-
-		void WebView::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_layout(layout);
-			setLayout(layout);
-		}
-
-		void WebView::set_right(const std::string& right) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_right(right);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
-		}
-
-		void WebView::set_top(const std::string& top) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_top(top);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
-		}
-
-		void WebView::set_width(const std::string& width) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_width(width);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 		}
 
 	} // namespace UI

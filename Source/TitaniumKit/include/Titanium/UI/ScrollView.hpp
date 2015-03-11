@@ -27,7 +27,6 @@ namespace Titanium
 		class TITANIUMKIT_EXPORT ScrollView : public View, public JSExport<ScrollView>
 		{
 		public:
-			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT override;
 			virtual void scrollTo(double x, double y) TITANIUM_NOEXCEPT;
 			virtual void scrollToBottom() TITANIUM_NOEXCEPT;
 

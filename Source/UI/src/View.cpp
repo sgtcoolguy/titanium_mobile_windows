@@ -7,21 +7,30 @@
  */
 
 #include "TitaniumWindows/UI/View.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
 		View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
-  			: Titanium::UI::View(js_context),
-		      canvas__(ref new Windows::UI::Xaml::Controls::Canvas())
+			: Titanium::UI::View(js_context)
 		{
 			TITANIUM_LOG_DEBUG("View::ctor");
+		}
 
-			setDefaultHeight(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
-			setDefaultWidth(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
+		void View::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		{
+			Titanium::UI::View::postCallAsConstructor(js_context, arguments);	
+			
+			canvas__ = ref new Windows::UI::Xaml::Controls::Canvas();
 
-			setComponent(canvas__);
+			Titanium::UI::View::setLayoutPolicy<WindowsViewLayoutPolicy>();
+
+			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+
+			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(canvas__);
 		}
 
 		void View::JSExportInitialize()
@@ -30,38 +39,17 @@ namespace TitaniumWindows
 			JSExport<View>::SetParent(JSExport<Titanium::UI::View>::Class());
 		}
 
-		void View::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT
+		Windows::UI::Xaml::FrameworkElement^ View::getComponent() TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::View::add(view, this_object);
-
-			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
-
-			if (nativeView == nullptr) {
-				TITANIUM_LOG_DEBUG("View::add: nativeView = nullptr");
-				return;
-			}
-
-			auto view_ptr = view.GetPrivate<Titanium::UI::View>();
-			auto newView = std::dynamic_pointer_cast<TitaniumWindows::UI::ViewBase>(view_ptr);
-			auto nativeChildView = newView->getComponent();
-			if (nativeChildView != nullptr) {
-				Titanium::LayoutEngine::nodeAddChild(layout_node_, newView->layout_node_);
-				if (isLoaded()) {
-					auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node_);
-					if (root) {
-						Titanium::LayoutEngine::nodeLayout(root);
-					}
-				}
-
-				canvas__->Children->Append(nativeChildView);
-			} else {
-				TITANIUM_LOG_DEBUG("View::add: nativeChildView = nullptr");
-			}
+			return getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
 		}
 
-		void View::animate(const JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
+		void View::animate(const std::shared_ptr<Titanium::UI::Animation>& animation_ptr, JSObject& callback) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::View::animate(animation, callback, this_object);
+			Titanium::UI::View::animate(animation_ptr, callback);
+
+			// TODO: use native pointer instead of JSObject
+			const auto animation = animation_ptr->get_object();
 
 			// Convert duration to type we need
 			const auto raw_duration = animation.GetProperty("duration");
@@ -98,6 +86,7 @@ namespace TitaniumWindows
 				storyboard->BeginTime = begin_time;
 			}
 
+			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
 			const auto propertyNames = animation.GetPropertyNames();
 			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
 				auto property = animation.GetProperty(property_name);
@@ -114,11 +103,13 @@ namespace TitaniumWindows
 					}
 					double_anim->To = static_cast<double>(property);
 					storyboard->Children->Append(double_anim);
-					storyboard->SetTarget(double_anim, getComponent());
+					storyboard->SetTarget(double_anim, component);
 					storyboard->SetTargetProperty(double_anim, "Opacity");
 				}
 			}
 			
+			auto this_object = get_object();
+
 			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, this_object](Platform::Object^ sender, Platform::Object ^ e) mutable {
 				if (callback.IsFunction()) {
 					callback(this_object); // FIXME Can't call this because emthod is not const, but var is when in lambda!
@@ -126,71 +117,6 @@ namespace TitaniumWindows
 				// TODO Fire complete event on animation object!
 			});
 			storyboard->Begin();
-		}
-
-		void View::hide(JSObject& this_object) TITANIUM_NOEXCEPT
-		{
-			getComponent()->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-		}
-
-		void View::show(JSObject& this_object) TITANIUM_NOEXCEPT
-		{
-			getComponent()->Visibility = Windows::UI::Xaml::Visibility::Visible;
-		}
-
-		void View::set_backgroundColor(const std::string& backgroundColorName) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_backgroundColor(backgroundColorName);
-			const auto backgroundColor = ColorForName(backgroundColorName);
-			canvas__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(backgroundColor);
-		}
-
-		void View::set_opacity(const double& opacity) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_opacity(opacity);
-			getComponent()->Opacity = opacity;
-		}
-
-		void View::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_bottom(bottom);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
-		}
-
-		void View::set_height(const std::string& height) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_height(height);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
-		}
-
-		void View::set_left(const std::string& left) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_left(left);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
-		}
-
-		void View::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_layout(layout);
-			setLayout(layout);
-		}
-
-		void View::set_right(const std::string& right) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_right(right);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
-		}
-
-		void View::set_top(const std::string& top) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_top(top);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
-		}
-
-		void View::set_width(const std::string& width) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_width(width);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 		}
 
 		void View::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
@@ -203,25 +129,20 @@ namespace TitaniumWindows
 			using namespace Windows::UI::Xaml;
 
 			if (event_name == "touchmove") {
-				if (touch_move_event_count_ == 0) {
-					getComponent()->ManipulationMode = ManipulationModes::All;
-					touch_move_event_ = getComponent()->ManipulationDelta += ref new ManipulationDeltaEventHandler([ctx, this](Platform::Object^ sender, ManipulationDeltaRoutedEventArgs^ e) {
-						JSObject  delta = ctx.CreateObject();
-						delta.SetProperty("x", ctx.CreateNumber(e->Delta.Translation.X));
-						delta.SetProperty("y", ctx.CreateNumber(e->Delta.Translation.Y));
+				auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+				component->ManipulationMode = ManipulationModes::All;
+				touch_move_event_ = component->ManipulationDelta += ref new ManipulationDeltaEventHandler([ctx, this](Platform::Object^ sender, ManipulationDeltaRoutedEventArgs^ e) {
+					JSObject  delta = ctx.CreateObject();
+					delta.SetProperty("x", ctx.CreateNumber(e->Delta.Translation.X));
+					delta.SetProperty("y", ctx.CreateNumber(e->Delta.Translation.Y));
 
-						JSObject  eventArgs = ctx.CreateObject();
-						eventArgs.SetProperty("x", ctx.CreateNumber(e->Position.X));
-						eventArgs.SetProperty("y", ctx.CreateNumber(e->Position.Y));
-						eventArgs.SetProperty("delta", delta);
-
-						this->fireEvent("touchmove", eventArgs);
-					});
-				}
-
-				++touch_move_event_count_;
-
-				return;
+					JSObject  eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("x", ctx.CreateNumber(e->Position.X));
+					eventArgs.SetProperty("y", ctx.CreateNumber(e->Position.Y));
+					eventArgs.SetProperty("delta", delta);
+					
+					this->fireEvent("touchmove", eventArgs);
+				});
 			}
 		}
 	} // namespace UI

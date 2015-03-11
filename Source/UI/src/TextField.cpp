@@ -7,19 +7,28 @@
 */
 
 #include "TitaniumWindows/UI/TextField.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
 		TextField::TextField(const JSContext& js_context) TITANIUM_NOEXCEPT
-			  : Titanium::UI::TextField(js_context),
-		      text_box__(ref new Windows::UI::Xaml::Controls::TextBox())
+			  : Titanium::UI::TextField(js_context)
 		{
 			TITANIUM_LOG_DEBUG("TextField::ctor");
+		}
+
+		void TextField::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		{
+			Titanium::UI::TextField::postCallAsConstructor(js_context, arguments);	
+			
+			text_box__ = ref new Windows::UI::Xaml::Controls::TextBox();
 			text_box__->AcceptsReturn = false;
 			text_box__->IsSpellCheckEnabled = true;
-			setComponent(text_box__);
+
+			Titanium::UI::TextField::setLayoutPolicy<WindowsViewLayoutPolicy>();
+			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(text_box__);
 		}
 
 		void TextField::JSExportInitialize()
@@ -31,7 +40,7 @@ namespace TitaniumWindows
 		void TextField::set_color(const std::string& colorName) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::TextField::set_color(colorName);
-			const auto color_obj = ColorForName(colorName);
+			const auto color_obj = WindowsViewLayoutPolicy::ColorForName(colorName);
 			text_box__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(color_obj);
 		}
 
@@ -202,49 +211,6 @@ namespace TitaniumWindows
 
 				return;
 			}
-		}
-
-		// Stuff that should be in View and will get removed once we do TIMOB-18422
-		void TextField::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_bottom(bottom);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
-		}
-
-		void TextField::set_height(const std::string& height) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_height(height);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
-		}
-
-		void TextField::set_left(const std::string& left) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_left(left);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
-		}
-
-		void TextField::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_layout(layout);
-			setLayout(layout);
-		}
-
-		void TextField::set_right(const std::string& right) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_right(right);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
-		}
-
-		void TextField::set_top(const std::string& top) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_top(top);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
-		}
-
-		void TextField::set_width(const std::string& width) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_width(width);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 		}
 
 	} // namespace UI

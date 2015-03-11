@@ -10,7 +10,6 @@
 #define _TITANIUMWINDOWS_UI_SLIDER_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "ViewBase.hpp"
 
 namespace TitaniumWindows
 {
@@ -24,12 +23,8 @@ namespace TitaniumWindows
 		  @discussion This is the Titanium.UI.Slider implementation for
 		  Windows.
 		*/
-// Silence 4275 about ViewBase for now. We need to merge View and ViewBase and then remove this pragma! TIMOB-18422
-#pragma warning(push)
-#pragma warning(disable : 4275)
-		class TITANIUMWINDOWS_UI_EXPORT Slider final : public Titanium::UI::Slider, public JSExport<Slider>, public ViewBase
+		class TITANIUMWINDOWS_UI_EXPORT Slider final : public Titanium::UI::Slider, public JSExport<Slider>
 		{
-#pragma warning(pop)
 		public:
 			Slider(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -42,18 +37,12 @@ namespace TitaniumWindows
 #endif
 
 			static void JSExportInitialize();
+			
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			virtual void set_max(const double& max) TITANIUM_NOEXCEPT override final;
 			virtual void set_min(const double& min) TITANIUM_NOEXCEPT override final;
 			virtual void set_value(const double& value) TITANIUM_NOEXCEPT override final;
-			virtual void set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT override final;
-			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT override final;
-			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override final;
-			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override final;
-			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT override final;
-			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT override final;
-			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT override final;
-			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override final;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
@@ -62,14 +51,9 @@ namespace TitaniumWindows
 
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken change_event_;
-			unsigned int change_event_count_{0};
 			Windows::Foundation::EventRegistrationToken click_event_;
-			unsigned int click_event_count_{0};
 			Windows::Foundation::EventRegistrationToken start_event_;
-			unsigned int start_event_count_{0};
 			Windows::Foundation::EventRegistrationToken stop_event_;
-			unsigned int stop_event_count_{0};
-			unsigned int post_layout_event_count_{0};
 		};
 	} // namespace UI
 } // namespace TitaniumWindows

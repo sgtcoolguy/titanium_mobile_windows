@@ -147,6 +147,17 @@ namespace Titanium
 		*/
 		virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
 
+		template<typename T>
+		std::shared_ptr<T> get_shared_ptr_for_module()
+		{
+			return get_object().GetPrivate<T>();
+		}
+
+		template<typename T>
+		std::weak_ptr<T> get_weak_ptr_for_module()
+		{
+			return get_shared_ptr_for_module<T>();
+		}
 	private:
 		static unsigned eventListenerIndex(const JSObject& event_listener_list, const std::string& name, JSObject& callback) TITANIUM_NOEXCEPT;
 

@@ -10,9 +10,9 @@
 #define _TITANIUMWINDOWS_UI_IMAGEVIEW_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "ViewBase.hpp"
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
+#include "Titanium/UI/Animation.hpp"
 
 namespace TitaniumWindows
 {
@@ -26,12 +26,8 @@ namespace TitaniumWindows
 		  @discussion This is the Titanium.UI.ImageView implementation for
 		  Windows.
 		*/
-// Silence 4275 about ViewBase for now. We need to merge View and ViewBase and then remove this pragma! TIMOB-18422
-#pragma warning(push)
-#pragma warning(disable : 4275)
-		class TITANIUMWINDOWS_UI_EXPORT ImageView final : public Titanium::UI::ImageView, public JSExport<ImageView>, public ViewBase
+		class TITANIUMWINDOWS_UI_EXPORT ImageView final : public Titanium::UI::ImageView, public JSExport<ImageView>
 		{
-#pragma warning(pop)
 		public:
 			ImageView(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -45,20 +41,14 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-			virtual void animate(const JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT override;
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			virtual void animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback) TITANIUM_NOEXCEPT override;
 
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
 			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
-
-			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT override final;
-			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override final;
-			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override final;
-			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT override final;
-			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT override final;
-			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT override final;
-			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override final;
 
 		private:
 			Windows::Foundation::EventRegistrationToken internal_load_event_;
@@ -70,16 +60,10 @@ namespace TitaniumWindows
 
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken click_event_;
-			unsigned int click_event_count_{0};
 			Windows::Foundation::EventRegistrationToken touch_start_event_;
-			unsigned int touch_start_event_count_{0};
 			Windows::Foundation::EventRegistrationToken touch_end_event_;
-			unsigned int touch_end_event_count_{0};
 			Windows::Foundation::EventRegistrationToken touch_move_event_;
-			unsigned int touch_move_event_count_{0};
 			Windows::Foundation::EventRegistrationToken touch_cancel_event_;
-			unsigned int touch_cancel_event_count_{0};
-			unsigned int post_layout_event_count_{0};
 		};
 	} // namespace UI
 } // namespace TitaniumWindow

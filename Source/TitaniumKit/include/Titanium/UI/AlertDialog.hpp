@@ -39,7 +39,7 @@ namespace Titanium
 
 			  @result void
 			*/
-			virtual void hide(JSObject& this_object) TITANIUM_NOEXCEPT;
+			virtual void hide() TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -52,7 +52,7 @@ namespace Titanium
 
 			  @result void
 			*/
-			virtual void show(JSObject& this_object) TITANIUM_NOEXCEPT;
+			virtual void show() TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method

@@ -9,6 +9,7 @@
 #include "TitaniumWindows/Map/View.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/Map/Annotation.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 using namespace Windows::Devices::Geolocation;
@@ -22,6 +23,17 @@ namespace TitaniumWindows
 			: Titanium::Map::View(js_context)
 		{
 			TITANIUM_LOG_DEBUG("View::ctor Initialize");
+		}
+
+		View::~View()
+		{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			mapview__ = nullptr;
+#endif
+		}
+
+		void View::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
+			Titanium::Map::View::postCallAsConstructor(js_context, arguments);
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			mapview__ = ref new MapControl();
@@ -30,19 +42,14 @@ namespace TitaniumWindows
 			// TODO : Load this from app properties, windows_map_service_token?
 			mapview__->MapServiceToken = "VrSrmXR8B5bgklWrs0CK_w";
 
-			// Layout engine
-			TitaniumWindows::UI::ViewBase::setDefaultHeight(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
-			TitaniumWindows::UI::ViewBase::setDefaultWidth(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
-			TitaniumWindows::UI::ViewBase::setComponent(mapview__);
+			Titanium::UI::View::setLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>();
+
+			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+
+			getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>()->setComponent(mapview__);
 
 			zoom(12); // use a default zoom of 12 for Windows?
-#endif
-		}
-
-		View::~View()
-		{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-			mapview__ = nullptr;
 #endif
 		}
 
@@ -172,48 +179,6 @@ namespace TitaniumWindows
 				mapview__->ZoomLevel = zoom;
 			}
 #endif
-		}
-
-		void View::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_bottom(bottom);
-			TitaniumWindows::UI::ViewBase::setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
-		}
-
-		void View::set_height(const std::string& height) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_height(height);
-			TitaniumWindows::UI::ViewBase::setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
-		}
-
-		void View::set_left(const std::string& left) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_left(left);
-			TitaniumWindows::UI::ViewBase::setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
-		}
-
-		void View::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_layout(layout);
-			TitaniumWindows::UI::ViewBase::setLayout(layout);
-		}
-
-		void View::set_right(const std::string& right) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_right(right);
-			TitaniumWindows::UI::ViewBase::setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
-		}
-
-		void View::set_top(const std::string& top) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_top(top);
-			TitaniumWindows::UI::ViewBase::setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
-		}
-
-		void View::set_width(const std::string& width) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::View::set_width(width);
-			TitaniumWindows::UI::ViewBase::setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 		}
 
 	} // namespace Map
