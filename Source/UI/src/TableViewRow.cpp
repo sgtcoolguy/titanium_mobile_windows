@@ -18,13 +18,18 @@ namespace TitaniumWindows
 			: Titanium::UI::TableViewRow(js_context)
 		{
 			TITANIUM_LOG_DEBUG("TableViewRow::ctor Initialize");
+		}
 
+		void TableViewRow::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		{
+			Titanium::UI::TableViewRow::postCallAsConstructor(js_context, arguments);
 			content__ = ref new Windows::UI::Xaml::Controls::Canvas();
 
-			setDefaultHeight(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE));
-			setDefaultWidth(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
+			Titanium::UI::TableViewRow::setLayoutPolicy<WindowsViewLayoutPolicy>();
+			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
 
-			setComponent(content__);
+			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(content__);
 		}
 
 		void TableViewRow::JSExportInitialize() {
@@ -36,20 +41,20 @@ namespace TitaniumWindows
 		{
 			if (title__ != nullptr) {
 				unsigned int index = -1;
-				content__->Children->IndexOf(title__->getComponent(), &index);
+				content__->Children->IndexOf(title__->getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent(), &index);
 				if (index > -1) {
 					content__->Children->RemoveAt(index);
 				}
 			}
 
 			auto view_ptr = view.GetPrivate<Titanium::UI::View>();
-			auto newView = std::dynamic_pointer_cast<TitaniumWindows::UI::ViewBase>(view_ptr);
+			auto newView = std::dynamic_pointer_cast<TitaniumWindows::UI::WindowsViewLayoutPolicy>(view_ptr);
 			auto nativeChildView = newView->getComponent();
 			if (nativeChildView != nullptr) {
 				content__->Children->Append(nativeChildView);
 			}
-
-			View::add(view, this_object);
+			
+			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->add(view_ptr);
 		}
 
 		void TableViewRow::setTitle(std::string title) TITANIUM_NOEXCEPT
@@ -72,7 +77,7 @@ namespace TitaniumWindows
 				title__ = label.GetPrivate<TitaniumWindows::UI::Label>();
 
 				title__->set_text(title);
-				content__->Children->Append(title__->getComponent());
+				content__->Children->Append(title__->getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent());
 			}
 			Titanium::UI::TableViewRow::setTitle(title);
 		}

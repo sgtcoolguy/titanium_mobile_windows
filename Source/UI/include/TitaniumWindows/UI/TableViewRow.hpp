@@ -10,7 +10,7 @@
 #define _TITANIUMWINDOWS_TABLEVIEWROW_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "ViewBase.hpp"
+#include "WindowsViewLayoutPolicy.hpp"
 
 #include "Titanium/UI/Font.hpp"
 #include "Label.hpp"
@@ -29,7 +29,7 @@ namespace TitaniumWindows
 		*/
 #pragma warning(push)
 #pragma warning(disable : 4275)
-		class TITANIUMWINDOWS_UI_EXPORT TableViewRow final : public Titanium::UI::TableViewRow, public JSExport<TableViewRow>, public ViewBase
+		class TITANIUMWINDOWS_UI_EXPORT TableViewRow final : public Titanium::UI::TableViewRow, public JSExport<TableViewRow>
 		{
 #pragma warning(pop)
 		public:
@@ -43,6 +43,8 @@ namespace TitaniumWindows
 #endif
 
 			static void JSExportInitialize();
+
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;
 			virtual void setTitle(std::string title) TITANIUM_NOEXCEPT override;

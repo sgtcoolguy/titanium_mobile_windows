@@ -252,7 +252,6 @@ namespace Titanium
 			static void JSExportInitialize();
 
 			virtual bool js_set_data(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
 			virtual JSValue js_get_data() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_filterAttribute() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_filterAnchored() const TITANIUM_NOEXCEPT final;

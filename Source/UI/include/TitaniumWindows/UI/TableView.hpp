@@ -10,7 +10,7 @@
 #define _TITANIUMWINDOWS_View_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "ViewBase.hpp"
+#include "WindowsViewLayoutPolicy.hpp"
 
 namespace TitaniumWindows
 {
@@ -27,7 +27,7 @@ namespace TitaniumWindows
 		*/
 #pragma warning(push)
 #pragma warning(disable : 4275)
-		class TITANIUMWINDOWS_UI_EXPORT TableView final : public Titanium::UI::TableView, public JSExport<TableView>, public ViewBase
+		class TITANIUMWINDOWS_UI_EXPORT TableView final : public Titanium::UI::TableView, public JSExport<TableView>
 		{
 #pragma warning(pop)
 		public:
@@ -40,6 +40,8 @@ namespace TitaniumWindows
 			TableView& operator=(TableView&&)      = default;
 #endif
 			static void JSExportInitialize();
+
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;

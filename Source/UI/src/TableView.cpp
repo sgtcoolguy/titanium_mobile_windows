@@ -21,6 +21,11 @@ namespace TitaniumWindows
 			: Titanium::UI::TableView(js_context)
 		{
 			TITANIUM_LOG_DEBUG("TableView::ctor Initialize");
+		}
+
+		void TableView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		{
+			Titanium::UI::TableView::postCallAsConstructor(js_context, arguments);
 
 			tableview__ = ref new Windows::UI::Xaml::Controls::ListView();
 
@@ -36,12 +41,13 @@ namespace TitaniumWindows
 			// Use "SelectionChanged" event to handle click event
 			tableview__->IsItemClickEnabled = false;
 
-			setDefaultHeight(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
-			setDefaultWidth(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
-
 			tableViewItems__ = ref new ::Platform::Collections::Vector<ListViewItem^>();
 
-			setComponent(tableview__);
+			Titanium::UI::TableView::setLayoutPolicy<WindowsViewLayoutPolicy>();
+			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+
+			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(tableview__);
 		}
 
 		void TableView::JSExportInitialize() 
@@ -96,7 +102,7 @@ namespace TitaniumWindows
 			// Add TableViewRow
 			if (item.GetPrivate<TitaniumWindows::UI::TableViewRow>()) {
 				auto view = item.GetPrivate<TitaniumWindows::UI::TableViewRow>();
-				auto rowContent = view->getComponent();
+				auto rowContent = view->getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
 				TITANIUM_ASSERT(rowContent);
 
 				auto group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
@@ -110,14 +116,14 @@ namespace TitaniumWindows
 				tableViewItems__->Append(item);
 
 				// Add as child view to make layout engine work
-				Titanium::LayoutEngine::nodeAddChild(layout_node_, view->layout_node_);
-				if (isLoaded()) {
-					auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node_);
+				auto layoutPolicy = getViewLayoutPolicy<WindowsViewLayoutPolicy>();
+				Titanium::LayoutEngine::nodeAddChild(layoutPolicy->getLayoutNode(), view->getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>()->getLayoutNode());
+				if (layoutPolicy->isLoaded()) {
+					auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutPolicy->getLayoutNode());
 					if (root) {
 						Titanium::LayoutEngine::nodeLayout(root);
 					}
 				}
-				
 				collectionViewItems__->Append(group);
 				return;
 
@@ -132,7 +138,7 @@ namespace TitaniumWindows
 				for (uint32_t i=0;i<rows.size();i++) {
 					auto row = rows.at(i);
 					auto view = row->get_object().GetPrivate<TitaniumWindows::UI::TableViewRow>();
-					auto rowContent = view->getComponent();
+					auto rowContent = view->getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
 					TITANIUM_ASSERT(rowContent);
 
 					// Add as list item
@@ -146,9 +152,10 @@ namespace TitaniumWindows
 					tableViewItems__->Append(item);
 
 					// Add as child view to make layout engine work
-					Titanium::LayoutEngine::nodeAddChild(layout_node_, view->layout_node_);
-					if (isLoaded()) {
-						auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node_);
+					auto layoutPolicy = getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>();
+					Titanium::LayoutEngine::nodeAddChild(layoutPolicy->getLayoutNode(), view->getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>()->getLayoutNode());
+					if (layoutPolicy->isLoaded()) {
+						auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutPolicy->getLayoutNode());
 						if (root) {
 							Titanium::LayoutEngine::nodeLayout(root);
 						}
