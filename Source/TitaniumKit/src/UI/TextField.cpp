@@ -1,7 +1,7 @@
 /**
  * TitaniumKit
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -15,7 +15,7 @@ namespace Titanium
 	{
 		TextField::TextField(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
-		      autoCapitalization__(TEXT_AUTOCAPITALIZATION::NONE),
+		      autocapitalization__(TEXT_AUTOCAPITALIZATION::NONE),
 		      borderStyle__(INPUT_BORDERSTYLE::NONE),
 		      clearButtonMode__(INPUT_BUTTONMODE::NEVER),
 			  color__(js_context.CreateString()),
@@ -34,14 +34,14 @@ namespace Titanium
 		{
 		}
 
-		TEXT_AUTOCAPITALIZATION TextField::get_autoCapitalization() const TITANIUM_NOEXCEPT
+		TEXT_AUTOCAPITALIZATION TextField::get_autocapitalization() const TITANIUM_NOEXCEPT
 		{
-			return autoCapitalization__;
+			return autocapitalization__;
 		}
 
-		void TextField::set_autoCapitalization(const TEXT_AUTOCAPITALIZATION& autoCapitalization) TITANIUM_NOEXCEPT
+		void TextField::set_autocapitalization(const TEXT_AUTOCAPITALIZATION& autocapitalization) TITANIUM_NOEXCEPT
 		{
-			autoCapitalization__ = autoCapitalization;
+			autocapitalization__ = autocapitalization;
 		}
 
 		INPUT_BORDERSTYLE TextField::get_borderStyle() const TITANIUM_NOEXCEPT
