@@ -195,10 +195,9 @@ namespace Titanium
 		return version__;
 	}
 
-	JSValue AppModule::fireSystemEvent(const std::string& eventName, JSValue param) TITANIUM_NOEXCEPT
+	void AppModule::fireSystemEvent(const std::string& eventName, const JSObject& param) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("AppModule::fireSystemEvent: Unimplemented");
-		return get_context().CreateUndefined();
 	}
 
 	void AppModule::JSExportInitialize() {
@@ -356,30 +355,19 @@ namespace Titanium
 
 	JSValue AppModule::js_fireSystemEvent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("App.fireSystemEvent is not implemented yet");
-
-		if (arguments.size() < 1) {
-			return get_context().CreateUndefined();
-
-		} else if (arguments.size() >= 2) {
-
+		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
-			const auto _1 = arguments.at(1);
-
 			TITANIUM_ASSERT(_0.IsString());
-			TITANIUM_ASSERT(_1.IsObject());
-
-			const std::string eventName = static_cast<std::string>(_0);
-			const auto param = _1;
-
-		} else if (arguments.size() >= 1) {
-
-			const auto _0 = arguments.at(0);
-
-			TITANIUM_ASSERT(_0.IsString());
-
 			const std::string eventName = static_cast<std::string>(_0);
 
+			JSObject param = this_object.get_context().CreateObject();
+			if (arguments.size() >= 2) {
+				const auto _1 = arguments.at(1);
+				TITANIUM_ASSERT(_1.IsObject());
+				param = static_cast<JSObject>(_1);
+			}
+
+			fireSystemEvent(eventName, param);
 		}
 
 		return get_context().CreateUndefined();
