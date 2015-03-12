@@ -1,5 +1,5 @@
 /**
- * Titanium.UI.TableViewSection for Windows
+ * Titanium.UI.TableViewSection
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -229,6 +229,5 @@ namespace Titanium
 		{
 			return js_get_rows();
 		}
-
 	} // namespace UI
 } // namespace Titanium
