@@ -73,7 +73,7 @@ namespace Titanium
 		virtual JSValue js_get_availableMemory() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_get_batteryLevel() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_get_batteryMonitoring() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_set_batteryMonitoring(const JSValue& argument) TITANIUM_NOEXCEPT final;
+		virtual bool js_set_batteryMonitoring(const JSValue& argument) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_get_batteryState() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_get_id() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_get_locale() const TITANIUM_NOEXCEPT final;
@@ -94,7 +94,7 @@ namespace Titanium
 		virtual JSValue js_getAvailableMemory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getBatteryLevel(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getBatteryMonitoring(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_setBatteryMonitoring(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		virtual JSValue js_setBatteryMonitoring(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getBatteryState(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getId(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getLocale(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
