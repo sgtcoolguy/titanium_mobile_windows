@@ -1,0 +1,165 @@
+/**
+ * TitaniumKit Titanium.Utils
+ *
+ * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License.
+ * Please see the LICENSE included with this distribution for details.
+ */
+
+#include "Titanium/Utils.hpp"
+
+#include <boost/archive/iterators/base64_from_binary.hpp>
+#include <boost/archive/iterators/binary_from_base64.hpp>
+#include <boost/archive/iterators/insert_linebreaks.hpp>
+#include <boost/archive/iterators/transform_width.hpp>
+#include <boost/archive/iterators/ostream_iterator.hpp>
+#include <sstream>
+#include <string>
+
+namespace Titanium
+{
+	UtilsModule::UtilsModule(const JSContext& js_context) TITANIUM_NOEXCEPT
+		: Module(js_context)
+	{
+	}
+
+	Blob_shared_ptr_t UtilsModule::base64decode(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		using namespace boost::archive::iterators;
+
+		TITANIUM_LOG_INFO(obj->get_text().c_str());
+
+		std::string input = obj->get_text();
+
+		std::stringstream out_stream;
+		typedef transform_width<binary_from_base64<std::string::const_iterator>, 8, 6> base64_text;
+		std::copy(base64_text(input.begin()), base64_text(input.end()), ostream_iterator<char>(out_stream));
+		std::string result = out_stream.str();
+
+		TITANIUM_LOG_INFO(result);
+
+		auto blob = get_context().CreateObject(JSExport<Titanium::Blob>::Class()).CallAsConstructor();
+		auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
+		blob_ptr->construct(std::vector<unsigned char>(result.begin(), result.end()));
+		return blob_ptr;
+	}
+
+	Blob_shared_ptr_t UtilsModule::base64encode(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		using namespace boost::archive::iterators;
+
+		TITANIUM_LOG_INFO(obj->get_text().c_str());
+
+		std::string input = obj->get_text();
+
+		std::stringstream out_stream;
+		typedef insert_linebreaks<base64_from_binary<transform_width<std::string::const_iterator, 6, 8>>, 72> base64_text;
+		std::copy(base64_text(input.begin()), base64_text(input.end()), ostream_iterator<char>(out_stream));
+		std::string result = out_stream.str().append((3-input.size()%3)%3, '=');
+
+		TITANIUM_LOG_INFO(result);
+
+		auto blob = get_context().CreateObject(JSExport<Titanium::Blob>::Class()).CallAsConstructor();
+		auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
+		blob_ptr->construct(std::vector<unsigned char>(result.begin(), result.end()));
+		return blob_ptr;
+	}
+
+	std::string UtilsModule::md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("UtilsModule::md5HexDigest: Unimplemented");
+		return "";
+	}
+
+	std::string UtilsModule::sha1(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("UtilsModule::sha1: Unimplemented");
+		return "";
+	}
+
+	std::string UtilsModule::sha256(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("UtilsModule::sha256: Unimplemented");
+		return "";
+	}
+
+	void UtilsModule::JSExportInitialize() {
+		JSExport<UtilsModule>::SetClassVersion(1);
+		JSExport<UtilsModule>::SetParent(JSExport<Module>::Class());
+
+		JSExport<UtilsModule>::AddFunctionProperty("base64decode", std::mem_fn(&UtilsModule::js_base64decode));
+		JSExport<UtilsModule>::AddFunctionProperty("base64encode", std::mem_fn(&UtilsModule::js_base64encode));
+		JSExport<UtilsModule>::AddFunctionProperty("md5HexDigest", std::mem_fn(&UtilsModule::js_md5HexDigest));
+		JSExport<UtilsModule>::AddFunctionProperty("sha1", std::mem_fn(&UtilsModule::js_sha1));
+		JSExport<UtilsModule>::AddFunctionProperty("sha256", std::mem_fn(&UtilsModule::js_sha256));
+	}
+
+	JSValue UtilsModule::js_base64decode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			const auto js_obj = static_cast<JSObject>(_0);
+			const auto obj = js_obj.GetPrivate<Blob>();
+			return static_cast<JSValue>(base64decode(obj)->get_object());
+		}
+		return get_context().CreateUndefined();
+	}
+
+	JSValue UtilsModule::js_base64encode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			const auto js_obj = static_cast<JSObject>(_0);
+			const auto obj = js_obj.GetPrivate<Blob>();
+			return static_cast<JSValue>(base64encode(obj)->get_object());
+		}
+		return get_context().CreateUndefined();
+	}
+
+	JSValue UtilsModule::js_md5HexDigest(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Utils.md5HexDigest is not implemented yet");
+		if (arguments.empty()) {
+			return get_context().CreateUndefined();
+		}
+		else if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			const auto obj = static_cast<JSObject>(_0);
+			// return get_context().CreateString(md5HexDigest(obj));
+		}
+		return get_context().CreateUndefined();
+	}
+
+	JSValue UtilsModule::js_sha1(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Utils.sha1 is not implemented yet");
+		if (arguments.empty()) {
+			return get_context().CreateUndefined();
+		}
+		else if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			const auto obj = static_cast<JSObject>(_0);
+			// return get_context().CreateString(sha1(obj));
+		}
+		return get_context().CreateUndefined();
+	}
+
+	JSValue UtilsModule::js_sha256(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Utils.sha256 is not implemented yet");
+		if (arguments.empty()) {
+			return get_context().CreateUndefined();
+		}
+		else if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			const auto obj = static_cast<JSObject>(_0);
+			// return get_context().CreateString(sha256(obj));
+		}
+		return get_context().CreateUndefined();
+	}
+} // namespace Titanium
