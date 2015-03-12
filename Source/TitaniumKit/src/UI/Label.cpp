@@ -15,6 +15,7 @@ namespace Titanium
 		Label::Label(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
 		      color__(js_context.CreateString()),
+		      ellipsize__(false),
 		      font__(js_context.CreateObject()),
 		      text__(js_context.CreateString()),
 		      textAlign__(TEXT_ALIGNMENT::LEFT),
@@ -73,6 +74,16 @@ namespace Titanium
 			color__ = color;
 		}
 
+		bool Label::get_ellipsize() const TITANIUM_NOEXCEPT
+		{
+			return ellipsize__;
+		}
+
+		void Label::set_ellipsize(const bool& ellipsize) TITANIUM_NOEXCEPT
+		{
+			ellipsize__ = ellipsize;
+		}
+
 		JSValue Label::get_font() const TITANIUM_NOEXCEPT
 		{
 			return font__;
@@ -108,6 +119,7 @@ namespace Titanium
 			JSExport<Label>::SetClassVersion(1);
 			JSExport<Label>::SetParent(JSExport<View>::Class());
 			JSExport<Label>::AddValueProperty("color", std::mem_fn(&Label::js_get_color), std::mem_fn(&Label::js_set_color));
+			JSExport<Label>::AddValueProperty("ellipsize", std::mem_fn(&Label::js_get_ellipsize), std::mem_fn(&Label::js_set_ellipsize));
 			JSExport<Label>::AddValueProperty("font", std::mem_fn(&Label::js_get_font), std::mem_fn(&Label::js_set_font));
 			JSExport<Label>::AddValueProperty("text", std::mem_fn(&Label::js_get_text), std::mem_fn(&Label::js_set_text));
 			JSExport<Label>::AddValueProperty("textAlign", std::mem_fn(&Label::js_get_textAlign), std::mem_fn(&Label::js_set_textAlign));
@@ -116,6 +128,8 @@ namespace Titanium
 
 			JSExport<Label>::AddFunctionProperty("getColor", std::mem_fn(&Label::js_getColor));
 			JSExport<Label>::AddFunctionProperty("setColor", std::mem_fn(&Label::js_setColor));
+			JSExport<Label>::AddFunctionProperty("getEllipsize", std::mem_fn(&Label::js_getEllipsize));
+			JSExport<Label>::AddFunctionProperty("setEllipsize", std::mem_fn(&Label::js_setEllipsize));
 			JSExport<Label>::AddFunctionProperty("getFont", std::mem_fn(&Label::js_getFont));
 			JSExport<Label>::AddFunctionProperty("setFont", std::mem_fn(&Label::js_setFont));
 			JSExport<Label>::AddFunctionProperty("getText", std::mem_fn(&Label::js_getText));
@@ -137,6 +151,18 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_color(static_cast<std::string>(argument));
+			return true;
+		}
+
+		JSValue Label::js_get_ellipsize() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateBoolean(get_ellipsize());
+		}
+
+		bool Label::js_set_ellipsize(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsBoolean());
+			set_ellipsize(static_cast<bool>(argument));
 			return true;
 		}
 

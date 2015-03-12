@@ -25,30 +25,30 @@ describe("Titanium.UI.Label", function () {
     it("textAlign", function (finish) {
         var label = Ti.UI.createLabel({
             text: "this is some text",
-            textAlign: 'center'
+            textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
         });
-        should(label.textAlign).be.a.String;
+        should(label.textAlign).be.a.Number; // String on Android
         should(label.getTextAlign).be.a.Function;
-        should(label.textAlign).eql('center');
-        should(label.getTextAlign()).eql('center');
-        label.textAlign = 'right';
-        should(label.textAlign).eql('right');
-        should(label.getTextAlign()).eql('right');
+        should(label.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
+        should(label.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
+        label.textAlign = Titanium.UI.TEXT_ALIGNMENT_RIGHT;
+        should(label.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_RIGHT);
+        should(label.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_RIGHT);
         finish();
     });
 
     it("verticalAlign", function (finish) {
         var label = Ti.UI.createLabel({
             text: "this is some text",
-            verticalAlign: 'bottom'
+            verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM
         });
-        should(label.verticalAlign).be.a.String;
+        should(label.verticalAlign).be.a.Number; // String on Android
         should(label.getVerticalAlign).be.a.Function;
-        should(label.verticalAlign).eql('bottom');
-        should(label.getVerticalAlign()).eql('bottom');
-        label.verticalAlign = 'top';
-        should(label.verticalAlign).eql('top');
-        should(label.getVerticalAlign()).eql('top');
+        should(label.verticalAlign).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
+        should(label.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
+        label.verticalAlign = Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP;
+        should(label.verticalAlign).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP);
+        should(label.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP);
         finish();
     });
 

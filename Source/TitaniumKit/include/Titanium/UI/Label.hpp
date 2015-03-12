@@ -41,6 +41,18 @@ namespace Titanium
 			/*!
 			  @method
 
+			  @abstract ellipsize : Boolean
+
+			  @discussion Turn on/off the addition of ellipses at the end of the label if the text is too large to fit.
+
+			  Default: false
+			*/
+			virtual bool get_ellipsize() const TITANIUM_NOEXCEPT final;
+			virtual void set_ellipsize(const bool& ellipsize) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract font : Font
 
 			  @discussion Font to use for the label text.
@@ -111,6 +123,11 @@ namespace Titanium
 			virtual JSValue js_getColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
+			virtual JSValue js_get_ellipsize() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_ellipsize(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getEllipsize(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setEllipsize(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
 			virtual JSValue js_get_font() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_font(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getFont(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
@@ -140,6 +157,7 @@ namespace Titanium
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			std::string color__;
+			bool ellipsize__;
 			JSObject font__;
 			std::string text__;
 			TEXT_ALIGNMENT textAlign__;
