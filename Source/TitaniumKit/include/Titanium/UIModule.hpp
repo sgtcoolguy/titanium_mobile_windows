@@ -377,8 +377,8 @@ namespace Titanium
 		virtual JSValue EXTEND_EDGE_TOP() const TITANIUM_NOEXCEPT final;
 		virtual JSValue FACE_DOWN() const TITANIUM_NOEXCEPT final;
 		virtual JSValue FACE_UP() const TITANIUM_NOEXCEPT final;
-		virtual JSValue FILL() const TITANIUM_NOEXCEPT;
-		virtual JSValue INHERIT() const TITANIUM_NOEXCEPT;
+		virtual JSValue FILL() const TITANIUM_NOEXCEPT final;
+		virtual JSValue INHERIT() const TITANIUM_NOEXCEPT final;
 		virtual JSValue INPUT_BORDERSTYLE_BEZEL() const TITANIUM_NOEXCEPT final;
 		virtual JSValue INPUT_BORDERSTYLE_LINE() const TITANIUM_NOEXCEPT final;
 		virtual JSValue INPUT_BORDERSTYLE_NONE() const TITANIUM_NOEXCEPT final;
@@ -427,7 +427,7 @@ namespace Titanium
 		virtual JSValue RETURNKEY_SEARCH() const TITANIUM_NOEXCEPT final;
 		virtual JSValue RETURNKEY_SEND() const TITANIUM_NOEXCEPT final;
 		virtual JSValue RETURNKEY_YAHOO() const TITANIUM_NOEXCEPT final;
-		virtual JSValue SIZE() const TITANIUM_NOEXCEPT;
+		virtual JSValue SIZE() const TITANIUM_NOEXCEPT final;
 		virtual JSValue TEXT_ALIGNMENT_CENTER() const TITANIUM_NOEXCEPT final;
 		virtual JSValue TEXT_ALIGNMENT_LEFT() const TITANIUM_NOEXCEPT final;
 		virtual JSValue TEXT_ALIGNMENT_RIGHT() const TITANIUM_NOEXCEPT final;

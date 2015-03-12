@@ -30,13 +30,13 @@ namespace Titanium
 		  @abstract EVENT_ACCESSIBILITY_ANNOUNCEMENT
 		  @discussion Convenience constant for system event "accessibilityannouncement".
 		*/
-		virtual JSValue EVENT_ACCESSIBILITY_ANNOUNCEMENT() const TITANIUM_NOEXCEPT;
+		virtual JSValue EVENT_ACCESSIBILITY_ANNOUNCEMENT() const TITANIUM_NOEXCEPT final;
 		/*!
 		  @property
 		  @abstract EVENT_ACCESSIBILITY_CHANGED
 		  @discussion Convenience constant for system event "accessibilitychanged".
 		*/
-		virtual JSValue EVENT_ACCESSIBILITY_CHANGED() const TITANIUM_NOEXCEPT;
+		virtual JSValue EVENT_ACCESSIBILITY_CHANGED() const TITANIUM_NOEXCEPT final;
 		/*!
 		  @property
 		  @abstract accessibilityEnabled
@@ -157,7 +157,7 @@ namespace Titanium
 		  @abstract fireSystemEvent
 		  @discussion Fire a system-level event such as <Titanium.App.EVENT_ACCESSIBILITY_ANNOUNCEMENT>.
 		*/
-		virtual JSValue fireSystemEvent(const std::string& eventName, JSValue param) TITANIUM_NOEXCEPT;
+		virtual void fireSystemEvent(const std::string& eventName, const JSObject& param) TITANIUM_NOEXCEPT;
 
 		template<typename _T> _T getAppInfo(std::string property, _T defaultValue);
 		virtual void loadAppInfo() TITANIUM_NOEXCEPT;
