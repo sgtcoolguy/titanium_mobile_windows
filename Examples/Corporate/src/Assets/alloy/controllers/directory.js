@@ -98,7 +98,7 @@ function Controller() {
                     border: 1,
                     borderColor: "#acacac",
                     height: 75,
-                    width: Ti.UI.SIZE,
+                    width: 75,
                     top: 12,
                     left: 0,
                     borderRadius: 35,
