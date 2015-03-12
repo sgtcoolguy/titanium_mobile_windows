@@ -234,6 +234,7 @@ namespace Titanium
 		{
 			JSExport<TextField>::SetClassVersion(1);
 			JSExport<TextField>::SetParent(JSExport<View>::Class());
+			// properties
 			JSExport<TextField>::AddValueProperty("autocapitalization", std::mem_fn(&TextField::js_get_autoCapitalization), std::mem_fn(&TextField::js_set_autoCapitalization));
 			JSExport<TextField>::AddValueProperty("borderStyle", std::mem_fn(&TextField::js_get_borderStyle), std::mem_fn(&TextField::js_set_borderStyle));
 			JSExport<TextField>::AddValueProperty("clearButtonMode", std::mem_fn(&TextField::js_get_clearButtonMode), std::mem_fn(&TextField::js_set_clearButtonMode));
@@ -252,9 +253,47 @@ namespace Titanium
 			JSExport<TextField>::AddValueProperty("textAlign", std::mem_fn(&TextField::js_get_textAlign), std::mem_fn(&TextField::js_set_textAlign));
 			JSExport<TextField>::AddValueProperty("value", std::mem_fn(&TextField::js_get_value), std::mem_fn(&TextField::js_set_value));
 			JSExport<TextField>::AddValueProperty("verticalAlign", std::mem_fn(&TextField::js_get_verticalAlign), std::mem_fn(&TextField::js_set_verticalAlign));
+			// methods
 			JSExport<TextField>::AddFunctionProperty("blur", std::mem_fn(&TextField::js_blur));
 			JSExport<TextField>::AddFunctionProperty("focus", std::mem_fn(&TextField::js_focus));
 			JSExport<TextField>::AddFunctionProperty("hasText", std::mem_fn(&TextField::js_hasText));
+			// property accessor methods
+			JSExport<TextField>::AddFunctionProperty("getAutocapitalization", std::mem_fn(&TextField::js_getAutoCapitalization));
+			JSExport<TextField>::AddFunctionProperty("setAutocapitalization", std::mem_fn(&TextField::js_setAutoCapitalization));
+			JSExport<TextField>::AddFunctionProperty("getBorderStyle", std::mem_fn(&TextField::js_getBorderStyle));
+			JSExport<TextField>::AddFunctionProperty("setBorderStyle", std::mem_fn(&TextField::js_setBorderStyle));
+			JSExport<TextField>::AddFunctionProperty("getClearButtonMode", std::mem_fn(&TextField::js_getClearButtonMode));
+			JSExport<TextField>::AddFunctionProperty("setClearButtonMode", std::mem_fn(&TextField::js_setClearButtonMode));
+			JSExport<TextField>::AddFunctionProperty("getColor", std::mem_fn(&TextField::js_getColor));
+			JSExport<TextField>::AddFunctionProperty("setColor", std::mem_fn(&TextField::js_setColor));
+			JSExport<TextField>::AddFunctionProperty("getEditable", std::mem_fn(&TextField::js_getEditable));
+			JSExport<TextField>::AddFunctionProperty("setEditable", std::mem_fn(&TextField::js_setEditable));
+			JSExport<TextField>::AddFunctionProperty("getEllipsize", std::mem_fn(&TextField::js_getEllipsize));
+			JSExport<TextField>::AddFunctionProperty("setEllipsize", std::mem_fn(&TextField::js_setEllipsize));
+			JSExport<TextField>::AddFunctionProperty("getEnableReturnKey", std::mem_fn(&TextField::js_getEnableReturnKey));
+			JSExport<TextField>::AddFunctionProperty("setEnableReturnKey", std::mem_fn(&TextField::js_setEnableReturnKey));
+			JSExport<TextField>::AddFunctionProperty("getHintText", std::mem_fn(&TextField::js_getHintText));
+			JSExport<TextField>::AddFunctionProperty("setHintText", std::mem_fn(&TextField::js_setHintText));
+			JSExport<TextField>::AddFunctionProperty("getKeyboardType", std::mem_fn(&TextField::js_getKeyboardType));
+			JSExport<TextField>::AddFunctionProperty("setKeyboardType", std::mem_fn(&TextField::js_setKeyboardType));
+			JSExport<TextField>::AddFunctionProperty("getLeftButtonMode", std::mem_fn(&TextField::js_getLeftButtonMode));
+			JSExport<TextField>::AddFunctionProperty("setLeftButtonMode", std::mem_fn(&TextField::js_setLeftButtonMode));
+			JSExport<TextField>::AddFunctionProperty("getMaxLength", std::mem_fn(&TextField::js_getMaxLength));
+			JSExport<TextField>::AddFunctionProperty("setMaxLength", std::mem_fn(&TextField::js_setMaxLength));
+			JSExport<TextField>::AddFunctionProperty("getPasswordMask", std::mem_fn(&TextField::js_getPasswordMask));
+			JSExport<TextField>::AddFunctionProperty("setPasswordMask", std::mem_fn(&TextField::js_setPasswordMask));
+			JSExport<TextField>::AddFunctionProperty("getReturnKeyType", std::mem_fn(&TextField::js_getReturnKeyType));
+			JSExport<TextField>::AddFunctionProperty("setReturnKeyType", std::mem_fn(&TextField::js_setReturnKeyType));
+			JSExport<TextField>::AddFunctionProperty("getRightButtonMode", std::mem_fn(&TextField::js_getRightButtonMode));
+			JSExport<TextField>::AddFunctionProperty("setRightButtonMode", std::mem_fn(&TextField::js_setRightButtonMode));
+			JSExport<TextField>::AddFunctionProperty("getSuppressReturn", std::mem_fn(&TextField::js_getSuppressReturn));
+			JSExport<TextField>::AddFunctionProperty("setSuppressReturn", std::mem_fn(&TextField::js_setSuppressReturn));
+			JSExport<TextField>::AddFunctionProperty("getTextAlign", std::mem_fn(&TextField::js_getTextAlign));
+			JSExport<TextField>::AddFunctionProperty("setTextAlign", std::mem_fn(&TextField::js_setTextAlign));
+			JSExport<TextField>::AddFunctionProperty("getValue", std::mem_fn(&TextField::js_getValue));
+			JSExport<TextField>::AddFunctionProperty("setValue", std::mem_fn(&TextField::js_setValue));
+			JSExport<TextField>::AddFunctionProperty("getVerticalAlign", std::mem_fn(&TextField::js_getVerticalAlign));
+			JSExport<TextField>::AddFunctionProperty("setVerticalAlign", std::mem_fn(&TextField::js_setVerticalAlign));
 		}
 
 		JSValue TextField::js_get_autoCapitalization() const TITANIUM_NOEXCEPT
@@ -270,6 +309,19 @@ namespace Titanium
 			return true;
 		}
 
+		JSValue TextField::js_getAutoCapitalization(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_autoCapitalization();
+		}
+
+		JSValue TextField::js_setAutoCapitalization(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_autoCapitalization(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
 		JSValue TextField::js_get_borderStyle() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<INPUT_BORDERSTYLE>::type>(get_borderStyle()));
@@ -281,6 +333,19 @@ namespace Titanium
 			borderStyle__ = Constants::to_INPUT_BORDERSTYLE(static_cast<std::underlying_type<INPUT_BORDERSTYLE>::type>(argument));
 			set_borderStyle(borderStyle__);
 			return true;
+		}
+
+		JSValue TextField::js_getBorderStyle(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_borderStyle();
+		}
+
+		JSValue TextField::js_setBorderStyle(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_borderStyle(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 
 		JSValue TextField::js_get_clearButtonMode() const TITANIUM_NOEXCEPT
@@ -296,6 +361,19 @@ namespace Titanium
 			return true;
 		}
 
+		JSValue TextField::js_getClearButtonMode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_clearButtonMode();
+		}
+
+		JSValue TextField::js_setClearButtonMode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_clearButtonMode(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
 		JSValue TextField::js_get_color() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(get_color());
@@ -306,6 +384,19 @@ namespace Titanium
 			TITANIUM_ASSERT(argument.IsString());
 			set_color(static_cast<std::string>(argument));
 			return true;
+		}
+
+		JSValue TextField::js_getColor(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_color();
+		}
+
+		JSValue TextField::js_setColor(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_color(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 
 		JSValue TextField::js_get_editable() const TITANIUM_NOEXCEPT
@@ -321,6 +412,19 @@ namespace Titanium
 			return true;
 		}
 
+		JSValue TextField::js_getEditable(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_editable();
+		}
+
+		JSValue TextField::js_setEditable(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_editable(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
 		JSValue TextField::js_get_ellipsize() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateBoolean(get_ellipsize());
@@ -332,6 +436,19 @@ namespace Titanium
 			ellipsize__ = static_cast<bool>(argument);
 			set_ellipsize(ellipsize__);
 			return true;
+		}
+
+		JSValue TextField::js_getEllipsize(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_ellipsize();
+		}
+
+		JSValue TextField::js_setEllipsize(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_ellipsize(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 
 		JSValue TextField::js_get_enableReturnKey() const TITANIUM_NOEXCEPT
@@ -347,6 +464,19 @@ namespace Titanium
 			return true;
 		}
 
+		JSValue TextField::js_getEnableReturnKey(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_enableReturnKey();
+		}
+
+		JSValue TextField::js_setEnableReturnKey(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_enableReturnKey(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
 		JSValue TextField::js_get_hintText() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(get_hintText());
@@ -357,6 +487,19 @@ namespace Titanium
 			TITANIUM_ASSERT(argument.IsString());
 			set_hintText(static_cast<std::string>(argument));
 			return true;
+		}
+
+		JSValue TextField::js_getHintText(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_hintText();
+		}
+
+		JSValue TextField::js_setHintText(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_hintText(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 
 		JSValue TextField::js_get_keyboardType() const TITANIUM_NOEXCEPT
@@ -372,6 +515,19 @@ namespace Titanium
 			return true;
 		}
 
+		JSValue TextField::js_getKeyboardType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_keyboardType();
+		}
+
+		JSValue TextField::js_setKeyboardType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_keyboardType(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
 		JSValue TextField::js_get_leftButtonMode() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<INPUT_BUTTONMODE>::type>(get_leftButtonMode()));
@@ -383,6 +539,19 @@ namespace Titanium
 			leftButtonMode__ = Constants::to_INPUT_BUTTONMODE(static_cast<std::underlying_type<INPUT_BUTTONMODE>::type>(argument));
 			set_leftButtonMode(leftButtonMode__);
 			return true;
+		}
+
+		JSValue TextField::js_getLeftButtonMode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_leftButtonMode();
+		}
+
+		JSValue TextField::js_setLeftButtonMode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_leftButtonMode(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 
 		JSValue TextField::js_get_maxLength() const TITANIUM_NOEXCEPT
@@ -397,6 +566,19 @@ namespace Titanium
 			return true;
 		}
 
+		JSValue TextField::js_getMaxLength(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_maxLength();
+		}
+
+		JSValue TextField::js_setMaxLength(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_maxLength(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
 		JSValue TextField::js_get_passwordMask() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateBoolean(get_passwordMask());
@@ -407,6 +589,19 @@ namespace Titanium
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_passwordMask(static_cast<bool>(argument));
 			return true;
+		}
+
+		JSValue TextField::js_getPasswordMask(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_passwordMask();
+		}
+
+		JSValue TextField::js_setPasswordMask(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_passwordMask(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 
 		JSValue TextField::js_get_returnKeyType() const TITANIUM_NOEXCEPT
@@ -422,6 +617,19 @@ namespace Titanium
 			return true;
 		}
 
+		JSValue TextField::js_getReturnKeyType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_returnKeyType();
+		}
+
+		JSValue TextField::js_setReturnKeyType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_returnKeyType(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
 		JSValue TextField::js_get_rightButtonMode() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<INPUT_BUTTONMODE>::type>(get_rightButtonMode()));
@@ -435,6 +643,19 @@ namespace Titanium
 			return true;
 		}
 
+		JSValue TextField::js_getRightButtonMode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_rightButtonMode();
+		}
+
+		JSValue TextField::js_setRightButtonMode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_rightButtonMode(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
 		JSValue TextField::js_get_suppressReturn() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateBoolean(get_suppressReturn());
@@ -445,6 +666,19 @@ namespace Titanium
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_suppressReturn(static_cast<bool>(argument));
 			return true;
+		}
+
+		JSValue TextField::js_getSuppressReturn(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_suppressReturn();
+		}
+
+		JSValue TextField::js_setSuppressReturn(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_suppressReturn(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 
 		JSValue TextField::js_get_textAlign() const TITANIUM_NOEXCEPT
@@ -468,6 +702,19 @@ namespace Titanium
 			return result;
 		}
 
+		JSValue TextField::js_getTextAlign(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_textAlign();
+		}
+
+		JSValue TextField::js_setTextAlign(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_textAlign(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
 		JSValue TextField::js_get_value() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(get_value());
@@ -478,6 +725,19 @@ namespace Titanium
 			TITANIUM_ASSERT(argument.IsString());
 			set_value(static_cast<std::string>(argument));
 			return true;
+		}
+
+		JSValue TextField::js_getValue(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_value();
+		}
+
+		JSValue TextField::js_setValue(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_value(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 
 		JSValue TextField::js_get_verticalAlign() const TITANIUM_NOEXCEPT
@@ -499,6 +759,19 @@ namespace Titanium
 			}
 
 			return result;
+		}
+
+		JSValue TextField::js_getVerticalAlign(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_verticalAlign();
+		}
+
+		JSValue TextField::js_setVerticalAlign(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_verticalAlign(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 
 		JSValue TextField::js_blur(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
