@@ -35,8 +35,8 @@ namespace Titanium
 
 			  @discussion Determines how text is capitalized during typing.
 			*/
-			virtual TEXT_AUTOCAPITALIZATION get_autoCapitalization() const TITANIUM_NOEXCEPT final;
-			virtual void set_autoCapitalization(const TEXT_AUTOCAPITALIZATION& autoCapitalization) TITANIUM_NOEXCEPT;
+			virtual TEXT_AUTOCAPITALIZATION get_autocapitalization() const TITANIUM_NOEXCEPT final;
+			virtual void set_autocapitalization(const TEXT_AUTOCAPITALIZATION& autocapitalization) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -286,10 +286,10 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_autoCapitalization() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_autoCapitalization(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getAutoCapitalization(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setAutoCapitalization(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_autocapitalization() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_autocapitalization(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getAutocapitalization(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setAutocapitalization(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_borderStyle() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_borderStyle(const JSValue& argument) TITANIUM_NOEXCEPT final;
@@ -383,7 +383,7 @@ namespace Titanium
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			TEXT_AUTOCAPITALIZATION autoCapitalization__;
+			TEXT_AUTOCAPITALIZATION autocapitalization__;
 			INPUT_BORDERSTYLE borderStyle__;
 			INPUT_BUTTONMODE clearButtonMode__;
 			std::string color__;

@@ -41,7 +41,7 @@ namespace Titanium
 
 		void TextField::set_autoCapitalization(const TEXT_AUTOCAPITALIZATION& autoCapitalization) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_autoCapitalization: Unimplemented");
+			autoCapitalization__ = autoCapitalization;
 		}
 
 		INPUT_BORDERSTYLE TextField::get_borderStyle() const TITANIUM_NOEXCEPT
@@ -51,7 +51,7 @@ namespace Titanium
 
 		void TextField::set_borderStyle(const INPUT_BORDERSTYLE& borderStyle) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_borderStyle: Unimplemented");
+			borderStyle__ = borderStyle;
 		}
 
 		INPUT_BUTTONMODE TextField::get_clearButtonMode() const TITANIUM_NOEXCEPT
@@ -61,7 +61,7 @@ namespace Titanium
 
 		void TextField::set_clearButtonMode(const INPUT_BUTTONMODE& clearButtonMode) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_clearButtonMode: Unimplemented");
+			clearButtonMode__ = clearButtonMode;
 		}
 
 		std::string TextField::get_color() const TITANIUM_NOEXCEPT
@@ -71,7 +71,7 @@ namespace Titanium
 
 		void TextField::set_color(const std::string& color) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_color: Unimplemented");
+			color__ = color;
 		}
 
 		bool TextField::get_editable() const TITANIUM_NOEXCEPT
@@ -81,7 +81,7 @@ namespace Titanium
 
 		void TextField::set_editable(const bool& editable) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_editable: Unimplemented");
+			editable__ = editable;
 		}
 
 		bool TextField::get_ellipsize() const TITANIUM_NOEXCEPT
@@ -91,7 +91,7 @@ namespace Titanium
 
 		void TextField::set_ellipsize(const bool& ellipsize) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_ellipsize: Unimplemented");
+			ellipsize__ = ellipsize;
 		}
 
 		bool TextField::get_enableReturnKey() const TITANIUM_NOEXCEPT
@@ -101,7 +101,7 @@ namespace Titanium
 
 		void TextField::set_enableReturnKey(const bool& enableReturnKey) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_enableReturnKey: Unimplemented");
+			enableReturnKey__ = enableReturnKey;
 		}
 
 		std::string TextField::get_hintText() const TITANIUM_NOEXCEPT
@@ -111,7 +111,7 @@ namespace Titanium
 
 		void TextField::set_hintText(const std::string& hintText) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_hintText: Unimplemented");
+			hintText__ = hintText;
 		}
 
 		KEYBOARD TextField::get_keyboardType() const TITANIUM_NOEXCEPT
@@ -121,7 +121,7 @@ namespace Titanium
 
 		void TextField::set_keyboardType(const KEYBOARD& keyboardType) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_keyboardType: Unimplemented");
+			keyboardType__ = keyboardType;
 		}
 
 		INPUT_BUTTONMODE TextField::get_leftButtonMode() const TITANIUM_NOEXCEPT
@@ -131,7 +131,7 @@ namespace Titanium
 
 		void TextField::set_leftButtonMode(const INPUT_BUTTONMODE& leftButtonMode) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_clearButtonMode: Unimplemented");
+			clearButtonMode__ = clearButtonMode;
 		}
 
 		int32_t TextField::get_maxLength() const TITANIUM_NOEXCEPT
@@ -141,7 +141,7 @@ namespace Titanium
 
 		void TextField::set_maxLength(const int32_t& maxLength) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_maxLength: Unimplemented");
+			maxLength__ = maxLength;
 		}
 
 		bool TextField::get_passwordMask() const TITANIUM_NOEXCEPT
@@ -151,7 +151,7 @@ namespace Titanium
 
 		void TextField::set_passwordMask(const bool& passwordMask) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_passwordMask: Unimplemented");
+			passwordMask__ = passwordMask;
 		}
 
 		RETURNKEY TextField::get_returnKeyType() const TITANIUM_NOEXCEPT
@@ -161,7 +161,7 @@ namespace Titanium
 
 		void TextField::set_returnKeyType(const RETURNKEY& keyboardType) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::get_returnKeyType: Unimplemented");
+			returnKeyType__ = returnKeyType;
 		}
 
 		INPUT_BUTTONMODE TextField::get_rightButtonMode() const TITANIUM_NOEXCEPT
@@ -171,7 +171,7 @@ namespace Titanium
 
 		void TextField::set_rightButtonMode(const INPUT_BUTTONMODE& rightButtonMode) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_clearButtonMode: Unimplemented");
+			rightButtonMode__ = rightButtonMode;
 		}
 
 		bool TextField::get_suppressReturn() const TITANIUM_NOEXCEPT
@@ -181,7 +181,7 @@ namespace Titanium
 
 		void TextField::set_suppressReturn(const bool& suppressReturn) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_suppressReturn: Unimplemented");
+			suppressReturn__ = suppressReturn;
 		}
 
 		TEXT_ALIGNMENT TextField::get_textAlign() const TITANIUM_NOEXCEPT
@@ -191,7 +191,7 @@ namespace Titanium
 
 		void TextField::set_textAlign(const TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_textAlign: Unimplemented");
+			textAlign__ = textAlign;
 		}
 
 		std::string TextField::get_value() const TITANIUM_NOEXCEPT
@@ -201,7 +201,7 @@ namespace Titanium
 
 		void TextField::set_value(const std::string& value) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_value: Unimplemented");
+			value__ = value;
 		}
 
 		TEXT_VERTICAL_ALIGNMENT TextField::get_verticalAlign() const TITANIUM_NOEXCEPT
@@ -211,7 +211,7 @@ namespace Titanium
 
 		void TextField::set_verticalAlign(const TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextField::set_verticalAlign: Unimplemented");
+			verticalAlign__ = verticalAlign;
 		}
 
 		void TextField::blur() TITANIUM_NOEXCEPT
@@ -235,7 +235,7 @@ namespace Titanium
 			JSExport<TextField>::SetClassVersion(1);
 			JSExport<TextField>::SetParent(JSExport<View>::Class());
 			// properties
-			JSExport<TextField>::AddValueProperty("autocapitalization", std::mem_fn(&TextField::js_get_autoCapitalization), std::mem_fn(&TextField::js_set_autoCapitalization));
+			JSExport<TextField>::AddValueProperty("autocapitalization", std::mem_fn(&TextField::js_get_autocapitalization), std::mem_fn(&TextField::js_set_autocapitalization));
 			JSExport<TextField>::AddValueProperty("borderStyle", std::mem_fn(&TextField::js_get_borderStyle), std::mem_fn(&TextField::js_set_borderStyle));
 			JSExport<TextField>::AddValueProperty("clearButtonMode", std::mem_fn(&TextField::js_get_clearButtonMode), std::mem_fn(&TextField::js_set_clearButtonMode));
 			JSExport<TextField>::AddValueProperty("color", std::mem_fn(&TextField::js_get_color), std::mem_fn(&TextField::js_set_color));
@@ -258,8 +258,8 @@ namespace Titanium
 			JSExport<TextField>::AddFunctionProperty("focus", std::mem_fn(&TextField::js_focus));
 			JSExport<TextField>::AddFunctionProperty("hasText", std::mem_fn(&TextField::js_hasText));
 			// property accessor methods
-			JSExport<TextField>::AddFunctionProperty("getAutocapitalization", std::mem_fn(&TextField::js_getAutoCapitalization));
-			JSExport<TextField>::AddFunctionProperty("setAutocapitalization", std::mem_fn(&TextField::js_setAutoCapitalization));
+			JSExport<TextField>::AddFunctionProperty("getAutocapitalization", std::mem_fn(&TextField::js_getAutocapitalization));
+			JSExport<TextField>::AddFunctionProperty("setAutocapitalization", std::mem_fn(&TextField::js_setAutocapitalization));
 			JSExport<TextField>::AddFunctionProperty("getBorderStyle", std::mem_fn(&TextField::js_getBorderStyle));
 			JSExport<TextField>::AddFunctionProperty("setBorderStyle", std::mem_fn(&TextField::js_setBorderStyle));
 			JSExport<TextField>::AddFunctionProperty("getClearButtonMode", std::mem_fn(&TextField::js_getClearButtonMode));
@@ -296,28 +296,28 @@ namespace Titanium
 			JSExport<TextField>::AddFunctionProperty("setVerticalAlign", std::mem_fn(&TextField::js_setVerticalAlign));
 		}
 
-		JSValue TextField::js_get_autoCapitalization() const TITANIUM_NOEXCEPT
+		JSValue TextField::js_get_autocapitalization() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(get_autoCapitalization()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(get_autocapitalization()));
 		}
 
-		bool TextField::js_set_autoCapitalization(const JSValue& argument) TITANIUM_NOEXCEPT
+		bool TextField::js_set_autocapitalization(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			autoCapitalization__ = Constants::to_TEXT_AUTOCAPITALIZATION(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(argument));
-			set_autoCapitalization(autoCapitalization__);
+			autocapitalization__ = Constants::to_TEXT_AUTOCAPITALIZATION(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(argument));
+			set_autocapitalization(autocapitalization__);
 			return true;
 		}
 
-		JSValue TextField::js_getAutoCapitalization(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue TextField::js_getAutocapitalization(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return js_get_autoCapitalization();
+			return js_get_autocapitalization();
 		}
 
-		JSValue TextField::js_setAutoCapitalization(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue TextField::js_setAutocapitalization(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() >= 1) {
-				js_set_autoCapitalization(arguments.at(0));
+				js_set_autocapitalization(arguments.at(0));
 			}
 			return get_context().CreateUndefined();
 		}

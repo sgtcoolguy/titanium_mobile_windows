@@ -26,7 +26,7 @@ describe("Titanium.UI.TextField", function () {
             value: "this is some text",
             textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
         });
-        should(textfield.textAlign).be.a.String;
+        should(textfield.textAlign).be.a.Number; // String on Android
         should(textfield.getTextAlign).be.a.Function;
         should(textfield.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
         should(textfield.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
@@ -40,7 +40,7 @@ describe("Titanium.UI.TextField", function () {
             value: "this is some text",
             verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM
         });
-        should(textfield.verticalAlign).be.a.String;
+        should(textfield.verticalAlign).be.a.Number; // String on Android
         should(textfield.getVerticalAlign).be.a.Function;
         should(textfield.verticalAlign).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
         should(textfield.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);

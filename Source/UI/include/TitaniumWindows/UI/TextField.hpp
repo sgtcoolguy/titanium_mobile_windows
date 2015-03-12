@@ -40,7 +40,7 @@ namespace TitaniumWindows
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
-//			virtual void set_autoCapitalization(const Titanium::UI::TEXT_AUTOCAPITALIZATION& autoCapitalization) TITANIUM_NOEXCEPT override final;
+//			virtual void set_autocapitalization(const Titanium::UI::TEXT_AUTOCAPITALIZATION& autoCapitalization) TITANIUM_NOEXCEPT override final;
 //			virtual void set_borderStyle(const Titanium::UI::INPUT_BORDERSTYLE& borderStyle) TITANIUM_NOEXCEPT override final;
 //			virtual void set_clearButtonMode(const Titanium::UI::INPUT_BUTTONMODE& clearButtonMode) TITANIUM_NOEXCEPT override final;
 			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT override final;
