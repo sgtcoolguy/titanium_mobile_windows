@@ -87,6 +87,13 @@ namespace Titanium
 			*/
 			virtual void remove(TableViewRow_shared_ptr_t row) TITANIUM_NOEXCEPT;
 
+			/*!
+			  @method
+			  @abstract rowAtIndex
+			  @discussion Returns a row in this section.
+			*/
+			virtual TableViewRow_shared_ptr_t rowAtIndex(uint32_t index) TITANIUM_NOEXCEPT;
+
 			TableViewSection(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableViewSection() = default;
 			TableViewSection(const TableViewSection&) = default;
@@ -106,6 +113,7 @@ namespace Titanium
 			virtual JSValue js_get_rows() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_add(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_remove(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_rowAtIndex(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getFooterTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setFooterTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getFooterView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;

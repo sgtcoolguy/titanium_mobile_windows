@@ -60,6 +60,11 @@ namespace Titanium
 			rows__.erase(find(rows__.begin(), rows__.end(), row));
 		}
 
+		TableViewRow_shared_ptr_t TableViewSection::rowAtIndex(uint32_t index) TITANIUM_NOEXCEPT
+		{
+			return rows__.at(index);
+		}
+
 		void TableViewSection::JSExportInitialize() {
 			JSExport<TableViewSection>::SetClassVersion(1);
 			JSExport<TableViewSection>::SetParent(JSExport<Module>::Class());
@@ -73,6 +78,7 @@ namespace Titanium
 
 			JSExport<TableViewSection>::AddFunctionProperty("add", std::mem_fn(&TableViewSection::js_add));
 			JSExport<TableViewSection>::AddFunctionProperty("remove", std::mem_fn(&TableViewSection::js_remove));
+			JSExport<TableViewSection>::AddFunctionProperty("rowAtIndex", std::mem_fn(&TableViewSection::js_rowAtIndex));
 			JSExport<TableViewSection>::AddFunctionProperty("getFooterTitle", std::mem_fn(&TableViewSection::js_getFooterTitle));
 			JSExport<TableViewSection>::AddFunctionProperty("setFooterTitle", std::mem_fn(&TableViewSection::js_setFooterTitle));
 			JSExport<TableViewSection>::AddFunctionProperty("getFooterView", std::mem_fn(&TableViewSection::js_getFooterView));
@@ -147,6 +153,17 @@ namespace Titanium
 				TITANIUM_ASSERT(_0.IsObject());
 				const auto row = static_cast<JSObject>(_0);
 				remove(row.GetPrivate<TableViewRow>());
+			}
+			return get_context().CreateUndefined();
+		}
+
+		JSValue TableViewSection::js_rowAtIndex(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				const auto _0 = arguments.at(0);
+				TITANIUM_ASSERT(_0.IsNumber());
+				const auto index = static_cast<uint32_t>(_0);
+				rowAtIndex(index);
 			}
 			return get_context().CreateUndefined();
 		}
