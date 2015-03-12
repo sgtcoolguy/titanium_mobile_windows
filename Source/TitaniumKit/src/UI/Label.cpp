@@ -290,6 +290,19 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
+	JSValue Label::js_getEllipsize(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_ellipsize();
+		}
+
+		JSValue Label::js_setEllipsize(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_ellipsize(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
 		JSValue Label::js_getFont(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			return js_get_font();
