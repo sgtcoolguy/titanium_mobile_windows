@@ -282,7 +282,7 @@ describe('Titanium.Map', function () {
         should(Ti.Map.isGooglePlayServicesAvailable).be.a.Function;
 
         var value = Ti.Map.isGooglePlayServicesAvailable();
-        should(view).be.a.Number;
+        should(value).be.a.Number;
         
         finish();
     });
