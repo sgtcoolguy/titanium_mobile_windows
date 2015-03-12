@@ -263,12 +263,16 @@ namespace TitaniumWindows
 				if (rect.width > parentLayout->element.measuredWidth && parentLayout->element.measuredWidth > 0) {
 					rect.width = parentLayout->element.measuredWidth;
 					setWidthOnWidget = true;
+				} else if (layout_node__->properties.width.valueType == Titanium::LayoutEngine::Fixed) {
+					setWidthOnWidget = true;
 				}
 			}
 
 			if (!is_panel__ && is_height_size__ && parentLayout != nullptr) {
 				if (rect.height > parentLayout->element.measuredHeight && parentLayout->element.measuredHeight > 0) {
 					rect.height = parentLayout->element.measuredHeight;
+					setHeightOnWidget = true;
+				} else if (layout_node__->properties.height.valueType == Titanium::LayoutEngine::Fixed) {
 					setHeightOnWidget = true;
 				}
 			}
