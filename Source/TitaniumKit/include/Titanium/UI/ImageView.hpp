@@ -39,7 +39,7 @@ namespace Titanium
 
 			  @result void
 			*/
-			virtual void start(JSObject& this_object) TITANIUM_NOEXCEPT;
+			virtual void start() TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -52,7 +52,7 @@ namespace Titanium
 
 			  @result void
 			*/
-			virtual void stop(JSObject& this_object) TITANIUM_NOEXCEPT;
+			virtual void stop() TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method

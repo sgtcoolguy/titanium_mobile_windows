@@ -21,12 +21,12 @@ namespace Titanium
 		{
 		}
 
-		void ImageView::start(JSObject& this_object) TITANIUM_NOEXCEPT
+		void ImageView::start() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("ImageView::start unimplemented");
 		}
 
-		void ImageView::stop(JSObject& this_object) TITANIUM_NOEXCEPT
+		void ImageView::stop() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("ImageView::stop unimplemented");
 		}
@@ -86,14 +86,14 @@ namespace Titanium
 		JSValue ImageView::js_start(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(arguments.empty());
-			start(this_object);
+			start();
 			return get_context().CreateUndefined();
 		}
 
 		JSValue ImageView::js_stop(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(arguments.empty());
-			stop(this_object);
+			stop();
 			return get_context().CreateUndefined();
 		}
 
