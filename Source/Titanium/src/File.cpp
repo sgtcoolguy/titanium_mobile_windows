@@ -28,6 +28,17 @@ namespace TitaniumWindows
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Filesystem::File::ctor");
 		}
 
+		std::string File::normalizePath(const std::string& path)
+		{
+			// this assumes we already joined the arguments with separator
+			std::string name = static_cast<std::string>(path);
+			// Convert "/" to "\\"
+			std::replace(name.begin(), name.end(), '/', '\\');
+			// remove duplicate separators!
+			boost::algorithm::replace_all(name, "\\\\", "\\");
+			return name;
+		}
+
 		void File::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
 			// TODO: if argument is empty, we assumes it's called from initializer.
 			if (arguments.empty()) {
@@ -38,11 +49,7 @@ namespace TitaniumWindows
 			TITANIUM_ASSERT(arguments.at(0).IsString());
 
 			// this assumes we already joined the arguments with separator
-			std::string name = static_cast<std::string>(arguments.at(0));
-			// Convert "/" to "\\"
-			std::replace(name.begin(), name.end(), '/', '\\');
-			// remove duplicate separators!
-			boost::algorithm::replace_all(name, "\\\\", "\\");
+			std::string name = normalizePath(static_cast<std::string>(arguments.at(0)));
 
 			const auto location = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
 			// if this path is relative path, let's use application installed location path
@@ -250,14 +257,15 @@ namespace TitaniumWindows
 			if (isFolder()) {
 				return false;
 			}
-
-			auto fileToReplace = this->getFileFromPathSync(destinationPath);
+			// FIXME Need to normalize the path like we do in constructor!
+			auto path = normalizePath(destinationPath);
+			auto fileToReplace = this->getFileFromPathSync(path);
 
 			// if destination file is not found, create new file and try again
 			if (fileToReplace == nullptr) {
-				const bool created = createEmptyFile(destinationPath);
+				const bool created = createEmptyFile(path);
 				if (created) {
-					fileToReplace = getFileFromPathSync(destinationPath);
+					fileToReplace = getFileFromPathSync(path);
 				} else {
 					return false;
 				}
@@ -265,7 +273,7 @@ namespace TitaniumWindows
 
 			concurrency::event event;
 			bool result = false;
-			task<void>(file_->CopyAndReplaceAsync(fileToReplace)).then([&result, &event](task<void> task) {
+			create_task(file_->CopyAndReplaceAsync(fileToReplace)).then([&result, &event](task<void> task) {
 					try {
 						task.get();
 						result = true;
@@ -456,19 +464,21 @@ namespace TitaniumWindows
 
 		bool File::move(const std::string& newpath) TITANIUM_NOEXCEPT
 		{
+			auto path = normalizePath(newpath);
+
 			// if this item is folder, call rename
 			if (isFolder()) {
-				return this->rename(newpath);
+				return this->rename(path);
 			}
 
 			// make sure to create detination file before getting StorageFile
 			// otherwise GetFileFromPathSync will return nullptr
-			if (!createEmptyFile(newpath)) {
+			if (!createEmptyFile(path)) {
 				return false;
 			}
 
 			// retrieve destination file
-			StorageFile^ fileToReplace = getFileFromPathSync(TitaniumWindows::Utility::ConvertString(newpath));
+			StorageFile^ fileToReplace = getFileFromPathSync(TitaniumWindows::Utility::ConvertString(path));
 
 			if (fileToReplace == nullptr) {
 				return false;
@@ -476,7 +486,7 @@ namespace TitaniumWindows
 
 			bool result = false;
 			concurrency::event event;
-			task<void>(this->file_->MoveAndReplaceAsync(fileToReplace)).then([&result, &event](task<void> task) {
+			create_task(this->file_->MoveAndReplaceAsync(fileToReplace)).then([&result, &event](task<void> task) {
 					try {
 						task.get();
 						result = true;
@@ -520,10 +530,11 @@ namespace TitaniumWindows
 
 		bool File::rename(const std::string& desiredName) TITANIUM_NOEXCEPT
 		{
+			auto path = normalizePath(desiredName);
 			auto item = getStorageItem();
 			concurrency::event event;
 			bool result = false;
-			task<void>(item->RenameAsync(TitaniumWindows::Utility::ConvertString(desiredName))).then([&result, &event](task<void> task) {
+			create_task(item->RenameAsync(TitaniumWindows::Utility::ConvertString(path))).then([&result, &event](task<void> task) {
 					try {
 						task.get();
 						result = true;

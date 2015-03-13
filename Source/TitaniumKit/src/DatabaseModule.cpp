@@ -28,7 +28,7 @@ namespace Titanium
 		if ((!dbFile.exists() || dbFile.size == 0) && dbResourceFile.exists()) {
 			dbResourceFile.copy(dbFilePath);
 		}
-		return exports.open(dbName);
+		return self.TiDatabase.open(dbName);
 	};
 	this.exports.open = function(dbName) {
 		var dbDirPath = Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + "databases";
