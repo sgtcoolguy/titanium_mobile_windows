@@ -80,7 +80,7 @@ function Controller() {
     });
     $.__views.profile.add($.__views.contactInfo);
     var __alloyId35 = [];
-    $.__views.mapview = (require("ti.map").createView || Ti.UI.createView)({
+    $.__views.mapview = require("ti.map").createView({
         top: 0,
         touchEnabled: false,
         enableZoomControls: false,
