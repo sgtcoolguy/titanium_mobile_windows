@@ -25,29 +25,30 @@ describe("Titanium.UI.Label", function () {
     it("textAlign", function (finish) {
         var label = Ti.UI.createLabel({
             text: "this is some text",
-            textAlign: 'center'
+            textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
         });
-        should(label.textAlign).be.a.String;
+        should(label.textAlign).be.a.Number; // String on Android
         should(label.getTextAlign).be.a.Function;
-        should(label.textAlign).eql('center');
-        should(label.getTextAlign()).eql('center');
-        label.textAlign = 'right';
-        should(label.textAlign).eql('right');
-        should(label.getTextAlign()).eql('right');
+        should(label.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
+        should(label.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
+        label.textAlign = Titanium.UI.TEXT_ALIGNMENT_RIGHT;
+        should(label.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_RIGHT);
+        should(label.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_RIGHT);
         finish();
     });
+
     it("verticalAlign", function (finish) {
         var label = Ti.UI.createLabel({
             text: "this is some text",
-            verticalAlign: 'bottom'
+            verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM
         });
-        should(label.verticalAlign).be.a.String;
+        should(label.verticalAlign).be.a.Number; // String on Android
         should(label.getVerticalAlign).be.a.Function;
-        should(label.verticalAlign).eql('bottom');
-        should(label.getVerticalAlign()).eql('bottom');
-        label.verticalAlign = 'top';
-        should(label.verticalAlign).eql('top');
-        should(label.getVerticalAlign()).eql('top');
+        should(label.verticalAlign).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
+        should(label.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
+        label.verticalAlign = Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP;
+        should(label.verticalAlign).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP);
+        should(label.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP);
         finish();
     });
 
@@ -71,7 +72,7 @@ describe("Titanium.UI.Label", function () {
     // Defaults: true
     it("wordWrap", function (finish) {
         var label = Ti.UI.createLabel({
-            wordWrap: "this is some text"
+            text: "this is some text"
         });
         should(label.wordWrap).be.a.Boolean;
         should(label.getWordWrap).be.a.Function;
@@ -82,7 +83,8 @@ describe("Titanium.UI.Label", function () {
         should(label.wordWrap).eql(false);
         finish();
     });
-    it("width", function (finish) {
+
+    it.skip("width", function (finish) {
         this.timeout(1000);
         var label = Ti.UI.createLabel({
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
@@ -100,7 +102,7 @@ describe("Titanium.UI.Label", function () {
             finish();
         }, 100);
     });
-    it("height", function (finish) {
+    it.skip("height", function (finish) {
         this.timeout(1000);
         var label = Ti.UI.createLabel({
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',

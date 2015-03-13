@@ -75,12 +75,23 @@ namespace Titanium
 		{
 			JSExport<ImageView>::SetClassVersion(1);
 			JSExport<ImageView>::SetParent(JSExport<View>::Class());
+			// methods
 			JSExport<ImageView>::AddFunctionProperty("start", std::mem_fn(&ImageView::js_start));
 			JSExport<ImageView>::AddFunctionProperty("stop", std::mem_fn(&ImageView::js_stop));
+			// properties
 			JSExport<ImageView>::AddValueProperty("duration", std::mem_fn(&ImageView::js_get_duration), std::mem_fn(&ImageView::js_set_duration));
 			JSExport<ImageView>::AddValueProperty("image", std::mem_fn(&ImageView::js_get_image), std::mem_fn(&ImageView::js_set_image));
 			JSExport<ImageView>::AddValueProperty("images", std::mem_fn(&ImageView::js_get_images), std::mem_fn(&ImageView::js_set_images));
 			JSExport<ImageView>::AddValueProperty("preventDefaultImage", std::mem_fn(&ImageView::js_get_preventDefaultImage), std::mem_fn(&ImageView::js_set_preventDefaultImage));
+			// accessor methods
+			JSExport<ImageView>::AddFunctionProperty("getDuration", std::mem_fn(&ImageView::js_getDuration));
+			JSExport<ImageView>::AddFunctionProperty("setDuration", std::mem_fn(&ImageView::js_setDuration));
+			JSExport<ImageView>::AddFunctionProperty("getImage", std::mem_fn(&ImageView::js_getImage));
+			JSExport<ImageView>::AddFunctionProperty("setImage", std::mem_fn(&ImageView::js_setImage));
+			JSExport<ImageView>::AddFunctionProperty("getImages", std::mem_fn(&ImageView::js_getImages));
+			JSExport<ImageView>::AddFunctionProperty("setImages", std::mem_fn(&ImageView::js_setImages));
+			JSExport<ImageView>::AddFunctionProperty("getPreventDefaultImage", std::mem_fn(&ImageView::js_getPreventDefaultImage));
+			JSExport<ImageView>::AddFunctionProperty("setPreventDefaultImage", std::mem_fn(&ImageView::js_setPreventDefaultImage));
 		}
 
 		JSValue ImageView::js_start(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -160,6 +171,58 @@ namespace Titanium
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_preventDefaultImage(static_cast<bool>(argument));
 			return true;
+		}
+
+		JSValue ImageView::js_getDuration(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_duration();
+		}
+
+		JSValue ImageView::js_setDuration(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_duration(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
+		JSValue ImageView::js_getImage(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_image();
+		}
+
+		JSValue ImageView::js_setImage(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_image(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
+		JSValue ImageView::js_getImages(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_images();
+		}
+
+		JSValue ImageView::js_setImages(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_images(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
+		}
+
+		JSValue ImageView::js_getPreventDefaultImage(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			return js_get_preventDefaultImage();
+		}
+
+		JSValue ImageView::js_setPreventDefaultImage(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_preventDefaultImage(arguments.at(0));
+			}
+			return get_context().CreateUndefined();
 		}
 	} // namespace UI
 }  // namespace Titanium

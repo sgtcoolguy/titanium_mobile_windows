@@ -33,8 +33,6 @@ namespace TitaniumWindows
 
 		static void JSExportInitialize();
 
-		virtual JSValue createTempDirectory() TITANIUM_NOEXCEPT;
-		virtual JSValue createTempFile() TITANIUM_NOEXCEPT;
 		virtual bool isExternalStoragePresent() TITANIUM_NOEXCEPT;
 		virtual JSValue openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT;
 

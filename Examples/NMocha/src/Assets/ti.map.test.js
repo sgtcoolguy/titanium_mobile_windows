@@ -227,7 +227,22 @@ describe('Titanium.Map', function () {
         }).not.throw();
         finish();
     });
-
+    it("NORMAL_TYPE", function (finish) {
+        should(Ti.Map.NORMAL_TYPE).be.a.Number;
+        finish();
+    });
+    it("SATELLITE_TYPE", function (finish) {
+        should(Ti.Map.SATELLITE_TYPE).be.a.Number;
+        finish();
+    });
+    it("HYBRID_TYPE", function (finish) {
+        should(Ti.Map.HYBRID_TYPE).be.a.Number;
+        finish();
+    });
+    it("TERRAIN_TYPE", function (finish) {
+        should(Ti.Map.TERRAIN_TYPE).be.a.Number;
+        finish();
+    });
 	it('createAnnotation', function (finish) {
         should(Ti.Map.createAnnotation).not.be.undefined;
         should(Ti.Map.createAnnotation).be.a.Function;
@@ -267,7 +282,7 @@ describe('Titanium.Map', function () {
         should(Ti.Map.isGooglePlayServicesAvailable).be.a.Function;
 
         var value = Ti.Map.isGooglePlayServicesAvailable();
-        should(view).be.a.Number;
+        should(value).be.a.Number;
         
         finish();
     });

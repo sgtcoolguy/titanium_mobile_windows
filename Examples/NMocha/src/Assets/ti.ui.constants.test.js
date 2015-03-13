@@ -176,7 +176,7 @@ describe('Titanium.UI', function () {
         finish();
     });
     it("LIST_ITEM_TEMPLATE_DEFAULT", function (finish) {
-        should(Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT).be.a.String;
+        should(Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT).be.a.Number;
         finish();
     });
     it("LIST_ACCESSORY_TYPE_NONE", function (finish) {
@@ -195,56 +195,28 @@ describe('Titanium.UI', function () {
         should(Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE).be.a.Number;
         finish();
     });
-    it("MAP_VIEW_STANDARD", function (finish) {
-        should(Ti.UI.MAP_VIEW_STANDARD).be.a.Number;
-        finish();
-    });
-    it("MAP_VIEW_SATELLITE", function (finish) {
-        should(Ti.UI.MAP_VIEW_SATELLITE).be.a.Number;
-        finish();
-    });
-    it("MAP_VIEW_HYBRID", function (finish) {
-        should(Ti.UI.MAP_VIEW_HYBRID).be.a.Number;
-        finish();
-    });
-    it("TABLEVIEW_POSITION_ANY", function (finish) {
-        should(Ti.UI.TABLEVIEW_POSITION_ANY).be.a.Number;
-        finish();
-    });
-    it("TABLEVIEW_POSITION_TOP", function (finish) {
-        should(Ti.UI.TABLEVIEW_POSITION_TOP).be.a.Number;
-        finish();
-    });
-    it("TABLEVIEW_POSITION_MIDDLE", function (finish) {
-        should(Ti.UI.TABLEVIEW_POSITION_MIDDLE).be.a.Number;
-        finish();
-    });
-    it("TABLEVIEW_POSITION_BOTTOM", function (finish) {
-        should(Ti.UI.TABLEVIEW_POSITION_BOTTOM).be.a.Number;
-        finish();
-    });
     it("TEXT_ALIGNMENT_LEFT", function (finish) {
-        should(Ti.UI.TEXT_ALIGNMENT_LEFT).be.a.String;
+        should(Ti.UI.TEXT_ALIGNMENT_LEFT).be.a.Number; // String on Android
         finish();
     });
     it("TEXT_ALIGNMENT_CENTER", function (finish) {
-        should(Ti.UI.TEXT_ALIGNMENT_CENTER).be.a.String;
+        should(Ti.UI.TEXT_ALIGNMENT_CENTER).be.a.Number; // String on Android
         finish();
     });
     it("TEXT_ALIGNMENT_RIGHT", function (finish) {
-        should(Ti.UI.TEXT_ALIGNMENT_RIGHT).be.a.String;
+        should(Ti.UI.TEXT_ALIGNMENT_RIGHT).be.a.Number; // String on Android
         finish();
     });
     it("TEXT_VERTICAL_ALIGNMENT_BOTTOM", function (finish) {
-        should(Ti.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM).be.a.String;
+        should(Ti.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM).be.a.Number; // String on Android
         finish();
     });
     it("TEXT_VERTICAL_ALIGNMENT_CENTER", function (finish) {
-        should(Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER).be.a.String;
+        should(Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER).be.a.Number; // String on Android
         finish();
     });
     it("TEXT_VERTICAL_ALIGNMENT_TOP", function (finish) {
-        should(Ti.UI.TEXT_VERTICAL_ALIGNMENT_TOP).be.a.String;
+        should(Ti.UI.TEXT_VERTICAL_ALIGNMENT_TOP).be.a.Number; // String on Android
         finish();
     });
     it("PICKER_TYPE_PLAIN", function (finish) {

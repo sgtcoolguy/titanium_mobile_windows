@@ -127,12 +127,23 @@ namespace Titanium
 
 			virtual JSValue js_get_duration() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_duration(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getDuration(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setDuration(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
 			virtual JSValue js_get_image() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_image(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
 			virtual JSValue js_get_images() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_images(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getImages(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setImages(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
 			virtual JSValue js_get_preventDefaultImage() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_preventDefaultImage(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getPreventDefaultImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setPreventDefaultImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 		private:
 #pragma warning(push)

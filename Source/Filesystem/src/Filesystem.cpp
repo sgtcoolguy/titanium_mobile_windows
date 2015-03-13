@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -9,7 +9,6 @@
 #include <iostream>
 #include <objbase.h>
 #include "TitaniumWindows/Utility.hpp"
-#include <boost/format.hpp>
 
 namespace TitaniumWindows
 {
@@ -35,27 +34,6 @@ namespace TitaniumWindows
 		return "\\";
 	}
 
-	JSValue FilesystemModule::createTempDirectory() TITANIUM_NOEXCEPT
-	{
-		const auto script =
-		    "       var path = [Ti.Filesystem.tempDirectory, +new Date()];"
-		    "       var file = Ti.Filesystem.getFile(path.join(Ti.Filesystem.separator));"
-		    "       file.createDirectory();"
-		    "       file;";
-		return get_context().JSEvaluateScript(script);
-	}
-
-	JSValue FilesystemModule::createTempFile() TITANIUM_NOEXCEPT
-	{
-		const auto script =
-		    "       var dir  = Ti.Filesystem.createTempDirectory();"
-		    "       var path = [dir.nativePath, 'tifile'+Math.random().toString(36).substring(2)+'.tmp'];"
-		    "       var file = Ti.Filesystem.getFile(path.join(Ti.Filesystem.separator));"
-		    "       file.createFile();"
-		    "       file;";
-		return get_context().JSEvaluateScript(script);
-	}
-
 	bool FilesystemModule::isExternalStoragePresent() TITANIUM_NOEXCEPT
 	{
 		return !this->externalStorageDirectory().empty();
@@ -71,7 +49,7 @@ namespace TitaniumWindows
 	{
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 		const auto value = Windows::Storage::ApplicationData::Current->LocalCacheFolder->Path;
-		return TitaniumWindows::Utility::ConvertString(value) + separator();
+		return TitaniumWindows::Utility::ConvertString(value) + separator(); // FIXME Only append separator if not already there!
 #else
 		TITANIUM_LOG_WARN("Filesystem.applicationCacheDirectory is not supported on Windows Store.");
 		return "";
@@ -81,13 +59,13 @@ namespace TitaniumWindows
 	std::string FilesystemModule::applicationDataDirectory() const TITANIUM_NOEXCEPT
 	{
 		const auto value = Windows::Storage::ApplicationData::Current->LocalFolder->Path;
-		return TitaniumWindows::Utility::ConvertString(value) + separator();
+		return TitaniumWindows::Utility::ConvertString(value) + separator(); // FIXME Only append separator if not already there!
 	}
 
 	std::string FilesystemModule::applicationDirectory() const TITANIUM_NOEXCEPT
 	{
 		const auto value = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
-		return TitaniumWindows::Utility::ConvertString(value) + separator();
+		return TitaniumWindows::Utility::ConvertString(value) + separator(); // FIXME Only append separator if not already there!
 	}
 
 	std::string FilesystemModule::applicationSupportDirectory() const TITANIUM_NOEXCEPT
@@ -95,7 +73,7 @@ namespace TitaniumWindows
 		// Need to check exception here because this requires "Documents" capability
 		try {
 			const auto value = Windows::Storage::KnownFolders::DocumentsLibrary->Path;
-			return TitaniumWindows::Utility::ConvertString(value) + separator();
+			return TitaniumWindows::Utility::ConvertString(value) + separator(); // FIXME Only append separator if not already there!
 		} catch (Platform::AccessDeniedException^ e) {
 			return "";
 		}
@@ -106,7 +84,7 @@ namespace TitaniumWindows
 		// Need to check exception here because this requires "Removable Storage" capability
 		try {
 			const auto value = Windows::Storage::KnownFolders::RemovableDevices->Path;
-			return TitaniumWindows::Utility::ConvertString(value) + separator();
+			return TitaniumWindows::Utility::ConvertString(value) + separator(); // FIXME Only append separator if not already there!
 		} catch (Platform::AccessDeniedException^ e) {
 			return "";
 		}
@@ -120,12 +98,12 @@ namespace TitaniumWindows
 	std::string FilesystemModule::resourcesDirectory() const TITANIUM_NOEXCEPT
 	{
 		const auto value = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
-		return TitaniumWindows::Utility::ConvertString(value) + separator();
+		return TitaniumWindows::Utility::ConvertString(value) + separator(); // FIXME Only append separator if not already there!
 	}
 
 	std::string FilesystemModule::tempDirectory() const TITANIUM_NOEXCEPT
 	{
 		const auto value = Windows::Storage::ApplicationData::Current->TemporaryFolder->Path;
-		return TitaniumWindows::Utility::ConvertString(value) + separator();
+		return TitaniumWindows::Utility::ConvertString(value) + separator(); // FIXME Only append separator if not already there!
 	}
 }  // namespace TitaniumWindows

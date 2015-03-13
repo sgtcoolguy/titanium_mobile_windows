@@ -1,7 +1,7 @@
 /**
  * TitaniumKit
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -35,8 +35,8 @@ namespace Titanium
 
 			  @discussion Determines how text is capitalized during typing.
 			*/
-			virtual TEXT_AUTOCAPITALIZATION get_autoCapitalization() const TITANIUM_NOEXCEPT final;
-			virtual void set_autoCapitalization(const TEXT_AUTOCAPITALIZATION& autoCapitalization) TITANIUM_NOEXCEPT;
+			virtual TEXT_AUTOCAPITALIZATION get_autocapitalization() const TITANIUM_NOEXCEPT final;
+			virtual void set_autocapitalization(const TEXT_AUTOCAPITALIZATION& autocapitalization) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -284,63 +284,97 @@ namespace Titanium
 			TextField& operator=(TextField&&) = default;
 #endif
 
-			// TODO: The following functions can automatically be generated
-			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_autoCapitalization() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_autoCapitalization(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_autocapitalization() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_autocapitalization(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getAutocapitalization(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setAutocapitalization(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_borderStyle() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_borderStyle(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getBorderStyle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setBorderStyle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_clearButtonMode() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_clearButtonMode(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getClearButtonMode(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setClearButtonMode(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_color() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_editable() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_editable(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getEditable(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setEditable(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_ellipsize() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_ellipsize(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getEllipsize(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setEllipsize(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_enableReturnKey() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_enableReturnKey(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getEnableReturnKey(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setEnableReturnKey(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_hintText() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_hintText(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getHintText(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setHintText(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_keyboardType() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_keyboardType(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getKeyboardType(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setKeyboardType(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_leftButtonMode() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_leftButtonMode(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getLeftButtonMode(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setLeftButtonMode(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_maxLength() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_maxLength(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getMaxLength(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setMaxLength(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_passwordMask() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_passwordMask(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getPasswordMask(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setPasswordMask(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_returnKeyType() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_returnKeyType(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getReturnKeyType(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setReturnKeyType(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_rightButtonMode() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_rightButtonMode(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getRightButtonMode(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setRightButtonMode(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_suppressReturn() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_suppressReturn(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getSuppressReturn(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setSuppressReturn(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_textAlign() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getTextAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setTextAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_value() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_value(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getValue(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setValue(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_verticalAlign() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getVerticalAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setVerticalAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_blur(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_focus(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
@@ -349,7 +383,7 @@ namespace Titanium
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			TEXT_AUTOCAPITALIZATION autoCapitalization__;
+			TEXT_AUTOCAPITALIZATION autocapitalization__;
 			INPUT_BORDERSTYLE borderStyle__;
 			INPUT_BUTTONMODE clearButtonMode__;
 			std::string color__;

@@ -41,6 +41,10 @@ namespace Titanium
 	{
 		return false;
 	}
+	void PlatformModule::set_batteryMonitoring(const bool& batteryMonitoring) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("PlatformModule::set_batteryMonitoring: Unimplemented");
+	}
 	Platform::BatteryState PlatformModule::batteryState() const TITANIUM_NOEXCEPT
 	{
 		return Platform::BatteryState::UNKNOWN;
@@ -135,6 +139,12 @@ namespace Titanium
 	{
 		return get_context().CreateBoolean(batteryMonitoring());
 	}
+	bool PlatformModule::js_set_batteryMonitoring(const JSValue& argument) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_ASSERT(argument.IsBoolean());
+		set_batteryMonitoring(static_cast<bool>(argument));
+		return true;
+	}
 	JSValue PlatformModule::js_get_batteryState() const TITANIUM_NOEXCEPT
 	{
 		return get_context().CreateNumber(batteryState());
@@ -211,6 +221,12 @@ namespace Titanium
 	JSValue PlatformModule::js_getBatteryMonitoring(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
 		return js_get_batteryMonitoring();
+	}
+	JSValue PlatformModule::js_setBatteryMonitoring(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_ASSERT(arguments.size() == 1);
+		js_set_batteryMonitoring(arguments.at(0));
+		return get_context().CreateUndefined();
 	}
 	JSValue PlatformModule::js_getBatteryState(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
 	{
@@ -337,6 +353,8 @@ namespace Titanium
 		JSExport<PlatformModule>::AddValueProperty("address", std::mem_fn(&PlatformModule::js_get_address));
 		JSExport<PlatformModule>::AddValueProperty("architecture", std::mem_fn(&PlatformModule::js_get_architecture));
 		JSExport<PlatformModule>::AddValueProperty("availableMemory", std::mem_fn(&PlatformModule::js_get_availableMemory));
+		JSExport<PlatformModule>::AddValueProperty("batteryLevel", std::mem_fn(&PlatformModule::js_get_batteryLevel));
+		JSExport<PlatformModule>::AddValueProperty("batteryMonitoring", std::mem_fn(&PlatformModule::js_get_batteryMonitoring), std::mem_fn(&PlatformModule::js_set_batteryMonitoring));
 		JSExport<PlatformModule>::AddValueProperty("batteryState", std::mem_fn(&PlatformModule::js_get_batteryState));
 		JSExport<PlatformModule>::AddValueProperty("id", std::mem_fn(&PlatformModule::js_get_id));
 		JSExport<PlatformModule>::AddValueProperty("locale", std::mem_fn(&PlatformModule::js_get_locale));
@@ -356,6 +374,7 @@ namespace Titanium
 		JSExport<PlatformModule>::AddFunctionProperty("getAvailableMemory", std::mem_fn(&PlatformModule::js_getAvailableMemory));
 		JSExport<PlatformModule>::AddFunctionProperty("getBatteryLevel", std::mem_fn(&PlatformModule::js_getBatteryLevel));
 		JSExport<PlatformModule>::AddFunctionProperty("getBatteryMonitoring", std::mem_fn(&PlatformModule::js_getBatteryMonitoring));
+		JSExport<PlatformModule>::AddFunctionProperty("setBatteryMonitoring", std::mem_fn(&PlatformModule::js_setBatteryMonitoring));
 		JSExport<PlatformModule>::AddFunctionProperty("getBatteryState", std::mem_fn(&PlatformModule::js_getBatteryState));
 		JSExport<PlatformModule>::AddFunctionProperty("getId", std::mem_fn(&PlatformModule::js_getId));
 		JSExport<PlatformModule>::AddFunctionProperty("getLocale", std::mem_fn(&PlatformModule::js_getLocale));

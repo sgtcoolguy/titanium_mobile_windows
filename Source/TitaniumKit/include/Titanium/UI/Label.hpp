@@ -41,6 +41,18 @@ namespace Titanium
 			/*!
 			  @method
 
+			  @abstract ellipsize : Boolean
+
+			  @discussion Turn on/off the addition of ellipses at the end of the label if the text is too large to fit.
+
+			  Default: false
+			*/
+			virtual bool get_ellipsize() const TITANIUM_NOEXCEPT final;
+			virtual void set_ellipsize(const bool& ellipsize) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract font : Font
 
 			  @discussion Font to use for the label text.
@@ -108,26 +120,44 @@ namespace Titanium
 
 			virtual JSValue js_get_color() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_ellipsize() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_ellipsize(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getEllipsize(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setEllipsize(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_font() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_font(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getFont(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setFont(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_text() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_text(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getText(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setText(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_textAlign() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getTextAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setTextAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_verticalAlign() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getVerticalAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setVerticalAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_wordWrap() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_wordWrap(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getWordWrap(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setWordWrap(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			std::string color__;
+			bool ellipsize__;
 			JSObject font__;
 			std::string text__;
 			TEXT_ALIGNMENT textAlign__;

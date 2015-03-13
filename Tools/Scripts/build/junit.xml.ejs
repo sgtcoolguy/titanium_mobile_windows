@@ -8,7 +8,7 @@ suites.forEach(function(currentSuite)
 		failures="<%= currentSuite.failures %>"
 	    skipped="<%= (currentSuite.tests.length - currentSuite.failures - currentSuite.passes) %>"
 	    timestamp="<%= currentSuite.start %>"
-	    time="<%= currentSuite.duration / 1000 %>">
+	    time="<%= currentSuite.duration / 1000.0 %>">
 
 <%
 	if (currentSuite.tests.length === 0 && currentSuite.failures > 0)
@@ -27,12 +27,12 @@ suites.forEach(function(currentSuite)
 		<testcase
 		 classname="<%= currentSuite.suite %>"
 	     name="<%= test.title %>"
-	     time="<%= (test.duration / 1000) %>"
+	     time="<%= (test.duration / 1000.0) %>"
 <% 			if (test.state == "failed") { -%>
 		>
-			<failure message="<%= test.error.message ? test.error.message : '' %>">
-<%  // Do a unified diff here! See https://github.com/futurice/mocha-jenkins-reporter/blob/master/lib/jenkins.js -%>
-				<![CDATA[<%= test.error.stack %>]]>		
+			<failure message="<%= test.error.message ? test.error.message : '' %>" type="<%= test.error.name ? test.error.name : '' %>">
+<%  // FIXME report error tag versus failure if test.err.message doesn't exist? TODO Do a unified diff here! See https://github.com/futurice/mocha-jenkins-reporter/blob/master/lib/jenkins.js -%>
+				<%= test.error.stack %>		
 	        </failure>
 	    </testcase>
 <% 			} else if (test.state === 'skipped') { -%>

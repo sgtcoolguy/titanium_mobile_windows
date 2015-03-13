@@ -24,29 +24,29 @@ describe("Titanium.UI.TextField", function () {
     it("textAlign", function (finish) {
         var textfield = Ti.UI.createTextField({
             value: "this is some text",
-            textAlign: 'center'
+            textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
         });
-        should(textfield.textAlign).be.a.String;
+        should(textfield.textAlign).be.a.Number; // String on Android
         should(textfield.getTextAlign).be.a.Function;
-        should(textfield.textAlign).eql('center');
-        should(textfield.getTextAlign()).eql('center');
-        textfield.textAlign = 'right';
-        should(textfield.textAlign).eql('right');
-        should(textfield.getTextAlign()).eql('right');
+        should(textfield.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
+        should(textfield.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
+        textfield.textAlign = Titanium.UI.TEXT_ALIGNMENT_RIGHT;
+        should(textfield.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_RIGHT);
+        should(textfield.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_RIGHT);
         finish();
     });
     it("verticalAlign", function (finish) {
         var textfield = Ti.UI.createTextField({
             value: "this is some text",
-            verticalAlign: 'bottom'
+            verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM
         });
-        should(textfield.verticalAlign).be.a.String;
+        should(textfield.verticalAlign).be.a.Number; // String on Android
         should(textfield.getVerticalAlign).be.a.Function;
-        should(textfield.verticalAlign).eql('bottom');
-        should(textfield.getVerticalAlign()).eql('bottom');
-        textfield.verticalAlign = 'top';
-        should(textfield.verticalAlign).eql('top');
-        should(textfield.getVerticalAlign()).eql('top');
+        should(textfield.verticalAlign).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
+        should(textfield.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
+        textfield.verticalAlign = Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP;
+        should(textfield.verticalAlign).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP);
+        should(textfield.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP);
         finish();
     });
 
