@@ -31,7 +31,7 @@ namespace Titanium
 		  ti__(js_context__.CreateObject(JSExport<Titanium::TiModule>::Class())),
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
-	      utils__(js_context__.CreateObject(JSExport<Titanium::UtilsModule>::Class())),
+		  utils__(js_context__.CreateObject(JSExport<Titanium::UtilsModule>::Class())),
 		  animation__(js_context__.CreateObject(JSExport<Titanium::UI::Animation>::Class())),
 		  listsection__(js_context__.CreateObject(JSExport<Titanium::UI::ListSection>::Class())),
 		  listview__(js_context__.CreateObject(JSExport<Titanium::UI::ListView>::Class())),
@@ -99,6 +99,7 @@ namespace Titanium
 		titanium.SetProperty("Blob", blob__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Filesystem", filesystem__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Database", database__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("Utils", utils__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		// App
 		titanium.SetProperty("App", app__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		app__.SetProperty("Properties", properties__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -114,8 +115,7 @@ namespace Titanium
 		// XML
 		titanium.SetProperty("XML", xml__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 
-		titanium.SetProperty("Utils", utils__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-JSString builtin_functions_script = R"js(
+		JSString builtin_functions_script = R"js(
 			  console = {};
 			  console.log   = Ti.API.info;
 			  console.info  = Ti.API.info;
