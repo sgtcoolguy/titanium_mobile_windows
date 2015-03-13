@@ -131,7 +131,7 @@ namespace Titanium
 
 		void TextField::set_leftButtonMode(const INPUT_BUTTONMODE& leftButtonMode) TITANIUM_NOEXCEPT
 		{
-			clearButtonMode__ = clearButtonMode;
+			leftButtonMode__ = leftButtonMode;
 		}
 
 		int32_t TextField::get_maxLength() const TITANIUM_NOEXCEPT
@@ -159,7 +159,7 @@ namespace Titanium
 			return returnKeyType__;
 		}
 
-		void TextField::set_returnKeyType(const RETURNKEY& keyboardType) TITANIUM_NOEXCEPT
+		void TextField::set_returnKeyType(const RETURNKEY& returnKeyType) TITANIUM_NOEXCEPT
 		{
 			returnKeyType__ = returnKeyType;
 		}
