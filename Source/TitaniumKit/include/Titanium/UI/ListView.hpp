@@ -20,7 +20,6 @@ namespace Titanium
 {
 	namespace UI
 	{
-
 		using namespace HAL;
 		using ListSection_shared_ptr_t = std::shared_ptr<ListSection>;
 		using View_shared_ptr_t = std::shared_ptr<View>;

@@ -606,6 +606,69 @@ namespace Titanium
 		return webview;
 	}
 
+	JSObject UIModule::createTableView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createTableView");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue TableView_property = UI.GetProperty("TableView");
+		TITANIUM_ASSERT(TableView_property.IsObject());  // precondition
+		JSObject TableView = static_cast<JSObject>(TableView_property);
+
+		auto view = TableView.CallAsConstructor(parameters);
+		Titanium::applyProperties(view, parameters);
+		return view;
+	}
+
+	JSObject UIModule::createTableViewSection(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createTableViewSection");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue TableViewSection_property = UI.GetProperty("TableViewSection");
+		TITANIUM_ASSERT(TableViewSection_property.IsObject());  // precondition
+		JSObject TableViewSection = static_cast<JSObject>(TableViewSection_property);
+
+		auto view = TableViewSection.CallAsConstructor(parameters);
+		Titanium::applyProperties(view, parameters);
+		return view;
+	}
+
+	JSObject UIModule::createTableViewRow(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createTableViewRow");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue TableViewRow_property = UI.GetProperty("TableViewRow");
+		TITANIUM_ASSERT(TableViewRow_property.IsObject());  // precondition
+		JSObject TableViewRow = static_cast<JSObject>(TableViewRow_property);
+
+		auto view = TableViewRow.CallAsConstructor(parameters);
+		Titanium::applyProperties(view, parameters);
+		return view;
+	}
+
 	JSValue UIModule::ANIMATION_CURVE_EASE_IN() const TITANIUM_NOEXCEPT
 	{
 		return animation_curve_ease_in__;
@@ -1046,6 +1109,9 @@ namespace Titanium
 		JSExport<UIModule>::AddFunctionProperty("createListSection", std::mem_fn(&UIModule::js_createListSection));
 		JSExport<UIModule>::AddFunctionProperty("createListItem", std::mem_fn(&UIModule::js_createListItem));
 		JSExport<UIModule>::AddFunctionProperty("createWebView", std::mem_fn(&UIModule::js_createWebView));
+		JSExport<UIModule>::AddFunctionProperty("createTableView", std::mem_fn(&UIModule::js_createTableView));
+		JSExport<UIModule>::AddFunctionProperty("createTableViewSection", std::mem_fn(&UIModule::js_createTableViewSection));
+		JSExport<UIModule>::AddFunctionProperty("createTableViewRow", std::mem_fn(&UIModule::js_createTableViewRow));
 		JSExport<UIModule>::AddFunctionProperty("setBackgroundColor", std::mem_fn(&UIModule::js_setBackgroundColor));
 		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN));
 		JSExport<UIModule>::AddValueProperty("ANIMATION_CURVE_EASE_IN_OUT", std::mem_fn(&UIModule::ANIMATION_CURVE_EASE_IN_OUT));
@@ -1327,6 +1393,39 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 		return createWebView(parameters, this_object);
+	}
+
+	JSValue UIModule::js_createTableView(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = this_object.get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createTableView(parameters, this_object);
+	}
+
+	JSValue UIModule::js_createTableViewSection(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = this_object.get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createTableViewSection(parameters, this_object);
+	}
+
+	JSValue UIModule::js_createTableViewRow(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = this_object.get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createTableViewRow(parameters, this_object);
 	}
 
 	// TODO empty implementation so that it won't break default app template. Need to implement later on.

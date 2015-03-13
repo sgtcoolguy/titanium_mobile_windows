@@ -186,6 +186,12 @@ set(SOURCE_UI
   include/Titanium/UI/listview_js.hpp
   include/Titanium/UI/EmailDialog.hpp
   src/UI/EmailDialog.cpp
+  include/Titanium/UI/TableView.hpp
+  src/UI/TableView.cpp
+  include/Titanium/UI/TableViewRow.hpp
+  src/UI/TableViewRow.cpp
+  include/Titanium/UI/TableViewSection.hpp
+  src/UI/TableViewSection.cpp
   )
 
 set(SOURCE_TiLogger_detail

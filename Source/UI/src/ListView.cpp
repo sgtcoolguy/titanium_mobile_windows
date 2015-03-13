@@ -15,7 +15,6 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-
 		ListView::ListView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::ListView(js_context)
 		{

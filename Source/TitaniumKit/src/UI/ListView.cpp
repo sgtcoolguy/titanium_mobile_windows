@@ -13,7 +13,6 @@ namespace Titanium
 {
 	namespace UI
 	{
-
 		ListView::ListView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: View(js_context),
 			footerTitle__(""),
@@ -602,7 +601,7 @@ namespace Titanium
 
 		JSValue ListView::js_getFooterView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return this_object.GetProperty("footerView");;
+			return this_object.GetProperty("footerView");
 		}
 
 		JSValue ListView::js_setFooterView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -629,7 +628,7 @@ namespace Titanium
 
 		JSValue ListView::js_getHeaderView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return this_object.GetProperty("headerView");;
+			return this_object.GetProperty("headerView");
 		}
 
 		JSValue ListView::js_setHeaderView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -642,7 +641,7 @@ namespace Titanium
 
 		JSValue ListView::js_getSearchView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return this_object.GetProperty("searchView");;
+			return this_object.GetProperty("searchView");
 		}
 
 		JSValue ListView::js_setSearchView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
