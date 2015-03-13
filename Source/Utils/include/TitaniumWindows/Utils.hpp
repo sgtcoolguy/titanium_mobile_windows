@@ -18,9 +18,9 @@ namespace TitaniumWindows
 	using Blob_shared_ptr_t = std::shared_ptr<Titanium::Blob>;
 
 	/*!
-		@class
+	  @class
 
-		@discussion This is the Titanium.UtilsModule implementation for Windows.
+	  @discussion This is the Titanium.Utils implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_UTILS_EXPORT UtilsModule final : public Titanium::UtilsModule, public JSExport<UtilsModule>
 	{
