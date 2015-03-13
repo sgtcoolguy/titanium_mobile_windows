@@ -42,7 +42,7 @@ namespace TitaniumWindows
 			// TODO : Load this from app properties, windows_map_service_token?
 			mapview__->MapServiceToken = "VrSrmXR8B5bgklWrs0CK_w";
 
-			Titanium::UI::View::setLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>();
+			Titanium::Map::View::setLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>();
 
 			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);

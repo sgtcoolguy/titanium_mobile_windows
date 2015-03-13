@@ -272,7 +272,7 @@ namespace Titanium
 
 		void View::JSExportInitialize() {
 			JSExport<View>::SetClassVersion(1);
-			JSExport<View>::SetParent(JSExport<Module>::Class());
+			JSExport<View>::SetParent(JSExport<Titanium::UI::View>::Class());
 			
 			// methods
 			JSExport<View>::AddFunctionProperty("addAnnotation", std::mem_fn(&View::js_addAnnotation));

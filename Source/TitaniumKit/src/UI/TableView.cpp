@@ -180,7 +180,7 @@ namespace Titanium
 
 		void TableView::JSExportInitialize() {
 			JSExport<TableView>::SetClassVersion(1);
-			JSExport<TableView>::SetParent(JSExport<Module>::Class());
+			JSExport<TableView>::SetParent(JSExport<View>::Class());
 
 			JSExport<TableView>::AddValueProperty("data", std::mem_fn(&TableView::js_get_data), std::mem_fn(&TableView::js_set_data));
 			JSExport<TableView>::AddFunctionProperty("getData", std::mem_fn(&TableView::js_getData));

@@ -68,6 +68,20 @@ namespace Titanium
 			/*!
 			  @method
 
+			  @abstract cancel : Number
+
+			  @discussion Index to define the cancel button.
+
+			  On iOS and Mobile Web, set to -1 to disable the cancel option.
+
+			  Default: undefined (Android), -1 (iOS, Mobile Web)
+			*/
+			virtual int32_t get_cancel() const TITANIUM_NOEXCEPT final;
+			virtual void set_cancel(const int32_t& cancel) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract message : String
 
 			  @discussion Dialog message.
@@ -104,6 +118,8 @@ namespace Titanium
 
 			virtual JSValue js_get_buttonNames() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_buttonNames(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_get_cancel() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_cancel(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_message() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_message(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_title() const TITANIUM_NOEXCEPT final;
@@ -113,6 +129,7 @@ namespace Titanium
 #pragma warning(push)
 #pragma warning(disable: 4251)
 			std::vector<std::string> buttonNames__;
+			int32_t cancel__;
 			std::string message__;
 			std::string title__;
 #pragma warning(pop)

@@ -197,7 +197,7 @@ namespace Titanium
 
 		void ListView::JSExportInitialize() {
 			JSExport<ListView>::SetClassVersion(1);
-			JSExport<ListView>::SetParent(JSExport<Module>::Class());
+			JSExport<ListView>::SetParent(JSExport<View>::Class());
 
 			JSExport<ListView>::AddValueProperty("sections", std::mem_fn(&ListView::js_get_sections),       std::mem_fn(&ListView::js_set_sections));
 			JSExport<ListView>::AddValueProperty("footerTitle", std::mem_fn(&ListView::js_get_footerTitle), std::mem_fn(&ListView::js_set_footerTitle));

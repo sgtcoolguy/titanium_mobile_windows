@@ -123,7 +123,7 @@ namespace Titanium
 
 		void WebView::JSExportInitialize() {
 			JSExport<WebView>::SetClassVersion(1);
-			JSExport<WebView>::SetParent(JSExport<Module>::Class());
+			JSExport<WebView>::SetParent(JSExport<View>::Class());
 
 			JSExport<WebView>::AddValueProperty("data", std::mem_fn(&WebView::js_get_data));
 			JSExport<WebView>::AddValueProperty("html", std::mem_fn(&WebView::js_get_html));

@@ -48,6 +48,8 @@ namespace TitaniumWindows
 					auto command_invoked_handler = ref new Windows::UI::Popups::UICommandInvokedHandler([this, ctx, i](Windows::UI::Popups::IUICommand^ command) {
 						JSObject eventArgs = ctx.CreateObject();
 						eventArgs.SetProperty("index", ctx.CreateNumber(i));
+						eventArgs.SetProperty("source", get_object());
+						eventArgs.SetProperty("type", ctx.CreateString("click"));
 
 						this->fireEvent("click", eventArgs);
 					});
