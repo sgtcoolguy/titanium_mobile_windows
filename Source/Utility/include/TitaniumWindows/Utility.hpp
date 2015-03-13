@@ -75,10 +75,10 @@ namespace TitaniumWindows
 		//
 		// Convert unsigned char array into plain-text hex std::string
 		//
-		static std::string HexString(unsigned char* data, uint32_t length)
+		static std::string HexString(unsigned char* data, size_t length)
 		{
 			std::stringstream ss;
-			for (uint32_t i=0;i<length;++i) {
+			for (size_t i=0;i<length;++i) {
 			  ss << std::hex
 				 << std::noshowbase
 				 << std::setw(2)
