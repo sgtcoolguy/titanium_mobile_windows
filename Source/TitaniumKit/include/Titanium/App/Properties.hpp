@@ -1,5 +1,5 @@
 /**
-* Titanium.App.Properties for Windows
+* TitaniumKit Titanium.App.Properties
 *
 * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
 * Licensed under the terms of the Apache Public License.
@@ -49,13 +49,13 @@ namespace Titanium
 			  @abstract getList
 			  @discussion Returns the value of a property as an array data type.
 			*/
-			virtual JSValue getList(const std::string& property, JSValue defaultValue) TITANIUM_NOEXCEPT;
+			virtual std::vector<JSValue> getList(const std::string& property, std::vector<JSValue> defaultValue) TITANIUM_NOEXCEPT final;
 			/*!
 			  @method
 			  @abstract getObject
 			  @discussion Returns the value of a property as an object.
 			*/
-			virtual JSValue getObject(const std::string& property, JSValue defaultValue) TITANIUM_NOEXCEPT;
+			virtual JSObject getObject(const std::string& property, JSObject defaultValue) TITANIUM_NOEXCEPT final;
 			/*!
 			  @method
 			  @abstract getString
@@ -73,7 +73,7 @@ namespace Titanium
 			  @abstract listProperties
 			  @discussion Returns an array of property names.
 			*/
-			virtual JSValue listProperties() TITANIUM_NOEXCEPT;
+			virtual std::vector<std::string> listProperties() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract removeProperty
@@ -85,37 +85,37 @@ namespace Titanium
 			  @abstract setBool
 			  @discussion Sets the value of a property as a boolean data type. The property will be created if it does not exist.
 			*/
-			virtual JSValue setBool(const std::string& property, bool value) TITANIUM_NOEXCEPT;
+			virtual void setBool(const std::string& property, bool value) TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract setDouble
 			  @discussion Sets the value of a property as a double (double-precision, floating point) data type. The property will be created if it does not exist.
 			*/
-			virtual JSValue setDouble(const std::string& property, double value) TITANIUM_NOEXCEPT;
+			virtual void setDouble(const std::string& property, double value) TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract setInt
 			  @discussion Sets the value of a property as an integer data type. The property will be created if it does not exist.
 			*/
-			virtual JSValue setInt(const std::string& property, int value) TITANIUM_NOEXCEPT;
+			virtual void setInt(const std::string& property, int value) TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract setList
 			  @discussion Sets the value of a property as an array data type. The property will be created if it does not exist.
 			*/
-			virtual JSValue setList(const std::string& property, JSValue value) TITANIUM_NOEXCEPT;
+			virtual void setList(const std::string& property, std::vector<JSValue> value) TITANIUM_NOEXCEPT final;
 			/*!
 			  @method
 			  @abstract setObject
 			  @discussion Sets the value of a property as an object data type. The property will be created if it does not exist.
 			*/
-			virtual JSValue setObject(const std::string& property, JSValue value) TITANIUM_NOEXCEPT;
+			virtual void setObject(const std::string& property, JSObject value) TITANIUM_NOEXCEPT final;
 			/*!
 			  @method
 			  @abstract setString
 			  @discussion Sets the value of a property as a string data type. The property will be created if it does not exist.
 			*/
-			virtual JSValue setString(const std::string& property, const std::string& value) TITANIUM_NOEXCEPT;
+			virtual void setString(const std::string& property, const std::string& value) TITANIUM_NOEXCEPT;
 
 			Properties(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
@@ -145,6 +145,10 @@ namespace Titanium
 			virtual JSValue js_setList(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setObject(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setString(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+		private:
+			JSFunction stringify_function__;
+			JSFunction createStringifyFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT;
 
 		};
 	}

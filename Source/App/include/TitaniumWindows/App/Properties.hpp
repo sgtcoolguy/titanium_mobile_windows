@@ -43,24 +43,17 @@ namespace TitaniumWindows
 
 		private:
 
-			JSFunction stringify_function__;
-			JSFunction createStringifyFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT;
-
-			virtual bool getBool(const std::string& property, bool default) TITANIUM_NOEXCEPT;
-			virtual double getDouble(const std::string& property, double default) TITANIUM_NOEXCEPT;
-			virtual double getInt(const std::string& property, double default) TITANIUM_NOEXCEPT;
-			virtual JSValue getList(const std::string& property, JSValue default) TITANIUM_NOEXCEPT;
-			virtual JSValue getObject(const std::string& property, JSValue default) TITANIUM_NOEXCEPT;
-			virtual std::string getString(const std::string& property, const std::string& default) TITANIUM_NOEXCEPT;
-			virtual bool hasProperty(const std::string& property) TITANIUM_NOEXCEPT;
-			virtual JSValue listProperties() TITANIUM_NOEXCEPT;
-			virtual void removeProperty(const std::string& property) TITANIUM_NOEXCEPT;
-			virtual JSValue setBool(const std::string& property, bool value) TITANIUM_NOEXCEPT;
-			virtual JSValue setDouble(const std::string& property, double value) TITANIUM_NOEXCEPT;
-			virtual JSValue setInt(const std::string& property, int value) TITANIUM_NOEXCEPT;
-			virtual JSValue setList(const std::string& property, JSValue value) TITANIUM_NOEXCEPT;
-			virtual JSValue setObject(const std::string& property, JSValue value) TITANIUM_NOEXCEPT;
-			virtual JSValue setString(const std::string& property, const std::string& value) TITANIUM_NOEXCEPT;
+			virtual bool getBool(const std::string& property, bool default) TITANIUM_NOEXCEPT override;
+			virtual double getDouble(const std::string& property, double default) TITANIUM_NOEXCEPT override;
+			virtual double getInt(const std::string& property, double default) TITANIUM_NOEXCEPT override;
+			virtual std::string getString(const std::string& property, const std::string& default) TITANIUM_NOEXCEPT override;
+			virtual bool hasProperty(const std::string& property) TITANIUM_NOEXCEPT override;
+			virtual std::vector<std::string> listProperties() TITANIUM_NOEXCEPT override;
+			virtual void removeProperty(const std::string& property) TITANIUM_NOEXCEPT override;
+			virtual void setBool(const std::string& property, bool value) TITANIUM_NOEXCEPT override;
+			virtual void setDouble(const std::string& property, double value) TITANIUM_NOEXCEPT override;
+			virtual void setInt(const std::string& property, int value) TITANIUM_NOEXCEPT override;
+			virtual void setString(const std::string& property, const std::string& value) TITANIUM_NOEXCEPT override;
 
 			ApplicationDataContainer^ local_settings_;
 
