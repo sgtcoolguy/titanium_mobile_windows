@@ -15,6 +15,8 @@ namespace TitaniumWindows
 {
 	using namespace HAL;
 
+	using Blob_shared_ptr_t = std::shared_ptr<Titanium::Blob>;
+
 	/*!
 		@class
 
@@ -38,11 +40,9 @@ namespace TitaniumWindows
 
 	private:
 
-		virtual JSValue base64decode(JSValue obj) TITANIUM_NOEXCEPT;
-		virtual JSValue base64encode(JSValue obj) TITANIUM_NOEXCEPT;
-		virtual std::string md5HexDigest(JSValue obj) TITANIUM_NOEXCEPT;
-		virtual std::string sha1(JSValue obj) TITANIUM_NOEXCEPT;
-		virtual std::string sha256(JSValue obj) TITANIUM_NOEXCEPT;
+		virtual std::string md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
+		virtual std::string sha1(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
+		virtual std::string sha256(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
 
 	};
 }  // namespace TitaniumWindows

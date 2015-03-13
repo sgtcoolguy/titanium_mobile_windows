@@ -9,48 +9,71 @@
 #include "TitaniumWindows/Utils.hpp"
 #include "Titanium/detail/TiBase.hpp"
 
+#include "TitaniumWindows/Utility.hpp"
+
+using namespace Windows::Security::Cryptography;
+using namespace Windows::Security::Cryptography::Core;
+using namespace Windows::Storage::Streams;
+
 namespace TitaniumWindows
 {
 
-		UtilsModule::UtilsModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::UtilsModule(js_context)
-		{
-			TITANIUM_LOG_DEBUG("Utils::ctor Initialize");
-		}
+	UtilsModule::UtilsModule(const JSContext& js_context) TITANIUM_NOEXCEPT
+		: Titanium::UtilsModule(js_context)
+	{
+		TITANIUM_LOG_DEBUG("Utils::ctor Initialize");
+	}
 
-		void UtilsModule::JSExportInitialize() {
-			JSExport<UtilsModule>::SetClassVersion(1);
-			JSExport<UtilsModule>::SetParent(JSExport<Titanium::UtilsModule>::Class());
-		}
+	void UtilsModule::JSExportInitialize() {
+		JSExport<UtilsModule>::SetClassVersion(1);
+		JSExport<UtilsModule>::SetParent(JSExport<Titanium::UtilsModule>::Class());
+	}
 
-		JSValue UtilsModule::base64decode(JSValue obj) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Utils.base64decode is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+	std::string UtilsModule::md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		auto data = obj->getData();
+		Platform::ArrayReference<unsigned char> parray(data.data(), data.size());
+		IBuffer^ buffer = CryptographicBuffer::CreateFromByteArray(parray);
 
-		JSValue UtilsModule::base64encode(JSValue obj) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Utils.base64encode is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+		HashAlgorithmProvider^ hashProvider = HashAlgorithmProvider::OpenAlgorithm(HashAlgorithmNames::Md5);
+		auto hash = hashProvider->HashData(buffer);
+		
+		Platform::Array<unsigned char,1U>^ hashArray = ref new Platform::Array<unsigned char,1U>(hash->Length);
+		CryptographicBuffer::CopyToByteArray(hash, &hashArray);
 
-		std::string UtilsModule::md5HexDigest(JSValue obj) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Utils.md5HexDigest is not implemented yet");
-			return "";
-		}
+		std::string result = Utility::HexString(hashArray->Data, hashArray->Length);
+		return result;
+	}
 
-		std::string UtilsModule::sha1(JSValue obj) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Utils.sha1 is not implemented yet");
-			return "";
-		}
+	std::string UtilsModule::sha1(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		auto data = obj->getData();
+		Platform::ArrayReference<unsigned char> parray(data.data(), data.size());
+		IBuffer^ buffer = CryptographicBuffer::CreateFromByteArray(parray);
 
-		std::string UtilsModule::sha256(JSValue obj) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Utils.sha256 is not implemented yet");
-			return "";
-		}
+		HashAlgorithmProvider^ hashProvider = HashAlgorithmProvider::OpenAlgorithm(HashAlgorithmNames::Sha1);
+		auto hash = hashProvider->HashData(buffer);
+		
+		Platform::Array<unsigned char,1U>^ hashArray = ref new Platform::Array<unsigned char,1U>(hash->Length);
+		CryptographicBuffer::CopyToByteArray(hash, &hashArray);
 
+		std::string result = Utility::HexString(hashArray->Data, hashArray->Length);
+		return result;
+	}
+
+	std::string UtilsModule::sha256(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		auto data = obj->getData();
+		Platform::ArrayReference<unsigned char> parray(data.data(), data.size());
+		IBuffer^ buffer = CryptographicBuffer::CreateFromByteArray(parray);
+
+		HashAlgorithmProvider^ hashProvider = HashAlgorithmProvider::OpenAlgorithm(HashAlgorithmNames::Sha256);
+		auto hash = hashProvider->HashData(buffer);
+		
+		Platform::Array<unsigned char,1U>^ hashArray = ref new Platform::Array<unsigned char,1U>(hash->Length);
+		CryptographicBuffer::CopyToByteArray(hash, &hashArray);
+
+		std::string result = Utility::HexString(hashArray->Data, hashArray->Length);
+		return result;
+	}
 }  // namespace TitaniumWindows

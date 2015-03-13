@@ -16,11 +16,29 @@
 #include <ppltasks.h>
 #include <unordered_map>
 #include <chrono>
+#include <sstream>
+#include <iomanip>
 
 namespace TitaniumWindows
 {
 	namespace Utility
 	{
+		//
+		// Run a task on the UI thread
+		//
+		template<class T> static void RunOnUIThread(T handler) {
+			auto dispatcher = Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow->Dispatcher;
+			dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler(handler));
+		}
+
+		//
+		// Run a task on the UI thread with a specified priority
+		//
+		template<class T> static void RunOnUIThread(Windows::UI::Core::CoreDispatcherPriority priority, T handler) {
+			auto dispatcher = Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow->Dispatcher;
+			dispatcher->RunAsync(priority, ref new Windows::UI::Core::DispatchedHandler(handler));
+		}
+
 		//
 		// Convert std::string into Platform::String^
 		//
@@ -53,6 +71,22 @@ namespace TitaniumWindows
 		{
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 			return std::string(converter.to_bytes(str->Data()));
+		}
+
+		//
+		// Convert unsigned char array into plain-text hex std::string
+		//
+		static std::string HexString(unsigned char* data, uint32_t length)
+		{
+			std::stringstream ss;
+			for (uint32_t i=0;i<length;++i) {
+			  ss << std::hex
+				 << std::noshowbase
+				 << std::setw(2)
+				 << std::setfill('0')
+				 << (uint32_t)data[i];
+			}
+			return ss.str();
 		}
 
 		static std::vector<unsigned char> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer)

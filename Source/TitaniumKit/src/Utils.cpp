@@ -27,16 +27,12 @@ namespace Titanium
 	{
 		using namespace boost::archive::iterators;
 
-		TITANIUM_LOG_INFO(obj->get_text().c_str());
-
 		std::string input = obj->get_text();
 
 		std::stringstream out_stream;
 		typedef transform_width<binary_from_base64<std::string::const_iterator>, 8, 6> base64_text;
 		std::copy(base64_text(input.begin()), base64_text(input.end()), ostream_iterator<char>(out_stream));
 		std::string result = out_stream.str();
-
-		TITANIUM_LOG_INFO(result);
 
 		auto blob = get_context().CreateObject(JSExport<Titanium::Blob>::Class()).CallAsConstructor();
 		auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
@@ -48,16 +44,12 @@ namespace Titanium
 	{
 		using namespace boost::archive::iterators;
 
-		TITANIUM_LOG_INFO(obj->get_text().c_str());
-
 		std::string input = obj->get_text();
 
 		std::stringstream out_stream;
 		typedef insert_linebreaks<base64_from_binary<transform_width<std::string::const_iterator, 6, 8>>, 72> base64_text;
 		std::copy(base64_text(input.begin()), base64_text(input.end()), ostream_iterator<char>(out_stream));
 		std::string result = out_stream.str().append((3-input.size()%3)%3, '=');
-
-		TITANIUM_LOG_INFO(result);
 
 		auto blob = get_context().CreateObject(JSExport<Titanium::Blob>::Class()).CallAsConstructor();
 		auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
@@ -120,45 +112,36 @@ namespace Titanium
 
 	JSValue UtilsModule::js_md5HexDigest(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Utils.md5HexDigest is not implemented yet");
-		if (arguments.empty()) {
-			return get_context().CreateUndefined();
-		}
-		else if (arguments.size() >= 1) {
+		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			const auto obj = static_cast<JSObject>(_0);
-			// return get_context().CreateString(md5HexDigest(obj));
+			const auto js_obj = static_cast<JSObject>(_0);
+			const auto obj = js_obj.GetPrivate<Blob>();
+			return get_context().CreateString(md5HexDigest(obj));
 		}
 		return get_context().CreateUndefined();
 	}
 
 	JSValue UtilsModule::js_sha1(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Utils.sha1 is not implemented yet");
-		if (arguments.empty()) {
-			return get_context().CreateUndefined();
-		}
-		else if (arguments.size() >= 1) {
+		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			const auto obj = static_cast<JSObject>(_0);
-			// return get_context().CreateString(sha1(obj));
+			const auto js_obj = static_cast<JSObject>(_0);
+			const auto obj = js_obj.GetPrivate<Blob>();
+			return get_context().CreateString(sha1(obj));
 		}
 		return get_context().CreateUndefined();
 	}
 
 	JSValue UtilsModule::js_sha256(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Utils.sha256 is not implemented yet");
-		if (arguments.empty()) {
-			return get_context().CreateUndefined();
-		}
-		else if (arguments.size() >= 1) {
+		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
-			const auto obj = static_cast<JSObject>(_0);
-			// return get_context().CreateString(sha256(obj));
+			const auto js_obj = static_cast<JSObject>(_0);
+			const auto obj = js_obj.GetPrivate<Blob>();
+			return get_context().CreateString(sha256(obj));
 		}
 		return get_context().CreateUndefined();
 	}
