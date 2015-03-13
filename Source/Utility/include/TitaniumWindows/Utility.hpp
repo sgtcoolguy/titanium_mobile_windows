@@ -27,8 +27,7 @@ namespace TitaniumWindows
 		// Run a task on the UI thread
 		//
 		template<class T> static void RunOnUIThread(T handler) {
-			auto dispatcher = Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow->Dispatcher;
-			dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler(handler));
+			RunOnUIThread<T>(Windows::UI::Core::CoreDispatcherPriority::Normal, handler);
 		}
 
 		//

@@ -10,7 +10,6 @@
 #define _TITANIUM_UTILS_HPP_
 
 #include "Titanium/Module.hpp"
-
 #include "Titanium/Blob.hpp"
 
 namespace Titanium
@@ -22,9 +21,9 @@ namespace Titanium
 	/*!
 	  @class
 	  @discussion This is the Titanium Utils Module.
-	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UtilsModule
+	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Utils
 	*/
-	class TITANIUMKIT_EXPORT UtilsModule : public Module, public JSExport<UtilsModule>
+	class TITANIUMKIT_EXPORT Utils : public Module, public JSExport<Utils>
 	{
 
 	public:
@@ -35,6 +34,7 @@ namespace Titanium
 		  @discussion Returns the specified data decoded from Base64.
 		*/
 		virtual Blob_shared_ptr_t base64decode(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
+		virtual Blob_shared_ptr_t base64decode(std::string obj) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -42,6 +42,7 @@ namespace Titanium
 		  @discussion Returns the specified data encoded to Base64.
 		*/
 		virtual Blob_shared_ptr_t base64encode(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
+		virtual Blob_shared_ptr_t base64encode(std::string obj) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -49,6 +50,7 @@ namespace Titanium
 		  @discussion Returns a MD5 digest of the specified data as a hex-based String.
 		*/
 		virtual std::string md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
+		virtual std::string md5HexDigest(std::string obj) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -56,6 +58,7 @@ namespace Titanium
 		  @discussion Returns a SHA-1 hash of the specified data as a hex-based String.
 		*/
 		virtual std::string sha1(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
+		virtual std::string sha1(std::string obj) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -63,14 +66,15 @@ namespace Titanium
 		  @discussion Returns a SHA-256 hash of the specified data as a hex-based String.
 		*/
 		virtual std::string sha256(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
+		virtual std::string sha256(std::string obj) TITANIUM_NOEXCEPT;
 
-		UtilsModule(const JSContext&) TITANIUM_NOEXCEPT;
-		virtual ~UtilsModule() = default;
-		UtilsModule(const UtilsModule&) = default;
-		UtilsModule& operator=(const UtilsModule&) = default;
+		Utils(const JSContext&) TITANIUM_NOEXCEPT;
+		virtual ~Utils() = default;
+		Utils(const Utils&) = default;
+		Utils& operator=(const Utils&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-		UtilsModule(UtilsModule&&)                 = default;
-		UtilsModule& operator=(UtilsModule&&)      = default;
+		Utils(Utils&&)                 = default;
+		Utils& operator=(Utils&&)      = default;
 #endif
 
 		static void JSExportInitialize();

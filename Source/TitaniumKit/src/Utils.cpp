@@ -18,16 +18,19 @@
 
 namespace Titanium
 {
-	UtilsModule::UtilsModule(const JSContext& js_context) TITANIUM_NOEXCEPT
+	Utils::Utils(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Module(js_context)
 	{
 	}
 
-	Blob_shared_ptr_t UtilsModule::base64decode(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	Blob_shared_ptr_t Utils::base64decode(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		return base64decode(obj->get_text());
+	}
+
+	Blob_shared_ptr_t Utils::base64decode(std::string input) TITANIUM_NOEXCEPT
 	{
 		using namespace boost::archive::iterators;
-
-		std::string input = obj->get_text();
 
 		std::stringstream out_stream;
 		typedef transform_width<binary_from_base64<std::string::const_iterator>, 8, 6> base64_text;
@@ -40,11 +43,14 @@ namespace Titanium
 		return blob_ptr;
 	}
 
-	Blob_shared_ptr_t UtilsModule::base64encode(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	Blob_shared_ptr_t Utils::base64encode(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		return base64encode(obj->get_text());
+	}
+
+	Blob_shared_ptr_t Utils::base64encode(std::string input) TITANIUM_NOEXCEPT
 	{
 		using namespace boost::archive::iterators;
-
-		std::string input = obj->get_text();
 
 		std::stringstream out_stream;
 		typedef insert_linebreaks<base64_from_binary<transform_width<std::string::const_iterator, 6, 8>>, 72> base64_text;
@@ -57,91 +63,159 @@ namespace Titanium
 		return blob_ptr;
 	}
 
-	std::string UtilsModule::md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	std::string Utils::md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("UtilsModule::md5HexDigest: Unimplemented");
+		TITANIUM_LOG_WARN("Utils::md5HexDigest: Unimplemented");
 		return "";
 	}
 
-	std::string UtilsModule::sha1(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	std::string Utils::md5HexDigest(std::string obj) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("UtilsModule::sha1: Unimplemented");
+		TITANIUM_LOG_WARN("Utils::md5HexDigest: Unimplemented");
 		return "";
 	}
 
-	std::string UtilsModule::sha256(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	std::string Utils::sha1(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("UtilsModule::sha256: Unimplemented");
+		TITANIUM_LOG_WARN("Utils::sha1: Unimplemented");
 		return "";
 	}
 
-	void UtilsModule::JSExportInitialize() {
-		JSExport<UtilsModule>::SetClassVersion(1);
-		JSExport<UtilsModule>::SetParent(JSExport<Module>::Class());
-
-		JSExport<UtilsModule>::AddFunctionProperty("base64decode", std::mem_fn(&UtilsModule::js_base64decode));
-		JSExport<UtilsModule>::AddFunctionProperty("base64encode", std::mem_fn(&UtilsModule::js_base64encode));
-		JSExport<UtilsModule>::AddFunctionProperty("md5HexDigest", std::mem_fn(&UtilsModule::js_md5HexDigest));
-		JSExport<UtilsModule>::AddFunctionProperty("sha1", std::mem_fn(&UtilsModule::js_sha1));
-		JSExport<UtilsModule>::AddFunctionProperty("sha256", std::mem_fn(&UtilsModule::js_sha256));
+	std::string Utils::sha1(std::string obj) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Utils::sha1: Unimplemented");
+		return "";
 	}
 
-	JSValue UtilsModule::js_base64decode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	std::string Utils::sha256(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Utils::sha256: Unimplemented");
+		return "";
+	}
+
+	std::string Utils::sha256(std::string obj) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Utils::sha256: Unimplemented");
+		return "";
+	}
+
+	void Utils::JSExportInitialize() {
+		JSExport<Utils>::SetClassVersion(1);
+		JSExport<Utils>::SetParent(JSExport<Module>::Class());
+
+		JSExport<Utils>::AddFunctionProperty("base64decode", std::mem_fn(&Utils::js_base64decode));
+		JSExport<Utils>::AddFunctionProperty("base64encode", std::mem_fn(&Utils::js_base64encode));
+		JSExport<Utils>::AddFunctionProperty("md5HexDigest", std::mem_fn(&Utils::js_md5HexDigest));
+		JSExport<Utils>::AddFunctionProperty("sha1", std::mem_fn(&Utils::js_sha1));
+		JSExport<Utils>::AddFunctionProperty("sha256", std::mem_fn(&Utils::js_sha256));
+	}
+
+	JSValue Utils::js_base64decode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsObject());
-			const auto js_obj = static_cast<JSObject>(_0);
-			const auto obj = js_obj.GetPrivate<Blob>();
-			return static_cast<JSValue>(base64decode(obj)->get_object());
+
+			// Titanium.Blob
+			if (_0.IsObject()) {
+				const auto js_obj = static_cast<JSObject>(_0);
+				const auto obj = js_obj.GetPrivate<Blob>();
+				if (obj != nullptr) {
+					return static_cast<JSValue>(base64decode(obj)->get_object());
+				}
+
+			// String
+			} else if (_0.IsString()) {
+				const auto obj = static_cast<std::string>(_0);
+				return static_cast<JSValue>(base64decode(obj)->get_object());
+			}
 		}
 		return get_context().CreateUndefined();
 	}
 
-	JSValue UtilsModule::js_base64encode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Utils::js_base64encode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsObject());
-			const auto js_obj = static_cast<JSObject>(_0);
-			const auto obj = js_obj.GetPrivate<Blob>();
-			return static_cast<JSValue>(base64encode(obj)->get_object());
+
+			// Titanium.Blob
+			if (_0.IsObject()) {
+				const auto js_obj = static_cast<JSObject>(_0);
+				const auto obj = js_obj.GetPrivate<Blob>();
+				if (obj != nullptr) {
+					return static_cast<JSValue>(base64encode(obj)->get_object());
+				}
+
+			// String
+			} else if (_0.IsString()) {
+				const auto obj = static_cast<std::string>(_0);
+				return static_cast<JSValue>(base64encode(obj)->get_object());
+			}
 		}
 		return get_context().CreateUndefined();
 	}
 
-	JSValue UtilsModule::js_md5HexDigest(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Utils::js_md5HexDigest(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsObject());
-			const auto js_obj = static_cast<JSObject>(_0);
-			const auto obj = js_obj.GetPrivate<Blob>();
-			return get_context().CreateString(md5HexDigest(obj));
+
+			// Titanium.Blob
+			if (_0.IsObject()) {
+				const auto js_obj = static_cast<JSObject>(_0);
+				const auto obj = js_obj.GetPrivate<Blob>();
+				if (obj != nullptr) {
+					return get_context().CreateString(md5HexDigest(obj));
+				}
+
+			// String
+			} else if (_0.IsString()) {
+				const auto obj = static_cast<std::string>(_0);
+				return get_context().CreateString(md5HexDigest(obj));
+			}
 		}
 		return get_context().CreateUndefined();
 	}
 
-	JSValue UtilsModule::js_sha1(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Utils::js_sha1(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsObject());
-			const auto js_obj = static_cast<JSObject>(_0);
-			const auto obj = js_obj.GetPrivate<Blob>();
-			return get_context().CreateString(sha1(obj));
+			
+			// Titanium.Blob
+			if (_0.IsObject()) {
+				const auto js_obj = static_cast<JSObject>(_0);
+				const auto obj = js_obj.GetPrivate<Blob>();
+				if (obj != nullptr) {
+					return get_context().CreateString(sha1(obj));
+				}
+
+			// String
+			} else if (_0.IsString()) {
+				const auto obj = static_cast<std::string>(_0);
+				return get_context().CreateString(sha1(obj));
+			}
 		}
 		return get_context().CreateUndefined();
 	}
 
-	JSValue UtilsModule::js_sha256(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue Utils::js_sha256(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsObject());
-			const auto js_obj = static_cast<JSObject>(_0);
-			const auto obj = js_obj.GetPrivate<Blob>();
-			return get_context().CreateString(sha256(obj));
+			
+			// Titanium.Blob
+			if (_0.IsObject()) {
+				const auto js_obj = static_cast<JSObject>(_0);
+				const auto obj = js_obj.GetPrivate<Blob>();
+				if (obj != nullptr) {
+					return get_context().CreateString(sha256(obj));
+				}
+
+			// String
+			} else if (_0.IsString()) {
+				const auto obj = static_cast<std::string>(_0);
+				return get_context().CreateString(sha256(obj));
+			}
 		}
 		return get_context().CreateUndefined();
 	}

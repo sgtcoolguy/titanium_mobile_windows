@@ -31,7 +31,7 @@ namespace Titanium
 		  ti__(js_context__.CreateObject(JSExport<Titanium::TiModule>::Class())),
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
-		  utils__(js_context__.CreateObject(JSExport<Titanium::UtilsModule>::Class())),
+		  utils__(js_context__.CreateObject(JSExport<Titanium::Utils>::Class())),
 		  animation__(js_context__.CreateObject(JSExport<Titanium::UI::Animation>::Class())),
 		  listsection__(js_context__.CreateObject(JSExport<Titanium::UI::ListSection>::Class())),
 		  listview__(js_context__.CreateObject(JSExport<Titanium::UI::ListView>::Class())),

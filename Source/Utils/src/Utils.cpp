@@ -11,31 +11,25 @@
 
 #include "TitaniumWindows/Utility.hpp"
 
-using namespace Windows::Security::Cryptography;
-using namespace Windows::Security::Cryptography::Core;
-using namespace Windows::Storage::Streams;
-
 namespace TitaniumWindows
 {
 
-	UtilsModule::UtilsModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: Titanium::UtilsModule(js_context)
+	Utils::Utils(const JSContext& js_context) TITANIUM_NOEXCEPT
+		: Titanium::Utils(js_context)
 	{
 		TITANIUM_LOG_DEBUG("Utils::ctor Initialize");
 	}
 
-	void UtilsModule::JSExportInitialize() {
-		JSExport<UtilsModule>::SetClassVersion(1);
-		JSExport<UtilsModule>::SetParent(JSExport<Titanium::UtilsModule>::Class());
+	void Utils::JSExportInitialize() {
+		JSExport<Utils>::SetClassVersion(1);
+		JSExport<Utils>::SetParent(JSExport<Titanium::Utils>::Class());
 	}
 
-	std::string UtilsModule::md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
-	{
-		auto data = obj->getData();
+	std::string Utils::generateHash(Platform::String^ hashName, std::vector<unsigned char> data) {
 		Platform::ArrayReference<unsigned char> parray(data.data(), data.size());
 		IBuffer^ buffer = CryptographicBuffer::CreateFromByteArray(parray);
 
-		HashAlgorithmProvider^ hashProvider = HashAlgorithmProvider::OpenAlgorithm(HashAlgorithmNames::Md5);
+		HashAlgorithmProvider^ hashProvider = HashAlgorithmProvider::OpenAlgorithm(hashName);
 		auto hash = hashProvider->HashData(buffer);
 		
 		Platform::Array<unsigned char,1U>^ hashArray = ref new Platform::Array<unsigned char,1U>(hash->Length);
@@ -45,35 +39,36 @@ namespace TitaniumWindows
 		return result;
 	}
 
-	std::string UtilsModule::sha1(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	std::string Utils::md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
 	{
-		auto data = obj->getData();
-		Platform::ArrayReference<unsigned char> parray(data.data(), data.size());
-		IBuffer^ buffer = CryptographicBuffer::CreateFromByteArray(parray);
-
-		HashAlgorithmProvider^ hashProvider = HashAlgorithmProvider::OpenAlgorithm(HashAlgorithmNames::Sha1);
-		auto hash = hashProvider->HashData(buffer);
-		
-		Platform::Array<unsigned char,1U>^ hashArray = ref new Platform::Array<unsigned char,1U>(hash->Length);
-		CryptographicBuffer::CopyToByteArray(hash, &hashArray);
-
-		std::string result = Utility::HexString(hashArray->Data, hashArray->Length);
-		return result;
+		return generateHash(HashAlgorithmNames::Md5, obj->getData());
 	}
 
-	std::string UtilsModule::sha256(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	std::string Utils::md5HexDigest(std::string obj) TITANIUM_NOEXCEPT
 	{
-		auto data = obj->getData();
-		Platform::ArrayReference<unsigned char> parray(data.data(), data.size());
-		IBuffer^ buffer = CryptographicBuffer::CreateFromByteArray(parray);
+		std::vector<unsigned char> data(obj.begin(), obj.end());
+		return generateHash(HashAlgorithmNames::Md5, data);
+	}
 
-		HashAlgorithmProvider^ hashProvider = HashAlgorithmProvider::OpenAlgorithm(HashAlgorithmNames::Sha256);
-		auto hash = hashProvider->HashData(buffer);
-		
-		Platform::Array<unsigned char,1U>^ hashArray = ref new Platform::Array<unsigned char,1U>(hash->Length);
-		CryptographicBuffer::CopyToByteArray(hash, &hashArray);
+	std::string Utils::sha1(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		return generateHash(HashAlgorithmNames::Sha1, obj->getData());
+	}
 
-		std::string result = Utility::HexString(hashArray->Data, hashArray->Length);
-		return result;
+	std::string Utils::sha1(std::string obj) TITANIUM_NOEXCEPT
+	{
+		std::vector<unsigned char> data(obj.begin(), obj.end());
+		return generateHash(HashAlgorithmNames::Sha1, data);
+	}
+
+	std::string Utils::sha256(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		return generateHash(HashAlgorithmNames::Sha256, obj->getData());
+	}
+
+	std::string Utils::sha256(std::string obj) TITANIUM_NOEXCEPT
+	{
+		std::vector<unsigned char> data(obj.begin(), obj.end());
+		return generateHash(HashAlgorithmNames::Sha256, data);
 	}
 }  // namespace TitaniumWindows

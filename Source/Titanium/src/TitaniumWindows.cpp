@@ -49,7 +49,7 @@ namespace TitaniumWindows
 		                                                            .GestureObject(js_context__.CreateObject(JSExport<TitaniumWindows::Gesture>::Class()))
 		                                                            .AccelerometerObject(js_context__.CreateObject(JSExport<TitaniumWindows::Accelerometer>::Class()))
 		                                                            .ViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::View>::Class()))
-		                                                            .UtilsObject(js_context__.CreateObject(JSExport<TitaniumWindows::UtilsModule>::Class()))
+		                                                            .UtilsObject(js_context__.CreateObject(JSExport<TitaniumWindows::Utils>::Class()))
 		                                                            .PropertiesObject(js_context__.CreateObject(JSExport<TitaniumWindows::App::Properties>::Class()))
 		                                                            .EmailDialogObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::EmailDialog>::Class()))
 		                                                            .WindowObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::Window>::Class()))
