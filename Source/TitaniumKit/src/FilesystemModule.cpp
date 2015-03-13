@@ -56,13 +56,20 @@ namespace Titanium
 
 	JSValue FilesystemModule::createTempDirectory() TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("File::createTempDirectory: Unimplemented");
-		return get_context().CreateNull();
+		const auto script =
+		"       var file = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, new Date().getTime());"
+		"       file.createDirectory();"
+		"       file;";
+		return get_context().JSEvaluateScript(script);
 	}
 	JSValue FilesystemModule::createTempFile() TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("File::createTempFile: Unimplemented");
-		return get_context().CreateNull();
+		const auto script =
+		"       var dir  = Ti.Filesystem.createTempDirectory();"
+		"       var file = Ti.Filesystem.getFile(dir.nativePath, 'tifile' + Math.random().toString(36).substring(2) + '.tmp');"
+		"       file.createFile();"
+		"       file;";
+		return get_context().JSEvaluateScript(script);
 	}
 	bool FilesystemModule::isExternalStoragePresent() TITANIUM_NOEXCEPT
 	{
@@ -163,9 +170,10 @@ namespace Titanium
 		// join paths with separator
 		std::ostringstream oss;
 		const auto size = arguments.size();
-		for (unsigned i = 0; i < size; i++) {
-			oss << static_cast<std::string>(arguments.at(i));
-			if (i + 1 < size) {
+		for (size_t i = 0; i < size; i++) {
+			auto segment = static_cast<std::string>(arguments.at(i));
+			oss << segment;
+			if (i + 1 < size && segment.find(separator) != (segment.size() - 1)) {
 				oss << separator;
 			}
 		}

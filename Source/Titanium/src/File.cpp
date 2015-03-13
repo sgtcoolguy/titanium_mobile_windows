@@ -12,6 +12,7 @@
 #include <ppltasks.h>
 #include <collection.h>
 #include "Blob.hpp"
+#include <boost/algorithm/string/replace.hpp>
 
 using namespace Windows::Storage;
 using namespace Windows::Foundation::Collections;
@@ -36,10 +37,12 @@ namespace TitaniumWindows
 			TITANIUM_ASSERT(arguments.size() > 0);
 			TITANIUM_ASSERT(arguments.at(0).IsString());
 
-			// this assumes we already joins the arguments with separater
+			// this assumes we already joined the arguments with separator
 			std::string name = static_cast<std::string>(arguments.at(0));
 			// Convert "/" to "\\"
 			std::replace(name.begin(), name.end(), '/', '\\');
+			// remove duplicate separators!
+			boost::algorithm::replace_all(name, "\\\\", "\\");
 
 			const auto location = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
 			// if this path is relative path, let's use application installed location path
@@ -162,7 +165,7 @@ namespace TitaniumWindows
 		bool File::get_executable() const TITANIUM_NOEXCEPT
 		{
 			// Just return false here because Windows Runtime API doesn't
-			// privide a way to get executable attribute
+			// provide a way to get executable attribute
 			return false;
 		}
 
@@ -183,7 +186,6 @@ namespace TitaniumWindows
 
 		std::string File::get_nativePath() const TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("TitaniumWindows::File::get_nativePath");
 			return path_;
 		}
 
@@ -294,7 +296,7 @@ namespace TitaniumWindows
 		{
 			const bool result = createEmptyFile(path_);
 			if (result) {
-				// because this creates new file which didn't exit, update the
+				// because this creates new file which didn't exist, update the
 				// file_ member
 				file_ = getFileFromPathSync(TitaniumWindows::Utility::ConvertString(path_));
 				folder_ = nullptr;
@@ -314,6 +316,29 @@ namespace TitaniumWindows
 
 		bool File::deleteDirectory(bool recursive) TITANIUM_NOEXCEPT
 		{
+			if (!isFolder()) {
+				return false;
+			}
+
+			if (!recursive) {
+				return deleteFile();
+			}
+
+			std::vector<JSValue> contents = getDirectoryListing();
+			for (size_t i = 0; i < contents.size(); i++) {
+				auto value = contents.at(i);
+				auto native_file = static_cast<JSObject>(value).GetPrivate<Titanium::Filesystem::File>();
+				if (native_file->isDirectory()) {
+					if (!native_file->deleteDirectory(recursive)) {
+						return false;
+					}
+				} else {
+					if (!native_file->deleteFile()) {
+						return false;
+					}
+				}
+			}
+
 			return deleteFile();
 		}
 
@@ -323,18 +348,19 @@ namespace TitaniumWindows
 			if (item == nullptr) {
 				return false;
 			}
+
 			bool result = false;
 			concurrency::event event;
-			task<void>(item->DeleteAsync()).then([&result, &event](task<void> task) {
-					try {
-						task.get();
-						result = true;
-					} catch (Platform::COMException^ ex) {
-						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
-					}
-					event.set();
-				},
-				concurrency::task_continuation_context::use_arbitrary());
+			create_task(item->DeleteAsync()).then([&result, &event](task<void> task) {
+				try {
+					task.get();
+					result = true;
+				}
+				catch (Platform::COMException^ ex) {
+					TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+				}
+				event.set();
+			}, concurrency::task_continuation_context::use_arbitrary());
 			event.wait();
 			// release the file object because file is deleted
 			if (result) {
