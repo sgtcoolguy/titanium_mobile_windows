@@ -156,6 +156,8 @@ namespace Titanium
 			return;
 		}
 
+		// TODO Set "source" and "type" here!
+
 		for (unsigned i = 0; i < event_listener_count; ++i) {
 			JSValue callback_payload_property = event_listener_list.GetProperty(i);
 

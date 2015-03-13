@@ -14,6 +14,7 @@ namespace Titanium
 	{
 		AlertDialog::AlertDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Module(js_context),
+			  cancel__(-1),
 		      message__(js_context.CreateString()),
 		      title__(js_context.CreateString())
 		{
@@ -50,6 +51,16 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("AlertDialog::addButton not implemented");
 		}
 
+		int32_t AlertDialog::get_cancel() const TITANIUM_NOEXCEPT
+		{
+			return cancel__;
+		}
+
+		void AlertDialog::set_cancel(const int32_t& cancel) TITANIUM_NOEXCEPT
+		{
+			cancel__ = cancel;
+		}
+
 		std::string AlertDialog::get_message() const TITANIUM_NOEXCEPT
 		{
 			return message__;
@@ -70,9 +81,6 @@ namespace Titanium
 			title__ = title;
 		}
 
-		// TODO: The following functions can automatically be generated from
-		// the YAML API docs.
-
 		void AlertDialog::JSExportInitialize()
 		{
 			JSExport<AlertDialog>::SetClassVersion(1);
@@ -80,6 +88,7 @@ namespace Titanium
 			JSExport<AlertDialog>::AddFunctionProperty("hide", std::mem_fn(&AlertDialog::js_hide));
 			JSExport<AlertDialog>::AddFunctionProperty("show", std::mem_fn(&AlertDialog::js_show));
 			JSExport<AlertDialog>::AddValueProperty("buttonNames", std::mem_fn(&AlertDialog::js_get_buttonNames), std::mem_fn(&AlertDialog::js_set_buttonNames));
+			JSExport<AlertDialog>::AddValueProperty("cancel", std::mem_fn(&AlertDialog::js_get_cancel), std::mem_fn(&AlertDialog::js_set_cancel));
 			JSExport<AlertDialog>::AddValueProperty("message", std::mem_fn(&AlertDialog::js_get_message), std::mem_fn(&AlertDialog::js_set_message));
 			JSExport<AlertDialog>::AddValueProperty("title", std::mem_fn(&AlertDialog::js_get_title), std::mem_fn(&AlertDialog::js_set_title));
 		}
@@ -137,29 +146,37 @@ namespace Titanium
 
 		JSValue AlertDialog::js_get_message() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(message__);
+			return get_context().CreateString(get_message());
 		}
 
 		bool AlertDialog::js_set_message(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			const std::string message = static_cast<std::string>(argument);
-			TITANIUM_LOG_DEBUG("AlertDialog::js_set_message: message = ", message);
-			set_message(message);
+			set_message(static_cast<std::string>(argument));
+			return true;
+		}
+
+			JSValue AlertDialog::js_get_cancel() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateNumber(get_cancel());
+		}
+
+			bool AlertDialog::js_set_cancel(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsNumber());
+			set_cancel(static_cast<int32_t>(argument));
 			return true;
 		}
 
 		JSValue AlertDialog::js_get_title() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(title__);
+			return get_context().CreateString(get_title());
 		}
 
 		bool AlertDialog::js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			const std::string title = static_cast<std::string>(argument);
-			TITANIUM_LOG_DEBUG("AlertDialog::js_set_title: title = ", title);
-			set_title(title);
+			set_title(static_cast<std::string>(argument));
 			return true;
 		}
 	} // namespace UI
