@@ -45,24 +45,24 @@ namespace Titanium
 		HAL_LOG_DEBUG("MapModule:: postCallAsConstructor ", this);
 	}
 
-	JSValue MapModule::HYBRID_TYPE() const TITANIUM_NOEXCEPT
+	Map::MAP_TYPE MapModule::HYBRID_TYPE() const TITANIUM_NOEXCEPT
 	{
-		return hybrid_type__;
+		return Map::MAP_TYPE::HYBRID;
 	}
 
-	JSValue MapModule::SATELLITE_TYPE() const TITANIUM_NOEXCEPT
+	Map::MAP_TYPE MapModule::SATELLITE_TYPE() const TITANIUM_NOEXCEPT
 	{
-		return satellite_type__;
+		return Map::MAP_TYPE::SATELLITE;
 	}
 
-	JSValue MapModule::NORMAL_TYPE() const TITANIUM_NOEXCEPT
+	Map::MAP_TYPE MapModule::NORMAL_TYPE() const TITANIUM_NOEXCEPT
 	{
-		return normal_type__;
+		return Map::MAP_TYPE::NORMAL;
 	}
 
-	JSValue MapModule::TERRAIN_TYPE() const TITANIUM_NOEXCEPT
+	Map::MAP_TYPE MapModule::TERRAIN_TYPE() const TITANIUM_NOEXCEPT
 	{
-		return terrain_type__;
+		return Map::MAP_TYPE::TERRAIN;
 	}
 
 	JSValue MapModule::ANNOTATION_DRAG_STATE_END() const TITANIUM_NOEXCEPT
@@ -257,10 +257,11 @@ namespace Titanium
 		JSExport<MapModule>::SetClassVersion(1);
 		JSExport<MapModule>::SetParent(JSExport<Module>::Class());
 
-		JSExport<MapModule>::AddValueProperty("HYBRID_TYPE", std::mem_fn(&MapModule::HYBRID_TYPE));
-		JSExport<MapModule>::AddValueProperty("SATELLITE_TYPE", std::mem_fn(&MapModule::SATELLITE_TYPE));
-		JSExport<MapModule>::AddValueProperty("NORMAL_TYPE", std::mem_fn(&MapModule::NORMAL_TYPE));
-		JSExport<MapModule>::AddValueProperty("TERRAIN_TYPE", std::mem_fn(&MapModule::TERRAIN_TYPE));
+		JSExport<MapModule>::AddValueProperty("HYBRID_TYPE", std::mem_fn(&MapModule::js_get_HYBRID_TYPE));
+		JSExport<MapModule>::AddValueProperty("SATELLITE_TYPE", std::mem_fn(&MapModule::js_get_SATELLITE_TYPE));
+		JSExport<MapModule>::AddValueProperty("NORMAL_TYPE", std::mem_fn(&MapModule::js_get_NORMAL_TYPE));
+		JSExport<MapModule>::AddValueProperty("TERRAIN_TYPE", std::mem_fn(&MapModule::js_get_TERRAIN_TYPE));
+		
 		JSExport<MapModule>::AddValueProperty("ANNOTATION_DRAG_STATE_END", std::mem_fn(&MapModule::ANNOTATION_DRAG_STATE_END));
 		JSExport<MapModule>::AddValueProperty("ANNOTATION_DRAG_STATE_START", std::mem_fn(&MapModule::ANNOTATION_DRAG_STATE_START));
 		JSExport<MapModule>::AddValueProperty("ANNOTATION_AZURE", std::mem_fn(&MapModule::ANNOTATION_AZURE));
@@ -274,8 +275,10 @@ namespace Titanium
 		JSExport<MapModule>::AddValueProperty("ANNOTATION_ROSE", std::mem_fn(&MapModule::ANNOTATION_ROSE));
 		JSExport<MapModule>::AddValueProperty("ANNOTATION_VIOLET", std::mem_fn(&MapModule::ANNOTATION_VIOLET));
 		JSExport<MapModule>::AddValueProperty("ANNOTATION_YELLOW", std::mem_fn(&MapModule::ANNOTATION_YELLOW));
+		
 		JSExport<MapModule>::AddValueProperty("OVERLAY_LEVEL_ABOVE_LABELS", std::mem_fn(&MapModule::OVERLAY_LEVEL_ABOVE_LABELS));
 		JSExport<MapModule>::AddValueProperty("OVERLAY_LEVEL_ABOVE_ROADS", std::mem_fn(&MapModule::OVERLAY_LEVEL_ABOVE_ROADS));
+		
 		JSExport<MapModule>::AddValueProperty("SERVICE_DISABLED", std::mem_fn(&MapModule::SERVICE_DISABLED));
 		JSExport<MapModule>::AddValueProperty("SERVICE_INVALID", std::mem_fn(&MapModule::SERVICE_INVALID));
 		JSExport<MapModule>::AddValueProperty("SERVICE_MISSING", std::mem_fn(&MapModule::SERVICE_MISSING));
@@ -287,6 +290,30 @@ namespace Titanium
 		JSExport<MapModule>::AddFunctionProperty("createRoute", std::mem_fn(&MapModule::js_createRoute));
 		JSExport<MapModule>::AddFunctionProperty("createCamera", std::mem_fn(&MapModule::js_createCamera));
 		JSExport<MapModule>::AddFunctionProperty("isGooglePlayServicesAvailable", std::mem_fn(&MapModule::js_isGooglePlayServicesAvailable));
+	}
+
+	JSValue MapModule::js_get_HYBRID_TYPE() const TITANIUM_NOEXCEPT
+	{
+		auto ret = Titanium::Map::Constants::to_string(HYBRID_TYPE());
+		return get_context().CreateString(ret);
+	}
+
+	JSValue MapModule::js_get_SATELLITE_TYPE() const TITANIUM_NOEXCEPT
+	{
+		auto ret = Titanium::Map::Constants::to_string(SATELLITE_TYPE());
+		return get_context().CreateString(ret);
+	}
+
+	JSValue MapModule::js_get_NORMAL_TYPE() const TITANIUM_NOEXCEPT
+	{
+		auto ret = Titanium::Map::Constants::to_string(NORMAL_TYPE());
+		return get_context().CreateString(ret);
+	}
+
+	JSValue MapModule::js_get_TERRAIN_TYPE() const TITANIUM_NOEXCEPT
+	{
+		auto ret = Titanium::Map::Constants::to_string(TERRAIN_TYPE());
+		return get_context().CreateString(ret);
 	}
 
 	JSValue MapModule::js_createView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT

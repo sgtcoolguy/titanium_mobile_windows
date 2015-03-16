@@ -29,10 +29,10 @@ namespace Titanium
 	{
 
 	public:
-		virtual JSValue HYBRID_TYPE() const TITANIUM_NOEXCEPT;
-		virtual JSValue SATELLITE_TYPE() const TITANIUM_NOEXCEPT;
-		virtual JSValue NORMAL_TYPE() const TITANIUM_NOEXCEPT;
-		virtual JSValue TERRAIN_TYPE() const TITANIUM_NOEXCEPT;
+		virtual Map::MAP_TYPE HYBRID_TYPE() const TITANIUM_NOEXCEPT;
+		virtual Map::MAP_TYPE SATELLITE_TYPE() const TITANIUM_NOEXCEPT;
+		virtual Map::MAP_TYPE NORMAL_TYPE() const TITANIUM_NOEXCEPT;
+		virtual Map::MAP_TYPE TERRAIN_TYPE() const TITANIUM_NOEXCEPT;
 
 		virtual JSValue ANNOTATION_DRAG_STATE_END() const TITANIUM_NOEXCEPT;
 		virtual JSValue ANNOTATION_DRAG_STATE_START() const TITANIUM_NOEXCEPT;
@@ -106,6 +106,11 @@ namespace Titanium
 
 		static void JSExportInitialize();
 
+		virtual JSValue js_get_HYBRID_TYPE() const TITANIUM_NOEXCEPT;
+		virtual JSValue js_get_SATELLITE_TYPE() const TITANIUM_NOEXCEPT;
+		virtual JSValue js_get_NORMAL_TYPE() const TITANIUM_NOEXCEPT;
+		virtual JSValue js_get_TERRAIN_TYPE() const TITANIUM_NOEXCEPT;
+
 		virtual JSValue js_createAnnotation(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_createCamera(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_createRoute(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
@@ -113,10 +118,6 @@ namespace Titanium
 		virtual JSValue js_isGooglePlayServicesAvailable(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 	private:
-		JSValue hybrid_type__;
-		JSValue satellite_type__;
-		JSValue normal_type__;
-		JSValue terrain_type__;
 		JSValue annotation_drag_state_end__;
 		JSValue annotation_drag_state_start__;
 		JSValue annotation_azure__;
