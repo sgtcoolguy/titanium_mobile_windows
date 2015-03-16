@@ -17,7 +17,6 @@ namespace TitaniumWindows
 		Window::Window(const JSContext& js_context) TITANIUM_NOEXCEPT
   			: Titanium::UI::Window(js_context)
 		{
-			TITANIUM_LOG_DEBUG("Window::ctor");
 		}
 
 		void Window::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
@@ -36,7 +35,6 @@ namespace TitaniumWindows
 
 		void Window::close(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("Window::close");
 			// FIXME How do we handle this? It should navigate to the next window/page in a stack...
 			layoutPolicy__->hide();
 
@@ -55,8 +53,6 @@ namespace TitaniumWindows
 
 		void Window::open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("Window::open");
-
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 			rootFrame->Navigate(Windows::UI::Xaml::Controls::Page::typeid);
 			auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
@@ -81,7 +77,6 @@ namespace TitaniumWindows
 		WindowLayoutPolicy::WindowLayoutPolicy() TITANIUM_NOEXCEPT
 			: WindowsViewLayoutPolicy()
 		{
-			TITANIUM_LOG_DEBUG("WindowLayoutPolicy::ctor");
 		}
 
 		void WindowLayoutPolicy::onComponentSizeChange(const Titanium::LayoutEngine::Rect& rect)

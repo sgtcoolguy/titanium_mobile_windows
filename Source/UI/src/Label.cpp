@@ -132,7 +132,7 @@ namespace TitaniumWindows
 				}
 				custom_fonts__[family] = path;
 			}
-			label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily (TitaniumWindows::Utility::ConvertString(path));
+			label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(TitaniumWindows::Utility::ConvertString(path));
 		}
 
 		void Label::set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT
@@ -173,8 +173,6 @@ namespace TitaniumWindows
 
 		void Label::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("Label::enableEvent: (event name '", event_name, "'");
-
 			const JSContext ctx = this->get_context();
 
 			using namespace Windows::UI::Xaml::Input;

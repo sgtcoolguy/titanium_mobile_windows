@@ -46,8 +46,8 @@ namespace TitaniumWindows
 			Windows::ApplicationModel::Email::EmailMessage^ email_message = ref new Windows::ApplicationModel::Email::EmailMessage();
 
 			// Set up all the fields!
-			email_message->Body = TitaniumWindows::Utility::ConvertString(get_messageBody());
-			email_message->Subject = TitaniumWindows::Utility::ConvertString(get_subject());
+			email_message->Body = TitaniumWindows::Utility::ConvertUTF8String(get_messageBody());
+			email_message->Subject = TitaniumWindows::Utility::ConvertUTF8String(get_subject());
 			setRecipients(static_cast<JSObject>(get_toRecipients()), email_message->To);
 			setRecipients(static_cast<JSObject>(get_ccRecipients()), email_message->CC);
 			setRecipients(static_cast<JSObject>(get_bccRecipients()), email_message->Bcc);
@@ -93,7 +93,7 @@ namespace TitaniumWindows
 				const auto parameter = arg.GetProperty(j);
 				if (parameter.IsString()) {
 					const auto address = static_cast<std::string>(parameter);
-					const auto emailRecipient = ref new Windows::ApplicationModel::Email::EmailRecipient(TitaniumWindows::Utility::ConvertString(address));
+					const auto emailRecipient = ref new Windows::ApplicationModel::Email::EmailRecipient(TitaniumWindows::Utility::ConvertUTF8String(address));
 					recipients->Append(emailRecipient); 
 				}
 			}
