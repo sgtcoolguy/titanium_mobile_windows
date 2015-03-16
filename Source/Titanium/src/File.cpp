@@ -393,6 +393,7 @@ namespace TitaniumWindows
 		std::vector<std::string> File::getDirectoryListing() TITANIUM_NOEXCEPT
 		{
 			std::vector<std::string> filenames;
+			// FIXME Guard against not being a folder or not existing!
 
 			// Get folders in folder
 			concurrency::event folderEvent;
