@@ -28,7 +28,13 @@ namespace Titanium
 		return base64decode(obj->get_text());
 	}
 
-	Blob_shared_ptr_t Utils::base64decode(std::string input) TITANIUM_NOEXCEPT
+	Blob_shared_ptr_t Utils::base64decode(File_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		Blob_shared_ptr_t blob = static_cast<JSObject>(obj->read()).GetPrivate<Blob>();
+		return base64decode(blob->get_text());
+	}
+
+	Blob_shared_ptr_t Utils::base64decode(std::string& input) TITANIUM_NOEXCEPT
 	{
 		using namespace boost::archive::iterators;
 
@@ -48,7 +54,13 @@ namespace Titanium
 		return base64encode(obj->get_text());
 	}
 
-	Blob_shared_ptr_t Utils::base64encode(std::string input) TITANIUM_NOEXCEPT
+	Blob_shared_ptr_t Utils::base64encode(File_shared_ptr_t obj) TITANIUM_NOEXCEPT
+	{
+		Blob_shared_ptr_t blob = static_cast<JSObject>(obj->read()).GetPrivate<Blob>();
+		return base64encode(blob->get_text());
+	}
+
+	Blob_shared_ptr_t Utils::base64encode(std::string& input) TITANIUM_NOEXCEPT
 	{
 		using namespace boost::archive::iterators;
 
@@ -69,7 +81,7 @@ namespace Titanium
 		return "";
 	}
 
-	std::string Utils::md5HexDigest(std::string obj) TITANIUM_NOEXCEPT
+	std::string Utils::md5HexDigest(std::string& obj) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("Utils::md5HexDigest: Unimplemented");
 		return "";
@@ -81,7 +93,7 @@ namespace Titanium
 		return "";
 	}
 
-	std::string Utils::sha1(std::string obj) TITANIUM_NOEXCEPT
+	std::string Utils::sha1(std::string& obj) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("Utils::sha1: Unimplemented");
 		return "";
@@ -93,7 +105,7 @@ namespace Titanium
 		return "";
 	}
 
-	std::string Utils::sha256(std::string obj) TITANIUM_NOEXCEPT
+	std::string Utils::sha256(std::string& obj) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("Utils::sha256: Unimplemented");
 		return "";
@@ -115,17 +127,25 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 
-			// Titanium.Blob
+			// Titanium.Blob / Titanium.Filesystem.File
 			if (_0.IsObject()) {
 				const auto js_obj = static_cast<JSObject>(_0);
-				const auto obj = js_obj.GetPrivate<Blob>();
-				if (obj != nullptr) {
-					return static_cast<JSValue>(base64decode(obj)->get_object());
+
+				// Titanium.Blob
+				const auto blob_obj = js_obj.GetPrivate<Blob>();
+				if (blob_obj != nullptr) {
+					return static_cast<JSValue>(base64decode(blob_obj)->get_object());
+				}
+
+				// Titanium.Filesystem.File
+				const auto file_obj = js_obj.GetPrivate<Filesystem::File>();
+				if (file_obj != nullptr) {
+					return static_cast<JSValue>(base64decode(file_obj)->get_object());
 				}
 
 			// String
 			} else if (_0.IsString()) {
-				const auto obj = static_cast<std::string>(_0);
+				auto obj = static_cast<std::string>(_0);
 				return static_cast<JSValue>(base64decode(obj)->get_object());
 			}
 		}
@@ -137,17 +157,25 @@ namespace Titanium
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 
-			// Titanium.Blob
+			// Titanium.Blob / Titanium.Filesystem.File
 			if (_0.IsObject()) {
 				const auto js_obj = static_cast<JSObject>(_0);
-				const auto obj = js_obj.GetPrivate<Blob>();
-				if (obj != nullptr) {
-					return static_cast<JSValue>(base64encode(obj)->get_object());
+
+				// Titanium.Blob
+				const auto blob_obj = js_obj.GetPrivate<Blob>();
+				if (blob_obj != nullptr) {
+					return static_cast<JSValue>(base64encode(blob_obj)->get_object());
+				}
+
+				// Titanium.Filesystem.File
+				const auto file_obj = js_obj.GetPrivate<Filesystem::File>();
+				if (file_obj != nullptr) {
+					return static_cast<JSValue>(base64encode(file_obj)->get_object());
 				}
 
 			// String
 			} else if (_0.IsString()) {
-				const auto obj = static_cast<std::string>(_0);
+				auto obj = static_cast<std::string>(_0);
 				return static_cast<JSValue>(base64encode(obj)->get_object());
 			}
 		}
@@ -169,7 +197,7 @@ namespace Titanium
 
 			// String
 			} else if (_0.IsString()) {
-				const auto obj = static_cast<std::string>(_0);
+				auto obj = static_cast<std::string>(_0);
 				return get_context().CreateString(md5HexDigest(obj));
 			}
 		}
@@ -191,7 +219,7 @@ namespace Titanium
 
 			// String
 			} else if (_0.IsString()) {
-				const auto obj = static_cast<std::string>(_0);
+				auto obj = static_cast<std::string>(_0);
 				return get_context().CreateString(sha1(obj));
 			}
 		}
@@ -213,7 +241,7 @@ namespace Titanium
 
 			// String
 			} else if (_0.IsString()) {
-				const auto obj = static_cast<std::string>(_0);
+				auto obj = static_cast<std::string>(_0);
 				return get_context().CreateString(sha256(obj));
 			}
 		}

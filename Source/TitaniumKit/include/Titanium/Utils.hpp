@@ -11,12 +11,14 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Blob.hpp"
+#include "Titanium/Filesystem/File.hpp"
 
 namespace Titanium
 {
 	using namespace HAL;
 
 	using Blob_shared_ptr_t = std::shared_ptr<Blob>;
+	using File_shared_ptr_t = std::shared_ptr<Filesystem::File>;
 
 	/*!
 	  @class
@@ -34,7 +36,8 @@ namespace Titanium
 		  @discussion Returns the specified data decoded from Base64.
 		*/
 		virtual Blob_shared_ptr_t base64decode(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
-		virtual Blob_shared_ptr_t base64decode(std::string obj) TITANIUM_NOEXCEPT;
+		virtual Blob_shared_ptr_t base64decode(std::string& obj) TITANIUM_NOEXCEPT;
+		virtual Blob_shared_ptr_t base64decode(File_shared_ptr_t obj) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -42,7 +45,8 @@ namespace Titanium
 		  @discussion Returns the specified data encoded to Base64.
 		*/
 		virtual Blob_shared_ptr_t base64encode(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
-		virtual Blob_shared_ptr_t base64encode(std::string obj) TITANIUM_NOEXCEPT;
+		virtual Blob_shared_ptr_t base64encode(std::string& obj) TITANIUM_NOEXCEPT;
+		virtual Blob_shared_ptr_t base64encode(File_shared_ptr_t obj) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -50,7 +54,7 @@ namespace Titanium
 		  @discussion Returns a MD5 digest of the specified data as a hex-based String.
 		*/
 		virtual std::string md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
-		virtual std::string md5HexDigest(std::string obj) TITANIUM_NOEXCEPT;
+		virtual std::string md5HexDigest(std::string& obj) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -58,7 +62,7 @@ namespace Titanium
 		  @discussion Returns a SHA-1 hash of the specified data as a hex-based String.
 		*/
 		virtual std::string sha1(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
-		virtual std::string sha1(std::string obj) TITANIUM_NOEXCEPT;
+		virtual std::string sha1(std::string& obj) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -66,7 +70,7 @@ namespace Titanium
 		  @discussion Returns a SHA-256 hash of the specified data as a hex-based String.
 		*/
 		virtual std::string sha256(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
-		virtual std::string sha256(std::string obj) TITANIUM_NOEXCEPT;
+		virtual std::string sha256(std::string& obj) TITANIUM_NOEXCEPT;
 
 		Utils(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~Utils() = default;

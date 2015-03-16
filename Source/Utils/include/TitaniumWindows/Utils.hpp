@@ -22,9 +22,9 @@ namespace TitaniumWindows
 	using Blob_shared_ptr_t = std::shared_ptr<Titanium::Blob>;
 
 	/*!
-		@class
+	  @class
 
-		@discussion This is the Titanium.Utils implementation for Windows.
+	  @discussion This is the Titanium.Utils implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_UTILS_EXPORT Utils final : public Titanium::Utils, public JSExport<Utils>
 	{
@@ -46,11 +46,11 @@ namespace TitaniumWindows
 		virtual std::string generateHash(Platform::String^ hashName, std::vector<unsigned char> data);
 
 		virtual std::string md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
-		virtual std::string md5HexDigest(std::string obj) TITANIUM_NOEXCEPT;
+		virtual std::string md5HexDigest(std::string& obj) TITANIUM_NOEXCEPT;
 		virtual std::string sha1(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
-		virtual std::string sha1(std::string obj) TITANIUM_NOEXCEPT;
+		virtual std::string sha1(std::string& obj) TITANIUM_NOEXCEPT;
 		virtual std::string sha256(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
-		virtual std::string sha256(std::string obj) TITANIUM_NOEXCEPT;
+		virtual std::string sha256(std::string& obj) TITANIUM_NOEXCEPT;
 
 	};
 }  // namespace TitaniumWindows
