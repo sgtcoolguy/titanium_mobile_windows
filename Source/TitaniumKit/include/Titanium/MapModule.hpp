@@ -63,35 +63,35 @@ namespace Titanium
 		  @abstract createAnnotation
 		  @discussion Creates and returns an instance of <Titanium.Map.Annotation>.
 		*/
-		virtual JSValue createAnnotation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+		JSValue createAnnotation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
 		  @abstract createCamera
 		  @discussion Creates and returns an instance of <Titanium.Map.Camera>.
 		*/
-		virtual JSValue createCamera(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+		JSValue createCamera(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
 		  @abstract createRoute
 		  @discussion Creates and returns an instance of <Titanium.Map.Route>.
 		*/
-		virtual JSValue createRoute(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+		JSValue createRoute(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
 		  @abstract createMapView
 		  @discussion Creates and returns an instance of <Titanium.Map.View>.
 		*/
-		virtual JSValue createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+		JSValue createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
 		  @abstract isGooglePlayServicesAvailable
 		  @discussion Returns a code to indicate whether Google Play Services is available on the device.
 		*/
-		virtual Titanium::Map::GOOGLE_PLAY_SERVICE_STATE isGooglePlayServicesAvailable() TITANIUM_NOEXCEPT;
+		Titanium::Map::GOOGLE_PLAY_SERVICE_STATE isGooglePlayServicesAvailable() TITANIUM_NOEXCEPT;
 
 		MapModule(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
@@ -106,11 +106,11 @@ namespace Titanium
 
 		static void JSExportInitialize();
 
-		virtual JSValue js_createAnnotation(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_createCamera(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_createRoute(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_createView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_isGooglePlayServicesAvailable(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		JSValue js_createAnnotation(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT;
+		JSValue js_createCamera(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT;
+		JSValue js_createRoute(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT;
+		JSValue js_createView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT;
+		JSValue js_isGooglePlayServicesAvailable(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT;
 
 	private:
 		JSValue hybrid_type__;
