@@ -69,7 +69,7 @@ namespace TitaniumWindows
 		void Label::set_text(const std::string& text) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_text(text);
-			label__->Text = ref new Platform::String(std::wstring(text.begin(), text.end()).c_str());
+			label__->Text = TitaniumWindows::Utility::ConvertUTF8String(text);
 		}
 
 		void Label::set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT
