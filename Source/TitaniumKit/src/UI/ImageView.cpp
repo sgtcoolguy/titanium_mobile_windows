@@ -16,8 +16,11 @@ namespace Titanium
 	{
 		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
+			  decodeRetries__(5),
+			  defaultImage__(""),
+			  enableZoomControls__(false),
 		      duration__(200),
-		      image__(js_context.CreateString()),
+		      image__(""),
 		      images__(),
 		      preventDefaultImage__(false)
 		{
@@ -33,6 +36,48 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("ImageView::stop unimplemented");
 		}
 
+		void ImageView::pause() TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_DEBUG("ImageView::pause unimplemented");
+		}
+
+		void ImageView::resume() TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_DEBUG("ImageView::resume unimplemented");
+		}
+
+		bool ImageView::get_animating() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_DEBUG("ImageView::get_animating unimplemented");
+			return false;
+		}
+
+		bool ImageView::get_autorotate() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_DEBUG("ImageView::get_animating unimplemented");
+			return false;
+		}
+
+		uint32_t ImageView::get_decodeRetries() const TITANIUM_NOEXCEPT
+		{
+			return decodeRetries__;
+		}
+
+		void ImageView::set_decodeRetries(const uint32_t& decodeRetries) TITANIUM_NOEXCEPT
+		{
+			decodeRetries__ = decodeRetries;
+		}
+
+		std::string ImageView::get_defaultImage() const TITANIUM_NOEXCEPT
+		{
+			return defaultImage__;
+		}
+
+		void ImageView::set_defaultImage(const std::string& defaultImage) TITANIUM_NOEXCEPT
+		{
+			defaultImage__ = defaultImage;
+		}
+
 		std::chrono::milliseconds ImageView::get_duration() const TITANIUM_NOEXCEPT
 		{
 			return duration__;
@@ -46,6 +91,26 @@ namespace Titanium
 			} else {
 				duration__ = duration;
 			}
+		}
+
+		bool ImageView::get_enableZoomControls() const TITANIUM_NOEXCEPT
+		{
+			return enableZoomControls__;
+		}
+
+		void ImageView::set_enableZoomControls(const bool& enableZoomControls) TITANIUM_NOEXCEPT
+		{
+			enableZoomControls__ = enableZoomControls;
+		}
+
+		bool ImageView::get_hires() const TITANIUM_NOEXCEPT
+		{
+			return hires__;
+		}
+
+		void ImageView::set_hires(const bool& hires) TITANIUM_NOEXCEPT
+		{
+			hires__ = hires;
 		}
 
 		std::string ImageView::get_image() const TITANIUM_NOEXCEPT
@@ -68,6 +133,12 @@ namespace Titanium
 			images__ = images;
 		}
 
+		bool ImageView::get_paused() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_DEBUG("ImageView::get_paused unimplemented");
+			return false;
+		}
+
 		bool ImageView::get_preventDefaultImage() const TITANIUM_NOEXCEPT
 		{
 			return preventDefaultImage__;
@@ -78,11 +149,33 @@ namespace Titanium
 			preventDefaultImage__ = preventDefaultImage;
 		}
 
+		uint32_t ImageView::get_repeatCount() const TITANIUM_NOEXCEPT
+		{
+			return repeatCount__;
+		}
+
+		void ImageView::set_repeatCount(const uint32_t& repeatCount) TITANIUM_NOEXCEPT
+		{
+			repeatCount__ = repeatCount;
+		}
+
+		bool ImageView::get_reverse() const TITANIUM_NOEXCEPT
+		{
+			return reverse__;
+		}
+
+		void ImageView::set_reverse(const bool& reverse) TITANIUM_NOEXCEPT
+		{
+			reverse__ = reverse;
+		}
+
 		void ImageView::JSExportInitialize()
 		{
 			JSExport<ImageView>::SetClassVersion(1);
 			JSExport<ImageView>::SetParent(JSExport<View>::Class());
 			// methods
+			JSExport<ImageView>::AddFunctionProperty("pause", std::mem_fn(&ImageView::js_pause));
+			JSExport<ImageView>::AddFunctionProperty("resume", std::mem_fn(&ImageView::js_resume ));
 			JSExport<ImageView>::AddFunctionProperty("start", std::mem_fn(&ImageView::js_start));
 			JSExport<ImageView>::AddFunctionProperty("stop", std::mem_fn(&ImageView::js_stop));
 			// properties

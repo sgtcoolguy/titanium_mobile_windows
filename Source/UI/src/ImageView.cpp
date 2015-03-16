@@ -7,6 +7,7 @@
 */
 
 #include "TitaniumWindows/UI/ImageView.hpp"
+#include "TitaniumWindows/Utility.hpp"
 #include "LayoutEngine/LayoutEngine.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 #include "TitaniumWindows/Utility.hpp"
@@ -99,27 +100,52 @@ namespace TitaniumWindows
 			}
 		}
 
-		void ImageView::start(JSObject& this_object) TITANIUM_NOEXCEPT
+		void ImageView::start() TITANIUM_NOEXCEPT
 		{
 			using namespace concurrency;
 
-			const auto current_window = Windows::UI::Xaml::Window::Current;
-			const auto current_duration = get_duration().count();
-			create_task([this, current_window, current_duration] {
-				for (const auto& image : get_images()) {
-					interruption_point(); // Check for cancellation.
+			const auto images = get_images();
+			const size_t image_count = images.size();
 
-					// Set new image on UI thread
-					current_window->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler([this, image]() {
-						set_image(image);
-					}));
-					// then wait for duration
-					wait(current_duration); // FIXME signed/unsigned conversion!
+			const auto storyboard = ref new Windows::UI::Xaml::Media::Animation::Storyboard();
+			Windows::Foundation::TimeSpan time_span;
+			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = get_duration();
+			time_span.Duration = timer_interval_ticks.count() * image_count;
+			storyboard->Duration = time_span;
+			auto animation = ref new Windows::UI::Xaml::Media::Animation::ObjectAnimationUsingKeyFrames();
+			// TODO Look at "reverse" property to determine if we should loop through in reverse order
+			// TODO Look at repeatCount property to determine number of times to repeat
+			storyboard->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::Forever;
+			
+			for (size_t i = 0; i < image_count; i++) {
+				auto image = images.at(i);
+
+				std::string modified = image;
+				// if the path isn't an http/s URI already, fix URI to point to local files in app
+				if (!boost::starts_with(modified, "http://") && !boost::starts_with(modified, "https://")) {
+					// URIs must be absolute
+					if (!boost::starts_with(modified, "/")) {
+						modified = "/" + modified;
+					}
+					// use MS's in-app URL scheme
+					modified = "ms-appx://" + modified;
 				}
-			}, start_token__.get_token());
+				auto uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(modified));
+				auto keyFrame = ref new Windows::UI::Xaml::Media::Animation::DiscreteObjectKeyFrame();
+				Windows::Foundation::TimeSpan key_time;
+				key_time.Duration = timer_interval_ticks.count() * i;
+				keyFrame->KeyTime = key_time;
+				keyFrame->Value = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(uri);
+				animation->KeyFrames->Append(keyFrame);
+			}
+			storyboard->Children->Append(animation);
+			storyboard->SetTarget(animation, image__);
+			storyboard->SetTargetProperty(animation, "(Image.Source)");
+
+			storyboard->Begin();
 		}
 
-		void ImageView::stop(JSObject& this_object) TITANIUM_NOEXCEPT
+		void ImageView::stop() TITANIUM_NOEXCEPT
 		{
 			start_token__.cancel();
 		}

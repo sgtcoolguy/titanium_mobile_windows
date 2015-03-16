@@ -46,8 +46,8 @@ namespace TitaniumWindows
 
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
 			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
-			virtual void start(JSObject& this_object) TITANIUM_NOEXCEPT override final;
-			virtual void stop(JSObject& this_object) TITANIUM_NOEXCEPT override final;
+			virtual void start() TITANIUM_NOEXCEPT override final;
+			virtual void stop() TITANIUM_NOEXCEPT override final;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
