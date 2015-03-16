@@ -114,10 +114,10 @@ std::string NativeFileExample::extension() TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::extension");
 	return "";
 }
-std::vector<JSValue> NativeFileExample::getDirectoryListing() TITANIUM_NOEXCEPT
+std::vector<std::string> NativeFileExample::getDirectoryListing() TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::getDirectoryListing");
-	std::vector<JSValue> list;
+	std::vector<std::string> list;
 	return list;
 }
 bool NativeFileExample::isDirectory() TITANIUM_NOEXCEPT
