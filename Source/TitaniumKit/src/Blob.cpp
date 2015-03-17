@@ -16,11 +16,16 @@ namespace Titanium
 
 	void Blob::construct(std::vector<unsigned char> data) TITANIUM_NOEXCEPT
 	{
+		TITANIUM_LOG_DEBUG("TitaniumWindows::Blob::construct<char[]>");
+		data_ = data;
+		mimetype_ = "application/octet- stream";
+
+		this->type_ = Titanium::BlobModule::TYPE::DATA;
 	}
 
 	std::vector<unsigned char> Blob::getData() TITANIUM_NOEXCEPT
 	{
-		return std::vector<unsigned char>();
+		return data_;
 	}
 
 	void Blob::JSExportInitialize()
@@ -51,11 +56,10 @@ namespace Titanium
 
 	unsigned Blob::get_length() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_length: Unimplemented");
-		return 0;
+		return data_.size();
 	}
 
-	JSValue Blob::get_file() const TITANIUM_NOEXCEPT
+	File_shared_ptr_t Blob::get_file() const TITANIUM_NOEXCEPT
 	{
 		JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
 		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
@@ -69,48 +73,53 @@ namespace Titanium
 		TITANIUM_ASSERT(File_property.IsObject());  // precondition
 		JSObject File = static_cast<JSObject>(File_property);
 
-		return File.CallAsConstructor(get_nativePath());
+		return File.CallAsConstructor(get_nativePath()).GetPrivate<Filesystem::File>();
 	}
 
 	unsigned Blob::get_height() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_height: Unimplemented");
-		return 0;
+		return height_;
 	}
 
 	std::string Blob::get_mimeType() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_mimeType: Unimplemented");
-		return "";
+		return mimetype_;
 	}
 
 	std::string Blob::get_nativePath() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_nativePath: Unimplemented");
-		return "";
+		return path_;
 	}
 
 	unsigned Blob::get_size() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_size: Unimplemented");
-		return 0;
+		if (type_ == Titanium::BlobModule::TYPE::IMAGE) {
+			return width_ * height_;
+		} else {
+			return get_length();
+		}
 	}
 
 	std::string Blob::get_text() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_text: Unimplemented");
-		return "";
+		if (type_ == Titanium::BlobModule::TYPE::IMAGE) {
+			return "";
+		} else {
+			return std::string(data_.begin(), data_.end());
+		}
 	}
 
 	unsigned Blob::get_width() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_width: Unimplemented");
-		return 0;
+		return width_;
 	}
 
-	void Blob::append(std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT
+	void Blob::append(std::shared_ptr<Blob>& other) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::append: Unimplemented");
+		auto blob = std::dynamic_pointer_cast<Blob>(other).get();
+		const auto b = blob->getData();
+		data_.reserve(data_.size() + b.size());
+		data_.insert(data_.end(), b.begin(), b.end());
 	}
 
 	JSValue Blob::js_get_length() const TITANIUM_NOEXCEPT
@@ -120,7 +129,11 @@ namespace Titanium
 
 	JSValue Blob::js_get_file() const TITANIUM_NOEXCEPT
 	{
-		return get_file();
+		auto file = get_file();
+		if (file) {
+			return get_file()->get_object();
+		}
+		return get_context().CreateUndefined();
 	}
 
 	JSValue Blob::js_get_height() const TITANIUM_NOEXCEPT
