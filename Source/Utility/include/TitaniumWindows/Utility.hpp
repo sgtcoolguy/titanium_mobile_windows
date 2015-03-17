@@ -17,6 +17,8 @@
 #include <unordered_map>
 #include <chrono>
 
+#define EPOCH_BIAS 116444736000000000 // Number of 100 nanosecond units from 1/1/1601 (windows epoch) to 1/1/1970 (unix epoch)
+
 namespace TitaniumWindows
 {
 	namespace Utility
@@ -102,9 +104,7 @@ namespace TitaniumWindows
 
 		static std::chrono::milliseconds GetMSecSinceEpoch(Windows::Foundation::DateTime d)
 		{
-			auto dt = new Windows::Foundation::DateTime();
-			const long long bias = 116444736000000000; // Number of 100 nanosecond units from 1/1/1601 (windows epoch) to 1/1/1970 (unix epoch)
-			long long intervals = dt->UniversalTime - bias; // this gives us number of 100 nanosecond intervals since unix epoch
+			long long intervals = d.UniversalTime - EPOCH_BIAS; // this gives us number of 100 nanosecond intervals since unix epoch
 			long long milliseconds = intervals / 10000; // convert 100 nanosecond intervals to milliseconds
 			return std::chrono::milliseconds(milliseconds); // wrap in data type
 		}
