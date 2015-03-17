@@ -39,6 +39,7 @@ require('./ti.ui.layout.test');
 //require('./ti.ui.progressbar.test'); // TODO Implement progressbar
 require('./ti.ui.textfield.test');
 //require('./ti.ui.window.test'); // FIXME Crashes at should_not_crash
+require('./ti.utils.test');
 require('./ti.xml.test');
 // ============================================================================
 

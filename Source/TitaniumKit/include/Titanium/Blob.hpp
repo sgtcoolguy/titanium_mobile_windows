@@ -8,10 +8,22 @@
 #define _TITANIUM_BLOB_HPP_
 
 #include "Titanium/Module.hpp"
+#include "Filesystem/File.hpp"
 
 namespace Titanium
 {
 	using namespace HAL;
+
+	using File_shared_ptr_t = std::shared_ptr<Filesystem::File>;
+
+	namespace BlobModule
+	{
+		enum class TYPE {
+			IMAGE = 0,
+			FILE = 1,
+			DATA = 2
+		};
+	}
 
 	/*!
 	  @class
@@ -33,7 +45,7 @@ namespace Titanium
 		  @discussion File object represented by this blob, or null if this blob is not
 		  associated with a file.
 		*/
-		virtual JSValue get_file() const TITANIUM_NOEXCEPT;
+		virtual File_shared_ptr_t get_file() const TITANIUM_NOEXCEPT;
 		/*!
 		  @method
 		  @abstract get_height
@@ -111,6 +123,17 @@ namespace Titanium
 		virtual JSValue js_getText(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getWidth(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_toString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+	protected:
+#pragma warning(push)
+#pragma warning(disable : 4251)
+		std::string path_;
+		std::string mimetype_;
+		unsigned width_;
+		unsigned height_;
+		BlobModule::TYPE type_;
+		std::vector<unsigned char> data_;
+#pragma warning(pop)
 	};
 }  // namespace Titanium
 
