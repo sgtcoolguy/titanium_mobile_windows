@@ -34,7 +34,7 @@ namespace Titanium
 		return base64decode(blob->get_text());
 	}
 
-	Blob_shared_ptr_t Utils::base64decode(std::string& input) TITANIUM_NOEXCEPT
+	Blob_shared_ptr_t Utils::base64decode(const std::string& input) TITANIUM_NOEXCEPT
 	{
 		using namespace boost::archive::iterators;
 
@@ -60,7 +60,7 @@ namespace Titanium
 		return base64encode(blob->get_text());
 	}
 
-	Blob_shared_ptr_t Utils::base64encode(std::string& input) TITANIUM_NOEXCEPT
+	Blob_shared_ptr_t Utils::base64encode(const std::string& input) TITANIUM_NOEXCEPT
 	{
 		using namespace boost::archive::iterators;
 
@@ -81,7 +81,7 @@ namespace Titanium
 		return "";
 	}
 
-	std::string Utils::md5HexDigest(std::string& obj) TITANIUM_NOEXCEPT
+	std::string Utils::md5HexDigest(const std::string& obj) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("Utils::md5HexDigest: Unimplemented");
 		return "";
@@ -93,7 +93,7 @@ namespace Titanium
 		return "";
 	}
 
-	std::string Utils::sha1(std::string& obj) TITANIUM_NOEXCEPT
+	std::string Utils::sha1(const std::string& obj) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("Utils::sha1: Unimplemented");
 		return "";
@@ -105,7 +105,7 @@ namespace Titanium
 		return "";
 	}
 
-	std::string Utils::sha256(std::string& obj) TITANIUM_NOEXCEPT
+	std::string Utils::sha256(const std::string& obj) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("Utils::sha256: Unimplemented");
 		return "";

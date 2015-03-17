@@ -46,11 +46,11 @@ namespace TitaniumWindows
 		virtual std::string generateHash(Platform::String^ hashName, std::vector<unsigned char> data);
 
 		virtual std::string md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
-		virtual std::string md5HexDigest(std::string& obj) TITANIUM_NOEXCEPT;
+		virtual std::string md5HexDigest(const std::string& obj) TITANIUM_NOEXCEPT;
 		virtual std::string sha1(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
-		virtual std::string sha1(std::string& obj) TITANIUM_NOEXCEPT;
+		virtual std::string sha1(const std::string& obj) TITANIUM_NOEXCEPT;
 		virtual std::string sha256(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
-		virtual std::string sha256(std::string& obj) TITANIUM_NOEXCEPT;
+		virtual std::string sha256(const std::string& obj) TITANIUM_NOEXCEPT;
 
 	};
 }  // namespace TitaniumWindows

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -38,7 +38,7 @@ namespace Titanium
 		  @abstract get_length
 		  @discussion Length of this blob in bytes.
 		*/
-		virtual unsigned get_length() const TITANIUM_NOEXCEPT;
+		virtual size_t get_length() const TITANIUM_NOEXCEPT;
 		/*!
 		  @method
 		  @abstract get_file
@@ -51,7 +51,7 @@ namespace Titanium
 		  @abstract get_height
 		  @discussion If this blob represents an image, this is the height of the image in pixels.
 		*/
-		virtual unsigned get_height() const TITANIUM_NOEXCEPT;
+		virtual uint32_t get_height() const TITANIUM_NOEXCEPT;
 		/*!
 		  @method
 		  @abstract get_mimeType
@@ -69,7 +69,7 @@ namespace Titanium
 		  @abstract get_size
 		  @discussion Size of the blob in pixels (for image blobs) or bytes (for all other blobs).
 		*/
-		virtual unsigned get_size() const TITANIUM_NOEXCEPT;
+		virtual size_t get_size() const TITANIUM_NOEXCEPT;
 		/*!
 		  @method
 		  @abstract get_text
@@ -81,7 +81,7 @@ namespace Titanium
 		  @abstract get_width
 		  @discussion If this blob represents an image, this is the width of the image in pixels.
 		*/
-		virtual unsigned get_width() const TITANIUM_NOEXCEPT;
+		virtual uint32_t get_width() const TITANIUM_NOEXCEPT;
 		/*!
 		  @method
 		  @abstract append
@@ -129,8 +129,8 @@ namespace Titanium
 #pragma warning(disable : 4251)
 		std::string path_;
 		std::string mimetype_;
-		unsigned width_;
-		unsigned height_;
+		uint32_t width_;
+		uint32_t height_;
 		BlobModule::TYPE type_;
 		std::vector<unsigned char> data_;
 #pragma warning(pop)

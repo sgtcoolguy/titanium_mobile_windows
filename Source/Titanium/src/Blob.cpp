@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -15,12 +15,10 @@ namespace TitaniumWindows
 	Blob::Blob(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : Titanium::Blob(js_context)
 	{
-		TITANIUM_LOG_DEBUG("TitaniumWindows::Blob::ctor");
 	}
 
 	Blob::~Blob()
 	{
-		TITANIUM_LOG_DEBUG("TitaniumWindows::Blob::dtor");
 	}
 
 	void Blob::JSExportInitialize()
@@ -31,12 +29,12 @@ namespace TitaniumWindows
 
 	void Blob::construct(Windows::Storage::StorageFile^ file)
 	{
-		TITANIUM_LOG_DEBUG("TitaniumWindows::Blob::construct");
 		data_ = TitaniumWindows::Utility::GetContentFromFile(file);
 		path_ = TitaniumWindows::Utility::ConvertString(file->Path);
 
 		std::string path = path_;
 		mimetype_ = TitaniumWindows::Utility::MimeTypeForExtension(path);
+		// TODO Determine width and height!
 
 		this->type_ = Titanium::BlobModule::TYPE::FILE;
 	}
@@ -49,16 +47,6 @@ namespace TitaniumWindows
 			return Windows::Graphics::Imaging::BitmapEncoder::JpegEncoderId;
 		} else {
 			return Windows::Graphics::Imaging::BitmapEncoder::BmpEncoderId;
-		}
-	}
-
-	File_shared_ptr_t Blob::get_file() const TITANIUM_NOEXCEPT
-	{
-		if (path_.size() > 0) {
-			auto File = get_context().CreateObject(JSExport<TitaniumWindows::Filesystem::File>::Class());
-			return File.CallAsConstructor(path_).GetPrivate<TitaniumWindows::Filesystem::File>();
-		} else {
-			return nullptr;
 		}
 	}
 }  // namespace TitaniumWindows

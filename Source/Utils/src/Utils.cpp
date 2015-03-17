@@ -44,7 +44,7 @@ namespace TitaniumWindows
 		return generateHash(HashAlgorithmNames::Md5, obj->getData());
 	}
 
-	std::string Utils::md5HexDigest(std::string& obj) TITANIUM_NOEXCEPT
+	std::string Utils::md5HexDigest(const std::string& obj) TITANIUM_NOEXCEPT
 	{
 		std::vector<unsigned char> data(obj.begin(), obj.end());
 		return generateHash(HashAlgorithmNames::Md5, data);
@@ -55,7 +55,7 @@ namespace TitaniumWindows
 		return generateHash(HashAlgorithmNames::Sha1, obj->getData());
 	}
 
-	std::string Utils::sha1(std::string& obj) TITANIUM_NOEXCEPT
+	std::string Utils::sha1(const std::string& obj) TITANIUM_NOEXCEPT
 	{
 		std::vector<unsigned char> data(obj.begin(), obj.end());
 		return generateHash(HashAlgorithmNames::Sha1, data);
@@ -66,7 +66,7 @@ namespace TitaniumWindows
 		return generateHash(HashAlgorithmNames::Sha256, obj->getData());
 	}
 
-	std::string Utils::sha256(std::string& obj) TITANIUM_NOEXCEPT
+	std::string Utils::sha256(const std::string& obj) TITANIUM_NOEXCEPT
 	{
 		std::vector<unsigned char> data(obj.begin(), obj.end());
 		return generateHash(HashAlgorithmNames::Sha256, data);

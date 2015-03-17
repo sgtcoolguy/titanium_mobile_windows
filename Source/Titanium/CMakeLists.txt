@@ -46,7 +46,7 @@ get_filename_component(Accelerometer_SOURCE_DIR     ${PROJECT_SOURCE_DIR}/../Acc
 get_filename_component(Filesystem_SOURCE_DIR        ${PROJECT_SOURCE_DIR}/../Filesystem        ABSOLUTE)
 get_filename_component(App_SOURCE_DIR               ${PROJECT_SOURCE_DIR}/../App               ABSOLUTE)
 get_filename_component(Network_SOURCE_DIR         	${PROJECT_SOURCE_DIR}/../Network       	   ABSOLUTE)
-get_filename_component(Utils_SOURCE_DIR        ${PROJECT_SOURCE_DIR}/../Utils        ABSOLUTE)
+get_filename_component(Utils_SOURCE_DIR             ${PROJECT_SOURCE_DIR}/../Utils             ABSOLUTE)
 get_filename_component(UI_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../UI                ABSOLUTE)
 get_filename_component(Utility_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Utility           ABSOLUTE)
 get_filename_component(TitaniumKit_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../TitaniumKit       ABSOLUTE)

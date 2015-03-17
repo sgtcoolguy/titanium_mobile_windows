@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -37,8 +37,6 @@ namespace TitaniumWindows
 #endif
 
 		static void JSExportInitialize();
-
-		virtual File_shared_ptr_t get_file() const TITANIUM_NOEXCEPT override;
 	};
 
 }  // namespace TitaniumWindows
