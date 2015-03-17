@@ -44,12 +44,7 @@ namespace TitaniumWindows
 			virtual void set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT override final;
 			virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
 			virtual void set_wordWrap(const bool& wordWrap) TITANIUM_NOEXCEPT override final;
-			virtual void set_fontFamily(const std::string& family) TITANIUM_NOEXCEPT override final;
-			virtual void set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT override final;
-			virtual void set_fontStyle(const std::string& style) TITANIUM_NOEXCEPT override final;
-			virtual void set_fontWeight(const std::string& weight) TITANIUM_NOEXCEPT override final;
-			virtual void set_textStyle(const Titanium::UI::TEXT_STYLE& style) TITANIUM_NOEXCEPT override final;
-
+			virtual void set_font(const Titanium::UI::Font font) TITANIUM_NOEXCEPT override final;
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 		private:

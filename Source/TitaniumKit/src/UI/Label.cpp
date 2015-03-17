@@ -16,7 +16,6 @@ namespace Titanium
 		    : View(js_context),
 		      color__(js_context.CreateString()),
 		      ellipsize__(false),
-			  font__({0}),
 		      text__(js_context.CreateString()),
 		      textAlign__(TEXT_ALIGNMENT::LEFT),
 		      verticalAlign__(TEXT_VERTICAL_ALIGNMENT::CENTER),
