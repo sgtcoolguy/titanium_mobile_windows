@@ -147,7 +147,7 @@ namespace Titanium
 
 		JSValue Label::js_get_font() const TITANIUM_NOEXCEPT
 		{
-			JSObject font = get_context().CreateObject();
+			JSObject font = Titanium::UI::Font_to_js(get_context(), get_font());
 			font.SetProperty("fontFamily", get_context().CreateString(font__.fontFamily));
 			font.SetProperty("fontSize", get_context().CreateString(font__.fontSize));
 			font.SetProperty("fontStyle", get_context().CreateString(Constants::to_string(font__.fontStyle)));
@@ -159,43 +159,7 @@ namespace Titanium
 		bool Label::js_set_font(const JSValue& js_font) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(js_font.IsObject());
-			JSObject font = static_cast<JSObject>(js_font);
-
-			// Number/String
-			if (font.HasProperty("fontSize")) {
-				const auto font_size = font.GetProperty("fontSize");
-				TITANIUM_ASSERT(font_size.IsString() || font_size.IsNumber());
-				font__.fontSize = static_cast<std::string>(font_size);
-			}
-
-			// bold or normal
-			if (font.HasProperty("fontWeight")) {
-				const auto font_weight = font.GetProperty("fontWeight");
-				TITANIUM_ASSERT(font_weight.IsString());
-				font__.fontWeight = Constants::to_FONT_WEIGHT(std::underlying_type_t<FONT_WEIGHT>(font_weight));
-			}
-
-			// italic or normal
-			if (font.HasProperty("fontStyle")) {
-				const auto font_style = font.GetProperty("fontStyle");
-				TITANIUM_ASSERT(font_style.IsString());
-				font__.fontStyle = Constants::to_FONT_STYLE(std::underlying_type_t<FONT_STYLE>(font_style));
-			}
-
-			// String
-			if (font.HasProperty("fontFamily")) {
-				const auto font_family = font.GetProperty("fontFamily");
-				TITANIUM_ASSERT(font_family.IsString());
-				font__.fontFamily = static_cast<std::string>(font_family);
-			}
-
-			// String Titanium::UI::TEXT_STYLE constants
-			if (font.HasProperty("textStyle")) {
-				const auto font_text_style = font.GetProperty("textStyle");
-				TITANIUM_ASSERT(font_text_style.IsString());
-				font__.textStyle = Constants::to_TEXT_STYLE(std::underlying_type_t<TEXT_STYLE>(font_text_style));
-			}
-
+			font__ = Titanium::UI::js_to_Font(static_cast<JSObject>(js_font));
 			return true;
 		}
 

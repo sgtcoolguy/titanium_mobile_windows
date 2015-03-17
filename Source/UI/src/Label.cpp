@@ -9,6 +9,8 @@
 #include "TitaniumWindows/UI/Label.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
+#include "TitaniumWindows/Utility.hpp"
+
 #define DEFAULT_FONT_SIZE 20
 
 namespace TitaniumWindows
@@ -90,9 +92,14 @@ namespace TitaniumWindows
 
 		void Label::set_font(const Titanium::UI::Font font) TITANIUM_NOEXCEPT
 		{
-			label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(ref new Platform::String(std::wstring(font.fontFamily.begin(), font.fontFamily.end()).c_str()));
-		
-			label__->FontSize = std::stod(static_cast<std::string>(font.fontSize));
+			Titanium::UI::Label::set_font(font);
+
+			if (font.fontFamily.size > 0) {
+				label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(Utility::ConvertUTF8String(font.fontFamily));
+			}
+			if (font.fontSize.size > 0) {
+				label__->FontSize = std::stod(font.fontSize);
+			}
 
 			if (font.fontStyle == Titanium::UI::FONT_STYLE::ITALIC) {
 				label__->FontStyle = Windows::UI::Text::FontStyle::Italic;
@@ -109,8 +116,6 @@ namespace TitaniumWindows
 				label__->FontWeight = Windows::UI::Text::FontWeights::SemiBold;
 			}
 			// TODO Windows supports a large number of other weights: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontweights
-
-			Titanium::UI::Label::set_font(font);
 		}
 
 		void Label::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
