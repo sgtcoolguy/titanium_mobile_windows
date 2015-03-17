@@ -27,7 +27,7 @@ namespace Titanium
 				return;
 			}
 
-			// When cosntructing an instance
+			// When constructing an instance
 			// Expect two args: db name and then filepath
 			name__ = static_cast<std::string>(arguments.at(0));
 			path__ = static_cast<std::string>(arguments.at(1));

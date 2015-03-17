@@ -7,6 +7,7 @@
 */
 
 #include "TitaniumWindows/UI/AlertDialog.hpp"
+#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
 {
@@ -35,7 +36,7 @@ namespace TitaniumWindows
 			std::string title   = get_title();
 			std::string message = get_message();
 
-			Windows::UI::Popups::MessageDialog^ dialog = ref new Windows::UI::Popups::MessageDialog(ref new Platform::String(std::wstring(message.begin(), message.end()).c_str()), ref new Platform::String(std::wstring(title.begin(), title.end()).c_str()));
+			Windows::UI::Popups::MessageDialog^ dialog = ref new Windows::UI::Popups::MessageDialog(TitaniumWindows::Utility::ConvertUTF8String(message), TitaniumWindows::Utility::ConvertUTF8String(title));
 			
 			// Set up buttons
 			if (buttons__.size() > 0) {
@@ -55,8 +56,7 @@ namespace TitaniumWindows
 					});
 
 					// The alert's "buttons" are UICommand, they take a title and an action.
-					const std::wstring wButtonName = std::wstring(buttonName.begin(), buttonName.end());
-					dialog->Commands->Append(ref new Windows::UI::Popups::UICommand(ref new Platform::String(wButtonName.c_str()), command_invoked_handler));
+					dialog->Commands->Append(ref new Windows::UI::Popups::UICommand(TitaniumWindows::Utility::ConvertUTF8String(buttonName), command_invoked_handler));
 				}
 			}
 			dialog->ShowAsync();

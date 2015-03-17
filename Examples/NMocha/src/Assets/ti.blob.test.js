@@ -61,7 +61,7 @@ describe("Titanium.Blob", function () {
         var blob = Ti.Filesystem.getFile('app.js').read();
         should(blob.mimeType).be.a.String;
         should(blob.mimeType.length > 0).be.true;
-        should(blob.mimeType).be.eql("application/octet-stream");
+        should(blob.mimeType).be.eql("text/javascript");
         finish();
     });
     it("length", function (finish) {
@@ -79,13 +79,13 @@ describe("Titanium.Blob", function () {
     it("width", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
         should(blob.width).be.a.Number;
-        should(blob.width == 0).be.true;
+        should(blob.width).be.eql(0);
         finish();
     });
     it("height", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
         should(blob.height).be.a.Number;
-        should(blob.height == 0).be.true;
+        should(blob.height).be.eql(0);
         finish();
     });
     it("file", function (finish) {
@@ -95,58 +95,34 @@ describe("Titanium.Blob", function () {
         should(file.nativePath).be.eql(blob.nativePath);
         finish();
     });
-    it("imageAsCropped", function (finish) {
+    it.skip("imageAsCropped", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
-        if (Ti.Platform.osname == "windowsstore" || Ti.Platform.osname == "windowsphone") {
-            should(blob.imageAsCropped).be.undefined;
-        } else {
-            should(blob.imageAsCropped).be.a.Function;
-        }
+        should(blob.imageAsCropped).be.a.Function;
         finish();
     });
-    it("imageAsResized", function (finish) {
+    it.skip("imageAsResized", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
-        if (Ti.Platform.osname == "windowsstore" || Ti.Platform.osname == "windowsphone") {
-            should(blob.imageAsResized).be.undefined;
-        } else {
-            should(blob.imageAsResized).be.a.Function;
-        }
+        should(blob.imageAsResized).be.a.Function;
         finish();
     });
-    it("imageAsThumbnail", function (finish) {
+    it.skip("imageAsThumbnail", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
-        if (Ti.Platform.osname == "windowsstore" || Ti.Platform.osname == "windowsphone") {
-            should(blob.imageAsThumbnail).be.undefined;
-        } else {
-            should(blob.imageAsThumbnail).be.a.Function;
-        }
+        should(blob.imageAsThumbnail).be.a.Function;
         finish();
     });
-    it("imageWithAlpha", function (finish) {
+    it.skip("imageWithAlpha", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
-        if (Ti.Platform.osname == "windowsstore" || Ti.Platform.osname == "windowsphone") {
-            should(blob.imageWithAlpha).be.undefined;
-        } else {
-            should(blob.imageWithAlpha).be.a.Function;
-        }
+        should(blob.imageWithAlpha).be.a.Function;
         finish();
     });
-    it("imageWithRoundedCorner", function (finish) {
+    it.skip("imageWithRoundedCorner", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
-        if (Ti.Platform.osname == "windowsstore" || Ti.Platform.osname == "windowsphone") {
-            should(blob.imageWithRoundedCorner).be.undefined;
-        } else {
-            should(blob.imageWithRoundedCorner).be.a.Function;
-        }
+        should(blob.imageWithRoundedCorner).be.a.Function;
         finish();
     });
-    it("imageWithTransparentBorder", function (finish) {
+    it.skip("imageWithTransparentBorder", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
-        if (Ti.Platform.osname == "windowsstore" || Ti.Platform.osname == "windowsphone") {
-            should(blob.imageWithTransparentBorder).be.undefined;
-        } else {
-            should(blob.imageWithTransparentBorder).be.a.Function;
-        }
+        should(blob.imageWithTransparentBorder).be.a.Function;
         finish();
     });
 });

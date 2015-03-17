@@ -70,14 +70,9 @@ namespace TitaniumWindows
 
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken blur_event_;
-			unsigned int blur_event_count_{0};
 			Windows::Foundation::EventRegistrationToken change_event_;
-			unsigned int change_event_count_{0};
 			Windows::Foundation::EventRegistrationToken focus_event_;
-			unsigned int focus_event_count_{0};
 			Windows::Foundation::EventRegistrationToken return_event_;
-			unsigned int return_event_count_{0};
-			unsigned int post_layout_event_count_{0};
 		};
 	} // namespace UI
 } // namespace TitaniumWindows

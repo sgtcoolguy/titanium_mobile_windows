@@ -68,7 +68,7 @@ namespace Titanium
 		  @abstract isGooglePlayServicesAvailable
 		  @discussion Returns a code to indicate whether Google Play Services is available on the device.
 		*/
-		virtual Titanium::Map::GOOGLE_PLAY_SERVICE_STATE isGooglePlayServicesAvailable() TITANIUM_NOEXCEPT;
+		Titanium::Map::GOOGLE_PLAY_SERVICE_STATE isGooglePlayServicesAvailable() TITANIUM_NOEXCEPT;
 
 		MapModule(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;

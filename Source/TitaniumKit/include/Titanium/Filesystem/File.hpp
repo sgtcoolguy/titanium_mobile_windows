@@ -147,7 +147,7 @@ namespace Titanium
 			  @discussion Returns a listing of the directory identified by this file object, or null
 			  if this object doesn't identify a directory.
 			*/
-			virtual std::vector<JSValue> getDirectoryListing() TITANIUM_NOEXCEPT;
+			virtual std::vector<std::string> getDirectoryListing() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract isDirectory

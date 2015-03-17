@@ -46,6 +46,7 @@ get_filename_component(Accelerometer_SOURCE_DIR     ${PROJECT_SOURCE_DIR}/../Acc
 get_filename_component(Filesystem_SOURCE_DIR        ${PROJECT_SOURCE_DIR}/../Filesystem        ABSOLUTE)
 get_filename_component(App_SOURCE_DIR               ${PROJECT_SOURCE_DIR}/../App               ABSOLUTE)
 get_filename_component(Network_SOURCE_DIR         	${PROJECT_SOURCE_DIR}/../Network       	   ABSOLUTE)
+get_filename_component(Utils_SOURCE_DIR             ${PROJECT_SOURCE_DIR}/../Utils             ABSOLUTE)
 get_filename_component(UI_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../UI                ABSOLUTE)
 get_filename_component(Utility_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Utility           ABSOLUTE)
 get_filename_component(TitaniumKit_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../TitaniumKit       ABSOLUTE)
@@ -62,6 +63,7 @@ add_subdirectory(${Accelerometer_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Acceler
 add_subdirectory(${Filesystem_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Filesystem    EXCLUDE_FROM_ALL)
 add_subdirectory(${App_SOURCE_DIR}           ${CMAKE_CURRENT_BINARY_DIR}/App           EXCLUDE_FROM_ALL)
 add_subdirectory(${Network_SOURCE_DIR}    	 ${CMAKE_CURRENT_BINARY_DIR}/Network       EXCLUDE_FROM_ALL)
+add_subdirectory(${Utils_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Utils    EXCLUDE_FROM_ALL)
 add_subdirectory(${UI_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/UI            EXCLUDE_FROM_ALL)
 add_subdirectory(${Map_SOURCE_DIR}           ${CMAKE_CURRENT_BINARY_DIR}/Map           EXCLUDE_FROM_ALL)
 
@@ -116,6 +118,7 @@ target_link_libraries(TitaniumWindows
   TitaniumWindows_Filesystem
   TitaniumWindows_App
   TitaniumWindows_Network
+  TitaniumWindows_Utils
   TitaniumWindows_UI
   TitaniumWindows_Utility
   TitaniumWindows_Map
@@ -132,6 +135,7 @@ target_include_directories(TitaniumWindows PUBLIC
   $<TARGET_PROPERTY:TitaniumWindows_Filesystem,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_App,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Network,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Utils,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_UI,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Map,INTERFACE_INCLUDE_DIRECTORIES>

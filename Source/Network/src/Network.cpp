@@ -23,6 +23,10 @@ namespace TitaniumWindows
 	Titanium::Network::TYPE NetworkModule::get_networkType() const TITANIUM_NOEXCEPT
 	{
 		const auto profile = Windows::Networking::Connectivity::NetworkInformation::GetInternetConnectionProfile();
+
+		if (profile == nullptr) {
+			return Titanium::Network::TYPE::UNKNOWN;
+		}
 		if (profile->IsWlanConnectionProfile) {
 			return Titanium::Network::TYPE::WIFI;
 		}
@@ -52,6 +56,9 @@ namespace TitaniumWindows
 
 	bool NetworkModule::get_online() const TITANIUM_NOEXCEPT {
 		const auto profile = Windows::Networking::Connectivity::NetworkInformation::GetInternetConnectionProfile();
+		if (profile == nullptr) {
+			return false;
+		}
 		switch (profile->GetNetworkConnectivityLevel()) {
 		case Windows::Networking::Connectivity::NetworkConnectivityLevel::None:
 			return false;

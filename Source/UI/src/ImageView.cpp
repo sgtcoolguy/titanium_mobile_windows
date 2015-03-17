@@ -1,7 +1,7 @@
 /**
 * Titanium.UI.ImageView for Windows
 *
-* Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+* Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
 * Licensed under the terms of the Apache Public License.
 * Please see the LICENSE included with this distribution for details.
 */
@@ -9,6 +9,7 @@
 #include "TitaniumWindows/UI/ImageView.hpp"
 #include "LayoutEngine/LayoutEngine.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
 {
@@ -17,7 +18,6 @@ namespace TitaniumWindows
 		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::ImageView(js_context)
 		{
-			TITANIUM_LOG_DEBUG("ImageView::ctor");
 		}
 
 		void ImageView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
@@ -137,7 +137,7 @@ namespace TitaniumWindows
 				// use MS's in-app URL scheme
 				modified = "ms-appx://" + modified;
 			}
-			auto uri = ref new Windows::Foundation::Uri(ref new Platform::String(std::wstring(modified.begin(), modified.end()).c_str()));
+			auto uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(modified));
 			auto image = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(uri);
 			image__->Source = image;
 		}
@@ -151,8 +151,6 @@ namespace TitaniumWindows
 
 		void ImageView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("ImageView::enableEvent: (event name '", event_name, "'");
-
 			const JSContext ctx = this->get_context();
 
 			using namespace Windows::UI::Xaml::Input;

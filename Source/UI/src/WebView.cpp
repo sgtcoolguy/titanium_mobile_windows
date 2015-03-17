@@ -168,7 +168,7 @@ namespace TitaniumWindows
 
 		bool WebView::setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT
 		{
-			webview__->NavigateToString(TitaniumWindows::Utility::ConvertString(html));
+			webview__->NavigateToString(TitaniumWindows::Utility::ConvertUTF8String(html));
 			return true;
 		}
 
@@ -180,7 +180,7 @@ namespace TitaniumWindows
 		std::string WebView::getUrl() const TITANIUM_NOEXCEPT
 		{
 			if (webview__->Source != nullptr) {
-				return TitaniumWindows::Utility::ConvertString(webview__->Source->ToString());
+				return TitaniumWindows::Utility::ConvertUTF8String(webview__->Source->ToString());
 			} else {
 				return "";
 			}
@@ -188,7 +188,7 @@ namespace TitaniumWindows
 
 		bool WebView::setUrl(const std::string& url) TITANIUM_NOEXCEPT
 		{
-			webview__->Navigate(ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url)));
+			webview__->Navigate(ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(url)));
 			return true;
 		}
 

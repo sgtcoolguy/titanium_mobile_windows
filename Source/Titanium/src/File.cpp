@@ -28,6 +28,17 @@ namespace TitaniumWindows
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Filesystem::File::ctor");
 		}
 
+		std::string File::normalizePath(const std::string& path)
+		{
+			// this assumes we already joined the arguments with separator
+			std::string name = static_cast<std::string>(path);
+			// Convert "/" to "\\"
+			std::replace(name.begin(), name.end(), '/', '\\');
+			// remove duplicate separators!
+			boost::algorithm::replace_all(name, "\\\\", "\\");
+			return name;
+		}
+
 		void File::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
 			// TODO: if argument is empty, we assumes it's called from initializer.
 			if (arguments.empty()) {
@@ -38,11 +49,7 @@ namespace TitaniumWindows
 			TITANIUM_ASSERT(arguments.at(0).IsString());
 
 			// this assumes we already joined the arguments with separator
-			std::string name = static_cast<std::string>(arguments.at(0));
-			// Convert "/" to "\\"
-			std::replace(name.begin(), name.end(), '/', '\\');
-			// remove duplicate separators!
-			boost::algorithm::replace_all(name, "\\\\", "\\");
+			std::string name = normalizePath(static_cast<std::string>(arguments.at(0)));
 
 			const auto location = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
 			// if this path is relative path, let's use application installed location path
@@ -250,14 +257,15 @@ namespace TitaniumWindows
 			if (isFolder()) {
 				return false;
 			}
-
-			auto fileToReplace = this->getFileFromPathSync(destinationPath);
+			// FIXME Need to normalize the path like we do in constructor!
+			auto path = normalizePath(destinationPath);
+			auto fileToReplace = this->getFileFromPathSync(path);
 
 			// if destination file is not found, create new file and try again
 			if (fileToReplace == nullptr) {
-				const bool created = createEmptyFile(destinationPath);
+				const bool created = createEmptyFile(path);
 				if (created) {
-					fileToReplace = getFileFromPathSync(destinationPath);
+					fileToReplace = getFileFromPathSync(path);
 				} else {
 					return false;
 				}
@@ -265,7 +273,7 @@ namespace TitaniumWindows
 
 			concurrency::event event;
 			bool result = false;
-			task<void>(file_->CopyAndReplaceAsync(fileToReplace)).then([&result, &event](task<void> task) {
+			create_task(file_->CopyAndReplaceAsync(fileToReplace)).then([&result, &event](task<void> task) {
 					try {
 						task.get();
 						result = true;
@@ -324,19 +332,20 @@ namespace TitaniumWindows
 				return deleteFile();
 			}
 
-			std::vector<JSValue> contents = getDirectoryListing();
+			std::vector<std::string> contents = getDirectoryListing();
 			for (size_t i = 0; i < contents.size(); i++) {
 				auto value = contents.at(i);
-				auto native_file = static_cast<JSObject>(value).GetPrivate<Titanium::Filesystem::File>();
-				if (native_file->isDirectory()) {
-					if (!native_file->deleteDirectory(recursive)) {
-						return false;
-					}
-				} else {
-					if (!native_file->deleteFile()) {
-						return false;
-					}
-				}
+				// FIXME We need to get handles on the sub-folders/files!
+				//auto native_file = static_cast<JSObject>(value).GetPrivate<Titanium::Filesystem::File>();
+				//if (native_file->isDirectory()) {
+				//	if (!native_file->deleteDirectory(recursive)) {
+				//		return false;
+				//	}
+				//} else {
+				//	if (!native_file->deleteFile()) {
+				//		return false;
+				//	}
+				//}
 			}
 
 			return deleteFile();
@@ -381,19 +390,18 @@ namespace TitaniumWindows
 			return path.substr(path.find_last_of(".") + 1);
 		}
 
-		std::vector<JSValue> File::getDirectoryListing() TITANIUM_NOEXCEPT
+		std::vector<std::string> File::getDirectoryListing() TITANIUM_NOEXCEPT
 		{
-			std::vector<JSValue> filenames;
-
-			const auto ctx = get_context();
+			std::vector<std::string> filenames;
+			// FIXME Guard against not being a folder or not existing!
 
 			// Get folders in folder
 			concurrency::event folderEvent;
-			task<IVectorView<StorageFolder^>^>(folder_->GetFoldersAsync()).then([&ctx, &filenames, &folderEvent](task<IVectorView<StorageFolder^>^> task) {
+			create_task(folder_->GetFoldersAsync()).then([&filenames, &folderEvent](task<IVectorView<StorageFolder^>^> task) {
 					try {
 						auto folders = task.get();
-						std::for_each(begin(folders), end(folders), [&ctx, &filenames](StorageFolder^ folder) {
-							filenames.push_back(ctx.CreateString(TitaniumWindows::Utility::ConvertString(folder->Name)));
+						std::for_each(begin(folders), end(folders), [&filenames](StorageFolder^ folder) {
+							filenames.push_back(TitaniumWindows::Utility::ConvertString(folder->Name));
 						});
 					}
 					catch (Platform::COMException^ ex) {
@@ -406,11 +414,11 @@ namespace TitaniumWindows
 
 			// Get files in folder
 			concurrency::event fileEvent;
-			task<IVectorView<StorageFile^>^>(folder_->GetFilesAsync()).then([&ctx, &filenames, &fileEvent](task<IVectorView<StorageFile^>^> task) {
+			create_task(folder_->GetFilesAsync()).then([&filenames, &fileEvent](task<IVectorView<StorageFile^>^> task) {
 					try {
 						auto files = task.get();
-						std::for_each(begin(files), end(files), [&ctx, &filenames](StorageFile^ file) {
-							filenames.push_back(ctx.CreateString(TitaniumWindows::Utility::ConvertString(file->Name)));
+						std::for_each(begin(files), end(files), [&filenames](StorageFile^ file) {
+							filenames.push_back(TitaniumWindows::Utility::ConvertString(file->Name));
 						});
 					}
 					catch (Platform::COMException^ ex) {
@@ -456,19 +464,21 @@ namespace TitaniumWindows
 
 		bool File::move(const std::string& newpath) TITANIUM_NOEXCEPT
 		{
+			auto path = normalizePath(newpath);
+
 			// if this item is folder, call rename
 			if (isFolder()) {
-				return this->rename(newpath);
+				return this->rename(path);
 			}
 
 			// make sure to create detination file before getting StorageFile
 			// otherwise GetFileFromPathSync will return nullptr
-			if (!createEmptyFile(newpath)) {
+			if (!createEmptyFile(path)) {
 				return false;
 			}
 
 			// retrieve destination file
-			StorageFile^ fileToReplace = getFileFromPathSync(TitaniumWindows::Utility::ConvertString(newpath));
+			StorageFile^ fileToReplace = getFileFromPathSync(TitaniumWindows::Utility::ConvertString(path));
 
 			if (fileToReplace == nullptr) {
 				return false;
@@ -476,7 +486,7 @@ namespace TitaniumWindows
 
 			bool result = false;
 			concurrency::event event;
-			task<void>(this->file_->MoveAndReplaceAsync(fileToReplace)).then([&result, &event](task<void> task) {
+			create_task(this->file_->MoveAndReplaceAsync(fileToReplace)).then([&result, &event](task<void> task) {
 					try {
 						task.get();
 						result = true;
@@ -520,10 +530,11 @@ namespace TitaniumWindows
 
 		bool File::rename(const std::string& desiredName) TITANIUM_NOEXCEPT
 		{
+			auto path = normalizePath(desiredName);
 			auto item = getStorageItem();
 			concurrency::event event;
 			bool result = false;
-			task<void>(item->RenameAsync(TitaniumWindows::Utility::ConvertString(desiredName))).then([&result, &event](task<void> task) {
+			create_task(item->RenameAsync(TitaniumWindows::Utility::ConvertString(path))).then([&result, &event](task<void> task) {
 					try {
 						task.get();
 						result = true;

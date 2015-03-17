@@ -18,7 +18,6 @@ namespace TitaniumWindows
 			: WindowsViewLayoutPolicy()
 			, view__(view)
 		{
-			TITANIUM_LOG_DEBUG("ScrollViewLayoutPolicy::ctor");
 		}
 		
 		void ScrollViewLayoutPolicy::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
@@ -78,7 +77,6 @@ namespace TitaniumWindows
 			  : Titanium::UI::ScrollView(js_context),
 		      contentView__(get_context().CreateObject(JSExport<TitaniumWindows::UI::View>::Class()).CallAsConstructor())
 		{
-			TITANIUM_LOG_DEBUG("ScrollView::ctor");
 		}
 
 		void ScrollView::JSExportInitialize()

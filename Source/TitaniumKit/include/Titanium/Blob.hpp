@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -8,10 +8,22 @@
 #define _TITANIUM_BLOB_HPP_
 
 #include "Titanium/Module.hpp"
+#include "Filesystem/File.hpp"
 
 namespace Titanium
 {
 	using namespace HAL;
+
+	using File_shared_ptr_t = std::shared_ptr<Filesystem::File>;
+
+	namespace BlobModule
+	{
+		enum class TYPE {
+			IMAGE = 0,
+			FILE = 1,
+			DATA = 2
+		};
+	}
 
 	/*!
 	  @class
@@ -26,20 +38,20 @@ namespace Titanium
 		  @abstract get_length
 		  @discussion Length of this blob in bytes.
 		*/
-		virtual unsigned get_length() const TITANIUM_NOEXCEPT;
+		virtual size_t get_length() const TITANIUM_NOEXCEPT;
 		/*!
 		  @method
 		  @abstract get_file
 		  @discussion File object represented by this blob, or null if this blob is not
 		  associated with a file.
 		*/
-		virtual JSValue get_file() const TITANIUM_NOEXCEPT;
+		virtual File_shared_ptr_t get_file() const TITANIUM_NOEXCEPT;
 		/*!
 		  @method
 		  @abstract get_height
 		  @discussion If this blob represents an image, this is the height of the image in pixels.
 		*/
-		virtual unsigned get_height() const TITANIUM_NOEXCEPT;
+		virtual uint32_t get_height() const TITANIUM_NOEXCEPT;
 		/*!
 		  @method
 		  @abstract get_mimeType
@@ -57,7 +69,7 @@ namespace Titanium
 		  @abstract get_size
 		  @discussion Size of the blob in pixels (for image blobs) or bytes (for all other blobs).
 		*/
-		virtual unsigned get_size() const TITANIUM_NOEXCEPT;
+		virtual size_t get_size() const TITANIUM_NOEXCEPT;
 		/*!
 		  @method
 		  @abstract get_text
@@ -69,7 +81,7 @@ namespace Titanium
 		  @abstract get_width
 		  @discussion If this blob represents an image, this is the width of the image in pixels.
 		*/
-		virtual unsigned get_width() const TITANIUM_NOEXCEPT;
+		virtual uint32_t get_width() const TITANIUM_NOEXCEPT;
 		/*!
 		  @method
 		  @abstract append
@@ -111,6 +123,17 @@ namespace Titanium
 		virtual JSValue js_getText(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getWidth(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 		virtual JSValue js_toString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+	protected:
+#pragma warning(push)
+#pragma warning(disable : 4251)
+		std::string path_;
+		std::string mimetype_;
+		uint32_t width_;
+		uint32_t height_;
+		BlobModule::TYPE type_;
+		std::vector<unsigned char> data_;
+#pragma warning(pop)
 	};
 }  // namespace Titanium
 

@@ -115,9 +115,10 @@ namespace TitaniumWindows
 			while (!API::done__) {
 				message = concurrency::receive(API::buffer__); // wait for next message to log
 				if (writer == nullptr) { // no TCP connection
-					std::clog << message << std::endl;
+					// Use Windows-specific logger because TITANIUM_LOG_DEBUG doesn't support UTF-8
+					OutputDebugString(TitaniumWindows::Utility::ConvertUTF8String(message + "\n")->Data());
 				} else { // forward over tcp socket
-					writer->WriteString(TitaniumWindows::Utility::ConvertString(message) + "\n");  // Logger assumes \n for newlines!
+					writer->WriteString(TitaniumWindows::Utility::ConvertUTF8String(message) + "\n");  // Logger assumes \n for newlines!
 					writer->StoreAsync();
 				}
 			}
@@ -130,7 +131,6 @@ namespace TitaniumWindows
 
 	API::API(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Titanium::API(js_context) {
-		TITANIUM_LOG_DEBUG("TitaniumWindows::API::ctor Initialize");
 	}
 
 	API::~API() TITANIUM_NOEXCEPT
@@ -140,7 +140,8 @@ namespace TitaniumWindows
 
 	void API::log(const std::string& message) const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_DEBUG("TitaniumWindows::API::log");
+		// Use Windows-specific logger because TITANIUM_LOG_DEBUG doesn't support UTF-8
+		OutputDebugString(TitaniumWindows::Utility::ConvertUTF8String(message + "\n")->Data());
 		concurrency::asend(buffer__, message);
 	}
 
@@ -151,7 +152,6 @@ namespace TitaniumWindows
 
 	void API::postInitialize(JSObject& this_object) 
 	{
-		TITANIUM_LOG_DEBUG("TitaniumWindows::API::postInitialize");
 		connect();
 	}
 

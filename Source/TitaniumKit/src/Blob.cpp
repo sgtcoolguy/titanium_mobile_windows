@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -16,29 +16,38 @@ namespace Titanium
 
 	void Blob::construct(std::vector<unsigned char> data) TITANIUM_NOEXCEPT
 	{
+		height_ = 0;
+		width_ = 0;
+		path_ = "";
+		data_ = data;
+		mimetype_ = "application/octet-stream";
+
+		this->type_ = Titanium::BlobModule::TYPE::DATA;
 	}
 
 	std::vector<unsigned char> Blob::getData() TITANIUM_NOEXCEPT
 	{
-		return std::vector<unsigned char>();
+		return data_;
 	}
 
 	void Blob::JSExportInitialize()
 	{
 		JSExport<Blob>::SetClassVersion(1);
 		JSExport<Blob>::SetParent(JSExport<Module>::Class());
-		JSExport<Blob>::AddValueProperty("length", std::mem_fn(&Blob::js_get_length));
+		
 		JSExport<Blob>::AddValueProperty("file", std::mem_fn(&Blob::js_get_file));
 		JSExport<Blob>::AddValueProperty("height", std::mem_fn(&Blob::js_get_height));
+		JSExport<Blob>::AddValueProperty("length", std::mem_fn(&Blob::js_get_length));
 		JSExport<Blob>::AddValueProperty("mimeType", std::mem_fn(&Blob::js_get_mimeType));
 		JSExport<Blob>::AddValueProperty("nativePath", std::mem_fn(&Blob::js_get_nativePath));
 		JSExport<Blob>::AddValueProperty("size", std::mem_fn(&Blob::js_get_size));
 		JSExport<Blob>::AddValueProperty("text", std::mem_fn(&Blob::js_get_text));
 		JSExport<Blob>::AddValueProperty("width", std::mem_fn(&Blob::js_get_width));
 
-		JSExport<Blob>::AddFunctionProperty("getLength", std::mem_fn(&Blob::js_getLength));
+		
 		JSExport<Blob>::AddFunctionProperty("getFile", std::mem_fn(&Blob::js_getFile));
 		JSExport<Blob>::AddFunctionProperty("getHeight", std::mem_fn(&Blob::js_getHeight));
+		JSExport<Blob>::AddFunctionProperty("getLength", std::mem_fn(&Blob::js_getLength));
 		JSExport<Blob>::AddFunctionProperty("getMimeType", std::mem_fn(&Blob::js_getMimeType));
 		JSExport<Blob>::AddFunctionProperty("getNativePath", std::mem_fn(&Blob::js_getNativePath));
 		JSExport<Blob>::AddFunctionProperty("getSize", std::mem_fn(&Blob::js_getSize));
@@ -47,70 +56,78 @@ namespace Titanium
 
 		JSExport<Blob>::AddFunctionProperty("append", std::mem_fn(&Blob::js_append));
 		JSExport<Blob>::AddFunctionProperty("toString", std::mem_fn(&Blob::js_toString));
+		// TODO image* methods!
 	}
 
-	unsigned Blob::get_length() const TITANIUM_NOEXCEPT
+	size_t Blob::get_length() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_length: Unimplemented");
-		return 0;
+		return data_.size();
 	}
 
-	JSValue Blob::get_file() const TITANIUM_NOEXCEPT
+	File_shared_ptr_t Blob::get_file() const TITANIUM_NOEXCEPT
 	{
-		JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
-		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+		if (path_.size() > 0) {
+			JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
+			TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+			JSObject Titanium = static_cast<JSObject>(Titanium_property);
 
-		JSValue Filesystem_property = Titanium.GetProperty("Filesystem");
-		TITANIUM_ASSERT(Filesystem_property.IsObject());  // precondition
-		JSObject Filesystem = static_cast<JSObject>(Filesystem_property);
+			JSValue Filesystem_property = Titanium.GetProperty("Filesystem");
+			TITANIUM_ASSERT(Filesystem_property.IsObject());  // precondition
+			JSObject Filesystem = static_cast<JSObject>(Filesystem_property);
 
-		JSValue File_property = Filesystem.GetProperty("File");
-		TITANIUM_ASSERT(File_property.IsObject());  // precondition
-		JSObject File = static_cast<JSObject>(File_property);
+			JSValue File_property = Filesystem.GetProperty("File");
+			TITANIUM_ASSERT(File_property.IsObject());  // precondition
+			JSObject File = static_cast<JSObject>(File_property);
 
-		return File.CallAsConstructor(get_nativePath());
+			return File.CallAsConstructor(get_nativePath()).GetPrivate<Filesystem::File>();
+		}
+		return nullptr;
 	}
 
-	unsigned Blob::get_height() const TITANIUM_NOEXCEPT
+	uint32_t Blob::get_height() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_height: Unimplemented");
-		return 0;
+		return height_;
 	}
 
 	std::string Blob::get_mimeType() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_mimeType: Unimplemented");
-		return "";
+		return mimetype_;
 	}
 
 	std::string Blob::get_nativePath() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_nativePath: Unimplemented");
-		return "";
+		return path_;
 	}
 
-	unsigned Blob::get_size() const TITANIUM_NOEXCEPT
+	size_t Blob::get_size() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_size: Unimplemented");
-		return 0;
+		if (type_ == Titanium::BlobModule::TYPE::IMAGE) {
+			return get_width() * get_height();
+		} else {
+			return get_length();
+		}
 	}
 
 	std::string Blob::get_text() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_text: Unimplemented");
-		return "";
+		if (type_ == Titanium::BlobModule::TYPE::IMAGE) {
+			return "";
+		} else {
+			return std::string(data_.begin(), data_.end());
+		}
 	}
 
-	unsigned Blob::get_width() const TITANIUM_NOEXCEPT
+	uint32_t Blob::get_width() const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::get_width: Unimplemented");
-		return 0;
+		return width_;
 	}
 
-	void Blob::append(std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT
+	void Blob::append(std::shared_ptr<Blob>& other) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::append: Unimplemented");
+		auto blob = std::dynamic_pointer_cast<Blob>(other).get();
+		const auto b = blob->getData();
+		data_.reserve(data_.size() + b.size());
+		data_.insert(data_.end(), b.begin(), b.end());
 	}
 
 	JSValue Blob::js_get_length() const TITANIUM_NOEXCEPT
@@ -120,7 +137,11 @@ namespace Titanium
 
 	JSValue Blob::js_get_file() const TITANIUM_NOEXCEPT
 	{
-		return get_file();
+		auto file = get_file();
+		if (file) {
+			return get_file()->get_object();
+		}
+		return get_context().CreateNull();
 	}
 
 	JSValue Blob::js_get_height() const TITANIUM_NOEXCEPT
