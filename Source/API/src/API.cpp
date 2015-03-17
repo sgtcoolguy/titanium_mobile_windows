@@ -115,9 +115,10 @@ namespace TitaniumWindows
 			while (!API::done__) {
 				message = concurrency::receive(API::buffer__); // wait for next message to log
 				if (writer == nullptr) { // no TCP connection
-					TITANIUM_LOG_DEBUG(message);
+					// Use Windows-specific logger because TITANIUM_LOG_DEBUG doesn't support UTF-8
+					OutputDebugString(TitaniumWindows::Utility::ConvertUTF8String(message + "\n")->Data());
 				} else { // forward over tcp socket
-					writer->WriteString(TitaniumWindows::Utility::ConvertString(message) + "\n");  // Logger assumes \n for newlines!
+					writer->WriteString(TitaniumWindows::Utility::ConvertUTF8String(message) + "\n");  // Logger assumes \n for newlines!
 					writer->StoreAsync();
 				}
 			}
@@ -139,7 +140,8 @@ namespace TitaniumWindows
 
 	void API::log(const std::string& message) const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_DEBUG(message);
+		// Use Windows-specific logger because TITANIUM_LOG_DEBUG doesn't support UTF-8
+		OutputDebugString(TitaniumWindows::Utility::ConvertUTF8String(message + "\n")->Data());
 		concurrency::asend(buffer__, message);
 	}
 
