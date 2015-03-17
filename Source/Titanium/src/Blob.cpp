@@ -9,6 +9,7 @@
 #include <iostream>
 #include <objbase.h>
 #include "File.hpp"
+#include <boost/algorithm/string/predicate.hpp>
 
 namespace TitaniumWindows
 {
@@ -29,12 +30,20 @@ namespace TitaniumWindows
 
 	void Blob::construct(Windows::Storage::StorageFile^ file)
 	{
+		width_ = 0;
+		height_ = 0;
 		data_ = TitaniumWindows::Utility::GetContentFromFile(file);
 		path_ = TitaniumWindows::Utility::ConvertString(file->Path);
 
-		std::string path = path_;
-		mimetype_ = TitaniumWindows::Utility::MimeTypeForExtension(path);
-		// TODO Determine width and height!
+		mimetype_ = TitaniumWindows::Utility::ConvertString(file->ContentType);
+		if (mimetype_ == "application/x-javascript") { // handle special cases to match other platforms
+			mimetype_ = "text/javascript";
+		}
+		if (boost::starts_with(mimetype_, "image/")) {
+			// TODO Determine width/height!
+			//create_task(file->OpenReadAsync()).then();
+			//auto decoder = Windows::Graphics::Imaging::BitmapDecoder::CreateAsync(getImageDecoder(), stream);
+		}
 
 		this->type_ = Titanium::BlobModule::TYPE::FILE;
 	}
@@ -43,9 +52,13 @@ namespace TitaniumWindows
 	{
 		if (mimetype_ == "image/png") {
 			return Windows::Graphics::Imaging::BitmapEncoder::PngEncoderId;
-		} else if (mimetype_ == "image/jpg") {
+		} else if (mimetype_ == "image/jpg" || mimetype_ == "image/jpeg" || mimetype_ == "image/pjpeg") {
 			return Windows::Graphics::Imaging::BitmapEncoder::JpegEncoderId;
-		} else {
+		} else if (mimetype_ == "image/tiff") {
+			return Windows::Graphics::Imaging::BitmapEncoder::TiffEncoderId;
+		} else if (mimetype_ == "image/gif") {
+			return Windows::Graphics::Imaging::BitmapEncoder::GifEncoderId;
+		} else { // image/bmp?
 			return Windows::Graphics::Imaging::BitmapEncoder::BmpEncoderId;
 		}
 	}
