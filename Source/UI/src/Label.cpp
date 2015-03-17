@@ -1,13 +1,14 @@
 /**
 * Titanium.UI.Label for Windows
 *
-* Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+* Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
 * Licensed under the terms of the Apache Public License.
 * Please see the LICENSE included with this distribution for details.
 */
 
 #include "TitaniumWindows/UI/Label.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/Utility.hpp"
 
 #define DEFAULT_FONT_SIZE 20
 
@@ -15,15 +16,30 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
+		// FIXME What file formats does windows support for fonts? We need to limit here! Most of what I read says only TTF, but I see some mentions of OpenType
+		static const std::string ti_label_js = R"TI_LABEL_JS(
+	this.exports = {};
+	this.exports.getFontFilePath = function(fontFamily) {
+		var iconsFolder = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'fonts');
+		var files = iconsFolder.getDirectoryListing();
+		for (var i = 0; i < files.length; i++) {
+			var name = files[i];
+			if (name.toLowerCase() == fontFamily.toLowerCase() || name.toLowerCase().indexOf(fontFamily.toLowerCase() + '.') == 0) {
+				return name;
+			}
+		}
+		return null;
+	};
+	)TI_LABEL_JS";
+
 		Label::Label(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::Label(js_context)
 		{
-			TITANIUM_LOG_DEBUG("Label::ctor");
 		}
 
 		void Label::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
-			Titanium::UI::Label::postCallAsConstructor(js_context, arguments);	
+			Titanium::UI::Label::postCallAsConstructor(js_context, arguments);
 			
 			label__ = ref new Windows::UI::Xaml::Controls::TextBlock();
 			Titanium::UI::Label::setLayoutPolicy<WindowsViewLayoutPolicy>();
@@ -53,7 +69,7 @@ namespace TitaniumWindows
 		void Label::set_text(const std::string& text) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_text(text);
-			label__->Text = ref new Platform::String(std::wstring(text.begin(), text.end()).c_str());
+			label__->Text = TitaniumWindows::Utility::ConvertUTF8String(text);
 		}
 
 		void Label::set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT
@@ -90,7 +106,33 @@ namespace TitaniumWindows
 
 		void Label::set_fontFamily(const std::string& family) TITANIUM_NOEXCEPT
 		{
-			label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(ref new Platform::String(std::wstring(family.begin(), family.end()).c_str()));
+			Titanium::UI::Label::set_fontFamily(family);
+			// TODO This lookup map should be global, not per-instance of a Label!
+			// Did we already look up this font?
+			auto path = family;
+			if (custom_fonts__.find(family) == custom_fonts__.end()) {
+				// Look up to see if this is a custom font!
+				auto export_object = get_context().CreateObject();
+				get_context().JSEvaluateScript(ti_label_js, export_object);
+				TITANIUM_ASSERT(export_object.HasProperty("exports"));
+				auto exports = export_object.GetProperty("exports");
+				TITANIUM_ASSERT(exports.IsObject());
+				auto exports_object = static_cast<JSObject>(exports);
+				auto eval_result = exports_object.GetProperty("getFontFilePath");
+				TITANIUM_ASSERT(eval_result.IsObject());
+				auto func = static_cast<JSObject>(eval_result);
+				TITANIUM_ASSERT(func.IsFunction());
+				auto result = func(family, get_context().get_global_object());
+				if (result.IsNull()) { // we have no custom font by this name, assume it's a built-in font
+					path = family;
+				} else {
+					TITANIUM_ASSERT(result.IsString()); // custom font file
+					const auto file_name = static_cast<std::string>(result);
+					path = "/fonts/" + file_name + "#" + family;
+				}
+				custom_fonts__[family] = path;
+			}
+			label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(TitaniumWindows::Utility::ConvertString(path));
 		}
 
 		void Label::set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT
@@ -131,8 +173,6 @@ namespace TitaniumWindows
 
 		void Label::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("Label::enableEvent: (event name '", event_name, "'");
-
 			const JSContext ctx = this->get_context();
 
 			using namespace Windows::UI::Xaml::Input;

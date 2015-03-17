@@ -16,7 +16,6 @@ namespace TitaniumWindows
 		Slider::Slider(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::Slider(js_context)
 		{
-			TITANIUM_LOG_DEBUG("Slider::ctor CallAsConstructor");
 		}
 
 		void Slider::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
@@ -56,8 +55,6 @@ namespace TitaniumWindows
 
 		void Slider::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("Slider::enableEvent: (event name '", event_name, "'");
-
 			const JSContext ctx = this->get_context();
 
 			using namespace Windows::UI::Xaml::Input;

@@ -18,7 +18,6 @@ namespace TitaniumWindows
 		ListView::ListView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::ListView(js_context)
 		{
-			TITANIUM_LOG_DEBUG("ListView::ctor Initialize");
 		}
 
 		void ListView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)

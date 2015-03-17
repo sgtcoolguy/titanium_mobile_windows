@@ -15,12 +15,9 @@ namespace Titanium
 	    : JSExportObject(js_context),
 	      event_listener_map__(js_context.CreateObject())
 	{
-		TITANIUM_LOG_DEBUG("Module:: ctor ", this);
 	}
 
 	void Module::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
-		HAL_LOG_DEBUG("Module:: postCallAsConstructor ", this);
-  
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			if (_0.IsObject()) {
@@ -32,12 +29,10 @@ namespace Titanium
 
 	Module::~Module() TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_DEBUG("Module:: dtor ", this);
 	}
 
 	void Module::addEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_DEBUG("Module::addEventListener: '", name, "' for ", this);
 		if (!callback.IsFunction()) {
 			TITANIUM_LOG_WARN("Module::addEventListener: Listener is not a function for event '", name, "'");
 			return;
@@ -75,7 +70,6 @@ namespace Titanium
 
 	void Module::removeEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_DEBUG("Module::removeEventListener: '", name, "' for ", this);
 		if (!callback.IsFunction()) {
 			TITANIUM_LOG_WARN("Module::removeEventListener: callback is not a function for event '", name, "'");
 			return;
@@ -138,8 +132,6 @@ namespace Titanium
 
 	void Module::fireEvent(const std::string& name, const JSObject& event) const TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_DEBUG("Module::fireEvent: '", name, "' for ", this);
-
 		if (!event_listener_map__.HasProperty(name)) {
 			TITANIUM_LOG_WARN("Module::fireEvent: No event named '", name, "' has been added");
 			return;

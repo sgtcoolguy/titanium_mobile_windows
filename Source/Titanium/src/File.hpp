@@ -45,7 +45,7 @@ namespace TitaniumWindows
 			virtual bool deleteFile() TITANIUM_NOEXCEPT override;
 			virtual bool exists() TITANIUM_NOEXCEPT override;
 			virtual std::string extension() TITANIUM_NOEXCEPT override;
-			virtual std::vector<JSValue> getDirectoryListing() TITANIUM_NOEXCEPT override;
+			virtual std::vector<std::string> getDirectoryListing() TITANIUM_NOEXCEPT override;
 			virtual bool isDirectory() TITANIUM_NOEXCEPT override;
 			virtual bool isFile() TITANIUM_NOEXCEPT override;
 			virtual std::chrono::milliseconds modificationTimestamp() TITANIUM_NOEXCEPT override;

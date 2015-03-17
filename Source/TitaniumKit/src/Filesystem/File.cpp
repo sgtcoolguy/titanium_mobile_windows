@@ -178,10 +178,10 @@ namespace Titanium
 			return "";
 		}
 
-		std::vector<JSValue> File::getDirectoryListing() TITANIUM_NOEXCEPT
+		std::vector<std::string> File::getDirectoryListing() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::getDirectoryListing: Unimplemented");
-			std::vector<JSValue> list;
+			std::vector<std::string> list;
 			return list;
 		}
 
@@ -408,7 +408,13 @@ namespace Titanium
 
 		JSValue File::js_getDirectoryListing(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateArray(getDirectoryListing());
+			auto listing = getDirectoryListing();
+			auto context = get_context();
+			std::vector<JSValue> result;
+			for (size_t i = 0; i < listing.size(); i++) {
+				result.push_back(context.CreateString(listing.at(i)));
+			}
+			return context.CreateArray(result);
 		}
 
 		JSValue File::js_isDirectory(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT

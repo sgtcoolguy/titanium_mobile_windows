@@ -51,7 +51,7 @@ public:
 	virtual bool deleteFile() TITANIUM_NOEXCEPT;
 	virtual bool exists() TITANIUM_NOEXCEPT;
 	virtual std::string extension() TITANIUM_NOEXCEPT;
-	virtual std::vector<JSValue> getDirectoryListing() TITANIUM_NOEXCEPT;
+	virtual std::vector<std::string> getDirectoryListing() TITANIUM_NOEXCEPT;
 	virtual bool isDirectory() TITANIUM_NOEXCEPT;
 	virtual bool isFile() TITANIUM_NOEXCEPT;
 	virtual std::chrono::milliseconds modificationTimestamp() TITANIUM_NOEXCEPT;

@@ -7,6 +7,7 @@
 */
 
 #include "TitaniumWindows/UI/Button.hpp"
+#include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
 namespace TitaniumWindows
@@ -37,13 +38,11 @@ namespace TitaniumWindows
 		void Button::set_title(const std::string& title) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Button::set_title(title);
-			button__->Content = ref new Platform::String(std::wstring(title.begin(), title.end()).c_str());
+			button__->Content = TitaniumWindows::Utility::ConvertUTF8String(title);
 		}
 
 		void Button::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("Button::enableEvent: (event name '", event_name, "'");
-
 			const JSContext ctx = this->get_context();
 
 			using namespace Windows::UI::Xaml::Input;

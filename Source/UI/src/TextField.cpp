@@ -1,13 +1,14 @@
 /**
 * Titanium.UI.TextField for Windows
 *
-* Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+* Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
 * Licensed under the terms of the Apache Public License.
 * Please see the LICENSE included with this distribution for details.
 */
 
 #include "TitaniumWindows/UI/TextField.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
 {
@@ -16,7 +17,6 @@ namespace TitaniumWindows
 		TextField::TextField(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::TextField(js_context)
 		{
-			TITANIUM_LOG_DEBUG("TextField::ctor");
 		}
 
 		void TextField::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
@@ -53,7 +53,7 @@ namespace TitaniumWindows
 		void TextField::set_hintText(const std::string& hintText) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::TextField::set_hintText(hintText);
-			text_box__->PlaceholderText = ref new Platform::String(std::wstring(hintText.begin(), hintText.end()).c_str());
+			text_box__->PlaceholderText = TitaniumWindows::Utility::ConvertUTF8String(hintText);
 		}
 
 		void TextField::set_keyboardType(const Titanium::UI::KEYBOARD& keyboardType) TITANIUM_NOEXCEPT
@@ -116,7 +116,7 @@ namespace TitaniumWindows
 		void TextField::set_value(const std::string& value) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::TextField::set_value(value);
-			text_box__->Text = ref new Platform::String(std::wstring(value.begin(), value.end()).c_str());
+			text_box__->Text = TitaniumWindows::Utility::ConvertUTF8String(value);
 		}
 
 		void TextField::set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT
@@ -149,66 +149,44 @@ namespace TitaniumWindows
 
 		void TextField::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("TextField::enableEvent: (event name '", event_name, "'");
-
 			const JSContext ctx = this->get_context();
 
 			using namespace Windows::UI::Xaml::Input;
 			using namespace Windows::UI::Xaml;
 
 			if (event_name == "blur") {
-				if (blur_event_count_ == 0) {
-					blur_event_ = text_box__->LostFocus += ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e) {
-						JSObject  eventArgs = ctx.CreateObject();
-						eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
+				blur_event_ = text_box__->LostFocus += ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e) {
+					JSObject  eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
 
-						this->fireEvent("blur", eventArgs);
-					});
-				}
-
-				++blur_event_count_;
-
+					this->fireEvent("blur", eventArgs);
+				});
 				return;
 			} else if (event_name == "change") {
-				if (change_event_count_ == 0) {
-					change_event_ = text_box__->TextChanged += ref new Controls::TextChangedEventHandler([this, ctx](Platform::Object^ sender, Controls::TextChangedEventArgs^ e) {
-						JSObject  eventArgs = ctx.CreateObject();
-						eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
+				change_event_ = text_box__->TextChanged += ref new Controls::TextChangedEventHandler([this, ctx](Platform::Object^ sender, Controls::TextChangedEventArgs^ e) {
+					JSObject  eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
 
-						this->fireEvent("change", eventArgs);
-					});
-				}
-
-				++change_event_count_;
-
+					this->fireEvent("change", eventArgs);
+				});
 				return;
 			} else if (event_name == "focus") {
-				if (focus_event_count_ == 0) {
-					focus_event_ = text_box__->GotFocus += ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e) {
+				focus_event_ = text_box__->GotFocus += ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e) {
+					JSObject  eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
+
+					this->fireEvent("focus", eventArgs);
+				});
+				return;
+			} else if (event_name == "return") {
+				return_event_ = text_box__->KeyDown += ref new KeyEventHandler([this, ctx](Platform::Object^ sender, KeyRoutedEventArgs^ e) {
+					if (e->Key == Windows::System::VirtualKey::Enter) {
 						JSObject  eventArgs = ctx.CreateObject();
 						eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
 
-						this->fireEvent("focus", eventArgs);
-					});
-				}
-
-				++focus_event_count_;
-
-				return;
-			} else if (event_name == "return") {
-				if (return_event_count_ == 0) {
-					return_event_ = text_box__->KeyDown += ref new KeyEventHandler([this, ctx](Platform::Object^ sender, KeyRoutedEventArgs^ e) {
-						if (e->Key == Windows::System::VirtualKey::Enter) {
-							JSObject  eventArgs = ctx.CreateObject();
-							eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
-
-							this->fireEvent("return", eventArgs);
-						}
-					});
-				}
-
-				++return_event_count_;
-
+						this->fireEvent("return", eventArgs);
+					}
+				});
 				return;
 			}
 		}

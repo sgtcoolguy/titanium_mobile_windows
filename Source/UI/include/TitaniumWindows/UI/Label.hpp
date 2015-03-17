@@ -53,6 +53,10 @@ namespace TitaniumWindows
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
+			std::unordered_map<std::string, std::string> custom_fonts__;
+#pragma warning(pop)
 			Windows::UI::Xaml::Controls::TextBlock^ label__;
 
 			// Event handlers

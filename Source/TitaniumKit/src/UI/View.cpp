@@ -16,12 +16,10 @@ namespace Titanium
 		View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Module(js_context)
 		{
-			TITANIUM_LOG_DEBUG("View:: ctor ", this);
 		}
 
 		View::~View() TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("View:: dtor ", this);
 		}
 
 		void View::postInitialize(JSObject& this_object)
@@ -37,7 +35,7 @@ namespace Titanium
 
 		void View::animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("View::animate");
+			TITANIUM_LOG_DEBUG("View::animate: Not implemented");
 		}
 
 		void View::JSExportInitialize()
@@ -119,12 +117,8 @@ namespace Titanium
 		bool View::js_set_backgroundColor(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			bool result = false;
-			std::string backgroundColorName = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::js_set_backgroundColor: backgroundColor = ", backgroundColorName);
-			layoutPolicy__->set_backgroundColor(backgroundColorName);
-			result = true;
-			return result;
+			layoutPolicy__->set_backgroundColor(static_cast<std::string>(argument));
+			return true;
 		}
 
 		JSValue View::js_get_borderColor() const TITANIUM_NOEXCEPT
@@ -236,12 +230,8 @@ namespace Titanium
 				return false;
 			}
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::js_set_top: top = ", value);
-			layoutPolicy__->set_top(value);
-			result = true;
-			return result;
+			layoutPolicy__->set_top(static_cast<std::string>(argument));
+			return true;
 		}
 
 		JSValue View::js_get_left() const TITANIUM_NOEXCEPT
@@ -252,12 +242,8 @@ namespace Titanium
 		bool View::js_set_left(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::js_set_left: left = ", value);
-			layoutPolicy__->set_left(value);
-			result = true;
-			return result;
+			layoutPolicy__->set_left(static_cast<std::string>(argument));
+			return true;
 		}
 
 		JSValue View::js_get_width() const TITANIUM_NOEXCEPT
@@ -268,12 +254,8 @@ namespace Titanium
 		bool View::js_set_width(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::js_set_width: width = ", value);
-			layoutPolicy__->set_width(value);
-			result = true;
-			return result;
+			layoutPolicy__->set_width(static_cast<std::string>(argument));
+			return true;
 		}
 
 		JSValue View::js_get_height() const TITANIUM_NOEXCEPT
@@ -284,12 +266,8 @@ namespace Titanium
 		bool View::js_set_height(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::js_set_height: height = ", value);
-			layoutPolicy__->set_height(value);
-			result = true;
-			return result;
+			layoutPolicy__->set_height(static_cast<std::string>(argument));
+			return true;
 		}
 
 		JSValue View::js_get_bottom() const TITANIUM_NOEXCEPT
@@ -300,12 +278,8 @@ namespace Titanium
 		bool View::js_set_bottom(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::js_set_bottom: bottom = ", value);
-			layoutPolicy__->set_bottom(value);
-			result = true;
-			return result;
+			layoutPolicy__->set_bottom(static_cast<std::string>(argument));
+			return true;
 		}
 
 		JSValue View::js_get_right() const TITANIUM_NOEXCEPT
@@ -316,12 +290,8 @@ namespace Titanium
 		bool View::js_set_right(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::js_set_right: right = ", value);
-			layoutPolicy__->set_right(value);
-			result = true;
-			return result;
+			layoutPolicy__->set_right(static_cast<std::string>(argument));
+			return true;
 		}
 
 		JSValue View::js_get_layout() const TITANIUM_NOEXCEPT
@@ -332,12 +302,8 @@ namespace Titanium
 		bool View::js_set_layout(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			bool result = false;
-			std::string value = static_cast<std::string>(argument);
-			TITANIUM_LOG_INFO("View::js_set_layout: layout = ", value);
-			layoutPolicy__->set_layout(value);
-			result = true;
-			return result;
+			layoutPolicy__->set_layout(static_cast<std::string>(argument));
+			return true;
 		}
 		
 		JSValue View::js_get_children() const TITANIUM_NOEXCEPT

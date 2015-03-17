@@ -139,6 +139,7 @@ namespace TitaniumWindows
 
 	void API::log(const std::string& message) const TITANIUM_NOEXCEPT
 	{
+		TITANIUM_LOG_DEBUG(message);
 		concurrency::asend(buffer__, message);
 	}
 
