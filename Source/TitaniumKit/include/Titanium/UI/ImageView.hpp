@@ -1,7 +1,7 @@
 /**
  * TitaniumKit
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -9,6 +9,7 @@
 #ifndef _TITANIUM_UI_IMAGEVIEW_HPP_
 #define _TITANIUM_UI_IMAGEVIEW_HPP_
 
+#include "Titanium/Blob.hpp"
 #include "Titanium/UI/View.hpp"
 
 namespace Titanium
@@ -83,6 +84,17 @@ namespace Titanium
 			/*!
 			  @method
 
+			  @abstract toBlob() : Titanium.Blob
+
+			  @discussion Returns the image as a Blob object.
+
+			  @result Titanium.Blob
+			*/
+			virtual std::shared_ptr<Titanium::Blob> toBlob() TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract animating : Boolean
 
 			  @discussion Indicates whether animation is running.
@@ -101,6 +113,7 @@ namespace Titanium
 			  Default: false on android, true on iOS.
 			*/
 			virtual bool get_autorotate() const TITANIUM_NOEXCEPT;
+			virtual void set_autorotate(const bool& autorotate) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -251,16 +264,19 @@ namespace Titanium
 #endif
 
 			static void JSExportInitialize();
-
+			// methods
 			virtual JSValue js_start(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_stop(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_pause(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_resume(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_toBlob(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 
+			// properties
 			virtual JSValue js_get_animating() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getAnimating(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_autorotate() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_autorotate(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getAutorotate(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_decodeRetries() const TITANIUM_NOEXCEPT final;
@@ -319,6 +335,7 @@ namespace Titanium
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+			bool autorotate__;
 			uint32_t decodeRetries__;
 			std::string defaultImage__;
 			std::chrono::milliseconds duration__;

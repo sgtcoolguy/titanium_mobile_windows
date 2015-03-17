@@ -103,11 +103,13 @@ namespace TitaniumWindows
 			// Storyboard where we attach all the animations
 			const auto storyboard = ref new Windows::UI::Xaml::Media::Animation::Storyboard();
 			if (has_delay) {
-				storyboard->BeginTime = begin_time; // FIXME This seems to apply to every iteration of repeat, but we probably only want ti to happen the first time?
+				storyboard->BeginTime = begin_time; // FIXME This seems to apply to every iteration of repeat, but we probably only want it to happen the first time?
 			}
 			storyboard->AutoReverse = autoreverse;
 			storyboard->Duration = time_span;
-			if (repeat != 1) {
+			if (repeat == 0) {
+				storyboard->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::Forever;
+			} else if (repeat != 1) {
 				storyboard->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::FromCount(repeat);
 			}
 
@@ -123,8 +125,10 @@ namespace TitaniumWindows
 					color_anim->To = color;
 
 					if (property_name == "color") { // foreground
-						// FIXME What if component isn't subclass of Control?
-						storyboard->SetTargetProperty(color_anim, "(Control.Foreground).(SolidColorBrush.Color)");
+						// TODO What if component isn't subclass of Control?
+						if (is_control__) {
+							storyboard->SetTargetProperty(color_anim, "(Control.Foreground).(SolidColorBrush.Color)");
+						}
 					} else { // background
 						if (is_panel__) {
 							storyboard->SetTargetProperty(color_anim, "(Panel.Background).(SolidColorBrush.Color)");
@@ -154,9 +158,10 @@ namespace TitaniumWindows
 					}
 					anim = double_anim;
 				}
-				storyboard->SetTarget(anim, getComponent());
-				// TODO only add animation if it's a property we handle!
-				storyboard->Children->Append(anim);
+				if (anim) {
+					storyboard->SetTarget(anim, getComponent());
+					storyboard->Children->Append(anim);
+				}
 			}
 
 			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, this_object](Platform::Object^ sender, Platform::Object ^ e) mutable {

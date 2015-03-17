@@ -1,7 +1,7 @@
 /**
 * Titanium.UI.ImageView for Windows
 *
-* Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+* Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
 * Licensed under the terms of the Apache Public License.
 * Please see the LICENSE included with this distribution for details.
 */
@@ -44,21 +44,28 @@ namespace TitaniumWindows
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
-			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
-			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
+			// Methods
+			virtual void pause() TITANIUM_NOEXCEPT override final;
+			virtual void resume() TITANIUM_NOEXCEPT override final;
 			virtual void start() TITANIUM_NOEXCEPT override final;
 			virtual void stop() TITANIUM_NOEXCEPT override final;
 
+			// properties
+			virtual bool get_animating() const TITANIUM_NOEXCEPT override final;
+			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
+			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
+			virtual bool get_paused() const TITANIUM_NOEXCEPT override final;
+
+			// EVent registration
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 		private:
 			Windows::Foundation::EventRegistrationToken internal_load_event_;
 			Windows::UI::Xaml::Controls::Image^ image__;
-#pragma warning(push)
-#pragma warning(disable : 4251)
-			std::string path_;
-			concurrency::cancellation_token_source start_token__;
-#pragma warning(pop)
+			Windows::UI::Xaml::Media::Animation::Storyboard^ storyboard__;
+
+			bool is_animating__;
+			bool is_paused__;
 
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken click_event_;
