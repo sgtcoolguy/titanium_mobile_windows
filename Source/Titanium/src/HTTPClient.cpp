@@ -6,6 +6,7 @@
 
 #include "HTTPClient.hpp"
 #include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/Utility.hpp"
 
 #include <collection.h>
 #include <algorithm>
@@ -69,8 +70,7 @@ namespace TitaniumWindows
 
 		void HTTPClient::send() TITANIUM_NOEXCEPT
 		{
-			std::wstring w_str(url__.begin(), url__.end());
-			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(ref new Platform::String(w_str.c_str()));
+			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url__));
 			Windows::Web::Http::HttpRequestMessage ^ request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Get, uri);
 
 			setRequestHeaders(request);
@@ -106,8 +106,7 @@ namespace TitaniumWindows
 			 onerror(-1, "Session Cancelled", false);
 		  }
 		  catch (Platform::Exception^ ex) {
-			  std::wstring werror = ex->Message->Data();
-			  std::string error(werror.begin(), werror.end());
+			  std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
 			  onerror(ex->HResult, error, false);
 		  } });
 		}
@@ -122,8 +121,7 @@ namespace TitaniumWindows
 				send();
 			}
 
-			std::wstring w_str(url__.begin(), url__.end());
-			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(ref new Platform::String(w_str.c_str()));
+			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url__));
 
 			// Startup a timer that will abort the request after the timeout period is reached.
 			startDispatcherTimer();
@@ -132,23 +130,20 @@ namespace TitaniumWindows
 				postData = ref new Windows::Web::Http::HttpMultipartFormDataContent();
 
 				for (auto pair : postDataPairs) {
-					std::wstring w_str(pair.first.begin(), pair.first.end());
-					Platform::String ^ name = ref new Platform::String(w_str.c_str());
+					Platform::String ^ name = TitaniumWindows::Utility::ConvertString(pair.first);
 					static_cast<Windows::Web::Http::HttpMultipartFormDataContent ^>(postData)->Add(ref new Windows::Web::Http::HttpBufferContent(charVecToBuffer(pair.second)), name);
 				}
 			} else {
 				auto keyValues = ref new Platform::Collections::Map<Platform::String ^, Platform::String ^>();
 				for (auto pair : postDataPairs) {
-					std::wstring w_str(pair.first.begin(), pair.first.end());
-					Platform::String ^ name = ref new Platform::String(w_str.c_str());
+					Platform::String ^ name = TitaniumWindows::Utility::ConvertString(pair.first);
 
-					std::wstringstream ws_stream;
+					std::stringstream ws_stream;
 					for (auto c : pair.second) {
 						ws_stream << c;
 					}
-					w_str = ws_stream.str();
 
-					Platform::String ^ value = ref new Platform::String(w_str.c_str());
+					Platform::String ^ value = TitaniumWindows::Utility::ConvertString(ws_stream.str());
 					keyValues->Insert(name, value);
 				}
 
@@ -183,8 +178,7 @@ namespace TitaniumWindows
 			  onerror(-1, "Session Cancelled", false);
 		  }
 		  catch (Platform::Exception^ ex) {
-			  std::wstring werror = ex->Message->Data();
-			  std::string error(werror.begin(), werror.end());
+				std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
 			  onerror(ex->HResult, error, false);
 		  } }, task_continuation_context::use_current());
 		}
@@ -199,14 +193,12 @@ namespace TitaniumWindows
 				send();
 			}
 
-			std::wstring w_str(url__.begin(), url__.end());
-			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(ref new Platform::String(w_str.c_str()));
+			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url__));
 
 			// Startup a timer that will abort the request after the timeout period is reached.
 			startDispatcherTimer();
 
-			w_str.assign(postDataStr.begin(), postDataStr.end());
-			postData = ref new Windows::Web::Http::HttpStringContent(ref new Platform::String(w_str.c_str()));
+			postData = ref new Windows::Web::Http::HttpStringContent(TitaniumWindows::Utility::ConvertString(postDataStr));
 
 			if (method__ == N_HTTPCLIENT_METHOD_POST) {
 				operation = httpClient__->PostAsync(uri, postData);
@@ -236,8 +228,7 @@ namespace TitaniumWindows
 						onerror(-1, "Session Cancelled", false);
 					}
 					catch (Platform::Exception^ ex) {
-						std::wstring werror = ex->Message->Data();
-						std::string error(werror.begin(), werror.end());
+						std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
 						onerror(ex->HResult, error, false);
 					} }, task_continuation_context::use_current());
 		}
@@ -287,8 +278,7 @@ namespace TitaniumWindows
 		{
 			auto filter = ref new Windows::Web::Http::Filters::HttpBaseProtocolFilter();
 
-			std::wstring w_str(url.begin(), url.end());
-			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(ref new Platform::String(w_str.c_str()));
+			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url));
 			auto cookieCollection = filter->CookieManager->GetCookies(uri);
 
 			Windows::Foundation::Collections::IIterator<Windows::Web::Http::HttpCookie ^> ^ iterator = cookieCollection->First();
@@ -313,22 +303,18 @@ namespace TitaniumWindows
 			// Set type safe headers. Content-Type is the most popular may need to set others.
 			auto it = requestHeaders__.find("Content-Type");
 			if (it != requestHeaders__.end()) {
-				std::wstring w_str(it->second.begin(), it->second.end());
 				request->Content->Headers->ContentType =
-				    ref new Windows::Web::Http::Headers::HttpMediaTypeHeaderValue(ref new Platform::String(w_str.c_str()));
+					ref new Windows::Web::Http::Headers::HttpMediaTypeHeaderValue(TitaniumWindows::Utility::ConvertString(it->second));
 				requestHeaders__.erase(it);
 			}
 
 			for (it = requestHeaders__.begin(); it != requestHeaders__.end(); ++it) {
-				std::wstring key(it->first.begin(), it->first.end());
-				std::wstring value(it->second.begin(), it->second.end());
+				auto key   = TitaniumWindows::Utility::ConvertString(it->first);
+				auto value = TitaniumWindows::Utility::ConvertString(it->second);
 
-				// ignor cookies they are added during open to the request filter.
-				std::wstring cmp(L"Cookie");
-
-				if (key.compare(cmp) != 0) {
-					request->Headers->Append(ref new Platform::String(key.c_str()),
-					                         ref new Platform::String(value.c_str()));
+				// ignore cookies they are added during open to the request filter.
+				if (!key->Equals("Cookie")) {
+					request->Headers->Append(key, value);
 				}
 			}
 		}
@@ -427,50 +413,39 @@ namespace TitaniumWindows
 		{
 			for each(Windows::Foundation::Collections::IKeyValuePair<Platform::String ^, Platform::String ^> ^ pair in headers)
 			{
-				std::wstring w_str = pair->Key->Data();
-				std::string key = std::string(w_str.begin(), w_str.end());
-				w_str = std::wstring(pair->Value->Data());
-				std::string value = std::string(w_str.begin(), w_str.end());
-				responseHeaders__.insert(std::make_pair(key, value));
+				responseHeaders__.insert(std::make_pair(TitaniumWindows::Utility::ConvertString(pair->Key), TitaniumWindows::Utility::ConvertString(pair->Value)));
 			}
 		}
 
 		void HTTPClient::addCookiesToRequest()
 		{
-			std::wstring w_url(url__.begin(), url__.end());
+			auto url = TitaniumWindows::Utility::ConvertString(url__);
 
 			for (auto it = requestHeaders__.begin(); it != requestHeaders__.end(); ++it) {
-				std::wstring key(it->first.begin(), it->first.end());
-				std::wstring value(it->second.begin(), it->second.end());
+				
+				auto key   = TitaniumWindows::Utility::ConvertString(it->first);
+				auto value = TitaniumWindows::Utility::ConvertString(it->second);
 
-				std::wstring cmp(L"Cookie");
-
-				if (key.compare(cmp) == 0) {
+				if (key->Equals("Cookie")) {
 					//////////////////////////////////////////////////////////////////
 					try {
-						auto cookie = ref new Windows::Web::Http::HttpCookie(
-						    ref new Platform::String(key.c_str()),
-						    ref new Platform::String(w_url.c_str()),
-						    "/");
+						auto cookie = ref new Windows::Web::Http::HttpCookie(key, url, "/");
 
 						char* context = nullptr;
 						char* pvalue = strtok_s((char*)it->second.c_str(), "=", &context);
 						if (pvalue != nullptr) {
 							std::string str = std::string(pvalue);
-							std::wstring w_str(str.begin(), str.end());
-							cookie->Value = ref new Platform::String(w_str.c_str());
+							cookie->Value = TitaniumWindows::Utility::ConvertString(str);
 							cookie->Expires = nullptr;
 							cookie->Secure = false;
 							cookie->HttpOnly = true;
 							filter__->CookieManager->SetCookie(cookie, false);
 						}
 					} catch (Platform::InvalidArgumentException ^ ex) {
-						std::wstring werror = ex->Message->Data();
-						std::string error(werror.begin(), werror.end());
+						std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
 						onerror(ex->HResult, error, false);
 					} catch (Platform::Exception ^ ex) {
-						std::wstring werror = ex->Message->Data();
-						std::string error(werror.begin(), werror.end());
+						std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
 						onerror(ex->HResult, error, false);
 					}
 				}
