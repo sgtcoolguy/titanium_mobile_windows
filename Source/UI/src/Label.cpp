@@ -10,6 +10,8 @@
 #include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
+#include "TitaniumWindows/Utility.hpp"
+
 #define DEFAULT_FONT_SIZE 20
 
 namespace TitaniumWindows
@@ -104,11 +106,12 @@ namespace TitaniumWindows
 			label__->TextWrapping = wordWrap ? Windows::UI::Xaml::TextWrapping::Wrap : Windows::UI::Xaml::TextWrapping::NoWrap;
 		}
 
-		void Label::set_fontFamily(const std::string& family) TITANIUM_NOEXCEPT
+		void Label::set_font(const Titanium::UI::Font font) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::Label::set_fontFamily(family);
+			Titanium::UI::Label::set_font(font);
 			// TODO This lookup map should be global, not per-instance of a Label!
 			// Did we already look up this font?
+			auto family = font.fontFamily;
 			auto path = family;
 			if (custom_fonts__.find(family) == custom_fonts__.end()) {
 				// Look up to see if this is a custom font!
@@ -132,43 +135,28 @@ namespace TitaniumWindows
 				}
 				custom_fonts__[family] = path;
 			}
-			label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(TitaniumWindows::Utility::ConvertString(path));
-		}
-
-		void Label::set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT
-		{
-			if (size.IsNumber()) {
-				label__->FontSize = static_cast<double>(size);
-			} else {
-				label__->FontSize = std::stod(static_cast<std::string>(size));
+			if (path.length() > 0) {
+				label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(Utility::ConvertUTF8String(path));
 			}
-		}
+			if (font.fontSize.length() > 0) {
+				label__->FontSize = std::stod(font.fontSize);
+			}
 
-		void Label::set_fontStyle(const std::string& style) TITANIUM_NOEXCEPT
-		{
-			if (style == "italic") {
+			if (font.fontStyle == Titanium::UI::FONT_STYLE::ITALIC) {
 				label__->FontStyle = Windows::UI::Text::FontStyle::Italic;
-			} else if (style == "normal") {
+			} else if (font.fontStyle == Titanium::UI::FONT_STYLE::NORMAL) {
 				label__->FontStyle = Windows::UI::Text::FontStyle::Normal;
 			}
 			// TODO Windows supports Oblique: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontstyle.aspx
-		}
 
-		void Label::set_fontWeight(const std::string& weight) TITANIUM_NOEXCEPT
-		{
-			if (weight == "bold") {
+			if (font.fontWeight == Titanium::UI::FONT_WEIGHT::BOLD) {
 				label__->FontWeight = Windows::UI::Text::FontWeights::Bold;
-			} else if (weight == "normal") {
+			} else if (font.fontWeight == Titanium::UI::FONT_WEIGHT::NORMAL) {
 				label__->FontWeight = Windows::UI::Text::FontWeights::Normal;
-			} else if (weight == "semibold") {
+			} else if (font.fontWeight == Titanium::UI::FONT_WEIGHT::SEMIBOLD) {
 				label__->FontWeight = Windows::UI::Text::FontWeights::SemiBold;
 			}
 			// TODO Windows supports a large number of other weights: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontweights
-		}
-
-		void Label::set_textStyle(const Titanium::UI::TEXT_STYLE& textStyle) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::Label::set_textStyle(textStyle);
 		}
 
 		void Label::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
