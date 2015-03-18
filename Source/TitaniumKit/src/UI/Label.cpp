@@ -148,11 +148,6 @@ namespace Titanium
 		JSValue Label::js_get_font() const TITANIUM_NOEXCEPT
 		{
 			JSObject font = Titanium::UI::Font_to_js(get_context(), get_font());
-			font.SetProperty("fontFamily", get_context().CreateString(font__.fontFamily));
-			font.SetProperty("fontSize", get_context().CreateString(font__.fontSize));
-			font.SetProperty("fontStyle", get_context().CreateString(Constants::to_string(font__.fontStyle)));
-			font.SetProperty("fontFamily", get_context().CreateString(Constants::to_string(font__.fontWeight)));
-			font.SetProperty("textStyle", get_context().CreateString(Constants::to_string(font__.textStyle)));
 			return static_cast<JSValue>(font);
 		}
 

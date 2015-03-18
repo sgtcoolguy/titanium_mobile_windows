@@ -12,7 +12,31 @@
 namespace Titanium
 {
     MapModule::MapModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-        : Module(js_context)
+        : Module(js_context),
+		hybrid_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::MAP_TYPE::HYBRID))),
+		satellite_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::MAP_TYPE::SATELLITE))),
+		normal_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::MAP_TYPE::NORMAL))),
+		terrain_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::MAP_TYPE::TERRAIN))),
+		annotation_drag_state_end__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_DRAG_STATE::END))),
+		annotation_drag_state_start__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_DRAG_STATE::START))),
+		annotation_azure__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::AZURE))),
+		annotation_blue__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::BLUE))),
+		annotation_cyan__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::CYAN))),
+		annotation_green__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::GREEN))),
+		annotation_magenta__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::MAGENTA))),
+		annotation_orange__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::ORANGE))),
+		annotation_purple__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::PURPLE))),
+		annotation_red__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::RED))),
+		annotation_rose__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::ROSE))),
+		annotation_violet__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::VIOLET))),
+		annotation_yellow__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::ANNOTATION_COLOR::YELLOW))),
+		overlay_level_above_labels__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::OVERLAY_LEVEL::ABOVE_LABELS))),
+		overlay_level_above_roads__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::OVERLAY_LEVEL::ABOVE_ROADS))),
+		service_disabled__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::GOOGLE_PLAY_SERVICE_STATE::DISABLED))),
+		service_invalid__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::GOOGLE_PLAY_SERVICE_STATE::INVALID))),
+		service_missing__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::GOOGLE_PLAY_SERVICE_STATE::MISSING))),
+		service_version_update_required__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::GOOGLE_PLAY_SERVICE_STATE::VERSION_UPDATE_REQUIRED))),
+		success__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::GOOGLE_PLAY_SERVICE_STATE::SUCCESS)))
     {
 		TITANIUM_LOG_DEBUG("MapModule:: ctor ", this);
 	}
@@ -21,7 +45,126 @@ namespace Titanium
 		HAL_LOG_DEBUG("MapModule:: postCallAsConstructor ", this);
 	}
 
-	Map_View_shared_ptr_t MapModule::createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSValue MapModule::HYBRID_TYPE() const TITANIUM_NOEXCEPT
+	{
+		return hybrid_type__;
+	}
+
+	JSValue MapModule::SATELLITE_TYPE() const TITANIUM_NOEXCEPT
+	{
+		return satellite_type__;
+	}
+
+	JSValue MapModule::NORMAL_TYPE() const TITANIUM_NOEXCEPT
+	{
+		return normal_type__;
+	}
+
+	JSValue MapModule::TERRAIN_TYPE() const TITANIUM_NOEXCEPT
+	{
+		return terrain_type__;
+	}
+
+	JSValue MapModule::ANNOTATION_DRAG_STATE_END() const TITANIUM_NOEXCEPT
+	{
+		return annotation_drag_state_end__;
+	}
+
+	JSValue MapModule::ANNOTATION_DRAG_STATE_START() const TITANIUM_NOEXCEPT
+	{
+		return annotation_drag_state_start__;
+	}
+
+	JSValue MapModule::ANNOTATION_AZURE() const TITANIUM_NOEXCEPT
+	{
+		return annotation_azure__;
+	}
+	
+	JSValue MapModule::ANNOTATION_BLUE() const TITANIUM_NOEXCEPT
+	{
+		return annotation_blue__;
+	}
+	
+	JSValue MapModule::ANNOTATION_CYAN() const TITANIUM_NOEXCEPT
+	{
+		return annotation_cyan__;
+	}
+		
+	JSValue MapModule::ANNOTATION_GREEN() const TITANIUM_NOEXCEPT
+	{
+		return annotation_green__;
+	}
+
+	JSValue MapModule::ANNOTATION_MAGENTA() const TITANIUM_NOEXCEPT
+	{
+		return annotation_magenta__;
+	}
+
+	JSValue MapModule::ANNOTATION_ORANGE() const TITANIUM_NOEXCEPT
+	{
+		return annotation_orange__;
+	}
+
+	JSValue MapModule::ANNOTATION_PURPLE() const TITANIUM_NOEXCEPT
+	{
+		return annotation_purple__;
+	}
+
+	JSValue MapModule::ANNOTATION_RED() const TITANIUM_NOEXCEPT
+	{
+		return annotation_red__;
+	}
+
+	JSValue MapModule::ANNOTATION_ROSE() const TITANIUM_NOEXCEPT
+	{
+		return annotation_rose__;
+	}
+		
+	JSValue MapModule::ANNOTATION_VIOLET() const TITANIUM_NOEXCEPT
+	{
+		return annotation_violet__;
+	}
+		
+	JSValue MapModule::ANNOTATION_YELLOW() const TITANIUM_NOEXCEPT
+	{
+		return annotation_yellow__;
+	}
+	JSValue MapModule::OVERLAY_LEVEL_ABOVE_LABELS() const TITANIUM_NOEXCEPT
+	{
+		return overlay_level_above_labels__;
+	}
+
+	JSValue MapModule::OVERLAY_LEVEL_ABOVE_ROADS() const TITANIUM_NOEXCEPT
+	{
+		return overlay_level_above_roads__;
+	}
+
+	JSValue MapModule::SERVICE_DISABLED() const TITANIUM_NOEXCEPT
+	{
+		return service_disabled__;
+	}
+
+	JSValue MapModule::SERVICE_INVALID() const TITANIUM_NOEXCEPT
+	{
+		return service_invalid__;
+	}
+
+	JSValue MapModule::SERVICE_MISSING() const TITANIUM_NOEXCEPT
+	{
+		return service_missing__;
+	}
+
+	JSValue MapModule::SERVICE_VERSION_UPDATE_REQUIRED() const TITANIUM_NOEXCEPT
+	{
+		return service_version_update_required__;
+	}
+
+	JSValue MapModule::SUCCESS() const TITANIUM_NOEXCEPT
+	{
+		return success__;
+	}
+
+	JSObject MapModule::createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("Map::createView");
 
@@ -39,10 +182,10 @@ namespace Titanium
 
 		auto mapView = MapView.CallAsConstructor(parameters);
 		Titanium::Module::applyProperties(parameters, mapView);
-		return mapView.GetPrivate<Titanium::Map::View>();
+		return mapView;
 	}
 
-	Map_Annotation_shared_ptr_t MapModule::createAnnotation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSObject MapModule::createAnnotation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("Map::createAnnotation");
 
@@ -60,10 +203,10 @@ namespace Titanium
 
 		auto proxy = Proxy.CallAsConstructor(parameters);
 		Titanium::Module::applyProperties(parameters, proxy);
-		return proxy.GetPrivate<Titanium::Map::Annotation>();
+		return proxy;
 	}
 
-	Map_Route_shared_ptr_t MapModule::createRoute(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSObject MapModule::createRoute(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("Map::createRoute");
 
@@ -81,10 +224,10 @@ namespace Titanium
 
 		auto proxy = Proxy.CallAsConstructor(parameters);
 		Titanium::Module::applyProperties(parameters, proxy);
-		return proxy.GetPrivate<Titanium::Map::Route>();
+		return proxy;
 	}
 
-	Map_Camera_shared_ptr_t MapModule::createCamera(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSObject MapModule::createCamera(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("Map::createCamera");
 
@@ -102,7 +245,7 @@ namespace Titanium
 
 		auto proxy = Proxy.CallAsConstructor(parameters);
 		Titanium::Module::applyProperties(parameters, proxy);
-		return proxy.GetPrivate<Titanium::Map::Camera>();
+		return proxy;
 	}
 
 	Titanium::Map::GOOGLE_PLAY_SERVICE_STATE MapModule::isGooglePlayServicesAvailable() TITANIUM_NOEXCEPT
@@ -114,160 +257,36 @@ namespace Titanium
 		JSExport<MapModule>::SetClassVersion(1);
 		JSExport<MapModule>::SetParent(JSExport<Module>::Class());
 
-		JSExport<MapModule>::AddValueProperty("HYBRID_TYPE", std::mem_fn(&MapModule::js_get_HYBRID_TYPE));
-		JSExport<MapModule>::AddValueProperty("SATELLITE_TYPE", std::mem_fn(&MapModule::js_get_SATELLITE_TYPE));
-		JSExport<MapModule>::AddValueProperty("NORMAL_TYPE", std::mem_fn(&MapModule::js_get_NORMAL_TYPE));
-		JSExport<MapModule>::AddValueProperty("TERRAIN_TYPE", std::mem_fn(&MapModule::js_get_TERRAIN_TYPE));
-		
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_DRAG_STATE_END", std::mem_fn(&MapModule::js_get_ANNOTATION_DRAG_STATE_END));
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_DRAG_STATE_START", std::mem_fn(&MapModule::js_get_ANNOTATION_DRAG_STATE_START));
-
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_AZURE", std::mem_fn(&MapModule::js_get_ANNOTATION_AZURE));
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_BLUE", std::mem_fn(&MapModule::js_get_ANNOTATION_BLUE));
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_CYAN", std::mem_fn(&MapModule::js_get_ANNOTATION_CYAN));
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_GREEN", std::mem_fn(&MapModule::js_get_ANNOTATION_GREEN));
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_MAGENTA", std::mem_fn(&MapModule::js_get_ANNOTATION_MAGENTA));
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_ORANGE", std::mem_fn(&MapModule::js_get_ANNOTATION_ORANGE));
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_PURPLE", std::mem_fn(&MapModule::js_get_ANNOTATION_PURPLE));
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_RED", std::mem_fn(&MapModule::js_get_ANNOTATION_RED));
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_ROSE", std::mem_fn(&MapModule::js_get_ANNOTATION_ROSE));
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_VIOLET", std::mem_fn(&MapModule::js_get_ANNOTATION_VIOLET));
-		JSExport<MapModule>::AddValueProperty("ANNOTATION_YELLOW", std::mem_fn(&MapModule::js_get_ANNOTATION_YELLOW));
-		
-		JSExport<MapModule>::AddValueProperty("OVERLAY_LEVEL_ABOVE_LABELS", std::mem_fn(&MapModule::js_get_OVERLAY_LEVEL_ABOVE_LABELS));
-		JSExport<MapModule>::AddValueProperty("OVERLAY_LEVEL_ABOVE_ROADS", std::mem_fn(&MapModule::js_get_OVERLAY_LEVEL_ABOVE_ROADS));
-		
-		JSExport<MapModule>::AddValueProperty("SERVICE_DISABLED", std::mem_fn(&MapModule::js_get_SERVICE_DISABLED));
-		JSExport<MapModule>::AddValueProperty("SERVICE_INVALID", std::mem_fn(&MapModule::js_get_SERVICE_INVALID));
-		JSExport<MapModule>::AddValueProperty("SERVICE_MISSING", std::mem_fn(&MapModule::js_get_SERVICE_MISSING));
-		JSExport<MapModule>::AddValueProperty("SERVICE_VERSION_UPDATE_REQUIRED", std::mem_fn(&MapModule::js_get_SERVICE_VERSION_UPDATE_REQUIRED));
-		JSExport<MapModule>::AddValueProperty("SUCCESS", std::mem_fn(&MapModule::js_get_SUCCESS));
+		JSExport<MapModule>::AddValueProperty("HYBRID_TYPE", std::mem_fn(&MapModule::HYBRID_TYPE));
+		JSExport<MapModule>::AddValueProperty("SATELLITE_TYPE", std::mem_fn(&MapModule::SATELLITE_TYPE));
+		JSExport<MapModule>::AddValueProperty("NORMAL_TYPE", std::mem_fn(&MapModule::NORMAL_TYPE));
+		JSExport<MapModule>::AddValueProperty("TERRAIN_TYPE", std::mem_fn(&MapModule::TERRAIN_TYPE));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_DRAG_STATE_END", std::mem_fn(&MapModule::ANNOTATION_DRAG_STATE_END));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_DRAG_STATE_START", std::mem_fn(&MapModule::ANNOTATION_DRAG_STATE_START));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_AZURE", std::mem_fn(&MapModule::ANNOTATION_AZURE));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_BLUE", std::mem_fn(&MapModule::ANNOTATION_BLUE));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_CYAN", std::mem_fn(&MapModule::ANNOTATION_CYAN));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_GREEN", std::mem_fn(&MapModule::ANNOTATION_GREEN));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_MAGENTA", std::mem_fn(&MapModule::ANNOTATION_MAGENTA));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_ORANGE", std::mem_fn(&MapModule::ANNOTATION_ORANGE));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_PURPLE", std::mem_fn(&MapModule::ANNOTATION_PURPLE));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_RED", std::mem_fn(&MapModule::ANNOTATION_RED));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_ROSE", std::mem_fn(&MapModule::ANNOTATION_ROSE));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_VIOLET", std::mem_fn(&MapModule::ANNOTATION_VIOLET));
+		JSExport<MapModule>::AddValueProperty("ANNOTATION_YELLOW", std::mem_fn(&MapModule::ANNOTATION_YELLOW));
+		JSExport<MapModule>::AddValueProperty("OVERLAY_LEVEL_ABOVE_LABELS", std::mem_fn(&MapModule::OVERLAY_LEVEL_ABOVE_LABELS));
+		JSExport<MapModule>::AddValueProperty("OVERLAY_LEVEL_ABOVE_ROADS", std::mem_fn(&MapModule::OVERLAY_LEVEL_ABOVE_ROADS));
+		JSExport<MapModule>::AddValueProperty("SERVICE_DISABLED", std::mem_fn(&MapModule::SERVICE_DISABLED));
+		JSExport<MapModule>::AddValueProperty("SERVICE_INVALID", std::mem_fn(&MapModule::SERVICE_INVALID));
+		JSExport<MapModule>::AddValueProperty("SERVICE_MISSING", std::mem_fn(&MapModule::SERVICE_MISSING));
+		JSExport<MapModule>::AddValueProperty("SERVICE_VERSION_UPDATE_REQUIRED", std::mem_fn(&MapModule::SERVICE_VERSION_UPDATE_REQUIRED));
+		JSExport<MapModule>::AddValueProperty("SUCCESS", std::mem_fn(&MapModule::SUCCESS));
 
 		JSExport<MapModule>::AddFunctionProperty("createView", std::mem_fn(&MapModule::js_createView));
 		JSExport<MapModule>::AddFunctionProperty("createAnnotation", std::mem_fn(&MapModule::js_createAnnotation));
 		JSExport<MapModule>::AddFunctionProperty("createRoute", std::mem_fn(&MapModule::js_createRoute));
 		JSExport<MapModule>::AddFunctionProperty("createCamera", std::mem_fn(&MapModule::js_createCamera));
 		JSExport<MapModule>::AddFunctionProperty("isGooglePlayServicesAvailable", std::mem_fn(&MapModule::js_isGooglePlayServicesAvailable));
-	}
-
-	JSValue MapModule::js_get_HYBRID_TYPE() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::MAP_TYPE::HYBRID));
-	}
-
-	JSValue MapModule::js_get_SATELLITE_TYPE() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::MAP_TYPE::SATELLITE));
-	}
-
-	JSValue MapModule::js_get_NORMAL_TYPE() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::MAP_TYPE::NORMAL));
-	}
-
-	JSValue MapModule::js_get_TERRAIN_TYPE() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::MAP_TYPE::TERRAIN));
-	}
-
-	JSValue MapModule::js_get_ANNOTATION_DRAG_STATE_END() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_DRAG_STATE::END));
-	}
-
-	JSValue MapModule::js_get_ANNOTATION_DRAG_STATE_START() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_DRAG_STATE::START));
-	}
-
-	JSValue MapModule::js_get_ANNOTATION_AZURE() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_COLOR::AZURE));
-	}
-	
-	JSValue MapModule::js_get_ANNOTATION_BLUE() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_COLOR::BLUE));
-	}
-	
-	JSValue MapModule::js_get_ANNOTATION_CYAN() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_COLOR::CYAN));
-	}
-		
-	JSValue MapModule::js_get_ANNOTATION_GREEN() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_COLOR::GREEN));
-	}
-
-	JSValue MapModule::js_get_ANNOTATION_MAGENTA() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_COLOR::MAGENTA));
-	}
-
-	JSValue MapModule::js_get_ANNOTATION_ORANGE() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_COLOR::ORANGE));
-	}
-
-	JSValue MapModule::js_get_ANNOTATION_PURPLE() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_COLOR::PURPLE));
-	}
-
-	JSValue MapModule::js_get_ANNOTATION_RED() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_COLOR::RED));
-	}
-
-	JSValue MapModule::js_get_ANNOTATION_ROSE() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_COLOR::ROSE));
-	}
-		
-	JSValue MapModule::js_get_ANNOTATION_VIOLET() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_COLOR::VIOLET));
-	}
-		
-	JSValue MapModule::js_get_ANNOTATION_YELLOW() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::ANNOTATION_COLOR::YELLOW));
-	}
-
-	JSValue MapModule::js_get_OVERLAY_LEVEL_ABOVE_LABELS() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::OVERLAY_LEVEL::ABOVE_LABELS));
-	}
-
-	JSValue MapModule::js_get_OVERLAY_LEVEL_ABOVE_ROADS() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::OVERLAY_LEVEL::ABOVE_ROADS));
-	}
-
-	JSValue MapModule::js_get_SERVICE_DISABLED() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::GOOGLE_PLAY_SERVICE_STATE::DISABLED));
-	}
-
-	JSValue MapModule::js_get_SERVICE_INVALID() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::GOOGLE_PLAY_SERVICE_STATE::INVALID));
-	}
-
-	JSValue MapModule::js_get_SERVICE_MISSING() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::GOOGLE_PLAY_SERVICE_STATE::MISSING));
-	}
-
-	JSValue MapModule::js_get_SERVICE_VERSION_UPDATE_REQUIRED() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::GOOGLE_PLAY_SERVICE_STATE::VERSION_UPDATE_REQUIRED));
-	}
-
-	JSValue MapModule::js_get_SUCCESS() const TITANIUM_NOEXCEPT
-	{
-		return get_context().CreateNumber(Titanium::Map::Constants::to_underlying_type(Map::GOOGLE_PLAY_SERVICE_STATE::SUCCESS));
 	}
 
 	JSValue MapModule::js_createView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -280,7 +299,7 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 
-		return createView(parameters, this_object)->get_object();
+		return createView(parameters, this_object);
 	}
 
 	JSValue MapModule::js_createAnnotation(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -293,7 +312,7 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 
-		return createAnnotation(parameters, this_object)->get_object();
+		return createAnnotation(parameters, this_object);
 	}
 
 	JSValue MapModule::js_createRoute(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -306,7 +325,7 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 
-		return createRoute(parameters, this_object)->get_object();
+		return createRoute(parameters, this_object);
 	}
 
 	JSValue MapModule::js_createCamera(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -319,7 +338,7 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 
-		return createCamera(parameters, this_object)->get_object();
+		return createCamera(parameters, this_object);
 	}
 
 	JSValue MapModule::js_isGooglePlayServicesAvailable(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
