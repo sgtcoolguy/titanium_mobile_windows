@@ -11,6 +11,8 @@
 #include "TitaniumWindows/UI/TableViewRow.hpp"
 #include "TitaniumWindows/UI/View.hpp"
 
+#include "TitaniumWindows/Utility.hpp"
+
 #include <collection.h>
 
 namespace TitaniumWindows
@@ -132,6 +134,15 @@ namespace TitaniumWindows
 				auto section = item.GetPrivate<Titanium::UI::TableViewSection>();
 				auto rows = section->get_rows();
 				auto group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
+
+				// Set section header
+				// TODO : Figure out a more permanent solution
+				Windows::UI::Xaml::Controls::ListViewHeaderItem^ header = ref new Windows::UI::Xaml::Controls::ListViewHeaderItem();
+				auto headerText = ref new Windows::UI::Xaml::Controls::TextBlock();
+				headerText->Text = Utility::ConvertUTF8String(section->get_headerTitle());
+				headerText->FontSize = 28; // Change this?
+				header->Content = headerText;
+				group->Append(header);
 
 				sections__.push_back(section);
 

@@ -11,6 +11,8 @@
 #include <collection.h>
 #include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
+#include "TitaniumWindows/Utility.hpp"
+
 namespace TitaniumWindows
 {
 	namespace UI
@@ -92,6 +94,16 @@ namespace TitaniumWindows
 			for (uint32_t sectionIndex = 0; sectionIndex < get_sectionCount(); sectionIndex++) {
 				auto views = createSectionViewAt<TitaniumWindows::UI::View>(sectionIndex);
 				auto group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
+
+				// Set section header
+				// TODO : Figure out a more permanent solution
+				Windows::UI::Xaml::Controls::ListViewHeaderItem^ header = ref new Windows::UI::Xaml::Controls::ListViewHeaderItem();
+				auto headerText = ref new Windows::UI::Xaml::Controls::TextBlock();
+				headerText->Text = Utility::ConvertUTF8String(sections[sectionIndex]->get_headerTitle());
+				headerText->FontSize = 28; // Change this?
+				header->Content = headerText;
+				group->Append(header);
+
 				for (uint32_t itemIndex = 0; itemIndex < views.size(); itemIndex++) {
 					auto view = views.at(itemIndex);
 					auto nativeChildView = view->getComponent();

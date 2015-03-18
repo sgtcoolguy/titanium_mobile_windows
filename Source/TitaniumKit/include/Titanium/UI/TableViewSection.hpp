@@ -51,6 +51,7 @@ namespace Titanium
 			  @discussion Title of this section header.
 			*/
 			virtual std::string get_headerTitle() const TITANIUM_NOEXCEPT;
+			virtual void set_headerTitle(const std::string& title) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
@@ -108,6 +109,7 @@ namespace Titanium
 			virtual JSValue js_get_footerTitle() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_footerView() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_headerTitle() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_headerTitle(const JSValue&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_headerView() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_rowCount() const TITANIUM_NOEXCEPT final;
 			virtual JSValue js_get_rows() const TITANIUM_NOEXCEPT final;
