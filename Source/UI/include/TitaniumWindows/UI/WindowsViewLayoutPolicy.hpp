@@ -241,6 +241,31 @@ namespace TitaniumWindows
 			/*!
 			  @method
 
+			  @abstract width : Number/String
+
+			  @discussion View's minimum width, in platform-specific units.
+
+			  Defaults to: If undefined, defaults to either Titanium.UI.FILL or Titanium.UI.SIZE depending on the view. See "View Types and Default Layout Behavior" in Transitioning to the New UI Layout System.
+
+			  Can be either a float value or a dimension string (for example, '50%' or '40dp'). Can also be one of the following special values:
+
+			  Titanium.UI.SIZE. The view should size itself to fit its contents.
+			  Titanium.UI.FILL. The view should size itself to fill its parent.
+			  'auto'. Represents the default sizing behavior for a given type of view. The use of 'auto' is deprecated, and should be replaced with the SIZE or FILL constants if it is necessary to set the view's behavior explicitly.
+			  On Mobile Web and Tizen, 'auto' always selects SIZE behavior.
+
+			  This is an input property for specifying the view's width dimension. To determine the view's size once rendered, use the rect or size properties.
+
+			  This property can be assigned the following constants:
+
+			  Titanium.UI.FILL
+			  Titanium.UI.SIZE
+			*/
+			virtual void set_minWidth(const std::string& width) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract height : Number/String
 
 			  @discussion View height, in platform-specific units.
@@ -262,6 +287,31 @@ namespace TitaniumWindows
 			  Titanium.UI.SIZE
 			*/
 			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract height : Number/String
+
+			  @discussion View minimum height, in platform-specific units.
+
+			  Defaults to: If undefined, defaults to either Titanium.UI.FILL or Titanium.UI.SIZE depending on the view. See "View Types and Default Layout Behavior" in Transitioning to the New UI Layout System.
+
+			  Can be either a float value or a dimension string (for example, '50%' or '40dp'). Can also be one of the following special values:
+
+			  Titanium.UI.SIZE. The view should size itself to fit its contents.
+			  Titanium.UI.FILL. The view should size itself to fill its parent.
+			  'auto'. Represents the default sizing behavior for a given type of view. The use of 'auto' is deprecated, and should be replaced with the SIZE or FILL constants if it is necessary to set the view's behavior explicitly.
+
+			  On Mobile Web and Tizen, 'auto' always selects SIZE behavior.
+			  This is an input property for specifying the view's height dimension. To determine the view's size once rendered, use the rect or size properties.
+
+			  This property can be assigned the following constants:
+
+			  Titanium.UI.FILL
+			  Titanium.UI.SIZE
+			*/
+			virtual void set_minHeight(const std::string& height) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
