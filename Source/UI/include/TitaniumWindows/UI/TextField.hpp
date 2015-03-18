@@ -65,6 +65,8 @@ namespace TitaniumWindows
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
+			virtual bool js_set_width_min(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
 		private:
 			Windows::UI::Xaml::Controls::TextBox^ text_box__;
 

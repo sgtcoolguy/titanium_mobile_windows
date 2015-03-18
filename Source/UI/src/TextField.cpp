@@ -35,6 +35,8 @@ namespace TitaniumWindows
 		{
 			JSExport<TextField>::SetClassVersion(1);
 			JSExport<TextField>::SetParent(JSExport<Titanium::UI::TextField>::Class());
+
+			JSExport<TextField>::AddValueProperty("width", std::mem_fn(&js_get_width), std::mem_fn(&js_set_width_min));
 		}
 
 		void TextField::set_color(const std::string& colorName) TITANIUM_NOEXCEPT
@@ -189,6 +191,14 @@ namespace TitaniumWindows
 				});
 				return;
 			}
+		}
+
+		bool TextField::js_set_width_min(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			js_set_width(argument);
+			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+			layoutPolicy__->set_minWidth(static_cast<std::string>(argument));
+			return true;
 		}
 
 	} // namespace UI
