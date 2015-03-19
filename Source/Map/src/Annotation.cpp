@@ -34,7 +34,7 @@ namespace TitaniumWindows
 		void Annotation::updateGeoLocation() {
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			BasicGeoposition bgp = { get_latitude(), get_longitude() };
-			mapicon__->Location = ref new Geopoint(bgp);
+			MapControl::SetLocation(mapicon__, ref new Geopoint(bgp));
 #endif
 		}
 
@@ -42,7 +42,7 @@ namespace TitaniumWindows
 		{
 			Titanium::Map::Annotation::set_title(title);
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-			mapicon__->Title = TitaniumWindows::Utility::ConvertString(title);
+			text__->Text = TitaniumWindows::Utility::ConvertString(title);
 #endif
 		}
 
@@ -51,9 +51,26 @@ namespace TitaniumWindows
 		{
 			TITANIUM_LOG_DEBUG("Annotation::ctor Initialize");
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-			mapicon__ = ref new MapIcon();
-			mapicon__->NormalizedAnchorPoint = Windows::Foundation::Point(0.5, 1.0);
-			mapicon__->ZIndex = 2;
+			mapicon__ = ref new Windows::UI::Xaml::Controls::Grid();
+
+			// Draw circle
+			icon__ = ref new Windows::UI::Xaml::Shapes::Ellipse();
+			icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Red);
+			icon__->Stroke = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::White);
+			icon__->StrokeThickness = 3;
+			icon__->Width = 24;
+			icon__->Height = 24;
+			mapicon__->Children->Append(icon__);
+
+			// Draw text
+			text__ = ref new Windows::UI::Xaml::Controls::TextBlock();
+			text__->Text = Utility::ConvertUTF8String(get_title());
+			text__->FontSize = 16;
+			text__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::White);
+			text__->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Center;
+			text__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
+			text__->Height = 62;
+			mapicon__->Children->Append(text__);
 #endif
 		}
 
