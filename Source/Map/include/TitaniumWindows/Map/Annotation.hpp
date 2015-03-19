@@ -45,7 +45,7 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-			Windows::UI::Xaml::Controls::Maps::MapIcon^ GetMapIcon() {
+			Windows::UI::Xaml::Controls::Grid^ GetMapIcon() {
 				return mapicon__;
 			}
 #endif
@@ -54,7 +54,10 @@ namespace TitaniumWindows
 		private:
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-			Windows::UI::Xaml::Controls::Maps::MapIcon^ mapicon__ = { nullptr };
+			Windows::UI::Xaml::Controls::Grid^ mapicon__ = { nullptr };
+
+			Windows::UI::Xaml::Shapes::Ellipse^ icon__ = { nullptr };
+			Windows::UI::Xaml::Controls::TextBlock^ text__ = { nullptr };
 #endif
 		};
 	} // namespace Map
