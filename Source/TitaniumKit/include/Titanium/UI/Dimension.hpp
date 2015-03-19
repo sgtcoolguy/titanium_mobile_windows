@@ -13,22 +13,25 @@
 
 namespace Titanium
 {
-	using namespace HAL;
-
-	/*!
-	  @struct
-	  @discussion An abstract datatype for specifying a dimension.
-	  This is an abstract type. Any object meeting this description can be used where this type is used.
-	  See http://docs.appcelerator.com/titanium/latest/#!/api/Dimension
-	*/
-	struct Dimension
+	namespace UI
 	{
-		double x {0};
-		double y {0};
-		double width  {0};
-		double height {0};
-	};
-	
-	Dimension js_to_Dimension(const JSObject& object);
+		using namespace HAL;
+
+		/*!
+		  @struct
+		  @discussion An abstract datatype for specifying a dimension.
+		  This is an abstract type. Any object meeting this description can be used where this type is used.
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/Dimension
+		  */
+		struct Dimension {
+			double x { 0 };
+			double y { 0 };
+			double width { 0 };
+			double height { 0 };
+		};
+
+		Dimension js_to_Dimension(const JSObject& object);
+		JSObject Dimension_to_js(const JSContext& js_context, Dimension dimension);
+	} // namespace UI
 } // namespace Titanium
 #endif // _TITANIUM_DIMENSION_HPP_

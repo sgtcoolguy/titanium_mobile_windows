@@ -99,6 +99,20 @@ namespace Titanium
 			opacity__ = opacity;
 		}
 
+		Dimension ViewLayoutPolicy::get_rect() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("ViewLayoutPolicy::get_rect: Unimplemented");
+			Dimension dimension;
+			return dimension;
+		}
+
+		Dimension ViewLayoutPolicy::get_size() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("ViewLayoutPolicy::get_size: Unimplemented");
+			Dimension dimension;
+			return dimension;
+		}
+
 		bool ViewLayoutPolicy::get_visible() const TITANIUM_NOEXCEPT
 		{
 			return visible__;
@@ -247,6 +261,16 @@ namespace Titanium
 		void ViewLayoutPolicy::set_defaultHeight(const Titanium::UI::LAYOUT& value) TITANIUM_NOEXCEPT
 		{
 			defaultHeight__ = value;
+		}
+
+		void ViewLayoutPolicy::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("ViewLayoutPolicy::disableEvent: Unimplemented");
+		}
+
+		void ViewLayoutPolicy::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("ViewLayoutPolicy::enableEvent: Unimplemented");
 		}
 	} // namespace UI
 }  // namespace Titanium

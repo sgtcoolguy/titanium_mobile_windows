@@ -12,6 +12,7 @@
 #include "TitaniumKit_EXPORT.h"
 #include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/Point.hpp"
+#include "Titanium/UI/Dimension.hpp"
 
 namespace Titanium
 {
@@ -134,6 +135,91 @@ namespace Titanium
 			/*!
 			  @method
 
+			  @abstract bottom : Number/String
+
+			  @discussion View's bottom position, in platform-specific units.
+
+			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
+
+			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
+			*/
+			virtual std::string get_bottom() const TITANIUM_NOEXCEPT;
+			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract center : Point
+
+			  @discussion View's center position, in the parent view's coordinates.
+
+			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
+			*/
+			virtual Point get_center() const TITANIUM_NOEXCEPT;
+			virtual void set_center(const Point& center) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract get_children
+
+			  @discussion Returns child views
+			*/
+			virtual std::vector<std::shared_ptr<Titanium::UI::View>> get_children() const TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract height : Number/String
+
+			  @discussion View height, in platform-specific units.
+
+			  Defaults to: If undefined, defaults to either Titanium.UI.FILL or Titanium.UI.SIZE depending on the view. See "View Types and Default Layout Behavior" in Transitioning to the New UI Layout System.
+
+			  Can be either a float value or a dimension string (for example, '50%' or '40dp'). Can also be one of the following special values:
+
+			  Titanium.UI.SIZE. The view should size itself to fit its contents.
+			  Titanium.UI.FILL. The view should size itself to fill its parent.
+			  'auto'. Represents the default sizing behavior for a given type of view. The use of 'auto' is deprecated, and should be replaced with the SIZE or FILL constants if it is necessary to set the view's behavior explicitly.
+
+			  On Mobile Web and Tizen, 'auto' always selects SIZE behavior.
+			  This is an input property for specifying the view's height dimension. To determine the view's size once rendered, use the rect or size properties.
+
+			  This property can be assigned the following constants:
+
+			  Titanium.UI.FILL
+			  Titanium.UI.SIZE
+			*/
+			virtual std::string get_height() const TITANIUM_NOEXCEPT;
+			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract layout : String
+
+			  @discussion Specifies how the view positions its children. One of: 'composite', 'vertical', or 'horizontal'.
+			*/
+			virtual std::string get_layout() const TITANIUM_NOEXCEPT;
+			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract left : Number/String
+
+			  @discussion View's left position, in platform-specific units.
+
+			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
+
+			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
+			*/
+			virtual std::string get_left() const TITANIUM_NOEXCEPT;
+			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract opacity : Number
 
 			  @discussion Opacity of this view, from 0.0 (transparent) to 1.0 (opaque).
@@ -142,6 +228,24 @@ namespace Titanium
 			*/
 			virtual double get_opacity() const TITANIUM_NOEXCEPT;
 			virtual void set_opacity(const double& opacity) TITANIUM_NOEXCEPT;
+
+			virtual Dimension get_rect() const TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract right : Number/String
+
+			  @discussion View's right position, in platform-specific units.
+
+			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
+
+			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
+			*/
+			virtual std::string get_right() const TITANIUM_NOEXCEPT;
+			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT;
+
+			virtual Dimension get_size() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -186,60 +290,6 @@ namespace Titanium
 			/*!
 			  @method
 
-			  @abstract left : Number/String
-
-			  @discussion View's left position, in platform-specific units.
-
-			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
-
-			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
-			*/
-			virtual std::string get_left() const TITANIUM_NOEXCEPT;
-			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
-			  @abstract bottom : Number/String
-
-			  @discussion View's bottom position, in platform-specific units.
-
-			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
-
-			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
-			*/
-			virtual std::string get_bottom() const TITANIUM_NOEXCEPT;
-			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
-			  @abstract right : Number/String
-
-			  @discussion View's right position, in platform-specific units.
-
-			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
-
-			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
-			*/
-			virtual std::string get_right() const TITANIUM_NOEXCEPT;
-			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
-			  @abstract center : Point
-
-			  @discussion View's center position, in the parent view's coordinates.
-
-			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
-			*/
-			virtual Point get_center() const TITANIUM_NOEXCEPT;
-			virtual void set_center(const Point& center) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
 			  @abstract width : Number/String
 
 			  @discussion View's width, in platform-specific units.
@@ -262,11 +312,11 @@ namespace Titanium
 			*/
 			virtual std::string get_width() const TITANIUM_NOEXCEPT;
 			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT;
-
+			  
 			/*!
 			  @method
 
-			  @abstract width : Number/String
+			  @abstract minWidth : Number/String
 
 			  @discussion View's minimum width, in platform-specific units.
 
@@ -318,7 +368,7 @@ namespace Titanium
 			/*!
 			  @method
 
-			  @abstract height : Number/String
+			  @abstract minHeight : Number/String
 
 			  @discussion View minimum height, in platform-specific units.
 
@@ -364,6 +414,9 @@ namespace Titanium
 			virtual Titanium::UI::LAYOUT get_defaultWidth() const TITANIUM_NOEXCEPT;
 			virtual void set_defaultHeight(const Titanium::UI::LAYOUT& defaultHeight) TITANIUM_NOEXCEPT;
 			virtual void set_defaultWidth(const Titanium::UI::LAYOUT& defaultWidth) TITANIUM_NOEXCEPT;
+
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
 
 			virtual void postInitialize() TITANIUM_NOEXCEPT
 			{

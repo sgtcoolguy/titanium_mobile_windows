@@ -18,16 +18,6 @@ namespace TitaniumWindows
 	{
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT WindowLayoutPolicy : public WindowsViewLayoutPolicy
-		{
-		public:
-			WindowLayoutPolicy() TITANIUM_NOEXCEPT;
-			virtual ~WindowLayoutPolicy() = default;
-
-			virtual void onComponentSizeChange(const Titanium::LayoutEngine::Rect&) override;
-			virtual void onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name) override;
-		};
-
 		/*!
 		  @class
 
@@ -56,6 +46,15 @@ namespace TitaniumWindows
 
 		private:
 			Windows::UI::Xaml::Controls::Canvas^ canvas__;
+		};
+
+		class TITANIUMWINDOWS_UI_EXPORT WindowLayoutPolicy : public WindowsViewLayoutPolicy {
+		public:
+			WindowLayoutPolicy(std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
+			virtual ~WindowLayoutPolicy() = default;
+
+			virtual void onComponentSizeChange(const Titanium::LayoutEngine::Rect&) override;
+			virtual void onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name) override;
 		};
 	} // namespace UI
 } // namespace TitaniumWindows

@@ -16,8 +16,9 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		WindowsViewLayoutPolicy::WindowsViewLayoutPolicy() TITANIUM_NOEXCEPT
-			: ViewLayoutPolicy()
+		WindowsViewLayoutPolicy::WindowsViewLayoutPolicy(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
+			: ViewLayoutPolicy(),
+			  view__(view)
 		{
 			TITANIUM_LOG_DEBUG("WindowsViewLayoutPolicy::ctor");
 		}
@@ -103,6 +104,31 @@ namespace TitaniumWindows
 			getComponent()->Opacity = opacity;
 		}
 
+		Titanium::UI::Dimension WindowsViewLayoutPolicy::get_rect() const TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Dimension d;
+			d.x = oldRect__.x;
+			//d.x = layout_node__->element.measuredLeft;
+			d.y = oldRect__.y;
+			//d.y = layout_node__->element.measuredTop;
+			//d.height = layout_node__->element.measuredHeight;
+			//d.width = layout_node__->element.measuredWidth;
+			d.width = oldRect__.width;
+			d.height = oldRect__.height;
+			return d;
+		}
+
+		Titanium::UI::Dimension WindowsViewLayoutPolicy::get_size() const TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Dimension d;
+			d.x = 0;
+			d.y = 0;
+			//d.height = layout_node__->element.measuredHeight;
+			//d.width = layout_node__->element.measuredWidth;
+			d.width = oldRect__.width;
+			d.height = oldRect__.height;
+			return d;
+		}
 		void WindowsViewLayoutPolicy::set_tintColor(const std::string& tintColor) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutPolicy::set_tintColor(tintColor);
@@ -184,6 +210,35 @@ namespace TitaniumWindows
 					Titanium::LayoutEngine::nodeLayout(root);
 				}
 			}
+		}
+
+		void WindowsViewLayoutPolicy::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			if (event_name == "focus") {
+				getComponent()->GotFocus -= focus_event__;
+				return;
+			} else if (event_name == "postlayout") {
+				postlayout_listening__ = false;
+				return;
+			}
+		}
+
+		void WindowsViewLayoutPolicy::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			const JSContext ctx = view__->get_context();
+
+			 if (event_name == "focus") {
+				 focus_event__ = getComponent()->GotFocus += ref new Windows::UI::Xaml::RoutedEventHandler([this, ctx](Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("source", view__->get_object());
+					eventArgs.SetProperty("type", ctx.CreateString("focus"));
+					view__->fireEvent("focus", eventArgs);
+				});
+				return;
+			 } else if (event_name == "postlayout") {
+				 postlayout_listening__ = true;
+				 return;
+			 }
 		}
 
 		static void onLayoutCallback(Titanium::LayoutEngine::Node* node)
@@ -352,16 +407,14 @@ namespace TitaniumWindows
 				}
 			}
 
-			/* TODO fire post layout callback
-			if (post_layout_event_count_ > 0) {
-			Ti::Value val;
-			val.setProperty("x", Ti::Value(rect.x));
-			val.setProperty("y", Ti::Value(rect.y));
-			val.setProperty("width", Ti::Value(rect.width));
-			val.setProperty("height", Ti::Value(rect.height));
-			fireEvent(Ti::Constants::EventPostLayout, val);
+			if (postlayout_listening__) {
+				// Fire postlayout event
+				JSContext ctx = view__->get_context();
+				JSObject  eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("source", view__->get_object());
+				eventArgs.SetProperty("type", ctx.CreateString("postlayout"));
+				view__->fireEvent("postlayout", eventArgs);
 			}
-			*/
 		}
 
 
