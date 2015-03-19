@@ -16,7 +16,7 @@ namespace Titanium
 
 		Font js_to_Font(const JSObject& object)
 		{
-			Font font;
+			Font font {"","15px",FONT_STYLE::NORMAL,FONT_WEIGHT::NORMAL,TEXT_STYLE::BODY};
 			if (object.HasProperty("fontFamily")) {
 				font.fontFamily = static_cast<std::string>(object.GetProperty("fontFamily"));
 			}
