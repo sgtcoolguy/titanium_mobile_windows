@@ -13,7 +13,6 @@ namespace Titanium
 	{
 		HTTPClient::HTTPClient(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Module(js_context),
-		      timeout__(js_context.CreateString()),
 		      onload_callback__(js_context.CreateObject()),
 		      onerror_callback__(js_context.CreateObject()),
 			  ondatastream_callback__(js_context.CreateObject()),
@@ -23,36 +22,60 @@ namespace Titanium
 			setHTTPStatusPhrase();
 		}
 
-		void HTTPClient::JSExportInitialize()
+		std::chrono::milliseconds HTTPClient::get_timeout() const TITANIUM_NOEXCEPT
 		{
-			JSExport<HTTPClient>::SetClassVersion(1);
-			JSExport<HTTPClient>::SetParent(JSExport<Module>::Class());
+			return timeout__;
+		}
 
-			JSExport<HTTPClient>::AddValueProperty("LOADING", std::mem_fn(&HTTPClient::js_getLOADING));
-			JSExport<HTTPClient>::AddValueProperty("OPENED", std::mem_fn(&HTTPClient::js_getOPENED));
-			JSExport<HTTPClient>::AddValueProperty("DONE", std::mem_fn(&HTTPClient::js_getDONE));
-			JSExport<HTTPClient>::AddValueProperty("UNSENT", std::mem_fn(&HTTPClient::js_getUNSENT));
-			JSExport<HTTPClient>::AddValueProperty("HEADERS_RECEIVED", std::mem_fn(&HTTPClient::js_getHEADERS_RECEIVED));
+		void HTTPClient::set_timeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT
+		{
+			timeout__ = timeout;
+		}
 
-			JSExport<HTTPClient>::AddValueProperty("timeout", std::mem_fn(&HTTPClient::js_getTimeout), std::mem_fn(&HTTPClient::js_setTimeout));
-			JSExport<HTTPClient>::AddValueProperty("responseText", std::mem_fn(&HTTPClient::js_getResponseText));
-			JSExport<HTTPClient>::AddValueProperty("responseData", std::mem_fn(&HTTPClient::js_getResponseData));
-			JSExport<HTTPClient>::AddValueProperty("allResponseHeaders", std::mem_fn(&HTTPClient::js_getAllResponseHeaders));
-			JSExport<HTTPClient>::AddValueProperty("readyState", std::mem_fn(&HTTPClient::js_getReadyState));
-			JSExport<HTTPClient>::AddValueProperty("status", std::mem_fn(&HTTPClient::js_getStatus));
-			JSExport<HTTPClient>::AddValueProperty("statusText", std::mem_fn(&HTTPClient::js_getStatusText));
-			JSExport<HTTPClient>::AddValueProperty("onload", std::mem_fn(&HTTPClient::js_getOnLoad), std::mem_fn(&HTTPClient::js_setOnLoad));
-			JSExport<HTTPClient>::AddValueProperty("onerror", std::mem_fn(&HTTPClient::js_getOnError), std::mem_fn(&HTTPClient::js_setOnError));
-			JSExport<HTTPClient>::AddValueProperty("ondatastream", std::mem_fn(&HTTPClient::js_getOnDataStream), std::mem_fn(&HTTPClient::js_setOnDataStream));
-			JSExport<HTTPClient>::AddValueProperty("onsendstream", std::mem_fn(&HTTPClient::js_getOnSendStream), std::mem_fn(&HTTPClient::js_setOnSendStream));
-			JSExport<HTTPClient>::AddValueProperty("onreadystate", std::mem_fn(&HTTPClient::js_getOnReadyStateChange), std::mem_fn(&HTTPClient::js_setOnReadyStateChange));
+		std::string HTTPClient::get_responseText() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::get_responseText: Unimplemented");
+			return "";
+		}
 
-			JSExport<HTTPClient>::AddFunctionProperty("open", std::mem_fn(&HTTPClient::js_open));
-			JSExport<HTTPClient>::AddFunctionProperty("send", std::mem_fn(&HTTPClient::js_send));
-			JSExport<HTTPClient>::AddFunctionProperty("abort", std::mem_fn(&HTTPClient::js_abort));
-			JSExport<HTTPClient>::AddFunctionProperty("setRequestHeader", std::mem_fn(&HTTPClient::js_setRequestHeader));
-			JSExport<HTTPClient>::AddFunctionProperty("getResponseHeader", std::mem_fn(&HTTPClient::js_getResponseHeader));
-			JSExport<HTTPClient>::AddFunctionProperty("clearCookies", std::mem_fn(&HTTPClient::js_clearCookies));
+		std::vector<unsigned char> HTTPClient::get_responseData() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::get_responseData: Unimplemented");
+			return std::vector<unsigned char>();  //empty
+		}
+
+		std::string HTTPClient::get_allResponseHeaders() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::get_allResponseHeaders: Unimplemented");
+			return "";
+		}
+
+		std::uint32_t HTTPClient::get_readyState() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::getReadyState: Unimplemented");
+			return N_REQUEST_STATE_UNSENT;
+		}
+
+		std::uint32_t HTTPClient::get_status() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::getStatus: Unimplemented");
+			return 200;
+		}
+
+		std::string HTTPClient::get_statusText() const TITANIUM_NOEXCEPT
+		{
+			auto it = httpStatusPhrase__.find(get_status());
+			if (it != httpStatusPhrase__.end()) {
+				return it->second;
+			}
+
+			return "HTTP Status Phrase Not Found";
+		}
+
+		// Methods
+		void HTTPClient::abort() TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::abort: Unimplemented");
 		}
 
 		void HTTPClient::clearCookies(const std::string& url) TITANIUM_NOEXCEPT
@@ -60,49 +83,10 @@ namespace Titanium
 			TITANIUM_LOG_WARN("HTTPClient::clearCookies: Unimplemented");
 		}
 
-		void HTTPClient::setTimeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT
+		std::string HTTPClient::getResponseHeader(const std::string& name) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::setTimeout: Unimplemented");
-		}
-
-		std::string HTTPClient::getResponseText() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getResponseText: Unimplemented");
+			TITANIUM_LOG_WARN("HTTPClient::getResponseHeader: Unimplemented");
 			return "";
-		}
-
-		std::vector<unsigned char> HTTPClient::getResponseData() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getResponseData: Unimplemented");
-			return std::vector<unsigned char>();  //empty
-		}
-
-		std::string HTTPClient::getAllResponseHeaders() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getAllResponseHeaders: Unimplemented");
-			return "";
-		}
-
-		std::uint32_t HTTPClient::getReadyState() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getReadyState: Unimplemented");
-			return std::uint32_t();
-		}
-
-		std::uint32_t HTTPClient::getStatus() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getStatus: Unimplemented");
-			return std::uint32_t();
-		}
-
-		std::string HTTPClient::getStatusText() const TITANIUM_NOEXCEPT
-		{
-			auto it = httpStatusPhrase__.find(getStatus());
-			if (it != httpStatusPhrase__.end()) {
-				return it->second;
-			}
-
-			return "HTTP Status Phrase Not Found";
 		}
 
 		void HTTPClient::open(const std::string& method, const std::string& url) TITANIUM_NOEXCEPT
@@ -123,6 +107,63 @@ namespace Titanium
 		void HTTPClient::send(const std::string& postDataStr) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("HTTPClient::send<data string>: Unimplemented");
+		}
+		
+		void HTTPClient::setRequestHeader(const std::string& name, const std::string& value) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("HTTPClient::setRequestHeader: Unimplemented");
+		}
+
+		void HTTPClient::JSExportInitialize()
+		{
+			JSExport<HTTPClient>::SetClassVersion(1);
+			JSExport<HTTPClient>::SetParent(JSExport<Module>::Class());
+			// constants
+			JSExport<HTTPClient>::AddValueProperty("LOADING", std::mem_fn(&HTTPClient::js_getLOADING));
+			JSExport<HTTPClient>::AddValueProperty("OPENED", std::mem_fn(&HTTPClient::js_getOPENED));
+			JSExport<HTTPClient>::AddValueProperty("DONE", std::mem_fn(&HTTPClient::js_getDONE));
+			JSExport<HTTPClient>::AddValueProperty("UNSENT", std::mem_fn(&HTTPClient::js_getUNSENT));
+			JSExport<HTTPClient>::AddValueProperty("HEADERS_RECEIVED", std::mem_fn(&HTTPClient::js_getHEADERS_RECEIVED));
+			// properties
+			JSExport<HTTPClient>::AddValueProperty("allResponseHeaders", std::mem_fn(&HTTPClient::js_get_allResponseHeaders));
+			JSExport<HTTPClient>::AddValueProperty("ondatastream", std::mem_fn(&HTTPClient::js_get_ondatastream), std::mem_fn(&HTTPClient::js_set_ondatastream));
+			JSExport<HTTPClient>::AddValueProperty("onerror", std::mem_fn(&HTTPClient::js_get_onerror), std::mem_fn(&HTTPClient::js_set_onerror));
+			JSExport<HTTPClient>::AddValueProperty("onload", std::mem_fn(&HTTPClient::js_get_onload), std::mem_fn(&HTTPClient::js_set_onload));
+			JSExport<HTTPClient>::AddValueProperty("onreadystatechange", std::mem_fn(&HTTPClient::js_get_onreadystatechange), std::mem_fn(&HTTPClient::js_set_onreadystatechange));
+			JSExport<HTTPClient>::AddValueProperty("onsendstream", std::mem_fn(&HTTPClient::js_get_onsendstream), std::mem_fn(&HTTPClient::js_set_onsendstream));
+			JSExport<HTTPClient>::AddValueProperty("readyState", std::mem_fn(&HTTPClient::js_get_readyState));
+			JSExport<HTTPClient>::AddValueProperty("responseData", std::mem_fn(&HTTPClient::js_get_responseData));
+			JSExport<HTTPClient>::AddValueProperty("responseText", std::mem_fn(&HTTPClient::js_get_responseText));
+			JSExport<HTTPClient>::AddValueProperty("status", std::mem_fn(&HTTPClient::js_get_status));
+			JSExport<HTTPClient>::AddValueProperty("statusText", std::mem_fn(&HTTPClient::js_get_statusText));
+			JSExport<HTTPClient>::AddValueProperty("timeout", std::mem_fn(&HTTPClient::js_get_timeout), std::mem_fn(&HTTPClient::js_set_timeout));
+			// methods
+			JSExport<HTTPClient>::AddFunctionProperty("open", std::mem_fn(&HTTPClient::js_open));
+			JSExport<HTTPClient>::AddFunctionProperty("send", std::mem_fn(&HTTPClient::js_send));
+			JSExport<HTTPClient>::AddFunctionProperty("abort", std::mem_fn(&HTTPClient::js_abort));
+			JSExport<HTTPClient>::AddFunctionProperty("setRequestHeader", std::mem_fn(&HTTPClient::js_setRequestHeader));
+			JSExport<HTTPClient>::AddFunctionProperty("getResponseHeader", std::mem_fn(&HTTPClient::js_getResponseHeader));
+			JSExport<HTTPClient>::AddFunctionProperty("clearCookies", std::mem_fn(&HTTPClient::js_clearCookies));
+
+			// accessors
+			JSExport<HTTPClient>::AddFunctionProperty("getAllResponseHeaders", std::mem_fn(&HTTPClient::js_getAllResponseHeaders));
+			JSExport<HTTPClient>::AddFunctionProperty("getOndatastream", std::mem_fn(&HTTPClient::js_getOndatastream));
+			JSExport<HTTPClient>::AddFunctionProperty("setOndatastream", std::mem_fn(&HTTPClient::js_setOndatastream));
+			JSExport<HTTPClient>::AddFunctionProperty("getOnerror", std::mem_fn(&HTTPClient::js_getOnerror));
+			JSExport<HTTPClient>::AddFunctionProperty("setOnerror", std::mem_fn(&HTTPClient::js_setOnerror));
+			JSExport<HTTPClient>::AddFunctionProperty("getOnload", std::mem_fn(&HTTPClient::js_getOnload));
+			JSExport<HTTPClient>::AddFunctionProperty("setOnload", std::mem_fn(&HTTPClient::js_setOnload));
+			JSExport<HTTPClient>::AddFunctionProperty("getOnreadystatechange", std::mem_fn(&HTTPClient::js_getOnreadystatechange));
+			JSExport<HTTPClient>::AddFunctionProperty("setOnreadystatechange", std::mem_fn(&HTTPClient::js_setOnreadystatechange));
+			JSExport<HTTPClient>::AddFunctionProperty("getOnsendstream", std::mem_fn(&HTTPClient::js_getOnsendstream));
+			JSExport<HTTPClient>::AddFunctionProperty("setOnsendstream", std::mem_fn(&HTTPClient::js_setOnsendstream));
+			JSExport<HTTPClient>::AddFunctionProperty("getReadyState", std::mem_fn(&HTTPClient::js_getReadyState));
+			JSExport<HTTPClient>::AddFunctionProperty("getResponseData", std::mem_fn(&HTTPClient::js_getResponseData));
+			JSExport<HTTPClient>::AddFunctionProperty("getResponseText", std::mem_fn(&HTTPClient::js_getResponseText));
+			JSExport<HTTPClient>::AddFunctionProperty("getStatus", std::mem_fn(&HTTPClient::js_getStatus));
+			JSExport<HTTPClient>::AddFunctionProperty("getStatusText", std::mem_fn(&HTTPClient::js_getStatusText));
+			JSExport<HTTPClient>::AddFunctionProperty("getTimeout", std::mem_fn(&HTTPClient::js_getTimeout));
+			JSExport<HTTPClient>::AddFunctionProperty("setTimeout", std::mem_fn(&HTTPClient::js_setTimeout));
 		}
 
 		JSValue HTTPClient::js_getLOADING() const TITANIUM_NOEXCEPT
@@ -150,141 +191,29 @@ namespace Titanium
 			return get_context().CreateNumber(N_REQUEST_STATE_HEADERS_RECEIVED);
 		}
 
-		bool HTTPClient::js_setTimeout(const JSValue& argument) TITANIUM_NOEXCEPT
+		// Methods
+		JSValue HTTPClient::js_abort(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			double d = static_cast<double>(argument);
-			std::chrono::milliseconds timeout((long long)d);
-			setTimeout(timeout);
-			timeout__ = argument;
-			return true;
+			abort();
+			return get_context().CreateUndefined();
 		}
 
-		JSValue HTTPClient::js_getTimeout() const TITANIUM_NOEXCEPT
+		JSValue HTTPClient::js_clearCookies(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return timeout__;
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsString());
+			const auto url = static_cast<std::string>(_0);
+			clearCookies(url);
+			return get_context().CreateUndefined();
 		}
 
-		JSValue HTTPClient::js_getResponseText() const TITANIUM_NOEXCEPT
+		JSValue HTTPClient::js_getResponseHeader(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(getResponseText());
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsString());
+			const auto name = static_cast<std::string>(_0);
+			return get_context().CreateString(getResponseHeader(name));
 		}
-
-		JSValue HTTPClient::js_getResponseData() const TITANIUM_NOEXCEPT
-		{
-			auto Blob = get_context().CreateObject(JSExport<Titanium::Blob>::Class());
-			auto blob = Blob.CallAsConstructor();
-			auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
-
-			blob_ptr->construct(getResponseData());
-
-			return blob;
-		}
-
-		JSValue HTTPClient::js_getAllResponseHeaders() const TITANIUM_NOEXCEPT
-		{
-			return get_context().CreateString(getAllResponseHeaders());
-		}
-
-		JSValue HTTPClient::js_getReadyState() const TITANIUM_NOEXCEPT
-		{
-			return get_context().CreateNumber(getReadyState());
-		}
-
-		JSValue HTTPClient::js_getStatus() const TITANIUM_NOEXCEPT
-		{
-			return get_context().CreateNumber(getStatus());
-		}		
-
-		JSValue HTTPClient::js_getStatusText() const TITANIUM_NOEXCEPT
-		{
-			return get_context().CreateString(getStatusText());
-		}
-
-		bool HTTPClient::js_setOnLoad(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			using namespace std::placeholders;
-			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
-
-			// connect the slot
-			loaded.connect(std::bind(&HTTPClient::onload, this, _1, _2, _3));
-
-			onload_callback__ = static_cast<JSObject>(argument);
-			return true;
-		}
-
-		JSValue HTTPClient::js_getOnLoad() const TITANIUM_NOEXCEPT
-		{
-			return onload_callback__;
-		}
-
-		bool HTTPClient::js_setOnError(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			using namespace std::placeholders;
-			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
-
-			// connect the slot
-			error.connect(std::bind(&HTTPClient::onerror, this, _1, _2, _3));
-
-			onerror_callback__ = static_cast<JSObject>(argument);
-			return true;
-		}
-
-		JSValue HTTPClient::js_getOnError() const TITANIUM_NOEXCEPT
-		{
-			return onerror_callback__;
-		}
-
-		bool HTTPClient::js_setOnDataStream(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			using namespace std::placeholders;
-			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
-
-			// connect the slot
-			datastream.connect(std::bind(&HTTPClient::ondatastream, this, _1));
-
-			ondatastream_callback__ = static_cast<JSObject>(argument);
-			return true;
-		}
-
-		JSValue HTTPClient::js_getOnDataStream() const TITANIUM_NOEXCEPT
-		{
-			return ondatastream_callback__;
-		}
-
-		bool HTTPClient::js_setOnSendStream(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			using namespace std::placeholders;
-			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
-
-			// connect the slot
-			sendstream.connect(std::bind(&HTTPClient::onsendstream, this, _1));
-
-			onsendstream_callback__ = static_cast<JSObject>(argument);
-			return true;
-		}
-
-		JSValue HTTPClient::js_getOnSendStream() const TITANIUM_NOEXCEPT
-		{
-			return onsendstream_callback__;
-		}
-
-		bool HTTPClient::js_setOnReadyStateChange(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			using namespace std::placeholders;
-			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
-
-			// connect the slot
-			readystatechange.connect(std::bind(&HTTPClient::onreadystatechange, this, _1));
-
-			onreadystatechange_callback__ = static_cast<JSObject>(argument);
-			return true;
-		}
-
-		JSValue HTTPClient::js_getOnReadyStateChange() const TITANIUM_NOEXCEPT
-		{
-			return onreadystatechange_callback__;
-		}		
 
 		JSValue HTTPClient::js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
@@ -331,22 +260,6 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		void HTTPClient::abort() TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::abort: Unimplemented");
-		}
-
-		JSValue HTTPClient::js_abort(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-		{
-			abort();
-			return get_context().CreateUndefined();
-		}
-
-		void HTTPClient::setRequestHeader(const std::string& name, const std::string& value) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::setRequestHeader: Unimplemented");
-		}
-
 		JSValue HTTPClient::js_setRequestHeader(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			const auto _0 = arguments.at(0);
@@ -358,27 +271,248 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		std::string HTTPClient::getResponseHeader(const std::string& name) TITANIUM_NOEXCEPT
+		// properties
+		JSValue HTTPClient::js_get_allResponseHeaders() const TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::getResponseHeader: Unimplemented");
-			return std::string();  // empty
+			return get_context().CreateString(get_allResponseHeaders());
 		}
 
-		JSValue HTTPClient::js_getResponseHeader(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue HTTPClient::js_getAllResponseHeaders(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsString());
-			const auto name = static_cast<std::string>(_0);
-			return get_context().CreateString(getResponseHeader(name));
+			return js_get_allResponseHeaders();
 		}
 
-		JSValue HTTPClient::js_clearCookies(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		JSValue HTTPClient::js_get_readyState() const TITANIUM_NOEXCEPT
 		{
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsString());
-			const auto url = static_cast<std::string>(_0);
-			clearCookies(url);
-			return get_context().CreateUndefined();
+			return get_context().CreateNumber(get_readyState());
+		}
+
+		JSValue HTTPClient::js_getReadyState(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			return js_get_readyState();
+		}
+
+		JSValue HTTPClient::js_get_responseData() const TITANIUM_NOEXCEPT
+		{
+			auto Blob = get_context().CreateObject(JSExport<Titanium::Blob>::Class());
+			auto blob = Blob.CallAsConstructor();
+			auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
+
+			blob_ptr->construct(get_responseData());
+
+			return blob;
+		}
+
+		JSValue HTTPClient::js_getResponseData(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			return js_get_responseData();
+		}
+
+		JSValue HTTPClient::js_get_responseText() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateString(get_responseText());
+		}
+
+		JSValue HTTPClient::js_getResponseText(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			return js_get_responseText();
+		}
+
+		JSValue HTTPClient::js_get_status() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateNumber(get_status());
+		}
+			
+		JSValue HTTPClient::js_getStatus(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			return js_get_status();
+		}
+
+		JSValue HTTPClient::js_get_statusText() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateString(get_statusText());
+		}
+
+		JSValue HTTPClient::js_getStatusText(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			return js_get_statusText();
+		}
+
+		bool HTTPClient::js_set_ondatastream(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			using namespace std::placeholders;
+			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
+
+			// connect the slot
+			datastream.connect(std::bind(&HTTPClient::ondatastream, this, _1));
+
+			ondatastream_callback__ = static_cast<JSObject>(argument);
+			return true;
+		}
+
+		JSValue HTTPClient::js_get_ondatastream() const TITANIUM_NOEXCEPT
+		{
+			return ondatastream_callback__;
+		}
+
+		JSValue HTTPClient::js_getOndatastream(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			return js_get_ondatastream();
+		}
+
+		JSValue HTTPClient::js_setOndatastream(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_ondatastream(arguments.at(0));
+			}
+			return this_object.get_context().CreateUndefined();
+		}
+
+		bool HTTPClient::js_set_onerror(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			using namespace std::placeholders;
+			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
+
+			// connect the slot
+			error.connect(std::bind(&HTTPClient::onerror, this, _1, _2, _3));
+
+			onerror_callback__ = static_cast<JSObject>(argument);
+			return true;
+		}
+
+		JSValue HTTPClient::js_get_onerror() const TITANIUM_NOEXCEPT
+		{
+			return onerror_callback__;
+		}
+
+		JSValue HTTPClient::js_getOnerror(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			return js_get_onerror();
+		}
+
+		JSValue HTTPClient::js_setOnerror(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_onerror(arguments.at(0));
+			}
+			return this_object.get_context().CreateUndefined();
+		}
+
+		bool HTTPClient::js_set_onload(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			using namespace std::placeholders;
+			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
+
+			// connect the slot
+			loaded.connect(std::bind(&HTTPClient::onload, this, _1, _2, _3));
+
+			onload_callback__ = static_cast<JSObject>(argument);
+			return true;
+		}
+
+		JSValue HTTPClient::js_get_onload() const TITANIUM_NOEXCEPT
+		{
+			return onload_callback__;
+		}
+
+		JSValue HTTPClient::js_getOnload(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			return js_get_onload();
+		}
+
+		JSValue HTTPClient::js_setOnload(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_onload(arguments.at(0));
+			}
+			return this_object.get_context().CreateUndefined();
+		}
+
+		bool HTTPClient::js_set_onreadystatechange(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			using namespace std::placeholders;
+			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
+
+			// connect the slot
+			readystatechange.connect(std::bind(&HTTPClient::onreadystatechange, this, _1));
+
+			onreadystatechange_callback__ = static_cast<JSObject>(argument);
+			return true;
+		}
+
+		JSValue HTTPClient::js_get_onreadystatechange() const TITANIUM_NOEXCEPT
+		{
+			return onreadystatechange_callback__;
+		}
+
+		JSValue HTTPClient::js_getOnreadystatechange(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			return js_get_onreadystatechange();
+		}
+
+		JSValue HTTPClient::js_setOnreadystatechange(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_onreadystatechange(arguments.at(0));
+			}
+			return this_object.get_context().CreateUndefined();
+		}
+
+		bool HTTPClient::js_set_onsendstream(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			using namespace std::placeholders;
+			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
+
+			// connect the slot
+			sendstream.connect(std::bind(&HTTPClient::onsendstream, this, _1));
+
+			onsendstream_callback__ = static_cast<JSObject>(argument);
+			return true;
+		}
+
+		JSValue HTTPClient::js_get_onsendstream() const TITANIUM_NOEXCEPT
+		{
+			return onsendstream_callback__;
+		}
+
+		JSValue HTTPClient::js_getOnsendstream(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			return js_get_onsendstream();
+		}
+
+		JSValue HTTPClient::js_setOnsendstream(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_onsendstream(arguments.at(0));
+			}
+			return this_object.get_context().CreateUndefined();
+		}
+			
+		JSValue HTTPClient::js_get_timeout() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateNumber(static_cast<double>(get_timeout().count()));
+		}
+
+		bool HTTPClient::js_set_timeout(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsNumber());
+			double d = static_cast<double>(argument);
+			std::chrono::milliseconds timeout((long long)d);
+			set_timeout(timeout);
+			return true;
+		}
+
+		JSValue HTTPClient::js_getTimeout(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+		{
+			return js_get_timeout();
+		}
+
+		JSValue HTTPClient::js_setTimeout(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (arguments.size() >= 1) {
+				js_set_timeout(arguments.at(0));
+			}
+			return this_object.get_context().CreateUndefined();
 		}
 
 		////// slots
