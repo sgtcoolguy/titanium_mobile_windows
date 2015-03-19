@@ -1,7 +1,7 @@
 /**
  * TitaniumKit
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -127,6 +127,8 @@ namespace Titanium
 		// TODO: The following functions can automatically be generated from
 		// the YAML API docs.
 		static void JSExportInitialize();
+		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
+
 		JSValue js_info(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_warn(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_error(const std::vector<JSValue>& arguments, JSObject& this_object);

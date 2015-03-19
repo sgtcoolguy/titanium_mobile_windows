@@ -129,6 +129,7 @@ namespace Titanium
 #endif
 
 			static void JSExportInitialize();
+			static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
 			virtual JSValue js_getBool(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getDouble(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;

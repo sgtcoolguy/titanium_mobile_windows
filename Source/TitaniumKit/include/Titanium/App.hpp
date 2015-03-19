@@ -121,7 +121,8 @@ namespace Titanium
 		  @abstract proximityDetection
 		  @discussion Determines whether proximity detection is enabled.
 		*/
-		virtual bool proximityDetection() const TITANIUM_NOEXCEPT;
+		virtual bool getProximityDetection() const TITANIUM_NOEXCEPT;
+		virtual void setProximityDetection(const bool&) TITANIUM_NOEXCEPT;
 		/*!
 		  @property
 		  @abstract proximityState
@@ -175,6 +176,7 @@ namespace Titanium
 #endif
 
 		static void JSExportInitialize();
+		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
 		virtual JSValue js_accessibilityEnabled() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_analytics() const TITANIUM_NOEXCEPT final;

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -67,6 +67,7 @@ namespace Titanium
 #endif
 
 		static void JSExportInitialize();
+		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
 		virtual JSValue js_get_address() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_get_architecture() const TITANIUM_NOEXCEPT final;

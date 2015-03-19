@@ -38,6 +38,7 @@ namespace Titanium
 #endif
 
 		static void JSExportInitialize();
+		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
 		virtual JSValue js_lastEvent() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_featureEvent(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
@@ -45,6 +46,10 @@ namespace Titanium
 		virtual JSValue js_getLastEvent(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 		bool loadJS();
+
+		JSObject getTiObject() {
+			return ti_analytics__;
+		}
 
 	private:
 		JSObject ti_analytics__;

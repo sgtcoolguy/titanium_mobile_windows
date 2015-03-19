@@ -1,7 +1,7 @@
 /**
  * TitaniumKit
  *
- * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -45,6 +45,7 @@ namespace Titanium
 #endif
 
 		static void JSExportInitialize();
+		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -88,8 +89,13 @@ namespace Titanium
 		JSValue js_open(const std::vector<JSValue>& arguments, JSObject& this_object);
 
 		bool loadJS();
+		
+		JSObject getTiObject() {
+			return ti_db__;
+		}
 
 	private:
+
 		JSValue field_type_double__;
 		JSValue field_type_float__;
 		JSValue field_type_int__;
