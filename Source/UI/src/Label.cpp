@@ -113,7 +113,7 @@ namespace TitaniumWindows
 			// Did we already look up this font?
 			auto family = font.fontFamily;
 			auto path = family;
-			if (custom_fonts__.find(family) == custom_fonts__.end()) {
+			if (family.length() > 0 && custom_fonts__.find(family) == custom_fonts__.end()) {
 				// Look up to see if this is a custom font!
 				auto export_object = get_context().CreateObject();
 				get_context().JSEvaluateScript(ti_label_js, export_object);

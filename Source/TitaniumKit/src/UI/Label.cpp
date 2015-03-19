@@ -154,7 +154,7 @@ namespace Titanium
 		bool Label::js_set_font(const JSValue& js_font) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(js_font.IsObject());
-			font__ = Titanium::UI::js_to_Font(static_cast<JSObject>(js_font));
+			set_font(Titanium::UI::js_to_Font(static_cast<JSObject>(js_font)));
 			return true;
 		}
 
