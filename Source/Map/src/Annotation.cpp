@@ -62,7 +62,7 @@ namespace TitaniumWindows
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			BasicGeoposition bgp = { get_latitude(), get_longitude() };
 			MapControl::SetLocation(mapicon__, ref new Geopoint(bgp));
-			MapControl::SetNormalizedAnchorPoint(mapicon__, Windows::Foundation::Point(0.5, 0.5)); // middle is anchor
+			MapControl::SetNormalizedAnchorPoint(mapicon__, Windows::Foundation::Point(0.5, 1.0)); // middle is anchor
 #endif
 		}
 
@@ -80,6 +80,15 @@ namespace TitaniumWindows
 			TITANIUM_LOG_DEBUG("Annotation::ctor Initialize");
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			mapicon__ = ref new Windows::UI::Xaml::Controls::Grid();
+
+			// Draw pin
+			pin__ = ref new Windows::UI::Xaml::Shapes::Line();
+			pin__->Stroke = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Black);
+			pin__->StrokeThickness = 3;
+			pin__->Y2 = -20;
+			pin__->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Center;
+			pin__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Bottom;
+			mapicon__->Children->Append(pin__);
 
 			// Draw circle
 			icon__ = ref new Windows::UI::Xaml::Shapes::Ellipse();

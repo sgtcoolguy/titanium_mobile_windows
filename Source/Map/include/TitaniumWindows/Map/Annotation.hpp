@@ -57,6 +57,7 @@ namespace TitaniumWindows
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			Windows::UI::Xaml::Controls::Grid^ mapicon__ = { nullptr };
 
+			Windows::UI::Xaml::Shapes::Line^ pin__ = { nullptr };
 			Windows::UI::Xaml::Shapes::Ellipse^ icon__ = { nullptr };
 			Windows::UI::Xaml::Controls::TextBlock^ text__ = { nullptr };
 #endif
