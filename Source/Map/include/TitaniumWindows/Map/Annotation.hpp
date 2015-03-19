@@ -26,9 +26,10 @@ namespace TitaniumWindows
 		{
 		public:
 
-			virtual void set_latitude(const double& latitude)   TITANIUM_NOEXCEPT override;
-			virtual void set_longitude(const double& longitude) TITANIUM_NOEXCEPT override;
-			virtual void set_title(const std::string& title)    TITANIUM_NOEXCEPT override;
+			virtual void set_latitude(const double& latitude)   TITANIUM_NOEXCEPT override final;
+			virtual void set_longitude(const double& longitude) TITANIUM_NOEXCEPT override final;
+			virtual void set_pincolor(const Titanium::Map::ANNOTATION_COLOR& pincolor) TITANIUM_NOEXCEPT override final;
+			virtual void set_title(const std::string& title)    TITANIUM_NOEXCEPT override final;
 
 			void updateGeoLocation();
 
