@@ -1243,7 +1243,7 @@ namespace Titanium
 
 	JSValue UIModule::js_createEmailDialog(const std::vector<JSValue>& arguments, JSObject& this_object)
 	{
-		JSObject parameters = get_context().CreateObject();
+		JSObject parameters = this_object.get_context().CreateObject();
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());

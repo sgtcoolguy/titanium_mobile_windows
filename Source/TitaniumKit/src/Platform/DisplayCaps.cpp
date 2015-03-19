@@ -69,57 +69,57 @@ namespace Titanium
 		{
 			return get_context().CreateString(density());
 		}
-		JSValue DisplayCaps::js_getDensity(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+		JSValue DisplayCaps::js_getDensity(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
-			return js_get_density();
+			return this_object.get_context().CreateString(density());
 		}
 		JSValue DisplayCaps::js_get_dpi() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(dpi());
 		}
-		JSValue DisplayCaps::js_getDpi(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+		JSValue DisplayCaps::js_getDpi(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
-			return js_get_dpi();
+			return this_object.get_context().CreateNumber(dpi());
 		}
 		JSValue DisplayCaps::js_get_logicalDensityFactor() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(logicalDensityFactor());
 		}
-		JSValue DisplayCaps::js_getLogicalDensityFactor(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+		JSValue DisplayCaps::js_getLogicalDensityFactor(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
-			return js_get_logicalDensityFactor();
+			return this_object.get_context().CreateNumber(logicalDensityFactor());
 		}
 		JSValue DisplayCaps::js_get_platformHeight() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(platformHeight());
 		}
-		JSValue DisplayCaps::js_getPlatformHeight(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+		JSValue DisplayCaps::js_getPlatformHeight(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
-			return js_get_platformHeight();
+			return this_object.get_context().CreateNumber(platformHeight());
 		}
 		JSValue DisplayCaps::js_get_platformWidth() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(platformWidth());
 		}
-		JSValue DisplayCaps::js_getPlatformWidth(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+		JSValue DisplayCaps::js_getPlatformWidth(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
-			return js_get_platformWidth();
+			return this_object.get_context().CreateNumber(platformWidth());
 		}
 		JSValue DisplayCaps::js_get_xdpi() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(xdpi());
 		}
-		JSValue DisplayCaps::js_getXdpi(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+		JSValue DisplayCaps::js_getXdpi(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
-			return js_get_xdpi();
+			return this_object.get_context().CreateNumber(xdpi());
 		}
 		JSValue DisplayCaps::js_get_ydpi() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(ydpi());
 		}
-		JSValue DisplayCaps::js_getYdpi(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+		JSValue DisplayCaps::js_getYdpi(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
 		{
-			return js_get_ydpi();
+			return this_object.get_context().CreateNumber(ydpi());
 		}
 	} // namespace Platform
 }  // namespace Titanium

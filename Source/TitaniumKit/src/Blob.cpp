@@ -61,7 +61,7 @@ namespace Titanium
 
 	uint32_t Blob::get_length() const TITANIUM_NOEXCEPT
 	{
-		return data_.size();
+		return static_cast<uint32_t>(data_.size());
 	}
 
 	File_shared_ptr_t Blob::get_file() const TITANIUM_NOEXCEPT

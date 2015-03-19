@@ -34,7 +34,7 @@ namespace TitaniumWindows
 		static void JSExportInitialize();
 
 		virtual bool isExternalStoragePresent() TITANIUM_NOEXCEPT;
-		virtual JSValue openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT;
+		virtual std::shared_ptr<Titanium::Filesystem::FileStream> openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT;
 
 		virtual std::string separator() const TITANIUM_NOEXCEPT;
 		virtual std::string applicationCacheDirectory() const TITANIUM_NOEXCEPT;

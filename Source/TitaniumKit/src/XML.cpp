@@ -52,12 +52,24 @@ this.exports.serializeToString = function(_xml) {
 		JSExport<XML>::AddFunctionProperty("serializeToString", std::mem_fn(&XML::js_serializeToString));
 	}
 
-	bool XML::loadJS(const JSContext& js_context) {
+
+	JSObject XML::GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT
+	{
+		JSValue Titanium_property = js_context.get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue Object_property = Titanium.GetProperty("XML");
+		TITANIUM_ASSERT(Object_property.IsObject());  // precondition
+		return static_cast<JSObject>(Object_property);
+	}
+
+	bool XML::loadJS() {
 		if (func_parseString__.IsFunction() && func_serializeToString__.IsFunction()) {
 			return true;
 		}
 
-		ti_xml__ = js_context.CreateObject();
+		ti_xml__ = get_context().CreateObject();
 
 		get_context().JSEvaluateScript(sax_js, ti_xml__);
 		get_context().JSEvaluateScript(dom_js, ti_xml__);
@@ -82,13 +94,26 @@ this.exports.serializeToString = function(_xml) {
 		return false;
 	}
 
+	JSObject XML::getParseStringFunction() const TITANIUM_NOEXCEPT
+	{
+		return func_parseString__;
+	}
+
+	JSObject XML::getSerializeToStringFunction() const TITANIUM_NOEXCEPT
+	{
+		return func_serializeToString__;
+	}
+
 	JSValue XML::js_parseString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<XML>();
+
 		// lazy loading
-		const auto loaded = loadJS(this_object.get_context());
+		const auto loaded = object_ptr->loadJS();
 
 		if (loaded && arguments.size() > 0) {
-			return func_parseString__(arguments, ti_xml__);
+			return object_ptr->getParseStringFunction()(arguments, ti_xml__);
 		} else {
 			TITANIUM_LOG_ERROR("Failed to execute XML.parseString");
 			return get_context().CreateNull();
@@ -97,11 +122,14 @@ this.exports.serializeToString = function(_xml) {
 
 	JSValue XML::js_serializeToString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<XML>();
+
 		// lazy loading
-		const auto loaded = loadJS(this_object.get_context());
+		const auto loaded = object_ptr->loadJS();
 
 		if (loaded && arguments.size() > 0) {
-			return func_serializeToString__(arguments, ti_xml__);
+			return object_ptr->getSerializeToStringFunction()(arguments, ti_xml__);
 		} else {
 			TITANIUM_LOG_ERROR("Failed to execute XML.serializeToString");
 			return get_context().CreateNull();
