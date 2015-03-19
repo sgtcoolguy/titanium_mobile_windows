@@ -144,6 +144,11 @@ namespace TitaniumWindows
 				header->Content = headerText;
 				group->Append(header);
 
+				// Create ListViewItem header placeholder to keep index mapping valid
+				auto header_item = ref new ListViewItem();
+				header_item->isHeader = true;
+				tableViewItems__->Append(header_item);
+
 				sections__.push_back(section);
 
 				for (uint32_t i=0;i<rows.size();i++) {
@@ -159,7 +164,7 @@ namespace TitaniumWindows
 					auto item = ref new ListViewItem();
 					item->View = rowContent;
 					item->ItemIndex = i;
-					item->SectionIndex = get_sectionCount();
+					item->SectionIndex = get_sectionCount()-1;
 					tableViewItems__->Append(item);
 
 					// Add as child view to make layout engine work
@@ -221,10 +226,14 @@ namespace TitaniumWindows
 
 					TITANIUM_ASSERT((listview->SelectedIndex < 0) || (static_cast<unsigned int>(listview->SelectedIndex) < tableViewItems__->Size));
 					auto listViewItem = tableViewItems__->GetAt(listview->SelectedIndex);
+					if (listViewItem->isHeader) return;
+
+					auto sindex = listViewItem->SectionIndex;
 
 					JSObject  eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("section", sections__[listViewItem->SectionIndex]->get_object());
+					eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(listViewItem->SectionIndex));
 					eventArgs.SetProperty("index", ctx.CreateNumber(listViewItem->ItemIndex));
+					eventArgs.SetProperty("row", sections__[listViewItem->SectionIndex]->get_rows().at(listViewItem->ItemIndex)->get_object());
 
 					this->fireEvent("click", eventArgs);
 				});

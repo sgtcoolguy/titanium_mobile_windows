@@ -66,6 +66,7 @@ namespace TitaniumWindows
 
 					TITANIUM_ASSERT((listview->SelectedIndex < 0) || (static_cast<unsigned int>(listview->SelectedIndex) < listViewItems__->Size));
 					auto listViewItem = listViewItems__->GetAt(listview->SelectedIndex);
+					if (listViewItem->isHeader) return;
 
 					JSObject  eventArgs = ctx.CreateObject();
 					eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(listViewItem->SectionIndex));
@@ -103,6 +104,11 @@ namespace TitaniumWindows
 				headerText->FontSize = 28; // Change this?
 				header->Content = headerText;
 				group->Append(header);
+
+				// Create ListViewItem header placeholder to keep index mapping valid
+				auto header_item = ref new ListViewItem();
+				header_item->isHeader = true;
+				listViewItems__->Append(header_item);
 
 				for (uint32_t itemIndex = 0; itemIndex < views.size(); itemIndex++) {
 					auto view = views.at(itemIndex);
