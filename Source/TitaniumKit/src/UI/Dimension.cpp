@@ -18,16 +18,16 @@ namespace Titanium
 		{
 			Dimension dimension;
 			if (object.HasProperty("x")) {
-				dimension.x = static_cast<double>(object.GetProperty("x"));
+				dimension.x = static_cast<int32_t>(object.GetProperty("x"));
 			}
 			if (object.HasProperty("y")) {
-				dimension.y = static_cast<double>(object.GetProperty("y"));
+				dimension.y = static_cast<int32_t>(object.GetProperty("y"));
 			}
 			if (object.HasProperty("width")) {
-				dimension.width = static_cast<double>(object.GetProperty("width"));
+				dimension.width = static_cast<uint32_t>(object.GetProperty("width"));
 			}
 			if (object.HasProperty("height")) {
-				dimension.height = static_cast<double>(object.GetProperty("height"));
+				dimension.height = static_cast<uint32_t>(object.GetProperty("height"));
 			}
 			return dimension;
 		};
