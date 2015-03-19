@@ -29,62 +29,62 @@ namespace Titanium
 	{
 
 	public:
-		virtual JSValue HYBRID_TYPE() const TITANIUM_NOEXCEPT;
-		virtual JSValue SATELLITE_TYPE() const TITANIUM_NOEXCEPT;
-		virtual JSValue NORMAL_TYPE() const TITANIUM_NOEXCEPT;
-		virtual JSValue TERRAIN_TYPE() const TITANIUM_NOEXCEPT;
+		virtual JSValue HYBRID_TYPE() const TITANIUM_NOEXCEPT final;
+		virtual JSValue SATELLITE_TYPE() const TITANIUM_NOEXCEPT final;
+		virtual JSValue NORMAL_TYPE() const TITANIUM_NOEXCEPT final;
+		virtual JSValue TERRAIN_TYPE() const TITANIUM_NOEXCEPT final;
 
-		virtual JSValue ANNOTATION_DRAG_STATE_END() const TITANIUM_NOEXCEPT;
-		virtual JSValue ANNOTATION_DRAG_STATE_START() const TITANIUM_NOEXCEPT;
+		virtual JSValue ANNOTATION_DRAG_STATE_END() const TITANIUM_NOEXCEPT final;
+		virtual JSValue ANNOTATION_DRAG_STATE_START() const TITANIUM_NOEXCEPT final;
 
-		virtual JSValue ANNOTATION_AZURE() const TITANIUM_NOEXCEPT;
-		virtual JSValue ANNOTATION_BLUE() const TITANIUM_NOEXCEPT;
-		virtual JSValue ANNOTATION_CYAN() const TITANIUM_NOEXCEPT;
-		virtual JSValue ANNOTATION_GREEN() const TITANIUM_NOEXCEPT;
-		virtual JSValue ANNOTATION_MAGENTA() const TITANIUM_NOEXCEPT;
-		virtual JSValue ANNOTATION_ORANGE() const TITANIUM_NOEXCEPT;
-		virtual JSValue ANNOTATION_PURPLE() const TITANIUM_NOEXCEPT;
-		virtual JSValue ANNOTATION_RED() const TITANIUM_NOEXCEPT;	
-		virtual JSValue ANNOTATION_ROSE() const TITANIUM_NOEXCEPT;
-		virtual JSValue ANNOTATION_VIOLET() const TITANIUM_NOEXCEPT;
-		virtual JSValue ANNOTATION_YELLOW() const TITANIUM_NOEXCEPT;
+		virtual JSValue ANNOTATION_AZURE() const TITANIUM_NOEXCEPT final;
+		virtual JSValue ANNOTATION_BLUE() const TITANIUM_NOEXCEPT final;
+		virtual JSValue ANNOTATION_CYAN() const TITANIUM_NOEXCEPT final;
+		virtual JSValue ANNOTATION_GREEN() const TITANIUM_NOEXCEPT final;
+		virtual JSValue ANNOTATION_MAGENTA() const TITANIUM_NOEXCEPT final;
+		virtual JSValue ANNOTATION_ORANGE() const TITANIUM_NOEXCEPT final;
+		virtual JSValue ANNOTATION_PURPLE() const TITANIUM_NOEXCEPT final;
+		virtual JSValue ANNOTATION_RED() const TITANIUM_NOEXCEPT final;	
+		virtual JSValue ANNOTATION_ROSE() const TITANIUM_NOEXCEPT final;
+		virtual JSValue ANNOTATION_VIOLET() const TITANIUM_NOEXCEPT final;
+		virtual JSValue ANNOTATION_YELLOW() const TITANIUM_NOEXCEPT final;
 
-		virtual JSValue OVERLAY_LEVEL_ABOVE_LABELS() const TITANIUM_NOEXCEPT;
-		virtual JSValue OVERLAY_LEVEL_ABOVE_ROADS() const TITANIUM_NOEXCEPT;
+		virtual JSValue OVERLAY_LEVEL_ABOVE_LABELS() const TITANIUM_NOEXCEPT final;
+		virtual JSValue OVERLAY_LEVEL_ABOVE_ROADS() const TITANIUM_NOEXCEPT final;
 
-		virtual JSValue SERVICE_DISABLED() const TITANIUM_NOEXCEPT;
-		virtual JSValue SERVICE_INVALID() const TITANIUM_NOEXCEPT;
-		virtual JSValue SERVICE_MISSING() const TITANIUM_NOEXCEPT;
-		virtual JSValue SERVICE_VERSION_UPDATE_REQUIRED() const TITANIUM_NOEXCEPT;
-		virtual JSValue SUCCESS() const TITANIUM_NOEXCEPT;
+		virtual JSValue SERVICE_DISABLED() const TITANIUM_NOEXCEPT final;
+		virtual JSValue SERVICE_INVALID() const TITANIUM_NOEXCEPT final;
+		virtual JSValue SERVICE_MISSING() const TITANIUM_NOEXCEPT final;
+		virtual JSValue SERVICE_VERSION_UPDATE_REQUIRED() const TITANIUM_NOEXCEPT final;
+		virtual JSValue SUCCESS() const TITANIUM_NOEXCEPT final;
 
 		/*!
 		  @method
 		  @abstract createAnnotation
 		  @discussion Creates and returns an instance of <Titanium.Map.Annotation>.
 		*/
-		JSValue createAnnotation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+		JSObject createAnnotation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
 		  @abstract createCamera
 		  @discussion Creates and returns an instance of <Titanium.Map.Camera>.
 		*/
-		JSValue createCamera(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+		JSObject createCamera(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
 		  @abstract createRoute
 		  @discussion Creates and returns an instance of <Titanium.Map.Route>.
 		*/
-		JSValue createRoute(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+		JSObject createRoute(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
 		  @abstract createMapView
 		  @discussion Creates and returns an instance of <Titanium.Map.View>.
 		*/
-		JSValue createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+		JSObject createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method

@@ -16,7 +16,6 @@ namespace Titanium
 		    : View(js_context),
 		      color__(js_context.CreateString()),
 		      ellipsize__(false),
-		      font__(js_context.CreateObject()),
 		      text__(js_context.CreateString()),
 		      textAlign__(TEXT_ALIGNMENT::LEFT),
 		      verticalAlign__(TEXT_VERTICAL_ALIGNMENT::CENTER),
@@ -84,34 +83,14 @@ namespace Titanium
 			ellipsize__ = ellipsize;
 		}
 
-		JSValue Label::get_font() const TITANIUM_NOEXCEPT
+		Font Label::get_font() const TITANIUM_NOEXCEPT
 		{
 			return font__;
 		}
 
-		void Label::set_fontFamily(const std::string& family) TITANIUM_NOEXCEPT
+		void Label::set_font(const Font font) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Label::set_fontFamily: Unimplemented");
-		}
-
-		void Label::set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Label::set_fontSize: Unimplemented");
-		}
-
-		void Label::set_fontStyle(const std::string& style) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Label::set_fontStyle: Unimplemented");
-		}
-
-		void Label::set_fontWeight(const std::string& weight) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Label::set_fontWeight: Unimplemented");
-		}
-
-		void Label::set_textStyle(const TEXT_STYLE& textStyle) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Label::set_textStyle: Unimplemented");
+			font__ = font;
 		}
 
 		void Label::JSExportInitialize()
@@ -168,50 +147,14 @@ namespace Titanium
 
 		JSValue Label::js_get_font() const TITANIUM_NOEXCEPT
 		{
-			return get_font();
+			JSObject font = Titanium::UI::Font_to_js(get_context(), get_font());
+			return static_cast<JSValue>(font);
 		}
 
-		bool Label::js_set_font(const JSValue& font) TITANIUM_NOEXCEPT
+		bool Label::js_set_font(const JSValue& js_font) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(font.IsObject());
-			// FIXME Should we save the individual values? We're not making a copy of the object here!
-			font__ = static_cast<JSObject>(font);
-
-			// Number/String
-			if (font__.HasProperty("fontSize")) {
-				const auto font_size = font__.GetProperty("fontSize");
-				TITANIUM_ASSERT(font_size.IsString() || font_size.IsNumber());
-				set_fontSize(font_size);
-			}
-
-			// bold or normal
-			if (font__.HasProperty("fontWeight")) {
-				const auto font_weight = font__.GetProperty("fontWeight");
-				TITANIUM_ASSERT(font_weight.IsString());
-				set_fontWeight(static_cast<std::string>(font_weight));
-			}
-
-			// italic or normal
-			if (font__.HasProperty("fontStyle")) {
-				const auto font_style = font__.GetProperty("fontStyle");
-				TITANIUM_ASSERT(font_style.IsString());
-				set_fontFamily(static_cast<std::string>(font_style));
-			}
-
-			// String
-			if (font__.HasProperty("fontFamily")) {
-				const auto font_family = font__.GetProperty("fontFamily");
-				TITANIUM_ASSERT(font_family.IsString());
-				set_fontFamily(static_cast<std::string>(font_family));
-			}
-
-			// String Titanium::UI::TEXT_STYLE constants
-			if (font__.HasProperty("textStyle")) {
-				const auto font_text_style = font__.GetProperty("textStyle");
-				TITANIUM_ASSERT(font_text_style.IsString());
-				set_textStyle(Constants::to_TEXT_STYLE(static_cast<std::string>(font_text_style)));
-			}
-
+			TITANIUM_ASSERT(js_font.IsObject());
+			set_font(Titanium::UI::js_to_Font(static_cast<JSObject>(js_font)));
 			return true;
 		}
 

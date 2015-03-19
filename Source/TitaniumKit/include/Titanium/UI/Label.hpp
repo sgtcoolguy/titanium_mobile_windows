@@ -11,6 +11,7 @@
 
 #include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/View.hpp"
+#include "Titanium/UI/Font.hpp"
 
 namespace Titanium
 {
@@ -57,12 +58,8 @@ namespace Titanium
 
 			  @discussion Font to use for the label text.
 			*/
-			virtual JSValue get_font() const TITANIUM_NOEXCEPT final;
-			virtual void set_fontFamily(const std::string& family) TITANIUM_NOEXCEPT;
-			virtual void set_fontSize(const JSValue& size) TITANIUM_NOEXCEPT;
-			virtual void set_fontStyle(const std::string& style) TITANIUM_NOEXCEPT;
-			virtual void set_fontWeight(const std::string& weight) TITANIUM_NOEXCEPT;
-			virtual void set_textStyle(const TEXT_STYLE& style) TITANIUM_NOEXCEPT;
+			virtual Font get_font() const TITANIUM_NOEXCEPT final;
+			virtual void set_font(const Font font) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -158,7 +155,7 @@ namespace Titanium
 #pragma warning(disable : 4251)
 			std::string color__;
 			bool ellipsize__;
-			JSObject font__;
+			Font font__;
 			std::string text__;
 			TEXT_ALIGNMENT textAlign__;
 			TEXT_VERTICAL_ALIGNMENT verticalAlign__;

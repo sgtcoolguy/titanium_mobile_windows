@@ -164,7 +164,7 @@ namespace Titanium
 		return success__;
 	}
 
-	JSValue MapModule::createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSObject MapModule::createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("Map::createView");
 
@@ -185,7 +185,7 @@ namespace Titanium
 		return mapView;
 	}
 
-	JSValue MapModule::createAnnotation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSObject MapModule::createAnnotation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("Map::createAnnotation");
 
@@ -206,7 +206,7 @@ namespace Titanium
 		return proxy;
 	}
 
-	JSValue MapModule::createRoute(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSObject MapModule::createRoute(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("Map::createRoute");
 
@@ -227,7 +227,7 @@ namespace Titanium
 		return proxy;
 	}
 
-	JSValue MapModule::createCamera(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	JSObject MapModule::createCamera(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("Map::createCamera");
 

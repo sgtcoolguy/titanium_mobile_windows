@@ -148,10 +148,22 @@ namespace TitaniumWindows
 			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 		}
 
+		void WindowsViewLayoutPolicy::set_minWidth(const std::string& width) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutPolicy::set_minWidth(width);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::MinWidth, width);
+		}
+
 		void WindowsViewLayoutPolicy::set_height(const std::string& height) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutPolicy::set_height(height);
 			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
+		}
+
+		void WindowsViewLayoutPolicy::set_minHeight(const std::string& height) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutPolicy::set_minHeight(height);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::MinHeight, height);
 		}
 
 		void WindowsViewLayoutPolicy::set_layout(const std::string& layout) TITANIUM_NOEXCEPT

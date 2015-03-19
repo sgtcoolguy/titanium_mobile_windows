@@ -189,6 +189,16 @@ namespace Titanium
 			width__ = width;
 		}
 
+		std::string ViewLayoutPolicy::get_minWidth() const TITANIUM_NOEXCEPT
+		{
+			return minWidth__;
+		}
+
+		void ViewLayoutPolicy::set_minWidth(const std::string& width) TITANIUM_NOEXCEPT
+		{
+			minWidth__ = width;
+		}
+
 		std::string ViewLayoutPolicy::get_height() const TITANIUM_NOEXCEPT
 		{
 			return height__;
@@ -197,6 +207,16 @@ namespace Titanium
 		void ViewLayoutPolicy::set_height(const std::string& height) TITANIUM_NOEXCEPT
 		{
 			height__ = height;
+		}
+
+		std::string ViewLayoutPolicy::get_minHeight() const TITANIUM_NOEXCEPT
+		{
+			return minHeight__;
+		}
+
+		void ViewLayoutPolicy::set_minHeight(const std::string& height) TITANIUM_NOEXCEPT
+		{
+			minHeight__ = height;
 		}
 
 		std::string ViewLayoutPolicy::get_layout() const TITANIUM_NOEXCEPT
