@@ -62,7 +62,7 @@ namespace TitaniumWindows
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			BasicGeoposition bgp = { get_latitude(), get_longitude() };
 			MapControl::SetLocation(mapicon__, ref new Geopoint(bgp));
-			MapControl::SetNormalizedAnchorPoint(mapicon__, Windows::Foundation::Point(0.5, 1.0)); // middle is anchor
+			MapControl::SetNormalizedAnchorPoint(mapicon__, Windows::Foundation::Point(0.5, 0.7));
 #endif
 		}
 
@@ -84,25 +84,28 @@ namespace TitaniumWindows
 			// Draw pin
 			pin__ = ref new Windows::UI::Xaml::Shapes::Line();
 			pin__->Stroke = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Black);
-			pin__->StrokeThickness = 3;
-			pin__->Y2 = -20;
+			pin__->StrokeThickness = 2;
+			pin__->X1 = 1;
+			pin__->X2 = pin__->X1;
+			pin__->Y1 = 20;
+			pin__->Y2 = 30;
 			pin__->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Center;
-			pin__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Bottom;
+			pin__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Center;
 			mapicon__->Children->Append(pin__);
 
 			// Draw circle
 			icon__ = ref new Windows::UI::Xaml::Shapes::Ellipse();
 			icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Red);
 			icon__->Stroke = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Black);
-			icon__->StrokeThickness = 2;
-			icon__->Width = 24;
-			icon__->Height = 24;
+			icon__->StrokeThickness = 1;
+			icon__->Width = 16;
+			icon__->Height = icon__->Width;
 			mapicon__->Children->Append(icon__);
 
 			// Draw text
 			text__ = ref new Windows::UI::Xaml::Controls::TextBlock();
 			text__->Text = Utility::ConvertUTF8String(get_title());
-			text__->FontSize = 16;
+			text__->FontSize = 14;
 			text__->FontWeight = Windows::UI::Text::FontWeights::Bold;
 			text__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Black);
 			text__->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Center;
