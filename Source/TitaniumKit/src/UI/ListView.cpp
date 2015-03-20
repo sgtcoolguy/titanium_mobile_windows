@@ -162,29 +162,29 @@ namespace Titanium
 			defaultItemTemplate__ = value;
 		}
 
-		void ListView::scrollToItem(uint32_t sectionIndex, uint32_t itemIndex, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListView::scrollToItem(uint32_t sectionIndex, uint32_t itemIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ListView::scrollToItem: Unimplemented");
 		}
 
-		void ListView::appendSection(const std::vector<ListSection_shared_ptr_t>& sections, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListView::appendSection(const std::vector<ListSection_shared_ptr_t>& sections, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			for (const auto section : sections) {
 				sections__.push_back(section);
 			}
 		}
 
-		void ListView::deleteSectionAt(uint32_t index, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListView::deleteSectionAt(uint32_t index, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			sections__.erase(sections__.begin()+index);
 		}
 
-		void ListView::insertSectionAt(uint32_t index, const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListView::insertSectionAt(uint32_t index, const std::vector<ListSection_shared_ptr_t>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			sections__.insert(sections__.begin() + index, section.begin(), section.end());
 		}
 
-		void ListView::replaceSectionAt(uint32_t index, const std::vector<ListSection_shared_ptr_t>& sections, const ListViewAnimationProperties& animationn) TITANIUM_NOEXCEPT
+		void ListView::replaceSectionAt(uint32_t index, const std::vector<ListSection_shared_ptr_t>& sections, const std::shared_ptr<ListViewAnimationProperties>& animationn) TITANIUM_NOEXCEPT
 		{
 			sections__.erase (sections__.begin() + index, sections__.begin() + index + sections.size());
 			sections__.insert(sections__.begin() + index, sections.begin(), sections.end());
@@ -411,8 +411,9 @@ namespace Titanium
 
 		JSValue ListView::js_scrollToItem(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
-				ListViewAnimationProperties animation;
+				JSObject animation = js_context.CreateObject();
 
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
@@ -425,11 +426,12 @@ namespace Titanium
 				if (arguments.size() >= 3) {
 					const auto _3 = arguments.at(2);
 					if (_3.IsObject()) {
-						animation = js_to_ListViewAnimationProperties(static_cast<JSObject>(_3));
+						auto listViewAnimationProperties = ListViewAnimationProperties::GetConstructor(js_context);
+						animation = listViewAnimationProperties.CallAsConstructor({_3});
 					}
 				}
 
-				scrollToItem(sectionIndex, itemIndex, animation);
+				scrollToItem(sectionIndex, itemIndex, animation.GetPrivate<ListViewAnimationProperties>());
 			}
 
 			return this_object.get_context().CreateUndefined();
@@ -437,8 +439,9 @@ namespace Titanium
 
 		JSValue ListView::js_appendSection(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
-				ListViewAnimationProperties animation;
+				JSObject animation = js_context.CreateObject();
 				std::vector<ListSection_shared_ptr_t> sections;
 
 				const auto _0 = arguments.at(0);
@@ -454,19 +457,21 @@ namespace Titanium
 				if (arguments.size() >= 3) {
 					const auto _3 = arguments.at(2);
 					if (_3.IsObject()) {
-						animation = js_to_ListViewAnimationProperties(static_cast<JSObject>(_3));
+						auto listViewAnimationProperties = ListViewAnimationProperties::GetConstructor(js_context);
+						animation = listViewAnimationProperties.CallAsConstructor({_3});
 					}
 				}
 
-				appendSection(sections, animation);
+				appendSection(sections, animation.GetPrivate<ListViewAnimationProperties>());
 			}
 			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue ListView::js_deleteSectionAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 1) {
-				ListViewAnimationProperties animation;
+				JSObject animation = js_context.CreateObject();
 
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
@@ -476,18 +481,20 @@ namespace Titanium
 				if (arguments.size() >= 2) {
 					const auto _2 = arguments.at(1);
 					if (_2.IsObject()) {
-						animation = js_to_ListViewAnimationProperties(static_cast<JSObject>(_2));
+						auto listViewAnimationProperties = ListViewAnimationProperties::GetConstructor(js_context);
+						animation = listViewAnimationProperties.CallAsConstructor({_2});
 					}
 				}
-				deleteSectionAt(sectionIndex, animation);
+				deleteSectionAt(sectionIndex, animation.GetPrivate<ListViewAnimationProperties>());
 			}
 			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue ListView::js_insertSectionAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
-				ListViewAnimationProperties animation;
+				JSObject animation = js_context.CreateObject();
 				std::vector<ListSection_shared_ptr_t> sections;
 
 				const auto _0 = arguments.at(0);
@@ -507,19 +514,21 @@ namespace Titanium
 				if (arguments.size() >= 3) {
 					const auto _3 = arguments.at(2);
 					if (_3.IsObject()) {
-						animation = js_to_ListViewAnimationProperties(static_cast<JSObject>(_3));
+						auto listViewAnimationProperties = ListViewAnimationProperties::GetConstructor(js_context);
+						animation = listViewAnimationProperties.CallAsConstructor({_3});
 					}
 				}
 
-				insertSectionAt(sectionIndex, sections, animation);
+				insertSectionAt(sectionIndex, sections, animation.GetPrivate<ListViewAnimationProperties>());
 			}
 			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue ListView::js_replaceSectionAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
-				ListViewAnimationProperties animation;
+				JSObject animation = js_context.CreateObject();
 				std::vector<ListSection_shared_ptr_t> sections;
 
 				const auto _0 = arguments.at(0);
@@ -539,11 +548,12 @@ namespace Titanium
 				if (arguments.size() >= 3) {
 					const auto _3 = arguments.at(2);
 					if (_3.IsObject()) {
-						animation = js_to_ListViewAnimationProperties(static_cast<JSObject>(_3));
+						auto listViewAnimationProperties = ListViewAnimationProperties::GetConstructor(js_context);
+						animation = listViewAnimationProperties.CallAsConstructor({_3});
 					}
 				}
 
-				replaceSectionAt(sectionIndex, sections, animation);
+				replaceSectionAt(sectionIndex, sections, animation.GetPrivate<ListViewAnimationProperties>());
 			}
 			return this_object.get_context().CreateUndefined();
 		}

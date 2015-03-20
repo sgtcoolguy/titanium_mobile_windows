@@ -105,7 +105,7 @@ namespace Titanium
 
 		uint32_t TableView::get_sectionCount() const TITANIUM_NOEXCEPT
     	{
-			return sections__.size();
+			return static_cast<uint32_t>(sections__.size());
 		}
 
 		std::string TableView::get_separatorColor() const TITANIUM_NOEXCEPT

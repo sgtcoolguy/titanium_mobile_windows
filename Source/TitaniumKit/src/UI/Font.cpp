@@ -50,7 +50,7 @@ namespace Titanium
 			return font;
 		};
 
-		JSObject Font_to_js(const JSContext& js_context, Font font)
+		JSObject Font_to_js(const JSContext& js_context, const Font& font)
 		{
 			auto object = js_context.CreateObject();
 			object.SetProperty("fontFamily", js_context.CreateString(font.fontFamily));

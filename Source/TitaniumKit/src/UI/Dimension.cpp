@@ -10,7 +10,7 @@
 
 namespace Titanium
 {
-	namespace Titanium
+	namespace UI
 	{
 		using namespace HAL;
 
@@ -31,5 +31,15 @@ namespace Titanium
 			}
 			return dimension;
 		};
+
+		JSObject Dimension_to_js(const JSContext& js_context, const Dimension& dimension)
+		{
+			auto object = js_context.CreateObject();
+			object.SetProperty("x",  js_context.CreateNumber(static_cast<double>(dimension.x)));
+			object.SetProperty("y",  js_context.CreateNumber(static_cast<double>(dimension.y)));
+			object.SetProperty("width",   js_context.CreateNumber(static_cast<double>(dimension.width)));
+			object.SetProperty("height",  js_context.CreateNumber(static_cast<double>(dimension.height)));
+			return object;
+		}
 	} // namespace UI
 } // namespace Titanium

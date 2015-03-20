@@ -24,7 +24,6 @@ namespace Titanium
 		      navTintColor__(""),
 		      orientationModes__(),
 		      theme__(""),
-		      titleAttributes__(js_context.CreateObject()),
 		      translucent__(false)
 		{
 			TITANIUM_LOG_DEBUG("Window:: ctor ", this);
@@ -35,12 +34,12 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("Window:: dtor ", this);
 		}
 
-		void Window::close(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT
+		void Window::close(const std::shared_ptr<CloseWindowParams>& params) const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Window::close: Unimplemented");
 		}
 
-		void Window::open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT
+		void Window::open(const std::shared_ptr<OpenWindowParams>& params) const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Window::open: Unimplemented");
 		}
@@ -141,12 +140,12 @@ namespace Titanium
 			theme__ = theme;
 		}
 
-		JSObject Window::get_titleAttributes() const TITANIUM_NOEXCEPT
+		TitleAttributesParams Window::get_titleAttributes() const TITANIUM_NOEXCEPT
 		{
 			return titleAttributes__;
 		}
 
-		void Window::set_titleAttributes(const JSObject& titleAttributes) TITANIUM_NOEXCEPT
+		void Window::set_titleAttributes(const TitleAttributesParams& titleAttributes) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Window::set_titleAttributes: Unimplemented");
 			titleAttributes__ = titleAttributes;
@@ -194,25 +193,34 @@ namespace Titanium
 
 		JSValue Window::js_close(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			JSObject params = get_context().CreateObject();
+			auto js_context = this_object.get_context();
+			auto params = js_context.CreateObject();
 			if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
-				params = static_cast<JSObject>(_0);
+
+				auto closeParams = CloseWindowParams::GetConstructor(js_context);
+				params = closeParams.CallAsConstructor({_0});
 			}
-			close(params, this_object);
+
+
+			close(params.GetPrivate<CloseWindowParams>());
 			return get_context().CreateUndefined();
 		}
 
 		JSValue Window::js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			JSObject params = get_context().CreateObject();
+			auto js_context = this_object.get_context();
+			auto params = js_context.CreateObject();
 			if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
-				params = static_cast<JSObject>(_0);
+
+				auto openParams = OpenWindowParams::GetConstructor(js_context);
+				params = openParams.CallAsConstructor({_0});
 			}
-			open(params, this_object);
+
+			open(params.GetPrivate<OpenWindowParams>());
 			return get_context().CreateUndefined();
 		}
 
@@ -352,13 +360,13 @@ namespace Titanium
 
 		JSValue Window::js_get_titleAttributes() const TITANIUM_NOEXCEPT
 		{
-			return titleAttributes__;
+			return TitleAttributesParams_to_js(get_context(), titleAttributes__);
 		}
 
 		bool Window::js_set_titleAttributes(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsObject());
-			set_titleAttributes(static_cast<JSObject>(argument));
+			set_titleAttributes(js_to_TitleAttributesParams(static_cast<JSObject>(argument)));
 			return true;
 		}
 

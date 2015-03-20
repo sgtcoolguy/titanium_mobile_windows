@@ -34,6 +34,9 @@ namespace Titanium
 		JSObject ListSectionObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ListSectionObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject ListViewAnimationPropertiesObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& ListViewAnimationPropertiesObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject AppObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& AppObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -60,6 +63,12 @@ namespace Titanium
 
 		JSObject WindowObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& WindowObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject OpenWindowParamsObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& OpenWindowParamsObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject CloseWindowParamsObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& CloseWindowParamsObject(const JSObject&) TITANIUM_NOEXCEPT;
 
 		JSObject ButtonObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ButtonObject(const JSObject&) TITANIUM_NOEXCEPT;
@@ -164,11 +173,14 @@ namespace Titanium
 		JSObject animation__;
 		JSObject listsection__;
 		JSObject listview__;
+		JSObject listviewAnimationProperties__;
 		JSObject emaildialog__;
 		JSObject properties__;
 		JSObject app__;
 		JSObject analytics__;
 		JSObject window__;
+		JSObject openWindowParams__;
+		JSObject closeWindowParams__;
 		JSObject button__;
 		JSObject alertDialog__;
 		JSObject imageview__;

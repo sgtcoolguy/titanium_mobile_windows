@@ -155,35 +155,35 @@ namespace Titanium
 			  @abstract scrollToItem
 			  @discussion Scrolls to a specific item.
 			*/
-			virtual void scrollToItem(uint32_t sectionIndex, uint32_t itemIndex, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void scrollToItem(uint32_t sectionIndex, uint32_t itemIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract appendSection
 			  @discussion Appends a single section or an array of sections to the end of the list.
 			*/
-			virtual void appendSection(const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void appendSection(const std::vector<ListSection_shared_ptr_t>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract deleteSectionAt
 			  @discussion Deletes an existing section.
 			*/
-			virtual void deleteSectionAt(uint32_t sectionIndex, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void deleteSectionAt(uint32_t sectionIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertSectionAt
 			  @discussion Inserts a section or an array of sections at a specific index.
 			*/
-			virtual void insertSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract replaceSectionAt
 			  @discussion Replaces an existing section.
 			*/
-			virtual void replaceSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void replaceSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method

@@ -1,13 +1,13 @@
 /**
- * TitaniumKit ListViewAnimationProperties
+ * TitaniumKit CloseWindowParams
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUM_UI_LISTVIEWANIMATIONPROPERTIES_HPP_
-#define _TITANIUM_UI_LISTVIEWANIMATIONPROPERTIES_HPP_
+#ifndef _TITANIUM_UI_CLOSEWINDOWPARAMS_HPP_
+#define _TITANIUM_UI_CLOSEWINDOWPARAMS_HPP_
 
 #include "Titanium/detail/TiBase.hpp"
 #include "Titanium/Module.hpp"
@@ -20,11 +20,11 @@ namespace Titanium
 
 		/*!
 		  @struct
-		  @discussion This is the ListViewAnimationProperties.
+		  @discussion This is the CloseWindowParams.
 		  Extend this struct to implement platform-specific properties like animation style.
-		  See http://docs.appcelerator.com/titanium/latest/#!/api/ListViewAnimationProperties
+		  See http://docs.appcelerator.com/titanium/latest/#!/api/CloseWindowParams
 		*/
-		class TITANIUMKIT_EXPORT ListViewAnimationProperties : public Module, public JSExport<ListViewAnimationProperties>
+		class TITANIUMKIT_EXPORT CloseWindowParams : public Module, public JSExport<CloseWindowParams>
 		{
 		public:
 			virtual bool get_animated() const TITANIUM_NOEXCEPT;
@@ -32,14 +32,14 @@ namespace Titanium
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments);
 
-			ListViewAnimationProperties(const JSContext&) TITANIUM_NOEXCEPT;
+			CloseWindowParams(const JSContext&) TITANIUM_NOEXCEPT;
 			
-			virtual ~ListViewAnimationProperties() = default;
-			ListViewAnimationProperties(const ListViewAnimationProperties&) = default;
-			ListViewAnimationProperties& operator=(const ListViewAnimationProperties&) = default;
+			virtual ~CloseWindowParams() = default;
+			CloseWindowParams(const CloseWindowParams&) = default;
+			CloseWindowParams& operator=(const CloseWindowParams&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-			ListViewAnimationProperties(ListViewAnimationProperties&&) = default;
-			ListViewAnimationProperties& operator=(ListViewAnimationProperties&&) = default;
+			CloseWindowParams(CloseWindowParams&&) = default;
+			CloseWindowParams& operator=(CloseWindowParams&&) = default;
 #endif
 			
 			static void JSExportInitialize();
@@ -50,4 +50,4 @@ namespace Titanium
 		
 	} // namespace UI
 } // namespace Titanium
-#endif // _TITANIUM_UI_LISTVIEWANIMATIONPROPERTIES_HPP_
+#endif // _TITANIUM_UI_CLOSEWINDOWPARAMS_HPP_

@@ -34,7 +34,7 @@ namespace Titanium
 		};
 		
 		Font js_to_Font(const JSObject& object);
-		JSObject Font_to_js(const JSContext& js_context, Font font);
+		JSObject Font_to_js(const JSContext& js_context, const Font& font);
 		
 	} // namespace UI
 } // namespace Titanium

@@ -37,8 +37,8 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT Window final : public Titanium::UI::Window, public JSExport<Window>
 		{
 		public:
-			virtual void close(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT override final;
-			virtual void open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT override final;
+			virtual void close(const std::shared_ptr<Titanium::UI::CloseWindowParams>&) const TITANIUM_NOEXCEPT override final;
+			virtual void open(const std::shared_ptr<Titanium::UI::OpenWindowParams>&) const TITANIUM_NOEXCEPT override final;
 
 			Window(const JSContext&) TITANIUM_NOEXCEPT;
 
