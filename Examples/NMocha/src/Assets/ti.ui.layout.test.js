@@ -18,6 +18,7 @@ function createWindow(_args, _finish) {
             Ti.API.info("Finishing test");
             _finish();
         }, 500);
+        Ti.API.info("Registered callback on setTimeout");
     });
     return win;
 }
