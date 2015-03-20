@@ -52,6 +52,9 @@ namespace Titanium
 		JSObject UtilsObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& UtilsObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject SwitchObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& SwitchObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject ViewObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -156,6 +159,7 @@ namespace Titanium
 		JSObject ti__;
 		JSObject api__;
 		JSObject view__;
+		JSObject switch__;
 		JSObject utils__;
 		JSObject animation__;
 		JSObject listsection__;

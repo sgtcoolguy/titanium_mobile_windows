@@ -304,6 +304,27 @@ namespace Titanium
 		return slider;
 	}
 
+	JSObject UIModule::createSwitch(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("UI::createSwitch");
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+		JSObject UI = static_cast<JSObject>(UI_property);
+
+		JSValue Switch_property = UI.GetProperty("Switch");
+		TITANIUM_ASSERT(Switch_property.IsObject());  // precondition
+		JSObject Switch = static_cast<JSObject>(Switch_property);
+
+		auto switch_ = Switch.CallAsConstructor(parameters);
+		Titanium::applyProperties(switch_, parameters);
+		return switch_;
+	}
+
 	JSObject UIModule::createTab(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_DEBUG("UI::createTab");
@@ -1100,6 +1121,7 @@ namespace Titanium
 		JSExport<UIModule>::AddFunctionProperty("createLabel", std::mem_fn(&UIModule::js_createLabel));
 		JSExport<UIModule>::AddFunctionProperty("createScrollView", std::mem_fn(&UIModule::js_createScrollView));
 		JSExport<UIModule>::AddFunctionProperty("createSlider", std::mem_fn(&UIModule::js_createSlider));
+		JSExport<UIModule>::AddFunctionProperty("createSwitch", std::mem_fn(&UIModule::js_createSwitch));
 		JSExport<UIModule>::AddFunctionProperty("createTab", std::mem_fn(&UIModule::js_createTab));
 		JSExport<UIModule>::AddFunctionProperty("createTabGroup", std::mem_fn(&UIModule::js_createTabGroup));
 		JSExport<UIModule>::AddFunctionProperty("createTextField", std::mem_fn(&UIModule::js_createTextField));
@@ -1294,6 +1316,17 @@ namespace Titanium
 			parameters = static_cast<JSObject>(_0);
 		}
 		return createSlider(parameters, this_object);
+	}
+
+	JSValue UIModule::js_createSwitch(const std::vector<JSValue>& arguments, JSObject& this_object)
+	{
+		JSObject parameters = this_object.get_context().CreateObject();
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			parameters = static_cast<JSObject>(_0);
+		}
+		return createSwitch(parameters, this_object);
 	}
 
 	JSValue UIModule::js_createTab(const std::vector<JSValue>& arguments, JSObject& this_object)
