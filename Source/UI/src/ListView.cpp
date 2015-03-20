@@ -11,6 +11,8 @@
 #include <collection.h>
 #include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 
+#include "TitaniumWindows/Utility.hpp"
+
 namespace TitaniumWindows
 {
 	namespace UI
@@ -64,6 +66,7 @@ namespace TitaniumWindows
 
 					TITANIUM_ASSERT((listview->SelectedIndex < 0) || (static_cast<unsigned int>(listview->SelectedIndex) < listViewItems__->Size));
 					auto listViewItem = listViewItems__->GetAt(listview->SelectedIndex);
+					if (listViewItem->isHeader) return;
 
 					JSObject  eventArgs = ctx.CreateObject();
 					eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(listViewItem->SectionIndex));
@@ -92,6 +95,21 @@ namespace TitaniumWindows
 			for (uint32_t sectionIndex = 0; sectionIndex < get_sectionCount(); sectionIndex++) {
 				auto views = createSectionViewAt<TitaniumWindows::UI::View>(sectionIndex);
 				auto group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
+
+				// Set section header
+				// TODO : Figure out a more permanent solution
+				Windows::UI::Xaml::Controls::ListViewHeaderItem^ header = ref new Windows::UI::Xaml::Controls::ListViewHeaderItem();
+				auto headerText = ref new Windows::UI::Xaml::Controls::TextBlock();
+				headerText->Text = Utility::ConvertUTF8String(sections[sectionIndex]->get_headerTitle());
+				headerText->FontSize = 28; // Change this?
+				header->Content = headerText;
+				group->Append(header);
+
+				// Create ListViewItem header placeholder to keep index mapping valid
+				auto header_item = ref new ListViewItem();
+				header_item->isHeader = true;
+				listViewItems__->Append(header_item);
+
 				for (uint32_t itemIndex = 0; itemIndex < views.size(); itemIndex++) {
 					auto view = views.at(itemIndex);
 					auto nativeChildView = view->getComponent();

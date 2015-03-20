@@ -53,11 +53,21 @@ namespace TitaniumWindows
 					itemIndex__ = value;
 				}
 			}
+			property bool isHeader
+			{
+				bool get() {
+					return isHeader__;
+				}
+				void set(bool value) {
+					isHeader__ = value;
+				}
+			}
 
 		private:
 			Windows::UI::Xaml::UIElement^ view__;
 			uint32_t sectionIndex__;
 			uint32_t itemIndex__;
+			bool isHeader__;
 		};
 
 		/*!
