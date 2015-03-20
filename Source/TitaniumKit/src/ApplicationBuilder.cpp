@@ -10,6 +10,7 @@
 #include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
+#include "Titanium/UI/Switch.hpp"
 #include "Titanium/Utils.hpp"
 #include "Titanium/App.hpp"
 #include "Titanium/Analytics.hpp"
@@ -31,6 +32,7 @@ namespace Titanium
 		  ti__(js_context__.CreateObject(JSExport<Titanium::TiModule>::Class())),
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
+	      switch__(js_context__.CreateObject(JSExport<Titanium::UI::Switch>::Class())),
 		  utils__(js_context__.CreateObject(JSExport<Titanium::Utils>::Class())),
 		  animation__(js_context__.CreateObject(JSExport<Titanium::UI::Animation>::Class())),
 		  listsection__(js_context__.CreateObject(JSExport<Titanium::UI::ListSection>::Class())),
@@ -79,6 +81,7 @@ namespace Titanium
 		ui.SetProperty("ImageView", imageview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("Label", label__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("Slider", slider__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("Switch", switch__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("ScrollView", scrollview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("TextField", textField__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("View", view__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -252,6 +255,17 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::UtilsObject(const JSObject& Utils) TITANIUM_NOEXCEPT
 	{
 		utils__ = Utils;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::SwitchObject() const TITANIUM_NOEXCEPT
+	{
+		return switch__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::SwitchObject(const JSObject& Switch) TITANIUM_NOEXCEPT
+	{
+		switch__ = Switch;
 		return *this;
 	}
 

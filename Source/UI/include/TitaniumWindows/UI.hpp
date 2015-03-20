@@ -16,6 +16,7 @@
 #include "TitaniumWindows/UI/Label.hpp"
 #include "TitaniumWindows/UI/ScrollView.hpp"
 #include "TitaniumWindows/UI/Slider.hpp"
+#include "TitaniumWindows/UI/Switch.hpp"
 #include "TitaniumWindows/UI/TextField.hpp"
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/UI/Window.hpp"

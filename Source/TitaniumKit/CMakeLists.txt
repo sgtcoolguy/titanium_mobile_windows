@@ -137,6 +137,8 @@ set(SOURCE_Network
   )
 
 set(SOURCE_UI
+  include/Titanium/UI/Switch.hpp
+  src/UI/Switch.cpp
   include/Titanium/UI/ViewLayoutPolicy.hpp
   src/UI/ViewLayoutPolicy.cpp
   include/Titanium/UIModule.hpp
@@ -295,6 +297,7 @@ add_library(TitaniumKit SHARED
   ${SOURCE_Analytics}
   ${SOURCE_XML}
   ${SOURCE_Utils}
+  ${SOURCE_Switch}
   ${SOURCE_UI}
   ${SOURCE_Map}
   ${SOURCE_TiLogger_detail}
