@@ -181,7 +181,7 @@ namespace Titanium
 		  Titanium.UI.Switch.
 
 		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.Slider except those marked
+		  any defined by Titanium.UI.Switch except those marked
 		  not-creation or read-only.  (Dictionary<Titanium.UI.Switch>)
 
 		  @result Titanium.UI.Switch
