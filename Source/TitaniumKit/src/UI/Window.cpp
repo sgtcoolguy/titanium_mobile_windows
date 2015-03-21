@@ -14,6 +14,8 @@ namespace Titanium
 	{
 		Window::Window(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : View(js_context),
+		      openWindowParams_ctor__(js_context.CreateObject(JSExport<Titanium::UI::OpenWindowParams>::Class())),
+		      closeWindowParams_ctor__(js_context.CreateObject(JSExport<Titanium::UI::CloseWindowParams>::Class())),
 		      barColor__(""),
 		      exitOnClose__(false),
 		      extendEdges__({EXTEND_EDGE::NONE}),
@@ -199,8 +201,7 @@ namespace Titanium
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
 
-				auto closeParams = CloseWindowParams::GetConstructor(js_context);
-				params = closeParams.CallAsConstructor({_0});
+				params = closeWindowParams_ctor__.CallAsConstructor({_0});
 			}
 
 
@@ -216,8 +217,7 @@ namespace Titanium
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
 
-				auto openParams = OpenWindowParams::GetConstructor(js_context);
-				params = openParams.CallAsConstructor({_0});
+				params = openWindowParams_ctor__.CallAsConstructor({_0});
 			}
 
 			open(params.GetPrivate<OpenWindowParams>());

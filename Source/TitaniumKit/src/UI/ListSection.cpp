@@ -60,6 +60,7 @@ namespace Titanium
 
 		ListSection::ListSection(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Module(js_context),
+			listviewAnimationProperties_ctor__(js_context.CreateObject(JSExport<Titanium::UI::ListViewAnimationProperties>::Class())),
 			footerTitle__(""),
 			headerTitle__("")
 		{
@@ -288,8 +289,7 @@ namespace Titanium
 				if (arguments.size() >= 2) {
 					const auto _1 = arguments.at(1);
 					if (_1.IsObject()) {
-						auto listViewAnimationProperties = ListViewAnimationProperties::GetConstructor(js_context);
-						animation = listViewAnimationProperties.CallAsConstructor({_1});
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _1 });
 					}
 				}
 				setItems(dataItems, animation.GetPrivate<ListViewAnimationProperties>());
@@ -309,8 +309,7 @@ namespace Titanium
 				if (arguments.size() >= 2) {
 					const auto _1 = arguments.at(1);
 					if (_1.IsObject()) {
-						auto listViewAnimationProperties = ListViewAnimationProperties::GetConstructor(js_context);
-						animation = listViewAnimationProperties.CallAsConstructor({_1});
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _1 });
 					}
 				}
 				appendItems(dataItems, animation.GetPrivate<ListViewAnimationProperties>());
@@ -334,8 +333,7 @@ namespace Titanium
 				if (arguments.size() >= 3) {
 					const auto _2 = arguments.at(2);
 					if (_2.IsObject()) {
-						auto listViewAnimationProperties = ListViewAnimationProperties::GetConstructor(js_context);
-						animation = listViewAnimationProperties.CallAsConstructor({_2});
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _2 });
 					}
 				}
 				insertItemsAt(itemIndex, dataItems, animation.GetPrivate<ListViewAnimationProperties>());
@@ -362,8 +360,7 @@ namespace Titanium
 				if (arguments.size() >= 4) {
 					const auto _3 = arguments.at(3);
 					if (_3.IsObject()) {
-						auto listViewAnimationProperties = ListViewAnimationProperties::GetConstructor(js_context);
-						animation = listViewAnimationProperties.CallAsConstructor({_3});
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _3 });
 					}
 				}
 
@@ -388,8 +385,7 @@ namespace Titanium
 				if (arguments.size() >= 3) {
 					const auto _2 = arguments.at(2);
 					if (_2.IsObject()) {
-						auto listViewAnimationProperties = ListViewAnimationProperties::GetConstructor(js_context);
-						animation = listViewAnimationProperties.CallAsConstructor({_2});
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _2 });
 					}
 				}
 				deleteItemsAt(itemIndex, count, animation.GetPrivate<ListViewAnimationProperties>());
@@ -424,8 +420,7 @@ namespace Titanium
 				if (arguments.size() >= 3) {
 					const auto _2 = arguments.at(2);
 					if (_2.IsObject()) {
-						auto listViewAnimationProperties = ListViewAnimationProperties::GetConstructor(js_context);
-						animation = listViewAnimationProperties.CallAsConstructor({_2});
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _2 });
 					}
 				}
 

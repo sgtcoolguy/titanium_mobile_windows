@@ -291,6 +291,9 @@ namespace Titanium
 			std::string theme__;
 			TitleAttributesParams titleAttributes__;
 			bool translucent__;
+
+			JSObject openWindowParams_ctor__;
+			JSObject closeWindowParams_ctor__;
 #pragma warning(pop)
 		};
 	} // namespace UI

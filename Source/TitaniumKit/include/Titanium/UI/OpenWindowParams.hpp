@@ -70,7 +70,6 @@ namespace Titanium
 #endif
 			
 			static void JSExportInitialize();
-			static JSObject GetConstructor(const JSContext& js_context) TITANIUM_NOEXCEPT;
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)

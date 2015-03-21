@@ -37,14 +37,11 @@ namespace Titanium
 		  animation__(js_context__.CreateObject(JSExport<Titanium::UI::Animation>::Class())),
 		  listsection__(js_context__.CreateObject(JSExport<Titanium::UI::ListSection>::Class())),
 		  listview__(js_context__.CreateObject(JSExport<Titanium::UI::ListView>::Class())),
-		  listviewAnimationProperties__(js_context__.CreateObject(JSExport<Titanium::UI::ListViewAnimationProperties>::Class())),
 		  emaildialog__(js_context__.CreateObject(JSExport<Titanium::UI::EmailDialog>::Class())),
 		  properties__(js_context__.CreateObject(JSExport<Titanium::App::Properties>::Class())),
 		  app__(js_context__.CreateObject(JSExport<Titanium::AppModule>::Class())),
 		  analytics__(js_context__.CreateObject(JSExport<Titanium::Analytics>::Class())),
 		  window__(js_context__.CreateObject(JSExport<Titanium::UI::Window>::Class())),
-		  openWindowParams__(js_context__.CreateObject(JSExport<Titanium::UI::OpenWindowParams>::Class())),
-		  closeWindowParams__(js_context__.CreateObject(JSExport<Titanium::UI::CloseWindowParams>::Class())),
 		  button__(js_context__.CreateObject(JSExport<Titanium::UI::Button>::Class())),
 		  alertDialog__(js_context__.CreateObject(JSExport<Titanium::UI::AlertDialog>::Class())),
 		  imageview__(js_context__.CreateObject(JSExport<Titanium::UI::ImageView>::Class())),
@@ -89,11 +86,8 @@ namespace Titanium
 		ui.SetProperty("TextField", textField__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("View", view__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("Window", window__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("OpenWindowParams",  openWindowParams__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("CloseWindowParams", closeWindowParams__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("ListView", listview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("ListSection", listsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("ListViewAnimationProperties", listviewAnimationProperties__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("WebView", webview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("TableView",tableview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("TableViewSection", tableviewsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -198,17 +192,6 @@ namespace Titanium
 		return *this;
 	}
 
-	JSObject ApplicationBuilder::ListViewAnimationPropertiesObject() const TITANIUM_NOEXCEPT
-	{
-		return listviewAnimationProperties__;
-	}
-
-	ApplicationBuilder& ApplicationBuilder::ListViewAnimationPropertiesObject(const JSObject& listviewAnimationProperties) TITANIUM_NOEXCEPT
-	{
-		listviewAnimationProperties__ = listviewAnimationProperties;
-		return *this;
-	}
-
 	JSObject ApplicationBuilder::AppObject() const TITANIUM_NOEXCEPT
 	{
 		return app__;
@@ -305,28 +288,6 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::WindowObject(const JSObject& window) TITANIUM_NOEXCEPT
 	{
 		window__ = window;
-		return *this;
-	}
-
-	JSObject ApplicationBuilder::OpenWindowParamsObject() const TITANIUM_NOEXCEPT
-	{
-		return openWindowParams__;
-	}
-
-	ApplicationBuilder& ApplicationBuilder::OpenWindowParamsObject(const JSObject& params) TITANIUM_NOEXCEPT
-	{
-		openWindowParams__ = params;
-		return *this;
-	}
-
-	JSObject ApplicationBuilder::CloseWindowParamsObject() const TITANIUM_NOEXCEPT
-	{
-		return closeWindowParams__;
-	}
-
-	ApplicationBuilder& ApplicationBuilder::CloseWindowParamsObject(const JSObject& params) TITANIUM_NOEXCEPT
-	{
-		closeWindowParams__ = params;
 		return *this;
 	}
 

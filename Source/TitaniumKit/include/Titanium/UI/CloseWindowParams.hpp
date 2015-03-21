@@ -43,7 +43,6 @@ namespace Titanium
 #endif
 			
 			static void JSExportInitialize();
-			static JSObject GetConstructor(const JSContext& js_context) TITANIUM_NOEXCEPT;
 		protected:
 			bool animated__ {true};
 		};

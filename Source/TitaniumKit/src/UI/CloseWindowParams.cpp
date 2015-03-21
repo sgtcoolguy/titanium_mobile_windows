@@ -38,21 +38,6 @@ namespace Titanium
 			JSExport<Module>::SetParent(JSExport<Module>::Class());
 		}
 
-		JSObject CloseWindowParams::GetConstructor(const JSContext& js_context) TITANIUM_NOEXCEPT
-		{
-			JSValue Titanium_property = js_context.get_global_object().GetProperty("Titanium");
-			TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-			JSObject Titanium = static_cast<JSObject>(Titanium_property);
-
-			JSValue UI_property = Titanium.GetProperty("UI");
-			TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-			JSObject UI = static_cast<JSObject>(UI_property);
-
-			JSValue Object_property = UI.GetProperty("CloseWindowParams");
-			TITANIUM_ASSERT(Object_property.IsObject());  // precondition
-			return static_cast<JSObject>(Object_property);
-		}
-
 		bool CloseWindowParams::get_animated() const TITANIUM_NOEXCEPT
 		{
 			return animated__;

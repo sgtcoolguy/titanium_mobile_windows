@@ -280,6 +280,7 @@ namespace Titanium
 
 			JSObject ti_listview_exports__;
 			JSObject sectionViewCreateFunction__;
+			JSObject listviewAnimationProperties_ctor__;
 #pragma warning(pop)
 		};
 	} // namespace UI

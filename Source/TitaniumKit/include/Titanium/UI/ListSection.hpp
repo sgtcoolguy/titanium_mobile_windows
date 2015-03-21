@@ -188,6 +188,8 @@ namespace Titanium
 			View_shared_ptr_t footerView__;
 			View_shared_ptr_t headerView__;
 			std::vector<ListDataItem> items__;
+
+			JSObject listviewAnimationProperties_ctor__;
 #pragma warning(pop)
 		};
 
