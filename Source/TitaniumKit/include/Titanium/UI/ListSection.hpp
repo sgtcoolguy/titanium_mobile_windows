@@ -96,35 +96,35 @@ namespace Titanium
 			  @abstract setItems
 			  @discussion Sets the data entries in the list section.
 			*/
-			virtual void setItems(const std::vector<ListDataItem>& dataItems, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void setItems(const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract appendItems
 			  @discussion Appends the data entries to the end of the list section.
 			*/
-			virtual void appendItems(const std::vector<ListDataItem>& dataItems, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void appendItems(const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertItemsAt
 			  @discussion Inserts data entries to the list section at the specified index.
 			*/
-			virtual void insertItemsAt(uint32_t itemIndex, const std::vector<ListDataItem>& dataItems, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void insertItemsAt(uint32_t itemIndex, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract replaceItemsAt
 			  @discussion Removes count entries from the list section at the specified index,then inserts data entries to the list section at the same index.
 			*/
-			virtual void replaceItemsAt(uint32_t index, uint32_t count, const std::vector<ListDataItem>& dataItems, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void replaceItemsAt(uint32_t index, uint32_t count, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract deleteItemsAt
 			  @discussion Removes count entries from the list section at the specified index.
 			*/
-			virtual void deleteItemsAt(uint32_t itemIndex, uint32_t count, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void deleteItemsAt(uint32_t itemIndex, uint32_t count, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -138,7 +138,7 @@ namespace Titanium
 			  @abstract updateItemAt
 			  @discussion Updates an item at the specified index.
 			*/
-			virtual void updateItemAt(uint32_t index, const ListDataItem& dataItem, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT;
+			virtual void updateItemAt(uint32_t index, const ListDataItem& dataItem, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			ListSection(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
@@ -188,6 +188,8 @@ namespace Titanium
 			View_shared_ptr_t footerView__;
 			View_shared_ptr_t headerView__;
 			std::vector<ListDataItem> items__;
+
+			JSObject listviewAnimationProperties_ctor__;
 #pragma warning(pop)
 		};
 

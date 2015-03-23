@@ -60,6 +60,7 @@ namespace Titanium
 
 		ListSection::ListSection(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Module(js_context),
+			listviewAnimationProperties_ctor__(js_context.CreateObject(JSExport<Titanium::UI::ListViewAnimationProperties>::Class())),
 			footerTitle__(""),
 			headerTitle__("")
 		{
@@ -121,31 +122,31 @@ namespace Titanium
 			items_set_notify(0, items__.size());
 		}
 
-		void ListSection::setItems(const std::vector<ListDataItem>& dataItems, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListSection::setItems(const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			set_items(dataItems);
 		}
 
-		void ListSection::appendItems(const std::vector<ListDataItem>& dataItems, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListSection::appendItems(const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			items__.insert(items__.end(), dataItems.begin(), dataItems.end());
 			items_set_notify(items__.size(), dataItems.size());
 		}
 
-		void ListSection::insertItemsAt(uint32_t index, const std::vector<ListDataItem>& dataItems, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListSection::insertItemsAt(uint32_t index, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			items__.insert(items__.begin() + index, dataItems.begin(), dataItems.end());
 			items_set_notify(index, dataItems.size());
 		}
 
-		void ListSection::replaceItemsAt(uint32_t index, uint32_t count, const std::vector<ListDataItem>& dataItems, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListSection::replaceItemsAt(uint32_t index, uint32_t count, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			items__.erase (items__.begin() + index, items__.begin() + index + count);
 			items__.insert(items__.begin() + index, dataItems.begin(), dataItems.end());
 			items_set_notify(index, dataItems.size());
 		}
 
-		void ListSection::deleteItemsAt(uint32_t index, uint32_t count, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListSection::deleteItemsAt(uint32_t index, uint32_t count, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			items__.erase (items__.begin() + index, items__.begin() + index + count);
 			items_set_notify(index, count);
@@ -156,7 +157,7 @@ namespace Titanium
 			return items__.at(index);
 		}
 
-		void ListSection::updateItemAt(uint32_t index, const ListDataItem& dataItem, const ListViewAnimationProperties& animation) TITANIUM_NOEXCEPT
+		void ListSection::updateItemAt(uint32_t index, const ListDataItem& dataItem, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			items__.at(index) = dataItem;
 			items_set_notify(index, 1);
@@ -277,8 +278,9 @@ namespace Titanium
 
 		JSValue ListSection::js_setItems(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 1) {
-				ListViewAnimationProperties animation;
+				JSObject animation = js_context.CreateObject();
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
 
@@ -287,18 +289,19 @@ namespace Titanium
 				if (arguments.size() >= 2) {
 					const auto _1 = arguments.at(1);
 					if (_1.IsObject()) {
-						animation = js_to_ListViewAnimationProperties(static_cast<JSObject>(_1));
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _1 });
 					}
 				}
-				setItems(dataItems, animation);
+				setItems(dataItems, animation.GetPrivate<ListViewAnimationProperties>());
 			}
 			return get_context().CreateUndefined();
 		}
 
 		JSValue ListSection::js_appendItems(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 1) {
-				ListViewAnimationProperties animation;
+				JSObject animation = js_context.CreateObject();
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
 				const auto dataItems = js_to_ListDataItem_array(static_cast<JSObject>(_0));
@@ -306,39 +309,41 @@ namespace Titanium
 				if (arguments.size() >= 2) {
 					const auto _1 = arguments.at(1);
 					if (_1.IsObject()) {
-						animation = js_to_ListViewAnimationProperties(static_cast<JSObject>(_1));
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _1 });
 					}
 				}
-				appendItems(dataItems, animation);
+				appendItems(dataItems, animation.GetPrivate<ListViewAnimationProperties>());
 			}
 			return get_context().CreateUndefined();
 		}
 
 		JSValue ListSection::js_insertItemsAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
 				const auto _1 = arguments.at(1);
 				TITANIUM_ASSERT(_1.IsObject());
 
-				ListViewAnimationProperties animation;
+				JSObject animation = js_context.CreateObject();
 				const auto itemIndex = static_cast<uint32_t>(_0);
 				const auto dataItems = js_to_ListDataItem_array(static_cast<JSObject>(_1));
 
 				if (arguments.size() >= 3) {
 					const auto _2 = arguments.at(2);
 					if (_2.IsObject()) {
-						animation = js_to_ListViewAnimationProperties(static_cast<JSObject>(_2));
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _2 });
 					}
 				}
-				insertItemsAt(itemIndex, dataItems, animation);
+				insertItemsAt(itemIndex, dataItems, animation.GetPrivate<ListViewAnimationProperties>());
 			}
 			return get_context().CreateUndefined();
 		}
 
 		JSValue ListSection::js_replaceItemsAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 3) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
@@ -347,7 +352,7 @@ namespace Titanium
 				const auto _2 = arguments.at(2);
 				TITANIUM_ASSERT(_2.IsObject());
 
-				ListViewAnimationProperties animation;
+				JSObject animation = js_context.CreateObject();
 				const auto index = static_cast<uint32_t>(_0);
 				const auto count = static_cast<uint32_t>(_1);
 				const auto dataItems = js_to_ListDataItem_array(static_cast<JSObject>(_2));
@@ -355,34 +360,35 @@ namespace Titanium
 				if (arguments.size() >= 4) {
 					const auto _3 = arguments.at(3);
 					if (_3.IsObject()) {
-						animation = js_to_ListViewAnimationProperties(static_cast<JSObject>(_3));
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _3 });
 					}
 				}
 
-				replaceItemsAt(index, count, dataItems, animation);
+				replaceItemsAt(index, count, dataItems, animation.GetPrivate<ListViewAnimationProperties>());
 			}
 			return get_context().CreateUndefined();
 		}
 
 		JSValue ListSection::js_deleteItemsAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
 				const auto _1 = arguments.at(1);
 				TITANIUM_ASSERT(_1.IsNumber());
 
-				ListViewAnimationProperties animation;
+				JSObject animation = js_context.CreateObject();
 				const auto itemIndex = static_cast<uint32_t>(_0);
 				const auto count = static_cast<uint32_t>(_1);
 
 				if (arguments.size() >= 3) {
 					const auto _2 = arguments.at(2);
 					if (_2.IsObject()) {
-						animation = js_to_ListViewAnimationProperties(static_cast<JSObject>(_2));
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _2 });
 					}
 				}
-				deleteItemsAt(itemIndex, count, animation);
+				deleteItemsAt(itemIndex, count, animation.GetPrivate<ListViewAnimationProperties>());
 			}
 			return get_context().CreateUndefined();
 		}
@@ -400,24 +406,25 @@ namespace Titanium
 
 		JSValue ListSection::js_updateItemAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
 				const auto _1 = arguments.at(1);
 				TITANIUM_ASSERT(_1.IsObject());
 
-				ListViewAnimationProperties animation;
+				JSObject animation = js_context.CreateObject();
 				const auto index    = static_cast<uint32_t>(_0);
 				const auto dataItem = js_to_ListDataItem(static_cast<JSObject>(_1));
 
 				if (arguments.size() >= 3) {
 					const auto _2 = arguments.at(2);
 					if (_2.IsObject()) {
-						animation = js_to_ListViewAnimationProperties(static_cast<JSObject>(_2));
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({ _2 });
 					}
 				}
 
-				updateItemAt(index, dataItem, animation);
+				updateItemAt(index, dataItem, animation.GetPrivate<ListViewAnimationProperties>());
 			}
 			return get_context().CreateUndefined();
 		}

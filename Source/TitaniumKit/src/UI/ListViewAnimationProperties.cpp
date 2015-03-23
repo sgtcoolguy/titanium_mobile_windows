@@ -14,13 +14,39 @@ namespace Titanium
 	{
 		using namespace HAL;
 
-		ListViewAnimationProperties js_to_ListViewAnimationProperties(const JSObject& object)
+		ListViewAnimationProperties::ListViewAnimationProperties(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Module(js_context)
 		{
-			ListViewAnimationProperties animation;
-			if (object.HasProperty("animated")) {
-				animation.animated = static_cast<bool>(object.GetProperty("animated"));
+		}
+
+		void ListViewAnimationProperties::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		{
+			TITANIUM_ASSERT(arguments.size() > 0);
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsObject());
+			const auto js_animations = static_cast<JSObject>(_0);			
+
+			// animated property
+			if (js_animations.HasProperty("animated")) {
+				const auto animated = js_animations.GetProperty("animated");
+				TITANIUM_ASSERT(animated.IsBoolean());
+				set_animated(static_cast<bool>(animated));
 			}
-			return animation;
-		};
+		}
+
+		void ListViewAnimationProperties::JSExportInitialize() {
+			JSExport<Module>::SetClassVersion(1);
+			JSExport<Module>::SetParent(JSExport<Module>::Class());
+		}
+
+		bool ListViewAnimationProperties::get_animated() const TITANIUM_NOEXCEPT
+		{
+			return animated__;
+		}
+
+		void ListViewAnimationProperties::set_animated(const bool& animated) TITANIUM_NOEXCEPT
+		{
+			animated__ = animated;
+		}
 	} // namespace UI
 } // namespace Titanium

@@ -10,6 +10,7 @@
 #define _TITANIUM_UI_LISTVIEWANIMATIONPROPERTIES_HPP_
 
 #include "Titanium/detail/TiBase.hpp"
+#include "Titanium/Module.hpp"
 
 namespace Titanium
 {
@@ -23,12 +24,29 @@ namespace Titanium
 		  Extend this struct to implement platform-specific properties like animation style.
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/ListViewAnimationProperties
 		*/
-		struct ListViewAnimationProperties
+		class TITANIUMKIT_EXPORT ListViewAnimationProperties : public Module, public JSExport<ListViewAnimationProperties>
 		{
-			bool animated {true};
+		public:
+			virtual bool get_animated() const TITANIUM_NOEXCEPT;
+			virtual void set_animated(const bool& animated) TITANIUM_NOEXCEPT;
+
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments);
+
+			ListViewAnimationProperties(const JSContext&) TITANIUM_NOEXCEPT;
+			
+			virtual ~ListViewAnimationProperties() = default;
+			ListViewAnimationProperties(const ListViewAnimationProperties&) = default;
+			ListViewAnimationProperties& operator=(const ListViewAnimationProperties&) = default;
+#ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
+			ListViewAnimationProperties(ListViewAnimationProperties&&) = default;
+			ListViewAnimationProperties& operator=(ListViewAnimationProperties&&) = default;
+#endif
+			
+			static void JSExportInitialize();
+		protected:
+			bool animated__ {true};
 		};
 		
-		ListViewAnimationProperties js_to_ListViewAnimationProperties(const JSObject& object);
 	} // namespace UI
 } // namespace Titanium
 #endif // _TITANIUM_UI_LISTVIEWANIMATIONPROPERTIES_HPP_
