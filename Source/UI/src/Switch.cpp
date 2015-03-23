@@ -24,13 +24,13 @@ namespace TitaniumWindows
 			Titanium::UI::Switch::postCallAsConstructor(js_context, arguments);	
 			
 			switch__ = ref new Windows::UI::Xaml::Controls::ToggleSwitch();
-			switch__->OnContent="On";
-			switch__->OffContent="Off";
+			switch__->OnContent = "On";
+			switch__->OffContent = "Off";
 			switch__->Toggled += ref new Windows::UI::Xaml::RoutedEventHandler([this](Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {						
 				value__ = !value__;
 			});
 
-			Titanium::UI::Switch::setLayoutPolicy<WindowsViewLayoutPolicy>();
+			Titanium::UI::Switch::setLayoutPolicy<WindowsViewLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
 			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(switch__);
 		}
