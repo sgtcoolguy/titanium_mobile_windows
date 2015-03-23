@@ -39,7 +39,7 @@ namespace TitaniumWindows
 				getViewLayoutPolicy<WindowsViewLayoutPolicy>()->onComponentSizeChange(rect);
 			});
 
-			Titanium::UI::ImageView::setLayoutPolicy<WindowsViewLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
+			Titanium::UI::ImageView::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
 
 			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(image__);
 

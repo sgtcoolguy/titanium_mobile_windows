@@ -27,7 +27,7 @@ namespace TitaniumWindows
 			text_box__->AcceptsReturn = false;
 			text_box__->IsSpellCheckEnabled = true;
 
-			Titanium::UI::TextField::setLayoutPolicy<WindowsViewLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
+			Titanium::UI::TextField::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
 			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(text_box__);
 		}
 

@@ -326,7 +326,7 @@ namespace TitaniumWindows
 			*/
 			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT;
 
-			WindowsViewLayoutPolicy(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
+			WindowsViewLayoutPolicy(Titanium::UI::View* view) TITANIUM_NOEXCEPT;
 			virtual ~WindowsViewLayoutPolicy() = default;
 
 			virtual void postInitialize() TITANIUM_NOEXCEPT override;
@@ -367,7 +367,7 @@ namespace TitaniumWindows
 
 			Titanium::LayoutEngine::Node* layout_node__;
 
-			std::shared_ptr<Titanium::UI::View> view__;
+			Titanium::UI::View* view__;
 
 			bool postlayout_listening__{ false };
 			Windows::Foundation::EventRegistrationToken size_change_event__;

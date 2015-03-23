@@ -30,7 +30,7 @@ namespace TitaniumWindows
 				value__ = !value__;
 			});
 
-			Titanium::UI::Switch::setLayoutPolicy<WindowsViewLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
+			Titanium::UI::Switch::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
 			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(switch__);
 		}

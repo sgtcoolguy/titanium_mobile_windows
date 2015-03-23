@@ -25,7 +25,7 @@ namespace TitaniumWindows
 			Titanium::UI::TableViewRow::postCallAsConstructor(js_context, arguments);
 			content__ = ref new Windows::UI::Xaml::Controls::Canvas();
 
-			Titanium::UI::TableViewRow::setLayoutPolicy<WindowsViewLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
+			Titanium::UI::TableViewRow::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
 			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
 

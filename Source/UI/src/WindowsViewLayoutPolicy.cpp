@@ -16,7 +16,7 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		WindowsViewLayoutPolicy::WindowsViewLayoutPolicy(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
+		WindowsViewLayoutPolicy::WindowsViewLayoutPolicy(Titanium::UI::View* view) TITANIUM_NOEXCEPT
 			: ViewLayoutPolicy(),
 			  view__(view)
 		{

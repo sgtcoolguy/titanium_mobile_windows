@@ -24,7 +24,7 @@ namespace TitaniumWindows
 			
 			canvas__ = ref new Windows::UI::Xaml::Controls::Canvas();
 
-			Titanium::UI::View::setLayoutPolicy<WindowsViewLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
+			Titanium::UI::View::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
 
 			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);

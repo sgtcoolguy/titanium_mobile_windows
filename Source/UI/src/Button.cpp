@@ -24,7 +24,7 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::Button::postCallAsConstructor(js_context, arguments);	
 			button__ = ref new Windows::UI::Xaml::Controls::Button();
-			Titanium::UI::Button::setLayoutPolicy<WindowsViewLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
+			Titanium::UI::Button::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
 
 			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(button__);
 		}

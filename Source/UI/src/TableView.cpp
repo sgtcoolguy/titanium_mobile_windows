@@ -45,7 +45,7 @@ namespace TitaniumWindows
 
 			tableViewItems__ = ref new ::Platform::Collections::Vector<ListViewItem^>();
 
-			Titanium::UI::TableView::setLayoutPolicy<WindowsViewLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
+			Titanium::UI::TableView::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
 			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 

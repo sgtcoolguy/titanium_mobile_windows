@@ -50,7 +50,7 @@ namespace TitaniumWindows
 
 		class TITANIUMWINDOWS_UI_EXPORT WindowLayoutPolicy : public WindowsViewLayoutPolicy {
 		public:
-			WindowLayoutPolicy(std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
+			WindowLayoutPolicy(Titanium::UI::View* view) TITANIUM_NOEXCEPT;
 			virtual ~WindowLayoutPolicy() = default;
 
 			virtual void onComponentSizeChange(const Titanium::LayoutEngine::Rect&) override;

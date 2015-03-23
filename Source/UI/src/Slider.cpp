@@ -24,7 +24,7 @@ namespace TitaniumWindows
 			
 			slider__ = ref new Windows::UI::Xaml::Controls::Slider();
 
-			Titanium::UI::Slider::setLayoutPolicy<WindowsViewLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
+			Titanium::UI::Slider::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
 			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(slider__);
 		}

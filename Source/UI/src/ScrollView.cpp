@@ -14,7 +14,7 @@ namespace TitaniumWindows
 	namespace UI
 	{
 
-		ScrollViewLayoutPolicy::ScrollViewLayoutPolicy(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
+		ScrollViewLayoutPolicy::ScrollViewLayoutPolicy(Titanium::UI::View* view) TITANIUM_NOEXCEPT
 			: WindowsViewLayoutPolicy(view)
 		{
 		}
@@ -50,7 +50,7 @@ namespace TitaniumWindows
 			auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
 			scroll_viewer__->Content = content->getComponent();
 
-			Titanium::UI::ScrollView::setLayoutPolicy<ScrollViewLayoutPolicy>(content);
+			Titanium::UI::ScrollView::setLayoutPolicy<ScrollViewLayoutPolicy>(dynamic_cast<Titanium::UI::View*>(content.get()));
 
 			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);

@@ -23,7 +23,7 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT ScrollViewLayoutPolicy : public WindowsViewLayoutPolicy
 		{
 		public:
-			ScrollViewLayoutPolicy(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
+			ScrollViewLayoutPolicy(Titanium::UI::View* view) TITANIUM_NOEXCEPT;
 			virtual ~ScrollViewLayoutPolicy() = default;
 
 			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
