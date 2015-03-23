@@ -35,14 +35,14 @@ public:
 	virtual bool get_hidden() const TITANIUM_NOEXCEPT;
 	virtual std::string get_name() const TITANIUM_NOEXCEPT;
 	virtual std::string get_nativePath() const TITANIUM_NOEXCEPT;
-	virtual JSValue get_parent() const TITANIUM_NOEXCEPT;
+	virtual std::shared_ptr<Titanium::Filesystem::File> get_parent() const TITANIUM_NOEXCEPT;
 	virtual bool get_readonly() const TITANIUM_NOEXCEPT;
 	virtual bool get_remoteBackup() const TITANIUM_NOEXCEPT;
 	virtual unsigned long long get_size() const TITANIUM_NOEXCEPT;
 	virtual bool get_symbolicLink() const TITANIUM_NOEXCEPT;
 	virtual bool get_writable() const TITANIUM_NOEXCEPT;
 
-	virtual bool append(const JSValue& data) TITANIUM_NOEXCEPT;
+	virtual bool append(const std::shared_ptr<Titanium::Filesystem::File>& data) TITANIUM_NOEXCEPT;
 	virtual bool copy(const std::string& dest) TITANIUM_NOEXCEPT;
 	virtual bool createDirectory() TITANIUM_NOEXCEPT;
 	virtual bool createFile() TITANIUM_NOEXCEPT;
@@ -56,12 +56,12 @@ public:
 	virtual bool isFile() TITANIUM_NOEXCEPT;
 	virtual std::chrono::milliseconds modificationTimestamp() TITANIUM_NOEXCEPT;
 	virtual bool move(const std::string& newpath) TITANIUM_NOEXCEPT;
-	virtual JSValue open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT;
-	virtual JSValue read() TITANIUM_NOEXCEPT;
+	virtual std::shared_ptr<Titanium::Filesystem::FileStream> open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT;
+	virtual std::shared_ptr<Titanium::Blob> read() TITANIUM_NOEXCEPT;
 	virtual bool rename(const std::string& newname) TITANIUM_NOEXCEPT;
 	virtual std::string resolve() TITANIUM_NOEXCEPT;
 	virtual unsigned long long spaceAvailable() TITANIUM_NOEXCEPT;
-	virtual bool write(const JSValue& data, bool append) TITANIUM_NOEXCEPT;
+	virtual bool write(const std::shared_ptr<Titanium::Filesystem::File>& data, bool append) TITANIUM_NOEXCEPT;
 
 protected:
 };
