@@ -72,8 +72,6 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutPolicy::animate(animation, callback, this_object);
 
-			
-
 			bool has_delay = false;
 			Windows::Foundation::TimeSpan begin_time;
 			begin_time.Duration = 0;
@@ -147,12 +145,18 @@ namespace TitaniumWindows
 
 					if (property_name == "opacity") {
 						storyboard->SetTargetProperty(double_anim, "Opacity");
-						// FIXME top and left don't work for ImageView
 					} else if (property_name == "top") { // bottom?
+						// Because we're animating a transform, the value behaves like setting By, not To. So we need to calculate the difference and set our target To to that value.
+						auto current_top = Windows::UI::Xaml::Controls::Canvas::GetTop(getComponent());
+						const auto diff = static_cast<double>(property) - current_top;
+						double_anim->To = diff;
 						getComponent()->RenderTransform = ref new Windows::UI::Xaml::Media::TranslateTransform();
 						storyboard->SetTargetProperty(double_anim, "(UIElement.RenderTransform).(TranslateTransform.Y)");
 					} else if (property_name == "left") { // right?
 						// TODO If "right", we need to calculate the current position of "right", take the diff and then do a transform By, not To
+						auto current_left = Windows::UI::Xaml::Controls::Canvas::GetLeft(getComponent());
+						const auto diff = static_cast<double>(property) - current_left;
+						double_anim->To = diff;
 						getComponent()->RenderTransform = ref new Windows::UI::Xaml::Media::TranslateTransform();
 						storyboard->SetTargetProperty(double_anim, "(UIElement.RenderTransform).(TranslateTransform.X)");
 					} else {
