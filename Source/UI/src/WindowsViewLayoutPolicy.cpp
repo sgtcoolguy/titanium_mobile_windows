@@ -72,15 +72,11 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutPolicy::animate(animation, callback, this_object);
 
-			// Convert duration to type we need
-			const auto raw_duration = animation.GetProperty("duration");
-			const auto duration = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(raw_duration)));
-			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = duration;
-			Windows::Foundation::TimeSpan time_span;
-			time_span.Duration = timer_interval_ticks.count();
+			
 
 			bool has_delay = false;
 			Windows::Foundation::TimeSpan begin_time;
+			begin_time.Duration = 0;
 			if (animation.HasProperty("delay")) {
 				has_delay = true;
 				const auto raw_delay = animation.GetProperty("delay");
@@ -88,6 +84,13 @@ namespace TitaniumWindows
 				std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> delay_ticks = delay;
 				begin_time.Duration = delay_ticks.count();
 			}
+
+			// Convert duration to type we need
+			const auto raw_duration = animation.GetProperty("duration");
+			const auto duration = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(raw_duration)));
+			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = duration;
+			Windows::Foundation::TimeSpan time_span;
+			time_span.Duration = timer_interval_ticks.count() + begin_time.Duration;
 
 			bool autoreverse = false;
 			if (animation.HasProperty("autoreverse")) {
@@ -106,7 +109,7 @@ namespace TitaniumWindows
 				storyboard->BeginTime = begin_time; // FIXME This seems to apply to every iteration of repeat, but we probably only want it to happen the first time?
 			}
 			storyboard->AutoReverse = autoreverse;
-			storyboard->Duration = time_span;
+			
 			if (repeat == 0) {
 				storyboard->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::Forever;
 			} else if (repeat != 1) {
