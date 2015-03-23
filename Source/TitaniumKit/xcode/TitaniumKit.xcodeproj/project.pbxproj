@@ -89,6 +89,15 @@
 		F913EFC71A836026009080D1 /* Slider.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F913EFC51A836026009080D1 /* Slider.hpp */; };
 		F91676F71AA5A92A006A6E44 /* CameraAnimationParams.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F91676F61AA5A92A006A6E44 /* CameraAnimationParams.hpp */; };
 		F91676F91AA5A935006A6E44 /* CameraAnimationParams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F91676F81AA5A935006A6E44 /* CameraAnimationParams.cpp */; };
+		F93104231ABBDDAB0067470D /* CloseWindowParams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F931041D1ABBDDAB0067470D /* CloseWindowParams.cpp */; };
+		F93104241ABBDDAB0067470D /* OpenWindowParams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F931041E1ABBDDAB0067470D /* OpenWindowParams.cpp */; };
+		F93104251ABBDDAB0067470D /* TableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F931041F1ABBDDAB0067470D /* TableView.cpp */; };
+		F93104261ABBDDAB0067470D /* TableViewRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F93104201ABBDDAB0067470D /* TableViewRow.cpp */; };
+		F93104271ABBDDAB0067470D /* TableViewSection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F93104211ABBDDAB0067470D /* TableViewSection.cpp */; };
+		F93104281ABBDDAB0067470D /* TitleAttributesParams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F93104221ABBDDAB0067470D /* TitleAttributesParams.cpp */; };
+		F931042A1ABBE2F50067470D /* ShadowDict.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F93104291ABBE2F50067470D /* ShadowDict.cpp */; };
+		F931042C1ABBE3540067470D /* ShadowDict.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F931042B1ABBE3540067470D /* ShadowDict.hpp */; };
+		F931042E1ABBE94B0067470D /* TitleAttributesParams.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F931042D1ABBE94B0067470D /* TitleAttributesParams.hpp */; };
 		F93CDC401A96D24C00C42D8C /* Dimension.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F93CDC3C1A96D24C00C42D8C /* Dimension.hpp */; };
 		F93CDC411A96D24C00C42D8C /* Font.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F93CDC3D1A96D24C00C42D8C /* Font.hpp */; };
 		F93CDC421A96D24C00C42D8C /* Gradient.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F93CDC3E1A96D24C00C42D8C /* Gradient.hpp */; };
@@ -264,6 +273,15 @@
 		F913EFC51A836026009080D1 /* Slider.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Slider.hpp; path = include/Titanium/UI/Slider.hpp; sourceTree = "<group>"; };
 		F91676F61AA5A92A006A6E44 /* CameraAnimationParams.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CameraAnimationParams.hpp; path = include/Titanium/Map/CameraAnimationParams.hpp; sourceTree = "<group>"; };
 		F91676F81AA5A935006A6E44 /* CameraAnimationParams.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CameraAnimationParams.cpp; path = src/Map/CameraAnimationParams.cpp; sourceTree = "<group>"; };
+		F931041D1ABBDDAB0067470D /* CloseWindowParams.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CloseWindowParams.cpp; path = src/UI/CloseWindowParams.cpp; sourceTree = "<group>"; };
+		F931041E1ABBDDAB0067470D /* OpenWindowParams.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpenWindowParams.cpp; path = src/UI/OpenWindowParams.cpp; sourceTree = "<group>"; };
+		F931041F1ABBDDAB0067470D /* TableView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TableView.cpp; path = src/UI/TableView.cpp; sourceTree = "<group>"; };
+		F93104201ABBDDAB0067470D /* TableViewRow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TableViewRow.cpp; path = src/UI/TableViewRow.cpp; sourceTree = "<group>"; };
+		F93104211ABBDDAB0067470D /* TableViewSection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TableViewSection.cpp; path = src/UI/TableViewSection.cpp; sourceTree = "<group>"; };
+		F93104221ABBDDAB0067470D /* TitleAttributesParams.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TitleAttributesParams.cpp; path = src/UI/TitleAttributesParams.cpp; sourceTree = "<group>"; };
+		F93104291ABBE2F50067470D /* ShadowDict.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShadowDict.cpp; path = src/UI/ShadowDict.cpp; sourceTree = "<group>"; };
+		F931042B1ABBE3540067470D /* ShadowDict.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ShadowDict.hpp; path = include/Titanium/UI/ShadowDict.hpp; sourceTree = "<group>"; };
+		F931042D1ABBE94B0067470D /* TitleAttributesParams.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TitleAttributesParams.hpp; path = include/Titanium/UI/TitleAttributesParams.hpp; sourceTree = "<group>"; };
 		F93CDC3C1A96D24C00C42D8C /* Dimension.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Dimension.hpp; path = include/Titanium/UI/Dimension.hpp; sourceTree = "<group>"; };
 		F93CDC3D1A96D24C00C42D8C /* Font.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Font.hpp; path = include/Titanium/UI/Font.hpp; sourceTree = "<group>"; };
 		F93CDC3E1A96D24C00C42D8C /* Gradient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Gradient.hpp; path = include/Titanium/UI/Gradient.hpp; sourceTree = "<group>"; };
@@ -363,6 +381,15 @@
 		C90B8F8B1A16D32C005F3210 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F931042B1ABBE3540067470D /* ShadowDict.hpp */,
+				F93104291ABBE2F50067470D /* ShadowDict.cpp */,
+				F931041D1ABBDDAB0067470D /* CloseWindowParams.cpp */,
+				F931041E1ABBDDAB0067470D /* OpenWindowParams.cpp */,
+				F931041F1ABBDDAB0067470D /* TableView.cpp */,
+				F93104201ABBDDAB0067470D /* TableViewRow.cpp */,
+				F93104211ABBDDAB0067470D /* TableViewSection.cpp */,
+				F931042D1ABBE94B0067470D /* TitleAttributesParams.hpp */,
+				F93104221ABBDDAB0067470D /* TitleAttributesParams.cpp */,
 				C90B8F9A1A16DDB0005F3210 /* UIModule.hpp */,
 				C90B8F991A16DDB0005F3210 /* UIModule.cpp */,
 				F913EFC41A836026009080D1 /* AlertDialog.hpp */,
@@ -662,6 +689,7 @@
 				C90B8F981A16DBAD005F3210 /* Button.hpp in Headers */,
 				C90950821A291EB5002133E1 /* Animation.hpp in Headers */,
 				F9B1AF6F1A8E2EBE00DEF4D6 /* DatabaseModule.hpp in Headers */,
+				F931042E1ABBE94B0067470D /* TitleAttributesParams.hpp in Headers */,
 				F9B177951A2C46F100ECE602 /* Accelerometer.hpp in Headers */,
 				C9E6AFB81A13043300FED053 /* Titanium.hpp in Headers */,
 				F93CDC421A96D24C00C42D8C /* Gradient.hpp in Headers */,
@@ -676,6 +704,7 @@
 				C90B8F901A16D346005F3210 /* View.hpp in Headers */,
 				F9B1AF611A8DC18E00DEF4D6 /* ListViewAnimationProperties.hpp in Headers */,
 				C90B8F941A16D83F005F3210 /* Window.hpp in Headers */,
+				F931042C1ABBE3540067470D /* ShadowDict.hpp in Headers */,
 				C90B8F9C1A16DDB0005F3210 /* UIModule.hpp in Headers */,
 				C950EF901A48D8FB000EE5AC /* Label.hpp in Headers */,
 				F913EFC61A836026009080D1 /* AlertDialog.hpp in Headers */,
@@ -825,6 +854,7 @@
 				F913EFBC1A835FE4009080D1 /* AlertDialog.cpp in Sources */,
 				F96A53E21AA5D03E00AD4011 /* XML.cpp in Sources */,
 				F9BE4A7C1A88999400301999 /* NativeWebViewExample.cpp in Sources */,
+				F931042A1ABBE2F50067470D /* ShadowDict.cpp in Sources */,
 				F9B549781A402D520051A096 /* NativeTiExample.cpp in Sources */,
 				F9B177981A2C46FB00ECE602 /* Accelerometer.cpp in Sources */,
 				C90B8F931A16D83F005F3210 /* Window.cpp in Sources */,
@@ -840,7 +870,9 @@
 				F968A1C61AB93F6C00A0D546 /* FileStream.cpp in Sources */,
 				F9B1AF831A8E2F4400DEF4D6 /* sqlite3.c in Sources */,
 				F9B47E831A2EF94A0052879A /* Constants.cpp in Sources */,
+				F93104261ABBDDAB0067470D /* TableViewRow.cpp in Sources */,
 				C90950931A2951A7002133E1 /* Gesture.cpp in Sources */,
+				F93104251ABBDDAB0067470D /* TableView.cpp in Sources */,
 				F965FF2E1AA588230092ABBA /* View.cpp in Sources */,
 				F96A53D61AA5B64300AD4011 /* MapLocationTypev2.cpp in Sources */,
 				F9B1AF811A8E2F2B00DEF4D6 /* HTTPClient.cpp in Sources */,
@@ -852,6 +884,7 @@
 				F9B1AF7D1A8E2EEC00DEF4D6 /* ResultSet.cpp in Sources */,
 				F93CDC481A96D25E00C42D8C /* Dimension.cpp in Sources */,
 				C909508F1A29478A002133E1 /* Constants.cpp in Sources */,
+				F93104231ABBDDAB0067470D /* CloseWindowParams.cpp in Sources */,
 				F95C3E2C1AA59C75006AB8C7 /* Route.cpp in Sources */,
 				F96BCAC01A25CE6100745C3B /* PlatformModule.cpp in Sources */,
 				F95C3E2B1AA59C75006AB8C7 /* Camera.cpp in Sources */,
@@ -865,6 +898,7 @@
 				C90B90121A1ADC7D005F3210 /* NativeViewExample.cpp in Sources */,
 				F96A53DE1AA5CFEA00AD4011 /* Constants.cpp in Sources */,
 				F93CDC4B1A96D25E00C42D8C /* Point.cpp in Sources */,
+				F93104281ABBDDAB0067470D /* TitleAttributesParams.cpp in Sources */,
 				C90B90081A19804D005F3210 /* Application.cpp in Sources */,
 				F965FF2C1AA588230092ABBA /* Annotation.cpp in Sources */,
 				C90B8FD31A17CB1C005F3210 /* API.cpp in Sources */,
@@ -875,8 +909,10 @@
 				C9E6AFE81A13F94200FED053 /* TiBase.cpp in Sources */,
 				F9DD758E1AAEA3E2002D3AAA /* ViewLayoutPolicy.cpp in Sources */,
 				C90950A31A296802002133E1 /* Picker.cpp in Sources */,
+				F93104241ABBDDAB0067470D /* OpenWindowParams.cpp in Sources */,
 				C90B8F881A167E36005F3210 /* Module.cpp in Sources */,
 				F965FF2D1AA588230092ABBA /* Constants.cpp in Sources */,
+				F93104271ABBDDAB0067470D /* TableViewSection.cpp in Sources */,
 				F913EFBD1A835FE4009080D1 /* Slider.cpp in Sources */,
 				C97E14871A4CB0E200C15EDC /* ScrollView.cpp in Sources */,
 				F9BD6BA11A96FA4E00D721A9 /* ListViewMarkerProps.cpp in Sources */,

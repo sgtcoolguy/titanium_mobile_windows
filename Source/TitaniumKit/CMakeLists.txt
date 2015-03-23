@@ -196,6 +196,14 @@ set(SOURCE_UI
   src/UI/TableViewRow.cpp
   include/Titanium/UI/TableViewSection.hpp
   src/UI/TableViewSection.cpp
+  include/Titanium/UI/OpenWindowParams.hpp
+  src/UI/OpenWindowParams.cpp
+  include/Titanium/UI/CloseWindowParams.hpp
+  src/UI/CloseWindowParams.cpp
+  include/Titanium/UI/TitleAttributesParams.hpp
+  src/UI/TitleAttributesParams.cpp
+  include/Titanium/UI/ShadowDict.hpp
+  src/UI/ShadowDict.cpp
   )
 
 set(SOURCE_TiLogger_detail

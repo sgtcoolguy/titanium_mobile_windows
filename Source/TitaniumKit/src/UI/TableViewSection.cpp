@@ -47,7 +47,7 @@ namespace Titanium
 
 		uint32_t TableViewSection::get_rowCount() const TITANIUM_NOEXCEPT
     	{
-        	return rows__.size();
+        	return static_cast<uint32_t>(rows__.size());
 		}
 
 		std::vector<TableViewRow_shared_ptr_t> TableViewSection::get_rows() const TITANIUM_NOEXCEPT

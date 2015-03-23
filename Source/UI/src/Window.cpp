@@ -33,7 +33,7 @@ namespace TitaniumWindows
 			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(canvas__);
 		}
 
-		void Window::close(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT
+		void Window::close(const std::shared_ptr<Titanium::UI::CloseWindowParams>& params) const TITANIUM_NOEXCEPT
 		{
 			// FIXME How do we handle this? It should navigate to the next window/page in a stack...
 			layoutPolicy__->hide();
@@ -59,7 +59,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		void Window::open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT
+		void Window::open(const std::shared_ptr<Titanium::UI::OpenWindowParams>& params) const TITANIUM_NOEXCEPT
 		{
 			// Fire open event on this window
 			auto ctx = get_context();

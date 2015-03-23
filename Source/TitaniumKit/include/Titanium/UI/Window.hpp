@@ -11,6 +11,9 @@
 
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/Constants.hpp"
+#include "Titanium/UI/OpenWindowParams.hpp"
+#include "Titanium/UI/CloseWindowParams.hpp"
+#include "Titanium/UI/TitleAttributesParams.hpp"
 
 namespace Titanium
 {
@@ -39,7 +42,7 @@ namespace Titanium
 
 			  @result void
 			*/
-			virtual void close(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT;
+			virtual void close(const std::shared_ptr<CloseWindowParams>& params) const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -53,7 +56,7 @@ namespace Titanium
 
 			  @result void
 			*/
-			virtual void open(const JSObject& params, JSObject& this_object) const TITANIUM_NOEXCEPT;
+			virtual void open(const std::shared_ptr<OpenWindowParams>& params) const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -216,9 +219,8 @@ namespace Titanium
 
 			  Use this property to specify the color, font and shadow attributes of the title.
 			*/
-			// FIXME Generate a struct for http://docs.appcelerator.com/titanium/3.0/#!/api/titleAttributesParams once Font struct is in
-			virtual JSObject get_titleAttributes() const TITANIUM_NOEXCEPT final;
-			virtual void set_titleAttributes(const JSObject& titleAttributes) TITANIUM_NOEXCEPT;
+			virtual TitleAttributesParams get_titleAttributes() const TITANIUM_NOEXCEPT final;
+			virtual void set_titleAttributes(const TitleAttributesParams& titleAttributes) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -287,8 +289,11 @@ namespace Titanium
 			std::string navTintColor__;
 			std::vector<ORIENTATION> orientationModes__;
 			std::string theme__;
-			JSObject titleAttributes__;
+			TitleAttributesParams titleAttributes__;
 			bool translucent__;
+
+			JSObject openWindowParams_ctor__;
+			JSObject closeWindowParams_ctor__;
 #pragma warning(pop)
 		};
 	} // namespace UI
