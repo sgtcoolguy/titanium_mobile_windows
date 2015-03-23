@@ -43,7 +43,7 @@ namespace TitaniumWindows
 		static void JSExportInitialize();
 
 	private:
-		virtual std::string generateHash(Platform::String^ hashName, std::vector<unsigned char> data);
+		virtual std::string generateHash(Platform::String^ hashName, std::vector<std::uint8_t> data);
 
 		virtual std::string md5HexDigest(Blob_shared_ptr_t obj) TITANIUM_NOEXCEPT;
 		virtual std::string md5HexDigest(const std::string& obj) TITANIUM_NOEXCEPT;

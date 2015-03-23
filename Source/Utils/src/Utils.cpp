@@ -25,14 +25,14 @@ namespace TitaniumWindows
 		JSExport<Utils>::SetParent(JSExport<Titanium::Utils>::Class());
 	}
 
-	std::string Utils::generateHash(Platform::String^ hashName, std::vector<unsigned char> data) {
-		Platform::ArrayReference<unsigned char> parray(data.data(), data.size());
+	std::string Utils::generateHash(Platform::String^ hashName, std::vector<std::uint8_t> data) {
+		Platform::ArrayReference<std::uint8_t> parray(data.data(), data.size());
 		IBuffer^ buffer = CryptographicBuffer::CreateFromByteArray(parray);
 
 		HashAlgorithmProvider^ hashProvider = HashAlgorithmProvider::OpenAlgorithm(hashName);
 		auto hash = hashProvider->HashData(buffer);
 		
-		Platform::Array<unsigned char,1U>^ hashArray = ref new Platform::Array<unsigned char,1U>(hash->Length);
+		Platform::Array<std::uint8_t,1U>^ hashArray = ref new Platform::Array<std::uint8_t,1U>(hash->Length);
 		CryptographicBuffer::CopyToByteArray(hash, &hashArray);
 
 		std::string result = Utility::HexString(hashArray->Data, hashArray->Length);
@@ -46,7 +46,7 @@ namespace TitaniumWindows
 
 	std::string Utils::md5HexDigest(const std::string& obj) TITANIUM_NOEXCEPT
 	{
-		std::vector<unsigned char> data(obj.begin(), obj.end());
+		std::vector<std::uint8_t> data(obj.begin(), obj.end());
 		return generateHash(HashAlgorithmNames::Md5, data);
 	}
 
@@ -57,7 +57,7 @@ namespace TitaniumWindows
 
 	std::string Utils::sha1(const std::string& obj) TITANIUM_NOEXCEPT
 	{
-		std::vector<unsigned char> data(obj.begin(), obj.end());
+		std::vector<std::uint8_t> data(obj.begin(), obj.end());
 		return generateHash(HashAlgorithmNames::Sha1, data);
 	}
 
@@ -68,7 +68,7 @@ namespace TitaniumWindows
 
 	std::string Utils::sha256(const std::string& obj) TITANIUM_NOEXCEPT
 	{
-		std::vector<unsigned char> data(obj.begin(), obj.end());
+		std::vector<std::uint8_t> data(obj.begin(), obj.end());
 		return generateHash(HashAlgorithmNames::Sha256, data);
 	}
 }  // namespace TitaniumWindows

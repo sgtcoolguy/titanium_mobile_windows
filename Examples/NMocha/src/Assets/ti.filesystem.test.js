@@ -476,7 +476,7 @@ describe('Titanium.Filesystem.File', function () {
     });
 
     // File.write from String
-    it.skip('write_String', function (finish) {
+    it('write_String', function (finish) {
         var msg = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(msg.write('Appcelerator', false)).be.true;
         should(msg.exists()).be.true;
@@ -494,7 +494,7 @@ describe('Titanium.Filesystem.File', function () {
     });
 
     // File.write from String (append)
-    it.skip('write_String_append', function (finish) {
+    it('write_String_append', function (finish) {
         var msg = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(msg.write('Appcelerator', false)).be.true;
         should(msg.exists()).be.true;
@@ -514,7 +514,7 @@ describe('Titanium.Filesystem.File', function () {
     });
 
     // File.write from File
-    it.skip('write_File', function (finish) {
+    it('write_File', function (finish) {
         var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(from.write('Appcelerator', false)).be.true;
         should(from.exists()).be.true;
@@ -539,7 +539,7 @@ describe('Titanium.Filesystem.File', function () {
     });
 
     // File.write from File (append)
-    it.skip('write_File_append', function (finish) {
+    it('write_File_append', function (finish) {
         var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(from.write('Appcelerator', false)).be.true;
         should(from.exists()).be.true;
@@ -566,7 +566,7 @@ describe('Titanium.Filesystem.File', function () {
     });
 
     // File.write from Blob
-    it.skip('write_Blob', function (finish) {
+    it('write_Blob', function (finish) {
         var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(from.write('Appcelerator', false)).be.true;
         should(from.exists()).be.true;
@@ -591,7 +591,7 @@ describe('Titanium.Filesystem.File', function () {
     });
 
     // File.write from Blob (append)
-    it.skip('write_Blob_append', function (finish) {
+    it('write_Blob_append', function (finish) {
         var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
         should(from.write('Appcelerator', false)).be.true;
         should(from.exists()).be.true;

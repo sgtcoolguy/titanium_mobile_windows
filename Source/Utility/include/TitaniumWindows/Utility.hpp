@@ -18,6 +18,7 @@
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <cstdint>
 
 #define EPOCH_BIAS 116444736000000000 // Number of 100 nanosecond units from 1/1/1601 (windows epoch) to 1/1/1970 (unix epoch)
 
@@ -90,19 +91,19 @@ namespace TitaniumWindows
 			return ss.str();
 		}
 
-		static std::vector<unsigned char> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer)
+		static std::vector<std::uint8_t> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer)
 		{
 			const auto reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
-			std::vector<unsigned char> data(reader->UnconsumedBufferLength);
+			std::vector<std::uint8_t> data(reader->UnconsumedBufferLength);
 			if (!data.empty()) {
-				reader->ReadBytes(::Platform::ArrayReference<unsigned char>(&data[0], data.size()));
+				reader->ReadBytes(::Platform::ArrayReference<std::uint8_t>(&data[0], data.size()));
 			}
 			return data;
 		}
 
-		static std::vector<unsigned char> GetContentFromFile(Windows::Storage::StorageFile^ file)
+		static std::vector<std::uint8_t> GetContentFromFile(Windows::Storage::StorageFile^ file)
 		{
-			std::vector<unsigned char> content;
+			std::vector<std::uint8_t> content;
 			concurrency::event event;
 			concurrency::task<Windows::Storage::Streams::IBuffer^>(Windows::Storage::FileIO::ReadBufferAsync(file)).then([&content, &event](concurrency::task<Windows::Storage::Streams::IBuffer ^ > task) {
 					try {

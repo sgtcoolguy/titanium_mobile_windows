@@ -89,8 +89,8 @@ namespace Titanium
 		*/
 		virtual void append(std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT;
 
-		virtual void construct(std::vector<unsigned char> data) TITANIUM_NOEXCEPT;
-		virtual std::vector<unsigned char> getData() TITANIUM_NOEXCEPT;
+		virtual void construct(std::vector<std::uint8_t> data) TITANIUM_NOEXCEPT;
+		virtual std::vector<std::uint8_t> getData() TITANIUM_NOEXCEPT;
 
 		Blob(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -132,7 +132,7 @@ namespace Titanium
 		uint32_t width_;
 		uint32_t height_;
 		BlobModule::TYPE type_;
-		std::vector<unsigned char> data_;
+		std::vector<std::uint8_t> data_;
 #pragma warning(pop)
 	};
 }  // namespace Titanium

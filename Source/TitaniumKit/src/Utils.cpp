@@ -30,7 +30,7 @@ namespace Titanium
 
 	Blob_shared_ptr_t Utils::base64decode(File_shared_ptr_t obj) TITANIUM_NOEXCEPT
 	{
-		Blob_shared_ptr_t blob = static_cast<JSObject>(obj->read()).GetPrivate<Blob>();
+		Blob_shared_ptr_t blob = obj->read();
 		return base64decode(blob->get_text());
 	}
 
@@ -45,7 +45,7 @@ namespace Titanium
 
 		auto blob = get_context().CreateObject(JSExport<Titanium::Blob>::Class()).CallAsConstructor();
 		auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
-		blob_ptr->construct(std::vector<unsigned char>(result.begin(), result.end()));
+		blob_ptr->construct(std::vector<std::uint8_t>(result.begin(), result.end()));
 		return blob_ptr;
 	}
 
@@ -56,7 +56,7 @@ namespace Titanium
 
 	Blob_shared_ptr_t Utils::base64encode(File_shared_ptr_t obj) TITANIUM_NOEXCEPT
 	{
-		Blob_shared_ptr_t blob = static_cast<JSObject>(obj->read()).GetPrivate<Blob>();
+		Blob_shared_ptr_t blob = obj->read();
 		return base64encode(blob->get_text());
 	}
 
@@ -71,7 +71,7 @@ namespace Titanium
 
 		auto blob = get_context().CreateObject(JSExport<Titanium::Blob>::Class()).CallAsConstructor();
 		auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
-		blob_ptr->construct(std::vector<unsigned char>(result.begin(), result.end()));
+		blob_ptr->construct(std::vector<std::uint8_t>(result.begin(), result.end()));
 		return blob_ptr;
 	}
 

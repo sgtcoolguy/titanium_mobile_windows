@@ -38,10 +38,10 @@ std::string NativeFileExample::get_nativePath() const TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::get_nativePath");
 	return "";
 }
-JSValue NativeFileExample::get_parent() const TITANIUM_NOEXCEPT
+std::shared_ptr<Titanium::Filesystem::File> NativeFileExample::get_parent() const TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::get_parent");
-	return get_context().CreateNull();
+	return nullptr;
 }
 bool NativeFileExample::get_readonly() const TITANIUM_NOEXCEPT
 {
@@ -69,7 +69,7 @@ unsigned long long NativeFileExample::get_size() const TITANIUM_NOEXCEPT
 	return 0;
 }
 
-bool NativeFileExample::append(const JSValue& data) TITANIUM_NOEXCEPT
+bool NativeFileExample::append(const std::shared_ptr<Titanium::Filesystem::File>& data) TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::append");
 	return false;
@@ -140,15 +140,15 @@ bool NativeFileExample::move(const std::string& newpath) TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::move");
 	return false;
 }
-JSValue NativeFileExample::open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT
+std::shared_ptr<Titanium::Filesystem::FileStream> NativeFileExample::open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::open");
-	return get_context().CreateNull();
+	return nullptr;
 }
-JSValue NativeFileExample::read() TITANIUM_NOEXCEPT
+std::shared_ptr<Titanium::Blob> NativeFileExample::read() TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::read");
-	return get_context().CreateNull();
+	return nullptr;
 }
 bool NativeFileExample::rename(const std::string& newname) TITANIUM_NOEXCEPT
 {
@@ -165,7 +165,7 @@ unsigned long long NativeFileExample::spaceAvailable() TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::spaceAvailable");
 	return false;
 }
-bool NativeFileExample::write(const JSValue& data, bool append) TITANIUM_NOEXCEPT
+bool NativeFileExample::write(const std::shared_ptr<Titanium::Filesystem::File>& data, bool append) TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::write");
 	return false;

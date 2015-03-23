@@ -14,9 +14,14 @@
 
 namespace Titanium
 {
+	class Blob;
+
 	namespace Filesystem
 	{
 		using namespace HAL;
+
+		class File;
+		class FileStream;
 
 		/*!
 		  @class
@@ -55,7 +60,7 @@ namespace Titanium
 			  @abstract get_parent
 			  @discussion A File object representing the parent directory of the file identified by this object.
 			*/
-			virtual JSValue get_parent() const TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<File> get_parent() const TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract get_teadonly
@@ -92,7 +97,10 @@ namespace Titanium
 			  @abstract append
 			  @discussion Appends data to the file identified by this file object.
 			*/
-			virtual bool append(const JSValue& data) TITANIUM_NOEXCEPT;
+			virtual bool append(const std::string& data) TITANIUM_NOEXCEPT;
+			virtual bool append(const std::shared_ptr<Titanium::Blob>& data) TITANIUM_NOEXCEPT;
+			virtual bool append(const std::shared_ptr<File>& data) TITANIUM_NOEXCEPT;
+
 			/*!
 			  @method
 			  @abstract copy
@@ -122,7 +130,7 @@ namespace Titanium
 			  @abstract deleteDirectory
 			  @discussion Deletes the directory identified by this file object.
 			*/
-			virtual bool deleteDirectory(bool recursive) TITANIUM_NOEXCEPT;
+			virtual bool deleteDirectory(const bool& recursive) TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract deleteFile
@@ -177,13 +185,13 @@ namespace Titanium
 			  @abstract open
 			  @discussion Opens the file identified by this file object for random access.
 			*/
-			virtual JSValue open(const std::unordered_set<MODE>&) TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<FileStream> open(const std::unordered_set<MODE>&) TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract read
 			  @discussion Returns the contents of the file identified by this file object as a Blob.
 			*/
-			virtual JSValue read() TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<Titanium::Blob> read() TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract rename
@@ -207,7 +215,11 @@ namespace Titanium
 			  @abstract write
 			  @discussion Writes the specified data to the file identified by this file object.
 			*/
-			virtual bool write(const JSValue& data, bool append) TITANIUM_NOEXCEPT;
+			virtual bool write(const std::string& data, const bool& append) TITANIUM_NOEXCEPT;
+			virtual bool write(const std::shared_ptr<Titanium::Blob>& data, const bool& append) TITANIUM_NOEXCEPT;
+			virtual bool write(const std::shared_ptr<File>& data, const bool& append) TITANIUM_NOEXCEPT;
+
+			virtual std::vector<std::uint8_t> getContent() const TITANIUM_NOEXCEPT;
 
 			File(const JSContext&) TITANIUM_NOEXCEPT;
 
