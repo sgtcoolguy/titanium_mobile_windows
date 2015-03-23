@@ -107,14 +107,10 @@ namespace TitaniumWindows
 		Titanium::UI::Dimension WindowsViewLayoutPolicy::get_rect() const TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Dimension d;
-			d.x = oldRect__.x;
-			//d.x = layout_node__->element.measuredLeft;
-			d.y = oldRect__.y;
-			//d.y = layout_node__->element.measuredTop;
-			//d.height = layout_node__->element.measuredHeight;
-			//d.width = layout_node__->element.measuredWidth;
-			d.width = oldRect__.width;
-			d.height = oldRect__.height;
+			d.x = static_cast<uint32_t>(oldRect__.x);
+			d.y = static_cast<uint32_t>(oldRect__.y);
+			d.width = static_cast<uint32_t>(oldRect__.width);
+			d.height = static_cast<uint32_t>(oldRect__.height);
 			return d;
 		}
 
@@ -123,10 +119,8 @@ namespace TitaniumWindows
 			Titanium::UI::Dimension d;
 			d.x = 0;
 			d.y = 0;
-			//d.height = layout_node__->element.measuredHeight;
-			//d.width = layout_node__->element.measuredWidth;
-			d.width = oldRect__.width;
-			d.height = oldRect__.height;
+			d.width = static_cast<uint32_t>(oldRect__.width);
+			d.height = static_cast<uint32_t>(oldRect__.height);
 			return d;
 		}
 		void WindowsViewLayoutPolicy::set_tintColor(const std::string& tintColor) TITANIUM_NOEXCEPT
