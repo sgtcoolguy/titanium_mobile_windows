@@ -112,30 +112,31 @@ namespace TitaniumWindows
 			// TODO This lookup map should be global, not per-instance of a Label!
 			// Did we already look up this font?
 			auto family = font.fontFamily;
-			auto path = family;
-			if (family.length() > 0 && custom_fonts__.find(family) == custom_fonts__.end()) {
-				// Look up to see if this is a custom font!
-				auto export_object = get_context().CreateObject();
-				get_context().JSEvaluateScript(ti_label_js, export_object);
-				TITANIUM_ASSERT(export_object.HasProperty("exports"));
-				auto exports = export_object.GetProperty("exports");
-				TITANIUM_ASSERT(exports.IsObject());
-				auto exports_object = static_cast<JSObject>(exports);
-				auto eval_result = exports_object.GetProperty("getFontFilePath");
-				TITANIUM_ASSERT(eval_result.IsObject());
-				auto func = static_cast<JSObject>(eval_result);
-				TITANIUM_ASSERT(func.IsFunction());
-				auto result = func(family, get_context().get_global_object());
-				if (result.IsNull()) { // we have no custom font by this name, assume it's a built-in font
-					path = family;
-				} else {
-					TITANIUM_ASSERT(result.IsString()); // custom font file
-					const auto file_name = static_cast<std::string>(result);
-					path = "/fonts/" + file_name + "#" + family;
+			if (family.length() > 0) {
+				auto path = family;
+				if (custom_fonts__.find(family) == custom_fonts__.end()) {
+					// Look up to see if this is a custom font!
+					auto export_object = get_context().CreateObject();
+					get_context().JSEvaluateScript(ti_label_js, export_object);
+					TITANIUM_ASSERT(export_object.HasProperty("exports"));
+					auto exports = export_object.GetProperty("exports");
+					TITANIUM_ASSERT(exports.IsObject());
+					auto exports_object = static_cast<JSObject>(exports);
+					auto eval_result = exports_object.GetProperty("getFontFilePath");
+					TITANIUM_ASSERT(eval_result.IsObject());
+					auto func = static_cast<JSObject>(eval_result);
+					TITANIUM_ASSERT(func.IsFunction());
+					auto result = func(family, get_context().get_global_object());
+					if (result.IsNull()) { // we have no custom font by this name, assume it's a built-in font
+						path = family;
+					} else {
+						TITANIUM_ASSERT(result.IsString()); // custom font file
+						const auto file_name = static_cast<std::string>(result);
+						path = "/fonts/" + file_name + "#" + family;
+					}
 				}
-				custom_fonts__[family] = path;
-			}
-			if (path.length() > 0) {
+				
+				custom_fonts__.emplace(family, path);
 				label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(Utility::ConvertUTF8String(path));
 			}
 			if (font.fontSize.length() > 0) {

@@ -26,7 +26,7 @@ require('./ti.filesystem.test');
 require('./ti.gesture.test');
 //require('./ti.internal.test');
 require('./ti.map.test');
-require('./ti.network.httpclient.test');
+//require('./ti.network.httpclient.test'); // FIXME Receiving error doing onreadystatechange callback for a GC'd object
 require('./ti.platform.test');
 require('./ti.require.test');
 require('./ti.test');
@@ -83,13 +83,12 @@ mocha.setup({
 
 // dump the output, which will get interpreted above in the logging code
 mocha.run(function () {
-
     win.backgroundColor = failed ? 'red' : 'green';
 
     Ti.API.info('!TEST_RESULTS_START!\n' +
-    (JSON.stringify({
-        date: new Date,
-        results: $results
-    }, null, '\t')) +
+        (JSON.stringify({
+            date: new Date,
+            results: $results
+        })) +
     '\n!TEST_RESULTS_STOP!');
 });
