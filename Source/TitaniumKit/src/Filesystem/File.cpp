@@ -5,6 +5,8 @@
  */
 
 #include "Titanium/Filesystem/File.hpp"
+#include "Titanium/Filesystem/FileStream.hpp"
+#include "Titanium/Blob.hpp"
 #include <type_traits>
 
 namespace Titanium
@@ -88,10 +90,10 @@ namespace Titanium
 			return "";
 		}
 
-		JSValue File::get_parent() const TITANIUM_NOEXCEPT
+		std::shared_ptr<File> File::get_parent() const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::get_parent: Unimplemented");
-			return get_context().CreateNull();
+			return nullptr;
 		}
 
 		bool File::get_readonly() const TITANIUM_NOEXCEPT
@@ -124,9 +126,21 @@ namespace Titanium
 			return 0;
 		}
 
-		bool File::append(const JSValue& data) TITANIUM_NOEXCEPT
+		bool File::append(const std::string& data) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("File::append: Unimplemented");
+			TITANIUM_LOG_WARN("File::append(string): Unimplemented");
+			return false;
+		}
+
+		bool File::append(const std::shared_ptr<Titanium::Blob>& data) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("File::append(Blob): Unimplemented");
+			return false;
+		}
+
+		bool File::append(const std::shared_ptr<File>& data) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("File::append(File): Unimplemented");
 			return false;
 		}
 
@@ -154,7 +168,7 @@ namespace Titanium
 			return std::chrono::milliseconds(0);
 		}
 
-		bool File::deleteDirectory(bool recursive) TITANIUM_NOEXCEPT
+		bool File::deleteDirectory(const bool& recursive) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::deleteDirectory: Unimplemented");
 			return false;
@@ -209,16 +223,16 @@ namespace Titanium
 			return false;
 		}
 
-		JSValue File::open(const std::unordered_set<MODE>&) TITANIUM_NOEXCEPT
+		std::shared_ptr<FileStream> File::open(const std::unordered_set<MODE>&) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::open: Unimplemented");
-			return get_context().CreateNull();
+			return nullptr;
 		}
 
-		JSValue File::read() TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::Blob> File::read() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::read: Unimplemented");
-			return get_context().CreateNull();
+			return nullptr;
 		}
 
 		bool File::rename(const std::string& newname) TITANIUM_NOEXCEPT
@@ -239,10 +253,29 @@ namespace Titanium
 			return false;
 		}
 
-		bool File::write(const JSValue& data, bool append) TITANIUM_NOEXCEPT
+		bool File::write(const std::string& data, const bool& append) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("File::write: Unimplemented");
+			TITANIUM_LOG_WARN("File::write(string): Unimplemented");
 			return false;
+		}
+
+		bool File::write(const std::shared_ptr<Titanium::Blob>& data, const bool& append) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("File::write(Blob): Unimplemented");
+			return false;
+		}
+
+		bool File::write(const std::shared_ptr<File>& data, const bool& append) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("File::write(File): Unimplemented");
+			return false;
+		}
+
+		std::vector<unsigned char> File::getContent() const TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("File::getContent(): Unimplemented");
+			std::vector<unsigned char> content;
+			return content;
 		}
 
 		JSValue File::js_get_executable() const TITANIUM_NOEXCEPT
@@ -267,7 +300,11 @@ namespace Titanium
 
 		JSValue File::js_get_parent() const TITANIUM_NOEXCEPT
 		{
-			return get_parent();
+			auto parent = get_parent();
+			if (parent != nullptr) {
+				return parent->get_object();
+			}
+			return get_context().CreateNull();
 		}
 
 		JSValue File::js_get_readonly() const TITANIUM_NOEXCEPT
@@ -347,10 +384,26 @@ namespace Titanium
 
 		JSValue File::js_append(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
+
 			if (arguments.size() == 0) {
-				return get_context().CreateUndefined();
+				return js_context.CreateUndefined();
 			}
-			return get_context().CreateBoolean(append(arguments.at(0)));
+			auto _0 = arguments.at(0);
+
+			if (_0.IsString()) {
+				return js_context.CreateBoolean(append(static_cast<std::string>(arguments.at(0))));
+			} else if (_0.IsObject()) {
+				const auto js_object = static_cast<JSObject>(_0);
+				const auto blob = js_object.GetPrivate<Titanium::Blob>();
+				const auto file = js_object.GetPrivate<File>();
+				if (blob != nullptr) {
+					return js_context.CreateBoolean(append(blob));
+				} else if (file != nullptr) {
+					return js_context.CreateBoolean(append(file));
+				}
+			}
+			return js_context.CreateNull();
 		}
 
 		JSValue File::js_copy(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -445,18 +498,29 @@ namespace Titanium
 
 		JSValue File::js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			auto js_context = this_object.get_context();
 			if (arguments.size() == 0) {
-				return get_context().CreateUndefined();
+				return js_context.CreateUndefined();
 			}
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsNumber());
 
-			return open(Constants::to_MODE(static_cast<std::underlying_type<MODE>::type>(_0)));
+			const auto result = open(Constants::to_MODE(static_cast<std::underlying_type<MODE>::type>(_0)));
+			if (result != nullptr) {
+				return result->get_object();
+			} else {
+				return js_context.CreateNull();
+			}
 		}
 
 		JSValue File::js_read(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			return read();
+			const auto result = read();
+			if (result != nullptr) {
+				return result->get_object();
+			} else {
+				return this_object.get_context().CreateNull();
+			}
 		}
 
 		JSValue File::js_rename(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -482,8 +546,10 @@ namespace Titanium
 
 		JSValue File::js_write(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
+			const auto js_context = this_object.get_context();
+
 			if (arguments.size() < 2) {
-				return get_context().CreateUndefined();
+				return js_context.CreateUndefined();
 			}
 
 			const auto _0 = arguments.at(0);
@@ -492,7 +558,19 @@ namespace Titanium
 			TITANIUM_ASSERT(_1.IsBoolean());
 			const auto append = static_cast<bool>(_1);
 
-			return get_context().CreateBoolean(write(_0, append));
+			if (_0.IsString()) {
+				return js_context.CreateBoolean(write(static_cast<std::string>(arguments.at(0)), append));
+			} else if (_0.IsObject()) {
+				const auto js_object = static_cast<JSObject>(_0);
+				const auto blob = js_object.GetPrivate<Titanium::Blob>();
+				const auto file = js_object.GetPrivate<File>();
+				if (blob != nullptr) {
+					return js_context.CreateBoolean(write(blob, append));
+				} else if (file != nullptr) {
+					return js_context.CreateBoolean(write(file, append));
+				}
+			}
+			return js_context.CreateNull();
 		}
 	} // namespace Filesystem
 }  // namespace Titanium

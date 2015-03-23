@@ -30,7 +30,7 @@ namespace Titanium
 
 	Blob_shared_ptr_t Utils::base64decode(File_shared_ptr_t obj) TITANIUM_NOEXCEPT
 	{
-		Blob_shared_ptr_t blob = static_cast<JSObject>(obj->read()).GetPrivate<Blob>();
+		Blob_shared_ptr_t blob = obj->read();
 		return base64decode(blob->get_text());
 	}
 
@@ -56,7 +56,7 @@ namespace Titanium
 
 	Blob_shared_ptr_t Utils::base64encode(File_shared_ptr_t obj) TITANIUM_NOEXCEPT
 	{
-		Blob_shared_ptr_t blob = static_cast<JSObject>(obj->read()).GetPrivate<Blob>();
+		Blob_shared_ptr_t blob = obj->read();
 		return base64encode(blob->get_text());
 	}
 

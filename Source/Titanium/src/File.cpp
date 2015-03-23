@@ -196,13 +196,13 @@ namespace TitaniumWindows
 			return path_;
 		}
 
-		JSValue File::get_parent() const TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::Filesystem::File> File::get_parent() const TITANIUM_NOEXCEPT
 		{
 			const std::string path = path_;
 			const std::string parent = path.substr(0, path.find_last_of("\\"));
 
 			auto File = get_context().CreateObject(JSExport<Titanium::Filesystem::File>::Class());
-			return File.CallAsConstructor(parent);
+			return File.CallAsConstructor(parent).GetPrivate<Titanium::Filesystem::File>();
 		}
 
 		bool File::get_readonly() const TITANIUM_NOEXCEPT
@@ -245,9 +245,21 @@ namespace TitaniumWindows
 			}
 		}
 
-		bool File::append(const JSValue& data) TITANIUM_NOEXCEPT
+		bool File::append(const std::string& data) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("File::append: Unimplemented");
+			TITANIUM_LOG_WARN("File::append(string): Unimplemented");
+			return false;
+		}
+
+		bool File::append(const std::shared_ptr<Titanium::Blob>& data) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("File::append(Blob): Unimplemented");
+			return false;
+		}
+
+		bool File::append(const std::shared_ptr<Titanium::Filesystem::File>& data) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("File::append(File): Unimplemented");
 			return false;
 		}
 
@@ -322,7 +334,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		bool File::deleteDirectory(bool recursive) TITANIUM_NOEXCEPT
+		bool File::deleteDirectory(const bool& recursive) TITANIUM_NOEXCEPT
 		{
 			if (!isFolder()) {
 				return false;
@@ -510,16 +522,16 @@ namespace TitaniumWindows
 			return result;
 		}
 
-		JSValue File::open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::Filesystem::FileStream> File::open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::open: Unimplemented");
-			return get_context().CreateNull();
+			return nullptr;
 		}
 
-		JSValue File::read() TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::Blob> File::read() TITANIUM_NOEXCEPT
 		{
 			if (file_ == nullptr) {
-				return get_context().CreateNull();
+				return nullptr;
 			}
 			auto Blob = get_context().CreateObject(JSExport<TitaniumWindows::Blob>::Class());
 			auto blob = Blob.CallAsConstructor();
@@ -527,7 +539,7 @@ namespace TitaniumWindows
 
 			blob_ptr->construct(file_);
 
-			return blob;
+			return blob.GetPrivate<Titanium::Blob>();
 		}
 
 		bool File::rename(const std::string& desiredName) TITANIUM_NOEXCEPT
@@ -579,43 +591,67 @@ namespace TitaniumWindows
 			return freeSpace;
 		}
 
-		bool File::write(const JSValue& data, bool append) TITANIUM_NOEXCEPT
+		bool File::prepareWrite() 
 		{
 			// if this item represents folder, write will never work
 			if (isFolder()) {
+				TITANIUM_LOG_WARN("File::write: Can't write to directory");
 				return false;
 			}
 
 			if (file_ == nullptr) {
 				// create empty file, then retrieve StorageFile object
 				if (!createEmptyFile(path_)) {
+					TITANIUM_LOG_WARN("File::write: Can't write to file");
 					return false;
 				}
 				file_ = getFileFromPathSync(TitaniumWindows::Utility::ConvertString(path_));
 				if (file_ == nullptr) {
+					TITANIUM_LOG_WARN("File::write: Can't get file");
 					return false;
 				}
 			}
+			return true;
+		}
 
-			Streams::IBuffer^ buffer = nullptr;
-
-			if (data.IsString()) {
-				const auto content = static_cast<std::string>(data);
-				buffer = getBufferFromString(content, append, file_);
-			} else if (data.IsObject()) {
-				JSObject obj = static_cast<JSObject>(data);
-				auto file = obj.GetPrivate<TitaniumWindows::Filesystem::File>();
-				if (file) {
-					auto content = file->getContent();
-					buffer = getBufferFromBytes(&content[0], content.size(), append, file_);
-				} else {
-					auto blob = obj.GetPrivate<TitaniumWindows::Blob>();
-					if (blob && blob->get_size() > 0) {
-						buffer = getBufferFromBytes(&blob->getData()[0], blob->get_size(), append, file_);
-					}
-				}
+		bool File::write(const std::string& data, const bool& append) TITANIUM_NOEXCEPT
+		{
+			if (!prepareWrite()) {
+				return false;
 			}
 
+			return write(getBufferFromString(data, append, file_));
+		}
+
+		bool File::write(const std::shared_ptr<Titanium::Blob>& data, const bool& append) TITANIUM_NOEXCEPT
+		{
+			if (!prepareWrite()) {
+				return false;
+			}
+
+			if (data->get_size() > 0) {
+				return write(getBufferFromBytes(&data->getData()[0], data->get_size(), append, file_));
+			} else {
+				return write(ref new Streams::Buffer(0));
+			}
+		}
+
+		bool File::write(const std::shared_ptr<Titanium::Filesystem::File>& data, const bool& append) TITANIUM_NOEXCEPT
+		{
+			if (!prepareWrite()) {
+				return false;
+			}
+
+			auto content = data->getContent();
+			if (content.size() > 0) {
+				return write(getBufferFromBytes(&content[0], content.size(), append, file_));
+			} else {
+				return write(ref new Streams::Buffer(0));
+			}
+		}
+
+		bool File::write(Streams::IBuffer^ buffer)
+		{
 			if (buffer == nullptr) {
 				TITANIUM_LOG_DEBUG("Can't get content from Ti.Filesystem.File.write(content)");
 				return false;
@@ -627,8 +663,7 @@ namespace TitaniumWindows
 					try {
 						task.get();
 						result = true;
-					}
-					catch (Platform::COMException^ ex) {
+					} catch (Platform::COMException^ ex) {
 						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
 					}
 					event.set();
@@ -638,5 +673,12 @@ namespace TitaniumWindows
 
 			return result;
 		}
+
+		std::vector<unsigned char> File::getContent() const TITANIUM_NOEXCEPT
+		{
+			return TitaniumWindows::Utility::GetContentFromFile(file_);
+		}
+
+
 	} // namespace Filesystem
 } // namespace TitaniumWindows
