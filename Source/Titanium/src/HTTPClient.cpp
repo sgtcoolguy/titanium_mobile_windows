@@ -30,6 +30,8 @@ namespace TitaniumWindows
 		HTTPClient::~HTTPClient()
 		{
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Network::HTTPClient::dtor");
+			abort();
+
 			filter__ = nullptr;
 			httpClient__ = nullptr;
 			dispatcherTimer__ = nullptr;
@@ -44,7 +46,10 @@ namespace TitaniumWindows
 		void HTTPClient::abort() TITANIUM_NOEXCEPT
 		{
 			cancellationTokenSource__.cancel();
-			dispatcherTimer__->Stop();
+
+			if (dispatcherTimer__ != nullptr && dispatcherTimer__->IsEnabled) {
+				dispatcherTimer__->Stop();
+			}
 		}
 
 		void HTTPClient::clearCookies(const std::string& url) TITANIUM_NOEXCEPT
