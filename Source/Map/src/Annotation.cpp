@@ -62,7 +62,7 @@ namespace TitaniumWindows
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			BasicGeoposition bgp = { get_latitude(), get_longitude() };
 			MapControl::SetLocation(mapicon__, ref new Geopoint(bgp));
-			MapControl::SetNormalizedAnchorPoint(mapicon__, Windows::Foundation::Point(0.5, 0.7));
+			MapControl::SetNormalizedAnchorPoint(mapicon__, Windows::Foundation::Point(0.5f, 0.75f));
 #endif
 		}
 
