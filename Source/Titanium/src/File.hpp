@@ -29,19 +29,22 @@ namespace TitaniumWindows
 			virtual bool get_hidden() const TITANIUM_NOEXCEPT override;
 			virtual std::string get_name() const TITANIUM_NOEXCEPT override;
 			virtual std::string get_nativePath() const TITANIUM_NOEXCEPT override;
-			virtual JSValue get_parent() const TITANIUM_NOEXCEPT override;
+			virtual std::shared_ptr<Titanium::Filesystem::File> get_parent() const TITANIUM_NOEXCEPT override;
 			virtual bool get_readonly() const TITANIUM_NOEXCEPT override;
 			virtual bool get_remoteBackup() const TITANIUM_NOEXCEPT override;
 			virtual unsigned long long get_size() const TITANIUM_NOEXCEPT override;
 			virtual bool get_symbolicLink() const TITANIUM_NOEXCEPT override;
 			virtual bool get_writable() const TITANIUM_NOEXCEPT override;
 
-			virtual bool append(const JSValue& data) TITANIUM_NOEXCEPT override;
+			virtual bool append(const std::string& data) TITANIUM_NOEXCEPT override;
+			virtual bool append(const std::shared_ptr<Titanium::Blob>& data) TITANIUM_NOEXCEPT override;
+			virtual bool append(const std::shared_ptr<Titanium::Filesystem::File>& data) TITANIUM_NOEXCEPT override;
+
 			virtual bool copy(const std::string& dest) TITANIUM_NOEXCEPT override;
 			virtual bool createDirectory() TITANIUM_NOEXCEPT override;
 			virtual bool createFile() TITANIUM_NOEXCEPT override;
 			virtual std::chrono::milliseconds createTimestamp() TITANIUM_NOEXCEPT override;
-			virtual bool deleteDirectory(bool recursive) TITANIUM_NOEXCEPT override;
+			virtual bool deleteDirectory(const bool& recursive) TITANIUM_NOEXCEPT override;
 			virtual bool deleteFile() TITANIUM_NOEXCEPT override;
 			virtual bool exists() TITANIUM_NOEXCEPT override;
 			virtual std::string extension() TITANIUM_NOEXCEPT override;
@@ -50,12 +53,14 @@ namespace TitaniumWindows
 			virtual bool isFile() TITANIUM_NOEXCEPT override;
 			virtual std::chrono::milliseconds modificationTimestamp() TITANIUM_NOEXCEPT override;
 			virtual bool move(const std::string& newpath) TITANIUM_NOEXCEPT override;
-			virtual JSValue open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT override;
-			virtual JSValue read() TITANIUM_NOEXCEPT override;
+			virtual std::shared_ptr<Titanium::Filesystem::FileStream> open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT override;
+			virtual std::shared_ptr<Titanium::Blob> read() TITANIUM_NOEXCEPT override;
 			virtual bool rename(const std::string& newname) TITANIUM_NOEXCEPT override;
 			virtual std::string resolve() TITANIUM_NOEXCEPT override;
 			virtual unsigned long long spaceAvailable() TITANIUM_NOEXCEPT override;
-			virtual bool write(const JSValue& data, bool append) TITANIUM_NOEXCEPT override;
+			virtual bool write(const std::string& data, const bool& append) TITANIUM_NOEXCEPT override;
+			virtual bool write(const std::shared_ptr<Titanium::Blob>& data, const bool& append) TITANIUM_NOEXCEPT override;
+			virtual bool write(const std::shared_ptr<Titanium::Filesystem::File>& data, const bool& append) TITANIUM_NOEXCEPT override;
 
 			File(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -71,13 +76,12 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-			const std::vector<unsigned char> getContent()
-			{
-				return TitaniumWindows::Utility::GetContentFromFile(file_);
-			}
+			virtual std::vector<std::uint8_t> getContent() const TITANIUM_NOEXCEPT override;
 
 		protected:
 		private:
+			bool prepareWrite();
+			bool write(Windows::Storage::Streams::IBuffer^ buffer);
 			bool createDirectory(const std::string& desiredName);
 
 			std::string normalizePath(const std::string& path);
@@ -127,13 +131,13 @@ namespace TitaniumWindows
 				return getFileFromPathSync(TitaniumWindows::Utility::ConvertString(filename));
 			}
 
-			Windows::Storage::Streams::IBuffer^ getBufferFromBytes(unsigned char* data, std::size_t size, bool append, Windows::Storage::StorageFile^ appendingFile) {
+			Windows::Storage::Streams::IBuffer^ getBufferFromBytes(std::uint8_t* data, std::size_t size, bool append, Windows::Storage::StorageFile^ appendingFile) {
 				using namespace Windows::Storage;
 				const auto writer = ref new Streams::DataWriter(ref new Streams::InMemoryRandomAccessStream());
 				if (append) {
 					writeContentFromFile(writer, appendingFile);
 				}
-				writer->WriteBytes(::Platform::ArrayReference<unsigned char>(data, size));
+				writer->WriteBytes(::Platform::ArrayReference<std::uint8_t>(data, size));
 				return writer->DetachBuffer();
 			}
 
@@ -151,7 +155,7 @@ namespace TitaniumWindows
 			{
 				auto content = TitaniumWindows::Utility::GetContentFromFile(file);
 				if (content.size() > 0) {
-					writer->WriteBytes(::Platform::ArrayReference<unsigned char>(&content[0], content.size()));
+					writer->WriteBytes(::Platform::ArrayReference<std::uint8_t>(&content[0], content.size()));
 				}
 				return content.size();
 			}

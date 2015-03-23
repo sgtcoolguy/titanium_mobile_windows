@@ -18,13 +18,13 @@ namespace Titanium
 		{
 		}
 
-		std::vector<unsigned char> WebView::getData() const TITANIUM_NOEXCEPT
+		std::vector<std::uint8_t> WebView::getData() const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("WebView::getData: Unimplemented");
-			return std::vector<unsigned char>();
+			return std::vector<std::uint8_t>();
 		}
 
-		bool WebView::setData(const std::vector<unsigned char>& data) TITANIUM_NOEXCEPT
+		bool WebView::setData(const std::vector<std::uint8_t>& data) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("WebView::setData: Unimplemented");
 			return false;
@@ -152,7 +152,7 @@ namespace Titanium
 
 		JSValue WebView::js_get_data() const TITANIUM_NOEXCEPT
 		{
-			// TODO Convert std::vector<unsigned char> to JSObject (Ti.Blob)
+			// TODO Convert std::vector<unstd::uint8_t> to JSObject (Ti.Blob)
 			TITANIUM_LOG_WARN("WebView.data is not implemented yet");
 			return get_context().CreateUndefined();
 		}
@@ -309,7 +309,7 @@ namespace Titanium
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
 				const auto data = _0;
-				// TODO Convert JSObject(Ti.Blob or Ti.File) to std::vector<unsigned char>
+				// TODO Convert JSObject(Ti.Blob or Ti.File) to std::vector<std::uint8_t>
 				// setData(data);
 			}
 			return get_context().CreateUndefined();

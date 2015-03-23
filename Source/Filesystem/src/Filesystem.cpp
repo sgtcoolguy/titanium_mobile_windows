@@ -39,10 +39,10 @@ namespace TitaniumWindows
 		return !this->externalStorageDirectory().empty();
 	}
 
-	JSValue FilesystemModule::openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT
+	std::shared_ptr<Titanium::Filesystem::FileStream> FilesystemModule::openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("Filesystem.openStream is not implemented yet");
-		return get_context().CreateUndefined();
+		return nullptr;
 	}
 
 	std::string FilesystemModule::applicationCacheDirectory() const TITANIUM_NOEXCEPT

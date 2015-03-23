@@ -127,7 +127,6 @@ namespace Titanium
 			TITANIUM_LOG_WARN("Properties::setString: Unimplemented");
 		}
 
-
 		void Properties::JSExportInitialize() {
 			JSExport<Properties>::SetClassVersion(1);
 			JSExport<Properties>::SetParent(JSExport<Module>::Class());
@@ -149,6 +148,21 @@ namespace Titanium
 			JSExport<Properties>::AddFunctionProperty("setString", std::mem_fn(&Properties::js_setString));
 		}
 
+		JSObject Properties::GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT
+		{
+			JSValue Titanium_property = js_context.get_global_object().GetProperty("Titanium");
+			TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+			JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+			JSValue App_property = Titanium.GetProperty("App");
+			TITANIUM_ASSERT(App_property.IsObject());  // precondition
+			JSObject App = static_cast<JSObject>(App_property);
+
+			JSValue Object_property = App.GetProperty("Properties");
+			TITANIUM_ASSERT(Object_property.IsObject());  // precondition
+			return static_cast<JSObject>(Object_property);
+		}
+
 		JSValue Properties::js_getBool(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() >= 1) {
@@ -162,9 +176,12 @@ namespace Titanium
 					TITANIUM_ASSERT(_1.IsBoolean());
 					defaultValue = static_cast<bool>(_1);
 				}
-				return get_context().CreateBoolean(getBool(property, defaultValue));
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+				return js_context.CreateBoolean(object_ptr->getBool(property, defaultValue));
 			}
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue Properties::js_getDouble(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -180,9 +197,12 @@ namespace Titanium
 					TITANIUM_ASSERT(_1.IsNumber());
 					defaultValue = static_cast<double>(_1);
 				}
-				return get_context().CreateNumber(getDouble(property, defaultValue));
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+				return js_context.CreateNumber(object_ptr->getDouble(property, defaultValue));
 			}
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue Properties::js_getInt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -197,9 +217,12 @@ namespace Titanium
 					TITANIUM_ASSERT(_1.IsNumber());
 					defaultValue = static_cast<double>(_1);
 				}
-				return get_context().CreateNumber(getInt(property, defaultValue));
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+				return js_context.CreateNumber(object_ptr->getInt(property, defaultValue));
 			}
-			return get_context().CreateUndefined();
+			return  this_object.get_context().CreateUndefined();
 		}
 
 		JSValue Properties::js_getList(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -216,11 +239,14 @@ namespace Titanium
 					TITANIUM_ASSERT(object.IsArray());
 					defaultValue = static_cast<JSArray>(object);
 				}
-				std::vector<JSValue> list = getList(property, defaultValue);
-				return get_context().CreateArray(list);
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+				const auto list = object_ptr->getList(property, defaultValue);
+				return js_context.CreateArray(list);
 			}
 
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue Properties::js_getObject(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -235,10 +261,13 @@ namespace Titanium
 					TITANIUM_ASSERT(_1.IsObject());
 					defaultValue = static_cast<JSObject>(_1);
 				}
-				return getObject(property, defaultValue);
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+				return object_ptr->getObject(property, defaultValue);
 			}
 
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue Properties::js_getString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -253,10 +282,13 @@ namespace Titanium
 					TITANIUM_ASSERT(_1.IsString());
 					defaultValue = static_cast<std::string>(_1);
 				}
-				return get_context().CreateString(getString(property, defaultValue));
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+				return js_context.CreateString(object_ptr->getString(property, defaultValue));
 			}
 
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue Properties::js_hasProperty(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -266,28 +298,40 @@ namespace Titanium
 			}
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsString());
-			return get_context().CreateBoolean(hasProperty(static_cast<std::string>(_0)));
+
+			const auto js_context = this_object.get_context();
+			const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+			return js_context.CreateBoolean(object_ptr->hasProperty(static_cast<std::string>(_0)));
 		}
 
 		JSValue Properties::js_listProperties(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			const auto props = listProperties();
+			const auto js_context = this_object.get_context();
+			const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+			const auto props = object_ptr->listProperties();
 			std::vector<JSValue> converted;
 			for (size_t i = 0; i < props.size(); i++) {
-				converted.push_back(get_context().CreateString(props.at(i)));
+				converted.push_back(js_context.CreateString(props.at(i)));
 			}
-			return get_context().CreateArray(converted);
+			return js_context.CreateArray(converted);
 		}
 
 		JSValue Properties::js_removeProperty(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			if (arguments.size() < 1) {
-				return get_context().CreateUndefined();
+				return this_object.get_context().CreateUndefined();
 			}
+
+			const auto js_context = this_object.get_context();
+			const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+			
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsString());
-			removeProperty(static_cast<std::string>(_0));
-			return get_context().CreateUndefined();
+			object_ptr->removeProperty(static_cast<std::string>(_0));
+
+			return js_context.CreateUndefined();
 		}
 
 		JSValue Properties::js_setBool(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -302,10 +346,13 @@ namespace Titanium
 				const std::string property = static_cast<std::string>(_0);
 				const bool value = static_cast<bool>(_1);
 
-				setBool(property, value);
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+			
+				object_ptr->setBool(property, value);
 			}
 
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue Properties::js_setDouble(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -320,10 +367,13 @@ namespace Titanium
 				const std::string property = static_cast<std::string>(_0);
 				const double value = static_cast<double>(_1);
 
-				setDouble(property, value);
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+				object_ptr->setDouble(property, value);
 			}
 
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue Properties::js_setInt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -337,10 +387,13 @@ namespace Titanium
 				TITANIUM_ASSERT(_1.IsNumber());
 				const int value = static_cast<int32_t>(_1);
 
-				setInt(property, value);
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+				object_ptr->setInt(property, value);
 			}
 
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue Properties::js_setList(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -357,10 +410,13 @@ namespace Titanium
 				TITANIUM_ASSERT(object.IsArray());
 				auto array = static_cast<JSArray>(object);
 
-				setList(property, array);
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+				object_ptr->setList(property, array);
 			}
 
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue Properties::js_setObject(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -375,10 +431,13 @@ namespace Titanium
 				const std::string property = static_cast<std::string>(_0);
 				const auto value = static_cast<JSObject>(_1);
 
-				setObject(property, value);
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+				object_ptr->setObject(property, value);
 			}
 
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 
 		JSValue Properties::js_setString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -393,10 +452,13 @@ namespace Titanium
 				const std::string property = static_cast<std::string>(_0);
 				const std::string value = static_cast<std::string>(_1);
 
-				setString(property, value);
+				const auto js_context = this_object.get_context();
+				const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+				object_ptr->setString(property, value);
 			}
 
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 	}
 }

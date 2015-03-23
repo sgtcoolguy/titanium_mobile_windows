@@ -41,21 +41,23 @@ namespace TitaniumWindows
 #endif
 
 			static void JSExportInitialize();
-
-			virtual void setTimeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT override final;
+			// methods
+			virtual void abort() TITANIUM_NOEXCEPT override final;
+			virtual void clearCookies(const std::string& url) TITANIUM_NOEXCEPT override final;
+			virtual std::string getResponseHeader(const std::string& name) TITANIUM_NOEXCEPT override final;
 			virtual void open(const std::string& method, const std::string& url) TITANIUM_NOEXCEPT override final;
 			virtual void send() TITANIUM_NOEXCEPT override final;
-			virtual void send(const std::map<std::string, std::vector<unsigned char>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT override final;
+			virtual void send(const std::map<std::string, std::vector<std::uint8_t>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT override final;
 			virtual void send(const std::string& postDataStr) TITANIUM_NOEXCEPT override final;
-			virtual std::string getResponseText() const TITANIUM_NOEXCEPT override final;
-			virtual std::vector<unsigned char> getResponseData() const TITANIUM_NOEXCEPT override final;
-			virtual void abort() TITANIUM_NOEXCEPT override final;
 			virtual void setRequestHeader(const std::string& name, const std::string& value) TITANIUM_NOEXCEPT override final;
-			virtual std::string getAllResponseHeaders() const TITANIUM_NOEXCEPT override final;
-			virtual std::uint32_t getReadyState() const TITANIUM_NOEXCEPT override final;
-			virtual std::string getResponseHeader(const std::string& name) TITANIUM_NOEXCEPT override final;
-			virtual std::uint32_t getStatus() const TITANIUM_NOEXCEPT override final;
-			virtual void clearCookies(const std::string& url) TITANIUM_NOEXCEPT override final;
+			// properties
+			virtual std::string get_allResponseHeaders() const TITANIUM_NOEXCEPT override final;
+			virtual std::uint32_t get_readyState() const TITANIUM_NOEXCEPT override final;
+			virtual std::vector<std::uint8_t> get_responseData() const TITANIUM_NOEXCEPT override final;
+			virtual std::string get_responseText() const TITANIUM_NOEXCEPT override final;		
+			virtual std::uint32_t get_status() const TITANIUM_NOEXCEPT override final;
+			virtual void set_timeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT override final;
+			
 
 		private:
 #pragma warning(push)
@@ -65,20 +67,20 @@ namespace TitaniumWindows
 			// url__ - the full address of the HTTP request for example http://www.appcelerator.com
 			std::string url__;
 			// filter__ - controls the HTTP session and data flow
-			Windows::Web::Http::Filters::HttpBaseProtocolFilter ^ filter__;
+			Windows::Web::Http::Filters::HttpBaseProtocolFilter^ filter__;
 			// httpClient__ - higher level HTTP client that provides WinRT API to HTTP sessions and communications
-			Windows::Web::Http::HttpClient ^ httpClient__;
+			Windows::Web::Http::HttpClient^ httpClient__;
 			// cancellationTokenSource__ - HttpClient provides an asynchronous channel to handle HTTP reponses and
 			// errors. Cancellation tokens allow the current HTTP
 			concurrency::cancellation_token_source cancellationTokenSource__;
 			//  timeoutRegistrationToken__ - used to remove the timeout handler
 			Windows::Foundation::EventRegistrationToken timeoutRegistrationToken__;
 			// dispatcherTimer__ - WinRT timer used to cancel a HTTP connection if timeout specified
-			Windows::UI::Xaml::DispatcherTimer ^ dispatcherTimer__;
+			Windows::UI::Xaml::DispatcherTimer^ dispatcherTimer__;
 			// responseStream__ - holds response string, the stream is not exposed
-			Windows::Storage::Streams::IBuffer ^ responseStream__;
+			Windows::Storage::Streams::IBuffer^ responseStream__;
 			// responseData__ - vector used holds raw response data
-			std::vector<unsigned char>  responseData__;
+			std::vector<std::uint8_t>  responseData__;
 			// responseDataLen__ - count of character contained in data vector
 			long responseDataLen__;
 			// timeoutSpan__ - the span in milliseconds during which the request is active
@@ -98,14 +100,14 @@ namespace TitaniumWindows
 
 			void startDispatcherTimer();
 
-			task<Windows::Storage::Streams::IBuffer ^> HTTPClient::HTTPResultAsync(
-			    Windows::Storage::Streams::IInputStream ^ stream);
+			task<Windows::Storage::Streams::IBuffer^> HTTPClient::HTTPResultAsync(
+			    Windows::Storage::Streams::IInputStream^ stream);
 
-			Windows::Storage::Streams::Buffer ^ charVecToBuffer(std::vector<unsigned char> char_vector);
+			Windows::Storage::Streams::Buffer^ charVecToBuffer(std::vector<std::uint8_t> char_vector);
 
-			void SerializeHeaders(Windows::Web::Http::HttpResponseMessage ^ response);
-			void SerializeHeaderCollection(Windows::Foundation::Collections::IIterable<Windows::Foundation::Collections::IKeyValuePair<::Platform::String ^, ::Platform::String ^> ^> ^ headers);
-			void setRequestHeaders(Windows::Web::Http::HttpRequestMessage ^ request);
+			void SerializeHeaders(Windows::Web::Http::HttpResponseMessage^ response);
+			void SerializeHeaderCollection(Windows::Foundation::Collections::IIterable<Windows::Foundation::Collections::IKeyValuePair<::Platform::String^, ::Platform::String^>^>^ headers);
+			void setRequestHeaders(Windows::Web::Http::HttpRequestMessage^ request);
 			void addCookiesToRequest();
 		};
 	} // namespace Network

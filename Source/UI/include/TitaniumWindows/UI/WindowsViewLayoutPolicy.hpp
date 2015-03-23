@@ -118,67 +118,6 @@ namespace TitaniumWindows
 			/*!
 			  @method
 
-			  @abstract opacity : Number
-
-			  @discussion Opacity of this view, from 0.0 (transparent) to 1.0 (opaque).
-
-			  Default: 1.0 (opaque)
-			*/
-			virtual void set_opacity(const double& opacity) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
-			  @abstract tintColor : String
-
-			  @discussion The view's tintColor. This property is applicable on iOS 7 and greater.
-
-			  This property is a direct correspondant of the tintColor property of UIView on iOS. If no value is specified, the tintColor of the View is inherited from its superview.
-			*/
-			virtual void set_tintColor(const std::string& tintColor) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
-			  @abstract touchEnabled : Boolean
-
-			  @discussion Determines whether view should receive touch events.
-
-			  If false, will forward the events to peers.
-
-			  Default: true
-			*/
-			virtual void set_touchEnabled(const bool& touchEnabled) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
-			  @abstract top : Number/String
-
-			  @discussion The view's top position.
-
-			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
-
-			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
-			*/
-			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
-			  @abstract left : Number/String
-
-			  @discussion View's left position, in platform-specific units.
-
-			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
-
-			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
-			*/
-			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
 			  @abstract bottom : Number/String
 
 			  @discussion View's bottom position, in platform-specific units.
@@ -192,19 +131,6 @@ namespace TitaniumWindows
 			/*!
 			  @method
 
-			  @abstract right : Number/String
-
-			  @discussion View's right position, in platform-specific units.
-
-			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
-
-			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
-			*/
-			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
 			  @abstract center : Point
 
 			  @discussion View's center position, in the parent view's coordinates.
@@ -212,56 +138,6 @@ namespace TitaniumWindows
 			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
 			*/
 			virtual void set_center(const Titanium::UI::Point& center) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
-			  @abstract width : Number/String
-
-			  @discussion View's width, in platform-specific units.
-
-			  Defaults to: If undefined, defaults to either Titanium.UI.FILL or Titanium.UI.SIZE depending on the view. See "View Types and Default Layout Behavior" in Transitioning to the New UI Layout System.
-
-			  Can be either a float value or a dimension string (for example, '50%' or '40dp'). Can also be one of the following special values:
-
-			  Titanium.UI.SIZE. The view should size itself to fit its contents.
-			  Titanium.UI.FILL. The view should size itself to fill its parent.
-			  'auto'. Represents the default sizing behavior for a given type of view. The use of 'auto' is deprecated, and should be replaced with the SIZE or FILL constants if it is necessary to set the view's behavior explicitly.
-			  On Mobile Web and Tizen, 'auto' always selects SIZE behavior.
-
-			  This is an input property for specifying the view's width dimension. To determine the view's size once rendered, use the rect or size properties.
-
-			  This property can be assigned the following constants:
-
-			  Titanium.UI.FILL
-			  Titanium.UI.SIZE
-			*/
-			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
-			  @abstract width : Number/String
-
-			  @discussion View's minimum width, in platform-specific units.
-
-			  Defaults to: If undefined, defaults to either Titanium.UI.FILL or Titanium.UI.SIZE depending on the view. See "View Types and Default Layout Behavior" in Transitioning to the New UI Layout System.
-
-			  Can be either a float value or a dimension string (for example, '50%' or '40dp'). Can also be one of the following special values:
-
-			  Titanium.UI.SIZE. The view should size itself to fit its contents.
-			  Titanium.UI.FILL. The view should size itself to fill its parent.
-			  'auto'. Represents the default sizing behavior for a given type of view. The use of 'auto' is deprecated, and should be replaced with the SIZE or FILL constants if it is necessary to set the view's behavior explicitly.
-			  On Mobile Web and Tizen, 'auto' always selects SIZE behavior.
-
-			  This is an input property for specifying the view's width dimension. To determine the view's size once rendered, use the rect or size properties.
-
-			  This property can be assigned the following constants:
-
-			  Titanium.UI.FILL
-			  Titanium.UI.SIZE
-			*/
-			virtual void set_minWidth(const std::string& width) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -291,6 +167,28 @@ namespace TitaniumWindows
 			/*!
 			  @method
 
+			  @abstract layout : String
+
+			  @discussion Specifies how the view positions its children. One of: 'composite', 'vertical', or 'horizontal'.
+			*/
+			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract left : Number/String
+
+			  @discussion View's left position, in platform-specific units.
+
+			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
+
+			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
+			*/
+			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract height : Number/String
 
 			  @discussion View minimum height, in platform-specific units.
@@ -316,16 +214,124 @@ namespace TitaniumWindows
 			/*!
 			  @method
 
-			  @abstract layout : String
+			  @abstract minWidth : Number/String
 
-			  @discussion Specifies how the view positions its children. One of: 'composite', 'vertical', or 'horizontal'.
+			  @discussion View's minimum width, in platform-specific units.
+
+			  Defaults to: If undefined, defaults to either Titanium.UI.FILL or Titanium.UI.SIZE depending on the view. See "View Types and Default Layout Behavior" in Transitioning to the New UI Layout System.
+
+			  Can be either a float value or a dimension string (for example, '50%' or '40dp'). Can also be one of the following special values:
+
+			  Titanium.UI.SIZE. The view should size itself to fit its contents.
+			  Titanium.UI.FILL. The view should size itself to fill its parent.
+			  'auto'. Represents the default sizing behavior for a given type of view. The use of 'auto' is deprecated, and should be replaced with the SIZE or FILL constants if it is necessary to set the view's behavior explicitly.
+			  On Mobile Web and Tizen, 'auto' always selects SIZE behavior.
+
+			  This is an input property for specifying the view's width dimension. To determine the view's size once rendered, use the rect or size properties.
+
+			  This property can be assigned the following constants:
+
+			  Titanium.UI.FILL
+			  Titanium.UI.SIZE
 			*/
-			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT;
+			virtual void set_minWidth(const std::string& width) TITANIUM_NOEXCEPT;
 
-			WindowsViewLayoutPolicy() TITANIUM_NOEXCEPT;
+			/*!
+			  @method
+
+			  @abstract opacity : Number
+
+			  @discussion Opacity of this view, from 0.0 (transparent) to 1.0 (opaque).
+
+			  Default: 1.0 (opaque)
+			*/
+			virtual void set_opacity(const double& opacity) TITANIUM_NOEXCEPT;
+
+			virtual Titanium::UI::Dimension get_rect() const TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract right : Number/String
+
+			  @discussion View's right position, in platform-specific units.
+
+			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
+
+			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
+			*/
+			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT;
+
+			virtual Titanium::UI::Dimension get_size() const TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract tintColor : String
+
+			  @discussion The view's tintColor. This property is applicable on iOS 7 and greater.
+
+			  This property is a direct correspondant of the tintColor property of UIView on iOS. If no value is specified, the tintColor of the View is inherited from its superview.
+			*/
+			virtual void set_tintColor(const std::string& tintColor) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract top : Number/String
+
+			  @discussion The view's top position.
+
+			  This position is relative to the view's parent. Exact interpretation depends on the parent view's layout property. Can be either a float value or a dimension string (for example, '50%' or '10px').
+
+			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
+			*/
+			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT;
+			
+			/*!
+			  @method
+
+			  @abstract touchEnabled : Boolean
+
+			  @discussion Determines whether view should receive touch events.
+
+			  If false, will forward the events to peers.
+
+			  Default: true
+			*/
+			virtual void set_touchEnabled(const bool& touchEnabled) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract width : Number/String
+
+			  @discussion View's width, in platform-specific units.
+
+			  Defaults to: If undefined, defaults to either Titanium.UI.FILL or Titanium.UI.SIZE depending on the view. See "View Types and Default Layout Behavior" in Transitioning to the New UI Layout System.
+
+			  Can be either a float value or a dimension string (for example, '50%' or '40dp'). Can also be one of the following special values:
+
+			  Titanium.UI.SIZE. The view should size itself to fit its contents.
+			  Titanium.UI.FILL. The view should size itself to fill its parent.
+			  'auto'. Represents the default sizing behavior for a given type of view. The use of 'auto' is deprecated, and should be replaced with the SIZE or FILL constants if it is necessary to set the view's behavior explicitly.
+			  On Mobile Web and Tizen, 'auto' always selects SIZE behavior.
+
+			  This is an input property for specifying the view's width dimension. To determine the view's size once rendered, use the rect or size properties.
+
+			  This property can be assigned the following constants:
+
+			  Titanium.UI.FILL
+			  Titanium.UI.SIZE
+			*/
+			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT;
+
+			WindowsViewLayoutPolicy(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
 			virtual ~WindowsViewLayoutPolicy() = default;
 
 			virtual void postInitialize() TITANIUM_NOEXCEPT override;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 			//
 			// Windows-specific layout functions
@@ -350,7 +356,7 @@ namespace TitaniumWindows
 			{
 				return is_loaded__;
 			}
-
+ 
 			static Windows::UI::Color ColorForName(const std::string& colorName);
 			static Windows::UI::Color ColorForHexCode(const std::string& hexCode);
 
@@ -361,8 +367,12 @@ namespace TitaniumWindows
 
 			Titanium::LayoutEngine::Node* layout_node__;
 
+			std::shared_ptr<Titanium::UI::View> view__;
+
+			bool postlayout_listening__{ false };
 			Windows::Foundation::EventRegistrationToken size_change_event__;
 			Windows::Foundation::EventRegistrationToken loaded_event__;
+			Windows::Foundation::EventRegistrationToken focus_event__;
 
 			bool is_width_size__{false};
 			bool is_height_size__{false};

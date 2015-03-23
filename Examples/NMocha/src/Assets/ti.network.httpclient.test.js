@@ -75,7 +75,7 @@ describe("Titanium.Network.HTTPClient", function () {
     });
 
     // https://appcelerator.lighthouseapp.com/projects/32238-titanium-mobile/tickets/1649-android-httpclientsend-with-no-argument-causes-npe
-    it.skip("emptyPOSTSend", function (finish) {
+    it("emptyPOSTSend", function (finish) {
         this.timeout(3e4);
         var xhr = Ti.Network.createHTTPClient();
         xhr.setTimeout(3e4);

@@ -51,6 +51,7 @@ namespace TitaniumWindows
 
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken click_event_;
+			Windows::Foundation::EventRegistrationToken focus_event_;
 			Windows::Foundation::EventRegistrationToken touch_start_event_;
 			Windows::Foundation::EventRegistrationToken touch_end_event_;
 			Windows::Foundation::EventRegistrationToken touch_move_event_;

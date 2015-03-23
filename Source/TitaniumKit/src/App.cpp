@@ -165,9 +165,14 @@ namespace Titanium
 		return name__;
 	}
 
-	bool AppModule::proximityDetection() const TITANIUM_NOEXCEPT
+	bool AppModule::getProximityDetection() const TITANIUM_NOEXCEPT
 	{
 		return proximityDetection__;
+	}
+
+	void AppModule::setProximityDetection(const bool& value) TITANIUM_NOEXCEPT
+	{
+		proximityDetection__ = value;
 	}
 
 	bool AppModule::proximityState() const TITANIUM_NOEXCEPT
@@ -252,9 +257,24 @@ namespace Titanium
 		JSExport<AppModule>::AddFunctionProperty("getVersion", std::mem_fn(&AppModule::js_getVersion));
 	}
 
-	JSValue AppModule::js_loadAppInfo(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT
+	JSObject AppModule::GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT
 	{
-		loadAppInfo();
+		JSValue Titanium_property = js_context.get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue Object_property = Titanium.GetProperty("App");
+		TITANIUM_ASSERT(Object_property.IsObject());  // precondition
+		return static_cast<JSObject>(Object_property);
+	}
+
+	JSValue AppModule::js_loadAppInfo(const std::vector<JSValue>&, JSObject& this_object) TITANIUM_NOEXCEPT
+	{
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		object_ptr->loadAppInfo();
+
 		return get_context().CreateUndefined();
 	}
 
@@ -325,7 +345,7 @@ namespace Titanium
 
 	JSValue AppModule::js_proximityDetection() const TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateBoolean(proximityDetection());
+		return get_context().CreateBoolean(getProximityDetection());
 	}
 
 	JSValue AppModule::js_proximityState() const TITANIUM_NOEXCEPT
@@ -355,131 +375,194 @@ namespace Titanium
 
 	JSValue AppModule::js_fireSystemEvent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsString());
 			const std::string eventName = static_cast<std::string>(_0);
 
-			JSObject param = this_object.get_context().CreateObject();
+			JSObject param = js_context.CreateObject();
 			if (arguments.size() >= 2) {
 				const auto _1 = arguments.at(1);
 				TITANIUM_ASSERT(_1.IsObject());
 				param = static_cast<JSObject>(_1);
 			}
 
-			fireSystemEvent(eventName, param);
+			object_ptr->fireSystemEvent(eventName, param);
 		}
 
-		return get_context().CreateUndefined();
+		return js_context.CreateUndefined();
 	}
 
 	JSValue AppModule::js_getAccessibilityEnabled(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateBoolean(accessibilityEnabled());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateBoolean(object_ptr->accessibilityEnabled());
 	}
 
 	JSValue AppModule::js_getAnalytics(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateBoolean(analytics());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateBoolean(object_ptr->analytics());
 	}
 
 	JSValue AppModule::js_getCopyright(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateString(copyright());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateString(object_ptr->copyright());
 	}
 
 	JSValue AppModule::js_getDeployType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateString(deployType());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateString(object_ptr->deployType());
 	}
 
 	JSValue AppModule::js_getDescription(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateString(description());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateString(object_ptr->description());
 	}
 
 	JSValue AppModule::js_getDisableNetworkActivityIndicator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateBoolean(disableNetworkActivityIndicator());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateBoolean(object_ptr->disableNetworkActivityIndicator());
 	}
 
 	JSValue AppModule::js_getForceSplashAsSnapshot(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateBoolean(forceSplashAsSnapshot());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateBoolean(object_ptr->forceSplashAsSnapshot());
 	}
 
 	JSValue AppModule::js_getGuid(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateString(guid());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateString(object_ptr->guid());
 	}
 
 	JSValue AppModule::js_getId(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateString(id());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateString(object_ptr->id());
 	}
 
 	JSValue AppModule::js_getIdleTimerDisabled(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateBoolean(idleTimerDisabled());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateBoolean(object_ptr->idleTimerDisabled());
 	}
 
 	JSValue AppModule::js_getInstallId(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateString(installId());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateString(object_ptr->installId());
 	}
 
 	JSValue AppModule::js_getKeyboardVisible(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateBoolean(keyboardVisible());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateBoolean(object_ptr->keyboardVisible());
 	}
 
 	JSValue AppModule::js_getName(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateString(name());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateString(object_ptr->name());
 	}
 
 	JSValue AppModule::js_getProximityDetection(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateBoolean(proximityDetection());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateBoolean(object_ptr->getProximityDetection());
 	}
 
 	JSValue AppModule::js_setProximityDetection(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
 		if (arguments.size() < 1) {
-			return get_context().CreateUndefined();
+			return this_object.get_context().CreateUndefined();
 		}
 		const auto _0 = arguments.at(0);
 
 		TITANIUM_ASSERT(_0.IsBoolean());
-
 		const bool proximityDetection = static_cast<bool>(_0);
-		proximityDetection__ = proximityDetection;
 
-		return get_context().CreateUndefined();
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		object_ptr->setProximityDetection(proximityDetection);
+
+		return js_context.CreateUndefined();
 	}
 
 	JSValue AppModule::js_getProximityState(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateBoolean(proximityState());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateBoolean(object_ptr->proximityState());
 	}
 
 	JSValue AppModule::js_getPublisher(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateString(publisher());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateString(object_ptr->publisher());
 	}
 
 	JSValue AppModule::js_getSessionId(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateString(sessionId());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateString(object_ptr->sessionId());
 	}
 
 	JSValue AppModule::js_getUrl(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateString(url());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateString(object_ptr->url());
 	}
 
 	JSValue AppModule::js_getVersion(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		return get_context().CreateString(version());
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		return js_context.CreateString(object_ptr->version());
 	}
 }

@@ -39,6 +39,7 @@ namespace Titanium
 #endif
 
 		static void JSExportInitialize();
+		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
 		virtual JSValue js_get_version() const TITANIUM_NOEXCEPT final;
 		virtual JSValue js_getVersion(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;

@@ -10,6 +10,7 @@
 #define _TITANIUM_UI_HPP_
 
 #include "Titanium/Module.hpp"
+#include "Titanium/UI/Switch.hpp"
 #include "Titanium/UI/AlertDialog.hpp"
 #include "Titanium/UI/Animation.hpp"
 #include "Titanium/UI/Button.hpp"
@@ -18,6 +19,7 @@
 #include "Titanium/UI/Label.hpp"
 #include "Titanium/UI/ScrollView.hpp"
 #include "Titanium/UI/Slider.hpp"
+#include "Titanium/UI/Switch.hpp"
 #include "Titanium/UI/TableView.hpp"
 #include "Titanium/UI/TableViewRow.hpp"
 #include "Titanium/UI/TableViewSection.hpp"
@@ -169,6 +171,22 @@ namespace Titanium
 		  @result Titanium.UI.Slider
 		*/
 		JSObject createSlider(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+
+		  @abstract createSwitch( [parameters] ) : Titanium.UI.Switch
+
+		  @discussion Creates and returns an instance of
+		  Titanium.UI.Switch.
+
+		  @param parameters Properties to set on a new object, including
+		  any defined by Titanium.UI.Switch except those marked
+		  not-creation or read-only.  (Dictionary<Titanium.UI.Switch>)
+
+		  @result Titanium.UI.Switch
+		*/
+		JSObject createSwitch(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -481,6 +499,7 @@ namespace Titanium
 		JSValue js_createLabel(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createScrollView(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createSlider(const std::vector<JSValue>& arguments, JSObject& this_object);
+		JSValue js_createSwitch(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createTab(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createTabGroup(const std::vector<JSValue>& arguments, JSObject& this_object);
 		JSValue js_createTextField(const std::vector<JSValue>& arguments, JSObject& this_object);

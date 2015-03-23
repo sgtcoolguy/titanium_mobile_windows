@@ -159,9 +159,11 @@ namespace Titanium
 			return get_shared_ptr_for_module<T>();
 		}
 	private:
-		static unsigned eventListenerIndex(const JSObject& event_listener_list, const std::string& name, JSObject& callback) TITANIUM_NOEXCEPT;
-
-		JSObject event_listener_map__;
+		static unsigned eventListenerIndex(const std::vector<JSObject>& event_listener_list, const std::string& name, JSObject& callback) TITANIUM_NOEXCEPT;
+#pragma warning(push)
+#pragma warning(disable : 4251)
+		std::unordered_map<std::string, std::vector<JSObject>> event_listener_map__;
+#pragma warning(pop)
 	};
 }  // namespace Titanium
 

@@ -42,27 +42,32 @@ namespace Titanium
 		{
 			JSExport<View>::SetClassVersion(1);
 			JSExport<View>::SetParent(JSExport<Module>::Class());
+			// methods
 			JSExport<View>::AddFunctionProperty("add", std::mem_fn(&View::js_add));
 			JSExport<View>::AddFunctionProperty("animate", std::mem_fn(&View::js_animate));
 			JSExport<View>::AddFunctionProperty("hide", std::mem_fn(&View::js_hide));
 			JSExport<View>::AddFunctionProperty("show", std::mem_fn(&View::js_show));
-			JSExport<View>::AddValueProperty("children", std::mem_fn(&View::js_get_children));
+			// properties
+			
 			JSExport<View>::AddValueProperty("backgroundColor", std::mem_fn(&View::js_get_backgroundColor), std::mem_fn(&View::js_set_backgroundColor));
 			JSExport<View>::AddValueProperty("borderColor", std::mem_fn(&View::js_get_borderColor), std::mem_fn(&View::js_set_borderColor));
 			JSExport<View>::AddValueProperty("borderRadius", std::mem_fn(&View::js_get_borderRadius), std::mem_fn(&View::js_set_borderRadius));
 			JSExport<View>::AddValueProperty("borderWidth", std::mem_fn(&View::js_get_borderWidth), std::mem_fn(&View::js_set_borderWidth));
-			JSExport<View>::AddValueProperty("opacity", std::mem_fn(&View::js_get_opacity), std::mem_fn(&View::js_set_opacity));
-			JSExport<View>::AddValueProperty("tintColor", std::mem_fn(&View::js_get_tintColor), std::mem_fn(&View::js_set_tintColor));
-			JSExport<View>::AddValueProperty("touchEnabled", std::mem_fn(&View::js_get_touchEnabled), std::mem_fn(&View::js_set_touchEnabled));
-			JSExport<View>::AddValueProperty("visible", std::mem_fn(&View::js_get_visible), std::mem_fn(&View::js_set_visible));
-			JSExport<View>::AddValueProperty("top", std::mem_fn(&View::js_get_top), std::mem_fn(&View::js_set_top));
-			JSExport<View>::AddValueProperty("left", std::mem_fn(&View::js_get_left), std::mem_fn(&View::js_set_left));
 			JSExport<View>::AddValueProperty("bottom", std::mem_fn(&View::js_get_bottom), std::mem_fn(&View::js_set_bottom));
 			JSExport<View>::AddValueProperty("center", std::mem_fn(&View::js_get_center), std::mem_fn(&View::js_set_center));
-			JSExport<View>::AddValueProperty("right", std::mem_fn(&View::js_get_right), std::mem_fn(&View::js_set_right));
-			JSExport<View>::AddValueProperty("width", std::mem_fn(&View::js_get_width), std::mem_fn(&View::js_set_width));
+			JSExport<View>::AddValueProperty("children", std::mem_fn(&View::js_get_children));
 			JSExport<View>::AddValueProperty("height", std::mem_fn(&View::js_get_height), std::mem_fn(&View::js_set_height));
 			JSExport<View>::AddValueProperty("layout", std::mem_fn(&View::js_get_layout), std::mem_fn(&View::js_set_layout));
+			JSExport<View>::AddValueProperty("left", std::mem_fn(&View::js_get_left), std::mem_fn(&View::js_set_left));
+			JSExport<View>::AddValueProperty("opacity", std::mem_fn(&View::js_get_opacity), std::mem_fn(&View::js_set_opacity));
+			JSExport<View>::AddValueProperty("rect", std::mem_fn(&View::js_get_rect));
+			JSExport<View>::AddValueProperty("right", std::mem_fn(&View::js_get_right), std::mem_fn(&View::js_set_right));
+			JSExport<View>::AddValueProperty("size", std::mem_fn(&View::js_get_size));
+			JSExport<View>::AddValueProperty("tintColor", std::mem_fn(&View::js_get_tintColor), std::mem_fn(&View::js_set_tintColor));
+			JSExport<View>::AddValueProperty("top", std::mem_fn(&View::js_get_top), std::mem_fn(&View::js_set_top));
+			JSExport<View>::AddValueProperty("touchEnabled", std::mem_fn(&View::js_get_touchEnabled), std::mem_fn(&View::js_set_touchEnabled));
+			JSExport<View>::AddValueProperty("visible", std::mem_fn(&View::js_get_visible), std::mem_fn(&View::js_set_visible));
+			JSExport<View>::AddValueProperty("width", std::mem_fn(&View::js_get_width), std::mem_fn(&View::js_set_width));
 		}
 
 		JSValue View::js_add(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -157,6 +162,76 @@ namespace Titanium
 			return true;
 		}
 
+		JSValue View::js_get_bottom() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateString(layoutPolicy__->get_bottom());
+		}
+
+		bool View::js_set_bottom(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+			layoutPolicy__->set_bottom(static_cast<std::string>(argument));
+			return true;
+		}
+
+		bool View::js_set_center(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+			layoutPolicy__->set_center(js_to_Point(static_cast<JSObject>(argument)));
+			return true;
+		}
+		
+		JSValue View::js_get_center() const TITANIUM_NOEXCEPT
+		{
+			return Point_to_js(get_context(), layoutPolicy__->get_center());
+		}
+
+		JSValue View::js_get_children() const TITANIUM_NOEXCEPT
+		{
+			std::vector<JSValue> js_children;
+			const auto children = layoutPolicy__->get_children();
+			for (auto child : children) {
+				js_children.push_back(child->get_object());
+			}
+			return get_context().CreateArray(js_children);
+		}
+
+		JSValue View::js_get_height() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateString(layoutPolicy__->get_height());
+		}
+
+		bool View::js_set_height(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+			layoutPolicy__->set_height(static_cast<std::string>(argument));
+			return true;
+		}
+
+		JSValue View::js_get_layout() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateString(layoutPolicy__->get_layout());
+		}
+
+		bool View::js_set_layout(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			layoutPolicy__->set_layout(static_cast<std::string>(argument));
+			return true;
+		}
+
+		JSValue View::js_get_left() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateString(layoutPolicy__->get_left());
+		}
+
+		bool View::js_set_left(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+			layoutPolicy__->set_left(static_cast<std::string>(argument));
+			return true;
+		}
+
 		JSValue View::js_get_opacity() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateNumber(layoutPolicy__->get_opacity());
@@ -170,6 +245,28 @@ namespace Titanium
 			return true;
 		}
 
+		JSValue View::js_get_rect() const TITANIUM_NOEXCEPT
+		{
+			return Titanium::UI::Dimension_to_js(get_context(), layoutPolicy__->get_rect());
+		}
+
+		JSValue View::js_get_right() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateString(layoutPolicy__->get_right());
+		}
+
+		bool View::js_set_right(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+			layoutPolicy__->set_right(static_cast<std::string>(argument));
+			return true;
+		}
+
+		JSValue View::js_get_size() const TITANIUM_NOEXCEPT
+		{
+			return Titanium::UI::Dimension_to_js(get_context(), layoutPolicy__->get_size());
+		}
+
 		JSValue View::js_get_tintColor() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(layoutPolicy__->get_tintColor());
@@ -179,6 +276,22 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			layoutPolicy__->set_tintColor(static_cast<std::string>(argument));
+			return true;
+		}
+
+		JSValue View::js_get_top() const TITANIUM_NOEXCEPT
+		{
+			return get_context().CreateString(layoutPolicy__->get_top());
+		}
+
+		bool View::js_set_top(const JSValue& argument) TITANIUM_NOEXCEPT
+		{
+			// FIXME What does setting top to null mean? Because corporate directory does it...
+			if (argument.IsNull()) {
+				return false;
+			}
+			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
+			layoutPolicy__->set_top(static_cast<std::string>(argument));
 			return true;
 		}
 
@@ -206,46 +319,6 @@ namespace Titanium
 			return true;
 		}
 
-		bool View::js_set_center(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			layoutPolicy__->set_center(js_to_Point(static_cast<JSObject>(argument)));
-			return true;
-		}
-		
-		JSValue View::js_get_center() const TITANIUM_NOEXCEPT
-		{
-			return Point_to_js(get_context(), layoutPolicy__->get_center());
-		}
-
-		JSValue View::js_get_top() const TITANIUM_NOEXCEPT
-		{
-			return get_context().CreateString(layoutPolicy__->get_top());
-		}
-
-		bool View::js_set_top(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			// FIXME What does setting top to null mean? Because corporate directory does it...
-			if (argument.IsNull()) {
-				return false;
-			}
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_top(static_cast<std::string>(argument));
-			return true;
-		}
-
-		JSValue View::js_get_left() const TITANIUM_NOEXCEPT
-		{
-			return get_context().CreateString(layoutPolicy__->get_left());
-		}
-
-		bool View::js_set_left(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_left(static_cast<std::string>(argument));
-			return true;
-		}
-
 		JSValue View::js_get_width() const TITANIUM_NOEXCEPT
 		{
 			return get_context().CreateString(layoutPolicy__->get_width());
@@ -258,62 +331,14 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue View::js_get_height() const TITANIUM_NOEXCEPT
+		void View::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(layoutPolicy__->get_height());
+			layoutPolicy__->disableEvent(event_name);
 		}
 
-		bool View::js_set_height(const JSValue& argument) TITANIUM_NOEXCEPT
+		void View::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_height(static_cast<std::string>(argument));
-			return true;
-		}
-
-		JSValue View::js_get_bottom() const TITANIUM_NOEXCEPT
-		{
-			return get_context().CreateString(layoutPolicy__->get_bottom());
-		}
-
-		bool View::js_set_bottom(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_bottom(static_cast<std::string>(argument));
-			return true;
-		}
-
-		JSValue View::js_get_right() const TITANIUM_NOEXCEPT
-		{
-			return get_context().CreateString(layoutPolicy__->get_right());
-		}
-
-		bool View::js_set_right(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_right(static_cast<std::string>(argument));
-			return true;
-		}
-
-		JSValue View::js_get_layout() const TITANIUM_NOEXCEPT
-		{
-			return get_context().CreateString(layoutPolicy__->get_layout());
-		}
-
-		bool View::js_set_layout(const JSValue& argument) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			layoutPolicy__->set_layout(static_cast<std::string>(argument));
-			return true;
-		}
-		
-		JSValue View::js_get_children() const TITANIUM_NOEXCEPT
-		{
-			std::vector<JSValue> js_children;
-			const auto children = layoutPolicy__->get_children();
-			for (auto child : children) {
-				js_children.push_back(child->get_object());
-			}
-			return get_context().CreateArray(js_children);
+			layoutPolicy__->enableEvent(event_name);
 		}
 
 	} // namespace UI

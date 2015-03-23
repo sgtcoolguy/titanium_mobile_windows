@@ -14,7 +14,7 @@ namespace Titanium
 	{
 	}
 
-	void Blob::construct(std::vector<unsigned char> data) TITANIUM_NOEXCEPT
+	void Blob::construct(std::vector<std::uint8_t> data) TITANIUM_NOEXCEPT
 	{
 		height_ = 0;
 		width_ = 0;
@@ -25,7 +25,7 @@ namespace Titanium
 		this->type_ = Titanium::BlobModule::TYPE::DATA;
 	}
 
-	std::vector<unsigned char> Blob::getData() TITANIUM_NOEXCEPT
+	std::vector<std::uint8_t> Blob::getData() TITANIUM_NOEXCEPT
 	{
 		return data_;
 	}
@@ -61,7 +61,7 @@ namespace Titanium
 
 	uint32_t Blob::get_length() const TITANIUM_NOEXCEPT
 	{
-		return data_.size();
+		return static_cast<uint32_t>(data_.size());
 	}
 
 	File_shared_ptr_t Blob::get_file() const TITANIUM_NOEXCEPT

@@ -34,13 +34,13 @@ namespace Titanium
 			  @abstract data
 			  @discussion Web content to load.
 			*/
-			virtual std::vector<unsigned char> getData() const TITANIUM_NOEXCEPT;
+			virtual std::vector<std::uint8_t> getData() const TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract setData
 			  @discussion
 			*/
-			virtual bool setData(const std::vector<unsigned char>& data) TITANIUM_NOEXCEPT;
+			virtual bool setData(const std::vector<std::uint8_t>& data) TITANIUM_NOEXCEPT;
 			/*!
 			  @property
 			  @abstract html
