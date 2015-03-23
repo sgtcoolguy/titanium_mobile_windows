@@ -47,13 +47,13 @@ namespace TitaniumWindows
 			virtual std::string getResponseHeader(const std::string& name) TITANIUM_NOEXCEPT override final;
 			virtual void open(const std::string& method, const std::string& url) TITANIUM_NOEXCEPT override final;
 			virtual void send() TITANIUM_NOEXCEPT override final;
-			virtual void send(const std::map<std::string, std::vector<unsigned char>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT override final;
+			virtual void send(const std::map<std::string, std::vector<std::uint8_t>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT override final;
 			virtual void send(const std::string& postDataStr) TITANIUM_NOEXCEPT override final;
 			virtual void setRequestHeader(const std::string& name, const std::string& value) TITANIUM_NOEXCEPT override final;
 			// properties
 			virtual std::string get_allResponseHeaders() const TITANIUM_NOEXCEPT override final;
 			virtual std::uint32_t get_readyState() const TITANIUM_NOEXCEPT override final;
-			virtual std::vector<unsigned char> get_responseData() const TITANIUM_NOEXCEPT override final;
+			virtual std::vector<std::uint8_t> get_responseData() const TITANIUM_NOEXCEPT override final;
 			virtual std::string get_responseText() const TITANIUM_NOEXCEPT override final;		
 			virtual std::uint32_t get_status() const TITANIUM_NOEXCEPT override final;
 			virtual void set_timeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT override final;
@@ -80,7 +80,7 @@ namespace TitaniumWindows
 			// responseStream__ - holds response string, the stream is not exposed
 			Windows::Storage::Streams::IBuffer^ responseStream__;
 			// responseData__ - vector used holds raw response data
-			std::vector<unsigned char>  responseData__;
+			std::vector<std::uint8_t>  responseData__;
 			// responseDataLen__ - count of character contained in data vector
 			long responseDataLen__;
 			// timeoutSpan__ - the span in milliseconds during which the request is active
@@ -103,7 +103,7 @@ namespace TitaniumWindows
 			task<Windows::Storage::Streams::IBuffer^> HTTPClient::HTTPResultAsync(
 			    Windows::Storage::Streams::IInputStream^ stream);
 
-			Windows::Storage::Streams::Buffer^ charVecToBuffer(std::vector<unsigned char> char_vector);
+			Windows::Storage::Streams::Buffer^ charVecToBuffer(std::vector<std::uint8_t> char_vector);
 
 			void SerializeHeaders(Windows::Web::Http::HttpResponseMessage^ response);
 			void SerializeHeaderCollection(Windows::Foundation::Collections::IIterable<Windows::Foundation::Collections::IKeyValuePair<::Platform::String^, ::Platform::String^>^>^ headers);

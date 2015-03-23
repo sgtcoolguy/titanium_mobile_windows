@@ -22,7 +22,7 @@ namespace TitaniumWindows
 		{
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Network::HTTPClient::ctor Initialize");
 
-			responseData__ = std::vector<unsigned char>();
+			responseData__ = std::vector<std::uint8_t>();
 			responseDataLen__ = 0;
 			readyState__ = Titanium::Network::N_REQUEST_STATE_UNSENT;
 		}
@@ -146,7 +146,7 @@ namespace TitaniumWindows
 			// clang-format on
 		}
 
-		void HTTPClient::send(const std::map<std::string, std::vector<unsigned char>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT
+		void HTTPClient::send(const std::map<std::string, std::vector<std::uint8_t>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT
 		{
 			Windows::Web::Http::IHttpContent^ postData;
 			Windows::Foundation::IAsyncOperationWithProgress<Windows::Web::Http::HttpResponseMessage^, Windows::Web::Http::HttpProgress>^ operation;
@@ -298,7 +298,7 @@ namespace TitaniumWindows
 			return readyState__;
 		}
 
-		std::vector<unsigned char> HTTPClient::get_responseData() const TITANIUM_NOEXCEPT
+		std::vector<std::uint8_t> HTTPClient::get_responseData() const TITANIUM_NOEXCEPT
 		{
 			return responseData__;
 		}
@@ -368,7 +368,7 @@ namespace TitaniumWindows
 					auto reader = ::Windows::Storage::Streams::DataReader::FromBuffer(responseBuffer);
 					responseData__.resize(responseDataLen__ + responseBuffer->Length);
 					reader->ReadBytes(
-						::Platform::ArrayReference<unsigned char>(
+						::Platform::ArrayReference<std::uint8_t>(
 						&responseData__[responseDataLen__], responseBuffer->Length));
 					responseDataLen__ += responseBuffer->Length;
 				}
@@ -393,7 +393,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		Windows::Storage::Streams::Buffer^ HTTPClient::charVecToBuffer(std::vector<unsigned char> char_vector)
+		Windows::Storage::Streams::Buffer^ HTTPClient::charVecToBuffer(std::vector<std::uint8_t> char_vector)
 		{
 			int size = char_vector.size();
 
@@ -406,7 +406,7 @@ namespace TitaniumWindows
 				throw ref new Platform::Exception(hr);
 			}
 
-			unsigned char* data = (unsigned char*)&char_vector[0];
+			std::uint8_t* data = (std::uint8_t*)&char_vector[0];
 			hr = bufferByteAccess->Buffer(&data);
 			if (FAILED(hr)) {
 				throw ref new Platform::Exception(hr);

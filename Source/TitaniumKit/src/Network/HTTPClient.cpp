@@ -38,10 +38,10 @@ namespace Titanium
 			return "";
 		}
 
-		std::vector<unsigned char> HTTPClient::get_responseData() const TITANIUM_NOEXCEPT
+		std::vector<std::uint8_t> HTTPClient::get_responseData() const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("HTTPClient::get_responseData: Unimplemented");
-			return std::vector<unsigned char>();  //empty
+			return std::vector<std::uint8_t>();  //empty
 		}
 
 		std::string HTTPClient::get_allResponseHeaders() const TITANIUM_NOEXCEPT
@@ -99,7 +99,7 @@ namespace Titanium
 			TITANIUM_LOG_WARN("HTTPClient::send: Unimplemented");
 		}
 
-		void HTTPClient::send(const std::map<std::string, std::vector<unsigned char>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT
+		void HTTPClient::send(const std::map<std::string, std::vector<std::uint8_t>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("HTTPClient::send<data>: Unimplemented");
 		}
@@ -236,14 +236,14 @@ namespace Titanium
 					send(postDataString);
 				} else {
 					bool useMultipartForm = false;
-					std::map<std::string, std::vector<unsigned char>> map;
+					std::map<std::string, std::vector<std::uint8_t>> map;
 					JSObject sendArgs = static_cast<JSObject>(arguments.at(0));
 					for (const auto& property_name : static_cast<std::vector<JSString>>(sendArgs.GetPropertyNames())) {
 						TITANIUM_ASSERT(sendArgs.GetProperty(property_name).IsObject() || sendArgs.GetProperty(property_name).IsString());
 						JSValue prop = sendArgs.GetProperty(property_name);
 						if (prop.IsString()) {
 							std::string str = static_cast<std::string>(prop);
-							std::vector<unsigned char> data(str.begin(), str.end());
+							std::vector<std::uint8_t> data(str.begin(), str.end());
 							map.insert(std::make_pair(property_name, data));
 						} else {
 							useMultipartForm = true;

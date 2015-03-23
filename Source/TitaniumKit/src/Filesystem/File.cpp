@@ -271,10 +271,10 @@ namespace Titanium
 			return false;
 		}
 
-		std::vector<unsigned char> File::getContent() const TITANIUM_NOEXCEPT
+		std::vector<std::uint8_t> File::getContent() const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::getContent(): Unimplemented");
-			std::vector<unsigned char> content;
+			std::vector<std::uint8_t> content;
 			return content;
 		}
 

@@ -76,7 +76,7 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-			virtual std::vector<unsigned char> getContent() const TITANIUM_NOEXCEPT override;
+			virtual std::vector<std::uint8_t> getContent() const TITANIUM_NOEXCEPT override;
 
 		protected:
 		private:
@@ -131,13 +131,13 @@ namespace TitaniumWindows
 				return getFileFromPathSync(TitaniumWindows::Utility::ConvertString(filename));
 			}
 
-			Windows::Storage::Streams::IBuffer^ getBufferFromBytes(unsigned char* data, std::size_t size, bool append, Windows::Storage::StorageFile^ appendingFile) {
+			Windows::Storage::Streams::IBuffer^ getBufferFromBytes(std::uint8_t* data, std::size_t size, bool append, Windows::Storage::StorageFile^ appendingFile) {
 				using namespace Windows::Storage;
 				const auto writer = ref new Streams::DataWriter(ref new Streams::InMemoryRandomAccessStream());
 				if (append) {
 					writeContentFromFile(writer, appendingFile);
 				}
-				writer->WriteBytes(::Platform::ArrayReference<unsigned char>(data, size));
+				writer->WriteBytes(::Platform::ArrayReference<std::uint8_t>(data, size));
 				return writer->DetachBuffer();
 			}
 
@@ -155,7 +155,7 @@ namespace TitaniumWindows
 			{
 				auto content = TitaniumWindows::Utility::GetContentFromFile(file);
 				if (content.size() > 0) {
-					writer->WriteBytes(::Platform::ArrayReference<unsigned char>(&content[0], content.size()));
+					writer->WriteBytes(::Platform::ArrayReference<std::uint8_t>(&content[0], content.size()));
 				}
 				return content.size();
 			}

@@ -674,7 +674,7 @@ namespace TitaniumWindows
 			return result;
 		}
 
-		std::vector<unsigned char> File::getContent() const TITANIUM_NOEXCEPT
+		std::vector<std::uint8_t> File::getContent() const TITANIUM_NOEXCEPT
 		{
 			return TitaniumWindows::Utility::GetContentFromFile(file_);
 		}

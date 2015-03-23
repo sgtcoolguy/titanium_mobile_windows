@@ -219,7 +219,7 @@ namespace Titanium
 			virtual bool write(const std::shared_ptr<Titanium::Blob>& data, const bool& append) TITANIUM_NOEXCEPT;
 			virtual bool write(const std::shared_ptr<File>& data, const bool& append) TITANIUM_NOEXCEPT;
 
-			virtual std::vector<unsigned char> getContent() const TITANIUM_NOEXCEPT;
+			virtual std::vector<std::uint8_t> getContent() const TITANIUM_NOEXCEPT;
 
 			File(const JSContext&) TITANIUM_NOEXCEPT;
 

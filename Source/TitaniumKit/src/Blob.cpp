@@ -14,7 +14,7 @@ namespace Titanium
 	{
 	}
 
-	void Blob::construct(std::vector<unsigned char> data) TITANIUM_NOEXCEPT
+	void Blob::construct(std::vector<std::uint8_t> data) TITANIUM_NOEXCEPT
 	{
 		height_ = 0;
 		width_ = 0;
@@ -25,7 +25,7 @@ namespace Titanium
 		this->type_ = Titanium::BlobModule::TYPE::DATA;
 	}
 
-	std::vector<unsigned char> Blob::getData() TITANIUM_NOEXCEPT
+	std::vector<std::uint8_t> Blob::getData() TITANIUM_NOEXCEPT
 	{
 		return data_;
 	}
