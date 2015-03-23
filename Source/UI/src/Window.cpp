@@ -25,7 +25,7 @@ namespace TitaniumWindows
 			
 			canvas__ = ref new Windows::UI::Xaml::Controls::Canvas();
 
-			Titanium::UI::Window::setLayoutPolicy<WindowLayoutPolicy>();
+			Titanium::UI::Window::setLayoutPolicy<WindowLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
 
 			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
@@ -37,6 +37,14 @@ namespace TitaniumWindows
 		{
 			// FIXME How do we handle this? It should navigate to the next window/page in a stack...
 			layoutPolicy__->hide();
+
+
+			// Fire close event on this window
+			auto ctx = get_context();
+			auto close_event = ctx.CreateObject();
+			//close_event.SetProperty("source", get_object());
+			close_event.SetProperty("type", ctx.CreateString("close"));
+			this->fireEvent("close", close_event);
 
 			// See https://github.com/appcelerator/titanium_mobile_windows.bak/blob/master/Source/TitaniumPedro/Modules/UI/TiPageManager.cpp
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
@@ -53,10 +61,25 @@ namespace TitaniumWindows
 
 		void Window::open(const std::shared_ptr<Titanium::UI::OpenWindowParams>& params) const TITANIUM_NOEXCEPT
 		{
+			// Fire open event on this window
+			auto ctx = get_context();
+			auto open_event = ctx.CreateObject();
+			//open_event.SetProperty("source", get_object());
+			open_event.SetProperty("type", ctx.CreateString("open"));
+			fireEvent("open", open_event);
+
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 			rootFrame->Navigate(Windows::UI::Xaml::Controls::Page::typeid);
 			auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
 			page->Content = canvas__;
+
+			// TODO Fire blur on last window?
+
+			// Fire focus event on this window
+			auto focus_event = ctx.CreateObject();
+			//focus_event.SetProperty("source", get_object());
+			focus_event.SetProperty("type", ctx.CreateString("focus"));
+			fireEvent("focus", focus_event);
 		}
 
 		void Window::JSExportInitialize()
@@ -74,9 +97,10 @@ namespace TitaniumWindows
 #endif
 		}
 
-		WindowLayoutPolicy::WindowLayoutPolicy() TITANIUM_NOEXCEPT
-			: WindowsViewLayoutPolicy()
+		WindowLayoutPolicy::WindowLayoutPolicy(std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
+			: WindowsViewLayoutPolicy(view)
 		{
+			
 		}
 
 		void WindowLayoutPolicy::onComponentSizeChange(const Titanium::LayoutEngine::Rect& rect)
@@ -93,15 +117,11 @@ namespace TitaniumWindows
 				Titanium::LayoutEngine::nodeLayout(root);
 			}
 
-			// TODO: Check if EventPostLayout is set before creating this object
-			/*
-			Ti::Value val;
-			val.setProperty("x", Ti::Value(rect.x));
-			val.setProperty("y", Ti::Value(rect.y));
-			val.setProperty("width", Ti::Value(rect.width));
-			val.setProperty("height", Ti::Value(rect.height));
-			fireEvent(Ti::Constants::EventPostLayout, val);
-			*/
+			JSContext ctx = view__->get_context();
+			JSObject  eventArgs = ctx.CreateObject();
+			eventArgs.SetProperty("source", view__->get_object());
+			eventArgs.SetProperty("type", ctx.CreateString("postlayout"));
+			view__->fireEvent("postlayout", eventArgs);
 		}
 
 		void WindowLayoutPolicy::onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name)
@@ -111,6 +131,7 @@ namespace TitaniumWindows
 				WindowsViewLayoutPolicy::onLayoutEngineCallback(rect, name);
 				return;
 			}
+			oldRect__ = Titanium::LayoutEngine::RectMake(rect.x, rect.y, rect.width, rect.height);
 		}
 	} // namespace UI
 } // namespace TitaniumWindows

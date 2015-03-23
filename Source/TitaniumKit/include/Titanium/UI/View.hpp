@@ -66,8 +66,6 @@ namespace Titanium
 			View& operator=(View&&) = default;
 #endif
 
-			// TODO: The following functions can automatically be generated
-			// from the YAML API docs.
 			static void JSExportInitialize();
 
 			virtual JSValue js_add(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
@@ -87,8 +85,32 @@ namespace Titanium
 			virtual JSValue js_get_borderWidth() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_borderWidth(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
+			virtual JSValue js_get_bottom() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_bottom(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_center() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_center(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_children() const TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_height() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_height(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_layout() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_layout(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_left() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_left(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
 			virtual JSValue js_get_opacity() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_opacity(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_rect() const TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_right() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_right(const JSValue& argument) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_size() const TITANIUM_NOEXCEPT final;
 			
 			virtual JSValue js_get_tintColor() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_tintColor(const JSValue& argument) TITANIUM_NOEXCEPT final;
@@ -102,31 +124,13 @@ namespace Titanium
 			virtual JSValue js_get_top() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_top(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue js_get_left() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_left(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_get_bottom() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_bottom(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_get_right() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_right(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
 			virtual JSValue js_get_width() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_width(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
-			virtual JSValue js_get_height() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_height(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_get_layout() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_layout(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			
-			virtual JSValue js_get_children() const TITANIUM_NOEXCEPT final;
-			
-			virtual JSValue js_get_center() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_center(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
 			virtual void postInitialize(JSObject& this_object) override;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 
 			template<typename T>
 			std::shared_ptr<T> getViewLayoutPolicy()

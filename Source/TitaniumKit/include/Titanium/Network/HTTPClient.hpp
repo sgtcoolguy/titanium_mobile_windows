@@ -36,56 +36,106 @@ namespace Titanium
 		public:
 			/*!
 			  @method
-			  @abstract setTimeout
-			  @discussion Set the duration allowed for the HTTP request to succeed.
+			  @abstract allResponseHeaders : String
+			  @discussion All of the response headers.
+
+			  Contains a single string, or an empty string if no headers are available.
+
+			  See also: getResponseHeader.
 			*/
-			virtual void setTimeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT;
+			virtual std::string get_allResponseHeaders() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
-			  @abstract getResponseText
-			  @discussion Get the text value of the HTTP response.
+			  @abstract readyState : Number
+			  @discussion The current ready state of this HTTP request.
+
+			  The ready state describes the current state of the request. The ready state is set to one of the five Titanium.Network.HTTPClient ready state constants. A typical HTTP request goes through the states in this order:
+
+			  UNSENT
+			  OPENED
+			  HEADERS_RECEIVED
+			  LOADING
+			  DONE
+			  The onreadystatechange callback is invoked each time the ready state changes.
+
+			  This property can be assigned the following constants:
+
+			  Titanium.Network.HTTPClient.UNSENT
+			  Titanium.Network.HTTPClient.OPENED
+			  Titanium.Network.HTTPClient.HEADERS_RECEIVED
+			  Titanium.Network.HTTPClient.LOADING
+			  Titanium.Network.HTTPClient.DONE
 			*/
-			virtual std::string getResponseText() const TITANIUM_NOEXCEPT;
+			// FIXME Use an enum for the value!
+			virtual std::uint32_t get_readyState() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
-			  @abstract getResponseData
-			  @discussion Get the binary value of the HTTP response.
+			  @abstract responseData : Titanium.Blob
+			  @discussion Response data as a Blob object.
 			*/
-			virtual std::vector<unsigned char> getResponseData() const TITANIUM_NOEXCEPT;
+			virtual std::vector<unsigned char> get_responseData() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
-			  @abstract getAllResponseHeaders
-			  @discussion Get the response header values as a collection of key:value pairs.
+			  @abstract responseText : String
+			  @discussion Response as text.
 			*/
-			virtual std::string getAllResponseHeaders() const TITANIUM_NOEXCEPT;
+			virtual std::string get_responseText() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
-			  @abstract getReadyState
-			  @discussion Get the state of the HTTP request.
+			  @abstract status : Number
+			  @discussion Response HTTP status code.
 			*/
-			virtual std::uint32_t getReadyState() const TITANIUM_NOEXCEPT;
+			virtual std::uint32_t get_status() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
-			  @abstract getStatus
-			  @discussion Get the status of the HTTP request as returned from the server.
+			  @abstract statusText : String
+			  @discussion Human-readable status message associated with the status code.
 			*/
-			virtual std::uint32_t getStatus() const TITANIUM_NOEXCEPT;
+			virtual std::string get_statusText() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
-			  @abstract getStatus
-			  @discussion Get the status as text of the HTTP request as returned from the server.
+
+			  @abstract timeout : Number
+
+			  @discussion Timeout in milliseconds when the connection should be aborted.
+
+			  On Mobile Web and Tizen, the timeout only works when making asynchronous requests.
 			*/
-			virtual std::string getStatusText() const TITANIUM_NOEXCEPT;
+			virtual std::chrono::milliseconds get_timeout() const TITANIUM_NOEXCEPT final;
+			virtual void set_timeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT;
+
+			// ----------------------------------------- Methods
 
 			/*!
 			  @method
-			  @abstract open 
+			  @abstract abort
+			  @discussion Cancel the current HTTP request.
+			*/
+			virtual void abort() TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+			  @abstract clearCookies
+			  @discussion Delete all cookies associated with the domain (url).
+			*/
+			virtual void clearCookies(const std::string& url) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+			  @abstract getResponseHeader
+			  @discussion Get the header based on the key name.
+			*/
+			virtual std::string getResponseHeader(const std::string& key) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+			  @abstract open
 			  @discussion Initiate the connect between the client and the server.
 			*/
 			virtual void open(const std::string& method, const std::string& url) TITANIUM_NOEXCEPT;
@@ -113,31 +163,10 @@ namespace Titanium
 
 			/*!
 			  @method
-			  @abstract abort
-			  @discussion Cancel the current HTTP request.
-			*/
-			virtual void abort() TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
 			  @abstract setRequestHeader
 			  @discussion Set the header key:value pair sent to the server.
 			*/
 			virtual void setRequestHeader(const std::string& key, const std::string& value) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-			  @abstract getResponseHeader
-			  @discussion Get the header based on the key name.
-			*/
-			virtual std::string getResponseHeader(const std::string& key) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-			  @abstract clearCookies
-			  @discussion Delete all cookies associated with the domain (url).
-			*/
-			virtual void clearCookies(const std::string& url) TITANIUM_NOEXCEPT;
 
 			HTTPClient(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -159,60 +188,89 @@ namespace Titanium
 			JSValue js_getHEADERS_RECEIVED() const TITANIUM_NOEXCEPT;
 
 			/////// properties
-			bool js_setTimeout(const JSValue& argument) TITANIUM_NOEXCEPT;
-			JSValue js_getTimeout() const TITANIUM_NOEXCEPT;
-			JSValue js_getResponseText() const TITANIUM_NOEXCEPT;
-			JSValue js_getResponseData() const TITANIUM_NOEXCEPT;
-			JSValue js_getAllResponseHeaders() const TITANIUM_NOEXCEPT;
-			JSValue js_getReadyState() const TITANIUM_NOEXCEPT;
-			JSValue js_getStatus() const TITANIUM_NOEXCEPT;
-			JSValue js_getStatusText() const TITANIUM_NOEXCEPT;
-			bool js_setOnLoad(const JSValue& argument) TITANIUM_NOEXCEPT;
-			JSValue js_getOnLoad() const TITANIUM_NOEXCEPT;
-			bool js_setOnError(const JSValue& argument) TITANIUM_NOEXCEPT;
-			JSValue js_getOnError() const TITANIUM_NOEXCEPT;
-			bool js_setOnDataStream(const JSValue& argument) TITANIUM_NOEXCEPT;
-			JSValue js_getOnDataStream() const TITANIUM_NOEXCEPT;
-			bool js_setOnSendStream(const JSValue& argument) TITANIUM_NOEXCEPT;
-			JSValue js_getOnSendStream() const TITANIUM_NOEXCEPT;
-			bool js_setOnReadyStateChange(const JSValue& argument) TITANIUM_NOEXCEPT;
-			JSValue js_getOnReadyStateChange() const TITANIUM_NOEXCEPT;
+			JSValue js_get_allResponseHeaders() const TITANIUM_NOEXCEPT;
+			JSValue js_getAllResponseHeaders(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+
+			JSValue js_get_ondatastream() const TITANIUM_NOEXCEPT;
+			bool js_set_ondatastream(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_getOndatastream(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+			JSValue js_setOndatastream(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT;
+
+			JSValue js_get_onerror() const TITANIUM_NOEXCEPT;
+			bool js_set_onerror(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_getOnerror(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+			JSValue js_setOnerror(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT;
+
+			JSValue js_get_onload() const TITANIUM_NOEXCEPT;
+			bool js_set_onload(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_getOnload(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+			JSValue js_setOnload(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT;
+
+			JSValue js_get_onreadystatechange() const TITANIUM_NOEXCEPT;
+			bool js_set_onreadystatechange(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_getOnreadystatechange(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+			JSValue js_setOnreadystatechange(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT;
+
+			JSValue js_get_onsendstream() const TITANIUM_NOEXCEPT;
+			bool js_set_onsendstream(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_getOnsendstream(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+			JSValue js_setOnsendstream(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT;
+
+			JSValue js_get_readyState() const TITANIUM_NOEXCEPT;
+			JSValue js_getReadyState(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+
+			JSValue js_get_responseData() const TITANIUM_NOEXCEPT;
+			JSValue js_getResponseData(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+
+			JSValue js_get_responseText() const TITANIUM_NOEXCEPT;
+			JSValue js_getResponseText(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+			
+			JSValue js_get_status() const TITANIUM_NOEXCEPT;
+			JSValue js_getStatus(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+
+			JSValue js_get_statusText() const TITANIUM_NOEXCEPT;
+			JSValue js_getStatusText(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+
+			bool js_set_timeout(const JSValue& argument) TITANIUM_NOEXCEPT;
+			JSValue js_get_timeout() const TITANIUM_NOEXCEPT;
+			JSValue js_getTimeout(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT;
+			JSValue js_setTimeout(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT;
 
 			/////// methods
+			JSValue js_abort(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
+			JSValue js_clearCookies(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
+			JSValue js_getResponseHeader(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
 			JSValue js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
 			JSValue js_send(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
-			JSValue js_abort(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
 			JSValue js_setRequestHeader(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
-			JSValue js_getResponseHeader(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
-			JSValue js_clearCookies(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 			/////// slots
-			void onload(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT;
-			void onerror(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT;
 			void ondatastream(const double progress) TITANIUM_NOEXCEPT;
-		    void onsendstream(const double progress) TITANIUM_NOEXCEPT;
+			void onerror(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT;
+			void onload(const std::uint32_t id, const std::string error, const bool success) TITANIUM_NOEXCEPT;
 			void onreadystatechange(const std::uint32_t state) TITANIUM_NOEXCEPT;
-
+		    void onsendstream(const double progress) TITANIUM_NOEXCEPT;
+			
 			/////// signals
 #pragma warning(push)
 #pragma warning(disable: 4251)
-			boost::signals2::signal<void(const std::uint32_t code, const std::string error, const bool success)> loaded;
-			boost::signals2::signal<void(const std::uint32_t code, const std::string error, const bool success)> error;
 			boost::signals2::signal<void(const double progress)> datastream;
-			boost::signals2::signal<void(const double progress)> sendstream;
+			boost::signals2::signal<void(const std::uint32_t code, const std::string error, const bool success)> error;
+			boost::signals2::signal<void(const std::uint32_t code, const std::string error, const bool success)> loaded;
 			boost::signals2::signal<void(const std::uint32_t state)> readystatechange;
+			boost::signals2::signal<void(const double progress)> sendstream;
 #pragma warning(pop)
 
 		private:
-			JSValue timeout__;
-			JSObject onload_callback__;
-			JSObject onerror_callback__;
-			JSObject ondatastream_callback__;
-			JSObject onsendstream_callback__;
-			JSObject onreadystatechange_callback__;
-
 #pragma warning(push)
 #pragma warning(disable: 4251)
+			JSObject ondatastream_callback__;
+			JSObject onerror_callback__;
+			JSObject onload_callback__;
+			JSObject onreadystatechange_callback__;
+			JSObject onsendstream_callback__;
+			std::chrono::milliseconds timeout__;
+
 			std::map<uint32_t, std::string> httpStatusPhrase__;
 #pragma warning(pop)
 

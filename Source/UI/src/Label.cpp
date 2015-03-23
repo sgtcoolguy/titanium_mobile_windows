@@ -44,7 +44,7 @@ namespace TitaniumWindows
 			Titanium::UI::Label::postCallAsConstructor(js_context, arguments);
 			
 			label__ = ref new Windows::UI::Xaml::Controls::TextBlock();
-			Titanium::UI::Label::setLayoutPolicy<WindowsViewLayoutPolicy>();
+			Titanium::UI::Label::setLayoutPolicy<WindowsViewLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
 
 			label__->TextWrapping = Windows::UI::Xaml::TextWrapping::Wrap;
 			label__->TextTrimming = Windows::UI::Xaml::TextTrimming::Clip;

@@ -12,8 +12,7 @@
 namespace Titanium
 {
 	Module::Module(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : JSExportObject(js_context),
-	      event_listener_map__(js_context.CreateObject())
+	    : JSExportObject(js_context)
 	{
 	}
 
@@ -38,14 +37,9 @@ namespace Titanium
 			return;
 		}
 
-		JSObject event_listener_list = get_context().CreateArray();
-		if (!event_listener_map__.HasProperty(name)) {
-			event_listener_map__.SetProperty(name, event_listener_list);
-		} else {
-			JSValue event_listener_list_property = event_listener_map__.GetProperty(name);
-			// precondition
-			TITANIUM_ASSERT(event_listener_list_property.IsObject());
-			event_listener_list = static_cast<JSObject>(event_listener_list_property);
+		std::vector<JSObject> event_listener_list;
+		if (event_listener_map__.find(name) != event_listener_map__.end()) {
+			event_listener_list = event_listener_map__.at(name);
 		}
 
 		JSObject callback_payload = get_context().CreateObject();
@@ -57,15 +51,16 @@ namespace Titanium
 		if (event_listener_index > 0) {
 			TITANIUM_LOG_WARN("Module::addEventListener: event listener already added at index ", event_listener_index, " for event '", name, "'");
 		} else {
-			const auto callback_list_index = event_listener_list.GetPropertyNames().GetCount();
+			const auto callback_list_index = event_listener_list.size();
 			if (callback_list_index == 0) {
 				// This is the first event listener for this event name, so signal
 				// module subclasses that callbacks have been registered for this event.
 				enableEvent(name);
 			}
 			TITANIUM_LOG_DEBUG("Module::addEventListener: add listener at index ", callback_list_index, " for event '", name, "' for ", this);
-			event_listener_list.SetProperty(static_cast<unsigned>(callback_list_index), callback_payload);
+			event_listener_list.emplace_back(callback_payload);
 		}
+		event_listener_map__[name] = event_listener_list;
 	}
 
 	void Module::removeEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -75,22 +70,18 @@ namespace Titanium
 			return;
 		}
 
-		if (!event_listener_map__.HasProperty(name)) {
+		if (event_listener_map__.find(name) == event_listener_map__.end()) {
 			TITANIUM_LOG_WARN("Module::removeEventListener: No event listener's for event '", name, "'");
 			return;
 		}
 
-		JSValue event_listener_list_property = event_listener_map__.GetProperty(name);
-
-		// precondition
-		TITANIUM_ASSERT(event_listener_list_property.IsObject());
-		JSObject event_listener_list = static_cast<JSObject>(event_listener_list_property);
+		std::vector<JSObject> event_listener_list = event_listener_map__.at(name);
 
 		JSObject callback_payload = get_context().CreateObject();
 		callback_payload.SetProperty("callback", callback);
 		callback_payload.SetProperty("this_object", this_object);
 
-		const auto event_listener_count = event_listener_list.GetPropertyNames().GetCount();
+		const auto event_listener_count = event_listener_list.size();
 		if (event_listener_count > 0) {
 			const auto event_listener_index = eventListenerIndex(event_listener_list, name, callback_payload);
 
@@ -104,12 +95,12 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("Module::removeEventListener: remove listener at index ", event_listener_index, " for event '", name, "' for ", this);
 
 			// postcondition
-			const bool deleted = event_listener_list.DeleteProperty(std::to_string(event_listener_index));
-			if (!deleted) {
+			event_listener_list.erase(event_listener_list.begin() +  event_listener_index);
+			//if (!deleted) {
 				// This is a TitaniumKit logic error.
-				TITANIUM_LOG_ERROR("Module::removeEventListener: event listener at index ", event_listener_index, " for event '", name, "' was not removed");
-				TITANIUM_ASSERT(deleted);
-			}
+				//TITANIUM_LOG_ERROR("Module::removeEventListener: event listener at index ", event_listener_index, " for event '", name, "' was not removed");
+				//TITANIUM_ASSERT(deleted);
+			//}
 		} else {
 			TITANIUM_LOG_WARN("Module::removeEventListener: listener does not exist for event '", name, "'");
 		}
@@ -132,16 +123,13 @@ namespace Titanium
 
 	void Module::fireEvent(const std::string& name, const JSObject& event) const TITANIUM_NOEXCEPT
 	{
-		if (!event_listener_map__.HasProperty(name)) {
+		if (event_listener_map__.find(name) == event_listener_map__.end()) {
 			TITANIUM_LOG_WARN("Module::fireEvent: No event named '", name, "' has been added");
 			return;
 		}
 
-		JSValue event_listener_list_property = event_listener_map__.GetProperty(name);
-		// Precondition
-		TITANIUM_ASSERT(event_listener_list_property.IsObject());
-		JSObject event_listener_list = static_cast<JSObject>(event_listener_list_property);
-		const auto event_listener_count = event_listener_list.GetPropertyNames().GetCount();
+		std::vector<JSObject> event_listener_list = event_listener_map__.at(name);
+		const auto event_listener_count = event_listener_list.size();
 
 		if (event_listener_count == 0) {
 			TITANIUM_LOG_WARN("Module::fireEvent: No listeners for event '", name, "'");
@@ -149,13 +137,11 @@ namespace Titanium
 		}
 
 		// TODO Set "source" and "type" here!
+		auto event_copy = event;
+		event_copy.SetProperty("type", event.get_context().CreateString(name));
 
-		for (unsigned i = 0; i < event_listener_count; ++i) {
-			JSValue callback_payload_property = event_listener_list.GetProperty(i);
-
-			// Precondition
-			TITANIUM_ASSERT(callback_payload_property.IsObject());
-			JSObject callback_payload = static_cast<JSObject>(callback_payload_property);
+		for (size_t i = 0; i < event_listener_count; ++i) {
+			JSObject callback_payload = event_listener_list.at(i);
 
 			JSValue callback_property = callback_payload.GetProperty("callback");
 
@@ -173,7 +159,7 @@ namespace Titanium
 			JSObject this_object = static_cast<JSObject>(this_object_property);
 
 			TITANIUM_LOG_DEBUG("Module::fireEvent: name = '", name, "' for listener at index ", i, " for ", this);
-			callback({static_cast<JSValue>(event)}, this_object);
+			callback({ static_cast<JSValue>(event_copy) }, this_object);
 		}
 	}
 
@@ -187,17 +173,13 @@ namespace Titanium
 		TITANIUM_LOG_WARN("Module::disableEvent: Unimplemented (event name '", event_name, "' for ", this);
 	}
 
-	unsigned Module::eventListenerIndex(const JSObject& event_listener_list, const std::string& name, JSObject& callback) TITANIUM_NOEXCEPT
+	unsigned Module::eventListenerIndex(const std::vector<JSObject>& event_listener_list, const std::string& name, JSObject& callback) TITANIUM_NOEXCEPT
 	{
 		unsigned index = 0;
 		bool found = false;
-		const auto event_listener_count = event_listener_list.GetPropertyNames().GetCount();
+		const auto event_listener_count = event_listener_list.size();
 		for (unsigned i = 0; i < event_listener_count; ++i) {
-			JSValue callback_payload_property = event_listener_list.GetProperty(i);
-
-			// Precondition
-			TITANIUM_ASSERT(callback_payload_property.IsObject());
-			JSObject callback_payload = static_cast<JSObject>(callback_payload_property);
+			JSObject callback_payload = event_listener_list.at(i);
 
 			JSValue callback_property = callback_payload.GetProperty("callback");
 			if (callback == callback_property) {

@@ -24,7 +24,7 @@ namespace TitaniumWindows
 			
 			canvas__ = ref new Windows::UI::Xaml::Controls::Canvas();
 
-			Titanium::UI::View::setLayoutPolicy<WindowsViewLayoutPolicy>();
+			Titanium::UI::View::setLayoutPolicy<WindowsViewLayoutPolicy>(std::shared_ptr<Titanium::UI::View>(this));
 
 			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
@@ -137,6 +137,15 @@ namespace TitaniumWindows
 					
 					this->fireEvent("touchmove", eventArgs);
 				});
+			}
+			else if (event_name == "focus") {
+				focus_event_ = getComponent()->GotFocus += ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e) {
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("source", this->get_object());
+					eventArgs.SetProperty("type", ctx.CreateString("focus"));
+					this->fireEvent("focus", eventArgs);
+				});
+				return;
 			}
 		}
 	} // namespace UI
