@@ -92,7 +92,7 @@ namespace TitaniumWindows
 			// responseHeaders__ - the collection of key value pairs returned from the server
 			std::map<const std::string, std::string> responseHeaders__;
 			// contentLength__ - the value in the Content-Length attribute of the response header
-			// If no length is reutrned the server has returned the data using chunked encoding
+			// If no length is returned the server has returned the data using chunked encoding
 			long contentLength__; // -1 if response is using chunked encoding
 			// requestHeaders__ - the collection of key value pairs to be sent to the server
 			std::map<const std::string, std::string> requestHeaders__;
@@ -100,8 +100,7 @@ namespace TitaniumWindows
 
 			void startDispatcherTimer();
 
-			task<Windows::Storage::Streams::IBuffer^> HTTPClient::HTTPResultAsync(
-			    Windows::Storage::Streams::IInputStream^ stream);
+			task<Windows::Storage::Streams::IBuffer^> HTTPClient::HTTPResultAsync(Windows::Storage::Streams::IInputStream^ stream, concurrency::cancellation_token token);
 
 			Windows::Storage::Streams::Buffer^ charVecToBuffer(std::vector<std::uint8_t> char_vector);
 

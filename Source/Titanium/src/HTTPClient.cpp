@@ -108,24 +108,26 @@ namespace TitaniumWindows
 			startDispatcherTimer();
 			// FIXME Combine logic from all three send overloads. The others don't set request headers, but handling of response is all the same. Just a matter of constructing the request is different
 			// clang-format off
-			create_task(
-			    httpClient__->SendRequestAsync(request, Windows::Web::Http::HttpCompletionOption::ResponseHeadersRead),
-			    cancellationTokenSource__.get_token())
-			.then([this](Windows::Web::Http::HttpResponseMessage^ response) {
-		  
+			const auto token = cancellationTokenSource__.get_token();
+			create_task(httpClient__->SendRequestAsync(request, Windows::Web::Http::HttpCompletionOption::ResponseHeadersRead), token)
+			.then([this, token](Windows::Web::Http::HttpResponseMessage^ response) {
+				interruption_point();
+
+				// TODO Make a set_readystate method that sets the field and fires the callback and just call that
 				readyState__ = Titanium::Network::N_REQUEST_STATE_OPENED;
-				onreadystatechange(Titanium::Network::N_REQUEST_STATE_OPENED);
+				onreadystatechange(readyState__);
 
 				SerializeHeaders(response);
 
-				return create_task(response->Content->ReadAsInputStreamAsync(), cancellationTokenSource__.get_token());
+				return create_task(response->Content->ReadAsInputStreamAsync(), token);
 			}, task_continuation_context::use_current())
-			.then([this](Windows::Storage::Streams::IInputStream^ stream) {
-			  
-				readyState__ = Titanium::Network::N_REQUEST_STATE_LOADING;
-				onreadystatechange(Titanium::Network::N_REQUEST_STATE_LOADING);
+			.then([this, token](Windows::Storage::Streams::IInputStream^ stream) {
+				interruption_point();
 
-				return HTTPResultAsync(stream);
+				readyState__ = Titanium::Network::N_REQUEST_STATE_LOADING;
+				onreadystatechange(readyState__);
+
+				return HTTPResultAsync(stream, token);
 			}, task_continuation_context::use_current())
 			.then([this](task<Windows::Storage::Streams::IBuffer^> previousTask) {
 				try {
@@ -133,14 +135,20 @@ namespace TitaniumWindows
 					previousTask.get();
 
 					readyState__ = Titanium::Network::N_REQUEST_STATE_DONE;
-					onreadystatechange(Titanium::Network::N_REQUEST_STATE_DONE);
+					if (httpClient__) {
+						onreadystatechange(readyState__);
+					}
 				}
 				catch (const task_canceled&) {
-					onerror(-1, "Session Cancelled", false);
+					if (httpClient__) {
+						onerror(-1, "Session Cancelled", false);
+					}
 				}
 				catch (Platform::Exception^ ex) {
-					std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
-					onerror(ex->HResult, error, false);
+					if (httpClient__) {
+						std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
+						onerror(ex->HResult, error, false);
+					}
 				}
 			});
 			// clang-format on
@@ -193,9 +201,10 @@ namespace TitaniumWindows
 			// clang-format off
 			create_task(operation, cancellationTokenSource__.get_token())
 			.then([this](Windows::Web::Http::HttpResponseMessage^ response) {
+				interruption_point();
 
 				readyState__ = Titanium::Network::N_REQUEST_STATE_OPENED;
-				onreadystatechange(Titanium::Network::N_REQUEST_STATE_OPENED);
+				onreadystatechange(readyState__);
 
 				SerializeHeaders(response);
 
@@ -207,17 +216,23 @@ namespace TitaniumWindows
 					previousTask.get();
 
 					readyState__ = Titanium::Network::N_REQUEST_STATE_DONE;
-					onreadystatechange(Titanium::Network::N_REQUEST_STATE_DONE);
+					if (httpClient__) {
+						onreadystatechange(readyState__);
 
-					onload(0, "Response has been loaded.", true);
-					onsendstream(1.0);
+						onload(0, "Response has been loaded.", true);
+						onsendstream(1.0);
+					}
 				}
 				catch (const task_canceled&) {
-					onerror(-1, "Session Cancelled", false);
+					if (httpClient__) {
+						onerror(-1, "Session Cancelled", false);
+					}
 				}
 				catch (Platform::Exception^ ex) {
-					std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
-					onerror(ex->HResult, error, false);
+					if (httpClient__) {
+						std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
+						onerror(ex->HResult, error, false);
+					}
 				}
 			}, task_continuation_context::use_current());
 			// clang-format on
@@ -248,10 +263,12 @@ namespace TitaniumWindows
 			// clang-format off
 			create_task(operation, cancellationTokenSource__.get_token())
 			.then([this](Windows::Web::Http::HttpResponseMessage^ response) {
+				interruption_point();
+
 				SerializeHeaders(response);
 
 				readyState__ = Titanium::Network::N_REQUEST_STATE_OPENED;
-				onreadystatechange(Titanium::Network::N_REQUEST_STATE_OPENED);
+				onreadystatechange(readyState__);
 
 				return response;
 			}, task_continuation_context::use_current())
@@ -261,17 +278,23 @@ namespace TitaniumWindows
 					previousTask.get();
 
 					readyState__ = Titanium::Network::N_REQUEST_STATE_DONE;
-					onreadystatechange(Titanium::Network::N_REQUEST_STATE_DONE);
+					if (httpClient__) {
+						onreadystatechange(readyState__);
 
-					onload(0, "Response has been loaded.", true);
-					onsendstream(1.0); 
+						onload(0, "Response has been loaded.", true);
+						onsendstream(1.0);
+					}
 				}
 				catch (const task_canceled&) {
-					onerror(-1, "Session Cancelled", false);
+					if (httpClient__) {
+						onerror(-1, "Session Cancelled", false);
+					}
 				}
 				catch (Platform::Exception^ ex) {
-					std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
-					onerror(ex->HResult, error, false);
+					if (httpClient__) {
+						std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
+						onerror(ex->HResult, error, false);
+					}
 				}
 			}, task_continuation_context::use_current());
 			// clang-format on
@@ -341,30 +364,31 @@ namespace TitaniumWindows
 			}
 		}
 
-		task<Windows::Storage::Streams::IBuffer^> HTTPClient::HTTPResultAsync(
-		    Windows::Storage::Streams::IInputStream^ stream)
+		task<Windows::Storage::Streams::IBuffer^> HTTPClient::HTTPResultAsync(Windows::Storage::Streams::IInputStream^ stream, concurrency::cancellation_token token)
 		{
 			Windows::Storage::Streams::IBuffer^ responseBuffer = ref new Windows::Storage::Streams::Buffer(1000); // Default size from MS samples
 			// clang-format off
-			return create_task(
-			           stream->ReadAsync(responseBuffer, responseBuffer->Capacity, Windows::Storage::Streams::InputStreamOptions::Partial),
-			           cancellationTokenSource__.get_token())
-			.then([=](task<Windows::Storage::Streams::IBuffer ^> readTask) {
+			return create_task(stream->ReadAsync(responseBuffer, responseBuffer->Capacity, Windows::Storage::Streams::InputStreamOptions::Partial), token)
+				.then([=](task<Windows::Storage::Streams::IBuffer^> readTask) {
+
+				if (token.is_canceled()) {
+					cancel_current_task();
+				}
 
 				// Stop the timeout timer
-				dispatcherTimer__->Stop();
-
-				if (contentLength__ != -1) {
-					ondatastream(responseBuffer->Length / contentLength__);
+				if (dispatcherTimer__ != nullptr && httpClient__ != nullptr) {
+					dispatcherTimer__->Stop();
 				}
-				else {
+
+				if (contentLength__ != -1 && contentLength__ != 0) {
+					ondatastream(responseBuffer->Length / contentLength__);
+				} else {
 					ondatastream(-1.0); // chunked encoding was used
 				}
 
 				if (!responseBuffer->Length) {
 					onload(0, "Response has been loaded.", true);
-				}
-				else {
+				} else {
 					auto reader = ::Windows::Storage::Streams::DataReader::FromBuffer(responseBuffer);
 					responseData__.resize(responseDataLen__ + responseBuffer->Length);
 					reader->ReadBytes(
@@ -372,8 +396,9 @@ namespace TitaniumWindows
 						&responseData__[responseDataLen__], responseBuffer->Length));
 					responseDataLen__ += responseBuffer->Length;
 				}
-
-				return responseBuffer->Length ? HTTPResultAsync(stream) : readTask;
+				
+				// FIXME How do we pass the token on in case of readTask?
+				return responseBuffer->Length ? HTTPResultAsync(stream, token) : readTask;
 			}, task_continuation_context::use_current());
 			// clang-format on
 		}
