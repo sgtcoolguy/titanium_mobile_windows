@@ -173,22 +173,26 @@ namespace Titanium
 			for (const auto section : sections) {
 				sections__.push_back(section);
 			}
+			set_sections(sections__);
 		}
 
 		void ListView::deleteSectionAt(uint32_t index, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			sections__.erase(sections__.begin()+index);
+			set_sections(sections__);
 		}
 
 		void ListView::insertSectionAt(uint32_t index, const std::vector<ListSection_shared_ptr_t>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			sections__.insert(sections__.begin() + index, section.begin(), section.end());
+			set_sections(sections__);
 		}
 
 		void ListView::replaceSectionAt(uint32_t index, const std::vector<ListSection_shared_ptr_t>& sections, const std::shared_ptr<ListViewAnimationProperties>& animationn) TITANIUM_NOEXCEPT
 		{
 			sections__.erase (sections__.begin() + index, sections__.begin() + index + sections.size());
 			sections__.insert(sections__.begin() + index, sections.begin(), sections.end());
+			set_sections(sections__);
 		}
 
 		void ListView::setMarker(const ListViewMarkerProps& marker) TITANIUM_NOEXCEPT
@@ -440,7 +444,7 @@ namespace Titanium
 		JSValue ListView::js_appendSection(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			const auto js_context = this_object.get_context();
-			if (arguments.size() >= 2) {
+			if (arguments.size() >= 1) {
 				JSObject animation = js_context.CreateObject();
 				std::vector<ListSection_shared_ptr_t> sections;
 
@@ -454,10 +458,10 @@ namespace Titanium
 					sections.push_back(js_sections.GetPrivate<ListSection>());
 				}
 
-				if (arguments.size() >= 3) {
-					const auto _3 = arguments.at(2);
-					if (_3.IsObject()) {
-						animation = listviewAnimationProperties_ctor__.CallAsConstructor({_3});
+				if (arguments.size() >= 2) {
+					const auto _1 = arguments.at(1);
+					if (_1.IsObject()) {
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({_1});
 					}
 				}
 
@@ -478,9 +482,9 @@ namespace Titanium
 				const auto sectionIndex = static_cast<uint32_t>(_0);
 
 				if (arguments.size() >= 2) {
-					const auto _2 = arguments.at(1);
-					if (_2.IsObject()) {
-						animation = listviewAnimationProperties_ctor__.CallAsConstructor({_2});
+					const auto _1 = arguments.at(1);
+					if (_1.IsObject()) {
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({_1});
 					}
 				}
 				deleteSectionAt(sectionIndex, animation.GetPrivate<ListViewAnimationProperties>());
@@ -510,9 +514,9 @@ namespace Titanium
 				}
 
 				if (arguments.size() >= 3) {
-					const auto _3 = arguments.at(2);
-					if (_3.IsObject()) {
-						animation = listviewAnimationProperties_ctor__.CallAsConstructor({_3});
+					const auto _2 = arguments.at(2);
+					if (_2.IsObject()) {
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({_2});
 					}
 				}
 
@@ -543,9 +547,9 @@ namespace Titanium
 				}
 
 				if (arguments.size() >= 3) {
-					const auto _3 = arguments.at(2);
-					if (_3.IsObject()) {
-						animation = listviewAnimationProperties_ctor__.CallAsConstructor({_3});
+					const auto _2 = arguments.at(2);
+					if (_2.IsObject()) {
+						animation = listviewAnimationProperties_ctor__.CallAsConstructor({_2});
 					}
 				}
 
