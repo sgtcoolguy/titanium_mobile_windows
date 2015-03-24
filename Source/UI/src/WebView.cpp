@@ -11,7 +11,7 @@
 #include "TitaniumWindows/Utility.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 namespace TitaniumWindows
 {
@@ -31,12 +31,12 @@ namespace TitaniumWindows
 			webview__ = ref new Windows::UI::Xaml::Controls::WebView();
 			initWebViewListeners();
 
-			Titanium::UI::WebView::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
+			Titanium::UI::WebView::setLayoutDelegate<WindowsViewLayoutDelegate>();
 
-			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
-			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 
-			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(webview__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(webview__);
 		}
 
 		WebView::~WebView() 

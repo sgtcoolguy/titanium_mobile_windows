@@ -25,18 +25,18 @@ namespace TitaniumWindows
 			
 			canvas__ = ref new Windows::UI::Xaml::Controls::Canvas();
 
-			Titanium::UI::Window::setLayoutPolicy<WindowLayoutPolicy>(this);
+			Titanium::UI::Window::setLayoutDelegate<WindowLayoutDelegate>();
 
-			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
-			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 
-			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(canvas__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(canvas__);
 		}
 
 		void Window::close(const std::shared_ptr<Titanium::UI::CloseWindowParams>& params) const TITANIUM_NOEXCEPT
 		{
 			// FIXME How do we handle this? It should navigate to the next window/page in a stack...
-			layoutPolicy__->hide();
+			layoutDelegate__->hide();
 
 
 			// Fire close event on this window
@@ -97,16 +97,16 @@ namespace TitaniumWindows
 #endif
 		}
 
-		WindowLayoutPolicy::WindowLayoutPolicy(Titanium::UI::View* view) TITANIUM_NOEXCEPT
-			: WindowsViewLayoutPolicy(view)
+		WindowLayoutDelegate::WindowLayoutDelegate() TITANIUM_NOEXCEPT
+			: WindowsViewLayoutDelegate()
 		{
 			
 		}
 
-		void WindowLayoutPolicy::onComponentSizeChange(const Titanium::LayoutEngine::Rect& rect)
+		void WindowLayoutDelegate::onComponentSizeChange(const Titanium::LayoutEngine::Rect& rect)
 		{
 			if (layout_node__->parent) {
-				WindowsViewLayoutPolicy::onComponentSizeChange(rect);
+				WindowsViewLayoutDelegate::onComponentSizeChange(rect);
 				return;
 			}
 
@@ -117,18 +117,21 @@ namespace TitaniumWindows
 				Titanium::LayoutEngine::nodeLayout(root);
 			}
 
-			JSContext ctx = view__->get_context();
-			JSObject  eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("source", view__->get_object());
-			eventArgs.SetProperty("type", ctx.CreateString("postlayout"));
-			view__->fireEvent("postlayout", eventArgs);
+		 	auto event_delegate = event_delegate__.lock();
+		 	if (event_delegate != nullptr) {
+				JSContext js_context = event_delegate->get_context();
+				JSObject  eventArgs = js_context.CreateObject();
+				eventArgs.SetProperty("source", event_delegate->get_object());
+				eventArgs.SetProperty("type", js_context.CreateString("postlayout"));
+				event_delegate->fireEvent("postlayout", eventArgs);
+			}
 		}
 
-		void WindowLayoutPolicy::onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name)
+		void WindowLayoutDelegate::onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name)
 		{
 			// We leave top level window alone unless the window is a child view
 			if (layout_node__->parent) {
-				WindowsViewLayoutPolicy::onLayoutEngineCallback(rect, name);
+				WindowsViewLayoutDelegate::onLayoutEngineCallback(rect, name);
 				return;
 			}
 			oldRect__ = Titanium::LayoutEngine::RectMake(rect.x, rect.y, rect.width, rect.height);

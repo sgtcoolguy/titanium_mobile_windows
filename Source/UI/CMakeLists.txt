@@ -50,8 +50,8 @@ endif()
 set(SOURCE_UI
   include/TitaniumWindows/UI/Switch.hpp
   src/Switch.cpp
-  include/TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp
-  src/WindowsViewLayoutPolicy.cpp
+  include/TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp
+  src/WindowsViewLayoutDelegate.cpp
   include/TitaniumWindows/UI/EmailDialog.hpp
   src/EmailDialog.cpp
   include/TitaniumWindows/UI/View.hpp

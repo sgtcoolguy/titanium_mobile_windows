@@ -1,12 +1,12 @@
 /**
- * TitaniumKit ViewLayoutPolicy
+ * TitaniumKit ViewLayoutDelegate
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include <string>
 #include <algorithm>
 #include <cctype>
@@ -16,30 +16,29 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-		WindowsViewLayoutPolicy::WindowsViewLayoutPolicy(Titanium::UI::View* view) TITANIUM_NOEXCEPT
-			: ViewLayoutPolicy(),
-			  view__(view)
+		WindowsViewLayoutDelegate::WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
+			: ViewLayoutDelegate()
 		{
-			TITANIUM_LOG_DEBUG("WindowsViewLayoutPolicy::ctor");
+			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::ctor");
 		}
 
-		void WindowsViewLayoutPolicy::postInitialize() TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::postInitialize() TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::postInitialize();
+			Titanium::UI::ViewLayoutDelegate::postInitialize();
 		}
 
-		void WindowsViewLayoutPolicy::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::add(view);
+			Titanium::UI::ViewLayoutDelegate::add(view);
 
 			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
 
 			if (nativeView == nullptr) {
-				TITANIUM_LOG_WARN("WindowsViewLayoutPolicy::add: Unknown component");
+				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::add: Unknown component");
 				return;
 			}
 
-			auto newView = view->getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>();
+			auto newView = view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
 			auto nativeChildView = newView->getComponent();
 			if (nativeChildView != nullptr) {
 				Titanium::LayoutEngine::nodeAddChild(layout_node__, newView->getLayoutNode());
@@ -52,25 +51,25 @@ namespace TitaniumWindows
 
 				nativeView->Children->Append(nativeChildView);
 			} else {
-				TITANIUM_LOG_WARN("WindowsViewLayoutPolicy::add: Unknown child component");
+				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::add: Unknown child component");
 			}
 		}
 
-		void WindowsViewLayoutPolicy::hide() TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::hide() TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::hide();
+			Titanium::UI::ViewLayoutDelegate::hide();
 			getComponent()->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
 		}
 
-		void WindowsViewLayoutPolicy::show() TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::show() TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::show();
+			Titanium::UI::ViewLayoutDelegate::show();
 			getComponent()->Visibility = Windows::UI::Xaml::Visibility::Visible;
 		}
 
-		void WindowsViewLayoutPolicy::animate(JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::animate(JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::animate(animation, callback, this_object);
+			Titanium::UI::ViewLayoutDelegate::animate(animation, callback, this_object);
 
 			bool has_delay = false;
 			Windows::Foundation::TimeSpan begin_time;
@@ -180,9 +179,9 @@ namespace TitaniumWindows
 			storyboard->Begin();
 		}
 
-		void WindowsViewLayoutPolicy::set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_backgroundColor(backgroundColor);
+			Titanium::UI::ViewLayoutDelegate::set_backgroundColor(backgroundColor);
 
 			auto background = ref new Windows::UI::Xaml::Media::SolidColorBrush(ColorForName(backgroundColor));
 
@@ -191,38 +190,38 @@ namespace TitaniumWindows
 			} else if (is_control__) {
 				dynamic_cast<Windows::UI::Xaml::Controls::Control^>(component__)->Background = background;
 			} else {
-				TITANIUM_LOG_WARN("WindowsViewLayoutPolicy::set_backgroundColor: Unknown component");
+				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_backgroundColor: Unknown component");
 			}
 		}
 
-		void WindowsViewLayoutPolicy::set_borderColor(const std::string& borderColor) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_borderColor(const std::string& borderColor) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_borderColor(borderColor);
+			Titanium::UI::ViewLayoutDelegate::set_borderColor(borderColor);
 		}
 
-		void WindowsViewLayoutPolicy::set_borderRadius(const uint32_t& borderRadius) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_borderRadius(const uint32_t& borderRadius) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_borderRadius(borderRadius);
+			Titanium::UI::ViewLayoutDelegate::set_borderRadius(borderRadius);
 		}
 
-		void WindowsViewLayoutPolicy::set_borderWidth(const uint32_t& borderWidth) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_borderWidth(const uint32_t& borderWidth) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_borderWidth(borderWidth);
+			Titanium::UI::ViewLayoutDelegate::set_borderWidth(borderWidth);
 
 			if (is_control__) {
 				dynamic_cast<Windows::UI::Xaml::Controls::Control^>(component__)->BorderThickness = borderWidth;
 			} else {
-				TITANIUM_LOG_WARN("WindowsViewLayoutPolicy::set_borderWidth: Unknown component");
+				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_borderWidth: Unknown component");
 			}
 		}
 
-		void WindowsViewLayoutPolicy::set_opacity(const double& opacity) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_opacity(const double& opacity) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_opacity(opacity);
+			Titanium::UI::ViewLayoutDelegate::set_opacity(opacity);
 			getComponent()->Opacity = opacity;
 		}
 
-		Titanium::UI::Dimension WindowsViewLayoutPolicy::get_rect() const TITANIUM_NOEXCEPT
+		Titanium::UI::Dimension WindowsViewLayoutDelegate::get_rect() const TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Dimension d;
 			d.x = static_cast<uint32_t>(oldRect__.x);
@@ -232,7 +231,7 @@ namespace TitaniumWindows
 			return d;
 		}
 
-		Titanium::UI::Dimension WindowsViewLayoutPolicy::get_size() const TITANIUM_NOEXCEPT
+		Titanium::UI::Dimension WindowsViewLayoutDelegate::get_size() const TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Dimension d;
 			d.x = 0;
@@ -241,72 +240,72 @@ namespace TitaniumWindows
 			d.height = static_cast<uint32_t>(oldRect__.height);
 			return d;
 		}
-		void WindowsViewLayoutPolicy::set_tintColor(const std::string& tintColor) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_tintColor(const std::string& tintColor) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_tintColor(tintColor);
+			Titanium::UI::ViewLayoutDelegate::set_tintColor(tintColor);
 		}
 
-		void WindowsViewLayoutPolicy::set_touchEnabled(const bool& touchEnabled) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_touchEnabled(const bool& touchEnabled) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_touchEnabled(touchEnabled);
+			Titanium::UI::ViewLayoutDelegate::set_touchEnabled(touchEnabled);
 		}
 
-		void WindowsViewLayoutPolicy::set_top(const std::string& top) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_top(const std::string& top) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_top(top);
+			Titanium::UI::ViewLayoutDelegate::set_top(top);
 			setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, top);
 		}
 
-		void WindowsViewLayoutPolicy::set_left(const std::string& left) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_left(const std::string& left) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_left(left);
+			Titanium::UI::ViewLayoutDelegate::set_left(left);
 			setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, left);
 		}
 
-		void WindowsViewLayoutPolicy::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_bottom(bottom);
+			Titanium::UI::ViewLayoutDelegate::set_bottom(bottom);
 			setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, bottom);
 		}
 
-		void WindowsViewLayoutPolicy::set_right(const std::string& right) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_right(const std::string& right) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_right(right);
+			Titanium::UI::ViewLayoutDelegate::set_right(right);
 			setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, right);
 		}
 
-		void WindowsViewLayoutPolicy::set_center(const Titanium::UI::Point& center) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_center(const Titanium::UI::Point& center) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_center(center);
+			Titanium::UI::ViewLayoutDelegate::set_center(center);
 		}
 
-		void WindowsViewLayoutPolicy::set_width(const std::string& width) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_width(const std::string& width) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_width(width);
+			Titanium::UI::ViewLayoutDelegate::set_width(width);
 			setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 		}
 
-		void WindowsViewLayoutPolicy::set_minWidth(const std::string& width) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_minWidth(const std::string& width) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_minWidth(width);
+			Titanium::UI::ViewLayoutDelegate::set_minWidth(width);
 			setLayoutProperty(Titanium::LayoutEngine::ValueName::MinWidth, width);
 		}
 
-		void WindowsViewLayoutPolicy::set_height(const std::string& height) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_height(const std::string& height) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_height(height);
+			Titanium::UI::ViewLayoutDelegate::set_height(height);
 			setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
 		}
 
-		void WindowsViewLayoutPolicy::set_minHeight(const std::string& height) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_minHeight(const std::string& height) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_minHeight(height);
+			Titanium::UI::ViewLayoutDelegate::set_minHeight(height);
 			setLayoutProperty(Titanium::LayoutEngine::ValueName::MinHeight, height);
 		}
 
-		void WindowsViewLayoutPolicy::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutPolicy::set_layout(layout);
+			Titanium::UI::ViewLayoutDelegate::set_layout(layout);
 
 			if (layout == "horizontal") {
 				layout_node__->element.layoutType = Titanium::LayoutEngine::LayoutType::Horizontal;
@@ -324,7 +323,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		void WindowsViewLayoutPolicy::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
 			if (event_name == "focus") {
 				getComponent()->GotFocus -= focus_event__;
@@ -335,16 +334,18 @@ namespace TitaniumWindows
 			}
 		}
 
-		void WindowsViewLayoutPolicy::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			const JSContext ctx = view__->get_context();
-
 			 if (event_name == "focus") {
-				 focus_event__ = getComponent()->GotFocus += ref new Windows::UI::Xaml::RoutedEventHandler([this, ctx](Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("source", view__->get_object());
-					eventArgs.SetProperty("type", ctx.CreateString("focus"));
-					view__->fireEvent("focus", eventArgs);
+				 focus_event__ = getComponent()->GotFocus += ref new Windows::UI::Xaml::RoutedEventHandler([this](Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+				 	auto event_delegate = event_delegate__.lock();
+				 	if (event_delegate != nullptr) {
+					 	JSContext js_context = event_delegate->get_context();
+						JSObject eventArgs = js_context.CreateObject();
+						eventArgs.SetProperty("source", event_delegate->get_object());
+						eventArgs.SetProperty("type", js_context.CreateString("focus"));
+						event_delegate->fireEvent("focus", eventArgs);
+				 	}
 				});
 				return;
 			 } else if (event_name == "postlayout") {
@@ -355,12 +356,12 @@ namespace TitaniumWindows
 
 		static void onLayoutCallback(Titanium::LayoutEngine::Node* node)
 		{
-			auto view = static_cast<WindowsViewLayoutPolicy*>(node->data);
+			auto view = static_cast<WindowsViewLayoutDelegate*>(node->data);
 			auto rect = Titanium::LayoutEngine::RectMake(node->element.measuredLeft, node->element.measuredTop, node->element.measuredWidth, node->element.measuredHeight);
 			view->onLayoutEngineCallback(rect, node->name);
 		}
 
-		void WindowsViewLayoutPolicy::setComponent(Windows::UI::Xaml::FrameworkElement^ component)
+		void WindowsViewLayoutDelegate::setComponent(Windows::UI::Xaml::FrameworkElement^ component)
 		{
 			using namespace Windows::UI::Xaml;
 			using namespace Windows::UI::Xaml::Controls;
@@ -414,7 +415,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		void WindowsViewLayoutPolicy::onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name)
+		void WindowsViewLayoutDelegate::onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name)
 		{
 			using namespace Windows::UI::Xaml::Controls;
 			using namespace Windows::UI::Xaml;
@@ -485,7 +486,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		void WindowsViewLayoutPolicy::onComponentLoaded(const Titanium::LayoutEngine::Rect& rect)
+		void WindowsViewLayoutDelegate::onComponentLoaded(const Titanium::LayoutEngine::Rect& rect)
 		{
 			is_loaded__ = true;
 
@@ -496,7 +497,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		void WindowsViewLayoutPolicy::onComponentSizeChange(const Titanium::LayoutEngine::Rect& rect)
+		void WindowsViewLayoutDelegate::onComponentSizeChange(const Titanium::LayoutEngine::Rect& rect)
 		{
 			bool needsLayout = false;
 
@@ -520,17 +521,20 @@ namespace TitaniumWindows
 			}
 
 			if (postlayout_listening__) {
-				// Fire postlayout event
-				JSContext ctx = view__->get_context();
-				JSObject  eventArgs = ctx.CreateObject();
-				eventArgs.SetProperty("source", view__->get_object());
-				eventArgs.SetProperty("type", ctx.CreateString("postlayout"));
-				view__->fireEvent("postlayout", eventArgs);
+			 	auto event_delegate = event_delegate__.lock();
+			 	if (event_delegate != nullptr) {
+					// Fire postlayout event
+					JSContext js_context = event_delegate->get_context();
+					JSObject  eventArgs = js_context.CreateObject();
+					eventArgs.SetProperty("source", event_delegate->get_object());
+					eventArgs.SetProperty("type", js_context.CreateString("postlayout"));
+					event_delegate->fireEvent("postlayout", eventArgs);
+				}
 			}
 		}
 
 
-		void WindowsViewLayoutPolicy::setLayoutProperty(const Titanium::LayoutEngine::ValueName& name, const std::string& value)
+		void WindowsViewLayoutDelegate::setLayoutProperty(const Titanium::LayoutEngine::ValueName& name, const std::string& value)
 		{
 			Titanium::LayoutEngine::InputProperty prop;
 			prop.name = name;
@@ -564,7 +568,7 @@ namespace TitaniumWindows
 			return (c & 0xF) + (c < 'A' ? 0 : 9);
 		}
 
-		Windows::UI::Color WindowsViewLayoutPolicy::ColorForHexCode(const std::string& hexCode)
+		Windows::UI::Color WindowsViewLayoutDelegate::ColorForHexCode(const std::string& hexCode)
 		{
 			unsigned length = hexCode.size();
 			unsigned char alpha = 255;
@@ -617,7 +621,7 @@ namespace TitaniumWindows
 #define INSERT_WINDOWS_UI_COLOR(COLOR_NAME) color_name_map.insert(std::make_pair(toLowerCase(#COLOR_NAME), Windows::UI::Colors::##COLOR_NAME));
 
 		// Can this be optimized? MS is giving a lot of choices for colors!
-		Windows::UI::Color WindowsViewLayoutPolicy::ColorForName(const std::string& colorName)
+		Windows::UI::Color WindowsViewLayoutDelegate::ColorForName(const std::string& colorName)
 		{
 			// pre condition
 			TITANIUM_ASSERT(!colorName.empty());

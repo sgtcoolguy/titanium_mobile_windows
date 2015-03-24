@@ -9,7 +9,7 @@
 #include "TitaniumWindows/UI/ImageView.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "LayoutEngine/LayoutEngine.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
@@ -37,12 +37,12 @@ namespace TitaniumWindows
 					this->image__->ActualWidth,
 					this->image__->ActualHeight
 				);
-				getViewLayoutPolicy<WindowsViewLayoutPolicy>()->onComponentSizeChange(rect);
+				getViewLayoutDelegate<WindowsViewLayoutDelegate>()->onComponentSizeChange(rect);
 			});
 
-			Titanium::UI::ImageView::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
+			Titanium::UI::ImageView::setLayoutDelegate<WindowsViewLayoutDelegate>();
 
-			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(image__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(image__);
 		}
 
 		void ImageView::JSExportInitialize()
@@ -185,7 +185,7 @@ namespace TitaniumWindows
 			using namespace Windows::UI::Xaml::Input;
 			using namespace Windows::UI::Xaml;
 
-			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+			auto component = getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 			// TODO Handle change/error/load/pause/start/stop!
 			if (event_name == "click") { // TODO Can't superclass handle common events like click?
 				click_event_ = component->Tapped += ref new TappedEventHandler([this, ctx](::Platform::Object^ sender, TappedRoutedEventArgs^ e) {

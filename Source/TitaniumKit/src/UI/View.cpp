@@ -30,12 +30,12 @@ namespace Titanium
 		void View::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
 			Titanium::Module::postCallAsConstructor(js_context, arguments);	
-			setLayoutPolicy<ViewLayoutPolicy>();
+			setLayoutDelegate();
 		}
 
 		void View::animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT
 		{
-			layoutPolicy__->animate(animation, callback, get_object());
+			layoutDelegate__->animate(animation, callback, get_object());
 		}
 
 		void View::JSExportInitialize()
@@ -76,7 +76,7 @@ namespace Titanium
 			const auto _0 = arguments.at(0);
 			TITANIUM_ASSERT(_0.IsObject());
 			JSObject view = static_cast<JSObject>(_0);
-			layoutPolicy__->add(view.GetPrivate<View>());
+			layoutDelegate__->add(view.GetPrivate<View>());
 			return get_context().CreateUndefined();
 		}
 
@@ -103,93 +103,93 @@ namespace Titanium
 		JSValue View::js_hide(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(arguments.size() == 0);
-			layoutPolicy__->hide();
+			layoutDelegate__->hide();
 			return get_context().CreateUndefined();
 		}
 
 		JSValue View::js_show(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(arguments.size() == 0);
-			layoutPolicy__->show();
+			layoutDelegate__->show();
 			return get_context().CreateUndefined();
 		}
 
 		JSValue View::js_get_backgroundColor() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(layoutPolicy__->get_backgroundColor());
+			return get_context().CreateString(layoutDelegate__->get_backgroundColor());
 		}
 
 		bool View::js_set_backgroundColor(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			layoutPolicy__->set_backgroundColor(static_cast<std::string>(argument));
+			layoutDelegate__->set_backgroundColor(static_cast<std::string>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_borderColor() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(layoutPolicy__->get_borderColor());
+			return get_context().CreateString(layoutDelegate__->get_borderColor());
 		}
 
 		bool View::js_set_borderColor(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			layoutPolicy__->set_borderColor(static_cast<std::string>(argument));
+			layoutDelegate__->set_borderColor(static_cast<std::string>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_borderRadius() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(layoutPolicy__->get_borderRadius());
+			return get_context().CreateNumber(layoutDelegate__->get_borderRadius());
 		}
 
 		bool View::js_set_borderRadius(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			layoutPolicy__->set_borderRadius(static_cast<uint32_t>(argument));
+			layoutDelegate__->set_borderRadius(static_cast<uint32_t>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_borderWidth() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(layoutPolicy__->get_borderWidth());
+			return get_context().CreateNumber(layoutDelegate__->get_borderWidth());
 		}
 
 		bool View::js_set_borderWidth(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			layoutPolicy__->set_borderWidth(static_cast<uint32_t>(argument));
+			layoutDelegate__->set_borderWidth(static_cast<uint32_t>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_bottom() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(layoutPolicy__->get_bottom());
+			return get_context().CreateString(layoutDelegate__->get_bottom());
 		}
 
 		bool View::js_set_bottom(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_bottom(static_cast<std::string>(argument));
+			layoutDelegate__->set_bottom(static_cast<std::string>(argument));
 			return true;
 		}
 
 		bool View::js_set_center(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsObject());
-			layoutPolicy__->set_center(js_to_Point(static_cast<JSObject>(argument)));
+			layoutDelegate__->set_center(js_to_Point(static_cast<JSObject>(argument)));
 			return true;
 		}
 		
 		JSValue View::js_get_center() const TITANIUM_NOEXCEPT
 		{
-			return Point_to_js(get_context(), layoutPolicy__->get_center());
+			return Point_to_js(get_context(), layoutDelegate__->get_center());
 		}
 
 		JSValue View::js_get_children() const TITANIUM_NOEXCEPT
 		{
 			std::vector<JSValue> js_children;
-			const auto children = layoutPolicy__->get_children();
+			const auto children = layoutDelegate__->get_children();
 			for (auto child : children) {
 				js_children.push_back(child->get_object());
 			}
@@ -198,90 +198,90 @@ namespace Titanium
 
 		JSValue View::js_get_height() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(layoutPolicy__->get_height());
+			return get_context().CreateString(layoutDelegate__->get_height());
 		}
 
 		bool View::js_set_height(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_height(static_cast<std::string>(argument));
+			layoutDelegate__->set_height(static_cast<std::string>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_layout() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(layoutPolicy__->get_layout());
+			return get_context().CreateString(layoutDelegate__->get_layout());
 		}
 
 		bool View::js_set_layout(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			layoutPolicy__->set_layout(static_cast<std::string>(argument));
+			layoutDelegate__->set_layout(static_cast<std::string>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_left() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(layoutPolicy__->get_left());
+			return get_context().CreateString(layoutDelegate__->get_left());
 		}
 
 		bool View::js_set_left(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_left(static_cast<std::string>(argument));
+			layoutDelegate__->set_left(static_cast<std::string>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_opacity() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateNumber(layoutPolicy__->get_opacity());
+			return get_context().CreateNumber(layoutDelegate__->get_opacity());
 		}
 
 		bool View::js_set_opacity(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			if (argument.IsNumber()) {
-				layoutPolicy__->set_opacity(static_cast<double>(argument));
+				layoutDelegate__->set_opacity(static_cast<double>(argument));
 			}
 			return true;
 		}
 
 		JSValue View::js_get_rect() const TITANIUM_NOEXCEPT
 		{
-			return Titanium::UI::Dimension_to_js(get_context(), layoutPolicy__->get_rect());
+			return Titanium::UI::Dimension_to_js(get_context(), layoutDelegate__->get_rect());
 		}
 
 		JSValue View::js_get_right() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(layoutPolicy__->get_right());
+			return get_context().CreateString(layoutDelegate__->get_right());
 		}
 
 		bool View::js_set_right(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_right(static_cast<std::string>(argument));
+			layoutDelegate__->set_right(static_cast<std::string>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_size() const TITANIUM_NOEXCEPT
 		{
-			return Titanium::UI::Dimension_to_js(get_context(), layoutPolicy__->get_size());
+			return Titanium::UI::Dimension_to_js(get_context(), layoutDelegate__->get_size());
 		}
 
 		JSValue View::js_get_tintColor() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(layoutPolicy__->get_tintColor());
+			return get_context().CreateString(layoutDelegate__->get_tintColor());
 		}
 
 		bool View::js_set_tintColor(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			layoutPolicy__->set_tintColor(static_cast<std::string>(argument));
+			layoutDelegate__->set_tintColor(static_cast<std::string>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_top() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(layoutPolicy__->get_top());
+			return get_context().CreateString(layoutDelegate__->get_top());
 		}
 
 		bool View::js_set_top(const JSValue& argument) TITANIUM_NOEXCEPT
@@ -291,54 +291,54 @@ namespace Titanium
 				return false;
 			}
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_top(static_cast<std::string>(argument));
+			layoutDelegate__->set_top(static_cast<std::string>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_touchEnabled() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateBoolean(layoutPolicy__->get_touchEnabled());
+			return get_context().CreateBoolean(layoutDelegate__->get_touchEnabled());
 		}
 
 		bool View::js_set_touchEnabled(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
-			layoutPolicy__->set_touchEnabled(static_cast<bool>(argument));
+			layoutDelegate__->set_touchEnabled(static_cast<bool>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_visible() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateBoolean(layoutPolicy__->get_visible());
+			return get_context().CreateBoolean(layoutDelegate__->get_visible());
 		}
 
 		bool View::js_set_visible(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
-			layoutPolicy__->set_visible(static_cast<bool>(argument));
+			layoutDelegate__->set_visible(static_cast<bool>(argument));
 			return true;
 		}
 
 		JSValue View::js_get_width() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(layoutPolicy__->get_width());
+			return get_context().CreateString(layoutDelegate__->get_width());
 		}
 
 		bool View::js_set_width(const JSValue& argument) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_width(static_cast<std::string>(argument));
+			layoutDelegate__->set_width(static_cast<std::string>(argument));
 			return true;
 		}
 
 		void View::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			layoutPolicy__->disableEvent(event_name);
+			layoutDelegate__->disableEvent(event_name);
 		}
 
 		void View::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			layoutPolicy__->enableEvent(event_name);
+			layoutDelegate__->enableEvent(event_name);
 		}
 
 	} // namespace UI

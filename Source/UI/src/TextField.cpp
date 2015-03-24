@@ -7,7 +7,7 @@
 */
 
 #include "TitaniumWindows/UI/TextField.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
@@ -27,8 +27,8 @@ namespace TitaniumWindows
 			text_box__->AcceptsReturn = false;
 			text_box__->IsSpellCheckEnabled = true;
 
-			Titanium::UI::TextField::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
-			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(text_box__);
+			Titanium::UI::TextField::setLayoutDelegate<WindowsViewLayoutDelegate>();
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(text_box__);
 		}
 
 		void TextField::JSExportInitialize()
@@ -42,7 +42,7 @@ namespace TitaniumWindows
 		void TextField::set_color(const std::string& colorName) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::TextField::set_color(colorName);
-			const auto color_obj = WindowsViewLayoutPolicy::ColorForName(colorName);
+			const auto color_obj = WindowsViewLayoutDelegate::ColorForName(colorName);
 			text_box__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(color_obj);
 		}
 
@@ -197,7 +197,7 @@ namespace TitaniumWindows
 		{
 			js_set_width(argument);
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			layoutPolicy__->set_minWidth(static_cast<std::string>(argument));
+			layoutDelegate__->set_minWidth(static_cast<std::string>(argument));
 			return true;
 		}
 

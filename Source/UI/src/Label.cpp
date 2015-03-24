@@ -7,7 +7,7 @@
 */
 
 #include "TitaniumWindows/UI/Label.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
 #include "TitaniumWindows/Utility.hpp"
@@ -44,14 +44,14 @@ namespace TitaniumWindows
 			Titanium::UI::Label::postCallAsConstructor(js_context, arguments);
 			
 			label__ = ref new Windows::UI::Xaml::Controls::TextBlock();
-			Titanium::UI::Label::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
+			Titanium::UI::Label::setLayoutDelegate<WindowsViewLayoutDelegate>();
 
 			label__->TextWrapping = Windows::UI::Xaml::TextWrapping::Wrap;
 			label__->TextTrimming = Windows::UI::Xaml::TextTrimming::Clip;
 			label__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Center;
 			label__->FontSize = DEFAULT_FONT_SIZE;
 
-			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(label__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(label__);
 
 		}
 
@@ -64,7 +64,7 @@ namespace TitaniumWindows
 		void Label::set_color(const std::string& colorName) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_color(colorName);
-			const auto color_obj = WindowsViewLayoutPolicy::ColorForName(colorName);
+			const auto color_obj = WindowsViewLayoutDelegate::ColorForName(colorName);
 			label__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(color_obj);
 		}
 
@@ -167,7 +167,7 @@ namespace TitaniumWindows
 			using namespace Windows::UI::Xaml::Input;
 			using namespace Windows::UI::Xaml;
 
-			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+			auto component = getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 
 			if (event_name == "click") {
 				click_event_ = component->Tapped += ref new TappedEventHandler([this, ctx](Platform::Object^ sender, TappedRoutedEventArgs^ e) {

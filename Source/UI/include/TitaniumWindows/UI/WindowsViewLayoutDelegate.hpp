@@ -1,28 +1,27 @@
 /**
- * TitaniumKit ViewLayoutPolicy
+ * WindowsViewLayoutDelegate
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUM_UI_VIEWLAYOUTPOLICY_HPP_
-#define _TITANIUM_UI_VIEWLAYOUTPOLICY_HPP_
+#ifndef _TITANIUMWINDOWS_UI_WINDOWSVIEWLAYOUTDELEGATE_HPP_
+#define _TITANIUMWINDOWS_UI_WINDOWSVIEWLAYOUTDELEGATE_HPP_
 
-#include "TitaniumKit_EXPORT.h"
+#include "Titanium/UI/ViewLayoutDelegate.hpp"
 #include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/Point.hpp"
-#include "Titanium/UI/Dimension.hpp"
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
+#include "LayoutEngine/LayoutEngine.hpp"
 
-namespace Titanium
+namespace TitaniumWindows
 {
 	namespace UI
 	{
-		class View;
-		
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT ViewLayoutPolicy
+		class TITANIUMWINDOWS_UI_EXPORT WindowsViewLayoutDelegate : public Titanium::UI::ViewLayoutDelegate
 		{
 		public:
 			/*!
@@ -71,18 +70,6 @@ namespace Titanium
 			/*!
 			  @method
 
-			  @abstract visible : Boolean
-
-			  @discussion Determines whether the view is visible.
-
-			  Default: true
-			*/
-			virtual bool get_visible() const TITANIUM_NOEXCEPT;
-			virtual void set_visible(const bool& visible) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
 			  @abstract backgroundColor : String
 
 			  @discussion Background color of the view, as a color name or hex triplet.
@@ -91,7 +78,6 @@ namespace Titanium
 
 			  Default: Transparent
 			*/
-			virtual std::string get_backgroundColor() const TITANIUM_NOEXCEPT;
 			virtual void set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -105,7 +91,6 @@ namespace Titanium
 
 			  Default: Same as the normal background color of this view (Android, Mobile Web, Tizen), black (iOS).
 			*/
-			virtual std::string get_borderColor() const TITANIUM_NOEXCEPT;
 			virtual void set_borderColor(const std::string& borderColor) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -119,7 +104,6 @@ namespace Titanium
 
 			  Default: 0
 			*/
-			virtual uint32_t get_borderRadius() const TITANIUM_NOEXCEPT;
 			virtual void set_borderRadius(const uint32_t& borderRadius) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -131,7 +115,6 @@ namespace Titanium
 
 			  Default: 0
 			*/
-			virtual uint32_t get_borderWidth() const TITANIUM_NOEXCEPT;
 			virtual void set_borderWidth(const uint32_t& borderWidth) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -145,7 +128,6 @@ namespace Titanium
 
 			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
 			*/
-			virtual std::string get_bottom() const TITANIUM_NOEXCEPT;
 			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -157,17 +139,7 @@ namespace Titanium
 
 			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
 			*/
-			virtual Point get_center() const TITANIUM_NOEXCEPT;
-			virtual void set_center(const Point& center) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
-			  @abstract get_children
-
-			  @discussion Returns child views
-			*/
-			virtual std::vector<std::shared_ptr<Titanium::UI::View>> get_children() const TITANIUM_NOEXCEPT;
+			virtual void set_center(const Titanium::UI::Point& center) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -192,7 +164,6 @@ namespace Titanium
 			  Titanium.UI.FILL
 			  Titanium.UI.SIZE
 			*/
-			virtual std::string get_height() const TITANIUM_NOEXCEPT;
 			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -202,7 +173,6 @@ namespace Titanium
 
 			  @discussion Specifies how the view positions its children. One of: 'composite', 'vertical', or 'horizontal'.
 			*/
-			virtual std::string get_layout() const TITANIUM_NOEXCEPT;
 			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -216,13 +186,12 @@ namespace Titanium
 
 			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
 			*/
-			virtual std::string get_left() const TITANIUM_NOEXCEPT;
 			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 
-			  @abstract minHeight : Number/String
+			  @abstract height : Number/String
 
 			  @discussion View minimum height, in platform-specific units.
 
@@ -242,7 +211,6 @@ namespace Titanium
 			  Titanium.UI.FILL
 			  Titanium.UI.SIZE
 			*/
-			virtual std::string get_minHeight() const TITANIUM_NOEXCEPT;
 			virtual void set_minHeight(const std::string& height) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -268,7 +236,6 @@ namespace Titanium
 			  Titanium.UI.FILL
 			  Titanium.UI.SIZE
 			*/
-			virtual std::string get_minWidth() const TITANIUM_NOEXCEPT;
 			virtual void set_minWidth(const std::string& width) TITANIUM_NOEXCEPT;
 
 			/*!
@@ -280,10 +247,9 @@ namespace Titanium
 
 			  Default: 1.0 (opaque)
 			*/
-			virtual double get_opacity() const TITANIUM_NOEXCEPT;
 			virtual void set_opacity(const double& opacity) TITANIUM_NOEXCEPT;
 
-			virtual Dimension get_rect() const TITANIUM_NOEXCEPT;
+			virtual Titanium::UI::Dimension get_rect() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -296,10 +262,9 @@ namespace Titanium
 
 			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
 			*/
-			virtual std::string get_right() const TITANIUM_NOEXCEPT;
 			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT;
 
-			virtual Dimension get_size() const TITANIUM_NOEXCEPT;
+			virtual Titanium::UI::Dimension get_size() const TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -310,22 +275,7 @@ namespace Titanium
 
 			  This property is a direct correspondant of the tintColor property of UIView on iOS. If no value is specified, the tintColor of the View is inherited from its superview.
 			*/
-			virtual std::string get_tintColor() const TITANIUM_NOEXCEPT;
 			virtual void set_tintColor(const std::string& tintColor) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-
-			  @abstract touchEnabled : Boolean
-
-			  @discussion Determines whether view should receive touch events.
-
-			  If false, will forward the events to peers.
-
-			  Default: true
-			*/
-			virtual bool get_touchEnabled() const TITANIUM_NOEXCEPT;
-			virtual void set_touchEnabled(const bool& touchEnabled) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -338,8 +288,20 @@ namespace Titanium
 
 			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
 			*/
-			virtual std::string get_top() const TITANIUM_NOEXCEPT;
 			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT;
+			
+			/*!
+			  @method
+
+			  @abstract touchEnabled : Boolean
+
+			  @discussion Determines whether view should receive touch events.
+
+			  If false, will forward the events to peers.
+
+			  Default: true
+			*/
+			virtual void set_touchEnabled(const bool& touchEnabled) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -364,55 +326,67 @@ namespace Titanium
 			  Titanium.UI.FILL
 			  Titanium.UI.SIZE
 			*/
-			virtual std::string get_width() const TITANIUM_NOEXCEPT;
 			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT;
 
-			virtual Titanium::UI::LAYOUT get_defaultHeight() const TITANIUM_NOEXCEPT;
-			virtual Titanium::UI::LAYOUT get_defaultWidth() const TITANIUM_NOEXCEPT;
-			virtual void set_defaultHeight(const Titanium::UI::LAYOUT& defaultHeight) TITANIUM_NOEXCEPT;
-			virtual void set_defaultWidth(const Titanium::UI::LAYOUT& defaultWidth) TITANIUM_NOEXCEPT;
+			WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT;
+			virtual ~WindowsViewLayoutDelegate() = default;
 
-			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
-			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
+			virtual void postInitialize() TITANIUM_NOEXCEPT override;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
-			virtual void postInitialize() TITANIUM_NOEXCEPT
+			//
+			// Windows-specific layout functions
+			//
+			virtual void onComponentLoaded(const Titanium::LayoutEngine::Rect&);
+			virtual void onComponentSizeChange(const Titanium::LayoutEngine::Rect&);
+			virtual void onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name);
+
+			virtual void setLayoutProperty(const Titanium::LayoutEngine::ValueName&, const std::string&);
+			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component);
+			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() const TITANIUM_NOEXCEPT
 			{
-				TITANIUM_LOG_DEBUG("ViewLayoutPolicy::postInitialize ", this);
+				return component__;
 			}
 
-			ViewLayoutPolicy() TITANIUM_NOEXCEPT;
-			virtual ~ViewLayoutPolicy();
+			virtual Titanium::LayoutEngine::Node* getLayoutNode() const TITANIUM_NOEXCEPT
+			{
+				return layout_node__;
+			}	
+
+			virtual bool isLoaded() const TITANIUM_NOEXCEPT
+			{
+				return is_loaded__;
+			}
+ 
+			static Windows::UI::Color ColorForName(const std::string& colorName);
+			static Windows::UI::Color ColorForHexCode(const std::string& hexCode);
 
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			std::vector<std::shared_ptr<Titanium::UI::View>> children__;
-			std::string backgroundColor__;
-			std::string borderColor__;
-			uint32_t borderRadius__;
-			uint32_t borderWidth__;
-			double opacity__;
-			std::string top__;
-			std::string left__;
-			std::string bottom__;
-			std::string right__;
-			Point center__;
-			std::string width__;
-			std::string minWidth__;
-			std::string height__;
-			std::string minHeight__;
-			std::string layout__;
-			std::string tintColor__;
-			bool touchEnabled__;
-			bool visible__;
+			Windows::UI::Xaml::FrameworkElement^ component__ { nullptr };
 
-			Titanium::UI::LAYOUT defaultWidth__;
-			Titanium::UI::LAYOUT defaultHeight__;
+			Titanium::LayoutEngine::Node* layout_node__;
+
+			bool postlayout_listening__{ false };
+			Windows::Foundation::EventRegistrationToken size_change_event__;
+			Windows::Foundation::EventRegistrationToken loaded_event__;
+			Windows::Foundation::EventRegistrationToken focus_event__;
+
+			bool is_width_size__{false};
+			bool is_height_size__{false};
+			bool is_panel__{false};
+			bool is_control__{false};
+			bool is_loaded__{false};
+
+			Titanium::LayoutEngine::Rect oldRect__;
 #pragma warning(pop)
+
 		};
 
 	} // namespace UI
 }  // namespace Titanium
 
 
-#endif  // _TITANIUM_UI_VIEWLAYOUTPOLICY_HPP_
+#endif  // _TITANIUMWINDOWS_UI_WINDOWSVIEWLAYOUTDELEGATE_HPP_

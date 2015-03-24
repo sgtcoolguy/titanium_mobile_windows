@@ -8,7 +8,7 @@
 
 #include "TitaniumWindows/UI/Button.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 namespace TitaniumWindows
 {
@@ -24,9 +24,9 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::Button::postCallAsConstructor(js_context, arguments);	
 			button__ = ref new Windows::UI::Xaml::Controls::Button();
-			Titanium::UI::Button::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
+			Titanium::UI::Button::setLayoutDelegate<WindowsViewLayoutDelegate>();
 
-			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(button__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(button__);
 		}
 
 		void Button::JSExportInitialize()
@@ -48,7 +48,7 @@ namespace TitaniumWindows
 			using namespace Windows::UI::Xaml::Input;
 			using namespace Windows::UI::Xaml;
 
-			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+			auto component = getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 
 			if (event_name == "click") {
 				if (click_event_count_ == 0) {

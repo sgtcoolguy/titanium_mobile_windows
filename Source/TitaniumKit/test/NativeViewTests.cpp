@@ -81,8 +81,8 @@ TEST_F(ViewTests, basic_functionality)
 	JSObject view = static_cast<JSObject>(result);
 	XCTAssertTrue(view.HasProperty("add"));
 
-	XCTAssertTrue(view.HasProperty("NativeViewLayoutPolicy_called"));
-	XCTAssertTrue(static_cast<bool>(view.GetProperty("NativeViewLayoutPolicy_called")));
+	XCTAssertTrue(view.HasProperty("NativeViewLayoutDelegate_called"));
+	XCTAssertTrue(static_cast<bool>(view.GetProperty("NativeViewLayoutDelegate_called")));
 
 	UI.SetProperty("Window", js_context.CreateObject(JSExport<Titanium::UI::Window>::Class()));
 	XCTAssertTrue(UI.HasProperty("Window"));

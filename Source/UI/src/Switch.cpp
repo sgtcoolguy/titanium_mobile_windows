@@ -7,7 +7,7 @@
  */
 
 #include "TitaniumWindows/UI/Switch.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 namespace TitaniumWindows
 {
@@ -30,9 +30,9 @@ namespace TitaniumWindows
 				value__ = !value__;
 			});
 
-			Titanium::UI::Switch::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
-			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
-			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(switch__);
+			Titanium::UI::Switch::setLayoutDelegate<WindowsViewLayoutDelegate>();
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(switch__);
 		}
 
 		void Switch::JSExportInitialize() {
@@ -53,7 +53,7 @@ namespace TitaniumWindows
 			using namespace Windows::UI::Xaml::Input;
 			using namespace Windows::UI::Xaml;
 
-			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+			auto component = getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 
 			if (event_name == "click") {
 				click_event_ = component->Tapped += ref new TappedEventHandler([this, ctx](Platform::Object^ sender, TappedRoutedEventArgs^ e) {

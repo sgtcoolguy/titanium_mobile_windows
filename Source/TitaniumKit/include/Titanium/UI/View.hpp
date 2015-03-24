@@ -13,7 +13,7 @@
 #include <vector>
 #include <memory>
 #include "Titanium/UI/Animation.hpp"
-#include "Titanium/UI/ViewLayoutPolicy.hpp"
+#include "Titanium/UI/ViewLayoutDelegate.hpp"
 
 namespace Titanium
 {
@@ -133,22 +133,34 @@ namespace Titanium
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 
 			template<typename T>
-			std::shared_ptr<T> getViewLayoutPolicy()
+			std::shared_ptr<T> getViewLayoutDelegate()
 			{
-				return std::dynamic_pointer_cast<T>(layoutPolicy__);
+				return std::dynamic_pointer_cast<T>(layoutDelegate__);
 			}
 
 		protected:
-			template<typename T, typename... Us>
-			void setLayoutPolicy(Us&&... constructor_arguments) TITANIUM_NOEXCEPT
+			template<typename T, typename U, typename... Us>
+			void setLayoutDelegate(Us&&... constructor_arguments) TITANIUM_NOEXCEPT
 			{
-				layoutPolicy__ = std::make_shared<T>(std::forward<Us>(constructor_arguments)...);
-				layoutPolicy__->postInitialize();
+				layoutDelegate__ = std::make_shared<T>(std::forward<Us>(constructor_arguments)...);
+				layoutEventDelegate__ = std::make_shared<U>(this);
+				layoutDelegate__->setEventDelegate(layoutEventDelegate__);
+				layoutDelegate__->postInitialize();
+			}
+			template<typename T, typename... Us>
+			void setLayoutDelegate(Us&&... constructor_arguments) TITANIUM_NOEXCEPT
+			{
+				setLayoutDelegate<T, ViewLayoutEventDelegate>(std::forward<Us>(constructor_arguments)...);
+			}
+			void setLayoutDelegate() TITANIUM_NOEXCEPT
+			{
+				setLayoutDelegate<ViewLayoutDelegate, ViewLayoutEventDelegate>();
 			}
 
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			std::shared_ptr<ViewLayoutPolicy> layoutPolicy__;
+			std::shared_ptr<ViewLayoutEventDelegate> layoutEventDelegate__;
+			std::shared_ptr<ViewLayoutDelegate> layoutDelegate__;
 #pragma warning(pop)
 		};
 	} // namespace UI
