@@ -39,7 +39,9 @@ namespace TitaniumWindows
 				Platform::String^ content;
 				try {
 					content = task.get();
-				} catch (...) { 
+				}
+				catch (...) {
+					read_event.set();
 					return; // file didn't exist (non-CLI run?) or we had trouble reading it. We'll log to std::clog.
 				}
 
@@ -61,7 +63,7 @@ namespace TitaniumWindows
 				std::vector<std::string> hosts;
 				std::string ip_address_list = pt.get<std::string>("ipAddressList", "127.0.0.1");
 				boost::algorithm::split(hosts, ip_address_list, boost::algorithm::is_any_of(","));
-				
+
 				for (auto ip_address : hosts) {
 					try {
 						auto host = std::make_shared<Windows::Networking::HostName^>(ref new Windows::Networking::HostName(TitaniumWindows::Utility::ConvertString(ip_address)));
@@ -105,7 +107,8 @@ namespace TitaniumWindows
 				read_event.set();
 			}, concurrency::task_continuation_context::use_current());
 			read_event.wait();
-		} catch (...) {
+		}
+		catch (...) {
 			TITANIUM_LOG_DEBUG("API::connect: will use console log...");
 		}
 
@@ -115,14 +118,17 @@ namespace TitaniumWindows
 			while (!API::done__) {
 				message = concurrency::receive(API::buffer__); // wait for next message to log
 				if (writer == nullptr) { // no TCP connection
+					// Use clog because OutputDebugString will choke and print nothing if the string is too long!
+					std::clog << message << std::endl;
 					// Use Windows-specific logger because TITANIUM_LOG_DEBUG doesn't support UTF-8
-					OutputDebugString(TitaniumWindows::Utility::ConvertUTF8String(message + "\n")->Data());
+					//OutputDebugString(TitaniumWindows::Utility::ConvertUTF8String(message + "\n")->Data());
 				} else { // forward over tcp socket
 					writer->WriteString(TitaniumWindows::Utility::ConvertUTF8String(message) + "\n");  // Logger assumes \n for newlines!
 					writer->StoreAsync();
 				}
 			}
-		} catch (...) {
+		}
+		catch (...) {
 			TITANIUM_LOG_ERROR("API::connect: Error");
 		}
 		// TODO Clean up the socket and writer!
@@ -140,8 +146,6 @@ namespace TitaniumWindows
 
 	void API::log(const std::string& message) const TITANIUM_NOEXCEPT
 	{
-		// Use Windows-specific logger because TITANIUM_LOG_DEBUG doesn't support UTF-8
-		OutputDebugString(TitaniumWindows::Utility::ConvertUTF8String(message + "\n")->Data());
 		concurrency::asend(buffer__, message);
 	}
 
