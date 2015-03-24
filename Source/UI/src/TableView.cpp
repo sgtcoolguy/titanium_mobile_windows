@@ -58,7 +58,7 @@ namespace TitaniumWindows
 			JSExport<TableView>::SetParent(JSExport<Titanium::UI::TableView>::Class());
 		}
 
-		void TableView::setData(std::vector<JSObject>& data, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void TableView::setData(std::vector<JSObject>& data, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			tableViewItems__->Clear();
 			for (uint32_t i=0;i<data.size();i++) {
@@ -77,12 +77,12 @@ namespace TitaniumWindows
 			Titanium::UI::TableView::set_sections(new_sections);
 		}
 
-		void TableView::appendRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void TableView::appendRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			addTableItem(row->get_object());
 		}
 
-		void TableView::deleteRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void TableView::deleteRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			//TODO : Implement this
 			unsigned int index = -1;
