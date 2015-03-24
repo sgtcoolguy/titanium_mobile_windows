@@ -85,6 +85,9 @@ mocha.setup({
 mocha.run(function () {
     win.backgroundColor = failed ? 'red' : 'green';
 
+    // force result to be shown
+    win.open();
+
     Ti.API.info('!TEST_RESULTS_START!\n' +
         (JSON.stringify({
             date: new Date,
