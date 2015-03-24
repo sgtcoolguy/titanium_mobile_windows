@@ -68,6 +68,118 @@ namespace TitaniumWindows
 			getComponent()->Visibility = Windows::UI::Xaml::Visibility::Visible;
 		}
 
+		void WindowsViewLayoutPolicy::animate(JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutPolicy::animate(animation, callback, this_object);
+
+			bool has_delay = false;
+			Windows::Foundation::TimeSpan begin_time;
+			begin_time.Duration = 0;
+			if (animation.HasProperty("delay")) {
+				has_delay = true;
+				const auto raw_delay = animation.GetProperty("delay");
+				const auto delay = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(raw_delay)));
+				std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> delay_ticks = delay;
+				begin_time.Duration = delay_ticks.count();
+			}
+
+			// Convert duration to type we need
+			const auto raw_duration = animation.GetProperty("duration");
+			const auto duration = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(raw_duration)));
+			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = duration;
+			Windows::Foundation::TimeSpan time_span;
+			time_span.Duration = timer_interval_ticks.count() + begin_time.Duration;
+
+			bool autoreverse = false;
+			if (animation.HasProperty("autoreverse")) {
+				autoreverse = static_cast<bool>(animation.GetProperty("autoreverse"));
+			}
+
+			// repeat count
+			double repeat = 1;
+			if (animation.HasProperty("repeat")) {
+				repeat = static_cast<double>(animation.GetProperty("repeat"));
+			}
+
+			// Storyboard where we attach all the animations
+			const auto storyboard = ref new Windows::UI::Xaml::Media::Animation::Storyboard();
+			if (has_delay) {
+				storyboard->BeginTime = begin_time; // FIXME This seems to apply to every iteration of repeat, but we probably only want it to happen the first time?
+			}
+			storyboard->AutoReverse = autoreverse;
+			
+			if (repeat == 0) {
+				storyboard->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::Forever;
+			} else if (repeat != 1) {
+				storyboard->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::FromCount(repeat);
+			}
+
+			auto component = getComponent();
+			const auto propertyNames = animation.GetPropertyNames();
+			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
+				// Create an animation!
+				auto property = animation.GetProperty(property_name);
+				Windows::UI::Xaml::Media::Animation::Timeline^ anim;
+				if (property_name == "color" || property_name == "backgroundColor") {
+					auto color_anim = ref new Windows::UI::Xaml::Media::Animation::ColorAnimation();
+					const auto color = ColorForName(static_cast<std::string>(property));
+					color_anim->To = color;
+
+					if (property_name == "color") { // foreground
+						// TODO What if component isn't subclass of Control?
+						if (is_control__) {
+							storyboard->SetTargetProperty(color_anim, "(Control.Foreground).(SolidColorBrush.Color)");
+						}
+					} else { // background
+						if (is_panel__) {
+							storyboard->SetTargetProperty(color_anim, "(Panel.Background).(SolidColorBrush.Color)");
+						} else if (is_control__) {
+							storyboard->SetTargetProperty(color_anim, "(Control.Background).(SolidColorBrush.Color)");
+						}
+					}
+					anim = color_anim;
+				} else {
+					// properties which are doubles
+					auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+					double_anim->To = static_cast<double>(property);
+
+					if (property_name == "opacity") {
+						storyboard->SetTargetProperty(double_anim, "Opacity");
+					} else if (property_name == "top") { // bottom?
+						// Because we're animating a transform, the value behaves like setting By, not To. So we need to calculate the difference and set our target To to that value.
+						auto current_top = Windows::UI::Xaml::Controls::Canvas::GetTop(getComponent());
+						const auto diff = static_cast<double>(property) - current_top;
+						double_anim->To = diff;
+						getComponent()->RenderTransform = ref new Windows::UI::Xaml::Media::TranslateTransform();
+						storyboard->SetTargetProperty(double_anim, "(UIElement.RenderTransform).(TranslateTransform.Y)");
+					} else if (property_name == "left") { // right?
+						// TODO If "right", we need to calculate the current position of "right", take the diff and then do a transform By, not To
+						auto current_left = Windows::UI::Xaml::Controls::Canvas::GetLeft(getComponent());
+						const auto diff = static_cast<double>(property) - current_left;
+						double_anim->To = diff;
+						getComponent()->RenderTransform = ref new Windows::UI::Xaml::Media::TranslateTransform();
+						storyboard->SetTargetProperty(double_anim, "(UIElement.RenderTransform).(TranslateTransform.X)");
+					} else {
+						// Not a property we support!
+						continue;
+					}
+					anim = double_anim;
+				}
+				if (anim) {
+					storyboard->SetTarget(anim, getComponent());
+					storyboard->Children->Append(anim);
+				}
+			}
+
+			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, this_object](Platform::Object^ sender, Platform::Object ^ e) mutable {
+				if (callback.IsFunction()) {
+					callback(this_object);
+				}
+				// TODO Fire complete event on animation object!
+			});
+			storyboard->Begin();
+		}
+
 		void WindowsViewLayoutPolicy::set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutPolicy::set_backgroundColor(backgroundColor);
@@ -96,6 +208,12 @@ namespace TitaniumWindows
 		void WindowsViewLayoutPolicy::set_borderWidth(const uint32_t& borderWidth) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutPolicy::set_borderWidth(borderWidth);
+
+			if (is_control__) {
+				dynamic_cast<Windows::UI::Xaml::Controls::Control^>(component__)->BorderThickness = borderWidth;
+			} else {
+				TITANIUM_LOG_WARN("WindowsViewLayoutPolicy::set_borderWidth: Unknown component");
+			}
 		}
 
 		void WindowsViewLayoutPolicy::set_opacity(const double& opacity) TITANIUM_NOEXCEPT

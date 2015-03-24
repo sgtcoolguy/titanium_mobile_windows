@@ -7,6 +7,7 @@
 */
 
 #include "TitaniumWindows/UI/ImageView.hpp"
+#include "TitaniumWindows/Utility.hpp"
 #include "LayoutEngine/LayoutEngine.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
 #include "TitaniumWindows/Utility.hpp"
@@ -42,7 +43,6 @@ namespace TitaniumWindows
 			Titanium::UI::ImageView::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
 
 			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(image__);
-
 		}
 
 		void ImageView::JSExportInitialize()
@@ -51,77 +51,101 @@ namespace TitaniumWindows
 			JSExport<ImageView>::SetParent(JSExport<Titanium::UI::ImageView>::Class());
 		}
 
-		void ImageView::animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT
+		void ImageView::start() TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::View::animate(animation, callback);
+			const auto images = get_images();
+			const size_t image_count = images.size();
 
-			// Convert duration to type we need
-			const auto raw_duration = animation.GetProperty("duration");
-			const auto duration = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(raw_duration)));
-			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = duration;
+			storyboard__ = ref new Windows::UI::Xaml::Media::Animation::Storyboard();
 			Windows::Foundation::TimeSpan time_span;
-			time_span.Duration = timer_interval_ticks.count();
-
-			bool has_delay = false;
-			Windows::Foundation::TimeSpan begin_time;
-			if (animation.HasProperty("delay")) {
-				has_delay = true;
-				const auto raw_delay = animation.GetProperty("delay");
-				const auto delay = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(raw_delay)));
-				std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> delay_ticks = delay;
-				begin_time.Duration = delay_ticks.count();
+			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = get_duration();
+			time_span.Duration = timer_interval_ticks.count() * image_count;
+			storyboard__->Duration = time_span;
+			auto animation = ref new Windows::UI::Xaml::Media::Animation::ObjectAnimationUsingKeyFrames();
+			
+			auto repeat_count = get_repeatCount();
+			if (repeat_count == 0) {
+				storyboard__->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::Forever;
+			} else {
+				storyboard__->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::FromCount(repeat_count);
 			}
+			
+			const bool reverse = get_reverse();
+			for (size_t i = 0; i < image_count; i++) {
+				size_t index = reverse ? (image_count - 1) - i : i;
+				auto image = images.at(index);
 
-			bool autoreverse = false;
-			if (animation.HasProperty("autoreverse")) {
-				autoreverse = static_cast<bool>(animation.GetProperty("autoreverse"));
-			}
-			// repeat count
-			uint32_t repeat = 1;
-			if (animation.HasProperty("repeat")) {
-				repeat = static_cast<uint32_t>(animation.GetProperty("repeat"));
-			}
-			repeat--;
-
-			// Storyboard where we attach all the animations
-			const auto storyboard = ref new Windows::UI::Xaml::Media::Animation::Storyboard();
-			storyboard->Duration = time_span;
-			if (has_delay) {
-				storyboard->BeginTime = begin_time;
-			}
-
-			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
-
-			const auto propertyNames = animation.GetPropertyNames();
-			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
-				auto property = animation.GetProperty(property_name);
-				if (property_name == "opacity") {
-					auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-					double_anim->AutoReverse = autoreverse;
-
-					double_anim->Duration = time_span;
-					if (has_delay) {
-						double_anim->BeginTime = begin_time;
+				// TODO Extract out common code with set_image()!
+				std::string modified = image;
+				// if the path isn't an http/s URI already, fix URI to point to local files in app
+				if (!boost::starts_with(modified, "http://") && !boost::starts_with(modified, "https://")) {
+					// URIs must be absolute
+					if (!boost::starts_with(modified, "/")) {
+						modified = "/" + modified;
 					}
-					if (repeat > 0) {
-						double_anim->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::FromCount(repeat);
-					}
-					double_anim->To = static_cast<double>(property);
-					storyboard->Children->Append(double_anim);
-					storyboard->SetTarget(double_anim, component);
-					storyboard->SetTargetProperty(double_anim, "Opacity");
+					// use MS's in-app URL scheme
+					modified = "ms-appx://" + modified;
 				}
+				auto uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(modified));
+
+				auto keyFrame = ref new Windows::UI::Xaml::Media::Animation::DiscreteObjectKeyFrame();
+				Windows::Foundation::TimeSpan key_time;
+				key_time.Duration = timer_interval_ticks.count() * i;
+				keyFrame->KeyTime = key_time;
+				keyFrame->Value = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(uri);
+				animation->KeyFrames->Append(keyFrame);
 			}
+			storyboard__->Children->Append(animation);
+			storyboard__->SetTarget(animation, image__);
+			storyboard__->SetTargetProperty(animation, "(Image.Source)");
 
-			auto this_object = get_object();
+			storyboard__->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([this](Platform::Object^ sender, Platform::Object ^ e) mutable {
+				is_animating__ = false;
+				is_paused__ = false;
 
-			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, this_object](Platform::Object^ sender, Platform::Object ^ e) mutable {
-				if (callback.IsFunction()) {
-					callback(this_object);
-				}
-				// TODO Fire complete event on animation object!
+				// TODO Fire stop event!
 			});
-			storyboard->Begin();
+
+			storyboard__->Begin();
+			is_animating__ = true;
+			is_paused__ = false;
+			// TODO Fire start event!
+		}
+
+		void ImageView::stop() TITANIUM_NOEXCEPT
+		{
+			if (storyboard__ != nullptr) {
+				storyboard__->Stop();
+				// TODO Fire stop event!
+				is_animating__ = false;
+				is_paused__ = false;
+				// TODO Delete the storyboard?
+			}
+		}
+
+		void ImageView::pause() TITANIUM_NOEXCEPT
+		{
+			if (storyboard__ != nullptr) {
+				storyboard__->Pause();
+				is_animating__ = false;
+				is_paused__ = true;
+				// TODO Fire pause event!
+			}
+		}
+
+		void ImageView::resume() TITANIUM_NOEXCEPT
+		{
+			if (storyboard__ != nullptr) {
+				storyboard__->Resume();
+				is_animating__ = true;
+				is_paused__ = false;
+				// TODO Fire start event?
+			}
+		}
+
+		bool ImageView::get_animating() const TITANIUM_NOEXCEPT
+		{
+			return is_animating__;
 		}
 
 		void ImageView::set_image(const std::string& path) TITANIUM_NOEXCEPT
@@ -149,6 +173,11 @@ namespace TitaniumWindows
 			set_image(images.at(0));
 		}
 
+		bool ImageView::get_paused() const TITANIUM_NOEXCEPT
+		{
+			return is_paused__;
+		}
+
 		void ImageView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
 			const JSContext ctx = this->get_context();
@@ -157,8 +186,8 @@ namespace TitaniumWindows
 			using namespace Windows::UI::Xaml;
 
 			auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
-
-			if (event_name == "click") {
+			// TODO Handle change/error/load/pause/start/stop!
+			if (event_name == "click") { // TODO Can't superclass handle common events like click?
 				click_event_ = component->Tapped += ref new TappedEventHandler([this, ctx](::Platform::Object^ sender, TappedRoutedEventArgs^ e) {
 					auto component = safe_cast<FrameworkElement^>(sender);
 					auto position = e->GetPosition(component);
@@ -171,6 +200,5 @@ namespace TitaniumWindows
 				});
 			}
 		}
-
 	} // namespace UI
 } // namespace TitaniumWindows

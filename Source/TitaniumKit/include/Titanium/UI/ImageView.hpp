@@ -1,7 +1,7 @@
 /**
  * TitaniumKit
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -9,6 +9,7 @@
 #ifndef _TITANIUM_UI_IMAGEVIEW_HPP_
 #define _TITANIUM_UI_IMAGEVIEW_HPP_
 
+#include "Titanium/Blob.hpp"
 #include "Titanium/UI/View.hpp"
 
 namespace Titanium
@@ -57,6 +58,88 @@ namespace Titanium
 			/*!
 			  @method
 
+			  @abstract pause() : void
+
+			  @discussion Pauses a running animation. Use resume method to continue.
+
+			  This method only works if multiple images are specified.
+
+			  @result void
+			*/
+			virtual void pause() TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract resume() : void
+
+			  @discussion Resumes an animation from a pause state.
+
+			  This method only works if multiple images are specified.
+
+			  @result void
+			*/
+			virtual void resume() TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract toBlob() : Titanium.Blob
+
+			  @discussion Returns the image as a Blob object.
+
+			  @result Titanium.Blob
+			*/
+			virtual std::shared_ptr<Titanium::Blob> toBlob() TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract animating : Boolean
+
+			  @discussion Indicates whether animation is running.
+
+			  Default: false on creation, true on load (Android), false (iPhone, iPad, Mobile Web, Tizen)
+			*/
+			virtual bool get_animating() const TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract autorotate : Boolean
+
+			  @discussion Indicates whether the image should be rotated based on exif orientation data. By default, this is false on android and true on iOS. The auto rotate behavior is not supported on Mobile Web and Tizen.
+
+			  Default: false on android, true on iOS.
+			*/
+			virtual bool get_autorotate() const TITANIUM_NOEXCEPT;
+			virtual void set_autorotate(const bool& autorotate) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract decodeRetries : Number
+
+			  @discussion Number of times to retry decoding the bitmap at a URL.
+
+			  Default: 5
+			*/
+			virtual uint32_t get_decodeRetries() const TITANIUM_NOEXCEPT final;
+			virtual void set_decodeRetries(const uint32_t& decodeRetries) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract defaultImage : String
+
+			  @discussion Local path to the default image to display while loading a remote image.
+			*/
+			virtual std::string get_defaultImage() const TITANIUM_NOEXCEPT final;
+			virtual void set_defaultImage(const std::string& defaultImage) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract duration : Number
 
 			  @discussion Amount of time in milliseconds to animate one cycle.
@@ -73,6 +156,32 @@ namespace Titanium
 			*/
 			virtual std::chrono::milliseconds get_duration() const TITANIUM_NOEXCEPT final;
 			virtual void set_duration(const std::chrono::milliseconds& duration) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract enableZoomControls : Boolean
+
+			  @discussion Show zoom controls when the user touches the image view.
+
+			  Default: false
+			*/
+			virtual bool get_enableZoomControls() const TITANIUM_NOEXCEPT final;
+			virtual void set_enableZoomControls(const bool& enableZoomControls) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract hires : Boolean
+
+			  @discussion Set to true to prevent scaling of 2x-resolution remote images for Retina displays.
+
+			  Causes images to display at 50%, where one pixel of the graphic maps to one physical pixel on-screen. This functionality is automatically determined for local images via their filenames, and thus this property is only applicable to remote images.
+
+			  Default: false
+			*/
+			virtual bool get_hires() const TITANIUM_NOEXCEPT final;
+			virtual void set_hires(const bool& hires) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -99,6 +208,17 @@ namespace Titanium
 			/*!
 			  @method
 
+			  @abstract paused : Boolean
+
+			  @discussion Indicates whether the animation is paused.
+
+			  Default: false
+			*/
+			virtual bool get_paused() const TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
 			  @abstract preventDefaultImage : Boolean
 
 			  @discussion Prevent the default image from being displayed while loading a remote image. This property is ignored when the defaultImage property is set.
@@ -107,6 +227,31 @@ namespace Titanium
 			*/
 			virtual bool get_preventDefaultImage() const TITANIUM_NOEXCEPT final;
 			virtual void set_preventDefaultImage(const bool& preventDefaultImage) TITANIUM_NOEXCEPT;
+
+
+			/*!
+			  @method
+
+			  @abstract repeatCount : Number
+
+			  @discussion umber of times to repeat the image animation.
+
+			  Default: 0 (infinite)
+			*/
+			virtual uint32_t get_repeatCount() const TITANIUM_NOEXCEPT final;
+			virtual void set_repeatCount(const uint32_t& repeatCount) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract reverse : Boolean
+
+			  @discussion Run the animation in reverse.
+
+			  Default: false
+			*/
+			virtual bool get_reverse() const TITANIUM_NOEXCEPT final;
+			virtual void set_reverse(const bool& reverse) TITANIUM_NOEXCEPT;
 
 			ImageView(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -118,17 +263,46 @@ namespace Titanium
 			ImageView& operator=(ImageView&&) = default;
 #endif
 
-			// TODO: The following functions can automatically be generated
-			// from the YAML API docs.
 			static void JSExportInitialize();
-
+			// methods
 			virtual JSValue js_start(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_stop(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_pause(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_resume(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_toBlob(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+			// properties
+			virtual JSValue js_get_animating() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getAnimating(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_autorotate() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_autorotate(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getAutorotate(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_decodeRetries() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_decodeRetries(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getDecodeRetries(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setDecodeRetries(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_defaultImage() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_defaultImage(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getDefaultImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setDefaultImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_duration() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_duration(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getDuration(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setDuration(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_enableZoomControls() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_enableZoomControls(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getEnableZoomControls(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setEnableZoomControls(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_hires() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_hires(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getHires(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setHires(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
 			virtual JSValue js_get_image() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_image(const JSValue& argument) TITANIUM_NOEXCEPT final;
@@ -140,18 +314,38 @@ namespace Titanium
 			virtual JSValue js_getImages(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setImages(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
+			virtual JSValue js_get_paused() const TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getPaused(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
 			virtual JSValue js_get_preventDefaultImage() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_preventDefaultImage(const JSValue& argument) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_getPreventDefaultImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setPreventDefaultImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
+			virtual JSValue js_get_repeatCount() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_repeatCount(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getRepeatCount(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setRepeatCount(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
+			virtual JSValue js_get_reverse() const TITANIUM_NOEXCEPT final;
+			virtual bool js_set_reverse(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_getReverse(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			virtual JSValue js_setReverse(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+			bool autorotate__;
+			uint32_t decodeRetries__;
+			std::string defaultImage__;
 			std::chrono::milliseconds duration__;
+			bool enableZoomControls__;
+			bool hires__;
 			std::string image__;
 			std::vector<std::string> images__;
 			bool preventDefaultImage__;
+			uint32_t repeatCount__;
+			bool reverse__;
 #pragma warning(pop)
 		};
 	} // namespace UI
