@@ -35,7 +35,7 @@ namespace Titanium
 			children__.push_back(view);
 		}
 
-		void ViewLayoutDelegate::animate(JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
+		void ViewLayoutDelegate::animate(const JSObject& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ViewLayoutDelegate::animate: Unimplemented");
 		}

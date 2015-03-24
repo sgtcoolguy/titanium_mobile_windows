@@ -67,7 +67,7 @@ namespace TitaniumWindows
 			getComponent()->Visibility = Windows::UI::Xaml::Visibility::Visible;
 		}
 
-		void WindowsViewLayoutDelegate::animate(JSObject& animation, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::animate(const JSObject& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::animate(animation, callback, this_object);
 
