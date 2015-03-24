@@ -6,7 +6,18 @@
 
 include(CMakeFindDependencyMacro)
 find_dependency(TitaniumWindows_Global)
+find_dependency(TitaniumWindows_Ti)
 find_dependency(TitaniumWindows_API)
+find_dependency(TitaniumWindows_Platform)
+find_dependency(TitaniumWindows_Gesture)
+find_dependency(TitaniumWindows_Accelerometer)
+find_dependency(TitaniumWindows_Filesystem)
+find_dependency(TitaniumWindows_App)
+find_dependency(TitaniumWindows_Network)
+find_dependency(TitaniumWindows_Utils)
 find_dependency(TitaniumWindows_UI)
+find_dependency(TitaniumWindows_Utility)
+find_dependency(TitaniumWindows_Map)
+find_dependency(LayoutEngine)
 
 include("${CMAKE_BINARY_DIR}/TitaniumWindows_Targets.cmake")
