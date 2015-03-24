@@ -57,7 +57,7 @@ titanium_mobile_windows git repo. A good place might be
 `C:\Users\<user name>\Documents`. For example:
 
 ```bash
-# If you have not yet run the following from the prerquisite setp, please do:
+# If you have not yet run the following from the prerequisite installation steps above, please do:
 cd Tools\Scripts
 npm install .
 # Now go to directory where you'd like project generated
@@ -94,7 +94,7 @@ longer need to send one for subsequent submissions.
 ## Legal
 
 Titanium Mobile Windows is developed by Appcelerator and the community
-and is Copyright (c) 2012-2014 by Appcelerator, Inc. All Rights
+and is Copyright (c) 2012-2015 by Appcelerator, Inc. All Rights
 Reserved.
 
 Titanium Mobile Windows is made available under the Apache Public
