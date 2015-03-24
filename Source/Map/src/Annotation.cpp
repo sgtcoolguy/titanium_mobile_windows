@@ -31,10 +31,38 @@ namespace TitaniumWindows
 			updateGeoLocation();
 		}
 
+		void Annotation::set_pincolor(const Titanium::Map::ANNOTATION_COLOR& pincolor) TITANIUM_NOEXCEPT
+		{
+			if (pincolor == Titanium::Map::ANNOTATION_COLOR::AZURE) {
+				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Azure);
+			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::BLUE) {
+				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Blue);
+			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::CYAN) {
+				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Cyan);
+			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::GREEN) {
+				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Green);
+			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::MAGENTA) {
+				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Magenta);
+			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::ORANGE) {
+				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Orange);
+			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::PURPLE) {
+				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Purple);
+			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::RED) {
+				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Red);
+			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::ROSE) {
+				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::MistyRose); // FIXME What is a good color to match here?
+			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::VIOLET) {
+				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Violet);
+			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::YELLOW) {
+				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Yellow);
+			}
+		}
+
 		void Annotation::updateGeoLocation() {
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			BasicGeoposition bgp = { get_latitude(), get_longitude() };
-			mapicon__->Location = ref new Geopoint(bgp);
+			MapControl::SetLocation(mapicon__, ref new Geopoint(bgp));
+			MapControl::SetNormalizedAnchorPoint(mapicon__, Windows::Foundation::Point(0.5f, 0.75f));
 #endif
 		}
 
@@ -42,7 +70,7 @@ namespace TitaniumWindows
 		{
 			Titanium::Map::Annotation::set_title(title);
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-			mapicon__->Title = TitaniumWindows::Utility::ConvertString(title);
+			text__->Text = TitaniumWindows::Utility::ConvertString(title);
 #endif
 		}
 
@@ -51,9 +79,39 @@ namespace TitaniumWindows
 		{
 			TITANIUM_LOG_DEBUG("Annotation::ctor Initialize");
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-			mapicon__ = ref new MapIcon();
-			mapicon__->NormalizedAnchorPoint = Windows::Foundation::Point(0.5, 1.0);
-			mapicon__->ZIndex = 2;
+			mapicon__ = ref new Windows::UI::Xaml::Controls::Grid();
+
+			// Draw pin
+			pin__ = ref new Windows::UI::Xaml::Shapes::Line();
+			pin__->Stroke = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Black);
+			pin__->StrokeThickness = 2;
+			pin__->X1 = 1;
+			pin__->X2 = pin__->X1;
+			pin__->Y1 = 20;
+			pin__->Y2 = 30;
+			pin__->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Center;
+			pin__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Center;
+			mapicon__->Children->Append(pin__);
+
+			// Draw circle
+			icon__ = ref new Windows::UI::Xaml::Shapes::Ellipse();
+			icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Red);
+			icon__->Stroke = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Black);
+			icon__->StrokeThickness = 1;
+			icon__->Width = 16;
+			icon__->Height = icon__->Width;
+			mapicon__->Children->Append(icon__);
+
+			// Draw text
+			text__ = ref new Windows::UI::Xaml::Controls::TextBlock();
+			text__->Text = Utility::ConvertUTF8String(get_title());
+			text__->FontSize = 14;
+			text__->FontWeight = Windows::UI::Text::FontWeights::Bold;
+			text__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Black);
+			text__->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Center;
+			text__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
+			text__->Height = 62;
+			mapicon__->Children->Append(text__);
 #endif
 		}
 
