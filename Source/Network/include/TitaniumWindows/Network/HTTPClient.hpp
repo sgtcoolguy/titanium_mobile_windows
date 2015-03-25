@@ -7,7 +7,7 @@
 #ifndef _TITANIUMWINDOWS_HTTPCLIENT_HPP_
 #define _TITANIUMWINDOWS_HTTPCLIENT_HPP_
 
-#include "detail/NetworkBase.hpp"
+#include "TitaniumWindows/detail/NetworkBase.hpp"
 #include <ppltasks.h>
 #include <Robuffer.h>
 
@@ -27,7 +27,7 @@ namespace TitaniumWindows
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_EXPORT HTTPClient final : public Titanium::Network::HTTPClient, public JSExport<HTTPClient>
+		class TITANIUMWINDOWS_NETWORK_EXPORT HTTPClient final : public Titanium::Network::HTTPClient, public JSExport<HTTPClient>
 		{
 		public:
 			HTTPClient(const JSContext&) TITANIUM_NOEXCEPT;
@@ -96,6 +96,8 @@ namespace TitaniumWindows
 			long contentLength__; // -1 if response is using chunked encoding
 			// requestHeaders__ - the collection of key value pairs to be sent to the server
 			std::map<const std::string, std::string> requestHeaders__;
+
+			bool disposed__;
 #pragma warning(pop)
 
 			void startDispatcherTimer();
