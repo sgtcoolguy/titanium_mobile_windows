@@ -45,11 +45,11 @@ namespace TitaniumWindows
 
 			tableViewItems__ = ref new ::Platform::Collections::Vector<ListViewItem^>();
 
-			Titanium::UI::TableView::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
-			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
-			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			Titanium::UI::TableView::setLayoutDelegate<WindowsViewLayoutDelegate>();
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 
-			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(tableview__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(tableview__);
 		}
 
 		void TableView::JSExportInitialize() 
@@ -97,7 +97,7 @@ namespace TitaniumWindows
 			// Add TableViewRow
 			if (item.GetPrivate<TitaniumWindows::UI::TableViewRow>()) {
 				auto view = item.GetPrivate<TitaniumWindows::UI::TableViewRow>();
-				auto rowContent = view->getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+				auto rowContent = view->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 				TITANIUM_ASSERT(rowContent);
 
 				auto group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
@@ -111,10 +111,10 @@ namespace TitaniumWindows
 				tableViewItems__->Append(item);
 
 				// Add as child view to make layout engine work
-				auto layoutPolicy = getViewLayoutPolicy<WindowsViewLayoutPolicy>();
-				Titanium::LayoutEngine::nodeAddChild(layoutPolicy->getLayoutNode(), view->getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>()->getLayoutNode());
-				if (layoutPolicy->isLoaded()) {
-					auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutPolicy->getLayoutNode());
+				auto layoutDelegate = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
+				if (layoutDelegate->isLoaded()) {
+					auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutDelegate->getLayoutNode());
 					if (root) {
 						Titanium::LayoutEngine::nodeLayout(root);
 					}
@@ -147,7 +147,7 @@ namespace TitaniumWindows
 				for (uint32_t i=0;i<rows.size();i++) {
 					auto row = rows.at(i);
 					auto view = row->get_object().GetPrivate<TitaniumWindows::UI::TableViewRow>();
-					auto rowContent = view->getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+					auto rowContent = view->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 					TITANIUM_ASSERT(rowContent);
 
 					// Add as list item
@@ -161,10 +161,10 @@ namespace TitaniumWindows
 					tableViewItems__->Append(item);
 
 					// Add as child view to make layout engine work
-					auto layoutPolicy = getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>();
-					Titanium::LayoutEngine::nodeAddChild(layoutPolicy->getLayoutNode(), view->getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>()->getLayoutNode());
-					if (layoutPolicy->isLoaded()) {
-						auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutPolicy->getLayoutNode());
+					auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
+					Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
+					if (layoutDelegate->isLoaded()) {
+						auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutDelegate->getLayoutNode());
 						if (root) {
 							Titanium::LayoutEngine::nodeLayout(root);
 						}

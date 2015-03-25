@@ -7,7 +7,7 @@
  */
 
 #include "TitaniumWindows/UI/View.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 namespace TitaniumWindows
 {
@@ -24,12 +24,12 @@ namespace TitaniumWindows
 			
 			canvas__ = ref new Windows::UI::Xaml::Controls::Canvas();
 
-			Titanium::UI::View::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
+			Titanium::UI::View::setLayoutDelegate<WindowsViewLayoutDelegate>();
 
-			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
-			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 
-			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(canvas__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(canvas__);
 		}
 
 		void View::JSExportInitialize()
@@ -40,7 +40,7 @@ namespace TitaniumWindows
 
 		Windows::UI::Xaml::FrameworkElement^ View::getComponent() TITANIUM_NOEXCEPT
 		{
-			return getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+			return getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 		}
 
 		void View::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
@@ -51,7 +51,7 @@ namespace TitaniumWindows
 			using namespace Windows::UI::Xaml;
 
 			if (event_name == "touchmove") {
-				auto component = getViewLayoutPolicy<WindowsViewLayoutPolicy>()->getComponent();
+				auto component = getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 				component->ManipulationMode = ManipulationModes::All;
 				touch_move_event_ = component->ManipulationDelta += ref new ManipulationDeltaEventHandler([ctx, this](Platform::Object^ sender, ManipulationDeltaRoutedEventArgs^ e) {
 					JSObject  delta = ctx.CreateObject();

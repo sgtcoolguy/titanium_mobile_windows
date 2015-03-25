@@ -94,7 +94,7 @@ std::chrono::milliseconds NativeFileExample::createTimestamp() TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::createTimestamp");
 	return std::chrono::milliseconds(0);
 }
-bool NativeFileExample::deleteDirectory(bool recursive) TITANIUM_NOEXCEPT
+bool NativeFileExample::deleteDirectory(const bool& recursive) TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::deleteDirectory");
 	return false;
@@ -165,7 +165,7 @@ unsigned long long NativeFileExample::spaceAvailable() TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::spaceAvailable");
 	return false;
 }
-bool NativeFileExample::write(const std::shared_ptr<Titanium::Filesystem::File>& data, bool append) TITANIUM_NOEXCEPT
+bool NativeFileExample::write(const std::shared_ptr<Titanium::Filesystem::File>& data, const bool& append) TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::write");
 	return false;

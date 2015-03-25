@@ -139,8 +139,8 @@ set(SOURCE_Network
 set(SOURCE_UI
   include/Titanium/UI/Switch.hpp
   src/UI/Switch.cpp
-  include/Titanium/UI/ViewLayoutPolicy.hpp
-  src/UI/ViewLayoutPolicy.cpp
+  include/Titanium/UI/ViewLayoutDelegate.hpp
+  src/UI/ViewLayoutDelegate.cpp
   include/Titanium/UIModule.hpp
   src/UIModule.cpp
   include/Titanium/UI/Constants.hpp

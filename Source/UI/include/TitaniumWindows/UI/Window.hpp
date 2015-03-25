@@ -10,7 +10,7 @@
 #define _TITANIUMWINDOWS_UI_WINDOW_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 namespace TitaniumWindows
 {
@@ -48,10 +48,10 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::Canvas^ canvas__;
 		};
 
-		class TITANIUMWINDOWS_UI_EXPORT WindowLayoutPolicy : public WindowsViewLayoutPolicy {
+		class TITANIUMWINDOWS_UI_EXPORT WindowLayoutDelegate : public WindowsViewLayoutDelegate {
 		public:
-			WindowLayoutPolicy(Titanium::UI::View* view) TITANIUM_NOEXCEPT;
-			virtual ~WindowLayoutPolicy() = default;
+			WindowLayoutDelegate() TITANIUM_NOEXCEPT;
+			virtual ~WindowLayoutDelegate() = default;
 
 			virtual void onComponentSizeChange(const Titanium::LayoutEngine::Rect&) override;
 			virtual void onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name) override;

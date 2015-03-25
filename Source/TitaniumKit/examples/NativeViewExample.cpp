@@ -8,14 +8,14 @@
 
 #include "NativeViewExample.hpp"
 
-NativeViewLayoutPolicy::NativeViewLayoutPolicy(JSObject& this_object)
+NativeViewLayoutDelegate::NativeViewLayoutDelegate(JSObject& this_object)
 {
-	this_object.SetProperty("NativeViewLayoutPolicy_called", this_object.get_context().CreateBoolean(true));
+	this_object.SetProperty("NativeViewLayoutDelegate_called", this_object.get_context().CreateBoolean(true));
 }
 
-void NativeViewLayoutPolicy::set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT
+void NativeViewLayoutDelegate::set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT
 {
-	ViewLayoutPolicy::set_backgroundColor(backgroundColor);
+	ViewLayoutDelegate::set_backgroundColor(backgroundColor);
 	TITANIUM_LOG_DEBUG("NativeViewExample:: set_backgroundColor(", backgroundColor, ")");
 }
 
@@ -28,7 +28,7 @@ NativeViewExample::NativeViewExample(const JSContext& js_context) TITANIUM_NOEXC
 void NativeViewExample::postInitialize(JSObject& js_object) 
 {
 	Titanium::UI::View::postInitialize(js_object);	
-	Titanium::UI::View::setLayoutPolicy<NativeViewLayoutPolicy>(js_object);
+	Titanium::UI::View::setLayoutDelegate<NativeViewLayoutDelegate>(js_object);
 }
 
 NativeViewExample::~NativeViewExample() TITANIUM_NOEXCEPT

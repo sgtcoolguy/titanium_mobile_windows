@@ -14,19 +14,22 @@ namespace TitaniumWindows
 	namespace UI
 	{
 
-		ScrollViewLayoutPolicy::ScrollViewLayoutPolicy(Titanium::UI::View* view) TITANIUM_NOEXCEPT
-			: WindowsViewLayoutPolicy(view)
+		ScrollViewLayoutDelegate::ScrollViewLayoutDelegate(const std::shared_ptr<WindowsViewLayoutDelegate>& contentView) TITANIUM_NOEXCEPT
+			: WindowsViewLayoutDelegate()
+			, contentView__(contentView)
 		{
 		}
 		
-		void ScrollViewLayoutPolicy::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
+		void ScrollViewLayoutDelegate::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
 		{
-			view__->getViewLayoutPolicy<WindowsViewLayoutPolicy>()->add(view);
+			WindowsViewLayoutDelegate::add(view);
+			contentView__->add(view);
 		}
 
-		void ScrollViewLayoutPolicy::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
+		void ScrollViewLayoutDelegate::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
 		{
-			view__->getViewLayoutPolicy<WindowsViewLayoutPolicy>()->set_layout(layout);
+			WindowsViewLayoutDelegate::set_layout(layout);
+			contentView__->set_layout(layout);
 		}
 
 		void ScrollView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
@@ -50,19 +53,19 @@ namespace TitaniumWindows
 			auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
 			scroll_viewer__->Content = content->getComponent();
 
-			Titanium::UI::ScrollView::setLayoutPolicy<ScrollViewLayoutPolicy>(dynamic_cast<Titanium::UI::View*>(content.get()));
+			Titanium::UI::ScrollView::setLayoutDelegate<ScrollViewLayoutDelegate>(content->getViewLayoutDelegate<WindowsViewLayoutDelegate>());
 
-			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
-			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 
-			getViewLayoutPolicy<ScrollViewLayoutPolicy>()->setComponent(scroll_viewer__);
+			getViewLayoutDelegate<ScrollViewLayoutDelegate>()->setComponent(scroll_viewer__);
 
-			auto layoutPolicy = getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>();
+			auto layoutDelegate = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
 			auto nativeChildView = content->getComponent();
 			if (nativeChildView != nullptr) {
-				Titanium::LayoutEngine::nodeAddChild(layoutPolicy->getLayoutNode(), content->getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>()->getLayoutNode());
-				if (layoutPolicy->isLoaded()) {
-					auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutPolicy->getLayoutNode());
+				Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), content->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getLayoutNode());
+				if (layoutDelegate->isLoaded()) {
+					auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutDelegate->getLayoutNode());
 					if (root) {
 						Titanium::LayoutEngine::nodeLayout(root);
 					}

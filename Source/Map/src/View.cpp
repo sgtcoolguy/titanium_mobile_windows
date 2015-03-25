@@ -9,7 +9,7 @@
 #include "TitaniumWindows/Map/View.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/Map/Annotation.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 using namespace Windows::Devices::Geolocation;
@@ -42,12 +42,12 @@ namespace TitaniumWindows
 			// TODO : Load this from app properties, windows_map_service_token?
 			mapview__->MapServiceToken = "VrSrmXR8B5bgklWrs0CK_w";
 
-			Titanium::Map::View::setLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>(this);
+			Titanium::Map::View::setLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
 
-			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
-			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 
-			getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>()->setComponent(mapview__);
+			getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->setComponent(mapview__);
 
 			zoom(12); // use a default zoom of 12 for Windows?
 #endif

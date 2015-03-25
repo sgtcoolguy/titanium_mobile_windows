@@ -10,7 +10,7 @@
 #define _TITANIUMWINDOWS_TABLEVIEWROW_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "WindowsViewLayoutPolicy.hpp"
+#include "WindowsViewLayoutDelegate.hpp"
 
 #include "Titanium/UI/Font.hpp"
 #include "Label.hpp"

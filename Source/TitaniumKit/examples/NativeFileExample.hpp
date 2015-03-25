@@ -47,7 +47,7 @@ public:
 	virtual bool createDirectory() TITANIUM_NOEXCEPT;
 	virtual bool createFile() TITANIUM_NOEXCEPT;
 	virtual std::chrono::milliseconds createTimestamp() TITANIUM_NOEXCEPT;
-	virtual bool deleteDirectory(bool recursive) TITANIUM_NOEXCEPT;
+	virtual bool deleteDirectory(const bool& recursive) TITANIUM_NOEXCEPT;
 	virtual bool deleteFile() TITANIUM_NOEXCEPT;
 	virtual bool exists() TITANIUM_NOEXCEPT;
 	virtual std::string extension() TITANIUM_NOEXCEPT;
@@ -61,7 +61,7 @@ public:
 	virtual bool rename(const std::string& newname) TITANIUM_NOEXCEPT;
 	virtual std::string resolve() TITANIUM_NOEXCEPT;
 	virtual unsigned long long spaceAvailable() TITANIUM_NOEXCEPT;
-	virtual bool write(const std::shared_ptr<Titanium::Filesystem::File>& data, bool append) TITANIUM_NOEXCEPT;
+	virtual bool write(const std::shared_ptr<Titanium::Filesystem::File>& data, const bool& append) TITANIUM_NOEXCEPT;
 
 protected:
 };

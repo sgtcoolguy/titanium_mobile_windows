@@ -10,7 +10,7 @@
 #define _TITANIUMWINDOWS_UI_SCROLLVIEW_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 namespace TitaniumWindows
 {
@@ -20,14 +20,19 @@ namespace TitaniumWindows
 
 		class ScrollView;
 
-		class TITANIUMWINDOWS_UI_EXPORT ScrollViewLayoutPolicy : public WindowsViewLayoutPolicy
+		class TITANIUMWINDOWS_UI_EXPORT ScrollViewLayoutDelegate : public WindowsViewLayoutDelegate
 		{
 		public:
-			ScrollViewLayoutPolicy(Titanium::UI::View* view) TITANIUM_NOEXCEPT;
-			virtual ~ScrollViewLayoutPolicy() = default;
+			ScrollViewLayoutDelegate(const std::shared_ptr<WindowsViewLayoutDelegate>&) TITANIUM_NOEXCEPT;
+			virtual ~ScrollViewLayoutDelegate() = default;
 
 			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
 			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT;
+		protected:
+#pragma warning(push)
+#pragma warning(disable : 4251)
+			std::shared_ptr<WindowsViewLayoutDelegate> contentView__;
+#pragma warning(pop)
 		};
 
 		/*!

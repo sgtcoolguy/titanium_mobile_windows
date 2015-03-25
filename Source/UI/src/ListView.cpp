@@ -9,7 +9,7 @@
 #include "TitaniumWindows/UI/ListView.hpp"
 #include "TitaniumWindows/UI/View.hpp"
 #include <collection.h>
-#include "TitaniumWindows/UI/WindowsViewLayoutPolicy.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 #include "TitaniumWindows/Utility.hpp"
 
@@ -42,11 +42,11 @@ namespace TitaniumWindows
 
 			listViewItems__ = ref new ::Platform::Collections::Vector<ListViewItem^>();
 
-			Titanium::UI::ListView::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
-			layoutPolicy__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
-			layoutPolicy__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			Titanium::UI::ListView::setLayoutDelegate<WindowsViewLayoutDelegate>();
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 
-			getViewLayoutPolicy<WindowsViewLayoutPolicy>()->setComponent(listview__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(listview__);
 		}
 
 		void ListView::JSExportInitialize() 
@@ -126,10 +126,10 @@ namespace TitaniumWindows
 					listViewItems__->Append(item);
 
 					// Add as child view to make layout engine work
-					auto layoutPolicy = getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>();
-					Titanium::LayoutEngine::nodeAddChild(layoutPolicy->getLayoutNode(), view->getViewLayoutPolicy<TitaniumWindows::UI::WindowsViewLayoutPolicy>()->getLayoutNode());
-					if (layoutPolicy->isLoaded()) {
-						auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutPolicy->getLayoutNode());
+					auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
+					Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
+					if (layoutDelegate->isLoaded()) {
+						auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutDelegate->getLayoutNode());
 						if (root) {
 							Titanium::LayoutEngine::nodeLayout(root);
 						}

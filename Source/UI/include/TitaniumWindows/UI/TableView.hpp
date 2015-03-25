@@ -10,7 +10,6 @@
 #define _TITANIUMWINDOWS_View_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "WindowsViewLayoutPolicy.hpp"
 
 #include "Titanium/UI/TableViewAnimationProperties.hpp"
 
