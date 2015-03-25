@@ -450,6 +450,7 @@ describe("Titanium.UI.Layout", function () {
         });
         win.addEventListener("postlayout", function (e) {
             should(view.size.width).eql(10);
+            closeAndFinish(win, finish);
         });
         win.add(view);
         win.open();
