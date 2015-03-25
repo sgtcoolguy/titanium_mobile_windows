@@ -131,10 +131,17 @@ namespace TitaniumWindows
 				// Set section header
 				// TODO : Figure out a more permanent solution
 				Windows::UI::Xaml::Controls::ListViewHeaderItem^ header = ref new Windows::UI::Xaml::Controls::ListViewHeaderItem();
-				auto headerText = ref new Windows::UI::Xaml::Controls::TextBlock();
-				headerText->Text = Utility::ConvertUTF8String(section->get_headerTitle());
-				headerText->FontSize = 28; // Change this?
-				header->Content = headerText;
+				auto view = section->get_headerView();
+				if (view != nullptr) {
+					auto windows_view = dynamic_cast<TitaniumWindows::UI::View*>(view.get());
+					auto component = windows_view->getComponent();
+					header->Content = component; // FIXME The layout of this is wrong!
+				} else {
+					auto headerText = ref new Windows::UI::Xaml::Controls::TextBlock();
+					headerText->Text = Utility::ConvertUTF8String(section->get_headerTitle());
+					headerText->FontSize = 28; // Change this?
+					header->Content = headerText;
+				}
 				group->Append(header);
 
 				// Create ListViewItem header placeholder to keep index mapping valid
