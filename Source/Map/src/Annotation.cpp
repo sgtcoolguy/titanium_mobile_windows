@@ -33,6 +33,7 @@ namespace TitaniumWindows
 
 		void Annotation::set_pincolor(const Titanium::Map::ANNOTATION_COLOR& pincolor) TITANIUM_NOEXCEPT
 		{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			if (pincolor == Titanium::Map::ANNOTATION_COLOR::AZURE) {
 				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Azure);
 			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::BLUE) {
@@ -56,6 +57,7 @@ namespace TitaniumWindows
 			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::YELLOW) {
 				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Yellow);
 			}
+#endif
 		}
 
 		void Annotation::updateGeoLocation() {
