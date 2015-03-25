@@ -134,7 +134,6 @@ namespace TitaniumWindows
 				tableViewItems__->Append(header_item);
 
 				// Set section header
-				auto header_item = ref new ListViewItem();
 				auto view = section->get_headerView();
 				if (view != nullptr) {
 					auto windows_view = dynamic_cast<TitaniumWindows::UI::View*>(view.get());
@@ -159,10 +158,6 @@ namespace TitaniumWindows
 					header->Content = headerText;
 					group->Append(header);
 				}
-
-				// Create ListViewItem header placeholder to keep index mapping valid
-				header_item->isHeader = true;
-				tableViewItems__->Append(header_item);
 
 				sections__.push_back(section);
 
