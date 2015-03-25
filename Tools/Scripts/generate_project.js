@@ -79,7 +79,8 @@ var generator = 'Visual Studio 12 2013';
 if (arch == 'ARM') {
 	generator += ' ARM';
 }
-var example_folder = path.join('.', '..', '..', '..', 'Examples', example_name);
+
+var example_folder = path.join(__dirname, '..', '..', 'Examples', example_name);
 // Now let's generate the solution
 var prc = spawn('cmake', ['-G', generator,
 	'-DCMAKE_SYSTEM_NAME=' + platform, 
