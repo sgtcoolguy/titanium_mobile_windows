@@ -15,7 +15,7 @@ git submodule update
 
 ### Windows
 
-Step 1. Install Visual Studio 2013
+Step 1. Install [Visual Studio 2013 Update 4 (or higher)](https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx) - Community, Professional, Premium or Ultimate. *Not* Express.
 
 Step 2. Install [Node](https://nodejs.org/download/).
 
