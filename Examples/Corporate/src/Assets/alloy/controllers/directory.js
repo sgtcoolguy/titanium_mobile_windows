@@ -84,13 +84,63 @@ function Controller() {
         title: "Directory"
     });
     $.__views.wrapper && $.addTopLevelView($.__views.wrapper);
-    var __alloyId1 = {};
-    var __alloyId3 = [];
-    var __alloyId5 = {
+    $.__views.__alloyId1 = Ti.UI.createView({
+        layout: "horizontal",
+        height: Ti.UI.SIZE,
+        width: Ti.UI.SIZE,
+        id: "__alloyId1"
+    });
+    $.__views.wrapper.add($.__views.__alloyId1);
+    $.__views.__alloyId2 = Ti.UI.createLabel({
+        left: 10,
+        font: {
+            fontFamily: "icomoon",
+            fontSize: 24
+        },
+        text: "",
+        color: "#999",
+        width: "7%",
+        id: "__alloyId2"
+    });
+    $.__views.__alloyId1.add($.__views.__alloyId2);
+    $.__views.searchBar = Ti.UI.createTextField({
+        borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+        backgroundColor: "#fff",
+        borderWidth: 0,
+        borderColor: "#fff",
+        tintColor: "#C41230",
+        hintText: "Search",
+        barColor: "#fff",
+        showBookmark: true,
+        height: 40,
+        left: 10,
+        width: "76%",
+        id: "searchBar"
+    });
+    $.__views.__alloyId1.add($.__views.searchBar);
+    onSearchChange ? $.__views.searchBar.addEventListener("change", onSearchChange) : __defers["$.__views.searchBar!change!onSearchChange"] = true;
+    $.__views.closeBtn = Ti.UI.createLabel({
+        right: 10,
+        font: {
+            fontFamily: "icomoon",
+            fontSize: 24
+        },
+        text: "",
+        color: "#999",
+        height: 40,
+        width: "7%",
+        visible: false,
+        id: "closeBtn"
+    });
+    $.__views.__alloyId1.add($.__views.closeBtn);
+    onSearchCancel ? $.__views.closeBtn.addEventListener("click", onSearchCancel) : __defers["$.__views.closeBtn!click!onSearchCancel"] = true;
+    var __alloyId3 = {};
+    var __alloyId5 = [];
+    var __alloyId7 = {
         type: "Ti.UI.View",
         childTemplates: function() {
-            var __alloyId6 = [];
-            var __alloyId7 = {
+            var __alloyId8 = [];
+            var __alloyId9 = {
                 type: "Ti.UI.ImageView",
                 bindId: "userPhoto",
                 properties: {
@@ -105,12 +155,12 @@ function Controller() {
                     bindId: "userPhoto"
                 }
             };
-            __alloyId6.push(__alloyId7);
-            var __alloyId9 = {
+            __alloyId8.push(__alloyId9);
+            var __alloyId11 = {
                 type: "Ti.UI.View",
                 childTemplates: function() {
-                    var __alloyId10 = [];
-                    var __alloyId11 = {
+                    var __alloyId12 = [];
+                    var __alloyId13 = {
                         type: "Ti.UI.Label",
                         bindId: "userName",
                         properties: {
@@ -122,8 +172,8 @@ function Controller() {
                             bindId: "userName"
                         }
                     };
-                    __alloyId10.push(__alloyId11);
-                    var __alloyId12 = {
+                    __alloyId12.push(__alloyId13);
+                    var __alloyId14 = {
                         type: "Ti.UI.Label",
                         bindId: "userEmail",
                         properties: {
@@ -136,8 +186,8 @@ function Controller() {
                             bindId: "userEmail"
                         }
                     };
-                    __alloyId10.push(__alloyId12);
-                    var __alloyId13 = {
+                    __alloyId12.push(__alloyId14);
+                    var __alloyId15 = {
                         type: "Ti.UI.Label",
                         bindId: "userCompany",
                         properties: {
@@ -150,8 +200,8 @@ function Controller() {
                             bindId: "userCompany"
                         }
                     };
-                    __alloyId10.push(__alloyId13);
-                    return __alloyId10;
+                    __alloyId12.push(__alloyId15);
+                    return __alloyId12;
                 }(),
                 properties: {
                     layout: "vertical",
@@ -160,8 +210,8 @@ function Controller() {
                     left: 0
                 }
             };
-            __alloyId6.push(__alloyId9);
-            var __alloyId15 = {
+            __alloyId8.push(__alloyId11);
+            var __alloyId17 = {
                 type: "Ti.UI.View",
                 properties: {
                     bottom: 0,
@@ -170,29 +220,29 @@ function Controller() {
                     height: 1
                 }
             };
-            __alloyId6.push(__alloyId15);
-            return __alloyId6;
+            __alloyId8.push(__alloyId17);
+            return __alloyId8;
         }(),
         properties: {
             left: 10
         }
     };
-    __alloyId3.push(__alloyId5);
-    var __alloyId2 = {
+    __alloyId5.push(__alloyId7);
+    var __alloyId4 = {
         properties: {
             height: 100,
             width: Ti.UI.FILL,
             name: "userTemplate"
         },
-        childTemplates: __alloyId3
+        childTemplates: __alloyId5
     };
-    __alloyId1["userTemplate"] = __alloyId2;
-    var __alloyId17 = [];
-    var __alloyId19 = {
+    __alloyId3["userTemplate"] = __alloyId4;
+    var __alloyId19 = [];
+    var __alloyId21 = {
         type: "Ti.UI.View",
         childTemplates: function() {
-            var __alloyId20 = [];
-            var __alloyId21 = {
+            var __alloyId22 = [];
+            var __alloyId23 = {
                 type: "Ti.UI.ImageView",
                 bindId: "userPhoto",
                 properties: {
@@ -200,19 +250,19 @@ function Controller() {
                     border: 1,
                     borderColor: "#acacac",
                     height: 75,
-                    width: Ti.UI.SIZE,
+                    width: 75,
                     top: 12,
                     left: 0,
                     borderRadius: 35,
                     bindId: "userPhoto"
                 }
             };
-            __alloyId20.push(__alloyId21);
-            var __alloyId23 = {
+            __alloyId22.push(__alloyId23);
+            var __alloyId25 = {
                 type: "Ti.UI.View",
                 childTemplates: function() {
-                    var __alloyId24 = [];
-                    var __alloyId25 = {
+                    var __alloyId26 = [];
+                    var __alloyId27 = {
                         type: "Ti.UI.Label",
                         bindId: "userName",
                         properties: {
@@ -224,8 +274,8 @@ function Controller() {
                             bindId: "userName"
                         }
                     };
-                    __alloyId24.push(__alloyId25);
-                    var __alloyId26 = {
+                    __alloyId26.push(__alloyId27);
+                    var __alloyId28 = {
                         type: "Ti.UI.Label",
                         bindId: "userEmail",
                         properties: {
@@ -238,8 +288,8 @@ function Controller() {
                             bindId: "userEmail"
                         }
                     };
-                    __alloyId24.push(__alloyId26);
-                    var __alloyId27 = {
+                    __alloyId26.push(__alloyId28);
+                    var __alloyId29 = {
                         type: "Ti.UI.Label",
                         bindId: "userCompany",
                         properties: {
@@ -252,8 +302,8 @@ function Controller() {
                             bindId: "userCompany"
                         }
                     };
-                    __alloyId24.push(__alloyId27);
-                    return __alloyId24;
+                    __alloyId26.push(__alloyId29);
+                    return __alloyId26;
                 }(),
                 properties: {
                     layout: "vertical",
@@ -262,8 +312,8 @@ function Controller() {
                     left: 0
                 }
             };
-            __alloyId20.push(__alloyId23);
-            var __alloyId29 = {
+            __alloyId22.push(__alloyId25);
+            var __alloyId31 = {
                 type: "Ti.UI.Label",
                 properties: {
                     font: {
@@ -276,8 +326,8 @@ function Controller() {
                     top: -2
                 }
             };
-            __alloyId20.push(__alloyId29);
-            var __alloyId31 = {
+            __alloyId22.push(__alloyId31);
+            var __alloyId33 = {
                 type: "Ti.UI.View",
                 properties: {
                     bottom: 0,
@@ -286,26 +336,26 @@ function Controller() {
                     height: 1
                 }
             };
-            __alloyId20.push(__alloyId31);
-            return __alloyId20;
+            __alloyId22.push(__alloyId33);
+            return __alloyId22;
         }(),
         properties: {
             left: 10
         }
     };
-    __alloyId17.push(__alloyId19);
-    var __alloyId16 = {
+    __alloyId19.push(__alloyId21);
+    var __alloyId18 = {
         properties: {
             height: 100,
             width: Ti.UI.FILL,
             name: "favoriteTemplate"
         },
-        childTemplates: __alloyId17
+        childTemplates: __alloyId19
     };
-    __alloyId1["favoriteTemplate"] = __alloyId16;
+    __alloyId3["favoriteTemplate"] = __alloyId18;
     $.__views.listView = Ti.UI.createListView({
         tintColor: "#666",
-        templates: __alloyId1,
+        templates: __alloyId3,
         id: "listView",
         defaultItemTemplate: "userTemplate"
     });
@@ -348,12 +398,31 @@ function Controller() {
             };
         });
     };
+    var onSearchChange, onSearchCancel;
+    onSearchChange = function() {
+        $.closeBtn.visible = "" !== $.searchBar.value ? true : false;
+        $.listView.searchText = $.searchBar.value;
+    };
+    onSearchCancel = function() {
+        $.closeBtn.visible = false;
+        $.searchBar.value = "";
+        $.searchBar.blur();
+    };
     $.wrapper.addEventListener("open", function() {
+        if (false && _args.restrictBookmarks) {
+            var activity = $.wrapper.getActivity();
+            activity.onCreateOptionsMenu = function(e) {
+                e.menu.clear();
+            };
+            activity.invalidateOptionsMenu();
+        }
     });
     Ti.App.addEventListener("refresh-data", function() {
         init();
     });
     init();
+    __defers["$.__views.searchBar!change!onSearchChange"] && $.__views.searchBar.addEventListener("change", onSearchChange);
+    __defers["$.__views.closeBtn!click!onSearchCancel"] && $.__views.closeBtn.addEventListener("click", onSearchCancel);
     __defers["$.__views.listView!itemclick!onItemClick"] && $.__views.listView.addEventListener("itemclick", onItemClick);
     _.extend($, exports);
 }
