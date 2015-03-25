@@ -4,12 +4,11 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "HTTPClient.hpp"
+#include "TitaniumWindows/Network/HTTPClient.hpp"
 #include "Titanium/detail/TiBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
 #include <collection.h>
-#include <algorithm>
 
 using namespace concurrency;
 
@@ -25,6 +24,7 @@ namespace TitaniumWindows
 			responseData__ = std::vector<std::uint8_t>();
 			responseDataLen__ = 0;
 			readyState__ = Titanium::Network::N_REQUEST_STATE_UNSENT;
+			disposed__ = false;
 		}
 
 		HTTPClient::~HTTPClient()
@@ -32,6 +32,7 @@ namespace TitaniumWindows
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Network::HTTPClient::dtor");
 			abort();
 
+			disposed__ = true;
 			filter__ = nullptr;
 			httpClient__ = nullptr;
 			dispatcherTimer__ = nullptr;
@@ -135,17 +136,17 @@ namespace TitaniumWindows
 					previousTask.get();
 
 					readyState__ = Titanium::Network::N_REQUEST_STATE_DONE;
-					if (httpClient__) {
+					if (!disposed__ && httpClient__) {
 						onreadystatechange(readyState__);
 					}
 				}
 				catch (const task_canceled&) {
-					if (httpClient__) {
+					if (!disposed__ && httpClient__) {
 						onerror(-1, "Session Cancelled", false);
 					}
 				}
 				catch (Platform::Exception^ ex) {
-					if (httpClient__) {
+					if (!disposed__ && httpClient__) {
 						std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
 						onerror(ex->HResult, error, false);
 					}
@@ -216,7 +217,7 @@ namespace TitaniumWindows
 					previousTask.get();
 
 					readyState__ = Titanium::Network::N_REQUEST_STATE_DONE;
-					if (httpClient__) {
+					if (!disposed__ && httpClient__) {
 						onreadystatechange(readyState__);
 
 						onload(0, "Response has been loaded.", true);
@@ -224,12 +225,12 @@ namespace TitaniumWindows
 					}
 				}
 				catch (const task_canceled&) {
-					if (httpClient__) {
+					if (!disposed__ && httpClient__) {
 						onerror(-1, "Session Cancelled", false);
 					}
 				}
 				catch (Platform::Exception^ ex) {
-					if (httpClient__) {
+					if (!disposed__ && httpClient__) {
 						std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
 						onerror(ex->HResult, error, false);
 					}
@@ -278,7 +279,7 @@ namespace TitaniumWindows
 					previousTask.get();
 
 					readyState__ = Titanium::Network::N_REQUEST_STATE_DONE;
-					if (httpClient__) {
+					if (!disposed__ && httpClient__) {
 						onreadystatechange(readyState__);
 
 						onload(0, "Response has been loaded.", true);
@@ -286,12 +287,12 @@ namespace TitaniumWindows
 					}
 				}
 				catch (const task_canceled&) {
-					if (httpClient__) {
+					if (!disposed__ && httpClient__) {
 						onerror(-1, "Session Cancelled", false);
 					}
 				}
 				catch (Platform::Exception^ ex) {
-					if (httpClient__) {
+					if (!disposed__ && httpClient__) {
 						std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
 						onerror(ex->HResult, error, false);
 					}

@@ -12,6 +12,7 @@
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/TableViewRow.hpp"
 #include "Titanium/UI/TableViewSection.hpp"
+#include "Titanium/UI/TableViewAnimationProperties.hpp"
 
 #include <vector>
 #include <unordered_map>
@@ -48,7 +49,7 @@ namespace Titanium
 			  @abstract setData
 			  @discussion Sets the data in the table.
 			*/
-			virtual void setData(std::vector<JSObject>& data, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void setData(std::vector<JSObject>& data, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
@@ -154,70 +155,70 @@ namespace Titanium
 			  @abstract appendRow
 			  @discussion Appends a single row or an array of rows to the end of the table.
 			*/
-			virtual void appendRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void appendRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract appendSection
 			  @discussion Appends a single section or an array of sections to the end of the table.
 			*/
-			virtual void appendSection(const TableViewSection_shared_ptr_t section, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void appendSection(const TableViewSection_shared_ptr_t section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract deleteRow
 			  @discussion Deletes an existing row.
 			*/
-			virtual void deleteRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void deleteRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract deleteSection
 			  @discussion Deletes an existing section.
 			*/
-			virtual void deleteSection(uint32_t section, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void deleteSection(uint32_t section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertRowAfter
 			  @discussion Inserts a row after another row.
 			*/
-			virtual void insertRowAfter(uint32_t index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void insertRowAfter(uint32_t index, JSValue row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertSectionAfter
 			  @discussion Inserts a section after another section.
 			*/
-			virtual void insertSectionAfter(uint32_t index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionAfter(uint32_t index, JSValue section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertRowBefore
 			  @discussion Inserts a row before another row.
 			*/
-			virtual void insertRowBefore(uint32_t index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void insertRowBefore(uint32_t index, JSValue row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertSectionBefore
 			  @discussion Inserts a section before another section.
 			*/
-			virtual void insertSectionBefore(uint32_t index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionBefore(uint32_t index, JSValue section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract scrollToIndex
 			  @discussion Scrolls the table view to ensure that the specified row is on screen.
 			*/
-			virtual void scrollToIndex(uint32_t index, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void scrollToIndex(uint32_t index, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract scrollToTop
 			  @discussion Scrolls the table to a specific top position where 0 is the topmost y position in the table view.
 			*/
-			virtual void scrollToTop(uint32_t top, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void scrollToTop(uint32_t top, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -231,14 +232,14 @@ namespace Titanium
 			  @abstract updateRow
 			  @discussion Updates an existing row, optionally with animation.
 			*/
-			virtual void updateRow(uint32_t index, TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void updateRow(uint32_t index, TableViewRow_shared_ptr_t row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract updateSection
 			  @discussion Updates an existing section, optionally with animation.
 			*/
-			virtual void updateSection(uint32_t index, TableViewSection_shared_ptr_t section, JSValue animation) TITANIUM_NOEXCEPT;
+			virtual void updateSection(uint32_t index, TableViewSection_shared_ptr_t section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			TableView(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableView() = default;

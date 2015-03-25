@@ -58,7 +58,7 @@ namespace TitaniumWindows
 			JSExport<TableView>::SetParent(JSExport<Titanium::UI::TableView>::Class());
 		}
 
-		void TableView::setData(std::vector<JSObject>& data, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::setData(std::vector<JSObject>& data, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			tableViewItems__->Clear();
 			for (uint32_t i=0;i<data.size();i++) {
@@ -69,22 +69,20 @@ namespace TitaniumWindows
 		void TableView::set_sections(const std::vector<TableViewSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT
 		{
 			tableViewItems__->Clear();
-			for (uint32_t i=0;i<get_sectionCount();i++) {
-				auto section = this->get_sections()[i]->get_object();
+			std::vector<TableViewSection_shared_ptr_t> new_sections(sections.begin(), sections.end());
+			for (uint32_t i=0;i<new_sections.size();i++) {
+				auto section = new_sections[i]->get_object();
 				addTableItem(section);
 			}
-			Titanium::UI::TableView::set_sections(sections);
+			Titanium::UI::TableView::set_sections(new_sections);
 		}
 
-		void TableView::appendRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::appendRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			addTableItem(row->get_object());
 		}
-		void TableView::appendSection(const TableViewSection_shared_ptr_t section, JSValue animation) TITANIUM_NOEXCEPT
-		{
-			addTableItem(section->get_object());
-		}
-		void TableView::deleteRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT
+
+		void TableView::deleteRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			//TODO : Implement this
 			unsigned int index = -1;
@@ -92,11 +90,6 @@ namespace TitaniumWindows
 			if (index > -1) {
 				tableViewItems__->RemoveAt(index);
 			}
-		}
-		void TableView::deleteSection(uint32_t section, JSValue animation) TITANIUM_NOEXCEPT
-		{
-			sections__.erase(sections__.begin()+section);
-			set_sections(sections__);
 		}
 
 		void TableView::addTableItem(JSObject& item) TITANIUM_NOEXCEPT

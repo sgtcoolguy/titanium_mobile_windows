@@ -139,6 +139,5 @@ namespace TitaniumWindows
 				collectionViewItems__->Append(group);
 			}
 		}
-
 	}  // namespace UI
 }  // namespace TitaniumWindows

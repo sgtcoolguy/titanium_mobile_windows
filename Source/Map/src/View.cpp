@@ -142,7 +142,7 @@ namespace TitaniumWindows
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			auto native_annotation_ptr = annotation->get_object().GetPrivate<TitaniumWindows::Map::Annotation>();
 			if (native_annotation_ptr != nullptr) {
-				mapview__->MapElements->Append(native_annotation_ptr->GetMapIcon());
+				mapview__->Children->Append(native_annotation_ptr->GetMapIcon());
 			}
 #endif
 		}
@@ -152,16 +152,17 @@ namespace TitaniumWindows
 			Titanium::Map::View::removeAnnotation(annotation);
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-			for (size_t i = 0; i < mapview__->MapElements->Size; i++) {
-				auto element = mapview__->MapElements->GetAt(i);
-				MapIcon^ icon = dynamic_cast<MapIcon^>(element);
+			for (size_t i = 0; i < mapview__->Children->Size; i++) {
+				auto element = mapview__->Children->GetAt(i);
+				Windows::UI::Xaml::Controls::Grid^ icon = dynamic_cast<Windows::UI::Xaml::Controls::Grid^>(element);
 				if (icon == nullptr) {
 					continue; // not an annotation
 				}
 				// find annotation identified by title or a reference.
 				auto annotation_ptr = annotation->get_object().GetPrivate<TitaniumWindows::Map::Annotation>()->GetMapIcon();
-				if (icon == annotation_ptr || annotation_ptr->Title->Equals(icon->Title)) {
-					mapview__->MapElements->RemoveAt(i);
+				if (icon == annotation_ptr) {
+					//mapview__->MapElements->RemoveAt(i);
+					mapview__->Children->RemoveAt(i);
 					break;
 				}
 			}

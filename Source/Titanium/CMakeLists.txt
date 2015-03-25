@@ -90,11 +90,8 @@ set(SOURCE_TitaniumWindows
   src/Blob.hpp
   src/File.cpp
   src/File.hpp
-  src/HTTPClient.cpp
-  src/HTTPClient.hpp
   src/detail/BlobBase.hpp
   src/detail/FilesystemBase.hpp
-  src/detail/NetworkBase.hpp
 )
 
 source_group(TitaniumWindows FILES ${SOURCE_TitaniumWindows})

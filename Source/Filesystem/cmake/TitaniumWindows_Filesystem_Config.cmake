@@ -4,5 +4,6 @@
 
 include(CMakeFindDependencyMacro)
 find_dependency(TitaniumKit)
+find_dependency(TitaniumWindows_Utility)
 
 include("${CMAKE_BINARY_DIR}/TitaniumWindows_Filesystem_Targets.cmake")

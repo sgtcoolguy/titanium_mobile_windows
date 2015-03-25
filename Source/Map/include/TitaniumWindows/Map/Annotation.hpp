@@ -26,9 +26,10 @@ namespace TitaniumWindows
 		{
 		public:
 
-			virtual void set_latitude(const double& latitude)   TITANIUM_NOEXCEPT override;
-			virtual void set_longitude(const double& longitude) TITANIUM_NOEXCEPT override;
-			virtual void set_title(const std::string& title)    TITANIUM_NOEXCEPT override;
+			virtual void set_latitude(const double& latitude)   TITANIUM_NOEXCEPT override final;
+			virtual void set_longitude(const double& longitude) TITANIUM_NOEXCEPT override final;
+			virtual void set_pincolor(const Titanium::Map::ANNOTATION_COLOR& pincolor) TITANIUM_NOEXCEPT override final;
+			virtual void set_title(const std::string& title)    TITANIUM_NOEXCEPT override final;
 
 			void updateGeoLocation();
 
@@ -45,7 +46,7 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-			Windows::UI::Xaml::Controls::Maps::MapIcon^ GetMapIcon() {
+			Windows::UI::Xaml::Controls::Grid^ GetMapIcon() {
 				return mapicon__;
 			}
 #endif
@@ -54,7 +55,11 @@ namespace TitaniumWindows
 		private:
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-			Windows::UI::Xaml::Controls::Maps::MapIcon^ mapicon__ = { nullptr };
+			Windows::UI::Xaml::Controls::Grid^ mapicon__ = { nullptr };
+
+			Windows::UI::Xaml::Shapes::Line^ pin__ = { nullptr };
+			Windows::UI::Xaml::Shapes::Ellipse^ icon__ = { nullptr };
+			Windows::UI::Xaml::Controls::TextBlock^ text__ = { nullptr };
 #endif
 		};
 	} // namespace Map
