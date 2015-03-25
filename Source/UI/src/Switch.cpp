@@ -26,8 +26,8 @@ namespace TitaniumWindows
 			switch__ = ref new Windows::UI::Xaml::Controls::ToggleSwitch();
 			switch__->OnContent = "On";
 			switch__->OffContent = "Off";
-			switch__->Toggled += ref new Windows::UI::Xaml::RoutedEventHandler([this](Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {						
-				value__ = !value__;
+			switch__->Toggled += ref new Windows::UI::Xaml::RoutedEventHandler([this](Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+				Titanium::UI::Switch::set_value(!get_value());
 			});
 
 			Titanium::UI::Switch::setLayoutPolicy<WindowsViewLayoutPolicy>(this);
@@ -42,7 +42,7 @@ namespace TitaniumWindows
 
 		void Switch::set_value(const bool& value) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::Switch::set_value(value);
+			//Titanium::UI::Switch::set_value(value);
 			switch__->IsOn = value;
 		}
 
@@ -69,7 +69,7 @@ namespace TitaniumWindows
 			} else if (event_name == "change") {
 				change_event_ = switch__->Toggled += ref new Windows::UI::Xaml::RoutedEventHandler([this, ctx](Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {						
 					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("value", ctx.CreateBoolean(value__));
+					eventArgs.SetProperty("value", ctx.CreateBoolean(get_value()));
 
 					this->fireEvent("change", eventArgs);
 				});

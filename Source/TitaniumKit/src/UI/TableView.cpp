@@ -43,7 +43,7 @@ namespace Titanium
         	return data__;
 		}
 
-		void TableView::setData(std::vector<JSObject>& data, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::setData(std::vector<JSObject>& data, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			data__ = data;
 		}
@@ -113,52 +113,54 @@ namespace Titanium
         	return separatorColor__;
 		}
 
-		void TableView::appendRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::appendRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::appendRow: Unimplemented");
 		}
 
-		void TableView::appendSection(const TableViewSection_shared_ptr_t section, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::appendSection(const TableViewSection_shared_ptr_t section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			sections__.push_back(section);
+			set_sections(sections__);
 		}
 
-		void TableView::deleteRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::deleteRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::deleteRow: Unimplemented");
 		}
 
-		void TableView::deleteSection(uint32_t section, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::deleteSection(uint32_t section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			sections__.erase(sections__.begin()+section);
+			set_sections(sections__);
 		}
 
-		void TableView::insertRowAfter(uint32_t index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::insertRowAfter(uint32_t index, JSValue row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::insertRowAfter: Unimplemented");
 		}
 
-		void TableView::insertSectionAfter(uint32_t index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::insertSectionAfter(uint32_t index, JSValue section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::insertSectionAfter: Unimplemented");
 		}
 
-		void TableView::insertRowBefore(uint32_t index, JSValue row, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::insertRowBefore(uint32_t index, JSValue row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::insertRowBefore: Unimplemented");
 		}
 
-		void TableView::insertSectionBefore(uint32_t index, JSValue section, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::insertSectionBefore(uint32_t index, JSValue section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::insertSectionBefore: Unimplemented");
 		}
 
-		void TableView::scrollToIndex(uint32_t index, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::scrollToIndex(uint32_t index, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::scrollToIndex: Unimplemented");
 		}
 
-		void TableView::scrollToTop(uint32_t top, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::scrollToTop(uint32_t top, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::scrollToTop: Unimplemented");
 		}
@@ -168,12 +170,12 @@ namespace Titanium
 			TITANIUM_LOG_WARN("TableView::selectRow: Unimplemented");
 		}
 
-		void TableView::updateRow(uint32_t index, TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::updateRow(uint32_t index, TableViewRow_shared_ptr_t row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::updateRow: Unimplemented");
 		}
 
-		void TableView::updateSection(uint32_t index, TableViewSection_shared_ptr_t section, JSValue animation) TITANIUM_NOEXCEPT
+		void TableView::updateSection(uint32_t index, TableViewSection_shared_ptr_t section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::updateSection: Unimplemented");
 		}
@@ -261,12 +263,14 @@ namespace Titanium
 			TITANIUM_ASSERT(data_obj.IsArray());
 			auto data = static_cast<std::vector<JSValue>>(static_cast<JSArray>(data_obj));
 
+			auto animation = get_context().CreateObject();
+
 			std::vector<JSObject> tableObjects;
 			for (uint32_t i=0;i<data.size();i++) {
 				auto tableObject = static_cast<JSObject>(data[i]);
 				tableObjects.push_back(tableObject);
 			}
-			setData(tableObjects, get_context().CreateUndefined());
+			setData(tableObjects, animation.GetPrivate<TableViewAnimationProperties>());
 
 			return false;
 		}
@@ -361,42 +365,42 @@ namespace Titanium
 
 		JSValue TableView::js_appendRow(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TableView.appendRow is not implemented yet");
 			if (arguments.size() >= 2) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
 				const auto _1 = arguments.at(1);
-				//TITANIUM_ASSERT(_1.IsTableViewAnimationProperties());
+				TITANIUM_ASSERT(_1.IsObject());
 				const auto row = static_cast<JSObject>(_0);
 				const auto animation = static_cast<JSObject>(_1);
-				// appendRow(row, animation);
+				appendRow(row.GetPrivate<TableViewRow>(), animation.GetPrivate<TableViewAnimationProperties>());
 			} else if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
 				const auto row = static_cast<JSObject>(_0);
-				// appendRow(row);
+				const auto animation = get_context().CreateObject();
+				appendRow(row.GetPrivate<TableViewRow>(), animation.GetPrivate<TableViewAnimationProperties>());
 			}
 			return get_context().CreateUndefined();
 		}
 
 		JSValue TableView::js_appendSection(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TableView.appendSection is not implemented yet");
-			if (arguments.size() < 2) {
+			if (arguments.size() < 1) {
 				return get_context().CreateUndefined();
 			} else if (arguments.size() >= 2) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
 				const auto _1 = arguments.at(1);
-				//TITANIUM_ASSERT(_1.IsTableViewAnimationProperties());
+				TITANIUM_ASSERT(_1.IsObject());
 				const auto section = static_cast<JSObject>(_0);
 				const auto animation = static_cast<JSObject>(_1);
-				// appendSection(section, animation);
+				appendSection(section.GetPrivate<TableViewSection>(), animation.GetPrivate<TableViewAnimationProperties>());
 			} else if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
 				const auto section = static_cast<JSObject>(_0);
-				// appendSection(section);
+				const auto animation = get_context().CreateObject();
+				appendSection(section.GetPrivate<TableViewSection>(), animation.GetPrivate<TableViewAnimationProperties>());
 			}
 			return get_context().CreateUndefined();
 		}
@@ -425,22 +429,22 @@ namespace Titanium
 
 		JSValue TableView::js_deleteSection(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TableView.deleteSection is not implemented yet");
 			if (arguments.size() < 2) {
 				return get_context().CreateUndefined();
 			} else if (arguments.size() >= 2) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
 				const auto _1 = arguments.at(1);
-				//TITANIUM_ASSERT(_1.IsTableViewAnimationProperties());
-				const double section = static_cast<double>(_0);
+				TITANIUM_ASSERT(_1.IsObject());
+				const uint32_t section = static_cast<uint32_t>(_0);
 				const auto animation = static_cast<JSObject>(_1);
-				// deleteSection(section, animation);
+				deleteSection(section, animation.GetPrivate<TableViewAnimationProperties>());
 			} else if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
-				const double section = static_cast<double>(_0);
-				// deleteSection(section);
+				const uint32_t section = static_cast<uint32_t>(_0);
+				const auto animation = get_context().CreateObject();
+				deleteSection(section, animation.GetPrivate<TableViewAnimationProperties>());
 			}
 			return get_context().CreateUndefined();
 		}

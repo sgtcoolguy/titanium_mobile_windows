@@ -12,6 +12,8 @@
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "WindowsViewLayoutPolicy.hpp"
 
+#include "Titanium/UI/TableViewAnimationProperties.hpp"
+
 namespace TitaniumWindows
 {
 	namespace UI
@@ -47,12 +49,10 @@ namespace TitaniumWindows
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 			virtual void set_sections(const std::vector<TableViewSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT override;
-			virtual void setData(std::vector<JSObject>& data, JSValue animation) TITANIUM_NOEXCEPT override;
+			virtual void setData(std::vector<JSObject>& data, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
 
-			virtual void appendRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT override;
-			virtual void appendSection(const TableViewSection_shared_ptr_t section, JSValue animation) TITANIUM_NOEXCEPT override;
-			virtual void deleteRow(const TableViewRow_shared_ptr_t row, JSValue animation) TITANIUM_NOEXCEPT override;
-			virtual void deleteSection(uint32_t section, JSValue animation) TITANIUM_NOEXCEPT override;
+			virtual void appendRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void deleteRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
 
 		private:
 

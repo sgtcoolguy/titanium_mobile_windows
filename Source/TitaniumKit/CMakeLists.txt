@@ -181,6 +181,8 @@ set(SOURCE_UI
   src/UI/Slider.cpp
   include/Titanium/UI/ListViewAnimationProperties.hpp
   src/UI/ListViewAnimationProperties.cpp
+  include/Titanium/UI/TableViewAnimationProperties.hpp
+  src/UI/TableViewAnimationProperties.cpp
   include/Titanium/UI/ListViewMarkerProps.hpp
   src/UI/ListViewMarkerProps.cpp
   include/Titanium/UI/ListView.hpp

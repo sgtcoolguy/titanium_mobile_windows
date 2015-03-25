@@ -53,7 +53,7 @@ namespace Titanium
 			virtual JSValue js_getValue(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 			virtual JSValue js_setValue(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 
-			protected:
+			private:
 				bool value__;
 		};
 
