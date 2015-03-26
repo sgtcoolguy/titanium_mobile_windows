@@ -28,7 +28,7 @@ if ('win32' == os.platform()) {
 program
 	.description('Titanium Windows VS Solution Generator')
 	.usage('COMMAND [ARGS] [OPTIONS]')
-	.option('-a, --arch', '"ARM" (device) or "Win32" (emulator)')
+	.option('-a, --arch <arch>', '"ARM" (device) or "Win32" (emulator)')
 	.option('-o, --outputPath <outputPath>', 'Output path for generated code')
 	.option('-p, --platform <platform>', '"WindowsPhone" or "WindowsStore"');
 
