@@ -8,18 +8,22 @@ Titanium Mobile Windows is the Titanium platform support for the Microsoft Windo
 
 ```bash
 git clone https://github.com/appcelerator/titanium_mobile_windows.git
-pushd titanium_mobile_windows
+cd titanium_mobile_windows
 git submodule init
 git submodule update
 ```
+
+:warning: Windows 8.1 app development requires *Windows 8.1*, with a *Hyper-V* capable system (for phone emulators) - see the [system requirements listing from MSDN](https://msdn.microsoft.com/en-us/library/windows/apps/ff626524%28v=vs.105%29.aspx) for more details.
 
 ### Windows
 
 Step 1. Install [Visual Studio 2013 Update 4 (or higher)](https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx) - Community, Professional, Premium or Ultimate. *Not* Express.
 
-Step 2. Install [Node](https://nodejs.org/download/).
+Step 2. Install the [Windows Phone 8.1 emulators](https://dev.windows.com/en-us/develop/download-phone-sdk). Note that this can be done through Visual Studio 2013 as well.
 
-Step 3. Run the setup.js Node script included in this repository in cmd.exe or Powershell:
+Step 3. Install [Node](https://nodejs.org/download/).
+
+Step 4. Run the setup.js Node script included in this repository in cmd.exe or Powershell:
 ```bash
 cd Tools\Scripts
 npm install .
@@ -67,6 +71,7 @@ node "${HOME}/Documents/GitHub/titanium_mobile_windows/Tools/Scripts/generate_pr
 # Now open the project in Visual Studio for development
 NG.WindowsPhone.Win32/NG.sln
 ```
+:warning: By default Visual Studio 2013 will prompt you to break at handled and unhandled exceptions. During startup of our framework and examples, a number of handled exceptions may occur related to finding files or establishing a connection to the CLI logger. When they occur, uncheck the checkmark box and click the *Continue* button. Further launches of the app should no longer display a dialog to break at these handled exceptions.
 
 ## Contributing
 
@@ -85,7 +90,7 @@ changes. This helps us significantly reduce future legal risk for
 everyone involved. It is easy, helps everyone, takes only a few
 minutes, and only needs to be completed once.
 
-[You can digitally sign the CLA](http://bit.ly/app_cla) online. Please
+[You can digitally sign the CLA](https://cla.appcelerator.com/) online. Please
 indicate your email address in your first pull request so that we can
 make sure that will locate your CLA.  Once you've submitted it, you no
 longer need to send one for subsequent submissions.
