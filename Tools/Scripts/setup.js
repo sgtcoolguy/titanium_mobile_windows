@@ -31,7 +31,11 @@ var async = require('async'),
 	  ok: '✓',
 	  err: '✖',
 	  dot: '․'
-	};
+	},
+	JSC_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1411436814.zip",
+	GTEST_URL = (os.platform() === 'win32') ? "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-windows.zip" : "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-osx.zip",
+	BOOST_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/boost_1_57_0.zip";
+
 
 // With node.js on Windows: use symbols available in terminal default fonts
 if ('win32' == os.platform()) {
@@ -174,105 +178,152 @@ function setENV(key, value, next) {
 // We could change this to series, but we'd have to ditch the progress bars above
 async.series([
 	function (next) {
+		console.log("Setting up Boost libraries...");
 		var boostRoot = path.join(home, "boost_1_57_0");
-		// assume if env var is set that the location also exists
-    	if (typeof process.env.BOOST_ROOT !== 'undefined') {
-    		console.log((symbols.ok + ' BOOST_ROOT set').green);
-    		next();
-    		// if env var isn't set, but destination exists, just set env var
-    	} else if (fs.existsSync(boostRoot)) {
-    		setENV('BOOST_ROOT', boostRoot, next);
-    	} else {
-    		// no env var and no destination. Download, extract, and set env var
-		    downloadURL("http://softlayer-dal.dl.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.zip", function (filename) {
+		if (typeof process.env.BOOST_ROOT !== 'undefined') {
+			var existing = path.normalize(process.env.BOOST_ROOT);
+			// What if location it points to doesn't exist. We should download there!
+			if (!fs.existsSync(existing)) {
+				// download to location user lready has env var set to
+				downloadURL(BOOST_URL, function (filename) {
+					extract(filename, path.normalize(existing + "\\.."), true, function() {
+						console.log((symbols.ok + ' Boost 1.57.0 headers downloaded to $BOOST_ROOT').green);
+						next();
+					});
+				});
+			} else {
+				// Nothing to do, we're all set
+				console.log((symbols.ok + ' BOOST_ROOT set').green);
+				next();
+			}
+			// if env var isn't set, but destination exists, just set env var
+		} else if (fs.existsSync(boostRoot)) {
+			setENV('BOOST_ROOT', boostRoot, next);
+		} else {
+			// no env var and no destination. Download, extract, and set env var
+			downloadURL(BOOST_URL, function (filename) {
 				extract(filename, home, true, function () {
 					setENV('BOOST_ROOT', boostRoot, next);
 				});
 			});
 		}
-    },
-    function (next) {
-    	var gtest_root = path.join(home, "gtest-1.7.0-windows");
-    	if (typeof process.env.GTEST_ROOT !== 'undefined') {
-    		console.log((symbols.ok + ' GTEST_ROOT set').green);
-    		next();
-    	}
-    	else if (fs.existsSync(gtest_root)) {
+	},
+	function (next) {
+		console.log("\nSetting up GTest...");
+		var gtest_root = path.join(home, "gtest-1.7.0-windows"); // FIXME What about mac?
+		if (typeof process.env.GTEST_ROOT !== 'undefined') {
+			var existing = path.normalize(process.env.GTEST_ROOT);
+			// What if location it points to doesn't exist. We should download there!
+			if (!fs.existsSync(existing)) {
+				// download!
+				downloadURL(GTEST_URL, function (filename) {
+					extract(filename, path.normalize(existing + "\\.."), true, function() {
+						console.log((symbols.ok + ' GTest 1.7.0 downloaded to $GTEST_ROOT').green);
+						next();
+					});
+				});
+			} else {
+				// Nothing to do, we're all set
+				console.log((symbols.ok + ' GTEST_ROOT set').green);
+				next();
+			}
+		}
+		else if (fs.existsSync(gtest_root)) {
 			setENV('GTEST_ROOT', gtest_root, next);
-    	}
+		}
 		else {
-			downloadURL("http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-windows.zip", function (filename) {
+			downloadURL(GTEST_URL, function (filename) {
 				extract(filename, home, true, function () {
 					setENV('GTEST_ROOT', gtest_root, next);
 				});
 			});
 		}
-    },
-    function (next) {
-    	var jscHome = path.join(home, "JavaScriptCore-Windows-1411436814");
-    	if (typeof process.env.JavaScriptCore_HOME !== 'undefined') {
-    		console.log((symbols.ok + ' JavaScriptCore_HOME set').green);
-    		next();
-    	} else if (fs.existsSync(jscHome)) {
-    		setENV('JavaScriptCore_HOME', jscHome, next);
-    	} else {
-		    downloadURL("http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1411436814.zip", function (filename) {
-				extract(filename, home, true, function() {
-					setENV('JavaScriptCore_HOME', jscHome, next);
+	},
+	function (next) {
+		if (os.platform() === 'win32') {
+			console.log("\nSetting up JavaScriptCore pre-built libraries...");
+			var jscHome = path.join(home, "JavaScriptCore-Windows-1411436814");
+			if (typeof process.env.JavaScriptCore_HOME !== 'undefined') {
+				var existing = path.normalize(process.env.JavaScriptCore_HOME);
+				// What if location it points to doesn't exist. We should download there!
+				if (!fs.existsSync(existing)) {
+					// download!
+					downloadURL(JSC_URL, function (filename) {
+						extract(filename, path.normalize(existing + "\\.."), true, function() {
+							console.log((symbols.ok + ' JavaScriptCore downloaded to $JavaScriptCore_HOME').green);
+							next();
+						});
+					});
+				} else {
+					// Nothing to do, we're all set
+					console.log((symbols.ok + ' JavaScriptCore_HOME set').green);
+					next();
+				}
+			} else if (fs.existsSync(jscHome)) {
+				setENV('JavaScriptCore_HOME', jscHome, next);
+			} else {
+				downloadURL(JSC_URL, function (filename) {
+					extract(filename, home, true, function() {
+						setENV('JavaScriptCore_HOME', jscHome, next);
+					});
 				});
-			});
+			}
+		} else {
+			next(); // TODO Do we need to do anything for Mac?
 		}
-    },
-    // Add the included cmake bin dir to the user's PATH?
-    function (next) {
-	    var cmakeBinPath = path.join(__dirname, '..', '..', 'cli', 'vendor', 'cmake', 'bin');
-	    if (process.env.PATH.indexOf(cmakeBinPath) == -1) {
+	},
+	// Add the included cmake bin dir to the user's PATH?
+	function (next) {
+		console.log("\nAppending included cmake to PATH...");
+		var cmakeBinPath = path.join(__dirname, '..', '..', 'cli', 'vendor', 'cmake', 'bin');
+		if (process.env.PATH.indexOf(cmakeBinPath) == -1) {
 			console.log("Appending %s to PATH", cmakeBinPath);
-	    	setENV('PATH', process.env.PATH + ';' + cmakeBinPath, next);
+			setENV('PATH', process.env.PATH + ';' + cmakeBinPath, next);
 		} else {
 			// If we can find cmake.exe on PATH, don't append it
 			console.log((symbols.ok + ' Included cmake on PATH').green);
 			next();
 		}
-    },
-    // Change Windows PowerShell permissions
-    function (next) {
-    	if (os.platform() === 'win32') {
-    		var output = '',
-				prc = spawn(process.env.SystemRoot + '\\system32\\WindowsPowerShell\\v1.0\\powershell.exe', ['Get-ExecutionPolicy', '-Scope', 'CurrentUser']);
-			prc.stdout.on('data', function (data) {
-			    output += data.toString();
-			});
-
-			prc.on('close', function (code) {
-				output = output.trim();
-				// Check to make sure Execution Policy is liberal enough for us!
-				if (output !== 'RemoteSigned' && output !== 'Unrestricted') {
-		    		console.log("Changing PowerShell policy to RemoteSigned for CLI");
-					var p = spawn(process.env.SystemRoot + '\\system32\\WindowsPowerShell\\v1.0\\powershell.exe', ['Set-ExecutionPolicy', '-ExecutionPolicy', 'RemoteSigned', '-Scope', 'CurrentUser']);
-					p.stdout.on('data', function (data) {
-					    console.log(data.toString());
-					});
-
-					p.on('close', function (code) {
-						if (code != 0) {
-							next("Failed to change PowerShell policy");
-						} else {
-							console.log((symbols.ok + ' PowerShell ExecutionPolicy set to "RemoteSigned"').green);
-					    	next();
-						}
-					});
-				}
-				else {
-					console.log((symbols.ok + ' PowerShell ExecutionPolicy at least "RemoteSigned"').green);
-					next();
-				}
-			});
-		} else {
-			next();
-		}
-    }
-    // TODO Download VS2013 Express? (It's Huuuuuuge! 6.61 GB!)
+//    },
+//    // Change Windows PowerShell permissions
+//    function (next) {
+//    	// FIXME This is hanging on my machine now! Also, do we need this for developing TitaniumKit/HAL/Windows? I don't think we do
+//    	if (os.platform() === 'win32') {
+//    		var output = '',
+//				prc = spawn(process.env.SystemRoot + '\\system32\\WindowsPowerShell\\v1.0\\powershell.exe', ['Get-ExecutionPolicy', '-Scope', 'CurrentUser']);
+//			prc.stdout.on('data', function (data) {
+//			    output += data.toString();
+//			});
+//
+//			prc.on('close', function (code) {
+//				output = output.trim();
+//				// Check to make sure Execution Policy is liberal enough for us!
+//				if (output !== 'RemoteSigned' && output !== 'Unrestricted') {
+//		    		console.log("Changing PowerShell policy to RemoteSigned for CLI");
+//					var p = spawn(process.env.SystemRoot + '\\system32\\WindowsPowerShell\\v1.0\\powershell.exe', ['Set-ExecutionPolicy', '-ExecutionPolicy', 'RemoteSigned', '-Scope', 'CurrentUser']);
+//					p.stdout.on('data', function (data) {
+//					    console.log(data.toString());
+//					});
+//
+//					p.on('close', function (code) {
+//						if (code != 0) {
+//							next("Failed to change PowerShell policy");
+//						} else {
+//							console.log((symbols.ok + ' PowerShell ExecutionPolicy set to "RemoteSigned"').green);
+//					    	next();
+//						}
+//					});
+//				}
+//				else {
+//					console.log((symbols.ok + ' PowerShell ExecutionPolicy at least "RemoteSigned"').green);
+//					next();
+//				}
+//			});
+//		} else {
+//			next();
+//		}
+	}
+	// TODO Download a VS2013 version? (It's Huuuuuuge! Many GB!)
 ], function (err, results) {
 	if (err) {
 		console.error((symbols.error + ' ' + err.toString()).red);
