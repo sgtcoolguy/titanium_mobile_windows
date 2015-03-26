@@ -128,19 +128,36 @@ namespace TitaniumWindows
 				auto rows = section->get_rows();
 				auto group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
 
-				// Set section header
-				// TODO : Figure out a more permanent solution
-				Windows::UI::Xaml::Controls::ListViewHeaderItem^ header = ref new Windows::UI::Xaml::Controls::ListViewHeaderItem();
-				auto headerText = ref new Windows::UI::Xaml::Controls::TextBlock();
-				headerText->Text = Utility::ConvertUTF8String(section->get_headerTitle());
-				headerText->FontSize = 28; // Change this?
-				header->Content = headerText;
-				group->Append(header);
-
 				// Create ListViewItem header placeholder to keep index mapping valid
 				auto header_item = ref new ListViewItem();
 				header_item->isHeader = true;
 				tableViewItems__->Append(header_item);
+
+				// Set section header
+				auto view = section->get_headerView();
+				if (view != nullptr) {
+					auto windows_view = dynamic_cast<TitaniumWindows::UI::View*>(view.get());
+					auto component = windows_view->getComponent();
+					group->Append(component);
+					header_item->View = component;
+
+					// Add as child view to make layout engine work
+					auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
+					Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
+					if (layoutDelegate->isLoaded()) {
+						auto root = Titanium::LayoutEngine::nodeRequestLayout(layoutDelegate->getLayoutNode());
+						if (root) {
+							Titanium::LayoutEngine::nodeLayout(root);
+						}
+					}
+				} else {
+					Windows::UI::Xaml::Controls::ListViewHeaderItem^ header = ref new Windows::UI::Xaml::Controls::ListViewHeaderItem();
+					auto headerText = ref new Windows::UI::Xaml::Controls::TextBlock();
+					headerText->Text = Utility::ConvertUTF8String(section->get_headerTitle());
+					headerText->FontSize = 28; // Change this?
+					header->Content = headerText;
+					group->Append(header);
+				}
 
 				sections__.push_back(section);
 
