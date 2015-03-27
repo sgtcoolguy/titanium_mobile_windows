@@ -64,11 +64,11 @@ echo_and_eval "${cmd} 2>error.log | tee ./build.log"
 # uncomment following block if you want to exit(1) on compiler warnings
 #
 
-#if [ -s error.log ]; then
-#  echo "[ERROR] stderr output found on build."
-#  cat ./error.log
-#  exit 1
-#fi
+if [ -s error.log ]; then
+  echo "[ERROR] stderr output found on build."
+  cat ./error.log
+  exit 1
+fi
 
 if [[ ${CMAKE_HOST_WIN32} == 0 ]]; then
     # On Windows we need to copy the DLL to the location of the

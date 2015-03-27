@@ -386,8 +386,13 @@ else()
   # exclude Windows-specific unknown-pragmas
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unknown-pragmas")
 
-  # exclude unused-parameter because most TitaniumKit methods are meant to be virtual and overridden
+  # exclude unused variables because most TitaniumKit methods are meant to be virtual and overridden
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-parameter")
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-variable")
+
+  # ignore reorder warning
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-reorder")
+
 endif()
 
 if (NOT TitaniumKit_DISABLE_TESTS)
