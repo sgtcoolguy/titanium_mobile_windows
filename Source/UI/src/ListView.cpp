@@ -62,13 +62,24 @@ namespace TitaniumWindows
 			if (event_name == "itemclick") {
 				click_event__ = listview__->SelectionChanged += ref new Windows::UI::Xaml::Controls::SelectionChangedEventHandler(
 					[this, ctx](::Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
+					if (is_filtering__) return; // setting the new filtered source will trigger this callback
 					auto listview = safe_cast<Windows::UI::Xaml::Controls::ListView^>(sender);
 
-					TITANIUM_ASSERT((listview->SelectedIndex < 0) || (static_cast<unsigned int>(listview->SelectedIndex) < listViewItems__->Size));
-					if (listview->SelectedIndex == -1) {
+					auto index = listview->SelectedIndex;
+					TITANIUM_ASSERT((index < 0) || (static_cast<unsigned int>(index) < listViewItems__->Size));
+					if (index == -1) {
 						return;
 					}
-					auto listViewItem = listViewItems__->GetAt(listview->SelectedIndex);
+					auto uindex = static_cast<uint32_t>(index);
+					
+					TitaniumWindows::UI::ListViewItem^ listViewItem;
+					if (get_searchText() != "") { // get mapped index when filtered
+						auto real_index = filteredItems__.at(uindex);
+						listViewItem = listViewItems__->GetAt(real_index);
+					}
+					else {
+						listViewItem = listViewItems__->GetAt(uindex);
+					}
 					if (listViewItem->isHeader) return;
 
 					JSObject eventArgs = ctx.CreateObject();
@@ -93,7 +104,8 @@ namespace TitaniumWindows
 				return;
 			}
 			Titanium::UI::ListView::set_searchText(searchText); // set field
-
+			is_filtering__ = true;
+			filteredItems__.clear();
 
 			auto search = searchText;
 			const bool filtering = (search != "");
@@ -115,6 +127,7 @@ namespace TitaniumWindows
 				if (!filtering) {
 					group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
 					group->Append(listViewItems__->GetAt(listViewItemsIndex)->View);
+					filteredItems__.emplace_back(listViewItemsIndex);
 				}
 
 				listViewItemsIndex++; // there's headers in the listViewItems__ collection, so we need to bump up the index to skip them
@@ -133,10 +146,12 @@ namespace TitaniumWindows
 							if (string.find(search) != std::string::npos) {
 								// match, add item to filtered collection!
 								group->Append(listViewItems__->GetAt(listViewItemsIndex)->View);
+								filteredItems__.emplace_back(listViewItemsIndex);
 							}
 						}
 					} else {
 						group->Append(listViewItems__->GetAt(listViewItemsIndex)->View);
+						filteredItems__.emplace_back(listViewItemsIndex);
 					}
 					listViewItemsIndex++; // record that we're moving on to the next item
 				}
@@ -152,6 +167,7 @@ namespace TitaniumWindows
 			// Now let's tell the ListView to use the filtered listing
 			collectionViewItems__ = filtered;
 			collectionViewSource__->Source = collectionViewItems__;
+			is_filtering__ = false;
 		}
 
 		void ListView::set_sections(const std::vector<ListSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT
@@ -160,6 +176,7 @@ namespace TitaniumWindows
 
 			listViewItems__->Clear();
 			collectionViewItems__->Clear();
+			filteredItems__.clear();
 
 			for (uint32_t sectionIndex = 0; sectionIndex < get_sectionCount(); sectionIndex++) {
 				auto views = createSectionViewAt<TitaniumWindows::UI::View>(sectionIndex);

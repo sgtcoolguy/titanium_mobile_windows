@@ -107,6 +107,13 @@ namespace TitaniumWindows
 			// Section and item index mapping. This is the _full_ listing of the underlying data
 			Windows::Foundation::Collections::IVector<ListViewItem^>^ listViewItems__;
 
+#pragma warning(push)
+#pragma warning(disable : 4251)
+			// Mapping from the position of an item in the filtered listing to the real index in listViewItems__
+			std::vector<uint32_t> filteredItems__;
+			bool is_filtering__;
+#pragma warning(pop)
+
 			Windows::Foundation::EventRegistrationToken click_event__;
 
 		};
