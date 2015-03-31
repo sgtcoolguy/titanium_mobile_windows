@@ -41,21 +41,15 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-			virtual void addAttachment(const JSObject& attachment) TITANIUM_NOEXCEPT override final;
 			virtual bool isSupported() TITANIUM_NOEXCEPT override final;
-			virtual void open(const JSObject& properties) TITANIUM_NOEXCEPT override final;
+			virtual void open(const bool& animated) TITANIUM_NOEXCEPT override final;
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 		private:
 
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-			void setRecipients(const JSObject& arg, Windows::Foundation::Collections::IVector<Windows::ApplicationModel::Email::EmailRecipient^>^ recipients);
+			void setRecipients(const std::vector<std::string>& arg, Windows::Foundation::Collections::IVector<Windows::ApplicationModel::Email::EmailRecipient^>^ recipients);
 #endif
-
-#pragma warning(push)
-#pragma warning(disable : 4251)
-			std::vector<JSObject> attachments__;
-#pragma warning(pop)
 
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken complete_event__;

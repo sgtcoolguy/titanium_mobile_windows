@@ -10,6 +10,9 @@
 #define _TITANIUM_EMAILDIALOG_HPP_
 
 #include "Titanium/Module.hpp"
+#include "Titanium/Filesystem/File.hpp"
+#include "Titanium/Blob.hpp"
+#include <vector>
 
 #ifdef FAILED
 #pragma push_macro("FAILED")
@@ -66,16 +69,16 @@ namespace Titanium
 			  @abstract bccRecipients
 			  @discussion Recipients of the email included via the `BCC` (Blind Carbon Copy) field.
 			*/
-			virtual JSValue get_bccRecipients() const TITANIUM_NOEXCEPT final;
-			virtual void set_bccRecipients(const JSObject& bcc) TITANIUM_NOEXCEPT;
+			virtual std::vector<std::string> get_bccRecipients() const TITANIUM_NOEXCEPT final;
+			virtual void set_bccRecipients(const std::vector<std::string>& bcc) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract ccRecipients
 			  @discussion Recipients of the email included via the `CC` (Carbon Copy) field.
 			*/
-			virtual JSValue get_ccRecipients() const TITANIUM_NOEXCEPT final;
-			virtual void set_ccRecipients(const JSObject& cc) TITANIUM_NOEXCEPT;
+			virtual std::vector<std::string> get_ccRecipients() const TITANIUM_NOEXCEPT final;
+			virtual void set_ccRecipients(const std::vector<std::string>& cc) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
@@ -106,15 +109,16 @@ namespace Titanium
 			  @abstract toRecipients
 			  @discussion Recipients of the email included via the main `TO` field.
 			*/
-			virtual JSValue get_toRecipients() const TITANIUM_NOEXCEPT final;
-			virtual void set_toRecipients(const JSObject& toRecipients) TITANIUM_NOEXCEPT;
+			virtual std::vector<std::string> get_toRecipients() const TITANIUM_NOEXCEPT final;
+			virtual void set_toRecipients(const std::vector<std::string>& toRecipients) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract addAttachment
 			  @discussion Adds an attachment.
 			*/
-			virtual void addAttachment(const JSObject& attachment) TITANIUM_NOEXCEPT;
+			virtual void addAttachment(const std::shared_ptr<Titanium::Filesystem::File>& attachment) TITANIUM_NOEXCEPT;
+			virtual void addAttachment(const std::shared_ptr<Titanium::Blob>& attachment) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -128,7 +132,7 @@ namespace Titanium
 			  @abstract open
 			  @discussion Opens this email dialog.
 			*/
-			virtual void open(const JSObject& properties) TITANIUM_NOEXCEPT;
+			virtual void open(const bool& animated) TITANIUM_NOEXCEPT;
 
 			EmailDialog(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
@@ -178,12 +182,13 @@ namespace Titanium
 			JSValue failed__;
 			JSValue saved__;
 			JSValue sent__;
-			JSValue bccRecipients__;
-			JSValue ccRecipients__;
+			std::vector<std::string> bccRecipients__;
+			std::vector<std::string> ccRecipients__;
 			bool html__;
 			std::string messageBody__;
 			std::string subject__;
-			JSValue toRecipients__;
+			std::vector<std::string> toRecipients__;
+			std::vector<std::shared_ptr<Titanium::Blob>> attachments__;
 #pragma warning(pop)
 		};
 
