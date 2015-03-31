@@ -15,8 +15,7 @@ namespace TitaniumWindows
 	{
 
 		EmailDialog::EmailDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::UI::EmailDialog(js_context),
-			attachments__()
+			: Titanium::UI::EmailDialog(js_context)
 		{
 			TITANIUM_LOG_DEBUG("EmailDialog::ctor Initialize");
 		}
@@ -24,11 +23,6 @@ namespace TitaniumWindows
 		void EmailDialog::JSExportInitialize() {
 			JSExport<EmailDialog>::SetClassVersion(1);
 			JSExport<EmailDialog>::SetParent(JSExport<Titanium::UI::EmailDialog>::Class());
-		}
-
-		void EmailDialog::addAttachment(const JSObject& attachment) TITANIUM_NOEXCEPT
-		{
-			attachments__.push_back(attachment);
 		}
 
 		bool EmailDialog::isSupported() TITANIUM_NOEXCEPT
@@ -40,7 +34,7 @@ namespace TitaniumWindows
 #endif
 		}
 
-		void EmailDialog::open(const JSObject& properties) TITANIUM_NOEXCEPT
+		void EmailDialog::open(const bool& animated) TITANIUM_NOEXCEPT
 		{
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
 			Windows::ApplicationModel::Email::EmailMessage^ email_message = ref new Windows::ApplicationModel::Email::EmailMessage();
@@ -48,9 +42,9 @@ namespace TitaniumWindows
 			// Set up all the fields!
 			email_message->Body = TitaniumWindows::Utility::ConvertUTF8String(get_messageBody());
 			email_message->Subject = TitaniumWindows::Utility::ConvertUTF8String(get_subject());
-			setRecipients(static_cast<JSObject>(get_toRecipients()), email_message->To);
-			setRecipients(static_cast<JSObject>(get_ccRecipients()), email_message->CC);
-			setRecipients(static_cast<JSObject>(get_bccRecipients()), email_message->Bcc);
+			setRecipients(get_toRecipients(),  email_message->To);
+			setRecipients(get_ccRecipients(),  email_message->CC);
+			setRecipients(get_bccRecipients(), email_message->Bcc);
 			// TODO Hook up attachments!
 
 			auto composer = Windows::ApplicationModel::Email::EmailManager::ShowComposeNewEmailAsync(email_message);
@@ -83,19 +77,14 @@ namespace TitaniumWindows
 		// Common code for getting/setting recipients on To/Bcc/Cc
 
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-		void EmailDialog::setRecipients(const JSObject& arg, Windows::Foundation::Collections::IVector<Windows::ApplicationModel::Email::EmailRecipient^>^ recipients) {
+		void EmailDialog::setRecipients(const std::vector<std::string>& arg, Windows::Foundation::Collections::IVector<Windows::ApplicationModel::Email::EmailRecipient^>^ recipients) {
 			// clear out an existing entries so we fully replace with new
 			recipients->Clear();
-			// should be one array arg
-			const auto parameters = (arg.IsArray() ? arg.GetPropertyNames().GetCount() : 1);
 			// loop through array, each entry should be an email address as string
-			for (size_t j = 0; j < parameters; j++) {
-				const auto parameter = arg.GetProperty(j);
-				if (parameter.IsString()) {
-					const auto address = static_cast<std::string>(parameter);
-					const auto emailRecipient = ref new Windows::ApplicationModel::Email::EmailRecipient(TitaniumWindows::Utility::ConvertUTF8String(address));
-					recipients->Append(emailRecipient); 
-				}
+			for (size_t j = 0; j < arg.size(); j++) {
+				const auto address = arg.at(j);
+				const auto emailRecipient = ref new Windows::ApplicationModel::Email::EmailRecipient(TitaniumWindows::Utility::ConvertUTF8String(address));
+				recipients->Append(emailRecipient); 
 			}
 		}
 #endif

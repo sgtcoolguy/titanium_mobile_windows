@@ -22,13 +22,12 @@ namespace TitaniumWindows
 		
 		void ScrollViewLayoutDelegate::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
 		{
-			WindowsViewLayoutDelegate::add(view);
+			Titanium::UI::ViewLayoutDelegate::add(view);
 			contentView__->add(view);
 		}
 
 		void ScrollViewLayoutDelegate::set_layout(const std::string& layout) TITANIUM_NOEXCEPT
 		{
-			WindowsViewLayoutDelegate::set_layout(layout);
 			contentView__->set_layout(layout);
 		}
 

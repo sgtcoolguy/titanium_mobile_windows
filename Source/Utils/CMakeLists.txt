@@ -140,7 +140,7 @@ export(EXPORT TitaniumWindows_Utils_Targets
 
 configure_file(cmake/TitaniumWindows_Utils_Config.cmake
   "${CMAKE_BINARY_DIR}/TitaniumWindows_Utils_Config.cmake"
-  COPY_ONLY
+  COPYONLY
   )
 
 include(CMakePackageConfigHelpers)
