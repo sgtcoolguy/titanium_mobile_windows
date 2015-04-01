@@ -98,12 +98,6 @@ longer need to send one for subsequent submissions.
 
 ## Legal
 
-Titanium Mobile Windows is developed by Appcelerator and the community
-and is Copyright (c) 2012-2015 by Appcelerator, Inc. All Rights
-Reserved.
+Appcelerator is a registered trademark of Appcelerator, Inc. Titanium is a registered trademark of Appcelerator, Inc.  Please see the LEGAL information about using our trademarks, privacy policy, terms of usage and other legal information at [http://www.appcelerator.com/legal](http://www.appcelerator.com/legal).
 
-Titanium Mobile Windows is made available under the Apache Public
-License, version 2.  See the
-[LICENSE](https://github.com/appcelerator/titanium_mobile_windows/blob/master/LICENSE)
-file for more information.
 
