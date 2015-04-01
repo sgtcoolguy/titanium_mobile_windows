@@ -4,6 +4,19 @@
 
 Titanium Mobile Windows is the Titanium platform support for the Microsoft Windows 8.1 Store and Phone platforms.
 
+Table of Contents
+=================
+
+  * [Prerequisites](#prerequisites)
+    * [Windows](#windows)
+    * [OS X](#os-x)
+  * [Getting Started](#getting-started)
+  * [Contributing](#contributing)
+    * [How to Help](#how-to-help)
+      * [Ti-mocha Tests](#ti-mocha-tests)
+      * [Generate Proxy Stubs](#generate-proxy-stubs)
+  * [Legal](#legal)
+
 ## Prerequisites
 
 ```bash
@@ -95,6 +108,34 @@ indicate your email address in your first pull request so that we can
 make sure that will locate your CLA.  Once you've submitted it, you no
 longer need to send one for subsequent submissions.
 
+### How to Help
+
+We could always use a helping hand or two. If you're looking for how to get started helping out the project here are a few suggestions.
+
+#### Ti-Mocha Tests
+We'd love to have broader APi coverage in our ti-mocha test suite, or have the existing suite improved. It's also a great place to see tests we're skipping due to bugs or missing implementations/feature.
+  - The tests live under Examples/NMocha/src/Assets. You can edit an existing suite to add more tests, or write new test suites. We use the naming format ti._proxy.name_.test.js and then add a require statement to the app.js file.
+  - Even if you're not on Windows, you can submit changes to the tests in a PR and our build machine will build and run the tests, giving the results as a comment to the PR.
+  - To run the mocha test suite locally under a Windows Phone emulator:
+```bash
+# If you have not yet run the following from the prerequisite installation steps above, please do:
+cd Tools\Scripts
+npm install .
+# Now go to directory where you'd like project generated
+cd "${HOME}/Documents"
+# Generates a project from our included NMocha example
+node "${HOME}/Documents/GitHub/titanium_mobile_windows/Tools/Scripts/generate_project.js" new NMocha
+# Now open the project in Visual Studio for development
+NMocha.WindowsPhone.Win32/NMocha.sln
+```
+
+#### Generate Proxy Stubs
+We've included a node script that will use the Titanium documentation to generate stub implementations of a proxy up in the TitaniumKit layer and the Windows implementation subclasses. To invoke it, please try:
+```bash
+cd Tools\Scripts\module_generator
+npm install .
+node generator.js
+```
 
 ## Legal
 
