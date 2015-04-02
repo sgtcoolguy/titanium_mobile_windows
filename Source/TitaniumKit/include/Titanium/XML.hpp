@@ -36,8 +36,9 @@ namespace Titanium
 		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
 		bool loadJS();
-		virtual JSValue js_parseString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_serializeToString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+
+		TITANIUM_FUNCTION_DEF(parseString);
+		TITANIUM_FUNCTION_DEF(serializeToString);
 
 		JSObject getParseStringFunction() const TITANIUM_NOEXCEPT;
 		JSObject getSerializeToStringFunction() const TITANIUM_NOEXCEPT;

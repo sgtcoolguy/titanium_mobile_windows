@@ -104,25 +104,25 @@ namespace Titanium
 
 		static void JSExportInitialize();
 
-		virtual JSValue js_get_length() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_get_file() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_get_height() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_get_mimeType() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_get_nativePath() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_get_size() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_get_text() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_get_width() const TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_READONLY_DEF(length);
+		TITANIUM_PROPERTY_READONLY_DEF(file);
+		TITANIUM_PROPERTY_READONLY_DEF(height);
+		TITANIUM_PROPERTY_READONLY_DEF(mimeType);
+		TITANIUM_PROPERTY_READONLY_DEF(nativePath);
+		TITANIUM_PROPERTY_READONLY_DEF(size);
+		TITANIUM_PROPERTY_READONLY_DEF(text);
+		TITANIUM_PROPERTY_READONLY_DEF(width);
 
-		virtual JSValue js_append(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getFile(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getHeight(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getLength(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getMimeType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getNativePath(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getSize(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getText(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getWidth(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_toString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+		TITANIUM_FUNCTION_DEF(append);
+		TITANIUM_FUNCTION_DEF(getFile);
+		TITANIUM_FUNCTION_DEF(getHeight);
+		TITANIUM_FUNCTION_DEF(getLength);
+		TITANIUM_FUNCTION_DEF(getMimeType);
+		TITANIUM_FUNCTION_DEF(getNativePath);
+		TITANIUM_FUNCTION_DEF(getSize);
+		TITANIUM_FUNCTION_DEF(getText);
+		TITANIUM_FUNCTION_DEF(getWidth);
+		TITANIUM_FUNCTION_DEF(toString);
 
 	protected:
 #pragma warning(push)

@@ -113,10 +113,11 @@ namespace Titanium
 		// TODO: The following functions can automatically be generated from
 		// the YAML API docs.
 		static void JSExportInitialize();
-		JSValue js_addEventListener(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_removeEventListener(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_applyProperties(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_fireEvent(const std::vector<JSValue>& arguments, JSObject& this_object);
+
+		TITANIUM_FUNCTION_DEF(addEventListener);
+		TITANIUM_FUNCTION_DEF(removeEventListener);
+		TITANIUM_FUNCTION_DEF(applyProperties);
+		TITANIUM_FUNCTION_DEF(fireEvent);
 
 	protected:
 		/*!

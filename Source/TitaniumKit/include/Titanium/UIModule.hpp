@@ -44,149 +44,6 @@ namespace Titanium
 	class TITANIUMKIT_EXPORT UIModule final : public Module, public JSExport<UIModule>
 	{
 	public:
-		/*!
-		  @method
-
-		  @abstract createAlertDialog( [parameters] ) : Titanium.UI.AlertDialog
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.AlertDialog.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.AlertDialog except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.AlertDialog>)
-
-		  @result Titanium.UI.AlertDialog
-		*/
-		JSObject createAlertDialog(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createAnimation( [parameters] ) : Titanium.UI.Animation
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.Animation.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.Animation except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.Animation>)
-
-		  @result Titanium.UI.Animation
-		*/
-		JSObject createAnimation(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createButton( [parameters] ) : Titanium.UI.Button
-     
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.Button.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.Button except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.Button>)
-
-		  @result Titanium.UI.Button
-		*/
-		JSObject createButton(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createEmailDialog( [parameters] ) : Titanium.UI.EmailDialog
-     
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.EmailDialog.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.EmailDialog except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.EmailDialog>)
-
-		  @result Titanium.UI.EmailDialog
-		*/
-		JSObject createEmailDialog(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createImageView( [parameters] ) : Titanium.UI.ImageView
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.ImageView.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.ImageView except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.ImageView>)
-
-		  @result Titanium.UI.ImageView
-		*/
-		JSObject createImageView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createLabel( [parameters] ) : Titanium.UI.Label
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.Label.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.Label except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.Label>)
-
-		  @result Titanium.UI.Label
-		*/
-		JSObject createLabel(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createScrolView( [parameters] ) : Titanium.UI.ScrolView
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.ScrolView.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.ScrolView except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.ScrolView>)
-
-		  @result Titanium.UI.ScrolView
-		*/
-		JSObject createScrollView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createSlider( [parameters] ) : Titanium.UI.Slider
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.Slider.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.Slider except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.Slider>)
-
-		  @result Titanium.UI.Slider
-		*/
-		JSObject createSlider(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createSwitch( [parameters] ) : Titanium.UI.Switch
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.Switch.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.Switch except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.Switch>)
-
-		  @result Titanium.UI.Switch
-		*/
-		JSObject createSwitch(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -220,266 +77,110 @@ namespace Titanium
 		*/
 		JSObject createTabGroup(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
-		/*!
-		  @method
-
-		  @abstract createTableView( [parameters] ) : Titanium.UI.TableView
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.TableView.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.TableView except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.TableView>)
-
-		  @result Titanium.UI.TableView
-		*/
-		JSObject createTableView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createTableViewSection( [parameters] ) : Titanium.UI.TableViewSection
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.TableViewSection.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.TableViewSection except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.TableViewSection>)
-
-		  @result Titanium.UI.TableViewSection
-		*/
-		JSObject createTableViewSection(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createTableViewRow( [parameters] ) : Titanium.UI.TableViewRow
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.TableViewRow.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.TableViewRow except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.TableViewRow>)
-
-		  @result Titanium.UI.TableViewRow
-		*/
-		JSObject createTableViewRow(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createTextField( [parameters] ) : Titanium.UI.TextField
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.TextField.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.TextField except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.TextField>)
-
-		  @result Titanium.UI.TextField
-		*/
-		JSObject createTextField(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createView( [parameters] ) : Titanium.UI.View
-
-		  @discussion Creates and returns an instance of Titanium.UI.View.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.View except those marked not-creation
-		  or read-only.  (Dictionary<Titanium.UI.View>)
-
-		  @result Titanium.UI.View
-		*/
-		JSObject createView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createListView( [parameters] ) : Titanium.UI.ListView
-
-		  @discussion Creates and returns an instance of Titanium.UI.ListView.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.ListView except those marked not-creation
-		  or read-only.  (Dictionary<Titanium.UI.ListView>)
-
-		  @result Titanium.UI.ListView
-		*/
-		JSObject createListView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createListSection( [parameters] ) : Titanium.UI.ListSection
-
-		  @discussion Creates and returns an instance of Titanium.UI.ListSection.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.ListSection except those marked not-creation
-		  or read-only.  (Dictionary<Titanium.UI.ListSection>)
-
-		  @result Titanium.UI.ListSection
-		*/
-		JSObject createListSection(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createListItem( [parameters] ) : Titanium.UI.ListItem
-
-		  @discussion Creates and returns an instance of Titanium.UI.ListItem
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.ListItem except those marked not-creation
-		  or read-only.  (Dictionary<Titanium.UI.ListItem>)
-
-		  @result Titanium.UI.ListItem
-		*/
-		JSObject createListItem(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createWindow( [parameters] ) : Titanium.UI.Window
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.Window.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.Window except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.Window>)
-
-		  @result Titanium.UI.Window
-		*/
-		JSObject createWindow(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createWebView( [parameters] ) : Titanium.UI.WebView
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.WebView.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.WebView except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.WebView>)
-
-		  @result Titanium.UI.WebView
-		*/
-		JSObject createWebView(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		virtual JSValue ANIMATION_CURVE_EASE_IN() const TITANIUM_NOEXCEPT final;
-		virtual JSValue ANIMATION_CURVE_EASE_IN_OUT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue ANIMATION_CURVE_EASE_OUT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue ANIMATION_CURVE_LINEAR() const TITANIUM_NOEXCEPT final;
-		virtual JSValue AUTOLINK_ALL() const TITANIUM_NOEXCEPT final;
-		virtual JSValue AUTOLINK_CALENDAR() const TITANIUM_NOEXCEPT final;
-		virtual JSValue AUTOLINK_EMAIL_ADDRESSES() const TITANIUM_NOEXCEPT final;
-		virtual JSValue AUTOLINK_MAP_ADDRESSES() const TITANIUM_NOEXCEPT final;
-		virtual JSValue AUTOLINK_NONE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue AUTOLINK_PHONE_NUMBERS() const TITANIUM_NOEXCEPT final;
-		virtual JSValue AUTOLINK_URLS() const TITANIUM_NOEXCEPT final;
-		virtual JSValue EXTEND_EDGE_ALL() const TITANIUM_NOEXCEPT final;
-		virtual JSValue EXTEND_EDGE_BOTTOM() const TITANIUM_NOEXCEPT final;
-		virtual JSValue EXTEND_EDGE_LEFT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue EXTEND_EDGE_NONE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue EXTEND_EDGE_RIGHT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue EXTEND_EDGE_TOP() const TITANIUM_NOEXCEPT final;
-		virtual JSValue FACE_DOWN() const TITANIUM_NOEXCEPT final;
-		virtual JSValue FACE_UP() const TITANIUM_NOEXCEPT final;
-		virtual JSValue FILL() const TITANIUM_NOEXCEPT final;
-		virtual JSValue INHERIT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue INPUT_BORDERSTYLE_BEZEL() const TITANIUM_NOEXCEPT final;
-		virtual JSValue INPUT_BORDERSTYLE_LINE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue INPUT_BORDERSTYLE_NONE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue INPUT_BORDERSTYLE_ROUNDED() const TITANIUM_NOEXCEPT final;
-		virtual JSValue INPUT_BUTTONMODE_ALWAYS() const TITANIUM_NOEXCEPT final;
-		virtual JSValue INPUT_BUTTONMODE_NEVER() const TITANIUM_NOEXCEPT final;
-		virtual JSValue INPUT_BUTTONMODE_ONBLUR() const TITANIUM_NOEXCEPT final;
-		virtual JSValue INPUT_BUTTONMODE_ONFOCUS() const TITANIUM_NOEXCEPT final;
-		virtual JSValue KEYBOARD_APPEARANCE_ALERT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue KEYBOARD_APPEARANCE_DEFAULT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue KEYBOARD_ASCII() const TITANIUM_NOEXCEPT final;
-		virtual JSValue KEYBOARD_DECIMAL_PAD() const TITANIUM_NOEXCEPT final;
-		virtual JSValue KEYBOARD_DEFAULT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue KEYBOARD_EMAIL() const TITANIUM_NOEXCEPT final;
-		virtual JSValue KEYBOARD_NAMEPHONE_PAD() const TITANIUM_NOEXCEPT final;
-		virtual JSValue KEYBOARD_NUMBERS_PUNCTUATION() const TITANIUM_NOEXCEPT final;
-		virtual JSValue KEYBOARD_NUMBER_PAD() const TITANIUM_NOEXCEPT final;
-		virtual JSValue KEYBOARD_PHONE_PAD() const TITANIUM_NOEXCEPT final;
-		virtual JSValue KEYBOARD_URL() const TITANIUM_NOEXCEPT final;
-		virtual JSValue LANDSCAPE_LEFT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue LANDSCAPE_RIGHT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue LIST_ACCESSORY_TYPE_CHECKMARK() const TITANIUM_NOEXCEPT final;
-		virtual JSValue LIST_ACCESSORY_TYPE_DETAIL() const TITANIUM_NOEXCEPT final;
-		virtual JSValue LIST_ACCESSORY_TYPE_DISCLOSURE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue LIST_ACCESSORY_TYPE_NONE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue LIST_ITEM_TEMPLATE_CONTACTS() const TITANIUM_NOEXCEPT final;
-		virtual JSValue LIST_ITEM_TEMPLATE_DEFAULT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue LIST_ITEM_TEMPLATE_SETTINGS() const TITANIUM_NOEXCEPT final;
-		virtual JSValue LIST_ITEM_TEMPLATE_SUBTITLE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue NOTIFICATION_DURATION_LONG() const TITANIUM_NOEXCEPT final;
-		virtual JSValue NOTIFICATION_DURATION_SHORT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue PICKER_TYPE_COUNT_DOWN_TIMER() const TITANIUM_NOEXCEPT final;
-		virtual JSValue PICKER_TYPE_DATE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue PICKER_TYPE_DATE_AND_TIME() const TITANIUM_NOEXCEPT final;
-		virtual JSValue PICKER_TYPE_PLAIN() const TITANIUM_NOEXCEPT final;
-		virtual JSValue PICKER_TYPE_TIME() const TITANIUM_NOEXCEPT final;
-		virtual JSValue PORTRAIT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue RETURNKEY_DEFAULT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue RETURNKEY_DONE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue RETURNKEY_EMERGENCY_CALL() const TITANIUM_NOEXCEPT final;
-		virtual JSValue RETURNKEY_GO() const TITANIUM_NOEXCEPT final;
-		virtual JSValue RETURNKEY_GOOGLE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue RETURNKEY_JOIN() const TITANIUM_NOEXCEPT final;
-		virtual JSValue RETURNKEY_NEXT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue RETURNKEY_ROUTE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue RETURNKEY_SEARCH() const TITANIUM_NOEXCEPT final;
-		virtual JSValue RETURNKEY_SEND() const TITANIUM_NOEXCEPT final;
-		virtual JSValue RETURNKEY_YAHOO() const TITANIUM_NOEXCEPT final;
-		virtual JSValue SIZE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_ALIGNMENT_CENTER() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_ALIGNMENT_LEFT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_ALIGNMENT_RIGHT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_AUTOCAPITALIZATION_ALL() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_AUTOCAPITALIZATION_NONE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_AUTOCAPITALIZATION_SENTENCES() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_AUTOCAPITALIZATION_WORDS() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_STYLE_BODY() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_STYLE_CAPTION1() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_STYLE_CAPTION2() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_STYLE_FOOTNOTE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_STYLE_HEADLINE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_STYLE_SUBHEADLINE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_VERTICAL_ALIGNMENT_BOTTOM() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_VERTICAL_ALIGNMENT_CENTER() const TITANIUM_NOEXCEPT final;
-		virtual JSValue TEXT_VERTICAL_ALIGNMENT_TOP() const TITANIUM_NOEXCEPT final;
-		virtual JSValue UNIT_CM() const TITANIUM_NOEXCEPT final;
-		virtual JSValue UNIT_DIP() const TITANIUM_NOEXCEPT final;
-		virtual JSValue UNIT_IN() const TITANIUM_NOEXCEPT final;
-		virtual JSValue UNIT_MM() const TITANIUM_NOEXCEPT final;
-		virtual JSValue UNIT_PX() const TITANIUM_NOEXCEPT final;
-		virtual JSValue UNKNOWN() const TITANIUM_NOEXCEPT final;
-		virtual JSValue UPSIDE_PORTRAIT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue URL_ERROR_AUTHENTICATION() const TITANIUM_NOEXCEPT final;
-		virtual JSValue URL_ERROR_BAD_URL() const TITANIUM_NOEXCEPT final;
-		virtual JSValue URL_ERROR_CONNECT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue URL_ERROR_FILE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue URL_ERROR_FILE_NOT_FOUND() const TITANIUM_NOEXCEPT final;
-		virtual JSValue URL_ERROR_HOST_LOOKUP() const TITANIUM_NOEXCEPT final;
-		virtual JSValue URL_ERROR_REDIRECT_LOOP() const TITANIUM_NOEXCEPT final;
-		virtual JSValue URL_ERROR_SSL_FAILED() const TITANIUM_NOEXCEPT final;
-		virtual JSValue URL_ERROR_TIMEOUT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue URL_ERROR_UNKNOWN() const TITANIUM_NOEXCEPT final;
-		virtual JSValue URL_ERROR_UNSUPPORTED_SCHEME() const TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_READONLY_DEF(ANIMATION_CURVE_EASE_IN);
+		TITANIUM_PROPERTY_READONLY_DEF(ANIMATION_CURVE_EASE_IN_OUT);
+		TITANIUM_PROPERTY_READONLY_DEF(ANIMATION_CURVE_EASE_OUT);
+		TITANIUM_PROPERTY_READONLY_DEF(ANIMATION_CURVE_LINEAR);
+		TITANIUM_PROPERTY_READONLY_DEF(AUTOLINK_ALL);
+		TITANIUM_PROPERTY_READONLY_DEF(AUTOLINK_CALENDAR);
+		TITANIUM_PROPERTY_READONLY_DEF(AUTOLINK_EMAIL_ADDRESSES);
+		TITANIUM_PROPERTY_READONLY_DEF(AUTOLINK_MAP_ADDRESSES);
+		TITANIUM_PROPERTY_READONLY_DEF(AUTOLINK_NONE);
+		TITANIUM_PROPERTY_READONLY_DEF(AUTOLINK_PHONE_NUMBERS);
+		TITANIUM_PROPERTY_READONLY_DEF(AUTOLINK_URLS);
+		TITANIUM_PROPERTY_READONLY_DEF(EXTEND_EDGE_ALL);
+		TITANIUM_PROPERTY_READONLY_DEF(EXTEND_EDGE_BOTTOM);
+		TITANIUM_PROPERTY_READONLY_DEF(EXTEND_EDGE_LEFT);
+		TITANIUM_PROPERTY_READONLY_DEF(EXTEND_EDGE_NONE);
+		TITANIUM_PROPERTY_READONLY_DEF(EXTEND_EDGE_RIGHT);
+		TITANIUM_PROPERTY_READONLY_DEF(EXTEND_EDGE_TOP);
+		TITANIUM_PROPERTY_READONLY_DEF(FACE_DOWN);
+		TITANIUM_PROPERTY_READONLY_DEF(FACE_UP);
+		TITANIUM_PROPERTY_READONLY_DEF(FILL);
+		TITANIUM_PROPERTY_READONLY_DEF(INHERIT);
+		TITANIUM_PROPERTY_READONLY_DEF(INPUT_BORDERSTYLE_BEZEL);
+		TITANIUM_PROPERTY_READONLY_DEF(INPUT_BORDERSTYLE_LINE);
+		TITANIUM_PROPERTY_READONLY_DEF(INPUT_BORDERSTYLE_NONE);
+		TITANIUM_PROPERTY_READONLY_DEF(INPUT_BORDERSTYLE_ROUNDED);
+		TITANIUM_PROPERTY_READONLY_DEF(INPUT_BUTTONMODE_ALWAYS);
+		TITANIUM_PROPERTY_READONLY_DEF(INPUT_BUTTONMODE_NEVER);
+		TITANIUM_PROPERTY_READONLY_DEF(INPUT_BUTTONMODE_ONBLUR);
+		TITANIUM_PROPERTY_READONLY_DEF(INPUT_BUTTONMODE_ONFOCUS);
+		TITANIUM_PROPERTY_READONLY_DEF(KEYBOARD_APPEARANCE_ALERT);
+		TITANIUM_PROPERTY_READONLY_DEF(KEYBOARD_APPEARANCE_DEFAULT);
+		TITANIUM_PROPERTY_READONLY_DEF(KEYBOARD_ASCII);
+		TITANIUM_PROPERTY_READONLY_DEF(KEYBOARD_DECIMAL_PAD);
+		TITANIUM_PROPERTY_READONLY_DEF(KEYBOARD_DEFAULT);
+		TITANIUM_PROPERTY_READONLY_DEF(KEYBOARD_EMAIL);
+		TITANIUM_PROPERTY_READONLY_DEF(KEYBOARD_NAMEPHONE_PAD);
+		TITANIUM_PROPERTY_READONLY_DEF(KEYBOARD_NUMBERS_PUNCTUATION);
+		TITANIUM_PROPERTY_READONLY_DEF(KEYBOARD_NUMBER_PAD);
+		TITANIUM_PROPERTY_READONLY_DEF(KEYBOARD_PHONE_PAD);
+		TITANIUM_PROPERTY_READONLY_DEF(KEYBOARD_URL);
+		TITANIUM_PROPERTY_READONLY_DEF(LANDSCAPE_LEFT);
+		TITANIUM_PROPERTY_READONLY_DEF(LANDSCAPE_RIGHT);
+		TITANIUM_PROPERTY_READONLY_DEF(LIST_ACCESSORY_TYPE_CHECKMARK);
+		TITANIUM_PROPERTY_READONLY_DEF(LIST_ACCESSORY_TYPE_DETAIL);
+		TITANIUM_PROPERTY_READONLY_DEF(LIST_ACCESSORY_TYPE_DISCLOSURE);
+		TITANIUM_PROPERTY_READONLY_DEF(LIST_ACCESSORY_TYPE_NONE);
+		TITANIUM_PROPERTY_READONLY_DEF(LIST_ITEM_TEMPLATE_CONTACTS);
+		TITANIUM_PROPERTY_READONLY_DEF(LIST_ITEM_TEMPLATE_DEFAULT);
+		TITANIUM_PROPERTY_READONLY_DEF(LIST_ITEM_TEMPLATE_SETTINGS);
+		TITANIUM_PROPERTY_READONLY_DEF(LIST_ITEM_TEMPLATE_SUBTITLE);
+		TITANIUM_PROPERTY_READONLY_DEF(NOTIFICATION_DURATION_LONG);
+		TITANIUM_PROPERTY_READONLY_DEF(NOTIFICATION_DURATION_SHORT);
+		TITANIUM_PROPERTY_READONLY_DEF(PICKER_TYPE_COUNT_DOWN_TIMER);
+		TITANIUM_PROPERTY_READONLY_DEF(PICKER_TYPE_DATE);
+		TITANIUM_PROPERTY_READONLY_DEF(PICKER_TYPE_DATE_AND_TIME);
+		TITANIUM_PROPERTY_READONLY_DEF(PICKER_TYPE_PLAIN);
+		TITANIUM_PROPERTY_READONLY_DEF(PICKER_TYPE_TIME);
+		TITANIUM_PROPERTY_READONLY_DEF(PORTRAIT);
+		TITANIUM_PROPERTY_READONLY_DEF(RETURNKEY_DEFAULT);
+		TITANIUM_PROPERTY_READONLY_DEF(RETURNKEY_DONE);
+		TITANIUM_PROPERTY_READONLY_DEF(RETURNKEY_EMERGENCY_CALL);
+		TITANIUM_PROPERTY_READONLY_DEF(RETURNKEY_GO);
+		TITANIUM_PROPERTY_READONLY_DEF(RETURNKEY_GOOGLE);
+		TITANIUM_PROPERTY_READONLY_DEF(RETURNKEY_JOIN);
+		TITANIUM_PROPERTY_READONLY_DEF(RETURNKEY_NEXT);
+		TITANIUM_PROPERTY_READONLY_DEF(RETURNKEY_ROUTE);
+		TITANIUM_PROPERTY_READONLY_DEF(RETURNKEY_SEARCH);
+		TITANIUM_PROPERTY_READONLY_DEF(RETURNKEY_SEND);
+		TITANIUM_PROPERTY_READONLY_DEF(RETURNKEY_YAHOO);
+		TITANIUM_PROPERTY_READONLY_DEF(SIZE);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_ALIGNMENT_CENTER);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_ALIGNMENT_LEFT);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_ALIGNMENT_RIGHT);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_AUTOCAPITALIZATION_ALL);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_AUTOCAPITALIZATION_NONE);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_AUTOCAPITALIZATION_SENTENCES);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_AUTOCAPITALIZATION_WORDS);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_STYLE_BODY);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_STYLE_CAPTION1);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_STYLE_CAPTION2);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_STYLE_FOOTNOTE);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_STYLE_HEADLINE);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_STYLE_SUBHEADLINE);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_VERTICAL_ALIGNMENT_BOTTOM);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_VERTICAL_ALIGNMENT_CENTER);
+		TITANIUM_PROPERTY_READONLY_DEF(TEXT_VERTICAL_ALIGNMENT_TOP);
+		TITANIUM_PROPERTY_READONLY_DEF(UNIT_CM);
+		TITANIUM_PROPERTY_READONLY_DEF(UNIT_DIP);
+		TITANIUM_PROPERTY_READONLY_DEF(UNIT_IN);
+		TITANIUM_PROPERTY_READONLY_DEF(UNIT_MM);
+		TITANIUM_PROPERTY_READONLY_DEF(UNIT_PX);
+		TITANIUM_PROPERTY_READONLY_DEF(UNKNOWN);
+		TITANIUM_PROPERTY_READONLY_DEF(UPSIDE_PORTRAIT);
+		TITANIUM_PROPERTY_READONLY_DEF(URL_ERROR_AUTHENTICATION);
+		TITANIUM_PROPERTY_READONLY_DEF(URL_ERROR_BAD_URL);
+		TITANIUM_PROPERTY_READONLY_DEF(URL_ERROR_CONNECT);
+		TITANIUM_PROPERTY_READONLY_DEF(URL_ERROR_FILE);
+		TITANIUM_PROPERTY_READONLY_DEF(URL_ERROR_FILE_NOT_FOUND);
+		TITANIUM_PROPERTY_READONLY_DEF(URL_ERROR_HOST_LOOKUP);
+		TITANIUM_PROPERTY_READONLY_DEF(URL_ERROR_REDIRECT_LOOP);
+		TITANIUM_PROPERTY_READONLY_DEF(URL_ERROR_SSL_FAILED);
+		TITANIUM_PROPERTY_READONLY_DEF(URL_ERROR_TIMEOUT);
+		TITANIUM_PROPERTY_READONLY_DEF(URL_ERROR_UNKNOWN);
+		TITANIUM_PROPERTY_READONLY_DEF(URL_ERROR_UNSUPPORTED_SCHEME);
 
 		UIModule(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -492,27 +193,27 @@ namespace Titanium
 #endif
 
 		static void JSExportInitialize();
-		JSValue js_createAlertDialog(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createButton(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createEmailDialog(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createImageView(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createLabel(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createScrollView(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createSlider(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createSwitch(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createTab(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createTabGroup(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createTextField(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createView(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createWindow(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createListView(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createListSection(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createListItem(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createWebView(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_setBackgroundColor(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createTableView(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createTableViewSection(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_createTableViewRow(const std::vector<JSValue>& arguments, JSObject& this_object);
+		TITANIUM_FUNCTION_DEF(createAlertDialog);
+		TITANIUM_FUNCTION_DEF(createButton);
+		TITANIUM_FUNCTION_DEF(createEmailDialog);
+		TITANIUM_FUNCTION_DEF(createImageView);
+		TITANIUM_FUNCTION_DEF(createLabel);
+		TITANIUM_FUNCTION_DEF(createScrollView);
+		TITANIUM_FUNCTION_DEF(createSlider);
+		TITANIUM_FUNCTION_DEF(createSwitch);
+		TITANIUM_FUNCTION_DEF(createTab);
+		TITANIUM_FUNCTION_DEF(createTabGroup);
+		TITANIUM_FUNCTION_DEF(createTextField);
+		TITANIUM_FUNCTION_DEF(createView);
+		TITANIUM_FUNCTION_DEF(createWindow);
+		TITANIUM_FUNCTION_DEF(createListView);
+		TITANIUM_FUNCTION_DEF(createListSection);
+		TITANIUM_FUNCTION_DEF(createListItem);
+		TITANIUM_FUNCTION_DEF(createWebView);
+		TITANIUM_FUNCTION_DEF(setBackgroundColor);
+		TITANIUM_FUNCTION_DEF(createTableView);
+		TITANIUM_FUNCTION_DEF(createTableViewSection);
+		TITANIUM_FUNCTION_DEF(createTableViewRow);
 
 	private:
 		JSValue animation_curve_ease_in__;

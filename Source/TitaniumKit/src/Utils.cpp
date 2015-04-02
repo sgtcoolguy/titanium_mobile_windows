@@ -115,14 +115,14 @@ namespace Titanium
 		JSExport<Utils>::SetClassVersion(1);
 		JSExport<Utils>::SetParent(JSExport<Module>::Class());
 
-		JSExport<Utils>::AddFunctionProperty("base64decode", std::mem_fn(&Utils::js_base64decode));
-		JSExport<Utils>::AddFunctionProperty("base64encode", std::mem_fn(&Utils::js_base64encode));
-		JSExport<Utils>::AddFunctionProperty("md5HexDigest", std::mem_fn(&Utils::js_md5HexDigest));
-		JSExport<Utils>::AddFunctionProperty("sha1", std::mem_fn(&Utils::js_sha1));
-		JSExport<Utils>::AddFunctionProperty("sha256", std::mem_fn(&Utils::js_sha256));
+		TITANIUM_ADD_FUNCTION(Utils, base64decode);
+		TITANIUM_ADD_FUNCTION(Utils, base64encode);
+		TITANIUM_ADD_FUNCTION(Utils, md5HexDigest);
+		TITANIUM_ADD_FUNCTION(Utils, sha1);
+		TITANIUM_ADD_FUNCTION(Utils, sha256);
 	}
 
-	JSValue Utils::js_base64decode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(Utils, base64decode)
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
@@ -152,7 +152,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Utils::js_base64encode(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(Utils, base64encode)
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
@@ -182,7 +182,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Utils::js_md5HexDigest(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(Utils, md5HexDigest)
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
@@ -204,7 +204,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Utils::js_sha1(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(Utils, sha1)
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
@@ -226,7 +226,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Utils::js_sha256(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(Utils, sha256)
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);

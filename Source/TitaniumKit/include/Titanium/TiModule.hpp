@@ -25,7 +25,7 @@ namespace Titanium
 		virtual std::string buildDate() const TITANIUM_NOEXCEPT;
 		virtual std::string buildHash() const TITANIUM_NOEXCEPT;
 
-		virtual void setUserAgent(const JSValue&) TITANIUM_NOEXCEPT final;
+		virtual void setUserAgent(const std::string&) TITANIUM_NOEXCEPT final;
 
 		TiModule(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
@@ -41,21 +41,23 @@ namespace Titanium
 		static void JSExportInitialize();
 		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
-		virtual JSValue js_get_version() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getVersion(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_get_buildDate() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getBuildDate(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_get_buildHash() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getBuildHash(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_get_userAgent() const TITANIUM_NOEXCEPT final;
-		virtual bool js_set_userAgent(const JSValue& argument) TITANIUM_NOEXCEPT;
-		virtual JSValue js_getUserAgent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_setUserAgent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-
-		virtual JSValue js_createBuffer(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT;
+		TITANIUM_PROPERTY_READONLY_DEF(version);
+		TITANIUM_PROPERTY_READONLY_DEF(buildDate);
+		TITANIUM_PROPERTY_READONLY_DEF(buildHash);
+		TITANIUM_PROPERTY_DEF(userAgent);
+		TITANIUM_FUNCTION_DEF(getVersion);
+		TITANIUM_FUNCTION_DEF(getBuildDate);
+		TITANIUM_FUNCTION_DEF(getBuildHash);
+		TITANIUM_FUNCTION_DEF(getUserAgent);
+		TITANIUM_FUNCTION_DEF(setUserAgent);
+		TITANIUM_FUNCTION_DEF(createBuffer);
 
 	private:
-		JSValue userAgent__;
+#pragma warning(push)
+#pragma warning(disable : 4251)
+		std::string userAgent__;
+#pragma warning(pop)
+
 	};
 
 }  // namespace Titanium

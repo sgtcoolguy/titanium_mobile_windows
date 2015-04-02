@@ -119,110 +119,110 @@ namespace Titanium
 		return false;
 	}
 
-	JSValue PlatformModule::js_get_address() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, address)
 	{
 		return get_context().CreateString(address());
 	}
-	JSValue PlatformModule::js_get_architecture() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, architecture)
 	{
 		return get_context().CreateString(architecture());
 	}
-	JSValue PlatformModule::js_get_availableMemory() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, availableMemory)
 	{
 		return get_context().CreateNumber(availableMemory());
 	}
-	JSValue PlatformModule::js_get_batteryLevel() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, batteryLevel)
 	{
 		return get_context().CreateNumber(batteryLevel());
 	}
-	JSValue PlatformModule::js_get_batteryMonitoring() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, batteryMonitoring)
 	{
 		return get_context().CreateBoolean(batteryMonitoring());
 	}
-	bool PlatformModule::js_set_batteryMonitoring(const JSValue& argument) TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_SETTER(PlatformModule, batteryMonitoring)
 	{
 		TITANIUM_ASSERT(argument.IsBoolean());
 		set_batteryMonitoring(static_cast<bool>(argument));
 		return true;
 	}
-	JSValue PlatformModule::js_get_batteryState() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, batteryState)
 	{
 		return get_context().CreateNumber(batteryState());
 	}
-	JSValue PlatformModule::js_get_id() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, id)
 	{
 		return get_context().CreateString(id());
 	}
-	JSValue PlatformModule::js_get_locale() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, locale)
 	{
 		return get_context().CreateString(locale());
 	}
-	JSValue PlatformModule::js_get_macaddress() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, macaddress)
 	{
 		return get_context().CreateString(macaddress());
 	}
-	JSValue PlatformModule::js_get_manufacturer() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, manufacturer)
 	{
 		return get_context().CreateString(manufacturer());
 	}
-	JSValue PlatformModule::js_get_model() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, model)
 	{
 		return get_context().CreateString(model());
 	}
-	JSValue PlatformModule::js_get_name() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, name)
 	{
 		return get_context().CreateString(name());
 	}
-	JSValue PlatformModule::js_get_netmask() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, netmask)
 	{
 		return get_context().CreateString(netmask());
 	}
-	JSValue PlatformModule::js_get_osname() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, osname)
 	{
 		return get_context().CreateString(osname());
 	}
-	JSValue PlatformModule::js_get_ostype() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, ostype)
 	{
 		return get_context().CreateString(ostype());
 	}
-	JSValue PlatformModule::js_get_processorCount() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, processorCount)
 	{
 		return get_context().CreateNumber(processorCount());
 	}
-	JSValue PlatformModule::js_get_runtime() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, runtime)
 	{
 		return get_context().CreateString(runtime());
 	}
-	JSValue PlatformModule::js_get_username() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, username)
 	{
 		return get_context().CreateString(username());
 	}
-	JSValue PlatformModule::js_get_version() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, version)
 	{
 		return get_context().CreateString(version());
 	}
 
-	JSValue PlatformModule::js_getAddress(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getAddress)
 	{
 		return js_get_address();
 	}
-	JSValue PlatformModule::js_getArchitecture(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getArchitecture)
 	{
 		return js_get_architecture();
 	}
-	JSValue PlatformModule::js_getAvailableMemory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getAvailableMemory)
 	{
 		return js_get_availableMemory();
 	}
-	JSValue PlatformModule::js_getBatteryLevel(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getBatteryLevel)
 	{
 		return js_get_batteryLevel();
 	}
-	JSValue PlatformModule::js_getBatteryMonitoring(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getBatteryMonitoring)
 	{
 		return js_get_batteryMonitoring();
 	}
-	JSValue PlatformModule::js_setBatteryMonitoring(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, setBatteryMonitoring)
 	{
 		TITANIUM_ASSERT(arguments.size() == 1);
 
@@ -233,99 +233,99 @@ namespace Titanium
 
 		return this_object.get_context().CreateUndefined();
 	}
-	JSValue PlatformModule::js_getBatteryState(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getBatteryState)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_batteryState();
 	}
-	JSValue PlatformModule::js_getId(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getId)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_id();
 	}
-	JSValue PlatformModule::js_getLocale(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getLocale)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_locale();
 	}
-	JSValue PlatformModule::js_getMacaddress(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getMacaddress)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_macaddress();
 	}
-	JSValue PlatformModule::js_getManufacturer(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getManufacturer)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_manufacturer();
 	}
-	JSValue PlatformModule::js_getModel(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getModel)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_model();
 	}
-	JSValue PlatformModule::js_getName(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getName)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_name();
 	}
-	JSValue PlatformModule::js_getNetmask(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getNetmask)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_netmask();
 	}
-	JSValue PlatformModule::js_getOsname(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getOsname)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_osname();
 	}
-	JSValue PlatformModule::js_getOstype(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getOstype)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_ostype();
 	}
-	JSValue PlatformModule::js_getProcessorCount(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getProcessorCount)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_processorCount();
 	}
-	JSValue PlatformModule::js_getRuntime(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getRuntime)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_runtime();
 	}
-	JSValue PlatformModule::js_getUsername(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getUsername)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_username();
 	}
-	JSValue PlatformModule::js_getVersion(const std::vector<JSValue>&, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getVersion)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_version();
 	}
 
-	JSValue PlatformModule::js_createUUID(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, createUUID)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return js_context.CreateString(platform_ptr->createUUID());
 	}
 
-	JSValue PlatformModule::js_canOpenURL(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, canOpenURL)
 	{
 		const auto js_context = this_object.get_context();
 		if (arguments.size() < 1) {
@@ -335,7 +335,7 @@ namespace Titanium
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return js_context.CreateBoolean(platform_ptr->canOpenURL(_0));
 	}
-	JSValue PlatformModule::js_openURL(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, openURL)
 	{
 		const auto js_context = this_object.get_context();
 		if (arguments.size() < 1) {
@@ -345,7 +345,7 @@ namespace Titanium
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return js_context.CreateBoolean(platform_ptr->openURL(_0));
 	}
-	JSValue PlatformModule::js_is24HourTimeFormat(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, is24HourTimeFormat)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
@@ -357,34 +357,34 @@ namespace Titanium
 		displayCaps__ = displayCaps;
 	}
 
-	JSValue PlatformModule::js_get_displayCaps() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, displayCaps)
 	{
 		return displayCaps__;
 	}
 
-	JSValue PlatformModule::js_getDisplayCaps(const std::vector<JSValue>& arguments, JSObject& this_object) const TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(PlatformModule, getDisplayCaps)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_displayCaps();
 	}
 
-	JSValue PlatformModule::js_get_BATTERY_STATE_CHARGING() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, BATTERY_STATE_CHARGING)
 	{
 		return BATTERY_STATE_CHARGING__;
 	}
 
-	JSValue PlatformModule::js_get_BATTERY_STATE_FULL() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, BATTERY_STATE_FULL)
 	{
 		return BATTERY_STATE_FULL__;
 	}
 
-	JSValue PlatformModule::js_get_BATTERY_STATE_UNKNOWN() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, BATTERY_STATE_UNKNOWN)
 	{
 		return BATTERY_STATE_UNKNOWN__;
 	}
 
-	JSValue PlatformModule::js_get_BATTERY_STATE_UNPLUGGED() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(PlatformModule, BATTERY_STATE_UNPLUGGED)
 	{
 		return BATTERY_STATE_UNPLUGGED__;
 	}
@@ -404,55 +404,56 @@ namespace Titanium
 	{
 		JSExport<PlatformModule>::SetClassVersion(1);
 		JSExport<PlatformModule>::SetParent(JSExport<Module>::Class());
-		JSExport<PlatformModule>::AddValueProperty("address", std::mem_fn(&PlatformModule::js_get_address));
-		JSExport<PlatformModule>::AddValueProperty("architecture", std::mem_fn(&PlatformModule::js_get_architecture));
-		JSExport<PlatformModule>::AddValueProperty("availableMemory", std::mem_fn(&PlatformModule::js_get_availableMemory));
-		JSExport<PlatformModule>::AddValueProperty("batteryLevel", std::mem_fn(&PlatformModule::js_get_batteryLevel));
-		JSExport<PlatformModule>::AddValueProperty("batteryMonitoring", std::mem_fn(&PlatformModule::js_get_batteryMonitoring), std::mem_fn(&PlatformModule::js_set_batteryMonitoring));
-		JSExport<PlatformModule>::AddValueProperty("batteryState", std::mem_fn(&PlatformModule::js_get_batteryState));
-		JSExport<PlatformModule>::AddValueProperty("id", std::mem_fn(&PlatformModule::js_get_id));
-		JSExport<PlatformModule>::AddValueProperty("locale", std::mem_fn(&PlatformModule::js_get_locale));
-		JSExport<PlatformModule>::AddValueProperty("macaddress", std::mem_fn(&PlatformModule::js_get_macaddress));
-		JSExport<PlatformModule>::AddValueProperty("manufacturer", std::mem_fn(&PlatformModule::js_get_manufacturer));
-		JSExport<PlatformModule>::AddValueProperty("model", std::mem_fn(&PlatformModule::js_get_model));
-		JSExport<PlatformModule>::AddValueProperty("name", std::mem_fn(&PlatformModule::js_get_name));
-		JSExport<PlatformModule>::AddValueProperty("netmask", std::mem_fn(&PlatformModule::js_get_netmask));
-		JSExport<PlatformModule>::AddValueProperty("osname", std::mem_fn(&PlatformModule::js_get_osname));
-		JSExport<PlatformModule>::AddValueProperty("ostype", std::mem_fn(&PlatformModule::js_get_ostype));
-		JSExport<PlatformModule>::AddValueProperty("processorCount", std::mem_fn(&PlatformModule::js_get_processorCount));
-		JSExport<PlatformModule>::AddValueProperty("runtime", std::mem_fn(&PlatformModule::js_get_runtime));
-		JSExport<PlatformModule>::AddValueProperty("username", std::mem_fn(&PlatformModule::js_get_username));
-		JSExport<PlatformModule>::AddValueProperty("version", std::mem_fn(&PlatformModule::js_get_version));
-		JSExport<PlatformModule>::AddFunctionProperty("getAddress", std::mem_fn(&PlatformModule::js_getAddress));
-		JSExport<PlatformModule>::AddFunctionProperty("getArchitecture", std::mem_fn(&PlatformModule::js_getArchitecture));
-		JSExport<PlatformModule>::AddFunctionProperty("getAvailableMemory", std::mem_fn(&PlatformModule::js_getAvailableMemory));
-		JSExport<PlatformModule>::AddFunctionProperty("getBatteryLevel", std::mem_fn(&PlatformModule::js_getBatteryLevel));
-		JSExport<PlatformModule>::AddFunctionProperty("getBatteryMonitoring", std::mem_fn(&PlatformModule::js_getBatteryMonitoring));
-		JSExport<PlatformModule>::AddFunctionProperty("setBatteryMonitoring", std::mem_fn(&PlatformModule::js_setBatteryMonitoring));
-		JSExport<PlatformModule>::AddFunctionProperty("getBatteryState", std::mem_fn(&PlatformModule::js_getBatteryState));
-		JSExport<PlatformModule>::AddFunctionProperty("getId", std::mem_fn(&PlatformModule::js_getId));
-		JSExport<PlatformModule>::AddFunctionProperty("getLocale", std::mem_fn(&PlatformModule::js_getLocale));
-		JSExport<PlatformModule>::AddFunctionProperty("getMacaddress", std::mem_fn(&PlatformModule::js_getMacaddress));
-		JSExport<PlatformModule>::AddFunctionProperty("getManufacturer", std::mem_fn(&PlatformModule::js_getManufacturer));
-		JSExport<PlatformModule>::AddFunctionProperty("getModel", std::mem_fn(&PlatformModule::js_getModel));
-		JSExport<PlatformModule>::AddFunctionProperty("getName", std::mem_fn(&PlatformModule::js_getName));
-		JSExport<PlatformModule>::AddFunctionProperty("getNetmask", std::mem_fn(&PlatformModule::js_getNetmask));
-		JSExport<PlatformModule>::AddFunctionProperty("getOsname", std::mem_fn(&PlatformModule::js_getOsname));
-		JSExport<PlatformModule>::AddFunctionProperty("getOstype", std::mem_fn(&PlatformModule::js_getOstype));
-		JSExport<PlatformModule>::AddFunctionProperty("getProcessorCount", std::mem_fn(&PlatformModule::js_getProcessorCount));
-		JSExport<PlatformModule>::AddFunctionProperty("getRuntime", std::mem_fn(&PlatformModule::js_getRuntime));
-		JSExport<PlatformModule>::AddFunctionProperty("getUsername", std::mem_fn(&PlatformModule::js_getUsername));
-		JSExport<PlatformModule>::AddFunctionProperty("getVersion", std::mem_fn(&PlatformModule::js_getVersion));
-		JSExport<PlatformModule>::AddFunctionProperty("createUUID", std::mem_fn(&PlatformModule::js_createUUID));
-		JSExport<PlatformModule>::AddFunctionProperty("canOpenURL", std::mem_fn(&PlatformModule::js_canOpenURL));
-		JSExport<PlatformModule>::AddFunctionProperty("openURL", std::mem_fn(&PlatformModule::js_openURL));
-		JSExport<PlatformModule>::AddFunctionProperty("is24HourTimeFormat", std::mem_fn(&PlatformModule::js_is24HourTimeFormat));
-		JSExport<PlatformModule>::AddValueProperty("displayCaps", std::mem_fn(&PlatformModule::js_get_displayCaps));
-		JSExport<PlatformModule>::AddFunctionProperty("getDisplayCaps", std::mem_fn(&PlatformModule::js_getDisplayCaps));
-		JSExport<PlatformModule>::AddValueProperty("BATTERY_STATE_CHARGING", std::mem_fn(&PlatformModule::js_get_BATTERY_STATE_CHARGING));
-		JSExport<PlatformModule>::AddValueProperty("BATTERY_STATE_FULL", std::mem_fn(&PlatformModule::js_get_BATTERY_STATE_FULL));
-		JSExport<PlatformModule>::AddValueProperty("BATTERY_STATE_UNKNOWN", std::mem_fn(&PlatformModule::js_get_BATTERY_STATE_UNKNOWN));
-		JSExport<PlatformModule>::AddValueProperty("BATTERY_STATE_UNPLUGGED", std::mem_fn(&PlatformModule::js_get_BATTERY_STATE_UNPLUGGED));
+
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, address);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, architecture);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, availableMemory);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, batteryLevel);
+		TITANIUM_ADD_PROPERTY(PlatformModule, batteryMonitoring);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, batteryState);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, id);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, locale);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, macaddress);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, manufacturer);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, model);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, name);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, netmask);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, osname);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, ostype);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, processorCount);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, runtime);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, username);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, version);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getAddress);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getArchitecture);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getAvailableMemory);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getBatteryLevel);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getBatteryMonitoring);
+		TITANIUM_ADD_FUNCTION(PlatformModule, setBatteryMonitoring);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getBatteryState);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getId);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getLocale);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getMacaddress);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getManufacturer);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getModel);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getName);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getNetmask);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getOsname);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getOstype);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getProcessorCount);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getRuntime);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getUsername);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getVersion);
+		TITANIUM_ADD_FUNCTION(PlatformModule, createUUID);
+		TITANIUM_ADD_FUNCTION(PlatformModule, canOpenURL);
+		TITANIUM_ADD_FUNCTION(PlatformModule, openURL);
+		TITANIUM_ADD_FUNCTION(PlatformModule, getDisplayCaps);
+		TITANIUM_ADD_FUNCTION(PlatformModule, is24HourTimeFormat);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, displayCaps);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, BATTERY_STATE_CHARGING);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, BATTERY_STATE_FULL);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, BATTERY_STATE_UNKNOWN);
+		TITANIUM_ADD_PROPERTY_READONLY(PlatformModule, BATTERY_STATE_UNPLUGGED);
 	}
 
 }  // namespace Titanium

@@ -40,10 +40,10 @@ namespace Titanium
 		static void JSExportInitialize();
 		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
-		virtual JSValue js_lastEvent() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_featureEvent(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_navEvent(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getLastEvent(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_READONLY_DEF(lastEvent);
+		TITANIUM_FUNCTION_DEF(featureEvent);
+		TITANIUM_FUNCTION_DEF(navEvent);
+		TITANIUM_FUNCTION_DEF(getLastEvent);
 
 		bool loadJS();
 

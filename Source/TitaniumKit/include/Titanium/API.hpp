@@ -129,12 +129,12 @@ namespace Titanium
 		static void JSExportInitialize();
 		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
-		JSValue js_info(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_warn(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_error(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_debug(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_trace(const std::vector<JSValue>& arguments, JSObject& this_object);
-		JSValue js_log(const std::vector<JSValue>& arguments, JSObject& this_object);
+		TITANIUM_FUNCTION_DEF(info);
+		TITANIUM_FUNCTION_DEF(warn);
+		TITANIUM_FUNCTION_DEF(error);
+		TITANIUM_FUNCTION_DEF(debug);
+		TITANIUM_FUNCTION_DEF(trace);
+		TITANIUM_FUNCTION_DEF(log);
 
 	protected:
 		virtual void log(const std::string& message) const TITANIUM_NOEXCEPT;

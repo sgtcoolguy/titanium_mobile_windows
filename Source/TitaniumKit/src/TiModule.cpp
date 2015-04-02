@@ -25,16 +25,16 @@ namespace Titanium
 	{
 		JSExport<TiModule>::SetClassVersion(1);
 		JSExport<TiModule>::SetParent(JSExport<Module>::Class());
-		JSExport<TiModule>::AddValueProperty("version", std::mem_fn(&TiModule::js_get_version));
-		JSExport<TiModule>::AddFunctionProperty("getVersion", std::mem_fn(&TiModule::js_getVersion));
-		JSExport<TiModule>::AddValueProperty("buildDate", std::mem_fn(&TiModule::js_get_buildDate));
-		JSExport<TiModule>::AddFunctionProperty("getBuildDate", std::mem_fn(&TiModule::js_getBuildDate));
-		JSExport<TiModule>::AddValueProperty("buildHash", std::mem_fn(&TiModule::js_get_buildHash));
-		JSExport<TiModule>::AddFunctionProperty("getBuildHash", std::mem_fn(&TiModule::js_getBuildHash));
-		JSExport<TiModule>::AddValueProperty("userAgent", std::mem_fn(&TiModule::js_get_userAgent), std::mem_fn(&TiModule::js_set_userAgent));
-		JSExport<TiModule>::AddFunctionProperty("getUserAgent", std::mem_fn(&TiModule::js_getUserAgent));
-		JSExport<TiModule>::AddFunctionProperty("setUserAgent", std::mem_fn(&TiModule::js_setUserAgent));
-		JSExport<TiModule>::AddFunctionProperty("createBuffer", std::mem_fn(&TiModule::js_createBuffer));
+		TITANIUM_ADD_PROPERTY_READONLY(TiModule, version);
+		TITANIUM_ADD_PROPERTY_READONLY(TiModule, buildDate);
+		TITANIUM_ADD_PROPERTY_READONLY(TiModule, buildHash);
+		TITANIUM_ADD_PROPERTY(TiModule, userAgent);
+		TITANIUM_ADD_FUNCTION(TiModule, getVersion);
+		TITANIUM_ADD_FUNCTION(TiModule, getBuildDate);
+		TITANIUM_ADD_FUNCTION(TiModule, getBuildHash);
+		TITANIUM_ADD_FUNCTION(TiModule, getUserAgent);
+		TITANIUM_ADD_FUNCTION(TiModule, setUserAgent);
+		TITANIUM_ADD_FUNCTION(TiModule, createBuffer);
 	}
 
 	JSObject TiModule::GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -50,12 +50,12 @@ namespace Titanium
 		return "";
 	}
 
-	JSValue TiModule::js_get_version() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(TiModule, version)
 	{
 		return get_context().CreateString(version());
 	}
 
-	JSValue TiModule::js_getVersion(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(TiModule, getVersion)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<TiModule>();
@@ -68,12 +68,12 @@ namespace Titanium
 		return "";
 	}
 
-	JSValue TiModule::js_get_buildDate() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(TiModule, buildDate)
 	{
 		return get_context().CreateString(buildDate());
 	}
 
-	JSValue TiModule::js_getBuildDate(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(TiModule, getBuildDate)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<TiModule>();
@@ -86,58 +86,52 @@ namespace Titanium
 		return "";
 	}
 
-	JSValue TiModule::js_get_buildHash() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(TiModule, buildHash)
 	{
 		return get_context().CreateString(buildHash());
 	}
 
-	JSValue TiModule::js_getBuildHash(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(TiModule, getBuildHash)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<TiModule>();
 		return object_ptr->js_get_buildHash();
 	}
 
-	JSValue TiModule::js_get_userAgent() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(TiModule, userAgent)
 	{
-		return userAgent__;
+		return get_context().CreateString(userAgent__);
 	}
 
-	JSValue TiModule::js_getUserAgent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(TiModule, getUserAgent)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<TiModule>();
 		return object_ptr->js_get_userAgent();
 	}
 
-	JSValue TiModule::js_setUserAgent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(TiModule, setUserAgent)
 	{
-		if (arguments.size() < 1) {
-			return get_context().CreateUndefined();
-		}
-		const auto _0 = arguments.at(0);
-		TITANIUM_ASSERT(_0.IsString());
-
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<TiModule>();
 		
-		object_ptr->js_set_userAgent(_0);
+		object_ptr->js_set_userAgent(arguments.at(0));
 
 		return get_context().CreateUndefined();
 	}
 
-	void TiModule::setUserAgent(const JSValue& userAgent) TITANIUM_NOEXCEPT
+	void TiModule::setUserAgent(const std::string& userAgent) TITANIUM_NOEXCEPT
 	{
 		userAgent__ = userAgent;
 	}
 
-	bool TiModule::js_set_userAgent(const JSValue& argument) TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_SETTER(TiModule, userAgent)
 	{
-		setUserAgent(argument);
+		setUserAgent(static_cast<std::string>(argument));
 		return true;
 	}
 
-	JSValue TiModule::js_createBuffer(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(TiModule, createBuffer)
 	{
 		TITANIUM_LOG_WARN("TiModule::js_createBuffer: Unimplemented");
 		return get_context().CreateNull();

@@ -28,10 +28,10 @@ namespace Titanium
 	class TITANIUMKIT_EXPORT DatabaseModule : public Module, public JSExport<DatabaseModule>
 	{
 	public:
-		virtual JSValue FIELD_TYPE_DOUBLE() const TITANIUM_NOEXCEPT final;
-		virtual JSValue FIELD_TYPE_FLOAT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue FIELD_TYPE_INT() const TITANIUM_NOEXCEPT final;
-		virtual JSValue FIELD_TYPE_STRING() const TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_READONLY_DEF(FIELD_TYPE_DOUBLE);
+		TITANIUM_PROPERTY_READONLY_DEF(FIELD_TYPE_FLOAT);
+		TITANIUM_PROPERTY_READONLY_DEF(FIELD_TYPE_INT);
+		TITANIUM_PROPERTY_READONLY_DEF(FIELD_TYPE_STRING);
 
 		DatabaseModule(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
@@ -66,7 +66,7 @@ namespace Titanium
 
 		  @result Titanium.Database.DB
 		*/
-		JSValue js_install(const std::vector<JSValue>& arguments, JSObject& this_object);
+		TITANIUM_FUNCTION_DEF(install);
 
 		/*!
 		  @method
@@ -86,7 +86,7 @@ namespace Titanium
 
 		  @result Titanium.Database.DB
 		*/
-		JSValue js_open(const std::vector<JSValue>& arguments, JSObject& this_object);
+		TITANIUM_FUNCTION_DEF(open);
 
 		bool loadJS();
 		

@@ -35,27 +35,25 @@ namespace Titanium
 		JSExport<Blob>::SetClassVersion(1);
 		JSExport<Blob>::SetParent(JSExport<Module>::Class());
 		
-		JSExport<Blob>::AddValueProperty("file", std::mem_fn(&Blob::js_get_file));
-		JSExport<Blob>::AddValueProperty("height", std::mem_fn(&Blob::js_get_height));
-		JSExport<Blob>::AddValueProperty("length", std::mem_fn(&Blob::js_get_length));
-		JSExport<Blob>::AddValueProperty("mimeType", std::mem_fn(&Blob::js_get_mimeType));
-		JSExport<Blob>::AddValueProperty("nativePath", std::mem_fn(&Blob::js_get_nativePath));
-		JSExport<Blob>::AddValueProperty("size", std::mem_fn(&Blob::js_get_size));
-		JSExport<Blob>::AddValueProperty("text", std::mem_fn(&Blob::js_get_text));
-		JSExport<Blob>::AddValueProperty("width", std::mem_fn(&Blob::js_get_width));
-
+		TITANIUM_ADD_PROPERTY_READONLY(Blob, file);
+		TITANIUM_ADD_PROPERTY_READONLY(Blob, height);
+		TITANIUM_ADD_PROPERTY_READONLY(Blob, length);
+		TITANIUM_ADD_PROPERTY_READONLY(Blob, mimeType);
+		TITANIUM_ADD_PROPERTY_READONLY(Blob, nativePath);
+		TITANIUM_ADD_PROPERTY_READONLY(Blob, size);
+		TITANIUM_ADD_PROPERTY_READONLY(Blob, text);
+		TITANIUM_ADD_PROPERTY_READONLY(Blob, width);
 		
-		JSExport<Blob>::AddFunctionProperty("getFile", std::mem_fn(&Blob::js_getFile));
-		JSExport<Blob>::AddFunctionProperty("getHeight", std::mem_fn(&Blob::js_getHeight));
-		JSExport<Blob>::AddFunctionProperty("getLength", std::mem_fn(&Blob::js_getLength));
-		JSExport<Blob>::AddFunctionProperty("getMimeType", std::mem_fn(&Blob::js_getMimeType));
-		JSExport<Blob>::AddFunctionProperty("getNativePath", std::mem_fn(&Blob::js_getNativePath));
-		JSExport<Blob>::AddFunctionProperty("getSize", std::mem_fn(&Blob::js_getSize));
-		JSExport<Blob>::AddFunctionProperty("getText", std::mem_fn(&Blob::js_getText));
-		JSExport<Blob>::AddFunctionProperty("getWidth", std::mem_fn(&Blob::js_getWidth));
-
-		JSExport<Blob>::AddFunctionProperty("append", std::mem_fn(&Blob::js_append));
-		JSExport<Blob>::AddFunctionProperty("toString", std::mem_fn(&Blob::js_toString));
+		TITANIUM_ADD_FUNCTION(Blob, getFile);
+		TITANIUM_ADD_FUNCTION(Blob, getHeight);
+		TITANIUM_ADD_FUNCTION(Blob, getLength);
+		TITANIUM_ADD_FUNCTION(Blob, getMimeType);
+		TITANIUM_ADD_FUNCTION(Blob, getNativePath);
+		TITANIUM_ADD_FUNCTION(Blob, getSize);
+		TITANIUM_ADD_FUNCTION(Blob, getText);
+		TITANIUM_ADD_FUNCTION(Blob, getWidth);
+		TITANIUM_ADD_FUNCTION(Blob, append);
+		TITANIUM_ADD_FUNCTION(Blob, toString);
 		// TODO image* methods!
 	}
 
@@ -130,12 +128,12 @@ namespace Titanium
 		data_.insert(data_.end(), b.begin(), b.end());
 	}
 
-	JSValue Blob::js_get_length() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(Blob, length)	
 	{
 		return get_context().CreateNumber(get_length());
 	}
 
-	JSValue Blob::js_get_file() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(Blob, file)	
 	{
 		auto file = get_file();
 		if (file) {
@@ -144,17 +142,17 @@ namespace Titanium
 		return get_context().CreateNull();
 	}
 
-	JSValue Blob::js_get_height() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(Blob, height)	
 	{
 		return get_context().CreateNumber(get_height());
 	}
 
-	JSValue Blob::js_get_mimeType() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(Blob, mimeType)	
 	{
 		return get_context().CreateString(get_mimeType());
 	}
 
-	JSValue Blob::js_get_nativePath() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(Blob, nativePath)	
 	{
 		const auto path = get_nativePath();
 		if (path.size() > 0) {
@@ -164,12 +162,12 @@ namespace Titanium
 		}
 	}
 
-	JSValue Blob::js_get_size() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(Blob, size)	
 	{
 		return get_context().CreateNumber(get_size());
 	}
 
-	JSValue Blob::js_get_text() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(Blob, text)	
 	{
 		const auto text = get_text();
 		if (text.size() > 0) {
@@ -179,12 +177,12 @@ namespace Titanium
 		}
 	}
 
-	JSValue Blob::js_get_width() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(Blob, width)	
 	{
 		return get_context().CreateNumber(get_width());
 	}
 
-	JSValue Blob::js_append(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(Blob, append)
 	{
 		if (arguments.size() < 1) {
 			return get_context().CreateUndefined();
@@ -201,49 +199,15 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue Blob::js_getFile(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_file();
-	}
-
-	JSValue Blob::js_getHeight(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_height();
-	}
-
-	JSValue Blob::js_getLength(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_length();
-	}
-
-	JSValue Blob::js_getMimeType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_mimeType();
-	}
-
-	JSValue Blob::js_getNativePath(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_nativePath();
-	}
-
-	JSValue Blob::js_getSize(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_size();
-	}
-
-	JSValue Blob::js_getText(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_text();
-	}
-
-	JSValue Blob::js_getWidth(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_width();
-	}
-
-	JSValue Blob::js_toString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_text();
-	}
+	// getter functions
+	TITANIUM_FUNCTION_AS_GETTER(Blob, getFile, file);
+	TITANIUM_FUNCTION_AS_GETTER(Blob, getHeight, height);
+	TITANIUM_FUNCTION_AS_GETTER(Blob, getLength, length);
+	TITANIUM_FUNCTION_AS_GETTER(Blob, getMimeType, mimeType);
+	TITANIUM_FUNCTION_AS_GETTER(Blob, getNativePath, nativePath);
+	TITANIUM_FUNCTION_AS_GETTER(Blob, getSize, size);
+	TITANIUM_FUNCTION_AS_GETTER(Blob, getText, text);
+	TITANIUM_FUNCTION_AS_GETTER(Blob, getWidth, width);
+	TITANIUM_FUNCTION_AS_GETTER(Blob, toString, text);
 
 }  // namespace Titanium
