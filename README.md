@@ -1,8 +1,8 @@
-[![Build Status](http://studio-jenkins.appcelerator.org/buildStatus/icon?job=titanium_mobile_windows)](http://studio-jenkins.appcelerator.org/job/titanium_mobile_windows/)
-
 # Titanium Mobile Windows
 
-Titanium Mobile Windows is the Titanium platform support for the Microsoft Windows 8.1 Store and Phone platforms.
+> Titanium Mobile Windows is the Titanium platform support for the Microsoft Windows 8.1 Store and Phone platforms.
+
+[![Build Status](http://studio-jenkins.appcelerator.org/buildStatus/icon?job=titanium_mobile_windows)](http://studio-jenkins.appcelerator.org/job/titanium_mobile_windows/)
 
 Table of Contents
 =================
