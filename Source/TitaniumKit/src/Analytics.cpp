@@ -48,11 +48,10 @@ namespace Titanium
 		JSExport<Analytics>::SetClassVersion(1);
 		JSExport<Analytics>::SetParent(JSExport<Module>::Class());
 
-		//JSExport<Analytics>::AddValueProperty("lastEvent", std::mem_fn(&Analytics::js_lastEvent));
-
-		JSExport<Analytics>::AddFunctionProperty("featureEvent", std::mem_fn(&Analytics::js_featureEvent));
-		JSExport<Analytics>::AddFunctionProperty("navEvent", std::mem_fn(&Analytics::js_navEvent));
-		JSExport<Analytics>::AddFunctionProperty("getLastEvent", std::mem_fn(&Analytics::js_getLastEvent));
+		TITANIUM_ADD_PROPERTY_READONLY(Analytics, lastEvent);
+		TITANIUM_ADD_FUNCTION(Analytics, featureEvent);
+		TITANIUM_ADD_FUNCTION(Analytics, navEvent);
+		TITANIUM_ADD_FUNCTION(Analytics, getLastEvent);
 	}
 
 	JSObject Analytics::GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -66,7 +65,7 @@ namespace Titanium
 		return static_cast<JSObject>(Object_property);
 	}
 
-	JSValue Analytics::js_lastEvent() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(Analytics, lastEvent)
 	{
 //		// lazy loading
 //		const auto loaded = loadJS();
@@ -78,18 +77,8 @@ namespace Titanium
 //		}
 	}
 
-	JSValue Analytics::js_featureEvent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(Analytics, featureEvent)
 	{
-		TITANIUM_ASSERT(arguments.size() >= 1);
-
-		const auto _0 = arguments.at(0);
-		TITANIUM_ASSERT(_0.IsString());
-		
-		if (arguments.size() == 2) {
-			const auto _1 = arguments.at(1);
-			TITANIUM_ASSERT(_1.IsObject());
-		}
-
 		const auto js_context = this_object.get_context();
 		const auto analytics = GetStaticObject(js_context).GetPrivate<Analytics>();
 
@@ -104,30 +93,8 @@ namespace Titanium
 		}
 	}
 
-	JSValue Analytics::js_navEvent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(Analytics, navEvent)
 	{
-		TITANIUM_ASSERT(arguments.size() >= 2 && arguments.size() <= 4);
-
-		// from {String}
-		const auto _0 = arguments.at(0);
-		TITANIUM_ASSERT(_0.IsString());
-
-		// to {String}
-		const auto _1 = arguments.at(1);
-		TITANIUM_ASSERT(_1.IsString());
-		
-		if (arguments.size() > 2) {
-			// name {String} optional
-			const auto _2 = arguments.at(2);
-			TITANIUM_ASSERT(_2.IsString());
-
-			// data {Object} optional
-			if (arguments.size() > 3) {
-				const auto _3 = arguments.at(3);
-				TITANIUM_ASSERT(_3.IsObject());
-			}
-		}
-
 		const auto js_context = this_object.get_context();
 		const auto analytics = GetStaticObject(js_context).GetPrivate<Analytics>();
 
@@ -142,9 +109,6 @@ namespace Titanium
 		}
 	}
 
-	JSValue Analytics::js_getLastEvent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_lastEvent();
-	}
+	TITANIUM_FUNCTION_AS_GETTER(Analytics, getLastEvent, lastEvent);
 
 } // namespace Titanium

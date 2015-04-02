@@ -30,13 +30,14 @@ namespace Titanium
 		  @abstract EVENT_ACCESSIBILITY_ANNOUNCEMENT
 		  @discussion Convenience constant for system event "accessibilityannouncement".
 		*/
-		virtual JSValue EVENT_ACCESSIBILITY_ANNOUNCEMENT() const TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_READONLY_DEF(EVENT_ACCESSIBILITY_ANNOUNCEMENT);
+
 		/*!
 		  @property
 		  @abstract EVENT_ACCESSIBILITY_CHANGED
 		  @discussion Convenience constant for system event "accessibilitychanged".
 		*/
-		virtual JSValue EVENT_ACCESSIBILITY_CHANGED() const TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_READONLY_DEF(EVENT_ACCESSIBILITY_CHANGED);
 		/*!
 		  @property
 		  @abstract accessibilityEnabled
@@ -162,7 +163,7 @@ namespace Titanium
 
 		template<typename _T> _T getAppInfo(std::string property, _T defaultValue);
 		virtual void loadAppInfo() TITANIUM_NOEXCEPT;
-		virtual JSValue js_loadAppInfo(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		TITANIUM_FUNCTION_DEF(_loadAppInfo);
 
 		AppModule(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
@@ -178,47 +179,47 @@ namespace Titanium
 		static void JSExportInitialize();
 		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
-		virtual JSValue js_accessibilityEnabled() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_analytics() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_copyright() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_deployType() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_description() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_disableNetworkActivityIndicator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_forceSplashAsSnapshot() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_guid() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_id() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_idleTimerDisabled() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_installId() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_keyboardVisible() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_name() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_proximityDetection() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_proximityState() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_publisher() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_sessionId() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_url() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_version() const TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_READONLY_DEF(accessibilityEnabled);
+		TITANIUM_PROPERTY_READONLY_DEF(analytics);
+		TITANIUM_PROPERTY_READONLY_DEF(copyright);
+		TITANIUM_PROPERTY_READONLY_DEF(deployType);
+		TITANIUM_PROPERTY_READONLY_DEF(description);
+		TITANIUM_PROPERTY_READONLY_DEF(disableNetworkActivityIndicator);
+		TITANIUM_PROPERTY_READONLY_DEF(forceSplashAsSnapshot);
+		TITANIUM_PROPERTY_READONLY_DEF(guid);
+		TITANIUM_PROPERTY_READONLY_DEF(id);
+		TITANIUM_PROPERTY_READONLY_DEF(idleTimerDisabled);
+		TITANIUM_PROPERTY_READONLY_DEF(installId);
+		TITANIUM_PROPERTY_READONLY_DEF(keyboardVisible);
+		TITANIUM_PROPERTY_READONLY_DEF(name);
+		TITANIUM_PROPERTY_READONLY_DEF(proximityDetection);
+		TITANIUM_PROPERTY_READONLY_DEF(proximityState);
+		TITANIUM_PROPERTY_READONLY_DEF(publisher);
+		TITANIUM_PROPERTY_READONLY_DEF(sessionId);
+		TITANIUM_PROPERTY_READONLY_DEF(url);
+		TITANIUM_PROPERTY_READONLY_DEF(version);
 
-		virtual JSValue js_fireSystemEvent(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getAccessibilityEnabled(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getAnalytics(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getCopyright(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getDeployType(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getDescription(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getDisableNetworkActivityIndicator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getForceSplashAsSnapshot(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getGuid(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getId(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getIdleTimerDisabled(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getInstallId(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getKeyboardVisible(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getName(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getProximityDetection(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_setProximityDetection(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getProximityState(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getPublisher(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getSessionId(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getUrl(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getVersion(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		TITANIUM_FUNCTION_DEF(fireSystemEvent);
+		TITANIUM_FUNCTION_DEF(getAccessibilityEnabled);
+		TITANIUM_FUNCTION_DEF(getAnalytics);
+		TITANIUM_FUNCTION_DEF(getCopyright);
+		TITANIUM_FUNCTION_DEF(getDeployType);
+		TITANIUM_FUNCTION_DEF(getDescription);
+		TITANIUM_FUNCTION_DEF(getDisableNetworkActivityIndicator);
+		TITANIUM_FUNCTION_DEF(getForceSplashAsSnapshot);
+		TITANIUM_FUNCTION_DEF(getGuid);
+		TITANIUM_FUNCTION_DEF(getId);
+		TITANIUM_FUNCTION_DEF(getIdleTimerDisabled);
+		TITANIUM_FUNCTION_DEF(getInstallId);
+		TITANIUM_FUNCTION_DEF(getKeyboardVisible);
+		TITANIUM_FUNCTION_DEF(getName);
+		TITANIUM_FUNCTION_DEF(getProximityDetection);
+		TITANIUM_FUNCTION_DEF(setProximityDetection);
+		TITANIUM_FUNCTION_DEF(getProximityState);
+		TITANIUM_FUNCTION_DEF(getPublisher);
+		TITANIUM_FUNCTION_DEF(getSessionId);
+		TITANIUM_FUNCTION_DEF(getUrl);
+		TITANIUM_FUNCTION_DEF(getVersion);
 
 	protected:
 #pragma warning(push)

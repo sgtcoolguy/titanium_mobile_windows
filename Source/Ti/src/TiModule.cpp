@@ -15,7 +15,7 @@ namespace TitaniumWindows
 	    : Titanium::TiModule(js_context)
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::TiModule::ctor");
-		setUserAgent(get_context().CreateString("__TITANIUM_USER_AGENT__"));
+		setUserAgent("__TITANIUM_USER_AGENT__");
 	}
 
 	TiModule::~TiModule()

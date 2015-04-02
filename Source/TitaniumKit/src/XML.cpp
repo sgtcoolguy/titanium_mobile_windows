@@ -48,8 +48,9 @@ this.exports.serializeToString = function(_xml) {
 	{
 		JSExport<XML>::SetClassVersion(1);
 		JSExport<XML>::SetParent(JSExport<Module>::Class());
-		JSExport<XML>::AddFunctionProperty("parseString", std::mem_fn(&XML::js_parseString));
-		JSExport<XML>::AddFunctionProperty("serializeToString", std::mem_fn(&XML::js_serializeToString));
+
+		TITANIUM_ADD_FUNCTION(XML, parseString);
+		TITANIUM_ADD_FUNCTION(XML, serializeToString);
 	}
 
 
@@ -104,7 +105,7 @@ this.exports.serializeToString = function(_xml) {
 		return func_serializeToString__;
 	}
 
-	JSValue XML::js_parseString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(XML, parseString)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<XML>();
@@ -120,7 +121,7 @@ this.exports.serializeToString = function(_xml) {
 		}
 	}
 
-	JSValue XML::js_serializeToString(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(XML, serializeToString)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<XML>();

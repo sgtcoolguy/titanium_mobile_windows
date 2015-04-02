@@ -61,19 +61,19 @@ namespace Titanium
 		  @abstract get_MODE_READ
 		  @discussion Constant for read mode for file operations.
 		*/
-		virtual JSValue MODE_READ() const TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_READONLY_DEF(MODE_READ);
 		/*!
 		  @method
 		  @abstract get_MODE_WRITE
 		  @discussion Constant for write mode for file operations.
 		*/
-		virtual JSValue MODE_WRITE() const TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_READONLY_DEF(MODE_WRITE);
 		/*!
 		  @method
 		  @abstract MODE_APPEND
 		  @discussion Constant for append mode for file operations.
 		*/
-		virtual JSValue MODE_APPEND() const TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_READONLY_DEF(MODE_APPEND);
 		/*!
 		  @method
 		  @abstract separator
@@ -142,31 +142,31 @@ namespace Titanium
 		static void JSExportInitialize();
 		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
-		virtual JSValue js_getFile(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_createTempDirectory(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_createTempFile(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_isExternalStoragePresent(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-		virtual JSValue js_openStream(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+		TITANIUM_FUNCTION_DEF(getFile);
+		TITANIUM_FUNCTION_DEF(createTempDirectory);
+		TITANIUM_FUNCTION_DEF(createTempFile);
+		TITANIUM_FUNCTION_DEF(isExternalStoragePresent);
+		TITANIUM_FUNCTION_DEF(openStream);
 
-		virtual JSValue js_getSeparator(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getApplicationCacheDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getApplicationDataDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getApplicationDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getApplicationSupportDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getExternalStorageDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getLineEnding(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getResourcesDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_getTempDirectory(const std::vector<JSValue>&, JSObject&) const TITANIUM_NOEXCEPT final;
+		TITANIUM_FUNCTION_DEF(getSeparator);
+		TITANIUM_FUNCTION_DEF(getApplicationCacheDirectory);
+		TITANIUM_FUNCTION_DEF(getApplicationDataDirectory);
+		TITANIUM_FUNCTION_DEF(getApplicationDirectory);
+		TITANIUM_FUNCTION_DEF(getApplicationSupportDirectory);
+		TITANIUM_FUNCTION_DEF(getExternalStorageDirectory);
+		TITANIUM_FUNCTION_DEF(getLineEnding);
+		TITANIUM_FUNCTION_DEF(getResourcesDirectory);
+		TITANIUM_FUNCTION_DEF(getTempDirectory);
 
-		virtual JSValue js_separator() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_applicationCacheDirectory() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_applicationDataDirectory() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_applicationDirectory() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_applicationSupportDirectory() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_externalStorageDirectory() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_lineEnding() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_resourcesDirectory() const TITANIUM_NOEXCEPT final;
-		virtual JSValue js_tempDirectory() const TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_READONLY_DEF(separator);
+		TITANIUM_PROPERTY_READONLY_DEF(applicationCacheDirectory);
+		TITANIUM_PROPERTY_READONLY_DEF(applicationDataDirectory);
+		TITANIUM_PROPERTY_READONLY_DEF(applicationDirectory);
+		TITANIUM_PROPERTY_READONLY_DEF(applicationSupportDirectory);
+		TITANIUM_PROPERTY_READONLY_DEF(externalStorageDirectory);
+		TITANIUM_PROPERTY_READONLY_DEF(lineEnding);
+		TITANIUM_PROPERTY_READONLY_DEF(resourcesDirectory);
+		TITANIUM_PROPERTY_READONLY_DEF(tempDirectory);
 
 	private:
 		JSValue mode_read__;

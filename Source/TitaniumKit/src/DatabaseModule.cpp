@@ -62,22 +62,22 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("DatabaseModule:: dtor ", this);
 	}
 
-	JSValue DatabaseModule::FIELD_TYPE_DOUBLE() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(DatabaseModule, FIELD_TYPE_DOUBLE)
 	{
 		return field_type_double__;
 	}
 
-	JSValue DatabaseModule::FIELD_TYPE_FLOAT() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(DatabaseModule, FIELD_TYPE_FLOAT)
 	{
 		return field_type_float__;
 	}
 
-	JSValue DatabaseModule::FIELD_TYPE_INT() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(DatabaseModule, FIELD_TYPE_INT)
 	{
 		return field_type_int__;
 	}
 
-	JSValue DatabaseModule::FIELD_TYPE_STRING() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(DatabaseModule, FIELD_TYPE_STRING)
 	{
 		return field_type_string__;
 	}
@@ -109,12 +109,12 @@ namespace Titanium
 	{
 		JSExport<DatabaseModule>::SetClassVersion(1);
 		JSExport<DatabaseModule>::SetParent(JSExport<Module>::Class());
-		JSExport<DatabaseModule>::AddFunctionProperty("install", std::mem_fn(&DatabaseModule::js_install));
-		JSExport<DatabaseModule>::AddFunctionProperty("open", std::mem_fn(&DatabaseModule::js_open));
-		JSExport<DatabaseModule>::AddValueProperty("FIELD_TYPE_DOUBLE", std::mem_fn(&DatabaseModule::FIELD_TYPE_DOUBLE));
-		JSExport<DatabaseModule>::AddValueProperty("FIELD_TYPE_FLOAT", std::mem_fn(&DatabaseModule::FIELD_TYPE_FLOAT));
-		JSExport<DatabaseModule>::AddValueProperty("FIELD_TYPE_INT", std::mem_fn(&DatabaseModule::FIELD_TYPE_INT));
-		JSExport<DatabaseModule>::AddValueProperty("FIELD_TYPE_STRING", std::mem_fn(&DatabaseModule::FIELD_TYPE_STRING));
+		TITANIUM_ADD_FUNCTION(DatabaseModule, install);
+		TITANIUM_ADD_FUNCTION(DatabaseModule, open);
+		TITANIUM_ADD_PROPERTY_READONLY(DatabaseModule, FIELD_TYPE_DOUBLE);
+		TITANIUM_ADD_PROPERTY_READONLY(DatabaseModule, FIELD_TYPE_FLOAT);
+		TITANIUM_ADD_PROPERTY_READONLY(DatabaseModule, FIELD_TYPE_INT);
+		TITANIUM_ADD_PROPERTY_READONLY(DatabaseModule, FIELD_TYPE_STRING);
 	}
 
 	JSObject DatabaseModule::GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -128,16 +128,8 @@ namespace Titanium
 		return static_cast<JSObject>(Object_property);
 	}
 
-	JSValue DatabaseModule::js_install(const std::vector<JSValue>& arguments, JSObject& this_object)
+	TITANIUM_FUNCTION(DatabaseModule, install)
 	{
-		TITANIUM_ASSERT(arguments.size() == 2);
-
-		const auto _0 = arguments.at(0);
-		const auto _1 = arguments.at(1);
-
-		TITANIUM_ASSERT(_0.IsString());
-		TITANIUM_ASSERT(_1.IsString());
-
 		const auto js_context = this_object.get_context();
 		const auto database = GetStaticObject(js_context).GetPrivate<DatabaseModule>();
 
@@ -152,13 +144,8 @@ namespace Titanium
 		}
 	}
 
-	JSValue DatabaseModule::js_open(const std::vector<JSValue>& arguments, JSObject& this_object)
+	TITANIUM_FUNCTION(DatabaseModule, open)
 	{
-		TITANIUM_ASSERT(arguments.size() == 1);
-
-		const auto _0 = arguments.at(0);
-		TITANIUM_ASSERT(_0.IsString());
-
 		const auto js_context = this_object.get_context();
 		const auto database = GetStaticObject(js_context).GetPrivate<DatabaseModule>();
 

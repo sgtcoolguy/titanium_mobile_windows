@@ -90,12 +90,12 @@ namespace Titanium
 		version__ = getAppInfo<std::string>("version", version__);
 	}
 
-	JSValue AppModule::EVENT_ACCESSIBILITY_ANNOUNCEMENT() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, EVENT_ACCESSIBILITY_ANNOUNCEMENT)
 	{
 		return get_context().CreateString("accessibilityannouncement");
 	}
 
-	JSValue AppModule::EVENT_ACCESSIBILITY_CHANGED() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, EVENT_ACCESSIBILITY_CHANGED)
 	{
 		return get_context().CreateString("accessibilitychanged");
 	}
@@ -209,52 +209,52 @@ namespace Titanium
 		JSExport<AppModule>::SetClassVersion(1);
 		JSExport<AppModule>::SetParent(JSExport<Module>::Class());
 
-		JSExport<AppModule>::AddFunctionProperty("_loadAppInfo", std::mem_fn(&AppModule::js_loadAppInfo));
+		TITANIUM_ADD_FUNCTION(AppModule, _loadAppInfo);
 
-		JSExport<AppModule>::AddValueProperty("EVENT_ACCESSIBILITY_ANNOUNCEMENT", std::mem_fn(&AppModule::EVENT_ACCESSIBILITY_ANNOUNCEMENT));
-		JSExport<AppModule>::AddValueProperty("EVENT_ACCESSIBILITY_CHANGED", std::mem_fn(&AppModule::EVENT_ACCESSIBILITY_CHANGED));
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, EVENT_ACCESSIBILITY_ANNOUNCEMENT);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, EVENT_ACCESSIBILITY_CHANGED);
 
-		JSExport<AppModule>::AddValueProperty("accessibilityEnabled", std::mem_fn(&AppModule::js_accessibilityEnabled));
-		JSExport<AppModule>::AddValueProperty("analytics", std::mem_fn(&AppModule::js_analytics));
-		JSExport<AppModule>::AddValueProperty("copyright", std::mem_fn(&AppModule::js_copyright));
-		JSExport<AppModule>::AddValueProperty("deployType", std::mem_fn(&AppModule::js_deployType));
-		JSExport<AppModule>::AddValueProperty("description", std::mem_fn(&AppModule::js_description));
-		JSExport<AppModule>::AddValueProperty("disableNetworkActivityIndicator", std::mem_fn(&AppModule::js_disableNetworkActivityIndicator));
-		JSExport<AppModule>::AddValueProperty("forceSplashAsSnapshot", std::mem_fn(&AppModule::js_forceSplashAsSnapshot));
-		JSExport<AppModule>::AddValueProperty("guid", std::mem_fn(&AppModule::js_guid));
-		JSExport<AppModule>::AddValueProperty("id", std::mem_fn(&AppModule::js_id));
-		JSExport<AppModule>::AddValueProperty("installId", std::mem_fn(&AppModule::js_installId));
-		JSExport<AppModule>::AddValueProperty("idleTimerDisabled", std::mem_fn(&AppModule::js_idleTimerDisabled));
-		JSExport<AppModule>::AddValueProperty("keyboardVisible", std::mem_fn(&AppModule::js_keyboardVisible));
-		JSExport<AppModule>::AddValueProperty("name", std::mem_fn(&AppModule::js_name));
-		JSExport<AppModule>::AddValueProperty("proximityDetection", std::mem_fn(&AppModule::js_proximityDetection));
-		JSExport<AppModule>::AddValueProperty("proximityState", std::mem_fn(&AppModule::js_proximityState));
-		JSExport<AppModule>::AddValueProperty("publisher", std::mem_fn(&AppModule::js_publisher));
-		JSExport<AppModule>::AddValueProperty("sessionId", std::mem_fn(&AppModule::js_sessionId));
-		JSExport<AppModule>::AddValueProperty("url", std::mem_fn(&AppModule::js_url));
-		JSExport<AppModule>::AddValueProperty("version", std::mem_fn(&AppModule::js_version));
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, accessibilityEnabled);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, analytics);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, copyright);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, deployType);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, description);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, disableNetworkActivityIndicator);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, forceSplashAsSnapshot);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, guid);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, id);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, installId);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, idleTimerDisabled);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, keyboardVisible);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, name);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, proximityDetection);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, proximityState);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, publisher);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, sessionId);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, url);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, version);
 
-		JSExport<AppModule>::AddFunctionProperty("fireSystemEvent", std::mem_fn(&AppModule::js_fireSystemEvent));
-		JSExport<AppModule>::AddFunctionProperty("getAccessibilityEnabled", std::mem_fn(&AppModule::js_getAccessibilityEnabled));
-		JSExport<AppModule>::AddFunctionProperty("getAnalytics", std::mem_fn(&AppModule::js_getAnalytics));
-		JSExport<AppModule>::AddFunctionProperty("getCopyright", std::mem_fn(&AppModule::js_getCopyright));
-		JSExport<AppModule>::AddFunctionProperty("getDeployType", std::mem_fn(&AppModule::js_getDeployType));
-		JSExport<AppModule>::AddFunctionProperty("getDescription", std::mem_fn(&AppModule::js_getDescription));
-		JSExport<AppModule>::AddFunctionProperty("getDisableNetworkActivityIndicator", std::mem_fn(&AppModule::js_getDisableNetworkActivityIndicator));
-		JSExport<AppModule>::AddFunctionProperty("getForceSplashAsSnapshot", std::mem_fn(&AppModule::js_getForceSplashAsSnapshot));
-		JSExport<AppModule>::AddFunctionProperty("getGuid", std::mem_fn(&AppModule::js_getGuid));
-		JSExport<AppModule>::AddFunctionProperty("getId", std::mem_fn(&AppModule::js_getId));
-		JSExport<AppModule>::AddFunctionProperty("getIdleTimerDisabled", std::mem_fn(&AppModule::js_getIdleTimerDisabled));
-		JSExport<AppModule>::AddFunctionProperty("getInstallId", std::mem_fn(&AppModule::js_getInstallId));
-		JSExport<AppModule>::AddFunctionProperty("getKeyboardVisible", std::mem_fn(&AppModule::js_getKeyboardVisible));
-		JSExport<AppModule>::AddFunctionProperty("getName", std::mem_fn(&AppModule::js_getName));
-		JSExport<AppModule>::AddFunctionProperty("getProximityDetection", std::mem_fn(&AppModule::js_getProximityDetection));
-		JSExport<AppModule>::AddFunctionProperty("setProximityDetection", std::mem_fn(&AppModule::js_setProximityDetection));
-		JSExport<AppModule>::AddFunctionProperty("getProximityState", std::mem_fn(&AppModule::js_getProximityState));
-		JSExport<AppModule>::AddFunctionProperty("getPublisher", std::mem_fn(&AppModule::js_getPublisher));
-		JSExport<AppModule>::AddFunctionProperty("getSessionId", std::mem_fn(&AppModule::js_getSessionId));
-		JSExport<AppModule>::AddFunctionProperty("getUrl", std::mem_fn(&AppModule::js_getUrl));
-		JSExport<AppModule>::AddFunctionProperty("getVersion", std::mem_fn(&AppModule::js_getVersion));
+		TITANIUM_ADD_FUNCTION(AppModule, fireSystemEvent);
+		TITANIUM_ADD_FUNCTION(AppModule, getAccessibilityEnabled);
+		TITANIUM_ADD_FUNCTION(AppModule, getAnalytics);
+		TITANIUM_ADD_FUNCTION(AppModule, getCopyright);
+		TITANIUM_ADD_FUNCTION(AppModule, getDeployType);
+		TITANIUM_ADD_FUNCTION(AppModule, getDescription);
+		TITANIUM_ADD_FUNCTION(AppModule, getDisableNetworkActivityIndicator);
+		TITANIUM_ADD_FUNCTION(AppModule, getForceSplashAsSnapshot);
+		TITANIUM_ADD_FUNCTION(AppModule, getGuid);
+		TITANIUM_ADD_FUNCTION(AppModule, getId);
+		TITANIUM_ADD_FUNCTION(AppModule, getIdleTimerDisabled);
+		TITANIUM_ADD_FUNCTION(AppModule, getInstallId);
+		TITANIUM_ADD_FUNCTION(AppModule, getKeyboardVisible);
+		TITANIUM_ADD_FUNCTION(AppModule, getName);
+		TITANIUM_ADD_FUNCTION(AppModule, getProximityDetection);
+		TITANIUM_ADD_FUNCTION(AppModule, setProximityDetection);
+		TITANIUM_ADD_FUNCTION(AppModule, getProximityState);
+		TITANIUM_ADD_FUNCTION(AppModule, getPublisher);
+		TITANIUM_ADD_FUNCTION(AppModule, getSessionId);
+		TITANIUM_ADD_FUNCTION(AppModule, getUrl);
+		TITANIUM_ADD_FUNCTION(AppModule, getVersion);
 	}
 
 	JSObject AppModule::GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -268,7 +268,7 @@ namespace Titanium
 		return static_cast<JSObject>(Object_property);
 	}
 
-	JSValue AppModule::js_loadAppInfo(const std::vector<JSValue>&, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, _loadAppInfo)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -278,117 +278,109 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue AppModule::js_accessibilityEnabled() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, accessibilityEnabled)
 	{
 		return get_context().CreateBoolean(accessibilityEnabled());
 	}
 
-	JSValue AppModule::js_analytics() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, analytics)
 	{
 		return get_context().CreateBoolean(analytics());
 	}
 
-	JSValue AppModule::js_copyright() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, copyright)
 	{
 		return get_context().CreateString(copyright());
 	}
 
-	JSValue AppModule::js_deployType() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, deployType)
 	{
 		return get_context().CreateString(deployType());
 	}
 
-	JSValue AppModule::js_description() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, description)
 	{
 		return get_context().CreateString(description());
 	}
 
-	JSValue AppModule::js_disableNetworkActivityIndicator() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, disableNetworkActivityIndicator)
 	{
 		return get_context().CreateBoolean(disableNetworkActivityIndicator());
 	}
 
-	JSValue AppModule::js_forceSplashAsSnapshot() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, forceSplashAsSnapshot)
 	{
 		return get_context().CreateBoolean(forceSplashAsSnapshot());
 	}
 
-	JSValue AppModule::js_guid() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, guid)
 	{
 		return get_context().CreateString(guid());
 	}
 
-	JSValue AppModule::js_id() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, id)
 	{
 		return get_context().CreateString(id());
 	}
 
-	JSValue AppModule::js_idleTimerDisabled() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, idleTimerDisabled)
 	{
 		return get_context().CreateBoolean(idleTimerDisabled());
 	}
 
-	JSValue AppModule::js_installId() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, installId)
 	{
 		return get_context().CreateString(installId());
 	}
 
-	JSValue AppModule::js_keyboardVisible() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, keyboardVisible)
 	{
 		return get_context().CreateBoolean(keyboardVisible());
 	}
 
-	JSValue AppModule::js_name() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, name)
 	{
 		return get_context().CreateString(name());
 	}
 
-	JSValue AppModule::js_proximityDetection() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, proximityDetection)
 	{
 		return get_context().CreateBoolean(getProximityDetection());
 	}
 
-	JSValue AppModule::js_proximityState() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, proximityState)
 	{
 		return get_context().CreateBoolean(proximityState());
 	}
 
-	JSValue AppModule::js_publisher() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, publisher)
 	{
 		return get_context().CreateString(publisher());
 	}
 
-	JSValue AppModule::js_sessionId() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, sessionId)
 	{
 		return get_context().CreateString(sessionId());
 	}
 
-	JSValue AppModule::js_url() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, url)
 	{
 		return get_context().CreateString(url());
 	}
 
-	JSValue AppModule::js_version() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(AppModule, version)
 	{
 		return get_context().CreateString(version());
 	}
 
-	JSValue AppModule::js_fireSystemEvent(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, fireSystemEvent)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
 
 		if (arguments.size() >= 1) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsString());
-			const std::string eventName = static_cast<std::string>(_0);
-
-			JSObject param = js_context.CreateObject();
-			if (arguments.size() >= 2) {
-				const auto _1 = arguments.at(1);
-				TITANIUM_ASSERT(_1.IsObject());
-				param = static_cast<JSObject>(_1);
-			}
+			ENSURE_STRING_AT_INDEX(eventName, 0);
+			ENSURE_OPTIONAL_OBJECT_AT_INDEX(param, 1);
 
 			object_ptr->fireSystemEvent(eventName, param);
 		}
@@ -396,7 +388,7 @@ namespace Titanium
 		return js_context.CreateUndefined();
 	}
 
-	JSValue AppModule::js_getAccessibilityEnabled(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getAccessibilityEnabled)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -404,7 +396,7 @@ namespace Titanium
 		return js_context.CreateBoolean(object_ptr->accessibilityEnabled());
 	}
 
-	JSValue AppModule::js_getAnalytics(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getAnalytics)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -412,7 +404,7 @@ namespace Titanium
 		return js_context.CreateBoolean(object_ptr->analytics());
 	}
 
-	JSValue AppModule::js_getCopyright(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getCopyright)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -420,7 +412,7 @@ namespace Titanium
 		return js_context.CreateString(object_ptr->copyright());
 	}
 
-	JSValue AppModule::js_getDeployType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getDeployType)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -428,7 +420,7 @@ namespace Titanium
 		return js_context.CreateString(object_ptr->deployType());
 	}
 
-	JSValue AppModule::js_getDescription(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getDescription)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -436,7 +428,7 @@ namespace Titanium
 		return js_context.CreateString(object_ptr->description());
 	}
 
-	JSValue AppModule::js_getDisableNetworkActivityIndicator(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getDisableNetworkActivityIndicator)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -444,7 +436,7 @@ namespace Titanium
 		return js_context.CreateBoolean(object_ptr->disableNetworkActivityIndicator());
 	}
 
-	JSValue AppModule::js_getForceSplashAsSnapshot(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getForceSplashAsSnapshot)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -452,7 +444,7 @@ namespace Titanium
 		return js_context.CreateBoolean(object_ptr->forceSplashAsSnapshot());
 	}
 
-	JSValue AppModule::js_getGuid(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getGuid)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -460,7 +452,7 @@ namespace Titanium
 		return js_context.CreateString(object_ptr->guid());
 	}
 
-	JSValue AppModule::js_getId(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getId)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -468,7 +460,7 @@ namespace Titanium
 		return js_context.CreateString(object_ptr->id());
 	}
 
-	JSValue AppModule::js_getIdleTimerDisabled(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getIdleTimerDisabled)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -476,7 +468,7 @@ namespace Titanium
 		return js_context.CreateBoolean(object_ptr->idleTimerDisabled());
 	}
 
-	JSValue AppModule::js_getInstallId(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getInstallId)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -484,7 +476,7 @@ namespace Titanium
 		return js_context.CreateString(object_ptr->installId());
 	}
 
-	JSValue AppModule::js_getKeyboardVisible(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getKeyboardVisible)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -492,7 +484,7 @@ namespace Titanium
 		return js_context.CreateBoolean(object_ptr->keyboardVisible());
 	}
 
-	JSValue AppModule::js_getName(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getName)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -500,7 +492,7 @@ namespace Titanium
 		return js_context.CreateString(object_ptr->name());
 	}
 
-	JSValue AppModule::js_getProximityDetection(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getProximityDetection)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -508,15 +500,13 @@ namespace Titanium
 		return js_context.CreateBoolean(object_ptr->getProximityDetection());
 	}
 
-	JSValue AppModule::js_setProximityDetection(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, setProximityDetection)
 	{
 		if (arguments.size() < 1) {
 			return this_object.get_context().CreateUndefined();
 		}
-		const auto _0 = arguments.at(0);
 
-		TITANIUM_ASSERT(_0.IsBoolean());
-		const bool proximityDetection = static_cast<bool>(_0);
+		ENSURE_BOOL_AT_INDEX(proximityDetection, 0);
 
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -526,7 +516,7 @@ namespace Titanium
 		return js_context.CreateUndefined();
 	}
 
-	JSValue AppModule::js_getProximityState(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getProximityState)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -534,7 +524,7 @@ namespace Titanium
 		return js_context.CreateBoolean(object_ptr->proximityState());
 	}
 
-	JSValue AppModule::js_getPublisher(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getPublisher)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -542,7 +532,7 @@ namespace Titanium
 		return js_context.CreateString(object_ptr->publisher());
 	}
 
-	JSValue AppModule::js_getSessionId(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getSessionId)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -550,7 +540,7 @@ namespace Titanium
 		return js_context.CreateString(object_ptr->sessionId());
 	}
 
-	JSValue AppModule::js_getUrl(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getUrl)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
@@ -558,7 +548,7 @@ namespace Titanium
 		return js_context.CreateString(object_ptr->url());
 	}
 
-	JSValue AppModule::js_getVersion(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(AppModule, getVersion)
 	{
 		const auto js_context = this_object.get_context();
 		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();

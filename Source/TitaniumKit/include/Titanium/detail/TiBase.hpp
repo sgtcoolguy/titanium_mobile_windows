@@ -57,4 +57,100 @@
 #include "Titanium/detail/TiLogger.hpp"
 #include "HAL/HAL.hpp"
 
+#define TITANIUM_FUNCTION(MODULE, NAME) \
+JSValue MODULE::js_##NAME(const std::vector<JSValue>& arguments, JSObject& this_object)
+
+#define TITANIUM_PROPERTY_GETTER(MODULE, NAME) \
+JSValue MODULE::js_get_##NAME() const
+
+#define TITANIUM_PROPERTY_SETTER(MODULE, NAME) \
+bool MODULE::js_set_##NAME(const JSValue& argument)
+
+#define TITANIUM_FUNCTION_DEF(NAME) \
+JSValue js_##NAME(const std::vector<JSValue>& arguments, JSObject& this_object)
+
+#define TITANIUM_PROPERTY_READONLY_DEF(NAME) \
+JSValue js_get_##NAME() const
+
+#define TITANIUM_PROPERTY_DEF(NAME) \
+TITANIUM_PROPERTY_READONLY_DEF(NAME); \
+bool js_set_##NAME(const JSValue& argument)
+
+#define TITANIUM_ADD_FUNCTION(MODULE, NAME) \
+JSExport<MODULE>::AddFunctionProperty(#NAME, std::mem_fn(&MODULE::js_##NAME))
+
+#define TITANIUM_ADD_PROPERTY_READONLY(MODULE, NAME) \
+JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME))
+
+#define TITANIUM_ADD_PROPERTY(MODULE, NAME) \
+JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME), std::mem_fn(&MODULE::js_set_##NAME))
+
+#define ENSURE_OPTIONAL_OBJECT_AT_INDEX(OUT,INDEX) \
+  auto OUT = this_object.get_context().CreateObject(); \
+  if (arguments.size() >= INDEX + 1) { \
+    const auto _##INDEX = arguments.at(INDEX); \
+    TITANIUM_ASSERT(_##INDEX.IsObject()); \
+    OUT = static_cast<JSObject>(_##INDEX);\
+  }
+
+#define ENSURE_NUMBER_AT_INDEX(OUT,INDEX,TYPE) \
+  TITANIUM_ASSERT(arguments.size() >= INDEX + 1); \
+  const auto _##INDEX = arguments.at(INDEX); \
+  TITANIUM_ASSERT(_##INDEX.IsNumber()); \
+  auto OUT = static_cast<TYPE>(_##INDEX);
+
+#define ENSURE_BOOL_AT_INDEX(OUT,INDEX) \
+  TITANIUM_ASSERT(arguments.size() >= INDEX + 1); \
+  const auto _##INDEX = arguments.at(INDEX); \
+  TITANIUM_ASSERT(_##INDEX.IsBoolean()); \
+  auto OUT = static_cast<bool>(_##INDEX);
+
+#define ENSURE_STRING_AT_INDEX(OUT,INDEX) \
+  TITANIUM_ASSERT(arguments.size() >= INDEX + 1); \
+  const auto _##INDEX = arguments.at(INDEX); \
+  auto OUT = static_cast<std::string>(_##INDEX);
+
+#define ENSURE_VALUE_AT_INDEX(OUT,INDEX) \
+  TITANIUM_ASSERT(arguments.size() >= INDEX + 1); \
+  OUT = arguments.at(INDEX);
+
+#define ENSURE_OBJECT_AT_INDEX(OUT,INDEX) \
+  TITANIUM_ASSERT(arguments.size() >= INDEX + 1); \
+  const auto _##INDEX = arguments.at(INDEX); \
+  TITANIUM_ASSERT(_##INDEX.IsObject()); \
+  auto OUT = static_cast<JSObject>(_##INDEX);
+
+#define ENSURE_ARRAY_AT_INDEX(OUT,INDEX) \
+  TITANIUM_ASSERT(arguments.size() >= INDEX + 1); \
+  const auto _##INDEX = arguments.at(INDEX); \
+  TITANIUM_ASSERT(_##INDEX.IsObject()); \
+  const auto _obj_##INDEX = static_cast<JSObject>(_##INDEX); \
+  TITANIUM_ASSERT(_obj_##INDEX.IsArray());\
+  auto OUT = static_cast<JSArray>(_obj_##INDEX);
+
+#define ENSURE_INT_AT_INDEX(OUT,INDEX) \
+  ENSURE_NUMBER_AT_INDEX(OUT,INDEX,int32_t)
+
+#define ENSURE_UINT_AT_INDEX(OUT,INDEX) \
+  ENSURE_NUMBER_AT_INDEX(OUT,INDEX,uint32_t)
+
+#define ENSURE_DOUBLE_AT_INDEX(OUT,INDEX) \
+  ENSURE_NUMBER_AT_INDEX(OUT,INDEX,double)
+
+// Shorthand for getter function
+#define TITANIUM_FUNCTION_AS_GETTER(MODULE, NAME, PROPERTY) \
+TITANIUM_FUNCTION(MODULE, NAME) \
+{ \
+  return js_get_##PROPERTY(); \
+}
+
+// Shorthand for setter function
+#define TITANIUM_FUNCTION_AS_SETTER(MODULE, NAME, PROPERTY) \
+TITANIUM_FUNCTION(MODULE, NAME) \
+{ \
+  ENSURE_VALUE_AT_INDEX(argument, 0); \
+  return js_set_##PROPERTY(argument); \
+}
+
+
 #endif  // _TITANIUM_DETAIL_TIBASE_HPP_
