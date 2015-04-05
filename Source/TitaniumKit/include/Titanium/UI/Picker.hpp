@@ -55,8 +55,7 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_type() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_type(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(type);
 
 		private:
 			PICKER_TYPE type__;

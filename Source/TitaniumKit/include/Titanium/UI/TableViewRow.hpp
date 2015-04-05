@@ -79,30 +79,25 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_font() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_font(const JSValue& argument) TITANIUM_NOEXCEPT;
-			virtual JSValue js_getFont(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setFont(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(font);
+			TITANIUM_FUNCTION_DEF(getFont);
+			TITANIUM_FUNCTION_DEF(setFont);
 			
-			virtual JSValue js_get_hasCheck() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_hasCheck(const JSValue& argument) TITANIUM_NOEXCEPT;
-			virtual JSValue js_getHasCheck(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setHasCheck(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(hasCheck);
+			TITANIUM_FUNCTION_DEF(getHasCheck);
+			TITANIUM_FUNCTION_DEF(setHasCheck);
 			
-			virtual JSValue js_get_hasChild() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_hasChild(const JSValue& argument) TITANIUM_NOEXCEPT;
-			virtual JSValue js_getHasChild(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setHasChild(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(hasChild);
+			TITANIUM_FUNCTION_DEF(getHasChild);
+			TITANIUM_FUNCTION_DEF(setHasChild);
 			
-			virtual JSValue js_get_title() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT;
-			virtual JSValue js_getTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(title);
+			TITANIUM_FUNCTION_DEF(getTitle);
+			TITANIUM_FUNCTION_DEF(setTitle);
 			
-			virtual JSValue js_get_color() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT;
-			virtual JSValue js_getColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(color);
+			TITANIUM_FUNCTION_DEF(getColor);
+			TITANIUM_FUNCTION_DEF(setColor);
 
 			protected:
 #pragma warning(push)

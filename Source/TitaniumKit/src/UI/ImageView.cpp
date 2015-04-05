@@ -186,80 +186,80 @@ namespace Titanium
 			JSExport<ImageView>::SetClassVersion(1);
 			JSExport<ImageView>::SetParent(JSExport<View>::Class());
 			// methods
-			JSExport<ImageView>::AddFunctionProperty("pause", std::mem_fn(&ImageView::js_pause));
-			JSExport<ImageView>::AddFunctionProperty("resume", std::mem_fn(&ImageView::js_resume ));
-			JSExport<ImageView>::AddFunctionProperty("start", std::mem_fn(&ImageView::js_start));
-			JSExport<ImageView>::AddFunctionProperty("stop", std::mem_fn(&ImageView::js_stop));
-			JSExport<ImageView>::AddFunctionProperty("toBlob", std::mem_fn(&ImageView::js_toBlob));
+			TITANIUM_ADD_FUNCTION(ImageView, pause);
+			TITANIUM_ADD_FUNCTION(ImageView, resume);
+			TITANIUM_ADD_FUNCTION(ImageView, start);
+			TITANIUM_ADD_FUNCTION(ImageView, stop);
+			TITANIUM_ADD_FUNCTION(ImageView, toBlob);
 			// properties
-			JSExport<ImageView>::AddValueProperty("animating", std::mem_fn(&ImageView::js_get_animating));
-			JSExport<ImageView>::AddValueProperty("autorotate", std::mem_fn(&ImageView::js_get_autorotate), std::mem_fn(&ImageView::js_set_autorotate));
-			JSExport<ImageView>::AddValueProperty("decodeRetries", std::mem_fn(&ImageView::js_get_decodeRetries), std::mem_fn(&ImageView::js_set_decodeRetries));
-			JSExport<ImageView>::AddValueProperty("defaultImage", std::mem_fn(&ImageView::js_get_defaultImage), std::mem_fn(&ImageView::js_set_defaultImage));
-			JSExport<ImageView>::AddValueProperty("duration", std::mem_fn(&ImageView::js_get_duration), std::mem_fn(&ImageView::js_set_duration));
-			JSExport<ImageView>::AddValueProperty("enableZoomControls", std::mem_fn(&ImageView::js_get_enableZoomControls), std::mem_fn(&ImageView::js_set_enableZoomControls));
-			JSExport<ImageView>::AddValueProperty("hires", std::mem_fn(&ImageView::js_get_hires), std::mem_fn(&ImageView::js_set_hires));
-			JSExport<ImageView>::AddValueProperty("image", std::mem_fn(&ImageView::js_get_image), std::mem_fn(&ImageView::js_set_image));
-			JSExport<ImageView>::AddValueProperty("images", std::mem_fn(&ImageView::js_get_images), std::mem_fn(&ImageView::js_set_images));
-			JSExport<ImageView>::AddValueProperty("paused", std::mem_fn(&ImageView::js_get_paused));
-			JSExport<ImageView>::AddValueProperty("preventDefaultImage", std::mem_fn(&ImageView::js_get_preventDefaultImage), std::mem_fn(&ImageView::js_set_preventDefaultImage));
-			JSExport<ImageView>::AddValueProperty("repeatCount", std::mem_fn(&ImageView::js_get_repeatCount), std::mem_fn(&ImageView::js_set_repeatCount));
-			JSExport<ImageView>::AddValueProperty("reverse", std::mem_fn(&ImageView::js_get_reverse), std::mem_fn(&ImageView::js_set_reverse));
+			TITANIUM_ADD_PROPERTY_READONLY(ImageView, animating);
+			TITANIUM_ADD_PROPERTY(ImageView, autorotate);
+			TITANIUM_ADD_PROPERTY(ImageView, decodeRetries);
+			TITANIUM_ADD_PROPERTY(ImageView, defaultImage);
+			TITANIUM_ADD_PROPERTY(ImageView, duration);
+			TITANIUM_ADD_PROPERTY(ImageView, enableZoomControls);
+			TITANIUM_ADD_PROPERTY(ImageView, hires);
+			TITANIUM_ADD_PROPERTY(ImageView, image);
+			TITANIUM_ADD_PROPERTY(ImageView, images);
+			TITANIUM_ADD_PROPERTY_READONLY(ImageView, paused);
+			TITANIUM_ADD_PROPERTY(ImageView, preventDefaultImage);
+			TITANIUM_ADD_PROPERTY(ImageView, repeatCount);
+			TITANIUM_ADD_PROPERTY(ImageView, reverse);
 			// accessor/setter methods
-			JSExport<ImageView>::AddFunctionProperty("getAnimating", std::mem_fn(&ImageView::js_getAnimating));
-			JSExport<ImageView>::AddFunctionProperty("getAutorotate", std::mem_fn(&ImageView::js_getAutorotate));
-			JSExport<ImageView>::AddFunctionProperty("getDecodeRetries", std::mem_fn(&ImageView::js_getDecodeRetries));
-			JSExport<ImageView>::AddFunctionProperty("setDecodeRetries", std::mem_fn(&ImageView::js_setDecodeRetries));
-			JSExport<ImageView>::AddFunctionProperty("getDefaultImage", std::mem_fn(&ImageView::js_getDefaultImage));
-			JSExport<ImageView>::AddFunctionProperty("setDefaultImage", std::mem_fn(&ImageView::js_setDefaultImage));
-			JSExport<ImageView>::AddFunctionProperty("getDuration", std::mem_fn(&ImageView::js_getDuration));
-			JSExport<ImageView>::AddFunctionProperty("setDuration", std::mem_fn(&ImageView::js_setDuration));
-			JSExport<ImageView>::AddFunctionProperty("getEnableZoomControls", std::mem_fn(&ImageView::js_getEnableZoomControls));
-			JSExport<ImageView>::AddFunctionProperty("setEnableZoomControls", std::mem_fn(&ImageView::js_setEnableZoomControls));
-			JSExport<ImageView>::AddFunctionProperty("getHires", std::mem_fn(&ImageView::js_getHires));
-			JSExport<ImageView>::AddFunctionProperty("setHires", std::mem_fn(&ImageView::js_setHires));
-			JSExport<ImageView>::AddFunctionProperty("getImage", std::mem_fn(&ImageView::js_getImage));
-			JSExport<ImageView>::AddFunctionProperty("setImage", std::mem_fn(&ImageView::js_setImage));
-			JSExport<ImageView>::AddFunctionProperty("getImages", std::mem_fn(&ImageView::js_getImages));
-			JSExport<ImageView>::AddFunctionProperty("setImages", std::mem_fn(&ImageView::js_setImages));
-			JSExport<ImageView>::AddFunctionProperty("getPaused", std::mem_fn(&ImageView::js_getPaused));
-			JSExport<ImageView>::AddFunctionProperty("getPreventDefaultImage", std::mem_fn(&ImageView::js_getPreventDefaultImage));
-			JSExport<ImageView>::AddFunctionProperty("setPreventDefaultImage", std::mem_fn(&ImageView::js_setPreventDefaultImage));
-			JSExport<ImageView>::AddFunctionProperty("getRepeatCount", std::mem_fn(&ImageView::js_getRepeatCount));
-			JSExport<ImageView>::AddFunctionProperty("setRepeatCount", std::mem_fn(&ImageView::js_setRepeatCount));
-			JSExport<ImageView>::AddFunctionProperty("getReverse", std::mem_fn(&ImageView::js_getReverse));
-			JSExport<ImageView>::AddFunctionProperty("setReverse", std::mem_fn(&ImageView::js_setReverse));
+			TITANIUM_ADD_FUNCTION(ImageView, getAnimating);
+			TITANIUM_ADD_FUNCTION(ImageView, getAutorotate);
+			TITANIUM_ADD_FUNCTION(ImageView, getDecodeRetries);
+			TITANIUM_ADD_FUNCTION(ImageView, setDecodeRetries);
+			TITANIUM_ADD_FUNCTION(ImageView, getDefaultImage);
+			TITANIUM_ADD_FUNCTION(ImageView, setDefaultImage);
+			TITANIUM_ADD_FUNCTION(ImageView, getDuration);
+			TITANIUM_ADD_FUNCTION(ImageView, setDuration);
+			TITANIUM_ADD_FUNCTION(ImageView, getEnableZoomControls);
+			TITANIUM_ADD_FUNCTION(ImageView, setEnableZoomControls);
+			TITANIUM_ADD_FUNCTION(ImageView, getHires);
+			TITANIUM_ADD_FUNCTION(ImageView, setHires);
+			TITANIUM_ADD_FUNCTION(ImageView, getImage);
+			TITANIUM_ADD_FUNCTION(ImageView, setImage);
+			TITANIUM_ADD_FUNCTION(ImageView, getImages);
+			TITANIUM_ADD_FUNCTION(ImageView, setImages);
+			TITANIUM_ADD_FUNCTION(ImageView, getPaused);
+			TITANIUM_ADD_FUNCTION(ImageView, getPreventDefaultImage);
+			TITANIUM_ADD_FUNCTION(ImageView, setPreventDefaultImage);
+			TITANIUM_ADD_FUNCTION(ImageView, getRepeatCount);
+			TITANIUM_ADD_FUNCTION(ImageView, setRepeatCount);
+			TITANIUM_ADD_FUNCTION(ImageView, getReverse);
+			TITANIUM_ADD_FUNCTION(ImageView, setReverse);
 		}
 
-		JSValue ImageView::js_pause(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, pause)
 		{
 			TITANIUM_ASSERT(arguments.empty());
 			pause();
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_resume(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, resume)
 		{
 			TITANIUM_ASSERT(arguments.empty());
 			resume();
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_start(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, start)
 		{
 			TITANIUM_ASSERT(arguments.empty());
 			start();
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_stop(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, stop)
 		{
 			TITANIUM_ASSERT(arguments.empty());
 			stop();
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_toBlob(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, toBlob)
 		{
 			TITANIUM_ASSERT(arguments.empty());
 			auto blob = toBlob();
@@ -269,41 +269,41 @@ namespace Titanium
 			return blob->get_object();
 		}
 
-		JSValue ImageView::js_get_animating() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, animating)
 		{
 			return get_context().CreateBoolean(get_animating());
 		}
 
-		JSValue ImageView::js_get_autorotate() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, autorotate)
 		{
 			return get_context().CreateBoolean(get_autorotate());
 		}
 
-		bool ImageView::js_set_autorotate(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ImageView, autorotate)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_autorotate(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue ImageView::js_get_decodeRetries() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, decodeRetries)
 		{
 			return get_context().CreateNumber(get_decodeRetries());
 		}
 
-		bool ImageView::js_set_decodeRetries(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ImageView, decodeRetries)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			set_decodeRetries(static_cast<uint32_t>(argument));
 			return true;
 		}
 
-		JSValue ImageView::js_get_defaultImage() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, defaultImage)
 		{
 			return get_context().CreateString(get_defaultImage());
 		}
 
-		bool ImageView::js_set_defaultImage(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ImageView, defaultImage)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			std::string path = static_cast<std::string>(argument);
@@ -311,12 +311,12 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue ImageView::js_get_duration() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, duration)
 		{
 			return get_context().CreateNumber(static_cast<double>(duration__.count()));
 		}
 
-		bool ImageView::js_set_duration(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ImageView, duration)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			const auto duration = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(argument)));
@@ -324,43 +324,43 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue ImageView::js_get_enableZoomControls() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, enableZoomControls)
 		{
 			return get_context().CreateBoolean(get_enableZoomControls());
 		}
 
-		bool ImageView::js_set_enableZoomControls(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ImageView, enableZoomControls)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_enableZoomControls(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue ImageView::js_get_hires() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, hires)
 		{
 			return get_context().CreateBoolean(get_hires());
 		}
 
-		bool ImageView::js_set_hires(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ImageView, hires)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_hires(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue ImageView::js_get_image() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, image)
 		{
 			return get_context().CreateString(get_image());
 		}
 
-		bool ImageView::js_set_image(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ImageView, image)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_image(static_cast<std::string>(argument));
 			return true;
 		}
 
-		JSValue ImageView::js_get_images() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, images)
 		{
 			std::vector<JSValue> images;
 			for (auto image : get_images()) {
@@ -369,7 +369,7 @@ namespace Titanium
 			return get_context().CreateArray(images);
 		}
 
-		bool ImageView::js_set_images(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ImageView, images)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
 			auto object = static_cast<JSObject>(argument);
@@ -386,63 +386,63 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue ImageView::js_get_paused() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, paused)
 		{
 			return get_context().CreateBoolean(get_paused());
 		}
 
-		JSValue ImageView::js_get_preventDefaultImage() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, preventDefaultImage)
 		{
 			return get_context().CreateBoolean(get_preventDefaultImage());
 		}
 
-		bool ImageView::js_set_preventDefaultImage(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ImageView, preventDefaultImage)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_preventDefaultImage(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue ImageView::js_get_repeatCount() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, repeatCount)
 		{
 			return get_context().CreateNumber(get_repeatCount());
 		}
 
-		bool ImageView::js_set_repeatCount(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ImageView, repeatCount)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			set_repeatCount(static_cast<uint32_t>(argument));
 			return true;
 		}
 
-		JSValue ImageView::js_get_reverse() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ImageView, reverse)
 		{
 			return get_context().CreateBoolean(get_reverse());
 		}
 
-		bool ImageView::js_set_reverse(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ImageView, reverse)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_reverse(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue ImageView::js_getAnimating(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getAnimating)
 		{
 			return js_get_animating();
 		}
 
-		JSValue ImageView::js_getAutorotate(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getAutorotate)
 		{
 			return js_get_autorotate();
 		}
 
-		JSValue ImageView::js_getDecodeRetries(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getDecodeRetries)
 		{
 			return js_get_decodeRetries();
 		}
 
-		JSValue ImageView::js_setDecodeRetries(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, setDecodeRetries)
 		{
 			if (arguments.size() >= 1) {
 				js_set_decodeRetries(arguments.at(0));
@@ -450,12 +450,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_getDefaultImage(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getDefaultImage)
 		{
 			return js_get_defaultImage();
 		}
 
-		JSValue ImageView::js_setDefaultImage(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, setDefaultImage)
 		{
 			if (arguments.size() >= 1) {
 				js_set_defaultImage(arguments.at(0));
@@ -463,12 +463,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_getDuration(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getDuration)
 		{
 			return js_get_duration();
 		}
 
-		JSValue ImageView::js_setDuration(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, setDuration)
 		{
 			if (arguments.size() >= 1) {
 				js_set_duration(arguments.at(0));
@@ -476,12 +476,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_getEnableZoomControls(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getEnableZoomControls)
 		{
 			return js_get_enableZoomControls();
 		}
 
-		JSValue ImageView::js_setEnableZoomControls(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, setEnableZoomControls)
 		{
 			if (arguments.size() >= 1) {
 				js_set_enableZoomControls(arguments.at(0));
@@ -489,12 +489,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_getHires(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getHires)
 		{
 			return js_get_hires();
 		}
 
-		JSValue ImageView::js_setHires(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, setHires)
 		{
 			if (arguments.size() >= 1) {
 				js_set_hires(arguments.at(0));
@@ -502,12 +502,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_getImage(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getImage)
 		{
 			return js_get_image();
 		}
 
-		JSValue ImageView::js_setImage(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, setImage)
 		{
 			if (arguments.size() >= 1) {
 				js_set_image(arguments.at(0));
@@ -515,12 +515,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_getImages(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getImages)
 		{
 			return js_get_images();
 		}
 
-		JSValue ImageView::js_setImages(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, setImages)
 		{
 			if (arguments.size() >= 1) {
 				js_set_images(arguments.at(0));
@@ -528,17 +528,17 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_getPaused(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getPaused)
 		{
 			return js_get_paused();
 		}
 
-		JSValue ImageView::js_getPreventDefaultImage(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getPreventDefaultImage)
 		{
 			return js_get_preventDefaultImage();
 		}
 
-		JSValue ImageView::js_setPreventDefaultImage(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, setPreventDefaultImage)
 		{
 			if (arguments.size() >= 1) {
 				js_set_preventDefaultImage(arguments.at(0));
@@ -546,12 +546,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_getRepeatCount(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getRepeatCount)
 		{
 			return js_get_repeatCount();
 		}
 
-		JSValue ImageView::js_setRepeatCount(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, setRepeatCount)
 		{
 			if (arguments.size() >= 1) {
 				js_set_repeatCount(arguments.at(0));
@@ -559,12 +559,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ImageView::js_getReverse(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, getReverse)
 		{
 			return js_get_reverse();
 		}
 
-		JSValue ImageView::js_setReverse(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ImageView, setReverse)
 		{
 			if (arguments.size() >= 1) {
 				js_set_reverse(arguments.at(0));

@@ -125,76 +125,76 @@ namespace Titanium
 			JSExport<WebView>::SetClassVersion(1);
 			JSExport<WebView>::SetParent(JSExport<View>::Class());
 
-			JSExport<WebView>::AddValueProperty("data", std::mem_fn(&WebView::js_get_data));
-			JSExport<WebView>::AddValueProperty("html", std::mem_fn(&WebView::js_get_html));
-			JSExport<WebView>::AddValueProperty("loading", std::mem_fn(&WebView::js_get_loading), std::mem_fn(&WebView::js_set_loading));
-			JSExport<WebView>::AddValueProperty("scalesPageToFit", std::mem_fn(&WebView::js_get_scalesPageToFit), std::mem_fn(&WebView::js_set_scalesPageToFit));
-			JSExport<WebView>::AddValueProperty("url", std::mem_fn(&WebView::js_get_url), std::mem_fn(&WebView::js_set_url));
-			JSExport<WebView>::AddFunctionProperty("canGoBack", std::mem_fn(&WebView::js_canGoBack));
-			JSExport<WebView>::AddFunctionProperty("canGoForward", std::mem_fn(&WebView::js_canGoForward));
-			JSExport<WebView>::AddFunctionProperty("evalJS", std::mem_fn(&WebView::js_evalJS));
-			JSExport<WebView>::AddFunctionProperty("goBack", std::mem_fn(&WebView::js_goBack));
-			JSExport<WebView>::AddFunctionProperty("goForward", std::mem_fn(&WebView::js_goForward));
-			JSExport<WebView>::AddFunctionProperty("reload", std::mem_fn(&WebView::js_reload));
-			JSExport<WebView>::AddFunctionProperty("setBasicAuthentication", std::mem_fn(&WebView::js_setBasicAuthentication));
-			JSExport<WebView>::AddFunctionProperty("stopLoading", std::mem_fn(&WebView::js_stopLoading));
-			JSExport<WebView>::AddFunctionProperty("getData", std::mem_fn(&WebView::js_getData));
-			JSExport<WebView>::AddFunctionProperty("setData", std::mem_fn(&WebView::js_setData));
-			JSExport<WebView>::AddFunctionProperty("getHtml", std::mem_fn(&WebView::js_getHtml));
-			JSExport<WebView>::AddFunctionProperty("setHtml", std::mem_fn(&WebView::js_setHtml));
-			JSExport<WebView>::AddFunctionProperty("getLoading", std::mem_fn(&WebView::js_getLoading));
-			JSExport<WebView>::AddFunctionProperty("setLoading", std::mem_fn(&WebView::js_setLoading));
-			JSExport<WebView>::AddFunctionProperty("getScalesPageToFit", std::mem_fn(&WebView::js_getScalesPageToFit));
-			JSExport<WebView>::AddFunctionProperty("setScalesPageToFit", std::mem_fn(&WebView::js_setScalesPageToFit));
-			JSExport<WebView>::AddFunctionProperty("getUrl", std::mem_fn(&WebView::js_getUrl));
-			JSExport<WebView>::AddFunctionProperty("setUrl", std::mem_fn(&WebView::js_setUrl));
+			TITANIUM_ADD_PROPERTY_READONLY(WebView, data);
+			TITANIUM_ADD_PROPERTY_READONLY(WebView, html);
+			TITANIUM_ADD_PROPERTY(WebView, loading);
+			TITANIUM_ADD_PROPERTY(WebView, scalesPageToFit);
+			TITANIUM_ADD_PROPERTY(WebView, url);
+			TITANIUM_ADD_FUNCTION(WebView, canGoBack);
+			TITANIUM_ADD_FUNCTION(WebView, canGoForward);
+			TITANIUM_ADD_FUNCTION(WebView, evalJS);
+			TITANIUM_ADD_FUNCTION(WebView, goBack);
+			TITANIUM_ADD_FUNCTION(WebView, goForward);
+			TITANIUM_ADD_FUNCTION(WebView, reload);
+			TITANIUM_ADD_FUNCTION(WebView, setBasicAuthentication);
+			TITANIUM_ADD_FUNCTION(WebView, stopLoading);
+			TITANIUM_ADD_FUNCTION(WebView, getData);
+			TITANIUM_ADD_FUNCTION(WebView, setData);
+			TITANIUM_ADD_FUNCTION(WebView, getHtml);
+			TITANIUM_ADD_FUNCTION(WebView, setHtml);
+			TITANIUM_ADD_FUNCTION(WebView, getLoading);
+			TITANIUM_ADD_FUNCTION(WebView, setLoading);
+			TITANIUM_ADD_FUNCTION(WebView, getScalesPageToFit);
+			TITANIUM_ADD_FUNCTION(WebView, setScalesPageToFit);
+			TITANIUM_ADD_FUNCTION(WebView, getUrl);
+			TITANIUM_ADD_FUNCTION(WebView, setUrl);
 		}
 
-		JSValue WebView::js_get_data() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(WebView, data)
 		{
 			// TODO Convert std::vector<unstd::uint8_t> to JSObject (Ti.Blob)
 			TITANIUM_LOG_WARN("WebView.data is not implemented yet");
 			return get_context().CreateUndefined();
 		}
 
-		JSValue WebView::js_get_html() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(WebView, html)
 		{
 			return get_context().CreateString(getHtml());
 		}
 
-		JSValue WebView::js_get_loading() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(WebView, loading)
 		{
 			return get_context().CreateBoolean(getLoading());
 		}
 
-		bool WebView::js_set_loading(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(WebView, loading)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			return setLoading(static_cast<bool>(argument));
 		}
 
-		JSValue WebView::js_get_scalesPageToFit() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(WebView, scalesPageToFit)
 		{
 			return get_context().CreateBoolean(getScalesPageToFit());
 		}
 
-		bool WebView::js_set_scalesPageToFit(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(WebView, scalesPageToFit)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			return setScalesPageToFit(static_cast<bool>(argument));
 		}
 
-		JSValue WebView::js_get_url() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(WebView, url)
 		{
 			return get_context().CreateString(getUrl());
 		}
 
-		bool WebView::js_set_url(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(WebView, url)
 		{
 			return setUrl(static_cast<std::string>(argument));
 		}
 
-		JSValue WebView::js_setHtml(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, setHtml)
 		{
 			std::unordered_map<std::string, std::string> options;
 	    
@@ -219,17 +219,17 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue WebView::js_canGoBack(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, canGoBack)
 		{
 			return get_context().CreateBoolean(canGoBack());
 		}
 
-		JSValue WebView::js_canGoForward(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, canGoForward)
 		{
 			return get_context().CreateBoolean(canGoForward());
 		}
 
-		JSValue WebView::js_evalJS(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, evalJS)
 		{
 			if (arguments.size() < 1) {
 				return get_context().CreateUndefined();
@@ -242,25 +242,25 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue WebView::js_goBack(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, goBack)
 		{
 			goBack();
 			return get_context().CreateUndefined();
 		}
 
-		JSValue WebView::js_goForward(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, goForward)
 		{
 			goForward();
 			return get_context().CreateUndefined();
 		}
 
-		JSValue WebView::js_reload(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, reload)
 		{
 			reload();
 			return get_context().CreateUndefined();
 		}
 
-		JSValue WebView::js_setBasicAuthentication(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, setBasicAuthentication)
 		{
 			if (arguments.size() < 2) {
 				return get_context().CreateUndefined();
@@ -284,7 +284,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue WebView::js_stopLoading(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, stopLoading)
 		{
 			if (arguments.size() < 1) {
 				return get_context().CreateUndefined();
@@ -298,12 +298,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue WebView::js_getData(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, getData)
 		{
 			return js_get_data();
 		}
 
-		JSValue WebView::js_setData(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, setData)
 		{
 			if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
@@ -315,17 +315,17 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue WebView::js_getHtml(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, getHtml)
 		{
 			return get_context().CreateString(getHtml());
 		}
 
-		JSValue WebView::js_getLoading(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, getLoading)
 		{
 			return get_context().CreateBoolean(getLoading());
 		}
 
-		JSValue WebView::js_setLoading(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, setLoading)
 		{
 			if (arguments.size() < 1) {
 				return get_context().CreateUndefined();
@@ -338,12 +338,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue WebView::js_getScalesPageToFit(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, getScalesPageToFit)
 		{
 			return get_context().CreateBoolean(getScalesPageToFit());
 		}
 
-		JSValue WebView::js_setScalesPageToFit(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, setScalesPageToFit)
 		{
 			if (arguments.size() < 1) {
 				return get_context().CreateUndefined();
@@ -356,12 +356,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue WebView::js_getUrl(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, getUrl)
 		{
 			return get_context().CreateString(getUrl());
 		}
 
-		JSValue WebView::js_setUrl(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(WebView, setUrl)
 		{
 			if (arguments.size() < 1) {
 				return get_context().CreateUndefined();

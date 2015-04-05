@@ -115,40 +115,33 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_color() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(color);
+			TITANIUM_FUNCTION_DEF(getColor);
+			TITANIUM_FUNCTION_DEF(setColor);
 
-			virtual JSValue js_get_ellipsize() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_ellipsize(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getEllipsize(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setEllipsize(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(ellipsize);
+			TITANIUM_FUNCTION_DEF(getEllipsize);
+			TITANIUM_FUNCTION_DEF(setEllipsize);
 
-			virtual JSValue js_get_font() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_font(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getFont(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setFont(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(font);
+			TITANIUM_FUNCTION_DEF(getFont);
+			TITANIUM_FUNCTION_DEF(setFont);
 
-			virtual JSValue js_get_text() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_text(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getText(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setText(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(text);
+			TITANIUM_FUNCTION_DEF(getText);
+			TITANIUM_FUNCTION_DEF(setText);
 
-			virtual JSValue js_get_textAlign() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getTextAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setTextAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(textAlign);
+			TITANIUM_FUNCTION_DEF(getTextAlign);
+			TITANIUM_FUNCTION_DEF(setTextAlign);
 
-			virtual JSValue js_get_verticalAlign() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getVerticalAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setVerticalAlign(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(verticalAlign);
+			TITANIUM_FUNCTION_DEF(getVerticalAlign);
+			TITANIUM_FUNCTION_DEF(setVerticalAlign);
 
-			virtual JSValue js_get_wordWrap() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_wordWrap(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getWordWrap(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setWordWrap(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(wordWrap);
+			TITANIUM_FUNCTION_DEF(getWordWrap);
+			TITANIUM_FUNCTION_DEF(setWordWrap);
 
 		private:
 #pragma warning(push)

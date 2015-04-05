@@ -36,15 +36,15 @@ namespace Titanium
 		{
 			JSExport<Picker>::SetClassVersion(1);
 			JSExport<Picker>::SetParent(JSExport<View>::Class());
-			JSExport<Picker>::AddValueProperty("type", std::mem_fn(&Picker::js_get_type), std::mem_fn(&Picker::js_set_type));
+			TITANIUM_ADD_PROPERTY(Picker, type);
 		}
 
-		JSValue Picker::js_get_type() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Picker, type)
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<PICKER_TYPE>::type>(get_type()));
 		}
 
-		bool Picker::js_set_type(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Picker, type)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			type__ = Constants::to_PICKER_TYPE(static_cast<std::underlying_type<PICKER_TYPE>::type>(argument));

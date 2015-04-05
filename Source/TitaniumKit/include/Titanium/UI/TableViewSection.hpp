@@ -106,26 +106,25 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_footerTitle() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_footerView() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_headerTitle() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_headerTitle(const JSValue&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_headerView() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_rowCount() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_rows() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_add(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_remove(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_rowAtIndex(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getFooterTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setFooterTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getFooterView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setFooterView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getHeaderTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setHeaderTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getHeaderView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setHeaderView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getRowCount(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getRows(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_READONLY_DEF(footerTitle);
+			TITANIUM_PROPERTY_READONLY_DEF(footerView);
+			TITANIUM_PROPERTY_DEF(headerTitle);
+			TITANIUM_PROPERTY_READONLY_DEF(headerView);
+			TITANIUM_PROPERTY_READONLY_DEF(rowCount);
+			TITANIUM_PROPERTY_READONLY_DEF(rows);
+			TITANIUM_FUNCTION_DEF(add);
+			TITANIUM_FUNCTION_DEF(remove);
+			TITANIUM_FUNCTION_DEF(rowAtIndex);
+			TITANIUM_FUNCTION_DEF(getFooterTitle);
+			TITANIUM_FUNCTION_DEF(setFooterTitle);
+			TITANIUM_FUNCTION_DEF(getFooterView);
+			TITANIUM_FUNCTION_DEF(setFooterView);
+			TITANIUM_FUNCTION_DEF(getHeaderTitle);
+			TITANIUM_FUNCTION_DEF(setHeaderTitle);
+			TITANIUM_FUNCTION_DEF(getHeaderView);
+			TITANIUM_FUNCTION_DEF(setHeaderView);
+			TITANIUM_FUNCTION_DEF(getRowCount);
+			TITANIUM_FUNCTION_DEF(getRows);
 
 			protected:
 #pragma warning(push)

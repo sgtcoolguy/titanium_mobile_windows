@@ -153,32 +153,27 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_footerTitle() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_footerTitle(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_headerTitle() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_headerTitle(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_footerView() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_footerView(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_headerView() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_headerView(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_items() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_items(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setItems(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_appendItems(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_insertItemsAt(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_replaceItemsAt(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_deleteItemsAt(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getItemAt(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_updateItemAt(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getFooterTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setFooterTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getFooterView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setFooterView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getHeaderTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setHeaderTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getHeaderView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setHeaderView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getItems(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(footerTitle);
+			TITANIUM_PROPERTY_DEF(headerTitle);
+			TITANIUM_PROPERTY_DEF(footerView);
+			TITANIUM_PROPERTY_DEF(headerView);
+			TITANIUM_PROPERTY_DEF(items);
+			TITANIUM_FUNCTION_DEF(setItems);
+			TITANIUM_FUNCTION_DEF(appendItems);
+			TITANIUM_FUNCTION_DEF(insertItemsAt);
+			TITANIUM_FUNCTION_DEF(replaceItemsAt);
+			TITANIUM_FUNCTION_DEF(deleteItemsAt);
+			TITANIUM_FUNCTION_DEF(getItemAt);
+			TITANIUM_FUNCTION_DEF(updateItemAt);
+			TITANIUM_FUNCTION_DEF(getFooterTitle);
+			TITANIUM_FUNCTION_DEF(setFooterTitle);
+			TITANIUM_FUNCTION_DEF(getFooterView);
+			TITANIUM_FUNCTION_DEF(setFooterView);
+			TITANIUM_FUNCTION_DEF(getHeaderTitle);
+			TITANIUM_FUNCTION_DEF(setHeaderTitle);
+			TITANIUM_FUNCTION_DEF(getHeaderView);
+			TITANIUM_FUNCTION_DEF(setHeaderView);
+			TITANIUM_FUNCTION_DEF(getItems);
 
 		protected:
 #pragma warning(push)

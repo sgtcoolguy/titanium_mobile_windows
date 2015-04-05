@@ -172,55 +172,55 @@ namespace Titanium
 			JSExport<ListSection>::SetClassVersion(1);
 			JSExport<ListSection>::SetParent(JSExport<Module>::Class());
 
-			JSExport<ListSection>::AddValueProperty("footerTitle", std::mem_fn(&ListSection::js_get_footerTitle), std::mem_fn(&ListSection::js_set_footerTitle));
-			JSExport<ListSection>::AddValueProperty("headerTitle", std::mem_fn(&ListSection::js_get_headerTitle), std::mem_fn(&ListSection::js_set_headerTitle));
-			JSExport<ListSection>::AddValueProperty("footerView", std::mem_fn(&ListSection::js_get_footerView), std::mem_fn(&ListSection::js_set_footerView));
-			JSExport<ListSection>::AddValueProperty("headerView", std::mem_fn(&ListSection::js_get_headerView), std::mem_fn(&ListSection::js_set_headerView));
-			JSExport<ListSection>::AddValueProperty("items", std::mem_fn(&ListSection::js_get_items),             std::mem_fn(&ListSection::js_set_items));
+			TITANIUM_ADD_PROPERTY(ListSection, footerTitle);
+			TITANIUM_ADD_PROPERTY(ListSection, headerTitle);
+			TITANIUM_ADD_PROPERTY(ListSection, footerView);
+			TITANIUM_ADD_PROPERTY(ListSection, headerView);
+			TITANIUM_ADD_PROPERTY(ListSection, items);
 
-			JSExport<ListSection>::AddFunctionProperty("appendItems", std::mem_fn(&ListSection::js_appendItems));
-			JSExport<ListSection>::AddFunctionProperty("insertItemsAt", std::mem_fn(&ListSection::js_insertItemsAt));
-			JSExport<ListSection>::AddFunctionProperty("replaceItemsAt", std::mem_fn(&ListSection::js_replaceItemsAt));
-			JSExport<ListSection>::AddFunctionProperty("deleteItemsAt", std::mem_fn(&ListSection::js_deleteItemsAt));
-			JSExport<ListSection>::AddFunctionProperty("getItemAt", std::mem_fn(&ListSection::js_getItemAt));
-			JSExport<ListSection>::AddFunctionProperty("updateItemAt", std::mem_fn(&ListSection::js_updateItemAt));
-			JSExport<ListSection>::AddFunctionProperty("getFooterTitle", std::mem_fn(&ListSection::js_getFooterTitle));
-			JSExport<ListSection>::AddFunctionProperty("setFooterTitle", std::mem_fn(&ListSection::js_setFooterTitle));
-			JSExport<ListSection>::AddFunctionProperty("getFooterView", std::mem_fn(&ListSection::js_getFooterView));
-			JSExport<ListSection>::AddFunctionProperty("setFooterView", std::mem_fn(&ListSection::js_setFooterView));
-			JSExport<ListSection>::AddFunctionProperty("getHeaderTitle", std::mem_fn(&ListSection::js_getHeaderTitle));
-			JSExport<ListSection>::AddFunctionProperty("setHeaderTitle", std::mem_fn(&ListSection::js_setHeaderTitle));
-			JSExport<ListSection>::AddFunctionProperty("getHeaderView", std::mem_fn(&ListSection::js_getHeaderView));
-			JSExport<ListSection>::AddFunctionProperty("setHeaderView", std::mem_fn(&ListSection::js_setHeaderView));
-			JSExport<ListSection>::AddFunctionProperty("getItems", std::mem_fn(&ListSection::js_getItems));
-			JSExport<ListSection>::AddFunctionProperty("setItems", std::mem_fn(&ListSection::js_setItems));
+			TITANIUM_ADD_FUNCTION(ListSection, appendItems);
+			TITANIUM_ADD_FUNCTION(ListSection, insertItemsAt);
+			TITANIUM_ADD_FUNCTION(ListSection, replaceItemsAt);
+			TITANIUM_ADD_FUNCTION(ListSection, deleteItemsAt);
+			TITANIUM_ADD_FUNCTION(ListSection, getItemAt);
+			TITANIUM_ADD_FUNCTION(ListSection, updateItemAt);
+			TITANIUM_ADD_FUNCTION(ListSection, getFooterTitle);
+			TITANIUM_ADD_FUNCTION(ListSection, setFooterTitle);
+			TITANIUM_ADD_FUNCTION(ListSection, getFooterView);
+			TITANIUM_ADD_FUNCTION(ListSection, setFooterView);
+			TITANIUM_ADD_FUNCTION(ListSection, getHeaderTitle);
+			TITANIUM_ADD_FUNCTION(ListSection, setHeaderTitle);
+			TITANIUM_ADD_FUNCTION(ListSection, getHeaderView);
+			TITANIUM_ADD_FUNCTION(ListSection, setHeaderView);
+			TITANIUM_ADD_FUNCTION(ListSection, getItems);
+			TITANIUM_ADD_FUNCTION(ListSection, setItems);
 		}
 
-		JSValue ListSection::js_get_footerTitle() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ListSection, footerTitle)
 		{
 			return get_context().CreateString(get_footerTitle());
 		}
 
-		bool ListSection::js_set_footerTitle(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ListSection, footerTitle)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_footerTitle(static_cast<std::string>(argument));
 			return true;
 		}
 
-		JSValue ListSection::js_get_headerTitle() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ListSection, headerTitle)
 		{
 			return get_context().CreateString(get_headerTitle());
 		}
 
-		bool ListSection::js_set_headerTitle(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ListSection, headerTitle)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_headerTitle(static_cast<std::string>(argument));
 			return true;
 		}
 
-		JSValue ListSection::js_get_footerView() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ListSection, footerView)
 		{
 			auto view = get_footerView();
 			if (view) {
@@ -230,14 +230,14 @@ namespace Titanium
 			}
 		}
 
-		bool ListSection::js_set_footerView(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ListSection, footerView)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
 			set_footerView(static_cast<JSObject>(argument).GetPrivate<View>());
 			return true;
 		}
 
-		JSValue ListSection::js_get_headerView() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ListSection, headerView)
 		{
 			auto view = get_headerView();
 			if (view) {
@@ -247,14 +247,14 @@ namespace Titanium
 			}
 		}
 
-		bool ListSection::js_set_headerView(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ListSection, headerView)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
 			set_headerView(static_cast<JSObject>(argument).GetPrivate<View>());
 			return true;
 		}
 
-		JSValue ListSection::js_get_items() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(ListSection, items)
 		{
 			std::vector<JSValue> js_items;
 			for (auto & item : get_items()) {
@@ -263,7 +263,7 @@ namespace Titanium
 			return get_context().CreateArray(js_items);
 		}
 
-		bool ListSection::js_set_items(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(ListSection, items)
 		{
 			if (!argument.IsObject()) {
 				return false;
@@ -276,7 +276,7 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue ListSection::js_setItems(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, setItems)
 		{
 			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 1) {
@@ -297,7 +297,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ListSection::js_appendItems(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, appendItems)
 		{
 			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 1) {
@@ -317,7 +317,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ListSection::js_insertItemsAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, insertItemsAt)
 		{
 			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
@@ -341,7 +341,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ListSection::js_replaceItemsAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, replaceItemsAt)
 		{
 			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 3) {
@@ -369,7 +369,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ListSection::js_deleteItemsAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, deleteItemsAt)
 		{
 			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
@@ -393,7 +393,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ListSection::js_getItemAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, getItemAt)
 		{
 			if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
@@ -404,7 +404,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ListSection::js_updateItemAt(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, updateItemAt)
 		{
 			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
@@ -429,12 +429,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ListSection::js_getFooterTitle(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, getFooterTitle)
 		{
 			return js_get_footerTitle();
 		}
 
-		JSValue ListSection::js_setFooterTitle(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, setFooterTitle)
 		{
 			if (arguments.size() >= 1) {
 				js_set_footerTitle(arguments.at(0));
@@ -442,12 +442,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ListSection::js_getFooterView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, getFooterView)
 		{
 			return this_object.GetProperty("footerView");
 		}
 
-		JSValue ListSection::js_setFooterView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, setFooterView)
 		{
 			if (arguments.size() >= 1) {
 				this_object.SetProperty("footerView", arguments.at(0));
@@ -455,12 +455,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ListSection::js_getHeaderTitle(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, getHeaderTitle)
 		{
 			return js_get_headerTitle();
 		}
 
-		JSValue ListSection::js_setHeaderTitle(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, setHeaderTitle)
 		{
 			if (arguments.size() >= 1) {
 				js_set_headerTitle(arguments.at(0));
@@ -468,12 +468,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ListSection::js_getHeaderView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, getHeaderView)
 		{
 			return this_object.GetProperty("headerView");
 		}
 
-		JSValue ListSection::js_setHeaderView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, setHeaderView)
 		{
 			if (arguments.size() >= 1) {
 				this_object.SetProperty("headerView", arguments.at(0));
@@ -481,7 +481,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue ListSection::js_getItems(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(ListSection, getItems)
 		{
 			return js_get_items();
 		}

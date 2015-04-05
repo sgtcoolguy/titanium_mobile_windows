@@ -85,29 +85,29 @@ namespace Titanium
 		{
 			JSExport<AlertDialog>::SetClassVersion(1);
 			JSExport<AlertDialog>::SetParent(JSExport<Module>::Class());
-			JSExport<AlertDialog>::AddFunctionProperty("hide", std::mem_fn(&AlertDialog::js_hide));
-			JSExport<AlertDialog>::AddFunctionProperty("show", std::mem_fn(&AlertDialog::js_show));
-			JSExport<AlertDialog>::AddValueProperty("buttonNames", std::mem_fn(&AlertDialog::js_get_buttonNames), std::mem_fn(&AlertDialog::js_set_buttonNames));
-			JSExport<AlertDialog>::AddValueProperty("cancel", std::mem_fn(&AlertDialog::js_get_cancel), std::mem_fn(&AlertDialog::js_set_cancel));
-			JSExport<AlertDialog>::AddValueProperty("message", std::mem_fn(&AlertDialog::js_get_message), std::mem_fn(&AlertDialog::js_set_message));
-			JSExport<AlertDialog>::AddValueProperty("title", std::mem_fn(&AlertDialog::js_get_title), std::mem_fn(&AlertDialog::js_set_title));
+			TITANIUM_ADD_FUNCTION(AlertDialog, hide);
+			TITANIUM_ADD_FUNCTION(AlertDialog, show);
+			TITANIUM_ADD_PROPERTY(AlertDialog, buttonNames);
+			TITANIUM_ADD_PROPERTY(AlertDialog, cancel);
+			TITANIUM_ADD_PROPERTY(AlertDialog, message);
+			TITANIUM_ADD_PROPERTY(AlertDialog, title);
 		}
 
-		JSValue AlertDialog::js_hide(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(AlertDialog, hide)
 		{
 			TITANIUM_ASSERT(arguments.size() == 0);
 			hide();
 			return get_context().CreateUndefined();
 		}
 
-		JSValue AlertDialog::js_show(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(AlertDialog, show)
 		{
 			TITANIUM_ASSERT(arguments.size() == 0);
 			show();
 			return get_context().CreateUndefined();
 		}
 
-		JSValue AlertDialog::js_get_buttonNames() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(AlertDialog, buttonNames)
 		{
 			auto context = get_context();
 			std::vector<JSValue> jsButtonNames = std::vector<JSValue>();
@@ -117,7 +117,7 @@ namespace Titanium
 			return context.CreateArray(jsButtonNames);
 		}
 
-		bool AlertDialog::js_set_buttonNames(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(AlertDialog, buttonNames)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
 			auto object = static_cast<JSObject>(argument);
@@ -144,36 +144,36 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue AlertDialog::js_get_message() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(AlertDialog, message)
 		{
 			return get_context().CreateString(get_message());
 		}
 
-		bool AlertDialog::js_set_message(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(AlertDialog, message)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_message(static_cast<std::string>(argument));
 			return true;
 		}
 
-			JSValue AlertDialog::js_get_cancel() const TITANIUM_NOEXCEPT
+			TITANIUM_PROPERTY_GETTER(AlertDialog, cancel)
 		{
 			return get_context().CreateNumber(get_cancel());
 		}
 
-			bool AlertDialog::js_set_cancel(const JSValue& argument) TITANIUM_NOEXCEPT
+			TITANIUM_PROPERTY_SETTER(AlertDialog, cancel)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			set_cancel(static_cast<int32_t>(argument));
 			return true;
 		}
 
-		JSValue AlertDialog::js_get_title() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(AlertDialog, title)
 		{
 			return get_context().CreateString(get_title());
 		}
 
-		bool AlertDialog::js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(AlertDialog, title)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_title(static_cast<std::string>(argument));
