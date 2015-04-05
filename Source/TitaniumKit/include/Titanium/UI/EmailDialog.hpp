@@ -41,28 +41,28 @@ namespace Titanium
 			  @abstract CANCELLED
 			  @discussion Constant for the `CANCELLED` status result.
 			*/
-			virtual JSValue CANCELLED() const TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_READONLY_DEF(CANCELLED);
 
 			/*!
 			  @property
 			  @abstract FAILED
 			  @discussion Constant for the `FAILED` status result.
 			*/
-			virtual JSValue FAILED() const TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_READONLY_DEF(FAILED);
 
 			/*!
 			  @property
 			  @abstract SAVED
 			  @discussion Constant for the `SAVED` status result. On Android, this property exists but is not used.
 			*/
-			virtual JSValue SAVED() const TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_READONLY_DEF(SAVED);
 
 			/*!
 			  @property
 			  @abstract SENT
 			  @discussion Constant for the `SENT` status result.
 			*/
-			virtual JSValue SENT() const TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_READONLY_DEF(SENT);
 
 			/*!
 			  @property
@@ -147,33 +147,27 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_bccRecipients() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_bccRecipients(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_ccRecipients() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_ccRecipients(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_html() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_html(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_messageBody() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_messageBody(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_subject() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_subject(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_toRecipients() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_toRecipients(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_addAttachment(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_isSupported(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_open(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getBccRecipients(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setBccRecipients(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getCcRecipients(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setCcRecipients(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getHtml(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setHtml(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getMessageBody(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setMessageBody(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getSubject(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setSubject(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getToRecipients(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setToRecipients(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(bccRecipients);
+			TITANIUM_PROPERTY_DEF(ccRecipients);
+			TITANIUM_PROPERTY_DEF(html);
+			TITANIUM_PROPERTY_DEF(messageBody);
+			TITANIUM_PROPERTY_DEF(subject);
+			TITANIUM_PROPERTY_DEF(toRecipients);
+			TITANIUM_FUNCTION_DEF(addAttachment);
+			TITANIUM_FUNCTION_DEF(isSupported);
+			TITANIUM_FUNCTION_DEF(open);
+			TITANIUM_FUNCTION_DEF(getBccRecipients);
+			TITANIUM_FUNCTION_DEF(setBccRecipients);
+			TITANIUM_FUNCTION_DEF(getCcRecipients);
+			TITANIUM_FUNCTION_DEF(setCcRecipients);
+			TITANIUM_FUNCTION_DEF(getHtml);
+			TITANIUM_FUNCTION_DEF(setHtml);
+			TITANIUM_FUNCTION_DEF(getMessageBody);
+			TITANIUM_FUNCTION_DEF(setMessageBody);
+			TITANIUM_FUNCTION_DEF(getSubject);
+			TITANIUM_FUNCTION_DEF(setSubject);
+			TITANIUM_FUNCTION_DEF(getToRecipients);
+			TITANIUM_FUNCTION_DEF(setToRecipients);
 
 		private:
 #pragma warning(push)

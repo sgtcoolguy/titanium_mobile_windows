@@ -177,23 +177,23 @@ namespace Titanium
 		{
 			JSExport<Window>::SetClassVersion(1);
 			JSExport<Window>::SetParent(JSExport<View>::Class());
-			JSExport<Window>::AddFunctionProperty("close", std::mem_fn(&Window::js_close));
-			JSExport<Window>::AddFunctionProperty("open", std::mem_fn(&Window::js_open));
-			JSExport<Window>::AddValueProperty("barColor", std::mem_fn(&Window::js_get_barColor), std::mem_fn(&Window::js_set_barColor));
-			JSExport<Window>::AddValueProperty("exitOnClose", std::mem_fn(&Window::js_get_exitOnClose), std::mem_fn(&Window::js_set_exitOnClose));
-			JSExport<Window>::AddValueProperty("extendEdges", std::mem_fn(&Window::js_get_extendEdges), std::mem_fn(&Window::js_set_extendEdges));
-			JSExport<Window>::AddValueProperty("fullscreen", std::mem_fn(&Window::js_get_fullscreen), std::mem_fn(&Window::js_set_fullscreen));
-			JSExport<Window>::AddValueProperty("hideShadow", std::mem_fn(&Window::js_get_hideShadow), std::mem_fn(&Window::js_set_hideShadow));
-			JSExport<Window>::AddValueProperty("modal", std::mem_fn(&Window::js_get_modal), std::mem_fn(&Window::js_set_modal));
-			JSExport<Window>::AddValueProperty("navBarHidden", std::mem_fn(&Window::js_get_navBarHidden), std::mem_fn(&Window::js_set_navBarHidden));
-			JSExport<Window>::AddValueProperty("navTintColor", std::mem_fn(&Window::js_get_navTintColor), std::mem_fn(&Window::js_set_navTintColor));
-			JSExport<Window>::AddValueProperty("orientationModes", std::mem_fn(&Window::js_get_orientationModes), std::mem_fn(&Window::js_set_orientationModes));
-			JSExport<Window>::AddValueProperty("theme", std::mem_fn(&Window::js_get_theme), std::mem_fn(&Window::js_set_theme));
-			JSExport<Window>::AddValueProperty("titleAttributes", std::mem_fn(&Window::js_get_titleAttributes), std::mem_fn(&Window::js_set_titleAttributes));
-			JSExport<Window>::AddValueProperty("translucent", std::mem_fn(&Window::js_get_translucent), std::mem_fn(&Window::js_set_translucent));
+			TITANIUM_ADD_FUNCTION(Window, close);
+			TITANIUM_ADD_FUNCTION(Window, open);
+			TITANIUM_ADD_PROPERTY(Window, barColor);
+			TITANIUM_ADD_PROPERTY(Window, exitOnClose);
+			TITANIUM_ADD_PROPERTY(Window, extendEdges);
+			TITANIUM_ADD_PROPERTY(Window, fullscreen);
+			TITANIUM_ADD_PROPERTY(Window, hideShadow);
+			TITANIUM_ADD_PROPERTY(Window, modal);
+			TITANIUM_ADD_PROPERTY(Window, navBarHidden);
+			TITANIUM_ADD_PROPERTY(Window, navTintColor);
+			TITANIUM_ADD_PROPERTY(Window, orientationModes);
+			TITANIUM_ADD_PROPERTY(Window, theme);
+			TITANIUM_ADD_PROPERTY(Window, titleAttributes);
+			TITANIUM_ADD_PROPERTY(Window, translucent);
 		}
 
-		JSValue Window::js_close(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(Window, close)
 		{
 			auto js_context = this_object.get_context();
 			auto params = js_context.CreateObject();
@@ -209,7 +209,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue Window::js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(Window, open)
 		{
 			auto js_context = this_object.get_context();
 			auto params = js_context.CreateObject();
@@ -224,36 +224,36 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue Window::js_get_barColor() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, barColor)
 		{
 			return get_context().CreateString(get_barColor());
 		}
 
-		bool Window::js_set_barColor(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, barColor)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_barColor(static_cast<std::string>(argument));
 			return true;
 		}
 
-		JSValue Window::js_get_exitOnClose() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, exitOnClose)
 		{
 			return get_context().CreateBoolean(exitOnClose__);
 		}
 
-		bool Window::js_set_exitOnClose(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, exitOnClose)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_exitOnClose(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue Window::js_get_extendEdges() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, extendEdges)
 		{
 			return get_context().CreateNumber(Constants::to_underlying_type(extendEdges__));
 		}
 
-		bool Window::js_set_extendEdges(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, extendEdges)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			extendEdges__ = Constants::to_EXTEND_EDGE(static_cast<std::underlying_type<EXTEND_EDGE>::type>(argument));
@@ -261,67 +261,67 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue Window::js_get_fullscreen() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, fullscreen)
 		{
 			return get_context().CreateBoolean(fullscreen__);
 		}
 
-		bool Window::js_set_fullscreen(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, fullscreen)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_fullscreen(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue Window::js_get_hideShadow() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, hideShadow)
 		{
 			return get_context().CreateBoolean(hideShadow__);
 		}
 
-		bool Window::js_set_hideShadow(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, hideShadow)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_hideShadow(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue Window::js_get_modal() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, modal)
 		{
 			return get_context().CreateBoolean(modal__);
 		}
 
-		bool Window::js_set_modal(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, modal)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_modal(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue Window::js_get_navBarHidden() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, navBarHidden)
 		{
 			return get_context().CreateBoolean(navBarHidden__);
 		}
 
-		bool Window::js_set_navBarHidden(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, navBarHidden)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_navBarHidden(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue Window::js_get_navTintColor() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, navTintColor)
 		{
 			return get_context().CreateString(navTintColor__);
 		}
 
-		bool Window::js_set_navTintColor(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, navTintColor)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_navTintColor(static_cast<std::string>(argument));
 			return true;
 		}
 
-		JSValue Window::js_get_orientationModes() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, orientationModes)
 		{
 			std::vector<JSValue> modes;
 			for (auto mode : orientationModes__) {
@@ -330,7 +330,7 @@ namespace Titanium
 			return get_context().CreateArray(modes);
 		}
 
-		bool Window::js_set_orientationModes(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, orientationModes)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
 			auto js_arg = static_cast<JSObject>(argument);
@@ -346,36 +346,36 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue Window::js_get_theme() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, theme)
 		{
 			return get_context().CreateString(theme__);
 		}
 
-		bool Window::js_set_theme(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, theme)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_theme(static_cast<std::string>(argument));
 			return true;
 		}
 
-		JSValue Window::js_get_titleAttributes() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, titleAttributes)
 		{
 			return TitleAttributesParams_to_js(get_context(), titleAttributes__);
 		}
 
-		bool Window::js_set_titleAttributes(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, titleAttributes)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
 			set_titleAttributes(js_to_TitleAttributesParams(static_cast<JSObject>(argument)));
 			return true;
 		}
 
-		JSValue Window::js_get_translucent() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Window, translucent)
 		{
 			return get_context().CreateBoolean(translucent__);
 		}
 
-		bool Window::js_set_translucent(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Window, translucent)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_translucent(static_cast<bool>(argument));

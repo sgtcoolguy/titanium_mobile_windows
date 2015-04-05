@@ -74,34 +74,34 @@ namespace Titanium
 			JSExport<TableViewSection>::SetClassVersion(1);
 			JSExport<TableViewSection>::SetParent(JSExport<Module>::Class());
 
-			JSExport<TableViewSection>::AddValueProperty("footerTitle", std::mem_fn(&TableViewSection::js_get_footerTitle));
-			JSExport<TableViewSection>::AddValueProperty("footerView", std::mem_fn(&TableViewSection::js_get_footerView));
-			JSExport<TableViewSection>::AddValueProperty("headerTitle", std::mem_fn(&TableViewSection::js_get_headerTitle), std::mem_fn(&TableViewSection::js_set_headerTitle));
-			JSExport<TableViewSection>::AddValueProperty("headerView", std::mem_fn(&TableViewSection::js_get_headerView));
-			JSExport<TableViewSection>::AddValueProperty("rowCount", std::mem_fn(&TableViewSection::js_get_rowCount));
-			JSExport<TableViewSection>::AddValueProperty("rows", std::mem_fn(&TableViewSection::js_get_rows));
+			TITANIUM_ADD_PROPERTY_READONLY(TableViewSection, footerTitle);
+			TITANIUM_ADD_PROPERTY_READONLY(TableViewSection, footerView);
+			TITANIUM_ADD_PROPERTY(TableViewSection, headerTitle);
+			TITANIUM_ADD_PROPERTY_READONLY(TableViewSection, headerView);
+			TITANIUM_ADD_PROPERTY_READONLY(TableViewSection, rowCount);
+			TITANIUM_ADD_PROPERTY_READONLY(TableViewSection, rows);
 
-			JSExport<TableViewSection>::AddFunctionProperty("add", std::mem_fn(&TableViewSection::js_add));
-			JSExport<TableViewSection>::AddFunctionProperty("remove", std::mem_fn(&TableViewSection::js_remove));
-			JSExport<TableViewSection>::AddFunctionProperty("rowAtIndex", std::mem_fn(&TableViewSection::js_rowAtIndex));
-			JSExport<TableViewSection>::AddFunctionProperty("getFooterTitle", std::mem_fn(&TableViewSection::js_getFooterTitle));
-			JSExport<TableViewSection>::AddFunctionProperty("setFooterTitle", std::mem_fn(&TableViewSection::js_setFooterTitle));
-			JSExport<TableViewSection>::AddFunctionProperty("getFooterView", std::mem_fn(&TableViewSection::js_getFooterView));
-			JSExport<TableViewSection>::AddFunctionProperty("setFooterView", std::mem_fn(&TableViewSection::js_setFooterView));
-			JSExport<TableViewSection>::AddFunctionProperty("getHeaderTitle", std::mem_fn(&TableViewSection::js_getHeaderTitle));
-			JSExport<TableViewSection>::AddFunctionProperty("setHeaderTitle", std::mem_fn(&TableViewSection::js_setHeaderTitle));
-			JSExport<TableViewSection>::AddFunctionProperty("getHeaderView", std::mem_fn(&TableViewSection::js_getHeaderView));
-			JSExport<TableViewSection>::AddFunctionProperty("setHeaderView", std::mem_fn(&TableViewSection::js_setHeaderView));
-			JSExport<TableViewSection>::AddFunctionProperty("getRowCount", std::mem_fn(&TableViewSection::js_getRowCount));
-			JSExport<TableViewSection>::AddFunctionProperty("getRows", std::mem_fn(&TableViewSection::js_getRows));
+			TITANIUM_ADD_FUNCTION(TableViewSection, add);
+			TITANIUM_ADD_FUNCTION(TableViewSection, remove);
+			TITANIUM_ADD_FUNCTION(TableViewSection, rowAtIndex);
+			TITANIUM_ADD_FUNCTION(TableViewSection, getFooterTitle);
+			TITANIUM_ADD_FUNCTION(TableViewSection, setFooterTitle);
+			TITANIUM_ADD_FUNCTION(TableViewSection, getFooterView);
+			TITANIUM_ADD_FUNCTION(TableViewSection, setFooterView);
+			TITANIUM_ADD_FUNCTION(TableViewSection, getHeaderTitle);
+			TITANIUM_ADD_FUNCTION(TableViewSection, setHeaderTitle);
+			TITANIUM_ADD_FUNCTION(TableViewSection, getHeaderView);
+			TITANIUM_ADD_FUNCTION(TableViewSection, setHeaderView);
+			TITANIUM_ADD_FUNCTION(TableViewSection, getRowCount);
+			TITANIUM_ADD_FUNCTION(TableViewSection, getRows);
 		}
 
-		JSValue TableViewSection::js_get_footerTitle() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TableViewSection, footerTitle)
 		{
 			return get_context().CreateString(get_footerTitle());
 		}
 
-		JSValue TableViewSection::js_get_footerView() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TableViewSection, footerView)
 		{
 			auto view = get_footerView();
 			if (view) {
@@ -111,12 +111,12 @@ namespace Titanium
 			}
 		}
 
-		JSValue TableViewSection::js_get_headerTitle() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TableViewSection, headerTitle)
 		{
 			return get_context().CreateString(get_headerTitle());
 		}
 
-		JSValue TableViewSection::js_get_headerView() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TableViewSection, headerView)
 		{
 			auto view = get_headerView();
 			if (view) {
@@ -126,12 +126,12 @@ namespace Titanium
 			}
 		}
 
-		JSValue TableViewSection::js_get_rowCount() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TableViewSection, rowCount)
 		{
 			return get_context().CreateNumber(get_rowCount());
 		}
 
-		JSValue TableViewSection::js_get_rows() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TableViewSection, rows)
 		{
 			std::vector<JSValue> js_items;
 			for (auto& item : get_rows()) {
@@ -140,7 +140,7 @@ namespace Titanium
 			return get_context().CreateArray(js_items);
 		}
 
-		JSValue TableViewSection::js_add(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, add)
 		{
 			if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
@@ -151,7 +151,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue TableViewSection::js_remove(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, remove)
 		{
 			if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
@@ -162,7 +162,7 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue TableViewSection::js_rowAtIndex(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, rowAtIndex)
 		{
 			if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
@@ -173,13 +173,13 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue TableViewSection::js_getFooterTitle(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, getFooterTitle)
 		{
 			TITANIUM_LOG_WARN("TableViewSection.getFooterTitle is not implemented yet");
 			return get_context().CreateUndefined();
 		}
 
-		JSValue TableViewSection::js_setFooterTitle(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, setFooterTitle)
 		{
 			TITANIUM_LOG_WARN("TableViewSection.setFooterTitle is not implemented yet");
 			if (arguments.size() >= 1) {
@@ -191,12 +191,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue TableViewSection::js_getFooterView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, getFooterView)
 		{
 			return js_get_footerView();
 		}
 
-		JSValue TableViewSection::js_setFooterView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, setFooterView)
 		{
 			TITANIUM_LOG_WARN("TableViewSection.setFooterView is not implemented yet");
 			if (arguments.size() >= 1) {
@@ -208,19 +208,19 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue TableViewSection::js_getHeaderTitle(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, getHeaderTitle)
 		{
 			return js_get_headerTitle();
 		}
 
-		bool TableViewSection::js_set_headerTitle(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(TableViewSection, headerTitle)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_headerTitle(static_cast<std::string>(argument));
 			return true;
 		}
 
-		JSValue TableViewSection::js_setHeaderTitle(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, setHeaderTitle)
 		{
 			if (arguments.size() >= 1) {
 				js_set_headerTitle(arguments.at(0));
@@ -228,12 +228,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue TableViewSection::js_getHeaderView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, getHeaderView)
 		{
 			return js_get_headerView();
 		}
 
-		JSValue TableViewSection::js_setHeaderView(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, setHeaderView)
 		{
 			TITANIUM_LOG_WARN("TableViewSection.setHeaderView is not implemented yet");
 			if (arguments.size() >= 1) {
@@ -245,12 +245,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue TableViewSection::js_getRowCount(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, getRowCount)
 		{
 			return get_context().CreateNumber(get_rowCount());
 		}
 
-		JSValue TableViewSection::js_getRows(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(TableViewSection, getRows)
 		{
 			return js_get_rows();
 		}

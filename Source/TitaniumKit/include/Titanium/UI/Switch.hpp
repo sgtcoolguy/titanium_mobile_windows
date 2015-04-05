@@ -48,10 +48,9 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_value() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_value(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getValue(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setValue(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(value);
+			TITANIUM_FUNCTION_DEF(getValue);
+			TITANIUM_FUNCTION_DEF(setValue);
 
 			private:
 				bool value__;

@@ -246,33 +246,21 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_close(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			TITANIUM_FUNCTION_DEF(close);
+			TITANIUM_FUNCTION_DEF(open);
 
-			virtual JSValue js_get_barColor() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_barColor(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_exitOnClose() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_exitOnClose(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_extendEdges() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_extendEdges(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_fullscreen() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_fullscreen(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_hideShadow() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_hideShadow(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_modal() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_modal(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_navBarHidden() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_navBarHidden(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_navTintColor() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_navTintColor(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_orientationModes() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_orientationModes(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_theme() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_theme(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_titleAttributes() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_titleAttributes(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_translucent() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_translucent(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(barColor);
+			TITANIUM_PROPERTY_DEF(exitOnClose);
+			TITANIUM_PROPERTY_DEF(extendEdges);
+			TITANIUM_PROPERTY_DEF(fullscreen);
+			TITANIUM_PROPERTY_DEF(hideShadow);
+			TITANIUM_PROPERTY_DEF(modal);
+			TITANIUM_PROPERTY_DEF(navBarHidden);
+			TITANIUM_PROPERTY_DEF(navTintColor);
+			TITANIUM_PROPERTY_DEF(orientationModes);
+			TITANIUM_PROPERTY_DEF(theme);
+			TITANIUM_PROPERTY_DEF(titleAttributes);
+			TITANIUM_PROPERTY_DEF(translucent);
 
 		private:
 // Silence 4251 on Windows since private member variables do not

@@ -76,14 +76,9 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_max() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_max(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_get_min() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_min(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_get_value() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_value(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(max);
+			TITANIUM_PROPERTY_DEF(min);
+			TITANIUM_PROPERTY_DEF(value);
 
 		private:
 			double max__;

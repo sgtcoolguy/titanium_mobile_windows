@@ -90,20 +90,20 @@ namespace Titanium
 		{
 			JSExport<TextArea>::SetClassVersion(1);
 			JSExport<TextArea>::SetParent(JSExport<View>::Class());
-			JSExport<TextArea>::AddValueProperty("autoLink", std::mem_fn(&TextArea::js_get_autoLink), std::mem_fn(&TextArea::js_set_autoLink));
-			JSExport<TextArea>::AddValueProperty("keyboardType", std::mem_fn(&TextArea::js_get_keyboardType), std::mem_fn(&TextArea::js_set_keyboardType));
-			JSExport<TextArea>::AddValueProperty("returnKeyType", std::mem_fn(&TextArea::js_get_returnKeyType), std::mem_fn(&TextArea::js_set_returnKeyType));
-			JSExport<TextArea>::AddValueProperty("textAlign", std::mem_fn(&TextArea::js_get_textAlign), std::mem_fn(&TextArea::js_set_textAlign));
-			JSExport<TextArea>::AddValueProperty("autocapitalization", std::mem_fn(&TextArea::js_get_autoCapitalization), std::mem_fn(&TextArea::js_set_autoCapitalization));
-			JSExport<TextArea>::AddValueProperty("verticalAlign", std::mem_fn(&TextArea::js_get_verticalAlign), std::mem_fn(&TextArea::js_set_verticalAlign));
+			TITANIUM_ADD_PROPERTY(TextArea, autoLink);
+			TITANIUM_ADD_PROPERTY(TextArea, keyboardType);
+			TITANIUM_ADD_PROPERTY(TextArea, returnKeyType);
+			TITANIUM_ADD_PROPERTY(TextArea, textAlign);
+			TITANIUM_ADD_PROPERTY(TextArea, autocapitalization);
+			TITANIUM_ADD_PROPERTY(TextArea, verticalAlign);
 		}
 
-		JSValue TextArea::js_get_autoLink() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TextArea, autoLink)
 		{
 			return get_context().CreateNumber(Constants::to_underlying_type(autoLink__));
 		}
 
-		bool TextArea::js_set_autoLink(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(TextArea, autoLink)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			autoLink__ = Constants::to_AUTOLINK(static_cast<std::underlying_type<AUTOLINK>::type>(argument));
@@ -111,12 +111,12 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue TextArea::js_get_keyboardType() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TextArea, keyboardType)
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<KEYBOARD>::type>(get_keyboardType()));
 		}
 
-		bool TextArea::js_set_keyboardType(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(TextArea, keyboardType)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			keyboardType__ = Constants::to_KEYBOARD(static_cast<std::underlying_type<KEYBOARD>::type>(argument));
@@ -124,12 +124,12 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue TextArea::js_get_returnKeyType() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TextArea, returnKeyType)
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<RETURNKEY>::type>(get_returnKeyType()));
 		}
 
-		bool TextArea::js_set_returnKeyType(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(TextArea, returnKeyType)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			returnKeyType__ = Constants::to_RETURNKEY(static_cast<std::underlying_type<RETURNKEY>::type>(argument));
@@ -137,12 +137,12 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue TextArea::js_get_textAlign() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TextArea, textAlign)
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_ALIGNMENT>::type>(get_textAlign()));
 		}
 
-		bool TextArea::js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(TextArea, textAlign)
 		{
 			bool result = false;
 			if (argument.IsNumber()) {
@@ -158,12 +158,12 @@ namespace Titanium
 			return result;
 		}
 
-		JSValue TextArea::js_get_autoCapitalization() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TextArea, autoCapitalization)
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(get_autoCapitalization()));
 		}
 
-		bool TextArea::js_set_autoCapitalization(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(TextArea, autoCapitalization)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			autoCapitalization__ = Constants::to_TEXT_AUTOCAPITALIZATION(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(argument));
@@ -171,12 +171,12 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue TextArea::js_get_verticalAlign() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(TextArea, verticalAlign)
 		{
 			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_VERTICAL_ALIGNMENT>::type>(get_verticalAlign()));
 		}
 
-		bool TextArea::js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(TextArea, verticalAlign)
 		{
 			bool result = false;
 			if (argument.IsNumber()) {

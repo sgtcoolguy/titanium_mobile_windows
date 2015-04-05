@@ -265,72 +265,61 @@ namespace Titanium
 
 			static void JSExportInitialize();
 			// methods
-			virtual JSValue js_start(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_stop(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_pause(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_resume(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_toBlob(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			TITANIUM_FUNCTION_DEF(start);
+			TITANIUM_FUNCTION_DEF(stop);
+			TITANIUM_FUNCTION_DEF(pause);
+			TITANIUM_FUNCTION_DEF(resume);
+			TITANIUM_FUNCTION_DEF(toBlob);
 
 			// properties
-			virtual JSValue js_get_animating() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getAnimating(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_READONLY_DEF(animating);
+			TITANIUM_FUNCTION_DEF(getAnimating);
 
-			virtual JSValue js_get_autorotate() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_autorotate(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getAutorotate(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(autorotate);
+			TITANIUM_FUNCTION_DEF(getAutorotate);
 
-			virtual JSValue js_get_decodeRetries() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_decodeRetries(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getDecodeRetries(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setDecodeRetries(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(decodeRetries);
+			TITANIUM_FUNCTION_DEF(getDecodeRetries);
+			TITANIUM_FUNCTION_DEF(setDecodeRetries);
 
-			virtual JSValue js_get_defaultImage() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_defaultImage(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getDefaultImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setDefaultImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(defaultImage);
+			TITANIUM_FUNCTION_DEF(getDefaultImage);
+			TITANIUM_FUNCTION_DEF(setDefaultImage);
 
-			virtual JSValue js_get_duration() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_duration(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getDuration(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setDuration(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(duration);
+			TITANIUM_FUNCTION_DEF(getDuration);
+			TITANIUM_FUNCTION_DEF(setDuration);
 
-			virtual JSValue js_get_enableZoomControls() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_enableZoomControls(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getEnableZoomControls(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setEnableZoomControls(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(enableZoomControls);
+			TITANIUM_FUNCTION_DEF(getEnableZoomControls);
+			TITANIUM_FUNCTION_DEF(setEnableZoomControls);
 
-			virtual JSValue js_get_hires() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_hires(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getHires(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setHires(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(hires);
+			TITANIUM_FUNCTION_DEF(getHires);
+			TITANIUM_FUNCTION_DEF(setHires);
 
-			virtual JSValue js_get_image() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_image(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(image);
+			TITANIUM_FUNCTION_DEF(getImage);
+			TITANIUM_FUNCTION_DEF(setImage);
 
-			virtual JSValue js_get_images() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_images(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getImages(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setImages(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(images);
+			TITANIUM_FUNCTION_DEF(getImages);
+			TITANIUM_FUNCTION_DEF(setImages);
 
-			virtual JSValue js_get_paused() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getPaused(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_READONLY_DEF(paused);
+			TITANIUM_FUNCTION_DEF(getPaused);
 
-			virtual JSValue js_get_preventDefaultImage() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_preventDefaultImage(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getPreventDefaultImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setPreventDefaultImage(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(preventDefaultImage);
+			TITANIUM_FUNCTION_DEF(getPreventDefaultImage);
+			TITANIUM_FUNCTION_DEF(setPreventDefaultImage);
 
-			virtual JSValue js_get_repeatCount() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_repeatCount(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getRepeatCount(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setRepeatCount(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(repeatCount);
+			TITANIUM_FUNCTION_DEF(getRepeatCount);
+			TITANIUM_FUNCTION_DEF(setRepeatCount);
 
-			virtual JSValue js_get_reverse() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_reverse(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getReverse(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setReverse(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(reverse);
+			TITANIUM_FUNCTION_DEF(getReverse);
+			TITANIUM_FUNCTION_DEF(setReverse);
 
 		private:
 #pragma warning(push)

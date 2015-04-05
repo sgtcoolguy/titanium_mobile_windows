@@ -102,38 +102,33 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_contentWidth() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_contentWidth(const JSValue& width) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(contentWidth);
 
-			virtual JSValue js_get_contentHeight() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_contentHeight(const JSValue& width) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(contentHeight);
 
-			virtual JSValue js_setContentWidth(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getContentWidth(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_FUNCTION_DEF(setContentWidth);
+			TITANIUM_FUNCTION_DEF(getContentWidth);
 
-			virtual JSValue js_setContentHeight(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getContentHeight(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_FUNCTION_DEF(setContentHeight);
+			TITANIUM_FUNCTION_DEF(getContentHeight);
 
-			virtual JSValue js_scrollTo(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_scrollToBottom(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_FUNCTION_DEF(scrollTo);
+			TITANIUM_FUNCTION_DEF(scrollToBottom);
 
-			virtual JSValue js_get_scrollingEnabled() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_scrollingEnabled(const JSValue& width) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(scrollingEnabled);
 
-			virtual JSValue js_setScrollingEnabled(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getScrollingEnabled(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_FUNCTION_DEF(setScrollingEnabled);
+			TITANIUM_FUNCTION_DEF(getScrollingEnabled);
 
-			virtual JSValue js_get_showHorizontalScrollIndicator() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_showHorizontalScrollIndicator(const JSValue& width) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(showHorizontalScrollIndicator);
 
-			virtual JSValue js_setShowHorizontalScrollIndicator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getShowHorizontalScrollIndicator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_FUNCTION_DEF(setShowHorizontalScrollIndicator);
+			TITANIUM_FUNCTION_DEF(getShowHorizontalScrollIndicator);
 
-			virtual JSValue js_get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_showVerticalScrollIndicator(const JSValue& width) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(showVerticalScrollIndicator);
 
-			virtual JSValue js_setShowVerticalScrollIndicator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getShowVerticalScrollIndicator(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_FUNCTION_DEF(setShowVerticalScrollIndicator);
+			TITANIUM_FUNCTION_DEF(getShowVerticalScrollIndicator);
 
 		private:
 		};

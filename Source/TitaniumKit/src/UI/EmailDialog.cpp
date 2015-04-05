@@ -36,22 +36,22 @@ namespace Titanium
 			HAL_LOG_DEBUG("EmailDialog:: postCallAsConstructor ", this);
 		}
 
-		JSValue EmailDialog::CANCELLED() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(EmailDialog, CANCELLED)
 		{
 			return cancelled__;
 		}
 
-		JSValue EmailDialog::FAILED() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(EmailDialog, FAILED)
 		{
 			return failed__;
 		}
 
-		JSValue EmailDialog::SAVED() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(EmailDialog, SAVED)
 		{
 			return saved__;
 		}
 
-		JSValue EmailDialog::SENT() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(EmailDialog, SENT)
 		{
 			return sent__;
 		}
@@ -141,35 +141,35 @@ namespace Titanium
 			JSExport<EmailDialog>::SetClassVersion(1);
 			JSExport<EmailDialog>::SetParent(JSExport<Module>::Class());
 
-			JSExport<EmailDialog>::AddValueProperty("CANCELLED", std::mem_fn(&EmailDialog::CANCELLED));
-			JSExport<EmailDialog>::AddValueProperty("FAILED", std::mem_fn(&EmailDialog::FAILED));
-			JSExport<EmailDialog>::AddValueProperty("SAVED", std::mem_fn(&EmailDialog::SAVED));
-			JSExport<EmailDialog>::AddValueProperty("SENT", std::mem_fn(&EmailDialog::SENT));
-			JSExport<EmailDialog>::AddValueProperty("bccRecipients", std::mem_fn(&EmailDialog::js_get_bccRecipients), std::mem_fn(&EmailDialog::js_set_bccRecipients));
-			JSExport<EmailDialog>::AddValueProperty("ccRecipients", std::mem_fn(&EmailDialog::js_get_ccRecipients), std::mem_fn(&EmailDialog::js_set_ccRecipients));
-			JSExport<EmailDialog>::AddValueProperty("html", std::mem_fn(&EmailDialog::js_get_html), std::mem_fn(&EmailDialog::js_set_html));
-			JSExport<EmailDialog>::AddValueProperty("messageBody", std::mem_fn(&EmailDialog::js_get_messageBody), std::mem_fn(&EmailDialog::js_set_messageBody));
-			JSExport<EmailDialog>::AddValueProperty("subject", std::mem_fn(&EmailDialog::js_get_subject), std::mem_fn(&EmailDialog::js_set_subject));
-			JSExport<EmailDialog>::AddValueProperty("toRecipients", std::mem_fn(&EmailDialog::js_get_toRecipients), std::mem_fn(&EmailDialog::js_set_toRecipients));
+			TITANIUM_ADD_PROPERTY_READONLY(EmailDialog, CANCELLED);
+			TITANIUM_ADD_PROPERTY_READONLY(EmailDialog, FAILED);
+			TITANIUM_ADD_PROPERTY_READONLY(EmailDialog, SAVED);
+			TITANIUM_ADD_PROPERTY_READONLY(EmailDialog, SENT);
+			TITANIUM_ADD_PROPERTY(EmailDialog, bccRecipients);
+			TITANIUM_ADD_PROPERTY(EmailDialog, ccRecipients);
+			TITANIUM_ADD_PROPERTY(EmailDialog, html);
+			TITANIUM_ADD_PROPERTY(EmailDialog, messageBody);
+			TITANIUM_ADD_PROPERTY(EmailDialog, subject);
+			TITANIUM_ADD_PROPERTY(EmailDialog, toRecipients);
 
-			JSExport<EmailDialog>::AddFunctionProperty("addAttachment", std::mem_fn(&EmailDialog::js_addAttachment));
-			JSExport<EmailDialog>::AddFunctionProperty("isSupported", std::mem_fn(&EmailDialog::js_isSupported));
-			JSExport<EmailDialog>::AddFunctionProperty("open", std::mem_fn(&EmailDialog::js_open));
-			JSExport<EmailDialog>::AddFunctionProperty("getBccRecipients", std::mem_fn(&EmailDialog::js_getBccRecipients));
-			JSExport<EmailDialog>::AddFunctionProperty("setBccRecipients", std::mem_fn(&EmailDialog::js_setBccRecipients));
-			JSExport<EmailDialog>::AddFunctionProperty("getCcRecipients", std::mem_fn(&EmailDialog::js_getCcRecipients));
-			JSExport<EmailDialog>::AddFunctionProperty("setCcRecipients", std::mem_fn(&EmailDialog::js_setCcRecipients));
-			JSExport<EmailDialog>::AddFunctionProperty("getHtml", std::mem_fn(&EmailDialog::js_getHtml));
-			JSExport<EmailDialog>::AddFunctionProperty("setHtml", std::mem_fn(&EmailDialog::js_setHtml));
-			JSExport<EmailDialog>::AddFunctionProperty("getMessageBody", std::mem_fn(&EmailDialog::js_getMessageBody));
-			JSExport<EmailDialog>::AddFunctionProperty("setMessageBody", std::mem_fn(&EmailDialog::js_setMessageBody));
-			JSExport<EmailDialog>::AddFunctionProperty("getSubject", std::mem_fn(&EmailDialog::js_getSubject));
-			JSExport<EmailDialog>::AddFunctionProperty("setSubject", std::mem_fn(&EmailDialog::js_setSubject));
-			JSExport<EmailDialog>::AddFunctionProperty("getToRecipients", std::mem_fn(&EmailDialog::js_getToRecipients));
-			JSExport<EmailDialog>::AddFunctionProperty("setToRecipients", std::mem_fn(&EmailDialog::js_setToRecipients));
+			TITANIUM_ADD_FUNCTION(EmailDialog, addAttachment);
+			TITANIUM_ADD_FUNCTION(EmailDialog, isSupported);
+			TITANIUM_ADD_FUNCTION(EmailDialog, open);
+			TITANIUM_ADD_FUNCTION(EmailDialog, getBccRecipients);
+			TITANIUM_ADD_FUNCTION(EmailDialog, setBccRecipients);
+			TITANIUM_ADD_FUNCTION(EmailDialog, getCcRecipients);
+			TITANIUM_ADD_FUNCTION(EmailDialog, setCcRecipients);
+			TITANIUM_ADD_FUNCTION(EmailDialog, getHtml);
+			TITANIUM_ADD_FUNCTION(EmailDialog, setHtml);
+			TITANIUM_ADD_FUNCTION(EmailDialog, getMessageBody);
+			TITANIUM_ADD_FUNCTION(EmailDialog, setMessageBody);
+			TITANIUM_ADD_FUNCTION(EmailDialog, getSubject);
+			TITANIUM_ADD_FUNCTION(EmailDialog, setSubject);
+			TITANIUM_ADD_FUNCTION(EmailDialog, getToRecipients);
+			TITANIUM_ADD_FUNCTION(EmailDialog, setToRecipients);
 		}
 
-		JSValue EmailDialog::js_get_bccRecipients() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(EmailDialog, bccRecipients)
 		{
 			const auto js_context = get_context();
 			const auto recipients = get_bccRecipients();
@@ -180,7 +180,7 @@ namespace Titanium
 			return js_context.CreateArray(args);
 		}
 
-		bool EmailDialog::js_set_bccRecipients(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(EmailDialog, bccRecipients)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
 			const auto _0 = static_cast<JSObject>(argument);
@@ -199,7 +199,7 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue EmailDialog::js_get_ccRecipients() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(EmailDialog, ccRecipients)
 		{
 			const auto js_context = get_context();
 			const auto recipients = get_ccRecipients();
@@ -210,7 +210,7 @@ namespace Titanium
 			return js_context.CreateArray(args);
 		}
 
-		bool EmailDialog::js_set_ccRecipients(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(EmailDialog, ccRecipients)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
 			const auto _0 = static_cast<JSObject>(argument);
@@ -228,43 +228,43 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue EmailDialog::js_get_html() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(EmailDialog, html)
 		{
 			return get_context().CreateBoolean(get_html());
 		}
 
-		bool EmailDialog::js_set_html(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(EmailDialog, html)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_html(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue EmailDialog::js_get_messageBody() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(EmailDialog, messageBody)
 		{
 			return get_context().CreateString(get_messageBody());
 		}
 
-		bool EmailDialog::js_set_messageBody(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(EmailDialog, messageBody)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_messageBody(static_cast<std::string>(argument));
 			return true;
 		}
 
-		JSValue EmailDialog::js_get_subject() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(EmailDialog, subject)
 		{
 			return get_context().CreateString(get_subject());
 		}
 
-		bool EmailDialog::js_set_subject(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(EmailDialog, subject)
 		{
 			TITANIUM_ASSERT(argument.IsString());
 			set_subject(static_cast<std::string>(argument));
 			return true;
 		}
 
-		JSValue EmailDialog::js_get_toRecipients() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(EmailDialog, toRecipients)
 		{
 			const auto js_context = get_context();
 			const auto recipients = get_toRecipients();
@@ -275,7 +275,7 @@ namespace Titanium
 			return js_context.CreateArray(args);
 		}
 
-		bool EmailDialog::js_set_toRecipients(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(EmailDialog, toRecipients)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
 			const auto _0 = static_cast<JSObject>(argument);
@@ -294,7 +294,7 @@ namespace Titanium
 			return true;
 		}
 
-		JSValue EmailDialog::js_addAttachment(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, addAttachment)
 		{
 			if (arguments.empty()) {
 				return get_context().CreateUndefined();
@@ -317,12 +317,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue EmailDialog::js_isSupported(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, isSupported)
 		{
 			return get_context().CreateBoolean(isSupported());
 		}
 
-		JSValue EmailDialog::js_open(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, open)
 		{
 			bool animated = true;
 			if (arguments.size() >= 1) {
@@ -338,12 +338,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue EmailDialog::js_getBccRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, getBccRecipients)
 		{
 			return js_get_bccRecipients();
 		}
 
-		JSValue EmailDialog::js_setBccRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, setBccRecipients)
 		{
 			if (arguments.size() >= 1) {
 				js_set_bccRecipients(arguments.at(0));
@@ -351,12 +351,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue EmailDialog::js_getCcRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, getCcRecipients)
 		{
 			return js_get_ccRecipients();
 		}
 
-		JSValue EmailDialog::js_setCcRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, setCcRecipients)
 		{
 			if (arguments.size() >= 1) {
 				js_set_ccRecipients(arguments.at(0));
@@ -364,12 +364,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue EmailDialog::js_getHtml(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, getHtml)
 		{
 			return js_get_html();
 		}
 
-		JSValue EmailDialog::js_setHtml(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, setHtml)
 		{
 			if (arguments.size() >= 1) {
 				js_set_html(arguments.at(0));
@@ -377,12 +377,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue EmailDialog::js_getMessageBody(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, getMessageBody)
 		{
 			return js_get_messageBody();
 		}
 
-		JSValue EmailDialog::js_setMessageBody(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, setMessageBody)
 		{
 			if (arguments.size() >= 1) {
 				js_set_messageBody(arguments.at(0));
@@ -390,12 +390,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue EmailDialog::js_getSubject(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, getSubject)
 		{
 			return js_get_subject();
 		}
 
-		JSValue EmailDialog::js_setSubject(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, setSubject)
 		{
 			 if (arguments.size() >= 1) {
 				js_set_subject(arguments.at(0));
@@ -403,12 +403,12 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		JSValue EmailDialog::js_getToRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, getToRecipients)
 		{
 			return js_get_toRecipients();
 		}
 
-		JSValue EmailDialog::js_setToRecipients(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(EmailDialog, setToRecipients)
 		{
 			if (arguments.size() >= 1) {
 				js_set_toRecipients(arguments.at(0));

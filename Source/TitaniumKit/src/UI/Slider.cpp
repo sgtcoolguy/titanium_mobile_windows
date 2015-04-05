@@ -57,41 +57,41 @@ namespace Titanium
 		{
 			JSExport<Slider>::SetClassVersion(1);
 			JSExport<Slider>::SetParent(JSExport<View>::Class());
-			JSExport<Slider>::AddValueProperty("max", std::mem_fn(&Slider::js_get_max), std::mem_fn(&Slider::js_set_max));
-			JSExport<Slider>::AddValueProperty("min", std::mem_fn(&Slider::js_get_min), std::mem_fn(&Slider::js_set_min));
-			JSExport<Slider>::AddValueProperty("value", std::mem_fn(&Slider::js_get_value), std::mem_fn(&Slider::js_set_value));
+			TITANIUM_ADD_PROPERTY(Slider, max);
+			TITANIUM_ADD_PROPERTY(Slider, min);
+			TITANIUM_ADD_PROPERTY(Slider, value);
 		}
 
-		JSValue Slider::js_get_max() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Slider, max)
 		{
 			return get_context().CreateNumber(max__);
 		}
 
-		bool Slider::js_set_max(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Slider, max)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			set_max(static_cast<double>(argument));
 			return true;
 		}
 
-		JSValue Slider::js_get_min() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Slider, min)
 		{
 			return get_context().CreateNumber(min__);
 		}
 
-		bool Slider::js_set_min(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Slider, min)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			set_min(static_cast<double>(argument));
 			return true;
 		}
 
-		JSValue Slider::js_get_value() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Slider, value)
 		{
 			return get_context().CreateNumber(value__);
 		}
 
-		bool Slider::js_set_value(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Slider, value)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			set_value(static_cast<double>(argument));

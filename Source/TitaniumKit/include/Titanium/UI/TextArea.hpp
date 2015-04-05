@@ -109,23 +109,12 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_autoLink() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_autoLink(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_get_keyboardType() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_keyboardType(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_get_returnKeyType() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_returnKeyType(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_get_textAlign() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_textAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_get_autoCapitalization() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_autoCapitalization(const JSValue& argument) TITANIUM_NOEXCEPT final;
-
-			virtual JSValue js_get_verticalAlign() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_verticalAlign(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(autoLink);
+			TITANIUM_PROPERTY_DEF(keyboardType);
+			TITANIUM_PROPERTY_DEF(returnKeyType);
+			TITANIUM_PROPERTY_DEF(textAlign);
+			TITANIUM_PROPERTY_DEF(autoCapitalization);
+			TITANIUM_PROPERTY_DEF(verticalAlign);
 
 		private:
 			std::unordered_set<AUTOLINK> autoLink__;

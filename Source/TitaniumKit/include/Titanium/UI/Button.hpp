@@ -50,9 +50,8 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_title() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setTitle(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(title);
+			TITANIUM_FUNCTION_DEF(setTitle);
 
 		private:
 #pragma warning(push)

@@ -32,30 +32,29 @@ namespace Titanium
 			JSExport<Switch>::SetClassVersion(1);
 			JSExport<Switch>::SetParent(JSExport<Module>::Class());
 
-			JSExport<Switch>::AddValueProperty("value", std::mem_fn(&Switch::js_get_value), std::mem_fn(&Switch::js_set_value));
-
-			JSExport<Switch>::AddFunctionProperty("getValue", std::mem_fn(&Switch::js_getValue));
-			JSExport<Switch>::AddFunctionProperty("setValue", std::mem_fn(&Switch::js_setValue));
+			TITANIUM_ADD_PROPERTY(Switch, value);
+			TITANIUM_ADD_FUNCTION(Switch, getValue);
+			TITANIUM_ADD_FUNCTION(Switch, setValue);
 		}
 
-		JSValue Switch::js_get_value() const TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_GETTER(Switch, value)
 		{
 			return get_context().CreateBoolean(get_value());
 		}
 
-		bool Switch::js_set_value(const JSValue& argument) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_SETTER(Switch, value)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
 			set_value(static_cast<bool>(argument));
 			return true;
 		}
 
-		JSValue Switch::js_getValue(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(Switch, getValue)
 		{
 			return js_get_value();
 		}
 
-		JSValue Switch::js_setValue(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+		TITANIUM_FUNCTION(Switch, setValue)
 		{
 			TITANIUM_ASSERT(arguments.size() >= 1);
 			js_set_value(arguments.at(0));

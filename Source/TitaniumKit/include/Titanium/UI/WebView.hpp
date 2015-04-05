@@ -151,32 +151,29 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_data() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_html() const TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_loading() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_loading(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_scalesPageToFit() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_scalesPageToFit(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_url() const TITANIUM_NOEXCEPT final;
-			virtual bool    js_set_url(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_canGoBack(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_canGoForward(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_evalJS(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_goBack(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_goForward(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_reload(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setBasicAuthentication(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_stopLoading(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getData(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setData(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getHtml(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setHtml(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getLoading(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setLoading(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getScalesPageToFit(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setScalesPageToFit(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getUrl(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setUrl(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_READONLY_DEF(data);
+			TITANIUM_PROPERTY_READONLY_DEF(html);
+			TITANIUM_PROPERTY_DEF(loading);
+			TITANIUM_PROPERTY_DEF(scalesPageToFit);
+			TITANIUM_PROPERTY_DEF(url);
+			TITANIUM_FUNCTION_DEF(canGoBack);
+			TITANIUM_FUNCTION_DEF(canGoForward);
+			TITANIUM_FUNCTION_DEF(evalJS);
+			TITANIUM_FUNCTION_DEF(goBack);
+			TITANIUM_FUNCTION_DEF(goForward);
+			TITANIUM_FUNCTION_DEF(reload);
+			TITANIUM_FUNCTION_DEF(setBasicAuthentication);
+			TITANIUM_FUNCTION_DEF(stopLoading);
+			TITANIUM_FUNCTION_DEF(getData);
+			TITANIUM_FUNCTION_DEF(setData);
+			TITANIUM_FUNCTION_DEF(getHtml);
+			TITANIUM_FUNCTION_DEF(setHtml);
+			TITANIUM_FUNCTION_DEF(getLoading);
+			TITANIUM_FUNCTION_DEF(setLoading);
+			TITANIUM_FUNCTION_DEF(getScalesPageToFit);
+			TITANIUM_FUNCTION_DEF(setScalesPageToFit);
+			TITANIUM_FUNCTION_DEF(getUrl);
+			TITANIUM_FUNCTION_DEF(setUrl);
 		};
 	} // namespace UI
 }  // namespace Titanium

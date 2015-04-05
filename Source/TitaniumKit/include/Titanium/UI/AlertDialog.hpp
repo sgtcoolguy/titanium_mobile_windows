@@ -113,17 +113,13 @@ namespace Titanium
 			// from the YAML API docs.
 			static void JSExportInitialize();
 
-			virtual JSValue js_hide(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_show(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT final;
+			TITANIUM_FUNCTION_DEF(hide);
+			TITANIUM_FUNCTION_DEF(show);
 
-			virtual JSValue js_get_buttonNames() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_buttonNames(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_cancel() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_cancel(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_message() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_message(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_get_title() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_title(const JSValue& argument) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(buttonNames);
+			TITANIUM_PROPERTY_DEF(cancel);
+			TITANIUM_PROPERTY_DEF(message);
+			TITANIUM_PROPERTY_DEF(title);
 
 		private:
 #pragma warning(push)

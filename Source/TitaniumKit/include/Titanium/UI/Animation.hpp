@@ -210,110 +210,89 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual JSValue js_get_autoreverse() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_autoreverse(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getAutoreverse(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setAutoreverse(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(autoreverse);
+			TITANIUM_FUNCTION_DEF(getAutoreverse);
+			TITANIUM_FUNCTION_DEF(setAutoreverse);
 
-			virtual JSValue js_get_backgroundColor() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_backgroundColor(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getBackgroundColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setBackgroundColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(backgroundColor);
+			TITANIUM_FUNCTION_DEF(getBackgroundColor);
+			TITANIUM_FUNCTION_DEF(setBackgroundColor);
 
-			virtual JSValue js_get_bottom() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_bottom(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getBottom(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setBottom(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(bottom);
+			TITANIUM_FUNCTION_DEF(getBottom);
+			TITANIUM_FUNCTION_DEF(setBottom);
 
-			virtual JSValue js_get_center() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_center(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getCenter(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setCenter(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(center);
+			TITANIUM_FUNCTION_DEF(getCenter);
+			TITANIUM_FUNCTION_DEF(setCenter);
 
-			virtual JSValue js_get_color() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_color(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setColor(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(color);
+			TITANIUM_FUNCTION_DEF(getColor);
+			TITANIUM_FUNCTION_DEF(setColor);
 
-			virtual JSValue js_get_curve() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_curve(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getCurve(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setCurve(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(curve);
+			TITANIUM_FUNCTION_DEF(getCurve);
+			TITANIUM_FUNCTION_DEF(setCurve);
 
-			virtual JSValue js_get_delay() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_delay(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getDelay(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setDelay(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(delay);
+			TITANIUM_FUNCTION_DEF(getDelay);
+			TITANIUM_FUNCTION_DEF(setDelay);
 
-			virtual JSValue js_get_duration() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_duration(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getDuration(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setDuration(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(duration);
+			TITANIUM_FUNCTION_DEF(getDuration);
+			TITANIUM_FUNCTION_DEF(setDuration);
 
-			virtual JSValue js_get_height() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_height(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getHeight(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setHeight(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(height);
+			TITANIUM_FUNCTION_DEF(getHeight);
+			TITANIUM_FUNCTION_DEF(setHeight);
 
-			virtual JSValue js_get_left() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_left(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getLeft(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setLeft(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(left);
+			TITANIUM_FUNCTION_DEF(getLeft);
+			TITANIUM_FUNCTION_DEF(setLeft);
 
-			virtual JSValue js_get_opacity() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_opacity(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getOpacity(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setOpacity(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(opacity);
+			TITANIUM_FUNCTION_DEF(getOpacity);
+			TITANIUM_FUNCTION_DEF(setOpacity);
 
-			virtual JSValue js_get_opaque() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_opaque(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getOpaque(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setOpaque(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(opaque);
+			TITANIUM_FUNCTION_DEF(getOpaque);
+			TITANIUM_FUNCTION_DEF(setOpaque);
 
-			virtual JSValue js_get_repeat() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_repeat(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getRepeat(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setRepeat(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(repeat);
+			TITANIUM_FUNCTION_DEF(getRepeat);
+			TITANIUM_FUNCTION_DEF(setRepeat);
 
-			virtual JSValue js_get_right() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_right(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getRight(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setRight(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(right);
+			TITANIUM_FUNCTION_DEF(getRight);
+			TITANIUM_FUNCTION_DEF(setRight);
 
-			virtual JSValue js_get_top() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_top(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getTop(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setTop(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(top);
+			TITANIUM_FUNCTION_DEF(getTop);
+			TITANIUM_FUNCTION_DEF(setTop);
 
-			virtual JSValue js_get_transform() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_transform(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getTransform(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setTransform(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(transform);
+			TITANIUM_FUNCTION_DEF(getTransform);
+			TITANIUM_FUNCTION_DEF(setTransform);
 
-			virtual JSValue js_get_transition() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_transition(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getTransition(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setTransition(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(transition);
+			TITANIUM_FUNCTION_DEF(getTransition);
+			TITANIUM_FUNCTION_DEF(setTransition);
 
-			virtual JSValue js_get_view() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_view(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setView(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(view);
+			TITANIUM_FUNCTION_DEF(getView);
+			TITANIUM_FUNCTION_DEF(setView);
 
-			virtual JSValue js_get_visible() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_visible(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getVisible(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setVisible(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(visible);
+			TITANIUM_FUNCTION_DEF(getVisible);
+			TITANIUM_FUNCTION_DEF(setVisible);
 
-			virtual JSValue js_get_width() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_width(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getWidth(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setWidth(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(width);
+			TITANIUM_FUNCTION_DEF(getWidth);
+			TITANIUM_FUNCTION_DEF(setWidth);
 
-			virtual JSValue js_get_zIndex() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_zIndex(const JSValue& argument) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_getZIndex(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-			virtual JSValue js_setZIndex(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
+			TITANIUM_PROPERTY_DEF(zIndex);
+			TITANIUM_FUNCTION_DEF(getZIndex);
+			TITANIUM_FUNCTION_DEF(setZIndex);
 
 			protected:
 #pragma warning(push)
