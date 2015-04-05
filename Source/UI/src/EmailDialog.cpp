@@ -55,7 +55,7 @@ namespace TitaniumWindows
 					JSObject eventArgs = ctx.CreateObject();
 					eventArgs.SetProperty("code", ctx.CreateNumber(0));
 					eventArgs.SetProperty("error", ctx.CreateUndefined());
-					eventArgs.SetProperty("result", Titanium::UI::EmailDialog::SENT());
+					eventArgs.SetProperty("result", Titanium::UI::EmailDialog::js_get_SENT());
 					eventArgs.SetProperty("success", ctx.CreateBoolean(true));
 
 					this->fireEvent("complete", eventArgs);
