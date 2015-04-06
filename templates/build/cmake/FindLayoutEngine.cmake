@@ -6,7 +6,15 @@
 # Please see the LICENSE included with this distribution for details.
 
 # Author: Chris Williams
-# Created: 2014.12.02 
+# Created: 2014.12.02
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
+  set(PLATFORM wp)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsStore")
+  set(PLATFORM store)
+else()
+  message(FATAL_ERROR "This app supports Store / Phone only.")
+endif()
 
 set(LayoutEngine_ARCH "x86")
 if(CMAKE_GENERATOR MATCHES "^Visual Studio .+ ARM$")
@@ -22,5 +30,5 @@ set_target_properties(LayoutEngine PROPERTIES
   INTERFACE_LayoutEngine_MAJOR_VERSION "0"
 )
 set_target_properties(LayoutEngine PROPERTIES
-  IMPORTED_IMPLIB "${WINDOWS_SOURCE_DIR}/lib/LayoutEngine/${LayoutEngine_ARCH}/LayoutEngine.lib"
+  IMPORTED_IMPLIB "${WINDOWS_SOURCE_DIR}/lib/LayoutEngine/${PLATFORM}/${LayoutEngine_ARCH}/LayoutEngine.lib"
   )

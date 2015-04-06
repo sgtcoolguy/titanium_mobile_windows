@@ -8,6 +8,14 @@
 # Author: Chris Williams
 # Created: 2014.12.02 
 
+if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
+  set(PLATFORM wp)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsStore")
+  set(PLATFORM store)
+else()
+  message(FATAL_ERROR "This app supports Store / Phone only.")
+endif()
+
 set(TitaniumKit_ARCH "x86")
 if(CMAKE_GENERATOR MATCHES "^Visual Studio .+ ARM$")
   set(TitaniumKit_ARCH "arm")
@@ -26,6 +34,6 @@ set_target_properties(TitaniumKit PROPERTIES
   INTERFACE_TitaniumKit_MAJOR_VERSION "0"
 )
 set_target_properties(TitaniumKit PROPERTIES
-  IMPORTED_IMPLIB "${WINDOWS_SOURCE_DIR}/lib/TitaniumKit/${TitaniumKit_ARCH}/TitaniumKit.lib"
-  IMPORTED_LOCATION "${WINDOWS_SOURCE_DIR}/lib/TitaniumKit/${TitaniumKit_ARCH}/TitaniumKit.dll"
+  IMPORTED_IMPLIB "${WINDOWS_SOURCE_DIR}/lib/TitaniumKit/${PLATFORM}/${TitaniumKit_ARCH}/TitaniumKit.lib"
+  IMPORTED_LOCATION "${WINDOWS_SOURCE_DIR}/lib/TitaniumKit/${PLATFORM}/${TitaniumKit_ARCH}/TitaniumKit.dll"
   )
