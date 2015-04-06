@@ -401,14 +401,14 @@ namespace TitaniumWindows
 			layout_node__->onLayout = onLayoutCallback;
 
 			if (get_defaultWidth() == Titanium::UI::LAYOUT::SIZE) {
-				is_width_size__ = true;
+				is_default_width_size__ = true;
 				layout_node__->properties.defaultWidthType = Titanium::LayoutEngine::ValueType::Size;
 			} else if (get_defaultWidth() == Titanium::UI::LAYOUT::FILL) {
 				layout_node__->properties.defaultWidthType = Titanium::LayoutEngine::ValueType::Fill;
 			}
 
 			if (get_defaultHeight() == Titanium::UI::LAYOUT::SIZE) {
-				is_height_size__ = true;
+				is_default_height_size__ = true;
 				layout_node__->properties.defaultHeightType = Titanium::LayoutEngine::ValueType::Size;
 			} else if (get_defaultHeight() == Titanium::UI::LAYOUT::FILL) {
 				layout_node__->properties.defaultHeightType = Titanium::LayoutEngine::ValueType::Fill;
@@ -419,9 +419,9 @@ namespace TitaniumWindows
 		{
 			using namespace Windows::UI::Xaml::Controls;
 			using namespace Windows::UI::Xaml;
-			if (is_height_size__ && rect.height == 0)
+			if (is_default_height_size__ && rect.height == 0)
 				return;
-			if (is_width_size__ && rect.width == 0)
+			if (is_default_width_size__ && rect.width == 0)
 				return;
 			if (rect.width < 0 || rect.height < 0)
 				return;
@@ -436,10 +436,10 @@ namespace TitaniumWindows
 
 			auto setWidth = false;
 			auto setHeight = false;
-			auto setWidthOnWidget = !is_width_size__;
-			auto setHeightOnWidget = !is_height_size__;
+			auto setWidthOnWidget = !is_default_width_size__;
+			auto setHeightOnWidget = !is_default_height_size__;
 
-			if (!is_panel__ && is_width_size__ && parentLayout != nullptr) {
+			if (!is_panel__ && is_default_width_size__ && parentLayout != nullptr) {
 				if (rect.width > parentLayout->element.measuredWidth && parentLayout->element.measuredWidth > 0) {
 					rect.width = parentLayout->element.measuredWidth;
 					setWidthOnWidget = true;
@@ -448,7 +448,7 @@ namespace TitaniumWindows
 				}
 			}
 
-			if (!is_panel__ && is_height_size__ && parentLayout != nullptr) {
+			if (!is_panel__ && is_default_height_size__ && parentLayout != nullptr) {
 				if (rect.height > parentLayout->element.measuredHeight && parentLayout->element.measuredHeight > 0) {
 					rect.height = parentLayout->element.measuredHeight;
 					setHeightOnWidget = true;
@@ -497,17 +497,38 @@ namespace TitaniumWindows
 			}
 		}
 
+		Titanium::LayoutEngine::Rect WindowsViewLayoutDelegate::computeRelativeSize(const double& x, const double& y, const double& baseWidth, const double& baseHeight) {
+			auto width  = baseWidth;
+			auto height = baseHeight;
+
+			const auto is_height_size = layout_node__->properties.height.valueType == Titanium::LayoutEngine::Size;
+			const auto is_width_size  = layout_node__->properties.width.valueType  == Titanium::LayoutEngine::Size;
+
+			// compute its fixed size when either width or height (not both) is Ti.UI.SIZE
+			if ((is_width_size != is_height_size) && (is_width_size || is_height_size)) {
+				if (is_width_size) {
+					height = layout_node__->properties.height.value;
+					width = baseWidth  * (height / baseHeight);
+				} else {
+					width = layout_node__->properties.width.value;
+					height = baseHeight * (width / baseWidth);
+				}
+			}
+
+			return Titanium::LayoutEngine::RectMake(x, y, width, height);
+		}
+
 		void WindowsViewLayoutDelegate::onComponentSizeChange(const Titanium::LayoutEngine::Rect& rect)
 		{
 			bool needsLayout = false;
 
-			if (is_width_size__ && !is_panel__) {
+			if (is_default_width_size__ && !is_panel__) {
 				layout_node__->properties.width.value = rect.width;
 				layout_node__->properties.width.valueType = Titanium::LayoutEngine::Fixed;
 				needsLayout = isLoaded();
 			}
 
-			if (is_height_size__ && !is_panel__) {
+			if (is_default_height_size__ && !is_panel__) {
 				layout_node__->properties.height.value = rect.height;
 				layout_node__->properties.height.valueType = Titanium::LayoutEngine::Fixed;
 				needsLayout = isLoaded();

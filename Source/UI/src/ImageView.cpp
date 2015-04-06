@@ -31,13 +31,14 @@ namespace TitaniumWindows
 			image__ = ref new Windows::UI::Xaml::Controls::Image();
 
 			internal_load_event_ = image__->ImageOpened += ref new RoutedEventHandler([this](::Platform::Object^ sender, RoutedEventArgs^ e) {
-				auto rect = Titanium::LayoutEngine::RectMake(
+				const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				auto rect = layout->computeRelativeSize(
 					Canvas::GetLeft(this->image__),
 					Canvas::GetTop(this->image__),
 					this->image__->ActualWidth,
 					this->image__->ActualHeight
 				);
-				getViewLayoutDelegate<WindowsViewLayoutDelegate>()->onComponentSizeChange(rect);
+				layout->onComponentSizeChange(rect);
 			});
 
 			Titanium::UI::ImageView::setLayoutDelegate<WindowsViewLayoutDelegate>();
