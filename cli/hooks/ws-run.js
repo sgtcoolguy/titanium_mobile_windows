@@ -154,30 +154,32 @@ exports.init = function (logger, config, cli) {
 				}
 
 				var tiapp = builder.tiapp,
-				appId = tiapp.id,
-					// Options for installing app
+					appId = tiapp.id,
+					projectDir = path.resolve(builder.cmakeTargetDir, 'AppPackages'),
+					// Options for installing and launching app
 					opts = appc.util.mix({
 						killIfRunning: false,
 						timeout: config.get('windows.log.timeout', 60000),
-						wpsdk: builder.wpsdk
-					}, builder.windowslibOptions),
-					installs = [];
+						wpsdk: builder.wpsdk 
+					}, builder.windowslibOptions);
 
-
-				logger.info(__('Installing and launching the application'));
-				async.series(function() {
-					windowslib.winstore.launch(appId, opts, function(err) {
-						if (err) {
-							logger.error(err);
-						}
-					});
-				}, function (err, results) {
+				// TODO Remove existing package if it's already installed? Otherwise we'll fail here if same package same version is already installed!
+				async.series([function(next) {
+					logger.info(__('Installing the application'));
+					windowslib.winstore.install(projectDir, opts, next);
+				}, function(next) {
+					logger.info(__('Launching the application'));
+					windowslib.winstore.launch(appId, opts, next);
+				}], function (err, results) {
 					if (err) {
 						logger.error(err);
+						process.exit(1);
+					} else {
+						process.exit(0);
 					}
 				});
 
-				finished(); // temp
+				finished();
 			}
 
 			install();

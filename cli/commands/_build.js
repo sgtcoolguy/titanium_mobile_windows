@@ -34,11 +34,6 @@ const
 
 /*
 TODO:
-	- Set up CMakeLists.txt and build to use pre-compiled DLLs/libs for TitaniumKit/Windows/HAL
-	  - Right now we build from source, and you need to follow the instructions for dependencies here: https://github.com/appcelerator/titanium_mobile_windows/blob/master/README.md
-	  - Then you need to copy the entire titanium_mobile_windows repo inside a Titanium SDK install and rename it "windows", and edit the package.json to add "windows" as a supported platform.
-	  - This will enable Windows support, but the APIs are a work in progress and we need to eliminate need to do so much setup for the user.
-
 	- figure out how to support different cpu architectures
 	  - command line option?
 	  - tiapp.xml property?
@@ -1278,7 +1273,8 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 
 		// Copy TitaniumKit and HAL dlls over
 		function (cb) {
-			var src = path.join(this.platformPath, 'lib', 'TitaniumKit', this.arch, 'TitaniumKit.dll');
+			var plat = this.target == 'ws-local' ? 'store' : 'phone';
+			var src = path.join(this.platformPath, 'lib', 'TitaniumKit', plat, this.arch, 'TitaniumKit.dll');
 			copyFile.call(this,
 				src,
 				path.join(this.buildTargetDir, 'TitaniumKit.dll'),
@@ -1286,7 +1282,8 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 		},
 
 		function (cb) {
-			var src = path.join(this.platformPath, 'lib', 'HAL', this.arch, 'HAL.dll');
+			var plat = this.target == 'ws-local' ? 'store' : 'phone';
+			var src = path.join(this.platformPath, 'lib', 'HAL', plat, this.arch, 'HAL.dll');
 			copyFile.call(this,
 				src,
 				path.join(this.buildTargetDir, 'HAL.dll'),
@@ -1570,6 +1567,7 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 			windowsSrcDir: path.resolve(__dirname, '..', '..').replace(/\\/g, '/'), // cmake likes unix separators
 			version: this.tiapp.version,
 			assets: assetList.join('\n'),
+			appId: this.cli.tiapp.id,
 			sourceGroups: sourceGroups
 		}
 	), next);
