@@ -9,7 +9,7 @@
 # Created: 2015.03.17
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
-  set(PLATFORM wp)
+  set(PLATFORM phone)
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsStore")
   set(PLATFORM store)
 else()
