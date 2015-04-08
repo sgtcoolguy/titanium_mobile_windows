@@ -13,7 +13,7 @@ namespace Titanium
 {
 	Module::Module(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : JSExportObject(js_context)
-			, stopFiringEvents__(false)
+	    , stopFiringEvents__(false)
 	{
 	}
 
