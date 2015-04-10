@@ -1,4 +1,4 @@
-# LayoutEngine [![Build Status](https://magnum.travis-ci.com/appcelerator/titanium_mobile_windows.svg?token=SxTZxbWRYYpcfE9jALXb&branch=master)](https://magnum.travis-ci.com/appcelerator/titanium_mobile_windows)
+# LayoutEngine [![Build Status](https://travis-ci.org/appcelerator/titanium_mobile_windows.svg?branch=master)](https://travis-ci.org/appcelerator/titanium_mobile_windows)
 
 LayoutEngine:  A C/C++ Engine that takes as input properties top, left, width and height and outputs the calculated values based on the layout rules (http://docs.appcelerator.com/titanium/latest/#!/guide/Layouts,_Positioning,_and_the_View_Hierarchy). 
 
