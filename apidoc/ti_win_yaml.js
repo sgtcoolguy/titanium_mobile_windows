@@ -18,9 +18,9 @@ if (typeof String.prototype.contains === 'undefined') {
 }
 
 // Define signatures
-var property_signature = 'AddValueProperty(\"';
-var method_signature = 'AddFunctionProperty(\"';
-var export_signature = 'JSExport<';
+var property_ro_signature = 'TITANIUM_ADD_PROPERTY_READONLY(';
+var property_signature = 'TITANIUM_ADD_PROPERTY('
+var method_signature = 'TITANIUM_ADD_FUNCTION(';
 var namespace_signature = 'namespace ';
 
 var properties_found = 0;
@@ -39,13 +39,17 @@ walker.on("file",
 );
 walker.on("end",
 	function () {
-		console.log('\nFound '+methods_found+' methods');
-		console.log('Found '+properties_found+' propeties');
-		console.log('Total APIs : '+(methods_found+properties_found));
-		
-		var docPath = process.argv[1].replace(/\\/g, '/')
-		docPath = docPath.substring(0, docPath.lastIndexOf('/'))+'/Titanium';
-		console.log('\nTo append the documentation run the following command from titanium_mobile/apidoc :\n\nnode docgen.js -f parity -a '+docPath);
+
+		console.log('\nProcessing whitelist.txt...');
+		processWhitelist('whitelist.txt', function() {
+			console.log('\nFound '+methods_found+' methods');
+			console.log('Found '+properties_found+' propeties');
+			console.log('Total APIs : '+(methods_found+properties_found));
+			
+			var docPath = process.argv[1].replace(/\\/g, '/')
+			docPath = docPath.substring(0, docPath.lastIndexOf('/'))+'/Titanium';
+			console.log('\nTo append the documentation run the following command from titanium_mobile/apidoc :\n\nnode docgen.js -f parity -a '+docPath);
+		});
 	}
 );
 
@@ -63,21 +67,28 @@ function processClass(root, file, next) {
 		function (line) {
 			
 			var isProperty = line.contains(property_signature);
+			var isPropertyRo = line.contains(property_ro_signature);
 			var isMethod = line.contains(method_signature);
 
-			if (isProperty || isMethod) {
+			if (isProperty || isPropertyRo || isMethod) {
 				if (module == null) {
-					module = line.substr(line.indexOf(export_signature)+export_signature.length).split('>')[0].replace('Module','');
+					if (isProperty) {
+						module = line.substr(line.indexOf(property_signature)+property_signature.length).split(',')[0].replace('Module','');
+					} else if (isPropertyRo) {
+						module = line.substr(line.indexOf(property_ro_signature)+property_ro_signature.length).split(',')[0].replace('Module','');
+					} else if (isMethod) {
+						module = line.substr(line.indexOf(method_signature)+method_signature.length).split(',')[0].replace('Module','');
+					}
 					if (module == 'Ti') module = 'Titanium';
 					if (module == 'Titanium') module = '';
 				}
 
-				var name = line.split('\"')[1];
+				var name = line.split(',')[1].split(')')[0];
 
 				if (module_name == null) module_name = namespaces.join('.')+(module != '' ? '.'+module : '');
 				if (module_name == "Titanium.GlobalObject") module_name = "Global";
 
-				if (isProperty) properties.push(name);
+				if (isProperty || isPropertyRo) properties.push(name);
 				if (isMethod) methods.push(name);
 
 			} else if (line.contains(namespace_signature)) {
@@ -140,11 +151,64 @@ function generateYAML(root, module_name, module, properties, methods, next) {
 					        console.log(err);
 					    } else {
 					        console.log('Generated '+module+'.yml');
-					    	next();
+					    	if (next) next();
 					    }
 					}
 				);
 			}
+		}
+	);
+}
+
+// Generate whitelist YAML files
+function processWhitelist(file, next) {
+	var module_name = null;
+	var namespaces = [];
+	var module = null;
+	var properties = [];
+	var methods = [];
+
+    var l = new lbl(file);
+	l.on('line',
+		function (line) {
+
+			var element = line.split(' '),
+				type = element[0];
+
+			// Class
+			if (type === 'C') {
+				if (module != null) {
+					generateYAML('src', module_name, module+'_white', properties, methods);
+					module_name = null;
+					namespaces = [];
+					module = null;
+					properties = [];
+					methods = [];
+				}
+				module_name = element[1];
+				var split_module = module_name.split('.');
+				module = split_module[split_module.length-1];
+			
+			// Property
+			} else if (type === 'P') {
+				var name = element[1];
+				properties.push(name);
+
+			// Method
+			} else if (type === 'M') {
+				var name = element[1];
+				methods.push(name);
+			}
+		}
+	);
+	l.on('error',
+		function (err) {
+			console.log('Error : ' + err);
+		}
+	);
+	l.on('end',
+		function () {
+			generateYAML('src', module_name, module+'_white', properties, methods, function() {next();});
 		}
 	);
 }
