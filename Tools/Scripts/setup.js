@@ -1,13 +1,11 @@
 
 /**
- * Displays installed Titanium SDKs and installs new SDKs.
+ * Sets up a Windows machine for Titanium Mobile Windows/HAL/TitaniumKit development.
  *
- * @module commands/sdk
- *
- * @see SdkSubcommands
+ * @module commands/setup
  *
  * @copyright
- * Copyright (c) 2009-2013 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  *
  * @license
  * Licensed under the terms of the Apache Public License

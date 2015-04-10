@@ -1,4 +1,8 @@
-
+/**
+ * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License.
+ * Please see the LICENSE included with this distribution for details.
+ */
 var path = require('path'),
 	fs = require('fs'),
 	async = require('async'),
@@ -12,8 +16,6 @@ var path = require('path'),
 	hadWindowsSDK = false,
 	testResults,
 	jsonResults;
-
-console.log(titanium);
 
 function installSDK(next) {
 	var prc = spawn('node', [titanium, 'sdk', 'install', '-b', 'master', '-d']);

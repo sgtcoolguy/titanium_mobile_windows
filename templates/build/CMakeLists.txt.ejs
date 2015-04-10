@@ -1,12 +1,10 @@
-# The "NG" App.
-#
-# Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+# Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
 # Licensed under the terms of the Apache Public License.
 # Please see the LICENSE included with this distribution for details.
 cmake_minimum_required(VERSION 3.0.0)
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
-  set(PLATFORM wp)
+  set(PLATFORM phone)
   add_definitions("-DPHONE")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsStore")
   set(PLATFORM store)
@@ -25,9 +23,9 @@ SET(CMAKE_FIND_LIBRARY_SUFFIXES ".lib" ".dll")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
-set(TitaniumWindows_Platform_ARCH "x86")
+set(Ti_ARCH "x86")
 if(CMAKE_GENERATOR MATCHES "^Visual Studio .+ ARM$")
-  set(TitaniumWindows_Platform_ARCH "arm")
+  set(Ti_ARCH "arm")
 endif()
 
 # Use solution folders.
@@ -63,7 +61,8 @@ set(EXE_NAME ${PROJECT_NAME})
 # Variables required to generate the app manifest.
 set(APP_MANIFEST_NAME Package.appxmanifest)
 set(SHORT_NAME ${EXE_NAME})
-set(PACKAGE_GUID "f0473be1-c557-4f98-a103-4ba9f453b5b0")
+set(PACKAGE_GUID "<%= appId %>")
+set(PHONE_PRODUCT_ID "f0473be1-c557-4f98-a103-4ba9f453b5b0")
 
 # Generate the app manifest.
 configure_file(
@@ -149,4 +148,4 @@ target_include_directories(${EXE_NAME} PUBLIC
   ${LayoutEngine_INCLUDE_DIRS}
   )
 
-set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_REFERENCES "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/${TitaniumWindows_Platform_ARCH}/TitaniumWindows.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_API/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_API.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Accelerometer/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_Accelerometer.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_App/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_App.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Filesystem/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_Filesystem.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Gesture/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_Gesture.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Global/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_Global.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Map/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_Map.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Network/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_Network.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Platform/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_Platform.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Ti/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_Ti.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_UI/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_UI.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utility/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_Utility.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utils/${TitaniumWindows_Platform_ARCH}/TitaniumWindows_Utils.winmd")
+set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_REFERENCES "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/${PLATFORM}/${Ti_ARCH}/TitaniumWindows.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_API/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_API.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Accelerometer/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Accelerometer.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_App/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_App.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Filesystem/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Filesystem.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Gesture/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Gesture.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Global/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Global.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Map/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Map.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Network/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Network.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Platform/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Platform.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Ti/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Ti.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_UI/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_UI.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utility/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Utility.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utils/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Utils.winmd")

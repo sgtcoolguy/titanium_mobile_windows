@@ -7,9 +7,9 @@
 	    Publisher="CN=appcelerator"
 	    Version="1.1.0.0" />
   
-  <mp:PhoneIdentity PhoneProductId="@PACKAGE_GUID@"
-		    PhonePublisherId="00000000-0000-0000-0000-000000000000" />
-  
+  <mp:PhoneIdentity PhoneProductId="@PHONE_PRODUCT_ID@"
+        PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+
   <Properties>
     <DisplayName>@SHORT_NAME@</DisplayName>
     <PublisherDisplayName>Appcelerator</PublisherDisplayName>
