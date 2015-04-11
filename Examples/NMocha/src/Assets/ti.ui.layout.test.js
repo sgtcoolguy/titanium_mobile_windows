@@ -890,7 +890,7 @@ describe("Titanium.UI.Layout", function () {
     });
     */
     //TIMOB-8362
-    it.skip("scrollViewWithSIZE", function (finish) {
+    it("scrollViewWithSIZE", function (finish) {
         var win = createWindow({
             backgroundColor: "#7B6700",
             layout: "vertical"
@@ -924,7 +924,7 @@ describe("Titanium.UI.Layout", function () {
     });
     
     //TIMOB-8891
-    it.skip("scrollViewWithLargeVerticalLayoutChild", function (finish) {
+    it("scrollViewWithLargeVerticalLayoutChild", function (finish) {
         var win = createWindow({}, finish);
         var scrollView = Ti.UI.createScrollView({
             contentHeight: "auto",
