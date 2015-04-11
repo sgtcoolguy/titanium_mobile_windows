@@ -14,7 +14,7 @@ function createWindow(_args, finish) {
         Ti.API.info("Got focus event");
         setTimeout(function () {
             closeAndFinish(win, finish);
-        }, 1000);
+        }, 3000);
     });
     return win;
 }
