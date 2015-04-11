@@ -6,28 +6,32 @@
  */
 var should = require('./should');
 
-function createWindow(_args) {
+function createWindow(_args, finish) {
     _args = _args || {};
     _args.backgroundColor = _args.backgroundColor || 'red';
     var win = Ti.UI.createWindow(_args);
     win.addEventListener('focus', function () {
         Ti.API.info("Got focus event");
+        setTimeout(function () {
+            closeAndFinish(win, finish);
+        }, 1000);
     });
     return win;
 }
 
-function closeAndFinish(win, _finish) {
+function closeAndFinish(win, finish) {
     Ti.API.info("Closing window");
     win.close();
     Ti.API.info("Finishing test");
-    _finish();
+    finish();
 }
 
 describe("Titanium.UI.Layout", function () {
+    this.timeout(5000);
     // functional test cases #1010, #1011, #1025, #1025a
     //rect and size properties should not be undefined
     it("viewSizeAndRectPx", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView();
         var label = Ti.UI.createLabel({
             text: "a",
@@ -75,8 +79,6 @@ describe("Titanium.UI.Layout", function () {
             should(view.rect.y).eql(0);
             should(win.size.height / view.size.height).eql(1);
             should(win.size.width / view.size.width).eql(1);
-
-            closeAndFinish(win, finish);
         });
         win.open();
     });
@@ -84,7 +86,7 @@ describe("Titanium.UI.Layout", function () {
     // functional test cases #1012, #1014:
     // ViewLeft and ViewRight
     it("viewLeft", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             left: 10,
             width: 10
@@ -104,7 +106,6 @@ describe("Titanium.UI.Layout", function () {
             should(view2.rect.x).eql(win.size.width - 20);
             should(view2.rect.width).eql(10);
             should(view2.left).be.undefined;
-            closeAndFinish(win, finish);
         });
         win.open();
     });
@@ -112,7 +113,7 @@ describe("Titanium.UI.Layout", function () {
     // functional test case #1016, #1018
     // ViewTop and ViewBottom
     it("viewTop", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             top: 10,
             height: 10
@@ -132,14 +133,13 @@ describe("Titanium.UI.Layout", function () {
             should(view2.rect.y).eql(win.size.height - 20);
             should(view2.rect.height).eql(10);
             should(view2.top).be.undefined;
-            closeAndFinish(win, finish);
         });
         win.open();
     });
 
     // functional test case #1020: ViewCenter
     it.skip("viewCenter", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             center: {
                 x: 50,
@@ -154,7 +154,6 @@ describe("Titanium.UI.Layout", function () {
             should(view.center.y).eql(50);
             should(view.rect.x).eql(30);
             should(view.rect.y).eql(30);
-            closeAndFinish(win, finish);
         });
         win.open();
     });
@@ -162,7 +161,7 @@ describe("Titanium.UI.Layout", function () {
     // functional test case #1022, #1024
     // ViewWidth, ViewHeight
     it("viewWidth", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             width: 10,
             height: 10
@@ -183,14 +182,13 @@ describe("Titanium.UI.Layout", function () {
             should(view.rect.y).eql(Math.floor((win.size.height - view.size.height) / 2));
             //should(Math.floor(view.rect.x)).eql(Math.floor((win.size.width - view.size.width) / 2));
             //should(Math.floor(view.rect.y)).eql(Math.floor((win.size.height - view.size.height) / 2));
-            closeAndFinish(win, finish);
         });
         win.open();
     });
 
     // functional test #1026 ViewError
     it.skip("viewError", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             backgroundColor: "green",
             left: "leftString",
@@ -214,7 +212,6 @@ describe("Titanium.UI.Layout", function () {
             should(view.center.x).eql("centerXString");
             should(view.width).eql("widthString");
             should(view.height).eql("heightString");
-            closeAndFinish(win, finish);
         });
         win.open();
     });
@@ -222,7 +219,7 @@ describe("Titanium.UI.Layout", function () {
     // functional test #1033, 1033a, 1033b
     // UndefinedWidth Implicit calculations
     it("undefinedWidth", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var parentView = Ti.UI.createView({
             width: 100,
             height: 100
@@ -253,7 +250,6 @@ describe("Titanium.UI.Layout", function () {
             should(view2.rect.width).eql(10);
             should(view3.rect.width).eql(30);
             */
-            closeAndFinish(win, finish);
         });
         parentView.add(view1);
         parentView.add(view2);
@@ -264,7 +260,7 @@ describe("Titanium.UI.Layout", function () {
     
     // functional test #1034/1034a/1034b UndefinedLeft
     it("undefinedLeft", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view1 = Ti.UI.createView({
             width: 120,
             center: {
@@ -297,7 +293,6 @@ describe("Titanium.UI.Layout", function () {
             should(view1.rect.height).not.be.undefined;
             should(view2.rect.height).not.be.undefined;
             should(view3.rect.height).not.be.undefined;
-            closeAndFinish(win, finish);
         });
         win.add(view1);
         win.add(view2);
@@ -307,20 +302,19 @@ describe("Titanium.UI.Layout", function () {
 
     // functional test #1035 & #1039 UndefinedCenter
     it("undefinedCenter", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({});
         win.addEventListener("postlayout", function (e) {
             should(view.center).be.undefined;
             //Dynamic center can be calculated from view.rect
             should(view.rect).not.be.undefined;
-            closeAndFinish(win, finish);
         });
         win.add(view);
         win.open();
     });
     // functional test #1036 UndefinedRight
     it("undefinedRight", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             backgroundColor: "yellow",
             center: {
@@ -333,7 +327,6 @@ describe("Titanium.UI.Layout", function () {
             // this is wrong
             // should(view.rect.width).eql(80);
             should(view.rect.x).eql(10);
-            closeAndFinish(win, finish);
         });
         win.add(view);
         win.open();
@@ -342,7 +335,7 @@ describe("Titanium.UI.Layout", function () {
     // functional test #1037, #1037a, #1037b
     // UndefinedHeight Implicit calculations
     it("undefinedHeight", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var parentView = Ti.UI.createView({
             width: 100,
             height: 100
@@ -370,7 +363,6 @@ describe("Titanium.UI.Layout", function () {
             should(view1.rect.height).eql(85);
             // should(view2.rect.height).eql(10);
             // should(view3.rect.height).eql(30);
-            closeAndFinish(win, finish);
         });
         parentView.add(view1);
         parentView.add(view2);
@@ -382,7 +374,7 @@ describe("Titanium.UI.Layout", function () {
     // functional test #1038, 1038a, 1038b
     // UndefinedTop. Dynamic top calculation
     it.skip("undefinedTop", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view1 = Ti.UI.createView({
             height: 50,
             center: {
@@ -413,7 +405,6 @@ describe("Titanium.UI.Layout", function () {
                 should(view2.rect.y).eql(300 - win.size.height);
             }
             should(view3.rect.y).eql(win.size.height - 300);
-            closeAndFinish(win, finish);
         });
         win.add(view1);
         win.add(view2);
@@ -422,7 +413,7 @@ describe("Titanium.UI.Layout", function () {
     });
     // functional test #1040 UndefinedBottom
     it("undefinedBottom", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             backgroundColor: "yellow",
             center: {
@@ -434,14 +425,13 @@ describe("Titanium.UI.Layout", function () {
             should(view.bottom).be.undefined;
             //Dynamic bottom is rect.y + rect.height
             should(view.rect.height).not.be.undefined;
-            closeAndFinish(win, finish);
         });
         win.add(view);
         win.open();
     });
     // functional test #1042 WidthPrecedence
     it("widthPrecedence", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             backgroundColor: "yellow",
             left: 10,
@@ -450,7 +440,6 @@ describe("Titanium.UI.Layout", function () {
         });
         win.addEventListener("postlayout", function (e) {
             should(view.size.width).eql(10);
-            closeAndFinish(win, finish);
         });
         win.add(view);
         win.open();
@@ -458,7 +447,7 @@ describe("Titanium.UI.Layout", function () {
     // functional test #1043 LeftPrecedence
     // Chris W: Skipping because we don't have any precedence set up yet for the properties, as far as I know...
     it.skip("leftPrecedence", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             backgroundColor: "yellow",
             left: 10,
@@ -469,14 +458,13 @@ describe("Titanium.UI.Layout", function () {
         });
         win.addEventListener("postlayout", function (e) {
             should(view.size.width).eql(40);
-            closeAndFinish(win, finish);
         });
         win.add(view);
         win.open();
     });
     // functional test #1044 CenterXPrecedence
     it.skip("centerXPrecedence", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             height: 200,
             width: 200,
@@ -491,7 +479,6 @@ describe("Titanium.UI.Layout", function () {
         });
         win.addEventListener("postlayout", function (e) {
             should(viewChild.size.width).eql(100);
-            closeAndFinish(win, finish);
         });
         view.add(viewChild);
         win.add(view);
@@ -499,7 +486,7 @@ describe("Titanium.UI.Layout", function () {
     });
     // functional test #1046 HeightPrecedence
     it("heightPrecedence", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             backgroundColor: "yellow",
             top: 10,
@@ -508,7 +495,6 @@ describe("Titanium.UI.Layout", function () {
         });
         win.addEventListener("postlayout", function (e) {
             should(view.size.height).eql(10);
-            closeAndFinish(win, finish);
         });
         win.add(view);
         win.open();
@@ -516,7 +502,7 @@ describe("Titanium.UI.Layout", function () {
     // functional test #1047 TopPrecedence
     // Chris W: Skipping because we don't have any precedence set up yet for the properties, as far as I know...
     it.skip("topPrecedence", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             backgroundColor: "yellow",
             top: 10,
@@ -527,7 +513,6 @@ describe("Titanium.UI.Layout", function () {
         });
         win.addEventListener("postlayout", function (e) {
             should(view.size.height).eql(40);
-            closeAndFinish(win, finish);
         });
         win.add(view);
         win.open();
@@ -535,7 +520,7 @@ describe("Titanium.UI.Layout", function () {
     
     // functional test #1048 CenterYPrecedence
     it.skip("centerYPrecedence", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             height: 200,
             width: 200,
@@ -550,7 +535,6 @@ describe("Titanium.UI.Layout", function () {
         });
         win.addEventListener("postlayout", function (e) {
             should(viewChild.size.height).eql(100);
-            closeAndFinish(win, finish);
         });
         view.add(viewChild);
         win.add(view);
@@ -561,7 +545,7 @@ describe("Titanium.UI.Layout", function () {
     // This is completely wrong. Adding a scrollview to a label?
     // Really? Skipping
     it.skip("scrollViewSize", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var label = Ti.UI.createLabel({
             color: "red"
         });
@@ -629,7 +613,6 @@ describe("Titanium.UI.Layout", function () {
             //
             // valueOf(testRun, view.size.width).shouldBe(scrollView3.size.width);
             // valueOf(testRun, view.size.height).shouldBe(scrollView3.size.height);
-            closeAndFinish(win, finish);
         });
         view.add(scrollView);
         win.add(view);
@@ -640,7 +623,7 @@ describe("Titanium.UI.Layout", function () {
     
     // functional test #1106 ZIndexMultiple
     it("zIndexMultiple", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view1 = Ti.UI.createView({
             backgroundColor: "red",
             zIndex: 0,
@@ -682,7 +665,6 @@ describe("Titanium.UI.Layout", function () {
             should(view3.zIndex).eql(2);
             should(view4.zIndex).eql(3);
             should(view5.zIndex).eql(4);
-            closeAndFinish(win, finish);
         });
         win.add(view5);
         win.add(view4);
@@ -693,7 +675,7 @@ describe("Titanium.UI.Layout", function () {
     });
     
     it("fillInVerticalLayout", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var parent = Ti.UI.createView({
             height: 50,
             width: 40,
@@ -707,13 +689,12 @@ describe("Titanium.UI.Layout", function () {
             should(parent.size.height).eql(50);
             should(child.size.width).eql(40);
             should(child.size.height).eql(50);
-            closeAndFinish(win, finish);
         });
         win.open();
     });
     
-    it.skip("sizeFillConflict", function (finish) {
-        var win = createWindow({});
+    it("sizeFillConflict", function (finish) {
+        var win = createWindow({}, finish);
         var grandParent = Ti.UI.createView({
             height: 300,
             width: 200
@@ -746,13 +727,12 @@ describe("Titanium.UI.Layout", function () {
             should(child2.size.height).eql(50);
             should(child3.size.width).eql(30);
             should(child3.size.height).eql(300);
-            closeAndFinish(win, finish);
         });
         win.open();
     });
     // Functional Test #1000 SystemMeasurement
     it("systemMeasurement", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var parent = Ti.UI.createView({
             height: "50dip",
             width: "40px",
@@ -770,7 +750,6 @@ describe("Titanium.UI.Layout", function () {
             } else {
                 should(parent.size.width).eql(40);
             }
-            closeAndFinish(win, finish);
         });
         win.open();
     });
@@ -778,7 +757,7 @@ describe("Titanium.UI.Layout", function () {
     // Functional Test #1001 #1002 #1003 #1004 #1005 #1006
     // Not supported in Windows yet
     it.skip("unitMeasurements", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var child = Ti.UI.createView({
             height: "50mm",
             width: "40cm"
@@ -808,7 +787,6 @@ describe("Titanium.UI.Layout", function () {
             should(child2.size.height).not.be.eql(0);
             should(child3.size.width).eql(0);
             should(child3.size.height).eql(0);
-            closeAndFinish(win, finish);
         });
         win.open();
     });
@@ -816,7 +794,7 @@ describe("Titanium.UI.Layout", function () {
     // Scrollview
     /*
     it("scrollViewAutoContentHeight", function (finish) {
-        var win = Ti.UI.createWindow({});
+        var win = Ti.UI.createWindow({}, finish);
         var scrollView = Titanium.UI.createScrollView({
             contentHeight: "auto",
             contentWidth: "auto",
@@ -835,7 +813,7 @@ describe("Titanium.UI.Layout", function () {
     });
     
     it("scrollViewLargeContentHeight", function (finish) {
-        var win = Ti.UI.createWindow({});
+        var win = Ti.UI.createWindow({}, finish);
         var scrollView = Titanium.UI.createScrollView({
             contentHeight: "2000",
             contentWidth: "auto",
@@ -854,7 +832,7 @@ describe("Titanium.UI.Layout", function () {
     });
     
     it("scrollViewMinimumContentHeight", function (finish) {
-        var win = Ti.UI.createWindow({});
+        var win = Ti.UI.createWindow({}, finish);
         var scrollView = Titanium.UI.createScrollView({
             contentHeight: "50",
             contentWidth: "auto",
@@ -873,7 +851,7 @@ describe("Titanium.UI.Layout", function () {
     });
     
     it("horizontalScrollViewMinimumContentHeight", function (finish) {
-        var win = Ti.UI.createWindow({});
+        var win = Ti.UI.createWindow({}, finish);
         var scrollView = Titanium.UI.createScrollView({
             contentHeight: "auto",
             contentWidth: "50",
@@ -892,7 +870,7 @@ describe("Titanium.UI.Layout", function () {
         win.open();
     });
     it("horizontalScrollViewLargeContentHeight", function (finish) {
-        var win = Ti.UI.createWindow({});
+        var win = Ti.UI.createWindow({}, finish);
         var scrollView = Titanium.UI.createScrollView({
             contentHeight: "auto",
             contentWidth: "50",
@@ -941,14 +919,13 @@ describe("Titanium.UI.Layout", function () {
         scrollView.addEventListener("postlayout", function (e) {
             should(scrollView.size.height).eql(50);
             should(scrollView.size.width).eql(100);
-            closeAndFinish(win, finish);
         });
         win.open();
     });
     
     //TIMOB-8891
     it.skip("scrollViewWithLargeVerticalLayoutChild", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var scrollView = Ti.UI.createScrollView({
             contentHeight: "auto",
             backgroundColor: "green"
@@ -973,7 +950,6 @@ describe("Titanium.UI.Layout", function () {
         scrollView.addEventListener("postlayout", function (e) {
             should(innerView.size.height).eql(1200);
             should(innerView.size.width).eql(scrollView.size.width);
-            closeAndFinish(win, finish);
         });
         win.open();
     });
@@ -1015,7 +991,7 @@ describe("Titanium.UI.Layout", function () {
     });
     */
     it("fourPins", function (finish) {
-        var win = createWindow({});
+        var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             width: 100,
             height: 100
@@ -1039,9 +1015,29 @@ describe("Titanium.UI.Layout", function () {
             should(label.rect.width).eql(80);
             should(label.rect.y).eql(10);
             should(label.rect.height).eql(80);
-            closeAndFinish(win, finish);
         });
         win.open();
     });
-    
+
+    // TIMOB-18684
+    it("layoutWithSIZE_and_fixed", function (finish) {
+        var win = createWindow({}, finish);
+        var view = Ti.UI.createView({
+            backgroundColor: "green",
+            width: 100,
+            height: Ti.UI.SIZE
+        });
+        var innerView = Ti.UI.createView({
+            backgroundColor: "blue",
+            width: 100,
+            height: 50
+        });
+        view.add(innerView);
+        win.addEventListener("postlayout", function (e) {
+            should(view.size.height).eql(innerView.size.height);
+            should(view.size.width).eql(innerView.size.width);
+        });
+        win.add(view);
+        win.open();
+    });
 });
