@@ -32,7 +32,7 @@ namespace Titanium
 		double _computeValue(const std::string& value, enum ValueType valueType, double ppi)
 		{
 			std::string units;
-			double parsedValue;
+			double parsedValue = 0;
 
 			if (valueType == Percent) {
 				return atof(value.c_str()) / 100;

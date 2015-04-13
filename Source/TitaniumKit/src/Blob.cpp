@@ -14,7 +14,7 @@ namespace Titanium
 	{
 	}
 
-	void Blob::construct(std::vector<std::uint8_t> data) TITANIUM_NOEXCEPT
+	void Blob::construct(const std::vector<std::uint8_t> data) TITANIUM_NOEXCEPT
 	{
 		height_ = 0;
 		width_ = 0;
@@ -120,7 +120,7 @@ namespace Titanium
 		return width_;
 	}
 
-	void Blob::append(std::shared_ptr<Blob>& other) TITANIUM_NOEXCEPT
+	void Blob::append(const std::shared_ptr<Blob>& other) TITANIUM_NOEXCEPT
 	{
 		auto blob = std::dynamic_pointer_cast<Blob>(other).get();
 		const auto b = blob->getData();

@@ -497,7 +497,7 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			double d = static_cast<double>(argument);
-			std::chrono::milliseconds timeout((long long)d);
+			std::chrono::milliseconds timeout((std::int64_t)d);
 			set_timeout(timeout);
 			return true;
 		}

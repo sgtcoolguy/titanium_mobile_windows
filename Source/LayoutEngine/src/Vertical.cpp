@@ -27,7 +27,11 @@ namespace Titanium
 			    sandboxHeightLayoutCoefficients, leftLayoutCoefficients, minWidthLayoutCoefficients, minHeightLayoutCoefficients;
 			struct FourCoefficients topLayoutCoefficients;
 			struct ComputedSize childSize;
-			double measuredWidth, measuredHeight, measuredSandboxHeight, measuredSandboxWidth, measuredLeft;
+			double measuredWidth = 0;
+			double measuredHeight = 0;
+			double measuredSandboxHeight = 0;
+			double measuredSandboxWidth = 0;
+			double measuredLeft = 0;
 			std::string pixelUnits = "px";
 			std::vector<struct Element*> deferredLeftCalculations;
 			double runningHeight = 0;

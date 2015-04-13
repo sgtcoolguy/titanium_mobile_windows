@@ -120,7 +120,7 @@ namespace Titanium
 			return false;
 		}
 
-		unsigned long long File::get_size() const TITANIUM_NOEXCEPT
+		std::uint64_t File::get_size() const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::get_size: Unimplemented");
 			return 0;
@@ -247,7 +247,7 @@ namespace Titanium
 			return "";
 		}
 
-		unsigned long long File::spaceAvailable() TITANIUM_NOEXCEPT
+		std::uint64_t File::spaceAvailable() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::spaceAvailable: Unimplemented");
 			return false;

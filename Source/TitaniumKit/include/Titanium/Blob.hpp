@@ -87,9 +87,9 @@ namespace Titanium
 		  @abstract append
 		  @discussion Appends the data from another blob to this blob.
 		*/
-		virtual void append(std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT;
+		virtual void append(const std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT;
 
-		virtual void construct(std::vector<std::uint8_t> data) TITANIUM_NOEXCEPT;
+		virtual void construct(const std::vector<std::uint8_t> data) TITANIUM_NOEXCEPT;
 		virtual std::vector<std::uint8_t> getData() TITANIUM_NOEXCEPT;
 
 		Blob(const JSContext&) TITANIUM_NOEXCEPT;

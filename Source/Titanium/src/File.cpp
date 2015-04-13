@@ -235,7 +235,7 @@ namespace TitaniumWindows
 			return ((item->Attributes & FileAttributes::ReadOnly) != FileAttributes::ReadOnly);
 		}
 
-		unsigned long long File::get_size() const TITANIUM_NOEXCEPT
+		std::uint64_t File::get_size() const TITANIUM_NOEXCEPT
 		{
 			const auto prop = getStorageProperties(getStorageItem());
 			if (prop == nullptr) {
@@ -569,17 +569,17 @@ namespace TitaniumWindows
 			return path_;
 		}
 
-		unsigned long long File::spaceAvailable() TITANIUM_NOEXCEPT
+		std::uint64_t File::spaceAvailable() TITANIUM_NOEXCEPT
 		{
 			const auto prop = getStorageProperties(getStorageItem());
 			const auto propertiesName = ref new Platform::Collections::Vector<Platform::String^>();
 			propertiesName->Append("System.FreeSpace");
-			uint64 freeSpace;
+			std::uint64_t freeSpace = 0;
 			concurrency::event event;
 			task<IMap<Platform::String^, Platform::Object^>^>(prop->RetrievePropertiesAsync(propertiesName)).then([&freeSpace, &event](task<IMap<Platform::String^, Platform::Object^>^> task) {
 					try {
 						const auto extraProperties = task.get();
-						freeSpace = (uint64)extraProperties->Lookup("System.FreeSpace");
+						freeSpace = (std::uint64_t)extraProperties->Lookup("System.FreeSpace");
 					}
 					catch (Platform::COMException^ ex) {
 						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
