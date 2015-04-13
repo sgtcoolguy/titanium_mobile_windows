@@ -63,7 +63,7 @@ bool NativeFileExample::get_writable() const TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::get_writable");
 	return false;
 }
-unsigned long long NativeFileExample::get_size() const TITANIUM_NOEXCEPT
+std::uint64_t NativeFileExample::get_size() const TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::get_size");
 	return 0;
@@ -160,7 +160,7 @@ std::string NativeFileExample::resolve() TITANIUM_NOEXCEPT
 	TITANIUM_LOG_DEBUG("NativeFileExample::resolve");
 	return "";
 }
-unsigned long long NativeFileExample::spaceAvailable() TITANIUM_NOEXCEPT
+std::uint64_t NativeFileExample::spaceAvailable() TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeFileExample::spaceAvailable");
 	return false;

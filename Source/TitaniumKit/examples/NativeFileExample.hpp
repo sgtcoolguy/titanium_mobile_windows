@@ -38,7 +38,7 @@ public:
 	virtual std::shared_ptr<Titanium::Filesystem::File> get_parent() const TITANIUM_NOEXCEPT;
 	virtual bool get_readonly() const TITANIUM_NOEXCEPT;
 	virtual bool get_remoteBackup() const TITANIUM_NOEXCEPT;
-	virtual unsigned long long get_size() const TITANIUM_NOEXCEPT;
+	virtual std::uint64_t get_size() const TITANIUM_NOEXCEPT;
 	virtual bool get_symbolicLink() const TITANIUM_NOEXCEPT;
 	virtual bool get_writable() const TITANIUM_NOEXCEPT;
 
@@ -60,7 +60,7 @@ public:
 	virtual std::shared_ptr<Titanium::Blob> read() TITANIUM_NOEXCEPT;
 	virtual bool rename(const std::string& newname) TITANIUM_NOEXCEPT;
 	virtual std::string resolve() TITANIUM_NOEXCEPT;
-	virtual unsigned long long spaceAvailable() TITANIUM_NOEXCEPT;
+	virtual std::uint64_t spaceAvailable() TITANIUM_NOEXCEPT;
 	virtual bool write(const std::shared_ptr<Titanium::Filesystem::File>& data, const bool& append) TITANIUM_NOEXCEPT;
 
 protected:

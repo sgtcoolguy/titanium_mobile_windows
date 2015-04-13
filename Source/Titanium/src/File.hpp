@@ -32,7 +32,7 @@ namespace TitaniumWindows
 			virtual std::shared_ptr<Titanium::Filesystem::File> get_parent() const TITANIUM_NOEXCEPT override;
 			virtual bool get_readonly() const TITANIUM_NOEXCEPT override;
 			virtual bool get_remoteBackup() const TITANIUM_NOEXCEPT override;
-			virtual unsigned long long get_size() const TITANIUM_NOEXCEPT override;
+			virtual std::uint64_t get_size() const TITANIUM_NOEXCEPT override;
 			virtual bool get_symbolicLink() const TITANIUM_NOEXCEPT override;
 			virtual bool get_writable() const TITANIUM_NOEXCEPT override;
 
@@ -57,7 +57,7 @@ namespace TitaniumWindows
 			virtual std::shared_ptr<Titanium::Blob> read() TITANIUM_NOEXCEPT override;
 			virtual bool rename(const std::string& newname) TITANIUM_NOEXCEPT override;
 			virtual std::string resolve() TITANIUM_NOEXCEPT override;
-			virtual unsigned long long spaceAvailable() TITANIUM_NOEXCEPT override;
+			virtual std::uint64_t spaceAvailable() TITANIUM_NOEXCEPT override;
 			virtual bool write(const std::string& data, const bool& append) TITANIUM_NOEXCEPT override;
 			virtual bool write(const std::shared_ptr<Titanium::Blob>& data, const bool& append) TITANIUM_NOEXCEPT override;
 			virtual bool write(const std::shared_ptr<Titanium::Filesystem::File>& data, const bool& append) TITANIUM_NOEXCEPT override;

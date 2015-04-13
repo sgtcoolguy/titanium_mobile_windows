@@ -10,8 +10,6 @@
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
-#include "TitaniumWindows/Utility.hpp"
-
 #define DEFAULT_FONT_SIZE 20
 
 namespace TitaniumWindows

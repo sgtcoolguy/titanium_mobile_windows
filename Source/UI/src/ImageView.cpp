@@ -10,7 +10,6 @@
 #include "TitaniumWindows/Utility.hpp"
 #include "LayoutEngine/LayoutEngine.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
-#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
 {

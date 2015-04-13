@@ -55,7 +55,7 @@ namespace TitaniumWindows
 				auto port = std::make_shared<Platform::String^>(TitaniumWindows::Utility::ConvertString(pt.get<std::string>("tcpPort", "8666")));
 				auto server_token = std::make_shared<Platform::String^>(TitaniumWindows::Utility::ConvertString(pt.get<std::string>("serverToken")));
 				// timeout value
-				std::chrono::milliseconds timeout((long long)pt.get<double>("logConnectionTimeout", 2000));
+				std::chrono::milliseconds timeout((std::int64_t)pt.get<double>("logConnectionTimeout", 2000));
 				std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = timeout;
 				Windows::Foundation::TimeSpan time_span;
 				time_span.Duration = timer_interval_ticks.count();
