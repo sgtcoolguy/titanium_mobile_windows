@@ -33,8 +33,7 @@ namespace Titanium
 			  @abstract value
 			  @discussion Indicates whether the switch has been turned on or off by the user. May also be set programmatically.
 			*/
-			virtual bool get_value() const TITANIUM_NOEXCEPT;
-			virtual void set_value(const bool& value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, value);
 
 			Switch(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 

@@ -35,8 +35,7 @@ namespace Titanium
 
 			  @discussion Determines how text is capitalized during typing.
 			*/
-			virtual TEXT_AUTOCAPITALIZATION get_autocapitalization() const TITANIUM_NOEXCEPT final;
-			virtual void set_autocapitalization(const TEXT_AUTOCAPITALIZATION& autocapitalization) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(TEXT_AUTOCAPITALIZATION, autocapitalization);
 
 			/*!
 			  @method
@@ -45,8 +44,7 @@ namespace Titanium
 
 			  @discussion Border style for the field.
 			*/
-			virtual INPUT_BORDERSTYLE get_borderStyle() const TITANIUM_NOEXCEPT final;
-			virtual void set_borderStyle(const INPUT_BORDERSTYLE& borderStyle) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(INPUT_BORDERSTYLE, borderStyle);
 
 			/*!
 			  @method
@@ -55,8 +53,7 @@ namespace Titanium
 
 			  @discussion Determines when the clear button is displayed.
 			*/
-			virtual INPUT_BUTTONMODE get_clearButtonMode() const TITANIUM_NOEXCEPT final;
-			virtual void set_clearButtonMode(const INPUT_BUTTONMODE& clearButtonMode) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(INPUT_BUTTONMODE, clearButtonMode);
 
 			/*!
 			  @method
@@ -65,8 +62,7 @@ namespace Titanium
 
 			  @discussion Color of the text in this text field, as a color name or hex triplet.
 			*/
-			virtual std::string get_color() const TITANIUM_NOEXCEPT final;
-			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, color);
 
 			/*!
 			  @method
@@ -75,8 +71,7 @@ namespace Titanium
 
 			  @discussion Determines whether this field can be edited.
 			*/
-			virtual bool get_editable() const TITANIUM_NOEXCEPT final;
-			virtual void set_editable(const bool& editable) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, editable);
 
 			/*!
 			  @method
@@ -85,8 +80,7 @@ namespace Titanium
 
 			  @discussion Determines whether an ellipsis (...) should be used to indicate truncated text.
 			*/
-			virtual bool get_ellipsize() const TITANIUM_NOEXCEPT final;
-			virtual void set_ellipsize(const bool& ellipsize) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, ellipsize);
 
 			/*!
 			  @method
@@ -99,10 +93,9 @@ namespace Titanium
 
 			  On Android, if true, return event will not fire. Clicking on the return key will do nothing, but the key itself won't be disabled.
 			*/
-			virtual bool get_enableReturnKey() const TITANIUM_NOEXCEPT final;
-			virtual void set_enableReturnKey(const bool& enableReturnKey) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, enableReturnKey);
 
-// TODO font!
+			// TODO font!
 
 			/*!
 			  @method
@@ -117,8 +110,7 @@ namespace Titanium
 
 			  Use unicode characters, such as those included in (but not limited to) the Unicode List of Useful Symbols section of wikipedia, to insert special characters and symbols.
 			*/
-			virtual std::string get_hintText() const TITANIUM_NOEXCEPT final;
-			virtual void set_hintText(const std::string& hintText) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, hintText);
 
 			/*!
 			  @method
@@ -130,8 +122,7 @@ namespace Titanium
 			  phone number or email address, you should always specify the
 			  appropriate keyboard type.
 			*/
-			virtual KEYBOARD get_keyboardType() const TITANIUM_NOEXCEPT final;
-			virtual void set_keyboardType(const KEYBOARD& keyboardType) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(KEYBOARD, keyboardType);
 
 			/*!
 			  @method
@@ -140,8 +131,7 @@ namespace Titanium
 
 			  @discussion Determines when to display the left button view.
 			*/
-			virtual INPUT_BUTTONMODE get_leftButtonMode() const TITANIUM_NOEXCEPT final;
-			virtual void set_leftButtonMode(const INPUT_BUTTONMODE& leftButtonMode) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(INPUT_BUTTONMODE, leftButtonMode);
 
 			/*!
 			  @method
@@ -152,8 +142,7 @@ namespace Titanium
 
 			  Any attempt to input text beyond this length (including pasting a string larger than maxLength) will not edit the field's contents. A value of -1 indicates unlimited length.
 			*/
-			virtual int32_t get_maxLength() const TITANIUM_NOEXCEPT final;
-			virtual void set_maxLength(const int32_t& maxLength) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(int32_t, maxLength);
 
 			/*!
 			  @method
@@ -168,8 +157,7 @@ namespace Titanium
 
 			  Note: on iOS, passwordMask must be specified when this text field is created.
 			*/
-			virtual bool get_passwordMask() const TITANIUM_NOEXCEPT final;
-			virtual void set_passwordMask(const bool& passwordMask) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, passwordMask);
 
 			/*!
 			  @method
@@ -178,8 +166,7 @@ namespace Titanium
 
 			  @discussion Specifies the text to display on the keyboard Return key when this field is focused.
 			*/
-			virtual RETURNKEY get_returnKeyType() const TITANIUM_NOEXCEPT final;
-			virtual void set_returnKeyType(const RETURNKEY& returnKeyType) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(RETURNKEY, returnKeyType);
 
 			/*!
 			  @method
@@ -188,8 +175,7 @@ namespace Titanium
 
 			  @discussion Determines when to display the right button view.
 			*/
-			virtual INPUT_BUTTONMODE get_rightButtonMode() const TITANIUM_NOEXCEPT final;
-			virtual void set_rightButtonMode(const INPUT_BUTTONMODE& rightButtonMode) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(INPUT_BUTTONMODE, rightButtonMode);
 
 			/*!
 			  @method
@@ -198,8 +184,7 @@ namespace Titanium
 
 			  @discussion Determines whether the return key should be suppressed during entry.
 			*/
-			virtual bool get_suppressReturn() const TITANIUM_NOEXCEPT final;
-			virtual void set_suppressReturn(const bool& suppressReturn) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, suppressReturn);
 
 			/*!
 			  @method
@@ -208,8 +193,7 @@ namespace Titanium
 
 			  @discussion Text alignment within this text field.
 			*/
-			virtual TEXT_ALIGNMENT get_textAlign() const TITANIUM_NOEXCEPT final;
-			virtual void set_textAlign(const TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(TEXT_ALIGNMENT, textAlign);
 
 			/*!
 			  @method
@@ -222,8 +206,7 @@ namespace Titanium
 
 			  Use unicode characters, such as those included in (but not limited to) the Unicode List of Useful Symbols section of wikipedia, to insert special characters and symbols.
 			*/
-			virtual std::string get_value() const TITANIUM_NOEXCEPT;
-			virtual void set_value(const std::string& value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, value);
 
 			/*!
 			  @method
@@ -232,8 +215,7 @@ namespace Titanium
 
 			  @discussion Vertical alignment within this text field.
 			*/
-			virtual TEXT_VERTICAL_ALIGNMENT get_verticalAlign() const TITANIUM_NOEXCEPT final;
-			virtual void set_verticalAlign(const TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(TEXT_VERTICAL_ALIGNMENT, verticalAlign);
 
 			/*!
 			  @method
