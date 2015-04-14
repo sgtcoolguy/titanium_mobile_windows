@@ -71,45 +71,13 @@ namespace Titanium
 			HAL_LOG_DEBUG("ListSection:: postCallAsConstructor ", this);
 		}
 
-		std::string ListSection::get_footerTitle() const TITANIUM_NOEXCEPT
-		{
-			return footerTitle__;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListSection, std::string, footerTitle)
+		
+		TITANIUM_PROPERTY_READWRITE(ListSection, std::string, headerTitle)
 
-		void ListSection::set_footerTitle(const std::string& value) TITANIUM_NOEXCEPT
-		{
-			footerTitle__ = value;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListSection, View_shared_ptr_t, footerView)
 
-		std::string ListSection::get_headerTitle() const TITANIUM_NOEXCEPT
-		{
-			return headerTitle__;
-		}
-
-		void ListSection::set_headerTitle(const std::string& value) TITANIUM_NOEXCEPT
-		{
-			headerTitle__ = value;
-		}
-
-		View_shared_ptr_t ListSection::get_footerView() const TITANIUM_NOEXCEPT
-		{
-			return footerView__;
-		}
-
-		void ListSection::set_footerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT
-		{
-			footerView__ = value;
-		}
-
-		View_shared_ptr_t ListSection::get_headerView() const TITANIUM_NOEXCEPT
-		{
-			return headerView__;
-		}
-
-		void ListSection::set_headerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT
-		{
-			headerView__ = value;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListSection, View_shared_ptr_t, headerView)
 
 		std::vector<ListDataItem> ListSection::get_items() const TITANIUM_NOEXCEPT
 		{

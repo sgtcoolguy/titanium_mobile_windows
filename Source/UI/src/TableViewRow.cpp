@@ -57,7 +57,7 @@ namespace TitaniumWindows
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->add(view_ptr);
 		}
 
-		void TableViewRow::setTitle(std::string title) TITANIUM_NOEXCEPT
+		void TableViewRow::set_title(const std::string& title) TITANIUM_NOEXCEPT
 		{
 			if (title__ == nullptr && content__->Children->Size == 0) {
 
@@ -79,7 +79,7 @@ namespace TitaniumWindows
 				title__->set_text(title);
 				content__->Children->Append(title__->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent());
 			}
-			Titanium::UI::TableViewRow::setTitle(title);
+			Titanium::UI::TableViewRow::set_title(title);
 		}
 	}  // namespace UI
 }  // namespace TitaniumWindows

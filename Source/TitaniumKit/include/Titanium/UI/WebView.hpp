@@ -34,61 +34,42 @@ namespace Titanium
 			  @abstract data
 			  @discussion Web content to load.
 			*/
-			virtual std::vector<std::uint8_t> getData() const TITANIUM_NOEXCEPT;
-			/*!
-			  @method
-			  @abstract setData
-			  @discussion
-			*/
-			virtual bool setData(const std::vector<std::uint8_t>& data) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::uint8_t>, data);
+
 			/*!
 			  @property
 			  @abstract html
 			  @discussion HTML content of this web view.
 			*/
-			virtual std::string getHtml() const TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, html);
+
 			/*!
 			  @method
 			  @abstract setHtml
 			  @discussion Sets the value of [html](Titanium.UI.WebView.html) property.
 			*/
 			virtual bool setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT;
+
 			/*!
 			  @property
 			  @abstract loading
 			  @discussion Indicates if the webview is loading content.
 			*/
-			virtual bool getLoading() const TITANIUM_NOEXCEPT;
-			/*!
-			  @method
-			  @abstract setLoading
-			  @discussion
-			*/
-			virtual bool setLoading(const bool& value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, loading);
+
 			/*!
 			  @property
-			  @abstract getScalesPageToFit
+			  @abstract scalesPageToFit
 			  @discussion If `true`, scale contents to fit the web view.
 			*/
-			virtual bool getScalesPageToFit() const TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, scalesPageToFit);
+
 			/*!
 			  @property
-			  @abstract setScalesPageToFit
-			  @discussion Sets the value of the scalesPageToFit property.
-			*/
-			virtual bool setScalesPageToFit(const bool& value) TITANIUM_NOEXCEPT;
-			/*!
-			  @property
-			  @abstract getUrl
+			  @abstract url
 			  @discussion URL to the web document.
 			*/
-			virtual std::string getUrl() const TITANIUM_NOEXCEPT;
-			/*!
-			  @property
-			  @abstract setUrl
-			  @discussion Sets URL to the web document.
-			*/
-			virtual bool setUrl(const std::string& url) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, url);
 
 			/*!
 			  @method
@@ -96,42 +77,49 @@ namespace Titanium
 			  @discussion Returns `true` if the web view can go back in its history list.
 			*/
 			virtual bool canGoBack() TITANIUM_NOEXCEPT;
+
 			/*!
 			  @method
 			  @abstract canGoForward
 			  @discussion Returns `true` if the web view can go forward in its history list.
 			*/
 			virtual bool canGoForward() TITANIUM_NOEXCEPT;
+
 			/*!
 			  @method
 			  @abstract evalJS
 			  @discussion Evaluates a JavaScript expression inside the context of the web view andoptionally, returns a result.
 			*/
 			virtual std::string evalJS(const std::string& code) TITANIUM_NOEXCEPT;
+
 			/*!
 			  @method
 			  @abstract goBack
 			  @discussion Goes back one entry in the web view's history list, to the previous page.
 			*/
 			virtual void goBack() TITANIUM_NOEXCEPT;
+
 			/*!
 			  @method
 			  @abstract goForward
 			  @discussion Goes forward one entry in this web view's history list, if possible.
 			*/
 			virtual void goForward() TITANIUM_NOEXCEPT;
+
 			/*!
 			  @method
 			  @abstract reload
 			  @discussion Reloads the current webpage.
 			*/
 			virtual void reload() TITANIUM_NOEXCEPT;
+
 			/*!
 			  @method
 			  @abstract setBasicAuthentication
 			  @discussion Sets the basic authentication for this web view to use on subsequent URl requests.
 			*/
 			virtual bool setBasicAuthentication(const std::string& username, const std::string& password) TITANIUM_NOEXCEPT;
+
 			/*!
 			  @method
 			  @abstract stopLoading

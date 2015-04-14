@@ -21,50 +21,15 @@ namespace Titanium
     	{
     	}
 
-		std::string TableViewRow::get_color() const TITANIUM_NOEXCEPT
-    	{
-        	return color__;
-		}
+		TITANIUM_PROPERTY_READWRITE(TableViewRow, std::string, color)
 
-		void TableViewRow::setColor(std::string color) TITANIUM_NOEXCEPT {
-			color__ = color;
-		}
+		TITANIUM_PROPERTY_READWRITE(TableViewRow, Font, font)
 
-		Font TableViewRow::get_font() const TITANIUM_NOEXCEPT
-    	{
-        	return font__;
-		}
+		TITANIUM_PROPERTY_READWRITE(TableViewRow, bool, hasCheck)
 
-		void TableViewRow::setFont(Font font) TITANIUM_NOEXCEPT {
-			font__ = font;
-		}
+		TITANIUM_PROPERTY_READWRITE(TableViewRow, bool, hasChild)
 
-		bool TableViewRow::get_hasCheck() const TITANIUM_NOEXCEPT
-    	{
-        	return hasCheck__;
-		}
-
-		void TableViewRow::setHasCheck(bool hasCheck) TITANIUM_NOEXCEPT {
-			hasCheck__ = hasCheck;
-		}
-
-		bool TableViewRow::get_hasChild() const TITANIUM_NOEXCEPT
-    	{
-        	return hasChild__;
-		}
-
-		void TableViewRow::setHasChild(bool hasChild) TITANIUM_NOEXCEPT {
-			hasChild__ = hasChild;
-		}
-
-		std::string TableViewRow::get_title() const TITANIUM_NOEXCEPT
-    	{
-        	return title__;
-		}
-
-		void TableViewRow::setTitle(std::string title) TITANIUM_NOEXCEPT {
-			title__ = title;
-		}
+		TITANIUM_PROPERTY_READWRITE(TableViewRow, std::string, title)
 
 		void TableViewRow::JSExportInitialize() {
 			JSExport<TableViewRow>::SetClassVersion(1);
@@ -93,124 +58,75 @@ namespace Titanium
 			return get_context().CreateString(get_color());
 		}
 
+		TITANIUM_PROPERTY_SETTER(TableViewRow, color)
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			set_color(static_cast<std::string>(argument));
+			return true;
+		}
+
+		TITANIUM_FUNCTION_AS_GETTER(TableViewRow, getColor, color)
+		TITANIUM_FUNCTION_AS_SETTER(TableViewRow, setColor, color)
+
 		TITANIUM_PROPERTY_GETTER(TableViewRow, font)
 		{
 			return Font_to_js(get_context(), get_font());
 		}
+
+		TITANIUM_PROPERTY_SETTER(TableViewRow, font)
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+			set_font(js_to_Font(static_cast<JSObject>(argument)));
+			return true;
+		}
+
+		TITANIUM_FUNCTION_AS_GETTER(TableViewRow, getFont, font)
+		TITANIUM_FUNCTION_AS_SETTER(TableViewRow, setFont, font)
 
 		TITANIUM_PROPERTY_GETTER(TableViewRow, hasCheck)
 		{
 			return get_context().CreateBoolean(get_hasCheck());
 		}
 
+		TITANIUM_PROPERTY_SETTER(TableViewRow, hasCheck)
+		{
+			TITANIUM_ASSERT(argument.IsBoolean());
+			set_hasCheck(static_cast<bool>(argument));
+			return true;
+		}
+
+		TITANIUM_FUNCTION_AS_GETTER(TableViewRow, getHasCheck, hasCheck)
+		TITANIUM_FUNCTION_AS_SETTER(TableViewRow, setHasCheck, hasCheck)
+
 		TITANIUM_PROPERTY_GETTER(TableViewRow, hasChild)
 		{
 			return get_context().CreateBoolean(get_hasChild());
 		}
+
+		TITANIUM_PROPERTY_SETTER(TableViewRow, hasChild)
+		{
+			TITANIUM_ASSERT(argument.IsBoolean());
+			set_hasChild(static_cast<bool>(argument));
+			return true;
+		}
+
+		TITANIUM_FUNCTION_AS_GETTER(TableViewRow, getHasChild, hasChild)
+		TITANIUM_FUNCTION_AS_SETTER(TableViewRow, setHasChild, hasChild)
 
 		TITANIUM_PROPERTY_GETTER(TableViewRow, title)
 		{
 			return get_context().CreateString(get_title());
 		}
 
-		TITANIUM_FUNCTION(TableViewRow, getColor)
-		{
-			return js_get_color();
-		}
-
-		TITANIUM_PROPERTY_SETTER(TableViewRow, color) 
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			setColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_FUNCTION(TableViewRow, setColor)
-		{
-			if (arguments.size() >= 1) {
-				js_set_color(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(TableViewRow, getFont)
-		{
-			return js_get_font();
-		}
-
-		TITANIUM_PROPERTY_SETTER(TableViewRow, font) 
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			setFont(js_to_Font(static_cast<JSObject>(argument)));
-			return true;
-		}
-
-		TITANIUM_FUNCTION(TableViewRow, setFont)
-		{
-			if (arguments.size() >= 1) {
-				js_set_font(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(TableViewRow, getHasCheck)
-		{
-			return js_get_hasCheck();
-		}
-
-		TITANIUM_PROPERTY_SETTER(TableViewRow, hasCheck) 
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			setHasCheck(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_FUNCTION(TableViewRow, setHasCheck)
-		{
-			if (arguments.size() >= 1) {
-				js_set_hasCheck(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(TableViewRow, getHasChild)
-		{
-			return js_get_hasChild();
-		}
-
-		TITANIUM_PROPERTY_SETTER(TableViewRow, hasChild) 
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			setHasChild(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_FUNCTION(TableViewRow, setHasChild)
-		{
-			if (arguments.size() >= 1) {
-				js_set_hasChild(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(TableViewRow, getTitle)
-		{
-			return js_get_title();
-		}
-
 		TITANIUM_PROPERTY_SETTER(TableViewRow, title) 
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			setTitle(static_cast<std::string>(argument));
+			set_title(static_cast<std::string>(argument));
 			return true;
 		}
 
-		TITANIUM_FUNCTION(TableViewRow, setTitle)
-		{
-			if (arguments.size() >= 1) {
-				js_set_title(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(TableViewRow, getTitle, title)
+		TITANIUM_FUNCTION_AS_SETTER(TableViewRow, setTitle, title)
+
 	} // namespace UI
 } // namespace Titanium

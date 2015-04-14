@@ -107,24 +107,18 @@ namespace TitaniumWindows
 			return static_cast<std::string>(contentView__.GetProperty("height"));
 		}
 
-		bool ScrollView::set_contentWidth(const double& width)
+		void ScrollView::set_contentWidth(const double& width)
 		{
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
-			bool result = false;
 			content->getComponent()->Width = width;
 			contentView__.SetProperty("width", get_context().CreateNumber(width));
-			result = true;
-			return result;
 		}
 
-		bool ScrollView::set_contentHeight(const double& height)
+		void ScrollView::set_contentHeight(const double& height)
 		{
 			auto content = std::dynamic_pointer_cast<TitaniumWindows::UI::View>(contentView__.GetPrivate<Titanium::UI::View>());
-			bool result = false;
 			content->getComponent()->Height = height;
 			contentView__.SetProperty("height", get_context().CreateNumber(height));
-			result = true;
-			return result;
 		}
 
 		bool ScrollView::get_scrollingEnabled() const TITANIUM_NOEXCEPT
@@ -132,14 +126,13 @@ namespace TitaniumWindows
 			return scroll_viewer__->HorizontalScrollMode != Windows::UI::Xaml::Controls::ScrollMode::Disabled;
 		}
 
-		bool ScrollView::set_scrollingEnabled(bool enabled) TITANIUM_NOEXCEPT
+		void ScrollView::set_scrollingEnabled(const bool& enabled) TITANIUM_NOEXCEPT
 		{
 			if (enabled) {
 				scroll_viewer__->HorizontalScrollMode = Windows::UI::Xaml::Controls::ScrollMode::Auto;
 			} else {
 				scroll_viewer__->HorizontalScrollMode = Windows::UI::Xaml::Controls::ScrollMode::Disabled;
 			}
-			return true;
 		}
 
 		bool ScrollView::get_showHorizontalScrollIndicator() const TITANIUM_NOEXCEPT
@@ -147,14 +140,13 @@ namespace TitaniumWindows
 			return scroll_viewer__->HorizontalScrollBarVisibility != Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
 		}
 
-		bool ScrollView::set_showHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT
+		void ScrollView::set_showHorizontalScrollIndicator(const bool& enabled) TITANIUM_NOEXCEPT
 		{
 			if (enabled) {
 				scroll_viewer__->HorizontalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Auto;
 			} else {
 				scroll_viewer__->HorizontalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
 			}
-			return true;
 		}
 
 		bool ScrollView::get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT
@@ -162,14 +154,13 @@ namespace TitaniumWindows
 			return scroll_viewer__->VerticalScrollBarVisibility != Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
 		}
 
-		bool ScrollView::set_showVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT
+		void ScrollView::set_showVerticalScrollIndicator(const bool& enabled) TITANIUM_NOEXCEPT
 		{
 			if (enabled) {
 				scroll_viewer__->VerticalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Auto;
 			} else {
 				scroll_viewer__->VerticalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
 			}
-			return true;
 		}
 	} // namespace UI
 } // namespace TitaniumWindows

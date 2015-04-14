@@ -39,9 +39,8 @@ namespace Titanium
 
 			  While auto and absolute dimensions are supported, relative values, such as those provided in percentages, are not. The minimum value for contentWidth is the width of the scroll view.
 			*/
-			virtual std::string get_contentWidth() const TITANIUM_NOEXCEPT;
-			virtual bool set_contentWidth(const std::string& width) TITANIUM_NOEXCEPT;
-			virtual bool set_contentWidth(const double& width) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, contentWidth);
+			virtual void set_contentWidth(const double& width) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -52,9 +51,8 @@ namespace Titanium
 
 			  While auto and absolute dimensions are supported, relative values, such as those provided in percentages, are not. The minimum value for contentHeight is the height of the scroll view.
 			*/
-			virtual std::string get_contentHeight() const TITANIUM_NOEXCEPT;
-			virtual bool set_contentHeight(const std::string& height) TITANIUM_NOEXCEPT;
-			virtual bool set_contentHeight(const double& height) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, contentHeight);
+			virtual void set_contentHeight(const double& height) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -63,8 +61,7 @@ namespace Titanium
 
 			  @discussion Determines whether scrolling is enabled for the view.
 			*/
-			virtual bool get_scrollingEnabled() const TITANIUM_NOEXCEPT;
-			virtual bool set_scrollingEnabled(bool enabled) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, scrollingEnabled);
 
 			/*!
 			  @method
@@ -75,8 +72,7 @@ namespace Titanium
 
 			  Set to true to show the horizontal scroll indicator.
 			*/
-			virtual bool get_showHorizontalScrollIndicator() const TITANIUM_NOEXCEPT;
-			virtual bool set_showHorizontalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, showHorizontalScrollIndicator);
 
 			/*!
 			  @method
@@ -87,8 +83,7 @@ namespace Titanium
 
 			  Set to true to show the vertical scroll indicator.
 			*/
-			virtual bool get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT;
-			virtual bool set_showVerticalScrollIndicator(bool enabled) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, showVerticalScrollIndicator);
 
 			ScrollView(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -103,12 +98,10 @@ namespace Titanium
 			static void JSExportInitialize();
 
 			TITANIUM_PROPERTY_DEF(contentWidth);
-
-			TITANIUM_PROPERTY_DEF(contentHeight);
-
 			TITANIUM_FUNCTION_DEF(setContentWidth);
 			TITANIUM_FUNCTION_DEF(getContentWidth);
 
+			TITANIUM_PROPERTY_DEF(contentHeight);
 			TITANIUM_FUNCTION_DEF(setContentHeight);
 			TITANIUM_FUNCTION_DEF(getContentHeight);
 
@@ -116,17 +109,14 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(scrollToBottom);
 
 			TITANIUM_PROPERTY_DEF(scrollingEnabled);
-
 			TITANIUM_FUNCTION_DEF(setScrollingEnabled);
 			TITANIUM_FUNCTION_DEF(getScrollingEnabled);
 
 			TITANIUM_PROPERTY_DEF(showHorizontalScrollIndicator);
-
 			TITANIUM_FUNCTION_DEF(setShowHorizontalScrollIndicator);
 			TITANIUM_FUNCTION_DEF(getShowHorizontalScrollIndicator);
 
 			TITANIUM_PROPERTY_DEF(showVerticalScrollIndicator);
-
 			TITANIUM_FUNCTION_DEF(setShowVerticalScrollIndicator);
 			TITANIUM_FUNCTION_DEF(getShowVerticalScrollIndicator);
 

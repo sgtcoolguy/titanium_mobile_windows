@@ -46,139 +46,38 @@ namespace Titanium
 			TITANIUM_LOG_WARN("Window::open: Unimplemented");
 		}
 
-		bool Window::get_exitOnClose() const TITANIUM_NOEXCEPT
-		{
-			return exitOnClose__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, bool, exitOnClose)
 
-		void Window::set_exitOnClose(const bool& exitOnClose) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Window::set_exitOnClose: Unimplemented");
-			exitOnClose__ = exitOnClose;
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, std::unordered_set<EXTEND_EDGE>, extendEdges)
 
-		std::unordered_set<EXTEND_EDGE> Window::get_extendEdges() const TITANIUM_NOEXCEPT
-		{
-			return extendEdges__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, bool, fullscreen)
 
-		void Window::set_extendEdges(const std::unordered_set<EXTEND_EDGE>& extendEdges) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Window::set_extendEdges: Unimplemented");
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, bool, hideShadow)
 
-		bool Window::get_fullscreen() const TITANIUM_NOEXCEPT
-		{
-			return fullscreen__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, bool, modal)
 
-		void Window::set_fullscreen(const bool& fullscreen) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Window::set_fullscreen: Unimplemented");
-			fullscreen__ = fullscreen;
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, bool, navBarHidden)
 
-		bool Window::get_hideShadow() const TITANIUM_NOEXCEPT
-		{
-			return hideShadow__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, std::string, navTintColor)
 
-		void Window::set_hideShadow(const bool& hideShadow) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Window::set_hideShadow: Unimplemented");
-			hideShadow__ = hideShadow;
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, std::vector<ORIENTATION>, orientationModes)
 
-		bool Window::get_modal() const TITANIUM_NOEXCEPT
-		{
-			return modal__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, std::string, theme)
 
-		void Window::set_modal(const bool& modal) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Window::set_modal: Unimplemented");
-			modal__ = modal;
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, TitleAttributesParams, titleAttributes)
 
-		bool Window::get_navBarHidden() const TITANIUM_NOEXCEPT
-		{
-			return navBarHidden__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, bool, translucent)
 
-		void Window::set_navBarHidden(const bool& navBarHidden) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Window::set_navBarHidden: Unimplemented");
-			navBarHidden__ = navBarHidden;
-		}
-
-		std::string Window::get_navTintColor() const TITANIUM_NOEXCEPT
-		{
-			return navTintColor__;
-		}
-
-		void Window::set_navTintColor(const std::string &navTintColor) TITANIUM_NOEXCEPT
-		{
-			navTintColor__ = navTintColor;
-		}
-
-		std::vector<ORIENTATION> Window::get_orientationModes() const TITANIUM_NOEXCEPT
-		{
-			return orientationModes__;
-		}
-
-		void Window::set_orientationModes(const std::vector<ORIENTATION>& orientationModes) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Window::set_orientationModes: Unimplemented");
-		}
-
-		std::string Window::get_theme() const TITANIUM_NOEXCEPT
-		{
-			return theme__;
-		}
-
-		void Window::set_theme(const std::string& theme) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Window::set_theme: Unimplemented");
-			theme__ = theme;
-		}
-
-		TitleAttributesParams Window::get_titleAttributes() const TITANIUM_NOEXCEPT
-		{
-			return titleAttributes__;
-		}
-
-		void Window::set_titleAttributes(const TitleAttributesParams& titleAttributes) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Window::set_titleAttributes: Unimplemented");
-			titleAttributes__ = titleAttributes;
-		}
-
-		bool Window::get_translucent() const TITANIUM_NOEXCEPT
-		{
-			return translucent__;
-		}
-
-		void Window::set_translucent(const bool& translucent) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Window::set_translucent: Unimplemented");
-			translucent__ = translucent;
-		}
-
-		std::string Window::get_barColor() const TITANIUM_NOEXCEPT 
-		{
-			return barColor__;
-		}
-		void Window::set_barColor(const std::string& barColor) TITANIUM_NOEXCEPT 
-		{
-			barColor__ = barColor;
-		}
+		TITANIUM_PROPERTY_READWRITE(Window, std::string, barColor)
 
 		void Window::JSExportInitialize()
 		{
 			JSExport<Window>::SetClassVersion(1);
 			JSExport<Window>::SetParent(JSExport<View>::Class());
+			// methods
 			TITANIUM_ADD_FUNCTION(Window, close);
 			TITANIUM_ADD_FUNCTION(Window, open);
+			// properties
 			TITANIUM_ADD_PROPERTY(Window, barColor);
 			TITANIUM_ADD_PROPERTY(Window, exitOnClose);
 			TITANIUM_ADD_PROPERTY(Window, extendEdges);
@@ -191,6 +90,31 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(Window, theme);
 			TITANIUM_ADD_PROPERTY(Window, titleAttributes);
 			TITANIUM_ADD_PROPERTY(Window, translucent);
+			// accessors
+			TITANIUM_ADD_FUNCTION(Window, getBarColor);
+			TITANIUM_ADD_FUNCTION(Window, setBarColor);
+			TITANIUM_ADD_FUNCTION(Window, getExitOnClose);
+			TITANIUM_ADD_FUNCTION(Window, setExitOnClose);
+			TITANIUM_ADD_FUNCTION(Window, getExtendEdges);
+			TITANIUM_ADD_FUNCTION(Window, setExtendEdges);
+			TITANIUM_ADD_FUNCTION(Window, getFullscreen);
+			TITANIUM_ADD_FUNCTION(Window, setFullscreen);
+			TITANIUM_ADD_FUNCTION(Window, getHideShadow);
+			TITANIUM_ADD_FUNCTION(Window, setHideShadow);
+			TITANIUM_ADD_FUNCTION(Window, getModal);
+			TITANIUM_ADD_FUNCTION(Window, setModal);
+			TITANIUM_ADD_FUNCTION(Window, getNavBarHidden);
+			TITANIUM_ADD_FUNCTION(Window, setNavBarHidden);
+			TITANIUM_ADD_FUNCTION(Window, getNavTintColor);
+			TITANIUM_ADD_FUNCTION(Window, setNavTintColor);
+			TITANIUM_ADD_FUNCTION(Window, getOrientationModes);
+			TITANIUM_ADD_FUNCTION(Window, setOrientationModes);
+			TITANIUM_ADD_FUNCTION(Window, getTheme);
+			TITANIUM_ADD_FUNCTION(Window, setTheme);
+			TITANIUM_ADD_FUNCTION(Window, getTitleAttributes);
+			TITANIUM_ADD_FUNCTION(Window, setTitleAttributes);
+			TITANIUM_ADD_FUNCTION(Window, getTranslucent);
+			TITANIUM_ADD_FUNCTION(Window, setTranslucent);
 		}
 
 		TITANIUM_FUNCTION(Window, close)
@@ -203,7 +127,6 @@ namespace Titanium
 
 				params = closeWindowParams_ctor__.CallAsConstructor({_0});
 			}
-
 
 			close(params.GetPrivate<CloseWindowParams>());
 			return get_context().CreateUndefined();
@@ -236,9 +159,12 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(Window, getBarColor, barColor)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setBarColor, barColor)
+
 		TITANIUM_PROPERTY_GETTER(Window, exitOnClose)
 		{
-			return get_context().CreateBoolean(exitOnClose__);
+			return get_context().CreateBoolean(get_exitOnClose());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Window, exitOnClose)
@@ -248,9 +174,12 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(Window, getExitOnClose, exitOnClose)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setExitOnClose, exitOnClose)
+
 		TITANIUM_PROPERTY_GETTER(Window, extendEdges)
 		{
-			return get_context().CreateNumber(Constants::to_underlying_type(extendEdges__));
+			return get_context().CreateNumber(Constants::to_underlying_type(get_extendEdges()));
 		}
 
 		TITANIUM_PROPERTY_SETTER(Window, extendEdges)
@@ -261,9 +190,12 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(Window, getExtendEdges, extendEdges)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setExtendEdges, extendEdges)
+
 		TITANIUM_PROPERTY_GETTER(Window, fullscreen)
 		{
-			return get_context().CreateBoolean(fullscreen__);
+			return get_context().CreateBoolean(get_fullscreen());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Window, fullscreen)
@@ -273,9 +205,12 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(Window, getFullscreen, fullscreen)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setFullscreen, fullscreen)
+
 		TITANIUM_PROPERTY_GETTER(Window, hideShadow)
 		{
-			return get_context().CreateBoolean(hideShadow__);
+			return get_context().CreateBoolean(get_hideShadow());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Window, hideShadow)
@@ -285,9 +220,12 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(Window, getHideShadow, hideShadow)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setHideShadow, hideShadow)
+
 		TITANIUM_PROPERTY_GETTER(Window, modal)
 		{
-			return get_context().CreateBoolean(modal__);
+			return get_context().CreateBoolean(get_modal());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Window, modal)
@@ -297,9 +235,12 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(Window, getModal, modal)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setModal, modal)
+
 		TITANIUM_PROPERTY_GETTER(Window, navBarHidden)
 		{
-			return get_context().CreateBoolean(navBarHidden__);
+			return get_context().CreateBoolean(get_navBarHidden());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Window, navBarHidden)
@@ -309,9 +250,12 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(Window, getNavBarHidden, navBarHidden)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setNavBarHidden, navBarHidden)
+
 		TITANIUM_PROPERTY_GETTER(Window, navTintColor)
 		{
-			return get_context().CreateString(navTintColor__);
+			return get_context().CreateString(get_navTintColor());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Window, navTintColor)
@@ -321,10 +265,13 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(Window, getNavTintColor, navTintColor)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setNavTintColor, navTintColor)
+
 		TITANIUM_PROPERTY_GETTER(Window, orientationModes)
 		{
 			std::vector<JSValue> modes;
-			for (auto mode : orientationModes__) {
+			for (auto mode : get_orientationModes()) {
 				modes.push_back(get_context().CreateNumber(Constants::to_underlying_type(mode)));
 			}
 			return get_context().CreateArray(modes);
@@ -336,7 +283,7 @@ namespace Titanium
 			auto js_arg = static_cast<JSObject>(argument);
 			TITANIUM_ASSERT(js_arg.IsArray());
 			auto modes = static_cast<JSArray>(js_arg);
-			auto js_modes= static_cast<std::vector<JSValue>>(modes);
+			auto js_modes = static_cast<std::vector<JSValue>>(modes);
 			std::vector<ORIENTATION> orientationModes;
 			for (auto mode : js_modes) {
 				orientationModes.push_back(Constants::to_ORIENTATION(static_cast<std::underlying_type<ORIENTATION>::type>(mode)));
@@ -346,9 +293,12 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(Window, getOrientationModes, orientationModes)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setOrientationModes, orientationModes)
+
 		TITANIUM_PROPERTY_GETTER(Window, theme)
 		{
-			return get_context().CreateString(theme__);
+			return get_context().CreateString(get_theme());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Window, theme)
@@ -358,9 +308,12 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(Window, getTheme, theme)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setTheme, theme)
+
 		TITANIUM_PROPERTY_GETTER(Window, titleAttributes)
 		{
-			return TitleAttributesParams_to_js(get_context(), titleAttributes__);
+			return TitleAttributesParams_to_js(get_context(), get_titleAttributes());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Window, titleAttributes)
@@ -370,9 +323,12 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(Window, getTitleAttributes, titleAttributes)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setTitleAttributes, titleAttributes)
+
 		TITANIUM_PROPERTY_GETTER(Window, translucent)
 		{
-			return get_context().CreateBoolean(translucent__);
+			return get_context().CreateBoolean(get_translucent());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Window, translucent)
@@ -381,5 +337,9 @@ namespace Titanium
 			set_translucent(static_cast<bool>(argument));
 			return true;
 		}
+
+		TITANIUM_FUNCTION_AS_GETTER(Window, getTranslucent, translucent)
+		TITANIUM_FUNCTION_AS_SETTER(Window, setTranslucent, translucent)
+
 	} // namespace UI
 }  // namespace Titanium
