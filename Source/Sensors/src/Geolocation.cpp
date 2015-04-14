@@ -74,7 +74,7 @@ namespace TitaniumWindows
 		}
 	}
 
-	void Geolocation::set_accuracy(const Titanium::Geolocation::ACCURACY accuracy) TITANIUM_NOEXCEPT
+	void Geolocation::set_accuracy(const Titanium::Geolocation::ACCURACY& accuracy) TITANIUM_NOEXCEPT
 	{
 		using namespace Titanium::Geolocation;
 
@@ -116,7 +116,7 @@ namespace TitaniumWindows
 		Titanium::GeolocationModule::set_accuracy(accuracy);
 	}
 
-	void Geolocation::set_distanceFilter(const double distance) TITANIUM_NOEXCEPT
+	void Geolocation::set_distanceFilter(const double& distance) TITANIUM_NOEXCEPT
 	{
 		geolocator_->MovementThreshold = distance;
 		Titanium::GeolocationModule::set_distanceFilter(distance);
