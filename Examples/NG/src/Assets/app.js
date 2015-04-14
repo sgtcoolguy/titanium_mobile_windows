@@ -18,33 +18,5 @@ win.open();
 
 Ti.API.info('app.js running...');
 
-Ti.API.info('animating opacity...');
-imageView.animate({
-    opacity: 1,
-    autoreverse: true,
-    repeat: 2,
-    duration: 5000,
-    delay: 2000
-}, function () {
-    Ti.API.info('Done with opacity animation.');
-    view.animate({
-        backgroundColor: 'blue',
-        autoreverse: true,
-        duration: 5000
-    }, function () {
-        Ti.API.info('Done with backgroundColor animation.');
-        view.animate({
-            top: 100,
-            duration: 5000
-        }, function () {
-            Ti.API.info('Done with top animation.');
-            view.animate({
-                left: 100,
-                duration: 5000
-            }, function () {
-                Ti.API.info('Done with left animation.');
-            });
-        });
-    });
-});
-
+var point = Windows.Foundation.Point();
+Ti.API.info('point');

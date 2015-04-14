@@ -1,7 +1,7 @@
 /**
  * Global for Windows
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -12,6 +12,14 @@
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 #include "TitaniumWindows/Utility.hpp"
+#include <wrl\wrappers\corewrappers.h>
+#include <roapi.h>
+#include <cor.h>
+//#include <rometadata.h>
+#include <rometadataresolution.h>
+#include <wrl/client.h>
+
+using namespace Microsoft::WRL;
 
 namespace TitaniumWindows
 {
@@ -24,6 +32,32 @@ namespace TitaniumWindows
 		Platform::String^ location = installed_location->Path;
 
 		return location + "\\" + newpath;
+	}
+
+	JSValue GlobalObject::getNativeProperty(const JSString& property_name) const
+	{
+		auto prop_name = static_cast<std::string>(property_name);
+		if ("Windows" == prop_name) {
+			// TODO Yay, let's generate a proxy object based on the metadata
+
+			// TODO Load up the metadata for this "node" in it and generate some wrapping JSExport class to hold the node.
+			// We could have it statically register it's functions/properties from the metadata or dynamically override GetPropertyCallback like this to look it up in real-time?
+
+			// Also a note that we could just have our metadata contain only the full listing of types and dynamically load the metadata for a type at runtime using:
+			// https://msdn.microsoft.com/en-uS/office/office365/hh699869.aspx
+
+			// Prepare HSTRING versions of class names
+			IInspectable* something;
+			Microsoft::WRL::Wrappers::HStringReference WindowClsName(L"Something.Another");
+			Windows::Foundation::ActivateInstance(WindowClsName.Get(), &something);
+			// We can try to cast to an interface with:
+			//something->QueryInterface();
+			// We can get the class name back with:
+			//something->GetRuntimeClassName();
+
+			Titanium::ReflectionHelper::Instantiate("Some.Type.Name");
+		}
+		return get_context().CreateNativeNull();
 	}
 
 	bool GlobalObject::requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT

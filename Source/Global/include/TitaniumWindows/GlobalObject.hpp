@@ -37,6 +37,8 @@ namespace TitaniumWindows
 
 		static void JSExportInitialize();
 
+		JSValue getNativeProperty(const JSString& property_name) const;
+
 	protected:
 		virtual std::string readRequiredModule(const std::string& path) const override final;
 		virtual bool requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT override final;
