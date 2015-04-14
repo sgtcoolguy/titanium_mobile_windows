@@ -43,8 +43,7 @@ function runCMake(sourceDir, buildDir, buildType, platform, arch, callback) {
 			'-DTitaniumWindows_Global_DISABLE_TESTS=ON',
 			'-DTitaniumWindows_API_DISABLE_TESTS=ON',
 			'-DTitaniumWindows_Platform_DISABLE_TESTS=ON',
-			'-DTitaniumWindows_Gesture_DISABLE_TESTS=ON',
-			'-DTitaniumWindows_Accelerometer_DISABLE_TESTS=ON',
+			'-DTitaniumWindows_Sensors_DISABLE_TESTS=ON',
 			'-DTitaniumWindows_App_DISABLE_TESTS=ON',
 			'-DTitaniumWindows_Utils_DISABLE_TESTS=ON',
 			'-DTitaniumWindows_UI_DISABLE_TESTS=ON',
@@ -116,11 +115,10 @@ function copyToDistribution(sourceDir, destDir, buildType, platform, arch, callb
 	var platformAbbrev = (platform == 'WindowsPhone') ? 'phone' : 'store',
 		libs = {
 			// Library full name : output location
-			'TitaniumWindows_Accelerometer': 'Accelerometer',
+			'TitaniumWindows_Sensors': 'Sensors',
 			'TitaniumWindows_API': 'API',
 			'TitaniumWindows_App': 'App',
 			'TitaniumWindows_Filesystem': 'Filesystem',
-			'TitaniumWindows_Gesture': 'Gesture',
 			'TitaniumWindows_Global': 'Global',
 			'HAL': 'Global\\TitaniumKit\\HAL',
 			'LayoutEngine': 'LayoutEngine',
