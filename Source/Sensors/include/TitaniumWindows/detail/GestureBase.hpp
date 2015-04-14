@@ -7,7 +7,7 @@
 #ifndef _TITANIUMWINDOWS_DETAIL_GESTUREBASE_HPP_
 #define _TITANIUMWINDOWS_DETAIL_GESTUREBASE_HPP_
 
-#include "TitaniumWindows_Gesture_EXPORT.h"
+#include "TitaniumWindows_Sensors_EXPORT.h"
 
 #include "Titanium/Titanium.hpp"
 #include "Titanium/detail/TiLogger.hpp"

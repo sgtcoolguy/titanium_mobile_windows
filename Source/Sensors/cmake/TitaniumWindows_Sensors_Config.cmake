@@ -5,4 +5,4 @@
 include(CMakeFindDependencyMacro)
 find_dependency(TitaniumKit)
 
-include("${CMAKE_BINARY_DIR}/TitaniumWindows_Accelerometer_Targets.cmake")
+include("${CMAKE_BINARY_DIR}/TitaniumWindows_Sensors_Targets.cmake")

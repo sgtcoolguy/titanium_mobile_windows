@@ -18,7 +18,7 @@ namespace TitaniumWindows
 
 	  @discussion This is the Titanium.Accelerometer implementation for Windows.
     */
-	class TITANIUMWINDOWS_ACCELEROMETER_EXPORT Accelerometer final : public Titanium::Accelerometer, public JSExport<Accelerometer>
+	class TITANIUMWINDOWS_SENSORS_EXPORT Accelerometer final : public Titanium::Accelerometer, public JSExport<Accelerometer>
 	{
 	public:
 		Accelerometer(const JSContext&) TITANIUM_NOEXCEPT;
