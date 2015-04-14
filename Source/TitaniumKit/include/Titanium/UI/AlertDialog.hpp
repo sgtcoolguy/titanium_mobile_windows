@@ -76,8 +76,7 @@ namespace Titanium
 
 			  Default: undefined (Android), -1 (iOS, Mobile Web)
 			*/
-			virtual int32_t get_cancel() const TITANIUM_NOEXCEPT final;
-			virtual void set_cancel(const int32_t& cancel) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(int32_t, cancel);
 
 			/*!
 			  @method
@@ -86,8 +85,7 @@ namespace Titanium
 
 			  @discussion Dialog message.
 			*/
-			virtual std::string get_message() const TITANIUM_NOEXCEPT final;
-			virtual void set_message(const std::string& message) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, message);
 
 			/*!
 			  @method
@@ -96,8 +94,7 @@ namespace Titanium
 
 			  @discussion Title of the dialog.
 			*/
-			virtual std::string get_title() const TITANIUM_NOEXCEPT final;
-			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, title);
 
 			AlertDialog(const JSContext&) TITANIUM_NOEXCEPT;
 

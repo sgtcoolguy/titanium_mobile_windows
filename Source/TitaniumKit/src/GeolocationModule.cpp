@@ -53,230 +53,171 @@ namespace Titanium
 	{
 	}
 
-	JSValue GeolocationModule::ACCURACY_BEST() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_BEST)
 	{
 		return accuracy_best__;
 	}
 
-	JSValue GeolocationModule::ACCURACY_BEST_FOR_NAVIGATION() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_BEST_FOR_NAVIGATION)
 	{
 		return accuracy_best_for_navigation__;
 	}
 
-	JSValue GeolocationModule::ACCURACY_HUNDRED_METERS() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_HUNDRED_METERS)
 	{
 		return accuracy_hundred_meters__;
 	}
 
-	JSValue GeolocationModule::ACCURACY_KILOMETER() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_KILOMETER)
 	{
 		return accuracy_kilometer__;
 	}
 
-	JSValue GeolocationModule::ACCURACY_NEAREST_TEN_METERS() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_NEAREST_TEN_METERS)
 	{
 		return accuracy_nearest_ten_meters__;
 	}
 
-	JSValue GeolocationModule::ACCURACY_THREE_KILOMETERS() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_THREE_KILOMETERS)
 	{
 		return accuracy_three_kilometers__;
 	}
 
-	JSValue GeolocationModule::ACCURACY_HIGH() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_HIGH)
 	{
 		return accuracy_high__;
 	}
 
-	JSValue GeolocationModule::ACCURACY_LOW() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_LOW)
 	{
 		return accuracy_low__;
 	}
 
-	Geolocation::ACCURACY GeolocationModule::get_accuracy() const TITANIUM_NOEXCEPT
-	{
-		return accuracy__;
-	}
+	TITANIUM_PROPERTY_READWRITE(GeolocationModule, Geolocation::ACCURACY, accuracy)
 
-	void GeolocationModule::set_accuracy(const Geolocation::ACCURACY accuracy) TITANIUM_NOEXCEPT
-	{
-		accuracy__ = accuracy;
-	}
-
-	JSValue GeolocationModule::ACTIVITYTYPE_AUTOMOTIVE_NAVIGATION() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACTIVITYTYPE_AUTOMOTIVE_NAVIGATION)
 	{
 			return activitytype_automotive_navigation__;
 	}
 
-	JSValue GeolocationModule::ACTIVITYTYPE_FITNESS() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACTIVITYTYPE_FITNESS)
 	{
 			return activitytype_fitness__;
 	}
 
-	JSValue GeolocationModule::ACTIVITYTYPE_OTHER() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACTIVITYTYPE_OTHER)
 	{
 			return activitytype_other__;
 	}
 
-	JSValue GeolocationModule::ACTIVITYTYPE_OTHER_NAVIGATION() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACTIVITYTYPE_OTHER_NAVIGATION)
 	{
 			return activitytype_other_navigation__;
 	}
 
-	Geolocation::ACTIVITYTYPE GeolocationModule::get_activityType() const TITANIUM_NOEXCEPT
-	{
-		return activityType__;
-	}
+	TITANIUM_PROPERTY_READWRITE(GeolocationModule, Geolocation::ACTIVITYTYPE, activityType)
 
-	void GeolocationModule::set_activityType(const Geolocation::ACTIVITYTYPE activityType) TITANIUM_NOEXCEPT
-	{
-		activityType__ = activityType;
-	}
-
-	JSValue GeolocationModule::AUTHORIZATION_ALWAYS() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_ALWAYS)
 	{
 			return authorization_always__;
 	}
 
-	JSValue GeolocationModule::AUTHORIZATION_AUTHORIZED() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_AUTHORIZED)
 	{
 			return authorization_authorized__;
 	}
 
-	JSValue GeolocationModule::AUTHORIZATION_DENIED() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_DENIED)
 	{
 			return authorization_denied__;
 	}
 
-	JSValue GeolocationModule::AUTHORIZATION_RESTRICTED() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_RESTRICTED)
 	{
 			return authorization_restricted__;
 	}
 
-	JSValue GeolocationModule::AUTHORIZATION_UNKNOWN() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_UNKNOWN)
 	{
 			return authorization_unknown__;
 	}
 
-	JSValue GeolocationModule::AUTHORIZATION_WHEN_IN_USE() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_WHEN_IN_USE)
 	{
 			return authorization_when_in_use__;
 	}
 
-	JSValue GeolocationModule::ERROR_DENIED() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_DENIED)
 	{
 			return error_denied__;
 	}
 
-	JSValue GeolocationModule::ERROR_HEADING_FAILURE() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_HEADING_FAILURE)
 	{
 			return error_heading_failure__;
 	}
 
-	JSValue GeolocationModule::ERROR_LOCATION_UNKNOWN() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_LOCATION_UNKNOWN)
 	{
 			return error_location_unknown__;
 	}
 
-	JSValue GeolocationModule::ERROR_NETWORK() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_NETWORK)
 	{
 			return error_network__;
 	}
 
-	JSValue GeolocationModule::ERROR_REGION_MONITORING_DELAYED() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_REGION_MONITORING_DELAYED)
 	{
 			return error_region_monitoring_delayed__;
 	}
 
-	JSValue GeolocationModule::ERROR_REGION_MONITORING_DENIED() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_REGION_MONITORING_DENIED)
 	{
 			return error_region_monitoring_denied__;
 	}
 
-	JSValue GeolocationModule::ERROR_REGION_MONITORING_FAILURE() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_REGION_MONITORING_FAILURE)
 	{
 			return error_region_monitoring_failure__;
 	}
 
-	JSValue GeolocationModule::ERROR_TIMEOUT() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_TIMEOUT)
 	{
 			return error_timeout__;
 	}
 
-	JSValue GeolocationModule::PROVIDER_GPS() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, PROVIDER_GPS)
 	{
 			return provider_gps__;
 	}
 
-	JSValue GeolocationModule::PROVIDER_NETWORK() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, PROVIDER_NETWORK)
 	{
 			return provider_network__;
 	}
 
-	JSValue GeolocationModule::PROVIDER_PASSIVE() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, PROVIDER_PASSIVE)
 	{
 			return provider_passive__;
 	}
 
-	double GeolocationModule::get_distanceFilter() const TITANIUM_NOEXCEPT
-	{
-		return distanceFilter__;
-	}
+	TITANIUM_PROPERTY_READWRITE(GeolocationModule, double, distanceFilter)
 
-	void GeolocationModule::set_distanceFilter(const double distance) TITANIUM_NOEXCEPT
-	{
-		distanceFilter__ = distance;
-	}
+	TITANIUM_PROPERTY_READWRITE(GeolocationModule, double, headingFilter)
 
-	double GeolocationModule::get_headingFilter() const TITANIUM_NOEXCEPT
-	{
-		return headingFilter__;
-	}
+	TITANIUM_PROPERTY_READWRITE(GeolocationModule, bool, hasCompass)
 
-	void GeolocationModule::set_headingFilter(const double heading) TITANIUM_NOEXCEPT
-	{
-		headingFilter__ = heading;
-	}
+	TITANIUM_PROPERTY_READWRITE(GeolocationModule, Geolocation::AUTHORIZATION, locationServicesAuthorization)
 
-	bool GeolocationModule::get_hasCompass() const TITANIUM_NOEXCEPT
-	{
-		return hasCompass__;
-	}
-
-	void GeolocationModule::set_hasCompass(const bool& hasCompass) TITANIUM_NOEXCEPT
-	{
-		hasCompass__ = hasCompass;
-	}
-
-	Geolocation::AUTHORIZATION GeolocationModule::get_locationServicesAuthorization() const TITANIUM_NOEXCEPT
-	{
-		return locationServicesAuthorization__;
-	}
-
-	void GeolocationModule::set_locationServicesAuthorization(Geolocation::AUTHORIZATION locationServicesAuthorization) TITANIUM_NOEXCEPT
-	{
-		locationServicesAuthorization__ = locationServicesAuthorization;
-	}
-
-	bool GeolocationModule::get_locationServicesEnabled() const TITANIUM_NOEXCEPT
-	{
-		return locationServicesEnabled__;
-	}
-
-	void GeolocationModule::set_locationServicesEnabled(bool locationServicesEnabled) TITANIUM_NOEXCEPT
-	{
-		locationServicesEnabled__ = locationServicesEnabled;
-	}
+	TITANIUM_PROPERTY_READWRITE(GeolocationModule, bool, locationServicesEnabled)
 
 	const JSObject& GeolocationModule::get_lastGeolocation() const TITANIUM_NOEXCEPT
 	{
 		return lastGeolocation__;
 	}
 
-	void GeolocationModule::set_lastGeolocation(const JSObject& lastGeolocation) TITANIUM_NOEXCEPT
-	{
-		lastGeolocation__ = lastGeolocation;
-	}
+	TITANIUM_PROPERTY_WRITE(GeolocationModule, JSObject, lastGeolocation)
 
 	void GeolocationModule::forwardGeocoder(const std::string& address, JSObject callback) TITANIUM_NOEXCEPT
 	{
@@ -302,73 +243,73 @@ namespace Titanium
 		JSExport<GeolocationModule>::SetClassVersion(1);
 		JSExport<GeolocationModule>::SetParent(JSExport<Module>::Class());
 
-		JSExport<GeolocationModule>::AddValueProperty("ACCURACY_BEST", std::mem_fn(&GeolocationModule::ACCURACY_BEST));
-		JSExport<GeolocationModule>::AddValueProperty("ACCURACY_BEST_FOR_NAVIGATION", std::mem_fn(&GeolocationModule::ACCURACY_BEST_FOR_NAVIGATION));
-		JSExport<GeolocationModule>::AddValueProperty("ACCURACY_HUNDRED_METERS", std::mem_fn(&GeolocationModule::ACCURACY_HUNDRED_METERS));
-		JSExport<GeolocationModule>::AddValueProperty("ACCURACY_KILOMETER", std::mem_fn(&GeolocationModule::ACCURACY_KILOMETER));
-		JSExport<GeolocationModule>::AddValueProperty("ACCURACY_NEAREST_TEN_METERS", std::mem_fn(&GeolocationModule::ACCURACY_NEAREST_TEN_METERS));
-		JSExport<GeolocationModule>::AddValueProperty("ACCURACY_THREE_KILOMETERS", std::mem_fn(&GeolocationModule::ACCURACY_THREE_KILOMETERS));
-		JSExport<GeolocationModule>::AddValueProperty("ACCURACY_HIGH", std::mem_fn(&GeolocationModule::ACCURACY_HIGH));
-		JSExport<GeolocationModule>::AddValueProperty("ACCURACY_LOW", std::mem_fn(&GeolocationModule::ACCURACY_LOW));
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACCURACY_BEST);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACCURACY_BEST_FOR_NAVIGATION);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACCURACY_HUNDRED_METERS);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACCURACY_KILOMETER);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACCURACY_NEAREST_TEN_METERS);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACCURACY_THREE_KILOMETERS);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACCURACY_HIGH);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACCURACY_LOW);
 			
-		JSExport<GeolocationModule>::AddValueProperty("ACTIVITYTYPE_AUTOMOTIVE_NAVIGATION", std::mem_fn(&GeolocationModule::ACTIVITYTYPE_AUTOMOTIVE_NAVIGATION));
-		JSExport<GeolocationModule>::AddValueProperty("ACTIVITYTYPE_FITNESS", std::mem_fn(&GeolocationModule::ACTIVITYTYPE_FITNESS));
-		JSExport<GeolocationModule>::AddValueProperty("ACTIVITYTYPE_OTHER", std::mem_fn(&GeolocationModule::ACTIVITYTYPE_OTHER));
-		JSExport<GeolocationModule>::AddValueProperty("ACTIVITYTYPE_OTHER_NAVIGATION", std::mem_fn(&GeolocationModule::ACTIVITYTYPE_OTHER_NAVIGATION));
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACTIVITYTYPE_AUTOMOTIVE_NAVIGATION);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACTIVITYTYPE_FITNESS);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACTIVITYTYPE_OTHER);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ACTIVITYTYPE_OTHER_NAVIGATION);
 
-		JSExport<GeolocationModule>::AddValueProperty("AUTHORIZATION_ALWAYS", std::mem_fn(&GeolocationModule::AUTHORIZATION_ALWAYS));
-		JSExport<GeolocationModule>::AddValueProperty("AUTHORIZATION_AUTHORIZED", std::mem_fn(&GeolocationModule::AUTHORIZATION_AUTHORIZED));
-		JSExport<GeolocationModule>::AddValueProperty("AUTHORIZATION_DENIED", std::mem_fn(&GeolocationModule::AUTHORIZATION_DENIED));
-		JSExport<GeolocationModule>::AddValueProperty("AUTHORIZATION_RESTRICTED", std::mem_fn(&GeolocationModule::AUTHORIZATION_RESTRICTED));
-		JSExport<GeolocationModule>::AddValueProperty("AUTHORIZATION_UNKNOWN", std::mem_fn(&GeolocationModule::AUTHORIZATION_UNKNOWN));
-		JSExport<GeolocationModule>::AddValueProperty("AUTHORIZATION_WHEN_IN_USE", std::mem_fn(&GeolocationModule::AUTHORIZATION_WHEN_IN_USE));
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, AUTHORIZATION_ALWAYS);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, AUTHORIZATION_AUTHORIZED);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, AUTHORIZATION_DENIED);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, AUTHORIZATION_RESTRICTED);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, AUTHORIZATION_UNKNOWN);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, AUTHORIZATION_WHEN_IN_USE);
 
-		JSExport<GeolocationModule>::AddValueProperty("ERROR_DENIED", std::mem_fn(&GeolocationModule::ERROR_DENIED));
-		JSExport<GeolocationModule>::AddValueProperty("ERROR_HEADING_FAILURE", std::mem_fn(&GeolocationModule::ERROR_HEADING_FAILURE));
-		JSExport<GeolocationModule>::AddValueProperty("ERROR_LOCATION_UNKNOWN", std::mem_fn(&GeolocationModule::ERROR_LOCATION_UNKNOWN));
-		JSExport<GeolocationModule>::AddValueProperty("ERROR_NETWORK", std::mem_fn(&GeolocationModule::ERROR_NETWORK));
-		JSExport<GeolocationModule>::AddValueProperty("ERROR_REGION_MONITORING_DELAYED", std::mem_fn(&GeolocationModule::ERROR_REGION_MONITORING_DELAYED));
-		JSExport<GeolocationModule>::AddValueProperty("ERROR_REGION_MONITORING_DENIED", std::mem_fn(&GeolocationModule::ERROR_REGION_MONITORING_DENIED));
-		JSExport<GeolocationModule>::AddValueProperty("ERROR_REGION_MONITORING_FAILURE", std::mem_fn(&GeolocationModule::ERROR_REGION_MONITORING_FAILURE));
-		JSExport<GeolocationModule>::AddValueProperty("ERROR_TIMEOUT", std::mem_fn(&GeolocationModule::ERROR_TIMEOUT));
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ERROR_DENIED);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ERROR_HEADING_FAILURE);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ERROR_LOCATION_UNKNOWN);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ERROR_NETWORK);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ERROR_REGION_MONITORING_DELAYED);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ERROR_REGION_MONITORING_DENIED);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ERROR_REGION_MONITORING_FAILURE);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, ERROR_TIMEOUT);
 
-		JSExport<GeolocationModule>::AddValueProperty("PROVIDER_GPS", std::mem_fn(&GeolocationModule::PROVIDER_GPS));
-		JSExport<GeolocationModule>::AddValueProperty("PROVIDER_NETWORK", std::mem_fn(&GeolocationModule::PROVIDER_NETWORK));
-		JSExport<GeolocationModule>::AddValueProperty("PROVIDER_PASSIVE", std::mem_fn(&GeolocationModule::PROVIDER_PASSIVE));
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, PROVIDER_GPS);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, PROVIDER_NETWORK);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, PROVIDER_PASSIVE);
 
-		JSExport<GeolocationModule>::AddValueProperty("accuracy", std::mem_fn(&GeolocationModule::js_get_accuracy), std::mem_fn(&GeolocationModule::js_set_accuracy));
-		JSExport<GeolocationModule>::AddValueProperty("activityType", std::mem_fn(&GeolocationModule::js_get_activityType), std::mem_fn(&GeolocationModule::js_set_activityType));
-		JSExport<GeolocationModule>::AddValueProperty("distanceFilter", std::mem_fn(&GeolocationModule::js_get_distanceFilter), std::mem_fn(&GeolocationModule::js_set_distanceFilter));
-		JSExport<GeolocationModule>::AddValueProperty("headingFilter", std::mem_fn(&GeolocationModule::js_get_headingFilter), std::mem_fn(&GeolocationModule::js_set_headingFilter));
-		JSExport<GeolocationModule>::AddValueProperty("hasCompass", std::mem_fn(&GeolocationModule::js_get_hasCompass));
-		JSExport<GeolocationModule>::AddValueProperty("locationServicesAuthorization", std::mem_fn(&GeolocationModule::js_get_locationServicesAuthorization), std::mem_fn(&GeolocationModule::js_set_locationServicesAuthorization));
-		JSExport<GeolocationModule>::AddValueProperty("locationServicesEnabled", std::mem_fn(&GeolocationModule::js_get_locationServicesEnabled));
-		JSExport<GeolocationModule>::AddValueProperty("lastGeolocation", std::mem_fn(&GeolocationModule::js_get_lastGeolocation));
+		TITANIUM_ADD_PROPERTY(GeolocationModule, accuracy);
+		TITANIUM_ADD_PROPERTY(GeolocationModule, activityType);
+		TITANIUM_ADD_PROPERTY(GeolocationModule, distanceFilter);
+		TITANIUM_ADD_PROPERTY(GeolocationModule, headingFilter);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, hasCompass);
+		TITANIUM_ADD_PROPERTY(GeolocationModule, locationServicesAuthorization);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, locationServicesEnabled);
+		TITANIUM_ADD_PROPERTY_READONLY(GeolocationModule, lastGeolocation);
 
-		JSExport<GeolocationModule>::AddFunctionProperty("forwardGeocoder", std::mem_fn(&GeolocationModule::js_forwardGeocoder));
-		JSExport<GeolocationModule>::AddFunctionProperty("getCurrentHeading", std::mem_fn(&GeolocationModule::js_getCurrentHeading));
-		JSExport<GeolocationModule>::AddFunctionProperty("getCurrentPosition", std::mem_fn(&GeolocationModule::js_getCurrentPosition));
-		JSExport<GeolocationModule>::AddFunctionProperty("reverseGeocoder", std::mem_fn(&GeolocationModule::js_reverseGeocoder));
-		JSExport<GeolocationModule>::AddFunctionProperty("getAccuracy", std::mem_fn(&GeolocationModule::js_getAccuracy));
-		JSExport<GeolocationModule>::AddFunctionProperty("setAccuracy", std::mem_fn(&GeolocationModule::js_setAccuracy));
-		JSExport<GeolocationModule>::AddFunctionProperty("getHasCompass", std::mem_fn(&GeolocationModule::js_getHasCompass));
+		TITANIUM_ADD_FUNCTION(GeolocationModule, forwardGeocoder);
+		TITANIUM_ADD_FUNCTION(GeolocationModule, getCurrentHeading);
+		TITANIUM_ADD_FUNCTION(GeolocationModule, getCurrentPosition);
+		TITANIUM_ADD_FUNCTION(GeolocationModule, reverseGeocoder);
+		TITANIUM_ADD_FUNCTION(GeolocationModule, getAccuracy);
+		TITANIUM_ADD_FUNCTION(GeolocationModule, setAccuracy);
+		TITANIUM_ADD_FUNCTION(GeolocationModule, getHasCompass);
 
-		JSExport<GeolocationModule>::AddFunctionProperty("getDistanceFilter", std::mem_fn(&GeolocationModule::js_getDistanceFilter));
-		JSExport<GeolocationModule>::AddFunctionProperty("setDistanceFilter", std::mem_fn(&GeolocationModule::js_setDistanceFilter));
+		TITANIUM_ADD_FUNCTION(GeolocationModule, getDistanceFilter);
+		TITANIUM_ADD_FUNCTION(GeolocationModule, setDistanceFilter);
 
-		JSExport<GeolocationModule>::AddFunctionProperty("getHeadingFilter", std::mem_fn(&GeolocationModule::js_getHeadingFilter));
-		JSExport<GeolocationModule>::AddFunctionProperty("setHeadingFilter", std::mem_fn(&GeolocationModule::js_setHeadingFilter));
+		TITANIUM_ADD_FUNCTION(GeolocationModule, getHeadingFilter);
+		TITANIUM_ADD_FUNCTION(GeolocationModule, setHeadingFilter);
 
-		JSExport<GeolocationModule>::AddFunctionProperty("getLocationServicesEnabled", std::mem_fn(&GeolocationModule::js_getLocationServicesEnabled));
-		JSExport<GeolocationModule>::AddFunctionProperty("getLastGeolocation", std::mem_fn(&GeolocationModule::js_getLastGeolocation));
+		TITANIUM_ADD_FUNCTION(GeolocationModule, getLocationServicesEnabled);
+		TITANIUM_ADD_FUNCTION(GeolocationModule, getLastGeolocation);
 	}
 
-	JSValue GeolocationModule::js_get_accuracy() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, accuracy)
 	{
 		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(get_accuracy()));
 	}
 
-	bool GeolocationModule::js_set_accuracy(const JSValue& argument) TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_SETTER(GeolocationModule, accuracy)
 	{
 		TITANIUM_ASSERT(argument.IsNumber());
 		const auto accuracy = Titanium::Geolocation::Constants::to_ACCURACY(static_cast<std::underlying_type<Geolocation::ACCURACY>::type>(argument));
@@ -376,12 +317,12 @@ namespace Titanium
 		return true;
 	}
 
-	JSValue GeolocationModule::js_get_activityType() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, activityType)
 	{
 		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(get_activityType()));
 	}
 
-	bool GeolocationModule::js_set_activityType(const JSValue& argument) TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_SETTER(GeolocationModule, activityType)
 	{
 		TITANIUM_ASSERT(argument.IsNumber());
 		const auto activityType = Titanium::Geolocation::Constants::to_ACTIVITYTYPE(static_cast<std::underlying_type<Geolocation::ACTIVITYTYPE>::type>(argument));
@@ -389,41 +330,41 @@ namespace Titanium
 		return true;
 	}
 
-	JSValue GeolocationModule::js_get_distanceFilter() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, distanceFilter)
 	{
 		return get_context().CreateNumber(get_distanceFilter());
 	}
 
-	bool GeolocationModule::js_set_distanceFilter(const JSValue& argument) TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_SETTER(GeolocationModule, distanceFilter)
 	{
 		TITANIUM_ASSERT(argument.IsNumber());
 		set_distanceFilter(static_cast<double>(argument));
 		return true;
 	}
 
-	JSValue GeolocationModule::js_get_headingFilter() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, headingFilter)
 	{
 		return get_context().CreateNumber(get_headingFilter());
 	}
 
-	bool GeolocationModule::js_set_headingFilter(const JSValue& argument) TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_SETTER(GeolocationModule, headingFilter)
 	{
 		TITANIUM_ASSERT(argument.IsNumber());
 		set_headingFilter(static_cast<double>(argument));
 		return true;
 	}
 
-	JSValue GeolocationModule::js_get_hasCompass() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, hasCompass)
 	{
 		return get_context().CreateBoolean(get_hasCompass());
 	}
 
-	JSValue GeolocationModule::js_get_locationServicesAuthorization() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, locationServicesAuthorization)
 	{
 		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(get_locationServicesAuthorization()));
 	}
 
-	bool GeolocationModule::js_set_locationServicesAuthorization(const JSValue& argument) TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_SETTER(GeolocationModule, locationServicesAuthorization)
 	{
 		TITANIUM_ASSERT(argument.IsNumber());
 		const auto authorization = Titanium::Geolocation::Constants::to_AUTHORIZATION(static_cast<std::underlying_type<Geolocation::AUTHORIZATION>::type>(argument));
@@ -431,17 +372,17 @@ namespace Titanium
 		return true;
 	}
 
-	JSValue GeolocationModule::js_get_locationServicesEnabled() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, locationServicesEnabled)
 	{
 		return get_context().CreateBoolean(get_locationServicesEnabled());
 	}
 
-	JSValue GeolocationModule::js_get_lastGeolocation() const TITANIUM_NOEXCEPT
+	TITANIUM_PROPERTY_GETTER(GeolocationModule, lastGeolocation)
 	{
 		return get_lastGeolocation();
 	}
 
-	JSValue GeolocationModule::js_forwardGeocoder(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(GeolocationModule, forwardGeocoder)
 	{
 		if (arguments.size() >= 2) {
 			const auto _0 = arguments.at(0);
@@ -460,7 +401,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue GeolocationModule::js_getCurrentHeading(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(GeolocationModule, getCurrentHeading)
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
@@ -471,7 +412,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue GeolocationModule::js_getCurrentPosition(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(GeolocationModule, getCurrentPosition)
 	{
 		if (arguments.size() >= 1) {
 			const auto _0 = arguments.at(0);
@@ -482,7 +423,7 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue GeolocationModule::js_reverseGeocoder(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
+	TITANIUM_FUNCTION(GeolocationModule, reverseGeocoder)
 	{
 		if (arguments.size() >= 3) {
 			const auto _0 = arguments.at(0);
@@ -512,78 +453,25 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	JSValue GeolocationModule::js_getAccuracy(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_accuracy();
-	}
+	TITANIUM_FUNCTION_AS_GETTER(GeolocationModule, getAccuracy, accuracy)
+	TITANIUM_FUNCTION_AS_SETTER(GeolocationModule, setAccuracy, accuracy)
 
-	JSValue GeolocationModule::js_setAccuracy(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_ASSERT(arguments.size() >= 1);
-		js_set_accuracy(arguments.at(0));
-		return get_context().CreateUndefined();
-	}
+	TITANIUM_FUNCTION_AS_GETTER(GeolocationModule, getActivityType, activityType)
+	TITANIUM_FUNCTION_AS_SETTER(GeolocationModule, setActivityType, activityType)
 
-	JSValue GeolocationModule::js_getActivityType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_activityType();
-	}
+	TITANIUM_FUNCTION_AS_GETTER(GeolocationModule, getDistanceFilter, distanceFilter)
+	TITANIUM_FUNCTION_AS_SETTER(GeolocationModule, setDistanceFilter, distanceFilter)
 
-	JSValue GeolocationModule::js_setActivityType(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_ASSERT(arguments.size() >= 1);
-		js_set_activityType(arguments.at(0));
-		return get_context().CreateUndefined();
-	}
+	TITANIUM_FUNCTION_AS_GETTER(GeolocationModule, getHeadingFilter, headingFilter)
+	TITANIUM_FUNCTION_AS_SETTER(GeolocationModule, setHeadingFilter, headingFilter)
 
-	JSValue GeolocationModule::js_getDistanceFilter(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_distanceFilter();
-	}
+	TITANIUM_FUNCTION_AS_GETTER(GeolocationModule, getHasCompass, hasCompass)
 
-	JSValue GeolocationModule::js_setDistanceFilter(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_ASSERT(arguments.size() >= 1);
-		js_set_distanceFilter(arguments.at(0));
-		return get_context().CreateUndefined();
-	}
+	TITANIUM_FUNCTION_AS_GETTER(GeolocationModule, getLocationServicesAuthorization, locationServicesAuthorization)
+	TITANIUM_FUNCTION_AS_SETTER(GeolocationModule, setLocationServicesAuthorization, locationServicesAuthorization)
 
-	JSValue GeolocationModule::js_getHeadingFilter(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_headingFilter();
-	}
+	TITANIUM_FUNCTION_AS_GETTER(GeolocationModule, getLocationServicesEnabled, locationServicesEnabled)
 
-	JSValue GeolocationModule::js_setHeadingFilter(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_ASSERT(arguments.size() >= 1);
-		js_set_headingFilter(arguments.at(0));
-		return get_context().CreateUndefined();
-	}
+	TITANIUM_FUNCTION_AS_GETTER(GeolocationModule, getLastGeolocation, lastGeolocation)
 
-	JSValue GeolocationModule::js_getHasCompass(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_hasCompass();
-	}
-
-	JSValue GeolocationModule::js_getLocationServicesAuthorization(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_locationServicesAuthorization();
-	}
-
-	JSValue GeolocationModule::js_setLocationServicesAuthorization(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_ASSERT(arguments.size() >= 1);
-		js_set_locationServicesAuthorization(arguments.at(0));
-		return get_context().CreateUndefined();
-	}
-
-	JSValue GeolocationModule::js_getLocationServicesEnabled(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_locationServicesEnabled();
-	}
-
-	JSValue GeolocationModule::js_getLastGeolocation(const std::vector<JSValue>& arguments, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		return js_get_lastGeolocation();
-	}
 } // namespace Titanium

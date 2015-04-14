@@ -23,75 +23,19 @@ namespace Titanium
 		{
 		}
 
-		std::string Label::get_text() const TITANIUM_NOEXCEPT
-		{
-			return text__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Label, std::string, text)
 
-		void Label::set_text(const std::string& text) TITANIUM_NOEXCEPT
-		{
-			text__ = text;
-		}
+		TITANIUM_PROPERTY_READWRITE(Label, TEXT_ALIGNMENT, textAlign)
 
-		TEXT_ALIGNMENT Label::get_textAlign() const TITANIUM_NOEXCEPT
-		{
-			return textAlign__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Label, TEXT_VERTICAL_ALIGNMENT, verticalAlign)
 
-		void Label::set_textAlign(const TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT
-		{
-			textAlign__ = textAlign;
-		}
+		TITANIUM_PROPERTY_READWRITE(Label, bool, wordWrap)
 
-		TEXT_VERTICAL_ALIGNMENT Label::get_verticalAlign() const TITANIUM_NOEXCEPT
-		{
-			return verticalAlign__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Label, std::string, color)
 
-		void Label::set_verticalAlign(const TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT
-		{
-			verticalAlign__ = verticalAlign;
-		}
+		TITANIUM_PROPERTY_READWRITE(Label, bool, ellipsize)
 
-		bool Label::get_wordWrap() const TITANIUM_NOEXCEPT
-		{
-			return wordWrap__;
-		}
-
-		void Label::set_wordWrap(const bool& wordWrap) TITANIUM_NOEXCEPT
-		{
-			wordWrap__ = wordWrap;
-		}
-
-		std::string Label::get_color() const TITANIUM_NOEXCEPT
-		{
-			return color__;
-		}
-
-		void Label::set_color(const std::string& color) TITANIUM_NOEXCEPT
-		{
-			color__ = color;
-		}
-
-		bool Label::get_ellipsize() const TITANIUM_NOEXCEPT
-		{
-			return ellipsize__;
-		}
-
-		void Label::set_ellipsize(const bool& ellipsize) TITANIUM_NOEXCEPT
-		{
-			ellipsize__ = ellipsize;
-		}
-
-		Font Label::get_font() const TITANIUM_NOEXCEPT
-		{
-			return font__;
-		}
-
-		void Label::set_font(const Font font) TITANIUM_NOEXCEPT
-		{
-			font__ = font;
-		}
+		TITANIUM_PROPERTY_READWRITE(Label, Font, font)
 
 		void Label::JSExportInitialize()
 		{
@@ -220,95 +164,25 @@ namespace Titanium
 			return true;
 		}
 
-		TITANIUM_FUNCTION(Label, getColor)
-		{
-			return js_get_color();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Label, getColor, color)
+		TITANIUM_FUNCTION_AS_SETTER(Label, setColor, color)
 
-		TITANIUM_FUNCTION(Label, setColor)
-		{
-			if (arguments.size() >= 1) {
-				js_set_color(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Label, getEllipsize, ellipsize)
+		TITANIUM_FUNCTION_AS_SETTER(Label, setEllipsize, ellipsize)
+		
+		TITANIUM_FUNCTION_AS_GETTER(Label, getFont, font)
+		TITANIUM_FUNCTION_AS_SETTER(Label, setFont, font)
 
-	TITANIUM_FUNCTION(Label, getEllipsize)
-		{
-			return js_get_ellipsize();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Label, getText, text)
+		TITANIUM_FUNCTION_AS_SETTER(Label, setText, text)
 
-		TITANIUM_FUNCTION(Label, setEllipsize)
-		{
-			if (arguments.size() >= 1) {
-				js_set_ellipsize(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Label, getTextAlign, textAlign)
+		TITANIUM_FUNCTION_AS_SETTER(Label, setTextAlign, textAlign)
+		
+		TITANIUM_FUNCTION_AS_GETTER(Label, getVerticalAlign, verticalAlign)
+		TITANIUM_FUNCTION_AS_SETTER(Label, setVerticalAlign, verticalAlign)
 
-		TITANIUM_FUNCTION(Label, getFont)
-		{
-			return js_get_font();
-		}
-
-		TITANIUM_FUNCTION(Label, setFont)
-		{
-			if (arguments.size() >= 1) {
-				js_set_font(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Label, getText)
-		{
-			return js_get_text();
-		}
-
-		TITANIUM_FUNCTION(Label, setText)
-		{
-			if (arguments.size() >= 1) {
-				js_set_text(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Label, getTextAlign)
-		{
-			return js_get_textAlign();
-		}
-
-		TITANIUM_FUNCTION(Label, setTextAlign)
-		{
-			if (arguments.size() >= 1) {
-				js_set_textAlign(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Label, getVerticalAlign)
-		{
-			return js_get_verticalAlign();
-		}
-
-		TITANIUM_FUNCTION(Label, setVerticalAlign)
-		{
-			if (arguments.size() >= 1) {
-				js_set_verticalAlign(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Label, getWordWrap)
-		{
-			return js_get_wordWrap();
-		}
-
-		TITANIUM_FUNCTION(Label, setWordWrap)
-		{
-			if (arguments.size() >= 1) {
-				js_set_wordWrap(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Label, getWordWrap, wordWrap)
+		TITANIUM_FUNCTION_AS_SETTER(Label, setWordWrap, wordWrap)
 	} // namespace UI
 }  // namespace Titanium

@@ -35,8 +35,7 @@ namespace Titanium
 
 			  @discussion Button title.
 			*/
-			virtual std::string get_title() const TITANIUM_NOEXCEPT final;
-			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, title);
 
 			Button(const JSContext&) TITANIUM_NOEXCEPT;
 

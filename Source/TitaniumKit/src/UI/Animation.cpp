@@ -45,215 +45,47 @@ namespace Titanium
 			HAL_LOG_DEBUG("Animation:: postCallAsConstructor ", this);
 		}
 
-		bool Animation::get_autoreverse() const TITANIUM_NOEXCEPT
-		{
-			return autoreverse__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, bool, autoreverse)
 
-		void Animation::set_autoreverse(const bool& autoreverse) TITANIUM_NOEXCEPT
-		{
-			autoreverse__ = autoreverse;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, std::string, backgroundColor)
 
-		std::string Animation::get_backgroundColor() const TITANIUM_NOEXCEPT
-		{
-			return backgroundColor__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, double, bottom)
 
-		void Animation::set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT
-		{
-			backgroundColor__ = backgroundColor;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, JSObject, center)
 
-		double Animation::get_bottom() const TITANIUM_NOEXCEPT
-		{
-			return bottom__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, std::string, color)
 
-		void Animation::set_bottom(const double& bottom) TITANIUM_NOEXCEPT
-		{
-			bottom__ = bottom;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, ANIMATION_CURVE, curve)
 
-		JSObject Animation::get_center() const TITANIUM_NOEXCEPT
-		{
-			return center__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, std::chrono::milliseconds, delay)
 
-		void Animation::set_center(const JSObject& center) TITANIUM_NOEXCEPT
-		{
-			center__ = center;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, std::chrono::milliseconds, duration)
 
-		std::string Animation::get_color() const TITANIUM_NOEXCEPT
-		{
-			return color__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, double, height)
 
-		void Animation::set_color(const std::string& color) TITANIUM_NOEXCEPT
-		{
-			color__ = color;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, double, left)
 
-		ANIMATION_CURVE Animation::get_curve() const TITANIUM_NOEXCEPT
-		{
-			return curve__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, double, opacity)
 
-		void Animation::set_curve(const ANIMATION_CURVE& curve) TITANIUM_NOEXCEPT
-		{
-			curve__ = curve;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, bool, opaque)
 
-		std::chrono::milliseconds Animation::get_delay() const TITANIUM_NOEXCEPT
-		{
-			return delay__;
-		}
-		
-		void Animation::set_delay(const std::chrono::milliseconds& delay) TITANIUM_NOEXCEPT
-		{
-			delay__ = delay;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, uint32_t, repeat)
 
-		std::chrono::milliseconds Animation::get_duration() const TITANIUM_NOEXCEPT
-		{
-			return duration__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, double, right)
 
-		void Animation::set_duration(const std::chrono::milliseconds& duration) TITANIUM_NOEXCEPT
-		{
-			duration__ = duration;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, double, top)
 
-		double Animation::get_height() const TITANIUM_NOEXCEPT
-		{
-			return height__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, JSValue, transform)
 
-		void Animation::set_height(const double& height) TITANIUM_NOEXCEPT
-		{
-			height__ = height;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, uint32_t, transition)
 
-		double Animation::get_left() const TITANIUM_NOEXCEPT
-		{
-			return left__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, JSValue, view)
 
-		void Animation::set_left(const double& left) TITANIUM_NOEXCEPT
-		{
-			left__ = left;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, bool, visible)
 
-		double Animation::get_opacity() const TITANIUM_NOEXCEPT
-		{
-			return opacity__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, double, width)
 
-		void Animation::set_opacity(const double& opacity) TITANIUM_NOEXCEPT
-		{
-			opacity__ = opacity;
-		}
-
-		bool Animation::get_opaque() const TITANIUM_NOEXCEPT
-		{
-			return opaque__;
-		}
-
-		void Animation::set_opaque(const bool& opaque) TITANIUM_NOEXCEPT
-		{
-			opaque__ = opaque;
-		}
-
-		uint32_t Animation::get_repeat() const TITANIUM_NOEXCEPT
-		{
-			return repeat__;
-		}
-
-		void Animation::set_repeat(const uint32_t& repeat) TITANIUM_NOEXCEPT
-		{
-			repeat__ = repeat;
-		}
-
-		double Animation::get_right() const TITANIUM_NOEXCEPT
-		{
-			return right__;
-		}
-
-		void Animation::set_right(const double& right) TITANIUM_NOEXCEPT
-		{
-			right__ = right;
-		}
-
-		double Animation::get_top() const TITANIUM_NOEXCEPT
-		{
-			return top__;
-		}
-
-		void Animation::set_top(const double& top) TITANIUM_NOEXCEPT
-		{
-			top__ = top;
-		}
-
-		JSValue Animation::get_transform() const TITANIUM_NOEXCEPT
-		{
-			return transform__;
-		}
-
-		void Animation::set_transform(const JSValue& transform) TITANIUM_NOEXCEPT
-		{
-			transform__ = transform;
-		}
-
-		uint32_t Animation::get_transition() const TITANIUM_NOEXCEPT
-		{
-			return transition__;
-		}
-
-		void Animation::set_transition(const uint32_t& transition) TITANIUM_NOEXCEPT
-		{
-			transition__ = transition;
-		}
-
-		JSValue Animation::get_view() const TITANIUM_NOEXCEPT
-		{
-			return view__;
-		}
-
-		void Animation::set_view(const JSValue& view) TITANIUM_NOEXCEPT
-		{
-			view__ = view;
-		}
-
-		bool Animation::get_visible() const TITANIUM_NOEXCEPT
-		{
-			return visible__;
-		}
-
-		void Animation::set_visible(const bool& visible) TITANIUM_NOEXCEPT
-		{
-			visible__ = visible;
-		}
-
-		double Animation::get_width() const TITANIUM_NOEXCEPT
-		{
-			return width__;
-		}
-
-		void Animation::set_width(const double& width) TITANIUM_NOEXCEPT
-		{
-			width__ = width;
-		}
-
-		uint32_t Animation::get_zIndex() const TITANIUM_NOEXCEPT
-		{
-			return zIndex__;
-		}
-		
-		void Animation::set_zIndex(const uint32_t& zIndex) TITANIUM_NOEXCEPT
-		{
-			zIndex__ = zIndex;
-		}
+		TITANIUM_PROPERTY_READWRITE(Animation, uint32_t, zIndex)
 
 		void Animation::JSExportInitialize() {
 			JSExport<Animation>::SetClassVersion(1);
@@ -579,299 +411,68 @@ namespace Titanium
 			return true;
 		}
 
-		TITANIUM_FUNCTION(Animation, getAutoreverse)
-		{
-			TITANIUM_LOG_WARN("Animation.getAutoreverse is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getAutoreverse, autoreverse)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setAutoreverse, autoreverse)
 
-		TITANIUM_FUNCTION(Animation, setAutoreverse)
-		{
-			if (arguments.size() >= 1) {
-				js_set_autoreverse(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getBackgroundColor, backgroundColor)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setBackgroundColor, backgroundColor)
 
-		TITANIUM_FUNCTION(Animation, getBackgroundColor)
-		{
-			TITANIUM_LOG_WARN("Animation.getBackgroundColor is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getBottom, bottom)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setBottom, bottom)
 
-		TITANIUM_FUNCTION(Animation, setBackgroundColor)
-		{
-			if (arguments.size() >= 1) {
-				js_set_backgroundColor(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getCenter, center)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setCenter, center)
 
-		TITANIUM_FUNCTION(Animation, getBottom)
-		{
-			TITANIUM_LOG_WARN("Animation.getBottom is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getColor, color)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setColor, color)
 
-		TITANIUM_FUNCTION(Animation, setBottom)
-		{
-			if (arguments.size() >= 1) {
-				js_set_bottom(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getCurve, curve)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setCurve, curve)
 
-		TITANIUM_FUNCTION(Animation, getCenter)
-		{
-			TITANIUM_LOG_WARN("Animation.getCenter is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getDelay, delay)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setDelay, delay)
 
-		TITANIUM_FUNCTION(Animation, setCenter)
-		{
-			if (arguments.size() >= 1) {
-				js_set_center(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getDuration, duration)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setDuration, duration)
 
-		TITANIUM_FUNCTION(Animation, getColor)
-		{
-			TITANIUM_LOG_WARN("Animation.getColor is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getHeight, height)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setHeight, height)
 
-		TITANIUM_FUNCTION(Animation, setColor)
-		{
-			if (arguments.size() >= 1) {
-				js_set_color(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getLeft, left)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setLeft, left)
 
-		TITANIUM_FUNCTION(Animation, getCurve)
-		{
-			TITANIUM_LOG_WARN("Animation.getCurve is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getOpacity, opacity)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setOpacity, opacity)
 
-		TITANIUM_FUNCTION(Animation, setCurve)
-		{
-			if (arguments.size() >= 1) {
-				js_set_curve(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getOpaque, opaque)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setOpaque, opaque)
 
-		TITANIUM_FUNCTION(Animation, getDelay)
-		{
-			TITANIUM_LOG_WARN("Animation.getDelay is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getRepeat, repeat)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setRepeat, repeat)
 
-		TITANIUM_FUNCTION(Animation, setDelay)
-		{
-			if (arguments.size() >= 1) {
-				js_set_delay(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getRight, right)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setRight, right)
 
-		TITANIUM_FUNCTION(Animation, getDuration)
-		{
-			TITANIUM_LOG_WARN("Animation.getDuration is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getTop, top)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setTop, top)
 
-		TITANIUM_FUNCTION(Animation, setDuration)
-		{
-			if (arguments.size() >= 1) {
-				js_set_duration(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getTransform, transform)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setTransform, transform)
 
-		TITANIUM_FUNCTION(Animation, getHeight)
-		{
-			TITANIUM_LOG_WARN("Animation.getHeight is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getTransition, transition)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setTransition, transition)
 
-		TITANIUM_FUNCTION(Animation, setHeight)
-		{
-			if (arguments.size() >= 1) {
-				js_set_height(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getView, view)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setView, view)
 
-		TITANIUM_FUNCTION(Animation, getLeft)
-		{
-			TITANIUM_LOG_WARN("Animation.getLeft is not implemented yet");
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getVisible, visible)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setVisible, visible)
 
-		TITANIUM_FUNCTION(Animation, setLeft)
-		{
-			if (arguments.size() >= 1) {
-				js_set_left(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getWidth, width)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setWidth, width)
 
-		TITANIUM_FUNCTION(Animation, getOpacity)
-		{
-			TITANIUM_LOG_WARN("Animation.getOpacity is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, setOpacity)
-		{
-			if (arguments.size() >= 1) {
-				js_set_opacity(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, getOpaque)
-		{
-			TITANIUM_LOG_WARN("Animation.getOpaque is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, setOpaque)
-		{
-			if (arguments.size() >= 1) {
-				js_set_opaque(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, getRepeat)
-		{
-			TITANIUM_LOG_WARN("Animation.getRepeat is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, setRepeat)
-		{
-			if (arguments.size() >= 1) {
-				js_set_repeat(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, getRight)
-		{
-			TITANIUM_LOG_WARN("Animation.getRight is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, setRight)
-		{
-			if (arguments.size() >= 1) {
-				js_set_right(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, getTop)
-		{
-			TITANIUM_LOG_WARN("Animation.getTop is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, setTop)
-		{
-			if (arguments.size() >= 1) {
-				js_set_top(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, getTransform)
-		{
-			TITANIUM_LOG_WARN("Animation.getTransform is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, setTransform)
-		{
-			if (arguments.size() >= 1) {
-				js_set_transform(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, getTransition)
-		{
-			TITANIUM_LOG_WARN("Animation.getTransition is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, setTransition)
-		{
-			if (arguments.size() >= 1) {
-				js_set_transition(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, getView)
-		{
-			TITANIUM_LOG_WARN("Animation.getView is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, setView)
-		{
-			if (arguments.size() >= 1) {
-				js_set_view(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, getVisible)
-		{
-			TITANIUM_LOG_WARN("Animation.getVisible is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, setVisible)
-		{
-			if (arguments.size() >= 1) {
-				js_set_visible(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, getWidth)
-		{
-			TITANIUM_LOG_WARN("Animation.getWidth is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, setWidth)
-		{
-			if (arguments.size() >= 1) {
-				js_set_width(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, getZIndex)
-		{
-			TITANIUM_LOG_WARN("Animation.getZIndex is not implemented yet");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Animation, setZIndex)
-		{
-			if (arguments.size() >= 1) {
-				js_set_zIndex(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getZIndex, zIndex)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setZIndex, zIndex)
 
 	} // namespace UI
 } // namespace Titanium

@@ -69,48 +69,42 @@ namespace Titanium
 			  @abstract bccRecipients
 			  @discussion Recipients of the email included via the `BCC` (Blind Carbon Copy) field.
 			*/
-			virtual std::vector<std::string> get_bccRecipients() const TITANIUM_NOEXCEPT final;
-			virtual void set_bccRecipients(const std::vector<std::string>& bcc) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::string>, bccRecipients);
 
 			/*!
 			  @property
 			  @abstract ccRecipients
 			  @discussion Recipients of the email included via the `CC` (Carbon Copy) field.
 			*/
-			virtual std::vector<std::string> get_ccRecipients() const TITANIUM_NOEXCEPT final;
-			virtual void set_ccRecipients(const std::vector<std::string>& cc) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::string>, ccRecipients);
 
 			/*!
 			  @property
 			  @abstract html
 			  @discussion Determines whether the email message, specifically the contents of [messageBody](Titanium.UI.EmailDialog.messageBody), should be sent as HTML content type rather than plain text.
 			*/
-			virtual bool get_html() const TITANIUM_NOEXCEPT final;
-			virtual void set_html(const bool& html) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, html);
 
 			/*!
 			  @property
 			  @abstract messageBody
 			  @discussion Email message body.
 			*/
-			virtual std::string get_messageBody() const TITANIUM_NOEXCEPT final;
-			virtual void set_messageBody(const std::string& body) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, messageBody);
 
 			/*!
 			  @property
 			  @abstract subject
 			  @discussion Subject line for the email.
 			*/
-			virtual std::string get_subject() const TITANIUM_NOEXCEPT final;
-			virtual void set_subject(const std::string& subject) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, subject);
 
 			/*!
 			  @property
 			  @abstract toRecipients
 			  @discussion Recipients of the email included via the main `TO` field.
 			*/
-			virtual std::vector<std::string> get_toRecipients() const TITANIUM_NOEXCEPT final;
-			virtual void set_toRecipients(const std::vector<std::string>& toRecipients) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::string>, toRecipients);
 
 			/*!
 			  @method

@@ -59,36 +59,11 @@ namespace Titanium
 			return false;
 		}
 
-		bool ImageView::get_autorotate() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_DEBUG("ImageView::get_autorotate unimplemented");
-			return false;
-		}
+		TITANIUM_PROPERTY_READWRITE(ImageView, bool, autorotate)
 
-		void ImageView::set_autorotate(const bool& autorotate) TITANIUM_NOEXCEPT
-		{
-			autorotate__ = autorotate;
-		}
+		TITANIUM_PROPERTY_READWRITE(ImageView, uint32_t, decodeRetries)
 
-		uint32_t ImageView::get_decodeRetries() const TITANIUM_NOEXCEPT
-		{
-			return decodeRetries__;
-		}
-
-		void ImageView::set_decodeRetries(const uint32_t& decodeRetries) TITANIUM_NOEXCEPT
-		{
-			decodeRetries__ = decodeRetries;
-		}
-
-		std::string ImageView::get_defaultImage() const TITANIUM_NOEXCEPT
-		{
-			return defaultImage__;
-		}
-
-		void ImageView::set_defaultImage(const std::string& defaultImage) TITANIUM_NOEXCEPT
-		{
-			defaultImage__ = defaultImage;
-		}
+		TITANIUM_PROPERTY_READWRITE(ImageView, std::string, defaultImage)
 
 		std::chrono::milliseconds ImageView::get_duration() const TITANIUM_NOEXCEPT
 		{
@@ -97,7 +72,7 @@ namespace Titanium
 
 		void ImageView::set_duration(const std::chrono::milliseconds& duration) TITANIUM_NOEXCEPT
 		{
-			// enforce minimum
+			// enforce minimum TODO Move this into the js_ bridge function?
 			if (duration.count() < IMAGEVIEW_MIN_INTERVAL) {
 				duration__ = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(IMAGEVIEW_MIN_INTERVAL));
 			} else {
@@ -105,45 +80,13 @@ namespace Titanium
 			}
 		}
 
-		bool ImageView::get_enableZoomControls() const TITANIUM_NOEXCEPT
-		{
-			return enableZoomControls__;
-		}
+		TITANIUM_PROPERTY_READWRITE(ImageView, bool, enableZoomControls)
 
-		void ImageView::set_enableZoomControls(const bool& enableZoomControls) TITANIUM_NOEXCEPT
-		{
-			enableZoomControls__ = enableZoomControls;
-		}
+		TITANIUM_PROPERTY_READWRITE(ImageView, bool, hires)
 
-		bool ImageView::get_hires() const TITANIUM_NOEXCEPT
-		{
-			return hires__;
-		}
+		TITANIUM_PROPERTY_READWRITE(ImageView, std::string, image)
 
-		void ImageView::set_hires(const bool& hires) TITANIUM_NOEXCEPT
-		{
-			hires__ = hires;
-		}
-
-		std::string ImageView::get_image() const TITANIUM_NOEXCEPT
-		{
-			return image__;
-		}
-
-		void ImageView::set_image(const std::string& image) TITANIUM_NOEXCEPT
-		{
-			image__ = image;
-		}
-
-		std::vector<std::string> ImageView::get_images() const TITANIUM_NOEXCEPT
-		{
-			return images__;
-		}
-
-		void ImageView::set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT
-		{
-			images__ = images;
-		}
+		TITANIUM_PROPERTY_READWRITE(ImageView, std::vector<std::string>, images)
 
 		bool ImageView::get_paused() const TITANIUM_NOEXCEPT
 		{
@@ -151,35 +94,11 @@ namespace Titanium
 			return false;
 		}
 
-		bool ImageView::get_preventDefaultImage() const TITANIUM_NOEXCEPT
-		{
-			return preventDefaultImage__;
-		}
+		TITANIUM_PROPERTY_READWRITE(ImageView, bool, preventDefaultImage)
 
-		void ImageView::set_preventDefaultImage(const bool& preventDefaultImage) TITANIUM_NOEXCEPT
-		{
-			preventDefaultImage__ = preventDefaultImage;
-		}
+		TITANIUM_PROPERTY_READWRITE(ImageView, uint32_t, repeatCount)
 
-		uint32_t ImageView::get_repeatCount() const TITANIUM_NOEXCEPT
-		{
-			return repeatCount__;
-		}
-
-		void ImageView::set_repeatCount(const uint32_t& repeatCount) TITANIUM_NOEXCEPT
-		{
-			repeatCount__ = repeatCount;
-		}
-
-		bool ImageView::get_reverse() const TITANIUM_NOEXCEPT
-		{
-			return reverse__;
-		}
-
-		void ImageView::set_reverse(const bool& reverse) TITANIUM_NOEXCEPT
-		{
-			reverse__ = reverse;
-		}
+		TITANIUM_PROPERTY_READWRITE(ImageView, bool, reverse)
 
 		void ImageView::JSExportInitialize()
 		{
@@ -427,149 +346,41 @@ namespace Titanium
 			return true;
 		}
 
-		TITANIUM_FUNCTION(ImageView, getAnimating)
-		{
-			return js_get_animating();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getAnimating, animating)
+		
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getAutorotate, autorotate)
 
-		TITANIUM_FUNCTION(ImageView, getAutorotate)
-		{
-			return js_get_autorotate();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getDecodeRetries, decodeRetries)
+		TITANIUM_FUNCTION_AS_SETTER(ImageView, setDecodeRetries, decodeRetries)
 
-		TITANIUM_FUNCTION(ImageView, getDecodeRetries)
-		{
-			return js_get_decodeRetries();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getDefaultImage, defaultImage)
+		TITANIUM_FUNCTION_AS_SETTER(ImageView, setDefaultImage, defaultImage)
 
-		TITANIUM_FUNCTION(ImageView, setDecodeRetries)
-		{
-			if (arguments.size() >= 1) {
-				js_set_decodeRetries(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getDuration, duration)
+		TITANIUM_FUNCTION_AS_SETTER(ImageView, setDuration, duration)
 
-		TITANIUM_FUNCTION(ImageView, getDefaultImage)
-		{
-			return js_get_defaultImage();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getEnableZoomControls, enableZoomControls)
+		TITANIUM_FUNCTION_AS_SETTER(ImageView, setEnableZoomControls, enableZoomControls)
 
-		TITANIUM_FUNCTION(ImageView, setDefaultImage)
-		{
-			if (arguments.size() >= 1) {
-				js_set_defaultImage(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getHires, hires)
+		TITANIUM_FUNCTION_AS_SETTER(ImageView, setHires, hires)
 
-		TITANIUM_FUNCTION(ImageView, getDuration)
-		{
-			return js_get_duration();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getImage, image)
+		TITANIUM_FUNCTION_AS_SETTER(ImageView, setImage, image)
 
-		TITANIUM_FUNCTION(ImageView, setDuration)
-		{
-			if (arguments.size() >= 1) {
-				js_set_duration(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getImages, images)
+		TITANIUM_FUNCTION_AS_SETTER(ImageView, setImages, images)
 
-		TITANIUM_FUNCTION(ImageView, getEnableZoomControls)
-		{
-			return js_get_enableZoomControls();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getPaused, paused)
 
-		TITANIUM_FUNCTION(ImageView, setEnableZoomControls)
-		{
-			if (arguments.size() >= 1) {
-				js_set_enableZoomControls(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getPreventDefaultImage, preventDefaultImage)
+		TITANIUM_FUNCTION_AS_SETTER(ImageView, setPreventDefaultImage, preventDefaultImage)
 
-		TITANIUM_FUNCTION(ImageView, getHires)
-		{
-			return js_get_hires();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getRepeatCount, repeatCount)
+		TITANIUM_FUNCTION_AS_SETTER(ImageView, setRepeatCount, repeatCount)
 
-		TITANIUM_FUNCTION(ImageView, setHires)
-		{
-			if (arguments.size() >= 1) {
-				js_set_hires(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ImageView, getReverse, reverse)
+		TITANIUM_FUNCTION_AS_SETTER(ImageView, setReverse, reverse)
 
-		TITANIUM_FUNCTION(ImageView, getImage)
-		{
-			return js_get_image();
-		}
-
-		TITANIUM_FUNCTION(ImageView, setImage)
-		{
-			if (arguments.size() >= 1) {
-				js_set_image(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(ImageView, getImages)
-		{
-			return js_get_images();
-		}
-
-		TITANIUM_FUNCTION(ImageView, setImages)
-		{
-			if (arguments.size() >= 1) {
-				js_set_images(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(ImageView, getPaused)
-		{
-			return js_get_paused();
-		}
-
-		TITANIUM_FUNCTION(ImageView, getPreventDefaultImage)
-		{
-			return js_get_preventDefaultImage();
-		}
-
-		TITANIUM_FUNCTION(ImageView, setPreventDefaultImage)
-		{
-			if (arguments.size() >= 1) {
-				js_set_preventDefaultImage(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(ImageView, getRepeatCount)
-		{
-			return js_get_repeatCount();
-		}
-
-		TITANIUM_FUNCTION(ImageView, setRepeatCount)
-		{
-			if (arguments.size() >= 1) {
-				js_set_repeatCount(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(ImageView, getReverse)
-		{
-			return js_get_reverse();
-		}
-
-		TITANIUM_FUNCTION(ImageView, setReverse)
-		{
-			if (arguments.size() >= 1) {
-				js_set_reverse(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
 	} // namespace UI
 }  // namespace Titanium

@@ -26,10 +26,10 @@ namespace Titanium
 	public:
 		/*!
 		  @method
-		  @abstract get_Orientation
+		  @abstract orientation
 		  @discussion Orientation of the current window.
 		*/
-		virtual Titanium::UI::ORIENTATION get_orientation() const TITANIUM_NOEXCEPT;
+		TITANIUM_PROPERTY_IMPL_READONLY_DEF(Titanium::UI::ORIENTATION, orientation);
 
 		Gesture(const JSContext&) TITANIUM_NOEXCEPT;
 

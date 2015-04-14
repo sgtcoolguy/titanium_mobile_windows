@@ -101,7 +101,7 @@ namespace Titanium
 
 			  Default: false on creation, true on load (Android), false (iPhone, iPad, Mobile Web, Tizen)
 			*/
-			virtual bool get_animating() const TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_READONLY_DEF(bool, animating);
 
 			/*!
 			  @method
@@ -112,8 +112,7 @@ namespace Titanium
 
 			  Default: false on android, true on iOS.
 			*/
-			virtual bool get_autorotate() const TITANIUM_NOEXCEPT;
-			virtual void set_autorotate(const bool& autorotate) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, autorotate);
 
 			/*!
 			  @method
@@ -124,8 +123,7 @@ namespace Titanium
 
 			  Default: 5
 			*/
-			virtual uint32_t get_decodeRetries() const TITANIUM_NOEXCEPT final;
-			virtual void set_decodeRetries(const uint32_t& decodeRetries) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(uint32_t, decodeRetries);
 
 			/*!
 			  @method
@@ -134,8 +132,7 @@ namespace Titanium
 
 			  @discussion Local path to the default image to display while loading a remote image.
 			*/
-			virtual std::string get_defaultImage() const TITANIUM_NOEXCEPT final;
-			virtual void set_defaultImage(const std::string& defaultImage) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, defaultImage);
 
 			/*!
 			  @method
@@ -154,8 +151,7 @@ namespace Titanium
 
 			  Default: 200 ms in Release 2.1.1 and later. Platform-specific default in earlier releases.
 			*/
-			virtual std::chrono::milliseconds get_duration() const TITANIUM_NOEXCEPT final;
-			virtual void set_duration(const std::chrono::milliseconds& duration) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::chrono::milliseconds, duration);
 
 			/*!
 			  @method
@@ -166,8 +162,7 @@ namespace Titanium
 
 			  Default: false
 			*/
-			virtual bool get_enableZoomControls() const TITANIUM_NOEXCEPT final;
-			virtual void set_enableZoomControls(const bool& enableZoomControls) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, enableZoomControls);
 
 			/*!
 			  @method
@@ -180,8 +175,7 @@ namespace Titanium
 
 			  Default: false
 			*/
-			virtual bool get_hires() const TITANIUM_NOEXCEPT final;
-			virtual void set_hires(const bool& hires) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, hires);
 
 			/*!
 			  @method
@@ -192,18 +186,16 @@ namespace Titanium
 
 			  Image to display, defined using a local filesystem path, a File object, a remote URL, or a Blob object containing image data. Blob and File objects are not supported on Mobile Web.
 			*/
-			virtual std::string get_image() const TITANIUM_NOEXCEPT final;
-			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, image);
 
 			/*!
 			  @method
 
-			  @abstract image : String[]/Titanium.Blob[]/Titanium.Filesystem.File[]
+			  @abstract images : String[]/Titanium.Blob[]/Titanium.Filesystem.File[]
 
 			  @discussion Array of images to animate, defined using local filesystem paths, File objects, remote URLs (Android only), or Blob objects containing image data. Blob and File objects are not supported on Mobile Web.
 			*/
-			virtual std::vector<std::string> get_images() const TITANIUM_NOEXCEPT final;
-			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::string>, images);
 
 			/*!
 			  @method
@@ -214,7 +206,7 @@ namespace Titanium
 
 			  Default: false
 			*/
-			virtual bool get_paused() const TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_READONLY_DEF(bool, paused);
 
 			/*!
 			  @method
@@ -225,8 +217,7 @@ namespace Titanium
 
 			  Default: false
 			*/
-			virtual bool get_preventDefaultImage() const TITANIUM_NOEXCEPT final;
-			virtual void set_preventDefaultImage(const bool& preventDefaultImage) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, preventDefaultImage);
 
 
 			/*!
@@ -238,8 +229,7 @@ namespace Titanium
 
 			  Default: 0 (infinite)
 			*/
-			virtual uint32_t get_repeatCount() const TITANIUM_NOEXCEPT final;
-			virtual void set_repeatCount(const uint32_t& repeatCount) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(uint32_t, repeatCount);
 
 			/*!
 			  @method
@@ -250,8 +240,7 @@ namespace Titanium
 
 			  Default: false
 			*/
-			virtual bool get_reverse() const TITANIUM_NOEXCEPT final;
-			virtual void set_reverse(const bool& reverse) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, reverse);
 
 			ImageView(const JSContext&) TITANIUM_NOEXCEPT;
 

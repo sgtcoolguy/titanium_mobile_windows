@@ -36,50 +36,18 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("AlertDialog::show");
 		}
 
-		std::vector<std::string> AlertDialog::get_buttonNames() const TITANIUM_NOEXCEPT
-		{
-			return buttonNames__;
-		}
-
-		void AlertDialog::set_buttonNames(const std::vector<std::string>& buttonNames) TITANIUM_NOEXCEPT
-		{
-			buttonNames__ = buttonNames;
-		}
+		TITANIUM_PROPERTY_READWRITE(AlertDialog, std::vector<std::string>, buttonNames)
 
 		void AlertDialog::addButton(const std::string& buttonName) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("AlertDialog::addButton not implemented");
 		}
 
-		int32_t AlertDialog::get_cancel() const TITANIUM_NOEXCEPT
-		{
-			return cancel__;
-		}
+		TITANIUM_PROPERTY_READWRITE(AlertDialog, int32_t, cancel)
 
-		void AlertDialog::set_cancel(const int32_t& cancel) TITANIUM_NOEXCEPT
-		{
-			cancel__ = cancel;
-		}
+		TITANIUM_PROPERTY_READWRITE(AlertDialog, std::string, message)
 
-		std::string AlertDialog::get_message() const TITANIUM_NOEXCEPT
-		{
-			return message__;
-		}
-
-		void AlertDialog::set_message(const std::string& message) TITANIUM_NOEXCEPT
-		{
-			message__ = message;
-		}
-
-		std::string AlertDialog::get_title() const TITANIUM_NOEXCEPT
-		{
-			return title__;
-		}
-
-		void AlertDialog::set_title(const std::string& title) TITANIUM_NOEXCEPT
-		{
-			title__ = title;
-		}
+		TITANIUM_PROPERTY_READWRITE(AlertDialog, std::string, title)
 
 		void AlertDialog::JSExportInitialize()
 		{
@@ -156,12 +124,12 @@ namespace Titanium
 			return true;
 		}
 
-			TITANIUM_PROPERTY_GETTER(AlertDialog, cancel)
+		TITANIUM_PROPERTY_GETTER(AlertDialog, cancel)
 		{
 			return get_context().CreateNumber(get_cancel());
 		}
 
-			TITANIUM_PROPERTY_SETTER(AlertDialog, cancel)
+		TITANIUM_PROPERTY_SETTER(AlertDialog, cancel)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
 			set_cancel(static_cast<int32_t>(argument));
