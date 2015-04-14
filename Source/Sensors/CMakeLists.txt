@@ -12,14 +12,14 @@ else()
   message(FATAL_ERROR "This app supports Store / Phone only.")
 endif()
 
-project(TitaniumWindows_Gesture)
+project(TitaniumWindows_Sensors)
 
-set(TitaniumWindows_Gesture_VERSION 0.1.0)
+set(TitaniumWindows_Sensors_VERSION 0.1.0)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
-option(TitaniumWindows_Gesture_DISABLE_TESTS "Disable compiling the tests" OFF)
+option(TitaniumWindows_Sensors_DISABLE_TESTS "Disable compiling the tests" OFF)
 
 # Use solution folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -40,37 +40,50 @@ if(NOT TARGET TitaniumKit)
 	add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit EXCLUDE_FROM_ALL)
 endif()
 
-set(SOURCE_Gesture
+if(NOT TARGET TitaniumWindows_Utility)
+  get_filename_component(Utility_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../Utility ABSOLUTE)
+  add_subdirectory(${Utility_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Utility EXCLUDE_FROM_ALL)
+endif()
+
+set(SOURCE_Sensors
+  include/TitaniumWindows/Accelerometer.hpp
   include/TitaniumWindows/Gesture.hpp
-  src/Gesture.cpp
-  src/ShakeGestureHelper.cpp
+  include/TitaniumWindows/Geolocation.hpp
   include/TitaniumWindows/ShakeGestureHelper.hpp
+  src/Accelerometer.cpp
+  src/Gesture.cpp
+  src/Geolocation.cpp
+  src/ShakeGestureHelper.cpp
+  include/TitaniumWindows/detail/AccelerometerBase.hpp
   include/TitaniumWindows/detail/GestureBase.hpp
+  include/TitaniumWindows/detail/GeolocationBase.hpp
   )
 
-source_group(Titanium\\Gesture FILES ${SOURCE_Gesture})
+source_group(Titanium\\Sensors FILES ${SOURCE_Sensors})
 
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
-add_library(TitaniumWindows_Gesture SHARED
-  ${SOURCE_Gesture}
+add_library(TitaniumWindows_Sensors SHARED
+  ${SOURCE_Sensors}
   )
 
 include(GenerateExportHeader)
-generate_export_header(TitaniumWindows_Gesture)
-target_compile_definitions(TitaniumWindows_Gesture PRIVATE TitaniumWindows_Gesture_EXPORTS)
+generate_export_header(TitaniumWindows_Sensors)
+target_compile_definitions(TitaniumWindows_Sensors PRIVATE TitaniumWindows_Sensors_EXPORTS)
 
-target_include_directories(TitaniumWindows_Gesture PUBLIC
+target_include_directories(TitaniumWindows_Sensors PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
-target_link_libraries(TitaniumWindows_Gesture
+target_link_libraries(TitaniumWindows_Sensors
   TitaniumKit
+  TitaniumWindows_Utility
   )
 
-set_target_properties(TitaniumWindows_Gesture PROPERTIES VS_WINRT_COMPONENT TRUE)
+set_target_properties(TitaniumWindows_Sensors PROPERTIES VS_WINRT_COMPONENT TRUE)
 
 # Silence this warning when lnking the Debug configuration:
 #
@@ -104,45 +117,48 @@ set_target_properties(TitaniumWindows_Gesture PROPERTIES VS_WINRT_COMPONENT TRUE
 #
 # Therefore we disable /OPT:REF and /OPT:ICF for the Debug
 # configuration.
-set_property(TARGET TitaniumWindows_Gesture APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
+set_property(TARGET TitaniumWindows_Sensors APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
 
-if (NOT TitaniumWindows_Gesture_DISABLE_TESTS)
+# Fix error C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe (needed by boost::split)
+set_property(TARGET TitaniumWindows_Sensors APPEND_STRING PROPERTY COMPILE_FLAGS " -D_SCL_SECURE_NO_WARNINGS")
+
+if (NOT TitaniumWindows_Sensors_DISABLE_TESTS)
   add_subdirectory(test)
 endif()
 
 
-# Support find_package(TitaniumWindows_Gesture 0.1 REQUIRED)
+# Support find_package(TitaniumWindows_Sensors 0.1 REQUIRED)
 
-set_property(TARGET TitaniumWindows_Gesture PROPERTY VERSION ${TitaniumWindows_Gesture_VERSION})
-set_property(TARGET TitaniumWindows_Gesture PROPERTY SOVERSION 0)
-set_property(TARGET TitaniumWindows_Gesture PROPERTY INTERFACE_TitaniumWindows_Gesture_MAJOR_VERSION 0)
-set_property(TARGET TitaniumWindows_Gesture APPEND PROPERTY
-  COMPATIBLE_INTERFACE_STRING TitaniumWindows_Gesture_MAJOR_VERSION
+set_property(TARGET TitaniumWindows_Sensors PROPERTY VERSION ${TitaniumWindows_Sensors_VERSION})
+set_property(TARGET TitaniumWindows_Sensors PROPERTY SOVERSION 0)
+set_property(TARGET TitaniumWindows_Sensors PROPERTY INTERFACE_TitaniumWindows_Sensors_MAJOR_VERSION 0)
+set_property(TARGET TitaniumWindows_Sensors APPEND PROPERTY
+  COMPATIBLE_INTERFACE_STRING TitaniumWindows_Sensors_MAJOR_VERSION
   )
 
-install(TARGETS TitaniumWindows_Gesture EXPORT TitaniumWindows_Gesture_Targets
+install(TARGETS TitaniumWindows_Sensors EXPORT TitaniumWindows_Sensors_Targets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
   INCLUDES DESTINATION include
   )
 
-export(EXPORT TitaniumWindows_Gesture_Targets
-  FILE "${CMAKE_BINARY_DIR}/TitaniumWindows_Gesture_Targets.cmake"
+export(EXPORT TitaniumWindows_Sensors_Targets
+  FILE "${CMAKE_BINARY_DIR}/TitaniumWindows_Sensors_Targets.cmake"
 )
 
-configure_file(cmake/TitaniumWindows_Gesture_Config.cmake
-  "${CMAKE_BINARY_DIR}/TitaniumWindows_Gesture_Config.cmake"
+configure_file(cmake/TitaniumWindows_Sensors_Config.cmake
+  "${CMAKE_BINARY_DIR}/TitaniumWindows_Sensors_Config.cmake"
   COPYONLY
   )
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-  "${CMAKE_BINARY_DIR}/TitaniumWindows_Gesture_ConfigVersion.cmake"
-  VERSION ${TitaniumWindows_Gesture_VERSION}
+  "${CMAKE_BINARY_DIR}/TitaniumWindows_Sensors_ConfigVersion.cmake"
+  VERSION ${TitaniumWindows_Sensors_VERSION}
   COMPATIBILITY AnyNewerVersion
   )
 
 # Store the current build directory in the CMake user package registry
-# so that find_package(TitaniumWindows_Gesture) works.
-export(PACKAGE TitaniumWindows_Gesture)
+# so that find_package(TitaniumWindows_Sensors) works.
+export(PACKAGE TitaniumWindows_Sensors)

@@ -7,7 +7,7 @@
 #ifndef _TITANIUMWINDOWS_DETAIL_ACCELEROMETERBASE_HPP_
 #define _TITANIUMWINDOWS_DETAIL_ACCELEROMETERBASE_HPP_
 
-#include "TitaniumWindows_Accelerometer_EXPORT.h"
+#include "TitaniumWindows_Sensors_EXPORT.h"
 
 #include "Titanium/Titanium.hpp"
 #include "Titanium/detail/TiLogger.hpp"

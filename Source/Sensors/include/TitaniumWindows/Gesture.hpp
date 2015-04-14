@@ -19,7 +19,7 @@ namespace TitaniumWindows
 
 	  @discussion This is the Titanium.Gesture implementation for Windows.
     */
-	class TITANIUMWINDOWS_GESTURE_EXPORT Gesture final : public Titanium::Gesture, public JSExport<Gesture>
+	class TITANIUMWINDOWS_SENSORS_EXPORT Gesture final : public Titanium::Gesture, public JSExport<Gesture>
 	{
 	public:
 		Gesture(const JSContext&) TITANIUM_NOEXCEPT;

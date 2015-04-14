@@ -11,7 +11,7 @@ fi
 
 declare -rx VERBOSE=1
 
-declare -r TitaniumWindows_Accelerometer_DISABLE_TESTS="OFF"
+declare -r TitaniumWindows_Sensors_DISABLE_TESTS="OFF"
 
 #declare -r target_platform="WindowsStore"
 declare -r target_platform="WindowsPhone"
@@ -33,7 +33,7 @@ cmd+="cmake"
 cmd+=" -G \"${cmake_generator_name}\""
 cmd+=" -DCMAKE_SYSTEM_NAME=${target_platform}"
 cmd+=" -DCMAKE_SYSTEM_VERSION=${target_version}"
-cmd+=" -DTitaniumWindows_Accelerometer_DISABLE_TESTS=${TitaniumWindows_Accelerometer_DISABLE_TESTS}"
+cmd+=" -DTitaniumWindows_Sensors_DISABLE_TESTS=${TitaniumWindows_Sensors_DISABLE_TESTS}"
 cmd+=" -DHAL_DISABLE_TESTS=ON"
 cmd+=" -DTitaniumKit_DISABLE_TESTS=ON"
 cmd+=" ../"
@@ -44,7 +44,7 @@ echo_and_eval "pushd \"${BUILD_DIR}\""
 echo_and_eval "${cmd}"
 echo_and_eval "\"${MSBUILD_PATH}\" ${solution_file_name}"
 
-if [ "${TitaniumWindows_Accelerometer_DISABLE_TESTS}" != "ON" ]; then
+if [ "${TitaniumWindows_Sensors_DISABLE_TESTS}" != "ON" ]; then
     echo_and_eval "ctest -VV --output-on-failure"
 fi
 
