@@ -12,11 +12,6 @@
 #include "TitaniumWindows/detail/GeolocationBase.hpp"
 #include "Titanium/Geolocation/Constants.hpp"
 
-using namespace Windows::Devices::Geolocation;
-using namespace Windows::Foundation;
-using namespace Windows::Services::Maps;
-using namespace Windows::Web::Http;
-
 namespace TitaniumWindows
 {
 	using namespace HAL;
@@ -53,16 +48,12 @@ namespace TitaniumWindows
 
 	private:
 
-		Geolocator^ geolocator_;
+		Windows::Devices::Geolocation::Geolocator^ geolocator_;
 
-		EventRegistrationToken positionToken_;
-		EventRegistrationToken statusToken_;
-
+		Windows::Foundation::EventRegistrationToken positionToken_;
+		Windows::Foundation::EventRegistrationToken statusToken_;
 		Windows::Foundation::EventRegistrationToken location_event_;
-		unsigned int location_event_count_{ 0 };
-
 		Windows::Foundation::EventRegistrationToken heading_event_;
-		unsigned int heading_event_count_{ 0 };
 	};
 }  // namespace TitaniumWindows
 #endif // _TITANIUMWINDOWS_GEOLOCATION_HPP_

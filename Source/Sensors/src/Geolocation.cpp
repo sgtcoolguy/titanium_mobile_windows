@@ -17,6 +17,10 @@
 
 namespace TitaniumWindows
 {
+	using namespace Windows::Devices::Geolocation;
+	using namespace Windows::Foundation;
+	using namespace Windows::Web::Http;
+
 	Geolocation::Geolocation(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Titanium::GeolocationModule(js_context)
 	{
@@ -35,44 +39,38 @@ namespace TitaniumWindows
 	{
 		// Location event
 		if (event_name == "location") {
-			if (location_event_count_ == 0) {
-				location_event_ = geolocator_->PositionChanged += ref new TypedEventHandler<Geolocator^, PositionChangedEventArgs^>([=](Geolocator^ locator, PositionChangedEventArgs^ args) {
-					auto latitude = args->Position->Coordinate->Point->Position.Latitude;
-					auto longitude = args->Position->Coordinate->Point->Position.Longitude;
-					auto altitude = args->Position->Coordinate->Point->Position.Altitude;
-					auto altitudeAccuracy = args->Position->Coordinate->AltitudeAccuracy->Value;
-					auto speed = args->Position->Coordinate->Speed->Value;
+			location_event_ = geolocator_->PositionChanged += ref new TypedEventHandler<Geolocator^, PositionChangedEventArgs^>([=](Geolocator^ locator, PositionChangedEventArgs^ args) {
+				const auto latitude = args->Position->Coordinate->Point->Position.Latitude;
+				const auto longitude = args->Position->Coordinate->Point->Position.Longitude;
+				const auto altitude = args->Position->Coordinate->Point->Position.Altitude;
+				const auto altitudeAccuracy = args->Position->Coordinate->AltitudeAccuracy->Value;
+				const auto speed = args->Position->Coordinate->Speed->Value;
 
-					Utility::RunOnUIThread([=](){
-						lastGeolocation__.SetProperty("latitude", get_context().CreateNumber(latitude));
-						lastGeolocation__.SetProperty("longitude", get_context().CreateNumber(longitude));
-						lastGeolocation__.SetProperty("altitude", get_context().CreateNumber(altitude));
-						lastGeolocation__.SetProperty("altitudeAccuracy", get_context().CreateNumber(altitudeAccuracy));
-						lastGeolocation__.SetProperty("speed", get_context().CreateNumber(speed));
+				Utility::RunOnUIThread([=](){
+					lastGeolocation__.SetProperty("latitude", get_context().CreateNumber(latitude));
+					lastGeolocation__.SetProperty("longitude", get_context().CreateNumber(longitude));
+					lastGeolocation__.SetProperty("altitude", get_context().CreateNumber(altitude));
+					lastGeolocation__.SetProperty("altitudeAccuracy", get_context().CreateNumber(altitudeAccuracy));
+					lastGeolocation__.SetProperty("speed", get_context().CreateNumber(speed));
 
-						this->fireEvent("location", lastGeolocation__);
-					});
+					this->fireEvent("location", lastGeolocation__);
 				});
-			}
-			location_event_count_++;
+			});
 
 		// Heading event
 		} else if (event_name == "heading") {
-			if (heading_event_count_ == 0) {
-				heading_event_ = geolocator_->PositionChanged += ref new TypedEventHandler<Geolocator^, PositionChangedEventArgs^>([=](Geolocator^ locator, PositionChangedEventArgs^ args) {
-					auto heading = args->Position->Coordinate->Heading->Value;
+			heading_event_ = geolocator_->PositionChanged += ref new TypedEventHandler<Geolocator^, PositionChangedEventArgs^>([=](Geolocator^ locator, PositionChangedEventArgs^ args) {
+				const auto heading = args->Position->Coordinate->Heading->Value;
 
-					Utility::RunOnUIThread([=](){
-						auto old_heading = static_cast<double>(heading__.GetProperty("heading"));
-						if (abs(heading - old_heading) > headingFilter__) {
-							heading__.SetProperty("heading", get_context().CreateNumber(heading));
+				Utility::RunOnUIThread([=](){
+					const auto old_heading = static_cast<double>(heading__.GetProperty("heading"));
+					if (abs(heading - old_heading) > headingFilter__) {
+						heading__.SetProperty("heading", get_context().CreateNumber(heading));
 
-							this->fireEvent("heading", heading__);
-						}
-					});
+						this->fireEvent("heading", heading__);
+					}
 				});
-			}
-			heading_event_count_++;
+			});
 		}
 	}
 
@@ -156,9 +154,9 @@ namespace TitaniumWindows
 			requestString += std::string("&q=") + address;
 			//requestString += std::string("&c=") + std::string("US");
 
-			auto requestUri = ref new Windows::Foundation::Uri(Utility::ConvertString(requestString));
+			const auto requestUri = ref new Windows::Foundation::Uri(Utility::ConvertString(requestString));
 
-			auto httpClient = ref new HttpClient();
+			const auto httpClient = ref new HttpClient();
 			concurrency::create_task(httpClient->GetAsync(requestUri)).then([this, address, callback](HttpResponseMessage^ response) {
 				std::vector<std::string> split_response;
 				boost::split(split_response, Utility::ConvertString(response->Content->ToString()), boost::is_any_of(","));
@@ -166,9 +164,9 @@ namespace TitaniumWindows
 				JSObject forwardGeocodeResponse = get_context().CreateObject();
 
 				if (split_response.size() > 0 && split_response.at(0) == "200") {
-					double accuracy = atof(split_response.at(1).c_str());
-					double latitude = atof(split_response.at(2).c_str());
-					double longitude = atof(split_response.at(3).c_str());
+					const double accuracy = atof(split_response.at(1).c_str());
+					const double latitude = atof(split_response.at(2).c_str());
+					const double longitude = atof(split_response.at(3).c_str());
 
 					forwardGeocodeResponse.SetProperty("accuracy", get_context().CreateNumber(accuracy));
 					forwardGeocodeResponse.SetProperty("address", get_context().CreateString(address));
@@ -194,7 +192,7 @@ namespace TitaniumWindows
 	void Geolocation::getCurrentHeading(JSObject callback) TITANIUM_NOEXCEPT
 	{
 		concurrency::create_task(geolocator_->GetGeopositionAsync()).then([this, callback](Geoposition^ position) {
-			auto data = position->Coordinate;
+			const auto data = position->Coordinate;
 			JSObject headingResponse = get_context().CreateObject();
 
 			headingResponse.SetProperty("code", get_context().CreateNumber(0.0));
@@ -226,7 +224,7 @@ namespace TitaniumWindows
 	void Geolocation::getCurrentPosition(JSObject callback) TITANIUM_NOEXCEPT
 	{
 		concurrency::create_task(geolocator_->GetGeopositionAsync()).then([this, callback](Geoposition^ position) {
-			auto data = position->Coordinate;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+			const auto data = position->Coordinate;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 			JSObject locationResult = get_context().CreateObject();
 
 			locationResult.SetProperty("code", get_context().CreateNumber(0.0));
@@ -272,9 +270,9 @@ namespace TitaniumWindows
 		requestString += std::string("&q="+boost::lexical_cast<std::string>(latitude)+","+boost::lexical_cast<std::string>(longitude));
 		//requestString += std::string("&c=") + std::string("US");
 
-		auto requestUri = ref new Windows::Foundation::Uri(Utility::ConvertString(requestString));
+		const auto requestUri = ref new Windows::Foundation::Uri(Utility::ConvertString(requestString));
 
-		auto httpClient = ref new HttpClient();
+		const auto httpClient = ref new HttpClient();
 		concurrency::create_task(httpClient->GetAsync(requestUri)).then([this, callback](HttpResponseMessage^ response) {
 			auto result = get_context().CreateString(Utility::ConvertString(response->Content->ToString()));
 
