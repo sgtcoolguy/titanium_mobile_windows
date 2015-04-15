@@ -177,7 +177,8 @@ function processWhitelist(file, next) {
 			// Class
 			if (type === 'C') {
 				if (module != null) {
-					generateYAML('src', module_name, module+'_white', properties, methods);
+					var folder = module_name.substring(module_name.split('.')[0].length+1, module_name.length-module.length-1).replace(/\./g, '/');
+					generateYAML(folder, module_name, module+'_white', properties, methods);
 					module_name = null;
 					namespaces = [];
 					module = null;
@@ -207,7 +208,8 @@ function processWhitelist(file, next) {
 	);
 	l.on('end',
 		function () {
-			generateYAML('src', module_name, module+'_white', properties, methods, function() {next();});
+			var folder = module_name.substring(module_name.split('.')[0].length+1, module_name.length-module.length-1).replace(/\./g, '/');
+			generateYAML(folder, module_name, module+'_white', properties, methods, function() {next();});
 		}
 	);
 }
