@@ -68,7 +68,7 @@ namespace Titanium
 			DB(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
-			virtual ~DB() = default;
+			virtual ~DB();
 			DB(const DB&) = default;
 			DB& operator=(const DB&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
@@ -97,6 +97,7 @@ namespace Titanium
 #pragma warning(disable : 4251)
 			std::string name__;
 			std::string path__;
+			std::vector<std::shared_ptr<Titanium::Database::ResultSet>> resultSets__;
 #pragma warning(pop)
 			sqlite3* db__;
 			uint32_t affected_rows__;

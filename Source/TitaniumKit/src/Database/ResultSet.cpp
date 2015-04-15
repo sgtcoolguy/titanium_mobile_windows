@@ -19,9 +19,7 @@ namespace Titanium
 
 		ResultSet::~ResultSet() {
 			TITANIUM_LOG_DEBUG("ResultSet:: dtor ", this);
-			if (statement__ != nullptr) {
-				close();
-			}
+			close();
 		}
 
 		void ResultSet::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 

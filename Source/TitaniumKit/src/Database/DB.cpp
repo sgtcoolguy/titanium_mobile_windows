@@ -20,6 +20,12 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("DB:: ctor ", this);
 		}
 
+		DB::~DB() 
+		{
+			TITANIUM_LOG_DEBUG("DB:: dtor ", this);
+			close();
+		}
+
 		void DB::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
 		{
 			HAL_LOG_DEBUG("DB:: postCallAsConstructor ", this);
@@ -95,6 +101,11 @@ namespace Titanium
 	
 		void DB::close() TITANIUM_NOEXCEPT
 		{
+			for (auto resultSet : resultSets__) {
+				resultSet->close();
+			}
+			resultSets__.clear();
+			
 			if (db__ != nullptr) {
 				sqlite3_close(db__);
 				db__ = nullptr;
@@ -160,6 +171,7 @@ namespace Titanium
 			// How would we pass along the statement pointer?
 			const auto resultSet_object = get_context().CreateObject(JSExport<Titanium::Database::ResultSet>::Class());
 			const auto resultSet = resultSet_object.GetPrivate<Titanium::Database::ResultSet>();
+			resultSets__.push_back(resultSet);
 			int affectedRows = 0;
 			if (stepResult == SQLITE_DONE) {
 				sqlite3_finalize(statement);
@@ -190,7 +202,6 @@ namespace Titanium
 				resultSet->column_names__.push_back(sqlite3_column_name(statement,i));
 			}
 
-			// FIXME Do we need to hold references to these to close them on DB#close?
 			return resultSet_object;
 		}
 

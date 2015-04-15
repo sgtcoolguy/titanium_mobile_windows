@@ -256,7 +256,7 @@ describe('Titanium.Database', function () {
         finish();
     });
 
-    // Check if it guards against "closed" reesults
+    // Check if it guards against "closed" results
     it('closed_guard', function (finish) {
         // Database name
         var dbName = "testDbOpen";
