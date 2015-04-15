@@ -1,7 +1,7 @@
 /**
  * TitaniumKit
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -20,39 +20,12 @@ namespace Titanium
 		{
 		}
 
-		double Slider::get_max() const TITANIUM_NOEXCEPT
-		{
-			return max__;
-		}
+		TITANIUM_PROPERTY_READWRITE(Slider, double, max)
 
-		void Slider::set_max(const double& max) TITANIUM_NOEXCEPT
-		{
-			max__ = max;
-		}
+		TITANIUM_PROPERTY_READWRITE(Slider, double, min)
 
-		double Slider::get_min() const TITANIUM_NOEXCEPT
-		{
-			return min__;
-		}
-
-		void Slider::set_min(const double& min) TITANIUM_NOEXCEPT
-		{
-			min__ = min;
-		}
-
-		double Slider::get_value() const TITANIUM_NOEXCEPT
-		{
-			return value__;
-		}
-
-		void Slider::set_value(const double& value) TITANIUM_NOEXCEPT
-		{
-			value__ = value;
-		}
-
-		// TODO: The following functions can automatically be generated from
-		// the YAML API docs.
-
+		TITANIUM_PROPERTY_READWRITE(Slider, double, value)
+		
 		void Slider::JSExportInitialize()
 		{
 			JSExport<Slider>::SetClassVersion(1);
@@ -60,6 +33,13 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(Slider, max);
 			TITANIUM_ADD_PROPERTY(Slider, min);
 			TITANIUM_ADD_PROPERTY(Slider, value);
+
+			TITANIUM_ADD_FUNCTION(Slider, getMax);
+			TITANIUM_ADD_FUNCTION(Slider, setMax);
+			TITANIUM_ADD_FUNCTION(Slider, getMin);
+			TITANIUM_ADD_FUNCTION(Slider, setMin);
+			TITANIUM_ADD_FUNCTION(Slider, getValue);
+			TITANIUM_ADD_FUNCTION(Slider, setValue);
 		}
 
 		TITANIUM_PROPERTY_GETTER(Slider, max)
@@ -97,5 +77,15 @@ namespace Titanium
 			set_value(static_cast<double>(argument));
 			return true;
 		}
+
+		TITANIUM_FUNCTION_AS_GETTER(Slider, getMax, max)
+		TITANIUM_FUNCTION_AS_SETTER(Slider, setMax, max)
+
+		TITANIUM_FUNCTION_AS_GETTER(Slider, getMin, min)
+		TITANIUM_FUNCTION_AS_SETTER(Slider, setMin, min)
+
+		TITANIUM_FUNCTION_AS_GETTER(Slider, getValue, value)
+		TITANIUM_FUNCTION_AS_SETTER(Slider, setValue, value)
+
 	} // namespace UI
 }  // namespace Titanium

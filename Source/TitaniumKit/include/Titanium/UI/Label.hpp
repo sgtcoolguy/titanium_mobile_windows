@@ -1,7 +1,7 @@
 /**
  * TitaniumKit
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -36,8 +36,7 @@ namespace Titanium
 
 			  @discussion Color of the label text, as a color name or hex triplet.
 			*/
-			virtual std::string get_color() const TITANIUM_NOEXCEPT final;
-			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, color);
 
 			/*!
 			  @method
@@ -48,8 +47,7 @@ namespace Titanium
 
 			  Default: false
 			*/
-			virtual bool get_ellipsize() const TITANIUM_NOEXCEPT final;
-			virtual void set_ellipsize(const bool& ellipsize) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, ellipsize);
 
 			/*!
 			  @method
@@ -58,8 +56,7 @@ namespace Titanium
 
 			  @discussion Font to use for the label text.
 			*/
-			virtual Font get_font() const TITANIUM_NOEXCEPT final;
-			virtual void set_font(const Font font) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(Font, font);
 
 			/*!
 			  @method
@@ -68,8 +65,7 @@ namespace Titanium
 
 			  @discussion Label text.
 			*/
-			virtual std::string get_text() const TITANIUM_NOEXCEPT final;
-			virtual void set_text(const std::string& title) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, text);
 
 			/*!
 			  @method
@@ -78,8 +74,7 @@ namespace Titanium
 
 			  @discussion Text alignment.
 			*/
-			virtual TEXT_ALIGNMENT get_textAlign() const TITANIUM_NOEXCEPT final;
-			virtual void set_textAlign(const TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(TEXT_ALIGNMENT, textAlign);
 
 			/*!
 			  @method
@@ -88,8 +83,7 @@ namespace Titanium
 
 			  @discussion Vertical text alignment, specified using one of the vertical alignment constants from Titanium.UI.
 			*/
-			virtual TEXT_VERTICAL_ALIGNMENT get_verticalAlign() const TITANIUM_NOEXCEPT final;
-			virtual void set_verticalAlign(const TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(TEXT_VERTICAL_ALIGNMENT, verticalAlign);
 
 			/*!
 			  @method
@@ -98,8 +92,7 @@ namespace Titanium
 
 			  @discussion Enable or disable word wrapping in the label.
 			*/
-			virtual bool get_wordWrap() const TITANIUM_NOEXCEPT final;
-			virtual void set_wordWrap(const bool& wordWrap) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, wordWrap);
 
 			Label(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -111,8 +104,6 @@ namespace Titanium
 			Label& operator=(Label&&) = default;
 #endif
 
-			// TODO: The following functions can automatically be generated
-			// from the YAML API docs.
 			static void JSExportInitialize();
 
 			TITANIUM_PROPERTY_DEF(color);

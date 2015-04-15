@@ -39,8 +39,7 @@ namespace Titanium
 			  @abstract sections
 			  @discussion Sections of this list.
 			*/
-			virtual std::vector<ListSection_shared_ptr_t> get_sections() const TITANIUM_NOEXCEPT;
-			virtual void set_sections(const std::vector<ListSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::vector<ListSection_shared_ptr_t>, sections);
 
 			template<typename T>
 			std::vector<std::shared_ptr<T>> createSectionViewAt(uint32_t index)
@@ -68,87 +67,77 @@ namespace Titanium
 			  @abstract footerTitle
 			  @discussion List view footer title.
 			*/
-			virtual std::string get_footerTitle() const TITANIUM_NOEXCEPT;
-			virtual void set_footerTitle(const std::string& footerTitle) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, footerTitle);
 
 			/*!
 			  @property
 			  @abstract headerTitle
 			  @discussion List view header title.
 			*/
-			virtual std::string get_headerTitle() const TITANIUM_NOEXCEPT;
-			virtual void set_headerTitle(const std::string& headerTitle) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, headerTitle);
 			
 			/*!
 			 @property
 			 @abstract footerView
 			 @discussion List view footer as a view that will be rendered instead of a label.
 			 */
-			virtual View_shared_ptr_t get_footerView() const TITANIUM_NOEXCEPT;
-			virtual void set_footerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, footerView);
 			
 			/*!
 			 @property
 			 @abstract headerView
 			 @discussion List view header as a view that will be rendered instead of a label.
 			 */
-			virtual View_shared_ptr_t get_headerView() const TITANIUM_NOEXCEPT;
-			virtual void set_headerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, headerView);
 			
 			/*!
 			 @property
 			 @abstract searchView
 			 @discussion Search field to use for the list view.
 			 */
-			virtual View_shared_ptr_t get_searchView() const TITANIUM_NOEXCEPT;
-			virtual void set_searchView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, searchView);
 
 			/*!
 			  @property
 			  @abstract searchText
 			  @discussion The string to use as the search parameter.
 			*/
-			virtual std::string get_searchText() const TITANIUM_NOEXCEPT;
-			virtual void set_searchText(const std::string& searchText) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, searchText);
 
 			/*!
 			  @property
 			  @abstract caseInsensitiveSearch
 			  @discussion Determines if the search performed is case insensitive.
 			*/
-			virtual bool get_caseInsensitiveSearch() const TITANIUM_NOEXCEPT;
-			virtual void set_caseInsensitiveSearch(bool value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, caseInsensitiveSearch);
 
 			/*!
 			  @property
 			  @abstract sectionCount
 			  @discussion Number of sections in this list view.
 			*/
-			virtual uint32_t get_sectionCount() const TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_READONLY_DEF(uint32_t, sectionCount);
 
 			/*!
 			  @property
 			  @abstract showVerticalScrollIndicator
 			  @discussion Determines whether this list view displays a vertical scroll indicator.
 			*/
-			virtual bool get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT;
-			virtual void set_showVerticalScrollIndicator(bool value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, showVerticalScrollIndicator);
 
 			/*!
 			  @property
 			  @abstract separatorColor
 			  @discussion Separator line color between rows, as a color name or hex triplet.
 			*/
-			virtual std::string get_separatorColor() const TITANIUM_NOEXCEPT;
-			virtual void set_separatorColor(std::string value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, separatorColor);
 
 			/*!
 			  @property
 			  @abstract defaultItemTemplate
 			  @discussion Sets the default template for list data items that do not specify the `template` property.
 			*/
-			virtual std::string get_defaultItemTemplate() const TITANIUM_NOEXCEPT;
-			virtual void set_defaultItemTemplate(std::string value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, defaultItemTemplate);
 
 			/*!
 			  @method
@@ -212,7 +201,7 @@ namespace Titanium
 			TITANIUM_PROPERTY_DEF(headerView);
 			TITANIUM_PROPERTY_DEF(searchView);
 			TITANIUM_PROPERTY_DEF(caseInsensitiveSearch);
-			TITANIUM_PROPERTY_READONLY_DEF(sectionCount); // read only
+			TITANIUM_PROPERTY_READONLY_DEF(sectionCount);
 			TITANIUM_PROPERTY_DEF(showVerticalScrollIndicator);
 			TITANIUM_PROPERTY_DEF(separatorColor);
 			TITANIUM_PROPERTY_DEF(defaultItemTemplate);

@@ -55,40 +55,35 @@ namespace Titanium
 			  @abstract footerTitle
 			  @discussion Title of this section footer.
 			*/
-			virtual std::string get_footerTitle() const TITANIUM_NOEXCEPT;
-			virtual void set_footerTitle(const std::string& value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, footerTitle);
 
 			/*!
 			  @property
 			  @abstract headerTitle
 			  @discussion Title of this section header.
 			*/
-			virtual std::string get_headerTitle() const TITANIUM_NOEXCEPT;
-			virtual void set_headerTitle(const std::string& value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, headerTitle);
 
 			/*!
 			  @property
 			  @abstract footerView
 			  @discussion View to use for this section footer.
 			*/
-			virtual View_shared_ptr_t get_footerView() const TITANIUM_NOEXCEPT;
-			virtual void set_footerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, footerView);
 
 			/*!
 			  @property
 			  @abstract headerView
 			  @discussion View to use for this section header
 			*/
-			virtual View_shared_ptr_t get_headerView() const TITANIUM_NOEXCEPT;
-			virtual void set_headerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, headerView);
 
 			/*!
 			  @property
 			  @abstract items
 			  @discussion Items of this list section.
 			*/
-			virtual std::vector<ListDataItem> get_items() const TITANIUM_NOEXCEPT;
-			virtual void set_items(const std::vector<ListDataItem>& items) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::vector<ListDataItem>, items);
 			virtual void items_set_notify(size_t index, size_t count); // for subclass
 
 			/*!

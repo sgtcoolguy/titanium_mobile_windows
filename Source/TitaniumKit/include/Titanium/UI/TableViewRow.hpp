@@ -33,40 +33,35 @@ namespace Titanium
 			  @abstract color
 			  @discussion Default text color of the row when not selected, as a color name or hex triplet.
 			*/
-			virtual std::string get_color() const TITANIUM_NOEXCEPT;
-			virtual void setColor(std::string color) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, color);
 
 			/*!
 			  @property
 			  @abstract font
 			  @discussion Font to use for the row title.
 			*/
-			virtual Font get_font() const TITANIUM_NOEXCEPT;
-			virtual void setFont(Font font) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(Font, font);
 
 			/*!
 			  @property
 			  @abstract hasCheck
 			  @discussion Determines whether a system-provided checkmark is displayed on the right-hand side of the row.
 			*/
-			virtual bool get_hasCheck() const TITANIUM_NOEXCEPT;
-			virtual void setHasCheck(bool hasCheck) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, hasCheck);
 
 			/*!
 			  @property
 			  @abstract hasChild
 			  @discussion Determines whether a system-provided arrow is displayed on the right-hand side of the row.
 			*/
-			virtual bool get_hasChild() const TITANIUM_NOEXCEPT;
-			virtual void setHasChild(bool hasChild) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, hasChild);
 
 			/*!
 			  @property
 			  @abstract title
 			  @discussion Text to display on the row.
 			*/
-			virtual std::string get_title() const TITANIUM_NOEXCEPT;
-			virtual void setTitle(std::string title) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, title);
 
 			TableViewRow(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableViewRow() = default;

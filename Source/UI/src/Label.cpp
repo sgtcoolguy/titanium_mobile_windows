@@ -104,7 +104,7 @@ namespace TitaniumWindows
 			label__->TextWrapping = wordWrap ? Windows::UI::Xaml::TextWrapping::Wrap : Windows::UI::Xaml::TextWrapping::NoWrap;
 		}
 
-		void Label::set_font(const Titanium::UI::Font font) TITANIUM_NOEXCEPT
+		void Label::set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_font(font);
 			// TODO This lookup map should be global, not per-instance of a Label!

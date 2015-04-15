@@ -24,15 +24,7 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("Button:: dtor ", this);
 		}
 
-		std::string Button::get_title() const TITANIUM_NOEXCEPT
-		{
-			return title__;
-		}
-
-		void Button::set_title(const std::string& title) TITANIUM_NOEXCEPT
-		{
-			title__ = title;
-		}
+		TITANIUM_PROPERTY_READWRITE(Button, std::string, title)
 
 		void Button::JSExportInitialize()
 		{
@@ -45,25 +37,17 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Button, title)
 		{
-			return get_context().CreateString(title__);
+			return get_context().CreateString(get_title());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Button, title)
 		{
 			TITANIUM_ASSERT(argument.IsString());
-			const std::string title = static_cast<std::string>(argument);
-			TITANIUM_LOG_DEBUG("Button::js_set_title: title = ", title);
-			set_title(title);
+			set_title(static_cast<std::string>(argument));
 			return true;
 		}
 
-		TITANIUM_FUNCTION(Button, setTitle)
-		{
-			if (arguments.size() > 0) {
-				js_set_title(arguments.at(0));
-			}
-			return this_object.get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_SETTER(Button, setTitle, title)
 
 	} // namespace UI
 }  // namespace Titanium

@@ -61,31 +61,68 @@
 #include "Titanium/detail/TiLogger.hpp"
 #include "HAL/HAL.hpp"
 
+// For implementing the bridge getter function for a function property (cpp)
 #define TITANIUM_FUNCTION(MODULE, NAME) \
 JSValue MODULE::js_##NAME(const std::vector<JSValue>& arguments, JSObject& this_object)
 
+// For implementing the bridge getter function for a value property (cpp)
 #define TITANIUM_PROPERTY_GETTER(MODULE, NAME) \
 JSValue MODULE::js_get_##NAME() const
 
+// For implementing the bridge setter function for a value property (cpp)
 #define TITANIUM_PROPERTY_SETTER(MODULE, NAME) \
 bool MODULE::js_set_##NAME(const JSValue& argument)
 
+// For implementing the native c++ getter function for a value property (cpp)
+#define TITANIUM_PROPERTY_READ(MODULE, TYPE, NAME) \
+TYPE MODULE::get_##NAME() const TITANIUM_NOEXCEPT \
+{ \
+	return NAME##__; \
+}
+
+// For implementing the native c++ setter function for a value property (cpp)
+#define TITANIUM_PROPERTY_WRITE(MODULE, TYPE, NAME) \
+void MODULE::set_##NAME(const TYPE& NAME) TITANIUM_NOEXCEPT \
+{ \
+	NAME##__ = NAME; \
+}
+
+// For implementing the native c++ getter and setter functions for a value property (cpp)
+#define TITANIUM_PROPERTY_READWRITE(MODULE, TYPE, NAME) \
+TITANIUM_PROPERTY_READ(MODULE, TYPE, NAME) \
+TITANIUM_PROPERTY_WRITE(MODULE, TYPE, NAME)
+
+// For defining the bridge function for a function property exposed on JS Object (hpp)
 #define TITANIUM_FUNCTION_DEF(NAME) \
 JSValue js_##NAME(const std::vector<JSValue>& arguments, JSObject& this_object)
 
+// For defining the getter bridge function for a read-only property exposed on JS Object (hpp)
 #define TITANIUM_PROPERTY_READONLY_DEF(NAME) \
 JSValue js_get_##NAME() const
 
+// For defining the getter and setter bridge functions for a property exposed on JS Object (hpp)
 #define TITANIUM_PROPERTY_DEF(NAME) \
 TITANIUM_PROPERTY_READONLY_DEF(NAME); \
 bool js_set_##NAME(const JSValue& argument)
 
+// For defining the native c++ getter method for a property (hpp)
+#define TITANIUM_PROPERTY_IMPL_READONLY_DEF(TYPE, NAME) \
+virtual TYPE get_##NAME() const TITANIUM_NOEXCEPT
+
+// For defining the native c++ type getter/setter methods for a property. (hpp)
+#define TITANIUM_PROPERTY_IMPL_DEF(TYPE, NAME) \
+TITANIUM_PROPERTY_IMPL_READONLY_DEF(TYPE, NAME); \
+virtual void set_##NAME(const TYPE& NAME) TITANIUM_NOEXCEPT
+
+// For adding a function as a property on the JS Object this type backs (cpp, in JSExportInitialize)
 #define TITANIUM_ADD_FUNCTION(MODULE, NAME) \
 JSExport<MODULE>::AddFunctionProperty(#NAME, std::mem_fn(&MODULE::js_##NAME))
 
+// For adding a value as a read-only property on the JS Object this type backs (cpp, in JSExportInitialize)
 #define TITANIUM_ADD_PROPERTY_READONLY(MODULE, NAME) \
 JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME))
 
+// For adding a value as a property on the JS Object this type backs (cpp, in JSExportInitialize)
 #define TITANIUM_ADD_PROPERTY(MODULE, NAME) \
 JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME), std::mem_fn(&MODULE::js_set_##NAME))
 
@@ -160,7 +197,7 @@ JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME), s
 
 #define ENSURE_VALUE_AT_INDEX(OUT,INDEX) \
   ENSURE_ARGUMENT_BOUNDS(INDEX); \
-  OUT = arguments.at(INDEX);
+  auto OUT = arguments.at(INDEX);
 
 #define ENSURE_OBJECT_AT_INDEX(OUT,INDEX) \
   ENSURE_ARGUMENT_BOUNDS(INDEX); \
@@ -185,19 +222,20 @@ JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME), s
 #define ENSURE_DOUBLE_AT_INDEX(OUT,INDEX) \
   ENSURE_NUMBER_AT_INDEX(OUT,INDEX,double)
 
-// Shorthand for getter function
+// Shorthand for getter accessor function for a value property that has a getter (cpp)
 #define TITANIUM_FUNCTION_AS_GETTER(MODULE, NAME, PROPERTY) \
 TITANIUM_FUNCTION(MODULE, NAME) \
 { \
   return js_get_##PROPERTY(); \
 }
 
-// Shorthand for setter function
+// Shorthand for setter accessor function for a value property that has a setter (cpp)
 #define TITANIUM_FUNCTION_AS_SETTER(MODULE, NAME, PROPERTY) \
 TITANIUM_FUNCTION(MODULE, NAME) \
 { \
   ENSURE_VALUE_AT_INDEX(argument, 0); \
-  return js_set_##PROPERTY(argument); \
+  js_set_##PROPERTY(argument); \
+  return get_context().CreateUndefined(); \
 }
 
 

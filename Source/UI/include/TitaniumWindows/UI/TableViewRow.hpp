@@ -47,7 +47,7 @@ namespace TitaniumWindows
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;
-			virtual void setTitle(std::string title) TITANIUM_NOEXCEPT override;
+			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override;
 
 		private:
 #pragma warning(push)

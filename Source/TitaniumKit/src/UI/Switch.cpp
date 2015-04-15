@@ -18,15 +18,7 @@ namespace Titanium
 		{
 		}
 
-		bool Switch::get_value() const TITANIUM_NOEXCEPT
-		{
-			return value__;
-		}
-
-		void Switch::set_value(const bool& value) TITANIUM_NOEXCEPT
-		{
-			value__ = value;
-		}
+		TITANIUM_PROPERTY_READWRITE(Switch, bool, value)
 
 		void Switch::JSExportInitialize() {
 			JSExport<Switch>::SetClassVersion(1);
@@ -49,16 +41,8 @@ namespace Titanium
 			return true;
 		}
 
-		TITANIUM_FUNCTION(Switch, getValue)
-		{
-			return js_get_value();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(Switch, getValue, value)
+		TITANIUM_FUNCTION_AS_SETTER(Switch, setValue, value)
 
-		TITANIUM_FUNCTION(Switch, setValue)
-		{
-			TITANIUM_ASSERT(arguments.size() >= 1);
-			js_set_value(arguments.at(0));
-			return get_context().CreateUndefined();
-		}
 	} // namespace UI
 } // namespace Titanium

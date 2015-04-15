@@ -1,7 +1,7 @@
 /**
  * TitaniumKit
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -67,8 +67,7 @@ namespace Titanium
 
 			  For information about color values, see the "Colors" section of Titanium.UI.
 			*/
-			virtual std::string get_barColor() const TITANIUM_NOEXCEPT final;
-			virtual void set_barColor(const std::string& barColor) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, barColor);
 
 			/*!
 			  @method
@@ -81,8 +80,7 @@ namespace Titanium
 
 			  Default: true if this is the first window launched else false; prior to Release 3.3.0, the default was always false.
 			*/
-			virtual bool get_exitOnClose() const TITANIUM_NOEXCEPT final;
-			virtual void set_exitOnClose(const bool& exitOnClose) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, exitOnClose);
 
 			/*!
 			  @method
@@ -91,8 +89,7 @@ namespace Titanium
 
 			  @discussion An array of supported values specified using the EXTEND_EDGE constants in Titanium.UI.
 			*/
-			virtual std::unordered_set<EXTEND_EDGE> get_extendEdges() const TITANIUM_NOEXCEPT final;
-			virtual void set_extendEdges(const std::unordered_set<EXTEND_EDGE>& extendEdges) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::unordered_set<EXTEND_EDGE>, extendEdges);
 
 			/*!
 			  @method
@@ -109,8 +106,7 @@ namespace Titanium
 
 			  Default: false
 			*/
-			virtual bool get_fullscreen() const TITANIUM_NOEXCEPT final;
-			virtual void set_fullscreen(const bool& fullscreen) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, fullscreen);
 
 			/*!
 			  @method
@@ -123,8 +119,7 @@ namespace Titanium
 
 			  Default: false
 			*/
-			virtual bool get_hideShadow() const TITANIUM_NOEXCEPT final;
-			virtual void set_hideShadow(const bool& hideShadow) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, hideShadow);
 
 			/*!
 			  @method
@@ -143,8 +138,7 @@ namespace Titanium
 
 			  Default: false
 			*/
-			virtual bool get_modal() const TITANIUM_NOEXCEPT final;
-			virtual void set_modal(const bool& modal) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, modal);
 
 			/*!
 			  @method
@@ -165,8 +159,7 @@ namespace Titanium
 
 			  Default: false
 			*/
-			virtual bool get_navBarHidden() const TITANIUM_NOEXCEPT final;
-			virtual void set_navBarHidden(const bool& navBarHidden) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, navBarHidden);
 
 			/*!
 			  @method
@@ -177,8 +170,7 @@ namespace Titanium
 
 			  This property is a direct correspondant of the tintColor property of NavigationBar on iOS.
 			*/
-			virtual std::string get_navTintColor() const TITANIUM_NOEXCEPT final;
-			virtual void set_navTintColor(const std::string& navTintColor) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, navTintColor);
 
 			/*!
 			  @method
@@ -195,8 +187,7 @@ namespace Titanium
 
 			  To determine the current orientation of the window, see Window.orientation. To determine the current orientation of the device, see Gesture.orientation. To be notified when the device's current orientation changes, add a listener for the Titanium.Gesture.orientationchange event.
 			*/
-			virtual std::vector<ORIENTATION> get_orientationModes() const TITANIUM_NOEXCEPT final;
-			virtual void set_orientationModes(const std::vector<ORIENTATION>& orientationModes) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::vector<ORIENTATION>, orientationModes);
 
 			/*!
 			  @method
@@ -207,8 +198,7 @@ namespace Titanium
 
 			  Set the theme of the window. It can be either a built-in theme or a custom theme.
 			*/
-			virtual std::string get_theme() const TITANIUM_NOEXCEPT final;
-			virtual void set_theme(const std::string& theme) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, theme);
 
 			/*!
 			  @method
@@ -219,8 +209,7 @@ namespace Titanium
 
 			  Use this property to specify the color, font and shadow attributes of the title.
 			*/
-			virtual TitleAttributesParams get_titleAttributes() const TITANIUM_NOEXCEPT final;
-			virtual void set_titleAttributes(const TitleAttributesParams& titleAttributes) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(TitleAttributesParams, titleAttributes);
 
 			/*!
 			  @method
@@ -231,8 +220,7 @@ namespace Titanium
 
 			  Default: true on iOS7 and above, false otherwise.
 			*/
-			virtual bool get_translucent() const TITANIUM_NOEXCEPT final;
-			virtual void set_translucent(const bool& translucent) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(bool, translucent);
 
 			Window(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -250,17 +238,52 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(open);
 
 			TITANIUM_PROPERTY_DEF(barColor);
+			TITANIUM_FUNCTION_DEF(getBarColor);
+			TITANIUM_FUNCTION_DEF(setBarColor);
+
 			TITANIUM_PROPERTY_DEF(exitOnClose);
+			TITANIUM_FUNCTION_DEF(getExitOnClose);
+			TITANIUM_FUNCTION_DEF(setExitOnClose);
+
 			TITANIUM_PROPERTY_DEF(extendEdges);
+			TITANIUM_FUNCTION_DEF(getExtendEdges);
+			TITANIUM_FUNCTION_DEF(setExtendEdges);
+
 			TITANIUM_PROPERTY_DEF(fullscreen);
+			TITANIUM_FUNCTION_DEF(getFullscreen);
+			TITANIUM_FUNCTION_DEF(setFullscreen);
+
 			TITANIUM_PROPERTY_DEF(hideShadow);
+			TITANIUM_FUNCTION_DEF(getHideShadow);
+			TITANIUM_FUNCTION_DEF(setHideShadow);
+
 			TITANIUM_PROPERTY_DEF(modal);
+			TITANIUM_FUNCTION_DEF(getModal);
+			TITANIUM_FUNCTION_DEF(setModal);
+
 			TITANIUM_PROPERTY_DEF(navBarHidden);
+			TITANIUM_FUNCTION_DEF(getNavBarHidden);
+			TITANIUM_FUNCTION_DEF(setNavBarHidden);
+
 			TITANIUM_PROPERTY_DEF(navTintColor);
+			TITANIUM_FUNCTION_DEF(getNavTintColor);
+			TITANIUM_FUNCTION_DEF(setNavTintColor);
+
 			TITANIUM_PROPERTY_DEF(orientationModes);
+			TITANIUM_FUNCTION_DEF(getOrientationModes);
+			TITANIUM_FUNCTION_DEF(setOrientationModes);
+
 			TITANIUM_PROPERTY_DEF(theme);
+			TITANIUM_FUNCTION_DEF(getTheme);
+			TITANIUM_FUNCTION_DEF(setTheme);
+
 			TITANIUM_PROPERTY_DEF(titleAttributes);
+			TITANIUM_FUNCTION_DEF(getTitleAttributes);
+			TITANIUM_FUNCTION_DEF(setTitleAttributes);
+
 			TITANIUM_PROPERTY_DEF(translucent);
+			TITANIUM_FUNCTION_DEF(getTranslucent);
+			TITANIUM_FUNCTION_DEF(setTranslucent);
 
 		private:
 // Silence 4251 on Windows since private member variables do not

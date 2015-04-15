@@ -18,64 +18,21 @@ namespace Titanium
 		{
 		}
 
-		std::vector<std::uint8_t> WebView::getData() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("WebView::getData: Unimplemented");
-			return std::vector<std::uint8_t>();
-		}
+		TITANIUM_PROPERTY_READWRITE(WebView, std::vector<std::uint8_t>, data)
 
-		bool WebView::setData(const std::vector<std::uint8_t>& data) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("WebView::setData: Unimplemented");
-			return false;
-		}
+		TITANIUM_PROPERTY_READWRITE(WebView, std::string, html)
 
-		std::string WebView::getHtml() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("WebView::getHtml: Unimplemented");
-			return "";
-		}
 		bool WebView::setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("WebView::setHtml: Unimplemented");
 			return false;
 		}
 
-		bool WebView::getLoading() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("WebView::getLoading: Unimplemented");
-			return false;
-		}
+		TITANIUM_PROPERTY_READWRITE(WebView, bool, loading)
 
-		bool WebView::setLoading(const bool& value) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("WebView::setLoading: Unimplemented");
-			return false;
-		}
+		TITANIUM_PROPERTY_READWRITE(WebView, bool, scalesPageToFit)
 
-		bool WebView::getScalesPageToFit() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("WebView::getScalesPageToFit: Unimplemented");
-			return false;
-		}
-
-		bool WebView::setScalesPageToFit(const bool& value) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("WebView::setScalesPageToFit: Unimplemented");
-			return false;
-		}
-
-		std::string WebView::getUrl() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("WebView::getUrl: Unimplemented");
-			return "";
-		}
-
-		bool WebView::setUrl(const std::string& url) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("WebView::setUrl: Unimplemented");
-			return false;
-		}
+		TITANIUM_PROPERTY_READWRITE(WebView, std::string, url)
 
 		bool WebView::canGoBack() TITANIUM_NOEXCEPT
 		{
@@ -126,7 +83,7 @@ namespace Titanium
 			JSExport<WebView>::SetParent(JSExport<View>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(WebView, data);
-			TITANIUM_ADD_PROPERTY_READONLY(WebView, html);
+			TITANIUM_ADD_PROPERTY(WebView, html);
 			TITANIUM_ADD_PROPERTY(WebView, loading);
 			TITANIUM_ADD_PROPERTY(WebView, scalesPageToFit);
 			TITANIUM_ADD_PROPERTY(WebView, url);
@@ -159,39 +116,50 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(WebView, html)
 		{
-			return get_context().CreateString(getHtml());
+			return get_context().CreateString(get_html());
+		}
+
+		TITANIUM_PROPERTY_SETTER(WebView, html) 
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			set_html(static_cast<std::string>(argument));
+			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(WebView, loading)
 		{
-			return get_context().CreateBoolean(getLoading());
+			return get_context().CreateBoolean(get_loading());
 		}
 
 		TITANIUM_PROPERTY_SETTER(WebView, loading)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
-			return setLoading(static_cast<bool>(argument));
+			set_loading(static_cast<bool>(argument));
+			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(WebView, scalesPageToFit)
 		{
-			return get_context().CreateBoolean(getScalesPageToFit());
+			return get_context().CreateBoolean(get_scalesPageToFit());
 		}
 
 		TITANIUM_PROPERTY_SETTER(WebView, scalesPageToFit)
 		{
 			TITANIUM_ASSERT(argument.IsBoolean());
-			return setScalesPageToFit(static_cast<bool>(argument));
+			set_scalesPageToFit(static_cast<bool>(argument));
+			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(WebView, url)
 		{
-			return get_context().CreateString(getUrl());
+			return get_context().CreateString(get_url());
 		}
 
 		TITANIUM_PROPERTY_SETTER(WebView, url)
 		{
-			return setUrl(static_cast<std::string>(argument));
+			TITANIUM_ASSERT(argument.IsString());
+			set_url(static_cast<std::string>(argument));
+			return true;
 		}
 
 		TITANIUM_FUNCTION(WebView, setHtml)
@@ -315,63 +283,16 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		TITANIUM_FUNCTION(WebView, getHtml)
-		{
-			return get_context().CreateString(getHtml());
-		}
+		TITANIUM_FUNCTION_AS_GETTER(WebView, getHtml, html)
 
-		TITANIUM_FUNCTION(WebView, getLoading)
-		{
-			return get_context().CreateBoolean(getLoading());
-		}
+		TITANIUM_FUNCTION_AS_GETTER(WebView, getLoading, loading)
+		TITANIUM_FUNCTION_AS_SETTER(WebView, setLoading, loading)
 
-		TITANIUM_FUNCTION(WebView, setLoading)
-		{
-			if (arguments.size() < 1) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsBoolean());
-				const bool loading = static_cast<bool>(_0);
-				setLoading(loading);
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(WebView, getScalesPageToFit, scalesPageToFit)
+		TITANIUM_FUNCTION_AS_SETTER(WebView, setScalesPageToFit, scalesPageToFit)
 
-		TITANIUM_FUNCTION(WebView, getScalesPageToFit)
-		{
-			return get_context().CreateBoolean(getScalesPageToFit());
-		}
+		TITANIUM_FUNCTION_AS_GETTER(WebView, getUrl, url)
+		TITANIUM_FUNCTION_AS_SETTER(WebView, setUrl, url)
 
-		TITANIUM_FUNCTION(WebView, setScalesPageToFit)
-		{
-			if (arguments.size() < 1) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsBoolean());
-				const bool scalesPageToFit = static_cast<bool>(_0);
-				setScalesPageToFit(scalesPageToFit);
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(WebView, getUrl)
-		{
-			return get_context().CreateString(getUrl());
-		}
-
-		TITANIUM_FUNCTION(WebView, setUrl)
-		{
-			if (arguments.size() < 1) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsString());
-				const std::string url = static_cast<std::string>(_0);
-				setUrl(url);
-			}
-			return get_context().CreateUndefined();
-		}
 	} // namespace UI
 }  // namespace Titanium

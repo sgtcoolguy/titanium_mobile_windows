@@ -56,65 +56,17 @@ namespace Titanium
 			return sent__;
 		}
 
-		std::vector<std::string> EmailDialog::get_bccRecipients() const TITANIUM_NOEXCEPT
-		{
-			return bccRecipients__;
-		}
+		TITANIUM_PROPERTY_READWRITE(EmailDialog, std::vector<std::string>, bccRecipients)
 
-		void EmailDialog::set_bccRecipients(const std::vector<std::string>& bcc) TITANIUM_NOEXCEPT
-		{
-			bccRecipients__ = bcc;
-		}
+		TITANIUM_PROPERTY_READWRITE(EmailDialog, std::vector<std::string>, ccRecipients)
 
-		std::vector<std::string> EmailDialog::get_ccRecipients() const TITANIUM_NOEXCEPT
-		{
-			return ccRecipients__;
-		}
+		TITANIUM_PROPERTY_READWRITE(EmailDialog, bool, html)
 
-		void EmailDialog::set_ccRecipients(const std::vector<std::string>& cc) TITANIUM_NOEXCEPT
-		{
-			ccRecipients__ = cc;
-		}
+		TITANIUM_PROPERTY_READWRITE(EmailDialog, std::string, messageBody)
 
-		bool EmailDialog::get_html() const TITANIUM_NOEXCEPT
-		{
-			return html__;
-		}
+		TITANIUM_PROPERTY_READWRITE(EmailDialog, std::string, subject)
 
-		void EmailDialog::set_html(const bool& html) TITANIUM_NOEXCEPT
-		{
-			html__ = html;
-		}
-
-		std::string EmailDialog::get_messageBody() const TITANIUM_NOEXCEPT
-		{
-			return messageBody__;
-		}
-
-		void EmailDialog::set_messageBody(const std::string& body) TITANIUM_NOEXCEPT
-		{
-			messageBody__ = body;
-		}
-
-		std::string EmailDialog::get_subject() const TITANIUM_NOEXCEPT
-		{
-			return subject__;
-		}
-
-		void EmailDialog::set_subject(const std::string& subject) TITANIUM_NOEXCEPT
-		{
-			subject__ = subject;
-		}
-
-		std::vector<std::string> EmailDialog::get_toRecipients() const TITANIUM_NOEXCEPT
-		{
-			return toRecipients__;
-		}
-
-		void EmailDialog::set_toRecipients(const std::vector<std::string>& toRecipients) TITANIUM_NOEXCEPT
-		{
-			toRecipients__ = toRecipients;
-		}
+		TITANIUM_PROPERTY_READWRITE(EmailDialog, std::vector<std::string>, toRecipients)
 
 		void EmailDialog::addAttachment(const std::shared_ptr<Titanium::Filesystem::File>& attachment) TITANIUM_NOEXCEPT
 		{
@@ -338,83 +290,23 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		TITANIUM_FUNCTION(EmailDialog, getBccRecipients)
-		{
-			return js_get_bccRecipients();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(EmailDialog, getBccRecipients, bccRecipients)
+		TITANIUM_FUNCTION_AS_SETTER(EmailDialog, setBccRecipients, bccRecipients)
 
-		TITANIUM_FUNCTION(EmailDialog, setBccRecipients)
-		{
-			if (arguments.size() >= 1) {
-				js_set_bccRecipients(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(EmailDialog, getCcRecipients, ccRecipients)
+		TITANIUM_FUNCTION_AS_SETTER(EmailDialog, setCcRecipients, ccRecipients)
 
-		TITANIUM_FUNCTION(EmailDialog, getCcRecipients)
-		{
-			return js_get_ccRecipients();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(EmailDialog, getHtml, html)
+		TITANIUM_FUNCTION_AS_SETTER(EmailDialog, setHtml, html)
 
-		TITANIUM_FUNCTION(EmailDialog, setCcRecipients)
-		{
-			if (arguments.size() >= 1) {
-				js_set_ccRecipients(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(EmailDialog, getMessageBody, messageBody)
+		TITANIUM_FUNCTION_AS_SETTER(EmailDialog, setMessageBody, messageBody)
 
-		TITANIUM_FUNCTION(EmailDialog, getHtml)
-		{
-			return js_get_html();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(EmailDialog, getSubject, subject)
+		TITANIUM_FUNCTION_AS_SETTER(EmailDialog, setSubject, subject)
 
-		TITANIUM_FUNCTION(EmailDialog, setHtml)
-		{
-			if (arguments.size() >= 1) {
-				js_set_html(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(EmailDialog, getMessageBody)
-		{
-			return js_get_messageBody();
-		}
-
-		TITANIUM_FUNCTION(EmailDialog, setMessageBody)
-		{
-			if (arguments.size() >= 1) {
-				js_set_messageBody(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(EmailDialog, getSubject)
-		{
-			return js_get_subject();
-		}
-
-		TITANIUM_FUNCTION(EmailDialog, setSubject)
-		{
-			 if (arguments.size() >= 1) {
-				js_set_subject(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(EmailDialog, getToRecipients)
-		{
-			return js_get_toRecipients();
-		}
-
-		TITANIUM_FUNCTION(EmailDialog, setToRecipients)
-		{
-			if (arguments.size() >= 1) {
-				js_set_toRecipients(arguments.at(0));
-			}
-			return get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(EmailDialog, getToRecipients, toRecipients)
+		TITANIUM_FUNCTION_AS_SETTER(EmailDialog, setToRecipients, toRecipients)
 
 	} // namespace UI
 } // namespace Titanium

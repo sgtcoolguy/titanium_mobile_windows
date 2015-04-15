@@ -27,15 +27,7 @@ namespace Titanium
 		{
 		}
 
-		std::vector<ListSection_shared_ptr_t> ListView::get_sections() const TITANIUM_NOEXCEPT
-		{
-			return sections__;
-		}
-
-		void ListView::set_sections(const std::vector<ListSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT
-		{
-			sections__ = sections;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListView, std::vector<ListSection_shared_ptr_t>, sections)
 
 		void ListView::loadJS()
 		{
@@ -58,110 +50,30 @@ namespace Titanium
 			TITANIUM_ASSERT(sectionViewCreateFunction__.IsFunction());
 		}
 
-		std::string ListView::get_footerTitle() const TITANIUM_NOEXCEPT
-		{
-			return footerTitle__;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListView, std::string, footerTitle)
 
-		void ListView::set_footerTitle(const std::string& footerTitle) TITANIUM_NOEXCEPT
-		{
-			footerTitle__ = footerTitle;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListView, std::string, headerTitle)
 
-		std::string ListView::get_headerTitle() const TITANIUM_NOEXCEPT
-		{
-			return headerTitle__;
-		}
-
-		void ListView::set_headerTitle(const std::string& headerTitle) TITANIUM_NOEXCEPT
-		{
-			headerTitle__ = headerTitle;
-		}
-
-		View_shared_ptr_t ListView::get_footerView() const TITANIUM_NOEXCEPT
-		{
-			return footerView__;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListView, View_shared_ptr_t, footerView)
 		
-		void ListView::set_footerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT
-		{
-			footerView__ = value;
-		}
-		
-		View_shared_ptr_t ListView::get_headerView() const TITANIUM_NOEXCEPT
-		{
-			return headerView__;
-		}
-		
-		void ListView::set_headerView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT
-		{
-			headerView__ = value;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListView, View_shared_ptr_t, headerView)
 
-		View_shared_ptr_t ListView::get_searchView() const TITANIUM_NOEXCEPT
-		{
-			return searchView__;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListView, View_shared_ptr_t, searchView)
 		
-		void ListView::set_searchView(const View_shared_ptr_t& value) TITANIUM_NOEXCEPT
-		{
-			searchView__ = value;
-		}
-		
-		std::string ListView::get_searchText() const TITANIUM_NOEXCEPT
-		{
-			return searchText__;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListView, std::string, searchText)
 
-		void ListView::set_searchText(const std::string& searchText) TITANIUM_NOEXCEPT
-		{
-			searchText__ = searchText;
-		}
-
-		bool ListView::get_caseInsensitiveSearch() const TITANIUM_NOEXCEPT
-		{
-			return caseInsensitiveSearch__;
-		}
-
-		void ListView::set_caseInsensitiveSearch(bool value) TITANIUM_NOEXCEPT
-		{
-			caseInsensitiveSearch__ = value;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListView, bool, caseInsensitiveSearch)
 
 		uint32_t ListView::get_sectionCount() const TITANIUM_NOEXCEPT
 		{
 			return static_cast<uint32_t>(sections__.size());
 		}
 
-		bool ListView::get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT
-		{
-			return showVerticalScrollIndicator__;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListView, bool, showVerticalScrollIndicator)
 
-		void ListView::set_showVerticalScrollIndicator(bool value) TITANIUM_NOEXCEPT
-		{
-			showVerticalScrollIndicator__ = value;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListView, std::string, separatorColor)
 
-		std::string ListView::get_separatorColor() const TITANIUM_NOEXCEPT
-		{
-			return separatorColor__;
-		}
-
-		void ListView::set_separatorColor(std::string value) TITANIUM_NOEXCEPT
-		{
-			separatorColor__ = value;
-		}
-
-		std::string ListView::get_defaultItemTemplate() const TITANIUM_NOEXCEPT
-		{
-			return defaultItemTemplate__;
-		}
-		
-		void ListView::set_defaultItemTemplate(std::string value) TITANIUM_NOEXCEPT
-		{
-			defaultItemTemplate__ = value;
-		}
+		TITANIUM_PROPERTY_READWRITE(ListView, std::string, defaultItemTemplate)
 
 		void ListView::scrollToItem(uint32_t sectionIndex, uint32_t itemIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
@@ -581,161 +493,40 @@ namespace Titanium
 			return this_object.get_context().CreateUndefined();
 		}
 
-		TITANIUM_FUNCTION(ListView, getSections)
-		{
-			return js_get_sections();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getSections, sections)
+		TITANIUM_FUNCTION_AS_SETTER(ListView, setSections, sections)
 
-		TITANIUM_FUNCTION(ListView, setSections)
-		{
-			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_sections(_0);
-			}
-			return this_object.get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getFooterTitle, footerTitle)
+		TITANIUM_FUNCTION_AS_SETTER(ListView, setFooterTitle, footerTitle)
 
-		TITANIUM_FUNCTION(ListView, getFooterTitle)
-		{
-			return js_get_footerTitle();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getFooterView, footerView)
+		TITANIUM_FUNCTION_AS_SETTER(ListView, setFooterView, footerView)
 
-		TITANIUM_FUNCTION(ListView, setFooterTitle)
-		{
-			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_footerTitle(_0);
-			}
-			return this_object.get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getHeaderTitle, headerTitle)
+		TITANIUM_FUNCTION_AS_SETTER(ListView, setHeaderTitle, headerTitle)
 
-		TITANIUM_FUNCTION(ListView, getFooterView)
-		{
-			return this_object.GetProperty("footerView");
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getHeaderView, headerView)
+		TITANIUM_FUNCTION_AS_SETTER(ListView, setHeaderView, headerView)
 
-		TITANIUM_FUNCTION(ListView, setFooterView)
-		{
-			if (arguments.size() >= 1) {
-				this_object.SetProperty("footerView", arguments.at(0));
-			}
-			return this_object.get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getSearchView, searchView)
+		TITANIUM_FUNCTION_AS_SETTER(ListView, setSearchView, searchView)
 
-		TITANIUM_FUNCTION(ListView, getHeaderTitle)
-		{
-			return js_get_headerTitle();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getSearchText, searchText)
+		TITANIUM_FUNCTION_AS_SETTER(ListView, setSearchText, searchText)
 
-		TITANIUM_FUNCTION(ListView, setHeaderTitle)
-		{
-			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_headerTitle(_0);
-			}
-			return this_object.get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getCaseInsensitiveSearch, caseInsensitiveSearch)
+		TITANIUM_FUNCTION_AS_SETTER(ListView, setCaseInsensitiveSearch, caseInsensitiveSearch)
 
-		TITANIUM_FUNCTION(ListView, getHeaderView)
-		{
-			return this_object.GetProperty("headerView");
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getSectionCount, sectionCount)
 
-		TITANIUM_FUNCTION(ListView, setHeaderView)
-		{
-			if (arguments.size() >= 1) {
-				this_object.SetProperty("headerView", arguments.at(0));
-			}
-			return this_object.get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getShowVerticalScrollIndicator, showVerticalScrollIndicator)
+		TITANIUM_FUNCTION_AS_SETTER(ListView, setShowVerticalScrollIndicator, showVerticalScrollIndicator)
 
-		TITANIUM_FUNCTION(ListView, getSearchView)
-		{
-			return this_object.GetProperty("searchView");
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getSeparatorColor, separatorColor)
+		TITANIUM_FUNCTION_AS_SETTER(ListView, setSeparatorColor, separatorColor)
 
-		TITANIUM_FUNCTION(ListView, setSearchView)
-		{
-			if (arguments.size() >= 1) {
-				this_object.SetProperty("searchView", arguments.at(0));
-			}
-			return this_object.get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(ListView, getSearchText)
-		{
-			return js_get_searchText();
-		}
-
-		TITANIUM_FUNCTION(ListView, setSearchText)
-		{
-			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_searchText(_0);
-			}
-			return this_object.get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(ListView, getCaseInsensitiveSearch)
-		{
-			return js_get_caseInsensitiveSearch();
-		}
-
-		TITANIUM_FUNCTION(ListView, setCaseInsensitiveSearch)
-		{
-			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_caseInsensitiveSearch(_0);
-			}
-			return this_object.get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(ListView, getSectionCount)
-		{
-			return js_get_sectionCount();
-		}
-
-		TITANIUM_FUNCTION(ListView, getShowVerticalScrollIndicator)
-		{
-			return js_get_showVerticalScrollIndicator();
-		}
-
-		TITANIUM_FUNCTION(ListView, setShowVerticalScrollIndicator)
-		{
-			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_showVerticalScrollIndicator(_0);
-			}
-			return this_object.get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(ListView, getSeparatorColor)
-		{
-			return js_get_separatorColor();
-		}
-
-		TITANIUM_FUNCTION(ListView, setSeparatorColor)
-		{
-			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_separatorColor(_0);
-			}
-			return this_object.get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(ListView, getDefaultItemTemplate)
-		{
-			return js_get_defaultItemTemplate();
-		}
-
-		TITANIUM_FUNCTION(ListView, setDefaultItemTemplate)
-		{
-			if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				js_set_defaultItemTemplate(_0);
-			}
-			return this_object.get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(ListView, getDefaultItemTemplate, defaultItemTemplate)
+		TITANIUM_FUNCTION_AS_SETTER(ListView, setDefaultItemTemplate, defaultItemTemplate)
 
 	} // namespace UI
 } // namespace Titanium
