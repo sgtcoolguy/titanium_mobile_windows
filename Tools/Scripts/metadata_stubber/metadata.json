@@ -1,0 +1,4348 @@
+{
+  "classes": {
+    "Windows.UI.Xaml.Controls.TextBox": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "string",
+          "name": "get_Text",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_Text"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_Text",
+          "args": [
+            {
+              "inout": "in",
+              "type": "string",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_Text"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "string",
+          "name": "get_SelectedText",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_SelectedText"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_SelectedText",
+          "args": [
+            {
+              "inout": "in",
+              "type": "string",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_SelectedText"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "int32",
+          "name": "get_SelectionLength",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_SelectionLength"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_SelectionLength",
+          "args": [
+            {
+              "inout": "in",
+              "type": "int32",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_SelectionLength"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "int32",
+          "name": "get_SelectionStart",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_SelectionStart"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_SelectionStart",
+          "args": [
+            {
+              "inout": "in",
+              "type": "int32",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_SelectionStart"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "int32",
+          "name": "get_MaxLength",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_MaxLength"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_MaxLength",
+          "args": [
+            {
+              "inout": "in",
+              "type": "int32",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_MaxLength"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "get_IsReadOnly",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_IsReadOnly"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_IsReadOnly",
+          "args": [
+            {
+              "inout": "in",
+              "type": "bool",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_IsReadOnly"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "get_AcceptsReturn",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_AcceptsReturn"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_AcceptsReturn",
+          "args": [
+            {
+              "inout": "in",
+              "type": "bool",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_AcceptsReturn"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.UI.Xaml.TextAlignment",
+          "name": "get_TextAlignment",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_TextAlignment"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_TextAlignment",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.UI.Xaml.TextAlignment",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_TextAlignment"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.UI.Xaml.TextWrapping",
+          "name": "get_TextWrapping",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_TextWrapping"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_TextWrapping",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.UI.Xaml.TextWrapping",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_TextWrapping"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "get_IsSpellCheckEnabled",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_IsSpellCheckEnabled"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_IsSpellCheckEnabled",
+          "args": [
+            {
+              "inout": "in",
+              "type": "bool",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_IsSpellCheckEnabled"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "get_IsTextPredictionEnabled",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_IsTextPredictionEnabled"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_IsTextPredictionEnabled",
+          "args": [
+            {
+              "inout": "in",
+              "type": "bool",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_IsTextPredictionEnabled"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Input.InputScope",
+          "name": "get_InputScope",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "get_InputScope"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_InputScope",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Input.InputScope",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "put_InputScope"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.EventRegistrationToken",
+          "name": "add_TextChanged",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Controls.TextChangedEventHandler",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "add_TextChanged"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "remove_TextChanged",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.EventRegistrationToken",
+              "name": "token"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "remove_TextChanged"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.EventRegistrationToken",
+          "name": "add_SelectionChanged",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.RoutedEventHandler",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "add_SelectionChanged"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "remove_SelectionChanged",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.EventRegistrationToken",
+              "name": "token"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "remove_SelectionChanged"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.EventRegistrationToken",
+          "name": "add_ContextMenuOpening",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Controls.ContextMenuOpeningEventHandler",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "add_ContextMenuOpening"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "remove_ContextMenuOpening",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.EventRegistrationToken",
+              "name": "token"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "remove_ContextMenuOpening"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "Select",
+          "args": [
+            {
+              "inout": "in",
+              "type": "int32",
+              "name": "start"
+            },
+            {
+              "inout": "in",
+              "type": "int32",
+              "name": "length"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "Select"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "SelectAll",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "SelectAll"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.Rect",
+          "name": "GetRectFromCharacterIndex",
+          "args": [
+            {
+              "inout": "in",
+              "type": "int32",
+              "name": "charIndex"
+            },
+            {
+              "inout": "in",
+              "type": "bool",
+              "name": "trailingEdge"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox",
+            "name": "GetRectFromCharacterIndex"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "object",
+          "name": "get_Header",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "get_Header"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_Header",
+          "args": [
+            {
+              "inout": "in",
+              "type": "object",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "put_Header"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DataTemplate",
+          "name": "get_HeaderTemplate",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "get_HeaderTemplate"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_HeaderTemplate",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.DataTemplate",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "put_HeaderTemplate"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "string",
+          "name": "get_PlaceholderText",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "get_PlaceholderText"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_PlaceholderText",
+          "args": [
+            {
+              "inout": "in",
+              "type": "string",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "put_PlaceholderText"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Media.SolidColorBrush",
+          "name": "get_SelectionHighlightColor",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "get_SelectionHighlightColor"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_SelectionHighlightColor",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Media.SolidColorBrush",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "put_SelectionHighlightColor"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "get_PreventKeyboardDisplayOnProgrammaticFocus",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "get_PreventKeyboardDisplayOnProgrammaticFocus"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_PreventKeyboardDisplayOnProgrammaticFocus",
+          "args": [
+            {
+              "inout": "in",
+              "type": "bool",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "put_PreventKeyboardDisplayOnProgrammaticFocus"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "get_IsColorFontEnabled",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "get_IsColorFontEnabled"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_IsColorFontEnabled",
+          "args": [
+            {
+              "inout": "in",
+              "type": "bool",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "put_IsColorFontEnabled"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.EventRegistrationToken",
+          "name": "add_Paste",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Controls.TextControlPasteEventHandler",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "add_Paste"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "remove_Paste",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.EventRegistrationToken",
+              "name": "token"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.ITextBox2",
+            "name": "remove_Paste"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_HeaderProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_HeaderTemplateProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_PlaceholderTextProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_SelectionHighlightColorProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_PreventKeyboardDisplayOnProgrammaticFocusProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_IsColorFontEnabledProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_TextProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_MaxLengthProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_IsReadOnlyProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_AcceptsReturnProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_TextAlignmentProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_TextWrappingProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_IsSpellCheckEnabledProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_IsTextPredictionEnabledProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_InputScopeProperty",
+          "args": []
+        }
+      ],
+      "properties": {
+        "PreventKeyboardDisplayOnProgrammaticFocus": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_PreventKeyboardDisplayOnProgrammaticFocus",
+            "args": [
+              "bool"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "bool",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_PreventKeyboardDisplayOnProgrammaticFocus",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "bool",
+          "name": "PreventKeyboardDisplayOnProgrammaticFocus"
+        },
+        "PlaceholderText": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_PlaceholderText",
+            "args": [
+              "string"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "string",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_PlaceholderText",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "string",
+          "name": "PlaceholderText"
+        },
+        "IsColorFontEnabled": {
+          "getter": {
+            "type": "instance",
+            "returnType": "bool",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_IsColorFontEnabled",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_IsColorFontEnabled",
+            "args": [
+              "bool"
+            ]
+          },
+          "type": "instance",
+          "returnType": "bool",
+          "name": "IsColorFontEnabled"
+        },
+        "HeaderTemplate": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.DataTemplate Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_HeaderTemplate",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_HeaderTemplate",
+            "args": [
+              "class Windows.UI.Xaml.DataTemplate"
+            ]
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.DataTemplate        ",
+          "name": "HeaderTemplate"
+        },
+        "Header": {
+          "getter": {
+            "type": "instance",
+            "returnType": "object",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_Header",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_Header",
+            "args": [
+              "object"
+            ]
+          },
+          "type": "instance",
+          "returnType": "object",
+          "name": "Header"
+        },
+        "SelectionHighlightColor": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_SelectionHighlightColor",
+            "args": [
+              "class Windows.UI.Xaml.Media.SolidColorBrush"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.Media.SolidColorBrush Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_SelectionHighlightColor",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.Media.SolidColorBrush        ",
+          "name": "SelectionHighlightColor"
+        },
+        "SelectionStart": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_SelectionStart",
+            "args": [
+              "int32"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "int32",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_SelectionStart",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "int32",
+          "name": "SelectionStart"
+        },
+        "SelectionLength": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_SelectionLength",
+            "args": [
+              "int32"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "int32",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_SelectionLength",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "int32",
+          "name": "SelectionLength"
+        },
+        "SelectedText": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_SelectedText",
+            "args": [
+              "string"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "string",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_SelectedText",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "string",
+          "name": "SelectedText"
+        },
+        "MaxLength": {
+          "getter": {
+            "type": "instance",
+            "returnType": "int32",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_MaxLength",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_MaxLength",
+            "args": [
+              "int32"
+            ]
+          },
+          "type": "instance",
+          "returnType": "int32",
+          "name": "MaxLength"
+        },
+        "IsTextPredictionEnabled": {
+          "getter": {
+            "type": "instance",
+            "returnType": "bool",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_IsTextPredictionEnabled",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_IsTextPredictionEnabled",
+            "args": [
+              "bool"
+            ]
+          },
+          "type": "instance",
+          "returnType": "bool",
+          "name": "IsTextPredictionEnabled"
+        },
+        "IsSpellCheckEnabled": {
+          "getter": {
+            "type": "instance",
+            "returnType": "bool",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_IsSpellCheckEnabled",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_IsSpellCheckEnabled",
+            "args": [
+              "bool"
+            ]
+          },
+          "type": "instance",
+          "returnType": "bool",
+          "name": "IsSpellCheckEnabled"
+        },
+        "IsReadOnly": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_IsReadOnly",
+            "args": [
+              "bool"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "bool",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_IsReadOnly",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "bool",
+          "name": "IsReadOnly"
+        },
+        "InputScope": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_InputScope",
+            "args": [
+              "class Windows.UI.Xaml.Input.InputScope"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.Input.InputScope Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_InputScope",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.Input.InputScope        ",
+          "name": "InputScope"
+        },
+        "AcceptsReturn": {
+          "getter": {
+            "type": "instance",
+            "returnType": "bool",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_AcceptsReturn",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_AcceptsReturn",
+            "args": [
+              "bool"
+            ]
+          },
+          "type": "instance",
+          "returnType": "bool",
+          "name": "AcceptsReturn"
+        },
+        "Text": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_Text",
+            "args": [
+              "string"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "string",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_Text",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "string",
+          "name": "Text"
+        },
+        "TextWrapping": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_TextWrapping",
+            "args": [
+              "valuetype Windows.UI.Xaml.TextWrapping"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "valuetype",
+            "className": "Windows.UI.Xaml.TextWrapping Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_TextWrapping",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "valuetype Windows.UI.Xaml.TextWrapping        ",
+          "name": "TextWrapping"
+        },
+        "TextAlignment": {
+          "getter": {
+            "type": "instance",
+            "returnType": "valuetype",
+            "className": "Windows.UI.Xaml.TextAlignment Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_TextAlignment",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.TextBox",
+            "name": "put_TextAlignment",
+            "args": [
+              "valuetype Windows.UI.Xaml.TextAlignment"
+            ]
+          },
+          "type": "instance",
+          "returnType": "valuetype Windows.UI.Xaml.TextAlignment        ",
+          "name": "TextAlignment"
+        },
+        "AcceptsReturnProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_AcceptsReturnProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "AcceptsReturnProperty"
+        },
+        "InputScopeProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_InputScopeProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "InputScopeProperty"
+        },
+        "IsReadOnlyProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_IsReadOnlyProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "IsReadOnlyProperty"
+        },
+        "IsSpellCheckEnabledProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_IsSpellCheckEnabledProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "IsSpellCheckEnabledProperty"
+        },
+        "IsTextPredictionEnabledProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_IsTextPredictionEnabledProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "IsTextPredictionEnabledProperty"
+        },
+        "MaxLengthProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_MaxLengthProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "MaxLengthProperty"
+        },
+        "TextAlignmentProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_TextAlignmentProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "TextAlignmentProperty"
+        },
+        "TextProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_TextProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "TextProperty"
+        },
+        "TextWrappingProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_TextWrappingProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "TextWrappingProperty"
+        },
+        "HeaderProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_HeaderProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "HeaderProperty"
+        },
+        "HeaderTemplateProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_HeaderTemplateProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "HeaderTemplateProperty"
+        },
+        "IsColorFontEnabledProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_IsColorFontEnabledProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "IsColorFontEnabledProperty"
+        },
+        "PlaceholderTextProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_PlaceholderTextProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "PlaceholderTextProperty"
+        },
+        "PreventKeyboardDisplayOnProgrammaticFocusProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_PreventKeyboardDisplayOnProgrammaticFocusProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "PreventKeyboardDisplayOnProgrammaticFocusProperty"
+        },
+        "SelectionHighlightColorProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.TextBox",
+            "name": "get_SelectionHighlightColorProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "SelectionHighlightColorProperty"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime"
+      ],
+      "name": "Windows.UI.Xaml.Controls.TextBox",
+      "extends": "Windows.UI.Xaml.Controls.Control",
+      "implements": [
+        "Windows.UI.Xaml.Controls.ITextBox",
+        "Windows.UI.Xaml.Controls.ITextBox2"
+      ]
+    },
+    "Windows.UI.Xaml.Controls.ToggleSwitch": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "get_IsOn",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "get_IsOn"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_IsOn",
+          "args": [
+            {
+              "inout": "in",
+              "type": "bool",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "put_IsOn"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "object",
+          "name": "get_Header",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "get_Header"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_Header",
+          "args": [
+            {
+              "inout": "in",
+              "type": "object",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "put_Header"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DataTemplate",
+          "name": "get_HeaderTemplate",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "get_HeaderTemplate"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_HeaderTemplate",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.DataTemplate",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "put_HeaderTemplate"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "object",
+          "name": "get_OnContent",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "get_OnContent"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_OnContent",
+          "args": [
+            {
+              "inout": "in",
+              "type": "object",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "put_OnContent"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DataTemplate",
+          "name": "get_OnContentTemplate",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "get_OnContentTemplate"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_OnContentTemplate",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.DataTemplate",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "put_OnContentTemplate"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "object",
+          "name": "get_OffContent",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "get_OffContent"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_OffContent",
+          "args": [
+            {
+              "inout": "in",
+              "type": "object",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "put_OffContent"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DataTemplate",
+          "name": "get_OffContentTemplate",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "get_OffContentTemplate"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_OffContentTemplate",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.DataTemplate",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "put_OffContentTemplate"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Controls.Primitives.ToggleSwitchTemplateSettings",
+          "name": "get_TemplateSettings",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "get_TemplateSettings"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.EventRegistrationToken",
+          "name": "add_Toggled",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.RoutedEventHandler",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "add_Toggled"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "remove_Toggled",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.EventRegistrationToken",
+              "name": "token"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitch",
+            "name": "remove_Toggled"
+          }
+        },
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "OnToggled",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitchOverrides",
+            "name": "OnToggled"
+          }
+        },
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "OnOnContentChanged",
+          "args": [
+            {
+              "inout": "in",
+              "type": "object",
+              "name": "oldContent"
+            },
+            {
+              "inout": "in",
+              "type": "object",
+              "name": "newContent"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitchOverrides",
+            "name": "OnOnContentChanged"
+          }
+        },
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "OnOffContentChanged",
+          "args": [
+            {
+              "inout": "in",
+              "type": "object",
+              "name": "oldContent"
+            },
+            {
+              "inout": "in",
+              "type": "object",
+              "name": "newContent"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitchOverrides",
+            "name": "OnOffContentChanged"
+          }
+        },
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "OnHeaderChanged",
+          "args": [
+            {
+              "inout": "in",
+              "type": "object",
+              "name": "oldContent"
+            },
+            {
+              "inout": "in",
+              "type": "object",
+              "name": "newContent"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IToggleSwitchOverrides",
+            "name": "OnHeaderChanged"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_IsOnProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_HeaderProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_HeaderTemplateProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_OnContentProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_OnContentTemplateProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_OffContentProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_OffContentTemplateProperty",
+          "args": []
+        }
+      ],
+      "properties": {
+        "OnContentTemplate": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "put_OnContentTemplate",
+            "args": [
+              "class Windows.UI.Xaml.DataTemplate"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.DataTemplate Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_OnContentTemplate",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.DataTemplate        ",
+          "name": "OnContentTemplate"
+        },
+        "OnContent": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "put_OnContent",
+            "args": [
+              "object"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "object",
+            "className": "Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_OnContent",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "object",
+          "name": "OnContent"
+        },
+        "OffContentTemplate": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.DataTemplate Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_OffContentTemplate",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "put_OffContentTemplate",
+            "args": [
+              "class Windows.UI.Xaml.DataTemplate"
+            ]
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.DataTemplate        ",
+          "name": "OffContentTemplate"
+        },
+        "OffContent": {
+          "getter": {
+            "type": "instance",
+            "returnType": "object",
+            "className": "Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_OffContent",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "put_OffContent",
+            "args": [
+              "object"
+            ]
+          },
+          "type": "instance",
+          "returnType": "object",
+          "name": "OffContent"
+        },
+        "IsOn": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "put_IsOn",
+            "args": [
+              "bool"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "bool",
+            "className": "Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_IsOn",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "bool",
+          "name": "IsOn"
+        },
+        "HeaderTemplate": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "put_HeaderTemplate",
+            "args": [
+              "class Windows.UI.Xaml.DataTemplate"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.DataTemplate Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_HeaderTemplate",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.DataTemplate        ",
+          "name": "HeaderTemplate"
+        },
+        "Header": {
+          "getter": {
+            "type": "instance",
+            "returnType": "object",
+            "className": "Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_Header",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "put_Header",
+            "args": [
+              "object"
+            ]
+          },
+          "type": "instance",
+          "returnType": "object",
+          "name": "Header"
+        },
+        "TemplateSettings": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.Controls.Primitives.ToggleSwitchTemplateSettings Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_TemplateSettings",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.Controls.Primitives.ToggleSwitchTemplateSettings        ",
+          "name": "TemplateSettings"
+        },
+        "HeaderProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_HeaderProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "HeaderProperty"
+        },
+        "HeaderTemplateProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_HeaderTemplateProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "HeaderTemplateProperty"
+        },
+        "IsOnProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_IsOnProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "IsOnProperty"
+        },
+        "OffContentProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_OffContentProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "OffContentProperty"
+        },
+        "OffContentTemplateProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_OffContentTemplateProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "OffContentTemplateProperty"
+        },
+        "OnContentProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_OnContentProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "OnContentProperty"
+        },
+        "OnContentTemplateProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.ToggleSwitch",
+            "name": "get_OnContentTemplateProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "OnContentTemplateProperty"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.Controls.ToggleSwitch",
+      "extends": "Windows.UI.Xaml.Controls.Control",
+      "implements": [
+        "Windows.UI.Xaml.Controls.IToggleSwitch",
+        "Windows.UI.Xaml.Controls.IToggleSwitchOverrides"
+      ]
+    },
+    "Windows.UI.Xaml.Controls.Canvas": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_LeftProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "float64",
+          "name": "GetLeft",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.UIElement",
+              "name": "element"
+            }
+          ]
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "SetLeft",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.UIElement",
+              "name": "element"
+            },
+            {
+              "inout": "in",
+              "type": "float64",
+              "name": "length"
+            }
+          ]
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_TopProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "float64",
+          "name": "GetTop",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.UIElement",
+              "name": "element"
+            }
+          ]
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "SetTop",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.UIElement",
+              "name": "element"
+            },
+            {
+              "inout": "in",
+              "type": "float64",
+              "name": "length"
+            }
+          ]
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_ZIndexProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "int32",
+          "name": "GetZIndex",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.UIElement",
+              "name": "element"
+            }
+          ]
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "SetZIndex",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.UIElement",
+              "name": "element"
+            },
+            {
+              "inout": "in",
+              "type": "int32",
+              "name": "value"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "LeftProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.Canvas",
+            "name": "get_LeftProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "LeftProperty"
+        },
+        "TopProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.Canvas",
+            "name": "get_TopProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "TopProperty"
+        },
+        "ZIndexProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.Canvas",
+            "name": "get_ZIndexProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "ZIndexProperty"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime"
+      ],
+      "name": "Windows.UI.Xaml.Controls.Canvas",
+      "extends": "Windows.UI.Xaml.Controls.Panel",
+      "implements": [
+        "Windows.UI.Xaml.Controls.ICanvas"
+      ]
+    },
+    "Windows.UI.Xaml.Window": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.Rect",
+          "name": "get_Bounds",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "get_Bounds"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "get_Visible",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "get_Visible"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.UIElement",
+          "name": "get_Content",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "get_Content"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_Content",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.UIElement",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "put_Content"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Core.CoreWindow",
+          "name": "get_CoreWindow",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "get_CoreWindow"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Core.CoreDispatcher",
+          "name": "get_Dispatcher",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "get_Dispatcher"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.EventRegistrationToken",
+          "name": "add_Activated",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.WindowActivatedEventHandler",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "add_Activated"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "remove_Activated",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.EventRegistrationToken",
+              "name": "token"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "remove_Activated"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.EventRegistrationToken",
+          "name": "add_Closed",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.WindowClosedEventHandler",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "add_Closed"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "remove_Closed",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.EventRegistrationToken",
+              "name": "token"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "remove_Closed"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.EventRegistrationToken",
+          "name": "add_SizeChanged",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.WindowSizeChangedEventHandler",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "add_SizeChanged"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "remove_SizeChanged",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.EventRegistrationToken",
+              "name": "token"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "remove_SizeChanged"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.EventRegistrationToken",
+          "name": "add_VisibilityChanged",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.WindowVisibilityChangedEventHandler",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "add_VisibilityChanged"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "remove_VisibilityChanged",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.EventRegistrationToken",
+              "name": "token"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "remove_VisibilityChanged"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "Activate",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "Activate"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "Close",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IWindow",
+            "name": "Close"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Window",
+          "name": "get_Current",
+          "args": []
+        }
+      ],
+      "properties": {
+        "Content": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.UIElement",
+            "name": "get_Content",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Window",
+            "name": "put_Content",
+            "args": [
+              "class Windows.UI.Xaml.UIElement"
+            ]
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.UIElement",
+          "name": "Content"
+        },
+        "Bounds": {
+          "getter": {
+            "type": "instance",
+            "returnType": "valuetype",
+            "className": "Windows.Foundation.Rect Windows.UI.Xaml.Window",
+            "name": "get_Bounds",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "valuetype Windows.Foundation.Rect",
+          "name": "Bounds"
+        },
+        "CoreWindow": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Core.CoreWindow",
+            "name": "get_CoreWindow",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Core.CoreWindow",
+          "name": "CoreWindow"
+        },
+        "Dispatcher": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Core.CoreDispatcher",
+            "name": "get_Dispatcher",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Core.CoreDispatcher",
+          "name": "Dispatcher"
+        },
+        "Visible": {
+          "getter": {
+            "type": "instance",
+            "returnType": "bool",
+            "className": "Windows.UI.Xaml.Window",
+            "name": "get_Visible",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "bool",
+          "name": "Visible"
+        },
+        "Current": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.Window",
+            "name": "get_Current",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.Window",
+          "name": "Current"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.Window",
+      "extends": "[mscorlib]System.Object",
+      "implements": [
+        "Windows.UI.Xaml.IWindow"
+      ]
+    },
+    "Windows.UI.Xaml.Controls.Page": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Controls.Frame",
+          "name": "get_Frame",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IPage",
+            "name": "get_Frame"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.UI.Xaml.Navigation.NavigationCacheMode",
+          "name": "get_NavigationCacheMode",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IPage",
+            "name": "get_NavigationCacheMode"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_NavigationCacheMode",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.UI.Xaml.Navigation.NavigationCacheMode",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IPage",
+            "name": "put_NavigationCacheMode"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Controls.AppBar",
+          "name": "get_TopAppBar",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IPage",
+            "name": "get_TopAppBar"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_TopAppBar",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Controls.AppBar",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IPage",
+            "name": "put_TopAppBar"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Controls.AppBar",
+          "name": "get_BottomAppBar",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IPage",
+            "name": "get_BottomAppBar"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_BottomAppBar",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Controls.AppBar",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IPage",
+            "name": "put_BottomAppBar"
+          }
+        },
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "OnNavigatedFrom",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Navigation.NavigationEventArgs",
+              "name": "e"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IPageOverrides",
+            "name": "OnNavigatedFrom"
+          }
+        },
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "OnNavigatedTo",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Navigation.NavigationEventArgs",
+              "name": "e"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IPageOverrides",
+            "name": "OnNavigatedTo"
+          }
+        },
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "OnNavigatingFrom",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Navigation.NavigatingCancelEventArgs",
+              "name": "e"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IPageOverrides",
+            "name": "OnNavigatingFrom"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_FrameProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_TopAppBarProperty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_BottomAppBarProperty",
+          "args": []
+        }
+      ],
+      "properties": {
+        "TopAppBar": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.Controls.AppBar Windows.UI.Xaml.Controls.Page",
+            "name": "get_TopAppBar",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.Page",
+            "name": "put_TopAppBar",
+            "args": [
+              "class Windows.UI.Xaml.Controls.AppBar"
+            ]
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.Controls.AppBar        ",
+          "name": "TopAppBar"
+        },
+        "NavigationCacheMode": {
+          "getter": {
+            "type": "instance",
+            "returnType": "valuetype",
+            "className": "Windows.UI.Xaml.Navigation.NavigationCacheMode Windows.UI.Xaml.Controls.Page",
+            "name": "get_NavigationCacheMode",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.Page",
+            "name": "put_NavigationCacheMode",
+            "args": [
+              "valuetype Windows.UI.Xaml.Navigation.NavigationCacheMode"
+            ]
+          },
+          "type": "instance",
+          "returnType": "valuetype Windows.UI.Xaml.Navigation.NavigationCacheMode        ",
+          "name": "NavigationCacheMode"
+        },
+        "BottomAppBar": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.Page",
+            "name": "put_BottomAppBar",
+            "args": [
+              "class Windows.UI.Xaml.Controls.AppBar"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.Controls.AppBar Windows.UI.Xaml.Controls.Page",
+            "name": "get_BottomAppBar",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.Controls.AppBar        ",
+          "name": "BottomAppBar"
+        },
+        "Frame": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.Controls.Frame Windows.UI.Xaml.Controls.Page",
+            "name": "get_Frame",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.Controls.Frame        ",
+          "name": "Frame"
+        },
+        "BottomAppBarProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.Page",
+            "name": "get_BottomAppBarProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "BottomAppBarProperty"
+        },
+        "FrameProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.Page",
+            "name": "get_FrameProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "FrameProperty"
+        },
+        "TopAppBarProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.Page",
+            "name": "get_TopAppBarProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "TopAppBarProperty"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime"
+      ],
+      "name": "Windows.UI.Xaml.Controls.Page",
+      "extends": "Windows.UI.Xaml.Controls.UserControl",
+      "implements": [
+        "Windows.UI.Xaml.Controls.IPage",
+        "Windows.UI.Xaml.Controls.IPageOverrides"
+      ]
+    },
+    "Windows.UI.Xaml.TextWrapping": {
+      "fields": {
+        "value__": {
+          "attributes": [
+            "private",
+            "specialname",
+            "rtspecialname"
+          ],
+          "type": "int32",
+          "name": "value__"
+        },
+        "NoWrap": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.TextWrapping",
+          "name": "NoWrap",
+          "assignType": "int32",
+          "assignValue": "0x00000001"
+        },
+        "Wrap": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.TextWrapping",
+          "name": "Wrap",
+          "assignType": "int32",
+          "assignValue": "0x00000002"
+        },
+        "WrapWholeWords": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.TextWrapping",
+          "name": "WrapWholeWords",
+          "assignType": "int32",
+          "assignValue": "0x00000003"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.TextWrapping",
+      "extends": "[mscorlib]System.Enum"
+    },
+    "Windows.UI.Xaml.VerticalAlignment": {
+      "fields": {
+        "value__": {
+          "attributes": [
+            "private",
+            "specialname",
+            "rtspecialname"
+          ],
+          "type": "int32",
+          "name": "value__"
+        },
+        "Top": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.VerticalAlignment",
+          "name": "Top",
+          "assignType": "int32",
+          "assignValue": "0x00000000"
+        },
+        "Center": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.VerticalAlignment",
+          "name": "Center",
+          "assignType": "int32",
+          "assignValue": "0x00000001"
+        },
+        "Bottom": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.VerticalAlignment",
+          "name": "Bottom",
+          "assignType": "int32",
+          "assignValue": "0x00000002"
+        },
+        "Stretch": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.VerticalAlignment",
+          "name": "Stretch",
+          "assignType": "int32",
+          "assignValue": "0x00000003"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.VerticalAlignment",
+      "extends": "[mscorlib]System.Enum"
+    },
+    "Windows.UI.Xaml.Visibility": {
+      "fields": {
+        "value__": {
+          "attributes": [
+            "private",
+            "specialname",
+            "rtspecialname"
+          ],
+          "type": "int32",
+          "name": "value__"
+        },
+        "Visible": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.Visibility",
+          "name": "Visible",
+          "assignType": "int32",
+          "assignValue": "0x00000000"
+        },
+        "Collapsed": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.Visibility",
+          "name": "Collapsed",
+          "assignType": "int32",
+          "assignValue": "0x00000001"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.Visibility",
+      "extends": "[mscorlib]System.Enum"
+    },
+    "Windows.UI.Xaml.TextAlignment": {
+      "fields": {
+        "value__": {
+          "attributes": [
+            "private",
+            "specialname",
+            "rtspecialname"
+          ],
+          "type": "int32",
+          "name": "value__"
+        },
+        "Center": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.TextAlignment",
+          "name": "Center",
+          "assignType": "int32",
+          "assignValue": "0x00000000"
+        },
+        "Left": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.TextAlignment",
+          "name": "Left",
+          "assignType": "int32",
+          "assignValue": "0x00000001"
+        },
+        "Right": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.TextAlignment",
+          "name": "Right",
+          "assignType": "int32",
+          "assignValue": "0x00000002"
+        },
+        "Justify": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.TextAlignment",
+          "name": "Justify",
+          "assignType": "int32",
+          "assignValue": "0x00000003"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.TextAlignment",
+      "extends": "[mscorlib]System.Enum"
+    },
+    "Windows.Foundation.Point": {
+      "fields": {
+        "X": {
+          "attributes": [
+            "public"
+          ],
+          "type": "float32",
+          "name": "X"
+        },
+        "Y": {
+          "attributes": [
+            "public"
+          ],
+          "type": "float32",
+          "name": "Y"
+        }
+      },
+      "attributes": [
+        "public",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.Foundation.Point",
+      "extends": "[mscorlib]System.ValueType"
+    },
+    "Windows.Foundation.Size": {
+      "fields": {
+        "Width": {
+          "attributes": [
+            "public"
+          ],
+          "type": "float32",
+          "name": "Width"
+        },
+        "Height": {
+          "attributes": [
+            "public"
+          ],
+          "type": "float32",
+          "name": "Height"
+        }
+      },
+      "attributes": [
+        "public",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.Foundation.Size",
+      "extends": "[mscorlib]System.ValueType"
+    },
+    "Windows.Foundation.Rect": {
+      "fields": {
+        "X": {
+          "attributes": [
+            "public"
+          ],
+          "type": "float32",
+          "name": "X"
+        },
+        "Y": {
+          "attributes": [
+            "public"
+          ],
+          "type": "float32",
+          "name": "Y"
+        },
+        "Width": {
+          "attributes": [
+            "public"
+          ],
+          "type": "float32",
+          "name": "Width"
+        },
+        "Height": {
+          "attributes": [
+            "public"
+          ],
+          "type": "float32",
+          "name": "Height"
+        }
+      },
+      "attributes": [
+        "public",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.Foundation.Rect",
+      "extends": "[mscorlib]System.ValueType"
+    },
+    "Windows.Foundation.DateTime": {
+      "fields": {
+        "UniversalTime": {
+          "attributes": [
+            "public"
+          ],
+          "type": "int64",
+          "name": "UniversalTime"
+        }
+      },
+      "attributes": [
+        "public",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.Foundation.DateTime",
+      "extends": "[mscorlib]System.ValueType"
+    },
+    "Windows.Foundation.TimeSpan": {
+      "fields": {
+        "Duration": {
+          "attributes": [
+            "public"
+          ],
+          "type": "int64",
+          "name": "Duration"
+        }
+      },
+      "attributes": [
+        "public",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.Foundation.TimeSpan",
+      "extends": "[mscorlib]System.ValueType"
+    },
+    "Windows.UI.Xaml.Navigation.NavigationCacheMode": {
+      "fields": {
+        "value__": {
+          "attributes": [
+            "private",
+            "specialname",
+            "rtspecialname"
+          ],
+          "type": "int32",
+          "name": "value__"
+        },
+        "Disabled": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.Navigation.NavigationCacheMode",
+          "name": "Disabled",
+          "assignType": "int32",
+          "assignValue": "0x00000000"
+        },
+        "Required": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.Navigation.NavigationCacheMode",
+          "name": "Required",
+          "assignType": "int32",
+          "assignValue": "0x00000001"
+        },
+        "Enabled": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.Navigation.NavigationCacheMode",
+          "name": "Enabled",
+          "assignType": "int32",
+          "assignValue": "0x00000002"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.Navigation.NavigationCacheMode",
+      "extends": "[mscorlib]System.Enum"
+    },
+    "Windows.UI.Xaml.Navigation.NavigationMode": {
+      "fields": {
+        "value__": {
+          "attributes": [
+            "private",
+            "specialname",
+            "rtspecialname"
+          ],
+          "type": "int32",
+          "name": "value__"
+        },
+        "New": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.Navigation.NavigationMode",
+          "name": "New",
+          "assignType": "int32",
+          "assignValue": "0x00000000"
+        },
+        "Back": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.Navigation.NavigationMode",
+          "name": "Back",
+          "assignType": "int32",
+          "assignValue": "0x00000001"
+        },
+        "Forward": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.Navigation.NavigationMode",
+          "name": "Forward",
+          "assignType": "int32",
+          "assignValue": "0x00000002"
+        },
+        "Refresh": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Xaml.Navigation.NavigationMode",
+          "name": "Refresh",
+          "assignType": "int32",
+          "assignValue": "0x00000003"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.Navigation.NavigationMode",
+      "extends": "[mscorlib]System.Enum"
+    }
+  }
+}

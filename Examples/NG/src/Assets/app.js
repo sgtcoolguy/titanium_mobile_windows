@@ -1,22 +1,17 @@
-var win = Titanium.UI.createWindow({});
+var win = new Windows.UI.Xaml.Controls.Canvas();
 
-var view = Ti.UI.createView({
-    top: 20,
-    left: 10,
-    width: 345,
-    height: 600,
-    backgroundColor: "red"
-});
+// Add stuff to the window!
+var label = new Windows.UI.Xaml.Controls.TextBlock();
+//label.TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap;
+//label.TextTrimming = Windows.UI.Xaml.TextTrimming.Clip;
+//label.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
+label.FontSize = 20;
+label.Text = "Hello World!";
 
-var imageView = Ti.UI.createImageView({
-    opacity: 0.0,
-    image: 'http://iconizer.net/files/IconSweets/orig/email.png'
-});
-view.add(imageView);
-win.add(view);
-win.open();
+win.Children.Append(label);
 
-Ti.API.info('app.js running...');
+var rootFrame = Windows.UI.Xaml.Window.Current.Content;
+rootFrame.Navigate(Windows.UI.Xaml.Controls.Page.typeid);
 
-var point = Windows.Foundation.Point();
-Ti.API.info('point');
+var page = rootFrame.Content;
+page.Content = win;
