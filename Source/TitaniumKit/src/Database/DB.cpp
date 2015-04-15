@@ -5,6 +5,7 @@
  */
 
 #include "Titanium/Database/DB.hpp"
+#include "Titanium/Filesystem/File.hpp"
 
 // Taken from iOS SDK
 #define SQLITE_BUSY_TIMEOUT 5000
@@ -19,7 +20,14 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("DB:: ctor ", this);
 		}
 
-		void DB::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
+		DB::~DB() 
+		{
+			TITANIUM_LOG_DEBUG("DB:: dtor ", this);
+			close();
+		}
+
+		void DB::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
+		{
 			HAL_LOG_DEBUG("DB:: postCallAsConstructor ", this);
 
 			// When called to represent class
@@ -40,7 +48,7 @@ namespace Titanium
 					TITANIUM_LOG_WARN(L"[ERROR] Invalid database file path!\n");
 					return;
 				}
-				int error = sqlite3_open_v2(path__.c_str(), &db__, SQLITE_OPEN_SHAREDCACHE | SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, NULL);
+				auto error = sqlite3_open_v2(path__.c_str(), &db__, SQLITE_OPEN_SHAREDCACHE | SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, NULL);
 				if (error != SQLITE_OK) {
 					//sqlite3_errmsg(db_); // Error message
 					TITANIUM_LOG_WARN(L"[ERROR] Could not open database!\n");
@@ -93,6 +101,11 @@ namespace Titanium
 	
 		void DB::close() TITANIUM_NOEXCEPT
 		{
+			for (auto resultSet : resultSets__) {
+				resultSet->close();
+			}
+			resultSets__.clear();
+			
 			if (db__ != nullptr) {
 				sqlite3_close(db__);
 				db__ = nullptr;
@@ -105,10 +118,9 @@ namespace Titanium
 				return get_context().CreateNull();
 			}
 
-			int error;
 			sqlite3_stmt* statement;
 			
-			error = sqlite3_prepare_v2(db__, sql.c_str(), static_cast<int>(sql.size()), &statement, NULL);
+			auto error = sqlite3_prepare_v2(db__, sql.c_str(), static_cast<int>(sql.size()), &statement, NULL);
 			if (error != SQLITE_OK) {
 				TITANIUM_LOG_WARN("[ERROR] SQLite prepare error!");
 				sqlite3_finalize(statement);
@@ -128,7 +140,7 @@ namespace Titanium
 					}
 
 					for (int j = 0; j < parameter_count; j++) {
-						int bind_index = i;
+						auto bind_index = i;
 						if (arg_object.IsArray()) {
 							arg = arg_object.GetProperty(j);
 							bind_index = j + 1;
@@ -152,13 +164,14 @@ namespace Titanium
 			}
 
 			// Execute query statement
-			int stepResult = sqlite3_step(statement);
+			auto stepResult = sqlite3_step(statement);
 
 			// Now let's wrap the results in our ResultSet proxy
 			// FIXME Pass these values into the constructor, don't expose the fields
 			// How would we pass along the statement pointer?
-			JSObject resultSet_object = get_context().CreateObject(JSExport<Titanium::Database::ResultSet>::Class());
-			std::shared_ptr<ResultSet> resultSet = resultSet_object.GetPrivate<Titanium::Database::ResultSet>();
+			const auto resultSet_object = get_context().CreateObject(JSExport<Titanium::Database::ResultSet>::Class());
+			const auto resultSet = resultSet_object.GetPrivate<Titanium::Database::ResultSet>();
+			resultSets__.push_back(resultSet);
 			int affectedRows = 0;
 			if (stepResult == SQLITE_DONE) {
 				sqlite3_finalize(statement);
@@ -189,7 +202,6 @@ namespace Titanium
 				resultSet->column_names__.push_back(sqlite3_column_name(statement,i));
 			}
 
-			// FIXME Do we need to hold references to these to close them on DB#close?
 			return resultSet_object;
 		}
 
@@ -256,12 +268,12 @@ namespace Titanium
 			TITANIUM_ASSERT(file.IsObject());  // precondition
 			JSObject FileObject = static_cast<JSObject>(file);
 
-			JSValue deleteFile_property = FileObject.GetProperty("deleteFile");
-			TITANIUM_ASSERT(deleteFile_property.IsObject());  // precondition
-			JSObject deleteFile = static_cast<JSObject>(deleteFile_property);
-			TITANIUM_ASSERT(deleteFile.IsFunction());  // precondition
+			const auto file_ptr = FileObject.GetPrivate<Titanium::Filesystem::File>();
 
-			deleteFile(FileObject);
+			if (file_ptr != nullptr && file_ptr->exists()) {
+				file_ptr->deleteFile();
+			}
+
 			return get_context().CreateUndefined();
 		}
 	} // namespace Database
