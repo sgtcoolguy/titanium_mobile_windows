@@ -17,7 +17,15 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("ResultSet:: ctor ", this);
 		}
 
-		void ResultSet::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
+		ResultSet::~ResultSet() {
+			TITANIUM_LOG_DEBUG("ResultSet:: dtor ", this);
+			if (statement__ != nullptr) {
+				close();
+			}
+		}
+
+		void ResultSet::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
+		{
 			HAL_LOG_DEBUG("ResultSet:: postCallAsConstructor ", this);
 		}
 
@@ -38,14 +46,22 @@ namespace Titanium
 	
 		void ResultSet::close() TITANIUM_NOEXCEPT
 		{
-			if (column_names__.size()) {
+			if (statement__ != nullptr && column_names__.size()) {
 				sqlite3_finalize(statement__);
 			}
+			statement__ = nullptr;
+			step_result__ = 0;
+			affected_rows__ = 0;
+			column_names__.clear();
 		}
 
 		JSValue ResultSet::field(const uint32_t& index) TITANIUM_NOEXCEPT
 		{
-			int columnType = sqlite3_column_type(statement__, index);
+			if (statement__ == nullptr) {
+				return get_context().CreateNull();
+			}
+
+			const auto columnType = sqlite3_column_type(statement__, index);
 			switch (columnType) {
 				case SQLITE_TEXT:{
 					std::string text(reinterpret_cast<const char*>(sqlite3_column_text(statement__, index)));
@@ -70,6 +86,10 @@ namespace Titanium
 
 		JSValue ResultSet::field(const uint32_t& index, const FIELD_TYPE& fieldType) TITANIUM_NOEXCEPT
 		{
+			if (statement__ == nullptr) {
+				return get_context().CreateNull();
+			}			
+
 			switch (fieldType) {
 				case FIELD_TYPE::STRING:{
 					std::string text(reinterpret_cast<const char*>(sqlite3_column_text(statement__, index)));
@@ -91,7 +111,7 @@ namespace Titanium
 
 		JSValue ResultSet::fieldByName(const std::string& name) TITANIUM_NOEXCEPT
 		{
-			int index = fieldIndex(name);
+			const auto index = fieldIndex(name);
 			if (index == -1) {
 				return get_context().CreateNull();
 			}
@@ -100,7 +120,7 @@ namespace Titanium
 
 		JSValue ResultSet::fieldByName(const std::string& name, const FIELD_TYPE& fieldType) TITANIUM_NOEXCEPT
 		{
-			int index = fieldIndex(name);
+			const auto index = fieldIndex(name);
 			if (index == -1) {
 				return get_context().CreateNull();
 			}
@@ -119,6 +139,10 @@ namespace Titanium
 
 		std::string ResultSet::fieldName(const uint32_t& index) TITANIUM_NOEXCEPT
 		{
+			if (statement__ == nullptr) {
+				return nullptr;
+			}
+
 			if (index <= (size_t) sqlite3_column_count(statement__) && strlen(reinterpret_cast<const char*>(sqlite3_column_text(statement__, index))) > 0) {
 				std::string text(reinterpret_cast<const char*>(sqlite3_column_name(statement__, index)));
 				return text;
@@ -138,6 +162,10 @@ namespace Titanium
 
 		bool ResultSet::next() TITANIUM_NOEXCEPT
 		{
+			if (statement__ == nullptr) {
+				return false;
+			}
+
 			step_result__ = sqlite3_step(statement__);
 			return isValidRow();
 		}
@@ -211,7 +239,7 @@ namespace Titanium
 		{
 			ENSURE_UINT_AT_INDEX(index, 0);
 
-			std::string result = fieldName(index);
+			const std::string result = fieldName(index);
 			if (result == nullptr) {
 				return get_context().CreateNull();
 			}
@@ -222,7 +250,7 @@ namespace Titanium
 		{
 			ENSURE_UINT_AT_INDEX(index, 0);
 
-			std::string result = getFieldName(index);
+			const std::string result = getFieldName(index);
 			if (result == nullptr) {
 				return get_context().CreateNull();
 			}

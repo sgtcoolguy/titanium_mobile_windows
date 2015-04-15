@@ -135,7 +135,7 @@ namespace Titanium
 			ResultSet(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
-			virtual ~ResultSet() = default;
+			virtual ~ResultSet();
 			ResultSet(const ResultSet&) = default;
 			ResultSet& operator=(const ResultSet&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

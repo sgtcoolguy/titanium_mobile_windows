@@ -209,6 +209,8 @@ describe('Titanium.Database', function () {
         should(rows).be.a.Object;
         should(rows.rowCount).be.eql(2);
         should(rows.fieldCount).be.eql(3);
+        should(rows.validRow).be.true;
+        should(rows.isValidRow()).be.true;
 
         // Loop through each row
         var index = 1;
@@ -242,6 +244,84 @@ describe('Titanium.Database', function () {
         }
 
         // Close the 'rows' object
+        rows.close();
+
+        // Remove the 'testDbInstall' database file
+        db.remove();
+
+        // Close the database (unnecessary as remove() does this for us)
+        db.close();
+
+        // Finish the mocha test
+        finish();
+    });
+
+    // Check if it guards against "closed" reesults
+    it('closed_guard', function (finish) {
+        // Database name
+        var dbName = "testDbOpen";
+
+        // Open database 'testDbOpen' if it exists in the
+        // application data folder, otherwise create a new one
+        var db = Ti.Database.open(dbName);
+
+        // Execute a query to create a test table
+        db.execute('CREATE TABLE IF NOT EXISTS testTable (text TEXT, number INTEGER)');
+
+        // Delete any existing data if the table already existed
+        db.execute('DELETE FROM testTable');
+
+        // Define test data
+        var testName = "John Smith";
+        var testNumber = 123456789;
+
+        // Insert test data into the table
+        db.execute('INSERT INTO testTable (text, number) VALUES (?, ?)', testName, testNumber);
+
+        // Validate that only one row has been affected
+        should(db.rowsAffected).be.eql(1);
+
+        // Define more test data
+        var testArray = ['Smith John', 987654321];
+
+        // Insert more test data into the table
+        db.execute('INSERT INTO testTable (text, number) VALUES (?, ?)', testArray);
+
+        // Validate that only one row has been affected
+        should(db.rowsAffected).be.eql(1);
+
+        // Execute a query to return the rows of the database
+        var rows = db.execute('SELECT rowid, text, number FROM testTable');
+
+        // Validate the returned 'rows' object
+        should(rows).be.a.Object;
+        should(rows.rowCount).be.eql(2);
+        should(rows.fieldCount).be.eql(3);
+        should(rows.validRow).be.true;
+
+        // Close the 'rows' object
+        rows.close();
+
+        // Make sure row is not "valid"
+        should(rows.rowCount).be.eql(0);
+        should(rows.fieldCount).be.eql(0);
+        should(rows.validRow).be.false;
+
+        // Validate the rowid field
+        var rowid = rows.fieldByName('rowid');
+        should(rowid).be.a.null;
+
+        // Validate the closed field
+        var field1 = rows.field(1);
+        should(field1).be.a.null;
+
+        var field2 = rows.fieldByName('number');
+        should(field2).be.a.null;
+
+        // Make sure next doesn't cause crash and return false
+        should(rows.next()).be.false;
+
+        // Make sure closing again doesn't cause crash
         rows.close();
 
         // Remove the 'testDbInstall' database file
