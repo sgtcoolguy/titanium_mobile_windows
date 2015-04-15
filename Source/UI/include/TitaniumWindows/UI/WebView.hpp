@@ -47,11 +47,9 @@ namespace TitaniumWindows
 			Titanium::UI::URL_ERROR getUrlError(const Windows::Web::WebErrorStatus status) const TITANIUM_NOEXCEPT;
 			void initWebViewListeners() TITANIUM_NOEXCEPT;
 
-			virtual std::string getHtml() const TITANIUM_NOEXCEPT override;
 			virtual bool setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT override;
-			virtual bool getLoading() const TITANIUM_NOEXCEPT override;
-			virtual std::string getUrl() const TITANIUM_NOEXCEPT override;
-			virtual bool setUrl(const std::string& url) TITANIUM_NOEXCEPT override;
+			virtual std::string get_url() const TITANIUM_NOEXCEPT override;
+			virtual void set_url(const std::string& url) TITANIUM_NOEXCEPT override;
 
 			virtual bool canGoBack() TITANIUM_NOEXCEPT override;
 			virtual bool canGoForward() TITANIUM_NOEXCEPT override;
@@ -60,7 +58,6 @@ namespace TitaniumWindows
 			virtual void reload() TITANIUM_NOEXCEPT override;
 			virtual void stopLoading(const bool& hardStop) TITANIUM_NOEXCEPT override;
 
-			bool navigating__ { false };
 			bool error_event_enabled__ { false };
 			bool load_event_enabled__  { false };
 			bool beforeload_event_enabled__  { false };

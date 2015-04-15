@@ -78,7 +78,7 @@ namespace TitaniumWindows
 
 			load_event__ = webview__->NavigationCompleted += ref new Windows::Foundation::TypedEventHandler
 				<Windows::UI::Xaml::Controls::WebView^, WebViewNavigationCompletedEventArgs^>([this](Platform::Object^ sender, WebViewNavigationCompletedEventArgs^ e) {
-				navigating__ = false;
+				loading__ = false;
 				if (e->IsSuccess && load_event_enabled__) {
 					JSObject obj = get_context().CreateObject();
 					obj.SetProperty("type", get_context().CreateString("load"));
@@ -90,7 +90,7 @@ namespace TitaniumWindows
 					JSObject obj = get_context().CreateObject();
 					obj.SetProperty("type", get_context().CreateString("error"));
 					obj.SetProperty("success", get_context().CreateBoolean(false));
-					obj.SetProperty("url",  get_context().CreateString(getUrl()));
+					obj.SetProperty("url",  get_context().CreateString(get_url()));
 					obj.SetProperty("code", get_context().CreateString(Titanium::UI::Constants::to_string(getUrlError(e->WebErrorStatus))));
 					fireEvent("error", obj);
 				}
@@ -98,11 +98,11 @@ namespace TitaniumWindows
 
 			beforeload_event__ = webview__->NavigationStarting += ref new Windows::Foundation::TypedEventHandler
 				<Windows::UI::Xaml::Controls::WebView^, WebViewNavigationStartingEventArgs^>([this](Platform::Object^ sender, WebViewNavigationStartingEventArgs^ e) {
-				navigating__ = true;
+				loading__ = true;
 				if (beforeload_event_enabled__) {
 					JSObject obj = get_context().CreateObject();
 					obj.SetProperty("type", get_context().CreateString("beforeload"));
-					obj.SetProperty("url",  get_context().CreateString(getUrl()));
+					obj.SetProperty("url",  get_context().CreateString(get_url()));
 					fireEvent("beforeload", obj);
 				}
 			});
@@ -165,23 +165,13 @@ namespace TitaniumWindows
 			}
 		}
 
-		std::string WebView::getHtml() const TITANIUM_NOEXCEPT
-		{
-			return "";
-		}
-
 		bool WebView::setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT
 		{
 			webview__->NavigateToString(TitaniumWindows::Utility::ConvertUTF8String(html));
 			return true;
 		}
 
-		bool WebView::getLoading() const TITANIUM_NOEXCEPT
-		{
-			return navigating__;
-		}
-
-		std::string WebView::getUrl() const TITANIUM_NOEXCEPT
+		std::string WebView::get_url() const TITANIUM_NOEXCEPT
 		{
 			if (webview__->Source != nullptr) {
 				return TitaniumWindows::Utility::ConvertUTF8String(webview__->Source->ToString());
@@ -190,10 +180,9 @@ namespace TitaniumWindows
 			}
 		}
 
-		bool WebView::setUrl(const std::string& url) TITANIUM_NOEXCEPT
+		void WebView::set_url(const std::string& url) TITANIUM_NOEXCEPT
 		{
 			webview__->Navigate(ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(url)));
-			return true;
 		}
 
 		bool WebView::canGoBack() TITANIUM_NOEXCEPT

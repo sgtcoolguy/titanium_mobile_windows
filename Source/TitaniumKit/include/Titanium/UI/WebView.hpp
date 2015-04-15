@@ -140,7 +140,7 @@ namespace Titanium
 			static void JSExportInitialize();
 
 			TITANIUM_PROPERTY_READONLY_DEF(data);
-			TITANIUM_PROPERTY_READONLY_DEF(html);
+			TITANIUM_PROPERTY_DEF(html);
 			TITANIUM_PROPERTY_DEF(loading);
 			TITANIUM_PROPERTY_DEF(scalesPageToFit);
 			TITANIUM_PROPERTY_DEF(url);
@@ -162,6 +162,17 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setScalesPageToFit);
 			TITANIUM_FUNCTION_DEF(getUrl);
 			TITANIUM_FUNCTION_DEF(setUrl);
+
+			protected:
+#pragma warning(push)
+#pragma warning(disable : 4251)
+				bool loading__ { false };
+				bool scalesPageToFit__ { false };
+				std::string url__;
+				std::vector<std::uint8_t> data__;
+				std::string html__;
+#pragma warning(pop)
+
 		};
 	} // namespace UI
 }  // namespace Titanium

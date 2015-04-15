@@ -20,15 +20,12 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_READWRITE(WebView, std::vector<std::uint8_t>, data)
 
-		std::string WebView::get_html() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("WebView::getHtml: Unimplemented");
-			return "";
-		}
+		TITANIUM_PROPERTY_READWRITE(WebView, std::string, html)
 
-		void WebView::set_html(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT
+		bool WebView::setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("WebView::setHtml: Unimplemented");
+			return false;
 		}
 
 		TITANIUM_PROPERTY_READWRITE(WebView, bool, loading)
@@ -86,7 +83,7 @@ namespace Titanium
 			JSExport<WebView>::SetParent(JSExport<View>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(WebView, data);
-			TITANIUM_ADD_PROPERTY_READONLY(WebView, html);
+			TITANIUM_ADD_PROPERTY(WebView, html);
 			TITANIUM_ADD_PROPERTY(WebView, loading);
 			TITANIUM_ADD_PROPERTY(WebView, scalesPageToFit);
 			TITANIUM_ADD_PROPERTY(WebView, url);
@@ -120,6 +117,13 @@ namespace Titanium
 		TITANIUM_PROPERTY_GETTER(WebView, html)
 		{
 			return get_context().CreateString(get_html());
+		}
+
+		TITANIUM_PROPERTY_SETTER(WebView, html) 
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			set_html(static_cast<std::string>(argument));
+			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(WebView, loading)
