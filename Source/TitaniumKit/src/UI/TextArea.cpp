@@ -18,7 +18,7 @@ namespace Titanium
 		      autoLink__({AUTOLINK::NONE}),
 		      returnKeyType__(RETURNKEY::DEFAULT),
 		      textAlign__(TEXT_ALIGNMENT::LEFT),
-		      autoCapitalization__(TEXT_AUTOCAPITALIZATION::NONE),
+		      autocapitalization__(TEXT_AUTOCAPITALIZATION::NONE),
 		      verticalAlign__(TEXT_VERTICAL_ALIGNMENT::CENTER)
 		{
 		}
@@ -63,14 +63,14 @@ namespace Titanium
 			TITANIUM_LOG_WARN("TextArea::set_textAlign: Unimplemented");
 		}
 
-		TEXT_AUTOCAPITALIZATION TextArea::get_autoCapitalization() const TITANIUM_NOEXCEPT
+		TEXT_AUTOCAPITALIZATION TextArea::get_autocapitalization() const TITANIUM_NOEXCEPT
 		{
-			return autoCapitalization__;
+			return autocapitalization__;
 		}
 
-		void TextArea::set_autoCapitalization(const TEXT_AUTOCAPITALIZATION& textAlign) TITANIUM_NOEXCEPT
+		void TextArea::set_autocapitalization(const TEXT_AUTOCAPITALIZATION& textAlign) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TextArea::set_autoCapitalization: Unimplemented");
+			TITANIUM_LOG_WARN("TextArea::set_autocapitalization: Unimplemented");
 		}
 
 		TEXT_VERTICAL_ALIGNMENT TextArea::get_verticalAlign() const TITANIUM_NOEXCEPT
@@ -94,7 +94,7 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(TextArea, keyboardType);
 			TITANIUM_ADD_PROPERTY(TextArea, returnKeyType);
 			TITANIUM_ADD_PROPERTY(TextArea, textAlign);
-			TITANIUM_ADD_PROPERTY(TextArea, autoCapitalization);
+			TITANIUM_ADD_PROPERTY(TextArea, autocapitalization);
 			TITANIUM_ADD_PROPERTY(TextArea, verticalAlign);
 		}
 
@@ -158,16 +158,16 @@ namespace Titanium
 			return result;
 		}
 
-		TITANIUM_PROPERTY_GETTER(TextArea, autoCapitalization)
+		TITANIUM_PROPERTY_GETTER(TextArea, autocapitalization)
 		{
-			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(get_autoCapitalization()));
+			return get_context().CreateNumber(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(get_autocapitalization()));
 		}
 
-		TITANIUM_PROPERTY_SETTER(TextArea, autoCapitalization)
+		TITANIUM_PROPERTY_SETTER(TextArea, autocapitalization)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			autoCapitalization__ = Constants::to_TEXT_AUTOCAPITALIZATION(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(argument));
-			set_autoCapitalization(autoCapitalization__);
+			autocapitalization__ = Constants::to_TEXT_AUTOCAPITALIZATION(static_cast<std::underlying_type<TEXT_AUTOCAPITALIZATION>::type>(argument));
+			set_autocapitalization(autocapitalization__);
 			return true;
 		}
 
