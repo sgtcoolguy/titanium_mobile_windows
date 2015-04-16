@@ -6,14 +6,15 @@ String.prototype.to_windows_name = function() {
 var full_name = name;
 var namespaces = full_name.split('.');
 var base_name = namespaces[namespaces.length - 1];
-var name_upper = full_name.toUpperCase().replace(/\./g, '_');
+var underscore_name = full_name.replace(/\./g, '_');
+var name_upper = underscore_name.toUpperCase();
 var windows_name = full_name.to_windows_name();
 var unique_methods = [];
 var parent_name = "Titanium.Module";
 if (parent.indexOf('[mscorlib]') != 0) {
 	parent_name = parent.trim();
 }
-%>
+-%>
 /**
  * Windows Native Wrapper for <%= full_name %>
  *
@@ -45,29 +46,39 @@ if (parent_name == 'Titanium.Module') { -%>
 		{
 
 		public:
-<% for (property_name in properties) {
+<%
+for (property_name in properties) {
 	if (properties[property_name]['setter']) { -%>
 			TITANIUM_PROPERTY_DEF(<%= property_name %>);
-<%	} else { -%>
+<%
+	} else {
+-%>
 			TITANIUM_PROPERTY_READONLY_DEF(<%= property_name %>);
-<%  }
-} -%>
+<%
+	}
+}
+-%>
 
-<% for (var i = 0; i < methods.length; i++) {
-	var method = methods[i];
-	// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
-	if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
-		method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 || method.name == '.ctor') {
+<%
+if (methods) {
+	for (var i = 0; i < methods.length; i++) {
+		var method = methods[i];
+		// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
+		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
+			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 || method.name == '.ctor') {
+				continue;
+		}
+		// Guard against overloaded methods, we'll have to handle each variation in one JS bridge method in cpp
+		if (unique_methods.indexOf(method.name) != -1) {
 			continue;
-	}
-	// Guard against overloaded methods, we'll have to handle each variation in one JS bridge method in cpp
-	if (unique_methods.indexOf(method.name) != -1) {
-		continue;
-	}
-	unique_methods.unshift(method.name);
-	 -%>
+		}
+		unique_methods.unshift(method.name);
+-%>
 			TITANIUM_FUNCTION_DEF(<%= method.name %>);
-<% } -%>
+<%
+	}
+}
+-%>
 
 			<%= base_name %>(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
@@ -81,11 +92,15 @@ if (parent_name == 'Titanium.Module') { -%>
 
 			static void JSExportInitialize();
 
-			<%= windows_name %>^ unwrap(); // TODO If we're going to extend the class from parent, we need unique unwrap method names per type!
+			<%= windows_name %>^ unwrap<%= underscore_name %>();
 			void wrap(<%= windows_name %>^ object);
+<%
+if (parent_name == 'Titanium.Module') { -%>
 
 		protected:
-			<%= windows_name %>^ wrapped__; // TODO If this extends some parent class, do we need _another_ wrapped__ field? Shouldn't we just use some cast on the wrap method from parent?
+			<%= windows_name %>^ wrapped__;
+<%
+} -%>
 		};
 
 <% for (var i = namespaces.length - 2; i>= 0; i--) { -%>

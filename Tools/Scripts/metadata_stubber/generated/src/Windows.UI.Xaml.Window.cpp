@@ -1,4 +1,3 @@
-
 /**
  * Windows Native Wrapper for Windows.UI.Xaml.Window
  *
@@ -8,7 +7,7 @@
  */
 
 #include "Windows.UI.Xaml.Window.hpp"
- // TODO Include the headers for all the native types we use in here!
+ // TODO Include the headers for all the native types we use in here! We'll have to go through type of every method arg, return type, type of every property
 
 namespace Windows
 {
@@ -25,24 +24,23 @@ namespace Windows
 		void Window::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			// TODO If this is not a "leaf" class, should we instantiate the type? How woudl we even know if it's a leaf?
 			wrapped__ = ref new Windows::UI::Xaml::Window();
 		}
 
-		Windows::UI::Xaml::Window^ Window::unwrap()
+		Windows::UI::Xaml::Window^ Window::unwrapWindows_UI_Xaml_Window()
 		{
-			return wrapped__;
+			return dynamic_cast<Windows::UI::Xaml::Window^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
 		void Window::wrap(Windows::UI::Xaml::Window^ object)
 		{
-			wrapped__ = object; // TODO Do we need to do some sort of cast here? wrapped__ may be up in a parent class and defined as the parent type...
+			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
 
 		void Window::JSExportInitialize()
 		{
 			JSExport<Window>::SetClassVersion(1);
-			JSExport<Window>::SetParent(JSExport<Titanium::Module>::Class()); // FIXME Extend the parent class of the native type!
+			JSExport<Window>::SetParent(JSExport<Titanium::Module>::Class());
 
 			TITANIUM_ADD_PROPERTY(Window, Content);
 			TITANIUM_ADD_PROPERTY_READONLY(Window, Bounds);
@@ -61,7 +59,7 @@ namespace Windows
 			auto wrapper = object.GetPrivate<Windows::UI::Xaml::UIElement>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto value = wrapper->unwrap();
+			auto value = wrapper->unwrapWindows_UI_Xaml_UIElement();
 			wrapped__->Content = value;
 			return true;
 		}
@@ -70,8 +68,8 @@ namespace Windows
 		{
 			auto value = wrapped__->Content;
 			auto context = get_context();
-			// FIXME How do we wrap a class/type? We already have an instance of the wrapped object, we need to instantiate the native JS wrapper like this one, and then somehow shim
-			// the already created wrapped object inside it!
+			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
+			// I'm not sure how we can avoid it, though
 			auto object = context.CreateObject(JSExport<Windows::UI::Xaml::UIElement>::Class());
 			auto native_wrapper = object.GetPrivate<Windows::UI::Xaml::UIElement>();
 			native_wrapper->wrap(value);
@@ -94,8 +92,8 @@ namespace Windows
 		{
 			auto value = wrapped__->CoreWindow;
 			auto context = get_context();
-			// FIXME How do we wrap a class/type? We already have an instance of the wrapped object, we need to instantiate the native JS wrapper like this one, and then somehow shim
-			// the already created wrapped object inside it!
+			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
+			// I'm not sure how we can avoid it, though
 			auto object = context.CreateObject(JSExport<Windows::UI::Core::CoreWindow>::Class());
 			auto native_wrapper = object.GetPrivate<Windows::UI::Core::CoreWindow>();
 			native_wrapper->wrap(value);
@@ -106,8 +104,8 @@ namespace Windows
 		{
 			auto value = wrapped__->Dispatcher;
 			auto context = get_context();
-			// FIXME How do we wrap a class/type? We already have an instance of the wrapped object, we need to instantiate the native JS wrapper like this one, and then somehow shim
-			// the already created wrapped object inside it!
+			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
+			// I'm not sure how we can avoid it, though
 			auto object = context.CreateObject(JSExport<Windows::UI::Core::CoreDispatcher>::Class());
 			auto native_wrapper = object.GetPrivate<Windows::UI::Core::CoreDispatcher>();
 			native_wrapper->wrap(value);
@@ -125,8 +123,8 @@ namespace Windows
 		{
 			auto value = wrapped__->Current;
 			auto context = get_context();
-			// FIXME How do we wrap a class/type? We already have an instance of the wrapped object, we need to instantiate the native JS wrapper like this one, and then somehow shim
-			// the already created wrapped object inside it!
+			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
+			// I'm not sure how we can avoid it, though
 			auto object = context.CreateObject(JSExport<Windows::UI::Xaml::Window>::Class());
 			auto native_wrapper = object.GetPrivate<Windows::UI::Xaml::Window>();
 			native_wrapper->wrap(value);

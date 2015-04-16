@@ -1,4 +1,3 @@
-
 /**
  * Windows Native Wrapper for Windows.UI.Xaml.Controls.Canvas
  *
@@ -8,7 +7,7 @@
  */
 
 #include "Windows.UI.Xaml.Controls.Canvas.hpp"
- // TODO Include the headers for all the native types we use in here!
+ // TODO Include the headers for all the native types we use in here! We'll have to go through type of every method arg, return type, type of every property
 
 namespace Windows
 {
@@ -27,24 +26,23 @@ namespace Windows
 		void Canvas::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			// TODO If this is not a "leaf" class, should we instantiate the type? How woudl we even know if it's a leaf?
 			wrapped__ = ref new Windows::UI::Xaml::Controls::Canvas();
 		}
 
-		Windows::UI::Xaml::Controls::Canvas^ Canvas::unwrap()
+		Windows::UI::Xaml::Controls::Canvas^ Canvas::unwrapWindows_UI_Xaml_Controls_Canvas()
 		{
-			return wrapped__;
+			return dynamic_cast<Windows::UI::Xaml::Controls::Canvas^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
 		void Canvas::wrap(Windows::UI::Xaml::Controls::Canvas^ object)
 		{
-			wrapped__ = object; // TODO Do we need to do some sort of cast here? wrapped__ may be up in a parent class and defined as the parent type...
+			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
 
 		void Canvas::JSExportInitialize()
 		{
 			JSExport<Canvas>::SetClassVersion(1);
-			JSExport<Canvas>::SetParent(JSExport<Windows::UI::Xaml::Controls::Panel>::Class()); // FIXME Extend the parent class of the native type!
+			JSExport<Canvas>::SetParent(JSExport<Windows::UI::Xaml::Controls::Panel>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(Canvas, LeftProperty);
 			TITANIUM_ADD_PROPERTY_READONLY(Canvas, TopProperty);
@@ -61,8 +59,8 @@ namespace Windows
 		{
 			auto value = wrapped__->LeftProperty;
 			auto context = get_context();
-			// FIXME How do we wrap a class/type? We already have an instance of the wrapped object, we need to instantiate the native JS wrapper like this one, and then somehow shim
-			// the already created wrapped object inside it!
+			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
+			// I'm not sure how we can avoid it, though
 			auto object = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto native_wrapper = object.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			native_wrapper->wrap(value);
@@ -73,8 +71,8 @@ namespace Windows
 		{
 			auto value = wrapped__->TopProperty;
 			auto context = get_context();
-			// FIXME How do we wrap a class/type? We already have an instance of the wrapped object, we need to instantiate the native JS wrapper like this one, and then somehow shim
-			// the already created wrapped object inside it!
+			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
+			// I'm not sure how we can avoid it, though
 			auto object = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto native_wrapper = object.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			native_wrapper->wrap(value);
@@ -85,8 +83,8 @@ namespace Windows
 		{
 			auto value = wrapped__->ZIndexProperty;
 			auto context = get_context();
-			// FIXME How do we wrap a class/type? We already have an instance of the wrapped object, we need to instantiate the native JS wrapper like this one, and then somehow shim
-			// the already created wrapped object inside it!
+			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
+			// I'm not sure how we can avoid it, though
 			auto object = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto native_wrapper = object.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			native_wrapper->wrap(value);

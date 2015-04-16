@@ -6,7 +6,8 @@ String.prototype.to_windows_name = function() {
 var full_name = name;
 var namespaces = full_name.split('.');
 var base_name = namespaces[namespaces.length - 1];
-var name_upper = full_name.toUpperCase().replace(/\./g, '_');
+var underscore_name = full_name.replace(/\./g, '_');
+var name_upper = underscore_name.toUpperCase();
 var windows_name = full_name.to_windows_name();
 
 var parent_name = "Titanium::Module";
@@ -14,7 +15,7 @@ if (parent.indexOf('[mscorlib]') != 0) {
 	parent_name = parent.trim();
 }
 
-%>
+-%>
 /**
  * Windows Native Wrapper for <%= full_name %>
  *
@@ -39,42 +40,52 @@ if (parent.indexOf('[mscorlib]') != 0) {
 		void <%= base_name %>::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			// TODO If this is not a "leaf" class, should we instantiate the type? How woudl we even know if it's a leaf?
 			wrapped__ = ref new <%= windows_name %>();
 		}
 
-		<%= windows_name %>^ <%= base_name %>::unwrap()
+		<%= windows_name %>^ <%= base_name %>::unwrap<%= underscore_name %>()
 		{
-			return wrapped__;
+			return dynamic_cast<<%= windows_name %>^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
 		void <%= base_name %>::wrap(<%= windows_name %>^ object)
 		{
-			wrapped__ = object; // TODO Do we need to do some sort of cast here? wrapped__ may be up in a parent class and defined as the parent type...
+			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
 
 		void <%= base_name %>::JSExportInitialize()
 		{
 			JSExport<<%= base_name %>>::SetClassVersion(1);
-			JSExport<<%= base_name %>>::SetParent(JSExport<<%= parent_name.to_windows_name() %>>::Class()); // FIXME Extend the parent class of the native type!
+			JSExport<<%= base_name %>>::SetParent(JSExport<<%= parent_name.to_windows_name() %>>::Class());
 
-<% for (property_name in properties) {
-	if (properties[property_name]['setter']) { -%>
+<%
+// properties
+for (property_name in properties) {
+	if (properties[property_name]['setter']) {
+-%>
 			TITANIUM_ADD_PROPERTY(<%= base_name %>, <%= property_name %>);
-<%	} else { -%>
+<%
+	} else {
+-%>
 			TITANIUM_ADD_PROPERTY_READONLY(<%= base_name %>, <%= property_name %>);
 <%	}
-} -%>
-<% for (var i = 0; i < methods.length; i++) {
-	var method = methods[i];
-	// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
-	if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
-		method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
-		method.name == ".ctor") {
-			continue;
-	} -%>
+}
+// Methods
+if (methods) {
+	for (var i = 0; i < methods.length; i++) {
+		var method = methods[i];
+		// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
+		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
+			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
+			method.name == ".ctor") {
+				continue;
+		}
+-%>
 			TITANIUM_ADD_FUNCTION(<%= base_name %>, <%= method.name %>);
-<% } -%>
+<%
+	}
+}
+-%>
 		}
 
 <%
@@ -87,21 +98,25 @@ for (property_name in properties) {
 <% 
 } // End Properties
 // Methods
-for (var i = 0; i < methods.length; i++) {
-	var method = methods[i];
-	// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
-	if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
-		method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
-		method.name == '.ctor') {
-			continue;
-	}
-	// TODO handle overloads with same method name! We need to group methods by name and then use one bridge function per unique name and have it delegate to right native method based on arg count!
-	 -%>
+if (methods) {
+	for (var i = 0; i < methods.length; i++) {
+		var method = methods[i];
+		// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
+		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
+			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
+			method.name == '.ctor') {
+				continue;
+		}
+		// TODO handle overloads with same method name! We need to group methods by name and then use one bridge function per unique name and have it delegate to right native method based on arg count!
+-%>
 <%- include('function.cpp', {base_name: base_name, method: method}) %>
 <%
+	}
 }
 
-for (var i = namespaces.length - 2; i>= 0; i--) { -%>
+for (var i = namespaces.length - 2; i>= 0; i--) {
+-%>
 <%= Array(i + 1).join('\t') %>} // namespace <%= namespaces[i] %>
 <% 
-} -%>
+}
+-%>

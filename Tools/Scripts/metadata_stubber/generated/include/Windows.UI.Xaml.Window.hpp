@@ -1,4 +1,3 @@
-
 /**
  * Windows Native Wrapper for Windows.UI.Xaml.Window
  *
@@ -48,11 +47,11 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Window^ unwrap(); // TODO If we're going to extend the class from parent, we need unique unwrap method names per type!
+			Windows::UI::Xaml::Window^ unwrapWindows_UI_Xaml_Window();
 			void wrap(Windows::UI::Xaml::Window^ object);
 
 		protected:
-			Windows::UI::Xaml::Window^ wrapped__; // TODO If this extends some parent class, do we need _another_ wrapped__ field? Shouldn't we just use some cast on the wrap method from parent?
+			Windows::UI::Xaml::Window^ wrapped__;
 		};
 
 		} // namespace Xaml

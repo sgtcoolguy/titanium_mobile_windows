@@ -1,4 +1,3 @@
-
 /**
  * Windows Native Wrapper for Windows.UI.Xaml.Controls.Canvas
  *
@@ -51,11 +50,8 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Controls::Canvas^ unwrap(); // TODO If we're going to extend the class from parent, we need unique unwrap method names per type!
+			Windows::UI::Xaml::Controls::Canvas^ unwrapWindows_UI_Xaml_Controls_Canvas();
 			void wrap(Windows::UI::Xaml::Controls::Canvas^ object);
-
-		protected:
-			Windows::UI::Xaml::Controls::Canvas^ wrapped__; // TODO If this extends some parent class, do we need _another_ wrapped__ field? Shouldn't we just use some cast on the wrap method from parent?
 		};
 
 			} // namespace Controls

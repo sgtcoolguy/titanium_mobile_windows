@@ -16261,6 +16261,623 @@
       "implements": [
         "Windows.UI.Xaml.Controls.IPanel"
       ]
+    },
+    "Windows.UI.Xaml.DataTemplate": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyObject",
+          "name": "LoadContent",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.IDataTemplate",
+            "name": "LoadContent"
+          }
+        }
+      ],
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime"
+      ],
+      "name": "Windows.UI.Xaml.DataTemplate",
+      "extends": "Windows.UI.Xaml.FrameworkTemplate",
+      "implements": [
+        "Windows.UI.Xaml.IDataTemplate"
+      ]
+    },
+    "Windows.UI.Xaml.Media.RectangleGeometry": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.Rect",
+          "name": "get_Rect",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IRectangleGeometry",
+            "name": "get_Rect"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_Rect",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.Rect",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IRectangleGeometry",
+            "name": "put_Rect"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_RectProperty",
+          "args": []
+        }
+      ],
+      "properties": {
+        "Rect": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Media.RectangleGeometry",
+            "name": "put_Rect",
+            "args": [
+              "valuetype Windows.Foundation.Rect"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "valuetype",
+            "className": "Windows.Foundation.Rect Windows.UI.Xaml.Media.RectangleGeometry",
+            "name": "get_Rect",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "valuetype Windows.Foundation.Rect        ",
+          "name": "Rect"
+        },
+        "RectProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Media.RectangleGeometry",
+            "name": "get_RectProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "RectProperty"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.Media.RectangleGeometry",
+      "extends": "Windows.UI.Xaml.Media.Geometry",
+      "implements": [
+        "Windows.UI.Xaml.Media.IRectangleGeometry"
+      ]
+    },
+    "Windows.UI.Xaml.Media.CacheMode": {
+      "methods": [
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": []
+        }
+      ],
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime"
+      ],
+      "name": "Windows.UI.Xaml.Media.CacheMode",
+      "extends": "Windows.UI.Xaml.DependencyObject",
+      "implements": [
+        "Windows.UI.Xaml.Media.ICacheMode"
+      ]
+    },
+    "Windows.UI.Xaml.Media.Animation.TransitionCollection": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Media.Animation.Transition",
+          "name": "GetAt",
+          "args": [
+            {
+              "inout": "in",
+              "type": "uint32",
+              "name": "index"
+            }
+          ],
+          "overrides": {
+            "type": " method instance !0 class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "GetAt(uint32)"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "uint32",
+          "name": "get_Size",
+          "args": [],
+          "overrides": {
+            "type": " method instance uint32 class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "get_Size()"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.Foundation.Collections.IVectorView`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+          "name": "GetView",
+          "args": [],
+          "overrides": {
+            "type": " method instance class Windows.Foundation.Collections.IVectorView`1<!0> class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "GetView()"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "IndexOf",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Media.Animation.Transition",
+              "name": "value"
+            },
+            {
+              "inout": "out",
+              "type": "uint32&",
+              "name": "index"
+            }
+          ],
+          "overrides": {
+            "type": " method instance bool class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "IndexOf(!0,                                                                                                                                           uint32&)"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "SetAt",
+          "args": [
+            {
+              "inout": "in",
+              "type": "uint32",
+              "name": "index"
+            },
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Media.Animation.Transition",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": " method instance void class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "SetAt(uint32,                                                                                                                                         !0)"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "InsertAt",
+          "args": [
+            {
+              "inout": "in",
+              "type": "uint32",
+              "name": "index"
+            },
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Media.Animation.Transition",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": " method instance void class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "InsertAt(uint32,                                                                                                                                            !0)"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "RemoveAt",
+          "args": [
+            {
+              "inout": "in",
+              "type": "uint32",
+              "name": "index"
+            }
+          ],
+          "overrides": {
+            "type": " method instance void class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "RemoveAt(uint32)"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "Append",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Media.Animation.Transition",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": " method instance void class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "Append(!0)"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "RemoveAtEnd",
+          "args": [],
+          "overrides": {
+            "type": " method instance void class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "RemoveAtEnd()"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "Clear",
+          "args": [],
+          "overrides": {
+            "type": " method instance void class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "Clear()"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "uint32",
+          "name": "GetMany",
+          "args": [
+            {
+              "inout": "in",
+              "type": "uint32",
+              "name": "startIndex"
+            },
+            {
+              "inout": "out",
+              "type": "class Windows.UI.Xaml.Media.Animation.Transition[]",
+              "name": "items"
+            }
+          ],
+          "overrides": {
+            "type": " method instance uint32 class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "GetMany(uint32,                                                                                                                                             !0[])"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "ReplaceAll",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Media.Animation.Transition[]",
+              "name": "items"
+            }
+          ],
+          "overrides": {
+            "type": " method instance void class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "ReplaceAll(!0[])"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.Foundation.Collections.IIterator`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+          "name": "First",
+          "args": [],
+          "overrides": {
+            "type": " method instance class Windows.Foundation.Collections.IIterator`1<!0> class Windows.Foundation.Collections.IIterable`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+            "name": "First()"
+          }
+        }
+      ],
+      "properties": {
+        "Size": {
+          "getter": {
+            "type": "instance",
+            "returnType": "uint32",
+            "className": "Windows.UI.Xaml.Media.Animation.TransitionCollection",
+            "name": "get_Size",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "uint32",
+          "name": "Size"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.Media.Animation.TransitionCollection",
+      "extends": "[mscorlib]System.Object",
+      "implements": [
+        "class Windows.Foundation.Collections.IVector`1<class Windows.UI.Xaml.Media.Animation.Transition>",
+        "class Windows.Foundation.Collections.IIterable`1<class Windows.UI.Xaml.Media.Animation.Transition>"
+      ]
+    },
+    "Windows.UI.Xaml.Media.Transform": {
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime"
+      ],
+      "name": "Windows.UI.Xaml.Media.Transform",
+      "extends": "Windows.UI.Xaml.Media.GeneralTransform",
+      "implements": [
+        "Windows.UI.Xaml.Media.ITransform"
+      ]
+    },
+    "Windows.UI.Xaml.Media.Projection": {
+      "methods": [
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": []
+        }
+      ],
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime"
+      ],
+      "name": "Windows.UI.Xaml.Media.Projection",
+      "extends": "Windows.UI.Xaml.DependencyObject",
+      "implements": [
+        "Windows.UI.Xaml.Media.IProjection"
+      ]
+    },
+    "Windows.UI.Xaml.RoutedEvent": {
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.RoutedEvent",
+      "extends": "[mscorlib]System.Object",
+      "implements": [
+        "Windows.UI.Xaml.IRoutedEvent"
+      ]
     }
   }
 }
