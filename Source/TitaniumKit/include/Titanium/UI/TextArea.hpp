@@ -82,8 +82,8 @@ namespace Titanium
 
 			  @discussion Determines how text is capitalized during typing.
 			*/
-			virtual TEXT_AUTOCAPITALIZATION get_autoCapitalization() const TITANIUM_NOEXCEPT final;
-			virtual void set_autoCapitalization(const TEXT_AUTOCAPITALIZATION& autoCapitalization) TITANIUM_NOEXCEPT;
+			virtual TEXT_AUTOCAPITALIZATION get_autocapitalization() const TITANIUM_NOEXCEPT final;
+			virtual void set_autocapitalization(const TEXT_AUTOCAPITALIZATION& autocapitalization) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -113,7 +113,7 @@ namespace Titanium
 			TITANIUM_PROPERTY_DEF(keyboardType);
 			TITANIUM_PROPERTY_DEF(returnKeyType);
 			TITANIUM_PROPERTY_DEF(textAlign);
-			TITANIUM_PROPERTY_DEF(autoCapitalization);
+			TITANIUM_PROPERTY_DEF(autocapitalization);
 			TITANIUM_PROPERTY_DEF(verticalAlign);
 
 		private:
@@ -121,7 +121,7 @@ namespace Titanium
 			KEYBOARD keyboardType__;
 			RETURNKEY returnKeyType__;
 			TEXT_ALIGNMENT textAlign__;
-			TEXT_AUTOCAPITALIZATION autoCapitalization__;
+			TEXT_AUTOCAPITALIZATION autocapitalization__;
 			TEXT_VERTICAL_ALIGNMENT verticalAlign__;
 		};
 	} // namespace UI

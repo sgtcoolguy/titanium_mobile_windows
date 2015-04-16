@@ -8,6 +8,7 @@
 #define _TITANIUM_DATABASE_DB_HPP_
 
 #include "Titanium/Database/ResultSet.hpp"
+#include <unordered_map>
 
 namespace Titanium
 {
@@ -64,6 +65,13 @@ namespace Titanium
 			  @discussion Executes an SQL statement against the database and returns a ResultSet.
 			*/
 			JSValue execute(const std::string& sql, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			
+			/*!
+			 @method
+			 @abstract removeStatement( ) : void
+			 @discussion Callback when ResultSet is closed. Note that this does not close the statement.
+			 */
+			void removeStatement(sqlite3_stmt*);
 
 			DB(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
@@ -97,7 +105,7 @@ namespace Titanium
 #pragma warning(disable : 4251)
 			std::string name__;
 			std::string path__;
-			std::vector<std::shared_ptr<Titanium::Database::ResultSet>> resultSets__;
+			std::unordered_map<sqlite3_stmt*, std::shared_ptr<Titanium::Database::ResultSet>> resultSets__;
 #pragma warning(pop)
 			sqlite3* db__;
 			uint32_t affected_rows__;

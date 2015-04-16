@@ -102,7 +102,7 @@ namespace Titanium
 		void DB::close() TITANIUM_NOEXCEPT
 		{
 			for (auto resultSet : resultSets__) {
-				resultSet->close();
+				resultSet.second->close(false);
 			}
 			resultSets__.clear();
 			
@@ -171,7 +171,8 @@ namespace Titanium
 			// How would we pass along the statement pointer?
 			const auto resultSet_object = get_context().CreateObject(JSExport<Titanium::Database::ResultSet>::Class());
 			const auto resultSet = resultSet_object.GetPrivate<Titanium::Database::ResultSet>();
-			resultSets__.push_back(resultSet);
+			resultSet->setDatabase(this);
+			resultSets__.emplace(statement, resultSet);
 			int affectedRows = 0;
 			if (stepResult == SQLITE_DONE) {
 				sqlite3_finalize(statement);
@@ -203,6 +204,11 @@ namespace Titanium
 			}
 
 			return resultSet_object;
+		}
+		
+		void DB::removeStatement(sqlite3_stmt* statement)
+		{
+			resultSets__.erase(statement);
 		}
 
 		void DB::JSExportInitialize()
