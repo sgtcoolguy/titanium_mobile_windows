@@ -94,7 +94,7 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(TextArea, keyboardType);
 			TITANIUM_ADD_PROPERTY(TextArea, returnKeyType);
 			TITANIUM_ADD_PROPERTY(TextArea, textAlign);
-			TITANIUM_ADD_PROPERTY(TextArea, autocapitalization);
+			TITANIUM_ADD_PROPERTY(TextArea, autoCapitalization);
 			TITANIUM_ADD_PROPERTY(TextArea, verticalAlign);
 		}
 

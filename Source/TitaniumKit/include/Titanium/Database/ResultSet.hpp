@@ -16,6 +16,8 @@ namespace Titanium
 {
 	namespace Database
 	{
+		class DB;
+
 		using namespace HAL;
 
 		/*!
@@ -135,6 +137,16 @@ namespace Titanium
 			ResultSet(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
+			/*!
+			  @method
+			  @abstract setDatabase( ) : void 
+			  @discussion Set DB which creates this ResultSet so that it can receive callback.
+			*/
+			void setDatabase(DB* db) TITANIUM_NOEXCEPT 
+			{
+				database__ = db;
+			}
+
 			virtual ~ResultSet();
 			ResultSet(const ResultSet&) = default;
 			ResultSet& operator=(const ResultSet&) = default;
@@ -161,6 +173,7 @@ namespace Titanium
 			uint32_t affected_rows__;
 			uint32_t step_result__;
 			sqlite3_stmt* statement__;
+			DB* database__ {nullptr};
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			std::vector<std::string> column_names__;

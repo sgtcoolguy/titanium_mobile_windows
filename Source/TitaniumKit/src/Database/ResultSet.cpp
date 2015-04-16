@@ -4,6 +4,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Titanium/Database/DB.hpp"
 #include "Titanium/Database/ResultSet.hpp"
 #include <type_traits>
 
@@ -47,10 +48,16 @@ namespace Titanium
 			if (statement__ != nullptr && column_names__.size()) {
 				sqlite3_finalize(statement__);
 			}
+
+			if (database__ != nullptr) {
+				database__->removeStatement(statement__);
+			}
+
 			statement__ = nullptr;
 			step_result__ = 0;
 			affected_rows__ = 0;
 			column_names__.clear();
+			database__ = nullptr;
 		}
 
 		JSValue ResultSet::field(const uint32_t& index) TITANIUM_NOEXCEPT
