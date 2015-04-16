@@ -1,10 +1,18 @@
 <%
+String.prototype.to_windows_name = function() {
+	return this.replace(/\./g, '::');
+};
+
 var full_name = name;
 var namespaces = full_name.split('.');
 var base_name = namespaces[namespaces.length - 1];
 var name_upper = full_name.toUpperCase().replace(/\./g, '_');
-var windows_name = full_name.replace(/\./g, '::');
-
+var windows_name = full_name.to_windows_name();
+var unique_methods = [];
+var parent_name = "Titanium.Module";
+if (parent.indexOf('[mscorlib]') != 0) {
+	parent_name = parent.trim();
+}
 %>
 /**
  * Windows Native Wrapper for <%= full_name %>
@@ -14,29 +22,36 @@ var windows_name = full_name.replace(/\./g, '::');
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUM_<%= name_upper %>_HPP_
-#define _TITANIUM_<%= name_upper %>_HPP_
+#ifndef _<%= name_upper %>_HPP_
+#define _<%= name_upper %>_HPP_
 
+<%
+if (parent_name == 'Titanium.Module') { -%>
 #include "Titanium/Module.hpp"
+<%
+} else { -%>
+#include "<%= parent_name %>.hpp"
+<%
+} -%>
 
 <% for (var i = 0; i < namespaces.length - 1; i++) { -%>
 <%= Array(i + 1).join('\t') %>namespace <%= namespaces[i] %>
 <%= Array(i + 1).join('\t') %>{
-<% } -%>
+<% } %>
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT <%= base_name %> : public Module, public JSExport<<%= base_name %>>
+		class TITANIUMKIT_EXPORT <%= base_name %> : public <%= parent_name.to_windows_name() %>, public JSExport<<%= base_name %>>
 		{
 
 		public:
 <% for (property_name in properties) {
-	   if (properties[property_name]['setter']) { -%>
+	if (properties[property_name]['setter']) { -%>
 			TITANIUM_PROPERTY_DEF(<%= property_name %>);
-	<% } else { -%>
+<%	} else { -%>
 			TITANIUM_PROPERTY_READONLY_DEF(<%= property_name %>);
-<%     }
-   } -%>
+<%  }
+} -%>
 
 <% for (var i = 0; i < methods.length; i++) {
 	var method = methods[i];
@@ -44,7 +59,13 @@ var windows_name = full_name.replace(/\./g, '::');
 	if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
 		method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 || method.name == '.ctor') {
 			continue;
-	} -%>
+	}
+	// Guard against overloaded methods, we'll have to handle each variation in one JS bridge method in cpp
+	if (unique_methods.indexOf(method.name) != -1) {
+		continue;
+	}
+	unique_methods.unshift(method.name);
+	 -%>
 			TITANIUM_FUNCTION_DEF(<%= method.name %>);
 <% } -%>
 
@@ -60,14 +81,14 @@ var windows_name = full_name.replace(/\./g, '::');
 
 			static void JSExportInitialize();
 
-			<%= windows_name %>^ unwrap();
+			<%= windows_name %>^ unwrap(); // TODO If we're going to extend the class from parent, we need unique unwrap method names per type!
 			void wrap(<%= windows_name %>^ object);
 
-		private:
-			<%= windows_name %>^ wrapped__;
+		protected:
+			<%= windows_name %>^ wrapped__; // TODO If this extends some parent class, do we need _another_ wrapped__ field? Shouldn't we just use some cast on the wrap method from parent?
 		};
 
 <% for (var i = namespaces.length - 2; i>= 0; i--) { -%>
 <%= Array(i + 1).join('\t') %>} // namespace <%= namespaces[i] %>
 <% } -%>
-#endif // _TITANIUM_<%= name_upper %>_HPP_
+#endif // _<%= name_upper %>_HPP_

@@ -7,64 +7,65 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUM_WINDOWS_UI_XAML_CONTROLS_TEXTBOX_HPP_
-#define _TITANIUM_WINDOWS_UI_XAML_CONTROLS_TEXTBOX_HPP_
+#ifndef _WINDOWS_UI_XAML_CONTROLS_TEXTBOX_HPP_
+#define _WINDOWS_UI_XAML_CONTROLS_TEXTBOX_HPP_
 
-#include "Titanium/Module.hpp"
+#include "Windows.UI.Xaml.Controls.Control.hpp"
 
-namespace Windows
+namespace Windows
 {
-	namespace UI
+	namespace UI
 	{
-		namespace Xaml
+		namespace Xaml
 		{
-			namespace Controls
+			namespace Controls
 			{
-
+
+
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT TextBox : public Module, public JSExport<TextBox>
+		class TITANIUMKIT_EXPORT TextBox : public Windows::UI::Xaml::Controls::Control, public JSExport<TextBox>
 		{
 
 		public:
-			TITANIUM_PROPERTY_DEF(PreventKeyboardDisplayOnProgrammaticFocus);
-				TITANIUM_PROPERTY_DEF(PlaceholderText);
-				TITANIUM_PROPERTY_DEF(IsColorFontEnabled);
-				TITANIUM_PROPERTY_DEF(HeaderTemplate);
-				TITANIUM_PROPERTY_DEF(Header);
-				TITANIUM_PROPERTY_DEF(SelectionHighlightColor);
-				TITANIUM_PROPERTY_DEF(SelectionStart);
-				TITANIUM_PROPERTY_DEF(SelectionLength);
-				TITANIUM_PROPERTY_DEF(SelectedText);
-				TITANIUM_PROPERTY_DEF(MaxLength);
-				TITANIUM_PROPERTY_DEF(IsTextPredictionEnabled);
-				TITANIUM_PROPERTY_DEF(IsSpellCheckEnabled);
-				TITANIUM_PROPERTY_DEF(IsReadOnly);
-				TITANIUM_PROPERTY_DEF(InputScope);
-				TITANIUM_PROPERTY_DEF(AcceptsReturn);
-				TITANIUM_PROPERTY_DEF(Text);
-				TITANIUM_PROPERTY_DEF(TextWrapping);
-				TITANIUM_PROPERTY_DEF(TextAlignment);
-				TITANIUM_PROPERTY_READONLY_DEF(AcceptsReturnProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(InputScopeProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(IsReadOnlyProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(IsSpellCheckEnabledProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(IsTextPredictionEnabledProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(MaxLengthProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(TextAlignmentProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(TextProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(TextWrappingProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(HeaderProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(HeaderTemplateProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(IsColorFontEnabledProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(PlaceholderTextProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(PreventKeyboardDisplayOnProgrammaticFocusProperty);
-			TITANIUM_PROPERTY_READONLY_DEF(SelectionHighlightColorProperty);
-
-			TITANIUM_FUNCTION_DEF(Select);
-			TITANIUM_FUNCTION_DEF(SelectAll);
-			TITANIUM_FUNCTION_DEF(GetRectFromCharacterIndex);
-
+			TITANIUM_PROPERTY_DEF(PreventKeyboardDisplayOnProgrammaticFocus);
+			TITANIUM_PROPERTY_DEF(PlaceholderText);
+			TITANIUM_PROPERTY_DEF(IsColorFontEnabled);
+			TITANIUM_PROPERTY_DEF(HeaderTemplate);
+			TITANIUM_PROPERTY_DEF(Header);
+			TITANIUM_PROPERTY_DEF(SelectionHighlightColor);
+			TITANIUM_PROPERTY_DEF(SelectionStart);
+			TITANIUM_PROPERTY_DEF(SelectionLength);
+			TITANIUM_PROPERTY_DEF(SelectedText);
+			TITANIUM_PROPERTY_DEF(MaxLength);
+			TITANIUM_PROPERTY_DEF(IsTextPredictionEnabled);
+			TITANIUM_PROPERTY_DEF(IsSpellCheckEnabled);
+			TITANIUM_PROPERTY_DEF(IsReadOnly);
+			TITANIUM_PROPERTY_DEF(InputScope);
+			TITANIUM_PROPERTY_DEF(AcceptsReturn);
+			TITANIUM_PROPERTY_DEF(Text);
+			TITANIUM_PROPERTY_DEF(TextWrapping);
+			TITANIUM_PROPERTY_DEF(TextAlignment);
+			TITANIUM_PROPERTY_READONLY_DEF(AcceptsReturnProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(InputScopeProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(IsReadOnlyProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(IsSpellCheckEnabledProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(IsTextPredictionEnabledProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(MaxLengthProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(TextAlignmentProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(TextProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(TextWrappingProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(HeaderProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(HeaderTemplateProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(IsColorFontEnabledProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(PlaceholderTextProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(PreventKeyboardDisplayOnProgrammaticFocusProperty);
+			TITANIUM_PROPERTY_READONLY_DEF(SelectionHighlightColorProperty);
+
+			TITANIUM_FUNCTION_DEF(Select);
+			TITANIUM_FUNCTION_DEF(SelectAll);
+			TITANIUM_FUNCTION_DEF(GetRectFromCharacterIndex);
+
 			TextBox(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
 			virtual ~TextBox() = default;
@@ -77,15 +78,15 @@
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Controls::TextBox^ unwrap();
+			Windows::UI::Xaml::Controls::TextBox^ unwrap(); // TODO If we're going to extend the class from parent, we need unique unwrap method names per type!
 			void wrap(Windows::UI::Xaml::Controls::TextBox^ object);
 
-		private:
-			Windows::UI::Xaml::Controls::TextBox^ wrapped__;
+		protected:
+			Windows::UI::Xaml::Controls::TextBox^ wrapped__; // TODO If this extends some parent class, do we need _another_ wrapped__ field? Shouldn't we just use some cast on the wrap method from parent?
 		};
 
-			} // namespace Controls
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
-#endif // _TITANIUM_WINDOWS_UI_XAML_CONTROLS_TEXTBOX_HPP_
+			} // namespace Controls
+		} // namespace Xaml
+	} // namespace UI
+} // namespace Windows
+#endif // _WINDOWS_UI_XAML_CONTROLS_TEXTBOX_HPP_
