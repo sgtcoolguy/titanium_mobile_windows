@@ -202,7 +202,7 @@ namespace Windows
 		TITANIUM_PROPERTY_SETTER(TextBox, SelectionStart)
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32>(argument);
+			auto value = static_cast<int32_t>(argument);
 			wrapped__->SelectionStart = value;
 			return true;
 		}
@@ -217,7 +217,7 @@ namespace Windows
 		TITANIUM_PROPERTY_SETTER(TextBox, SelectionLength)
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32>(argument);
+			auto value = static_cast<int32_t>(argument);
 			wrapped__->SelectionLength = value;
 			return true;
 		}
@@ -247,7 +247,7 @@ namespace Windows
 		TITANIUM_PROPERTY_SETTER(TextBox, MaxLength)
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32>(argument);
+			auto value = static_cast<int32_t>(argument);
 			wrapped__->MaxLength = value;
 			return true;
 		}
@@ -361,7 +361,7 @@ namespace Windows
 		TITANIUM_PROPERTY_SETTER(TextBox, TextWrapping)
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32>(argument); // TODO Look up enum in metadata to know what type it's value is? 
+			auto value = static_cast<int32_t>(argument); // TODO Look up enum in metadata to know what type it's value is? 
 			wrapped__->TextWrapping = value;
 			return true;
 		}
@@ -376,7 +376,7 @@ namespace Windows
 		TITANIUM_PROPERTY_SETTER(TextBox, TextAlignment)
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32>(argument); // TODO Look up enum in metadata to know what type it's value is? 
+			auto value = static_cast<int32_t>(argument); // TODO Look up enum in metadata to know what type it's value is? 
 			wrapped__->TextAlignment = value;
 			return true;
 		}

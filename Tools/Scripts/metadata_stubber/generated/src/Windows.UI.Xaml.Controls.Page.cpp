@@ -83,7 +83,7 @@ namespace Windows
 		TITANIUM_PROPERTY_SETTER(Page, NavigationCacheMode)
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32>(argument); // TODO Look up enum in metadata to know what type it's value is? 
+			auto value = static_cast<int32_t>(argument); // TODO Look up enum in metadata to know what type it's value is? 
 			wrapped__->NavigationCacheMode = value;
 			return true;
 		}
