@@ -54,7 +54,7 @@ namespace Titanium
 			  @abstract close( ) : void
 			  @discussion Closes this result set and release resources. Once closed, the result set must no longer be used.
 			*/
-			void close() TITANIUM_NOEXCEPT;
+			void close(bool needCallback = true) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method

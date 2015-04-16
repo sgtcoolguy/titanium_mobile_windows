@@ -102,7 +102,7 @@ namespace Titanium
 		void DB::close() TITANIUM_NOEXCEPT
 		{
 			for (auto resultSet : resultSets__) {
-				resultSet.second->close();
+				resultSet.second->close(false);
 			}
 			resultSets__.clear();
 			

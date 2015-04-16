@@ -43,14 +43,14 @@ namespace Titanium
 			return step_result__ == SQLITE_ROW;
 		}
 	
-		void ResultSet::close() TITANIUM_NOEXCEPT
+		void ResultSet::close(bool needCallback) TITANIUM_NOEXCEPT
 		{
 			if (statement__ != nullptr && column_names__.size()) {
 				sqlite3_finalize(statement__);
-			}
 
-			if (database__ != nullptr) {
-				database__->removeStatement(statement__);
+				if (needCallback && database__ != nullptr) {
+					database__->removeStatement(statement__);
+				}
 			}
 
 			statement__ = nullptr;
