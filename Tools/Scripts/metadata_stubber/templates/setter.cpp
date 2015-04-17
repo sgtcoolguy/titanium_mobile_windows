@@ -37,10 +37,27 @@ if (type == 'bool') {
 	var windows_type_name = real_type_name.to_windows_name();
 
 	if (is_struct) {
+		// here we generate constructor args.
+		// FIXME the matadata gives no indication if the struct has a constructor or not, or the arg order. So I don't think this will work properly!
+		// Looks like we'll need to improve the metadata generator. But it also appears that for those not having constructors they can only be accessed
+		// through read-only getters. So let's just hope this works well enough for now...
+		var ctr_args = "";
+		for (field_name in other_type.fields) {
+			var field_type = other_type.fields[field_name].type;
+			if (field_type == 'string') {
+				ctr_args =+ "\"\", ";
+			} else if (field_type == 'bool') {
+				ctr_args += "false, ";
+			} else {
+				// assume number for any other type.
+				ctr_args += "0, ";
+			}
+		}
+		ctr_args = ctr_args.substring(0, ctr_args.length - 2); 
 -%>
 			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
-			auto value = ref new <%= windows_type_name %>(); // FIXME We need to look at the fields to know how many, and order of args to pass in!
+			auto value = ref new <%= windows_type_name %>(<%= ctr_args %>);
 <%
 	} else if (is_enum) {
 -%>
@@ -57,11 +74,15 @@ if (type == 'bool') {
 	if (full_type_name.indexOf('class ') == 0) {
 		full_type_name = full_type_name.substring(6);
 	}
+	// object == Platform::Object. We treat it as our root type, which is currently Titanium::Module
+	if (full_type_name == 'object') {
+		full_type_name = 'Titanium::Module';
+	}
 -%> 
 			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
 			auto wrapper = object.GetPrivate<<%= full_type_name %>>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrap<%= full_type_name.replace(/::/g, '_') %>();
 <%

@@ -70,7 +70,7 @@ namespace Windows
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
 			auto wrapper = object.GetPrivate<Windows::UI::Xaml::DataTemplate>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_DataTemplate();
 			wrapped__->OnContentTemplate = value;
@@ -93,10 +93,10 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
-			auto wrapper = object.GetPrivate<object>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			auto wrapper = object.GetPrivate<Titanium::Module>();
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto value = wrapper->unwrapobject();
+			auto value = wrapper->unwrapTitanium_Module();
 			wrapped__->OnContent = value;
 			return true;
 		}
@@ -118,7 +118,7 @@ namespace Windows
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
 			auto wrapper = object.GetPrivate<Windows::UI::Xaml::DataTemplate>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_DataTemplate();
 			wrapped__->OffContentTemplate = value;
@@ -141,10 +141,10 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
-			auto wrapper = object.GetPrivate<object>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			auto wrapper = object.GetPrivate<Titanium::Module>();
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto value = wrapper->unwrapobject();
+			auto value = wrapper->unwrapTitanium_Module();
 			wrapped__->OffContent = value;
 			return true;
 		}
@@ -181,7 +181,7 @@ namespace Windows
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
 			auto wrapper = object.GetPrivate<Windows::UI::Xaml::DataTemplate>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_DataTemplate();
 			wrapped__->HeaderTemplate = value;
@@ -204,10 +204,10 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
-			auto wrapper = object.GetPrivate<object>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			auto wrapper = object.GetPrivate<Titanium::Module>();
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto value = wrapper->unwrapobject();
+			auto value = wrapper->unwrapTitanium_Module();
 			wrapped__->Header = value;
 			return true;
 		}

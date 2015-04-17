@@ -52,7 +52,7 @@ namespace Windows
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
-			auto value = ref new Windows::Foundation::Rect(); // FIXME We need to look at the fields to know how many, and order of args to pass in!
+			auto value = ref new Windows::Foundation::Rect(0, 0, 0, 0);
 			wrapped__->Rect = value;
 			return true;
 		}

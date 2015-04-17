@@ -65,7 +65,7 @@ namespace Windows
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
 			auto wrapper = object.GetPrivate<Windows::UI::Core::CoreCursor>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Core_CoreCursor();
 			wrapped__->PointerCursor = value;

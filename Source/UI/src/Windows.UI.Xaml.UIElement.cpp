@@ -230,7 +230,7 @@ namespace Windows
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
 			auto wrapper = object.GetPrivate<Windows::UI::Xaml::Media::RectangleGeometry>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_Media_RectangleGeometry();
 			wrapped__->Clip = value;
@@ -254,7 +254,7 @@ namespace Windows
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
 			auto wrapper = object.GetPrivate<Windows::UI::Xaml::Media::CacheMode>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_Media_CacheMode();
 			wrapped__->CacheMode = value;
@@ -323,7 +323,7 @@ namespace Windows
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
 			auto wrapper = object.GetPrivate<Windows::UI::Xaml::Media::Animation::TransitionCollection>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_Media_Animation_TransitionCollection();
 			wrapped__->Transitions = value;
@@ -346,7 +346,7 @@ namespace Windows
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
-			auto value = ref new Windows::Foundation::Point(); // FIXME We need to look at the fields to know how many, and order of args to pass in!
+			auto value = ref new Windows::Foundation::Point(0, 0);
 			wrapped__->RenderTransformOrigin = value;
 			return true;
 		}
@@ -366,7 +366,7 @@ namespace Windows
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
 			auto wrapper = object.GetPrivate<Windows::UI::Xaml::Media::Transform>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_Media_Transform();
 			wrapped__->RenderTransform = value;
@@ -390,7 +390,7 @@ namespace Windows
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
 			auto wrapper = object.GetPrivate<Windows::UI::Xaml::Media::Projection>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper class? I think we'll get nullptr here.
+			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_Media_Projection();
 			wrapped__->Projection = value;

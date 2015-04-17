@@ -4,7 +4,8 @@ var fs = require('fs'),
 	wrench = require('wrench'),
 	metadata = JSON.parse(fs.readFileSync('metadata.json')),
 	all_classes = metadata['classes'],
-	classDefinition;
+	classDefinition,
+	dest = path.join(__dirname, '..', '..', '..', 'Source', 'UI');
 
 wrench.mkdirSyncRecursive(path.join(__dirname, 'generated', 'include'));
 wrench.mkdirSyncRecursive(path.join(__dirname, 'generated', 'src'));
@@ -21,12 +22,12 @@ for (classname in all_classes) {
 	console.log("Stubbing header for " + classname);
 	var hpp_file = path.join(__dirname, 'templates', 'Proxy.hpp');
 	var generated_proxy_header = ejs.render('' + fs.readFileSync(hpp_file), {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends']}, {filename: hpp_file});
-	fs.writeFileSync(path.join(__dirname, 'generated', 'include', classname + '.hpp'), generated_proxy_header, {flags : 'w'});
+	fs.writeFileSync(path.join(dest, 'include', classname + '.hpp'), generated_proxy_header, {flags : 'w'});
 
 	// Stub the implementation
 	console.log("Stubbing implementation for " + classname);
 	var cpp_file = path.join(__dirname, 'templates', 'Proxy.cpp');
 	// We need the whole all_classes data so we can look up types such as structs/enums to map to JSObjects/JSNumbers
 	var generated_proxy_impl = ejs.render('' + fs.readFileSync(cpp_file), {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends']}, {filename: cpp_file});
-	fs.writeFileSync(path.join(__dirname, 'generated', 'src', classname + '.cpp'), generated_proxy_impl, {flags : 'w'});
+	fs.writeFileSync(path.join(dest, 'src', classname + '.cpp'), generated_proxy_impl, {flags : 'w'});
 }
