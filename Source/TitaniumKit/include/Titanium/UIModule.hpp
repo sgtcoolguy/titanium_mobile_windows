@@ -29,6 +29,8 @@
 #include "Titanium/UI/ListView.hpp"
 #include "Titanium/UI/ListSection.hpp"
 #include "Titanium/UI/WebView.hpp"
+#include "Titanium/UI/ActivityIndicator.hpp"
+#include "Titanium/UI/ActivityIndicatorStyle.hpp"
 
 namespace Titanium
 {
@@ -214,6 +216,7 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(createTableView);
 		TITANIUM_FUNCTION_DEF(createTableViewSection);
 		TITANIUM_FUNCTION_DEF(createTableViewRow);
+		TITANIUM_FUNCTION_DEF(createActivityIndicator);
 
 	private:
 		JSValue animation_curve_ease_in__;
