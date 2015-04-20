@@ -11,10 +11,8 @@ var underscore_name = full_name.replace(/\./g, '_');
 var name_upper = underscore_name.toUpperCase();
 var windows_name = full_name.to_windows_name();
 
-
-
 var parent_name = "Titanium::Module";
-if (parent.indexOf('[mscorlib]') != 0) {
+if (parent && parent.indexOf('[mscorlib]') != 0) {
 	parent_name = parent.trim();
 }
 
@@ -48,6 +46,11 @@ if (methods) {
 			method.name == ".ctor" || method.returnType == 'void') {
 				continue;
 		}
+		// Skip non-public methods
+		if (method.attributes.indexOf("public") == -1) {
+			continue;
+		}
+
 		// return type
 		type = method.returnType;
 		if (type.indexOf('class ') == 0 || type.indexOf('Windows.') == 0) {
@@ -152,6 +155,10 @@ if (methods) {
 			method.name == ".ctor") {
 				continue;
 		}
+		// Skip non-public methods
+		if (method.attributes.indexOf("public") == -1) {
+			continue;
+		}
 -%>
 			TITANIUM_ADD_FUNCTION(<%= base_name %>, <%= method.name %>);
 <%
@@ -178,6 +185,10 @@ if (methods) {
 			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
 			method.name == '.ctor') {
 				continue;
+		}
+		// Skip non-public methods
+		if (method.attributes.indexOf("public") == -1) {
+			continue;
 		}
 		// TODO handle overloads with same method name! We need to group methods by name and then use one bridge function per unique name and have it delegate to right native method based on arg count!
 -%>

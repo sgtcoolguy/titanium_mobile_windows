@@ -12,7 +12,7 @@ var name_upper = underscore_name.toUpperCase();
 var windows_name = full_name.to_windows_name();
 var unique_methods = [];
 var parent_name = "Module";
-if (parent.indexOf('[mscorlib]') != 0) {
+if (parent && parent.indexOf('[mscorlib]') != 0) {
 	parent_name = parent.trim();
 }
 -%>
@@ -69,6 +69,10 @@ if (methods) {
 		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
 			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 || method.name == '.ctor') {
 				continue;
+		}
+		// Skip non-public methods
+		if (method.attributes.indexOf("public") == -1) {
+			continue;
 		}
 		// Guard against overloaded methods, we'll have to handle each variation in one JS bridge method in cpp
 		if (unique_methods.indexOf(method.name) != -1) {

@@ -17000,6 +17000,2512 @@
       "implements": [
         "Windows.UI.Xaml.Controls.IUserControl"
       ]
+    },
+    "Windows.System.VirtualKey": {
+      "fields": {
+        "value__": {
+          "attributes": [
+            "private",
+            "specialname",
+            "rtspecialname"
+          ],
+          "type": "int32",
+          "name": "value__"
+        },
+        "None": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "None",
+          "assignType": "int32",
+          "assignValue": "0x00000000"
+        },
+        "LeftButton": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "LeftButton",
+          "assignType": "int32",
+          "assignValue": "0x00000001"
+        },
+        "RightButton": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "RightButton",
+          "assignType": "int32",
+          "assignValue": "0x00000002"
+        },
+        "Cancel": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Cancel",
+          "assignType": "int32",
+          "assignValue": "0x00000003"
+        },
+        "MiddleButton": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "MiddleButton",
+          "assignType": "int32",
+          "assignValue": "0x00000004"
+        },
+        "XButton1": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "XButton1",
+          "assignType": "int32",
+          "assignValue": "0x00000005"
+        },
+        "XButton2": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "XButton2",
+          "assignType": "int32",
+          "assignValue": "0x00000006"
+        },
+        "Back": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Back",
+          "assignType": "int32",
+          "assignValue": "0x00000008"
+        },
+        "Tab": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Tab",
+          "assignType": "int32",
+          "assignValue": "0x00000009"
+        },
+        "Clear": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Clear",
+          "assignType": "int32",
+          "assignValue": "0x0000000C"
+        },
+        "Enter": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Enter",
+          "assignType": "int32",
+          "assignValue": "0x0000000D"
+        },
+        "Shift": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Shift",
+          "assignType": "int32",
+          "assignValue": "0x00000010"
+        },
+        "Control": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Control",
+          "assignType": "int32",
+          "assignValue": "0x00000011"
+        },
+        "Menu": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Menu",
+          "assignType": "int32",
+          "assignValue": "0x00000012"
+        },
+        "Pause": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Pause",
+          "assignType": "int32",
+          "assignValue": "0x00000013"
+        },
+        "CapitalLock": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "CapitalLock",
+          "assignType": "int32",
+          "assignValue": "0x00000014"
+        },
+        "Kana": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Kana",
+          "assignType": "int32",
+          "assignValue": "0x00000015"
+        },
+        "Hangul": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Hangul",
+          "assignType": "int32",
+          "assignValue": "0x00000015"
+        },
+        "Junja": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Junja",
+          "assignType": "int32",
+          "assignValue": "0x00000017"
+        },
+        "Final": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Final",
+          "assignType": "int32",
+          "assignValue": "0x00000018"
+        },
+        "Hanja": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Hanja",
+          "assignType": "int32",
+          "assignValue": "0x00000019"
+        },
+        "Kanji": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Kanji",
+          "assignType": "int32",
+          "assignValue": "0x00000019"
+        },
+        "Escape": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Escape",
+          "assignType": "int32",
+          "assignValue": "0x0000001B"
+        },
+        "Convert": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Convert",
+          "assignType": "int32",
+          "assignValue": "0x0000001C"
+        },
+        "NonConvert": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NonConvert",
+          "assignType": "int32",
+          "assignValue": "0x0000001D"
+        },
+        "Accept": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Accept",
+          "assignType": "int32",
+          "assignValue": "0x0000001E"
+        },
+        "ModeChange": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "ModeChange",
+          "assignType": "int32",
+          "assignValue": "0x0000001F"
+        },
+        "Space": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Space",
+          "assignType": "int32",
+          "assignValue": "0x00000020"
+        },
+        "PageUp": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "PageUp",
+          "assignType": "int32",
+          "assignValue": "0x00000021"
+        },
+        "PageDown": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "PageDown",
+          "assignType": "int32",
+          "assignValue": "0x00000022"
+        },
+        "End": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "End",
+          "assignType": "int32",
+          "assignValue": "0x00000023"
+        },
+        "Home": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Home",
+          "assignType": "int32",
+          "assignValue": "0x00000024"
+        },
+        "Left": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Left",
+          "assignType": "int32",
+          "assignValue": "0x00000025"
+        },
+        "Up": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Up",
+          "assignType": "int32",
+          "assignValue": "0x00000026"
+        },
+        "Right": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Right",
+          "assignType": "int32",
+          "assignValue": "0x00000027"
+        },
+        "Down": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Down",
+          "assignType": "int32",
+          "assignValue": "0x00000028"
+        },
+        "Select": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Select",
+          "assignType": "int32",
+          "assignValue": "0x00000029"
+        },
+        "Print": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Print",
+          "assignType": "int32",
+          "assignValue": "0x0000002A"
+        },
+        "Execute": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Execute",
+          "assignType": "int32",
+          "assignValue": "0x0000002B"
+        },
+        "Snapshot": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Snapshot",
+          "assignType": "int32",
+          "assignValue": "0x0000002C"
+        },
+        "Insert": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Insert",
+          "assignType": "int32",
+          "assignValue": "0x0000002D"
+        },
+        "Delete": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Delete",
+          "assignType": "int32",
+          "assignValue": "0x0000002E"
+        },
+        "Help": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Help",
+          "assignType": "int32",
+          "assignValue": "0x0000002F"
+        },
+        "Number0": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Number0",
+          "assignType": "int32",
+          "assignValue": "0x00000030"
+        },
+        "Number1": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Number1",
+          "assignType": "int32",
+          "assignValue": "0x00000031"
+        },
+        "Number2": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Number2",
+          "assignType": "int32",
+          "assignValue": "0x00000032"
+        },
+        "Number3": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Number3",
+          "assignType": "int32",
+          "assignValue": "0x00000033"
+        },
+        "Number4": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Number4",
+          "assignType": "int32",
+          "assignValue": "0x00000034"
+        },
+        "Number5": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Number5",
+          "assignType": "int32",
+          "assignValue": "0x00000035"
+        },
+        "Number6": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Number6",
+          "assignType": "int32",
+          "assignValue": "0x00000036"
+        },
+        "Number7": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Number7",
+          "assignType": "int32",
+          "assignValue": "0x00000037"
+        },
+        "Number8": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Number8",
+          "assignType": "int32",
+          "assignValue": "0x00000038"
+        },
+        "Number9": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Number9",
+          "assignType": "int32",
+          "assignValue": "0x00000039"
+        },
+        "A": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "A",
+          "assignType": "int32",
+          "assignValue": "0x00000041"
+        },
+        "B": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "B",
+          "assignType": "int32",
+          "assignValue": "0x00000042"
+        },
+        "C": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "C",
+          "assignType": "int32",
+          "assignValue": "0x00000043"
+        },
+        "D": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "D",
+          "assignType": "int32",
+          "assignValue": "0x00000044"
+        },
+        "E": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "E",
+          "assignType": "int32",
+          "assignValue": "0x00000045"
+        },
+        "F": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F",
+          "assignType": "int32",
+          "assignValue": "0x00000046"
+        },
+        "G": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "G",
+          "assignType": "int32",
+          "assignValue": "0x00000047"
+        },
+        "H": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "H",
+          "assignType": "int32",
+          "assignValue": "0x00000048"
+        },
+        "I": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "I",
+          "assignType": "int32",
+          "assignValue": "0x00000049"
+        },
+        "J": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "J",
+          "assignType": "int32",
+          "assignValue": "0x0000004A"
+        },
+        "K": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "K",
+          "assignType": "int32",
+          "assignValue": "0x0000004B"
+        },
+        "L": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "L",
+          "assignType": "int32",
+          "assignValue": "0x0000004C"
+        },
+        "M": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "M",
+          "assignType": "int32",
+          "assignValue": "0x0000004D"
+        },
+        "N": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "N",
+          "assignType": "int32",
+          "assignValue": "0x0000004E"
+        },
+        "O": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "O",
+          "assignType": "int32",
+          "assignValue": "0x0000004F"
+        },
+        "P": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "P",
+          "assignType": "int32",
+          "assignValue": "0x00000050"
+        },
+        "Q": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Q",
+          "assignType": "int32",
+          "assignValue": "0x00000051"
+        },
+        "R": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "R",
+          "assignType": "int32",
+          "assignValue": "0x00000052"
+        },
+        "S": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "S",
+          "assignType": "int32",
+          "assignValue": "0x00000053"
+        },
+        "T": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "T",
+          "assignType": "int32",
+          "assignValue": "0x00000054"
+        },
+        "U": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "U",
+          "assignType": "int32",
+          "assignValue": "0x00000055"
+        },
+        "V": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "V",
+          "assignType": "int32",
+          "assignValue": "0x00000056"
+        },
+        "W": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "W",
+          "assignType": "int32",
+          "assignValue": "0x00000057"
+        },
+        "X": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "X",
+          "assignType": "int32",
+          "assignValue": "0x00000058"
+        },
+        "Y": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Y",
+          "assignType": "int32",
+          "assignValue": "0x00000059"
+        },
+        "Z": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Z",
+          "assignType": "int32",
+          "assignValue": "0x0000005A"
+        },
+        "LeftWindows": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "LeftWindows",
+          "assignType": "int32",
+          "assignValue": "0x0000005B"
+        },
+        "RightWindows": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "RightWindows",
+          "assignType": "int32",
+          "assignValue": "0x0000005C"
+        },
+        "Application": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Application",
+          "assignType": "int32",
+          "assignValue": "0x0000005D"
+        },
+        "Sleep": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Sleep",
+          "assignType": "int32",
+          "assignValue": "0x0000005F"
+        },
+        "NumberPad0": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NumberPad0",
+          "assignType": "int32",
+          "assignValue": "0x00000060"
+        },
+        "NumberPad1": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NumberPad1",
+          "assignType": "int32",
+          "assignValue": "0x00000061"
+        },
+        "NumberPad2": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NumberPad2",
+          "assignType": "int32",
+          "assignValue": "0x00000062"
+        },
+        "NumberPad3": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NumberPad3",
+          "assignType": "int32",
+          "assignValue": "0x00000063"
+        },
+        "NumberPad4": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NumberPad4",
+          "assignType": "int32",
+          "assignValue": "0x00000064"
+        },
+        "NumberPad5": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NumberPad5",
+          "assignType": "int32",
+          "assignValue": "0x00000065"
+        },
+        "NumberPad6": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NumberPad6",
+          "assignType": "int32",
+          "assignValue": "0x00000066"
+        },
+        "NumberPad7": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NumberPad7",
+          "assignType": "int32",
+          "assignValue": "0x00000067"
+        },
+        "NumberPad8": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NumberPad8",
+          "assignType": "int32",
+          "assignValue": "0x00000068"
+        },
+        "NumberPad9": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NumberPad9",
+          "assignType": "int32",
+          "assignValue": "0x00000069"
+        },
+        "Multiply": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Multiply",
+          "assignType": "int32",
+          "assignValue": "0x0000006A"
+        },
+        "Add": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Add",
+          "assignType": "int32",
+          "assignValue": "0x0000006B"
+        },
+        "Separator": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Separator",
+          "assignType": "int32",
+          "assignValue": "0x0000006C"
+        },
+        "Subtract": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Subtract",
+          "assignType": "int32",
+          "assignValue": "0x0000006D"
+        },
+        "Decimal": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Decimal",
+          "assignType": "int32",
+          "assignValue": "0x0000006E"
+        },
+        "Divide": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Divide",
+          "assignType": "int32",
+          "assignValue": "0x0000006F"
+        },
+        "F1": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F1",
+          "assignType": "int32",
+          "assignValue": "0x00000070"
+        },
+        "F2": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F2",
+          "assignType": "int32",
+          "assignValue": "0x00000071"
+        },
+        "F3": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F3",
+          "assignType": "int32",
+          "assignValue": "0x00000072"
+        },
+        "F4": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F4",
+          "assignType": "int32",
+          "assignValue": "0x00000073"
+        },
+        "F5": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F5",
+          "assignType": "int32",
+          "assignValue": "0x00000074"
+        },
+        "F6": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F6",
+          "assignType": "int32",
+          "assignValue": "0x00000075"
+        },
+        "F7": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F7",
+          "assignType": "int32",
+          "assignValue": "0x00000076"
+        },
+        "F8": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F8",
+          "assignType": "int32",
+          "assignValue": "0x00000077"
+        },
+        "F9": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F9",
+          "assignType": "int32",
+          "assignValue": "0x00000078"
+        },
+        "F10": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F10",
+          "assignType": "int32",
+          "assignValue": "0x00000079"
+        },
+        "F11": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F11",
+          "assignType": "int32",
+          "assignValue": "0x0000007A"
+        },
+        "F12": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F12",
+          "assignType": "int32",
+          "assignValue": "0x0000007B"
+        },
+        "F13": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F13",
+          "assignType": "int32",
+          "assignValue": "0x0000007C"
+        },
+        "F14": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F14",
+          "assignType": "int32",
+          "assignValue": "0x0000007D"
+        },
+        "F15": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F15",
+          "assignType": "int32",
+          "assignValue": "0x0000007E"
+        },
+        "F16": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F16",
+          "assignType": "int32",
+          "assignValue": "0x0000007F"
+        },
+        "F17": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F17",
+          "assignType": "int32",
+          "assignValue": "0x00000080"
+        },
+        "F18": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F18",
+          "assignType": "int32",
+          "assignValue": "0x00000081"
+        },
+        "F19": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F19",
+          "assignType": "int32",
+          "assignValue": "0x00000082"
+        },
+        "F20": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F20",
+          "assignType": "int32",
+          "assignValue": "0x00000083"
+        },
+        "F21": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F21",
+          "assignType": "int32",
+          "assignValue": "0x00000084"
+        },
+        "F22": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F22",
+          "assignType": "int32",
+          "assignValue": "0x00000085"
+        },
+        "F23": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F23",
+          "assignType": "int32",
+          "assignValue": "0x00000086"
+        },
+        "F24": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "F24",
+          "assignType": "int32",
+          "assignValue": "0x00000087"
+        },
+        "NumberKeyLock": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "NumberKeyLock",
+          "assignType": "int32",
+          "assignValue": "0x00000090"
+        },
+        "Scroll": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Scroll",
+          "assignType": "int32",
+          "assignValue": "0x00000091"
+        },
+        "LeftShift": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "LeftShift",
+          "assignType": "int32",
+          "assignValue": "0x000000A0"
+        },
+        "RightShift": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "RightShift",
+          "assignType": "int32",
+          "assignValue": "0x000000A1"
+        },
+        "LeftControl": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "LeftControl",
+          "assignType": "int32",
+          "assignValue": "0x000000A2"
+        },
+        "RightControl": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "RightControl",
+          "assignType": "int32",
+          "assignValue": "0x000000A3"
+        },
+        "LeftMenu": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "LeftMenu",
+          "assignType": "int32",
+          "assignValue": "0x000000A4"
+        },
+        "RightMenu": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "RightMenu",
+          "assignType": "int32",
+          "assignValue": "0x000000A5"
+        },
+        "GoBack": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "GoBack",
+          "assignType": "int32",
+          "assignValue": "0x000000A6"
+        },
+        "GoForward": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "GoForward",
+          "assignType": "int32",
+          "assignValue": "0x000000A7"
+        },
+        "Refresh": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Refresh",
+          "assignType": "int32",
+          "assignValue": "0x000000A8"
+        },
+        "Stop": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Stop",
+          "assignType": "int32",
+          "assignValue": "0x000000A9"
+        },
+        "Search": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Search",
+          "assignType": "int32",
+          "assignValue": "0x000000AA"
+        },
+        "Favorites": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "Favorites",
+          "assignType": "int32",
+          "assignValue": "0x000000AB"
+        },
+        "GoHome": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.System.VirtualKey",
+          "name": "GoHome",
+          "assignType": "int32",
+          "assignValue": "0x000000AC"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.System.VirtualKey",
+      "extends": "[mscorlib]System.Enum"
+    },
+    "Windows.UI.Core.CoreVirtualKeyStates": {
+      "fields": {
+        "value__": {
+          "attributes": [
+            "private",
+            "specialname",
+            "rtspecialname"
+          ],
+          "type": "uint32",
+          "name": "value__"
+        },
+        "None": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Core.CoreVirtualKeyStates",
+          "name": "None",
+          "assignType": "uint32",
+          "assignValue": "0x00000000"
+        },
+        "Down": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Core.CoreVirtualKeyStates",
+          "name": "Down",
+          "assignType": "uint32",
+          "assignValue": "0x00000001"
+        },
+        "Locked": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Core.CoreVirtualKeyStates",
+          "name": "Locked",
+          "assignType": "uint32",
+          "assignValue": "0x00000002"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Core.CoreVirtualKeyStates",
+      "extends": "[mscorlib]System.Enum"
+    },
+    "Windows.UI.Core.CoreProcessEventsOption": {
+      "fields": {
+        "value__": {
+          "attributes": [
+            "private",
+            "specialname",
+            "rtspecialname"
+          ],
+          "type": "int32",
+          "name": "value__"
+        },
+        "ProcessOneAndAllPending": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Core.CoreProcessEventsOption",
+          "name": "ProcessOneAndAllPending",
+          "assignType": "int32",
+          "assignValue": "0x00000000"
+        },
+        "ProcessOneIfPresent": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Core.CoreProcessEventsOption",
+          "name": "ProcessOneIfPresent",
+          "assignType": "int32",
+          "assignValue": "0x00000001"
+        },
+        "ProcessUntilQuit": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Core.CoreProcessEventsOption",
+          "name": "ProcessUntilQuit",
+          "assignType": "int32",
+          "assignValue": "0x00000002"
+        },
+        "ProcessAllIfPresent": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.UI.Core.CoreProcessEventsOption",
+          "name": "ProcessAllIfPresent",
+          "assignType": "int32",
+          "assignValue": "0x00000003"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Core.CoreProcessEventsOption",
+      "extends": "[mscorlib]System.Enum"
+    },
+    "Windows.UI.Xaml.Interop.TypeName": {
+      "fields": {
+        "Name": {
+          "attributes": [
+            "public"
+          ],
+          "type": "string",
+          "name": "Name"
+        },
+        "Kind": {
+          "attributes": [
+            "public"
+          ],
+          "type": "valuetype Windows.UI.Xaml.Interop.TypeKind",
+          "name": "Kind"
+        }
+      },
+      "attributes": [
+        "public",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.Interop.TypeName",
+      "extends": "[mscorlib]System.ValueType"
+    },
+    "Windows.UI.Xaml.Input.Pointer": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "uint32",
+          "name": "get_PointerId",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Input.IPointer",
+            "name": "get_PointerId"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Devices.Input.PointerDeviceType",
+          "name": "get_PointerDeviceType",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Input.IPointer",
+            "name": "get_PointerDeviceType"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "get_IsInContact",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Input.IPointer",
+            "name": "get_IsInContact"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "get_IsInRange",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Input.IPointer",
+            "name": "get_IsInRange"
+          }
+        }
+      ],
+      "properties": {
+        "IsInContact": {
+          "getter": {
+            "type": "instance",
+            "returnType": "bool",
+            "className": "Windows.UI.Xaml.Input.Pointer",
+            "name": "get_IsInContact",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "bool",
+          "name": "IsInContact"
+        },
+        "IsInRange": {
+          "getter": {
+            "type": "instance",
+            "returnType": "bool",
+            "className": "Windows.UI.Xaml.Input.Pointer",
+            "name": "get_IsInRange",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "bool",
+          "name": "IsInRange"
+        },
+        "PointerDeviceType": {
+          "getter": {
+            "type": "instance",
+            "returnType": "valuetype",
+            "className": "Windows.Devices.Input.PointerDeviceType Windows.UI.Xaml.Input.Pointer",
+            "name": "get_PointerDeviceType",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "valuetype Windows.Devices.Input.PointerDeviceType        ",
+          "name": "PointerDeviceType"
+        },
+        "PointerId": {
+          "getter": {
+            "type": "instance",
+            "returnType": "uint32",
+            "className": "Windows.UI.Xaml.Input.Pointer",
+            "name": "get_PointerId",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "uint32",
+          "name": "PointerId"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Xaml.Input.Pointer",
+      "extends": "[mscorlib]System.Object",
+      "implements": [
+        "Windows.UI.Xaml.Input.IPointer"
+      ]
+    },
+    "Windows.UI.Xaml.Media.GeneralTransform": {
+      "methods": [
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Media.GeneralTransform",
+          "name": "get_Inverse",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IGeneralTransform",
+            "name": "get_Inverse"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.Point",
+          "name": "TransformPoint",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.Point",
+              "name": "point"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IGeneralTransform",
+            "name": "TransformPoint"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "TryTransform",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.Point",
+              "name": "inPoint"
+            },
+            {
+              "inout": "out",
+              "type": "valuetype Windows.Foundation.Point&",
+              "name": "outPoint"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IGeneralTransform",
+            "name": "TryTransform"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.Rect",
+          "name": "TransformBounds",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.Rect",
+              "name": "rect"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IGeneralTransform",
+            "name": "TransformBounds"
+          }
+        },
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Media.GeneralTransform",
+          "name": "get_InverseCore",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IGeneralTransformOverrides",
+            "name": "get_InverseCore"
+          }
+        },
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "bool",
+          "name": "TryTransformCore",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.Point",
+              "name": "inPoint"
+            },
+            {
+              "inout": "out",
+              "type": "valuetype Windows.Foundation.Point&",
+              "name": "outPoint"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IGeneralTransformOverrides",
+            "name": "TryTransformCore"
+          }
+        },
+        {
+          "attributes": [
+            "family",
+            "hidebysig",
+            "newslot",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.Rect",
+          "name": "TransformBoundsCore",
+          "args": [
+            {
+              "inout": "in",
+              "type": "valuetype Windows.Foundation.Rect",
+              "name": "rect"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IGeneralTransformOverrides",
+            "name": "TransformBoundsCore"
+          }
+        }
+      ],
+      "properties": {
+        "Inverse": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.Media.GeneralTransform Windows.UI.Xaml.Media.GeneralTransform",
+            "name": "get_Inverse",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.Media.GeneralTransform        ",
+          "name": "Inverse"
+        },
+        "InverseCore": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.Media.GeneralTransform Windows.UI.Xaml.Media.GeneralTransform",
+            "name": "get_InverseCore",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.Media.GeneralTransform        ",
+          "name": "InverseCore"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime"
+      ],
+      "name": "Windows.UI.Xaml.Media.GeneralTransform",
+      "extends": "Windows.UI.Xaml.DependencyObject",
+      "implements": [
+        "Windows.UI.Xaml.Media.IGeneralTransform",
+        "Windows.UI.Xaml.Media.IGeneralTransformOverrides"
+      ]
+    },
+    "Windows.Devices.Input.PointerDeviceType": {
+      "fields": {
+        "value__": {
+          "attributes": [
+            "private",
+            "specialname",
+            "rtspecialname"
+          ],
+          "type": "int32",
+          "name": "value__"
+        },
+        "Touch": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.Devices.Input.PointerDeviceType",
+          "name": "Touch",
+          "assignType": "int32",
+          "assignValue": "0x00000000"
+        },
+        "Pen": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.Devices.Input.PointerDeviceType",
+          "name": "Pen",
+          "assignType": "int32",
+          "assignValue": "0x00000001"
+        },
+        "Mouse": {
+          "attributes": [
+            "public",
+            "static",
+            "literal"
+          ],
+          "type": "valuetype Windows.Devices.Input.PointerDeviceType",
+          "name": "Mouse",
+          "assignType": "int32",
+          "assignValue": "0x00000002"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.Devices.Input.PointerDeviceType",
+      "extends": "[mscorlib]System.Enum"
+    },
+    "Windows.UI.Xaml.Media.Geometry": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Media.Transform",
+          "name": "get_Transform",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IGeometry",
+            "name": "get_Transform"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_Transform",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.Media.Transform",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IGeometry",
+            "name": "put_Transform"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "valuetype Windows.Foundation.Rect",
+          "name": "get_Bounds",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Media.IGeometry",
+            "name": "get_Bounds"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.Media.Geometry",
+          "name": "get_Empty",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "float64",
+          "name": "get_StandardFlatteningTolerance",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_TransformProperty",
+          "args": []
+        }
+      ],
+      "properties": {
+        "Transform": {
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Media.Geometry",
+            "name": "put_Transform",
+            "args": [
+              "class Windows.UI.Xaml.Media.Transform"
+            ]
+          },
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.Media.Transform Windows.UI.Xaml.Media.Geometry",
+            "name": "get_Transform",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.Media.Transform        ",
+          "name": "Transform"
+        },
+        "Bounds": {
+          "getter": {
+            "type": "instance",
+            "returnType": "valuetype",
+            "className": "Windows.Foundation.Rect Windows.UI.Xaml.Media.Geometry",
+            "name": "get_Bounds",
+            "args": []
+          },
+          "type": "instance",
+          "returnType": "valuetype Windows.Foundation.Rect        ",
+          "name": "Bounds"
+        },
+        "Empty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.Media.Geometry Windows.UI.Xaml.Media.Geometry",
+            "name": "get_Empty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.Media.Geometry        ",
+          "name": "Empty"
+        },
+        "StandardFlatteningTolerance": {
+          "getter": {
+            "type": "float64",
+            "className": "Windows.UI.Xaml.Media.Geometry",
+            "name": "get_StandardFlatteningTolerance",
+            "args": []
+          },
+          "type": "float64",
+          "returnType": "",
+          "name": "StandardFlatteningTolerance"
+        },
+        "TransformProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Media.Geometry",
+            "name": "get_TransformProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "TransformProperty"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime"
+      ],
+      "name": "Windows.UI.Xaml.Media.Geometry",
+      "extends": "Windows.UI.Xaml.DependencyObject",
+      "implements": [
+        "Windows.UI.Xaml.Media.IGeometry"
+      ]
+    },
+    "Windows.Foundation.IAsyncAction": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "abstract",
+            "virtual",
+            "instance",
+            "cil",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_Completed",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.Foundation.AsyncActionCompletedHandler",
+              "name": "handler"
+            }
+          ]
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "abstract",
+            "virtual",
+            "instance",
+            "cil",
+            "managed"
+          ],
+          "returnType": "class Windows.Foundation.AsyncActionCompletedHandler",
+          "name": "get_Completed",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "abstract",
+            "virtual",
+            "instance",
+            "cil",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "GetResults",
+          "args": []
+        }
+      ],
+      "properties": {
+        "Completed": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.Foundation.AsyncActionCompletedHandler Windows.Foundation.IAsyncAction",
+            "name": "get_Completed",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.Foundation.IAsyncAction",
+            "name": "put_Completed",
+            "args": [
+              "class Windows.Foundation.AsyncActionCompletedHandler"
+            ]
+          },
+          "type": "instance",
+          "returnType": "class Windows.Foundation.AsyncActionCompletedHandler        ",
+          "name": "Completed"
+        }
+      },
+      "attributes": [
+        "interface",
+        "public",
+        "abstract",
+        "auto",
+        "ansi",
+        "windowsruntime"
+      ],
+      "name": "Windows.Foundation.IAsyncAction",
+      "implements": [
+        "Windows.Foundation.IAsyncInfo"
+      ]
+    },
+    "Windows.UI.Core.DispatchedHandler": {
+      "methods": [
+        {
+          "attributes": [
+            "private",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "native",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": [
+            {
+              "type": "object",
+              "name": "object"
+            },
+            {
+              "type": "int",
+              "name": "method"
+            }
+          ]
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "Invoke",
+          "args": []
+        }
+      ],
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Core.DispatchedHandler",
+      "extends": "[mscorlib]System.MulticastDelegate"
+    },
+    "Windows.UI.Core.IdleDispatchedHandler": {
+      "methods": [
+        {
+          "attributes": [
+            "private",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "native",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": [
+            {
+              "type": "object",
+              "name": "object"
+            },
+            {
+              "type": "int",
+              "name": "method"
+            }
+          ]
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "Invoke",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Core.IdleDispatchedHandlerArgs",
+              "name": "e"
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime",
+        "sealed"
+      ],
+      "name": "Windows.UI.Core.IdleDispatchedHandler",
+      "extends": "[mscorlib]System.MulticastDelegate"
     }
   }
 }

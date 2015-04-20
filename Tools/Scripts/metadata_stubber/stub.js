@@ -13,8 +13,9 @@ wrench.mkdirSyncRecursive(path.join(__dirname, 'generated', 'src'));
 for (classname in all_classes) {
 	classDefinition = all_classes[classname];
 	// skip structs and enums
-	if (classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
-		classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0) {
+	if (classDefinition['extends'] && 
+		(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
+		classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
 		continue;
 	}
 
