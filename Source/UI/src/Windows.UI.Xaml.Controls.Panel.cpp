@@ -6,35 +6,45 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Windows.UI.Xaml.DependencyProperty.hpp"
+#include "Windows.UI.Xaml.Controls.UIElementCollection.hpp"
+#include "Windows.UI.Xaml.Media.Brush.hpp"
+#include "Windows.UI.Xaml.Media.Animation.TransitionCollection.hpp"
 #include "Windows.UI.Xaml.Controls.Panel.hpp"
- // TODO Include the headers for all the native types we use in here! We'll have to go through type of every method arg, return type, type of every property
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Controls
+			namespace Xaml
 			{
+				namespace Controls
+				{
 
-		Panel::Panel(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Windows::UI::Xaml::FrameworkElement(js_context, arguments)
+		Panel::Panel(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Windows::UI::Xaml::FrameworkElement(js_context)
 		{
 		}
 
 		void Panel::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new Windows::UI::Xaml::Controls::Panel();
+			wrapped__ = ref new ::Windows::UI::Xaml::Controls::Panel();
 		}
 
-		Windows::UI::Xaml::Controls::Panel^ Panel::unwrapWindows_UI_Xaml_Controls_Panel()
+		::Windows::UI::Xaml::Controls::Panel^ Panel::unwrapWindows_UI_Xaml_Controls_Panel() const
 		{
-			return dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::Panel^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
-		void Panel::wrap(Windows::UI::Xaml::Controls::Panel^ object)
+		::Windows::UI::Xaml::Controls::Panel^ Panel::unwrap() const
+		{
+			return unwrapWindows_UI_Xaml_Controls_Panel();
+		}
+
+		void Panel::wrap(::Windows::UI::Xaml::Controls::Panel^ object)
 		{
 			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
@@ -61,13 +71,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_Media_Animation_TransitionCollection();
-			wrapped__->ChildrenTransitions = value;
+			unwrap()->ChildrenTransitions = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Panel, ChildrenTransitions)
 		{
-			auto value = wrapped__->ChildrenTransitions;
+			auto value = unwrap()->ChildrenTransitions;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -85,13 +95,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_Media_Brush();
-			wrapped__->Background = value;
+			unwrap()->Background = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Panel, Background)
 		{
-			auto value = wrapped__->Background;
+			auto value = unwrap()->Background;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -103,7 +113,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(Panel, Children)
 		{
-			auto value = wrapped__->Children;
+			auto value = unwrap()->Children;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -115,14 +125,14 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(Panel, IsItemsHost)
 		{
-			auto value = wrapped__->IsItemsHost;
+			auto value = unwrap()->IsItemsHost;
 			auto context = get_context();
  			return context.CreateBoolean(value); 
 		}
 
 		TITANIUM_PROPERTY_GETTER(Panel, BackgroundProperty)
 		{
-			auto value = wrapped__->BackgroundProperty;
+			auto value = unwrap()->BackgroundProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -134,7 +144,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(Panel, ChildrenTransitionsProperty)
 		{
-			auto value = wrapped__->ChildrenTransitionsProperty;
+			auto value = unwrap()->ChildrenTransitionsProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -146,7 +156,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(Panel, IsItemsHostProperty)
 		{
-			auto value = wrapped__->IsItemsHostProperty;
+			auto value = unwrap()->IsItemsHostProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -156,7 +166,8 @@ namespace Windows
 			return object;
 		}
 
-			} // namespace Controls
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Controls
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium

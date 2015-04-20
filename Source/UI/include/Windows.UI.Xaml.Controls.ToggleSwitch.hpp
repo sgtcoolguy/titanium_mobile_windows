@@ -9,21 +9,24 @@
 #ifndef _WINDOWS_UI_XAML_CONTROLS_TOGGLESWITCH_HPP_
 #define _WINDOWS_UI_XAML_CONTROLS_TOGGLESWITCH_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Windows.UI.Xaml.Controls.Control.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Controls
+			namespace Xaml
 			{
+				namespace Controls
+				{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT ToggleSwitch : public Windows::UI::Xaml::Controls::Control, public JSExport<ToggleSwitch>
+		class TITANIUMWINDOWS_UI_EXPORT ToggleSwitch : public Titanium::Windows::UI::Xaml::Controls::Control, public JSExport<ToggleSwitch>
 		{
 
 		public:
@@ -48,7 +51,7 @@ namespace Windows
 			TITANIUM_FUNCTION_DEF(OnOffContentChanged);
 			TITANIUM_FUNCTION_DEF(OnHeaderChanged);
 
-			ToggleSwitch(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			ToggleSwitch(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ToggleSwitch() = default;
 			ToggleSwitch(const ToggleSwitch&) = default;
@@ -60,12 +63,19 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Controls::ToggleSwitch^ unwrapWindows_UI_Xaml_Controls_ToggleSwitch();
-			void wrap(Windows::UI::Xaml::Controls::ToggleSwitch^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::Controls::ToggleSwitch^ unwrapWindows_UI_Xaml_Controls_ToggleSwitch() const;
+			void wrap(::Windows::UI::Xaml::Controls::ToggleSwitch^ object);
+
+		private:
+			::Windows::UI::Xaml::Controls::ToggleSwitch^ unwrap() const;
+
 		};
 
-			} // namespace Controls
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Controls
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_CONTROLS_TOGGLESWITCH_HPP_

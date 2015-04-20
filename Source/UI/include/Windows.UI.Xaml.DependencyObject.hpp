@@ -9,19 +9,22 @@
 #ifndef _WINDOWS_UI_XAML_DEPENDENCYOBJECT_HPP_
 #define _WINDOWS_UI_XAML_DEPENDENCYOBJECT_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Titanium/Module.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
+			namespace Xaml
+			{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT DependencyObject : public Titanium::Module, public JSExport<DependencyObject>
+		class TITANIUMWINDOWS_UI_EXPORT DependencyObject : public Titanium::Module, public JSExport<DependencyObject>
 		{
 
 		public:
@@ -33,7 +36,7 @@ namespace Windows
 			TITANIUM_FUNCTION_DEF(ReadLocalValue);
 			TITANIUM_FUNCTION_DEF(GetAnimationBaseValue);
 
-			DependencyObject(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			DependencyObject(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~DependencyObject() = default;
 			DependencyObject(const DependencyObject&) = default;
@@ -45,14 +48,21 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::DependencyObject^ unwrapWindows_UI_Xaml_DependencyObject();
-			void wrap(Windows::UI::Xaml::DependencyObject^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::DependencyObject^ unwrapWindows_UI_Xaml_DependencyObject() const;
+			void wrap(::Windows::UI::Xaml::DependencyObject^ object);
 
 		protected:
-			Windows::UI::Xaml::DependencyObject^ wrapped__;
+			::Windows::UI::Xaml::DependencyObject^ wrapped__;
+
+		private:
+			::Windows::UI::Xaml::DependencyObject^ unwrap() const;
+
 		};
 
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_DEPENDENCYOBJECT_HPP_

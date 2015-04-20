@@ -9,19 +9,22 @@
 #ifndef _WINDOWS_UI_CORE_COREDISPATCHER_HPP_
 #define _WINDOWS_UI_CORE_COREDISPATCHER_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Titanium/Module.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Core
+		namespace UI
 		{
+			namespace Core
+			{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT CoreDispatcher : public Titanium::Module, public JSExport<CoreDispatcher>
+		class TITANIUMWINDOWS_UI_EXPORT CoreDispatcher : public Titanium::Module, public JSExport<CoreDispatcher>
 		{
 
 		public:
@@ -34,7 +37,7 @@ namespace Windows
 			TITANIUM_FUNCTION_DEF(ShouldYield);
 			TITANIUM_FUNCTION_DEF(StopProcessEvents);
 
-			CoreDispatcher(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			CoreDispatcher(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~CoreDispatcher() = default;
 			CoreDispatcher(const CoreDispatcher&) = default;
@@ -46,14 +49,21 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Core::CoreDispatcher^ unwrapWindows_UI_Core_CoreDispatcher();
-			void wrap(Windows::UI::Core::CoreDispatcher^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Core::CoreDispatcher^ unwrapWindows_UI_Core_CoreDispatcher() const;
+			void wrap(::Windows::UI::Core::CoreDispatcher^ object);
 
 		protected:
-			Windows::UI::Core::CoreDispatcher^ wrapped__;
+			::Windows::UI::Core::CoreDispatcher^ wrapped__;
+
+		private:
+			::Windows::UI::Core::CoreDispatcher^ unwrap() const;
+
 		};
 
-		} // namespace Core
-	} // namespace UI
-} // namespace Windows
+			} // namespace Core
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_CORE_COREDISPATCHER_HPP_

@@ -9,25 +9,28 @@
 #ifndef _WINDOWS_UI_XAML_ROUTEDEVENT_HPP_
 #define _WINDOWS_UI_XAML_ROUTEDEVENT_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Titanium/Module.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
+			namespace Xaml
+			{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT RoutedEvent : public Titanium::Module, public JSExport<RoutedEvent>
+		class TITANIUMWINDOWS_UI_EXPORT RoutedEvent : public Titanium::Module, public JSExport<RoutedEvent>
 		{
 
 		public:
 
 
-			RoutedEvent(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			RoutedEvent(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~RoutedEvent() = default;
 			RoutedEvent(const RoutedEvent&) = default;
@@ -39,14 +42,21 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::RoutedEvent^ unwrapWindows_UI_Xaml_RoutedEvent();
-			void wrap(Windows::UI::Xaml::RoutedEvent^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::RoutedEvent^ unwrapWindows_UI_Xaml_RoutedEvent() const;
+			void wrap(::Windows::UI::Xaml::RoutedEvent^ object);
 
 		protected:
-			Windows::UI::Xaml::RoutedEvent^ wrapped__;
+			::Windows::UI::Xaml::RoutedEvent^ wrapped__;
+
+		private:
+			::Windows::UI::Xaml::RoutedEvent^ unwrap() const;
+
 		};
 
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_ROUTEDEVENT_HPP_

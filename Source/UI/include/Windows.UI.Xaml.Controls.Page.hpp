@@ -9,21 +9,24 @@
 #ifndef _WINDOWS_UI_XAML_CONTROLS_PAGE_HPP_
 #define _WINDOWS_UI_XAML_CONTROLS_PAGE_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Windows.UI.Xaml.Controls.UserControl.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Controls
+			namespace Xaml
 			{
+				namespace Controls
+				{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT Page : public Windows::UI::Xaml::Controls::UserControl, public JSExport<Page>
+		class TITANIUMWINDOWS_UI_EXPORT Page : public Titanium::Windows::UI::Xaml::Controls::UserControl, public JSExport<Page>
 		{
 
 		public:
@@ -39,7 +42,7 @@ namespace Windows
 			TITANIUM_FUNCTION_DEF(OnNavigatedTo);
 			TITANIUM_FUNCTION_DEF(OnNavigatingFrom);
 
-			Page(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Page(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Page() = default;
 			Page(const Page&) = default;
@@ -51,12 +54,19 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Controls::Page^ unwrapWindows_UI_Xaml_Controls_Page();
-			void wrap(Windows::UI::Xaml::Controls::Page^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::Controls::Page^ unwrapWindows_UI_Xaml_Controls_Page() const;
+			void wrap(::Windows::UI::Xaml::Controls::Page^ object);
+
+		private:
+			::Windows::UI::Xaml::Controls::Page^ unwrap() const;
+
 		};
 
-			} // namespace Controls
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Controls
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_CONTROLS_PAGE_HPP_

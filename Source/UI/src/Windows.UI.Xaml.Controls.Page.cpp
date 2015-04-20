@@ -6,35 +6,44 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Windows.UI.Xaml.DependencyProperty.hpp"
+#include "Windows.UI.Xaml.Controls.Frame.hpp"
+#include "Windows.UI.Xaml.Controls.AppBar.hpp"
 #include "Windows.UI.Xaml.Controls.Page.hpp"
- // TODO Include the headers for all the native types we use in here! We'll have to go through type of every method arg, return type, type of every property
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Controls
+			namespace Xaml
 			{
+				namespace Controls
+				{
 
-		Page::Page(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Windows::UI::Xaml::Controls::UserControl(js_context, arguments)
+		Page::Page(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Windows::UI::Xaml::Controls::UserControl(js_context)
 		{
 		}
 
 		void Page::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new Windows::UI::Xaml::Controls::Page();
+			wrapped__ = ref new ::Windows::UI::Xaml::Controls::Page();
 		}
 
-		Windows::UI::Xaml::Controls::Page^ Page::unwrapWindows_UI_Xaml_Controls_Page()
+		::Windows::UI::Xaml::Controls::Page^ Page::unwrapWindows_UI_Xaml_Controls_Page() const
 		{
-			return dynamic_cast<Windows::UI::Xaml::Controls::Page^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::Page^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
-		void Page::wrap(Windows::UI::Xaml::Controls::Page^ object)
+		::Windows::UI::Xaml::Controls::Page^ Page::unwrap() const
+		{
+			return unwrapWindows_UI_Xaml_Controls_Page();
+		}
+
+		void Page::wrap(::Windows::UI::Xaml::Controls::Page^ object)
 		{
 			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
@@ -64,13 +73,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_Controls_AppBar();
-			wrapped__->TopAppBar = value;
+			unwrap()->TopAppBar = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Page, TopAppBar)
 		{
-			auto value = wrapped__->TopAppBar;
+			auto value = unwrap()->TopAppBar;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -83,16 +92,16 @@ namespace Windows
 		TITANIUM_PROPERTY_SETTER(Page, NavigationCacheMode)
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32_t>(argument); // TODO Look up enum in metadata to know what type it's value is? 
-			wrapped__->NavigationCacheMode = value;
+			auto value = static_cast<::Windows::UI::Xaml::Navigation::NavigationCacheMode>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
+			unwrap()->NavigationCacheMode = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Page, NavigationCacheMode)
 		{
-			auto value = wrapped__->NavigationCacheMode;
+			auto value = unwrap()->NavigationCacheMode;
 			auto context = get_context();
-			return context.CreateNumber(value);
+			return context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
 		}
 
 		TITANIUM_PROPERTY_SETTER(Page, BottomAppBar)
@@ -103,13 +112,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_Controls_AppBar();
-			wrapped__->BottomAppBar = value;
+			unwrap()->BottomAppBar = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Page, BottomAppBar)
 		{
-			auto value = wrapped__->BottomAppBar;
+			auto value = unwrap()->BottomAppBar;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -121,7 +130,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(Page, Frame)
 		{
-			auto value = wrapped__->Frame;
+			auto value = unwrap()->Frame;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -133,7 +142,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(Page, BottomAppBarProperty)
 		{
-			auto value = wrapped__->BottomAppBarProperty;
+			auto value = unwrap()->BottomAppBarProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -145,7 +154,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(Page, FrameProperty)
 		{
-			auto value = wrapped__->FrameProperty;
+			auto value = unwrap()->FrameProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -157,7 +166,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(Page, TopAppBarProperty)
 		{
-			auto value = wrapped__->TopAppBarProperty;
+			auto value = unwrap()->TopAppBarProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -171,7 +180,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->OnNavigatedFrom();
+			unwrap()->OnNavigatedFrom();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -179,7 +188,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->OnNavigatedTo();
+			unwrap()->OnNavigatedTo();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -187,11 +196,12 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->OnNavigatingFrom();
+			unwrap()->OnNavigatingFrom();
 			return get_context().CreateUndefined(); 
 		}
 
-			} // namespace Controls
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Controls
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium

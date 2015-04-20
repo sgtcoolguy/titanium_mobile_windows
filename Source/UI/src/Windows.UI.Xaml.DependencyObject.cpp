@@ -6,33 +6,41 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Windows.UI.Xaml.DependencyProperty.hpp"
+#include "Windows.UI.Core.CoreDispatcher.hpp"
 #include "Windows.UI.Xaml.DependencyObject.hpp"
- // TODO Include the headers for all the native types we use in here! We'll have to go through type of every method arg, return type, type of every property
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
+			namespace Xaml
+			{
 
-		DependencyObject::DependencyObject(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context, arguments)
+		DependencyObject::DependencyObject(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Titanium::Module(js_context)
 		{
 		}
 
 		void DependencyObject::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new Windows::UI::Xaml::DependencyObject();
+			wrapped__ = ref new ::Windows::UI::Xaml::DependencyObject();
 		}
 
-		Windows::UI::Xaml::DependencyObject^ DependencyObject::unwrapWindows_UI_Xaml_DependencyObject()
+		::Windows::UI::Xaml::DependencyObject^ DependencyObject::unwrapWindows_UI_Xaml_DependencyObject() const
 		{
-			return dynamic_cast<Windows::UI::Xaml::DependencyObject^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::DependencyObject^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
-		void DependencyObject::wrap(Windows::UI::Xaml::DependencyObject^ object)
+		::Windows::UI::Xaml::DependencyObject^ DependencyObject::unwrap() const
+		{
+			return unwrapWindows_UI_Xaml_DependencyObject();
+		}
+
+		void DependencyObject::wrap(::Windows::UI::Xaml::DependencyObject^ object)
 		{
 			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
@@ -52,7 +60,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(DependencyObject, Dispatcher)
 		{
-			auto value = wrapped__->Dispatcher;
+			auto value = unwrap()->Dispatcher;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -67,7 +75,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->GetValue();
+			auto result = unwrap()->GetValue();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -75,7 +83,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->SetValue();
+			unwrap()->SetValue();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -83,7 +91,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->ClearValue();
+			unwrap()->ClearValue();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -92,7 +100,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->ReadLocalValue();
+			auto result = unwrap()->ReadLocalValue();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -101,10 +109,11 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->GetAnimationBaseValue();
+			auto result = unwrap()->GetAnimationBaseValue();
 			return get_context().CreateBoolean(result); 
 		}
 
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium

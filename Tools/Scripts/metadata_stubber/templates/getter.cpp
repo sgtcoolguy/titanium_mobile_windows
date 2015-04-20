@@ -1,6 +1,6 @@
 		TITANIUM_PROPERTY_GETTER(<%= base_name %>, <%= property_name %>)
 		{
-			auto value = wrapped__-><%= property_name %>;
+			auto value = unwrap()-><%= property_name %>;
 			auto context = get_context();
 <%
 var type = properties[property_name]['returnType'];
@@ -52,7 +52,7 @@ if (type == 'bool') {
 <%
 	} else if (is_enum) {
 -%>
-			return context.CreateNumber(value);
+			return context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
 <%
 	} else {
 		// Has to be struct or enum or we have an issue!

@@ -6,35 +6,45 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Windows.UI.Xaml.DependencyProperty.hpp"
+#include "Windows.UI.Xaml.Input.InputScope.hpp"
+#include "Windows.UI.Xaml.Media.SolidColorBrush.hpp"
+#include "Windows.UI.Xaml.DataTemplate.hpp"
 #include "Windows.UI.Xaml.Controls.TextBox.hpp"
- // TODO Include the headers for all the native types we use in here! We'll have to go through type of every method arg, return type, type of every property
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Controls
+			namespace Xaml
 			{
+				namespace Controls
+				{
 
-		TextBox::TextBox(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Windows::UI::Xaml::Controls::Control(js_context, arguments)
+		TextBox::TextBox(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Windows::UI::Xaml::Controls::Control(js_context)
 		{
 		}
 
 		void TextBox::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new Windows::UI::Xaml::Controls::TextBox();
+			wrapped__ = ref new ::Windows::UI::Xaml::Controls::TextBox();
 		}
 
-		Windows::UI::Xaml::Controls::TextBox^ TextBox::unwrapWindows_UI_Xaml_Controls_TextBox()
+		::Windows::UI::Xaml::Controls::TextBox^ TextBox::unwrapWindows_UI_Xaml_Controls_TextBox() const
 		{
-			return dynamic_cast<Windows::UI::Xaml::Controls::TextBox^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::TextBox^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
-		void TextBox::wrap(Windows::UI::Xaml::Controls::TextBox^ object)
+		::Windows::UI::Xaml::Controls::TextBox^ TextBox::unwrap() const
+		{
+			return unwrapWindows_UI_Xaml_Controls_TextBox();
+		}
+
+		void TextBox::wrap(::Windows::UI::Xaml::Controls::TextBox^ object)
 		{
 			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
@@ -86,13 +96,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
-			wrapped__->PreventKeyboardDisplayOnProgrammaticFocus = value;
+			unwrap()->PreventKeyboardDisplayOnProgrammaticFocus = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, PreventKeyboardDisplayOnProgrammaticFocus)
 		{
-			auto value = wrapped__->PreventKeyboardDisplayOnProgrammaticFocus;
+			auto value = unwrap()->PreventKeyboardDisplayOnProgrammaticFocus;
 			auto context = get_context();
  			return context.CreateBoolean(value); 
 		}
@@ -101,13 +111,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
 			auto value = static_cast<std::string>(argument);
-			wrapped__->PlaceholderText = value;
+			unwrap()->PlaceholderText = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, PlaceholderText)
 		{
-			auto value = wrapped__->PlaceholderText;
+			auto value = unwrap()->PlaceholderText;
 			auto context = get_context();
  			return context.CreateString(value);
 		}
@@ -116,13 +126,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
-			wrapped__->IsColorFontEnabled = value;
+			unwrap()->IsColorFontEnabled = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, IsColorFontEnabled)
 		{
-			auto value = wrapped__->IsColorFontEnabled;
+			auto value = unwrap()->IsColorFontEnabled;
 			auto context = get_context();
  			return context.CreateBoolean(value); 
 		}
@@ -135,13 +145,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_DataTemplate();
-			wrapped__->HeaderTemplate = value;
+			unwrap()->HeaderTemplate = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, HeaderTemplate)
 		{
-			auto value = wrapped__->HeaderTemplate;
+			auto value = unwrap()->HeaderTemplate;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -159,13 +169,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapTitanium_Module();
-			wrapped__->Header = value;
+			unwrap()->Header = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, Header)
 		{
-			auto value = wrapped__->Header;
+			auto value = unwrap()->Header;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -183,13 +193,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_Media_SolidColorBrush();
-			wrapped__->SelectionHighlightColor = value;
+			unwrap()->SelectionHighlightColor = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, SelectionHighlightColor)
 		{
-			auto value = wrapped__->SelectionHighlightColor;
+			auto value = unwrap()->SelectionHighlightColor;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -203,13 +213,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<int32_t>(argument);
-			wrapped__->SelectionStart = value;
+			unwrap()->SelectionStart = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, SelectionStart)
 		{
-			auto value = wrapped__->SelectionStart;
+			auto value = unwrap()->SelectionStart;
 			auto context = get_context();
  			return context.CreateNumber(value);
 		}
@@ -218,13 +228,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<int32_t>(argument);
-			wrapped__->SelectionLength = value;
+			unwrap()->SelectionLength = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, SelectionLength)
 		{
-			auto value = wrapped__->SelectionLength;
+			auto value = unwrap()->SelectionLength;
 			auto context = get_context();
  			return context.CreateNumber(value);
 		}
@@ -233,13 +243,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
 			auto value = static_cast<std::string>(argument);
-			wrapped__->SelectedText = value;
+			unwrap()->SelectedText = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, SelectedText)
 		{
-			auto value = wrapped__->SelectedText;
+			auto value = unwrap()->SelectedText;
 			auto context = get_context();
  			return context.CreateString(value);
 		}
@@ -248,13 +258,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<int32_t>(argument);
-			wrapped__->MaxLength = value;
+			unwrap()->MaxLength = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, MaxLength)
 		{
-			auto value = wrapped__->MaxLength;
+			auto value = unwrap()->MaxLength;
 			auto context = get_context();
  			return context.CreateNumber(value);
 		}
@@ -263,13 +273,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
-			wrapped__->IsTextPredictionEnabled = value;
+			unwrap()->IsTextPredictionEnabled = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, IsTextPredictionEnabled)
 		{
-			auto value = wrapped__->IsTextPredictionEnabled;
+			auto value = unwrap()->IsTextPredictionEnabled;
 			auto context = get_context();
  			return context.CreateBoolean(value); 
 		}
@@ -278,13 +288,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
-			wrapped__->IsSpellCheckEnabled = value;
+			unwrap()->IsSpellCheckEnabled = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, IsSpellCheckEnabled)
 		{
-			auto value = wrapped__->IsSpellCheckEnabled;
+			auto value = unwrap()->IsSpellCheckEnabled;
 			auto context = get_context();
  			return context.CreateBoolean(value); 
 		}
@@ -293,13 +303,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
-			wrapped__->IsReadOnly = value;
+			unwrap()->IsReadOnly = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, IsReadOnly)
 		{
-			auto value = wrapped__->IsReadOnly;
+			auto value = unwrap()->IsReadOnly;
 			auto context = get_context();
  			return context.CreateBoolean(value); 
 		}
@@ -312,13 +322,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_Input_InputScope();
-			wrapped__->InputScope = value;
+			unwrap()->InputScope = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, InputScope)
 		{
-			auto value = wrapped__->InputScope;
+			auto value = unwrap()->InputScope;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -332,13 +342,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
-			wrapped__->AcceptsReturn = value;
+			unwrap()->AcceptsReturn = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, AcceptsReturn)
 		{
-			auto value = wrapped__->AcceptsReturn;
+			auto value = unwrap()->AcceptsReturn;
 			auto context = get_context();
  			return context.CreateBoolean(value); 
 		}
@@ -347,13 +357,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
 			auto value = static_cast<std::string>(argument);
-			wrapped__->Text = value;
+			unwrap()->Text = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, Text)
 		{
-			auto value = wrapped__->Text;
+			auto value = unwrap()->Text;
 			auto context = get_context();
  			return context.CreateString(value);
 		}
@@ -361,36 +371,36 @@ namespace Windows
 		TITANIUM_PROPERTY_SETTER(TextBox, TextWrapping)
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32_t>(argument); // TODO Look up enum in metadata to know what type it's value is? 
-			wrapped__->TextWrapping = value;
+			auto value = static_cast<::Windows::UI::Xaml::TextWrapping>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
+			unwrap()->TextWrapping = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, TextWrapping)
 		{
-			auto value = wrapped__->TextWrapping;
+			auto value = unwrap()->TextWrapping;
 			auto context = get_context();
-			return context.CreateNumber(value);
+			return context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
 		}
 
 		TITANIUM_PROPERTY_SETTER(TextBox, TextAlignment)
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32_t>(argument); // TODO Look up enum in metadata to know what type it's value is? 
-			wrapped__->TextAlignment = value;
+			auto value = static_cast<::Windows::UI::Xaml::TextAlignment>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
+			unwrap()->TextAlignment = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, TextAlignment)
 		{
-			auto value = wrapped__->TextAlignment;
+			auto value = unwrap()->TextAlignment;
 			auto context = get_context();
-			return context.CreateNumber(value);
+			return context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextBox, AcceptsReturnProperty)
 		{
-			auto value = wrapped__->AcceptsReturnProperty;
+			auto value = unwrap()->AcceptsReturnProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -402,7 +412,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, InputScopeProperty)
 		{
-			auto value = wrapped__->InputScopeProperty;
+			auto value = unwrap()->InputScopeProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -414,7 +424,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, IsReadOnlyProperty)
 		{
-			auto value = wrapped__->IsReadOnlyProperty;
+			auto value = unwrap()->IsReadOnlyProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -426,7 +436,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, IsSpellCheckEnabledProperty)
 		{
-			auto value = wrapped__->IsSpellCheckEnabledProperty;
+			auto value = unwrap()->IsSpellCheckEnabledProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -438,7 +448,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, IsTextPredictionEnabledProperty)
 		{
-			auto value = wrapped__->IsTextPredictionEnabledProperty;
+			auto value = unwrap()->IsTextPredictionEnabledProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -450,7 +460,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, MaxLengthProperty)
 		{
-			auto value = wrapped__->MaxLengthProperty;
+			auto value = unwrap()->MaxLengthProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -462,7 +472,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, TextAlignmentProperty)
 		{
-			auto value = wrapped__->TextAlignmentProperty;
+			auto value = unwrap()->TextAlignmentProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -474,7 +484,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, TextProperty)
 		{
-			auto value = wrapped__->TextProperty;
+			auto value = unwrap()->TextProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -486,7 +496,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, TextWrappingProperty)
 		{
-			auto value = wrapped__->TextWrappingProperty;
+			auto value = unwrap()->TextWrappingProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -498,7 +508,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, HeaderProperty)
 		{
-			auto value = wrapped__->HeaderProperty;
+			auto value = unwrap()->HeaderProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -510,7 +520,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, HeaderTemplateProperty)
 		{
-			auto value = wrapped__->HeaderTemplateProperty;
+			auto value = unwrap()->HeaderTemplateProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -522,7 +532,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, IsColorFontEnabledProperty)
 		{
-			auto value = wrapped__->IsColorFontEnabledProperty;
+			auto value = unwrap()->IsColorFontEnabledProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -534,7 +544,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, PlaceholderTextProperty)
 		{
-			auto value = wrapped__->PlaceholderTextProperty;
+			auto value = unwrap()->PlaceholderTextProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -546,7 +556,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, PreventKeyboardDisplayOnProgrammaticFocusProperty)
 		{
-			auto value = wrapped__->PreventKeyboardDisplayOnProgrammaticFocusProperty;
+			auto value = unwrap()->PreventKeyboardDisplayOnProgrammaticFocusProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -558,7 +568,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TextBox, SelectionHighlightColorProperty)
 		{
-			auto value = wrapped__->SelectionHighlightColorProperty;
+			auto value = unwrap()->SelectionHighlightColorProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -572,7 +582,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->Select();
+			unwrap()->Select();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -580,7 +590,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->SelectAll();
+			unwrap()->SelectAll();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -589,11 +599,12 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->GetRectFromCharacterIndex();
+			auto result = unwrap()->GetRectFromCharacterIndex();
 			return get_context().CreateBoolean(result); 
 		}
 
-			} // namespace Controls
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Controls
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium

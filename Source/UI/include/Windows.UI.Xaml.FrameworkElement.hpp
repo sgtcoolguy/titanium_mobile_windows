@@ -9,19 +9,22 @@
 #ifndef _WINDOWS_UI_XAML_FRAMEWORKELEMENT_HPP_
 #define _WINDOWS_UI_XAML_FRAMEWORKELEMENT_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Windows.UI.Xaml.UIElement.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
+			namespace Xaml
+			{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT FrameworkElement : public Windows::UI::Xaml::UIElement, public JSExport<FrameworkElement>
+		class TITANIUMWINDOWS_UI_EXPORT FrameworkElement : public Titanium::Windows::UI::Xaml::UIElement, public JSExport<FrameworkElement>
 		{
 
 		public:
@@ -74,7 +77,7 @@ namespace Windows
 			TITANIUM_FUNCTION_DEF(OnApplyTemplate);
 			TITANIUM_FUNCTION_DEF(GoToElementStateCore);
 
-			FrameworkElement(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			FrameworkElement(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~FrameworkElement() = default;
 			FrameworkElement(const FrameworkElement&) = default;
@@ -86,11 +89,18 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::FrameworkElement^ unwrapWindows_UI_Xaml_FrameworkElement();
-			void wrap(Windows::UI::Xaml::FrameworkElement^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::FrameworkElement^ unwrapWindows_UI_Xaml_FrameworkElement() const;
+			void wrap(::Windows::UI::Xaml::FrameworkElement^ object);
+
+		private:
+			::Windows::UI::Xaml::FrameworkElement^ unwrap() const;
+
 		};
 
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_FRAMEWORKELEMENT_HPP_

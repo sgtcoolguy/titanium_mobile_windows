@@ -6,33 +6,42 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Windows.UI.Core.CoreDispatcher.hpp"
+#include "Windows.Foundation.Collections.IPropertySet.hpp"
+#include "Windows.UI.Core.CoreCursor.hpp"
 #include "Windows.UI.Core.CoreWindow.hpp"
- // TODO Include the headers for all the native types we use in here! We'll have to go through type of every method arg, return type, type of every property
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Core
+		namespace UI
 		{
+			namespace Core
+			{
 
-		CoreWindow::CoreWindow(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context, arguments)
+		CoreWindow::CoreWindow(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Titanium::Module(js_context)
 		{
 		}
 
 		void CoreWindow::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new Windows::UI::Core::CoreWindow();
+			wrapped__ = ref new ::Windows::UI::Core::CoreWindow();
 		}
 
-		Windows::UI::Core::CoreWindow^ CoreWindow::unwrapWindows_UI_Core_CoreWindow()
+		::Windows::UI::Core::CoreWindow^ CoreWindow::unwrapWindows_UI_Core_CoreWindow() const
 		{
-			return dynamic_cast<Windows::UI::Core::CoreWindow^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Core::CoreWindow^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
-		void CoreWindow::wrap(Windows::UI::Core::CoreWindow^ object)
+		::Windows::UI::Core::CoreWindow^ CoreWindow::unwrap() const
+		{
+			return unwrapWindows_UI_Core_CoreWindow();
+		}
+
+		void CoreWindow::wrap(::Windows::UI::Core::CoreWindow^ object)
 		{
 			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
@@ -68,13 +77,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Core_CoreCursor();
-			wrapped__->PointerCursor = value;
+			unwrap()->PointerCursor = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, PointerCursor)
 		{
-			auto value = wrapped__->PointerCursor;
+			auto value = unwrap()->PointerCursor;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -88,13 +97,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
-			wrapped__->IsInputEnabled = value;
+			unwrap()->IsInputEnabled = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, IsInputEnabled)
 		{
-			auto value = wrapped__->IsInputEnabled;
+			auto value = unwrap()->IsInputEnabled;
 			auto context = get_context();
  			return context.CreateBoolean(value); 
 		}
@@ -102,21 +111,21 @@ namespace Windows
 		TITANIUM_PROPERTY_SETTER(CoreWindow, FlowDirection)
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32_t>(argument); // TODO Look up enum in metadata to know what type it's value is? 
-			wrapped__->FlowDirection = value;
+			auto value = static_cast<::Windows::UI::Core::CoreWindowFlowDirection>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
+			unwrap()->FlowDirection = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, FlowDirection)
 		{
-			auto value = wrapped__->FlowDirection;
+			auto value = unwrap()->FlowDirection;
 			auto context = get_context();
-			return context.CreateNumber(value);
+			return context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, AutomationHostProvider)
 		{
-			auto value = wrapped__->AutomationHostProvider;
+			auto value = unwrap()->AutomationHostProvider;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -128,7 +137,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, Bounds)
 		{
-			auto value = wrapped__->Bounds;
+			auto value = unwrap()->Bounds;
 			auto context = get_context();
 			auto result = context.CreateObject();
 			result.SetProperty("X", context.CreateNumber(static_cast<double>(value.X)));
@@ -140,7 +149,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, CustomProperties)
 		{
-			auto value = wrapped__->CustomProperties;
+			auto value = unwrap()->CustomProperties;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -152,7 +161,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, Dispatcher)
 		{
-			auto value = wrapped__->Dispatcher;
+			auto value = unwrap()->Dispatcher;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -164,7 +173,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, PointerPosition)
 		{
-			auto value = wrapped__->PointerPosition;
+			auto value = unwrap()->PointerPosition;
 			auto context = get_context();
 			auto result = context.CreateObject();
 			result.SetProperty("X", context.CreateNumber(static_cast<double>(value.X)));
@@ -174,7 +183,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, Visible)
 		{
-			auto value = wrapped__->Visible;
+			auto value = unwrap()->Visible;
 			auto context = get_context();
  			return context.CreateBoolean(value); 
 		}
@@ -183,7 +192,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->Activate();
+			unwrap()->Activate();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -191,7 +200,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->Close();
+			unwrap()->Close();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -200,7 +209,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->GetAsyncKeyState();
+			auto result = unwrap()->GetAsyncKeyState();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -209,7 +218,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->GetKeyState();
+			auto result = unwrap()->GetKeyState();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -217,7 +226,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->ReleasePointerCapture();
+			unwrap()->ReleasePointerCapture();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -225,7 +234,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->SetPointerCapture();
+			unwrap()->SetPointerCapture();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -234,10 +243,11 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->GetForCurrentThread();
+			auto result = unwrap()->GetForCurrentThread();
 			return get_context().CreateBoolean(result); 
 		}
 
-		} // namespace Core
-	} // namespace UI
-} // namespace Windows
+			} // namespace Core
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium

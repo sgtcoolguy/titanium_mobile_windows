@@ -9,21 +9,24 @@
 #ifndef _WINDOWS_UI_XAML_MEDIA_RECTANGLEGEOMETRY_HPP_
 #define _WINDOWS_UI_XAML_MEDIA_RECTANGLEGEOMETRY_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Windows.UI.Xaml.Media.Geometry.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Media
+			namespace Xaml
 			{
+				namespace Media
+				{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT RectangleGeometry : public Windows::UI::Xaml::Media::Geometry, public JSExport<RectangleGeometry>
+		class TITANIUMWINDOWS_UI_EXPORT RectangleGeometry : public Titanium::Windows::UI::Xaml::Media::Geometry, public JSExport<RectangleGeometry>
 		{
 
 		public:
@@ -31,7 +34,7 @@ namespace Windows
 			TITANIUM_PROPERTY_READONLY_DEF(RectProperty);
 
 
-			RectangleGeometry(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			RectangleGeometry(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~RectangleGeometry() = default;
 			RectangleGeometry(const RectangleGeometry&) = default;
@@ -43,12 +46,19 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Media::RectangleGeometry^ unwrapWindows_UI_Xaml_Media_RectangleGeometry();
-			void wrap(Windows::UI::Xaml::Media::RectangleGeometry^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::Media::RectangleGeometry^ unwrapWindows_UI_Xaml_Media_RectangleGeometry() const;
+			void wrap(::Windows::UI::Xaml::Media::RectangleGeometry^ object);
+
+		private:
+			::Windows::UI::Xaml::Media::RectangleGeometry^ unwrap() const;
+
 		};
 
-			} // namespace Media
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Media
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_MEDIA_RECTANGLEGEOMETRY_HPP_

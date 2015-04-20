@@ -9,27 +9,30 @@
 #ifndef _WINDOWS_UI_XAML_MEDIA_TRANSFORM_HPP_
 #define _WINDOWS_UI_XAML_MEDIA_TRANSFORM_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Windows.UI.Xaml.Media.GeneralTransform.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Media
+			namespace Xaml
 			{
+				namespace Media
+				{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT Transform : public Windows::UI::Xaml::Media::GeneralTransform, public JSExport<Transform>
+		class TITANIUMWINDOWS_UI_EXPORT Transform : public Titanium::Windows::UI::Xaml::Media::GeneralTransform, public JSExport<Transform>
 		{
 
 		public:
 
 
-			Transform(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Transform(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Transform() = default;
 			Transform(const Transform&) = default;
@@ -41,12 +44,19 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Media::Transform^ unwrapWindows_UI_Xaml_Media_Transform();
-			void wrap(Windows::UI::Xaml::Media::Transform^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::Media::Transform^ unwrapWindows_UI_Xaml_Media_Transform() const;
+			void wrap(::Windows::UI::Xaml::Media::Transform^ object);
+
+		private:
+			::Windows::UI::Xaml::Media::Transform^ unwrap() const;
+
 		};
 
-			} // namespace Media
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Media
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_MEDIA_TRANSFORM_HPP_

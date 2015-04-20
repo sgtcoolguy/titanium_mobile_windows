@@ -4,13 +4,14 @@ String.prototype.to_windows_name = function() {
 };
 
 var full_name = name;
-var namespaces = full_name.split('.');
+var namespaces = ['Titanium'];
+namespaces = namespaces.concat(full_name.split('.'));
 var base_name = namespaces[namespaces.length - 1];
 var underscore_name = full_name.replace(/\./g, '_');
 var name_upper = underscore_name.toUpperCase();
 var windows_name = full_name.to_windows_name();
 var unique_methods = [];
-var parent_name = "Titanium.Module";
+var parent_name = "Module";
 if (parent.indexOf('[mscorlib]') != 0) {
 	parent_name = parent.trim();
 }
@@ -26,8 +27,9 @@ if (parent.indexOf('[mscorlib]') != 0) {
 #ifndef _<%= name_upper %>_HPP_
 #define _<%= name_upper %>_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 <%
-if (parent_name == 'Titanium.Module') { -%>
+if (parent_name == 'Module') { -%>
 #include "Titanium/Module.hpp"
 <%
 } else { -%>
@@ -42,7 +44,7 @@ if (parent_name == 'Titanium.Module') { -%>
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT <%= base_name %> : public <%= parent_name.to_windows_name() %>, public JSExport<<%= base_name %>>
+		class TITANIUMWINDOWS_UI_EXPORT <%= base_name %> : public Titanium::<%= parent_name.to_windows_name() %>, public JSExport<<%= base_name %>>
 		{
 
 		public:
@@ -80,7 +82,7 @@ if (methods) {
 }
 -%>
 
-			<%= base_name %>(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			<%= base_name %>(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~<%= base_name %>() = default;
 			<%= base_name %>(const <%= base_name %>&) = default;
@@ -92,15 +94,21 @@ if (methods) {
 
 			static void JSExportInitialize();
 
-			<%= windows_name %>^ unwrap<%= underscore_name %>();
-			void wrap(<%= windows_name %>^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::<%= windows_name %>^ unwrap<%= underscore_name %>() const;
+			void wrap(::<%= windows_name %>^ object);
 <%
-if (parent_name == 'Titanium.Module') { -%>
+if (parent_name == 'Module') { -%>
 
 		protected:
-			<%= windows_name %>^ wrapped__;
+			::<%= windows_name %>^ wrapped__;
 <%
 } -%>
+
+		private:
+			::<%= windows_name %>^ unwrap() const;
+
 		};
 
 <% for (var i = namespaces.length - 2; i>= 0; i--) { -%>

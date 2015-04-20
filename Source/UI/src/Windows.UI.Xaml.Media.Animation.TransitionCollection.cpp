@@ -6,37 +6,47 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Windows.Foundation.Collections.IIterator`1&lt;class Windows.UI.Xaml.Media.Animation.Transition&gt;.hpp"
+#include "Windows.UI.Xaml.Media.Animation.Transition[].hpp"
+#include "Windows.Foundation.Collections.IVectorView`1&lt;class Windows.UI.Xaml.Media.Animation.Transition&gt;.hpp"
+#include "Windows.UI.Xaml.Media.Animation.Transition.hpp"
 #include "Windows.UI.Xaml.Media.Animation.TransitionCollection.hpp"
- // TODO Include the headers for all the native types we use in here! We'll have to go through type of every method arg, return type, type of every property
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Media
+			namespace Xaml
 			{
-				namespace Animation
+				namespace Media
 				{
+					namespace Animation
+					{
 
-		TransitionCollection::TransitionCollection(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context, arguments)
+		TransitionCollection::TransitionCollection(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Titanium::Module(js_context)
 		{
 		}
 
 		void TransitionCollection::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new Windows::UI::Xaml::Media::Animation::TransitionCollection();
+			wrapped__ = ref new ::Windows::UI::Xaml::Media::Animation::TransitionCollection();
 		}
 
-		Windows::UI::Xaml::Media::Animation::TransitionCollection^ TransitionCollection::unwrapWindows_UI_Xaml_Media_Animation_TransitionCollection()
+		::Windows::UI::Xaml::Media::Animation::TransitionCollection^ TransitionCollection::unwrapWindows_UI_Xaml_Media_Animation_TransitionCollection() const
 		{
-			return dynamic_cast<Windows::UI::Xaml::Media::Animation::TransitionCollection^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Media::Animation::TransitionCollection^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
-		void TransitionCollection::wrap(Windows::UI::Xaml::Media::Animation::TransitionCollection^ object)
+		::Windows::UI::Xaml::Media::Animation::TransitionCollection^ TransitionCollection::unwrap() const
+		{
+			return unwrapWindows_UI_Xaml_Media_Animation_TransitionCollection();
+		}
+
+		void TransitionCollection::wrap(::Windows::UI::Xaml::Media::Animation::TransitionCollection^ object)
 		{
 			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
@@ -63,7 +73,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(TransitionCollection, Size)
 		{
-			auto value = wrapped__->Size;
+			auto value = unwrap()->Size;
 			auto context = get_context();
  			return context.CreateNumber(value);
 		}
@@ -73,7 +83,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->GetAt();
+			auto result = unwrap()->GetAt();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -82,7 +92,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->GetView();
+			auto result = unwrap()->GetView();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -91,7 +101,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->IndexOf();
+			auto result = unwrap()->IndexOf();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -99,7 +109,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->SetAt();
+			unwrap()->SetAt();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -107,7 +117,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->InsertAt();
+			unwrap()->InsertAt();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -115,7 +125,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->RemoveAt();
+			unwrap()->RemoveAt();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -123,7 +133,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->Append();
+			unwrap()->Append();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -131,7 +141,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->RemoveAtEnd();
+			unwrap()->RemoveAtEnd();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -139,7 +149,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->Clear();
+			unwrap()->Clear();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -148,7 +158,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->GetMany();
+			auto result = unwrap()->GetMany();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -156,7 +166,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->ReplaceAll();
+			unwrap()->ReplaceAll();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -165,12 +175,13 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->First();
+			auto result = unwrap()->First();
 			return get_context().CreateBoolean(result); 
 		}
 
-				} // namespace Animation
-			} // namespace Media
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+					} // namespace Animation
+				} // namespace Media
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium

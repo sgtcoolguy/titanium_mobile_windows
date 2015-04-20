@@ -9,19 +9,22 @@
 #ifndef _WINDOWS_UI_XAML_UIELEMENT_HPP_
 #define _WINDOWS_UI_XAML_UIELEMENT_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Windows.UI.Xaml.DependencyObject.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
+			namespace Xaml
+			{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT UIElement : public Windows::UI::Xaml::DependencyObject, public JSExport<UIElement>
+		class TITANIUMWINDOWS_UI_EXPORT UIElement : public Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<UIElement>
 		{
 
 		public:
@@ -103,7 +106,7 @@ namespace Windows
 			TITANIUM_FUNCTION_DEF(OnDisconnectVisualChildren);
 			TITANIUM_FUNCTION_DEF(FindSubElementsForTouchTargeting);
 
-			UIElement(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			UIElement(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~UIElement() = default;
 			UIElement(const UIElement&) = default;
@@ -115,11 +118,18 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::UIElement^ unwrapWindows_UI_Xaml_UIElement();
-			void wrap(Windows::UI::Xaml::UIElement^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::UIElement^ unwrapWindows_UI_Xaml_UIElement() const;
+			void wrap(::Windows::UI::Xaml::UIElement^ object);
+
+		private:
+			::Windows::UI::Xaml::UIElement^ unwrap() const;
+
 		};
 
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_UIELEMENT_HPP_

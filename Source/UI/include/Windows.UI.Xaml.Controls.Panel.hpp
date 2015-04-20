@@ -9,21 +9,24 @@
 #ifndef _WINDOWS_UI_XAML_CONTROLS_PANEL_HPP_
 #define _WINDOWS_UI_XAML_CONTROLS_PANEL_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Windows.UI.Xaml.FrameworkElement.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Controls
+			namespace Xaml
 			{
+				namespace Controls
+				{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT Panel : public Windows::UI::Xaml::FrameworkElement, public JSExport<Panel>
+		class TITANIUMWINDOWS_UI_EXPORT Panel : public Titanium::Windows::UI::Xaml::FrameworkElement, public JSExport<Panel>
 		{
 
 		public:
@@ -36,7 +39,7 @@ namespace Windows
 			TITANIUM_PROPERTY_READONLY_DEF(IsItemsHostProperty);
 
 
-			Panel(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Panel(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Panel() = default;
 			Panel(const Panel&) = default;
@@ -48,12 +51,19 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Controls::Panel^ unwrapWindows_UI_Xaml_Controls_Panel();
-			void wrap(Windows::UI::Xaml::Controls::Panel^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::Controls::Panel^ unwrapWindows_UI_Xaml_Controls_Panel() const;
+			void wrap(::Windows::UI::Xaml::Controls::Panel^ object);
+
+		private:
+			::Windows::UI::Xaml::Controls::Panel^ unwrap() const;
+
 		};
 
-			} // namespace Controls
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Controls
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_CONTROLS_PANEL_HPP_

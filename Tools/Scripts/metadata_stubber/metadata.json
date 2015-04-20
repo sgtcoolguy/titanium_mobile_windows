@@ -16878,6 +16878,128 @@
       "implements": [
         "Windows.UI.Xaml.IRoutedEvent"
       ]
+    },
+    "Windows.UI.Xaml.Controls.UserControl": {
+      "methods": [
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "rtspecialname",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": ".ctor",
+          "args": []
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.UIElement",
+          "name": "get_Content",
+          "args": [],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IUserControl",
+            "name": "get_Content"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "newslot",
+            "specialname",
+            "virtual",
+            "final",
+            "instance",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "void",
+          "name": "put_Content",
+          "args": [
+            {
+              "inout": "in",
+              "type": "class Windows.UI.Xaml.UIElement",
+              "name": "value"
+            }
+          ],
+          "overrides": {
+            "type": "Windows.UI.Xaml.Controls.IUserControl",
+            "name": "put_Content"
+          }
+        },
+        {
+          "attributes": [
+            "public",
+            "hidebysig",
+            "specialname",
+            "static",
+            "runtime",
+            "managed"
+          ],
+          "returnType": "class Windows.UI.Xaml.DependencyProperty",
+          "name": "get_ContentProperty",
+          "args": []
+        }
+      ],
+      "properties": {
+        "Content": {
+          "getter": {
+            "type": "instance",
+            "returnType": "class",
+            "className": "Windows.UI.Xaml.UIElement Windows.UI.Xaml.Controls.UserControl",
+            "name": "get_Content",
+            "args": []
+          },
+          "setter": {
+            "type": "instance",
+            "returnType": "void",
+            "className": "Windows.UI.Xaml.Controls.UserControl",
+            "name": "put_Content",
+            "args": [
+              "class Windows.UI.Xaml.UIElement"
+            ]
+          },
+          "type": "instance",
+          "returnType": "class Windows.UI.Xaml.UIElement        ",
+          "name": "Content"
+        },
+        "ContentProperty": {
+          "getter": {
+            "type": "class",
+            "className": "Windows.UI.Xaml.DependencyProperty Windows.UI.Xaml.Controls.UserControl",
+            "name": "get_ContentProperty",
+            "args": []
+          },
+          "type": "class",
+          "returnType": "Windows.UI.Xaml.DependencyProperty        ",
+          "name": "ContentProperty"
+        }
+      },
+      "attributes": [
+        "public",
+        "auto",
+        "ansi",
+        "windowsruntime"
+      ],
+      "name": "Windows.UI.Xaml.Controls.UserControl",
+      "extends": "Windows.UI.Xaml.Controls.Control",
+      "implements": [
+        "Windows.UI.Xaml.Controls.IUserControl"
+      ]
     }
   }
 }

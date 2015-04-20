@@ -6,33 +6,42 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Windows.UI.Core.IdleDispatchedHandler.hpp"
+#include "Windows.UI.Core.DispatchedHandler.hpp"
+#include "Windows.Foundation.IAsyncAction.hpp"
 #include "Windows.UI.Core.CoreDispatcher.hpp"
- // TODO Include the headers for all the native types we use in here! We'll have to go through type of every method arg, return type, type of every property
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Core
+		namespace UI
 		{
+			namespace Core
+			{
 
-		CoreDispatcher::CoreDispatcher(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context, arguments)
+		CoreDispatcher::CoreDispatcher(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Titanium::Module(js_context)
 		{
 		}
 
 		void CoreDispatcher::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new Windows::UI::Core::CoreDispatcher();
+			wrapped__ = ref new ::Windows::UI::Core::CoreDispatcher();
 		}
 
-		Windows::UI::Core::CoreDispatcher^ CoreDispatcher::unwrapWindows_UI_Core_CoreDispatcher()
+		::Windows::UI::Core::CoreDispatcher^ CoreDispatcher::unwrapWindows_UI_Core_CoreDispatcher() const
 		{
-			return dynamic_cast<Windows::UI::Core::CoreDispatcher^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Core::CoreDispatcher^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
-		void CoreDispatcher::wrap(Windows::UI::Core::CoreDispatcher^ object)
+		::Windows::UI::Core::CoreDispatcher^ CoreDispatcher::unwrap() const
+		{
+			return unwrapWindows_UI_Core_CoreDispatcher();
+		}
+
+		void CoreDispatcher::wrap(::Windows::UI::Core::CoreDispatcher^ object)
 		{
 			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
@@ -55,21 +64,21 @@ namespace Windows
 		TITANIUM_PROPERTY_SETTER(CoreDispatcher, CurrentPriority)
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32_t>(argument); // TODO Look up enum in metadata to know what type it's value is? 
-			wrapped__->CurrentPriority = value;
+			auto value = static_cast<::Windows::UI::Core::CoreDispatcherPriority>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
+			unwrap()->CurrentPriority = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreDispatcher, CurrentPriority)
 		{
-			auto value = wrapped__->CurrentPriority;
+			auto value = unwrap()->CurrentPriority;
 			auto context = get_context();
-			return context.CreateNumber(value);
+			return context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreDispatcher, HasThreadAccess)
 		{
-			auto value = wrapped__->HasThreadAccess;
+			auto value = unwrap()->HasThreadAccess;
 			auto context = get_context();
  			return context.CreateBoolean(value); 
 		}
@@ -78,7 +87,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->ProcessEvents();
+			unwrap()->ProcessEvents();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -87,7 +96,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->RunAsync();
+			auto result = unwrap()->RunAsync();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -96,7 +105,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->RunIdleAsync();
+			auto result = unwrap()->RunIdleAsync();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -105,7 +114,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->ShouldYield();
+			auto result = unwrap()->ShouldYield();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -114,7 +123,7 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->ShouldYield();
+			auto result = unwrap()->ShouldYield();
 			return get_context().CreateBoolean(result); 
 		}
 
@@ -122,10 +131,11 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->StopProcessEvents();
+			unwrap()->StopProcessEvents();
 			return get_context().CreateUndefined(); 
 		}
 
-		} // namespace Core
-	} // namespace UI
-} // namespace Windows
+			} // namespace Core
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium

@@ -9,21 +9,24 @@
 #ifndef _WINDOWS_UI_XAML_CONTROLS_CONTROL_HPP_
 #define _WINDOWS_UI_XAML_CONTROLS_CONTROL_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Windows.UI.Xaml.FrameworkElement.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Controls
+			namespace Xaml
 			{
+				namespace Controls
+				{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT Control : public Windows::UI::Xaml::FrameworkElement, public JSExport<Control>
+		class TITANIUMWINDOWS_UI_EXPORT Control : public Titanium::Windows::UI::Xaml::FrameworkElement, public JSExport<Control>
 		{
 
 		public:
@@ -97,7 +100,7 @@ namespace Windows
 			TITANIUM_FUNCTION_DEF(OnDrop);
 			TITANIUM_FUNCTION_DEF(GetTemplateChild);
 
-			Control(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Control(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Control() = default;
 			Control(const Control&) = default;
@@ -109,12 +112,19 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Controls::Control^ unwrapWindows_UI_Xaml_Controls_Control();
-			void wrap(Windows::UI::Xaml::Controls::Control^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::Controls::Control^ unwrapWindows_UI_Xaml_Controls_Control() const;
+			void wrap(::Windows::UI::Xaml::Controls::Control^ object);
+
+		private:
+			::Windows::UI::Xaml::Controls::Control^ unwrap() const;
+
 		};
 
-			} // namespace Controls
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Controls
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_CONTROLS_CONTROL_HPP_

@@ -102,6 +102,7 @@ include/Windows.UI.Xaml.Media.Transform.hpp
 include/Windows.UI.Xaml.RoutedEvent.hpp
 include/Windows.UI.Xaml.UIElement.hpp
 include/Windows.UI.Xaml.Window.hpp
+include/Windows.UI.Xaml.Controls.UserControl.hpp
 src/Windows.UI.Core.CoreDispatcher.cpp
 src/Windows.UI.Core.CoreWindow.cpp
 src/Windows.UI.Xaml.Controls.Canvas.cpp
@@ -122,6 +123,7 @@ src/Windows.UI.Xaml.Media.Transform.cpp
 src/Windows.UI.Xaml.RoutedEvent.cpp
 src/Windows.UI.Xaml.UIElement.cpp
 src/Windows.UI.Xaml.Window.cpp
+src/Windows.UI.Xaml.Controls.UserControl.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})

@@ -9,21 +9,24 @@
 #ifndef _WINDOWS_UI_XAML_CONTROLS_TEXTBOX_HPP_
 #define _WINDOWS_UI_XAML_CONTROLS_TEXTBOX_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Windows.UI.Xaml.Controls.Control.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Controls
+			namespace Xaml
 			{
+				namespace Controls
+				{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT TextBox : public Windows::UI::Xaml::Controls::Control, public JSExport<TextBox>
+		class TITANIUMWINDOWS_UI_EXPORT TextBox : public Titanium::Windows::UI::Xaml::Controls::Control, public JSExport<TextBox>
 		{
 
 		public:
@@ -65,7 +68,7 @@ namespace Windows
 			TITANIUM_FUNCTION_DEF(SelectAll);
 			TITANIUM_FUNCTION_DEF(GetRectFromCharacterIndex);
 
-			TextBox(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			TextBox(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~TextBox() = default;
 			TextBox(const TextBox&) = default;
@@ -77,12 +80,19 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Controls::TextBox^ unwrapWindows_UI_Xaml_Controls_TextBox();
-			void wrap(Windows::UI::Xaml::Controls::TextBox^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::Controls::TextBox^ unwrapWindows_UI_Xaml_Controls_TextBox() const;
+			void wrap(::Windows::UI::Xaml::Controls::TextBox^ object);
+
+		private:
+			::Windows::UI::Xaml::Controls::TextBox^ unwrap() const;
+
 		};
 
-			} // namespace Controls
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Controls
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_CONTROLS_TEXTBOX_HPP_

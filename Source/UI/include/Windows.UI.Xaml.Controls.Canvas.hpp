@@ -9,21 +9,24 @@
 #ifndef _WINDOWS_UI_XAML_CONTROLS_CANVAS_HPP_
 #define _WINDOWS_UI_XAML_CONTROLS_CANVAS_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Windows.UI.Xaml.Controls.Panel.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Controls
+			namespace Xaml
 			{
+				namespace Controls
+				{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT Canvas : public Windows::UI::Xaml::Controls::Panel, public JSExport<Canvas>
+		class TITANIUMWINDOWS_UI_EXPORT Canvas : public Titanium::Windows::UI::Xaml::Controls::Panel, public JSExport<Canvas>
 		{
 
 		public:
@@ -38,7 +41,7 @@ namespace Windows
 			TITANIUM_FUNCTION_DEF(GetZIndex);
 			TITANIUM_FUNCTION_DEF(SetZIndex);
 
-			Canvas(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			Canvas(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Canvas() = default;
 			Canvas(const Canvas&) = default;
@@ -50,12 +53,19 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Controls::Canvas^ unwrapWindows_UI_Xaml_Controls_Canvas();
-			void wrap(Windows::UI::Xaml::Controls::Canvas^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::Controls::Canvas^ unwrapWindows_UI_Xaml_Controls_Canvas() const;
+			void wrap(::Windows::UI::Xaml::Controls::Canvas^ object);
+
+		private:
+			::Windows::UI::Xaml::Controls::Canvas^ unwrap() const;
+
 		};
 
-			} // namespace Controls
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Controls
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_CONTROLS_CANVAS_HPP_

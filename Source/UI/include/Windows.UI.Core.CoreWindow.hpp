@@ -9,19 +9,22 @@
 #ifndef _WINDOWS_UI_CORE_COREWINDOW_HPP_
 #define _WINDOWS_UI_CORE_COREWINDOW_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Titanium/Module.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Core
+		namespace UI
 		{
+			namespace Core
+			{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT CoreWindow : public Titanium::Module, public JSExport<CoreWindow>
+		class TITANIUMWINDOWS_UI_EXPORT CoreWindow : public Titanium::Module, public JSExport<CoreWindow>
 		{
 
 		public:
@@ -43,7 +46,7 @@ namespace Windows
 			TITANIUM_FUNCTION_DEF(SetPointerCapture);
 			TITANIUM_FUNCTION_DEF(GetForCurrentThread);
 
-			CoreWindow(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			CoreWindow(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~CoreWindow() = default;
 			CoreWindow(const CoreWindow&) = default;
@@ -55,14 +58,21 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Core::CoreWindow^ unwrapWindows_UI_Core_CoreWindow();
-			void wrap(Windows::UI::Core::CoreWindow^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Core::CoreWindow^ unwrapWindows_UI_Core_CoreWindow() const;
+			void wrap(::Windows::UI::Core::CoreWindow^ object);
 
 		protected:
-			Windows::UI::Core::CoreWindow^ wrapped__;
+			::Windows::UI::Core::CoreWindow^ wrapped__;
+
+		private:
+			::Windows::UI::Core::CoreWindow^ unwrap() const;
+
 		};
 
-		} // namespace Core
-	} // namespace UI
-} // namespace Windows
+			} // namespace Core
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_CORE_COREWINDOW_HPP_

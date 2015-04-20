@@ -9,23 +9,26 @@
 #ifndef _WINDOWS_UI_XAML_MEDIA_ANIMATION_TRANSITIONCOLLECTION_HPP_
 #define _WINDOWS_UI_XAML_MEDIA_ANIMATION_TRANSITIONCOLLECTION_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Titanium/Module.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Media
+			namespace Xaml
 			{
-				namespace Animation
+				namespace Media
 				{
+					namespace Animation
+					{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT TransitionCollection : public Titanium::Module, public JSExport<TransitionCollection>
+		class TITANIUMWINDOWS_UI_EXPORT TransitionCollection : public Titanium::Module, public JSExport<TransitionCollection>
 		{
 
 		public:
@@ -44,7 +47,7 @@ namespace Windows
 			TITANIUM_FUNCTION_DEF(ReplaceAll);
 			TITANIUM_FUNCTION_DEF(First);
 
-			TransitionCollection(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			TransitionCollection(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~TransitionCollection() = default;
 			TransitionCollection(const TransitionCollection&) = default;
@@ -56,16 +59,23 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::Media::Animation::TransitionCollection^ unwrapWindows_UI_Xaml_Media_Animation_TransitionCollection();
-			void wrap(Windows::UI::Xaml::Media::Animation::TransitionCollection^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::Media::Animation::TransitionCollection^ unwrapWindows_UI_Xaml_Media_Animation_TransitionCollection() const;
+			void wrap(::Windows::UI::Xaml::Media::Animation::TransitionCollection^ object);
 
 		protected:
-			Windows::UI::Xaml::Media::Animation::TransitionCollection^ wrapped__;
+			::Windows::UI::Xaml::Media::Animation::TransitionCollection^ wrapped__;
+
+		private:
+			::Windows::UI::Xaml::Media::Animation::TransitionCollection^ unwrap() const;
+
 		};
 
-				} // namespace Animation
-			} // namespace Media
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+					} // namespace Animation
+				} // namespace Media
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_MEDIA_ANIMATION_TRANSITIONCOLLECTION_HPP_

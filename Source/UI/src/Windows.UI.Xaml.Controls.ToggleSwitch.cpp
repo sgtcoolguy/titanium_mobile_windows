@@ -6,35 +6,44 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Windows.UI.Xaml.DependencyProperty.hpp"
+#include "Windows.UI.Xaml.Controls.Primitives.ToggleSwitchTemplateSettings.hpp"
+#include "Windows.UI.Xaml.DataTemplate.hpp"
 #include "Windows.UI.Xaml.Controls.ToggleSwitch.hpp"
- // TODO Include the headers for all the native types we use in here! We'll have to go through type of every method arg, return type, type of every property
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
-			namespace Controls
+			namespace Xaml
 			{
+				namespace Controls
+				{
 
-		ToggleSwitch::ToggleSwitch(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Windows::UI::Xaml::Controls::Control(js_context, arguments)
+		ToggleSwitch::ToggleSwitch(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Windows::UI::Xaml::Controls::Control(js_context)
 		{
 		}
 
 		void ToggleSwitch::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new Windows::UI::Xaml::Controls::ToggleSwitch();
+			wrapped__ = ref new ::Windows::UI::Xaml::Controls::ToggleSwitch();
 		}
 
-		Windows::UI::Xaml::Controls::ToggleSwitch^ ToggleSwitch::unwrapWindows_UI_Xaml_Controls_ToggleSwitch()
+		::Windows::UI::Xaml::Controls::ToggleSwitch^ ToggleSwitch::unwrapWindows_UI_Xaml_Controls_ToggleSwitch() const
 		{
-			return dynamic_cast<Windows::UI::Xaml::Controls::ToggleSwitch^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::ToggleSwitch^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
-		void ToggleSwitch::wrap(Windows::UI::Xaml::Controls::ToggleSwitch^ object)
+		::Windows::UI::Xaml::Controls::ToggleSwitch^ ToggleSwitch::unwrap() const
+		{
+			return unwrapWindows_UI_Xaml_Controls_ToggleSwitch();
+		}
+
+		void ToggleSwitch::wrap(::Windows::UI::Xaml::Controls::ToggleSwitch^ object)
 		{
 			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
@@ -73,13 +82,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_DataTemplate();
-			wrapped__->OnContentTemplate = value;
+			unwrap()->OnContentTemplate = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, OnContentTemplate)
 		{
-			auto value = wrapped__->OnContentTemplate;
+			auto value = unwrap()->OnContentTemplate;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -97,13 +106,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapTitanium_Module();
-			wrapped__->OnContent = value;
+			unwrap()->OnContent = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, OnContent)
 		{
-			auto value = wrapped__->OnContent;
+			auto value = unwrap()->OnContent;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -121,13 +130,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_DataTemplate();
-			wrapped__->OffContentTemplate = value;
+			unwrap()->OffContentTemplate = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, OffContentTemplate)
 		{
-			auto value = wrapped__->OffContentTemplate;
+			auto value = unwrap()->OffContentTemplate;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -145,13 +154,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapTitanium_Module();
-			wrapped__->OffContent = value;
+			unwrap()->OffContent = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, OffContent)
 		{
-			auto value = wrapped__->OffContent;
+			auto value = unwrap()->OffContent;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -165,13 +174,13 @@ namespace Windows
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
-			wrapped__->IsOn = value;
+			unwrap()->IsOn = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, IsOn)
 		{
-			auto value = wrapped__->IsOn;
+			auto value = unwrap()->IsOn;
 			auto context = get_context();
  			return context.CreateBoolean(value); 
 		}
@@ -184,13 +193,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapWindows_UI_Xaml_DataTemplate();
-			wrapped__->HeaderTemplate = value;
+			unwrap()->HeaderTemplate = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, HeaderTemplate)
 		{
-			auto value = wrapped__->HeaderTemplate;
+			auto value = unwrap()->HeaderTemplate;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -208,13 +217,13 @@ namespace Windows
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper->unwrapTitanium_Module();
-			wrapped__->Header = value;
+			unwrap()->Header = value;
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, Header)
 		{
-			auto value = wrapped__->Header;
+			auto value = unwrap()->Header;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -226,7 +235,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, TemplateSettings)
 		{
-			auto value = wrapped__->TemplateSettings;
+			auto value = unwrap()->TemplateSettings;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -238,7 +247,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, HeaderProperty)
 		{
-			auto value = wrapped__->HeaderProperty;
+			auto value = unwrap()->HeaderProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -250,7 +259,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, HeaderTemplateProperty)
 		{
-			auto value = wrapped__->HeaderTemplateProperty;
+			auto value = unwrap()->HeaderTemplateProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -262,7 +271,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, IsOnProperty)
 		{
-			auto value = wrapped__->IsOnProperty;
+			auto value = unwrap()->IsOnProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -274,7 +283,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, OffContentProperty)
 		{
-			auto value = wrapped__->OffContentProperty;
+			auto value = unwrap()->OffContentProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -286,7 +295,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, OffContentTemplateProperty)
 		{
-			auto value = wrapped__->OffContentTemplateProperty;
+			auto value = unwrap()->OffContentTemplateProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -298,7 +307,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, OnContentProperty)
 		{
-			auto value = wrapped__->OnContentProperty;
+			auto value = unwrap()->OnContentProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -310,7 +319,7 @@ namespace Windows
 
 		TITANIUM_PROPERTY_GETTER(ToggleSwitch, OnContentTemplateProperty)
 		{
-			auto value = wrapped__->OnContentTemplateProperty;
+			auto value = unwrap()->OnContentTemplateProperty;
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
@@ -324,7 +333,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->OnToggled();
+			unwrap()->OnToggled();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -332,7 +341,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->OnOnContentChanged();
+			unwrap()->OnOnContentChanged();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -340,7 +349,7 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->OnOffContentChanged();
+			unwrap()->OnOffContentChanged();
 			return get_context().CreateUndefined(); 
 		}
 
@@ -348,11 +357,12 @@ namespace Windows
 		{
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
-			wrapped__->OnHeaderChanged();
+			unwrap()->OnHeaderChanged();
 			return get_context().CreateUndefined(); 
 		}
 
-			} // namespace Controls
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+				} // namespace Controls
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium

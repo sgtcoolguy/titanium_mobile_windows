@@ -443,8 +443,6 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(GlobalObject, clearTimeout);
 		TITANIUM_ADD_FUNCTION(GlobalObject, setInterval);
 		TITANIUM_ADD_FUNCTION(GlobalObject, clearInterval);
-
-		JSExport<GlobalObject>::AddGetPropertyCallback(std::mem_fn(&GlobalObject::getNativeProperty));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GlobalObject, global)

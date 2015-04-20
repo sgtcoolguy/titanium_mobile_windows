@@ -6,33 +6,40 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Windows.UI.Xaml.DependencyObject.hpp"
 #include "Windows.UI.Xaml.DataTemplate.hpp"
- // TODO Include the headers for all the native types we use in here! We'll have to go through type of every method arg, return type, type of every property
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
+			namespace Xaml
+			{
 
-		DataTemplate::DataTemplate(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Windows::UI::Xaml::FrameworkTemplate(js_context, arguments)
+		DataTemplate::DataTemplate(const JSContext& js_context) TITANIUM_NOEXCEPT
+			: Windows::UI::Xaml::FrameworkTemplate(js_context)
 		{
 		}
 
 		void DataTemplate::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new Windows::UI::Xaml::DataTemplate();
+			wrapped__ = ref new ::Windows::UI::Xaml::DataTemplate();
 		}
 
-		Windows::UI::Xaml::DataTemplate^ DataTemplate::unwrapWindows_UI_Xaml_DataTemplate()
+		::Windows::UI::Xaml::DataTemplate^ DataTemplate::unwrapWindows_UI_Xaml_DataTemplate() const
 		{
-			return dynamic_cast<Windows::UI::Xaml::DataTemplate^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::DataTemplate^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
 		}
 
-		void DataTemplate::wrap(Windows::UI::Xaml::DataTemplate^ object)
+		::Windows::UI::Xaml::DataTemplate^ DataTemplate::unwrap() const
+		{
+			return unwrapWindows_UI_Xaml_DataTemplate();
+		}
+
+		void DataTemplate::wrap(::Windows::UI::Xaml::DataTemplate^ object)
 		{
 			wrapped__ = object; // upcast/assign, should be ok without casting
 		}
@@ -50,10 +57,11 @@ namespace Windows
 			// TODO What about handling args! We need to confirm the number and convert types there too!
 			// i.e. TextBox.Select() takes two int32 args
 			// otherwise we need to map return type to equivalent JS type!
-			auto result = wrapped__->LoadContent();
+			auto result = unwrap()->LoadContent();
 			return get_context().CreateBoolean(result); 
 		}
 
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium

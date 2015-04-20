@@ -57,12 +57,13 @@ if (type == 'bool') {
 -%>
 			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
-			auto value = ref new <%= windows_type_name %>(<%= ctr_args %>);
+			auto value = ref new ::<%= windows_type_name %>(<%= ctr_args %>);
+			// TODO Need to explicitly assign fields!
 <%
 	} else if (is_enum) {
 -%>
 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
-			auto value = static_cast<int32_t>(argument); // TODO Look up enum in metadata to know what type it's value is? 
+			auto value = static_cast<::<%= real_type_name.replace(/\./g, '::') %>>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 <%
 	} else {
 		// Has to be struct or enum or we have an issue!
@@ -88,6 +89,6 @@ if (type == 'bool') {
 <%
 }
 -%>
-			wrapped__-><%= property_name %> = value;
+			unwrap()-><%= property_name %> = value;
 			return true;
 		}

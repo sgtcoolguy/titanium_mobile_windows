@@ -9,26 +9,29 @@
 #ifndef _WINDOWS_UI_XAML_DATATEMPLATE_HPP_
 #define _WINDOWS_UI_XAML_DATATEMPLATE_HPP_
 
+#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Windows.UI.Xaml.FrameworkTemplate.hpp"
 
-namespace Windows
+namespace Titanium
 {
-	namespace UI
+	namespace Windows
 	{
-		namespace Xaml
+		namespace UI
 		{
+			namespace Xaml
+			{
 
 
 		using namespace HAL;
 
-		class TITANIUMKIT_EXPORT DataTemplate : public Windows::UI::Xaml::FrameworkTemplate, public JSExport<DataTemplate>
+		class TITANIUMWINDOWS_UI_EXPORT DataTemplate : public Titanium::Windows::UI::Xaml::FrameworkTemplate, public JSExport<DataTemplate>
 		{
 
 		public:
 
 			TITANIUM_FUNCTION_DEF(LoadContent);
 
-			DataTemplate(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			DataTemplate(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~DataTemplate() = default;
 			DataTemplate(const DataTemplate&) = default;
@@ -40,11 +43,18 @@ namespace Windows
 
 			static void JSExportInitialize();
 
-			Windows::UI::Xaml::DataTemplate^ unwrapWindows_UI_Xaml_DataTemplate();
-			void wrap(Windows::UI::Xaml::DataTemplate^ object);
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			::Windows::UI::Xaml::DataTemplate^ unwrapWindows_UI_Xaml_DataTemplate() const;
+			void wrap(::Windows::UI::Xaml::DataTemplate^ object);
+
+		private:
+			::Windows::UI::Xaml::DataTemplate^ unwrap() const;
+
 		};
 
-		} // namespace Xaml
-	} // namespace UI
-} // namespace Windows
+			} // namespace Xaml
+		} // namespace UI
+	} // namespace Windows
+} // namespace Titanium
 #endif // _WINDOWS_UI_XAML_DATATEMPLATE_HPP_
