@@ -47,6 +47,9 @@ if(NOT TARGET TitaniumWindows_Utility)
   add_subdirectory(${Utility_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Utility EXCLUDE_FROM_ALL)
 endif()
 
+file(GLOB_RECURSE WINDOWS_WRAPPERS "src/Windows.*.cpp")
+file(GLOB_RECURSE WINDOWS_HEADERS "include/Windows.*.hpp")
+
 set(SOURCE_UI
   include/TitaniumWindows/UI/Switch.hpp
   src/Switch.cpp
@@ -82,48 +85,8 @@ set(SOURCE_UI
   src/TableView.cpp
   include/TitaniumWindows/UI/TableViewRow.hpp
   src/TableViewRow.cpp
-include/Windows.UI.Core.CoreDispatcher.hpp
-include/Windows.UI.Core.CoreWindow.hpp
-include/Windows.UI.Xaml.Controls.Canvas.hpp
-include/Windows.UI.Xaml.Controls.Control.hpp
-include/Windows.UI.Xaml.Controls.Page.hpp
-include/Windows.UI.Xaml.Controls.Panel.hpp
-include/Windows.UI.Xaml.Controls.TextBox.hpp
-include/Windows.UI.Xaml.Controls.ToggleSwitch.hpp
-include/Windows.UI.Xaml.DataTemplate.hpp
-include/Windows.UI.Xaml.DependencyObject.hpp
-include/Windows.UI.Xaml.DependencyProperty.hpp
-include/Windows.UI.Xaml.FrameworkElement.hpp
-include/Windows.UI.Xaml.Media.Animation.TransitionCollection.hpp
-include/Windows.UI.Xaml.Media.CacheMode.hpp
-include/Windows.UI.Xaml.Media.Projection.hpp
-include/Windows.UI.Xaml.Media.RectangleGeometry.hpp
-include/Windows.UI.Xaml.Media.Transform.hpp
-include/Windows.UI.Xaml.RoutedEvent.hpp
-include/Windows.UI.Xaml.UIElement.hpp
-include/Windows.UI.Xaml.Window.hpp
-include/Windows.UI.Xaml.Controls.UserControl.hpp
-src/Windows.UI.Core.CoreDispatcher.cpp
-src/Windows.UI.Core.CoreWindow.cpp
-src/Windows.UI.Xaml.Controls.Canvas.cpp
-src/Windows.UI.Xaml.Controls.Control.cpp
-src/Windows.UI.Xaml.Controls.Page.cpp
-src/Windows.UI.Xaml.Controls.Panel.cpp
-src/Windows.UI.Xaml.Controls.TextBox.cpp
-src/Windows.UI.Xaml.Controls.ToggleSwitch.cpp
-src/Windows.UI.Xaml.DataTemplate.cpp
-src/Windows.UI.Xaml.DependencyObject.cpp
-src/Windows.UI.Xaml.DependencyProperty.cpp
-src/Windows.UI.Xaml.FrameworkElement.cpp
-src/Windows.UI.Xaml.Media.Animation.TransitionCollection.cpp
-src/Windows.UI.Xaml.Media.CacheMode.cpp
-src/Windows.UI.Xaml.Media.Projection.cpp
-src/Windows.UI.Xaml.Media.RectangleGeometry.cpp
-src/Windows.UI.Xaml.Media.Transform.cpp
-src/Windows.UI.Xaml.RoutedEvent.cpp
-src/Windows.UI.Xaml.UIElement.cpp
-src/Windows.UI.Xaml.Window.cpp
-src/Windows.UI.Xaml.Controls.UserControl.cpp
+${WINDOWS_WRAPPERS}
+${WINDOWS_HEADERS}
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})

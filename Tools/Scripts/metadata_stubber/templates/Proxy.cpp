@@ -110,6 +110,7 @@ for (var i = 0; i < types_to_include.length; i++) {
 		void <%= base_name %>::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
+			// FIXME If there are no public constructors, should we throw a runtime error here?
 			wrapped__ = ref new ::<%= windows_name %>();
 		}
 
