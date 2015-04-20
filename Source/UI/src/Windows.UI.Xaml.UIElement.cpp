@@ -364,7 +364,11 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
-			auto value = ref new ::Windows::Foundation::Point(0, 0);
+			auto value = ::Windows::Foundation::Point(0, 0);
+			auto X = object.GetProperty("X");
+			value.X = static_cast<double>(X);
+			auto Y = object.GetProperty("Y");
+			value.Y = static_cast<double>(Y);
 			unwrap()->RenderTransformOrigin = value;
 			return true;
 		}

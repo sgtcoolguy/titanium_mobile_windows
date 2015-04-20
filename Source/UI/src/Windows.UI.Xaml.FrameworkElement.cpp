@@ -339,7 +339,15 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
-			auto value = ref new Windows::UI::Xaml::Thickness(0, 0, 0, 0);
+			auto value = ::Windows::UI::Xaml::Thickness(0, 0, 0, 0);
+			auto Left = object.GetProperty("Left");
+			value.Left = static_cast<int32_t>(Left);
+			auto Top = object.GetProperty("Top");
+			value.Top = static_cast<int32_t>(Top);
+			auto Right = object.GetProperty("Right");
+			value.Right = static_cast<int32_t>(Right);
+			auto Bottom = object.GetProperty("Bottom");
+			value.Bottom = static_cast<int32_t>(Bottom);
 			unwrap()->Margin = value;
 			return true;
 		}

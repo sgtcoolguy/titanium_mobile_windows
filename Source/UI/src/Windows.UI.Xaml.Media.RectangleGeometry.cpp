@@ -59,7 +59,15 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
-			auto value = ref new Windows::Foundation::Rect(0, 0, 0, 0);
+			auto value = ::Windows::Foundation::Rect(0, 0, 0, 0);
+			auto X = object.GetProperty("X");
+			value.X = static_cast<double>(X);
+			auto Y = object.GetProperty("Y");
+			value.Y = static_cast<double>(Y);
+			auto Width = object.GetProperty("Width");
+			value.Width = static_cast<double>(Width);
+			auto Height = object.GetProperty("Height");
+			value.Height = static_cast<double>(Height);
 			unwrap()->Rect = value;
 			return true;
 		}

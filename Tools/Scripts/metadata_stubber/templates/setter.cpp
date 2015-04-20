@@ -57,9 +57,28 @@ if (type == 'bool') {
 -%>
 			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object = static_cast<JSObject>(argument);
-			auto value = ref new ::<%= windows_type_name %>(<%= ctr_args %>);
-			// TODO Need to explicitly assign fields!
+			auto value = ::<%= windows_type_name %>(<%= ctr_args %>);
+			// Assign fields explicitly since we cheated on constructor args
 <%
+		for (field_name in other_type.fields) {
+-%>
+			auto <%= field_name %> = object.GetProperty("<%= field_name %>");
+<%
+			var field_type = other_type.fields[field_name].type;
+			if (field_type == 'int64' || field_type == 'float32' || field_type == 'double') {
+-%>
+			value.<%= field_name %> = static_cast<double>(<%= field_name %>);
+<%
+			} else if (field_type == 'uint32') {
+-%>
+			value.<%= field_name %> = static_cast<uint32_t>(<%= field_name %>);
+<%
+			} else {
+-%>
+			value.<%= field_name %> = static_cast<int32_t>(<%= field_name %>);
+<%
+			}
+		}
 	} else if (is_enum) {
 -%>
 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
