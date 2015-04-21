@@ -48,6 +48,8 @@ if(NOT TARGET TitaniumWindows_Utility)
 endif()
 
 set(SOURCE_UI
+  include/TitaniumWindows/UIModule.hpp
+  src/UIModule.cpp
   include/TitaniumWindows/UI/Switch.hpp
   src/Switch.cpp
   include/TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp

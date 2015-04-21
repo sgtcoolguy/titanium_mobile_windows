@@ -41,7 +41,7 @@ require('./ti.ui.listview.test');
 require('./ti.ui.switch.test');
 require('./ti.ui.tableview.test');
 require('./ti.ui.textfield.test');
-//require('./ti.ui.window.test'); // FIXME Crashes at should_not_crash
+require('./ti.ui.window.test');
 require('./ti.utils.test');
 require('./ti.xml.test');
 // ============================================================================

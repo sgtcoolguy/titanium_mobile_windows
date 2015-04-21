@@ -25,6 +25,9 @@ namespace Titanium
 		JSObject TiObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& TiObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject UIObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& UIObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject APIObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& APIObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -160,6 +163,7 @@ namespace Titanium
 		JSContext js_context__;
 		JSObject global_object__;
 		JSObject ti__;
+		JSObject ui__;
 		JSObject api__;
 		JSObject view__;
 		JSObject geolocation__;

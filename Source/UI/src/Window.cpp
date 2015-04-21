@@ -35,6 +35,8 @@ namespace TitaniumWindows
 
 		void Window::close(const std::shared_ptr<Titanium::UI::CloseWindowParams>& params) TITANIUM_NOEXCEPT
 		{
+			Titanium::UI::Window::close(params);
+
 			// FIXME How do we handle this? It should navigate to the next window/page in a stack...
 			layoutDelegate__->hide();
 
@@ -63,6 +65,8 @@ namespace TitaniumWindows
 
 		void Window::open(const std::shared_ptr<Titanium::UI::OpenWindowParams>& params) TITANIUM_NOEXCEPT
 		{
+			Titanium::UI::Window::open(params);
+
 			// Fire open event on this window
 			auto ctx = get_context();
 			auto open_event = ctx.CreateObject();

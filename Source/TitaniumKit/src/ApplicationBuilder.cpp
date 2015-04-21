@@ -31,6 +31,7 @@ namespace Titanium
 		: js_context__(js_context),
 		  global_object__(js_context__.get_global_object()),
 		  ti__(js_context__.CreateObject(JSExport<Titanium::TiModule>::Class())),
+		  ui__(js_context__.CreateObject(JSExport<Titanium::UIModule>::Class())),
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
 		  geolocation__(js_context__.CreateObject(JSExport<Titanium::GeolocationModule>::Class())),
@@ -75,25 +76,24 @@ namespace Titanium
 
 	Application ApplicationBuilder::build()
 	{
-		JSObject ui = js_context__.CreateObject(JSExport<Titanium::UIModule>::Class());
-		ui.SetProperty("AlertDialog", alertDialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("Animation", animation__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("Button", button__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("EmailDialog", emaildialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("ImageView", imageview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("Label", label__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("Slider", slider__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("Switch", switch__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("ScrollView", scrollview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("TextField", textField__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("View", view__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("Window", window__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("ListView", listview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("ListSection", listsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("WebView", webview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("TableView",tableview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("TableViewSection", tableviewsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui.SetProperty("TableViewRow", tableviewrow__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("AlertDialog", alertDialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("Animation", animation__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("Button", button__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("EmailDialog", emaildialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("ImageView", imageview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("Label", label__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("Slider", slider__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("Switch", switch__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("ScrollView", scrollview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("TextField", textField__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("View", view__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("Window", window__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("ListView", listview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("ListSection", listsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("WebView", webview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("TableView",tableview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("TableViewSection", tableviewsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("TableViewRow", tableviewrow__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
 		filesystem__.SetProperty("File", file__);
 		network__.SetProperty("HTTPClient", httpclient__);
@@ -103,7 +103,7 @@ namespace Titanium
 		global_object__.SetProperty("Ti", titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
 		titanium.SetProperty("API", api__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		titanium.SetProperty("UI", ui, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("UI", ui__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Platform", platform__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Accelerometer", accelerometer__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Gesture", gesture__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -136,7 +136,7 @@ namespace Titanium
 
 			  // Create the global alert function
 			  alert = function (_msg) {
-				  Ti.UI.createAlertDialog({
+				  Ti.ui__.createAlertDialog({
 					  title: 'Alert',
 					  message: _msg
 				  }).show();
@@ -159,6 +159,17 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::TiObject(const JSObject& ti) TITANIUM_NOEXCEPT
 	{
 		ti__ = ti;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::UIObject() const TITANIUM_NOEXCEPT
+	{
+		return ui__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::UIObject(const JSObject& ui) TITANIUM_NOEXCEPT
+	{
+		ui__ = ui;
 		return *this;
 	}
 
