@@ -53,7 +53,8 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("DatabaseModule:: ctor ", this);
 	}
 
-	void DatabaseModule::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
+	void DatabaseModule::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
+	{
 		HAL_LOG_DEBUG("DatabaseModule:: postCallAsConstructor ", this);
 	}
 

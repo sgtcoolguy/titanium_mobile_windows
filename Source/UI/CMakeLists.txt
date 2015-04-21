@@ -48,6 +48,8 @@ if(NOT TARGET TitaniumWindows_Utility)
 endif()
 
 set(SOURCE_UI
+  include/TitaniumWindows/UIModule.hpp
+  src/UIModule.cpp
   include/TitaniumWindows/UI/Switch.hpp
   src/Switch.cpp
   include/TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp
@@ -82,6 +84,8 @@ set(SOURCE_UI
   src/TableView.cpp
   include/TitaniumWindows/UI/TableViewRow.hpp
   src/TableViewRow.cpp
+  include/TitaniumWindows/UI/ActivityIndicator.hpp
+  src/ActivityIndicator.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})

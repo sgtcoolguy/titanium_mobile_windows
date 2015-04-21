@@ -25,6 +25,9 @@ namespace Titanium
 		JSObject TiObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& TiObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject UIObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& UIObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject APIObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& APIObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -142,6 +145,12 @@ namespace Titanium
 		JSObject MapRouteObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& MapRouteObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject ActivityIndicatorObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& ActivityIndicatorObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject ActivityIndicatorStyleObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& ActivityIndicatorStyleObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		virtual ~ApplicationBuilder() = default;
 		ApplicationBuilder(const ApplicationBuilder&) = default;
 		ApplicationBuilder& operator=(const ApplicationBuilder&) = default;
@@ -160,6 +169,7 @@ namespace Titanium
 		JSContext js_context__;
 		JSObject global_object__;
 		JSObject ti__;
+		JSObject ui__;
 		JSObject api__;
 		JSObject view__;
 		JSObject geolocation__;
@@ -199,6 +209,8 @@ namespace Titanium
 		JSObject mapCamera__;
 		JSObject mapRoute__;
 		JSObject mapView__;
+		JSObject activityIndicator__;
+		JSObject activityIndicatorStyle__;
 #pragma warning(pop)
 	};
 

@@ -29,6 +29,8 @@
 #include "Titanium/UI/ListView.hpp"
 #include "Titanium/UI/ListSection.hpp"
 #include "Titanium/UI/WebView.hpp"
+#include "Titanium/UI/ActivityIndicator.hpp"
+#include "Titanium/UI/ActivityIndicatorStyle.hpp"
 
 namespace Titanium
 {
@@ -41,7 +43,7 @@ namespace Titanium
 
 	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI
    */
-	class TITANIUMKIT_EXPORT UIModule final : public Module, public JSExport<UIModule>
+	class TITANIUMKIT_EXPORT UIModule : public Module, public JSExport<UIModule>
 	{
 	public:
 
@@ -76,6 +78,39 @@ namespace Titanium
 		  @result Titanium.UI.TabGroup
 		*/
 		JSObject createTabGroup(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
+
+		/*!
+		@property
+		@abstract currentTab
+		@discussion Value of the `currentTab` property
+		*/
+		TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<Titanium::UI::View>, currentTab);
+
+		/*!
+		@property
+		@abstract currentWindow
+		@discussion Value of the `currentWindow` property
+		*/
+		TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<Titanium::UI::Window>, currentWindow);
+
+		/*!
+		  @property
+		  @abstract backgroundColor
+		  @discussion Value of the `backgroundColor` property
+		*/
+		TITANIUM_PROPERTY_IMPL_DEF(std::string, backgroundColor);
+
+		/*!
+		@property
+		@abstract backgroundImage
+		@discussion Value of the `backgroundImage` property
+		*/
+		TITANIUM_PROPERTY_IMPL_DEF(std::string, backgroundImage);
+
+		TITANIUM_PROPERTY_DEF(backgroundImage);
+		TITANIUM_PROPERTY_DEF(backgroundColor);
+		TITANIUM_PROPERTY_DEF(currentTab);
+		TITANIUM_PROPERTY_READONLY_DEF(currentWindow);
 
 		TITANIUM_PROPERTY_READONLY_DEF(ANIMATION_CURVE_EASE_IN);
 		TITANIUM_PROPERTY_READONLY_DEF(ANIMATION_CURVE_EASE_IN_OUT);
@@ -210,10 +245,17 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(createListSection);
 		TITANIUM_FUNCTION_DEF(createListItem);
 		TITANIUM_FUNCTION_DEF(createWebView);
-		TITANIUM_FUNCTION_DEF(setBackgroundColor);
 		TITANIUM_FUNCTION_DEF(createTableView);
 		TITANIUM_FUNCTION_DEF(createTableViewSection);
 		TITANIUM_FUNCTION_DEF(createTableViewRow);
+		TITANIUM_FUNCTION_DEF(getBackgroundImage);
+		TITANIUM_FUNCTION_DEF(setBackgroundImage);
+		TITANIUM_FUNCTION_DEF(getBackgroundColor);
+		TITANIUM_FUNCTION_DEF(setBackgroundColor);
+		TITANIUM_FUNCTION_DEF(getCurrentTab);
+		TITANIUM_FUNCTION_DEF(setCurrentTab);
+		TITANIUM_FUNCTION_DEF(getCurrentWindow);
+		TITANIUM_FUNCTION_DEF(createActivityIndicator);
 
 	private:
 		JSValue animation_curve_ease_in__;
@@ -320,8 +362,17 @@ namespace Titanium
 		JSValue url_error_timeout__;
 		JSValue url_error_unknown__;
 		JSValue url_error_unsupported_scheme__;
-
 		JSFunction createViewFunction(const JSContext& js_context, const std::string& viewClass) const TITANIUM_NOEXCEPT;
+
+#pragma warning(push)
+#pragma warning(disable: 4251)
+		std::shared_ptr<Titanium::UI::View> currentTab__;
+		std::shared_ptr<Titanium::UI::Window> currentWindow__;
+
+		std::string backgroundColor__;
+		std::string backgroundImage__;
+#pragma warning(pop)
+
 	};
 
 }  // namespace Titanium

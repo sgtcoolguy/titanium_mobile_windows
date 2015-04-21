@@ -269,6 +269,7 @@ namespace Titanium
   TabGroup.prototype.setActiveTab = function (_n) {
       this.__ti_private__.index = _n;
       this.__ti_private__.content.scrollTo(this.__ti_private__.windowWidth*_n, 0);
+      Ti.UI.setCurrentTab(this.__ti_private__.tabs[_n]);
   }
   TabGroup.prototype.open = function () {
       this.__ti_private__.window.open();
@@ -309,6 +310,11 @@ namespace Titanium
     )JS";
 		return static_cast<JSObject>(get_context().CreateFunction(script, { "_arguments" })({ parameters }, this_object));
 	}
+
+	TITANIUM_PROPERTY_READWRITE(UIModule, std::string, backgroundColor);
+	TITANIUM_PROPERTY_READWRITE(UIModule, std::string, backgroundImage);
+	TITANIUM_PROPERTY_READWRITE(UIModule, std::shared_ptr<Titanium::UI::View>, currentTab);
+	TITANIUM_PROPERTY_READWRITE(UIModule, std::shared_ptr<Titanium::UI::Window>, currentWindow);
 
 	TITANIUM_PROPERTY_GETTER(UIModule, ANIMATION_CURVE_EASE_IN)
 	{
@@ -754,7 +760,16 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(UIModule, createTableView);
 		TITANIUM_ADD_FUNCTION(UIModule, createTableViewSection);
 		TITANIUM_ADD_FUNCTION(UIModule, createTableViewRow);
+		TITANIUM_ADD_FUNCTION(UIModule, getBackgroundColor);
+		TITANIUM_ADD_FUNCTION(UIModule, createActivityIndicator);
 		TITANIUM_ADD_FUNCTION(UIModule, setBackgroundColor);
+		TITANIUM_ADD_FUNCTION(UIModule, getBackgroundImage);
+		TITANIUM_ADD_FUNCTION(UIModule, setBackgroundImage);
+		TITANIUM_ADD_FUNCTION(UIModule, getCurrentTab);
+		TITANIUM_ADD_FUNCTION(UIModule, setCurrentTab);
+		TITANIUM_ADD_FUNCTION(UIModule, getCurrentWindow);
+		TITANIUM_ADD_PROPERTY(UIModule, currentTab);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, currentWindow);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ANIMATION_CURVE_EASE_IN);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ANIMATION_CURVE_EASE_IN_OUT);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ANIMATION_CURVE_EASE_OUT);
@@ -981,11 +996,70 @@ namespace Titanium
 		CREATE_TITANIUM_UI(TableViewRow);
 	}
 
-	// TODO empty implementation so that it won't break default app template. Need to implement later on.
-	TITANIUM_FUNCTION(UIModule, setBackgroundColor)
+	TITANIUM_PROPERTY_GETTER(UIModule, backgroundImage)
 	{
-		TITANIUM_LOG_DEBUG("UI::setBackgroundColor Not implemented");
-		return this_object.get_context().CreateUndefined();
+		return get_context().CreateString(get_backgroundImage());
 	}
+
+	TITANIUM_PROPERTY_SETTER(UIModule, backgroundImage)
+	{
+		TITANIUM_ASSERT(argument.IsString());
+		set_backgroundImage(static_cast<std::string>(argument));
+		return true;
+	}
+
+	TITANIUM_PROPERTY_GETTER(UIModule, backgroundColor)
+	{
+		return get_context().CreateString(get_backgroundColor());
+	}
+
+	TITANIUM_FUNCTION(UIModule, createActivityIndicator)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ActivityIndicator);
+	}
+
+	TITANIUM_PROPERTY_SETTER(UIModule, backgroundColor)
+	{
+		TITANIUM_ASSERT(argument.IsString());
+		set_backgroundColor(static_cast<std::string>(argument));
+		return true;
+	}
+
+	TITANIUM_PROPERTY_GETTER(UIModule, currentTab)
+	{
+		const auto tab = get_currentTab();
+		if (tab != nullptr) {
+			return tab->get_object();
+		}
+		return get_context().CreateNull();
+	}
+
+	TITANIUM_PROPERTY_SETTER(UIModule, currentTab) 
+	{
+		if (argument.IsObject()) {
+			set_currentTab(static_cast<JSObject>(argument).GetPrivate<Titanium::UI::View>());
+		} else {
+			set_currentTab(nullptr);
+		}
+		return true;
+	}
+
+	TITANIUM_PROPERTY_GETTER(UIModule, currentWindow)
+	{
+		const auto window = get_currentWindow();
+		if (window != nullptr) {
+			return window->get_object();
+		}
+		return get_context().CreateNull();
+	}
+
+	TITANIUM_FUNCTION_AS_GETTER(UIModule, getBackgroundImage, backgroundImage)
+	TITANIUM_FUNCTION_AS_SETTER(UIModule, setBackgroundImage, backgroundImage)
+	TITANIUM_FUNCTION_AS_GETTER(UIModule, getBackgroundColor, backgroundColor)
+	TITANIUM_FUNCTION_AS_SETTER(UIModule, setBackgroundColor, backgroundColor)
+	TITANIUM_FUNCTION_AS_GETTER(UIModule, getCurrentTab, currentTab)
+	TITANIUM_FUNCTION_AS_SETTER(UIModule, setCurrentTab, currentTab)
+	TITANIUM_FUNCTION_AS_GETTER(UIModule, getCurrentWindow, currentWindow)
 
 }  // namespace Titanium

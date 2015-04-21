@@ -13,6 +13,7 @@
 #define XCTAssertNotEqual ASSERT_NE
 #define XCTAssertTrue ASSERT_TRUE
 #define XCTAssertFalse ASSERT_FALSE
+#define XCTAssertNoThrow ASSERT_NO_THROW
 
 using namespace Titanium;
 using namespace HAL;
@@ -163,4 +164,52 @@ TEST_F(UITests, properties)
 	XCTAssertTrue(UI.HasProperty("URL_ERROR_TIMEOUT"));
 	XCTAssertTrue(UI.HasProperty("URL_ERROR_UNKNOWN"));
 	XCTAssertTrue(UI.HasProperty("URL_ERROR_UNSUPPORTED_SCHEME"));
+}
+
+TEST_F(UITests, ActivityIndicator)
+{
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
+	auto global_object = js_context.get_global_object();
+
+	XCTAssertFalse(global_object.HasProperty("Titanium"));
+	auto Titanium = js_context.CreateObject();
+	global_object.SetProperty("Titanium", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(global_object.HasProperty("Titanium"));
+
+	// Make the alias "Ti" for the "Titanium" property.
+	XCTAssertFalse(global_object.HasProperty("Ti"));
+	global_object.SetProperty("Ti", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(global_object.HasProperty("Ti"));
+
+	XCTAssertFalse(Titanium.HasProperty("UI"));
+	auto UI = js_context.CreateObject(JSExport<Titanium::UIModule>::Class());
+	Titanium.SetProperty("UI", UI, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(Titanium.HasProperty("UI"));
+
+	XCTAssertFalse(UI.HasProperty("ActivityIndicator"));
+	auto ActivityIndicator = js_context.CreateObject(JSExport<Titanium::UI::ActivityIndicator>::Class());
+	UI.SetProperty("ActivityIndicator", ActivityIndicator, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(UI.HasProperty("ActivityIndicator"));
+
+	XCTAssertFalse(UI.HasProperty("ActivityIndicatorStyle"));
+	auto ActivityIndicatorStyle = js_context.CreateObject(JSExport<Titanium::UI::ActivityIndicatorStyle>::Class());
+	UI.SetProperty("ActivityIndicatorStyle", ActivityIndicatorStyle, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(UI.HasProperty("ActivityIndicatorStyle"));
+
+	XCTAssertTrue(ActivityIndicatorStyle.HasProperty("BIG"));
+	XCTAssertTrue(ActivityIndicatorStyle.HasProperty("BIG_DARK"));
+	XCTAssertTrue(ActivityIndicatorStyle.HasProperty("DARK"));
+	XCTAssertTrue(ActivityIndicatorStyle.HasProperty("PLAIN"));
+
+	XCTAssertTrue(ActivityIndicator.HasProperty("color"));
+	XCTAssertTrue(ActivityIndicator.HasProperty("font"));
+	XCTAssertTrue(ActivityIndicator.HasProperty("message"));
+	XCTAssertTrue(ActivityIndicator.HasProperty("messageid"));
+	XCTAssertTrue(ActivityIndicator.HasProperty("style"));
+
+	XCTAssertTrue(UI.HasProperty("createActivityIndicator"));
+
+	XCTAssertNoThrow(js_context.JSEvaluateScript("var indicator = Ti.UI.createActivityIndicator();"));
+	XCTAssertTrue(static_cast<bool>(js_context.JSEvaluateScript("indicator.style == Ti.UI.ActivityIndicatorStyle.PLAIN")));
+
 }
