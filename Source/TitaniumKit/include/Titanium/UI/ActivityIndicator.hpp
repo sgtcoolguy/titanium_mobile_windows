@@ -66,6 +66,20 @@ namespace Titanium
 			*/
 			TITANIUM_PROPERTY_IMPL_DEF(ACTIVITY_INDICATOR_STYLE, style);
 
+			/*!
+			@property
+			@abstract indicatorColor
+			@discussion Color of the animated indicator.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, indicatorColor);
+
+			/*!
+			@property
+			@abstract indicatorDiameter
+			@discussion Diameter of the indicator. The diameter of the animated indicator, exclusive of any message text.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, indicatorDiameter);
+
 			ActivityIndicator(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ActivityIndicator() = default;
@@ -83,6 +97,8 @@ namespace Titanium
 			TITANIUM_PROPERTY_DEF(message);
 			TITANIUM_PROPERTY_DEF(messageid);
 			TITANIUM_PROPERTY_DEF(style);
+			TITANIUM_PROPERTY_DEF(indicatorColor);
+			TITANIUM_PROPERTY_DEF(indicatorDiameter);
 
 			TITANIUM_FUNCTION_DEF(getColor);
 			TITANIUM_FUNCTION_DEF(setColor);
@@ -94,6 +110,10 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setMessageid);
 			TITANIUM_FUNCTION_DEF(getStyle);
 			TITANIUM_FUNCTION_DEF(setStyle);
+			TITANIUM_FUNCTION_DEF(getIndicatorColor);
+			TITANIUM_FUNCTION_DEF(setIndicatorColor);
+			TITANIUM_FUNCTION_DEF(getIndicatorDiameter);
+			TITANIUM_FUNCTION_DEF(setIndicatorDiameter);
 
 		protected:
 #pragma warning(push)
@@ -102,6 +122,8 @@ namespace Titanium
 			Font font__;
 			std::string message__;
 			std::string messageid__;
+			std::string indicatorColor__;
+			std::string indicatorDiameter__;
 			ACTIVITY_INDICATOR_STYLE style__;
 #pragma warning(pop)
 		};

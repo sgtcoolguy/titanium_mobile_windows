@@ -14,7 +14,7 @@ namespace Titanium
 	{
 
 		ActivityIndicatorStyle::ActivityIndicatorStyle(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context)
+			: JSExportObject(js_context)
 			, big__(js_context.CreateNumber(static_cast<std::uint32_t>(ACTIVITY_INDICATOR_STYLE::BIG)))
 			, big_dark__(js_context.CreateNumber(static_cast<std::uint32_t>(ACTIVITY_INDICATOR_STYLE::BIG_DARK)))
 			, dark__(js_context.CreateNumber(static_cast<std::uint32_t>(ACTIVITY_INDICATOR_STYLE::DARK)))

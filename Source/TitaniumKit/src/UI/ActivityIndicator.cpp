@@ -27,6 +27,8 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(ActivityIndicator, std::string, message);
 		TITANIUM_PROPERTY_READWRITE(ActivityIndicator, std::string, messageid);
 		TITANIUM_PROPERTY_READWRITE(ActivityIndicator, ACTIVITY_INDICATOR_STYLE, style);
+		TITANIUM_PROPERTY_READWRITE(ActivityIndicator, std::string, indicatorColor);
+		TITANIUM_PROPERTY_READWRITE(ActivityIndicator, std::string, indicatorDiameter);
 
 		void ActivityIndicator::JSExportInitialize() {
 			JSExport<ActivityIndicator>::SetClassVersion(1);
@@ -37,6 +39,8 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(ActivityIndicator, message);
 			TITANIUM_ADD_PROPERTY(ActivityIndicator, messageid);
 			TITANIUM_ADD_PROPERTY(ActivityIndicator, style);
+			TITANIUM_ADD_PROPERTY(ActivityIndicator, indicatorColor);
+			TITANIUM_ADD_PROPERTY(ActivityIndicator, indicatorDiameter);
 
 			TITANIUM_ADD_FUNCTION(ActivityIndicator, getColor);
 			TITANIUM_ADD_FUNCTION(ActivityIndicator, setColor);
@@ -48,6 +52,11 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(ActivityIndicator, setMessageid);
 			TITANIUM_ADD_FUNCTION(ActivityIndicator, getStyle);
 			TITANIUM_ADD_FUNCTION(ActivityIndicator, setStyle);
+
+			TITANIUM_ADD_FUNCTION(ActivityIndicator, getIndicatorColor);
+			TITANIUM_ADD_FUNCTION(ActivityIndicator, setIndicatorColor);
+			TITANIUM_ADD_FUNCTION(ActivityIndicator, getIndicatorDiameter);
+			TITANIUM_ADD_FUNCTION(ActivityIndicator, setIndicatorDiameter);
 		}
 
 		TITANIUM_PROPERTY_GETTER(ActivityIndicator, color)
@@ -111,6 +120,30 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_PROPERTY_GETTER(ActivityIndicator, indicatorColor)
+		{
+			return get_context().CreateString(get_indicatorColor());
+		}
+
+		TITANIUM_PROPERTY_SETTER(ActivityIndicator, indicatorColor)
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			set_indicatorColor(static_cast<std::string>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(ActivityIndicator, indicatorDiameter)
+		{
+			return get_context().CreateString(get_indicatorDiameter());
+		}
+
+		TITANIUM_PROPERTY_SETTER(ActivityIndicator, indicatorDiameter)
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			set_indicatorDiameter(static_cast<std::string>(argument));
+			return true;
+		}
+
 		TITANIUM_FUNCTION_AS_GETTER(ActivityIndicator, getColor, color)
 		TITANIUM_FUNCTION_AS_SETTER(ActivityIndicator, setColor, color)
 
@@ -121,10 +154,16 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_SETTER(ActivityIndicator, setMessage, message)
 
 		TITANIUM_FUNCTION_AS_GETTER(ActivityIndicator, getMessageid, messageid)
-		TITANIUM_FUNCTION_AS_GETTER(ActivityIndicator, setMessageid, messageid)
+		TITANIUM_FUNCTION_AS_SETTER(ActivityIndicator, setMessageid, messageid)
 
 		TITANIUM_FUNCTION_AS_GETTER(ActivityIndicator, getStyle, style)
-		TITANIUM_FUNCTION_AS_GETTER(ActivityIndicator, setStyle, style)
+		TITANIUM_FUNCTION_AS_SETTER(ActivityIndicator, setStyle, style)
+
+		TITANIUM_FUNCTION_AS_GETTER(ActivityIndicator, getIndicatorColor, indicatorColor)
+		TITANIUM_FUNCTION_AS_SETTER(ActivityIndicator, setIndicatorColor, indicatorColor)
+
+		TITANIUM_FUNCTION_AS_GETTER(ActivityIndicator, getIndicatorDiameter, indicatorDiameter)
+		TITANIUM_FUNCTION_AS_SETTER(ActivityIndicator, setIndicatorDiameter, indicatorDiameter)
 
 	} // namespace UI
 } // namespace Titanium
