@@ -761,6 +761,7 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(UIModule, createTableViewSection);
 		TITANIUM_ADD_FUNCTION(UIModule, createTableViewRow);
 		TITANIUM_ADD_FUNCTION(UIModule, getBackgroundColor);
+		TITANIUM_ADD_FUNCTION(UIModule, createActivityIndicator);
 		TITANIUM_ADD_FUNCTION(UIModule, setBackgroundColor);
 		TITANIUM_ADD_FUNCTION(UIModule, getBackgroundImage);
 		TITANIUM_ADD_FUNCTION(UIModule, setBackgroundImage);
@@ -1010,6 +1011,12 @@ namespace Titanium
 	TITANIUM_PROPERTY_GETTER(UIModule, backgroundColor)
 	{
 		return get_context().CreateString(get_backgroundColor());
+	}
+
+	TITANIUM_FUNCTION(UIModule, createActivityIndicator)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ActivityIndicator);
 	}
 
 	TITANIUM_PROPERTY_SETTER(UIModule, backgroundColor)

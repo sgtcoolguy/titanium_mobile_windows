@@ -74,6 +74,7 @@ namespace TitaniumWindows
 		                                                            .MapAnnotationObject(js_context__.CreateObject(JSExport<TitaniumWindows::Map::Annotation>::Class()))
 		                                                            .TableViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TableView>::Class()))
 		                                                            .TableViewRowObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TableViewRow>::Class()))
+		                                                            .ActivityIndicatorObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ActivityIndicator>::Class()))
 		                                                            .build());
 
 		Suspending += ref new Windows::UI::Xaml::SuspendingEventHandler(this, &Application::OnSuspending);

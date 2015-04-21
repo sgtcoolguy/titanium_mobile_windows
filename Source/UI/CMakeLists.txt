@@ -84,6 +84,8 @@ set(SOURCE_UI
   src/TableView.cpp
   include/TitaniumWindows/UI/TableViewRow.hpp
   src/TableViewRow.cpp
+  include/TitaniumWindows/UI/ActivityIndicator.hpp
+  src/ActivityIndicator.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})
