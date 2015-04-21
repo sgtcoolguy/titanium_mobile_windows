@@ -147,6 +147,9 @@ namespace Titanium
 
 			  // Load _app_info_.json
 			  Ti.App._loadAppInfo();
+
+			  Ti.Network.encodeURIComponent = encodeURIComponent;
+			  Ti.Network.decodeURIComponent = decodeURIComponent;
 			)js";
 
 		js_context__.JSEvaluateScript(builtin_functions_script);

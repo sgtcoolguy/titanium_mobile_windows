@@ -6,14 +6,6 @@
  */
 var should = require('./should');
 
-describe("Titanium.Network", function () {
-    it("createHTTPClient", function (finish) {
-        should(Ti.Network.createHTTPClient).not.be.null;
-        should(Ti.Network.createHTTPClient).be.a.Function;
-        finish();
-    });
-});
-
 describe("Titanium.Network.HTTPClient", function () {
     // Test for TIMOB-4513
     it.skip("secureValidateProperty", function (finish) {

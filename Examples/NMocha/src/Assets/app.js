@@ -26,11 +26,12 @@ require('./ti.geolocation.test');
 require('./ti.gesture.test');
 //require('./ti.internal.test');
 require('./ti.map.test');
+require('./ti.network.test');
 require('./ti.network.httpclient.test');
 require('./ti.platform.test');
 require('./ti.require.test');
 require('./ti.test');
-//require('./ti.ui.activityindicator.test'); // TODO Implement activity indicator
+require('./ti.ui.activityindicator.test');
 require('./ti.ui.constants.test');
 require('./ti.ui.emaildialog.test');
 require('./ti.ui.imageview.test');
