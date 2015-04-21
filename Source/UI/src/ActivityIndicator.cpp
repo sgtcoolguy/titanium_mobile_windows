@@ -85,7 +85,8 @@ namespace TitaniumWindows
 			label__->Text = TitaniumWindows::Utility::ConvertUTF8String(message);
 		}
 
-		void ActivityIndicator::JSExportInitialize() {
+		void ActivityIndicator::JSExportInitialize() 
+		{
 			JSExport<ActivityIndicator>::SetClassVersion(1);
 			JSExport<ActivityIndicator>::SetParent(JSExport<Titanium::UI::ActivityIndicator>::Class());
 		}
