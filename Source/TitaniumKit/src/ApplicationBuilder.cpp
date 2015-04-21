@@ -139,7 +139,7 @@ namespace Titanium
 
 			  // Create the global alert function
 			  alert = function (_msg) {
-				  Ti.ui__.createAlertDialog({
+				  Ti.UI.createAlertDialog({
 					  title: 'Alert',
 					  message: _msg
 				  }).show();
