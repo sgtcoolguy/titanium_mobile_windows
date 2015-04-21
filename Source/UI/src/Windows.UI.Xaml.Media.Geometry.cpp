@@ -29,7 +29,6 @@ namespace Titanium
 		void Geometry::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new ::Windows::UI::Xaml::Media::Geometry();
 		}
 
 		::Windows::UI::Xaml::Media::Geometry^ Geometry::unwrapWindows_UI_Xaml_Media_Geometry() const

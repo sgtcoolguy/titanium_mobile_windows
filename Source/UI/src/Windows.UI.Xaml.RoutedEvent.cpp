@@ -25,7 +25,6 @@ namespace Titanium
 		void RoutedEvent::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new ::Windows::UI::Xaml::RoutedEvent();
 		}
 
 		::Windows::UI::Xaml::RoutedEvent^ RoutedEvent::unwrapWindows_UI_Xaml_RoutedEvent() const

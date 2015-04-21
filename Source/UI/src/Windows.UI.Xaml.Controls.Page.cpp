@@ -30,7 +30,6 @@ namespace Titanium
 		void Page::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new ::Windows::UI::Xaml::Controls::Page();
 		}
 
 		::Windows::UI::Xaml::Controls::Page^ Page::unwrapWindows_UI_Xaml_Controls_Page() const

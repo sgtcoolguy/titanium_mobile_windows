@@ -26,7 +26,6 @@ namespace Titanium
 		void DependencyProperty::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new ::Windows::UI::Xaml::DependencyProperty();
 		}
 
 		::Windows::UI::Xaml::DependencyProperty^ DependencyProperty::unwrapWindows_UI_Xaml_DependencyProperty() const

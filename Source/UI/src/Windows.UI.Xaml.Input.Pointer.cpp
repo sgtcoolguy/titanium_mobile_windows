@@ -27,7 +27,6 @@ namespace Titanium
 		void Pointer::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new ::Windows::UI::Xaml::Input::Pointer();
 		}
 
 		::Windows::UI::Xaml::Input::Pointer^ Pointer::unwrapWindows_UI_Xaml_Input_Pointer() const

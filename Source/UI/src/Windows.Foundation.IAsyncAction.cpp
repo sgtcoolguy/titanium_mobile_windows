@@ -24,7 +24,6 @@ namespace Titanium
 		void IAsyncAction::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new ::Windows::Foundation::IAsyncAction();
 		}
 
 		::Windows::Foundation::IAsyncAction^ IAsyncAction::unwrapWindows_Foundation_IAsyncAction() const

@@ -10,6 +10,7 @@ var base_name = namespaces[namespaces.length - 1];
 var underscore_name = full_name.replace(/\./g, '_');
 var name_upper = underscore_name.toUpperCase();
 var windows_name = full_name.to_windows_name();
+var has_constructor = false;
 
 var parent_name = "Titanium::Module";
 if (parent && parent.indexOf('[mscorlib]') != 0) {
@@ -43,8 +44,12 @@ if (methods) {
 		// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
 		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
 			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
-			method.name == ".ctor" || method.returnType == 'void') {
+			method.returnType == 'void') {
 				continue;
+		}
+		if (method.name == '.ctor') {
+			has_constructor = true;
+			continue;
 		}
 		// Skip non-public methods
 		if (method.attributes.indexOf("public") == -1) {
@@ -110,8 +115,13 @@ for (var i = 0; i < types_to_include.length; i++) {
 		void <%= base_name %>::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			// FIXME If there are no public constructors, should we throw a runtime error here?
+<%
+if (has_constructor) {
+-%>
 			wrapped__ = ref new ::<%= windows_name %>();
+<%
+}
+-%>
 		}
 
 		::<%= windows_name %>^ <%= base_name %>::unwrap<%= underscore_name %>() const

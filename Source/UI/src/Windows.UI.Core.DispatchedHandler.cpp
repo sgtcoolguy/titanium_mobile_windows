@@ -25,7 +25,6 @@ namespace Titanium
 		void DispatchedHandler::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new ::Windows::UI::Core::DispatchedHandler();
 		}
 
 		::Windows::UI::Core::DispatchedHandler^ DispatchedHandler::unwrapWindows_UI_Core_DispatchedHandler() const

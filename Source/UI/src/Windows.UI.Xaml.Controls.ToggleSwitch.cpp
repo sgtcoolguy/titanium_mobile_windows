@@ -30,7 +30,6 @@ namespace Titanium
 		void ToggleSwitch::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new ::Windows::UI::Xaml::Controls::ToggleSwitch();
 		}
 
 		::Windows::UI::Xaml::Controls::ToggleSwitch^ ToggleSwitch::unwrapWindows_UI_Xaml_Controls_ToggleSwitch() const

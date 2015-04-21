@@ -27,7 +27,6 @@ namespace Titanium
 		void GeneralTransform::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
 			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new ::Windows::UI::Xaml::Media::GeneralTransform();
 		}
 
 		::Windows::UI::Xaml::Media::GeneralTransform^ GeneralTransform::unwrapWindows_UI_Xaml_Media_GeneralTransform() const
