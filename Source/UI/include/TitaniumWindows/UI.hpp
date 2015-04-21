@@ -24,5 +24,6 @@
 #include "TitaniumWindows/UI/ListView.hpp"
 #include "TitaniumWindows/UI/TableView.hpp"
 #include "TitaniumWindows/UI/TableViewRow.hpp"
+#include "TitaniumWindows/UI/ActivityIndicator.hpp"
 
 #endif  // _TITANIUMWINDOWS_UI_HPP_

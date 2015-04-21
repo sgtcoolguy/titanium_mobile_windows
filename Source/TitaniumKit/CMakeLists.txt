@@ -206,6 +206,10 @@ set(SOURCE_UI
   src/UI/TitleAttributesParams.cpp
   include/Titanium/UI/ShadowDict.hpp
   src/UI/ShadowDict.cpp
+  include/Titanium/UI/ActivityIndicator.hpp
+  src/UI/ActivityIndicator.cpp
+  include/Titanium/UI/ActivityIndicatorStyle.hpp
+  src/UI/ActivityIndicatorStyle.cpp
   )
 
 set(SOURCE_TiLogger_detail

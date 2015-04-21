@@ -69,7 +69,9 @@ namespace Titanium
 		  mapView__(js_context__.CreateObject(JSExport<Titanium::Map::View>::Class())),
 		  tableview__(js_context__.CreateObject(JSExport<Titanium::UI::TableView>::Class())),
 		  tableviewsection__(js_context__.CreateObject(JSExport<Titanium::UI::TableViewSection>::Class())),
-		  tableviewrow__(js_context__.CreateObject(JSExport<Titanium::UI::TableViewRow>::Class()))
+		  tableviewrow__(js_context__.CreateObject(JSExport<Titanium::UI::TableViewRow>::Class())),
+		  activityIndicator__(js_context__.CreateObject(JSExport<Titanium::UI::ActivityIndicator>::Class())),
+		  activityIndicatorStyle__(js_context__.CreateObject(JSExport<Titanium::UI::ActivityIndicatorStyle>::Class()))
 	{
 	}
 
@@ -94,6 +96,8 @@ namespace Titanium
 		ui.SetProperty("TableView",tableview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("TableViewSection", tableviewsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui.SetProperty("TableViewRow", tableviewrow__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("ActivityIndicator", activityIndicator__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui.SetProperty("ActivityIndicatorStyle", activityIndicatorStyle__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
 		filesystem__.SetProperty("File", file__);
 		network__.SetProperty("HTTPClient", httpclient__);
@@ -588,6 +592,28 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::MapViewObject(const JSObject& mapView) TITANIUM_NOEXCEPT
 	{
 		mapView__ = mapView;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::ActivityIndicatorObject() const TITANIUM_NOEXCEPT
+	{
+		return activityIndicator__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::ActivityIndicatorObject(const JSObject& value) TITANIUM_NOEXCEPT
+	{
+		activityIndicator__ = value;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::ActivityIndicatorStyleObject() const TITANIUM_NOEXCEPT
+	{
+		return activityIndicatorStyle__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::ActivityIndicatorStyleObject(const JSObject& value) TITANIUM_NOEXCEPT
+	{
+		activityIndicatorStyle__ = value;
 		return *this;
 	}
 

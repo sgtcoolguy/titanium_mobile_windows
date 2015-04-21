@@ -754,6 +754,7 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(UIModule, createTableView);
 		TITANIUM_ADD_FUNCTION(UIModule, createTableViewSection);
 		TITANIUM_ADD_FUNCTION(UIModule, createTableViewRow);
+		TITANIUM_ADD_FUNCTION(UIModule, createActivityIndicator);
 		TITANIUM_ADD_FUNCTION(UIModule, setBackgroundColor);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ANIMATION_CURVE_EASE_IN);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ANIMATION_CURVE_EASE_IN_OUT);
@@ -979,6 +980,12 @@ namespace Titanium
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(TableViewRow);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createActivityIndicator)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ActivityIndicator);
 	}
 
 	// TODO empty implementation so that it won't break default app template. Need to implement later on.

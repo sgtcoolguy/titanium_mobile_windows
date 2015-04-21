@@ -142,6 +142,12 @@ namespace Titanium
 		JSObject MapRouteObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& MapRouteObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject ActivityIndicatorObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& ActivityIndicatorObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject ActivityIndicatorStyleObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& ActivityIndicatorStyleObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		virtual ~ApplicationBuilder() = default;
 		ApplicationBuilder(const ApplicationBuilder&) = default;
 		ApplicationBuilder& operator=(const ApplicationBuilder&) = default;
@@ -199,6 +205,8 @@ namespace Titanium
 		JSObject mapCamera__;
 		JSObject mapRoute__;
 		JSObject mapView__;
+		JSObject activityIndicator__;
+		JSObject activityIndicatorStyle__;
 #pragma warning(pop)
 	};
 
