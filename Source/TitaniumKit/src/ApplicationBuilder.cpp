@@ -96,7 +96,8 @@ namespace Titanium
 		ui__.SetProperty("TableView",tableview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("TableViewSection", tableviewsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("TableViewRow", tableviewrow__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui__.SetProperty("ActivityIndicatorStyle", activityIndicatorStyle__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("ActivityIndicator", activityIndicator__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		ui__.SetProperty("ActivityIndicatorStyle", activityIndicatorStyle__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 
 		filesystem__.SetProperty("File", file__);
 		network__.SetProperty("HTTPClient", httpclient__);
@@ -147,6 +148,9 @@ namespace Titanium
 
 			  // Load _app_info_.json
 			  Ti.App._loadAppInfo();
+
+			  Ti.Network.encodeURIComponent = encodeURIComponent;
+			  Ti.Network.decodeURIComponent = decodeURIComponent;
 			)js";
 
 		js_context__.JSEvaluateScript(builtin_functions_script);

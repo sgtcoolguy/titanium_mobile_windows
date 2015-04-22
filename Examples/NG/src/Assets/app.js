@@ -48,7 +48,7 @@ imageView.addEventListener('click', function (e) {
 var ring = Ti.UI.createActivityIndicator({
     top:  200,
     left: 20,
-    message: 'Loading...wiill be closed in 5 seconds'
+    message: 'Loading...will be closed in 5 seconds'
 });
 ring.show();
 
