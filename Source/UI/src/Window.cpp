@@ -48,7 +48,7 @@ namespace TitaniumWindows
 			disableEvents();
 
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
-			if (window_stack__.size() > 1) {
+			if (!get_exitOnClose() && window_stack__.size() > 1) {
 				rootFrame->GoBack();
 				window_stack__.pop_back();
 
