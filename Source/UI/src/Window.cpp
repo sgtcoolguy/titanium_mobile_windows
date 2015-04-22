@@ -14,6 +14,9 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
+
+		std::vector<std::shared_ptr<Window>> Window::window_stack__;
+
 		Window::Window(const JSContext& js_context) TITANIUM_NOEXCEPT
   			: Titanium::UI::Window(js_context)
 		{
@@ -37,55 +40,52 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::Window::close(params);
 
-			// FIXME How do we handle this? It should navigate to the next window/page in a stack...
-			layoutDelegate__->hide();
-
-			// Fire close event on this window
-			auto ctx = get_context();
-			auto close_event = ctx.CreateObject();
-			//close_event.SetProperty("source", get_object());
-			close_event.SetProperty("type", ctx.CreateString("close"));
-			this->fireEvent("close", close_event);
+			// Fire blur & close event on this window
+			fireEvent("blur");
+			fireEvent("close");
 
 			// disable all events further because it doesn't make sense.
-			this->stopFiringEvents();
+			disableEvents();
 
-			// See https://github.com/appcelerator/titanium_mobile_windows.bak/blob/master/Source/TitaniumPedro/Modules/UI/TiPageManager.cpp
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
-			if (rootFrame->CanGoBack) {
-				// Since all the pages in the frame back stack are the same
-				// type (Page::typeid) Just remove the first one
-				rootFrame->BackStack->RemoveAt(0);
+			if (window_stack__.size() > 1) {
+				rootFrame->GoBack();
+				window_stack__.pop_back();
+
+				auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
+				page->Content = window_stack__.back()->getComponent();
 			} else {
 				// This is the first and only window, remove it
 				rootFrame->Content = nullptr;
+				window_stack__.clear();
 				Windows::UI::Xaml::Application::Current->Exit();
 			}
 		}
 
 		void Window::open(const std::shared_ptr<Titanium::UI::OpenWindowParams>& params) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::Window::open(params);
+			enableEvents();
 
-			// Fire open event on this window
-			auto ctx = get_context();
-			auto open_event = ctx.CreateObject();
-			//open_event.SetProperty("source", get_object());
-			open_event.SetProperty("type", ctx.CreateString("open"));
-			fireEvent("open", open_event);
+			Titanium::UI::Window::open(params);
 
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 			rootFrame->Navigate(Windows::UI::Xaml::Controls::Page::typeid);
 			auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
 			page->Content = canvas__;
 
-			// TODO Fire blur on last window?
+			if (window_stack__.size() > 0) {
+				// Fire blur on the last window
+				auto lastwin = window_stack__.back();
+				lastwin->fireEvent("blur");
+			}
+
+			window_stack__.push_back(this->get_object().GetPrivate<Window>());
+
+			// Fire open event on this window
+			fireEvent("open");
 
 			// Fire focus event on this window
-			auto focus_event = ctx.CreateObject();
-			//focus_event.SetProperty("source", get_object());
-			focus_event.SetProperty("type", ctx.CreateString("focus"));
-			fireEvent("focus", focus_event);
+			fireEvent("focus");
 		}
 
 		void Window::JSExportInitialize()

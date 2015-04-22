@@ -339,7 +339,6 @@ namespace TitaniumWindows
 					 	JSContext js_context = event_delegate->get_context();
 						JSObject eventArgs = js_context.CreateObject();
 						eventArgs.SetProperty("source", event_delegate->get_object());
-						eventArgs.SetProperty("type", js_context.CreateString("focus"));
 						event_delegate->fireEvent("focus", eventArgs);
 				 	}
 				});
@@ -502,7 +501,6 @@ namespace TitaniumWindows
 						JSContext js_context = event_delegate->get_context();
 						JSObject  eventArgs = js_context.CreateObject();
 						eventArgs.SetProperty("source", event_delegate->get_object());
-						eventArgs.SetProperty("type", js_context.CreateString("postlayout"));
 						event_delegate->fireEvent("postlayout", eventArgs);
 					}
 				}

@@ -44,8 +44,17 @@ namespace TitaniumWindows
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 			virtual void set_fullscreen(const bool& fullscreen) TITANIUM_NOEXCEPT override final;
 
+			virtual Windows::UI::Xaml::Controls::Canvas^ getComponent() const TITANIUM_NOEXCEPT
+			{
+				return canvas__;
+			}
+
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			Windows::UI::Xaml::Controls::Canvas^ canvas__;
+			static std::vector<std::shared_ptr<Window>> window_stack__;
+#pragma warning(pop)
 		};
 
 		class TITANIUMWINDOWS_UI_EXPORT WindowLayoutDelegate : public WindowsViewLayoutDelegate {

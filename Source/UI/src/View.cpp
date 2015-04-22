@@ -67,13 +67,9 @@ namespace TitaniumWindows
 					
 					this->fireEvent("touchmove", eventArgs);
 				});
-			}
-			else if (event_name == "focus") {
+			} else if (event_name == "focus") {
 				focus_event_ = getComponent()->GotFocus += ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e) {
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("source", this->get_object());
-					eventArgs.SetProperty("type", ctx.CreateString("focus"));
-					this->fireEvent("focus", eventArgs);
+					this->fireEvent("focus");
 				});
 				return;
 			}

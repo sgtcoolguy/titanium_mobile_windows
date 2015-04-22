@@ -11,7 +11,7 @@ var should = require('should');
 describe("Titanium.UI.Window", function () {
 
     it("window_size_is_read_only", function (finish) {
-        this.timeout(1000);
+        this.timeout(5000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue',
             width: 100,
@@ -20,14 +20,16 @@ describe("Titanium.UI.Window", function () {
         w.addEventListener('focus', function () {
             should(w.size.width).not.be.eql(100);
             should(w.size.height).not.be.eql(100);
-            w.close();
-            finish();
+            setTimeout(function () {
+                w.close();
+                finish();
+            }, 1000);
         });
         w.open();
     });
 
     it("window_position_is_read_only", function (finish) {
-        this.timeout(1000);
+        this.timeout(5000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'green',
             left: 100,
@@ -36,8 +38,10 @@ describe("Titanium.UI.Window", function () {
         w.addEventListener("focus", function () {
             should(w.rect.left).not.be.eql(100);
             should(w.rect.right).not.be.eql(100);
-            w.close();
-            finish();
+            setTimeout(function () {
+                w.close();
+                finish();
+            }, 1000);
         });
         w.open();
     });
@@ -70,13 +74,15 @@ describe("Titanium.UI.Window", function () {
             should(win.children.length).be.eql(1);
             win.remove(win.children[0]);
             should(win.children.length).be.eql(0);
-            finish();
-            win.close();
+            setTimeout(function () {
+                w.close();
+                finish();
+            }, 1000);
         });
         win.open();
     });
 
-    it.skip("windows_events", function (finish) {
+    it("windows_events", function (finish) {
         this.timeout(5000);
         var win = Ti.UI.createWindow({
             backgroundColor: 'pink'
@@ -134,8 +140,10 @@ describe("Titanium.UI.Window", function () {
         });
         win.addEventListener("focus", function (e) {
             should(Ti.UI.currentWindow).be.eql(win);
-            win.close();
-            finish();
+            setTimeout(function () {
+                win.close();
+                finish();
+            }, 1000);
         });
         win.open();
     });
