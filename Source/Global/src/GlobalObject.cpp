@@ -12,12 +12,12 @@
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 #include "TitaniumWindows/Utility.hpp"
-#include <wrl\wrappers\corewrappers.h>
-#include <roapi.h>
-#include <cor.h>
+//#include <wrl\wrappers\corewrappers.h>
+//#include <roapi.h>
+//#include <cor.h>
 //#include <rometadata.h>
-#include <rometadataresolution.h>
-#include <wrl/client.h>
+//#include <rometadataresolution.h>
+//#include <wrl/client.h>
 
 using namespace Microsoft::WRL;
 
@@ -47,15 +47,15 @@ namespace TitaniumWindows
 			// https://msdn.microsoft.com/en-uS/office/office365/hh699869.aspx
 
 			// Prepare HSTRING versions of class names
-			IInspectable* something;
-			Microsoft::WRL::Wrappers::HStringReference WindowClsName(L"Something.Another");
-			Windows::Foundation::ActivateInstance(WindowClsName.Get(), &something);
+			//IInspectable* something;
+			//Microsoft::WRL::Wrappers::HStringReference WindowClsName(L"Something.Another");
+			//Windows::Foundation::ActivateInstance(WindowClsName.Get(), &something);
 			// We can try to cast to an interface with:
 			//something->QueryInterface();
 			// We can get the class name back with:
 			//something->GetRuntimeClassName();
 
-			Titanium::ReflectionHelper::Instantiate("Some.Type.Name");
+			//Titanium::ReflectionHelper::Instantiate("Some.Type.Name");
 		}
 		return get_context().CreateNativeNull();
 	}
