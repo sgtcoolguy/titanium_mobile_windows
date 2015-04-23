@@ -6,7 +6,9 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Windows.Foundation.IWwwFormUrlDecoderEntry[].hpp"
 #include "Windows.Foundation.IWwwFormUrlDecoderEntry.hpp"
+#include "Windows.Foundation.Collections.IIterator`1&lt;class Windows.Foundation.IWwwFormUrlDecoderEntry&gt;.hpp"
 #include "Windows.Foundation.WwwFormUrlDecoder.hpp"
 
 namespace Titanium
@@ -153,10 +155,10 @@ namespace Titanium
 			auto _1 = arguments.at(1);
  			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_items = static_cast<JSObject>(_1);
-			auto wrapper_items = object_items.GetPrivate<Windows::Foundation::IWwwFormUrlDecoderEntry>();
+			auto wrapper_items = object_items.GetPrivate<Windows::Foundation::IWwwFormUrlDecoderEntry[]>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto items = wrapper_items->unwrapWindows_Foundation_IWwwFormUrlDecoderEntry();
+			auto items = wrapper_items->unwrapWindows_Foundation_IWwwFormUrlDecoderEntry[]();
 
 
 			auto context = get_context();
