@@ -1,5 +1,6 @@
 <%
 // TODO uint8, int, uint16, int16, int64, uint64, single, char16
+// TODO Handle 'out' params that take references (end with '&')!
 if (type == 'bool') {
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsBoolean(), "Expected boolean");
