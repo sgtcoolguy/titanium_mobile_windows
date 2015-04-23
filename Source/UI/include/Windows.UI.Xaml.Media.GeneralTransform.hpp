@@ -10,6 +10,7 @@
 #define _WINDOWS_UI_XAML_MEDIA_GENERALTRANSFORM_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
+#include "TitaniumWindows/Utility.hpp"
 #include "Windows.UI.Xaml.DependencyObject.hpp"
 
 namespace Titanium

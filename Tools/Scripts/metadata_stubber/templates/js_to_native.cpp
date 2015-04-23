@@ -23,7 +23,7 @@ if (type == 'bool') {
 } else if (type == 'string') {
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsString(), "Expected String");
-			auto <%= to_assign %> = static_cast<std::string>(<%= argument_name %>);
+			auto <%= to_assign %> = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(<%= argument_name %>));
 <%
 } else if (type.indexOf('valuetype ') == 0) {
 	var real_type_name = type.substring(10).trim();

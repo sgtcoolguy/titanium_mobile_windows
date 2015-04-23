@@ -10,7 +10,7 @@ if (type == 'bool') {
 <%
 } else if (type == 'string') {
 -%> 
-			auto <%= to_assign %> = context.CreateString(<%= argument_name %>);
+			auto <%= to_assign %> = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(<%= argument_name %>));
 <%
 } else if (type == 'float32' || type == 'float64') {
 -%>

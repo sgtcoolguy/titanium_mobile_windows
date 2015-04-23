@@ -102,7 +102,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, Language)
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
-			auto value = static_cast<std::string>(argument);
+			auto value = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(argument));
 
 
 			unwrap()->Language = value;
@@ -113,7 +113,7 @@ namespace Titanium
 		{
 			auto value = unwrap()->Language;
 			auto context = get_context();
- 			auto result = context.CreateString(value);
+ 			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
 
 			return result;
 		}
@@ -243,7 +243,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, Name)
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
-			auto value = static_cast<std::string>(argument);
+			auto value = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(argument));
 
 
 			unwrap()->Name = value;
@@ -254,7 +254,7 @@ namespace Titanium
 		{
 			auto value = unwrap()->Name;
 			auto context = get_context();
- 			auto result = context.CreateString(value);
+ 			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
 
 			return result;
 		}
@@ -763,7 +763,7 @@ namespace Titanium
 		{
 			auto _0 = arguments.at(0);
  			TITANIUM_ASSERT_AND_THROW(_0.IsString(), "Expected String");
-			auto name = static_cast<std::string>(_0);
+			auto name = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(_0));
 
 
 			auto context = get_context();

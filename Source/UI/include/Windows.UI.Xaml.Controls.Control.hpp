@@ -10,6 +10,7 @@
 #define _WINDOWS_UI_XAML_CONTROLS_CONTROL_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
+#include "TitaniumWindows/Utility.hpp"
 #include "Windows.UI.Xaml.FrameworkElement.hpp"
 
 namespace Titanium

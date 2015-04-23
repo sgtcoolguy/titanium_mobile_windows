@@ -10,6 +10,7 @@
 #define _WINDOWS_UI_XAML_MEDIA_RECTANGLEGEOMETRY_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
+#include "TitaniumWindows/Utility.hpp"
 #include "Windows.UI.Xaml.Media.Geometry.hpp"
 
 namespace Titanium

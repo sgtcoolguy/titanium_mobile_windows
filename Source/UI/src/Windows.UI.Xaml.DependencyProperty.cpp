@@ -97,7 +97,7 @@ namespace Titanium
 		{
 			auto _0 = arguments.at(0);
  			TITANIUM_ASSERT_AND_THROW(_0.IsString(), "Expected String");
-			auto name = static_cast<std::string>(_0);
+			auto name = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(_0));
 
 
 			auto _1 = arguments.at(1);
@@ -148,7 +148,7 @@ namespace Titanium
 		{
 			auto _0 = arguments.at(0);
  			TITANIUM_ASSERT_AND_THROW(_0.IsString(), "Expected String");
-			auto name = static_cast<std::string>(_0);
+			auto name = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(_0));
 
 
 			auto _1 = arguments.at(1);

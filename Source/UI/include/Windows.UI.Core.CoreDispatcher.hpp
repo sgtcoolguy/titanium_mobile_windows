@@ -10,6 +10,7 @@
 #define _WINDOWS_UI_CORE_COREDISPATCHER_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
+#include "TitaniumWindows/Utility.hpp"
 #include "Titanium/Module.hpp"
 
 namespace Titanium

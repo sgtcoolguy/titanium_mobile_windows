@@ -28,6 +28,7 @@ if (parent && parent.indexOf('[mscorlib]') != 0) {
 #define _<%= name_upper %>_HPP_
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
+#include "TitaniumWindows/Utility.hpp"
 <%
 if (parent_name == 'Module') { -%>
 #include "Titanium/Module.hpp"
