@@ -52,9 +52,18 @@ namespace TitaniumWindows
 				rootFrame->GoBack();
 				window_stack__.pop_back();
 
+				auto window = window_stack__.back();
+
 				auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
-				page->Content = window_stack__.back()->getComponent();
-			} else {
+				page->Content = window->getComponent();
+
+				// reset bottom app bar
+				page->BottomAppBar = nullptr;
+				if (window->getBottomAppBar() != nullptr) {
+					page->BottomAppBar = window->getBottomAppBar()->getComponent();
+				}
+			}
+			else {
 				// This is the first and only window, remove it
 				rootFrame->Content = nullptr;
 				window_stack__.clear();
@@ -72,6 +81,12 @@ namespace TitaniumWindows
 			rootFrame->Navigate(Windows::UI::Xaml::Controls::Page::typeid);
 			auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
 			page->Content = canvas__;
+
+			// reset bottom app bar
+			page->BottomAppBar = nullptr;
+			if (bottomAppBar__ != nullptr) {
+				page->BottomAppBar = bottomAppBar__->getComponent();
+			}
 
 			if (window_stack__.size() > 0) {
 				// Fire blur on the last window
@@ -92,6 +107,30 @@ namespace TitaniumWindows
 		{
 			JSExport<Window>::SetClassVersion(1);
 			JSExport<Window>::SetParent(JSExport<Titanium::UI::Window>::Class());
+			TITANIUM_ADD_FUNCTION(Window, add);
+		}
+
+		TITANIUM_FUNCTION(Window, add) 
+		{
+			ENSURE_OBJECT_AT_INDEX(viewObj, 0);
+
+			// check if it's command bar
+			const auto commandBar = viewObj.GetPrivate<TitaniumWindows::UI::WindowsXaml::CommandBar>();
+			if (commandBar == nullptr) {
+				// delegate to parent
+				return Titanium::UI::Window::js_add(arguments, this_object);
+			}
+
+			// TODO: assuming bottom bar here...but Windows app accepts both top and bottom.
+			bottomAppBar__ = commandBar;
+
+			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
+			const auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
+			if (page != nullptr) {
+				page->BottomAppBar = commandBar->getComponent();
+			}
+
+			return get_context().CreateUndefined();
 		}
 
 		void Window::set_fullscreen(const bool& fullscreen) TITANIUM_NOEXCEPT

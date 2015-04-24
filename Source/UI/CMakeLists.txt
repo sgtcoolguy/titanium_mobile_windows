@@ -90,11 +90,29 @@ set(SOURCE_UI
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})
 
+set(SOURCE_UI_Windows
+  include/TitaniumWindows/UI/WindowsModule.hpp
+  src/WindowsModule.cpp
+  include/TitaniumWindows/UI/Windows/CommandBar.hpp
+  src/Windows/CommandBar.cpp
+  include/TitaniumWindows/UI/Windows/AppBarButton.hpp
+  src/Windows/AppBarButton.cpp
+  include/TitaniumWindows/UI/Windows/AppBarToggleButton.hpp
+  src/Windows/AppBarToggleButton.cpp
+  include/TitaniumWindows/UI/Windows/AppBarSeparator.hpp
+  src/Windows/AppBarSeparator.cpp
+  include/TitaniumWindows/UI/Windows/SystemIcon.hpp
+  src/Windows/SystemIcon.cpp
+  )
+
+source_group(Titanium\\UI\\Windows FILES ${SOURCE_UI_Windows})
+
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
 add_library(TitaniumWindows_UI SHARED
   ${SOURCE_UI}
+  ${SOURCE_UI_Windows}
   )
 
 include(GenerateExportHeader)
