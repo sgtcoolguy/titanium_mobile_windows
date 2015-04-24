@@ -20,20 +20,11 @@
   TITANIUM_ASSERT(NAME##_property.IsObject()); \
   JSObject NAME = static_cast<JSObject>(NAME##_property); \
   auto NAME##_obj = NAME.CallAsConstructor(parameters); \
-  Titanium::applyProperties(NAME##_obj, parameters); \
+  Titanium::Module::applyProperties(parameters, NAME##_obj); \
   return NAME##_obj;
 
 namespace Titanium
 {
-	static void applyProperties(JSObject& view, const JSObject& parameters)
-	{
-		if (parameters.GetPropertyNames().GetCount() > 0) {
-			const auto propertyNames = parameters.GetPropertyNames();
-			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
-				view.SetProperty(property_name, parameters.GetProperty(property_name));
-			}
-		}
-	}
 
 	UIModule::UIModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : Module(js_context),

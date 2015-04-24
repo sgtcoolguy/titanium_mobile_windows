@@ -28,6 +28,8 @@ namespace TitaniumWindows
 
 		UIModule(const JSContext&) TITANIUM_NOEXCEPT;
 
+		virtual void postInitialize(JSObject& js_object) override;
+
 		virtual ~UIModule() TITANIUM_NOEXCEPT;
 		UIModule(const UIModule&) = default;
 		UIModule& operator=(const UIModule&) = default;
@@ -37,7 +39,8 @@ namespace TitaniumWindows
 #endif
 
 		static void JSExportInitialize();
-
+	private:
+		JSObject windowsStore__;
 	};
 }  // namespace TitaniumWindows
 

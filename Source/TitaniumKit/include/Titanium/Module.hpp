@@ -80,7 +80,7 @@ namespace Titanium
 
 		  @result void
 		*/
-		virtual void applyProperties(const JSObject& props, JSObject& this_object) TITANIUM_NOEXCEPT;
+		static void applyProperties(const JSObject& props, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method

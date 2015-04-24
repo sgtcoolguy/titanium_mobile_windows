@@ -7,6 +7,7 @@
 */
 #include "Titanium/detail/TiBase.hpp"
 #include "TitaniumWindows/UIModule.hpp"
+#include "TitaniumWindows/UI/WindowsModule.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 namespace TitaniumWindows
@@ -15,11 +16,20 @@ namespace TitaniumWindows
 	using namespace TitaniumWindows::UI;
 
 	UIModule::UIModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: Titanium::UIModule(js_context) {
+		: Titanium::UIModule(js_context)
+		, windowsStore__(js_context.CreateObject(JSExport<TitaniumWindows::WindowsModule>::Class()))
+	{
 	}
 
 	UIModule::~UIModule() TITANIUM_NOEXCEPT
 	{
+	}
+
+	// Initialize UI.WindowsPhone objects
+	void UIModule::postInitialize(JSObject& js_object) 
+	{
+		Titanium::UIModule::postInitialize(js_object);
+		js_object.SetProperty("Windows", windowsStore__);
 	}
 
 	void UIModule::JSExportInitialize() {
