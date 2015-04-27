@@ -55,38 +55,51 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 		{
 
 		public:
-<% for (i in data.properties) { -%>
-<% var property = data.properties[i] -%>
-<% if (property.__inherits == module) { -%>
+<%
+for (i in data.properties) {
+	var property = data.properties[i];
+	if (property.__inherits != module) {
+		continue;
+	}
+-%>
 
 			/*!
 			  @property
 			  @abstract <%= property.name %>
 			  @discussion <%= property.summary.replace(/\n/g,'') %>
 			*/
-<% if (property.type == 'Number' && property.permission == 'read-only') { -%>
-<% property.isJS = true -%>
+<%
+	if (property.type == 'Number' && property.permission && property.permission == 'read-only') {
+		property.isJS = true;
+-%>
 			virtual JSValue <%= property.name %>() const TITANIUM_NOEXCEPT final;
-<% } else { -%>
-			virtual <%= getType(property.type) %> get_<%= property.name %>() const TITANIUM_NOEXCEPT;
-<% } -%>
-			virtual void set_<%= property.name %>(<%= getType(property.type, true) %> <%= property.name %>) TITANIUM_NOEXCEPT;
-<% } -%>
-<% } -%>
-<% for (i in data.methods) { -%>
-<% var method = data.methods[i] -%>
-<% if (method.__accessor != true && method.__inherits == module) {-%>
+<% 	} else if (property.permission && property.permission == 'read-only') { -%>
+			TITANIUM_PROPERTY_IMPL_READONLY_DEF(<%= getType(property.type) %>, <%= property.name %>);
+<% 	} else { -%>
+			TITANIUM_PROPERTY_IMPL_DEF(<%= getType(property.type) %>, <%= property.name %>);
+<%
+	}
+}
+
+for (i in data.methods) {
+	var method = data.methods[i];
+	if (method.__accessor == true || method.__inherits != module) {
+		continue;
+	}
+
+	var parameters = ('parameters' in method ? getParameters(method.parameters) : '');
+	var type = ('returns' in method ? method.returns[0].type : 'void');
+-%>
 
 			/*!
 			  @method
 			  @abstract <%= method.name %>
 			  @discussion <%= method.summary.replace(/\n/g,'') %>
 			*/
-<% var parameters = ('parameters' in method ? getParameters(method.parameters) : '') -%>
-<% var type = ('returns' in method ? method.returns[0].type : 'void') -%>
 			virtual <%= getType(type) %> <%= method.name -%>(<%= parameters %>) TITANIUM_NOEXCEPT;
-<% } -%>
-<% } -%>
+<%
+}
+-%>
 
 			<%= namespace %>(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 
@@ -100,30 +113,50 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 
 			static void JSExportInitialize();
 
-<% for (i in data.properties) { -%>
-<% var property = data.properties[i] -%>
-<% if (!property.isJS && property.__inherits == module) {-%>
-			virtual JSValue js_get_<%= property.name %>() const TITANIUM_NOEXCEPT final;
-			virtual bool js_set_<%= property.name %>(const JSValue& argument) TITANIUM_NOEXCEPT final;
-<% } -%>
-<% } -%>
-<% for (i in data.methods) { -%>
-<% var method = data.methods[i] -%>
-<% if (method.__inherits == module) {-%>
-			virtual JSValue js_<%= method.name %>(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
-<% } -%>
-<% } -%>
+<%
+for (i in data.properties) {
+	var property = data.properties[i];
+	if (property.isJS || property.__inherits != module) {
+		continue;
+	}
+
+	if (property.permission && property.permission == 'read-only') {
+-%>
+			TITANIUM_PROPERTY_READONLY_DEF(<%= property.name %>);
+<%	} else { -%>
+			TITANIUM_PROPERTY_DEF(<%= property.name %>);
+<%
+	}
+}
+-%>
+
+<%
+for (i in data.methods) {
+	var method = data.methods[i];
+	if (method.__inherits != module) {
+		continue;
+	}
+-%>
+			TITANIUM_FUNCTION_DEF(<%= method.name %>);
+<%
+}
+-%>
 
 <% if (data.properties.length > 0) { -%>
 			protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-<% for (i in data.properties) { -%>
-<% var property = data.properties[i] -%>
-<% if (!property.isJS && property.__inherits == module) {-%>
+<%
+for (i in data.properties) {
+	var property = data.properties[i];
+	if (property.isJS || property.__inherits != module) {
+		continue;
+	}
+-%>
 				<%= getType(property.type) %> <%= property.name %>__;
-<% } -%>
-<% } -%>
+<%
+}
+-%>
 #pragma warning(pop)
 <% } -%>
 		};
