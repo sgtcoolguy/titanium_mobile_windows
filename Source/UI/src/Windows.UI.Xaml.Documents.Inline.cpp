@@ -31,7 +31,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Documents::Inline^ Inline::unwrapWindows_UI_Xaml_Documents_Inline() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Documents::Inline^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Documents::Inline^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Documents::Inline^ Inline::unwrap() const
@@ -41,7 +41,7 @@ namespace Titanium
 
 		void Inline::wrap(::Windows::UI::Xaml::Documents::Inline^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Inline::JSExportInitialize()

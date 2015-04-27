@@ -34,7 +34,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Controls::Frame^ Frame::unwrapWindows_UI_Xaml_Controls_Frame() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Controls::Frame^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::Frame^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Controls::Frame^ Frame::unwrap() const
@@ -44,7 +44,7 @@ namespace Titanium
 
 		void Frame::wrap(::Windows::UI::Xaml::Controls::Frame^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Frame::JSExportInitialize()
@@ -167,8 +167,8 @@ namespace Titanium
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
-			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IVector`1&lt;class Windows::UI::Xaml::Navigation::PageStackEntry&gt;>::Class());
-			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IVector`1&lt;class Windows::UI::Xaml::Navigation::PageStackEntry&gt;>();
+			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IVector`1<class Windows::UI::Xaml::Navigation::PageStackEntry>>::Class());
+			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IVector`1<class Windows::UI::Xaml::Navigation::PageStackEntry>>();
 			result_wrapper->wrap(value);
 
 			return result;
@@ -180,8 +180,8 @@ namespace Titanium
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
-			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IVector`1&lt;class Windows::UI::Xaml::Navigation::PageStackEntry&gt;>::Class());
-			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IVector`1&lt;class Windows::UI::Xaml::Navigation::PageStackEntry&gt;>();
+			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IVector`1<class Windows::UI::Xaml::Navigation::PageStackEntry>>::Class());
+			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IVector`1<class Windows::UI::Xaml::Navigation::PageStackEntry>>();
 			result_wrapper->wrap(value);
 
 			return result;
@@ -330,8 +330,7 @@ namespace Titanium
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Frame, GetNavigationState)
@@ -341,8 +340,7 @@ namespace Titanium
 
  			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(method_result));
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Frame, SetNavigationState)
@@ -392,8 +390,7 @@ namespace Titanium
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Frame, Navigate)
@@ -414,8 +411,7 @@ namespace Titanium
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			return result;
 		}
 
 				} // namespace Controls

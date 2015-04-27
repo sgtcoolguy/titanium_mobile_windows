@@ -32,7 +32,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Controls::AppBar^ AppBar::unwrapWindows_UI_Xaml_Controls_AppBar() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Controls::AppBar^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::AppBar^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Controls::AppBar^ AppBar::unwrap() const
@@ -42,7 +42,7 @@ namespace Titanium
 
 		void AppBar::wrap(::Windows::UI::Xaml::Controls::AppBar^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void AppBar::JSExportInitialize()

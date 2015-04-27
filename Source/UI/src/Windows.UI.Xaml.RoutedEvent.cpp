@@ -29,7 +29,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::RoutedEvent^ RoutedEvent::unwrapWindows_UI_Xaml_RoutedEvent() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::RoutedEvent^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::RoutedEvent^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::RoutedEvent^ RoutedEvent::unwrap() const
@@ -39,7 +39,7 @@ namespace Titanium
 
 		void RoutedEvent::wrap(::Windows::UI::Xaml::RoutedEvent^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void RoutedEvent::JSExportInitialize()

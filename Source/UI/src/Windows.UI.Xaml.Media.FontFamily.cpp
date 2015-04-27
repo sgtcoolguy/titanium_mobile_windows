@@ -31,7 +31,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Media::FontFamily^ FontFamily::unwrapWindows_UI_Xaml_Media_FontFamily() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Media::FontFamily^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Media::FontFamily^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Media::FontFamily^ FontFamily::unwrap() const
@@ -41,7 +41,7 @@ namespace Titanium
 
 		void FontFamily::wrap(::Windows::UI::Xaml::Media::FontFamily^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void FontFamily::JSExportInitialize()

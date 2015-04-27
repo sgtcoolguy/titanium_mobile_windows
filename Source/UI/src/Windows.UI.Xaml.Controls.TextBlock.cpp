@@ -37,7 +37,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Controls::TextBlock^ TextBlock::unwrapWindows_UI_Xaml_Controls_TextBlock() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Controls::TextBlock^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::TextBlock^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Controls::TextBlock^ TextBlock::unwrap() const
@@ -47,7 +47,7 @@ namespace Titanium
 
 		void TextBlock::wrap(::Windows::UI::Xaml::Controls::TextBlock^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void TextBlock::JSExportInitialize()
@@ -963,8 +963,7 @@ namespace Titanium
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			return result;
 		}
 
 				} // namespace Controls

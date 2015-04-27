@@ -29,7 +29,7 @@ namespace Titanium
 
 		::Windows::Foundation::Collections::IPropertySet^ IPropertySet::unwrapWindows_Foundation_Collections_IPropertySet() const
 		{
-			return dynamic_cast<::Windows::Foundation::Collections::IPropertySet^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::Foundation::Collections::IPropertySet^>(wrapped__);
 		}
 
 		::Windows::Foundation::Collections::IPropertySet^ IPropertySet::unwrap() const
@@ -39,7 +39,7 @@ namespace Titanium
 
 		void IPropertySet::wrap(::Windows::Foundation::Collections::IPropertySet^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void IPropertySet::JSExportInitialize()

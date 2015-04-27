@@ -28,7 +28,7 @@ namespace Titanium
 
 		::Windows::Foundation::IAsyncAction^ IAsyncAction::unwrapWindows_Foundation_IAsyncAction() const
 		{
-			return dynamic_cast<::Windows::Foundation::IAsyncAction^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::Foundation::IAsyncAction^>(wrapped__);
 		}
 
 		::Windows::Foundation::IAsyncAction^ IAsyncAction::unwrap() const
@@ -38,7 +38,7 @@ namespace Titanium
 
 		void IAsyncAction::wrap(::Windows::Foundation::IAsyncAction^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void IAsyncAction::JSExportInitialize()

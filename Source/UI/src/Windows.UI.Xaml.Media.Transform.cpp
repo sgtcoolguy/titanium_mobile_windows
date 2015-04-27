@@ -31,7 +31,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Media::Transform^ Transform::unwrapWindows_UI_Xaml_Media_Transform() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Media::Transform^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Media::Transform^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Media::Transform^ Transform::unwrap() const
@@ -41,7 +41,7 @@ namespace Titanium
 
 		void Transform::wrap(::Windows::UI::Xaml::Media::Transform^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Transform::JSExportInitialize()

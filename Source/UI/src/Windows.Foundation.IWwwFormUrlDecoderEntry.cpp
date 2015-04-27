@@ -27,7 +27,7 @@ namespace Titanium
 
 		::Windows::Foundation::IWwwFormUrlDecoderEntry^ IWwwFormUrlDecoderEntry::unwrapWindows_Foundation_IWwwFormUrlDecoderEntry() const
 		{
-			return dynamic_cast<::Windows::Foundation::IWwwFormUrlDecoderEntry^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::Foundation::IWwwFormUrlDecoderEntry^>(wrapped__);
 		}
 
 		::Windows::Foundation::IWwwFormUrlDecoderEntry^ IWwwFormUrlDecoderEntry::unwrap() const
@@ -37,7 +37,7 @@ namespace Titanium
 
 		void IWwwFormUrlDecoderEntry::wrap(::Windows::Foundation::IWwwFormUrlDecoderEntry^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void IWwwFormUrlDecoderEntry::JSExportInitialize()

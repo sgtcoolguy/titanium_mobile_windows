@@ -15,6 +15,9 @@ var parent_name = "Module";
 if (parent && parent.indexOf('[mscorlib]') != 0) {
 	parent_name = parent.trim();
 }
+
+// FIXME Handle multiple inheritance with interfaces!
+// i.e. WwwFormUrlDecoderEntry should extend IWwwFormUrlDecoderEntry, not Titanium::Module
 -%>
 /**
  * Windows Native Wrapper for <%= full_name %>

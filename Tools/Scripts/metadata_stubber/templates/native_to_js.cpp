@@ -60,7 +60,7 @@ if (type == 'bool') {
 	} -%>
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
-			auto <%= to_assign %> = context.CreateObject(JSExport<<%= full_type_name %>>::Class());
-			auto <%= to_assign %>_wrapper = <%= to_assign %>.GetPrivate<<%= full_type_name %>>();
+			auto <%= to_assign %> = context.CreateObject(JSExport<<%- full_type_name %>>::Class());
+			auto <%= to_assign %>_wrapper = <%= to_assign %>.GetPrivate<<%- full_type_name %>>();
 			<%= to_assign %>_wrapper->wrap(<%= argument_name %>);
 <% } -%>

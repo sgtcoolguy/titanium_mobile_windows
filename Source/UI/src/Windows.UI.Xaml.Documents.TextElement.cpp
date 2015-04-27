@@ -35,7 +35,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Documents::TextElement^ TextElement::unwrapWindows_UI_Xaml_Documents_TextElement() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Documents::TextElement^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Documents::TextElement^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Documents::TextElement^ TextElement::unwrap() const
@@ -45,7 +45,7 @@ namespace Titanium
 
 		void TextElement::wrap(::Windows::UI::Xaml::Documents::TextElement^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void TextElement::JSExportInitialize()
@@ -431,8 +431,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<object>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 				} // namespace Documents

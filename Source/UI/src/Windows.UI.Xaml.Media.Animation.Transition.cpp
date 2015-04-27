@@ -33,7 +33,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Media::Animation::Transition^ Transition::unwrapWindows_UI_Xaml_Media_Animation_Transition() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Media::Animation::Transition^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Media::Animation::Transition^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Media::Animation::Transition^ Transition::unwrap() const
@@ -43,7 +43,7 @@ namespace Titanium
 
 		void Transition::wrap(::Windows::UI::Xaml::Media::Animation::Transition^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Transition::JSExportInitialize()

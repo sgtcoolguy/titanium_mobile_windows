@@ -32,7 +32,7 @@ namespace Titanium
 
 		::Windows::UI::Core::CoreWindow^ CoreWindow::unwrapWindows_UI_Core_CoreWindow() const
 		{
-			return dynamic_cast<::Windows::UI::Core::CoreWindow^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Core::CoreWindow^>(wrapped__);
 		}
 
 		::Windows::UI::Core::CoreWindow^ CoreWindow::unwrap() const
@@ -42,7 +42,7 @@ namespace Titanium
 
 		void CoreWindow::wrap(::Windows::UI::Core::CoreWindow^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void CoreWindow::JSExportInitialize()
@@ -229,8 +229,7 @@ namespace Titanium
 
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(method_result))); // FIXME What if the enum isn't an int based one?!
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(CoreWindow, GetKeyState)
@@ -245,8 +244,7 @@ namespace Titanium
 
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(method_result))); // FIXME What if the enum isn't an int based one?!
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(CoreWindow, ReleasePointerCapture)
@@ -272,8 +270,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::UI::Core::CoreWindow>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 			} // namespace Core

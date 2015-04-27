@@ -33,7 +33,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Media::Brush^ Brush::unwrapWindows_UI_Xaml_Media_Brush() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Media::Brush^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Media::Brush^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Media::Brush^ Brush::unwrap() const
@@ -43,7 +43,7 @@ namespace Titanium
 
 		void Brush::wrap(::Windows::UI::Xaml::Media::Brush^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Brush::JSExportInitialize()

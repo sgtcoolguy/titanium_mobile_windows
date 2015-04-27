@@ -33,7 +33,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Navigation::PageStackEntry^ PageStackEntry::unwrapWindows_UI_Xaml_Navigation_PageStackEntry() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Navigation::PageStackEntry^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Navigation::PageStackEntry^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Navigation::PageStackEntry^ PageStackEntry::unwrap() const
@@ -43,7 +43,7 @@ namespace Titanium
 
 		void PageStackEntry::wrap(::Windows::UI::Xaml::Navigation::PageStackEntry^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void PageStackEntry::JSExportInitialize()

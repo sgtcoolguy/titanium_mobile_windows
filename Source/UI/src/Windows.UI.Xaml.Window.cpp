@@ -32,7 +32,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Window^ Window::unwrapWindows_UI_Xaml_Window() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Window^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Window^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Window^ Window::unwrap() const
@@ -42,7 +42,7 @@ namespace Titanium
 
 		void Window::wrap(::Windows::UI::Xaml::Window^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Window::JSExportInitialize()

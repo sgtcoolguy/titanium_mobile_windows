@@ -29,7 +29,7 @@ namespace Titanium
 
 		::Windows::UI::Core::CoreCursor^ CoreCursor::unwrapWindows_UI_Core_CoreCursor() const
 		{
-			return dynamic_cast<::Windows::UI::Core::CoreCursor^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Core::CoreCursor^>(wrapped__);
 		}
 
 		::Windows::UI::Core::CoreCursor^ CoreCursor::unwrap() const
@@ -39,7 +39,7 @@ namespace Titanium
 
 		void CoreCursor::wrap(::Windows::UI::Core::CoreCursor^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void CoreCursor::JSExportInitialize()

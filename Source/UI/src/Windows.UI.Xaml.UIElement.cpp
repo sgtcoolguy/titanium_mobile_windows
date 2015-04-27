@@ -39,7 +39,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::UIElement^ UIElement::unwrapWindows_UI_Xaml_UIElement() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::UIElement^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::UIElement^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::UIElement^ UIElement::unwrap() const
@@ -49,7 +49,7 @@ namespace Titanium
 
 		void UIElement::wrap(::Windows::UI::Xaml::UIElement^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void UIElement::JSExportInitialize()
@@ -509,8 +509,8 @@ namespace Titanium
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
-			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IVectorView`1&lt;class Windows::UI::Xaml::Input::Pointer&gt;>::Class());
-			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IVectorView`1&lt;class Windows::UI::Xaml::Input::Pointer&gt;>();
+			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IVectorView`1<class Windows::UI::Xaml::Input::Pointer>>::Class());
+			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IVectorView`1<class Windows::UI::Xaml::Input::Pointer>>();
 			result_wrapper->wrap(value);
 
 			return result;
@@ -1125,8 +1125,7 @@ namespace Titanium
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(UIElement, ReleasePointerCapture)
@@ -1223,8 +1222,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Media::GeneralTransform>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(UIElement, InvalidateMeasure)
@@ -1252,8 +1250,7 @@ namespace Titanium
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			return result;
 		}
 
 			} // namespace Xaml

@@ -32,7 +32,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Media::SolidColorBrush^ SolidColorBrush::unwrapWindows_UI_Xaml_Media_SolidColorBrush() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Media::SolidColorBrush^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Media::SolidColorBrush^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Media::SolidColorBrush^ SolidColorBrush::unwrap() const
@@ -42,7 +42,7 @@ namespace Titanium
 
 		void SolidColorBrush::wrap(::Windows::UI::Xaml::Media::SolidColorBrush^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void SolidColorBrush::JSExportInitialize()

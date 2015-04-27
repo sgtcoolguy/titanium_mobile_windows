@@ -33,7 +33,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Controls::DataTemplateSelector^ DataTemplateSelector::unwrapWindows_UI_Xaml_Controls_DataTemplateSelector() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Controls::DataTemplateSelector^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::DataTemplateSelector^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Controls::DataTemplateSelector^ DataTemplateSelector::unwrap() const
@@ -43,7 +43,7 @@ namespace Titanium
 
 		void DataTemplateSelector::wrap(::Windows::UI::Xaml::Controls::DataTemplateSelector^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void DataTemplateSelector::JSExportInitialize()
@@ -84,8 +84,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DataTemplate>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(DataTemplateSelector, SelectTemplate)
@@ -108,8 +107,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DataTemplate>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 				} // namespace Controls

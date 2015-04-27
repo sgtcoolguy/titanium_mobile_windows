@@ -33,7 +33,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Controls::Canvas^ Canvas::unwrapWindows_UI_Xaml_Controls_Canvas() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Controls::Canvas^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::Canvas^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Controls::Canvas^ Canvas::unwrap() const
@@ -43,7 +43,7 @@ namespace Titanium
 
 		void Canvas::wrap(::Windows::UI::Xaml::Controls::Canvas^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Canvas::JSExportInitialize()
@@ -117,8 +117,7 @@ namespace Titanium
 
 			auto result = context.CreateNumber(static_cast<double>(method_result));
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Canvas, SetLeft)
@@ -157,8 +156,7 @@ namespace Titanium
 
 			auto result = context.CreateNumber(static_cast<double>(method_result));
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Canvas, SetTop)
@@ -197,8 +195,7 @@ namespace Titanium
 
  			auto result = context.CreateNumber(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Canvas, SetZIndex)

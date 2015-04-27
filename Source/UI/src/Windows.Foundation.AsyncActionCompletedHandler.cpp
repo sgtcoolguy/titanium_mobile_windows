@@ -27,7 +27,7 @@ namespace Titanium
 
 		::Windows::Foundation::AsyncActionCompletedHandler^ AsyncActionCompletedHandler::unwrapWindows_Foundation_AsyncActionCompletedHandler() const
 		{
-			return dynamic_cast<::Windows::Foundation::AsyncActionCompletedHandler^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::Foundation::AsyncActionCompletedHandler^>(wrapped__);
 		}
 
 		::Windows::Foundation::AsyncActionCompletedHandler^ AsyncActionCompletedHandler::unwrap() const
@@ -37,7 +37,7 @@ namespace Titanium
 
 		void AsyncActionCompletedHandler::wrap(::Windows::Foundation::AsyncActionCompletedHandler^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void AsyncActionCompletedHandler::JSExportInitialize()

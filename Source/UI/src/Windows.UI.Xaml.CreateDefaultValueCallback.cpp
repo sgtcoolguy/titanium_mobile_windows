@@ -29,7 +29,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::CreateDefaultValueCallback^ CreateDefaultValueCallback::unwrapWindows_UI_Xaml_CreateDefaultValueCallback() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::CreateDefaultValueCallback^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::CreateDefaultValueCallback^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::CreateDefaultValueCallback^ CreateDefaultValueCallback::unwrap() const
@@ -39,7 +39,7 @@ namespace Titanium
 
 		void CreateDefaultValueCallback::wrap(::Windows::UI::Xaml::CreateDefaultValueCallback^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void CreateDefaultValueCallback::JSExportInitialize()
@@ -61,8 +61,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<object>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 			} // namespace Xaml

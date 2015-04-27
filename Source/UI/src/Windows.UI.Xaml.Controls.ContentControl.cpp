@@ -36,7 +36,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Controls::ContentControl^ ContentControl::unwrapWindows_UI_Xaml_Controls_ContentControl() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Controls::ContentControl^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::ContentControl^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Controls::ContentControl^ ContentControl::unwrap() const
@@ -46,7 +46,7 @@ namespace Titanium
 
 		void ContentControl::wrap(::Windows::UI::Xaml::Controls::ContentControl^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void ContentControl::JSExportInitialize()

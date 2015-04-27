@@ -32,7 +32,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Media::RectangleGeometry^ RectangleGeometry::unwrapWindows_UI_Xaml_Media_RectangleGeometry() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Media::RectangleGeometry^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Media::RectangleGeometry^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Media::RectangleGeometry^ RectangleGeometry::unwrap() const
@@ -42,7 +42,7 @@ namespace Titanium
 
 		void RectangleGeometry::wrap(::Windows::UI::Xaml::Media::RectangleGeometry^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void RectangleGeometry::JSExportInitialize()

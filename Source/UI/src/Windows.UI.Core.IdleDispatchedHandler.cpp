@@ -29,7 +29,7 @@ namespace Titanium
 
 		::Windows::UI::Core::IdleDispatchedHandler^ IdleDispatchedHandler::unwrapWindows_UI_Core_IdleDispatchedHandler() const
 		{
-			return dynamic_cast<::Windows::UI::Core::IdleDispatchedHandler^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Core::IdleDispatchedHandler^>(wrapped__);
 		}
 
 		::Windows::UI::Core::IdleDispatchedHandler^ IdleDispatchedHandler::unwrap() const
@@ -39,7 +39,7 @@ namespace Titanium
 
 		void IdleDispatchedHandler::wrap(::Windows::UI::Core::IdleDispatchedHandler^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void IdleDispatchedHandler::JSExportInitialize()

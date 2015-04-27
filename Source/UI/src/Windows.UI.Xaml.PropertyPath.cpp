@@ -29,7 +29,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::PropertyPath^ PropertyPath::unwrapWindows_UI_Xaml_PropertyPath() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::PropertyPath^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::PropertyPath^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::PropertyPath^ PropertyPath::unwrap() const
@@ -39,7 +39,7 @@ namespace Titanium
 
 		void PropertyPath::wrap(::Windows::UI::Xaml::PropertyPath^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void PropertyPath::JSExportInitialize()

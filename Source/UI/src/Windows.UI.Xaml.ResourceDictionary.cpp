@@ -34,7 +34,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::ResourceDictionary^ ResourceDictionary::unwrapWindows_UI_Xaml_ResourceDictionary() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::ResourceDictionary^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::ResourceDictionary^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::ResourceDictionary^ ResourceDictionary::unwrap() const
@@ -44,7 +44,7 @@ namespace Titanium
 
 		void ResourceDictionary::wrap(::Windows::UI::Xaml::ResourceDictionary^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void ResourceDictionary::JSExportInitialize()
@@ -107,8 +107,8 @@ namespace Titanium
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
-			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IVector`1&lt;class Windows::UI::Xaml::ResourceDictionary&gt;>::Class());
-			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IVector`1&lt;class Windows::UI::Xaml::ResourceDictionary&gt;>();
+			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IVector`1<class Windows::UI::Xaml::ResourceDictionary>>::Class());
+			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IVector`1<class Windows::UI::Xaml::ResourceDictionary>>();
 			result_wrapper->wrap(value);
 
 			return result;
@@ -120,8 +120,8 @@ namespace Titanium
 			auto context = get_context();
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
-			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IMap`2&lt;object,object&gt;>::Class());
-			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IMap`2&lt;object,object&gt;>();
+			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IMap`2<object,object>>::Class());
+			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IMap`2<object,object>>();
 			result_wrapper->wrap(value);
 
 			return result;
@@ -147,8 +147,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<object>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(ResourceDictionary, HasKey)
@@ -167,8 +166,7 @@ namespace Titanium
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(ResourceDictionary, GetView)
@@ -178,12 +176,11 @@ namespace Titanium
 
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
-			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IMapView`2&lt;object,object&gt;>::Class());
-			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IMapView`2&lt;object,object&gt;>();
+			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IMapView`2<object,object>>::Class());
+			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IMapView`2<object,object>>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(ResourceDictionary, Insert)
@@ -211,8 +208,7 @@ namespace Titanium
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(ResourceDictionary, Remove)
@@ -243,12 +239,11 @@ namespace Titanium
 
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
-			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IIterator`1&lt;class Windows::Foundation::Collections::IKeyValuePair`2&lt;object,object&gt;&gt;>::Class());
-			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IIterator`1&lt;class Windows::Foundation::Collections::IKeyValuePair`2&lt;object,object&gt;&gt;>();
+			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IIterator`1<class Windows::Foundation::Collections::IKeyValuePair`2<object,object>>>::Class());
+			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IIterator`1<class Windows::Foundation::Collections::IKeyValuePair`2<object,object>>>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 			} // namespace Xaml

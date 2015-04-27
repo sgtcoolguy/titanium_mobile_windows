@@ -34,7 +34,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Controls::Page^ Page::unwrapWindows_UI_Xaml_Controls_Page() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Controls::Page^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::Page^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Controls::Page^ Page::unwrap() const
@@ -44,7 +44,7 @@ namespace Titanium
 
 		void Page::wrap(::Windows::UI::Xaml::Controls::Page^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Page::JSExportInitialize()

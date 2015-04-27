@@ -29,7 +29,7 @@ namespace Titanium
 
 		::Windows::UI::Core::DispatchedHandler^ DispatchedHandler::unwrapWindows_UI_Core_DispatchedHandler() const
 		{
-			return dynamic_cast<::Windows::UI::Core::DispatchedHandler^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Core::DispatchedHandler^>(wrapped__);
 		}
 
 		::Windows::UI::Core::DispatchedHandler^ DispatchedHandler::unwrap() const
@@ -39,7 +39,7 @@ namespace Titanium
 
 		void DispatchedHandler::wrap(::Windows::UI::Core::DispatchedHandler^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void DispatchedHandler::JSExportInitialize()

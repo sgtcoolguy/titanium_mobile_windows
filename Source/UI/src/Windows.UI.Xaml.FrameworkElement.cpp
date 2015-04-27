@@ -36,7 +36,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::FrameworkElement^ FrameworkElement::unwrapWindows_UI_Xaml_FrameworkElement() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::FrameworkElement^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::FrameworkElement^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::FrameworkElement^ FrameworkElement::unwrap() const
@@ -46,7 +46,7 @@ namespace Titanium
 
 		void FrameworkElement::wrap(::Windows::UI::Xaml::FrameworkElement^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void FrameworkElement::JSExportInitialize()
@@ -775,8 +775,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<object>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(FrameworkElement, SetBinding)
@@ -823,8 +822,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Data::BindingExpression>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 			} // namespace Xaml

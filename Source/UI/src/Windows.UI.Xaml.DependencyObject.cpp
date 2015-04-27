@@ -31,7 +31,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::DependencyObject^ DependencyObject::unwrapWindows_UI_Xaml_DependencyObject() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::DependencyObject^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::DependencyObject^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::DependencyObject^ DependencyObject::unwrap() const
@@ -41,7 +41,7 @@ namespace Titanium
 
 		void DependencyObject::wrap(::Windows::UI::Xaml::DependencyObject^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void DependencyObject::JSExportInitialize()
@@ -90,8 +90,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<object>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(DependencyObject, SetValue)
@@ -153,8 +152,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<object>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(DependencyObject, GetAnimationBaseValue)
@@ -177,8 +175,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<object>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 			} // namespace Xaml

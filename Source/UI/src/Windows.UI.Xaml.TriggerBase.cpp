@@ -29,7 +29,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::TriggerBase^ TriggerBase::unwrapWindows_UI_Xaml_TriggerBase() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::TriggerBase^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::TriggerBase^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::TriggerBase^ TriggerBase::unwrap() const
@@ -39,7 +39,7 @@ namespace Titanium
 
 		void TriggerBase::wrap(::Windows::UI::Xaml::TriggerBase^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void TriggerBase::JSExportInitialize()

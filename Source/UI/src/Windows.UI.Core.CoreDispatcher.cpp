@@ -32,7 +32,7 @@ namespace Titanium
 
 		::Windows::UI::Core::CoreDispatcher^ CoreDispatcher::unwrapWindows_UI_Core_CoreDispatcher() const
 		{
-			return dynamic_cast<::Windows::UI::Core::CoreDispatcher^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Core::CoreDispatcher^>(wrapped__);
 		}
 
 		::Windows::UI::Core::CoreDispatcher^ CoreDispatcher::unwrap() const
@@ -42,7 +42,7 @@ namespace Titanium
 
 		void CoreDispatcher::wrap(::Windows::UI::Core::CoreDispatcher^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void CoreDispatcher::JSExportInitialize()
@@ -124,8 +124,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::Foundation::IAsyncAction>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(CoreDispatcher, RunIdleAsync)
@@ -148,8 +147,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::Foundation::IAsyncAction>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(CoreDispatcher, ShouldYield)
@@ -159,8 +157,7 @@ namespace Titanium
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(CoreDispatcher, ShouldYield)
@@ -175,8 +172,7 @@ namespace Titanium
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(CoreDispatcher, StopProcessEvents)

@@ -29,7 +29,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::SetterBase^ SetterBase::unwrapWindows_UI_Xaml_SetterBase() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::SetterBase^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::SetterBase^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::SetterBase^ SetterBase::unwrap() const
@@ -39,7 +39,7 @@ namespace Titanium
 
 		void SetterBase::wrap(::Windows::UI::Xaml::SetterBase^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void SetterBase::JSExportInitialize()

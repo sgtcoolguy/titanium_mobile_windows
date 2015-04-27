@@ -33,7 +33,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Media::Geometry^ Geometry::unwrapWindows_UI_Xaml_Media_Geometry() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Media::Geometry^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Media::Geometry^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Media::Geometry^ Geometry::unwrap() const
@@ -43,7 +43,7 @@ namespace Titanium
 
 		void Geometry::wrap(::Windows::UI::Xaml::Media::Geometry^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Geometry::JSExportInitialize()

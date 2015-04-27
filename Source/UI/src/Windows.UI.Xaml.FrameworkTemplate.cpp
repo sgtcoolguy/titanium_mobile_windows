@@ -29,7 +29,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::FrameworkTemplate^ FrameworkTemplate::unwrapWindows_UI_Xaml_FrameworkTemplate() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::FrameworkTemplate^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::FrameworkTemplate^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::FrameworkTemplate^ FrameworkTemplate::unwrap() const
@@ -39,7 +39,7 @@ namespace Titanium
 
 		void FrameworkTemplate::wrap(::Windows::UI::Xaml::FrameworkTemplate^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void FrameworkTemplate::JSExportInitialize()

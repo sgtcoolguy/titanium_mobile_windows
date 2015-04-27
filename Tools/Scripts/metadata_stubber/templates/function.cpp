@@ -12,11 +12,10 @@ for (var x = 0; x < method.args.length; x++) {
 	type = arg.type;
 	as_param = arg.name;
 	if (arg.inout == "out") {
-		as_param += "&";
+		as_param = "&" + as_param;
 		type = type.substring(0, type.length - 1); // drop & from type we pass along to conversion
 	}
 	arguments += as_param + ", ";
-	// FIXME Handle "out" arguments where you pass in a reference to a type as an arg and that type gets modified. See TryTransform
 -%>
 			auto _<%= x %> = arguments.at(<%= x %>);
 <%- include('js_to_native.cpp', {type: type, metadata: metadata, to_assign: arg.name, argument_name: '_' + x}) %>
@@ -38,7 +37,7 @@ if (method.returnType == 'void') {
 } else {
 -%>
 			auto context = get_context();
-			auto method_result = unwrap()-><%= method.name %>(<%= arguments %>);
+			auto method_result = unwrap()-><%= method.name %>(<%- arguments %>);
 
 <%- include('native_to_js.cpp', {type: method.returnType, metadata: metadata, to_assign: 'result', argument_name: 'method_result'}) %>
 <%
@@ -47,13 +46,15 @@ if (method.returnType == 'void') {
 for (var x = 0; x < method.args.length; x++) {
 	if (arg.inout == "out") {
 		// FIXME This assumes int32, uint32, double. We need to handle other types!
+		// I've seen string, Point struct, float32, IMapView<K,V>, Rect struct, TabAlignment, TabLeader, JsonArray
 -%>
 			_<%= x %> = _<%= x %>.get_context().CreateNumber(<%= arg.name %>);
 <%
 	}
 }
 -%>
-			return result; 
+			return result;
+<%
 }
 -%>
 		}

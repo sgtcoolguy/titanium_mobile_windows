@@ -28,7 +28,7 @@ namespace Titanium
 
 		::Windows::Foundation::Uri^ Uri::unwrapWindows_Foundation_Uri() const
 		{
-			return dynamic_cast<::Windows::Foundation::Uri^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::Foundation::Uri^>(wrapped__);
 		}
 
 		::Windows::Foundation::Uri^ Uri::unwrap() const
@@ -38,7 +38,7 @@ namespace Titanium
 
 		void Uri::wrap(::Windows::Foundation::Uri^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Uri::JSExportInitialize()
@@ -243,8 +243,7 @@ namespace Titanium
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Uri, CombineUri)
@@ -263,8 +262,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::Foundation::Uri>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Uri, ToString)
@@ -274,8 +272,7 @@ namespace Titanium
 
  			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(method_result));
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Uri, UnescapeComponent)
@@ -290,8 +287,7 @@ namespace Titanium
 
  			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(method_result));
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Uri, EscapeComponent)
@@ -306,8 +302,7 @@ namespace Titanium
 
  			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(method_result));
 
-
-			return result; 
+			return result;
 		}
 
 		} // namespace Foundation

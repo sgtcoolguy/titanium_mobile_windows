@@ -30,7 +30,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::DataTemplate^ DataTemplate::unwrapWindows_UI_Xaml_DataTemplate() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::DataTemplate^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::DataTemplate^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::DataTemplate^ DataTemplate::unwrap() const
@@ -40,7 +40,7 @@ namespace Titanium
 
 		void DataTemplate::wrap(::Windows::UI::Xaml::DataTemplate^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void DataTemplate::JSExportInitialize()
@@ -62,8 +62,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyObject>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 			} // namespace Xaml

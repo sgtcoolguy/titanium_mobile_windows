@@ -31,7 +31,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Data::RelativeSource^ RelativeSource::unwrapWindows_UI_Xaml_Data_RelativeSource() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Data::RelativeSource^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Data::RelativeSource^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Data::RelativeSource^ RelativeSource::unwrap() const
@@ -41,7 +41,7 @@ namespace Titanium
 
 		void RelativeSource::wrap(::Windows::UI::Xaml::Data::RelativeSource^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void RelativeSource::JSExportInitialize()

@@ -31,7 +31,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Data::IValueConverter^ IValueConverter::unwrapWindows_UI_Xaml_Data_IValueConverter() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Data::IValueConverter^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Data::IValueConverter^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Data::IValueConverter^ IValueConverter::unwrap() const
@@ -41,7 +41,7 @@ namespace Titanium
 
 		void IValueConverter::wrap(::Windows::UI::Xaml::Data::IValueConverter^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void IValueConverter::JSExportInitialize()
@@ -98,8 +98,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<object>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(IValueConverter, ConvertBack)
@@ -147,8 +146,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<object>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 				} // namespace Data

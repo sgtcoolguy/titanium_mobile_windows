@@ -34,7 +34,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Data::Binding^ Binding::unwrapWindows_UI_Xaml_Data_Binding() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Data::Binding^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Data::Binding^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Data::Binding^ Binding::unwrap() const
@@ -44,7 +44,7 @@ namespace Titanium
 
 		void Binding::wrap(::Windows::UI::Xaml::Data::Binding^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Binding::JSExportInitialize()

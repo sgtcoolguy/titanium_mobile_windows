@@ -126,7 +126,7 @@ if (has_constructor) {
 
 		::<%= windows_name %>^ <%= base_name %>::unwrap<%= underscore_name %>() const
 		{
-			return dynamic_cast<::<%= windows_name %>^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::<%= windows_name %>^>(wrapped__);
 		}
 
 		::<%= windows_name %>^ <%= base_name %>::unwrap() const
@@ -136,7 +136,7 @@ if (has_constructor) {
 
 		void <%= base_name %>::wrap(::<%= windows_name %>^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void <%= base_name %>::JSExportInitialize()

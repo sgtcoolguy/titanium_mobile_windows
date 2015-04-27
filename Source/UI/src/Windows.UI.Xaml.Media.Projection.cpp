@@ -31,7 +31,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Media::Projection^ Projection::unwrapWindows_UI_Xaml_Media_Projection() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Media::Projection^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Media::Projection^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Media::Projection^ Projection::unwrap() const
@@ -41,7 +41,7 @@ namespace Titanium
 
 		void Projection::wrap(::Windows::UI::Xaml::Media::Projection^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Projection::JSExportInitialize()

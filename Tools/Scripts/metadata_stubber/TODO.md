@@ -1,6 +1,9 @@
 = TODO =
 - handle overloads of same method with different argument counts/types. We have one bridge method that needs to handle every variation of overload.
-
+- Handle interfaces
+	- How do we handle methods that return/expect interfaces? Do we generate wrappers for interfaces?
+	- How do we handle setting up inheritance in C++? In JSExportInitialize()/JS?
+	- Good example is Windows.Foundation.WwwFormUrlDecoder - it extends System.Object, but implements a number of interfaces (some templated!)
 - Handle mapping primitives better
 	- I might not be casting appropriately, and we may need to worry about signed/unsigned mismatches
 	- I'm not handling all the primitive types, just some

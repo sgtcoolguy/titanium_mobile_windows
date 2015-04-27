@@ -35,7 +35,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Controls::Panel^ Panel::unwrapWindows_UI_Xaml_Controls_Panel() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Controls::Panel^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::Panel^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Controls::Panel^ Panel::unwrap() const
@@ -45,7 +45,7 @@ namespace Titanium
 
 		void Panel::wrap(::Windows::UI::Xaml::Controls::Panel^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Panel::JSExportInitialize()

@@ -29,7 +29,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::PropertyChangedCallback^ PropertyChangedCallback::unwrapWindows_UI_Xaml_PropertyChangedCallback() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::PropertyChangedCallback^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::PropertyChangedCallback^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::PropertyChangedCallback^ PropertyChangedCallback::unwrap() const
@@ -39,7 +39,7 @@ namespace Titanium
 
 		void PropertyChangedCallback::wrap(::Windows::UI::Xaml::PropertyChangedCallback^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void PropertyChangedCallback::JSExportInitialize()

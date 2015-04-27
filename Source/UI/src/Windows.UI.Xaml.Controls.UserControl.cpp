@@ -33,7 +33,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Controls::UserControl^ UserControl::unwrapWindows_UI_Xaml_Controls_UserControl() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Controls::UserControl^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Controls::UserControl^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Controls::UserControl^ UserControl::unwrap() const
@@ -43,7 +43,7 @@ namespace Titanium
 
 		void UserControl::wrap(::Windows::UI::Xaml::Controls::UserControl^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void UserControl::JSExportInitialize()

@@ -31,7 +31,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::PropertyMetadata^ PropertyMetadata::unwrapWindows_UI_Xaml_PropertyMetadata() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::PropertyMetadata^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::PropertyMetadata^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::PropertyMetadata^ PropertyMetadata::unwrap() const
@@ -41,7 +41,7 @@ namespace Titanium
 
 		void PropertyMetadata::wrap(::Windows::UI::Xaml::PropertyMetadata^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void PropertyMetadata::JSExportInitialize()
@@ -103,8 +103,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::PropertyMetadata>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(PropertyMetadata, Create)
@@ -136,8 +135,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::PropertyMetadata>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(PropertyMetadata, Create)
@@ -160,8 +158,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::PropertyMetadata>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(PropertyMetadata, Create)
@@ -193,8 +190,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::PropertyMetadata>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 			} // namespace Xaml

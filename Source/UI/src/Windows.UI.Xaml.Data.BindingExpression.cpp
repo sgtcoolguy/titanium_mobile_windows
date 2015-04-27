@@ -32,7 +32,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Data::BindingExpression^ BindingExpression::unwrapWindows_UI_Xaml_Data_BindingExpression() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Data::BindingExpression^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Data::BindingExpression^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Data::BindingExpression^ BindingExpression::unwrap() const
@@ -42,7 +42,7 @@ namespace Titanium
 
 		void BindingExpression::wrap(::Windows::UI::Xaml::Data::BindingExpression^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void BindingExpression::JSExportInitialize()

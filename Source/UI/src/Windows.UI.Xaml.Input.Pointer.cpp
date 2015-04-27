@@ -31,7 +31,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Input::Pointer^ Pointer::unwrapWindows_UI_Xaml_Input_Pointer() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Input::Pointer^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Input::Pointer^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Input::Pointer^ Pointer::unwrap() const
@@ -41,7 +41,7 @@ namespace Titanium
 
 		void Pointer::wrap(::Windows::UI::Xaml::Input::Pointer^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void Pointer::JSExportInitialize()

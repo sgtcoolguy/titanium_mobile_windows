@@ -31,7 +31,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Media::GeneralTransform^ GeneralTransform::unwrapWindows_UI_Xaml_Media_GeneralTransform() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Media::GeneralTransform^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Media::GeneralTransform^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Media::GeneralTransform^ GeneralTransform::unwrap() const
@@ -41,7 +41,7 @@ namespace Titanium
 
 		void GeneralTransform::wrap(::Windows::UI::Xaml::Media::GeneralTransform^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void GeneralTransform::JSExportInitialize()
@@ -102,8 +102,7 @@ namespace Titanium
 			result.SetProperty("X", context.CreateNumber(static_cast<double>(method_result.X)));
 			result.SetProperty("Y", context.CreateNumber(static_cast<double>(method_result.Y)));
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(GeneralTransform, TryTransform)
@@ -131,12 +130,13 @@ namespace Titanium
 
 
 			auto context = get_context();
-			auto method_result = unwrap()->TryTransform(inPoint, outPoint);
+			auto method_result = unwrap()->TryTransform(inPoint, &outPoint);
 
  			auto result = context.CreateBoolean(method_result); 
 
-
-			return result; 
+			_0 = _0.get_context().CreateNumber(outPoint);
+			_1 = _1.get_context().CreateNumber(outPoint);
+			return result;
 		}
 
 		TITANIUM_FUNCTION(GeneralTransform, TransformBounds)
@@ -165,8 +165,7 @@ namespace Titanium
 			result.SetProperty("Width", context.CreateNumber(static_cast<double>(method_result.Width)));
 			result.SetProperty("Height", context.CreateNumber(static_cast<double>(method_result.Height)));
 
-
-			return result; 
+			return result;
 		}
 
 				} // namespace Media

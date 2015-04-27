@@ -33,7 +33,7 @@ namespace Titanium
 
 		::Windows::UI::Xaml::Documents::TextPointer^ TextPointer::unwrapWindows_UI_Xaml_Documents_TextPointer() const
 		{
-			return dynamic_cast<::Windows::UI::Xaml::Documents::TextPointer^>(wrapped__); // downcast/sidecast. I think dynamic_cast is right here...
+			return dynamic_cast<::Windows::UI::Xaml::Documents::TextPointer^>(wrapped__);
 		}
 
 		::Windows::UI::Xaml::Documents::TextPointer^ TextPointer::unwrap() const
@@ -43,7 +43,7 @@ namespace Titanium
 
 		void TextPointer::wrap(::Windows::UI::Xaml::Documents::TextPointer^ object)
 		{
-			wrapped__ = object; // upcast/assign, should be ok without casting
+			wrapped__ = object;
 		}
 
 		void TextPointer::JSExportInitialize()
@@ -119,8 +119,7 @@ namespace Titanium
 			result.SetProperty("Width", context.CreateNumber(static_cast<double>(method_result.Width)));
 			result.SetProperty("Height", context.CreateNumber(static_cast<double>(method_result.Height)));
 
-
-			return result; 
+			return result;
 		}
 
 		TITANIUM_FUNCTION(TextPointer, GetPositionAtOffset)
@@ -144,8 +143,7 @@ namespace Titanium
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Documents::TextPointer>();
 			result_wrapper->wrap(method_result);
 
-
-			return result; 
+			return result;
 		}
 
 				} // namespace Documents
