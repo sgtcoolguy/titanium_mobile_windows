@@ -57,7 +57,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 		public:
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
-<% if (property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) { -%>
+<% if (property.__inherits == module) { -%>
 
 			/*!
 			  @property
@@ -75,7 +75,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 <% } -%>
 <% for (i in data.methods) { -%>
 <% var method = data.methods[i] -%>
-<% if (method.__accessor != true && method.__inherits == module && (method.platforms.contains('android') && method.platforms.contains('iphone'))) {-%>
+<% if (method.__accessor != true && method.__inherits == module) {-%>
 
 			/*!
 			  @method
@@ -102,14 +102,14 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
-<% if (!property.isJS && property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
+<% if (!property.isJS && property.__inherits == module) {-%>
 			virtual JSValue js_get_<%= property.name %>() const TITANIUM_NOEXCEPT final;
 			virtual bool js_set_<%= property.name %>(const JSValue& argument) TITANIUM_NOEXCEPT final;
 <% } -%>
 <% } -%>
 <% for (i in data.methods) { -%>
 <% var method = data.methods[i] -%>
-<% if (method.__inherits == module && (method.platforms.contains('android') && method.platforms.contains('iphone'))) {-%>
+<% if (method.__inherits == module) {-%>
 			virtual JSValue js_<%= method.name %>(const std::vector<JSValue>&, JSObject&) TITANIUM_NOEXCEPT final;
 <% } -%>
 <% } -%>
@@ -120,7 +120,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 #pragma warning(disable : 4251)
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
-<% if (!property.isJS && property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
+<% if (!property.isJS && property.__inherits == module) {-%>
 				<%= getType(property.type) %> <%= property.name %>__;
 <% } -%>
 <% } -%>

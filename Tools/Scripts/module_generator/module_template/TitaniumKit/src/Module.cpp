@@ -44,7 +44,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 <% var valid_properties = 0 -%>
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
-<% if (property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
+<% if (property.__inherits == module) {-%>
 <% valid_properties++ -%>
 <% } -%>
 <% } -%>
@@ -53,7 +53,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 			: Module(js_context, arguments)<%= (valid_properties > 0 ? ',' : '') %>
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
-<% if (property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
+<% if (property.__inherits == module) {-%>
 <% if (property.type == 'String') { -%>
 			<%= property.name %>__(<%= ('default' in property ? property.default : "\"\"") %>)<%= (valid_properties > 1 ? ',' : '') %>
 <% } else if (property.type == 'Boolean') { -%>
@@ -69,7 +69,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
-<% if (property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
+<% if (property.__inherits == module) {-%>
 <% if (property.type == 'Number' && property.permission == 'read-only') { -%>
 <% property.type = 'JSValue' -%>
 		JSValue <%= namespace %>::<%= property.name %>() const TITANIUM_NOEXCEPT
@@ -103,7 +103,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 <% } -%>
 <% for (i in data.methods) { -%>
 <% var method = data.methods[i] -%>
-<% if (method.__accessor != true && method.__inherits == module && (method.platforms.contains('android') && method.platforms.contains('iphone'))) {-%>
+<% if (method.__accessor != true && method.__inherits == module) {-%>
 <% var parameters = ('parameters' in method ? getParameters(method.parameters) : '') -%>
 <% var type = ('returns' in method ? method.returns[0].type : 'JSValue') -%>
 		<%= getType(type) %> <%= namespace %>::<%= method.name %>(<%= parameters %>) TITANIUM_NOEXCEPT
@@ -128,14 +128,14 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
-<% if (property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
+<% if (property.__inherits == module) {-%>
 			JSExport<<%= namespace %>>::AddValueProperty("<%= property.name %>", std::mem_fn(&<%= namespace %>::<%= (property.type == 'JSValue') ? '' : 'js_' %>get_<%= property.name %>, std::mem_fn(&<%= namespace %>::js_set_<%= property.name %>));
 <% } -%>
 <% } -%>
 
 <% for (i in data.methods) { -%>
 <% var method = data.methods[i] -%>
-<% if (method.__inherits == module && (method.platforms.contains('android') && method.platforms.contains('iphone'))) {-%>
+<% if (method.__inherits == module) {-%>
 			JSExport<<%= namespace %>>::AddFunctionProperty("<%= method.name %>", std::mem_fn(&<%= namespace %>::js_<%= method.name %>));
 <% } -%>
 <% } -%>
@@ -143,7 +143,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
-<% if (property.type != 'JSValue' && property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
+<% if (property.type != 'JSValue' && property.__inherits == module) {-%>
 		JSValue <%= namespace %>::js_get_<%= property.name %>() const TITANIUM_NOEXCEPT
 		{
 <% if (property.type == 'String') { -%>
@@ -181,7 +181,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 <% } -%>
 <% for (i in data.methods) { -%>
 <% var method = data.methods[i] -%>
-<% if (method.__inherits == module && (method.platforms.contains('android') && method.platforms.contains('iphone'))) {-%>
+<% if (method.__inherits == module) {-%>
 <% var parameters = ('parameters' in method ? getParameters(method.parameters) : '') -%>
 <% var type = ('returns' in method ? method.returns[0].type : 'JSValue') -%>
 <% if (method.__accessor == true) {-%>
