@@ -210,6 +210,8 @@ set(SOURCE_UI
   src/UI/ActivityIndicator.cpp
   include/Titanium/UI/ActivityIndicatorStyle.hpp
   src/UI/ActivityIndicatorStyle.cpp
+  include/Titanium/UI/2DMatrix.hpp
+  src/UI/2DMatrix.cpp
   )
 
 set(SOURCE_TiLogger_detail

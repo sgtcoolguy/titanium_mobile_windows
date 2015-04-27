@@ -17,7 +17,7 @@ namespace TitaniumWindows
 
 	UIModule::UIModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Titanium::UIModule(js_context)
-		, windowsStore__(js_context.CreateObject(JSExport<TitaniumWindows::WindowsModule>::Class()))
+		, windows__(js_context.CreateObject(JSExport<TitaniumWindows::WindowsModule>::Class()))
 	{
 	}
 
@@ -29,7 +29,7 @@ namespace TitaniumWindows
 	void UIModule::postInitialize(JSObject& js_object) 
 	{
 		Titanium::UIModule::postInitialize(js_object);
-		js_object.SetProperty("Windows", windowsStore__);
+		js_object.SetProperty("Windows", windows__);
 	}
 
 	void UIModule::JSExportInitialize() {

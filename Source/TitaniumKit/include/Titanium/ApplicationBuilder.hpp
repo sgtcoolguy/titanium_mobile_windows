@@ -61,6 +61,9 @@ namespace Titanium
 		JSObject GeolocationObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& GeolocationObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject 2DMatrixObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& 2DMatrixObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject ViewObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -172,6 +175,7 @@ namespace Titanium
 		JSObject ui__;
 		JSObject api__;
 		JSObject view__;
+		JSObject 2dmatrix__;
 		JSObject geolocation__;
 		JSObject switch__;
 		JSObject utils__;

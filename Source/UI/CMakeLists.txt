@@ -48,6 +48,8 @@ if(NOT TARGET TitaniumWindows_Utility)
 endif()
 
 set(SOURCE_UI
+  include/TitaniumWindows/UI/2DMatrix.hpp
+  src/2DMatrix.cpp
   include/TitaniumWindows/UIModule.hpp
   src/UIModule.cpp
   include/TitaniumWindows/UI/Switch.hpp

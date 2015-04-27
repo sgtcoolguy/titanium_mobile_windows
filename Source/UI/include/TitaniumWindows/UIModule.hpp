@@ -40,7 +40,7 @@ namespace TitaniumWindows
 
 		static void JSExportInitialize();
 	private:
-		JSObject windowsStore__;
+		JSObject windows__;
 	};
 }  // namespace TitaniumWindows
 
