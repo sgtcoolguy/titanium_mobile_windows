@@ -48,6 +48,10 @@ namespace TitaniumWindows
 			{
 				icon__ = argument;
 
+				/*
+				 * This implementation assumes number value for SymbolIcon.
+				 * TODO: Support FontIcon and PathIcon which may be passed as JS object.
+				 */
 				if (argument.IsNumber()) {
 					button__->Icon = ref new Controls::SymbolIcon(static_cast<Controls::Symbol>(static_cast<std::uint32_t>(argument)));
 				} else {
@@ -71,12 +75,10 @@ namespace TitaniumWindows
 			void AppBarButton::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 			{
 				Titanium::Module::enableEvent(event_name);
-
 				if (event_name == "click") {
 					click_event__ = button__->Click += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
 						this->fireEvent("click");
 					});
-
 				}
 			}
 
@@ -84,7 +86,7 @@ namespace TitaniumWindows
 			{
 				Titanium::Module::disableEvent(event_name);
 				if (event_name == "click") {
-					button__->Tapped -= click_event__;
+					button__->Click -= click_event__;
 				}
 			}
 
