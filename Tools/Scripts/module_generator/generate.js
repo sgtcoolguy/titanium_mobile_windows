@@ -78,14 +78,18 @@ function generateModule(module) {
 	walker.on("file", function(root, stat, next) {
 		if ((sub_class && stat.name.startsWith("Module")) || !sub_class) {
 			var file = path.join(root, stat.name);
-			var r = ejs.render(''+fs.readFileSync(file), data);
+			try {
+				var r = ejs.render(''+fs.readFileSync(file), data);
 
-			if (sub_class && !root.contains('TitaniumKit')) {
-				file = file.replace(/Module/, module_parent);
+				if (sub_class && !root.contains('TitaniumKit')) {
+					file = file.replace(/Module/, module_parent);
+				}
+
+				var filePath = SOURCE_FOLDER + file.substring(MODULE_FOLDER.length+1).replace(/Module/g, module_path);
+				writeFile(filePath, r);
+			} catch (e) {
+				console.log(e.toString());
 			}
-
-			var filePath = SOURCE_FOLDER + file.substring(MODULE_FOLDER.length+1).replace(/Module/g, module_path);
-			writeFile(filePath, r);
 		}
 		next();
 	});
