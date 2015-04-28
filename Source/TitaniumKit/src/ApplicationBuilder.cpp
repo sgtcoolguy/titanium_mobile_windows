@@ -33,7 +33,7 @@ namespace Titanium
 		  ui__(js_context__.CreateObject(JSExport<Titanium::UIModule>::Class())),
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
-	      2dmatrix__(js_context__.CreateObject(JSExport<Titanium::UI::2DMatrix>::Class())),
+	      twodmatrix__(js_context__.CreateObject(JSExport<Titanium::UI::TwoDMatrix>::Class())),
 		  geolocation__(js_context__.CreateObject(JSExport<Titanium::GeolocationModule>::Class())),
 		  switch__(js_context__.CreateObject(JSExport<Titanium::UI::Switch>::Class())),
 		  utils__(js_context__.CreateObject(JSExport<Titanium::Utils>::Class())),
@@ -68,7 +68,6 @@ namespace Titanium
 		  mapCamera__(js_context__.CreateObject(JSExport<Titanium::Map::Camera>::Class())),
 		  mapRoute__(js_context__.CreateObject(JSExport<Titanium::Map::Route>::Class())),
 		  mapView__(js_context__.CreateObject(JSExport<Titanium::Map::View>::Class())),
-	      2dmatrix__(js_context__.CreateObject(JSExport<Titanium::UI::2DMatrix>::Class())),
 		  tableview__(js_context__.CreateObject(JSExport<Titanium::UI::TableView>::Class())),
 		  tableviewsection__(js_context__.CreateObject(JSExport<Titanium::UI::TableViewSection>::Class())),
 		  tableviewrow__(js_context__.CreateObject(JSExport<Titanium::UI::TableViewRow>::Class())),
@@ -79,7 +78,7 @@ namespace Titanium
 
 	Application ApplicationBuilder::build()
 	{
-		ui__.SetProperty("2DMatrix", 2dmatrix__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("2DMatrix", twodmatrix__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("ActivityIndicator", activityIndicator__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		ui__.SetProperty("ActivityIndicatorStyle", activityIndicatorStyle__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		ui__.SetProperty("AlertDialog", alertDialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -303,14 +302,14 @@ JSString builtin_functions_script = R"js(
 		return *this;
 	}
 
-	JSObject ApplicationBuilder::2DMatrixObject() const TITANIUM_NOEXCEPT
+	JSObject ApplicationBuilder::TwoDMatrixObject() const TITANIUM_NOEXCEPT
 	{
-		return 2dmatrix__;
+		return twodmatrix__;
 	}
 
-	ApplicationBuilder& ApplicationBuilder::2DMatrixObject(const JSObject& 2DMatrix) TITANIUM_NOEXCEPT
+	ApplicationBuilder& ApplicationBuilder::TwoDMatrixObject(const JSObject& TwoDMatrix) TITANIUM_NOEXCEPT
 	{
-		2dmatrix__ = 2DMatrix;
+		twodmatrix__ = TwoDMatrix;
 		return *this;
 	}
 

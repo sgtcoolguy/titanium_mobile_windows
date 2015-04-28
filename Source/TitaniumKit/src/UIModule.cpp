@@ -731,36 +731,41 @@ namespace Titanium
 	{
 		JSExport<UIModule>::SetClassVersion(1);
 		JSExport<UIModule>::SetParent(JSExport<Module>::Class());
+
+		TITANIUM_ADD_FUNCTION(UIModule, create2DMatrix);
+		TITANIUM_ADD_FUNCTION(UIModule, createActivityIndicator);
+		TITANIUM_ADD_FUNCTION(UIModule, createAnimation);
 		TITANIUM_ADD_FUNCTION(UIModule, createAlertDialog);
 		TITANIUM_ADD_FUNCTION(UIModule, createButton);
 		TITANIUM_ADD_FUNCTION(UIModule, createEmailDialog);
 		TITANIUM_ADD_FUNCTION(UIModule, createImageView);
 		TITANIUM_ADD_FUNCTION(UIModule, createLabel);
+		TITANIUM_ADD_FUNCTION(UIModule, createListItem);
+		TITANIUM_ADD_FUNCTION(UIModule, createListSection);
+		TITANIUM_ADD_FUNCTION(UIModule, createListView);
 		TITANIUM_ADD_FUNCTION(UIModule, createScrollView);
 		TITANIUM_ADD_FUNCTION(UIModule, createSlider);
 		TITANIUM_ADD_FUNCTION(UIModule, createSwitch);
 		TITANIUM_ADD_FUNCTION(UIModule, createTab);
 		TITANIUM_ADD_FUNCTION(UIModule, createTabGroup);
 		TITANIUM_ADD_FUNCTION(UIModule, createTextField);
-		TITANIUM_ADD_FUNCTION(UIModule, createView);
-		TITANIUM_ADD_FUNCTION(UIModule, createWindow);
-		TITANIUM_ADD_FUNCTION(UIModule, createListView);
-		TITANIUM_ADD_FUNCTION(UIModule, createListSection);
-		TITANIUM_ADD_FUNCTION(UIModule, createListItem);
-		TITANIUM_ADD_FUNCTION(UIModule, createWebView);
 		TITANIUM_ADD_FUNCTION(UIModule, createTableView);
-		TITANIUM_ADD_FUNCTION(UIModule, createTableViewSection);
 		TITANIUM_ADD_FUNCTION(UIModule, createTableViewRow);
+		TITANIUM_ADD_FUNCTION(UIModule, createTableViewSection);
+		TITANIUM_ADD_FUNCTION(UIModule, createView);
+		TITANIUM_ADD_FUNCTION(UIModule, createWebView);
+		TITANIUM_ADD_FUNCTION(UIModule, createWindow);
+
 		TITANIUM_ADD_FUNCTION(UIModule, getBackgroundColor);
-		TITANIUM_ADD_FUNCTION(UIModule, createActivityIndicator);
 		TITANIUM_ADD_FUNCTION(UIModule, setBackgroundColor);
 		TITANIUM_ADD_FUNCTION(UIModule, getBackgroundImage);
 		TITANIUM_ADD_FUNCTION(UIModule, setBackgroundImage);
+		TITANIUM_ADD_PROPERTY(UIModule, currentTab);
 		TITANIUM_ADD_FUNCTION(UIModule, getCurrentTab);
 		TITANIUM_ADD_FUNCTION(UIModule, setCurrentTab);
-		TITANIUM_ADD_FUNCTION(UIModule, getCurrentWindow);
-		TITANIUM_ADD_PROPERTY(UIModule, currentTab);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, currentWindow);
+		TITANIUM_ADD_FUNCTION(UIModule, getCurrentWindow);
+
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ANIMATION_CURVE_EASE_IN);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ANIMATION_CURVE_EASE_IN_OUT);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ANIMATION_CURVE_EASE_OUT);
@@ -867,10 +872,41 @@ namespace Titanium
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, URL_ERROR_UNSUPPORTED_SCHEME);
 	}
 
+	TITANIUM_FUNCTION(UIModule, create2DMatrix)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		
+		// FIXME Macros didn't work because identifiers can't start with digits!
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());
+		JSObject UI = static_cast<JSObject>(UI_property);
+		JSValue TwoDMatrix_property = UI.GetProperty("2DMatrix");
+		TITANIUM_ASSERT(TwoDMatrix_property.IsObject());
+		JSObject TwoDMatrix = static_cast<JSObject>(TwoDMatrix_property);
+		auto TwoDMatrix_obj = TwoDMatrix.CallAsConstructor(parameters);
+		Titanium::Module::applyProperties(parameters, TwoDMatrix_obj);
+		return TwoDMatrix_obj;
+	}
+
+	TITANIUM_FUNCTION(UIModule, createActivityIndicator)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ActivityIndicator);
+	}
+
 	TITANIUM_FUNCTION(UIModule, createAlertDialog)
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(AlertDialog);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createAnimation)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(Animation);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createButton)
@@ -895,6 +931,24 @@ namespace Titanium
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(Label);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createListItem)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ListItem);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createListSection)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ListSection);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createListView)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ListView);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createScrollView)
@@ -927,28 +981,28 @@ namespace Titanium
 		return createTabGroup(parameters, this_object);
 	}
 
+	TITANIUM_FUNCTION(UIModule, createTableViewRow)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(TableViewRow);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createTableViewSection)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(TableViewSection);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createTableView)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(TableView);
+	}
+
 	TITANIUM_FUNCTION(UIModule, createTextField)
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(TextField);
-	}
-
-	TITANIUM_FUNCTION(UIModule, createListView)
-	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(ListView);
-	}
-
-	TITANIUM_FUNCTION(UIModule, createListSection)
-	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(ListSection);
-	}
-
-	TITANIUM_FUNCTION(UIModule, createListItem)
-	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(ListItem);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createView)
@@ -969,24 +1023,6 @@ namespace Titanium
 		CREATE_TITANIUM_UI(WebView);
 	}
 
-	TITANIUM_FUNCTION(UIModule, createTableView)
-	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(TableView);
-	}
-
-	TITANIUM_FUNCTION(UIModule, createTableViewSection)
-	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(TableViewSection);
-	}
-
-	TITANIUM_FUNCTION(UIModule, createTableViewRow)
-	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(TableViewRow);
-	}
-
 	TITANIUM_PROPERTY_GETTER(UIModule, backgroundImage)
 	{
 		return get_context().CreateString(get_backgroundImage());
@@ -1002,12 +1038,6 @@ namespace Titanium
 	TITANIUM_PROPERTY_GETTER(UIModule, backgroundColor)
 	{
 		return get_context().CreateString(get_backgroundColor());
-	}
-
-	TITANIUM_FUNCTION(UIModule, createActivityIndicator)
-	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(ActivityIndicator);
 	}
 
 	TITANIUM_PROPERTY_SETTER(UIModule, backgroundColor)

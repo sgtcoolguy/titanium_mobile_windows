@@ -212,6 +212,8 @@ set(SOURCE_UI
   src/UI/ActivityIndicatorStyle.cpp
   include/Titanium/UI/2DMatrix.hpp
   src/UI/2DMatrix.cpp
+  include/Titanium/UI/MatrixCreationDict.hpp
+  src/UI/MatrixCreationDict.cpp
   )
 
 set(SOURCE_TiLogger_detail

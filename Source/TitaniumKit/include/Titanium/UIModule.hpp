@@ -228,34 +228,39 @@ namespace Titanium
 #endif
 
 		static void JSExportInitialize();
+
+		TITANIUM_FUNCTION_DEF(create2DMatrix);
+		TITANIUM_FUNCTION_DEF(createActivityIndicator);
 		TITANIUM_FUNCTION_DEF(createAlertDialog);
+		TITANIUM_FUNCTION_DEF(createAnimation);
 		TITANIUM_FUNCTION_DEF(createButton);
 		TITANIUM_FUNCTION_DEF(createEmailDialog);
 		TITANIUM_FUNCTION_DEF(createImageView);
 		TITANIUM_FUNCTION_DEF(createLabel);
+		TITANIUM_FUNCTION_DEF(createListItem);
+		TITANIUM_FUNCTION_DEF(createListSection);
+		TITANIUM_FUNCTION_DEF(createListView);
 		TITANIUM_FUNCTION_DEF(createScrollView);
 		TITANIUM_FUNCTION_DEF(createSlider);
 		TITANIUM_FUNCTION_DEF(createSwitch);
 		TITANIUM_FUNCTION_DEF(createTab);
 		TITANIUM_FUNCTION_DEF(createTabGroup);
+		TITANIUM_FUNCTION_DEF(createTableView);
+		TITANIUM_FUNCTION_DEF(createTableViewRow);
+		TITANIUM_FUNCTION_DEF(createTableViewSection);
 		TITANIUM_FUNCTION_DEF(createTextField);
 		TITANIUM_FUNCTION_DEF(createView);
-		TITANIUM_FUNCTION_DEF(createWindow);
-		TITANIUM_FUNCTION_DEF(createListView);
-		TITANIUM_FUNCTION_DEF(createListSection);
-		TITANIUM_FUNCTION_DEF(createListItem);
 		TITANIUM_FUNCTION_DEF(createWebView);
-		TITANIUM_FUNCTION_DEF(createTableView);
-		TITANIUM_FUNCTION_DEF(createTableViewSection);
-		TITANIUM_FUNCTION_DEF(createTableViewRow);
-		TITANIUM_FUNCTION_DEF(getBackgroundImage);
-		TITANIUM_FUNCTION_DEF(setBackgroundImage);
+		TITANIUM_FUNCTION_DEF(createWindow);
+		
 		TITANIUM_FUNCTION_DEF(getBackgroundColor);
 		TITANIUM_FUNCTION_DEF(setBackgroundColor);
+		TITANIUM_FUNCTION_DEF(getBackgroundImage);
+		TITANIUM_FUNCTION_DEF(setBackgroundImage);
 		TITANIUM_FUNCTION_DEF(getCurrentTab);
 		TITANIUM_FUNCTION_DEF(setCurrentTab);
 		TITANIUM_FUNCTION_DEF(getCurrentWindow);
-		TITANIUM_FUNCTION_DEF(createActivityIndicator);
+		
 
 	private:
 		JSValue animation_curve_ease_in__;

@@ -51,7 +51,7 @@ namespace TitaniumWindows
 		                                                            .GestureObject(js_context__.CreateObject(JSExport<TitaniumWindows::Gesture>::Class()))
 		                                                            .AccelerometerObject(js_context__.CreateObject(JSExport<TitaniumWindows::Accelerometer>::Class()))
 		                                                            .ViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::View>::Class()))
-		                                                            .2DMatrixObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::2DMatrix>::Class())))
+		                                                            .TwoDMatrixObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TwoDMatrix>::Class()))
 		                                                            .SwitchObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::Switch>::Class()))
 		                                                            .UtilsObject(js_context__.CreateObject(JSExport<TitaniumWindows::Utils>::Class()))
 		                                                            .PropertiesObject(js_context__.CreateObject(JSExport<TitaniumWindows::App::Properties>::Class()))

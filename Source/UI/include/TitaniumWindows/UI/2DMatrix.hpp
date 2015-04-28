@@ -23,30 +23,46 @@ namespace TitaniumWindows
 
 		  @discussion This is the Titanium.UI.2DMatrix implementation for Windows.
 		*/
-		class TITANIUMWINDOWS_UI_EXPORT 2DMatrix final : public Titanium::UI::2DMatrix, public JSExport<2DMatrix>
+		class TITANIUMWINDOWS_UI_EXPORT TwoDMatrix final : public Titanium::UI::TwoDMatrix, public JSExport<TwoDMatrix>
 		{
 
 		public:
-			2DMatrix(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			TwoDMatrix(const JSContext&) TITANIUM_NOEXCEPT;
 
-			virtual ~2DMatrix()                  = default;
-			2DMatrix(const 2DMatrix&)            = default;
-			2DMatrix& operator=(const 2DMatrix&) = default;
+			virtual ~TwoDMatrix()                  = default;
+			TwoDMatrix(const TwoDMatrix&)            = default;
+			TwoDMatrix& operator=(const TwoDMatrix&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-			2DMatrix(2DMatrix&&)                 = default;
-			2DMatrix& operator=(2DMatrix&&)      = default;
+			TwoDMatrix(TwoDMatrix&&)                 = default;
+			TwoDMatrix& operator=(TwoDMatrix&&)      = default;
 #endif
 
 			static void JSExportInitialize();
 
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			// properties
+			virtual double get_a() const TITANIUM_NOEXCEPT override final;
+			virtual void set_a(const double& a) TITANIUM_NOEXCEPT override final;
+			virtual double get_b() const TITANIUM_NOEXCEPT override final;
+			virtual void set_b(const double& b) TITANIUM_NOEXCEPT override final;
+			virtual double get_c() const TITANIUM_NOEXCEPT override final;
+			virtual void set_c(const double& c) TITANIUM_NOEXCEPT override final;
+			virtual double get_d() const TITANIUM_NOEXCEPT override final;
+			virtual void set_d(const double& d) TITANIUM_NOEXCEPT override final;
+			virtual double get_tx() const TITANIUM_NOEXCEPT override final;
+			virtual void set_tx(const double& tx) TITANIUM_NOEXCEPT override final;
+			virtual double get_ty() const TITANIUM_NOEXCEPT override final;
+			virtual void set_ty(const double& ty) TITANIUM_NOEXCEPT override final;
+
+			virtual std::shared_ptr<Titanium::UI::TwoDMatrix> invert() TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<Titanium::UI::TwoDMatrix> multiply(const std::shared_ptr<Titanium::UI::TwoDMatrix> t2) TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<Titanium::UI::TwoDMatrix> rotate(const double& angle, const double& toAngle) TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<Titanium::UI::TwoDMatrix> scale(const double& sx, const double& sy, const double& toSx, const double& toSy) TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<Titanium::UI::TwoDMatrix> translate(const double& tx, const double& ty) TITANIUM_NOEXCEPT;
+
 		private:
-
-
-			virtual JSValue invert() TITANIUM_NOEXCEPT;
-			virtual JSValue multiply(JSValue t2) TITANIUM_NOEXCEPT;
-			virtual JSValue rotate(const double& angle, const double& toAngle) TITANIUM_NOEXCEPT;
-			virtual JSValue scale(const double& sx, const double& sy, const double& toSx, const double& toSy) TITANIUM_NOEXCEPT;
-			virtual JSValue translate(const double& tx, const double& ty) TITANIUM_NOEXCEPT;
+			Windows::UI::Xaml::Media::TransformGroup^ transform__;
 
 		};
 	}  // namespace UI

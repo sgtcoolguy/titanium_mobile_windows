@@ -10,6 +10,7 @@
 #define _TITANIUM_2DMATRIX_HPP_
 
 #include "Titanium/Module.hpp"
+#include "Titanium/UI/MatrixCreationDict.hpp"
 
 namespace Titanium
 {
@@ -23,7 +24,7 @@ namespace Titanium
 		  @discussion This is the Titanium 2DMatrix Module.
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.2DMatrix
 		*/
-		class TITANIUMKIT_EXPORT 2DMatrix : public View, public JSExport<2DMatrix>
+		class TITANIUMKIT_EXPORT TwoDMatrix : public Module, public JSExport<TwoDMatrix>
 		{
 
 		public:
@@ -75,47 +76,49 @@ namespace Titanium
 			  @abstract invert
 			  @discussion Returns a matrix constructed by inverting this matrix.
 			*/
-			virtual JSValue invert() TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<TwoDMatrix> invert() TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract multiply
 			  @discussion Returns a matrix constructed by combining two existing matrices.
 			*/
-			virtual JSValue multiply(JSValue t2) TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<TwoDMatrix> multiply(const std::shared_ptr<TwoDMatrix> t2) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract rotate
 			  @discussion Returns a matrix constructed by rotating this matrix.
 			*/
-			virtual JSValue rotate(const double& angle, const double& toAngle) TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<TwoDMatrix> rotate(const double& angle, const double& toAngle) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract scale
 			  @discussion Returns a `2DMatrix` object that specifies a scaling animation from one scale to another.
 			*/
-			virtual JSValue scale(const double& sx, const double& sy, const double& toSx, const double& toSy) TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<TwoDMatrix> scale(const double& sx, const double& sy, const double& toSx, const double& toSy) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract translate
 			  @discussion Returns a matrix constructed by applying a translation transform to this matrix.
 			*/
-			virtual JSValue translate(const double& tx, const double& ty) TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<TwoDMatrix> translate(const double& tx, const double& ty) TITANIUM_NOEXCEPT;
 
-			2DMatrix(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
+			TwoDMatrix(const JSContext&) TITANIUM_NOEXCEPT;
 
-			virtual ~2DMatrix() = default;
-			2DMatrix(const 2DMatrix&) = default;
-			2DMatrix& operator=(const 2DMatrix&) = default;
+			virtual ~TwoDMatrix() = default;
+			TwoDMatrix(const TwoDMatrix &) = default;
+			TwoDMatrix& operator=(const TwoDMatrix &) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-			2DMatrix(2DMatrix&&)                 = default;
-			2DMatrix& operator=(2DMatrix&&)      = default;
+			TwoDMatrix(TwoDMatrix&&)                 = default;
+			TwoDMatrix& operator=(TwoDMatrix&&)      = default;
 #endif
 
 			static void JSExportInitialize();
+
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			TITANIUM_PROPERTY_DEF(a);
 			TITANIUM_PROPERTY_DEF(b);
