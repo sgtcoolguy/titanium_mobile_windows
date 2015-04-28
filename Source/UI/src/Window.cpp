@@ -50,10 +50,23 @@ namespace TitaniumWindows
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 			if (!get_exitOnClose() && window_stack__.size() > 1) {
 				rootFrame->GoBack();
-				window_stack__.pop_back();
+
+				auto top_window = window_stack__.back();
+
+				// If stack-top is not a current Window,
+				// it means new Window is opened before current Window is closed.
+				// In that case we need to re-arrange the stack.
+				if (top_window.get() != this) {
+					window_stack__.pop_back();
+					window_stack__.pop_back(); // remove current Window
+					window_stack__.push_back(top_window); // push new Window
+				} else {
+					window_stack__.pop_back();
+				}
 
 				auto window = window_stack__.back();
 
+				rootFrame->Navigate(Windows::UI::Xaml::Controls::Page::typeid);
 				auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
 				page->Content = window->getComponent();
 

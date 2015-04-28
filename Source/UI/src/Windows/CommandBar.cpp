@@ -45,6 +45,14 @@ namespace TitaniumWindows
 				return items__;
 			}
 
+			/*
+			 * TODO: We should enable use of the secondary commands property too.
+			 * Not sure if we want another property or we want to overload items,
+			 * so that if it is an array containing two arrays,
+			 * the first inner array is primary and second is secondary?
+			 *
+			 * May be more logical to have a second property?
+			 */
 			TITANIUM_PROPERTY_SETTER(CommandBar, items)
 			{
 				TITANIUM_ASSERT(argument.IsObject());

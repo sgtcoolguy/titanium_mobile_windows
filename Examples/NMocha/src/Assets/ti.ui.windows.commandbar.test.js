@@ -13,7 +13,7 @@ describe("Titanium.UI.Windows.CommandBar", function () {
     }
 
     it("constructor", function (finish) {
-        if (!isWin()) return;
+        if (!isWin()) return finish();
 
         should(Ti.UI.Windows).not.be.undefined;
         should(Ti.UI.Windows.createCommandBar).be.a.Function;
@@ -25,7 +25,7 @@ describe("Titanium.UI.Windows.CommandBar", function () {
     });
 
     it("CommandBar", function (finish) {
-        if (!isWin()) return;
+        if (!isWin()) return finish();
 
         var bar = Ti.UI.Windows.createCommandBar();
         should(bar).be.an.Object;
@@ -35,7 +35,7 @@ describe("Titanium.UI.Windows.CommandBar", function () {
     });
 
     it("AppBarButton", function (finish) {
-        if (!isWin()) return;
+        if (!isWin()) return finish();
 
         var button = Ti.UI.Windows.createAppBarButton();
         should(button).be.an.Object;
@@ -47,7 +47,7 @@ describe("Titanium.UI.Windows.CommandBar", function () {
     });
 
     it("AppBarToggleButton", function (finish) {
-        if (!isWin()) return;
+        if (!isWin()) return finish();
 
         var button = Ti.UI.Windows.createAppBarToggleButton();
         should(button).be.an.Object;
@@ -62,7 +62,7 @@ describe("Titanium.UI.Windows.CommandBar", function () {
 
 
     it("AppBarSeparator", function (finish) {
-        if (!isWin()) return;
+        if (!isWin()) return finish();
 
         var separator = Ti.UI.Windows.createAppBarSeparator();
         should(separator).be.an.Object;
