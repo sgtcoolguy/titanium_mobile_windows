@@ -13,6 +13,9 @@
 #include <cctype>
 #include <collection.h>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 namespace TitaniumWindows
 {
 	namespace UI
@@ -67,8 +70,6 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutDelegate::animate(animation, callback, this_object);
-
 			// Storyboard where we attach all the animations
 			const auto storyboard = ref new Windows::UI::Xaml::Media::Animation::Storyboard();
 
@@ -98,48 +99,89 @@ namespace TitaniumWindows
 			auto component = getComponent();
 
 			// transform
-			const auto transform = animation->get_transform();
-			if (transform != nullptr) {
-				component->RenderTransform = ref new Windows::UI::Xaml::Media::MatrixTransform();
+			if (animation->get_transform() != nullptr) {
 
-				auto a_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-				a_anim->To = transform->get_a();
-				storyboard->SetTargetProperty(a_anim, "(UIElement.RenderTransform).(MatrixTransform.Matrix).(Matrix.M11)");
-				storyboard->SetTarget(a_anim, component);
-				storyboard->Children->Append(a_anim);
+				auto a = animation->get_transform()->get_a(); // scale x
+				auto b = animation->get_transform()->get_b(); // shear y
+				auto c = animation->get_transform()->get_c(); // shear x
+				auto d = animation->get_transform()->get_d(); // scale y
 
-				auto b_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-				b_anim->To = transform->get_b();
-				storyboard->SetTargetProperty(b_anim, "(UIElement.RenderTransform).(MatrixTransform.Matrix).(Matrix.M12)");
-				storyboard->SetTarget(b_anim, component);
-				storyboard->Children->Append(b_anim);
+				auto rotation = 0.0;
+				auto scale_x = 1.0;
+				auto scale_y = 1.0;
+				auto skew_x = 0.0;
+				auto skew_y = 0.0;
 
-				auto c_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-				c_anim->To = transform->get_c();
-				storyboard->SetTargetProperty(c_anim, "(UIElement.RenderTransform).(MatrixTransform.Matrix).(Matrix.M21)");
-				storyboard->SetTarget(c_anim, component);
-				storyboard->Children->Append(c_anim);
+				const auto delta = a * d - b * c;
 
-				auto d_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-				d_anim->To = transform->get_d();
-				storyboard->SetTargetProperty(d_anim, "(UIElement.RenderTransform).(MatrixTransform.Matrix).(Matrix.M22)");
-				storyboard->SetTarget(d_anim, component);
-				storyboard->Children->Append(d_anim);
+				// We can decompose using QR/LU, then we can create a TransformGroup that applies the transformations in necessary order according to the decomposition!
+				// http://www.maths-informatique-jeux.com/blog/frederic/?post/2013/12/01/Decomposition-of-2D-transform-matrices
+				// Do QR decomposition
+				if (a || b) {
+					auto r = sqrt(a*a + b*b);
+					rotation = b > 0 ? acos(a / r) : -acos(a / r);
+					scale_x = r;
+					scale_y = delta / r;
+					skew_x = atan((a*c + b*d) / (r*r));
+				} else if (c || d) {
+					auto s = sqrt(c*c + d*d);
+					rotation = M_PI * 0.5 - (d > 0 ? acos(-c / s) : -acos(c / s));
+					skew_x = delta / s;
+					skew_y = s;
+					skew_y = atan((a*c + b*d) / (s*s));
+				} else { // a = b = c = d = 0
+					scale_x = 0;
+					scale_y = 0; // = invalid matrix
+				}
+
+				// Convert rotation from rads to degrees!
+				rotation = (180.0 * rotation) / M_PI;
+
+				// Now we need to apply the transformations in a specific order to be equivalent to the final matrix:
+				// translate -> rotate -> scale -> skew X
+				auto group = ref new Windows::UI::Xaml::Media::TransformGroup();
+				auto translate = ref new Windows::UI::Xaml::Media::TranslateTransform();
+				auto rotate = ref new Windows::UI::Xaml::Media::RotateTransform();
+				auto composite = ref new Windows::UI::Xaml::Media::CompositeTransform(); // cheat and use composite to do scale and then skew
+				group->Children->Append(translate);
+				group->Children->Append(rotate);
+				group->Children->Append(composite);
+
+				component->RenderTransform = group;
+
+
+				auto rotation_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				rotation_anim->To = rotation;
+				storyboard->SetTargetProperty(rotation_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)");
+				storyboard->SetTarget(rotation_anim, component);
+				storyboard->Children->Append(rotation_anim);
+
+				auto scale_x_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				scale_x_anim->To = a;
+				storyboard->SetTargetProperty(scale_x_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleX)");
+				storyboard->SetTarget(scale_x_anim, component);
+				storyboard->Children->Append(scale_x_anim);
+
+				auto scale_y_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				scale_y_anim->To = d;
+				storyboard->SetTargetProperty(scale_y_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleY)");
+				storyboard->SetTarget(scale_y_anim, component);
+				storyboard->Children->Append(scale_y_anim);
 
 				auto tx_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-				tx_anim->To = transform->get_tx();
-				storyboard->SetTargetProperty(tx_anim, "(UIElement.RenderTransform).(MatrixTransform.Matrix).(Matrix.OffsetX)");
+				tx_anim->To = animation->get_transform()->get_tx();
+				storyboard->SetTargetProperty(tx_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateX)");
 				storyboard->SetTarget(tx_anim, component);
 				storyboard->Children->Append(tx_anim);
 
 				auto ty_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-				ty_anim->To = transform->get_ty();
-				storyboard->SetTargetProperty(ty_anim, "(UIElement.RenderTransform).(MatrixTransform.Matrix).(Matrix.OffsetY)");
+				ty_anim->To = animation->get_transform()->get_ty();
+				storyboard->SetTargetProperty(ty_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateY)");
 				storyboard->SetTarget(ty_anim, component);
 				storyboard->Children->Append(ty_anim);
 			} else {
 				// I'm assuming that we can only do transform _or_ top/left/right/center/bottom animations - not mix them.
-				const auto top = animation->get_top();
+				auto top = animation->get_top();
 				if (top != 0) { // FIXME How can I tell if we've actually specified this or not? We need equivalent of Option type...
 					// TODO Bottom
 					// Because we're animating a transform, the value behaves like setting By, not To. So we need to calculate the difference and set our target To to that value
@@ -154,7 +196,7 @@ namespace TitaniumWindows
 					storyboard->Children->Append(double_anim);
 				}
 
-				const auto left = animation->get_left(); // TODO Right
+				auto left = animation->get_left(); // TODO Right
 				if (left != 0) { // FIXME How can I tell if we've actually specified this or not?
 					// TODO If "right", we need to calculate the current position of "right", take the diff and then do a transform By, not To
 					auto current_left = Windows::UI::Xaml::Controls::Canvas::GetLeft(component);

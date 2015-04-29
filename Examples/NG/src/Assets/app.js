@@ -20,8 +20,13 @@ var button = Ti.UI.createButton({
 win.add(button);
 
 button.addEventListener('click', function () {
-    var t1 = Ti.UI.create2DMatrix();
-    t1 = t1.translate(0, 300);
+    var t1 = Ti.UI.create2DMatrix({
+        rotate: 45
+    });
+    Ti.API.info(t1.a);
+    Ti.API.info(t1.b);
+    Ti.API.info(t1.c);
+    Ti.API.info(t1.d);
     var a1 = Ti.UI.createAnimation();
     a1.transform = t1;
     a1.duration = 800;

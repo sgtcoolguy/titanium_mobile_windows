@@ -9,7 +9,6 @@
 #ifndef _TITANIUMWINDOWS_UI_HPP_
 #define _TITANIUMWINDOWS_UI_HPP_
 
-#include "TitaniumWindows/UI/2DMatrix.hpp"
 #include "TitaniumWindows/UI/ActivityIndicator.hpp"
 #include "TitaniumWindows/UI/AlertDialog.hpp"
 #include "TitaniumWindows/UI/Button.hpp"

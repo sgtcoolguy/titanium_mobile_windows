@@ -145,16 +145,19 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(getTy);
 			TITANIUM_FUNCTION_DEF(setTy);
 
-			protected:
+		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-				double a__;
-				double b__;
-				double c__;
-				double d__;
-				double tx__;
-				double ty__;
+			double a__;
+			double b__;
+			double c__;
+			double d__;
+			double tx__;
+			double ty__;
 #pragma warning(pop)
+
+			std::shared_ptr<TwoDMatrix> multiply(const double a, const double b, const double c, const double d, const double tx, const double ty);
+
 		};
 
 	} // namespace UI
