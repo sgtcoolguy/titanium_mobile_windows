@@ -7,7 +7,6 @@
  */
 
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
-#include "TitaniumWindows/UI/2DMatrix.hpp"
 #include <string>
 #include <algorithm>
 #include <cctype>
