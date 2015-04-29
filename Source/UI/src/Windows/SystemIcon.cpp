@@ -419,7 +419,7 @@ namespace TitaniumWindows
 				TITANIUM_ADD_PROPERTY_READONLY(SystemIcon, PREVIEW);
 			}
 
-TITANIUM_PROPERTY_GETTER(SystemIcon, PREVIOUS)
+			TITANIUM_PROPERTY_GETTER(SystemIcon, PREVIOUS)
 			{
 				return previous__;
 			}

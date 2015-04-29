@@ -152,12 +152,12 @@ namespace Titanium
 		/*
 		 * Stop firing all events, especially used when module is closed/hidden.
 		 */
-		virtual void disableEvents() TITANIUM_NOEXCEPT final
+		virtual void disableEvents() TITANIUM_NOEXCEPT
 		{
 			enableEvents__ = false;
 		}
 
-		virtual void enableEvents() TITANIUM_NOEXCEPT final
+		virtual void enableEvents() TITANIUM_NOEXCEPT
 		{
 			enableEvents__ = true;
 		}
