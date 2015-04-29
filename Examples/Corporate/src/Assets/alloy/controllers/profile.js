@@ -72,6 +72,9 @@ function Controller() {
         title: "Profile",
         id: "profile"
     });
+    $.__views.profile.addEventListener('windows:back', function () {
+        $.__views.profile.close();
+    });
     $.__views.profile && $.addTopLevelView($.__views.profile);
     $.__views.contactInfo = Ti.UI.createScrollView({
         layout: "vertical",

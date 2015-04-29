@@ -57,12 +57,20 @@ namespace TitaniumWindows
 				return bottomAppBar__;
 			}
 
+			virtual void enableEvents()  TITANIUM_NOEXCEPT override;
+			virtual void disableEvents() TITANIUM_NOEXCEPT override;
+
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			Windows::UI::Xaml::Controls::Canvas^ canvas__;
 			static std::vector<std::shared_ptr<Window>> window_stack__;
 			std::shared_ptr<TitaniumWindows::UI::WindowsXaml::CommandBar> bottomAppBar__;
+			Windows::Foundation::EventRegistrationToken backpressed_event__;
+			bool handle_backpress_event__ { false };
 #pragma warning(pop)
 		};
 

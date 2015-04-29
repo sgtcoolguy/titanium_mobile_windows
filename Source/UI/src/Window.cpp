@@ -15,6 +15,11 @@ namespace TitaniumWindows
 	namespace UI
 	{
 
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+		using namespace Windows::Foundation;
+		using namespace Windows::Phone::UI::Input;
+#endif
+
 		std::vector<std::shared_ptr<Window>> Window::window_stack__;
 
 		Window::Window(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -75,8 +80,11 @@ namespace TitaniumWindows
 				if (window->getBottomAppBar() != nullptr) {
 					page->BottomAppBar = window->getBottomAppBar()->getComponent();
 				}
-			}
-			else {
+
+				// start accepting events for the new Window
+				window->enableEvents();
+				window->fireEvent("focus");
+			} else {
 				// This is the first and only window, remove it
 				rootFrame->Content = nullptr;
 				window_stack__.clear();
@@ -86,8 +94,6 @@ namespace TitaniumWindows
 
 		void Window::open(const std::shared_ptr<Titanium::UI::OpenWindowParams>& params) TITANIUM_NOEXCEPT
 		{
-			enableEvents();
-
 			Titanium::UI::Window::open(params);
 
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
@@ -105,9 +111,15 @@ namespace TitaniumWindows
 				// Fire blur on the last window
 				auto lastwin = window_stack__.back();
 				lastwin->fireEvent("blur");
+
+				// disable all events further for the old Window
+				lastwin->disableEvents();
 			}
 
 			window_stack__.push_back(this->get_object().GetPrivate<Window>());
+
+			// start accepting events
+			enableEvents();
 
 			// Fire open event on this window
 			fireEvent("open");
@@ -152,6 +164,43 @@ namespace TitaniumWindows
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
 			auto statusBar = Windows::UI::ViewManagement::StatusBar::GetForCurrentView();
 			fullscreen ? statusBar->HideAsync() : statusBar->ShowAsync();
+#endif
+		}
+
+		void Window::enableEvents() TITANIUM_NOEXCEPT
+		{
+			Titanium::Module::enableEvents();
+			handle_backpress_event__ = true;
+		}
+
+		void Window::disableEvents() TITANIUM_NOEXCEPT
+		{
+			Titanium::Module::disableEvents();
+			handle_backpress_event__ = false;
+		}
+
+		void Window::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Window::enableEvent(event_name);
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+			if (event_name == "windows:back") {
+				backpressed_event__ = HardwareButtons::BackPressed += ref new EventHandler<BackPressedEventArgs^>([this](Platform::Object ^sender, BackPressedEventArgs ^e) {
+					if (this->handle_backpress_event__) {
+						this->fireEvent("windows:back");
+						e->Handled = true;
+					}
+				});
+			}
+#endif
+		}
+
+		void Window::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Window::disableEvent(event_name);
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+			if (event_name == "windows:back") {
+				HardwareButtons::BackPressed -= backpressed_event__;
+			}
 #endif
 		}
 
