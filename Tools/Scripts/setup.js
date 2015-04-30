@@ -30,7 +30,7 @@ var async = require('async'),
 	  err: '✖',
 	  dot: '․'
 	},
-	JSC_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1411436814.zip",
+	JSC_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1430359270.zip",
 	GTEST_URL = (os.platform() === 'win32') ? "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-windows.zip" : "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-osx.zip",
 	BOOST_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/boost_1_57_0.zip";
 
@@ -240,7 +240,7 @@ async.series([
 	function (next) {
 		if (os.platform() === 'win32') {
 			console.log("\nSetting up JavaScriptCore pre-built libraries...");
-			var jscHome = path.join(home, "JavaScriptCore-Windows-1411436814");
+			var jscHome = path.join(home, "JavaScriptCore-Windows-1430359270");
 			if (typeof process.env.JavaScriptCore_HOME !== 'undefined') {
 				var existing = path.normalize(process.env.JavaScriptCore_HOME);
 				// What if location it points to doesn't exist. We should download there!
