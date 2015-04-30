@@ -22,6 +22,9 @@ namespace Titanium
 		using namespace HAL;
 
 		class View;
+		class Animation;
+		class ViewLayoutDelegate;
+		class ViewLayoutEventDelegate;
 
 		/*!
 		  @class
@@ -54,7 +57,7 @@ namespace Titanium
 
 			  @result void
 			*/
-			virtual void animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT;
+			virtual void animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback) TITANIUM_NOEXCEPT;
 
 			View(const JSContext&) TITANIUM_NOEXCEPT;
 

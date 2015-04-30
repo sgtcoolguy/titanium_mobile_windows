@@ -10,13 +10,17 @@
 #define _TITANIUM_UI_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/UI/Switch.hpp"
+#include "Titanium/UI/2DMatrix.hpp"
+#include "Titanium/UI/ActivityIndicator.hpp"
+#include "Titanium/UI/ActivityIndicatorStyle.hpp"
 #include "Titanium/UI/AlertDialog.hpp"
 #include "Titanium/UI/Animation.hpp"
 #include "Titanium/UI/Button.hpp"
 #include "Titanium/UI/EmailDialog.hpp" 
 #include "Titanium/UI/ImageView.hpp"
 #include "Titanium/UI/Label.hpp"
+#include "Titanium/UI/ListView.hpp"
+#include "Titanium/UI/ListSection.hpp"
 #include "Titanium/UI/ScrollView.hpp"
 #include "Titanium/UI/Slider.hpp"
 #include "Titanium/UI/Switch.hpp"
@@ -25,12 +29,8 @@
 #include "Titanium/UI/TableViewSection.hpp"
 #include "Titanium/UI/TextField.hpp"
 #include "Titanium/UI/View.hpp"
-#include "Titanium/UI/Window.hpp"
-#include "Titanium/UI/ListView.hpp"
-#include "Titanium/UI/ListSection.hpp"
 #include "Titanium/UI/WebView.hpp"
-#include "Titanium/UI/ActivityIndicator.hpp"
-#include "Titanium/UI/ActivityIndicatorStyle.hpp"
+#include "Titanium/UI/Window.hpp"
 
 namespace Titanium
 {
@@ -228,34 +228,39 @@ namespace Titanium
 #endif
 
 		static void JSExportInitialize();
+
+		TITANIUM_FUNCTION_DEF(create2DMatrix);
+		TITANIUM_FUNCTION_DEF(createActivityIndicator);
 		TITANIUM_FUNCTION_DEF(createAlertDialog);
+		TITANIUM_FUNCTION_DEF(createAnimation);
 		TITANIUM_FUNCTION_DEF(createButton);
 		TITANIUM_FUNCTION_DEF(createEmailDialog);
 		TITANIUM_FUNCTION_DEF(createImageView);
 		TITANIUM_FUNCTION_DEF(createLabel);
+		TITANIUM_FUNCTION_DEF(createListItem);
+		TITANIUM_FUNCTION_DEF(createListSection);
+		TITANIUM_FUNCTION_DEF(createListView);
 		TITANIUM_FUNCTION_DEF(createScrollView);
 		TITANIUM_FUNCTION_DEF(createSlider);
 		TITANIUM_FUNCTION_DEF(createSwitch);
 		TITANIUM_FUNCTION_DEF(createTab);
 		TITANIUM_FUNCTION_DEF(createTabGroup);
+		TITANIUM_FUNCTION_DEF(createTableView);
+		TITANIUM_FUNCTION_DEF(createTableViewRow);
+		TITANIUM_FUNCTION_DEF(createTableViewSection);
 		TITANIUM_FUNCTION_DEF(createTextField);
 		TITANIUM_FUNCTION_DEF(createView);
-		TITANIUM_FUNCTION_DEF(createWindow);
-		TITANIUM_FUNCTION_DEF(createListView);
-		TITANIUM_FUNCTION_DEF(createListSection);
-		TITANIUM_FUNCTION_DEF(createListItem);
 		TITANIUM_FUNCTION_DEF(createWebView);
-		TITANIUM_FUNCTION_DEF(createTableView);
-		TITANIUM_FUNCTION_DEF(createTableViewSection);
-		TITANIUM_FUNCTION_DEF(createTableViewRow);
-		TITANIUM_FUNCTION_DEF(getBackgroundImage);
-		TITANIUM_FUNCTION_DEF(setBackgroundImage);
+		TITANIUM_FUNCTION_DEF(createWindow);
+		
 		TITANIUM_FUNCTION_DEF(getBackgroundColor);
 		TITANIUM_FUNCTION_DEF(setBackgroundColor);
+		TITANIUM_FUNCTION_DEF(getBackgroundImage);
+		TITANIUM_FUNCTION_DEF(setBackgroundImage);
 		TITANIUM_FUNCTION_DEF(getCurrentTab);
 		TITANIUM_FUNCTION_DEF(setCurrentTab);
 		TITANIUM_FUNCTION_DEF(getCurrentWindow);
-		TITANIUM_FUNCTION_DEF(createActivityIndicator);
+		
 
 	private:
 		JSValue animation_curve_ease_in__;

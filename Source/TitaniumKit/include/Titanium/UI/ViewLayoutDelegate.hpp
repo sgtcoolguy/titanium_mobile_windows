@@ -13,12 +13,15 @@
 #include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/Point.hpp"
 #include "Titanium/UI/Dimension.hpp"
+#include "Titanium/UI/View.hpp"
+#include "Titanium/UI/Animation.hpp"
 
 namespace Titanium
 {
 	namespace UI
 	{
 		class View;
+		class Animation;
 		
 		using namespace HAL;
 
@@ -54,7 +57,7 @@ namespace Titanium
 			*/
 			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
 
-			virtual void animate(const JSObject& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT;
+			virtual void animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
