@@ -13,8 +13,6 @@
 #include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/Point.hpp"
 #include "Titanium/UI/Dimension.hpp"
-#include "Titanium/UI/View.hpp"
-#include "Titanium/UI/Animation.hpp"
 
 namespace Titanium
 {

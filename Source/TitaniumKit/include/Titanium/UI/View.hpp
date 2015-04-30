@@ -12,7 +12,6 @@
 #include "Titanium/Module.hpp"
 #include <vector>
 #include <memory>
-#include "Titanium/UI/Animation.hpp"
 #include "Titanium/UI/ViewLayoutDelegate.hpp"
 
 namespace Titanium
@@ -23,8 +22,6 @@ namespace Titanium
 
 		class View;
 		class Animation;
-		class ViewLayoutDelegate;
-		class ViewLayoutEventDelegate;
 
 		/*!
 		  @class
