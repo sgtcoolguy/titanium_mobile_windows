@@ -81,14 +81,12 @@ namespace TitaniumWindows
 				loading__ = false;
 				if (e->IsSuccess && load_event_enabled__) {
 					JSObject obj = get_context().CreateObject();
-					obj.SetProperty("type", get_context().CreateString("load"));
 					if (webview__->Source != nullptr) {
 						obj.SetProperty("url", get_context().CreateString(TitaniumWindows::Utility::ConvertString(webview__->Source->ToString())));
 					}
 					fireEvent("load", obj);
 				} else if (!e->IsSuccess && error_event_enabled__) {
 					JSObject obj = get_context().CreateObject();
-					obj.SetProperty("type", get_context().CreateString("error"));
 					obj.SetProperty("success", get_context().CreateBoolean(false));
 					obj.SetProperty("url",  get_context().CreateString(get_url()));
 					obj.SetProperty("code", get_context().CreateString(Titanium::UI::Constants::to_string(getUrlError(e->WebErrorStatus))));
@@ -101,7 +99,6 @@ namespace TitaniumWindows
 				loading__ = true;
 				if (beforeload_event_enabled__) {
 					JSObject obj = get_context().CreateObject();
-					obj.SetProperty("type", get_context().CreateString("beforeload"));
 					obj.SetProperty("url",  get_context().CreateString(get_url()));
 					fireEvent("beforeload", obj);
 				}

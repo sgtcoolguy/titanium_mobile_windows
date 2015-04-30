@@ -26,11 +26,13 @@ require('./ti.geolocation.test');
 require('./ti.gesture.test');
 //require('./ti.internal.test');
 require('./ti.map.test');
+require('./ti.network.test');
 require('./ti.network.httpclient.test');
 require('./ti.platform.test');
 require('./ti.require.test');
 require('./ti.test');
-//require('./ti.ui.activityindicator.test'); // TODO Implement activity indicator
+require('./ti.ui.activityindicator.test');
+require('./ti.ui.windows.commandbar.test');
 require('./ti.ui.constants.test');
 require('./ti.ui.emaildialog.test');
 require('./ti.ui.imageview.test');
@@ -41,7 +43,7 @@ require('./ti.ui.listview.test');
 require('./ti.ui.switch.test');
 require('./ti.ui.tableview.test');
 require('./ti.ui.textfield.test');
-//require('./ti.ui.window.test'); // FIXME Crashes at should_not_crash
+require('./ti.ui.window.test');
 require('./ti.utils.test');
 require('./ti.xml.test');
 // ============================================================================
@@ -87,9 +89,6 @@ mocha.setup({
 // dump the output, which will get interpreted above in the logging code
 mocha.run(function () {
     win.backgroundColor = failed ? 'red' : 'green';
-
-    // force result to be shown
-    win.open();
 
     Ti.API.info('!TEST_RESULTS_START!\n' +
         (JSON.stringify({

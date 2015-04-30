@@ -20,20 +20,11 @@
   TITANIUM_ASSERT(NAME##_property.IsObject()); \
   JSObject NAME = static_cast<JSObject>(NAME##_property); \
   auto NAME##_obj = NAME.CallAsConstructor(parameters); \
-  Titanium::applyProperties(NAME##_obj, parameters); \
+  Titanium::Module::applyProperties(parameters, NAME##_obj); \
   return NAME##_obj;
 
 namespace Titanium
 {
-	static void applyProperties(JSObject& view, const JSObject& parameters)
-	{
-		if (parameters.GetPropertyNames().GetCount() > 0) {
-			const auto propertyNames = parameters.GetPropertyNames();
-			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
-				view.SetProperty(property_name, parameters.GetProperty(property_name));
-			}
-		}
-	}
 
 	UIModule::UIModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : Module(js_context),
@@ -269,6 +260,7 @@ namespace Titanium
   TabGroup.prototype.setActiveTab = function (_n) {
       this.__ti_private__.index = _n;
       this.__ti_private__.content.scrollTo(this.__ti_private__.windowWidth*_n, 0);
+      Ti.UI.setCurrentTab(this.__ti_private__.tabs[_n]);
   }
   TabGroup.prototype.open = function () {
       this.__ti_private__.window.open();
@@ -309,6 +301,11 @@ namespace Titanium
     )JS";
 		return static_cast<JSObject>(get_context().CreateFunction(script, { "_arguments" })({ parameters }, this_object));
 	}
+
+	TITANIUM_PROPERTY_READWRITE(UIModule, std::string, backgroundColor);
+	TITANIUM_PROPERTY_READWRITE(UIModule, std::string, backgroundImage);
+	TITANIUM_PROPERTY_READWRITE(UIModule, std::shared_ptr<Titanium::UI::View>, currentTab);
+	TITANIUM_PROPERTY_READWRITE(UIModule, std::shared_ptr<Titanium::UI::Window>, currentWindow);
 
 	TITANIUM_PROPERTY_GETTER(UIModule, ANIMATION_CURVE_EASE_IN)
 	{
@@ -734,27 +731,41 @@ namespace Titanium
 	{
 		JSExport<UIModule>::SetClassVersion(1);
 		JSExport<UIModule>::SetParent(JSExport<Module>::Class());
+
+		TITANIUM_ADD_FUNCTION(UIModule, create2DMatrix);
+		TITANIUM_ADD_FUNCTION(UIModule, createActivityIndicator);
+		TITANIUM_ADD_FUNCTION(UIModule, createAnimation);
 		TITANIUM_ADD_FUNCTION(UIModule, createAlertDialog);
 		TITANIUM_ADD_FUNCTION(UIModule, createButton);
 		TITANIUM_ADD_FUNCTION(UIModule, createEmailDialog);
 		TITANIUM_ADD_FUNCTION(UIModule, createImageView);
 		TITANIUM_ADD_FUNCTION(UIModule, createLabel);
+		TITANIUM_ADD_FUNCTION(UIModule, createListItem);
+		TITANIUM_ADD_FUNCTION(UIModule, createListSection);
+		TITANIUM_ADD_FUNCTION(UIModule, createListView);
 		TITANIUM_ADD_FUNCTION(UIModule, createScrollView);
 		TITANIUM_ADD_FUNCTION(UIModule, createSlider);
 		TITANIUM_ADD_FUNCTION(UIModule, createSwitch);
 		TITANIUM_ADD_FUNCTION(UIModule, createTab);
 		TITANIUM_ADD_FUNCTION(UIModule, createTabGroup);
 		TITANIUM_ADD_FUNCTION(UIModule, createTextField);
-		TITANIUM_ADD_FUNCTION(UIModule, createView);
-		TITANIUM_ADD_FUNCTION(UIModule, createWindow);
-		TITANIUM_ADD_FUNCTION(UIModule, createListView);
-		TITANIUM_ADD_FUNCTION(UIModule, createListSection);
-		TITANIUM_ADD_FUNCTION(UIModule, createListItem);
-		TITANIUM_ADD_FUNCTION(UIModule, createWebView);
 		TITANIUM_ADD_FUNCTION(UIModule, createTableView);
-		TITANIUM_ADD_FUNCTION(UIModule, createTableViewSection);
 		TITANIUM_ADD_FUNCTION(UIModule, createTableViewRow);
+		TITANIUM_ADD_FUNCTION(UIModule, createTableViewSection);
+		TITANIUM_ADD_FUNCTION(UIModule, createView);
+		TITANIUM_ADD_FUNCTION(UIModule, createWebView);
+		TITANIUM_ADD_FUNCTION(UIModule, createWindow);
+
+		TITANIUM_ADD_FUNCTION(UIModule, getBackgroundColor);
 		TITANIUM_ADD_FUNCTION(UIModule, setBackgroundColor);
+		TITANIUM_ADD_FUNCTION(UIModule, getBackgroundImage);
+		TITANIUM_ADD_FUNCTION(UIModule, setBackgroundImage);
+		TITANIUM_ADD_PROPERTY(UIModule, currentTab);
+		TITANIUM_ADD_FUNCTION(UIModule, getCurrentTab);
+		TITANIUM_ADD_FUNCTION(UIModule, setCurrentTab);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, currentWindow);
+		TITANIUM_ADD_FUNCTION(UIModule, getCurrentWindow);
+
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ANIMATION_CURVE_EASE_IN);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ANIMATION_CURVE_EASE_IN_OUT);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ANIMATION_CURVE_EASE_OUT);
@@ -861,10 +872,41 @@ namespace Titanium
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, URL_ERROR_UNSUPPORTED_SCHEME);
 	}
 
+	TITANIUM_FUNCTION(UIModule, create2DMatrix)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		
+		// FIXME Macros didn't work because identifiers can't start with digits!
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+		JSValue UI_property = Titanium.GetProperty("UI");
+		TITANIUM_ASSERT(UI_property.IsObject());
+		JSObject UI = static_cast<JSObject>(UI_property);
+		JSValue TwoDMatrix_property = UI.GetProperty("2DMatrix");
+		TITANIUM_ASSERT(TwoDMatrix_property.IsObject());
+		JSObject TwoDMatrix = static_cast<JSObject>(TwoDMatrix_property);
+		auto TwoDMatrix_obj = TwoDMatrix.CallAsConstructor(parameters);
+		Titanium::Module::applyProperties(parameters, TwoDMatrix_obj);
+		return TwoDMatrix_obj;
+	}
+
+	TITANIUM_FUNCTION(UIModule, createActivityIndicator)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ActivityIndicator);
+	}
+
 	TITANIUM_FUNCTION(UIModule, createAlertDialog)
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(AlertDialog);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createAnimation)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(Animation);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createButton)
@@ -889,6 +931,24 @@ namespace Titanium
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(Label);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createListItem)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ListItem);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createListSection)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ListSection);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createListView)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ListView);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createScrollView)
@@ -921,28 +981,28 @@ namespace Titanium
 		return createTabGroup(parameters, this_object);
 	}
 
+	TITANIUM_FUNCTION(UIModule, createTableViewRow)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(TableViewRow);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createTableViewSection)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(TableViewSection);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createTableView)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(TableView);
+	}
+
 	TITANIUM_FUNCTION(UIModule, createTextField)
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(TextField);
-	}
-
-	TITANIUM_FUNCTION(UIModule, createListView)
-	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(ListView);
-	}
-
-	TITANIUM_FUNCTION(UIModule, createListSection)
-	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(ListSection);
-	}
-
-	TITANIUM_FUNCTION(UIModule, createListItem)
-	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(ListItem);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createView)
@@ -963,29 +1023,64 @@ namespace Titanium
 		CREATE_TITANIUM_UI(WebView);
 	}
 
-	TITANIUM_FUNCTION(UIModule, createTableView)
+	TITANIUM_PROPERTY_GETTER(UIModule, backgroundImage)
 	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(TableView);
+		return get_context().CreateString(get_backgroundImage());
 	}
 
-	TITANIUM_FUNCTION(UIModule, createTableViewSection)
+	TITANIUM_PROPERTY_SETTER(UIModule, backgroundImage)
 	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(TableViewSection);
+		TITANIUM_ASSERT(argument.IsString());
+		set_backgroundImage(static_cast<std::string>(argument));
+		return true;
 	}
 
-	TITANIUM_FUNCTION(UIModule, createTableViewRow)
+	TITANIUM_PROPERTY_GETTER(UIModule, backgroundColor)
 	{
-		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		CREATE_TITANIUM_UI(TableViewRow);
+		return get_context().CreateString(get_backgroundColor());
 	}
 
-	// TODO empty implementation so that it won't break default app template. Need to implement later on.
-	TITANIUM_FUNCTION(UIModule, setBackgroundColor)
+	TITANIUM_PROPERTY_SETTER(UIModule, backgroundColor)
 	{
-		TITANIUM_LOG_DEBUG("UI::setBackgroundColor Not implemented");
-		return this_object.get_context().CreateUndefined();
+		TITANIUM_ASSERT(argument.IsString());
+		set_backgroundColor(static_cast<std::string>(argument));
+		return true;
 	}
+
+	TITANIUM_PROPERTY_GETTER(UIModule, currentTab)
+	{
+		const auto tab = get_currentTab();
+		if (tab != nullptr) {
+			return tab->get_object();
+		}
+		return get_context().CreateNull();
+	}
+
+	TITANIUM_PROPERTY_SETTER(UIModule, currentTab) 
+	{
+		if (argument.IsObject()) {
+			set_currentTab(static_cast<JSObject>(argument).GetPrivate<Titanium::UI::View>());
+		} else {
+			set_currentTab(nullptr);
+		}
+		return true;
+	}
+
+	TITANIUM_PROPERTY_GETTER(UIModule, currentWindow)
+	{
+		const auto window = get_currentWindow();
+		if (window != nullptr) {
+			return window->get_object();
+		}
+		return get_context().CreateNull();
+	}
+
+	TITANIUM_FUNCTION_AS_GETTER(UIModule, getBackgroundImage, backgroundImage)
+	TITANIUM_FUNCTION_AS_SETTER(UIModule, setBackgroundImage, backgroundImage)
+	TITANIUM_FUNCTION_AS_GETTER(UIModule, getBackgroundColor, backgroundColor)
+	TITANIUM_FUNCTION_AS_SETTER(UIModule, setBackgroundColor, backgroundColor)
+	TITANIUM_FUNCTION_AS_GETTER(UIModule, getCurrentTab, currentTab)
+	TITANIUM_FUNCTION_AS_SETTER(UIModule, setCurrentTab, currentTab)
+	TITANIUM_FUNCTION_AS_GETTER(UIModule, getCurrentWindow, currentWindow)
 
 }  // namespace Titanium

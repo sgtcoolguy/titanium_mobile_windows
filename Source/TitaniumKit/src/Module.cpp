@@ -13,7 +13,6 @@ namespace Titanium
 {
 	Module::Module(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : JSExportObject(js_context)
-	    , stopFiringEvents__(false)
 	{
 	}
 
@@ -115,16 +114,16 @@ namespace Titanium
 				this_object.SetProperty(property_name, props.GetProperty(property_name));
 			}
 		}
-
-		//TITANIUM_LOG_WARN("Module::applyProperties: Unimplemented");
-		//for (const auto& property_name : static_cast<std::vector<JSString>>(props.GetPropertyNames())) {
-		//	this_object.SetProperty(property_name, props.GetProperty(property_name));
-		//}
 	}
 
-	void Module::fireEvent(const std::string& name, const JSObject& event) const TITANIUM_NOEXCEPT
+	void Module::fireEvent(const std::string& name) TITANIUM_NOEXCEPT
 	{
-		if (stopFiringEvents__) {
+		fireEvent(name, get_context().CreateObject());
+	}
+
+	void Module::fireEvent(const std::string& name, const JSObject& event) TITANIUM_NOEXCEPT
+	{
+		if (!enableEvents__) {
 			TITANIUM_LOG_WARN("Module::fireEvent: Stopped firing '", name, "'");
 			return;
 		}
@@ -141,8 +140,10 @@ namespace Titanium
 			return;
 		}
 
-		// TODO Set "source" and "type" here!
 		auto event_copy = event;
+		if (!event_copy.HasProperty("source")) {
+			event_copy.SetProperty("source", get_object());
+		}
 		event_copy.SetProperty("type", event.get_context().CreateString(name));
 
 		for (size_t i = 0; i < event_listener_count; ++i) {
@@ -244,7 +245,7 @@ namespace Titanium
 	TITANIUM_FUNCTION(Module, fireEvent)
 	{
 		ENSURE_STRING_AT_INDEX(name, 0);
-		ENSURE_OBJECT_AT_INDEX(param, 1);
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(param, 1);
 
 		fireEvent(name, param);
 		return get_context().CreateUndefined();

@@ -8,16 +8,6 @@
 
 namespace Titanium
 {
-	static void applyProperties(JSObject& obj, const JSObject& parameters)
-	{
-		if (parameters.GetPropertyNames().GetCount() > 0) {
-			const auto propertyNames = parameters.GetPropertyNames();
-			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
-				obj.SetProperty(property_name, parameters.GetProperty(property_name));
-			}
-		}
-	}
-
 	NetworkModule::NetworkModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : Module(js_context),
 		network_lan__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TYPE::LAN))),
@@ -71,7 +61,7 @@ namespace Titanium
 		JSObject HTTPClient = static_cast<JSObject>(HTTPClient_property);
 
 		auto httpClient = HTTPClient.CallAsConstructor();
-		Titanium::applyProperties(httpClient, parameters);
+		applyProperties(parameters, httpClient);
 		return httpClient;
 	}
 

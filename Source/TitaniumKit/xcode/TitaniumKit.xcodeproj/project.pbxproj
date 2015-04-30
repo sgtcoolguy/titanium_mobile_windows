@@ -135,6 +135,10 @@
 		F96BCAC41A25CEB000745C3B /* NativePlatformExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96BCAC21A25CEB000745C3B /* NativePlatformExample.hpp */; };
 		F9901B091AA5A355003FFD52 /* MapRegionTypev2.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9901B081AA5A355003FFD52 /* MapRegionTypev2.hpp */; };
 		F9901B0B1AA5A366003FFD52 /* MapRegionTypev2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9901B0A1AA5A366003FFD52 /* MapRegionTypev2.cpp */; };
+		F99AE3B41ADFA2F500D0F91E /* ActivityIndicator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F99AE3B21ADFA2F500D0F91E /* ActivityIndicator.hpp */; };
+		F99AE3B51ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F99AE3B31ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp */; };
+		F99AE3B81ADFA30300D0F91E /* ActivityIndicator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F99AE3B61ADFA30300D0F91E /* ActivityIndicator.cpp */; };
+		F99AE3B91ADFA30300D0F91E /* ActivityIndicatorStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F99AE3B71ADFA30300D0F91E /* ActivityIndicatorStyle.cpp */; };
 		F9B177951A2C46F100ECE602 /* Accelerometer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B177941A2C46F100ECE602 /* Accelerometer.hpp */; };
 		F9B177981A2C46FB00ECE602 /* Accelerometer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B177971A2C46FB00ECE602 /* Accelerometer.cpp */; };
 		F9B1AF5D1A8DB4E100DEF4D6 /* ListSection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B1AF5C1A8DB4E100DEF4D6 /* ListSection.cpp */; };
@@ -319,6 +323,10 @@
 		F96BCAC21A25CEB000745C3B /* NativePlatformExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativePlatformExample.hpp; sourceTree = "<group>"; };
 		F9901B081AA5A355003FFD52 /* MapRegionTypev2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapRegionTypev2.hpp; path = include/Titanium/Map/MapRegionTypev2.hpp; sourceTree = "<group>"; };
 		F9901B0A1AA5A366003FFD52 /* MapRegionTypev2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapRegionTypev2.cpp; path = src/Map/MapRegionTypev2.cpp; sourceTree = "<group>"; };
+		F99AE3B21ADFA2F500D0F91E /* ActivityIndicator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ActivityIndicator.hpp; path = include/Titanium/UI/ActivityIndicator.hpp; sourceTree = "<group>"; };
+		F99AE3B31ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ActivityIndicatorStyle.hpp; path = include/Titanium/UI/ActivityIndicatorStyle.hpp; sourceTree = "<group>"; };
+		F99AE3B61ADFA30300D0F91E /* ActivityIndicator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ActivityIndicator.cpp; path = src/UI/ActivityIndicator.cpp; sourceTree = "<group>"; };
+		F99AE3B71ADFA30300D0F91E /* ActivityIndicatorStyle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ActivityIndicatorStyle.cpp; path = src/UI/ActivityIndicatorStyle.cpp; sourceTree = "<group>"; };
 		F9B177941A2C46F100ECE602 /* Accelerometer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Accelerometer.hpp; path = include/Titanium/Accelerometer.hpp; sourceTree = "<group>"; };
 		F9B177971A2C46FB00ECE602 /* Accelerometer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Accelerometer.cpp; path = src/Accelerometer.cpp; sourceTree = "<group>"; };
 		F9B1AF5C1A8DB4E100DEF4D6 /* ListSection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ListSection.cpp; path = src/UI/ListSection.cpp; sourceTree = "<group>"; };
@@ -381,6 +389,10 @@
 		C90B8F8B1A16D32C005F3210 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F99AE3B61ADFA30300D0F91E /* ActivityIndicator.cpp */,
+				F99AE3B21ADFA2F500D0F91E /* ActivityIndicator.hpp */,
+				F99AE3B71ADFA30300D0F91E /* ActivityIndicatorStyle.cpp */,
+				F99AE3B31ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp */,
 				F966AF7E1AC11AF700351707 /* ViewLayoutDelegate.cpp */,
 				F966AF7C1AC11AE900351707 /* ViewLayoutDelegate.hpp */,
 				F931042B1ABBE3540067470D /* ShadowDict.hpp */,
@@ -686,6 +698,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C909508D1A292CFA002133E1 /* TextArea.hpp in Headers */,
+				F99AE3B41ADFA2F500D0F91E /* ActivityIndicator.hpp in Headers */,
 				C90B8F981A16DBAD005F3210 /* Button.hpp in Headers */,
 				C90950821A291EB5002133E1 /* Animation.hpp in Headers */,
 				F9B1AF6F1A8E2EBE00DEF4D6 /* DatabaseModule.hpp in Headers */,
@@ -709,6 +722,7 @@
 				C950EF901A48D8FB000EE5AC /* Label.hpp in Headers */,
 				F913EFC61A836026009080D1 /* AlertDialog.hpp in Headers */,
 				C909509E1A2963F3002133E1 /* ListView.hpp in Headers */,
+				F99AE3B51ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp in Headers */,
 				F9B1AF761A8E2EDD00DEF4D6 /* DB.hpp in Headers */,
 				F908310F1A2EA3AC00CB810B /* Blob.hpp in Headers */,
 				C974545B1A02A2E500CB4CA9 /* Module.hpp in Headers */,
@@ -879,6 +893,7 @@
 				F9B1AF811A8E2F2B00DEF4D6 /* HTTPClient.cpp in Sources */,
 				F96BCAC31A25CEB000745C3B /* NativePlatformExample.cpp in Sources */,
 				C90B8F8F1A16D346005F3210 /* View.cpp in Sources */,
+				F99AE3B81ADFA30300D0F91E /* ActivityIndicator.cpp in Sources */,
 				C90B900C1A198370005F3210 /* ApplicationBuilder.cpp in Sources */,
 				F93CDC4A1A96D25E00C42D8C /* Gradient.cpp in Sources */,
 				F96A53E01AA5D00F00AD4011 /* Analytics.cpp in Sources */,
@@ -902,6 +917,7 @@
 				F93104281ABBDDAB0067470D /* TitleAttributesParams.cpp in Sources */,
 				C90B90081A19804D005F3210 /* Application.cpp in Sources */,
 				F965FF2C1AA588230092ABBA /* Annotation.cpp in Sources */,
+				F99AE3B91ADFA30300D0F91E /* ActivityIndicatorStyle.cpp in Sources */,
 				C90B8FD31A17CB1C005F3210 /* API.cpp in Sources */,
 				F9B1AF7B1A8E2EEC00DEF4D6 /* Constants.cpp in Sources */,
 				C90950A71A297E03002133E1 /* WebView.cpp in Sources */,

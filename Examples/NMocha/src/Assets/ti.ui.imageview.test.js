@@ -42,8 +42,10 @@ describe("Titanium.UI.ImageView", function () {
             should(innerView.size.height).eql(100);
             should(view.size.height).eql(innerView.size.height);
             should(view.size.width).eql(innerView.size.width);
-            win.close();
-            finish();
+            setTimeout(function () {
+                win.close();
+                finish();
+            }, 1000);
         });
         win.add(view);
         win.open();

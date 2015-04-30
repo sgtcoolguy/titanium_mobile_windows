@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
+#include "TitaniumWindows/UI/Windows/CommandBar.hpp"
 
 namespace TitaniumWindows
 {
@@ -27,8 +28,11 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT Window final : public Titanium::UI::Window, public JSExport<Window>
 		{
 		public:
+			TITANIUM_FUNCTION_DEF(add);
+
 			virtual void close(const std::shared_ptr<Titanium::UI::CloseWindowParams>&) TITANIUM_NOEXCEPT override final;
 			virtual void open(const std::shared_ptr<Titanium::UI::OpenWindowParams>&) TITANIUM_NOEXCEPT override final;
+			virtual void set_fullscreen(const bool& fullscreen) TITANIUM_NOEXCEPT override final;
 
 			Window(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -42,10 +46,32 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
-			virtual void set_fullscreen(const bool& fullscreen) TITANIUM_NOEXCEPT override final;
+
+			virtual Windows::UI::Xaml::Controls::Canvas^ getComponent() const TITANIUM_NOEXCEPT
+			{
+				return canvas__;
+			}
+
+			virtual std::shared_ptr<TitaniumWindows::UI::WindowsXaml::CommandBar> getBottomAppBar() const TITANIUM_NOEXCEPT
+			{
+				return bottomAppBar__;
+			}
+
+			virtual void enableEvents()  TITANIUM_NOEXCEPT override;
+			virtual void disableEvents() TITANIUM_NOEXCEPT override;
+
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			Windows::UI::Xaml::Controls::Canvas^ canvas__;
+			static std::vector<std::shared_ptr<Window>> window_stack__;
+			std::shared_ptr<TitaniumWindows::UI::WindowsXaml::CommandBar> bottomAppBar__;
+			Windows::Foundation::EventRegistrationToken backpressed_event__;
+			bool handle_backpress_event__ { false };
+#pragma warning(pop)
 		};
 
 		class TITANIUMWINDOWS_UI_EXPORT WindowLayoutDelegate : public WindowsViewLayoutDelegate {

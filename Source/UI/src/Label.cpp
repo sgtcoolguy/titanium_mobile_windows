@@ -10,8 +10,6 @@
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
-#define DEFAULT_FONT_SIZE 20
-
 namespace TitaniumWindows
 {
 	namespace UI
@@ -47,7 +45,7 @@ namespace TitaniumWindows
 			label__->TextWrapping = Windows::UI::Xaml::TextWrapping::Wrap;
 			label__->TextTrimming = Windows::UI::Xaml::TextTrimming::Clip;
 			label__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Center;
-			label__->FontSize = DEFAULT_FONT_SIZE;
+			label__->FontSize = DefaultFontSize;
 
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(label__);
 

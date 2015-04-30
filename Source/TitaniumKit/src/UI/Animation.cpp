@@ -1,5 +1,5 @@
 /**
- * Titanium.UI.Animation for Windows
+ * TitaniumKit Titanium.UI.Animation
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -19,21 +19,18 @@ namespace Titanium
 			autoreverse__(false),
 			backgroundColor__(""),
 			bottom__(0),
-			center__(js_context.CreateObject()),
 			color__(""),
 			curve__(ANIMATION_CURVE::EASE_IN),
 			delay__(0),
 			duration__(0),
 			height__(0),
 			left__(0),
-			opacity__(0),
+			opacity__(-1),
 			opaque__(true),
 			repeat__(1),
 			right__(0),
 			top__(0),
-			transform__(js_context.CreateNull()),
 			transition__(0),
-			view__(js_context.CreateNull()),
 			visible__(true),
 			width__(0),
 			zIndex__(1)
@@ -45,13 +42,15 @@ namespace Titanium
 			HAL_LOG_DEBUG("Animation:: postCallAsConstructor ", this);
 		}
 
+		TITANIUM_PROPERTY_READWRITE(Animation, Point, anchorPoint)
+
 		TITANIUM_PROPERTY_READWRITE(Animation, bool, autoreverse)
 
 		TITANIUM_PROPERTY_READWRITE(Animation, std::string, backgroundColor)
 
 		TITANIUM_PROPERTY_READWRITE(Animation, double, bottom)
 
-		TITANIUM_PROPERTY_READWRITE(Animation, JSObject, center)
+		TITANIUM_PROPERTY_READWRITE(Animation, Point, center)
 
 		TITANIUM_PROPERTY_READWRITE(Animation, std::string, color)
 
@@ -75,11 +74,11 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_READWRITE(Animation, double, top)
 
-		TITANIUM_PROPERTY_READWRITE(Animation, JSValue, transform)
+		TITANIUM_PROPERTY_READWRITE(Animation, std::shared_ptr<TwoDMatrix>, transform)
 
 		TITANIUM_PROPERTY_READWRITE(Animation, uint32_t, transition)
 
-		TITANIUM_PROPERTY_READWRITE(Animation, JSValue, view)
+		TITANIUM_PROPERTY_READWRITE(Animation, std::shared_ptr<View>, view)
 
 		TITANIUM_PROPERTY_READWRITE(Animation, bool, visible)
 
@@ -91,6 +90,7 @@ namespace Titanium
 			JSExport<Animation>::SetClassVersion(1);
 			JSExport<Animation>::SetParent(JSExport<Module>::Class());
 
+			TITANIUM_ADD_PROPERTY(Animation, anchorPoint);
 			TITANIUM_ADD_PROPERTY(Animation, autoreverse);
 			TITANIUM_ADD_PROPERTY(Animation, backgroundColor);
 			TITANIUM_ADD_PROPERTY(Animation, bottom);
@@ -113,6 +113,8 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(Animation, width);
 			TITANIUM_ADD_PROPERTY(Animation, zIndex);
 
+			TITANIUM_ADD_FUNCTION(Animation, getAnchorPoint);
+			TITANIUM_ADD_FUNCTION(Animation, setAnchorPoint);
 			TITANIUM_ADD_FUNCTION(Animation, getAutoreverse);
 			TITANIUM_ADD_FUNCTION(Animation, setAutoreverse);
 			TITANIUM_ADD_FUNCTION(Animation, getBackgroundColor);
@@ -157,6 +159,18 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(Animation, setZIndex);
 		}
 
+		TITANIUM_PROPERTY_GETTER(Animation, anchorPoint)
+		{
+			return Point_to_js(get_context(), get_anchorPoint());
+		}
+
+		TITANIUM_PROPERTY_SETTER(Animation, anchorPoint)
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+			set_anchorPoint(js_to_Point(static_cast<JSObject>(argument)));
+			return true;
+		}
+
 		TITANIUM_PROPERTY_GETTER(Animation, autoreverse)
 		{
 			return get_context().CreateBoolean(get_autoreverse());
@@ -195,13 +209,13 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Animation, center)
 		{
-			return get_center();
+			return Point_to_js(get_context(), get_center());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Animation, center)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
-			set_center(static_cast<JSObject>(argument));
+			set_center(js_to_Point(static_cast<JSObject>(argument)));
 			return true;
 		}
 
@@ -341,13 +355,14 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Animation, transform)
 		{
-			return get_transform();
+			return static_cast<JSValue>(get_transform()->get_object());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Animation, transform)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
-			set_transform(static_cast<JSObject>(argument));
+			const auto object = static_cast<JSObject>(argument);
+			set_transform(object.GetPrivate<Titanium::UI::TwoDMatrix>());
 			return true;
 		}
 
@@ -365,13 +380,14 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Animation, view)
 		{
-			return get_view();
+			return static_cast<JSValue>(get_view()->get_object());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Animation, view)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
-			set_view(static_cast<JSObject>(argument));
+			const auto object = static_cast<JSObject>(argument);
+			set_view(object.GetPrivate<Titanium::UI::View>());
 			return true;
 		}
 
@@ -410,6 +426,9 @@ namespace Titanium
 			set_zIndex(static_cast<uint32_t>(argument));
 			return true;
 		}
+
+		TITANIUM_FUNCTION_AS_GETTER(Animation, getAnchorPoint, anchorPoint)
+		TITANIUM_FUNCTION_AS_SETTER(Animation, setAnchorPoint, anchorPoint)
 
 		TITANIUM_FUNCTION_AS_GETTER(Animation, getAutoreverse, autoreverse)
 		TITANIUM_FUNCTION_AS_SETTER(Animation, setAutoreverse, autoreverse)

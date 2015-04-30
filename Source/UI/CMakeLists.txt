@@ -51,6 +51,8 @@ file(GLOB_RECURSE WINDOWS_WRAPPERS "src/Windows.*.cpp")
 file(GLOB_RECURSE WINDOWS_HEADERS "include/Windows.*.hpp")
 
 set(SOURCE_UI
+  include/TitaniumWindows/UIModule.hpp
+  src/UIModule.cpp
   include/TitaniumWindows/UI/Switch.hpp
   src/Switch.cpp
   include/TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp
@@ -87,15 +89,35 @@ set(SOURCE_UI
   src/TableViewRow.cpp
 ${WINDOWS_WRAPPERS}
 ${WINDOWS_HEADERS}
+  include/TitaniumWindows/UI/ActivityIndicator.hpp
+  src/ActivityIndicator.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})
+
+set(SOURCE_UI_Windows
+  include/TitaniumWindows/UI/WindowsModule.hpp
+  src/WindowsModule.cpp
+  include/TitaniumWindows/UI/Windows/CommandBar.hpp
+  src/Windows/CommandBar.cpp
+  include/TitaniumWindows/UI/Windows/AppBarButton.hpp
+  src/Windows/AppBarButton.cpp
+  include/TitaniumWindows/UI/Windows/AppBarToggleButton.hpp
+  src/Windows/AppBarToggleButton.cpp
+  include/TitaniumWindows/UI/Windows/AppBarSeparator.hpp
+  src/Windows/AppBarSeparator.cpp
+  include/TitaniumWindows/UI/Windows/SystemIcon.hpp
+  src/Windows/SystemIcon.cpp
+  )
+
+source_group(Titanium\\UI\\Windows FILES ${SOURCE_UI_Windows})
 
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
 add_library(TitaniumWindows_UI SHARED
   ${SOURCE_UI}
+  ${SOURCE_UI_Windows}
   )
 
 include(GenerateExportHeader)

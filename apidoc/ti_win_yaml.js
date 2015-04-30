@@ -78,14 +78,14 @@ function processClass(root, file, next) {
 					} else if (isMethod) {
 						module = line.substr(line.indexOf(method_signature)+method_signature.length).split(',')[0].replace('Module','');
 					}
-					if (module == 'Ti') module = 'Titanium';
-					if (module == 'Titanium') module = '';
 				}
 
 				var name = line.split(',')[1].split(')')[0];
 
 				if (module_name == null) module_name = namespaces.join('.')+(module != '' ? '.'+module : '');
-				if (module_name == "Titanium.GlobalObject") module_name = "Global";
+				if (module_name == 'Titanium.GlobalObject') module_name = 'Global';
+				if (module_name == 'Titanium' && module == '') module_name = 'Titanium.Proxy';
+				if (module_name == 'Titanium.Ti') module_name = 'Titanium';
 
 				if (isProperty || isPropertyRo) properties.push(name);
 				if (isMethod) methods.push(name);

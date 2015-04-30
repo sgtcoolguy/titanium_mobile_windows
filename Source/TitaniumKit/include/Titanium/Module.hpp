@@ -80,7 +80,7 @@ namespace Titanium
 
 		  @result void
 		*/
-		virtual void applyProperties(const JSObject& props, JSObject& this_object) TITANIUM_NOEXCEPT;
+		static void applyProperties(const JSObject& props, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -97,7 +97,8 @@ namespace Titanium
 
 		  @result void
 		*/
-		virtual void fireEvent(const std::string& name, const JSObject& event) const TITANIUM_NOEXCEPT final;
+		virtual void fireEvent(const std::string& name) TITANIUM_NOEXCEPT final;
+		virtual void fireEvent(const std::string& name, const JSObject& event) TITANIUM_NOEXCEPT final;
 
 		Module(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
@@ -149,11 +150,16 @@ namespace Titanium
 		virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
 
 		/*
-		 * Stop firing all events, especially used when module is closed/disabled.
+		 * Stop firing all events, especially used when module is closed/hidden.
 		 */
-		virtual void stopFiringEvents() TITANIUM_NOEXCEPT final
+		virtual void disableEvents() TITANIUM_NOEXCEPT
 		{
-			stopFiringEvents__ = true;
+			enableEvents__ = false;
+		}
+
+		virtual void enableEvents() TITANIUM_NOEXCEPT
+		{
+			enableEvents__ = true;
 		}
 
 		template<typename T>
@@ -172,7 +178,7 @@ namespace Titanium
 #pragma warning(push)
 #pragma warning(disable : 4251)
 		std::unordered_map<std::string, std::vector<JSObject>> event_listener_map__;
-		bool stopFiringEvents__;
+		bool enableEvents__ { true };
 #pragma warning(pop)
 	};
 }  // namespace Titanium

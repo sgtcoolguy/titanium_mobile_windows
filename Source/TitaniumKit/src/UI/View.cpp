@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/Point.hpp"
+#include "Titanium/UI/Animation.hpp"
 
 namespace Titanium
 {
@@ -33,7 +34,7 @@ namespace Titanium
 			setLayoutDelegate();
 		}
 
-		void View::animate(JSObject& animation, JSObject& callback) TITANIUM_NOEXCEPT
+		void View::animate(const std::shared_ptr<Animation>& animation, JSObject& callback) TITANIUM_NOEXCEPT
 		{
 			layoutDelegate__->animate(animation, callback, get_object());
 		}
@@ -80,10 +81,30 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(View, animate)
 		{
-			ENSURE_OBJECT_AT_INDEX(animation, 0);
-			// TODO Convert the animation object into a Ti.UI.Animation if it isn't one already?
+			ENSURE_OBJECT_AT_INDEX(object, 0);
 
 			ENSURE_OPTIONAL_OBJECT_AT_INDEX(callback, 1);
+
+			// Convert the animation object into a Ti.UI.Animation if it isn't one already
+			auto animation = object.GetPrivate<Titanium::UI::Animation>();
+			if (animation == nullptr) {
+				// It's not already backed by a native class, we need to generate one from it!
+				JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
+				TITANIUM_ASSERT(Titanium_property.IsObject());
+				JSObject Titanium = static_cast<JSObject>(Titanium_property);
+					
+				JSValue UI_property = Titanium.GetProperty("UI");
+				TITANIUM_ASSERT(UI_property.IsObject());
+				JSObject UI = static_cast<JSObject>(UI_property);
+					
+				JSValue Animation_property = UI.GetProperty("Animation");
+				TITANIUM_ASSERT(Animation_property.IsObject());
+				JSObject Animation_Class = static_cast<JSObject>(Animation_property);
+				
+				auto instance = Animation_Class.CallAsConstructor();
+				Titanium::Module::applyProperties(object, instance);
+				animation = instance.GetPrivate<Titanium::UI::Animation>();
+			}
 
 			animate(animation, callback);
 			return get_context().CreateUndefined();

@@ -7,6 +7,15 @@
  */
 
 #include "Titanium/UI/Window.hpp"
+#include "Titanium/UIModule.hpp"
+
+#define GET_UI() \
+  const auto Titanium_property = get_context().get_global_object().GetProperty("Titanium"); \
+  TITANIUM_ASSERT(Titanium_property.IsObject()); \
+  const auto Titanium = static_cast<JSObject>(Titanium_property); \
+  const auto UI_property = Titanium.GetProperty("UI"); \
+  TITANIUM_ASSERT(UI_property.IsObject()); \
+  const auto UI = static_cast<JSObject>(UI_property);
 
 namespace Titanium
 {
@@ -38,12 +47,13 @@ namespace Titanium
 
 		void Window::close(const std::shared_ptr<CloseWindowParams>& params) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Window::close: Unimplemented");
 		}
 
 		void Window::open(const std::shared_ptr<OpenWindowParams>& params) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Window::open: Unimplemented");
+			GET_UI();
+			const auto ui_ptr = UI.GetPrivate<Titanium::UIModule>();
+			ui_ptr->set_currentWindow(this->get_object().GetPrivate<Titanium::UI::Window>());
 		}
 
 		TITANIUM_PROPERTY_READWRITE(Window, bool, exitOnClose)
