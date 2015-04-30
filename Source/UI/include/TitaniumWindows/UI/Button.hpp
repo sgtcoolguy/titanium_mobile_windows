@@ -40,11 +40,22 @@ namespace TitaniumWindows
 			
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
+			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT override final;
+			virtual void set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT override final;
+			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
+			virtual void set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT override final;
 			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override final;
+			virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
+			static const std::uint32_t DefaultFontSize = 20;
+
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
+			std::unordered_map<std::string, std::string> custom_fonts__;
+#pragma warning(pop)
 			Windows::UI::Xaml::Controls::Button^ button__;
 
 			// Event handlers

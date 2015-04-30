@@ -12,6 +12,9 @@
 #include <cctype>
 #include <collection.h>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 namespace TitaniumWindows
 {
 	namespace UI
@@ -64,46 +67,28 @@ namespace TitaniumWindows
 			getComponent()->Visibility = Windows::UI::Xaml::Visibility::Visible;
 		}
 
-		void WindowsViewLayoutDelegate::animate(const JSObject& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutDelegate::animate(animation, callback, this_object);
-
-			bool has_delay = false;
-			Windows::Foundation::TimeSpan begin_time;
-			begin_time.Duration = 0;
-			if (animation.HasProperty("delay")) {
-				has_delay = true;
-				const auto raw_delay = animation.GetProperty("delay");
-				const auto delay = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(raw_delay)));
-				std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> delay_ticks = delay;
-				begin_time.Duration = delay_ticks.count();
-			}
-
-			// Convert duration to type we need
-			const auto raw_duration = animation.GetProperty("duration");
-			const auto duration = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(raw_duration)));
-			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = duration;
-			Windows::Foundation::TimeSpan time_span;
-			time_span.Duration = timer_interval_ticks.count() + begin_time.Duration;
-
-			bool autoreverse = false;
-			if (animation.HasProperty("autoreverse")) {
-				autoreverse = static_cast<bool>(animation.GetProperty("autoreverse"));
-			}
-
-			// repeat count
-			double repeat = 1;
-			if (animation.HasProperty("repeat")) {
-				repeat = static_cast<double>(animation.GetProperty("repeat"));
-			}
-
 			// Storyboard where we attach all the animations
 			const auto storyboard = ref new Windows::UI::Xaml::Media::Animation::Storyboard();
-			if (has_delay) {
-				storyboard->BeginTime = begin_time; // FIXME This seems to apply to every iteration of repeat, but we probably only want it to happen the first time?
-			}
-			storyboard->AutoReverse = autoreverse;
+
+			// delay
+			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> delay_ticks = animation->get_delay();
+			Windows::Foundation::TimeSpan delay;
+			delay.Duration = delay_ticks.count();
+			storyboard->BeginTime = delay; // FIXME This seems to apply to every iteration of repeat, but we probably only want it to happen the first time?
+
+			// duration
+			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = animation->get_duration();
+			Windows::Foundation::TimeSpan duration;
+			duration.Duration = timer_interval_ticks.count() + delay.Duration;
+			storyboard->Duration = duration;
 			
+			// autoreverse
+			storyboard->AutoReverse = animation->get_autoreverse();
+			
+			// repeat
+			double repeat = animation->get_repeat();
 			if (repeat == 0) {
 				storyboard->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::Forever;
 			} else if (repeat != 1) {
@@ -111,68 +96,170 @@ namespace TitaniumWindows
 			}
 
 			auto component = getComponent();
-			const auto propertyNames = animation.GetPropertyNames();
-			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
-				// Create an animation!
-				auto property = animation.GetProperty(property_name);
-				Windows::UI::Xaml::Media::Animation::Timeline^ anim;
-				if (property_name == "color" || property_name == "backgroundColor") {
-					auto color_anim = ref new Windows::UI::Xaml::Media::Animation::ColorAnimation();
-					const auto color = ColorForName(static_cast<std::string>(property));
-					color_anim->To = color;
 
-					if (property_name == "color") { // foreground
-						// TODO What if component isn't subclass of Control?
-						if (is_control__) {
-							storyboard->SetTargetProperty(color_anim, "(Control.Foreground).(SolidColorBrush.Color)");
-						}
-					} else { // background
-						if (is_panel__) {
-							storyboard->SetTargetProperty(color_anim, "(Panel.Background).(SolidColorBrush.Color)");
-						} else if (is_control__) {
-							storyboard->SetTargetProperty(color_anim, "(Control.Background).(SolidColorBrush.Color)");
-						}
-					}
-					anim = color_anim;
-				} else {
-					// properties which are doubles
-					auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-					double_anim->To = static_cast<double>(property);
+			// transform
+			if (animation->get_transform() != nullptr) {
 
-					if (property_name == "opacity") {
-						storyboard->SetTargetProperty(double_anim, "Opacity");
-					} else if (property_name == "top") { // bottom?
-						// Because we're animating a transform, the value behaves like setting By, not To. So we need to calculate the difference and set our target To to that value.
-						auto current_top = Windows::UI::Xaml::Controls::Canvas::GetTop(getComponent());
-						const auto diff = static_cast<double>(property) - current_top;
-						double_anim->To = diff;
-						getComponent()->RenderTransform = ref new Windows::UI::Xaml::Media::TranslateTransform();
-						storyboard->SetTargetProperty(double_anim, "(UIElement.RenderTransform).(TranslateTransform.Y)");
-					} else if (property_name == "left") { // right?
-						// TODO If "right", we need to calculate the current position of "right", take the diff and then do a transform By, not To
-						auto current_left = Windows::UI::Xaml::Controls::Canvas::GetLeft(getComponent());
-						const auto diff = static_cast<double>(property) - current_left;
-						double_anim->To = diff;
-						getComponent()->RenderTransform = ref new Windows::UI::Xaml::Media::TranslateTransform();
-						storyboard->SetTargetProperty(double_anim, "(UIElement.RenderTransform).(TranslateTransform.X)");
-					} else {
-						// Not a property we support!
-						continue;
-					}
-					anim = double_anim;
+				auto a = animation->get_transform()->get_a(); // scale x
+				auto b = animation->get_transform()->get_b(); // shear y
+				auto c = animation->get_transform()->get_c(); // shear x
+				auto d = animation->get_transform()->get_d(); // scale y
+
+				auto rotation = 0.0;
+				auto scale_x = 1.0;
+				auto scale_y = 1.0;
+				auto skew_x = 0.0;
+				auto skew_y = 0.0;
+
+				const auto delta = a * d - b * c;
+
+				// We can decompose using QR/LU, then we can create a TransformGroup that applies the transformations in necessary order according to the decomposition!
+				// http://www.maths-informatique-jeux.com/blog/frederic/?post/2013/12/01/Decomposition-of-2D-transform-matrices
+				// Do QR decomposition
+				if (a || b) {
+					auto r = sqrt(a*a + b*b);
+					rotation = b > 0 ? acos(a / r) : -acos(a / r);
+					scale_x = r;
+					scale_y = delta / r;
+					skew_x = atan((a*c + b*d) / (r*r));
+				} else if (c || d) {
+					auto s = sqrt(c*c + d*d);
+					rotation = M_PI * 0.5 - (d > 0 ? acos(-c / s) : -acos(c / s));
+					skew_x = delta / s;
+					skew_y = s;
+					skew_y = atan((a*c + b*d) / (s*s));
+				} else { // a = b = c = d = 0
+					scale_x = 0;
+					scale_y = 0; // = invalid matrix
 				}
-				if (anim) {
-					storyboard->SetTarget(anim, getComponent());
-					storyboard->Children->Append(anim);
+
+				// Convert rotation from rads to degrees!
+				rotation = (180.0 * rotation) / M_PI;
+
+				// Now we need to apply the transformations in a specific order to be equivalent to the final matrix:
+				// translate -> rotate -> scale -> skew X
+				auto group = ref new Windows::UI::Xaml::Media::TransformGroup();
+				auto translate = ref new Windows::UI::Xaml::Media::TranslateTransform();
+				auto rotate = ref new Windows::UI::Xaml::Media::RotateTransform();
+				auto composite = ref new Windows::UI::Xaml::Media::CompositeTransform(); // cheat and use composite to do scale and then skew
+				group->Children->Append(translate);
+				group->Children->Append(rotate);
+				group->Children->Append(composite);
+
+				component->RenderTransform = group;
+
+
+				auto rotation_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				rotation_anim->To = rotation;
+				storyboard->SetTargetProperty(rotation_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)");
+				storyboard->SetTarget(rotation_anim, component);
+				storyboard->Children->Append(rotation_anim);
+
+				auto scale_x_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				scale_x_anim->To = a;
+				storyboard->SetTargetProperty(scale_x_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleX)");
+				storyboard->SetTarget(scale_x_anim, component);
+				storyboard->Children->Append(scale_x_anim);
+
+				auto scale_y_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				scale_y_anim->To = d;
+				storyboard->SetTargetProperty(scale_y_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleY)");
+				storyboard->SetTarget(scale_y_anim, component);
+				storyboard->Children->Append(scale_y_anim);
+
+				auto tx_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				tx_anim->To = animation->get_transform()->get_tx();
+				storyboard->SetTargetProperty(tx_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateX)");
+				storyboard->SetTarget(tx_anim, component);
+				storyboard->Children->Append(tx_anim);
+
+				auto ty_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				ty_anim->To = animation->get_transform()->get_ty();
+				storyboard->SetTargetProperty(ty_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateY)");
+				storyboard->SetTarget(ty_anim, component);
+				storyboard->Children->Append(ty_anim);
+			} else {
+				// I'm assuming that we can only do transform _or_ top/left/right/center/bottom animations - not mix them.
+				auto top = animation->get_top();
+				if (top != 0) { // FIXME How can I tell if we've actually specified this or not? We need equivalent of Option type...
+					// TODO Bottom
+					// Because we're animating a transform, the value behaves like setting By, not To. So we need to calculate the difference and set our target To to that value
+					auto current_top = Windows::UI::Xaml::Controls::Canvas::GetTop(component);
+					const auto diff = top - current_top;
+					
+					auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+					double_anim->To = diff;
+					component->RenderTransform = ref new Windows::UI::Xaml::Media::TranslateTransform();
+					storyboard->SetTargetProperty(double_anim, "(UIElement.RenderTransform).(TranslateTransform.Y)");
+					storyboard->SetTarget(double_anim, component);
+					storyboard->Children->Append(double_anim);
+				}
+
+				auto left = animation->get_left(); // TODO Right
+				if (left != 0) { // FIXME How can I tell if we've actually specified this or not?
+					// TODO If "right", we need to calculate the current position of "right", take the diff and then do a transform By, not To
+					auto current_left = Windows::UI::Xaml::Controls::Canvas::GetLeft(component);
+					const auto diff = left - current_left;
+
+					auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+					double_anim->To = diff;
+					component->RenderTransform = ref new Windows::UI::Xaml::Media::TranslateTransform();
+					storyboard->SetTargetProperty(double_anim, "(UIElement.RenderTransform).(TranslateTransform.X)");
+					storyboard->SetTarget(double_anim, component);
+					storyboard->Children->Append(double_anim);
 				}
 			}
 
-			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, this_object](Platform::Object^ sender, Platform::Object ^ e) mutable {
+			// backgroundColor
+			auto bg_color = animation->get_backgroundColor();
+			if (!bg_color.empty()) {
+				auto color_anim = ref new Windows::UI::Xaml::Media::Animation::ColorAnimation();
+				const auto color = ColorForName(bg_color);
+				color_anim->To = color;
+
+				if (is_panel__) {
+					storyboard->SetTargetProperty(color_anim, "(Panel.Background).(SolidColorBrush.Color)");
+				} else if (is_control__) {
+					storyboard->SetTargetProperty(color_anim, "(Control.Background).(SolidColorBrush.Color)");
+				}
+				storyboard->SetTarget(color_anim, component);
+				storyboard->Children->Append(color_anim);
+			}
+
+			// color
+			auto fg_color = animation->get_color();
+			if (!fg_color.empty()) {
+				auto color_anim = ref new Windows::UI::Xaml::Media::Animation::ColorAnimation();
+				const auto color = ColorForName(fg_color);
+				color_anim->To = color;
+
+				if (is_panel__) {
+					storyboard->SetTargetProperty(color_anim, "(Panel.Background).(SolidColorBrush.Color)");
+				} else if (is_control__) {
+					storyboard->SetTargetProperty(color_anim, "(Control.Background).(SolidColorBrush.Color)");
+				}
+				storyboard->SetTarget(color_anim, component);
+				storyboard->Children->Append(color_anim);
+			}
+
+			// opacity
+			auto opacity = animation->get_opacity();
+			if (opacity >= 0) { // assume negative opacity means we never set one!
+				auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				double_anim->To = static_cast<double>(opacity);
+
+				storyboard->SetTargetProperty(double_anim, "Opacity");
+				storyboard->SetTarget(double_anim, component);
+				storyboard->Children->Append(double_anim);
+			}
+
+			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, this_object, animation](Platform::Object^ sender, Platform::Object ^ e) mutable {
 				if (callback.IsFunction()) {
 					callback(this_object);
 				}
-				// TODO Fire complete event on animation object!
+				animation->fireEvent("complete");
 			});
+			animation->fireEvent("start");
 			storyboard->Begin();
 		}
 
