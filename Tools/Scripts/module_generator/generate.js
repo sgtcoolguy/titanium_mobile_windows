@@ -144,8 +144,8 @@ function includeModule(module_data) {
     					"JSObject "+module_data.name.toLowerCase()+"__;";
 
     // Titaniumkit ApplicationBuilder.cpp modifications
-    var regex_tik_app_3 = /:View>::Class\(\)\)\),/g;
-    var mod_tik_app_3 = ":View>::Class())),\n	      "+
+    var regex_tik_app_3 = /UI::View>::Class\(\)\)\),/g;
+    var mod_tik_app_3 = "UI::View>::Class())),\n	      "+
     					module_data.name.toLowerCase()+"__(js_context__.CreateObject(JSExport<Titanium::"+module_data.full_namespace+">::Class())),";
 
     var regex_tik_app_4 = /UIModule.hpp\"/g;
@@ -195,7 +195,7 @@ function includeModule(module_data) {
     var mod_ti_tiw_1 = "UI.hpp\"\n"+
     					 "#include \"TitaniumWindows/"+module_data.module_path+".hpp\"";
 
-    var regex_ti_tiw_2 = /UI::View>::Class\(\)\)/g;
+    var regex_ti_tiw_2 = /UI::View>::Class\(\)\)\)/g;
 	var mod_ti_tiw_2 = "UI::View>::Class()))\n		                                                            "+
 						 "."+module_data.name+"Object(js_context__.CreateObject(JSExport<TitaniumWindows::"+module_data.full_namespace+">::Class()))";
 
@@ -205,10 +205,10 @@ function includeModule(module_data) {
     				  "cmd+=\" -DTitaniumWindows_UI_";
 
     // Titanium module CMakeLists.txt modifications
-    var regex_tim_cmake_1 = new RegExp("set\\(SOURCE_"+module_data.module_parent,"g");
+    var regex_tim_cmake_1 = new RegExp("set\\(SOURCE_"+module_data.module_parent+"\n","g");
     var mod_tim_cmake_1 = "set(SOURCE_"+module_data.module_parent+"\n"+
 						  "  include/TitaniumWindows/"+module_data.module_path+".hpp\n"+
-						  "  src/"+module_data.module_path+".cpp";
+						  "  src/"+module_data.module_path+".cpp\n";
 
 	var regex_tikm_head_1 = /Module.hpp\"/g
 	var mod_tikm_head_1 = "Module.hpp\"\n"+
