@@ -39,6 +39,27 @@ namespace TitaniumWindows
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(canvas__);
+
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+			backpressed_event__ = HardwareButtons::BackPressed += ref new EventHandler<BackPressedEventArgs^>([this](Platform::Object ^sender, BackPressedEventArgs ^e) {
+				if (is_window_event_active__) {
+					// close current window when there's no back button listener
+					if (is_custom_backpress_event__) {
+						fireEvent("windows:back");
+					} else {
+						close(nullptr);
+					}
+					e->Handled = true;
+				}
+			});
+#endif
+		}
+
+		Window::~Window() 
+		{
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+			HardwareButtons::BackPressed -= backpressed_event__;
+#endif
 		}
 
 		void Window::close(const std::shared_ptr<Titanium::UI::CloseWindowParams>& params) TITANIUM_NOEXCEPT
@@ -85,8 +106,7 @@ namespace TitaniumWindows
 				window->enableEvents();
 				window->fireEvent("focus");
 			} else {
-				// This is the first and only window, remove it
-				rootFrame->Content = nullptr;
+				// exit the app because there's no window to navigate back
 				window_stack__.clear();
 				Windows::UI::Xaml::Application::Current->Exit();
 			}
@@ -170,38 +190,29 @@ namespace TitaniumWindows
 		void Window::enableEvents() TITANIUM_NOEXCEPT
 		{
 			Titanium::Module::enableEvents();
-			handle_backpress_event__ = true;
+			is_window_event_active__ = true;
 		}
 
 		void Window::disableEvents() TITANIUM_NOEXCEPT
 		{
 			Titanium::Module::disableEvents();
-			handle_backpress_event__ = false;
+			is_window_event_active__ = false;
 		}
 
 		void Window::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Window::enableEvent(event_name);
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
 			if (event_name == "windows:back") {
-				backpressed_event__ = HardwareButtons::BackPressed += ref new EventHandler<BackPressedEventArgs^>([this](Platform::Object ^sender, BackPressedEventArgs ^e) {
-					if (this->handle_backpress_event__) {
-						this->fireEvent("windows:back");
-						e->Handled = true;
-					}
-				});
+				is_custom_backpress_event__ = true;
 			}
-#endif
 		}
 
 		void Window::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Window::disableEvent(event_name);
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
 			if (event_name == "windows:back") {
-				HardwareButtons::BackPressed -= backpressed_event__;
+				is_custom_backpress_event__ = false;
 			}
-#endif
 		}
 
 		WindowLayoutDelegate::WindowLayoutDelegate() TITANIUM_NOEXCEPT
