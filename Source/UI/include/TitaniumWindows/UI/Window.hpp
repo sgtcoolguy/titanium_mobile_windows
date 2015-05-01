@@ -36,7 +36,7 @@ namespace TitaniumWindows
 
 			Window(const JSContext&) TITANIUM_NOEXCEPT;
 
-			virtual ~Window() = default;
+			virtual ~Window();
 			Window(const Window&) = default;
 			Window& operator=(const Window&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
@@ -70,7 +70,8 @@ namespace TitaniumWindows
 			static std::vector<std::shared_ptr<Window>> window_stack__;
 			std::shared_ptr<TitaniumWindows::UI::WindowsXaml::CommandBar> bottomAppBar__;
 			Windows::Foundation::EventRegistrationToken backpressed_event__;
-			bool handle_backpress_event__ { false };
+			bool is_custom_backpress_event__ { false };
+			bool is_window_event_active__ { false };
 #pragma warning(pop)
 		};
 
