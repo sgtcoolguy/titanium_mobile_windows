@@ -61,27 +61,15 @@ if (type == 'bool') {
 -%>
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");
 			auto object_<%= to_assign %> = static_cast<JSObject>(<%= argument_name %>);
-			auto <%= to_assign %> = ::<%= windows_type_name %>(<%= ctr_args %>);
-			// Assign fields explicitly since we cheated on constructor args
+			::<%= windows_type_name %> <%= to_assign %>;
+			// Assign fields explicitly since we didn't use a constructor
 <%
 		for (field_name in other_type.fields) {
 -%>
 			auto <%= field_name %> = object_<%= to_assign %>.GetProperty("<%= field_name %>");
+<%- include('js_to_native.cpp', {type:  other_type.fields[field_name].type, metadata: metadata, to_assign: field_name + '_', argument_name: field_name}) %>
+			<%= to_assign %>.<%= field_name %> = <%= field_name %>_;
 <%
-			var field_type = other_type.fields[field_name].type;
-			if (field_type == 'int64' || field_type == 'float32' || field_type == 'double') {
--%>
-			<%= to_assign %>.<%= field_name %> = static_cast<double>(<%= field_name %>);
-<%
-			} else if (field_type == 'uint32') {
--%>
-			<%= to_assign %>.<%= field_name %> = static_cast<uint32_t>(<%= field_name %>);
-<%
-			} else {
--%>
-			<%= to_assign %>.<%= field_name %> = static_cast<int32_t>(<%= field_name %>);
-<%
-			}
 		}
 	} else if (is_enum) {
 -%>
