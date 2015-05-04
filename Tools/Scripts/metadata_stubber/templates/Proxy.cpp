@@ -12,7 +12,7 @@ var name_upper = underscore_name.toUpperCase();
 var windows_name = full_name.to_windows_name();
 var has_constructor = false;
 
-var parent_name = "Titanium::Module";
+var parent_name = "Titanium::Platform::Object";
 if (parent && parent.indexOf('[mscorlib]') != 0) {
 	parent_name = parent.trim();
 }

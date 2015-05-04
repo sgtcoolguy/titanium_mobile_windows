@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT TextPointer : public Titanium::Module, public JSExport<TextPointer>
+		class TITANIUMWINDOWS_UI_EXPORT TextPointer : public ::Titanium::Platform::Object, public JSExport<TextPointer>
 		{
 
 		public:
@@ -55,9 +55,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::Documents::TextPointer^ unwrapWindows_UI_Xaml_Documents_TextPointer() const;
 			void wrap(::Windows::UI::Xaml::Documents::TextPointer^ object);
-
-		protected:
-			::Windows::UI::Xaml::Documents::TextPointer^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::Documents::TextPointer^ unwrap() const;

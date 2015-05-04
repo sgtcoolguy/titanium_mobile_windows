@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT InlineCollection : public Titanium::Module, public JSExport<InlineCollection>
+		class TITANIUMWINDOWS_UI_EXPORT InlineCollection : public ::Titanium::Platform::Object, public JSExport<InlineCollection>
 		{
 
 		public:
@@ -62,9 +62,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::Documents::InlineCollection^ unwrapWindows_UI_Xaml_Documents_InlineCollection() const;
 			void wrap(::Windows::UI::Xaml::Documents::InlineCollection^ object);
-
-		protected:
-			::Windows::UI::Xaml::Documents::InlineCollection^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::Documents::InlineCollection^ unwrap() const;

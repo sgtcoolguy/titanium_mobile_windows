@@ -20,7 +20,7 @@ namespace Titanium
 				{
 
 		FontFamily::FontFamily(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -47,7 +47,7 @@ namespace Titanium
 		void FontFamily::JSExportInitialize()
 		{
 			JSExport<FontFamily>::SetClassVersion(1);
-			JSExport<FontFamily>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<FontFamily>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(FontFamily, Source);
 		}

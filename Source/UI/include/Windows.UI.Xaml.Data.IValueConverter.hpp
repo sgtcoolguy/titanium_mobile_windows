@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT IValueConverter : public Titanium::Module, public JSExport<IValueConverter>
+		class TITANIUMWINDOWS_UI_EXPORT IValueConverter : public ::Titanium::Platform::Object, public JSExport<IValueConverter>
 		{
 
 		public:
@@ -51,9 +51,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::Data::IValueConverter^ unwrapWindows_UI_Xaml_Data_IValueConverter() const;
 			void wrap(::Windows::UI::Xaml::Data::IValueConverter^ object);
-
-		protected:
-			::Windows::UI::Xaml::Data::IValueConverter^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::Data::IValueConverter^ unwrap() const;

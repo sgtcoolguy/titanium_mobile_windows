@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT TextBlock : public Titanium::Windows::UI::Xaml::FrameworkElement, public JSExport<TextBlock>
+		class TITANIUMWINDOWS_UI_EXPORT TextBlock : public ::Titanium::Windows::UI::Xaml::FrameworkElement, public JSExport<TextBlock>
 		{
 
 		public:

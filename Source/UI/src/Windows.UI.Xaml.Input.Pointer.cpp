@@ -20,7 +20,7 @@ namespace Titanium
 				{
 
 		Pointer::Pointer(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -47,7 +47,7 @@ namespace Titanium
 		void Pointer::JSExportInitialize()
 		{
 			JSExport<Pointer>::SetClassVersion(1);
-			JSExport<Pointer>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<Pointer>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(Pointer, IsInContact);
 			TITANIUM_ADD_PROPERTY_READONLY(Pointer, IsInRange);

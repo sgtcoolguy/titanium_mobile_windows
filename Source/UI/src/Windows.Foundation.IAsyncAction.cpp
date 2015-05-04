@@ -17,7 +17,7 @@ namespace Titanium
 		{
 
 		IAsyncAction::IAsyncAction(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -44,7 +44,7 @@ namespace Titanium
 		void IAsyncAction::JSExportInitialize()
 		{
 			JSExport<IAsyncAction>::SetClassVersion(1);
-			JSExport<IAsyncAction>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<IAsyncAction>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY(IAsyncAction, Completed);
 			TITANIUM_ADD_FUNCTION(IAsyncAction, GetResults);

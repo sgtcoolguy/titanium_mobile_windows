@@ -18,7 +18,7 @@ namespace Titanium
 			{
 
 		CreateDefaultValueCallback::CreateDefaultValueCallback(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -45,7 +45,7 @@ namespace Titanium
 		void CreateDefaultValueCallback::JSExportInitialize()
 		{
 			JSExport<CreateDefaultValueCallback>::SetClassVersion(1);
-			JSExport<CreateDefaultValueCallback>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<CreateDefaultValueCallback>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_FUNCTION(CreateDefaultValueCallback, Invoke);
 		}

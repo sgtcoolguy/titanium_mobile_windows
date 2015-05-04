@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT AppBar : public Titanium::Windows::UI::Xaml::Controls::ContentControl, public JSExport<AppBar>
+		class TITANIUMWINDOWS_UI_EXPORT AppBar : public ::Titanium::Windows::UI::Xaml::Controls::ContentControl, public JSExport<AppBar>
 		{
 
 		public:

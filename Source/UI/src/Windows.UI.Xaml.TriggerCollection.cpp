@@ -22,7 +22,7 @@ namespace Titanium
 			{
 
 		TriggerCollection::TriggerCollection(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -49,7 +49,7 @@ namespace Titanium
 		void TriggerCollection::JSExportInitialize()
 		{
 			JSExport<TriggerCollection>::SetClassVersion(1);
-			JSExport<TriggerCollection>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<TriggerCollection>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(TriggerCollection, Size);
 			TITANIUM_ADD_FUNCTION(TriggerCollection, GetAt);

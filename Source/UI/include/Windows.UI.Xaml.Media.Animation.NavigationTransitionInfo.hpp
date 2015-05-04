@@ -29,7 +29,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT NavigationTransitionInfo : public Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<NavigationTransitionInfo>
+		class TITANIUMWINDOWS_UI_EXPORT NavigationTransitionInfo : public ::Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<NavigationTransitionInfo>
 		{
 
 		public:

@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT PropertyMetadata : public Titanium::Module, public JSExport<PropertyMetadata>
+		class TITANIUMWINDOWS_UI_EXPORT PropertyMetadata : public ::Titanium::Platform::Object, public JSExport<PropertyMetadata>
 		{
 
 		public:
@@ -50,9 +50,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::PropertyMetadata^ unwrapWindows_UI_Xaml_PropertyMetadata() const;
 			void wrap(::Windows::UI::Xaml::PropertyMetadata^ object);
-
-		protected:
-			::Windows::UI::Xaml::PropertyMetadata^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::PropertyMetadata^ unwrap() const;

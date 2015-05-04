@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT Pointer : public Titanium::Module, public JSExport<Pointer>
+		class TITANIUMWINDOWS_UI_EXPORT Pointer : public ::Titanium::Platform::Object, public JSExport<Pointer>
 		{
 
 		public:
@@ -53,9 +53,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::Input::Pointer^ unwrapWindows_UI_Xaml_Input_Pointer() const;
 			void wrap(::Windows::UI::Xaml::Input::Pointer^ object);
-
-		protected:
-			::Windows::UI::Xaml::Input::Pointer^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::Input::Pointer^ unwrap() const;

@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT IdleDispatchedHandler : public Titanium::Module, public JSExport<IdleDispatchedHandler>
+		class TITANIUMWINDOWS_UI_EXPORT IdleDispatchedHandler : public ::Titanium::Platform::Object, public JSExport<IdleDispatchedHandler>
 		{
 
 		public:
@@ -48,9 +48,6 @@ namespace Titanium
 
 			::Windows::UI::Core::IdleDispatchedHandler^ unwrapWindows_UI_Core_IdleDispatchedHandler() const;
 			void wrap(::Windows::UI::Core::IdleDispatchedHandler^ object);
-
-		protected:
-			::Windows::UI::Core::IdleDispatchedHandler^ wrapped__;
 
 		private:
 			::Windows::UI::Core::IdleDispatchedHandler^ unwrap() const;

@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT SetterBaseCollection : public Titanium::Module, public JSExport<SetterBaseCollection>
+		class TITANIUMWINDOWS_UI_EXPORT SetterBaseCollection : public ::Titanium::Platform::Object, public JSExport<SetterBaseCollection>
 		{
 
 		public:
@@ -61,9 +61,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::SetterBaseCollection^ unwrapWindows_UI_Xaml_SetterBaseCollection() const;
 			void wrap(::Windows::UI::Xaml::SetterBaseCollection^ object);
-
-		protected:
-			::Windows::UI::Xaml::SetterBaseCollection^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::SetterBaseCollection^ unwrap() const;

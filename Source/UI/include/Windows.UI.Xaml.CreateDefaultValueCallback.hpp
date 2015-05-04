@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT CreateDefaultValueCallback : public Titanium::Module, public JSExport<CreateDefaultValueCallback>
+		class TITANIUMWINDOWS_UI_EXPORT CreateDefaultValueCallback : public ::Titanium::Platform::Object, public JSExport<CreateDefaultValueCallback>
 		{
 
 		public:
@@ -48,9 +48,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::CreateDefaultValueCallback^ unwrapWindows_UI_Xaml_CreateDefaultValueCallback() const;
 			void wrap(::Windows::UI::Xaml::CreateDefaultValueCallback^ object);
-
-		protected:
-			::Windows::UI::Xaml::CreateDefaultValueCallback^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::CreateDefaultValueCallback^ unwrap() const;

@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT BindingExpressionBase : public Titanium::Module, public JSExport<BindingExpressionBase>
+		class TITANIUMWINDOWS_UI_EXPORT BindingExpressionBase : public ::Titanium::Platform::Object, public JSExport<BindingExpressionBase>
 		{
 
 		public:
@@ -49,9 +49,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::Data::BindingExpressionBase^ unwrapWindows_UI_Xaml_Data_BindingExpressionBase() const;
 			void wrap(::Windows::UI::Xaml::Data::BindingExpressionBase^ object);
-
-		protected:
-			::Windows::UI::Xaml::Data::BindingExpressionBase^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::Data::BindingExpressionBase^ unwrap() const;

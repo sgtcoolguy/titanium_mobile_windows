@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT CoreDispatcher : public Titanium::Module, public JSExport<CoreDispatcher>
+		class TITANIUMWINDOWS_UI_EXPORT CoreDispatcher : public ::Titanium::Platform::Object, public JSExport<CoreDispatcher>
 		{
 
 		public:
@@ -54,9 +54,6 @@ namespace Titanium
 
 			::Windows::UI::Core::CoreDispatcher^ unwrapWindows_UI_Core_CoreDispatcher() const;
 			void wrap(::Windows::UI::Core::CoreDispatcher^ object);
-
-		protected:
-			::Windows::UI::Core::CoreDispatcher^ wrapped__;
 
 		private:
 			::Windows::UI::Core::CoreDispatcher^ unwrap() const;

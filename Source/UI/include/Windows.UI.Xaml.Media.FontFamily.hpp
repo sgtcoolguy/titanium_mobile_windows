@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT FontFamily : public Titanium::Module, public JSExport<FontFamily>
+		class TITANIUMWINDOWS_UI_EXPORT FontFamily : public ::Titanium::Platform::Object, public JSExport<FontFamily>
 		{
 
 		public:
@@ -50,9 +50,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::Media::FontFamily^ unwrapWindows_UI_Xaml_Media_FontFamily() const;
 			void wrap(::Windows::UI::Xaml::Media::FontFamily^ object);
-
-		protected:
-			::Windows::UI::Xaml::Media::FontFamily^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::Media::FontFamily^ unwrap() const;

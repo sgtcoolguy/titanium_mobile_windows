@@ -20,7 +20,7 @@ namespace Titanium
 				{
 
 		BindingExpressionBase::BindingExpressionBase(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -47,7 +47,7 @@ namespace Titanium
 		void BindingExpressionBase::JSExportInitialize()
 		{
 			JSExport<BindingExpressionBase>::SetClassVersion(1);
-			JSExport<BindingExpressionBase>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<BindingExpressionBase>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 		}
 

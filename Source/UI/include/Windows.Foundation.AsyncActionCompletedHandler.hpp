@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -23,7 +23,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT AsyncActionCompletedHandler : public Titanium::Module, public JSExport<AsyncActionCompletedHandler>
+		class TITANIUMWINDOWS_UI_EXPORT AsyncActionCompletedHandler : public ::Titanium::Platform::Object, public JSExport<AsyncActionCompletedHandler>
 		{
 
 		public:
@@ -46,9 +46,6 @@ namespace Titanium
 
 			::Windows::Foundation::AsyncActionCompletedHandler^ unwrapWindows_Foundation_AsyncActionCompletedHandler() const;
 			void wrap(::Windows::Foundation::AsyncActionCompletedHandler^ object);
-
-		protected:
-			::Windows::Foundation::AsyncActionCompletedHandler^ wrapped__;
 
 		private:
 			::Windows::Foundation::AsyncActionCompletedHandler^ unwrap() const;

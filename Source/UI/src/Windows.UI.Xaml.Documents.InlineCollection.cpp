@@ -24,7 +24,7 @@ namespace Titanium
 				{
 
 		InlineCollection::InlineCollection(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -51,7 +51,7 @@ namespace Titanium
 		void InlineCollection::JSExportInitialize()
 		{
 			JSExport<InlineCollection>::SetClassVersion(1);
-			JSExport<InlineCollection>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<InlineCollection>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(InlineCollection, Size);
 			TITANIUM_ADD_FUNCTION(InlineCollection, GetAt);

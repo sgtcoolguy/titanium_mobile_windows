@@ -22,7 +22,7 @@ namespace Titanium
 				{
 
 		TextPointer::TextPointer(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -49,7 +49,7 @@ namespace Titanium
 		void TextPointer::JSExportInitialize()
 		{
 			JSExport<TextPointer>::SetClassVersion(1);
-			JSExport<TextPointer>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<TextPointer>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(TextPointer, LogicalDirection);
 			TITANIUM_ADD_PROPERTY_READONLY(TextPointer, Offset);

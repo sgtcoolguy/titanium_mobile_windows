@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT Window : public Titanium::Module, public JSExport<Window>
+		class TITANIUMWINDOWS_UI_EXPORT Window : public ::Titanium::Platform::Object, public JSExport<Window>
 		{
 
 		public:
@@ -55,9 +55,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::Window^ unwrapWindows_UI_Xaml_Window() const;
 			void wrap(::Windows::UI::Xaml::Window^ object);
-
-		protected:
-			::Windows::UI::Xaml::Window^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::Window^ unwrap() const;

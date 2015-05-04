@@ -18,7 +18,7 @@ namespace Titanium
 			{
 
 		RoutedEvent::RoutedEvent(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -45,7 +45,7 @@ namespace Titanium
 		void RoutedEvent::JSExportInitialize()
 		{
 			JSExport<RoutedEvent>::SetClassVersion(1);
-			JSExport<RoutedEvent>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<RoutedEvent>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 		}
 

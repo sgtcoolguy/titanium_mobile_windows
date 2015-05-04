@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT SetterBase : public Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<SetterBase>
+		class TITANIUMWINDOWS_UI_EXPORT SetterBase : public ::Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<SetterBase>
 		{
 
 		public:

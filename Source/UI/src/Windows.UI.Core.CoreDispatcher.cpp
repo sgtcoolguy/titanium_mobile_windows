@@ -21,7 +21,7 @@ namespace Titanium
 			{
 
 		CoreDispatcher::CoreDispatcher(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -48,7 +48,7 @@ namespace Titanium
 		void CoreDispatcher::JSExportInitialize()
 		{
 			JSExport<CoreDispatcher>::SetClassVersion(1);
-			JSExport<CoreDispatcher>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<CoreDispatcher>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY(CoreDispatcher, CurrentPriority);
 			TITANIUM_ADD_PROPERTY_READONLY(CoreDispatcher, HasThreadAccess);

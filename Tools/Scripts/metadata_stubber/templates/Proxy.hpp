@@ -11,7 +11,7 @@ var underscore_name = full_name.replace(/\./g, '_');
 var name_upper = underscore_name.toUpperCase();
 var windows_name = full_name.to_windows_name();
 var unique_methods = [];
-var parent_name = "Module";
+var parent_name = "Platform.Object";
 if (parent && parent.indexOf('[mscorlib]') != 0) {
 	parent_name = parent.trim();
 }
@@ -48,7 +48,7 @@ if (parent_name == 'Module') { -%>
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT <%= base_name %> : public Titanium::<%= parent_name.to_windows_name() %>, public JSExport<<%= base_name %>>
+		class TITANIUMWINDOWS_UI_EXPORT <%= base_name %> : public ::Titanium::<%= parent_name.to_windows_name() %>, public JSExport<<%= base_name %>>
 		{
 
 		public:

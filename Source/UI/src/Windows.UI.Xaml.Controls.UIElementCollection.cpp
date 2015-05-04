@@ -24,7 +24,7 @@ namespace Titanium
 				{
 
 		UIElementCollection::UIElementCollection(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -51,7 +51,7 @@ namespace Titanium
 		void UIElementCollection::JSExportInitialize()
 		{
 			JSExport<UIElementCollection>::SetClassVersion(1);
-			JSExport<UIElementCollection>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<UIElementCollection>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(UIElementCollection, Size);
 			TITANIUM_ADD_FUNCTION(UIElementCollection, GetAt);

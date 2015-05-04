@@ -1163,10 +1163,10 @@ namespace Titanium
 			auto _1 = arguments.at(1);
  			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_handler = static_cast<JSObject>(_1);
-			auto wrapper_handler = object_handler.GetPrivate<Titanium::Module>();
+			auto wrapper_handler = object_handler.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto handler = wrapper_handler->unwrapTitanium_Module();
+			auto handler = wrapper_handler->unwrapPlatform_Object();
 
 
 			auto _2 = arguments.at(2);
@@ -1192,10 +1192,10 @@ namespace Titanium
 			auto _1 = arguments.at(1);
  			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_handler = static_cast<JSObject>(_1);
-			auto wrapper_handler = object_handler.GetPrivate<Titanium::Module>();
+			auto wrapper_handler = object_handler.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto handler = wrapper_handler->unwrapTitanium_Module();
+			auto handler = wrapper_handler->unwrapPlatform_Object();
 
 
 			unwrap()->RemoveHandler(routedEvent, handler);

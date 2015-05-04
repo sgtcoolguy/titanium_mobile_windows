@@ -100,7 +100,7 @@ if (type == 'bool') {
 	}
 	// object == Platform::Object. We treat it as our root type, which is currently Titanium::Module
 	if (full_type_name == 'object') {
-		full_type_name = 'Titanium::Module';
+		full_type_name = 'Platform::Object';
 	}
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");

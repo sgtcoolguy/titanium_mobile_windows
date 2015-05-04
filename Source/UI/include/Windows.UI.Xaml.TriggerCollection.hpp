@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT TriggerCollection : public Titanium::Module, public JSExport<TriggerCollection>
+		class TITANIUMWINDOWS_UI_EXPORT TriggerCollection : public ::Titanium::Platform::Object, public JSExport<TriggerCollection>
 		{
 
 		public:
@@ -60,9 +60,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::TriggerCollection^ unwrapWindows_UI_Xaml_TriggerCollection() const;
 			void wrap(::Windows::UI::Xaml::TriggerCollection^ object);
-
-		protected:
-			::Windows::UI::Xaml::TriggerCollection^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::TriggerCollection^ unwrap() const;

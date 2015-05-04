@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT IPropertySet : public Titanium::Module, public JSExport<IPropertySet>
+		class TITANIUMWINDOWS_UI_EXPORT IPropertySet : public ::Titanium::Platform::Object, public JSExport<IPropertySet>
 		{
 
 		public:
@@ -47,9 +47,6 @@ namespace Titanium
 
 			::Windows::Foundation::Collections::IPropertySet^ unwrapWindows_Foundation_Collections_IPropertySet() const;
 			void wrap(::Windows::Foundation::Collections::IPropertySet^ object);
-
-		protected:
-			::Windows::Foundation::Collections::IPropertySet^ wrapped__;
 
 		private:
 			::Windows::Foundation::Collections::IPropertySet^ unwrap() const;

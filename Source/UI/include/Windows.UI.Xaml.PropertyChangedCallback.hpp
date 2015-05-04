@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT PropertyChangedCallback : public Titanium::Module, public JSExport<PropertyChangedCallback>
+		class TITANIUMWINDOWS_UI_EXPORT PropertyChangedCallback : public ::Titanium::Platform::Object, public JSExport<PropertyChangedCallback>
 		{
 
 		public:
@@ -48,9 +48,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::PropertyChangedCallback^ unwrapWindows_UI_Xaml_PropertyChangedCallback() const;
 			void wrap(::Windows::UI::Xaml::PropertyChangedCallback^ object);
-
-		protected:
-			::Windows::UI::Xaml::PropertyChangedCallback^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::PropertyChangedCallback^ unwrap() const;

@@ -192,6 +192,21 @@ else {
 	}
 }
 
+// TODO Generate a base class that everything can extend where we can hang a single unwrap method to get back an Object!
+all_classes['Platform.Object'] = {
+	"name": 'Platform.Object',
+	properties: {},
+	methods: [],
+	attributes: [
+		"public",
+        "auto",
+        "ansi",
+        "windowsruntime"
+    ],
+    'extends': 'Module'
+}
+seeds.unshift('Platform.Object');
+
 // Now that we have the full list of types, let's stub them
 for (var i = 0; i < seeds.length; i++) {
 	var classname = seeds[i];

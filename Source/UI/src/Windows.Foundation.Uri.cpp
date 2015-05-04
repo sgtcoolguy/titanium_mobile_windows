@@ -17,7 +17,7 @@ namespace Titanium
 		{
 
 		Uri::Uri(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -44,7 +44,7 @@ namespace Titanium
 		void Uri::JSExportInitialize()
 		{
 			JSExport<Uri>::SetClassVersion(1);
-			JSExport<Uri>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<Uri>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(Uri, AbsoluteUri);
 			TITANIUM_ADD_PROPERTY_READONLY(Uri, DisplayUri);

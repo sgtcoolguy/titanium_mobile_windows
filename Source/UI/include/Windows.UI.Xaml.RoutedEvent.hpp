@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT RoutedEvent : public Titanium::Module, public JSExport<RoutedEvent>
+		class TITANIUMWINDOWS_UI_EXPORT RoutedEvent : public ::Titanium::Platform::Object, public JSExport<RoutedEvent>
 		{
 
 		public:
@@ -47,9 +47,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::RoutedEvent^ unwrapWindows_UI_Xaml_RoutedEvent() const;
 			void wrap(::Windows::UI::Xaml::RoutedEvent^ object);
-
-		protected:
-			::Windows::UI::Xaml::RoutedEvent^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::RoutedEvent^ unwrap() const;

@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT RelativeSource : public Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<RelativeSource>
+		class TITANIUMWINDOWS_UI_EXPORT RelativeSource : public ::Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<RelativeSource>
 		{
 
 		public:

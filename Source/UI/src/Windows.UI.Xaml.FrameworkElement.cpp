@@ -198,10 +198,10 @@ namespace Titanium
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
-			auto wrapper_value = object_value.GetPrivate<Titanium::Module>();
+			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto value = wrapper_value->unwrapTitanium_Module();
+			auto value = wrapper_value->unwrapPlatform_Object();
 
 
 			unwrap()->DataContext = value;
@@ -301,10 +301,10 @@ namespace Titanium
 		{
  			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
-			auto wrapper_value = object_value.GetPrivate<Titanium::Module>();
+			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto value = wrapper_value->unwrapTitanium_Module();
+			auto value = wrapper_value->unwrapPlatform_Object();
 
 
 			unwrap()->Tag = value;

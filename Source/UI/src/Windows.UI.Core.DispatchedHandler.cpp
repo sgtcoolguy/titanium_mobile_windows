@@ -18,7 +18,7 @@ namespace Titanium
 			{
 
 		DispatchedHandler::DispatchedHandler(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -45,7 +45,7 @@ namespace Titanium
 		void DispatchedHandler::JSExportInitialize()
 		{
 			JSExport<DispatchedHandler>::SetClassVersion(1);
-			JSExport<DispatchedHandler>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<DispatchedHandler>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_FUNCTION(DispatchedHandler, Invoke);
 		}

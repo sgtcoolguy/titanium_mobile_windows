@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT SolidColorBrush : public Titanium::Windows::UI::Xaml::Media::Brush, public JSExport<SolidColorBrush>
+		class TITANIUMWINDOWS_UI_EXPORT SolidColorBrush : public ::Titanium::Windows::UI::Xaml::Media::Brush, public JSExport<SolidColorBrush>
 		{
 
 		public:

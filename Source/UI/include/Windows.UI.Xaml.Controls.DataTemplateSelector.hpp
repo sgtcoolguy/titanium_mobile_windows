@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT DataTemplateSelector : public Titanium::Module, public JSExport<DataTemplateSelector>
+		class TITANIUMWINDOWS_UI_EXPORT DataTemplateSelector : public ::Titanium::Platform::Object, public JSExport<DataTemplateSelector>
 		{
 
 		public:
@@ -50,9 +50,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::Controls::DataTemplateSelector^ unwrapWindows_UI_Xaml_Controls_DataTemplateSelector() const;
 			void wrap(::Windows::UI::Xaml::Controls::DataTemplateSelector^ object);
-
-		protected:
-			::Windows::UI::Xaml::Controls::DataTemplateSelector^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::Controls::DataTemplateSelector^ unwrap() const;

@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT TriggerBase : public Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<TriggerBase>
+		class TITANIUMWINDOWS_UI_EXPORT TriggerBase : public ::Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<TriggerBase>
 		{
 
 		public:

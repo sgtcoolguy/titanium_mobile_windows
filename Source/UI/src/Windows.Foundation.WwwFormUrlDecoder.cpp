@@ -19,7 +19,7 @@ namespace Titanium
 		{
 
 		WwwFormUrlDecoder::WwwFormUrlDecoder(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -46,7 +46,7 @@ namespace Titanium
 		void WwwFormUrlDecoder::JSExportInitialize()
 		{
 			JSExport<WwwFormUrlDecoder>::SetClassVersion(1);
-			JSExport<WwwFormUrlDecoder>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<WwwFormUrlDecoder>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(WwwFormUrlDecoder, Size);
 			TITANIUM_ADD_FUNCTION(WwwFormUrlDecoder, GetFirstValueByName);
@@ -87,8 +87,8 @@ namespace Titanium
 
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
-			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IIterator<Windows::Foundation::IWwwFormUrlDecoderEntry>>::Class());
-			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IIterator<Windows::Foundation::IWwwFormUrlDecoderEntry>>();
+			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IIterator`1<class Windows::Foundation::IWwwFormUrlDecoderEntry>>::Class());
+			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IIterator`1<class Windows::Foundation::IWwwFormUrlDecoderEntry>>();
 			result_wrapper->wrap(method_result);
 
 			return result;

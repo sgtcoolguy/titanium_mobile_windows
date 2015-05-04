@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -23,7 +23,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT Uri : public Titanium::Module, public JSExport<Uri>
+		class TITANIUMWINDOWS_UI_EXPORT Uri : public ::Titanium::Platform::Object, public JSExport<Uri>
 		{
 
 		public:
@@ -67,9 +67,6 @@ namespace Titanium
 
 			::Windows::Foundation::Uri^ unwrapWindows_Foundation_Uri() const;
 			void wrap(::Windows::Foundation::Uri^ object);
-
-		protected:
-			::Windows::Foundation::Uri^ wrapped__;
 
 		private:
 			::Windows::Foundation::Uri^ unwrap() const;

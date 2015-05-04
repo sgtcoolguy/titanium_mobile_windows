@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT DependencyObject : public Titanium::Module, public JSExport<DependencyObject>
+		class TITANIUMWINDOWS_UI_EXPORT DependencyObject : public ::Titanium::Platform::Object, public JSExport<DependencyObject>
 		{
 
 		public:
@@ -53,9 +53,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::DependencyObject^ unwrapWindows_UI_Xaml_DependencyObject() const;
 			void wrap(::Windows::UI::Xaml::DependencyObject^ object);
-
-		protected:
-			::Windows::UI::Xaml::DependencyObject^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::DependencyObject^ unwrap() const;

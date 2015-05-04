@@ -22,7 +22,7 @@ namespace Titanium
 			{
 
 		SetterBaseCollection::SetterBaseCollection(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -49,7 +49,7 @@ namespace Titanium
 		void SetterBaseCollection::JSExportInitialize()
 		{
 			JSExport<SetterBaseCollection>::SetClassVersion(1);
-			JSExport<SetterBaseCollection>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<SetterBaseCollection>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(SetterBaseCollection, IsSealed);
 			TITANIUM_ADD_PROPERTY_READONLY(SetterBaseCollection, Size);

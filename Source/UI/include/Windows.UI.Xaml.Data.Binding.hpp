@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT Binding : public Titanium::Windows::UI::Xaml::Data::BindingBase, public JSExport<Binding>
+		class TITANIUMWINDOWS_UI_EXPORT Binding : public ::Titanium::Windows::UI::Xaml::Data::BindingBase, public JSExport<Binding>
 		{
 
 		public:

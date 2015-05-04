@@ -18,7 +18,7 @@ namespace Titanium
 			{
 
 		CoreCursor::CoreCursor(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -45,7 +45,7 @@ namespace Titanium
 		void CoreCursor::JSExportInitialize()
 		{
 			JSExport<CoreCursor>::SetClassVersion(1);
-			JSExport<CoreCursor>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<CoreCursor>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(CoreCursor, Id);
 			TITANIUM_ADD_PROPERTY_READONLY(CoreCursor, Type);

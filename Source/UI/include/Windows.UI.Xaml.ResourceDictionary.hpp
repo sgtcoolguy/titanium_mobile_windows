@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT ResourceDictionary : public Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<ResourceDictionary>
+		class TITANIUMWINDOWS_UI_EXPORT ResourceDictionary : public ::Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<ResourceDictionary>
 		{
 
 		public:

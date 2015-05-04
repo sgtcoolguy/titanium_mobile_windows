@@ -26,7 +26,7 @@ namespace Titanium
 					{
 
 		TransitionCollection::TransitionCollection(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -53,7 +53,7 @@ namespace Titanium
 		void TransitionCollection::JSExportInitialize()
 		{
 			JSExport<TransitionCollection>::SetClassVersion(1);
-			JSExport<TransitionCollection>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<TransitionCollection>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(TransitionCollection, Size);
 			TITANIUM_ADD_FUNCTION(TransitionCollection, GetAt);

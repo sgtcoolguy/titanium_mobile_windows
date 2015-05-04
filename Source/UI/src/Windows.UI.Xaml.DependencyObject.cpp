@@ -20,7 +20,7 @@ namespace Titanium
 			{
 
 		DependencyObject::DependencyObject(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -47,7 +47,7 @@ namespace Titanium
 		void DependencyObject::JSExportInitialize()
 		{
 			JSExport<DependencyObject>::SetClassVersion(1);
-			JSExport<DependencyObject>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<DependencyObject>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(DependencyObject, Dispatcher);
 			TITANIUM_ADD_FUNCTION(DependencyObject, GetValue);
@@ -107,10 +107,10 @@ namespace Titanium
 			auto _1 = arguments.at(1);
  			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(_1);
-			auto wrapper_value = object_value.GetPrivate<Titanium::Module>();
+			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto value = wrapper_value->unwrapTitanium_Module();
+			auto value = wrapper_value->unwrapPlatform_Object();
 
 
 			unwrap()->SetValue(dp, value);

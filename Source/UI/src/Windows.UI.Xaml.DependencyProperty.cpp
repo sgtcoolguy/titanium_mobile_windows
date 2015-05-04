@@ -19,7 +19,7 @@ namespace Titanium
 			{
 
 		DependencyProperty::DependencyProperty(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -46,7 +46,7 @@ namespace Titanium
 		void DependencyProperty::JSExportInitialize()
 		{
 			JSExport<DependencyProperty>::SetClassVersion(1);
-			JSExport<DependencyProperty>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<DependencyProperty>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(DependencyProperty, UnsetValue);
 			TITANIUM_ADD_FUNCTION(DependencyProperty, GetMetadata);

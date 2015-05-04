@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT Transform : public Titanium::Windows::UI::Xaml::Media::GeneralTransform, public JSExport<Transform>
+		class TITANIUMWINDOWS_UI_EXPORT Transform : public ::Titanium::Windows::UI::Xaml::Media::GeneralTransform, public JSExport<Transform>
 		{
 
 		public:

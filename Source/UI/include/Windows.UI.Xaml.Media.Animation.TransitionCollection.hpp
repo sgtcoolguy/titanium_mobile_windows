@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -29,7 +29,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT TransitionCollection : public Titanium::Module, public JSExport<TransitionCollection>
+		class TITANIUMWINDOWS_UI_EXPORT TransitionCollection : public ::Titanium::Platform::Object, public JSExport<TransitionCollection>
 		{
 
 		public:
@@ -64,9 +64,6 @@ namespace Titanium
 
 			::Windows::UI::Xaml::Media::Animation::TransitionCollection^ unwrapWindows_UI_Xaml_Media_Animation_TransitionCollection() const;
 			void wrap(::Windows::UI::Xaml::Media::Animation::TransitionCollection^ object);
-
-		protected:
-			::Windows::UI::Xaml::Media::Animation::TransitionCollection^ wrapped__;
 
 		private:
 			::Windows::UI::Xaml::Media::Animation::TransitionCollection^ unwrap() const;

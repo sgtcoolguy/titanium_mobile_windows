@@ -22,7 +22,7 @@ namespace Titanium
 				{
 
 		DataTemplateSelector::DataTemplateSelector(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -49,7 +49,7 @@ namespace Titanium
 		void DataTemplateSelector::JSExportInitialize()
 		{
 			JSExport<DataTemplateSelector>::SetClassVersion(1);
-			JSExport<DataTemplateSelector>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<DataTemplateSelector>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_FUNCTION(DataTemplateSelector, SelectTemplate);
 			TITANIUM_ADD_FUNCTION(DataTemplateSelector, SelectTemplate);
@@ -60,10 +60,10 @@ namespace Titanium
 			auto _0 = arguments.at(0);
  			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_item = static_cast<JSObject>(_0);
-			auto wrapper_item = object_item.GetPrivate<Titanium::Module>();
+			auto wrapper_item = object_item.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto item = wrapper_item->unwrapTitanium_Module();
+			auto item = wrapper_item->unwrapPlatform_Object();
 
 
 			auto _1 = arguments.at(1);
@@ -92,10 +92,10 @@ namespace Titanium
 			auto _0 = arguments.at(0);
  			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_item = static_cast<JSObject>(_0);
-			auto wrapper_item = object_item.GetPrivate<Titanium::Module>();
+			auto wrapper_item = object_item.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto item = wrapper_item->unwrapTitanium_Module();
+			auto item = wrapper_item->unwrapPlatform_Object();
 
 
 			auto context = get_context();

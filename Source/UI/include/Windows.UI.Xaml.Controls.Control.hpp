@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT Control : public Titanium::Windows::UI::Xaml::FrameworkElement, public JSExport<Control>
+		class TITANIUMWINDOWS_UI_EXPORT Control : public ::Titanium::Windows::UI::Xaml::FrameworkElement, public JSExport<Control>
 		{
 
 		public:

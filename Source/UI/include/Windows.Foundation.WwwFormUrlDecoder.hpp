@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -23,7 +23,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT WwwFormUrlDecoder : public Titanium::Module, public JSExport<WwwFormUrlDecoder>
+		class TITANIUMWINDOWS_UI_EXPORT WwwFormUrlDecoder : public ::Titanium::Platform::Object, public JSExport<WwwFormUrlDecoder>
 		{
 
 		public:
@@ -51,9 +51,6 @@ namespace Titanium
 
 			::Windows::Foundation::WwwFormUrlDecoder^ unwrapWindows_Foundation_WwwFormUrlDecoder() const;
 			void wrap(::Windows::Foundation::WwwFormUrlDecoder^ object);
-
-		protected:
-			::Windows::Foundation::WwwFormUrlDecoder^ wrapped__;
 
 		private:
 			::Windows::Foundation::WwwFormUrlDecoder^ unwrap() const;

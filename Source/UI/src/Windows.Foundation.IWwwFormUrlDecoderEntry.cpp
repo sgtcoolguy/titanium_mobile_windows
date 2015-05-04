@@ -16,7 +16,7 @@ namespace Titanium
 		{
 
 		IWwwFormUrlDecoderEntry::IWwwFormUrlDecoderEntry(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -43,7 +43,7 @@ namespace Titanium
 		void IWwwFormUrlDecoderEntry::JSExportInitialize()
 		{
 			JSExport<IWwwFormUrlDecoderEntry>::SetClassVersion(1);
-			JSExport<IWwwFormUrlDecoderEntry>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<IWwwFormUrlDecoderEntry>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 			TITANIUM_ADD_PROPERTY_READONLY(IWwwFormUrlDecoderEntry, Name);
 			TITANIUM_ADD_PROPERTY_READONLY(IWwwFormUrlDecoderEntry, Value);

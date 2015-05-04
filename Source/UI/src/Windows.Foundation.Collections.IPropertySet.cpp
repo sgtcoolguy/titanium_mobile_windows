@@ -18,7 +18,7 @@ namespace Titanium
 			{
 
 		IPropertySet::IPropertySet(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::Module(js_context)
+			: Titanium::Platform::Object(js_context)
 		{
 		}
 
@@ -45,7 +45,7 @@ namespace Titanium
 		void IPropertySet::JSExportInitialize()
 		{
 			JSExport<IPropertySet>::SetClassVersion(1);
-			JSExport<IPropertySet>::SetParent(JSExport<Titanium::Module>::Class());
+			JSExport<IPropertySet>::SetParent(JSExport<Titanium::Platform::Object>::Class());
 
 		}
 

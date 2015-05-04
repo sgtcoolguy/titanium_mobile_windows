@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT PropertyPath : public Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<PropertyPath>
+		class TITANIUMWINDOWS_UI_EXPORT PropertyPath : public ::Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<PropertyPath>
 		{
 
 		public:

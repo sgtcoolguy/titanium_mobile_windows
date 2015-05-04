@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT Geometry : public Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<Geometry>
+		class TITANIUMWINDOWS_UI_EXPORT Geometry : public ::Titanium::Windows::UI::Xaml::DependencyObject, public JSExport<Geometry>
 		{
 
 		public:

@@ -11,7 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "Titanium/Module.hpp"
+#include "Platform.Object.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT CoreCursor : public Titanium::Module, public JSExport<CoreCursor>
+		class TITANIUMWINDOWS_UI_EXPORT CoreCursor : public ::Titanium::Platform::Object, public JSExport<CoreCursor>
 		{
 
 		public:
@@ -49,9 +49,6 @@ namespace Titanium
 
 			::Windows::UI::Core::CoreCursor^ unwrapWindows_UI_Core_CoreCursor() const;
 			void wrap(::Windows::UI::Core::CoreCursor^ object);
-
-		protected:
-			::Windows::UI::Core::CoreCursor^ wrapped__;
 
 		private:
 			::Windows::UI::Core::CoreCursor^ unwrap() const;

@@ -27,7 +27,7 @@ namespace Titanium
 
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT RectangleGeometry : public Titanium::Windows::UI::Xaml::Media::Geometry, public JSExport<RectangleGeometry>
+		class TITANIUMWINDOWS_UI_EXPORT RectangleGeometry : public ::Titanium::Windows::UI::Xaml::Media::Geometry, public JSExport<RectangleGeometry>
 		{
 
 		public:
