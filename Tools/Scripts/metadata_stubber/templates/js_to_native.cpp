@@ -1,6 +1,5 @@
 <%
 // TODO uint8, int, uint16, int16, int64, uint64, single, char16
-// TODO Handle 'out' params that take references (end with '&')!
 if (type == 'bool') {
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsBoolean(), "Expected boolean");
@@ -86,17 +85,33 @@ if (type == 'bool') {
 	if (full_type_name.indexOf('class ') == 0) {
 		full_type_name = full_type_name.substring(6);
 	}
-	// object == Platform::Object. We treat it as our root type, which is currently Titanium::Module
 	if (full_type_name == 'object') {
 		full_type_name = 'Platform::Object';
 	}
--%> 
+-%>
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");
 			auto object_<%= to_assign %> = static_cast<JSObject>(<%= argument_name %>);
+<%
+	if (full_type_name.indexOf('[') == full_type_name.length - 1) {
+		// TODO Strip off the [], then proceed knowing it's an array...
+		full_type_name = full_type_name.substring(0, full_type_name.length - 1);
+-%>
+			//TITANIUM_ASSERT(object_<%= to_assign %>.IsArray());
+			//const auto array_<%= to_assign %> = static_cast<JSArray>(object_<%= to_assign %>);
+			//auto items_<%= to_assign %> = array_<%= to_assign %>.GetPrivateItems<<%= full_type_name %>>(); // std::vector<std::shared_ptr<<%= full_type_name %>>
+			// see https://msdn.microsoft.com/en-us/library/hh700131.aspx
+			//const Platform::Array<T> // When passing as arg to method
+			//ref new Platform::WriteOnlyArray<T>(); // whan passing an out arg array for method to fill
+			//::<%= full_type_name %> <%= to_assign %>[];
+			auto <%= to_assign %> = nullptr; // we're going to just punt entirely for now!
+<%
+	} else {
+-%> 
 			auto wrapper_<%= to_assign %> = object_<%= to_assign %>.GetPrivate<<%= full_type_name %>>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto <%= to_assign %> = wrapper_<%= to_assign %>->unwrap<%= full_type_name.replace(/::/g, '_') %>();
 <%
+	}
 }
 -%>

@@ -53,10 +53,10 @@ for (var i = 0; i < types_to_include.length; i++) {
 
 		void <%= base_name %>::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{	
-			// TODO Handle passing along args to the constructor. Not all items have default constructor!
 <%
 if (has_constructor) {
 -%>
+			// TODO Handle passing along args to the constructor. Not all items have default constructor!
 			wrapped__ = ref new ::<%= windows_name %>();
 <%
 }
