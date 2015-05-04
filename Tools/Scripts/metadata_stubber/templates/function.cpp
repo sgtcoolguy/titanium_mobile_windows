@@ -12,13 +12,16 @@ for (var x = 0; x < method.args.length; x++) {
 	type = arg.type;
 	as_param = arg.name;
 	if (arg.inout == "out") {
-		as_param = "&" + as_param;
-		type = type.substring(0, type.length - 1); // drop & from type we pass along to conversion
+		if (type.indexOf('[]') == type.length - 2) { // it's an array!
+			// Don't prepend with &, and don't mess up the type name, since it won't have a trailing &
+		} else {
+			as_param = "&" + as_param;
+			type = type.substring(0, type.length - 1); // drop & from type we pass along to conversion
+		}
 	}
 	arguments += as_param + ", ";
 -%>
-			auto _<%= x %> = arguments.at(<%= x %>);
-<%- include('js_to_native.cpp', {type: type, metadata: metadata, to_assign: arg.name, argument_name: '_' + x}) %>
+			auto _<%= x %> = arguments.at(<%= x %>);<%- include('js_to_native.cpp', {type: type, metadata: metadata, to_assign: arg.name, argument_name: '_' + x}) -%>
 
 <%
 }
@@ -44,11 +47,16 @@ if (method.returnType == 'void') {
 // If we had "out" parameters, we now need to assign the values back to the JS Objects before returning result!
 
 for (var x = 0; x < method.args.length; x++) {
+	arg = method.args[x];
+	type = arg.type;
 	if (arg.inout == "out") {
+		if (type.indexOf('[]') == -1) { // Not an array...
+			type = type.substring(0, type.length - 1); // drop & from type we pass along to conversion
+		}
 		// FIXME This assumes int32, uint32, double. We need to handle other types!
 		// I've seen string, Point struct, float32, IMapView<K,V>, Rect struct, TabAlignment, TabLeader, JsonArray
 -%>
-			_<%= x %> = _<%= x %>.get_context().CreateNumber(<%= arg.name %>);
+<%- include('native_to_js.cpp', {type: type, metadata: metadata, to_assign: '_' + x, argument_name: arg.name}) %>
 <%
 	}
 }

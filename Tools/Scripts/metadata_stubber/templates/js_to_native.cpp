@@ -92,18 +92,17 @@ if (type == 'bool') {
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");
 			auto object_<%= to_assign %> = static_cast<JSObject>(<%= argument_name %>);
 <%
-	if (full_type_name.indexOf('[') == full_type_name.length - 1) {
-		// TODO Strip off the [], then proceed knowing it's an array...
-		full_type_name = full_type_name.substring(0, full_type_name.length - 1);
+	if (full_type_name.indexOf('[]') == full_type_name.length - 2) {
+		// Strip off the [], then proceed knowing it's an array...
+		full_type_name = full_type_name.substring(0, full_type_name.length - 2);
 -%>
-			//TITANIUM_ASSERT(object_<%= to_assign %>.IsArray());
-			//const auto array_<%= to_assign %> = static_cast<JSArray>(object_<%= to_assign %>);
-			//auto items_<%= to_assign %> = array_<%= to_assign %>.GetPrivateItems<<%= full_type_name %>>(); // std::vector<std::shared_ptr<<%= full_type_name %>>
-			// see https://msdn.microsoft.com/en-us/library/hh700131.aspx
-			//const Platform::Array<T> // When passing as arg to method
-			//ref new Platform::WriteOnlyArray<T>(); // whan passing an out arg array for method to fill
-			//::<%= full_type_name %> <%= to_assign %>[];
-			auto <%= to_assign %> = nullptr; // we're going to just punt entirely for now!
+			TITANIUM_ASSERT(object_<%= to_assign %>.IsArray());
+			const auto array_<%= to_assign %> = static_cast<JSArray>(object_<%= to_assign %>);
+			auto items_<%= to_assign %> = array_<%= to_assign %>.GetPrivateItems<<%= full_type_name %>>(); // std::vector<std::shared_ptr<<%= full_type_name %>>
+			auto <%= to_assign %> = ref new ::Platform::Array<::<%= full_type_name %>^>(items_<%= to_assign %>.size());
+			for (int i = 0; i < items_<%= to_assign %>.size(); ++i) {
+				items[i] = items_<%= to_assign %>.at(i)->unwrap<%= full_type_name.replace(/::/g, '_') %>();
+			}
 <%
 	} else {
 -%> 

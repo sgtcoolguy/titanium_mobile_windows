@@ -52,10 +52,29 @@ if (type == 'bool') {
 	if (full_type_name == 'object') {
 		full_type_name = 'Platform::Object';
 	}
+
+	if (full_type_name.indexOf('[]') == full_type_name.length - 2) {
+		// Strip off the [], then proceed knowing it's an array...
+		full_type_name = full_type_name.substring(0, full_type_name.length - 2);
+-%>
+			std::vector<JSValue> <%= to_assign %>_vector;
+			for (int i = 0; i < <%= argument_name %>->Length; ++i) {
+				auto <%= argument_name %>_tmp = context.CreateObject(JSExport<<%- full_type_name %>>::Class());
+				auto <%= argument_name %>_tmp_wrapper = <%= argument_name %>_tmp.GetPrivate<<%- full_type_name %>>();
+				<%= argument_name %>_tmp_wrapper->wrap(<%= argument_name %>[i]);
+        		<%= to_assign %>_vector.push_back(<%= argument_name %>_tmp);
+			}
+
+			<%= to_assign %> = get_context().CreateArray(<%= to_assign %>_vector);
+<%
+	} else { // normal class
 -%>
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
 			auto <%= to_assign %> = context.CreateObject(JSExport<<%- full_type_name %>>::Class());
 			auto <%= to_assign %>_wrapper = <%= to_assign %>.GetPrivate<<%- full_type_name %>>();
 			<%= to_assign %>_wrapper->wrap(<%= argument_name %>);
-<% } -%>
+<% 
+	}
+}
+-%>
