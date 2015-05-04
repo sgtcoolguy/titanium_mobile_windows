@@ -17,72 +17,8 @@ if (parent && parent.indexOf('[mscorlib]') != 0) {
 	parent_name = parent.trim();
 }
 
-// gather all the types referenced in this file!
-var types_to_include = [full_name],
-	prop,
-	method,
-	type;
-
-// check property types
-for (property_name in properties) {
-	prop = properties[property_name];
-	type = prop['returnType'];
-	if (type.indexOf('class ') == 0 || type.indexOf('Windows') == 0) {
-		type = type.trim();
-		if (type.indexOf('class ') == 0) {
-			type = type.substring(6);
-		}
-		if (types_to_include.indexOf(type) == -1) {
-			types_to_include.unshift(type);
-		}
-	}
-}
-// Check method args and return types!
-if (methods) {
-	for (var i = 0; i < methods.length; i++) {
-		method = methods[i];
-		// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
-		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
-			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0) {
-				continue;
-		}
-		if (method.name == '.ctor' && method.attributes.indexOf("public") != -1) {
-			has_constructor = true;
-			continue;
-		}
-		// Skip non-public methods
-		if (method.attributes.indexOf("public") == -1) {
-			continue;
-		}
-
-		// return type
-		type = method.returnType;
-		if (type.indexOf('class ') == 0 || type.indexOf('Windows.') == 0) {
-			// it's a type/class, we need to include it!
-			type = type.trim();
-			if (type.indexOf('class ') == 0) {
-				type = type.substring(6);
-			}
-			if (types_to_include.indexOf(type) == -1) {
-				types_to_include.unshift(type);
-			}
-		}
-		// Check method args!
-		for (var j = 0; j < method.args.length; j++) {
-			type = method.args[j].type;
-			if (type.indexOf('class ') == 0 || type.indexOf('Windows.') == 0) {
-				// it's a type/class, we need to include it!
-				type = type.trim();
-				if (type.indexOf('class ') == 0) {
-					type = type.substring(6);
-				}
-				if (types_to_include.indexOf(type) == -1) {
-					types_to_include.unshift(type);
-				}
-			}
-		}
-	}
-}
+// gather all the types referenced in this file! We calculated this already in stub.js (assuming we set seeds)
+var types_to_include = dependencies || [full_name];
 -%>
 /**
  * Windows Native Wrapper for <%= full_name %>
@@ -94,7 +30,11 @@ if (methods) {
 
 <%
 for (var i = 0; i < types_to_include.length; i++) {
-	var type_name = types_to_include[i];
+	var type_name = types_to_include[i],
+		index = type_name.indexOf('`');
+	if (index != -1) { // strip off templated portion of name!
+		type_name = type_name.substring(0, index);
+	}
 -%>
 #include "<%= type_name %>.hpp"
 <%

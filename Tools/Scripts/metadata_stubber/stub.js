@@ -150,6 +150,9 @@ function getDependencies(classname) {
 			}
 		}
 	}
+	// TODO Can we inject the set of types to include into the metadata for this type?!
+	classDefinition.dependencies = types;
+	classDefinition.dependencies.unshift(classname);
 	return types;
 }
 
@@ -238,6 +241,6 @@ for (var i = 0; i < seeds.length; i++) {
 	console.log("Stubbing implementation for " + classname);
 	var cpp_file = path.join(__dirname, 'templates', 'Proxy.cpp');
 	// We need the whole all_classes data so we can look up types such as structs/enums to map to JSObjects/JSNumbers
-	var generated_proxy_impl = ejs.render('' + fs.readFileSync(cpp_file), {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends']}, {filename: cpp_file});
+	var generated_proxy_impl = ejs.render('' + fs.readFileSync(cpp_file), {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends'], dependencies: classDefinition.dependencies}, {filename: cpp_file});
 	fs.writeFileSync(path.join(dest, 'src', classname + '.cpp'), generated_proxy_impl, {flags : 'w'});
 }
