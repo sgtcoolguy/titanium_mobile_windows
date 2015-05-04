@@ -12,7 +12,7 @@ if (type == 'bool') {
 -%> 
 			auto <%= to_assign %> = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(<%= argument_name %>));
 <%
-} else if (type == 'float32' || type == 'float64') {
+} else if (type == 'float32' || type == 'float64' || type == 'int64') {
 -%>
 			auto <%= to_assign %> = context.CreateNumber(static_cast<double>(<%= argument_name %>));
 <%
@@ -28,25 +28,12 @@ if (type == 'bool') {
 	if (is_struct) {
 -%>
 			auto <%= to_assign %> = context.CreateObject();
-<%		for (field_name in other_type.fields) {
-			var field_type = other_type.fields[field_name].type;
-			if (field_type == 'int64' || field_type == 'float32' || field_type == 'double') {
--%>
-			<%= to_assign %>.SetProperty("<%= field_name %>", context.CreateNumber(static_cast<double>(<%= argument_name %>.<%= field_name %>)));
 <%
-			} else if (field_type == 'uint32') {
+		for (field_name in other_type.fields) {
 -%>
-			<%= to_assign %>.SetProperty("<%= field_name %>", context.CreateNumber(static_cast<uint32_t>(<%= argument_name %>.<%= field_name %>)));
+<%- include('native_to_js.cpp', {type: other_type.fields[field_name].type, metadata: metadata, to_assign: field_name + '_', argument_name: argument_name + '.' + field_name }) %>
+			<%= to_assign %>.SetProperty("<%= field_name %>", <%= field_name %>_);
 <%
-			} else if (field_type == 'string') {
--%>
-			<%= to_assign %>.SetProperty("<%= field_name %>", context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(<%= argument_name %>.<%= field_name %>)));
-<%
-			} else {
--%>
-			<%= to_assign %>.SetProperty("<%= field_name %>", context.CreateNumber(static_cast<int32_t>(<%= argument_name %>.<%= field_name %>)));
-<%
-			}
 		}
 	} else if (is_enum) {
 -%>
