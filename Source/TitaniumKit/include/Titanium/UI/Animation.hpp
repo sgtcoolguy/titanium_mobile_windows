@@ -1,5 +1,5 @@
 /**
- * Titanium.UI.Animation for Windows
+ * TitaniumKit Titanium.UI.Animation
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
@@ -11,6 +11,8 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/UI/Constants.hpp"
+#include "Titanium/UI/View.hpp"
+#include "Titanium/UI/2DMatrix.hpp"
 
 namespace Titanium
 {
@@ -18,6 +20,8 @@ namespace Titanium
 	{
 
 		using namespace HAL;
+
+		class View;
 
 		/*!
 		  @class
@@ -28,6 +32,13 @@ namespace Titanium
 		{
 
 		public:
+
+			/*!
+			  @property
+			  @abstract anchorPoint
+			  @discussion Coordinate of the view about which to pivot an animation.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(Point, anchorPoint);
 
 			/*!
 			  @property
@@ -55,7 +66,7 @@ namespace Titanium
 			  @abstract center
 			  @discussion Value of the `center` property at the end of the animation.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(JSObject, center);
+			TITANIUM_PROPERTY_IMPL_DEF(Point, center);
 
 			/*!
 			  @property
@@ -137,9 +148,9 @@ namespace Titanium
 			/*!
 			  @property
 			  @abstract transform
-			  @discussion Animate the view from its current tranform to the specified transform.
+			  @discussion Animate the view from its current transform to the specified transform.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(JSValue, transform);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<Titanium::UI::TwoDMatrix>, transform);
 
 			/*!
 			  @property
@@ -153,7 +164,7 @@ namespace Titanium
 			  @abstract view
 			  @discussion New view to transition to.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(JSValue, view);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<Titanium::UI::View>, view);
 
 			/*!
 			  @property
@@ -188,6 +199,10 @@ namespace Titanium
 #endif
 
 			static void JSExportInitialize();
+
+			TITANIUM_PROPERTY_DEF(anchorPoint);
+			TITANIUM_FUNCTION_DEF(getAnchorPoint);
+			TITANIUM_FUNCTION_DEF(setAnchorPoint);
 
 			TITANIUM_PROPERTY_DEF(autoreverse);
 			TITANIUM_FUNCTION_DEF(getAutoreverse);
@@ -276,10 +291,11 @@ namespace Titanium
 			protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+				Point anchorPoint__;
 				bool autoreverse__;
 				std::string backgroundColor__;
 				double bottom__;
-				JSObject center__;
+				Point center__;
 				std::string color__;
 				ANIMATION_CURVE curve__;
 				std::chrono::milliseconds delay__;
@@ -291,9 +307,9 @@ namespace Titanium
 				uint32_t repeat__;
 				double right__;
 				double top__;
-				JSValue transform__;
+				std::shared_ptr<Titanium::UI::TwoDMatrix> transform__;
 				uint32_t transition__;
-				JSValue view__;
+				std::shared_ptr<Titanium::UI::View> view__;
 				bool visible__;
 				double width__;
 				uint32_t zIndex__;
