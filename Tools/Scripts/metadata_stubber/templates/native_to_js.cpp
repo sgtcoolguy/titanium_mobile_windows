@@ -1,5 +1,5 @@
 <%
-// TODO uint8, int, uint16, int16, int64, uint64, single, char16
+// TODO int64, uint64, single, char16
 if (type == 'bool') {
 -%> 
 			auto <%= to_assign %> = context.CreateBoolean(<%= argument_name %>); 
@@ -7,6 +7,14 @@ if (type == 'bool') {
 } else if (type == 'int32' || type == 'uint32' || type == 'double') {
 -%> 
 			auto <%= to_assign %> = context.CreateNumber(<%= argument_name %>);
+<%
+} else if (type == 'uint16' || type == 'uint8') {
+-%>
+			auto <%= to_assign %> = context.CreateNumber(static_cast<uint32_t>(<%= argument_name %>));
+<%
+} else if (type == 'int16' || type == 'int') {
+-%>
+			auto <%= to_assign %> = context.CreateNumber(static_cast<int32_t>(<%= argument_name %>));
 <%
 } else if (type == 'string') {
 -%> 
@@ -27,12 +35,10 @@ if (type == 'bool') {
 
 	if (is_struct) {
 -%>
-			auto <%= to_assign %> = context.CreateObject();
-<%
+			auto <%= to_assign %> = context.CreateObject();<%
 		for (field_name in other_type.fields) {
 -%>
-<%- include('native_to_js.cpp', {type: other_type.fields[field_name].type, metadata: metadata, to_assign: field_name + '_', argument_name: argument_name + '.' + field_name }) %>
-			<%= to_assign %>.SetProperty("<%= field_name %>", <%= field_name %>_);
+<%- include('native_to_js.cpp', {type: other_type.fields[field_name].type, metadata: metadata, to_assign: field_name + '_', argument_name: argument_name + '.' + field_name }) -%>			<%= to_assign %>.SetProperty("<%= field_name %>", <%= field_name %>_);
 <%
 		}
 	} else if (is_enum) {

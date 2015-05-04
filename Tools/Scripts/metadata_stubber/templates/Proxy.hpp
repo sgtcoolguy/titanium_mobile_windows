@@ -54,6 +54,7 @@ if (parent_name == 'Module') { -%>
 		public:
 <%
 for (property_name in properties) {
+	// FIXME There _are_ such things as protected properties! See Windows::UI::Xaml::Controls::Control::DefaultStyleKey. We need to skip these!
 	if (properties[property_name]['setter']) { -%>
 			TITANIUM_PROPERTY_DEF(<%= property_name %>);
 <%

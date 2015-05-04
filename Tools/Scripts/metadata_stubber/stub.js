@@ -134,7 +134,7 @@ function getDependencies(classname) {
 			// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
 			if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
 				method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
-				method.returnType == 'void' || method.name == '.ctor') {
+				method.name == '.ctor') {
 					continue;
 			}
 			// Skip non-public methods

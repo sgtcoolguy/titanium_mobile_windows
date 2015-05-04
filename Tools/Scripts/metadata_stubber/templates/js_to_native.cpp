@@ -1,16 +1,16 @@
 <%
-// TODO uint8, int, uint16, int16, int64, uint64, single, char16
+// TODO int64, uint64, single, char16
 if (type == 'bool') {
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsBoolean(), "Expected boolean");
 			auto <%= to_assign %> = static_cast<bool>(<%= argument_name %>);
 <%
-} else if (type == 'int32') {
+} else if (type == 'int32' || type == 'int16' || type == 'int') {
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
 			auto <%= to_assign %> = static_cast<int32_t>(<%= argument_name %>);
 <%
-} else if (type == 'uint32') {
+} else if (type == 'uint32' || type == 'uint16' || type == 'uint8') {
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
 			auto <%= to_assign %> = static_cast<uint32_t>(<%= argument_name %>);
@@ -65,8 +65,7 @@ if (type == 'bool') {
 <%
 		for (field_name in other_type.fields) {
 -%>
-			auto <%= field_name %> = object_<%= to_assign %>.GetProperty("<%= field_name %>");
-<%- include('js_to_native.cpp', {type:  other_type.fields[field_name].type, metadata: metadata, to_assign: field_name + '_', argument_name: field_name}) %>
+			auto <%= field_name %> = object_<%= to_assign %>.GetProperty("<%= field_name %>");<%- include('js_to_native.cpp', {type:  other_type.fields[field_name].type, metadata: metadata, to_assign: field_name + '_', argument_name: field_name}) -%>
 			<%= to_assign %>.<%= field_name %> = <%= field_name %>_;
 <%
 		}
