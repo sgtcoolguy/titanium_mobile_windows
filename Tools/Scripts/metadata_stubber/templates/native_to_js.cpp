@@ -38,6 +38,10 @@ if (type == 'bool') {
 -%>
 			<%= to_assign %>.SetProperty("<%= field_name %>", context.CreateNumber(static_cast<uint32_t>(<%= argument_name %>.<%= field_name %>)));
 <%
+			} else if (field_type == 'string') {
+-%>
+			<%= to_assign %>.SetProperty("<%= field_name %>", context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(<%= argument_name %>.<%= field_name %>)));
+<%
 			} else {
 -%>
 			<%= to_assign %>.SetProperty("<%= field_name %>", context.CreateNumber(static_cast<int32_t>(<%= argument_name %>.<%= field_name %>)));
@@ -57,7 +61,11 @@ if (type == 'bool') {
 	var full_type_name = type.trim().replace(/\./g, '::');
 	if (full_type_name.indexOf('class ') == 0) {
 		full_type_name = full_type_name.substring(6);
-	} -%>
+	}
+	if (full_type_name == 'object') {
+		full_type_name = 'Platform::Object';
+	}
+-%>
 			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
 			// I'm not sure how we can avoid it, though
 			auto <%= to_assign %> = context.CreateObject(JSExport<<%- full_type_name %>>::Class());
