@@ -46,7 +46,7 @@ if (methods) {
 			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0) {
 				continue;
 		}
-		if (method.name == '.ctor') {
+		if (method.name == '.ctor' && method.attributes.indexOf("public") != -1) {
 			has_constructor = true;
 			continue;
 		}
