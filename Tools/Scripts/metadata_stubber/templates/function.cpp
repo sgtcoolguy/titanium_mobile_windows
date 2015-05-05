@@ -63,7 +63,8 @@ for (var i = 0; i < methods.length; i++) {
 				// FIXME This assumes int32, uint32, double. We need to handle other types!
 				// I've seen string, Point struct, float32, IMapView<K,V>, Rect struct, TabAlignment, TabLeader, JsonArray
 -%>
-<%- include('native_to_js.cpp', {type: type, metadata: metadata, to_assign: '_' + x, argument_name: arg.name}) %>
+<%- include('native_to_js.cpp', {type: type, metadata: metadata, to_assign: 'out_' + x, argument_name: arg.name}) %>
+				_<%= x %> = out_<%= x %>;
 <%
 			}
 		}
