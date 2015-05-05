@@ -99,7 +99,7 @@ if (type == 'bool') {
 			const auto array_<%= to_assign %> = static_cast<JSArray>(object_<%= to_assign %>);
 			auto items_<%= to_assign %> = array_<%= to_assign %>.GetPrivateItems<<%= full_type_name %>>(); // std::vector<std::shared_ptr<<%= full_type_name %>>
 			auto <%= to_assign %> = ref new ::Platform::Array<::<%= full_type_name %>^>(items_<%= to_assign %>.size());
-			for (int i = 0; i < items_<%= to_assign %>.size(); ++i) {
+			for (size_t i = 0; i < items_<%= to_assign %>.size(); ++i) {
 				items[i] = items_<%= to_assign %>.at(i)->unwrap<%= full_type_name.replace(/::/g, '_') %>();
 			}
 <%

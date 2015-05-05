@@ -67,16 +67,16 @@ if (type == 'bool') {
 		full_type_name = full_type_name.substring(0, full_type_name.length - 2);
 -%>
 			std::vector<JSValue> <%= to_assign %>_vector;
-			for (int i = 0; i < <%= argument_name %>->Length; ++i) {
-				auto <%= argument_name %>_tmp = context.CreateObject(JSExport<<%- full_type_name %>>::Class());
-				auto <%= argument_name %>_tmp_wrapper = <%= argument_name %>_tmp.GetPrivate<<%- full_type_name %>>();
-				<%= argument_name %>_tmp_wrapper->wrap(<%= argument_name %>[i]);
-        		<%= to_assign %>_vector.push_back(<%= argument_name %>_tmp);
+			for (size_t i = 0; i < <%- argument_name %>->Length; ++i) {
+				auto <%- argument_name %>_tmp = context.CreateObject(JSExport<<%- full_type_name %>>::Class());
+				auto <%- argument_name %>_tmp_wrapper = <%- argument_name %>_tmp.GetPrivate<<%- full_type_name %>>();
+				<%- argument_name %>_tmp_wrapper->wrap(<%- argument_name %>[i]);
+        		<%= to_assign %>_vector.push_back(<%- argument_name %>_tmp);
 			}
 
 			auto <%= to_assign %> = get_context().CreateArray(<%= to_assign %>_vector);
 <%
-	} else if (full_type_name.indexOf('::IVector') != -1 || full_type_name.indexOf('::IItera') != -1) { // IVector/IVectorView, or IIterable/IIterator
+	} else if (full_type_name.indexOf('::IVector') != -1) { // IVector/IVectorView
 		// Pull out the internal type!
 		full_type_name = full_type_name.substring(full_type_name.indexOf('`1<') + 3, full_type_name.length - 1);
 		if (full_type_name.indexOf('class ') == 0) {
@@ -84,7 +84,7 @@ if (type == 'bool') {
 		}
 -%>
 			std::vector<JSValue> <%= to_assign %>_vector;
-			for (int i = 0; i < <%= argument_name %>->Size; ++i) {
+			for (uint32_t i = 0; i < <%= argument_name %>->Size; ++i) {
 				auto <%= argument_name %>_tmp = context.CreateObject(JSExport<<%- full_type_name %>>::Class());
 				auto <%= argument_name %>_tmp_wrapper = <%= argument_name %>_tmp.GetPrivate<<%- full_type_name %>>();
 				<%= argument_name %>_tmp_wrapper->wrap(<%= argument_name %>->GetAt(i));
@@ -93,13 +93,58 @@ if (type == 'bool') {
 
 			auto <%= to_assign %> = get_context().CreateArray(<%= to_assign %>_vector);
 <%
+	} else  if (full_type_name.indexOf('::IIterator') != -1) { // IIterator
+		// Pull out the internal type!
+		full_type_name = full_type_name.substring(full_type_name.indexOf('`1<') + 3, full_type_name.length - 1);
+		if (full_type_name.indexOf('class ') == 0) {
+			full_type_name = full_type_name.substring(6);
+		}
+-%>
+			std::vector<JSValue> <%= to_assign %>_vector;
+			while (<%- argument_name %>->HasCurrent) {
+				<%- include('native_to_js.cpp', {type: full_type_name, metadata: metadata, to_assign: argument_name + '_tmp', argument_name: argument_name + '->Current' }) -%>
+        		<%= to_assign %>_vector.push_back(<%- argument_name %>_tmp);
+        		<%- argument_name %>->MoveNext();
+			}
+
+			auto <%= to_assign %> = get_context().CreateArray(<%= to_assign %>_vector);
+<%
+	} else  if (full_type_name.indexOf('::IIterable') != -1) { // IIterable
+		// Call First() method, then treat that as IIterator
+		full_type_name = full_type_name.substring(full_type_name.indexOf('`1<') + 3, full_type_name.length - 1);
+		full_type_name = 'Windows.Foundation.Collections.IIterator`1<' + full_type_name + '>';
+-%>
+			auto <%= to_assign %>_iter = <%- argument_name %>->First();
+			<%- include('native_to_js.cpp', {type: full_type_name, metadata: metadata, to_assign: to_assign, argument_name: to_assign + '_iter' }) -%>
+<%
+	} else if (full_type_name.indexOf('::IKeyValuePair') != -1) { // IKeyValuePair
+		// Pull out the internal type!
+		full_type_name = full_type_name.substring(full_type_name.indexOf('`2<') + 3, full_type_name.length - 1);
+		// Split the type in two using the comma
+		var commaIndex = full_type_name.indexOf(',');
+		var key_type_name = full_type_name.substring(0, commaIndex);
+		var value_type_name = full_type_name.substring(commaIndex + 1);
+		// Ideally we'd use a Map, but that's not in ECMAScript 5, it's in ES6!
+-%>
+			auto <%= to_assign %> = context.CreateObject();
+			<%- include('native_to_js.cpp', {type: key_type_name, metadata: metadata, to_assign: to_assign + '_key_tmp', argument_name: argument_name + '->Key' }) -%>
+			<%- include('native_to_js.cpp', {type: value_type_name, metadata: metadata, to_assign: to_assign + '_value_tmp', argument_name: argument_name + '->Value' }) -%>
+        	<%= to_assign %>.SetProperty("key", <%= to_assign %>_key_tmp);
+        	<%= to_assign %>.SetProperty("value", <%= to_assign %>_value_tmp);
+<%
+	} else if (full_type_name.indexOf('::IMap') != -1) { // IMap/IMapView
+		// Pull out the internal types for key and value!
+		full_type_name = full_type_name.substring(full_type_name.indexOf('`2<') + 3, full_type_name.length - 1);
+		// TODO Treat as equivalent of Iterable<IKeyValuePair<K,V>>
+		full_type_name = 'Windows.Foundation.Collections.IIterable`1<Windows.Foundation.Collections.IKeyValuePair`2<' + full_type_name + '>>';
+-%>
+<%- include('native_to_js.cpp', {type: full_type_name, metadata: metadata, to_assign: to_assign, argument_name: argument_name }) -%>
+<%
 	} else { // normal class
 -%>
-			// FIXME We're assuming the value is the exact type defined in the return type. It may be a subclass and we'll lose that detail here...
-			// I'm not sure how we can avoid it, though
 			auto <%= to_assign %> = context.CreateObject(JSExport<<%- full_type_name %>>::Class());
 			auto <%= to_assign %>_wrapper = <%= to_assign %>.GetPrivate<<%- full_type_name %>>();
-			<%= to_assign %>_wrapper->wrap(<%= argument_name %>);
+			<%= to_assign %>_wrapper->wrap(<%- argument_name %>);
 <% 
 	}
 }

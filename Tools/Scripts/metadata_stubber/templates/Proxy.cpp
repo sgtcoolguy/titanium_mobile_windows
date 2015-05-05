@@ -36,6 +36,17 @@ for (var i = 0; i < types_to_include.length; i++) {
 	if (index != -1) { // strip off templated portion of name!
 		type_name = type_name.substring(0, index);
 	}
+	// FIXME Skip duplicates!
+	// HACK, skip the types we auto-convert to JSArrays/JSObjects...
+	if (type_name == 'Windows.Foundation.Collections.IIterator' ||
+		type_name == 'Windows.Foundation.Collections.IIterable' ||
+		type_name == 'Windows.Foundation.Collections.IVector' ||
+		type_name == 'Windows.Foundation.Collections.IVectorView' ||
+		type_name == 'Windows.Foundation.Collections.IMap' ||
+		type_name == 'Windows.Foundation.Collections.IMapView' ||
+		type_name == 'Windows.Foundation.Collections.IKeyValuePair') {
+		continue;
+	}
 -%>
 #include "<%= type_name %>.hpp"
 <%
