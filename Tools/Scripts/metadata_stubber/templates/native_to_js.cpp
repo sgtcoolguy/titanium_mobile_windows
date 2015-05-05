@@ -59,7 +59,10 @@ if (type == 'bool') {
 		full_type_name = 'Platform::Object';
 	}
 
-	if (full_type_name.indexOf('[]') == full_type_name.length - 2) {
+	// TODO We should convert IMap, IMapView, IKeyValuePair to JSObject, much like we do vectors/iterators to JSArray
+	// TODO How do we handle other possible templated types like the Async stuff?
+
+	if (full_type_name.indexOf('[]') == full_type_name.length - 2) { // 'primitive' array
 		// Strip off the [], then proceed knowing it's an array...
 		full_type_name = full_type_name.substring(0, full_type_name.length - 2);
 -%>
@@ -71,7 +74,24 @@ if (type == 'bool') {
         		<%= to_assign %>_vector.push_back(<%= argument_name %>_tmp);
 			}
 
-			<%= to_assign %> = get_context().CreateArray(<%= to_assign %>_vector);
+			auto <%= to_assign %> = get_context().CreateArray(<%= to_assign %>_vector);
+<%
+	} else if (full_type_name.indexOf('::IVector') != -1 || full_type_name.indexOf('::IItera') != -1) { // IVector/IVectorView, or IIterable/IIterator
+		// Pull out the internal type!
+		full_type_name = full_type_name.substring(full_type_name.indexOf('`1<') + 3, full_type_name.length - 1);
+		if (full_type_name.indexOf('class ') == 0) {
+			full_type_name = full_type_name.substring(6);
+		}
+-%>
+			std::vector<JSValue> <%= to_assign %>_vector;
+			for (int i = 0; i < <%= argument_name %>->Size; ++i) {
+				auto <%= argument_name %>_tmp = context.CreateObject(JSExport<<%- full_type_name %>>::Class());
+				auto <%= argument_name %>_tmp_wrapper = <%= argument_name %>_tmp.GetPrivate<<%- full_type_name %>>();
+				<%= argument_name %>_tmp_wrapper->wrap(<%= argument_name %>->GetAt(i));
+        		<%= to_assign %>_vector.push_back(<%= argument_name %>_tmp);
+			}
+
+			auto <%= to_assign %> = get_context().CreateArray(<%= to_assign %>_vector);
 <%
 	} else { // normal class
 -%>
