@@ -84,7 +84,7 @@ if (type == 'bool') {
 	if (full_type_name.indexOf('class ') == 0) {
 		full_type_name = full_type_name.substring(6);
 	}
-	if (full_type_name == 'object') {
+	if (full_type_name == 'object' || full_type_name == '') {
 		full_type_name = 'Platform::Object';
 	}
 -%>
