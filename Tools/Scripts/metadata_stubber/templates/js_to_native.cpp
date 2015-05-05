@@ -65,8 +65,8 @@ if (type == 'bool') {
 <%
 		for (field_name in other_type.fields) {
 -%>
-			auto <%= field_name %> = object_<%= to_assign %>.GetProperty("<%= field_name %>");<%- include('js_to_native.cpp', {type:  other_type.fields[field_name].type, metadata: metadata, to_assign: field_name + '_', argument_name: field_name}) -%>
-			<%= to_assign %>.<%= field_name %> = <%= field_name %>_;
+			auto object_<%= to_assign %>_<%= field_name %> = object_<%= to_assign %>.GetProperty("<%= field_name %>");<%- include('js_to_native.cpp', {type:  other_type.fields[field_name].type, metadata: metadata, to_assign: 'object_' + to_assign + '_' + field_name + '_', argument_name: 'object_' + to_assign + '_' + field_name}) -%>
+			<%= to_assign %>.<%= field_name %> = object_<%= to_assign %>_<%= field_name %>_;
 <%
 		}
 	} else if (is_enum) {

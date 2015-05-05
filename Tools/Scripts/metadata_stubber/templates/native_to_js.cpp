@@ -38,7 +38,7 @@ if (type == 'bool') {
 			auto <%= to_assign %> = context.CreateObject();<%
 		for (field_name in other_type.fields) {
 -%>
-<%- include('native_to_js.cpp', {type: other_type.fields[field_name].type, metadata: metadata, to_assign: field_name + '_', argument_name: argument_name + '.' + field_name }) -%>			<%= to_assign %>.SetProperty("<%= field_name %>", <%= field_name %>_);
+<%- include('native_to_js.cpp', {type: other_type.fields[field_name].type, metadata: metadata, to_assign:  argument_name + '_' + field_name + '_', argument_name: argument_name + '.' + field_name }) -%>			<%= to_assign %>.SetProperty("<%= field_name %>", <%= argument_name %>_<%= field_name %>_);
 <%
 		}
 	} else if (is_enum) {

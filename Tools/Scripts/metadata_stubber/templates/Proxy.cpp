@@ -11,6 +11,7 @@ var underscore_name = full_name.replace(/\./g, '_');
 var name_upper = underscore_name.toUpperCase();
 var windows_name = full_name.to_windows_name();
 var has_constructor = false;
+var unique_methods = {}; // name to array of overloads
 
 var parent_name = "Titanium::Platform::Object";
 if (parent && parent.indexOf('[mscorlib]') != 0) {
@@ -99,6 +100,8 @@ for (property_name in properties) {
 if (methods) {
 	for (var i = 0; i < methods.length; i++) {
 		var method = methods[i];
+		var overloads = [];
+		// FIXME For this and below, we need to combine overloaded methods into one!
 		// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
 		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
 			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
@@ -109,6 +112,17 @@ if (methods) {
 		if (method.attributes.indexOf("public") == -1) {
 			continue;
 		}
+
+		// Combine overloaded methods...
+		overloads = unique_methods[method.name] || [];
+		var skip = overloads.length > 0;
+		overloads.unshift(method);
+		unique_methods[method.name] = overloads;
+		// don't add method twice
+		if (skip) {
+			continue;
+		}
+		
 -%>
 			TITANIUM_ADD_FUNCTION(<%= base_name %>, <%= method.name %>);
 <%
@@ -128,8 +142,9 @@ for (property_name in properties) {
 } // End Properties
 // Methods
 if (methods) {
-	for (var i = 0; i < methods.length; i++) {
-		var method = methods[i];
+	for (method_name in unique_methods) {
+		var methods = unique_methods[method_name];
+		var method = methods[0]; // FIXME We need to combine the definitions!
 		// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
 		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
 			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
@@ -140,9 +155,8 @@ if (methods) {
 		if (method.attributes.indexOf("public") == -1) {
 			continue;
 		}
-		// TODO handle overloads with same method name! We need to group methods by name and then use one bridge function per unique name and have it delegate to right native method based on arg count!
 -%>
-<%- include('function.cpp', {base_name: base_name, method: method}) %>
+<%- include('function.cpp', {base_name: base_name, methods: methods}) %>
 <%
 	}
 }

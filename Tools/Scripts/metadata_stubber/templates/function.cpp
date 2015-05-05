@@ -1,68 +1,83 @@
-		TITANIUM_FUNCTION(<%= base_name %>, <%= method.name %>)
+		TITANIUM_FUNCTION(<%= base_name %>, <%= methods[0].name %>)
 		{
+			auto context = get_context();
 <%
 var arguments = "",
 	arg,
 	type,
-	as_param;
+	as_param,
+	method;
 
-// Build up our arguments!
-for (var x = 0; x < method.args.length; x++) {
-	arg = method.args[x];
-	type = arg.type;
-	as_param = arg.name;
-	if (arg.inout == "out") {
-		if (type.indexOf('[]') == type.length - 2) { // it's an array!
-			// Don't prepend with &, and don't mess up the type name, since it won't have a trailing &
-		} else {
-			as_param = "&" + as_param;
-			type = type.substring(0, type.length - 1); // drop & from type we pass along to conversion
+// FIXME We should be smarter about dispatching to overloads. Arg count alone isn't enough. We need to distinguish types too!
+for (var i = 0; i < methods.length; i++) {
+	arguments = "";
+	method = methods[i];
+
+-%>
+			if (arguments.size() == <%= method.args.length %>) {
+<%
+	// Build up our arguments!
+	for (var x = 0; x < method.args.length; x++) {
+		arg = method.args[x];
+		type = arg.type;
+		as_param = arg.name;
+		if (arg.inout == "out") {
+			if (type.indexOf('[]') == type.length - 2) { // it's an array!
+				// Don't prepend with &, and don't mess up the type name, since it won't have a trailing &
+			} else {
+				as_param = "&" + as_param;
+				type = type.substring(0, type.length - 1); // drop & from type we pass along to conversion
+			}
 		}
+		arguments += as_param + ", ";
+-%>
+				auto _<%= x %> = arguments.at(<%= x %>);<%- include('js_to_native.cpp', {type: type, metadata: metadata, to_assign: arg.name, argument_name: '_' + x}) -%>
+
+<%
 	}
-	arguments += as_param + ", ";
+
+	// Chop off trailing ", "
+	if (method.args.length > 0) {
+		arguments = arguments.substring(0, arguments.length - 2);
+	}
+
+	// Now invoke the method and return the result!
+	if (method.returnType == 'void') {
 -%>
-			auto _<%= x %> = arguments.at(<%= x %>);<%- include('js_to_native.cpp', {type: type, metadata: metadata, to_assign: arg.name, argument_name: '_' + x}) -%>
-
+				unwrap()-><%= method.name %>(<%= arguments %>);
+				return context.CreateUndefined(); 
 <%
-}
-
-// Chop off trailing ", "
-if (method.args.length > 0) {
-	arguments = arguments.substring(0, arguments.length - 2);
-}
-
-// Now invoke the method and return the result!
-if (method.returnType == 'void') {
+	} else {
 -%>
-			unwrap()-><%= method.name %>(<%= arguments %>);
-			return get_context().CreateUndefined(); 
+				auto method_result = unwrap()-><%= method.name %>(<%- arguments %>);<%- include('native_to_js.cpp', {type: method.returnType, metadata: metadata, to_assign: 'result', argument_name: 'method_result'}) -%>
 <%
-} else {
--%>
-			auto context = get_context();
-			auto method_result = unwrap()-><%= method.name %>(<%- arguments %>);
+		// If we had "out" parameters, we now need to assign the values back to the JS Objects before returning result!
 
-<%- include('native_to_js.cpp', {type: method.returnType, metadata: metadata, to_assign: 'result', argument_name: 'method_result'}) %>
-<%
-// If we had "out" parameters, we now need to assign the values back to the JS Objects before returning result!
-
-for (var x = 0; x < method.args.length; x++) {
-	arg = method.args[x];
-	type = arg.type;
-	if (arg.inout == "out") {
-		if (type.indexOf('[]') == -1) { // Not an array...
-			type = type.substring(0, type.length - 1); // drop & from type we pass along to conversion
-		}
-		// FIXME This assumes int32, uint32, double. We need to handle other types!
-		// I've seen string, Point struct, float32, IMapView<K,V>, Rect struct, TabAlignment, TabLeader, JsonArray
+		for (var x = 0; x < method.args.length; x++) {
+			arg = method.args[x];
+			type = arg.type;
+			if (arg.inout == "out") {
+				if (type.indexOf('[]') == -1) { // Not an array...
+					type = type.substring(0, type.length - 1); // drop & from type we pass along to conversion
+				}
+				// FIXME This assumes int32, uint32, double. We need to handle other types!
+				// I've seen string, Point struct, float32, IMapView<K,V>, Rect struct, TabAlignment, TabLeader, JsonArray
 -%>
 <%- include('native_to_js.cpp', {type: type, metadata: metadata, to_assign: '_' + x, argument_name: arg.name}) %>
 <%
-	}
-}
+			}
+		}
 -%>
-			return result;
+				return result;
+<%
+	}
+-%>
+			}
+
 <%
 }
 -%>
+			// Catch-all if no arg count matches!
+			TITANIUM_LOG_DEBUG("No method signature matched <%= base_name %>::<%= methods[0].name %> with # of args: ", arguments.size());
+			return context.CreateUndefined(); 
 		}
