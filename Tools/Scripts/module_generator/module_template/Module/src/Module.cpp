@@ -36,6 +36,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 
 #include "TitaniumWindows/<%= module_path %>.hpp"
 #include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
 {
