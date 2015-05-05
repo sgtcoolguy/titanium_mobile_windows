@@ -44,7 +44,7 @@ namespace TitaniumWindows
 		auto windows_ui_xaml_controls_page_object = context.CreateObject(JSExport<Titanium::Windows::UI::Xaml::Controls::Page>::Class());
 
 		auto windows_ui_xaml_controls_object = context.CreateObject();
-		windows_ui_xaml_controls_object.SetProperty("Canvas", windows_ui_xaml_controls_page_object);
+		windows_ui_xaml_controls_object.SetProperty("Canvas", windows_ui_xaml_controls_canvas_object);
 		windows_ui_xaml_controls_object.SetProperty("Page", windows_ui_xaml_controls_page_object);
 		windows_ui_xaml_controls_object.SetProperty("TextBlock", windows_ui_xaml_controls_textblock_object);
 
