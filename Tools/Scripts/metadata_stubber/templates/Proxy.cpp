@@ -10,13 +10,24 @@ var base_name = namespaces[namespaces.length - 1];
 var underscore_name = full_name.replace(/\./g, '_');
 var name_upper = underscore_name.toUpperCase();
 var windows_name = full_name.to_windows_name();
-var has_constructor = false;
 var unique_methods = {}; // name to array of overloads
 
 var parent_name = "Titanium::Platform::Object";
 if (parent && parent.indexOf('[mscorlib]') != 0) {
 	parent_name = parent.trim();
 }
+
+// Find the constructor
+var constructor = null;
+if (methods) {
+	for (var i = 0; i < methods.length; i++) {
+		if (methods[i].name == '.ctor' && methods[i].attributes.indexOf('public') != -1) {
+			constructor = methods[i];
+			break;
+		}
+	}
+}
+
 
 // gather all the types referenced in this file! We calculated this already in stub.js (assuming we set seeds)
 var types_to_include = dependencies || [full_name];
@@ -61,15 +72,38 @@ for (var i = 0; i < types_to_include.length; i++) {
 		<%= base_name %>::<%= base_name %>(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: <%= parent_name.to_windows_name() %>(js_context)
 		{
+			TITANIUM_LOG_DEBUG("<%= base_name %>::ctor");
 		}
 
-		void <%= base_name %>::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
-		{	
+		void <%= base_name %>::postCallAsConstructor(const JSContext& context, const std::vector<JSValue>& arguments)
+		{
+			TITANIUM_LOG_DEBUG("<%= base_name %>::postCallAsConstructor ", this);
 <%
-if (has_constructor) {
+if (constructor) {
+
+	var arguments = "",
+		arg,
+		type,
+		as_param;
+
+	// Build up our arguments!
+	for (var x = 0; x < constructor.args.length; x++) {
+		arg = constructor.args[x];
+		type = arg.type;
+		as_param = arg.name;
+		arguments += as_param + ", ";
 -%>
-			// TODO Handle passing along args to the constructor. Not all items have default constructor!
-			wrapped__ = ref new ::<%= windows_name %>();
+				auto _<%= x %> = arguments.at(<%= x %>);<%- include('js_to_native.cpp', {type: type, metadata: metadata, to_assign: arg.name, argument_name: '_' + x}) -%>
+
+<%
+	}
+
+	// Chop off trailing ", "
+	if (constructor.args.length > 0) {
+		arguments = arguments.substring(0, arguments.length - 2);
+	}
+-%>
+			wrapped__ = ref new ::<%= windows_name %>(<%= arguments %>);
 <%
 }
 -%>
