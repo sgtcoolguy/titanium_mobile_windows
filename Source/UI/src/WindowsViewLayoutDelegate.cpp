@@ -95,6 +95,35 @@ namespace TitaniumWindows
 				storyboard->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::FromCount(repeat);
 			}
 
+			// curve/ease
+			auto curve = animation->get_curve();
+			// TODO Expand the set of animation curves available to encompass all the ones from Windows!
+			// http://iphonedevelopment.blogspot.com/2010/12/more-animation-curves-than-you-can.html
+			// Here's where iOS defines it's Bezier control points! 
+			// https://developer.apple.com/library/mac/documentation/Cocoa/Reference/CAMediaTimingFunction_class/index.html#//apple_ref/doc/constant_group/Predefined_Timing_Functions
+			// There are no equivalent easing functions on Windows!!!! They look/behave differently.
+			// You can compare the values used here: http://easings.net/
+			Windows::UI::Xaml::Media::Animation::EasingFunctionBase^ ease;
+			switch (curve) {
+			case Titanium::UI::ANIMATION_CURVE::EASE_IN:
+				ease = ref new Windows::UI::Xaml::Media::Animation::CubicEase();
+				ease->EasingMode = Windows::UI::Xaml::Media::Animation::EasingMode::EaseIn;
+				break;
+			case Titanium::UI::ANIMATION_CURVE::EASE_IN_OUT:
+				ease = ref new Windows::UI::Xaml::Media::Animation::CubicEase();
+				ease->EasingMode = Windows::UI::Xaml::Media::Animation::EasingMode::EaseInOut;
+				break;
+			case Titanium::UI::ANIMATION_CURVE::EASE_OUT:
+				ease = ref new Windows::UI::Xaml::Media::Animation::CubicEase();
+				ease->EasingMode = Windows::UI::Xaml::Media::Animation::EasingMode::EaseOut;
+				break;
+			case Titanium::UI::ANIMATION_CURVE::LINEAR:
+				ease = nullptr;
+				break;
+			default:
+				break;
+			}
+
 			auto component = getComponent();
 
 			// transform
@@ -148,52 +177,84 @@ namespace TitaniumWindows
 
 				component->RenderTransform = group;
 
-
 				auto rotation_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				rotation_anim->To = rotation;
+				rotation_anim->EasingFunction = ease;
 				storyboard->SetTargetProperty(rotation_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)");
 				storyboard->SetTarget(rotation_anim, component);
 				storyboard->Children->Append(rotation_anim);
 
 				auto scale_x_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				scale_x_anim->To = a;
+				scale_x_anim->EasingFunction = ease;
 				storyboard->SetTargetProperty(scale_x_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleX)");
 				storyboard->SetTarget(scale_x_anim, component);
 				storyboard->Children->Append(scale_x_anim);
 
 				auto scale_y_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				scale_y_anim->To = d;
+				scale_y_anim->EasingFunction = ease;
 				storyboard->SetTargetProperty(scale_y_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleY)");
 				storyboard->SetTarget(scale_y_anim, component);
 				storyboard->Children->Append(scale_y_anim);
 
 				auto tx_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				tx_anim->To = animation->get_transform()->get_tx();
+				tx_anim->EasingFunction = ease;
 				storyboard->SetTargetProperty(tx_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateX)");
 				storyboard->SetTarget(tx_anim, component);
 				storyboard->Children->Append(tx_anim);
 
 				auto ty_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				ty_anim->To = animation->get_transform()->get_ty();
+				ty_anim->EasingFunction = ease;
 				storyboard->SetTargetProperty(ty_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateY)");
 				storyboard->SetTarget(ty_anim, component);
 				storyboard->Children->Append(ty_anim);
 			} else {
-				// I'm assuming that we can only do transform _or_ top/left/right/center/bottom animations - not mix them.
+				// I'm assuming that we can only do transform *OR* top/left/right/center/bottom/width/height animations - not mix them.
+
+				// TODO What are the relative priorities of these properties?
+				// Should we prefer transform to any of these others?
+				// What about if they animate top AND bottom, and also height? Which wins? Can top/bottom only translate and not scale?
+
+				// See https://github.com/appcelerator/titanium_mobile_windows/blob/master/Examples/NMocha/src/Assets/ti.ui.layout.test.js
+				// https://github.com/appcelerator/titanium_mobile/blob/58198c641d77e17d156431666e80bae732b5c130/android/titanium/src/java/org/appcelerator/titanium/util/TiAnimationBuilder.java#L430
+				// When left, right and center are specified, left and center win (for determining width and position)
+				// When top, bottom and height are specified, height and top win (for determining height and position)
+				// when top, bottom and center are specified, top and center win (for determining height and position)
+
+				// Need to group up the transforms like we do above so we can do both translate and scale!
+				auto group = ref new Windows::UI::Xaml::Media::TransformGroup();
+				auto translate = ref new Windows::UI::Xaml::Media::TranslateTransform();
+				auto rotate = ref new Windows::UI::Xaml::Media::RotateTransform();
+				auto composite = ref new Windows::UI::Xaml::Media::CompositeTransform(); // cheat and use composite to do scale and then skew
+				group->Children->Append(translate);
+				group->Children->Append(rotate);
+				group->Children->Append(composite);
+
+				component->RenderTransform = group;
+
 				auto top = animation->get_top();
-				if (top != 0) { // FIXME How can I tell if we've actually specified this or not? We need equivalent of Option type...
+				if (top != 0) { // FIXME How can I tell if we've actually specified this or not? We need equivalent of Option/IReference type...
 					// TODO Bottom
 					// Because we're animating a transform, the value behaves like setting By, not To. So we need to calculate the difference and set our target To to that value
 					auto current_top = Windows::UI::Xaml::Controls::Canvas::GetTop(component);
 					const auto diff = top - current_top;
 					
-					auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-					double_anim->To = diff;
-					component->RenderTransform = ref new Windows::UI::Xaml::Media::TranslateTransform();
-					storyboard->SetTargetProperty(double_anim, "(UIElement.RenderTransform).(TranslateTransform.Y)");
-					storyboard->SetTarget(double_anim, component);
-					storyboard->Children->Append(double_anim);
+					auto top_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+					top_anim->To = diff;
+					top_anim->EasingFunction = ease;
+					storyboard->SetTargetProperty(top_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateY)");
+					storyboard->SetTarget(top_anim, component);
+					storyboard->Children->Append(top_anim);
 				}
+
+				Platform::IBox<std::uint32_t>^ maybe_int;
+
+				// TODO if they specify top AND bottom and DON'T specify height, we should translate top, and treat bottom - top as height.
+				// If they specify bottom AND height, BUT NOT top; we should translate bottom and scale height?
+				// If they specify just bottom, no top or height, just translate bottom?
 
 				auto left = animation->get_left(); // TODO Right
 				if (left != 0) { // FIXME How can I tell if we've actually specified this or not?
@@ -201,12 +262,38 @@ namespace TitaniumWindows
 					auto current_left = Windows::UI::Xaml::Controls::Canvas::GetLeft(component);
 					const auto diff = left - current_left;
 
-					auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-					double_anim->To = diff;
-					component->RenderTransform = ref new Windows::UI::Xaml::Media::TranslateTransform();
-					storyboard->SetTargetProperty(double_anim, "(UIElement.RenderTransform).(TranslateTransform.X)");
-					storyboard->SetTarget(double_anim, component);
-					storyboard->Children->Append(double_anim);
+					auto left_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+					left_anim->To = diff;
+					left_anim->EasingFunction = ease;
+					storyboard->SetTargetProperty(left_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateX)");
+					storyboard->SetTarget(left_anim, component);
+					storyboard->Children->Append(left_anim);
+				}
+
+
+				// For width and height, we have to calculate the scale to use to achieve desired height/width, since animating the Height or Width properties are ppor performance-wise and best avoided.
+				auto height = animation->get_height();
+				if (height != 0) { // FIXME How can I tell if we've actually specified this or not?
+					auto height_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+					auto current_height = component->Height;
+					auto scaleY = height / current_height;
+					height_anim->To = scaleY;  // TODO Need to determine scale to use to achieve the desired height!
+					height_anim->EasingFunction = ease;
+					storyboard->SetTargetProperty(height_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleY)");
+					storyboard->SetTarget(height_anim, component);
+					storyboard->Children->Append(height_anim);
+				}
+
+				auto width = animation->get_width();
+				if (width != 0) { // FIXME How can I tell if we've actually specified this or not? Use Platform::IBox<T>!
+					auto width_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+					auto current_width = component->Width;
+					auto scaleX = height / current_width;
+					width_anim->To = scaleX;
+					width_anim->EasingFunction = ease;
+					storyboard->SetTargetProperty(width_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleX)");
+					storyboard->SetTarget(width_anim, component);
+					storyboard->Children->Append(width_anim);
 				}
 			}
 
@@ -216,6 +303,7 @@ namespace TitaniumWindows
 				auto color_anim = ref new Windows::UI::Xaml::Media::Animation::ColorAnimation();
 				const auto color = ColorForName(bg_color);
 				color_anim->To = color;
+				color_anim->EasingFunction = ease;
 
 				if (is_panel__) {
 					storyboard->SetTargetProperty(color_anim, "(Panel.Background).(SolidColorBrush.Color)");
@@ -232,6 +320,7 @@ namespace TitaniumWindows
 				auto color_anim = ref new Windows::UI::Xaml::Media::Animation::ColorAnimation();
 				const auto color = ColorForName(fg_color);
 				color_anim->To = color;
+				color_anim->EasingFunction = ease;
 
 				if (is_panel__) {
 					storyboard->SetTargetProperty(color_anim, "(Panel.Background).(SolidColorBrush.Color)");
@@ -247,10 +336,37 @@ namespace TitaniumWindows
 			if (opacity >= 0) { // assume negative opacity means we never set one!
 				auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				double_anim->To = static_cast<double>(opacity);
+				double_anim->EasingFunction = ease;
 
 				storyboard->SetTargetProperty(double_anim, "Opacity");
 				storyboard->SetTarget(double_anim, component);
 				storyboard->Children->Append(double_anim);
+			}
+
+			// zIndex
+			auto zIndex = animation->get_zIndex();
+			auto current_zIndex = Windows::UI::Xaml::Controls::Canvas::GetZIndex(component);
+			if (zIndex != current_zIndex) {
+				auto zIndex_anim = ref new Windows::UI::Xaml::Media::Animation::ObjectAnimationUsingKeyFrames();
+				
+				// FIXME This just transitions from current zIndex to new all at once at end of animation. We need to do our own interpolation based on the curve!
+				auto start_frame = ref new Windows::UI::Xaml::Media::Animation::DiscreteObjectKeyFrame();
+				start_frame->Value = current_zIndex;
+				Windows::Foundation::TimeSpan start_timespan;
+				start_timespan.Duration = 0;
+				Windows::UI::Xaml::Media::Animation::KeyTime start_time;
+				start_time.TimeSpan = start_timespan;
+				start_frame->KeyTime = start_time;
+				zIndex_anim->KeyFrames->Append(start_frame);
+
+				auto end_frame = ref new Windows::UI::Xaml::Media::Animation::DiscreteObjectKeyFrame();
+				end_frame->Value = zIndex;
+				end_frame->KeyTime = Windows::UI::Xaml::Media::Animation::KeyTimeHelper::FromTimeSpan(duration);
+				zIndex_anim->KeyFrames->Append(end_frame);
+
+				storyboard->SetTargetProperty(zIndex_anim, "(Canvas.ZIndex)");
+				storyboard->SetTarget(zIndex_anim, component);
+				storyboard->Children->Append(zIndex_anim);
 			}
 
 			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, this_object, animation](Platform::Object^ sender, Platform::Object ^ e) mutable {
