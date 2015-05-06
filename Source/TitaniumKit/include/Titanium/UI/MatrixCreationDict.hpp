@@ -32,7 +32,7 @@ namespace Titanium
 		};
 
 		MatrixCreationDict js_to_MatrixCreationDict(const JSObject& object);
-		JSObject MatrixCreationDict_to_js(const JSContext& js_context, MatrixCreationDict dict);
+		JSObject MatrixCreationDict_to_js(const JSContext& js_context, const MatrixCreationDict& dict);
 		
 	} // namespace UI
 } // namespace Titanium

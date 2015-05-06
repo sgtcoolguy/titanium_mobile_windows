@@ -10,6 +10,9 @@
 #define _TITANIUM_UI_HPP_
 
 #include "Titanium/Module.hpp"
+#include "Titanium/UI/ScrollableView.hpp"
+#include "Titanium/UI/ProgressBar.hpp"
+#include "Titanium/UI/OptionDialog.hpp"
 #include "Titanium/UI/2DMatrix.hpp"
 #include "Titanium/UI/ActivityIndicator.hpp"
 #include "Titanium/UI/ActivityIndicatorStyle.hpp"
@@ -31,6 +34,9 @@
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/WebView.hpp"
 #include "Titanium/UI/Window.hpp"
+#include "Titanium/UI/OptionDialog.hpp"
+#include "Titanium/UI/ProgressBar.hpp"
+#include "Titanium/UI/ScrollableView.hpp"
 
 namespace Titanium
 {
@@ -252,7 +258,10 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(createView);
 		TITANIUM_FUNCTION_DEF(createWebView);
 		TITANIUM_FUNCTION_DEF(createWindow);
-		
+		TITANIUM_FUNCTION_DEF(createOptionDialog);
+		TITANIUM_FUNCTION_DEF(createProgressBar);
+		TITANIUM_FUNCTION_DEF(createScrollableView);
+
 		TITANIUM_FUNCTION_DEF(getBackgroundColor);
 		TITANIUM_FUNCTION_DEF(setBackgroundColor);
 		TITANIUM_FUNCTION_DEF(getBackgroundImage);

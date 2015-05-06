@@ -33,7 +33,7 @@ namespace Titanium
 		  ui__(js_context__.CreateObject(JSExport<Titanium::UIModule>::Class())),
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
-	      twodmatrix__(js_context__.CreateObject(JSExport<Titanium::UI::TwoDMatrix>::Class())),
+		  twodmatrix__(js_context__.CreateObject(JSExport<Titanium::UI::TwoDMatrix>::Class())),
 		  geolocation__(js_context__.CreateObject(JSExport<Titanium::GeolocationModule>::Class())),
 		  switch__(js_context__.CreateObject(JSExport<Titanium::UI::Switch>::Class())),
 		  utils__(js_context__.CreateObject(JSExport<Titanium::Utils>::Class())),
@@ -72,7 +72,10 @@ namespace Titanium
 		  tableviewsection__(js_context__.CreateObject(JSExport<Titanium::UI::TableViewSection>::Class())),
 		  tableviewrow__(js_context__.CreateObject(JSExport<Titanium::UI::TableViewRow>::Class())),
 		  activityIndicator__(js_context__.CreateObject(JSExport<Titanium::UI::ActivityIndicator>::Class())),
-		  activityIndicatorStyle__(js_context__.CreateObject(JSExport<Titanium::UI::ActivityIndicatorStyle>::Class()))
+		  activityIndicatorStyle__(js_context__.CreateObject(JSExport<Titanium::UI::ActivityIndicatorStyle>::Class())),
+		  optionDialog__(js_context__.CreateObject(JSExport<Titanium::UI::OptionDialog>::Class())),
+		  progressBar__(js_context__.CreateObject(JSExport<Titanium::UI::ProgressBar>::Class())),
+		  scrollableView__(js_context__.CreateObject(JSExport<Titanium::UI::ScrollableView>::Class()))
 	{
 	}
 
@@ -99,6 +102,9 @@ namespace Titanium
 		ui__.SetProperty("View", view__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("WebView", webview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Window", window__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("OptionDialog", optionDialog__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		ui__.SetProperty("ProgressBar", progressBar__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		ui__.SetProperty("ScrollableView", scrollableView__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 
 		filesystem__.SetProperty("File", file__);
 		network__.SetProperty("HTTPClient", httpclient__);
@@ -132,7 +138,7 @@ namespace Titanium
 		// XML
 		titanium.SetProperty("XML", xml__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 
-JSString builtin_functions_script = R"js(
+		JSString builtin_functions_script = R"js(
 			  console = {};
 			  console.log   = Ti.API.info;
 			  console.info  = Ti.API.info;
@@ -640,6 +646,39 @@ JSString builtin_functions_script = R"js(
 	ApplicationBuilder& ApplicationBuilder::ActivityIndicatorStyleObject(const JSObject& value) TITANIUM_NOEXCEPT
 	{
 		activityIndicatorStyle__ = value;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::OptionDialogObject() const TITANIUM_NOEXCEPT
+	{
+		return optionDialog__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::OptionDialogObject(const JSObject& value) TITANIUM_NOEXCEPT
+	{
+		optionDialog__ = value;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::ProgressBarObject() const TITANIUM_NOEXCEPT
+	{
+		return progressBar__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::ProgressBarObject(const JSObject& value) TITANIUM_NOEXCEPT
+	{
+		progressBar__ = value;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::ScrollableViewObject() const TITANIUM_NOEXCEPT
+	{
+		return scrollableView__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::ScrollableViewObject(const JSObject& value) TITANIUM_NOEXCEPT
+	{
+		scrollableView__ = value;
 		return *this;
 	}
 

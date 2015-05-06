@@ -53,7 +53,7 @@ namespace Titanium
 		GradientColorRef js_to_GradientColorRef(const std::string& color);
 		GradientColorRef js_to_GradientColorRef(const JSObject& object);
 		Gradient js_to_Gradient(const JSObject& object);
-		JSObject Gradient_to_js(const JSContext& js_context, Gradient gradient);
+		JSObject Gradient_to_js(const JSContext& js_context, const Gradient& gradient);
 		
 	} // namespace UI
 } // namespace Titanium

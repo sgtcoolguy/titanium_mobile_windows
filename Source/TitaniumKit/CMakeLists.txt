@@ -214,6 +214,16 @@ set(SOURCE_UI
   src/UI/2DMatrix.cpp
   include/Titanium/UI/MatrixCreationDict.hpp
   src/UI/MatrixCreationDict.cpp
+  include/Titanium/UI/ProgressBar.hpp
+  src/UI/ProgressBar.cpp
+  include/Titanium/UI/ScrollableView.hpp
+  src/UI/ScrollableView.cpp
+  include/Titanium/UI/OptionDialog.hpp
+  src/UI/OptionDialog.cpp
+  include/Titanium/UI/OptionDialogShowParams.hpp
+  src/UI/OptionDialogShowParams.cpp
+  include/Titanium/UI/OptionDialogHideParams.hpp
+  src/UI/OptionDialogHideParams.cpp
   )
 
 set(SOURCE_TiLogger_detail

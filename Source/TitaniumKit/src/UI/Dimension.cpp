@@ -32,7 +32,7 @@ namespace Titanium
 			return dimension;
 		};
 
-		JSObject Dimension_to_js(const JSContext& context, Dimension dimension)
+		JSObject Dimension_to_js(const JSContext& context, const Dimension& dimension)
 		{
 			auto object = context.CreateObject();
 			object.SetProperty("x", context.CreateNumber(dimension.x));

@@ -84,6 +84,9 @@ namespace TitaniumWindows
 		                                                            .TableViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TableView>::Class()))
 		                                                            .TableViewRowObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TableViewRow>::Class()))
 		                                                            .ActivityIndicatorObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ActivityIndicator>::Class()))
+		                                                            .OptionDialogObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::OptionDialog>::Class()))
+		                                                            .ProgressBarObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ProgressBar>::Class()))
+		                                                            .ScrollableViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ScrollableView>::Class()))
 		                                                            .build());
 
 		Suspending += ref new Windows::UI::Xaml::SuspendingEventHandler(this, &Application::OnSuspending);

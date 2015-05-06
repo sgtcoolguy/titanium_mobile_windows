@@ -13,6 +13,9 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
+		using namespace Windows::UI::Popups;
+		using namespace Windows::Foundation;
+
 		AlertDialog::AlertDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Titanium::UI::AlertDialog(js_context),
 			buttons__()
@@ -37,40 +40,30 @@ namespace TitaniumWindows
 			std::string message = get_message();
 
 			Windows::UI::Popups::MessageDialog^ dialog = ref new Windows::UI::Popups::MessageDialog(TitaniumWindows::Utility::ConvertUTF8String(message), TitaniumWindows::Utility::ConvertUTF8String(title));
-			
-			// Set up buttons
-			if (buttons__.size() > 0) {
-				// TODO If user set no custom buttons, we still need to hook click listeners to the defaults!
-				const JSContext ctx = get_context();
-				for (std::vector<std::string>::size_type i = 0; i != buttons__.size(); i++) {
-					std::string buttonName = buttons__[i];
+			dialog->DefaultCommandIndex = 0;
 
-					// TODO Take into account the click_event_count?
-					auto command_invoked_handler = ref new Windows::UI::Popups::UICommandInvokedHandler([this, ctx, i](Windows::UI::Popups::IUICommand^ command) {
-						JSObject eventArgs = ctx.CreateObject();
-						eventArgs.SetProperty("index", ctx.CreateNumber(i));
-						this->fireEvent("click", eventArgs);
-					});
-
-					// The alert's "buttons" are UICommand, they take a title and an action.
-					dialog->Commands->Append(ref new Windows::UI::Popups::UICommand(TitaniumWindows::Utility::ConvertUTF8String(buttonName), command_invoked_handler));
-				}
+			const auto cancelIndex = get_cancel();
+			if (cancelIndex >= 0) {
+				dialog->CancelCommandIndex = get_cancel();
 			}
-			dialog->ShowAsync();
+
+			for (std::vector<std::string>::size_type i = 0; i != buttons__.size(); i++) {
+				dialog->Commands->Append(ref new Windows::UI::Popups::UICommand(TitaniumWindows::Utility::ConvertUTF8String(buttons__[i]), nullptr, PropertyValue::CreateInt32(i)));
+			}
+
+			concurrency::create_task(dialog->ShowAsync()).then([this](IUICommand^ command) {
+				const auto index = dynamic_cast<IPropertyValue^>(command->Id)->GetInt32();
+				const JSContext ctx = get_context();
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("index", ctx.CreateNumber(index));
+				eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
+				fireEvent("click", eventArgs);
+			});
 		}
 
 		void AlertDialog::addButton(const std::string& buttonName) TITANIUM_NOEXCEPT
 		{
 			buttons__.push_back(buttonName);
-		}
-
-		void AlertDialog::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::AlertDialog::enableEvent(event_name);
-
-			if (event_name == "click") {
-				return;
-			}
 		}
 	} // namespace UI
 } // namespace TitaniumWindows

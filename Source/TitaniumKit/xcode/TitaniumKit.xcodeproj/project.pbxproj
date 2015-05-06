@@ -139,6 +139,30 @@
 		F99AE3B51ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F99AE3B31ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp */; };
 		F99AE3B81ADFA30300D0F91E /* ActivityIndicator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F99AE3B61ADFA30300D0F91E /* ActivityIndicator.cpp */; };
 		F99AE3B91ADFA30300D0F91E /* ActivityIndicatorStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F99AE3B71ADFA30300D0F91E /* ActivityIndicatorStyle.cpp */; };
+		F9ACB7C31AF9CDCD008C2F3C /* 2DMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9ACB7BA1AF9CDCD008C2F3C /* 2DMatrix.cpp */; };
+		F9ACB7C41AF9CDCD008C2F3C /* MatrixCreationDict.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9ACB7BB1AF9CDCD008C2F3C /* MatrixCreationDict.cpp */; };
+		F9ACB7C51AF9CDCD008C2F3C /* OptionDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9ACB7BC1AF9CDCD008C2F3C /* OptionDialog.cpp */; };
+		F9ACB7C61AF9CDCD008C2F3C /* OptionDialogHideParams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9ACB7BD1AF9CDCD008C2F3C /* OptionDialogHideParams.cpp */; };
+		F9ACB7C71AF9CDCD008C2F3C /* OptionDialogShowParams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9ACB7BE1AF9CDCD008C2F3C /* OptionDialogShowParams.cpp */; };
+		F9ACB7C81AF9CDCD008C2F3C /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9ACB7BF1AF9CDCD008C2F3C /* ProgressBar.cpp */; };
+		F9ACB7C91AF9CDCD008C2F3C /* ScrollableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9ACB7C01AF9CDCD008C2F3C /* ScrollableView.cpp */; };
+		F9ACB7CA1AF9CDCD008C2F3C /* Switch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9ACB7C11AF9CDCD008C2F3C /* Switch.cpp */; };
+		F9ACB7CB1AF9CDCD008C2F3C /* TableViewAnimationProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9ACB7C21AF9CDCD008C2F3C /* TableViewAnimationProperties.cpp */; };
+		F9ACB7DB1AF9CE01008C2F3C /* 2DMatrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7CC1AF9CE01008C2F3C /* 2DMatrix.hpp */; };
+		F9ACB7DC1AF9CE01008C2F3C /* CloseWindowParams.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7CD1AF9CE01008C2F3C /* CloseWindowParams.hpp */; };
+		F9ACB7DD1AF9CE01008C2F3C /* EmailDialog.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7CE1AF9CE01008C2F3C /* EmailDialog.hpp */; };
+		F9ACB7DE1AF9CE01008C2F3C /* MatrixCreationDict.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7CF1AF9CE01008C2F3C /* MatrixCreationDict.hpp */; };
+		F9ACB7DF1AF9CE01008C2F3C /* OpenWindowParams.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7D01AF9CE01008C2F3C /* OpenWindowParams.hpp */; };
+		F9ACB7E01AF9CE01008C2F3C /* OptionDialog.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7D11AF9CE01008C2F3C /* OptionDialog.hpp */; };
+		F9ACB7E11AF9CE01008C2F3C /* OptionDialogHideParams.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7D21AF9CE01008C2F3C /* OptionDialogHideParams.hpp */; };
+		F9ACB7E21AF9CE01008C2F3C /* OptionDialogShowParams.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7D31AF9CE01008C2F3C /* OptionDialogShowParams.hpp */; };
+		F9ACB7E31AF9CE01008C2F3C /* ProgressBar.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7D41AF9CE01008C2F3C /* ProgressBar.hpp */; };
+		F9ACB7E41AF9CE01008C2F3C /* ScrollableView.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7D51AF9CE01008C2F3C /* ScrollableView.hpp */; };
+		F9ACB7E51AF9CE01008C2F3C /* Switch.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7D61AF9CE01008C2F3C /* Switch.hpp */; };
+		F9ACB7E61AF9CE01008C2F3C /* TableView.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7D71AF9CE01008C2F3C /* TableView.hpp */; };
+		F9ACB7E71AF9CE01008C2F3C /* TableViewAnimationProperties.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7D81AF9CE01008C2F3C /* TableViewAnimationProperties.hpp */; };
+		F9ACB7E81AF9CE01008C2F3C /* TableViewRow.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7D91AF9CE01008C2F3C /* TableViewRow.hpp */; };
+		F9ACB7E91AF9CE01008C2F3C /* TableViewSection.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9ACB7DA1AF9CE01008C2F3C /* TableViewSection.hpp */; };
 		F9B177951A2C46F100ECE602 /* Accelerometer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B177941A2C46F100ECE602 /* Accelerometer.hpp */; };
 		F9B177981A2C46FB00ECE602 /* Accelerometer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B177971A2C46FB00ECE602 /* Accelerometer.cpp */; };
 		F9B1AF5D1A8DB4E100DEF4D6 /* ListSection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B1AF5C1A8DB4E100DEF4D6 /* ListSection.cpp */; };
@@ -327,6 +351,30 @@
 		F99AE3B31ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ActivityIndicatorStyle.hpp; path = include/Titanium/UI/ActivityIndicatorStyle.hpp; sourceTree = "<group>"; };
 		F99AE3B61ADFA30300D0F91E /* ActivityIndicator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ActivityIndicator.cpp; path = src/UI/ActivityIndicator.cpp; sourceTree = "<group>"; };
 		F99AE3B71ADFA30300D0F91E /* ActivityIndicatorStyle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ActivityIndicatorStyle.cpp; path = src/UI/ActivityIndicatorStyle.cpp; sourceTree = "<group>"; };
+		F9ACB7BA1AF9CDCD008C2F3C /* 2DMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = 2DMatrix.cpp; path = src/UI/2DMatrix.cpp; sourceTree = "<group>"; };
+		F9ACB7BB1AF9CDCD008C2F3C /* MatrixCreationDict.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MatrixCreationDict.cpp; path = src/UI/MatrixCreationDict.cpp; sourceTree = "<group>"; };
+		F9ACB7BC1AF9CDCD008C2F3C /* OptionDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OptionDialog.cpp; path = src/UI/OptionDialog.cpp; sourceTree = "<group>"; };
+		F9ACB7BD1AF9CDCD008C2F3C /* OptionDialogHideParams.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OptionDialogHideParams.cpp; path = src/UI/OptionDialogHideParams.cpp; sourceTree = "<group>"; };
+		F9ACB7BE1AF9CDCD008C2F3C /* OptionDialogShowParams.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OptionDialogShowParams.cpp; path = src/UI/OptionDialogShowParams.cpp; sourceTree = "<group>"; };
+		F9ACB7BF1AF9CDCD008C2F3C /* ProgressBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgressBar.cpp; path = src/UI/ProgressBar.cpp; sourceTree = "<group>"; };
+		F9ACB7C01AF9CDCD008C2F3C /* ScrollableView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScrollableView.cpp; path = src/UI/ScrollableView.cpp; sourceTree = "<group>"; };
+		F9ACB7C11AF9CDCD008C2F3C /* Switch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Switch.cpp; path = src/UI/Switch.cpp; sourceTree = "<group>"; };
+		F9ACB7C21AF9CDCD008C2F3C /* TableViewAnimationProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TableViewAnimationProperties.cpp; path = src/UI/TableViewAnimationProperties.cpp; sourceTree = "<group>"; };
+		F9ACB7CC1AF9CE01008C2F3C /* 2DMatrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = 2DMatrix.hpp; path = include/Titanium/UI/2DMatrix.hpp; sourceTree = "<group>"; };
+		F9ACB7CD1AF9CE01008C2F3C /* CloseWindowParams.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CloseWindowParams.hpp; path = include/Titanium/UI/CloseWindowParams.hpp; sourceTree = "<group>"; };
+		F9ACB7CE1AF9CE01008C2F3C /* EmailDialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EmailDialog.hpp; path = include/Titanium/UI/EmailDialog.hpp; sourceTree = "<group>"; };
+		F9ACB7CF1AF9CE01008C2F3C /* MatrixCreationDict.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MatrixCreationDict.hpp; path = include/Titanium/UI/MatrixCreationDict.hpp; sourceTree = "<group>"; };
+		F9ACB7D01AF9CE01008C2F3C /* OpenWindowParams.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OpenWindowParams.hpp; path = include/Titanium/UI/OpenWindowParams.hpp; sourceTree = "<group>"; };
+		F9ACB7D11AF9CE01008C2F3C /* OptionDialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OptionDialog.hpp; path = include/Titanium/UI/OptionDialog.hpp; sourceTree = "<group>"; };
+		F9ACB7D21AF9CE01008C2F3C /* OptionDialogHideParams.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OptionDialogHideParams.hpp; path = include/Titanium/UI/OptionDialogHideParams.hpp; sourceTree = "<group>"; };
+		F9ACB7D31AF9CE01008C2F3C /* OptionDialogShowParams.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OptionDialogShowParams.hpp; path = include/Titanium/UI/OptionDialogShowParams.hpp; sourceTree = "<group>"; };
+		F9ACB7D41AF9CE01008C2F3C /* ProgressBar.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ProgressBar.hpp; path = include/Titanium/UI/ProgressBar.hpp; sourceTree = "<group>"; };
+		F9ACB7D51AF9CE01008C2F3C /* ScrollableView.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ScrollableView.hpp; path = include/Titanium/UI/ScrollableView.hpp; sourceTree = "<group>"; };
+		F9ACB7D61AF9CE01008C2F3C /* Switch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Switch.hpp; path = include/Titanium/UI/Switch.hpp; sourceTree = "<group>"; };
+		F9ACB7D71AF9CE01008C2F3C /* TableView.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TableView.hpp; path = include/Titanium/UI/TableView.hpp; sourceTree = "<group>"; };
+		F9ACB7D81AF9CE01008C2F3C /* TableViewAnimationProperties.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TableViewAnimationProperties.hpp; path = include/Titanium/UI/TableViewAnimationProperties.hpp; sourceTree = "<group>"; };
+		F9ACB7D91AF9CE01008C2F3C /* TableViewRow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TableViewRow.hpp; path = include/Titanium/UI/TableViewRow.hpp; sourceTree = "<group>"; };
+		F9ACB7DA1AF9CE01008C2F3C /* TableViewSection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TableViewSection.hpp; path = include/Titanium/UI/TableViewSection.hpp; sourceTree = "<group>"; };
 		F9B177941A2C46F100ECE602 /* Accelerometer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Accelerometer.hpp; path = include/Titanium/Accelerometer.hpp; sourceTree = "<group>"; };
 		F9B177971A2C46FB00ECE602 /* Accelerometer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Accelerometer.cpp; path = src/Accelerometer.cpp; sourceTree = "<group>"; };
 		F9B1AF5C1A8DB4E100DEF4D6 /* ListSection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ListSection.cpp; path = src/UI/ListSection.cpp; sourceTree = "<group>"; };
@@ -389,6 +437,30 @@
 		C90B8F8B1A16D32C005F3210 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F9ACB7CC1AF9CE01008C2F3C /* 2DMatrix.hpp */,
+				F9ACB7CD1AF9CE01008C2F3C /* CloseWindowParams.hpp */,
+				F9ACB7CE1AF9CE01008C2F3C /* EmailDialog.hpp */,
+				F9ACB7CF1AF9CE01008C2F3C /* MatrixCreationDict.hpp */,
+				F9ACB7D01AF9CE01008C2F3C /* OpenWindowParams.hpp */,
+				F9ACB7D11AF9CE01008C2F3C /* OptionDialog.hpp */,
+				F9ACB7D21AF9CE01008C2F3C /* OptionDialogHideParams.hpp */,
+				F9ACB7D31AF9CE01008C2F3C /* OptionDialogShowParams.hpp */,
+				F9ACB7D41AF9CE01008C2F3C /* ProgressBar.hpp */,
+				F9ACB7D51AF9CE01008C2F3C /* ScrollableView.hpp */,
+				F9ACB7D61AF9CE01008C2F3C /* Switch.hpp */,
+				F9ACB7D71AF9CE01008C2F3C /* TableView.hpp */,
+				F9ACB7D81AF9CE01008C2F3C /* TableViewAnimationProperties.hpp */,
+				F9ACB7D91AF9CE01008C2F3C /* TableViewRow.hpp */,
+				F9ACB7DA1AF9CE01008C2F3C /* TableViewSection.hpp */,
+				F9ACB7BA1AF9CDCD008C2F3C /* 2DMatrix.cpp */,
+				F9ACB7BB1AF9CDCD008C2F3C /* MatrixCreationDict.cpp */,
+				F9ACB7BC1AF9CDCD008C2F3C /* OptionDialog.cpp */,
+				F9ACB7BD1AF9CDCD008C2F3C /* OptionDialogHideParams.cpp */,
+				F9ACB7BE1AF9CDCD008C2F3C /* OptionDialogShowParams.cpp */,
+				F9ACB7BF1AF9CDCD008C2F3C /* ProgressBar.cpp */,
+				F9ACB7C01AF9CDCD008C2F3C /* ScrollableView.cpp */,
+				F9ACB7C11AF9CDCD008C2F3C /* Switch.cpp */,
+				F9ACB7C21AF9CDCD008C2F3C /* TableViewAnimationProperties.cpp */,
 				F99AE3B61ADFA30300D0F91E /* ActivityIndicator.cpp */,
 				F99AE3B21ADFA2F500D0F91E /* ActivityIndicator.hpp */,
 				F99AE3B71ADFA30300D0F91E /* ActivityIndicatorStyle.cpp */,
@@ -708,21 +780,27 @@
 				F93CDC421A96D24C00C42D8C /* Gradient.hpp in Headers */,
 				F9B1AF771A8E2EDD00DEF4D6 /* ResultSet.hpp in Headers */,
 				F9B549791A402D520051A096 /* NativeTiExample.hpp in Headers */,
+				F9ACB7E91AF9CE01008C2F3C /* TableViewSection.hpp in Headers */,
 				C974545C1A02A2E500CB4CA9 /* GlobalObject.hpp in Headers */,
 				C90950A61A297E03002133E1 /* WebView.hpp in Headers */,
 				F9B1AF711A8E2ECF00DEF4D6 /* HTTPClient.hpp in Headers */,
 				F96A53D41AA5B60D00AD4011 /* MapLocationTypev2.hpp in Headers */,
+				F9ACB7E01AF9CE01008C2F3C /* OptionDialog.hpp in Headers */,
+				F9ACB7E21AF9CE01008C2F3C /* OptionDialogShowParams.hpp in Headers */,
 				F96BCABD1A25CE4C00745C3B /* PlatformModule.hpp in Headers */,
 				F9B549731A4027220051A096 /* TiModule.hpp in Headers */,
+				F9ACB7DB1AF9CE01008C2F3C /* 2DMatrix.hpp in Headers */,
 				C90B8F901A16D346005F3210 /* View.hpp in Headers */,
 				F9B1AF611A8DC18E00DEF4D6 /* ListViewAnimationProperties.hpp in Headers */,
 				C90B8F941A16D83F005F3210 /* Window.hpp in Headers */,
+				F9ACB7DC1AF9CE01008C2F3C /* CloseWindowParams.hpp in Headers */,
 				F931042C1ABBE3540067470D /* ShadowDict.hpp in Headers */,
 				C90B8F9C1A16DDB0005F3210 /* UIModule.hpp in Headers */,
 				C950EF901A48D8FB000EE5AC /* Label.hpp in Headers */,
 				F913EFC61A836026009080D1 /* AlertDialog.hpp in Headers */,
 				C909509E1A2963F3002133E1 /* ListView.hpp in Headers */,
 				F99AE3B51ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp in Headers */,
+				F9ACB7E41AF9CE01008C2F3C /* ScrollableView.hpp in Headers */,
 				F9B1AF761A8E2EDD00DEF4D6 /* DB.hpp in Headers */,
 				F908310F1A2EA3AC00CB810B /* Blob.hpp in Headers */,
 				C974545B1A02A2E500CB4CA9 /* Module.hpp in Headers */,
@@ -730,9 +808,13 @@
 				F965FF261AA588010092ABBA /* View.hpp in Headers */,
 				F9B47E811A2EF93E0052879A /* Constants.hpp in Headers */,
 				F95C3E271AA59C6A006AB8C7 /* Camera.hpp in Headers */,
+				F9ACB7E11AF9CE01008C2F3C /* OptionDialogHideParams.hpp in Headers */,
+				F9ACB7DF1AF9CE01008C2F3C /* OpenWindowParams.hpp in Headers */,
+				F9ACB7E31AF9CE01008C2F3C /* ProgressBar.hpp in Headers */,
 				F93CDC401A96D24C00C42D8C /* Dimension.hpp in Headers */,
 				C97E14861A4CB0E200C15EDC /* ScrollView.hpp in Headers */,
 				C90B900D1A198370005F3210 /* ApplicationBuilder.hpp in Headers */,
+				F9ACB7DE1AF9CE01008C2F3C /* MatrixCreationDict.hpp in Headers */,
 				C90B90091A19804D005F3210 /* Application.hpp in Headers */,
 				C980919B1A2149A300AE5930 /* TitaniumKit_EXPORT.h in Headers */,
 				F9E96F8B1A415D6E001E0EC4 /* DisplayCaps.hpp in Headers */,
@@ -752,19 +834,24 @@
 				C90950921A2951A7002133E1 /* Gesture.hpp in Headers */,
 				F913EFC71A836026009080D1 /* Slider.hpp in Headers */,
 				C9E6AFEF1A13F95D00FED053 /* TiLoggerPolicyFile.hpp in Headers */,
+				F9ACB7DD1AF9CE01008C2F3C /* EmailDialog.hpp in Headers */,
+				F9ACB7E81AF9CE01008C2F3C /* TableViewRow.hpp in Headers */,
 				F9B1AF751A8E2EDD00DEF4D6 /* Constants.hpp in Headers */,
 				C9E6AFF01A13F96000FED053 /* TiLoggerPimpl.hpp in Headers */,
 				C9E6AFEA1A13F94900FED053 /* TiUtil.hpp in Headers */,
 				F9B1AF5F1A8DB4EF00DEF4D6 /* ListSection.hpp in Headers */,
 				F9B47E791A2EF16B0052879A /* File.hpp in Headers */,
 				F90831161A2EA3FA00CB810B /* NativeBlobExample.hpp in Headers */,
+				F9ACB7E71AF9CE01008C2F3C /* TableViewAnimationProperties.hpp in Headers */,
 				C950EF8F1A48D8FB000EE5AC /* ImageView.hpp in Headers */,
+				F9ACB7E61AF9CE01008C2F3C /* TableView.hpp in Headers */,
 				C9E6AFE91A13F94500FED053 /* HashUtilities.hpp in Headers */,
 				C9BED2211A27B14200CFF800 /* NativeModuleExample.hpp in Headers */,
 				F93CDC411A96D24C00C42D8C /* Font.hpp in Headers */,
 				C90950961A2954B3002133E1 /* TextField.hpp in Headers */,
 				F9901B091AA5A355003FFD52 /* MapRegionTypev2.hpp in Headers */,
 				C90950A21A296802002133E1 /* Picker.hpp in Headers */,
+				F9ACB7E51AF9CE01008C2F3C /* Switch.hpp in Headers */,
 				F9B1AF6B1A8E2E9400DEF4D6 /* Network.hpp in Headers */,
 				F9BD6B9F1A96FA4200D721A9 /* ListViewMarkerProps.hpp in Headers */,
 				F91676F71AA5A92A006A6E44 /* CameraAnimationParams.hpp in Headers */,
@@ -868,6 +955,7 @@
 				F913EFBC1A835FE4009080D1 /* AlertDialog.cpp in Sources */,
 				F96A53E21AA5D03E00AD4011 /* XML.cpp in Sources */,
 				F9BE4A7C1A88999400301999 /* NativeWebViewExample.cpp in Sources */,
+				F9ACB7C41AF9CDCD008C2F3C /* MatrixCreationDict.cpp in Sources */,
 				F931042A1ABBE2F50067470D /* ShadowDict.cpp in Sources */,
 				F9B549781A402D520051A096 /* NativeTiExample.cpp in Sources */,
 				F9B177981A2C46FB00ECE602 /* Accelerometer.cpp in Sources */,
@@ -875,7 +963,9 @@
 				C950EF931A48D90A000EE5AC /* ImageView.cpp in Sources */,
 				F96A53DC1AA5CFC200AD4011 /* Properties.cpp in Sources */,
 				C90950831A291EB5002133E1 /* Animation.cpp in Sources */,
+				F9ACB7CA1AF9CDCD008C2F3C /* Switch.cpp in Sources */,
 				F96A53DA1AA5CFB700AD4011 /* App.cpp in Sources */,
+				F9ACB7C91AF9CDCD008C2F3C /* ScrollableView.cpp in Sources */,
 				F9B549751A40272E0051A096 /* TiModule.cpp in Sources */,
 				F9B1AF5D1A8DB4E100DEF4D6 /* ListSection.cpp in Sources */,
 				F966AF7F1AC11AF700351707 /* ViewLayoutDelegate.cpp in Sources */,
@@ -884,6 +974,7 @@
 				F9901B0B1AA5A366003FFD52 /* MapRegionTypev2.cpp in Sources */,
 				F968A1C61AB93F6C00A0D546 /* FileStream.cpp in Sources */,
 				F9B1AF831A8E2F4400DEF4D6 /* sqlite3.c in Sources */,
+				F9ACB7C81AF9CDCD008C2F3C /* ProgressBar.cpp in Sources */,
 				F9B47E831A2EF94A0052879A /* Constants.cpp in Sources */,
 				F93104261ABBDDAB0067470D /* TableViewRow.cpp in Sources */,
 				C90950931A2951A7002133E1 /* Gesture.cpp in Sources */,
@@ -900,6 +991,7 @@
 				F9B1AF7D1A8E2EEC00DEF4D6 /* ResultSet.cpp in Sources */,
 				F93CDC481A96D25E00C42D8C /* Dimension.cpp in Sources */,
 				C909508F1A29478A002133E1 /* Constants.cpp in Sources */,
+				F9ACB7C61AF9CDCD008C2F3C /* OptionDialogHideParams.cpp in Sources */,
 				F93104231ABBDDAB0067470D /* CloseWindowParams.cpp in Sources */,
 				F95C3E2C1AA59C75006AB8C7 /* Route.cpp in Sources */,
 				F96BCAC01A25CE6100745C3B /* PlatformModule.cpp in Sources */,
@@ -908,6 +1000,7 @@
 				F9E96F891A415D62001E0EC4 /* DisplayCaps.cpp in Sources */,
 				F91676F91AA5A935006A6E44 /* CameraAnimationParams.cpp in Sources */,
 				F9B47E7E1A2EF1860052879A /* NativeFileExample.cpp in Sources */,
+				F9ACB7CB1AF9CDCD008C2F3C /* TableViewAnimationProperties.cpp in Sources */,
 				F90831151A2EA3FA00CB810B /* NativeBlobExample.cpp in Sources */,
 				C950EF941A48D90A000EE5AC /* Label.cpp in Sources */,
 				F90831121A2EA3B500CB810B /* Blob.cpp in Sources */,
@@ -922,8 +1015,10 @@
 				F9B1AF7B1A8E2EEC00DEF4D6 /* Constants.cpp in Sources */,
 				C90950A71A297E03002133E1 /* WebView.cpp in Sources */,
 				C90950971A2954B3002133E1 /* TextField.cpp in Sources */,
+				F9ACB7C71AF9CDCD008C2F3C /* OptionDialogShowParams.cpp in Sources */,
 				C909508B1A292CEF002133E1 /* TextArea.cpp in Sources */,
 				C9E6AFE81A13F94200FED053 /* TiBase.cpp in Sources */,
+				F9ACB7C51AF9CDCD008C2F3C /* OptionDialog.cpp in Sources */,
 				C90950A31A296802002133E1 /* Picker.cpp in Sources */,
 				F93104241ABBDDAB0067470D /* OpenWindowParams.cpp in Sources */,
 				C90B8F881A167E36005F3210 /* Module.cpp in Sources */,
@@ -942,6 +1037,7 @@
 				F9B1AF6D1A8E2EA300DEF4D6 /* NetworkModule.cpp in Sources */,
 				F93CDC491A96D25E00C42D8C /* Font.cpp in Sources */,
 				F9B47E761A2EF1500052879A /* FilesystemModule.cpp in Sources */,
+				F9ACB7C31AF9CDCD008C2F3C /* 2DMatrix.cpp in Sources */,
 				C90B8F971A16DBAD005F3210 /* Button.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1077,7 +1173,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/TitaniumKit-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug",
-					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/HAL/xcode/build/Debug,
 				);
 				OTHER_LIBTOOLFLAGS = "-lHAL";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1094,7 +1189,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/TitaniumKit-adwvecqnihfrkjbkawqsskevoqyg/Build/Products/Debug",
-					/Users/matt/Documents/Appcelerator/src/Appcelerator/titanium_mobile_windows/Source/HAL/xcode/build/Debug,
 				);
 				OTHER_LIBTOOLFLAGS = "-lHAL";
 				PRODUCT_NAME = "$(TARGET_NAME)";

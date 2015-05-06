@@ -755,6 +755,9 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(UIModule, createView);
 		TITANIUM_ADD_FUNCTION(UIModule, createWebView);
 		TITANIUM_ADD_FUNCTION(UIModule, createWindow);
+		TITANIUM_ADD_FUNCTION(UIModule, createOptionDialog);
+		TITANIUM_ADD_FUNCTION(UIModule, createProgressBar);
+		TITANIUM_ADD_FUNCTION(UIModule, createScrollableView);
 
 		TITANIUM_ADD_FUNCTION(UIModule, getBackgroundColor);
 		TITANIUM_ADD_FUNCTION(UIModule, setBackgroundColor);
@@ -1021,6 +1024,21 @@ namespace Titanium
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(WebView);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createOptionDialog) {
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(OptionDialog);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createProgressBar) {
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ProgressBar);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createScrollableView) {
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(ScrollableView);
 	}
 
 	TITANIUM_PROPERTY_GETTER(UIModule, backgroundImage)

@@ -154,6 +154,15 @@ namespace Titanium
 		JSObject ActivityIndicatorStyleObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ActivityIndicatorStyleObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject OptionDialogObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& OptionDialogObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject ProgressBarObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& ProgressBarObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject ScrollableViewObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& ScrollableViewObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		virtual ~ApplicationBuilder() = default;
 		ApplicationBuilder(const ApplicationBuilder&) = default;
 		ApplicationBuilder& operator=(const ApplicationBuilder&) = default;
@@ -215,6 +224,9 @@ namespace Titanium
 		JSObject mapView__;
 		JSObject activityIndicator__;
 		JSObject activityIndicatorStyle__;
+		JSObject optionDialog__;
+		JSObject progressBar__;
+		JSObject scrollableView__;
 #pragma warning(pop)
 	};
 

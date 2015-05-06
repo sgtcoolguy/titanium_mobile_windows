@@ -25,5 +25,8 @@
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/UI/WebView.hpp"
 #include "TitaniumWindows/UI/Window.hpp"
+#include "TitaniumWindows/UI/OptionDialog.hpp"
+#include "TitaniumWindows/UI/ProgressBar.hpp"
+#include "TitaniumWindows/UI/ScrollableView.hpp"
 
 #endif  // _TITANIUMWINDOWS_UI_HPP_

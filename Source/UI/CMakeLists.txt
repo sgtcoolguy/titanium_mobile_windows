@@ -86,6 +86,12 @@ set(SOURCE_UI
   src/TableViewRow.cpp
   include/TitaniumWindows/UI/ActivityIndicator.hpp
   src/ActivityIndicator.cpp
+  include/TitaniumWindows/UI/OptionDialog.hpp
+  src/OptionDialog.cpp
+  include/TitaniumWindows/UI/ProgressBar.hpp
+  src/ProgressBar.cpp
+  include/TitaniumWindows/UI/ScrollableView.hpp
+  src/ScrollableView.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})
