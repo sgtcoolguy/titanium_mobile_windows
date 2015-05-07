@@ -31,7 +31,7 @@ namespace Titanium
 		};
 
 		Dimension js_to_Dimension(const JSObject& object);
-		JSObject Dimension_to_js(const JSContext& js_context, Dimension dimension);
+		JSObject Dimension_to_js(const JSContext& js_context, const Dimension& dimension);
 	} // namespace UI
 } // namespace Titanium
 #endif // _TITANIUM_DIMENSION_HPP_

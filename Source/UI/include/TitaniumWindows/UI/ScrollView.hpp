@@ -18,16 +18,14 @@ namespace TitaniumWindows
 	{
 		using namespace HAL;
 
-		class ScrollView;
-
 		class TITANIUMWINDOWS_UI_EXPORT ScrollViewLayoutDelegate : public WindowsViewLayoutDelegate
 		{
 		public:
 			ScrollViewLayoutDelegate(const std::shared_ptr<WindowsViewLayoutDelegate>&) TITANIUM_NOEXCEPT;
 			virtual ~ScrollViewLayoutDelegate() = default;
 
-			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
-			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT;
+			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT override;
+			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override;
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)

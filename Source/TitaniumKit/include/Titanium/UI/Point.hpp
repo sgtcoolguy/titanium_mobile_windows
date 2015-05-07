@@ -30,7 +30,7 @@ namespace Titanium
 		};
 		
 		Point js_to_Point(const JSObject& object);
-		JSObject Point_to_js(const JSContext& js_context, Point point);
+		JSObject Point_to_js(const JSContext& js_context, const Point& point);
 	} // namespace UI
 } // namespace Titanium
 #endif // _TITANIUM_UI_POINT_HPP_

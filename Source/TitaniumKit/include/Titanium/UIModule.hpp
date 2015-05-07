@@ -21,6 +21,9 @@
 #include "Titanium/UI/Label.hpp"
 #include "Titanium/UI/ListView.hpp"
 #include "Titanium/UI/ListSection.hpp"
+#include "Titanium/UI/OptionDialog.hpp"
+#include "Titanium/UI/ProgressBar.hpp"
+#include "Titanium/UI/ScrollableView.hpp"
 #include "Titanium/UI/ScrollView.hpp"
 #include "Titanium/UI/Slider.hpp"
 #include "Titanium/UI/Switch.hpp"
@@ -252,7 +255,10 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(createView);
 		TITANIUM_FUNCTION_DEF(createWebView);
 		TITANIUM_FUNCTION_DEF(createWindow);
-		
+		TITANIUM_FUNCTION_DEF(createOptionDialog);
+		TITANIUM_FUNCTION_DEF(createProgressBar);
+		TITANIUM_FUNCTION_DEF(createScrollableView);
+
 		TITANIUM_FUNCTION_DEF(getBackgroundColor);
 		TITANIUM_FUNCTION_DEF(setBackgroundColor);
 		TITANIUM_FUNCTION_DEF(getBackgroundImage);

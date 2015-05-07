@@ -34,7 +34,7 @@ namespace Titanium
 			return dict;
 		};
 
-		JSObject MatrixCreationDict_to_js(const JSContext& js_context, MatrixCreationDict dict)
+		JSObject MatrixCreationDict_to_js(const JSContext& js_context, const MatrixCreationDict& dict)
 		{
 			auto object = js_context.CreateObject();
 			object.SetProperty("anchorPoint", Point_to_js(js_context, dict.anchorPoint));

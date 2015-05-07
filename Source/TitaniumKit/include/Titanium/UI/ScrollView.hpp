@@ -120,7 +120,6 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setShowVerticalScrollIndicator);
 			TITANIUM_FUNCTION_DEF(getShowVerticalScrollIndicator);
 
-		private:
 		};
 	} // namespace UI
 }  // namespace Titanium

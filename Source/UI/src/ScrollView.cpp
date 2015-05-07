@@ -67,7 +67,7 @@ namespace TitaniumWindows
 					layoutDelegate->requestLayout();
 				}
 			} else {
-				TITANIUM_LOG_DEBUG("ScrollView::setupViewer: nativeChildView = nullptr");
+				TITANIUM_LOG_WARN("ScrollView: nativeChildView = nullptr");
 			}
 		}
 

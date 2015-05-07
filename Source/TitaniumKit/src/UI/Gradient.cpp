@@ -100,7 +100,7 @@ namespace Titanium
 		};
 
 		// TODO: implement this
-		JSObject Gradient_to_js(const JSContext& js_context, Gradient gradient)
+		JSObject Gradient_to_js(const JSContext& js_context, const Gradient& gradient)
 		{
 			auto object = js_context.CreateObject();
 			object.SetProperty("type", js_context.CreateNumber(static_cast<std::underlying_type<GRADIENT_TYPE>::type>(gradient.type)));
