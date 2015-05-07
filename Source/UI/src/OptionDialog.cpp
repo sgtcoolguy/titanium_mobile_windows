@@ -28,7 +28,7 @@ namespace TitaniumWindows
 			JSExport<OptionDialog>::SetParent(JSExport<Titanium::UI::OptionDialog>::Class());
 		}
 
-		void OptionDialog::show(const std::shared_ptr<Titanium::UI::OptionDialogShowParams>& params) TITANIUM_NOEXCEPT
+		void OptionDialog::show(const Titanium::UI::OptionDialogShowParams& params) TITANIUM_NOEXCEPT
 		{
 			std::string title = get_title();
 
@@ -55,7 +55,7 @@ namespace TitaniumWindows
 			});
 		}
 
-		void OptionDialog::hide(const std::shared_ptr<Titanium::UI::OptionDialogHideParams>& params) TITANIUM_NOEXCEPT
+		void OptionDialog::hide(const Titanium::UI::OptionDialogHideParams& params) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("OptionDialog.hide is not implemented yet");
 		}

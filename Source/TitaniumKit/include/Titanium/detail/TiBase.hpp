@@ -238,5 +238,152 @@ TITANIUM_FUNCTION(MODULE, NAME) \
   return get_context().CreateUndefined(); \
 }
 
+#define ENSURE_TYPE_ARRAY(IN,OUT,TYPE) \
+TITANIUM_ASSERT(IN.IsObject()); \
+auto js_##IN = static_cast<JSObject>(IN); \
+TITANIUM_ASSERT(js_##IN.IsArray()); \
+auto js_##OUT = static_cast<std::vector<JSValue>>(static_cast<JSArray>(js_##IN)); \
+std::vector<TYPE> OUT; \
+for (auto v : js_##OUT) { \
+	OUT.push_back(static_cast<TYPE>(v)); \
+}
+
+#define ENSURE_STRING_ARRAY(IN,OUT) ENSURE_TYPE_ARRAY(IN,OUT,std::string)
+
+#define ENSURE_OBJECT_ARRAY(IN,OUT,TYPE) \
+TITANIUM_ASSERT(IN.IsObject()); \
+auto js_##IN = static_cast<JSObject>(IN); \
+TITANIUM_ASSERT(js_##IN.IsArray()); \
+auto js_##OUT = static_cast<std::vector<JSValue>>(static_cast<JSArray>(js_##IN)); \
+std::vector<std::shared_ptr<TYPE>> OUT; \
+for (auto v : js_##OUT) { \
+	OUT.push_back(static_cast<JSObject>(v).GetPrivate<TYPE>()); \
+}
+
+#define TITANIUM_PROPERTY_GETTER_TYPE(MODULE, NAME, TYPE, CHECK) \
+TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
+	return get_context().Create##CHECK(static_cast<TYPE>(get_##NAME())); \
+}
+
+#define TITANIUM_PROPERTY_SETTER_TYPE(MODULE, NAME, TYPE, CHECK) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+	TITANIUM_ASSERT(argument.Is##CHECK()); \
+	set_##NAME(static_cast<TYPE>(argument)); \
+	return true; \
+}
+
+#define TITANIUM_PROPERTY_GETTER_STRUCT(MODULE, NAME, STRUCT_NAME) \
+TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
+	return STRUCT_NAME##_to_js(get_context(), get_##NAME()); \
+}
+
+#define TITANIUM_PROPERTY_SETTER_STRUCT(MODULE, NAME, STRUCT_NAME) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+	TITANIUM_ASSERT(argument.IsObject()); \
+	set_##NAME(js_to_##STRUCT_NAME(static_cast<JSObject>(argument))); \
+	return true; \
+}
+
+#define TITANIUM_PROPERTY_GETTER_TIME(MODULE, NAME) \
+TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
+	return get_context().CreateNumber(static_cast<double>(get_##NAME().count())); \
+}
+
+#define TITANIUM_PROPERTY_SETTER_TIME(MODULE, NAME) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+	TITANIUM_ASSERT(argument.IsNumber()); \
+	set_##NAME(std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(argument)))); \
+	return true; \
+}
+
+#define TITANIUM_PROPERTY_GETTER_STRING(MODULE, NAME) \
+	TITANIUM_PROPERTY_GETTER_TYPE(MODULE, NAME, std::string, String)
+
+#define TITANIUM_PROPERTY_SETTER_STRING(MODULE, NAME) \
+	TITANIUM_PROPERTY_SETTER_TYPE(MODULE, NAME, std::string, String)
+
+#define TITANIUM_PROPERTY_GETTER_DOUBLE(MODULE, NAME) \
+	TITANIUM_PROPERTY_GETTER_TYPE(MODULE, NAME, double, Number)
+
+#define TITANIUM_PROPERTY_SETTER_DOUBLE(MODULE, NAME) \
+	TITANIUM_PROPERTY_SETTER_TYPE(MODULE, NAME, double, Number)
+
+#define TITANIUM_PROPERTY_GETTER_INT(MODULE, NAME) \
+	TITANIUM_PROPERTY_GETTER_TYPE(MODULE, NAME, std::int32_t, Number)
+
+#define TITANIUM_PROPERTY_SETTER_INT(MODULE, NAME) \
+	TITANIUM_PROPERTY_SETTER_TYPE(MODULE, NAME, std::int32_t, Number)
+
+#define TITANIUM_PROPERTY_GETTER_UINT(MODULE, NAME) \
+	TITANIUM_PROPERTY_GETTER_TYPE(MODULE, NAME, std::uint32_t, Number)
+
+#define TITANIUM_PROPERTY_SETTER_UINT(MODULE, NAME) \
+	TITANIUM_PROPERTY_SETTER_TYPE(MODULE, NAME, std::uint32_t, Number)
+
+#define TITANIUM_PROPERTY_GETTER_BOOL(MODULE, NAME) \
+	TITANIUM_PROPERTY_GETTER_TYPE(MODULE, NAME, bool, Boolean)
+
+#define TITANIUM_PROPERTY_SETTER_BOOL(MODULE, NAME) \
+	TITANIUM_PROPERTY_SETTER_TYPE(MODULE, NAME, bool, Boolean)
+
+#define TITANIUM_PROPERTY_GETTER_STRING_ARRAY(MODULE, NAME) \
+TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
+	std::vector<JSValue> values; \
+	for (auto value : get_##NAME()) { \
+		values.push_back(get_context().CreateString(value)); \
+	} \
+	return get_context().CreateArray(values); \
+}
+
+#define TITANIUM_PROPERTY_SETTER_STRING_ARRAY(MODULE, NAME) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+	ENSURE_STRING_ARRAY(argument, NAME); \
+	set_##NAME(NAME); \
+	return true; \
+}
+
+#define TITANIUM_PROPERTY_GETTER_OBJECT(MODULE, NAME) \
+TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
+	const auto NAME = get_##NAME(); \
+	if (NAME != nullptr) { \
+		return NAME->get_object(); \
+		} \
+	return get_context().CreateNull(); \
+}
+
+#define TITANIUM_PROPERTY_SETTER_OBJECT(MODULE, NAME, TYPE) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+	TITANIUM_ASSERT(argument.IsObject()); \
+	set_##NAME(static_cast<JSObject>(argument).GetPrivate<TYPE>()); \
+	return true; \
+}
+
+#define TITANIUM_PROPERTY_GETTER_OBJECT_ARRAY(MODULE, NAME) \
+TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
+	std::vector<JSValue> values; \
+	for (auto value : get_##NAME()) { \
+		values.push_back(value->get_object()); \
+	} \
+	return get_context().CreateArray(values); \
+}
+
+#define TITANIUM_PROPERTY_SETTER_OBJECT_ARRAY(MODULE, NAME, TYPE) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+	ENSURE_OBJECT_ARRAY(argument, NAME, TYPE); \
+	set_##NAME(NAME); \
+	return true; \
+}
+
+#define TITANIUM_PROPERTY_GETTER_UNIMPLEMENTED(MODULE, NAME) \
+TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
+	TITANIUM_LOG_WARN(#MODULE "::" #NAME ": getter unimplemented"); \
+	return get_context().CreateUndefined(); \
+}
+
+#define TITANIUM_PROPERTY_SETTER_UNIMPLEMENTED(MODULE, NAME) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+	TITANIUM_LOG_WARN(#MODULE "::" #NAME ": setter unimplemented"); \
+	return false; \
+}
 
 #endif  // _TITANIUM_DETAIL_TIBASE_HPP_

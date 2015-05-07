@@ -38,6 +38,13 @@ namespace Titanium
 			TITANIUM_PROPERTY_IMPL_DEF(std::uint32_t, cacheSize);
 
 			/*!
+			@property
+			@abstract clipViews
+			@discussion Determines whether the previous and next pages are clipped, so that they are not visible adjacent to the current page.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, clipViews);
+
+			/*!
 			  @property
 			  @abstract currentPage
 			  @discussion Index of the active page.
@@ -52,11 +59,18 @@ namespace Titanium
 			TITANIUM_PROPERTY_IMPL_DEF(bool, disableBounce);
 
 			/*!
-			  @property
-			  @abstract overScrollMode
-			  @discussion Determines the behavior when the user overscolls the view.
+			@property
+			@abstract hitRect
+			@discussion Sets the region where this view responds to gestures.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(JSValue, overScrollMode);
+			TITANIUM_PROPERTY_IMPL_DEF(Dimension, hitRect);
+
+			/*!
+			@property
+			@abstract overlayEnabled
+			@discussion Determines whether the paging control is added as an overlay to the view.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, overlayEnabled);
 
 			/*!
 			  @property
@@ -74,17 +88,10 @@ namespace Titanium
 
 			/*!
 			  @property
-			  @abstract showPagingControl
-			  @discussion Determines whether the paging control is visible.
-			*/
-			TITANIUM_PROPERTY_IMPL_DEF(bool, showPagingControl);
-
-			/*!
-			  @property
 			  @abstract pagingControlTimeout
 			  @discussion Number of milliseconds to wait before hiding the paging control.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(std::uint32_t, pagingControlTimeout);
+			TITANIUM_PROPERTY_IMPL_DEF(std::chrono::milliseconds, pagingControlTimeout);
 
 			/*!
 			  @property
@@ -101,18 +108,18 @@ namespace Titanium
 			TITANIUM_PROPERTY_IMPL_DEF(bool, pagingControlOnTop);
 
 			/*!
-			  @property
-			  @abstract overlayEnabled
-			  @discussion Determines whether the paging control is added as an overlay to the view.
-			*/
-			TITANIUM_PROPERTY_IMPL_DEF(bool, overlayEnabled);
-
-			/*!
-			  @property
-			  @abstract scrollingEnabled
-			  @discussion Determines whether scrolling is enabled for the view.
+			@property
+			@abstract scrollingEnabled
+			@discussion Determines whether scrolling is enabled for the view.
 			*/
 			TITANIUM_PROPERTY_IMPL_DEF(bool, scrollingEnabled);
+
+			/*!
+			@property
+			@abstract showPagingControl
+			@discussion Determines whether the paging control is visible.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, showPagingControl);
 
 			/*!
 			  @property
@@ -120,20 +127,6 @@ namespace Titanium
 			  @discussion Sets the pages within this Scrollable View.
 			*/
 			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::shared_ptr<View>>, views);
-
-			/*!
-			  @property
-			  @abstract clipViews
-			  @discussion Determines whether the previous and next pages are clipped, so that they are not visible adjacent to the current page.
-			*/
-			TITANIUM_PROPERTY_IMPL_DEF(bool, clipViews);
-
-			/*!
-			  @property
-			  @abstract hitRect
-			  @discussion Sets the region where this view responds to gestures.
-			*/
-			TITANIUM_PROPERTY_IMPL_DEF(Dimension, hitRect);
 
 			/*!
 			  @method
@@ -244,7 +237,7 @@ namespace Titanium
 			std::string pagingControlColor__;
 			std::uint32_t pagingControlHeight__;
 			bool showPagingControl__;
-			std::uint32_t pagingControlTimeout__;
+			std::chrono::milliseconds pagingControlTimeout__;
 			double pagingControlAlpha__;
 			bool pagingControlOnTop__;
 			bool overlayEnabled__;

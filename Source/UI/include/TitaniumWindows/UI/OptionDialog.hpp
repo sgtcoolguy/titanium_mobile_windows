@@ -40,8 +40,8 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-			virtual void show(const std::shared_ptr<Titanium::UI::OptionDialogShowParams>& params) TITANIUM_NOEXCEPT override;
-			virtual void hide(const std::shared_ptr<Titanium::UI::OptionDialogHideParams>& params) TITANIUM_NOEXCEPT override;
+			virtual void show(const Titanium::UI::OptionDialogShowParams& params) TITANIUM_NOEXCEPT override;
+			virtual void hide(const Titanium::UI::OptionDialogHideParams& params) TITANIUM_NOEXCEPT override;
 
 		private:
 

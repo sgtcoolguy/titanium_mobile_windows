@@ -105,14 +105,14 @@ namespace Titanium
 			  @abstract show
 			  @discussion Shows this dialog.
 			*/
-			virtual void show(const std::shared_ptr<Titanium::UI::OptionDialogShowParams>& params) TITANIUM_NOEXCEPT;
+			virtual void show(const OptionDialogShowParams& params) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract hide
 			  @discussion Hides this dialog.
 			*/
-			virtual void hide(const std::shared_ptr<Titanium::UI::OptionDialogHideParams>& params) TITANIUM_NOEXCEPT;
+			virtual void hide(const OptionDialogHideParams& params) TITANIUM_NOEXCEPT;
 
 			OptionDialog(const JSContext&) TITANIUM_NOEXCEPT;
 

@@ -38,12 +38,12 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(OptionDialog, std::string, title)
 		TITANIUM_PROPERTY_READWRITE(OptionDialog, std::string, titleid)
 
-		void OptionDialog::show(const std::shared_ptr<OptionDialogShowParams>& params) TITANIUM_NOEXCEPT
+		void OptionDialog::show(const OptionDialogShowParams& params) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("OptionDialog::show");
 		}
 
-		void OptionDialog::hide(const std::shared_ptr<OptionDialogHideParams>& params) TITANIUM_NOEXCEPT
+		void OptionDialog::hide(const OptionDialogHideParams& params) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("OptionDialog::hide");
 		}
@@ -88,173 +88,47 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(OptionDialog, setTitleid);
 		}
 
-		TITANIUM_PROPERTY_GETTER(OptionDialog, androidView)
-		{
-			const auto view = get_androidView();
-			if (view != nullptr) {
-				return view->get_object();
-			}
-			return get_context().CreateNull();
-		}
+		TITANIUM_PROPERTY_GETTER_OBJECT(OptionDialog, androidView)
+		TITANIUM_PROPERTY_SETTER_OBJECT(OptionDialog, androidView, View)
 
-		TITANIUM_PROPERTY_SETTER(OptionDialog, androidView)
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			set_androidView(static_cast<JSObject>(argument).GetPrivate<View>());
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_STRING_ARRAY(OptionDialog, buttonNames)
+		TITANIUM_PROPERTY_SETTER_STRING_ARRAY(OptionDialog, buttonNames)
 
-		TITANIUM_PROPERTY_GETTER(OptionDialog, buttonNames)
-		{
-			std::vector<JSValue> names;
-			for (auto name : get_buttonNames()) {
-				names.push_back(get_context().CreateString(name));
-			}
-			return get_context().CreateArray(names);
-		}
+		TITANIUM_PROPERTY_GETTER_INT(OptionDialog, cancel)
+		TITANIUM_PROPERTY_SETTER_INT(OptionDialog, cancel)
 
-		TITANIUM_PROPERTY_SETTER(OptionDialog, buttonNames)
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			auto js_arg = static_cast<JSObject>(argument);
-			TITANIUM_ASSERT(js_arg.IsArray());
+		TITANIUM_PROPERTY_GETTER_INT(OptionDialog, destructive)
+		TITANIUM_PROPERTY_SETTER_INT(OptionDialog, destructive)
 
-			auto names = static_cast<JSArray>(js_arg);
-			auto js_names = static_cast<std::vector<JSValue>>(names);
-			std::vector<std::string> buttonNames;
-			for (auto name : js_names) {
-				buttonNames.push_back(static_cast<std::string>(name));
-			}
-			set_buttonNames(buttonNames);
+		TITANIUM_PROPERTY_GETTER_STRING_ARRAY(OptionDialog, options)
+		TITANIUM_PROPERTY_SETTER_STRING_ARRAY(OptionDialog, options)
 
-			return true;
-	}
+		TITANIUM_PROPERTY_GETTER_BOOL(OptionDialog, opaquebackground)
+		TITANIUM_PROPERTY_SETTER_BOOL(OptionDialog, opaquebackground)
 
-		TITANIUM_PROPERTY_GETTER(OptionDialog, cancel)
-		{
-			return get_context().CreateNumber(get_cancel());
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(OptionDialog, persistent)
+		TITANIUM_PROPERTY_SETTER_BOOL(OptionDialog, persistent)
 
-		TITANIUM_PROPERTY_SETTER(OptionDialog, cancel)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_cancel(static_cast<std::int32_t>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_UINT(OptionDialog, selectedIndex)
+		TITANIUM_PROPERTY_SETTER_UINT(OptionDialog, selectedIndex)
 
-		TITANIUM_PROPERTY_GETTER(OptionDialog, destructive)
-		{
-			return get_context().CreateNumber(get_destructive());
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(OptionDialog, title)
+		TITANIUM_PROPERTY_SETTER_STRING(OptionDialog, title)
 
-		TITANIUM_PROPERTY_SETTER(OptionDialog, destructive)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_destructive(static_cast<std::int32_t>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(OptionDialog, options)
-		{
-			std::vector<JSValue> options;
-			for (auto option : get_options()) {
-				options.push_back(get_context().CreateString(option));
-			}
-			return get_context().CreateArray(options);
-		}
-
-		TITANIUM_PROPERTY_SETTER(OptionDialog, options)
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			auto js_arg = static_cast<JSObject>(argument);
-			TITANIUM_ASSERT(js_arg.IsArray());
-
-			auto options = static_cast<JSArray>(js_arg);
-			auto js_options = static_cast<std::vector<JSValue>>(options);
-			std::vector<std::string> dialogOptions;
-			for (auto option : js_options) {
-				dialogOptions.push_back(static_cast<std::string>(option));
-			}
-			set_options(dialogOptions);
-
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(OptionDialog, opaquebackground)
-		{
-			return get_context().CreateBoolean(get_opaquebackground());
-		}
-
-		TITANIUM_PROPERTY_SETTER(OptionDialog, opaquebackground)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_opaquebackground(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(OptionDialog, persistent)
-		{
-			return get_context().CreateBoolean(get_persistent());
-		}
-
-		TITANIUM_PROPERTY_SETTER(OptionDialog, persistent)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_persistent(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(OptionDialog, selectedIndex)
-		{
-			return get_context().CreateNumber(get_selectedIndex());
-		}
-
-		TITANIUM_PROPERTY_SETTER(OptionDialog, selectedIndex)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_selectedIndex(static_cast<std::uint32_t>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(OptionDialog, title)
-		{
-			return get_context().CreateString(get_title());
-		}
-
-		TITANIUM_PROPERTY_SETTER(OptionDialog, title)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_title(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(OptionDialog, titleid)
-		{
-			return get_context().CreateString(get_titleid());
-		}
-
-		TITANIUM_PROPERTY_SETTER(OptionDialog, titleid)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_titleid(static_cast<std::string>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(OptionDialog, titleid)
+		TITANIUM_PROPERTY_SETTER_STRING(OptionDialog, titleid)
 
 		TITANIUM_FUNCTION(OptionDialog, show)
 		{
 			ENSURE_OPTIONAL_OBJECT_AT_INDEX(params, 0);
-
-			show(params.GetPrivate<OptionDialogShowParams>());
-
+			show(js_to_OptionDialogShowParams(params));
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(OptionDialog, hide)
 		{
 			ENSURE_OPTIONAL_OBJECT_AT_INDEX(params, 0);
-
-			hide(params.GetPrivate<OptionDialogHideParams>());
-
+			hide(js_to_OptionDialogHideParams(params));
 			return get_context().CreateUndefined();
 		}
 

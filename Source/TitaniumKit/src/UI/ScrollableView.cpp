@@ -19,7 +19,7 @@ namespace Titanium
 			cacheSize__(0),
 			currentPage__(0),
 			disableBounce__(false),
-			pagingControlColor__("Black"),
+			pagingControlColor__("black"),
 			pagingControlHeight__(20),
 			showPagingControl__(false),
 			pagingControlTimeout__(3000),
@@ -35,11 +35,10 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, std::uint32_t, cacheSize)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, std::uint32_t, currentPage)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, bool, disableBounce)
-		TITANIUM_PROPERTY_READWRITE(ScrollableView, JSValue, overScrollMode)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, std::string, pagingControlColor)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, std::uint32_t, pagingControlHeight)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, bool, showPagingControl)
-		TITANIUM_PROPERTY_READWRITE(ScrollableView, std::uint32_t, pagingControlTimeout)
+		TITANIUM_PROPERTY_READWRITE(ScrollableView, std::chrono::milliseconds, pagingControlTimeout)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, double, pagingControlAlpha)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, bool, pagingControlOnTop)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, bool, overlayEnabled)
@@ -131,198 +130,50 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(ScrollableView, setHitRect);
 		}
 
-		TITANIUM_PROPERTY_GETTER(ScrollableView, cacheSize)
-		{
-			return get_context().CreateNumber(get_cacheSize());
-		}
+		TITANIUM_PROPERTY_GETTER_UINT(ScrollableView, cacheSize)
+		TITANIUM_PROPERTY_SETTER_UINT(ScrollableView, cacheSize)
 
-		TITANIUM_PROPERTY_SETTER(ScrollableView, cacheSize)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_cacheSize(static_cast<std::uint32_t>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_UINT(ScrollableView, currentPage)
+		TITANIUM_PROPERTY_SETTER_UINT(ScrollableView, currentPage)
 
-		TITANIUM_PROPERTY_GETTER(ScrollableView, currentPage)
-		{
-			return get_context().CreateNumber(get_currentPage());
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollableView, disableBounce)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollableView, disableBounce)
 
-		TITANIUM_PROPERTY_SETTER(ScrollableView, currentPage)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_currentPage(static_cast<std::uint32_t>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_UNIMPLEMENTED(ScrollableView, overScrollMode)
+		TITANIUM_PROPERTY_SETTER_UNIMPLEMENTED(ScrollableView, overScrollMode)
 
-		TITANIUM_PROPERTY_GETTER(ScrollableView, disableBounce)
-		{
-			return get_context().CreateBoolean(get_disableBounce());
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(ScrollableView, pagingControlColor)
+		TITANIUM_PROPERTY_SETTER_STRING(ScrollableView, pagingControlColor)
 
-		TITANIUM_PROPERTY_SETTER(ScrollableView, disableBounce)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_disableBounce(static_cast<bool>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_UINT(ScrollableView, pagingControlHeight)
+		TITANIUM_PROPERTY_SETTER_UINT(ScrollableView, pagingControlHeight)
 
-		TITANIUM_PROPERTY_GETTER(ScrollableView, overScrollMode)
-		{
-			return get_overScrollMode();
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollableView, showPagingControl)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollableView, showPagingControl)
 
-		TITANIUM_PROPERTY_SETTER(ScrollableView, overScrollMode)
-		{
-			set_overScrollMode(argument);
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_TIME(ScrollableView, pagingControlTimeout)
+		TITANIUM_PROPERTY_SETTER_TIME(ScrollableView, pagingControlTimeout)
 
-		TITANIUM_PROPERTY_GETTER(ScrollableView, pagingControlColor)
-		{
-			return get_context().CreateString(get_pagingControlColor());
-		}
+		TITANIUM_PROPERTY_GETTER_DOUBLE(ScrollableView, pagingControlAlpha)
+		TITANIUM_PROPERTY_SETTER_DOUBLE(ScrollableView, pagingControlAlpha)
 
-		TITANIUM_PROPERTY_SETTER(ScrollableView, pagingControlColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_pagingControlColor(static_cast<std::string>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollableView, pagingControlOnTop)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollableView, pagingControlOnTop)
 
-		TITANIUM_PROPERTY_GETTER(ScrollableView, pagingControlHeight)
-		{
-			return get_context().CreateNumber(get_pagingControlHeight());
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollableView, overlayEnabled)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollableView, overlayEnabled)
 
-		TITANIUM_PROPERTY_SETTER(ScrollableView, pagingControlHeight)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_pagingControlHeight(static_cast<std::uint32_t>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollableView, scrollingEnabled)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollableView, scrollingEnabled)
 
-		TITANIUM_PROPERTY_GETTER(ScrollableView, showPagingControl)
-		{
-			return get_context().CreateBoolean(get_showPagingControl());
-		}
+		TITANIUM_PROPERTY_GETTER_OBJECT_ARRAY(ScrollableView, views)
+		TITANIUM_PROPERTY_SETTER_OBJECT_ARRAY(ScrollableView, views, View)
 
-		TITANIUM_PROPERTY_SETTER(ScrollableView, showPagingControl)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_showPagingControl(static_cast<bool>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollableView, clipViews)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollableView, clipViews)
 
-		TITANIUM_PROPERTY_GETTER(ScrollableView, pagingControlTimeout)
-		{
-			return get_context().CreateNumber(get_pagingControlTimeout());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollableView, pagingControlTimeout)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_pagingControlTimeout(static_cast<std::uint32_t>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(ScrollableView, pagingControlAlpha)
-		{
-			return get_context().CreateNumber(get_pagingControlAlpha());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollableView, pagingControlAlpha)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_pagingControlAlpha(static_cast<double>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(ScrollableView, pagingControlOnTop)
-		{
-			return get_context().CreateBoolean(get_pagingControlOnTop());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollableView, pagingControlOnTop)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_pagingControlOnTop(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(ScrollableView, overlayEnabled)
-		{
-			return get_context().CreateBoolean(get_overlayEnabled());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollableView, overlayEnabled)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_overlayEnabled(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(ScrollableView, scrollingEnabled)
-		{
-			return get_context().CreateBoolean(get_scrollingEnabled());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollableView, scrollingEnabled)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_scrollingEnabled(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(ScrollableView, views)
-		{
-			std::vector<JSValue> js_views;
-			for (auto view : get_views()) {
-				js_views.push_back(view->get_object());
-			}
-			return get_context().CreateArray(js_views);
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollableView, views)
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			auto js_arg = static_cast<JSObject>(argument);
-			TITANIUM_ASSERT(js_arg.IsArray());
-
-			auto views_obj = static_cast<JSArray>(js_arg);
-			auto js_views = static_cast<std::vector<JSValue>>(views_obj);
-			std::vector<std::shared_ptr<View>> views;
-			for (auto view : js_views) {
-				views.push_back(static_cast<JSObject>(view).GetPrivate<View>());
-			}
-			set_views(views);
-
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(ScrollableView, clipViews)
-		{
-			return get_context().CreateBoolean(get_clipViews());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollableView, clipViews)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_clipViews(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(ScrollableView, hitRect)
-		{
-			return Dimension_to_js(get_context(), get_hitRect());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollableView, hitRect)
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			set_hitRect(js_to_Dimension(static_cast<JSObject>(argument)));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_STRUCT(ScrollableView, hitRect, Dimension)
+		TITANIUM_PROPERTY_SETTER_STRUCT(ScrollableView, hitRect, Dimension)
 
 		TITANIUM_FUNCTION(ScrollableView, addView)
 		{

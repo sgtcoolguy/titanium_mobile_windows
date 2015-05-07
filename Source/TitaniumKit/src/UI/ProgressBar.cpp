@@ -17,10 +17,10 @@ namespace Titanium
 		ProgressBar::ProgressBar(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: View(js_context),
 			color__(""),
-			max__(0),
+			max__(1.0),
 			message__(""),
-			min__(0),
-			value__(0)
+			min__(0.0),
+			value__(0.0)
 		{
 		}
 
@@ -72,89 +72,26 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(ProgressBar, setValue);
 		}
 
-		TITANIUM_PROPERTY_GETTER(ProgressBar, color)
-		{
-			return get_context().CreateString(get_color());
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(ProgressBar, color)
+		TITANIUM_PROPERTY_SETTER_STRING(ProgressBar, color)
 
-		TITANIUM_PROPERTY_SETTER(ProgressBar, color)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_color(static_cast<std::string>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_STRUCT(ProgressBar, font, Font)
+		TITANIUM_PROPERTY_SETTER_STRUCT(ProgressBar, font, Font)
 
-		TITANIUM_PROPERTY_GETTER(ProgressBar, font)
-		{
-			return Font_to_js(get_context(), get_font());
-		}
+		TITANIUM_PROPERTY_GETTER_DOUBLE(ProgressBar, max)
+		TITANIUM_PROPERTY_SETTER_DOUBLE(ProgressBar, max)
 
-		TITANIUM_PROPERTY_SETTER(ProgressBar, font)
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			set_font(js_to_Font(static_cast<JSObject>(argument)));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(ProgressBar, message)
+		TITANIUM_PROPERTY_SETTER_STRING(ProgressBar, message)
 
-		TITANIUM_PROPERTY_GETTER(ProgressBar, max)
-		{
-			return get_context().CreateNumber(get_max());
-		}
+		TITANIUM_PROPERTY_GETTER_DOUBLE(ProgressBar, min)
+		TITANIUM_PROPERTY_SETTER_DOUBLE(ProgressBar, min)
 
-		TITANIUM_PROPERTY_SETTER(ProgressBar, max)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_max(static_cast<double>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_DOUBLE(ProgressBar, value)
+		TITANIUM_PROPERTY_SETTER_DOUBLE(ProgressBar, value)
 
-		TITANIUM_PROPERTY_GETTER(ProgressBar, message)
-		{
-			return get_context().CreateString(get_message());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ProgressBar, message)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_message(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(ProgressBar, min)
-		{
-			return get_context().CreateNumber(get_min());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ProgressBar, min)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_min(static_cast<double>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(ProgressBar, style)
-		{
-			TITANIUM_LOG_WARN("ProgressBar::style: getter unimplemented");
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_PROPERTY_SETTER(ProgressBar, style)
-		{
-			TITANIUM_LOG_WARN("ProgressBar::style: setter unimplemented");
-			return false;
-		}
-
-		TITANIUM_PROPERTY_GETTER(ProgressBar, value)
-		{
-			return get_context().CreateNumber(get_value());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ProgressBar, value)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_value(static_cast<double>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_UNIMPLEMENTED(ProgressBar, style)
+		TITANIUM_PROPERTY_SETTER_UNIMPLEMENTED(ProgressBar, style)
 
 		TITANIUM_FUNCTION(ProgressBar, remove)
 		{
