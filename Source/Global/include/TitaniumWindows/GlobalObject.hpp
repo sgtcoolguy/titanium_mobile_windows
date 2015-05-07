@@ -37,10 +37,11 @@ namespace TitaniumWindows
 
 		static void JSExportInitialize();
 
-		JSValue getNativeProperty(const JSString& property_name) const;
+		void registerNativeModuleLoader(const NativeModuleLoader& module_loader) const;
 
 	protected:
-		virtual std::string readRequiredModule(const std::string& path) const override final;
+		virtual std::string requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname = COMMONJS_SEPARATOR__) TITANIUM_NOEXCEPT override final;
+		virtual std::string readRequiredModule(const JSObject& parent, const std::string& path) const override final;
 		virtual bool requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT override final;
 		virtual std::shared_ptr<Titanium::GlobalObject::Timer> CreateTimer(Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT override final;
 	};

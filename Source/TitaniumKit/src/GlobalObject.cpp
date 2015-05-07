@@ -381,7 +381,7 @@ namespace Titanium
 		return false;
 	}
 
-	std::string GlobalObject::readRequiredModule(const std::string& path) const
+	std::string GlobalObject::readRequiredModule(const JSObject& parent, const std::string& path) const
 	{
 		TITANIUM_LOG_ERROR("GlobalObject::readRequiredModule: Unimplemented");
 		return "";

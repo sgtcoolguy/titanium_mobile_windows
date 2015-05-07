@@ -12,14 +12,6 @@
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 #include "TitaniumWindows/Utility.hpp"
-//#include <wrl\wrappers\corewrappers.h>
-//#include <roapi.h>
-//#include <cor.h>
-//#include <rometadata.h>
-//#include <rometadataresolution.h>
-//#include <wrl/client.h>
-
-using namespace Microsoft::WRL;
 
 namespace TitaniumWindows
 {
@@ -34,30 +26,18 @@ namespace TitaniumWindows
 		return location + "\\" + newpath;
 	}
 
-	JSValue GlobalObject::getNativeProperty(const JSString& property_name) const
+	std::string GlobalObject::requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname)
 	{
-		auto prop_name = static_cast<std::string>(property_name);
-		if ("Windows" == prop_name) {
-			// TODO Yay, let's generate a proxy object based on the metadata
-
-			// TODO Load up the metadata for this "node" in it and generate some wrapping JSExport class to hold the node.
-			// We could have it statically register it's functions/properties from the metadata or dynamically override GetPropertyCallback like this to look it up in real-time?
-
-			// Also a note that we could just have our metadata contain only the full listing of types and dynamically load the metadata for a type at runtime using:
-			// https://msdn.microsoft.com/en-uS/office/office365/hh699869.aspx
-
-			// Prepare HSTRING versions of class names
-			//IInspectable* something;
-			//Microsoft::WRL::Wrappers::HStringReference WindowClsName(L"Something.Another");
-			//Windows::Foundation::ActivateInstance(WindowClsName.Get(), &something);
-			// We can try to cast to an interface with:
-			//something->QueryInterface();
-			// We can get the class name back with:
-			//something->GetRuntimeClassName();
-
-			//Titanium::ReflectionHelper::Instantiate("Some.Type.Name");
+		auto result = Titanium::GlobalObject::requestResolveModule(parent, moduleId, dirname);
+		if (!result.empty()) {
+			return result;
 		}
-		return get_context().CreateNativeNull();
+
+		// TODO Unable to find the module normally. Let's see if it's a native type, if so we can resolve it properly.
+		// Maybe we should use some special prefix/suffix for the native type so we can avoid clashes and denote it special so that below it's easier to know when we're explicitly loading up a native type?
+		if (moduleId.find("Windows.") == 0) {
+			return "native:" + moduleId;
+		}
 	}
 
 	bool GlobalObject::requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT
@@ -81,8 +61,18 @@ namespace TitaniumWindows
 		return exists;
 	}
 
-	std::string GlobalObject::readRequiredModule(const std::string& path) const
+	std::string GlobalObject::readRequiredModule(const JSObject& parent, const std::string& path) const
 	{
+		if (path.find("native:") == 0) {
+			// if it is one, then we need to defer to some plugin/helper class that registers to handle it
+			// since I don't think we want to gum up Global module with all the natives?
+
+			auto context = parent.get_context();
+			// auto native_class = js_context.CreateObject(JSExport<Titanium::Windows::UI::Xaml::Controls::Page>::Class());
+			// register the native class off the windows namespaces on global
+			return "module.exports = Windows.UI.Xaml.Controls.Page;";
+		}
+
 		auto module_path = resolve(path);
 		TITANIUM_LOG_DEBUG("GlobalObject::loadRequiredModule: module_path = ", TitaniumWindows::Utility::ConvertUTF8String(module_path));
 
