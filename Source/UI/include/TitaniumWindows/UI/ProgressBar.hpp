@@ -20,6 +20,22 @@ namespace TitaniumWindows
 
 		using namespace HAL;
 
+		class TITANIUMWINDOWS_UI_EXPORT ProgressBarLayoutDelegate : public WindowsViewLayoutDelegate {
+		public:
+			ProgressBarLayoutDelegate(Windows::UI::Xaml::Controls::ProgressBar^) TITANIUM_NOEXCEPT;
+			virtual ~ProgressBarLayoutDelegate() = default;
+
+			// Hides progress bar and stops the animation.
+			virtual void hide() TITANIUM_NOEXCEPT override;
+
+			// Shows progress Bar and starts the animation.
+			virtual void show() TITANIUM_NOEXCEPT override;
+
+		protected:
+			Windows::UI::Xaml::Controls::ProgressBar^ bar__;
+			bool isIndeterminate__ { false };
+		};
+
 		/*!
 		  @class
 

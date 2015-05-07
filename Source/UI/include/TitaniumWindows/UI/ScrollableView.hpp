@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "Titanium/UI/ScrollableView.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 namespace TitaniumWindows
 {
@@ -18,6 +19,25 @@ namespace TitaniumWindows
 	{
 
 		using namespace HAL;
+
+		class TITANIUMWINDOWS_UI_EXPORT ScrollableViewLayoutDelegate : public WindowsViewLayoutDelegate {
+		public:
+			ScrollableViewLayoutDelegate(const std::shared_ptr<WindowsViewLayoutDelegate>&) TITANIUM_NOEXCEPT;
+			virtual ~ScrollableViewLayoutDelegate() = default;
+
+			void requestLayout(const bool& fire_event) override;
+
+			void setScrollablePageCount(const std::uint32_t& count) {
+				pageCount__ = count;
+			}
+
+		protected:
+#pragma warning(push)
+#pragma warning(disable : 4251)
+			std::shared_ptr<WindowsViewLayoutDelegate> contentView__;
+			std::uint32_t pageCount__ { 1 };
+#pragma warning(pop)
+		};
 
 		/*!
 		  @class
@@ -39,8 +59,13 @@ namespace TitaniumWindows
 #endif
 
 			static void JSExportInitialize();
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+
+			virtual void addView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT override;
 
 		private:
+			Windows::UI::Xaml::Controls::ScrollViewer^ scroll_viewer__;
+			JSObject contentView__;
 
 		};
 	}  // namespace UI

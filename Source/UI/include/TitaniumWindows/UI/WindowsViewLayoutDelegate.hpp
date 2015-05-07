@@ -359,7 +359,7 @@ namespace TitaniumWindows
 				return is_loaded__;
 			}
 
-			virtual void requestLayout(bool fire_event = false);
+			virtual void requestLayout(const bool& fire_event = false);
 
 			// compute its fixed size when either width or height (not both) is Ti.UI.SIZE
 			virtual Titanium::LayoutEngine::Rect computeRelativeSize(const double& x, const double& y,  const double& baseWidth, const double& baseHeight);

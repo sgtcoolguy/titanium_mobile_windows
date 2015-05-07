@@ -16,6 +16,28 @@ namespace TitaniumWindows
 	{
 		using namespace Windows::UI::Xaml;
 
+		ProgressBarLayoutDelegate::ProgressBarLayoutDelegate(Windows::UI::Xaml::Controls::ProgressBar^ bar)
+			: WindowsViewLayoutDelegate()
+			, bar__(bar) 
+			, isIndeterminate__(bar->IsIndeterminate)
+		{
+			TITANIUM_LOG_DEBUG("ActivityIndicatorLayoutDelegate::ctor");
+		}
+
+		void ProgressBarLayoutDelegate::show() TITANIUM_NOEXCEPT
+		{
+			WindowsViewLayoutDelegate::show();
+			bar__->IsIndeterminate = isIndeterminate__;
+		}
+
+		void ProgressBarLayoutDelegate::hide() TITANIUM_NOEXCEPT
+		{
+			WindowsViewLayoutDelegate::hide();
+			// Turn off IsIndeterminate when not needed
+			isIndeterminate__ = bar__->IsIndeterminate;
+			bar__->IsIndeterminate = false;
+		}
+
 		void ProgressBar::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
 			Titanium::UI::ProgressBar::postCallAsConstructor(js_context, arguments);
 
@@ -39,10 +61,10 @@ namespace TitaniumWindows
 			panel__->Children->Append(label__);
 			panel__->Children->Append(bar__);
 
-			Titanium::UI::ProgressBar::setLayoutDelegate<WindowsViewLayoutDelegate>();
+			Titanium::UI::ProgressBar::setLayoutDelegate<ProgressBarLayoutDelegate>(bar__);
 			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(panel__);
+			getViewLayoutDelegate<ProgressBarLayoutDelegate>()->setComponent(panel__);
 		}
 
 		ProgressBar::ProgressBar(const JSContext& js_context) TITANIUM_NOEXCEPT

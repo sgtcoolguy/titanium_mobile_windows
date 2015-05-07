@@ -27,7 +27,6 @@ namespace Titanium
 			pagingControlOnTop__(false),
 			overlayEnabled__(false),
 			scrollingEnabled__(false),
-			overScrollMode__(js_context.CreateNull()),
 			clipViews__(true)
 		{
 		}
@@ -49,7 +48,7 @@ namespace Titanium
 
 		void ScrollableView::addView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("ScrollableView::addView");
+			views__.push_back(view);
 		}
 
 		void ScrollableView::moveNext() TITANIUM_NOEXCEPT

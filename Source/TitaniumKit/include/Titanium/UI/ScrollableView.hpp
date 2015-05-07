@@ -233,7 +233,6 @@ namespace Titanium
 			std::uint32_t cacheSize__;
 			std::uint32_t currentPage__;
 			bool disableBounce__;
-			JSValue overScrollMode__;
 			std::string pagingControlColor__;
 			std::uint32_t pagingControlHeight__;
 			bool showPagingControl__;

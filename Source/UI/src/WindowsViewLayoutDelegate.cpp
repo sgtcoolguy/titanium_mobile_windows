@@ -576,7 +576,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		void WindowsViewLayoutDelegate::requestLayout(bool fire_event)
+		void WindowsViewLayoutDelegate::requestLayout(const bool& fire_event)
 		{
 			auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node__);
 			if (root) {
