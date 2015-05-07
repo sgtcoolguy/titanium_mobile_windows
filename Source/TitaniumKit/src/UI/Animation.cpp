@@ -20,7 +20,8 @@ namespace Titanium
 			backgroundColor__(""),
 			bottom__(0),
 			color__(""),
-			curve__(ANIMATION_CURVE::EASE_IN),
+			curve__(ANIMATION_CURVE::EASE_IN), // FIXME on iOS, leaving the default value actually uses dfeault ease here: https://developer.apple.com/library/mac/documentation/Cocoa/Reference/CAMediaTimingFunction_class/index.html#//apple_ref/doc/constant_group/Predefined_Timing_Functions
+			// which is NOT lineaer, and NOT the same as that used for EASE_IN. Basically it's an unexposed "other" ease function!
 			delay__(0),
 			duration__(0),
 			height__(0),
