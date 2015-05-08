@@ -85,6 +85,8 @@ namespace TitaniumWindows
 		                                                            .TableViewRowObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TableViewRow>::Class()))
 		                                                            .ActivityIndicatorObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ActivityIndicator>::Class()))
 		                                                            .build());
+		auto global = js_context__.get_global_object().GetPrivate<TitaniumWindows::GlobalObject>();
+		global->registerNativeModuleLoader(new WindowsNativeModuleLoader());
 
 		Suspending += ref new Windows::UI::Xaml::SuspendingEventHandler(this, &Application::OnSuspending);
 		Resuming += ref new Windows::Foundation::EventHandler<::Platform::Object ^>(this, &Application::OnResuming);

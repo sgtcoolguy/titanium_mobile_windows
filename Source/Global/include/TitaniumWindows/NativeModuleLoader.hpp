@@ -26,15 +26,7 @@ namespace TitaniumWindows
 
 		NativeModuleLoader() TITANIUM_NOEXCEPT;
 
-		virtual ~NativeModuleLoader() = default;
-		NativeModuleLoader(const NativeModuleLoader&) = default;
-		NativeModuleLoader& operator=(const NativeModuleLoader&) = default;
-#ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-		NativeModuleLoader(NativeModuleLoader&&) = default;
-		NativeModuleLoader& operator=(NativeModuleLoader&&) = default;
-#endif
-
-		bool registerNativeModule(const JSObject& parent, const std::string& path) const;
+		virtual bool registerNativeModule(const JSObject& parent, const std::string& path) const = 0;
 	};
 
 }  // namespace TitaniumWindows

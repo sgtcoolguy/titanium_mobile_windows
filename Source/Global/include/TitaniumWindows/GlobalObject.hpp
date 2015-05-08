@@ -10,6 +10,7 @@
 #define _TITANIUMWINDOWS_GLOBALOBJECT_HPP_
 
 #include "TitaniumWindows/detail/GlobalBase.hpp"
+#include "TitaniumWindows/NativeModuleLoader.hpp"
 
 namespace TitaniumWindows
 {
