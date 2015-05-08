@@ -25,6 +25,8 @@ function getParameters(parameters) {
 	return r;
 }
 Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
+
+var indent = Array(module_classes.length).join('\t');
 -%>
 /**
  * TitaniumKit <%= module %>
@@ -40,7 +42,6 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 <%= Array(i + 1).join('\t') %>namespace <%= module_classes[i] %>
 <%= Array(i + 1).join('\t') %>{
 <% } -%>
-
 <%
 var valid_properties = 0;
 for (i in data.properties) {
@@ -51,8 +52,8 @@ for (i in data.properties) {
 }
 -%>
 
-		<%= namespace %>::<%= namespace %>(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Module(js_context, arguments)<%= (valid_properties > 0 ? ',' : '') %>
+<%= indent %><%= namespace %>::<%= namespace %>(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+<%= indent %>	: <%= module_classes.contains('UI') ? 'View(js_context)' : 'Module(js_context, arguments)' %><%= (valid_properties > 0 ? ',' : '') %>
 <%
 for (i in data.properties) {
 	var property = data.properties[i];
@@ -61,11 +62,13 @@ for (i in data.properties) {
 	}
 	
 	if (property.type == 'String') { -%>
-			<%= property.name %>__(<%= ('default' in property ? property.default : "\"\"") %>)<%= (valid_properties > 1 ? ',' : '') %>
-<% 	} else if (property.type == 'Boolean') { -%>
-			<%= property.name %>__(<%= ('default' in property ? property.default : "false") %>)<%= (valid_properties > 1 ? ',' : '') %>
-<% 	} else if (property.type == 'Number') { -%>
-			<%= property.name %>__(<%= ('default' in property ? property.default : "0") %>)<%= (valid_properties > 1 ? ',' : '') %>
+<%= indent %>	<%= property.name %>__(<%= ('default' in property ? property.default : "\"\"") %>)<%= (valid_properties > 1 ? ',' : '') %>
+<% } else if (property.type == 'Boolean') { -%>
+<%= indent %>	<%= property.name %>__(<%= ('default' in property ? property.default : "false") %>)<%= (valid_properties > 1 ? ',' : '') %>
+<% } else if (property.type == 'Number') { -%>
+<%= indent %>	<%= property.name %>__(<%= ('default' in property && !isNaN(property.default) ? property.default : "0") %>)<%= (valid_properties > 1 ? ',' : '') %>
+<% } else { -%>
+<%= indent %>	<%= property.name %>__(get_context().CreateUndefined())<%= (valid_properties > 1 ? ',' : '') %>
 <%
  	}
 	valid_properties--;
@@ -91,15 +94,15 @@ for (i in data.properties) {
 <%
 	} else if (property.permission && property.permission == 'read-only') {
 -%>
-		TITANIUM_PROPERTY_READ(<%= namespace %>, <%= getType(property.type) %>, <%= property.name %>)
+<%= indent %>TITANIUM_PROPERTY_READ(<%= namespace %>, <%= getType(property.type) %>, <%= property.name %>)
 <%
 	} else {
 -%>
-		TITANIUM_PROPERTY_READWRITE(<%= namespace %>, <%= getType(property.type) %>, <%= property.name %>)
-<%	} -%>
+<%= indent %>TITANIUM_PROPERTY_READWRITE(<%= namespace %>, <%= getType(property.type) %>, <%= property.name %>)
+<% } -%>
+<% } -%>
 
 <%
-}
 
 for (i in data.methods) {
 	var method = data.methods[i];
@@ -108,28 +111,29 @@ for (i in data.methods) {
 	}
 	
 	var parameters = ('parameters' in method ? getParameters(method.parameters) : '');
-	var type = ('returns' in method ? method.returns[0].type : 'JSValue');
+	var type = ('returns' in method ? method.returns[0].type : 'void');
 -%>
-		<%= getType(type) %> <%= namespace %>::<%= method.name %>(<%= parameters %>) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("<%= namespace %>::<%= method.name %>: Unimplemented");
+<%= indent %><%= getType(type) %> <%= namespace %>::<%= method.name %>(<%= parameters %>) TITANIUM_NOEXCEPT
+<%= indent %>{
+<%= indent %>	TITANIUM_LOG_WARN("<%= namespace %>::<%= method.name %>: Unimplemented");
 <% 	if (type == 'String') { -%>
-			return "";
+<%= indent %>	return "";
 <% 	} else if (type == 'Boolean') { -%>
-			return false;
+<%= indent %>	return false;
 <% 	} else if (type == 'Number') { -%>
-			return 0;
+<%= indent %>	return 0;
+<% 	} else if (type == 'void') { -%>
 <% 	} else { -%>
-			return get_context().CreateUndefined();
+<%= indent %>	return get_context().CreateUndefined();
 <% 	} -%>
 		}
 
 <%
 }
 -%>
-		void <%= namespace %>::JSExportInitialize() {
-			JSExport<<%= namespace %>>::SetClassVersion(1);
-			JSExport<<%= namespace %>>::SetParent(JSExport<Module>::Class());
+<%= indent %>void <%= namespace %>::JSExportInitialize() {
+<%= indent %>	JSExport<<%= namespace %>>::SetClassVersion(1);
+<%= indent %>	JSExport<<%= namespace %>>::SetParent(JSExport<Module>::Class());
 
 <%
 for (i in data.properties) {
@@ -140,9 +144,9 @@ for (i in data.properties) {
 	
 	if (property.permission && property.permission == 'read-only') {
 -%>
-			TITANIUM_ADD_PROPERTY_READONLY(<%= namespace %>, <%= property.name %>);
+<%= indent %>	TITANIUM_ADD_PROPERTY_READONLY(<%= namespace %>, <%= property.name %>);
 <%	} else { -%>
-			TITANIUM_ADD_PROPERTY(<%= namespace %>, <%= property.name %>);
+<%= indent %>	TITANIUM_ADD_PROPERTY(<%= namespace %>, <%= property.name %>);
 <%
 	}
 }
@@ -155,7 +159,7 @@ for (i in data.methods) {
 		continue;
 	}
 -%>
-			TITANIUM_ADD_FUNCTION(<%= namespace %>, <%= method.name %>);
+<%= indent %>	TITANIUM_ADD_FUNCTION(<%= namespace %>, <%= method.name %>);
 <%
 }
 -%>
@@ -168,14 +172,14 @@ for (i in data.properties) {
 		continue;
 	}
 -%>
-		TITANIUM_PROPERTY_GETTER(<%= namespace %>, <%= property.name %>)
-		{
+<%= indent %>TITANIUM_PROPERTY_GETTER(<%= namespace %>, <%= property.name %>)
+<%= indent %>{
 <% 	if (property.type == 'String' || property.type == 'Boolean' || property.type == 'Number') { -%>
-			return get_context().Create<%= property.type %>(get_<%= property.name %>());
+<%= indent %>	return get_context().Create<%= property.type %>(get_<%= property.name %>());
 <% 	} else { -%>
-			return <%= property.name %>();
+<%= indent %>	return <%= property.name %>__;
 <% 	} -%>
-		}
+<%= indent %>}
 
 <%
 	// if read-only, no setter so skip to next property.
@@ -183,23 +187,23 @@ for (i in data.properties) {
 		continue;
 	}
 -%>
-		TITANIUM_PROPERTY_SETTER(<%= namespace %>, <%= property.name %>)
-		{
+<%= indent %>TITANIUM_PROPERTY_SETTER(<%= namespace %>, <%= property.name %>)
+<%= indent %>{
 <% 	if (property.type == 'String') { -%>
-			TITANIUM_ASSERT(argument.IsString());
-			set_<%= property.name %>(static_cast<std::string>(argument));
+<%= indent %>	TITANIUM_ASSERT(argument.IsString());
+<%= indent %>	set_<%= property.name %>(static_cast<std::string>(argument));
 <% 	} else if (property.type == 'Number') { -%>
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_<%= property.name %>(static_cast<double>(argument));
+<%= indent %>	TITANIUM_ASSERT(argument.IsNumber());
+<%= indent %>	set_<%= property.name %>(static_cast<double>(argument));
 <% 	} else if (property.type == 'Boolean') { -%>
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_<%= property.name %>(static_cast<bool>(argument));
+<%= indent %>	TITANIUM_ASSERT(argument.IsBoolean());
+<%= indent %>	set_<%= property.name %>(static_cast<bool>(argument));
 <% 	} else { -%>
-			TITANIUM_ASSERT(argument.IsObject());
-			set_<%= property.name %>(static_cast<JSObject>(argument));
+<%= indent %>	TITANIUM_ASSERT(argument.IsObject());
+<%= indent %>	set_<%= property.name %>(static_cast<JSObject>(argument));
 <% 	} -%>
-			return true;
-		}
+<%= indent %>	return true;
+<%= indent %>}
 
 <%
 }
@@ -216,27 +220,27 @@ for (i in data.methods) {
 		var propName = method.name.charAt(3).toLowerCase() + method.name.slice(4);
 		if (method.name.slice(0, 3) == "set") {
 -%>
-		TITANIUM_FUNCTION_AS_SETTER(<%= namespace %>, <%= method.name %>, <%= propName %>)
+<%= indent %>TITANIUM_FUNCTION_AS_SETTER(<%= namespace %>, <%= method.name %>, <%= propName %>)
 <%
 		} else {
 -%>
-		TITANIUM_FUNCTION_AS_GETTER(<%= namespace %>, <%= method.name %>, <%= propName %>)
+<%= indent %>TITANIUM_FUNCTION_AS_GETTER(<%= namespace %>, <%= method.name %>, <%= propName %>)
 <%
 		}
 	} else {
 		// Non-accessor functions
 -%>
-		TITANIUM_FUNCTION(<%= namespace %>, <%= method.name %>)
-		{
-			TITANIUM_LOG_WARN("<%= name %>.<%= method.name %> is not implemented yet");
+<%= indent %>TITANIUM_FUNCTION(<%= namespace %>, <%= method.name %>)
+<%= indent %>{
+<%= indent %>	TITANIUM_LOG_WARN("<%= name %>.<%= method.name %> is not implemented yet");
 
 <%
 		if (!method.parameters) {
 			// No args, just invoke method
 -%>
 			// FIXME handle return value!
-			<%= method.name %>();
-			return get_context().CreateUndefined();
+<%= indent %>	<%= method.name %>();
+<%= indent %>	return get_context().CreateUndefined();
 		}
 <%
 			continue;
@@ -252,12 +256,12 @@ for (i in data.methods) {
 			
 		if (requiredParameterCount == 1) {
 -%>
-			if (arguments.empty()) {
+<%= indent %>	if (arguments.empty()) {
 <% 		} else { -%>
-			if (arguments.size() < <%= requiredParameterCount %>) {
+<%= indent %>	if (arguments.size() < <%= requiredParameterCount %>) {
 <% 		} -%>
-				return get_context().CreateUndefined();
-			}
+<%= indent %>		return get_context().CreateUndefined();
+<%= indent %>	}
 
 <%
 		// FIXME In most cases, the params at each index are always the same and it's just a metter of having optional 2nd, 3rd, 4th, etc params.
@@ -289,9 +293,9 @@ for (i in data.methods) {
 		}
 -%>
 			// TODO handle return value!
-			<%= method.name %>(<%= parameters %>);
-			return get_context().CreateUndefined();
-		}
+<%= indent %>	<%= method.name %>(<%= parameters %>);
+<%= indent %>	return get_context().CreateUndefined();
+<%= indent %>}
 <%
 	}
 -%>

@@ -25,6 +25,8 @@ function getParameters(parameters) {
 	return r;
 }
 Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
+
+var indent = Array(module_classes.length).join('\t');
 -%>
 /**
  * <%= module %> for Windows
@@ -36,6 +38,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 
 #include "TitaniumWindows/<%= module_path %>.hpp"
 #include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
 {
@@ -43,26 +46,25 @@ namespace TitaniumWindows
 <%= Array(i + 1).join('\t') %>namespace <%= module_classes[i] %>
 <%= Array(i + 1).join('\t') %>{
 <% } -%>
+<%= indent %><%= namespace %>::<%= namespace %>(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+<%= indent %>	: Titanium::<%= full_namespace %>(js_context, arguments)
+<%= indent %>{
+<%= indent %>	TITANIUM_LOG_DEBUG("<%= name %>::ctor Initialize");
+<%= indent %>}
 
-		<%= namespace %>::<%= namespace %>(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Titanium::<%= full_namespace %>(js_context, arguments)
-		{
-			TITANIUM_LOG_DEBUG("<%= name %>::ctor Initialize");
-		}
-
-		void <%= namespace %>::JSExportInitialize() {
-			JSExport<<%= namespace %>>::SetClassVersion(1);
-			JSExport<<%= namespace %>>::SetParent(JSExport<Titanium::<%= full_namespace %>>::Class());
-		}
+<%= indent %>void <%= namespace %>::JSExportInitialize() {
+<%= indent %>	JSExport<<%= namespace %>>::SetClassVersion(1);
+<%= indent %>	JSExport<<%= namespace %>>::SetParent(JSExport<Titanium::<%= full_namespace %>>::Class());
+<%= indent %>}
 
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
 <% if (property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
 <% if (!property.__permission || property.__permission != "read-only") {-%>
-		void <%= namespace %>::set_<%= property.name %>(<%= getType(property.type, true) %> <%= property.name %>) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("<%= namespace %>::set_<%= property.name %>: Unimplemented");
-		}
+<%= indent %>void <%= namespace %>::set_<%= property.name %>(<%= getType(property.type, true) %> <%= property.name %>) TITANIUM_NOEXCEPT
+<%= indent %>{
+<%= indent %>	TITANIUM_LOG_WARN("<%= namespace %>::set_<%= property.name %>: Unimplemented");
+<%= indent %>}
 
 <% } -%>
 <% } -%>
@@ -72,19 +74,20 @@ namespace TitaniumWindows
 <% if (method.__accessor != true && method.__inherits == module && (method.platforms.contains('android') && method.platforms.contains('iphone'))) {-%>
 <% var parameters = ('parameters' in method ? getParameters(method.parameters) : '') -%>
 <% var type = ('returns' in method ? method.returns[0].type : 'void') -%>
-		<%= getType(type) %> <%= namespace %>::<%= method.name %>(<%= parameters %>) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("<%= name %>.<%= method.name %> is not implemented yet");
+<%= indent %><%= getType(type) %> <%= namespace %>::<%= method.name %>(<%= parameters %>) TITANIUM_NOEXCEPT
+<%= indent %>{
+<%= indent %>	TITANIUM_LOG_WARN("<%= name %>.<%= method.name %> is not implemented yet");
 <% if (type == 'String') { -%>
-			return "";
+<%= indent %>	return "";
 <% } else if (type == 'Boolean') { -%>
-			return false;
+<%= indent %>	return false;
 <% } else if (type == 'Number') { -%>
-			return 0;
+<%= indent %>	return 0;
+<% } else if (type == 'void') { -%>
 <% } else { -%>
-			return get_context().CreateUndefined();
+<%= indent %>	return get_context().CreateUndefined();
 <% } -%>
-		}
+<%= indent %>}
 
 <% } -%>
 <% } -%>

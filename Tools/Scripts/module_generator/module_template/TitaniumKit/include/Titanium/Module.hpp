@@ -25,6 +25,8 @@ function getParameters(parameters) {
 	return r;
 }
 Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
+
+var indent = Array(module_classes.length).join('\t');
 -%>
 /**
  * TitaniumKit <%= module %>
@@ -37,24 +39,23 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 #ifndef _TITANIUM_<%= name_upper %>_HPP_
 #define _TITANIUM_<%= name_upper %>_HPP_
 
-#include "Titanium/Module.hpp"
+#include "Titanium/<%= module_classes.contains('UI') ? 'UI/View' : 'Module' %>.hpp"
 
 <% for (var i = 0; i < module_classes.length - 1; i++) { -%>
 <%= Array(i + 1).join('\t') %>namespace <%= module_classes[i] %>
 <%= Array(i + 1).join('\t') %>{
 <% } -%>
+<%= indent %>using namespace HAL;
 
-		using namespace HAL;
+<%= indent %>/*!
+<%= indent %>  @class
+<%= indent %>  @discussion This is the Titanium <%= name %> Module.
+<%= indent %>  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.<%= full_namespace.replace(/::/g,'.') %>
+<%= indent %>*/
+<%= indent %>class TITANIUMKIT_EXPORT <%= namespace %> : public <%= module_classes.contains('UI') ? 'View' : 'Module' %>, public JSExport<<%= namespace %>>
+<%= indent %>{
 
-		/*!
-		  @class
-		  @discussion This is the Titanium <%= name %> Module.
-		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.<%= full_namespace.replace(/::/g,'.') %>
-		*/
-		class TITANIUMKIT_EXPORT <%= namespace %> : public <%= module_classes.contains('UI') ? 'View' : 'Module' %>, public JSExport<<%= namespace %>>
-		{
-
-		public:
+<%= indent %>public:
 <%
 for (i in data.properties) {
 	var property = data.properties[i];
@@ -63,20 +64,20 @@ for (i in data.properties) {
 	}
 -%>
 
-			/*!
-			  @property
-			  @abstract <%= property.name %>
-			  @discussion <%= property.summary.replace(/\n/g,'') %>
-			*/
+<%= Array(module_classes.length+1).join('\t') %>/*!
+<%= Array(module_classes.length+1).join('\t') %>  @property
+<%= Array(module_classes.length+1).join('\t') %>  @abstract <%= property.name %>
+<%= Array(module_classes.length+1).join('\t') %>  @discussion <%= property.summary.replace(/\n/g,'') %>
+<%= Array(module_classes.length+1).join('\t') %>*/
 <%
 	if (property.type == 'Number' && property.permission && property.permission == 'read-only') {
 		property.isJS = true;
 -%>
 			virtual JSValue <%= property.name %>() const TITANIUM_NOEXCEPT final;
 <% 	} else if (property.permission && property.permission == 'read-only') { -%>
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(<%= getType(property.type) %>, <%= property.name %>);
+<%= Array(module_classes.length+1).join('\t') %>TITANIUM_PROPERTY_IMPL_READONLY_DEF(<%= getType(property.type) %>, <%= property.name %>);
 <% 	} else { -%>
-			TITANIUM_PROPERTY_IMPL_DEF(<%= getType(property.type) %>, <%= property.name %>);
+<%= Array(module_classes.length+1).join('\t') %>TITANIUM_PROPERTY_IMPL_DEF(<%= getType(property.type) %>, <%= property.name %>);
 <%
 	}
 }
@@ -91,20 +92,19 @@ for (i in data.methods) {
 	var type = ('returns' in method ? method.returns[0].type : 'void');
 -%>
 
-			/*!
-			  @method
-			  @abstract <%= method.name %>
-			  @discussion <%= method.summary.replace(/\n/g,'') %>
-			*/
-			virtual <%= getType(type) %> <%= method.name -%>(<%= parameters %>) TITANIUM_NOEXCEPT;
+<%= Array(module_classes.length+1).join('\t') %>/*!
+<%= Array(module_classes.length+1).join('\t') %>  @method
+<%= Array(module_classes.length+1).join('\t') %>  @abstract <%= method.name %>
+<%= Array(module_classes.length+1).join('\t') %>  @discussion <%= method.summary.replace(/\n/g,'') %>
+<%= Array(module_classes.length+1).join('\t') %>*/
+<%= Array(module_classes.length+1).join('\t') %>virtual <%= getType(type) %> <%= method.name -%>(<%= parameters %>) TITANIUM_NOEXCEPT;
 <%
 }
 -%>
 
 			<%= namespace %>(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
-
-			virtual ~<%= namespace %>() = default;
-			<%= namespace %>(const <%= namespace %>&) = default;
+			virtual ~<%= namespace %>()<%= Array(namespace.length).join(' ') %>           = default;
+			<%= namespace %>(const <%= namespace %>&)            = default;
 			<%= namespace %>& operator=(const <%= namespace %>&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
 			<%= namespace %>(<%= namespace %>&&)                 = default;
@@ -122,9 +122,9 @@ for (i in data.properties) {
 
 	if (property.permission && property.permission == 'read-only') {
 -%>
-			TITANIUM_PROPERTY_READONLY_DEF(<%= property.name %>);
+<%= Array(module_classes.length+1).join('\t') %>TITANIUM_PROPERTY_READONLY_DEF(<%= property.name %>);
 <%	} else { -%>
-			TITANIUM_PROPERTY_DEF(<%= property.name %>);
+<%= Array(module_classes.length+1).join('\t') %>TITANIUM_PROPERTY_DEF(<%= property.name %>);
 <%
 	}
 }
@@ -137,13 +137,13 @@ for (i in data.methods) {
 		continue;
 	}
 -%>
-			TITANIUM_FUNCTION_DEF(<%= method.name %>);
+<%= Array(module_classes.length+1).join('\t') %>TITANIUM_FUNCTION_DEF(<%= method.name %>);
 <%
 }
 -%>
 
 <% if (data.properties.length > 0) { -%>
-			protected:
+<%= indent %>protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 <%
@@ -153,7 +153,7 @@ for (i in data.properties) {
 		continue;
 	}
 -%>
-				<%= getType(property.type) %> <%= property.name %>__;
+<%= indent %>	<%= getType(property.type) %> <%= property.name %>__;
 <%
 }
 -%>

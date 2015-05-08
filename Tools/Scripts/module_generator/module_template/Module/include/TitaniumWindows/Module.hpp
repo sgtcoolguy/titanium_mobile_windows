@@ -41,7 +41,7 @@ String.prototype.repeat=function(x){return (new Array(x+1)).join(this);}
 <% if (!sub_class) { -%>
 #include "TitaniumWindows/detail/<%= module_path %>Base.hpp"
 <% } else { -%>
-#include "<%= '../'.repeat(module_classes.length-2) %>detail/<%= module_parent %>Base.hpp"
+#include "TitaniumWindows/<%= module_classes.slice(1, module_classes.length-1).join('/') %>/detail/<%= module_parent %>Base.hpp"
 <% } -%>
 
 namespace TitaniumWindows
@@ -50,7 +50,6 @@ namespace TitaniumWindows
 	namespace <%= module_classes[i] %>
 	{
 <% } -%>
-
 		using namespace HAL;
 
 		/*!
@@ -62,9 +61,9 @@ namespace TitaniumWindows
 		{
 
 		public:
+			
 			<%= namespace %>(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
-
-			virtual ~<%= namespace %>()                  = default;
+			virtual ~<%= namespace %>()<%= Array(namespace.length).join(' ') %>           = default;
 			<%= namespace %>(const <%= namespace %>&)            = default;
 			<%= namespace %>& operator=(const <%= namespace %>&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
