@@ -25,6 +25,8 @@ function getParameters(parameters) {
 	return r;
 }
 Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
+
+var indent = Array(module_classes.length).join('\t');
 -%>
 /**
  * TitaniumKit <%= module %>
@@ -43,17 +45,17 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 <%= Array(i + 1).join('\t') %>namespace <%= module_classes[i] %>
 <%= Array(i + 1).join('\t') %>{
 <% } -%>
-<%= Array(module_classes.length).join('\t') %>using namespace HAL;
+<%= indent %>using namespace HAL;
 
-<%= Array(module_classes.length).join('\t') %>/*!
-<%= Array(module_classes.length).join('\t') %>  @class
-<%= Array(module_classes.length).join('\t') %>  @discussion This is the Titanium <%= name %> Module.
-<%= Array(module_classes.length).join('\t') %>  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.<%= full_namespace.replace(/::/g,'.') %>
-<%= Array(module_classes.length).join('\t') %>*/
-<%= Array(module_classes.length).join('\t') %>class TITANIUMKIT_EXPORT <%= namespace %> : public <%= module_classes.contains('UI') ? 'View' : 'Module' %>, public JSExport<<%= namespace %>>
-<%= Array(module_classes.length).join('\t') %>{
+<%= indent %>/*!
+<%= indent %>  @class
+<%= indent %>  @discussion This is the Titanium <%= name %> Module.
+<%= indent %>  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.<%= full_namespace.replace(/::/g,'.') %>
+<%= indent %>*/
+<%= indent %>class TITANIUMKIT_EXPORT <%= namespace %> : public <%= module_classes.contains('UI') ? 'View' : 'Module' %>, public JSExport<<%= namespace %>>
+<%= indent %>{
 
-<%= Array(module_classes.length).join('\t') %>public:
+<%= indent %>public:
 <%
 for (i in data.properties) {
 	var property = data.properties[i];
@@ -141,7 +143,7 @@ for (i in data.methods) {
 -%>
 
 <% if (data.properties.length > 0) { -%>
-<%= Array(module_classes.length).join('\t') %>protected:
+<%= indent %>protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 <%
@@ -151,7 +153,7 @@ for (i in data.properties) {
 		continue;
 	}
 -%>
-<%= Array(module_classes.length).join('\t') %>	<%= getType(property.type) %> <%= property.name %>__;
+<%= indent %>	<%= getType(property.type) %> <%= property.name %>__;
 <%
 }
 -%>

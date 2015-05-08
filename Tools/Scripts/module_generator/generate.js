@@ -85,7 +85,7 @@ function generateModule(module) {
 					file = file.replace(/Module/, module_parent);
 				}
 
-				var filePath = SOURCE_FOLDER + file.substring(MODULE_FOLDER.length+1).replace(/Module/g, file.contains('UI\\src') ? module_name : module_path);
+				var filePath = SOURCE_FOLDER + file.substring(MODULE_FOLDER.length+1).replace(/Module/g, file.contains('UI' + path.sep + 'src') ? module_name : module_path);
 				writeFile(filePath, r);
 			} catch (e) {
 				console.log(e.toString());
