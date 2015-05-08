@@ -37,16 +37,8 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_READWRITE(AlertDialog, std::vector<std::string>, buttonNames)
-
-		void AlertDialog::addButton(const std::string& buttonName) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_DEBUG("AlertDialog::addButton not implemented");
-		}
-
 		TITANIUM_PROPERTY_READWRITE(AlertDialog, int32_t, cancel)
-
 		TITANIUM_PROPERTY_READWRITE(AlertDialog, std::string, message)
-
 		TITANIUM_PROPERTY_READWRITE(AlertDialog, std::string, title)
 
 		void AlertDialog::JSExportInitialize()
@@ -59,93 +51,49 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(AlertDialog, cancel);
 			TITANIUM_ADD_PROPERTY(AlertDialog, message);
 			TITANIUM_ADD_PROPERTY(AlertDialog, title);
+
+			TITANIUM_ADD_FUNCTION(AlertDialog, getButtonNames);
+			TITANIUM_ADD_FUNCTION(AlertDialog, setButtonNames);
+			TITANIUM_ADD_FUNCTION(AlertDialog, getCancel);
+			TITANIUM_ADD_FUNCTION(AlertDialog, setCancel);
+			TITANIUM_ADD_FUNCTION(AlertDialog, getMessage);
+			TITANIUM_ADD_FUNCTION(AlertDialog, setMessage);
+			TITANIUM_ADD_FUNCTION(AlertDialog, getTitle);
+			TITANIUM_ADD_FUNCTION(AlertDialog, setTitle);
 		}
 
 		TITANIUM_FUNCTION(AlertDialog, hide)
 		{
-			TITANIUM_ASSERT(arguments.size() == 0);
 			hide();
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(AlertDialog, show)
 		{
-			TITANIUM_ASSERT(arguments.size() == 0);
 			show();
 			return get_context().CreateUndefined();
 		}
 
-		TITANIUM_PROPERTY_GETTER(AlertDialog, buttonNames)
-		{
-			auto context = get_context();
-			std::vector<JSValue> jsButtonNames = std::vector<JSValue>();
-			for (auto &buttonName : buttonNames__) {
-				jsButtonNames.push_back(context.CreateString(buttonName));
-			}
-			return context.CreateArray(jsButtonNames);
-		}
+		TITANIUM_PROPERTY_GETTER_STRING_ARRAY(AlertDialog, buttonNames)
+		TITANIUM_PROPERTY_SETTER_STRING_ARRAY(AlertDialog, buttonNames)
 
-		TITANIUM_PROPERTY_SETTER(AlertDialog, buttonNames)
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			auto object = static_cast<JSObject>(argument);
+		TITANIUM_PROPERTY_GETTER_INT(AlertDialog, cancel)
+		TITANIUM_PROPERTY_SETTER_INT(AlertDialog, cancel)
 
-			// This allows us to see the size of the array
-			const auto string_count = object.GetPropertyNames().GetCount();
-			if (string_count == 0) {
-				TITANIUM_LOG_WARN("AlertDialog::js_set_buttonNames no button names given");
-				return false;
-			}
+		TITANIUM_PROPERTY_GETTER_STRING(AlertDialog, title)
+		TITANIUM_PROPERTY_SETTER_STRING(AlertDialog, title)
 
-			// convert the array into std::vector
-			buttonNames__ = std::vector<std::string>();
-			for (unsigned i = 0; i < string_count; ++i) {
-				// TODO verify that the array has something at this index, JS arrays can be sparse!
-				JSValue button_name = object.GetProperty(i);
+		TITANIUM_PROPERTY_GETTER_STRING(AlertDialog, message)
+		TITANIUM_PROPERTY_SETTER_STRING(AlertDialog, message)
 
-				// Precondition
-				TITANIUM_ASSERT(button_name.IsString());
-				std::string name = static_cast<std::string>(button_name);
-				buttonNames__.push_back(name);
-				addButton(name);
-			}
-			return true;
-		}
+		TITANIUM_FUNCTION_AS_GETTER(AlertDialog, getButtonNames, buttonNames)
+		TITANIUM_FUNCTION_AS_SETTER(AlertDialog, setButtonNames, buttonNames)
+		TITANIUM_FUNCTION_AS_GETTER(AlertDialog, getCancel, cancel)
+		TITANIUM_FUNCTION_AS_SETTER(AlertDialog, setCancel, cancel)
+		TITANIUM_FUNCTION_AS_GETTER(AlertDialog, getMessage, message)
+		TITANIUM_FUNCTION_AS_SETTER(AlertDialog, setMessage, message)
+		TITANIUM_FUNCTION_AS_GETTER(AlertDialog, getTitle, title)
+		TITANIUM_FUNCTION_AS_SETTER(AlertDialog, setTitle, title)
 
-		TITANIUM_PROPERTY_GETTER(AlertDialog, message)
-		{
-			return get_context().CreateString(get_message());
-		}
-
-		TITANIUM_PROPERTY_SETTER(AlertDialog, message)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_message(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(AlertDialog, cancel)
-		{
-			return get_context().CreateNumber(get_cancel());
-		}
-
-		TITANIUM_PROPERTY_SETTER(AlertDialog, cancel)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_cancel(static_cast<int32_t>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(AlertDialog, title)
-		{
-			return get_context().CreateString(get_title());
-		}
-
-		TITANIUM_PROPERTY_SETTER(AlertDialog, title)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_title(static_cast<std::string>(argument));
-			return true;
-		}
 	} // namespace UI
 }  // namespace Titanium

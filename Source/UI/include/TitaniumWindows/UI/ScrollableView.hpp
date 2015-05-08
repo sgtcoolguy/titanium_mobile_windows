@@ -20,22 +20,19 @@ namespace TitaniumWindows
 
 		using namespace HAL;
 
+		class ScrollableView;
+
 		class TITANIUMWINDOWS_UI_EXPORT ScrollableViewLayoutDelegate : public WindowsViewLayoutDelegate {
 		public:
-			ScrollableViewLayoutDelegate(const std::shared_ptr<WindowsViewLayoutDelegate>&) TITANIUM_NOEXCEPT;
+			ScrollableViewLayoutDelegate(ScrollableView*) TITANIUM_NOEXCEPT;
 			virtual ~ScrollableViewLayoutDelegate() = default;
 
-			void requestLayout(const bool& fire_event) override;
-
-			void setScrollablePageCount(const std::uint32_t& count) {
-				pageCount__ = count;
-			}
-
+			virtual void onComponentSizeChange(const Titanium::LayoutEngine::Rect& rect) override;
 		protected:
+
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			std::shared_ptr<WindowsViewLayoutDelegate> contentView__;
-			std::uint32_t pageCount__ { 1 };
+			ScrollableView* scrollable_view__;
 #pragma warning(pop)
 		};
 
@@ -61,7 +58,13 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
-			virtual void addView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT override;
+			std::shared_ptr<WindowsViewLayoutDelegate> getContentViewLayoutDelegate();
+
+			void set_views(const std::vector<std::shared_ptr<View>>& views) TITANIUM_NOEXCEPT override;
+			void addView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT override;
+			void removeView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT override;
+
+			virtual void set_currentPage(const std::uint32_t& page) TITANIUM_NOEXCEPT override;
 
 		private:
 			Windows::UI::Xaml::Controls::ScrollViewer^ scroll_viewer__;

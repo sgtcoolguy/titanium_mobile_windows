@@ -17,8 +17,7 @@ namespace TitaniumWindows
 		using namespace Windows::Foundation;
 
 		AlertDialog::AlertDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : Titanium::UI::AlertDialog(js_context),
-			buttons__()
+		    : Titanium::UI::AlertDialog(js_context)
 		{
 			TITANIUM_LOG_DEBUG("AlertDialog::ctor");
 		}
@@ -47,8 +46,8 @@ namespace TitaniumWindows
 				dialog->CancelCommandIndex = get_cancel();
 			}
 
-			for (std::vector<std::string>::size_type i = 0; i != buttons__.size(); i++) {
-				dialog->Commands->Append(ref new Windows::UI::Popups::UICommand(TitaniumWindows::Utility::ConvertUTF8String(buttons__[i]), nullptr, PropertyValue::CreateInt32(i)));
+			for (std::vector<std::string>::size_type i = 0; i != buttonNames__.size(); i++) {
+				dialog->Commands->Append(ref new Windows::UI::Popups::UICommand(TitaniumWindows::Utility::ConvertUTF8String(buttonNames__[i]), nullptr, PropertyValue::CreateInt32(i)));
 			}
 
 			concurrency::create_task(dialog->ShowAsync()).then([this](IUICommand^ command) {
@@ -59,11 +58,6 @@ namespace TitaniumWindows
 				eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
 				fireEvent("click", eventArgs);
 			});
-		}
-
-		void AlertDialog::addButton(const std::string& buttonName) TITANIUM_NOEXCEPT
-		{
-			buttons__.push_back(buttonName);
 		}
 	} // namespace UI
 } // namespace TitaniumWindows
