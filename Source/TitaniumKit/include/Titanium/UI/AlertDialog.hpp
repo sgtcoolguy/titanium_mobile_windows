@@ -61,9 +61,7 @@ namespace Titanium
 
 			  @discussion Name of each button to create.
 			*/
-			virtual std::vector<std::string> get_buttonNames() const TITANIUM_NOEXCEPT final;
-			virtual void set_buttonNames(const std::vector<std::string>& buttonNames) TITANIUM_NOEXCEPT final;
-			virtual void addButton(const std::string& buttonName) TITANIUM_NOEXCEPT;
+			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::string>, buttonNames);
 
 			/*!
 			  @method
@@ -118,7 +116,16 @@ namespace Titanium
 			TITANIUM_PROPERTY_DEF(message);
 			TITANIUM_PROPERTY_DEF(title);
 
-		private:
+			TITANIUM_FUNCTION_DEF(getButtonNames);
+			TITANIUM_FUNCTION_DEF(setButtonNames);
+			TITANIUM_FUNCTION_DEF(getCancel);
+			TITANIUM_FUNCTION_DEF(setCancel);
+			TITANIUM_FUNCTION_DEF(getMessage);
+			TITANIUM_FUNCTION_DEF(setMessage);
+			TITANIUM_FUNCTION_DEF(getTitle);
+			TITANIUM_FUNCTION_DEF(setTitle);
+
+		protected:
 #pragma warning(push)
 #pragma warning(disable: 4251)
 			std::vector<std::string> buttonNames__;

@@ -30,6 +30,14 @@ namespace TitaniumWindows
 			Titanium::UI::ViewLayoutDelegate::postInitialize();
 		}
 
+		// TODO: implement this
+		void WindowsViewLayoutDelegate::remove(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::remove(view);
+
+			TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::remove not implemented");
+		}
+
 		void WindowsViewLayoutDelegate::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::add(view);

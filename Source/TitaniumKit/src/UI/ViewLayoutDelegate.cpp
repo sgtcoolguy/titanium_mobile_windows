@@ -35,6 +35,14 @@ namespace Titanium
 			children__.push_back(view);
 		}
 
+		void ViewLayoutDelegate::remove(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
+		{
+			auto it = std::find(children__.begin(), children__.end(), view);
+			if (it != children__.end()) {
+				children__.erase(it);
+			}
+		}
+
 		void ViewLayoutDelegate::animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ViewLayoutDelegate::animate: Unimplemented");

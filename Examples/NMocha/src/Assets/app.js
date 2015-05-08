@@ -39,7 +39,10 @@ require('./ti.ui.imageview.test');
 require('./ti.ui.label.test');
 require('./ti.ui.layout.test');
 require('./ti.ui.listview.test');
-//require('./ti.ui.progressbar.test'); // TODO Implement progressbar
+require('./ti.ui.alertdialog.test');
+require('./ti.ui.optiondialog.test');
+require('./ti.ui.progressbar.test');
+require('./ti.ui.scrollableview.test');
 require('./ti.ui.switch.test');
 require('./ti.ui.tableview.test');
 require('./ti.ui.textfield.test');

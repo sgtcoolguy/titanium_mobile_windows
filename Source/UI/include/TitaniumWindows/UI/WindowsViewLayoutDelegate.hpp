@@ -37,9 +37,10 @@ namespace TitaniumWindows
 
 			  @result void
 			*/
-			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
+			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT override;
+			virtual void remove(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT override;
 
-			virtual void animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT;
+			virtual void animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -52,7 +53,7 @@ namespace TitaniumWindows
 
 			  @result void
 			*/
-			virtual void hide() TITANIUM_NOEXCEPT;
+			virtual void hide() TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -65,7 +66,7 @@ namespace TitaniumWindows
 
 			  @result void
 			*/
-			virtual void show() TITANIUM_NOEXCEPT;
+			virtual void show() TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -78,7 +79,7 @@ namespace TitaniumWindows
 
 			  Default: Transparent
 			*/
-			virtual void set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT;
+			virtual void set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -91,7 +92,7 @@ namespace TitaniumWindows
 
 			  Default: Same as the normal background color of this view (Android, Mobile Web, Tizen), black (iOS).
 			*/
-			virtual void set_borderColor(const std::string& borderColor) TITANIUM_NOEXCEPT;
+			virtual void set_borderColor(const std::string& borderColor) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -104,7 +105,7 @@ namespace TitaniumWindows
 
 			  Default: 0
 			*/
-			virtual void set_borderRadius(const uint32_t& borderRadius) TITANIUM_NOEXCEPT;
+			virtual void set_borderRadius(const uint32_t& borderRadius) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -115,7 +116,7 @@ namespace TitaniumWindows
 
 			  Default: 0
 			*/
-			virtual void set_borderWidth(const uint32_t& borderWidth) TITANIUM_NOEXCEPT;
+			virtual void set_borderWidth(const uint32_t& borderWidth) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -128,7 +129,7 @@ namespace TitaniumWindows
 
 			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
 			*/
-			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT;
+			virtual void set_bottom(const std::string& bottom) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -139,7 +140,7 @@ namespace TitaniumWindows
 
 			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
 			*/
-			virtual void set_center(const Titanium::UI::Point& center) TITANIUM_NOEXCEPT;
+			virtual void set_center(const Titanium::UI::Point& center) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -164,7 +165,7 @@ namespace TitaniumWindows
 			  Titanium.UI.FILL
 			  Titanium.UI.SIZE
 			*/
-			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT;
+			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -173,7 +174,7 @@ namespace TitaniumWindows
 
 			  @discussion Specifies how the view positions its children. One of: 'composite', 'vertical', or 'horizontal'.
 			*/
-			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT;
+			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -186,7 +187,7 @@ namespace TitaniumWindows
 
 			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
 			*/
-			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT;
+			virtual void set_left(const std::string& left) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -211,7 +212,7 @@ namespace TitaniumWindows
 			  Titanium.UI.FILL
 			  Titanium.UI.SIZE
 			*/
-			virtual void set_minHeight(const std::string& height) TITANIUM_NOEXCEPT;
+			virtual void set_minHeight(const std::string& height) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -236,7 +237,7 @@ namespace TitaniumWindows
 			  Titanium.UI.FILL
 			  Titanium.UI.SIZE
 			*/
-			virtual void set_minWidth(const std::string& width) TITANIUM_NOEXCEPT;
+			virtual void set_minWidth(const std::string& width) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -247,9 +248,9 @@ namespace TitaniumWindows
 
 			  Default: 1.0 (opaque)
 			*/
-			virtual void set_opacity(const double& opacity) TITANIUM_NOEXCEPT;
+			virtual void set_opacity(const double& opacity) TITANIUM_NOEXCEPT override;
 
-			virtual Titanium::UI::Dimension get_rect() const TITANIUM_NOEXCEPT;
+			virtual Titanium::UI::Dimension get_rect() const TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -262,9 +263,9 @@ namespace TitaniumWindows
 
 			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
 			*/
-			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT;
+			virtual void set_right(const std::string& right) TITANIUM_NOEXCEPT override;
 
-			virtual Titanium::UI::Dimension get_size() const TITANIUM_NOEXCEPT;
+			virtual Titanium::UI::Dimension get_size() const TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -275,7 +276,7 @@ namespace TitaniumWindows
 
 			  This property is a direct correspondant of the tintColor property of UIView on iOS. If no value is specified, the tintColor of the View is inherited from its superview.
 			*/
-			virtual void set_tintColor(const std::string& tintColor) TITANIUM_NOEXCEPT;
+			virtual void set_tintColor(const std::string& tintColor) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -288,7 +289,7 @@ namespace TitaniumWindows
 
 			  This is an input property for specifying where the view should be positioned, and does not represent the view's calculated position.
 			*/
-			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT;
+			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT override;
 			
 			/*!
 			  @method
@@ -301,7 +302,7 @@ namespace TitaniumWindows
 
 			  Default: true
 			*/
-			virtual void set_touchEnabled(const bool& touchEnabled) TITANIUM_NOEXCEPT;
+			virtual void set_touchEnabled(const bool& touchEnabled) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -326,7 +327,7 @@ namespace TitaniumWindows
 			  Titanium.UI.FILL
 			  Titanium.UI.SIZE
 			*/
-			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT;
+			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
 
 			WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT;
 			virtual ~WindowsViewLayoutDelegate() = default;

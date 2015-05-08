@@ -15,32 +15,75 @@ namespace TitaniumWindows
 	{
 		using namespace Windows::UI::Xaml::Controls;
 
-		ScrollableViewLayoutDelegate::ScrollableViewLayoutDelegate(const std::shared_ptr<WindowsViewLayoutDelegate>& contentView) TITANIUM_NOEXCEPT
+		ScrollableViewLayoutDelegate::ScrollableViewLayoutDelegate(ScrollableView* scrollable_view) TITANIUM_NOEXCEPT
 			: WindowsViewLayoutDelegate()
-			, contentView__(contentView)
+			, scrollable_view__(scrollable_view)
 		{
 
 		}
 
-		void ScrollableViewLayoutDelegate::requestLayout(const bool& fire_event)
+		void ScrollableViewLayoutDelegate::onComponentSizeChange(const Titanium::LayoutEngine::Rect& rect)
 		{
-			WindowsViewLayoutDelegate::requestLayout(fire_event);
+			WindowsViewLayoutDelegate::onComponentSizeChange(rect);
 
-			const auto contentWidth = getComponent()->Width * pageCount__;
-			contentView__->getComponent()->Width = contentWidth;
+			const auto contentLayout = scrollable_view__->getContentViewLayoutDelegate();
+			const auto content = contentLayout->getComponent();
+
+			const auto scrollableViewLayout = scrollable_view__->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+
+			const auto views = scrollable_view__->get_views();
+
+			// adjust content view size
+			content->Width = scrollableViewLayout->getComponent()->Width * views.size();
 		}
 
-		void ScrollableView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
+		void ScrollableView::set_views(const std::vector<std::shared_ptr<View>>& views) TITANIUM_NOEXCEPT
+		{
+			const auto layout = getContentViewLayoutDelegate();
+
+			// remove existing views
+			for (auto view : get_views()) {
+				layout->remove(view);
+			}
+
+			// update views
+			Titanium::UI::ScrollableView::set_views(views);
+
+			for (auto view : views) {
+				layout->add(view);
+			}
+		}
+
+		void ScrollableView::addView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ScrollableView::addView(view);
+			getContentViewLayoutDelegate()->add(view);
+		}
+
+		void ScrollableView::removeView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ScrollableView::removeView(view);
+			getContentViewLayoutDelegate()->remove(view);
+		}
+
+		std::shared_ptr<WindowsViewLayoutDelegate> ScrollableView::getContentViewLayoutDelegate() 
+		{
+			const auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
+			return content->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+		}
+
+		void ScrollableView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
+		{
 			using namespace Windows::UI::Xaml::Controls;
 
 			Titanium::UI::ScrollableView::postCallAsConstructor(js_context, arguments);
 
 			scroll_viewer__ = ref new Windows::UI::Xaml::Controls::ScrollViewer();
 
-			scroll_viewer__->HorizontalScrollBarVisibility = ScrollBarVisibility::Visible;
-			scroll_viewer__->VerticalScrollBarVisibility = ScrollBarVisibility::Visible;
-			scroll_viewer__->HorizontalScrollMode = ScrollMode::Enabled;
-			scroll_viewer__->VerticalScrollMode = ScrollMode::Enabled;
+			scroll_viewer__->HorizontalScrollBarVisibility = ScrollBarVisibility::Hidden;
+			scroll_viewer__->VerticalScrollBarVisibility = ScrollBarVisibility::Hidden;
+			scroll_viewer__->HorizontalScrollMode = ScrollMode::Auto;
+			scroll_viewer__->VerticalScrollMode = ScrollMode::Disabled;
 
 			contentView__.SetProperty("layout", get_context().CreateString("horizontal"));
 			contentView__.SetProperty("top", get_context().CreateNumber(0));
@@ -50,15 +93,16 @@ namespace TitaniumWindows
 
 			auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
 			scroll_viewer__->Content = content->getComponent();
-			auto contentLayoutDelegate = content->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
 
-			Titanium::UI::ScrollableView::setLayoutDelegate<ScrollableViewLayoutDelegate>(contentLayoutDelegate);
+			Titanium::UI::ScrollableView::setLayoutDelegate<ScrollableViewLayoutDelegate>(this);
 
 			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 
 			auto layoutDelegate = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
 			layoutDelegate->setComponent(scroll_viewer__);
+
+			auto contentLayoutDelegate = getContentViewLayoutDelegate();
 
 			auto nativeChildView = content->getComponent();
 			if (nativeChildView != nullptr) {
@@ -71,16 +115,15 @@ namespace TitaniumWindows
 			}
 		}
 
-		void ScrollableView::addView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT
+		void ScrollableView::set_currentPage(const std::uint32_t& page) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ScrollableView::addView(view);
+			Titanium::UI::ScrollableView::set_currentPage(page);
 
-			getViewLayoutDelegate<ScrollableViewLayoutDelegate>()->setScrollablePageCount(views__.size());
-
-			auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
-			auto layout  = content->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
-
-			layout->add(view);
+			scroll_viewer__->ChangeView(
+			ref new Platform::Box<double>(currentPage__ * getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent()->Width),
+			ref new Platform::Box<double>(0),
+			nullptr,
+			false);
 		}
 
 		ScrollableView::ScrollableView(const JSContext& js_context) TITANIUM_NOEXCEPT

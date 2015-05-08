@@ -42,33 +42,44 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, bool, pagingControlOnTop)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, bool, overlayEnabled)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, bool, scrollingEnabled)
-		TITANIUM_PROPERTY_READWRITE(ScrollableView, std::vector<std::shared_ptr<View>>, views)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, bool, clipViews)
 		TITANIUM_PROPERTY_READWRITE(ScrollableView, Dimension, hitRect)
+
+		TITANIUM_PROPERTY_READWRITE(ScrollableView, std::vector<std::shared_ptr<View>>, views)
 
 		void ScrollableView::addView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT
 		{
 			views__.push_back(view);
 		}
 
+		void ScrollableView::removeView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT
+		{
+			const auto it = std::find(views__.begin(), views__.end(), view);
+			if (it != views__.end()) {
+				views__.erase(it);
+			}
+		}
+
 		void ScrollableView::moveNext() TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("ScrollableView::moveNext");
+			if (currentPage__ < views__.size() - 1) {
+				set_currentPage(++currentPage__);
+			}
 		}
 
 		void ScrollableView::movePrevious() TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("ScrollableView::movePrevious");
-		}
-
-		void ScrollableView::removeView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_DEBUG("ScrollableView::removeView");
+			if (currentPage__ > 0) {
+				set_currentPage(--currentPage__);
+			}
 		}
 
 		void ScrollableView::scrollToView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("ScrollableView::scrollToView");
+			const auto it = std::find(views__.begin(), views__.end(), view);
+			if (it != views__.end()) {
+				set_currentPage(std::distance(views__.begin(), it));
+			}
 		}
 
 		void ScrollableView::JSExportInitialize() 

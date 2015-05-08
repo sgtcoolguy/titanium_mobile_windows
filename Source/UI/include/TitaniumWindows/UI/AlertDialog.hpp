@@ -40,13 +40,7 @@ namespace TitaniumWindows
 
 			virtual void hide() TITANIUM_NOEXCEPT override;
 			virtual void show() TITANIUM_NOEXCEPT override;
-			virtual void addButton(const std::string& buttonName) TITANIUM_NOEXCEPT override final;
 
-		private:
-#pragma warning(push)
-#pragma warning(disable : 4251)
-			std::vector<std::string> buttons__;
-#pragma warning(pop)
 		};
 	} // namespace UI
 } // namespace TitaniumWindows
