@@ -36,6 +36,7 @@ Array.prototype.contains = function(v){ return this.indexOf(v)>-1; };
 
 #include "TitaniumWindows/<%= module_path %>.hpp"
 #include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
 {
@@ -43,26 +44,25 @@ namespace TitaniumWindows
 <%= Array(i + 1).join('\t') %>namespace <%= module_classes[i] %>
 <%= Array(i + 1).join('\t') %>{
 <% } -%>
+<%= Array(module_classes.length).join('\t') %><%= namespace %>::<%= namespace %>(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+<%= Array(module_classes.length).join('\t') %>	: Titanium::<%= full_namespace %>(js_context, arguments)
+<%= Array(module_classes.length).join('\t') %>{
+<%= Array(module_classes.length).join('\t') %>	TITANIUM_LOG_DEBUG("<%= name %>::ctor Initialize");
+<%= Array(module_classes.length).join('\t') %>}
 
-		<%= namespace %>::<%= namespace %>(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: Titanium::<%= full_namespace %>(js_context, arguments)
-		{
-			TITANIUM_LOG_DEBUG("<%= name %>::ctor Initialize");
-		}
-
-		void <%= namespace %>::JSExportInitialize() {
-			JSExport<<%= namespace %>>::SetClassVersion(1);
-			JSExport<<%= namespace %>>::SetParent(JSExport<Titanium::<%= full_namespace %>>::Class());
-		}
+<%= Array(module_classes.length).join('\t') %>void <%= namespace %>::JSExportInitialize() {
+<%= Array(module_classes.length).join('\t') %>	JSExport<<%= namespace %>>::SetClassVersion(1);
+<%= Array(module_classes.length).join('\t') %>	JSExport<<%= namespace %>>::SetParent(JSExport<Titanium::<%= full_namespace %>>::Class());
+<%= Array(module_classes.length).join('\t') %>}
 
 <% for (i in data.properties) { -%>
 <% var property = data.properties[i] -%>
 <% if (property.__inherits == module && (property.platforms.contains('android') && property.platforms.contains('iphone'))) {-%>
 <% if (!property.__permission || property.__permission != "read-only") {-%>
-		void <%= namespace %>::set_<%= property.name %>(<%= getType(property.type, true) %> <%= property.name %>) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("<%= namespace %>::set_<%= property.name %>: Unimplemented");
-		}
+<%= Array(module_classes.length).join('\t') %>void <%= namespace %>::set_<%= property.name %>(<%= getType(property.type, true) %> <%= property.name %>) TITANIUM_NOEXCEPT
+<%= Array(module_classes.length).join('\t') %>{
+<%= Array(module_classes.length).join('\t') %>	TITANIUM_LOG_WARN("<%= namespace %>::set_<%= property.name %>: Unimplemented");
+<%= Array(module_classes.length).join('\t') %>}
 
 <% } -%>
 <% } -%>
@@ -72,19 +72,20 @@ namespace TitaniumWindows
 <% if (method.__accessor != true && method.__inherits == module && (method.platforms.contains('android') && method.platforms.contains('iphone'))) {-%>
 <% var parameters = ('parameters' in method ? getParameters(method.parameters) : '') -%>
 <% var type = ('returns' in method ? method.returns[0].type : 'void') -%>
-		<%= getType(type) %> <%= namespace %>::<%= method.name %>(<%= parameters %>) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("<%= name %>.<%= method.name %> is not implemented yet");
+<%= Array(module_classes.length).join('\t') %><%= getType(type) %> <%= namespace %>::<%= method.name %>(<%= parameters %>) TITANIUM_NOEXCEPT
+<%= Array(module_classes.length).join('\t') %>{
+<%= Array(module_classes.length).join('\t') %>	TITANIUM_LOG_WARN("<%= name %>.<%= method.name %> is not implemented yet");
 <% if (type == 'String') { -%>
-			return "";
+<%= Array(module_classes.length).join('\t') %>	return "";
 <% } else if (type == 'Boolean') { -%>
-			return false;
+<%= Array(module_classes.length).join('\t') %>	return false;
 <% } else if (type == 'Number') { -%>
-			return 0;
+<%= Array(module_classes.length).join('\t') %>	return 0;
+<% } else if (type == 'void') { -%>
 <% } else { -%>
-			return get_context().CreateUndefined();
+<%= Array(module_classes.length).join('\t') %>	return get_context().CreateUndefined();
 <% } -%>
-		}
+<%= Array(module_classes.length).join('\t') %>}
 
 <% } -%>
 <% } -%>
