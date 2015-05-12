@@ -272,6 +272,16 @@ TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
 	return true; \
 }
 
+#define TITANIUM_PROPERTY_GETTER_ENUM(MODULE, NAME) \
+  TITANIUM_PROPERTY_GETTER_TYPE(MODULE, NAME, std::uint32_t, Number)
+
+#define TITANIUM_PROPERTY_SETTER_ENUM(MODULE, NAME, ENUM_NAME) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+  TITANIUM_ASSERT(argument.IsNumber()); \
+  set_##NAME(static_cast<ENUM_NAME>(static_cast<std::uint32_t>(argument))); \
+  return true; \
+}
+
 #define TITANIUM_PROPERTY_GETTER_STRUCT(MODULE, NAME, STRUCT_NAME) \
 TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
 	return STRUCT_NAME##_to_js(get_context(), get_##NAME()); \

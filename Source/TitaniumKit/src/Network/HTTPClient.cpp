@@ -12,55 +12,52 @@ namespace Titanium
 	namespace Network
 	{
 		HTTPClient::HTTPClient(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : Module(js_context),
-		      onload_callback__(js_context.CreateObject()),
-		      onerror_callback__(js_context.CreateObject()),
-			  ondatastream_callback__(js_context.CreateObject()),
-		      onsendstream_callback__(js_context.CreateObject()),
-		      onreadystatechange_callback__(js_context.CreateObject())
+			: Module(js_context)
+			, onload__(js_context.CreateNull())
+			, onerror__(js_context.CreateNull())
+			, ondatastream__(js_context.CreateNull())
+			, onsendstream__(js_context.CreateNull())
+			, onreadystatechange__(js_context.CreateNull())
+			, done__(js_context.CreateNumber(static_cast<uint32_t>(RequestState::Done)))
+			, headers_received__(js_context.CreateNumber(static_cast<uint32_t>(RequestState::Headers_Received)))
+			, loading__(js_context.CreateNumber(static_cast<uint32_t>(RequestState::Loading)))
+			, opened__(js_context.CreateNumber(static_cast<uint32_t>(RequestState::Opened)))
+			, unsent__(js_context.CreateNumber(static_cast<uint32_t>(RequestState::Unsent)))
+			, responseXML__(js_context.CreateNull())
+			, securityManager__(js_context.CreateNull())
+			, status__(200)
+			, readyState__(RequestState::Unsent)
 		{
 			setHTTPStatusPhrase();
 		}
 
-		std::chrono::milliseconds HTTPClient::get_timeout() const TITANIUM_NOEXCEPT
-		{
-			return timeout__;
-		}
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, std::chrono::milliseconds, timeout)
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, std::string, file)
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, std::string, username)
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, std::string, password)
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, std::string, domain)
+		TITANIUM_PROPERTY_READ(HTTPClient, std::string, location)
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, bool, cache)
 
-		void HTTPClient::set_timeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT
-		{
-			timeout__ = timeout;
-		}
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, bool, autoEncodeUrl)
+		TITANIUM_PROPERTY_READ(HTTPClient, RequestState, readyState)
+		TITANIUM_PROPERTY_READ(HTTPClient, std::string, allResponseHeaders)
+		TITANIUM_PROPERTY_READ(HTTPClient, std::uint32_t, status)
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, TLS_VERSION, tlsVersion)
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, bool, autoRedirect)
+		TITANIUM_PROPERTY_READ(HTTPClient, bool, connected)
+		TITANIUM_PROPERTY_READ(HTTPClient, std::string, connectionType) 
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, bool, enableKeepAlive)
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, bool, validatesSecureCertificate)
+		TITANIUM_PROPERTY_READWRITE(HTTPClient, bool, withCredentials)
+		TITANIUM_PROPERTY_READ(HTTPClient, std::vector<std::uint8_t>, responseData);
 
 		std::string HTTPClient::get_responseText() const TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::get_responseText: Unimplemented");
-			return "";
+			auto data = get_responseData();
+			return std::string(data.begin(), data.end());
 		}
 
-		std::vector<std::uint8_t> HTTPClient::get_responseData() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::get_responseData: Unimplemented");
-			return std::vector<std::uint8_t>();  //empty
-		}
-
-		std::string HTTPClient::get_allResponseHeaders() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::get_allResponseHeaders: Unimplemented");
-			return "";
-		}
-
-		std::uint32_t HTTPClient::get_readyState() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getReadyState: Unimplemented");
-			return N_REQUEST_STATE_UNSENT;
-		}
-
-		std::uint32_t HTTPClient::get_status() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("HTTPClient::getStatus: Unimplemented");
-			return 200;
-		}
 
 		std::string HTTPClient::get_statusText() const TITANIUM_NOEXCEPT
 		{
@@ -72,126 +69,187 @@ namespace Titanium
 			return "HTTP Status Phrase Not Found";
 		}
 
-		// Methods
 		void HTTPClient::abort() TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::abort: Unimplemented");
+			TITANIUM_LOG_WARN("HTTPClient::abort: unimplemented");
 		}
 
 		void HTTPClient::clearCookies(const std::string& url) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::clearCookies: Unimplemented");
+			TITANIUM_LOG_WARN("HTTPClient::clearCookies: unimplemented");
 		}
 
 		std::string HTTPClient::getResponseHeader(const std::string& name) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::getResponseHeader: Unimplemented");
+			TITANIUM_LOG_WARN("HTTPClient::getResponseHeader: unimplemented");
 			return "";
 		}
 
 		void HTTPClient::open(const std::string& method, const std::string& url) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::open: Unimplemented");
+			TITANIUM_LOG_WARN("HTTPClient::open: unimplemented");
 		}
 
 		void HTTPClient::send() TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::send: Unimplemented");
+			TITANIUM_LOG_WARN("HTTPClient::send: unimplemented");
 		}
 
 		void HTTPClient::send(const std::map<std::string, std::vector<std::uint8_t>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::send<data>: Unimplemented");
+			TITANIUM_LOG_WARN("HTTPClient::send<data>: unimplemented");
 		}
 
 		void HTTPClient::send(const std::string& postDataStr) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::send<data string>: Unimplemented");
+			TITANIUM_LOG_WARN("HTTPClient::send<data string>: unimplemented");
 		}
 		
 		void HTTPClient::setRequestHeader(const std::string& name, const std::string& value) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::setRequestHeader: Unimplemented");
+			TITANIUM_LOG_WARN("HTTPClient::setRequestHeader: unimplemented");
 		}
 
 		void HTTPClient::JSExportInitialize()
 		{
 			JSExport<HTTPClient>::SetClassVersion(1);
 			JSExport<HTTPClient>::SetParent(JSExport<Module>::Class());
-			// constants
-			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, LOADING);
-			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, OPENED);
-			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, DONE);
-			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, UNSENT);
-			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, HEADERS_RECEIVED);
-			// properties
-			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, allResponseHeaders);
+
+			TITANIUM_ADD_PROPERTY(HTTPClient, autoEncodeUrl);
+			TITANIUM_ADD_PROPERTY(HTTPClient, autoRedirect);
+			TITANIUM_ADD_PROPERTY(HTTPClient, cache);
+			TITANIUM_ADD_PROPERTY(HTTPClient, domain);
+			TITANIUM_ADD_PROPERTY(HTTPClient, enableKeepAlive);
+			TITANIUM_ADD_PROPERTY(HTTPClient, file);
 			TITANIUM_ADD_PROPERTY(HTTPClient, ondatastream);
 			TITANIUM_ADD_PROPERTY(HTTPClient, onerror);
 			TITANIUM_ADD_PROPERTY(HTTPClient, onload);
 			TITANIUM_ADD_PROPERTY(HTTPClient, onreadystatechange);
 			TITANIUM_ADD_PROPERTY(HTTPClient, onsendstream);
+			TITANIUM_ADD_PROPERTY(HTTPClient, password);
+			TITANIUM_ADD_PROPERTY(HTTPClient, securityManager);
+			TITANIUM_ADD_PROPERTY(HTTPClient, timeout);
+			TITANIUM_ADD_PROPERTY(HTTPClient, tlsVersion);
+			TITANIUM_ADD_PROPERTY(HTTPClient, username);
+			TITANIUM_ADD_PROPERTY(HTTPClient, validatesSecureCertificate);
+			TITANIUM_ADD_PROPERTY(HTTPClient, withCredentials);
+			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, DONE);
+			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, HEADERS_RECEIVED);
+			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, LOADING);
+			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, OPENED);
+			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, UNSENT);
+			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, allResponseHeaders);
+			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, connected);
+			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, connectionType);
+			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, location);
 			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, readyState);
 			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, responseData);
 			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, responseText);
+			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, responseXML);
 			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, status);
 			TITANIUM_ADD_PROPERTY_READONLY(HTTPClient, statusText);
-			TITANIUM_ADD_PROPERTY(HTTPClient, timeout);
-			// methods
-			TITANIUM_ADD_FUNCTION(HTTPClient, open);
-			TITANIUM_ADD_FUNCTION(HTTPClient, send);
-			TITANIUM_ADD_FUNCTION(HTTPClient, abort);
-			TITANIUM_ADD_FUNCTION(HTTPClient, setRequestHeader);
-			TITANIUM_ADD_FUNCTION(HTTPClient, getResponseHeader);
-			TITANIUM_ADD_FUNCTION(HTTPClient, clearCookies);
 
-			// accessors
+			TITANIUM_ADD_FUNCTION(HTTPClient, abort);
+			TITANIUM_ADD_FUNCTION(HTTPClient, addAuthFactory);
+			TITANIUM_ADD_FUNCTION(HTTPClient, addKeyManager);
+			TITANIUM_ADD_FUNCTION(HTTPClient, addTrustManager);
+			TITANIUM_ADD_FUNCTION(HTTPClient, clearCookies);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getAllResponseHeaders);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getAutoEncodeUrl);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getAutoRedirect);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getCache);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getConnected);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getConnectionType);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getDomain);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getEnableKeepAlive);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getFile);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getLocation);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getOndatastream);
-			TITANIUM_ADD_FUNCTION(HTTPClient, setOndatastream);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getOnerror);
-			TITANIUM_ADD_FUNCTION(HTTPClient, setOnerror);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getOnload);
-			TITANIUM_ADD_FUNCTION(HTTPClient, setOnload);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getOnreadystatechange);
-			TITANIUM_ADD_FUNCTION(HTTPClient, setOnreadystatechange);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getOnsendstream);
-			TITANIUM_ADD_FUNCTION(HTTPClient, setOnsendstream);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getPassword);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getReadyState);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getResponseData);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getResponseHeader);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getResponseText);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getResponseXML);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getSecurityManager);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getStatus);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getStatusText);
 			TITANIUM_ADD_FUNCTION(HTTPClient, getTimeout);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getTlsVersion);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getUsername);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getValidatesSecureCertificate);
+			TITANIUM_ADD_FUNCTION(HTTPClient, getWithCredentials);
+			TITANIUM_ADD_FUNCTION(HTTPClient, open);
+			TITANIUM_ADD_FUNCTION(HTTPClient, send);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setAutoEncodeUrl);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setAutoRedirect);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setCache);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setDomain);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setEnableKeepAlive);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setFile);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setOndatastream);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setOnerror);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setOnload);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setOnreadystatechange);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setOnsendstream);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setPassword);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setRequestHeader);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setSecurityManager);
 			TITANIUM_ADD_FUNCTION(HTTPClient, setTimeout);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setTlsVersion);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setUsername);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setValidatesSecureCertificate);
+			TITANIUM_ADD_FUNCTION(HTTPClient, setWithCredentials);
+
 		}
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, LOADING)
 		{
-			return get_context().CreateNumber(N_REQUEST_STATE_LOADING);
+			return loading__;
 		}
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, OPENED)
 		{
-			return get_context().CreateNumber(N_REQUEST_STATE_OPENED);
+			return opened__;
 		}
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, DONE)
 		{
-			return get_context().CreateNumber(N_REQUEST_STATE_DONE);
+			return done__;
 		}
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, UNSENT)
 		{
-			return get_context().CreateNumber(N_REQUEST_STATE_UNSENT);
+			return unsent__;
 		}
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, HEADERS_RECEIVED)
 		{
-			return get_context().CreateNumber(N_REQUEST_STATE_HEADERS_RECEIVED);
+			return headers_received__;
 		}
 
-		// Methods
+		TITANIUM_FUNCTION(HTTPClient, addAuthFactory)
+		{
+			TITANIUM_LOG_WARN("HTTPClient::addAuthFactory: unimplemented");
+			return get_context().CreateUndefined();
+		}
+
+		TITANIUM_FUNCTION(HTTPClient, addTrustManager)
+		{
+			TITANIUM_LOG_WARN("HTTPClient::addTrustManager: unimplemented");
+			return get_context().CreateUndefined();
+		}
+
+		TITANIUM_FUNCTION(HTTPClient, addKeyManager)
+		{
+			TITANIUM_LOG_WARN("HTTPClient::addKeyManager: unimplemented");
+			return get_context().CreateUndefined();
+		}
+
 		TITANIUM_FUNCTION(HTTPClient, abort)
 		{
 			abort();
@@ -271,26 +329,10 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		// properties
-		TITANIUM_PROPERTY_GETTER(HTTPClient, allResponseHeaders)
-		{
-			return get_context().CreateString(get_allResponseHeaders());
-		}
-
-		TITANIUM_FUNCTION(HTTPClient, getAllResponseHeaders)
-		{
-			return js_get_allResponseHeaders();
-		}
-
-		TITANIUM_PROPERTY_GETTER(HTTPClient, readyState)
-		{
-			return get_context().CreateNumber(get_readyState());
-		}
-
-		TITANIUM_FUNCTION(HTTPClient, getReadyState)
-		{
-			return js_get_readyState();
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(HTTPClient, allResponseHeaders)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getAllResponseHeaders, allResponseHeaders)
+		TITANIUM_PROPERTY_GETTER_UINT(HTTPClient, readyState)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getReadyState, readyState)
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, responseData)
 		{
@@ -303,196 +345,219 @@ namespace Titanium
 			return blob;
 		}
 
-		TITANIUM_FUNCTION(HTTPClient, getResponseData)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getResponseData, responseData)
+		TITANIUM_PROPERTY_GETTER_STRING(HTTPClient, responseText)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getResponseText, responseText)
+
+		TITANIUM_PROPERTY_GETTER(HTTPClient, responseXML)
 		{
-			return js_get_responseData();
+			return responseXML__;
 		}
 
-		TITANIUM_PROPERTY_GETTER(HTTPClient, responseText)
+		TITANIUM_FUNCTION(HTTPClient, getResponseXML)
 		{
-			return get_context().CreateString(get_responseText());
+			return js_get_responseXML();
 		}
 
-		TITANIUM_FUNCTION(HTTPClient, getResponseText)
+		TITANIUM_PROPERTY_GETTER(HTTPClient, securityManager)
 		{
-			return js_get_responseText();
+			return securityManager__;
 		}
 
-		TITANIUM_PROPERTY_GETTER(HTTPClient, status)
+		TITANIUM_PROPERTY_SETTER(HTTPClient, securityManager)
 		{
-			return get_context().CreateNumber(get_status());
-		}
-			
-		TITANIUM_FUNCTION(HTTPClient, getStatus)
-		{
-			return js_get_status();
+			TITANIUM_ASSERT(argument.IsObject());
+			securityManager__ = static_cast<JSObject>(argument);
+			return true;
 		}
 
-		TITANIUM_PROPERTY_GETTER(HTTPClient, statusText)
+		TITANIUM_FUNCTION(HTTPClient, getSecurityManager)
 		{
-			return get_context().CreateString(get_statusText());
+			return js_get_securityManager();
 		}
 
-		TITANIUM_FUNCTION(HTTPClient, getStatusText)
+		TITANIUM_FUNCTION(HTTPClient, setSecurityManager)
 		{
-			return js_get_statusText();
+			ENSURE_OBJECT_AT_INDEX(object, 0);
+			js_set_securityManager(object);
+			return get_context().CreateUndefined();
 		}
+
+		TITANIUM_PROPERTY_GETTER_ENUM(HTTPClient, tlsVersion)
+		TITANIUM_PROPERTY_SETTER_ENUM(HTTPClient, tlsVersion, TLS_VERSION)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getTlsVersion, tlsVersion)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setTlsVersion, tlsVersion)
+
+		TITANIUM_PROPERTY_GETTER_BOOL(HTTPClient, autoEncodeUrl)
+		TITANIUM_PROPERTY_SETTER_BOOL(HTTPClient, autoEncodeUrl)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getAutoEncodeUrl, autoEncodeUrl)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setAutoEncodeUrl, autoEncodeUrl)
+
+		TITANIUM_PROPERTY_GETTER_BOOL(HTTPClient, autoRedirect)
+		TITANIUM_PROPERTY_SETTER_BOOL(HTTPClient, autoRedirect)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getAutoRedirect, autoRedirect)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setAutoRedirect, autoRedirect)
+
+		TITANIUM_PROPERTY_GETTER_BOOL(HTTPClient, connected)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getConnected, connected)
+
+		TITANIUM_PROPERTY_GETTER_STRING(HTTPClient, connectionType)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getConnectionType, connectionType)
+
+		TITANIUM_PROPERTY_GETTER_BOOL(HTTPClient, enableKeepAlive)
+		TITANIUM_PROPERTY_SETTER_BOOL(HTTPClient, enableKeepAlive)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getEnableKeepAlive, enableKeepAlive)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setEnableKeepAlive, enableKeepAlive)
+
+		TITANIUM_PROPERTY_GETTER_BOOL(HTTPClient, validatesSecureCertificate)
+		TITANIUM_PROPERTY_SETTER_BOOL(HTTPClient, validatesSecureCertificate)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getValidatesSecureCertificate, validatesSecureCertificate)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setValidatesSecureCertificate, validatesSecureCertificate)
+
+		TITANIUM_PROPERTY_GETTER_BOOL(HTTPClient, withCredentials)
+		TITANIUM_PROPERTY_SETTER_BOOL(HTTPClient, withCredentials)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getWithCredentials, withCredentials)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setWithCredentials, withCredentials)
+
+		TITANIUM_PROPERTY_GETTER_UINT(HTTPClient, status)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getStatus, status)
+		TITANIUM_PROPERTY_GETTER_STRING(HTTPClient, statusText)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getStatusText, statusText)
+
+		TITANIUM_PROPERTY_GETTER_STRING(HTTPClient, file)	
+		TITANIUM_PROPERTY_SETTER_STRING(HTTPClient, file)	
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getFile, file)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setFile, file)
+
+		TITANIUM_PROPERTY_GETTER_BOOL(HTTPClient, cache)	
+		TITANIUM_PROPERTY_SETTER_BOOL(HTTPClient, cache)	
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getCache, cache)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setCache, cache)
+
+		TITANIUM_PROPERTY_GETTER_STRING(HTTPClient, domain)	
+		TITANIUM_PROPERTY_SETTER_STRING(HTTPClient, domain)	
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getDomain, domain)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setDomain, domain)
+
+		TITANIUM_PROPERTY_GETTER_STRING(HTTPClient, location)	
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getLocation, location)
+
+		TITANIUM_PROPERTY_GETTER_STRING(HTTPClient, username)	
+		TITANIUM_PROPERTY_SETTER_STRING(HTTPClient, username)	
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getUsername, username)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setUsername, username)
+
+		TITANIUM_PROPERTY_GETTER_STRING(HTTPClient, password)	
+		TITANIUM_PROPERTY_SETTER_STRING(HTTPClient, password)	
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getPassword, password)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setPassword, password)
 
 		TITANIUM_PROPERTY_SETTER(HTTPClient, ondatastream)
 		{
 			using namespace std::placeholders;
-			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
 
-			// connect the slot
-			datastream.connect(std::bind(&HTTPClient::ondatastream, this, _1));
+			ondatastream__ = argument;
 
-			ondatastream_callback__ = static_cast<JSObject>(argument);
+			if (ondatastream__.IsObject() && static_cast<JSObject>(ondatastream__).IsFunction()) {
+				datastream.connect(std::bind(&HTTPClient::ondatastream, this, _1));
+			}
+
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, ondatastream)
 		{
-			return ondatastream_callback__;
+			return ondatastream__;
 		}
 
-		TITANIUM_FUNCTION(HTTPClient, getOndatastream)
-		{
-			return js_get_ondatastream();
-		}
-
-		TITANIUM_FUNCTION(HTTPClient, setOndatastream)
-		{
-			if (arguments.size() >= 1) {
-				js_set_ondatastream(arguments.at(0));
-			}
-			return this_object.get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getOndatastream, ondatastream)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setOndatastream, ondatastream);
 
 		TITANIUM_PROPERTY_SETTER(HTTPClient, onerror)
 		{
 			using namespace std::placeholders;
-			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
 
-			// connect the slot
-			error.connect(std::bind(&HTTPClient::onerror, this, _1, _2, _3));
+			onerror__ = argument;
 
-			onerror_callback__ = static_cast<JSObject>(argument);
+			if (onerror__.IsObject() && static_cast<JSObject>(onerror__).IsFunction()) {
+				error.connect(std::bind(&HTTPClient::onerror, this, _1, _2, _3));
+			}
+
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, onerror)
 		{
-			return onerror_callback__;
+			return onerror__;
 		}
 
-		TITANIUM_FUNCTION(HTTPClient, getOnerror)
-		{
-			return js_get_onerror();
-		}
-
-		TITANIUM_FUNCTION(HTTPClient, setOnerror)
-		{
-			if (arguments.size() >= 1) {
-				js_set_onerror(arguments.at(0));
-			}
-			return this_object.get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getOnerror, onerror)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setOnerror, onerror)
 
 		TITANIUM_PROPERTY_SETTER(HTTPClient, onload)
 		{
 			using namespace std::placeholders;
-			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
 
-			// connect the slot
-			loaded.connect(std::bind(&HTTPClient::onload, this, _1, _2, _3));
+			onload__ = argument;
 
-			onload_callback__ = static_cast<JSObject>(argument);
+			if (onload__.IsObject() && static_cast<JSObject>(onload__).IsFunction()) {
+				loaded.connect(std::bind(&HTTPClient::onload, this, _1, _2, _3));
+			}
+
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, onload)
 		{
-			return onload_callback__;
+			return onload__;
 		}
 
-		TITANIUM_FUNCTION(HTTPClient, getOnload)
-		{
-			return js_get_onload();
-		}
-
-		TITANIUM_FUNCTION(HTTPClient, setOnload)
-		{
-			if (arguments.size() >= 1) {
-				js_set_onload(arguments.at(0));
-			}
-			return this_object.get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getOnload, onload)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setOnload, onload)
 
 		TITANIUM_PROPERTY_SETTER(HTTPClient, onreadystatechange)
 		{
 			using namespace std::placeholders;
-			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
 
-			// connect the slot
-			readystatechange.connect(std::bind(&HTTPClient::onreadystatechange, this, _1));
+			onreadystatechange__ = argument;
 
-			onreadystatechange_callback__ = static_cast<JSObject>(argument);
+			if (onreadystatechange__.IsObject() && static_cast<JSObject>(onreadystatechange__).IsFunction()) {
+				readystatechange.connect(std::bind(&HTTPClient::onreadystatechange, this, _1));
+			}
+
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, onreadystatechange)
 		{
-			return onreadystatechange_callback__;
+			return onreadystatechange__;
 		}
 
-		TITANIUM_FUNCTION(HTTPClient, getOnreadystatechange)
-		{
-			return js_get_onreadystatechange();
-		}
-
-		TITANIUM_FUNCTION(HTTPClient, setOnreadystatechange)
-		{
-			if (arguments.size() >= 1) {
-				js_set_onreadystatechange(arguments.at(0));
-			}
-			return this_object.get_context().CreateUndefined();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getOnreadystatechange, onreadystatechange)
+		TITANIUM_FUNCTION_AS_SETTER(HTTPClient, setOnreadystatechange, onreadystatechange)
 
 		TITANIUM_PROPERTY_SETTER(HTTPClient, onsendstream)
 		{
 			using namespace std::placeholders;
-			TITANIUM_ASSERT(static_cast<JSObject>(argument).IsFunction());
 
-			// connect the slot
-			sendstream.connect(std::bind(&HTTPClient::onsendstream, this, _1));
+			onsendstream__ = argument;
 
-			onsendstream_callback__ = static_cast<JSObject>(argument);
+			if (onsendstream__.IsObject() && static_cast<JSObject>(onsendstream__).IsFunction()) {
+				sendstream.connect(std::bind(&HTTPClient::onsendstream, this, _1));
+			}
+
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, onsendstream)
 		{
-			return onsendstream_callback__;
+			return onsendstream__;
 		}
 
-		TITANIUM_FUNCTION(HTTPClient, getOnsendstream)
-		{
-			return js_get_onsendstream();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getOnsendstream, onsendstream)
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, setOnsendstream, onsendstream)
 
-		TITANIUM_FUNCTION(HTTPClient, setOnsendstream)
-		{
-			if (arguments.size() >= 1) {
-				js_set_onsendstream(arguments.at(0));
-			}
-			return this_object.get_context().CreateUndefined();
-		}
-			
-		TITANIUM_PROPERTY_GETTER(HTTPClient, timeout)
-		{
-			return get_context().CreateNumber(static_cast<double>(get_timeout().count()));
-		}
-
+		TITANIUM_PROPERTY_GETTER_TIME(HTTPClient, timeout)
 		TITANIUM_PROPERTY_SETTER(HTTPClient, timeout)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
@@ -502,10 +567,7 @@ namespace Titanium
 			return true;
 		}
 
-		TITANIUM_FUNCTION(HTTPClient, getTimeout)
-		{
-			return js_get_timeout();
-		}
+		TITANIUM_FUNCTION_AS_GETTER(HTTPClient, getTimeout, timeout)
 
 		TITANIUM_FUNCTION(HTTPClient, setTimeout)
 		{
@@ -518,90 +580,100 @@ namespace Titanium
 		////// slots
 		void HTTPClient::onload(const std::uint32_t code, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
-			if (onload_callback__.IsFunction()) {
-				const JSContext ctx = get_context();
+			if (onload__.IsObject()) {
+				auto onload = static_cast<JSObject>(onload__);
+				if (onload.IsFunction()) {
+					const JSContext ctx = get_context();
 
-				JSObject this_object = get_object();
+					JSObject this_object = get_object();
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("code", ctx.CreateNumber(code));
+					eventArgs.SetProperty("error", ctx.CreateString(error));
+					eventArgs.SetProperty("success", ctx.CreateBoolean(success));
 
-				JSObject eventArgs = ctx.CreateObject();
-				eventArgs.SetProperty("code", ctx.CreateNumber(code));
-				eventArgs.SetProperty("error", ctx.CreateString(error));
-				eventArgs.SetProperty("success", ctx.CreateBoolean(success));
+					std::vector<JSValue> arguments;
+					arguments.push_back(eventArgs);
 
-				std::vector<JSValue> arguments;
-				arguments.push_back(eventArgs);
-
-				onload_callback__(arguments, this_object);
+					onload(arguments, this_object);
+				}
 			}
 		}
 
 		void HTTPClient::onerror(const std::uint32_t code, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
-			if (onerror_callback__.IsFunction()) {
-				const JSContext ctx = get_context();
+			if (onerror__.IsObject()) {
+				auto onerror = static_cast<JSObject>(onerror__);
+				if (onerror.IsFunction()) {
+					const JSContext ctx = get_context();
 
-				JSObject this_object = get_object();
+					JSObject this_object = get_object();
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("code", ctx.CreateNumber(code));
+					eventArgs.SetProperty("error", ctx.CreateString(error));
+					eventArgs.SetProperty("success", ctx.CreateBoolean(success));
 
-				JSObject eventArgs = ctx.CreateObject();
-				eventArgs.SetProperty("code", ctx.CreateNumber(code));
-				eventArgs.SetProperty("error", ctx.CreateString(error));
-				eventArgs.SetProperty("success", ctx.CreateBoolean(success));
+					std::vector<JSValue> arguments;
+					arguments.push_back(eventArgs);
 
-				std::vector<JSValue> arguments;
-				arguments.push_back(eventArgs);
-
-				onerror_callback__(arguments, this_object);
+					onerror(arguments, this_object);
+				}
 			}
 		}
 
 		void HTTPClient::ondatastream(const double progress) TITANIUM_NOEXCEPT
 		{
-			if (ondatastream_callback__.IsFunction()) {
-				const JSContext ctx = get_context();
+			if (ondatastream__.IsObject()) {
+				auto ondatastream = static_cast<JSObject>(ondatastream__);
+				if (ondatastream.IsFunction()) {
+					const JSContext ctx = get_context();
 
-				JSObject this_object = get_object();
+					JSObject this_object = get_object();
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
 
-				JSObject eventArgs = ctx.CreateObject();
-				eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
+					std::vector<JSValue> arguments;
+					arguments.push_back(eventArgs);
 
-				std::vector<JSValue> arguments;
-				arguments.push_back(eventArgs);
-
-				ondatastream_callback__(arguments, this_object);
+					ondatastream(arguments, this_object);
+				}
 			}
 		}
 
 		void HTTPClient::onsendstream(const double progress) TITANIUM_NOEXCEPT
 		{
-			if (onsendstream_callback__.IsFunction()) {
-				const JSContext ctx = get_context();
+			if (onsendstream__.IsObject()) {
+				auto onsendstream = static_cast<JSObject>(onsendstream__);
+				if (onsendstream.IsFunction()) {
+					const JSContext ctx = get_context();
 
-				JSObject this_object = get_object();
+					JSObject this_object = get_object();
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
 
-				JSObject eventArgs = ctx.CreateObject();
-				eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
+					std::vector<JSValue> arguments;
+					arguments.push_back(eventArgs);
 
-				std::vector<JSValue> arguments;
-				arguments.push_back(eventArgs);
-
-				onsendstream_callback__(arguments, this_object);
+					onsendstream(arguments, this_object);
+				}
 			}
 		}
 
-		void HTTPClient::onreadystatechange(const std::uint32_t state) TITANIUM_NOEXCEPT
+		void HTTPClient::onreadystatechange(const RequestState& state) TITANIUM_NOEXCEPT
 		{
-			if (onreadystatechange_callback__.IsFunction()) {
-				const JSContext ctx = get_context();
+			if (onreadystatechange__.IsObject()) {
+				auto onreadystatechange = static_cast<JSObject>(onreadystatechange__);
+				if (onreadystatechange.IsFunction()) {
+					const JSContext ctx = get_context();
 
-				JSObject this_object = get_object();
+					JSObject this_object = get_object();
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("readyState", ctx.CreateNumber(static_cast<std::uint32_t>(state)));
 
-				JSObject eventArgs = ctx.CreateObject();
-				eventArgs.SetProperty("readyState", ctx.CreateNumber(state));
+					std::vector<JSValue> arguments;
+					arguments.push_back(eventArgs);
 
-				std::vector<JSValue> arguments;
-				arguments.push_back(eventArgs);
-
-				onreadystatechange_callback__(arguments, this_object);
+					onreadystatechange(arguments, this_object);
+				}
 			}
 		}
 
