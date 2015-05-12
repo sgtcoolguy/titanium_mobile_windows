@@ -78,7 +78,7 @@ namespace Titanium
 		{
 			const auto it = std::find(views__.begin(), views__.end(), view);
 			if (it != views__.end()) {
-				set_currentPage(std::distance(views__.begin(), it));
+				set_currentPage(static_cast<uint32_t>(std::distance(views__.begin(), it)));
 			}
 		}
 

@@ -110,6 +110,14 @@
 		F95C3E281AA59C6A006AB8C7 /* Route.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F95C3E261AA59C6A006AB8C7 /* Route.hpp */; };
 		F95C3E2B1AA59C75006AB8C7 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F95C3E291AA59C75006AB8C7 /* Camera.cpp */; };
 		F95C3E2C1AA59C75006AB8C7 /* Route.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F95C3E2A1AA59C75006AB8C7 /* Route.cpp */; };
+		F95F908C1B01BD510002BD1C /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F95F908B1B01BD510002BD1C /* Socket.hpp */; };
+		F95F90901B01BD680002BD1C /* TCP.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F95F908E1B01BD680002BD1C /* TCP.hpp */; };
+		F95F90911B01BD680002BD1C /* UDP.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F95F908F1B01BD680002BD1C /* UDP.hpp */; };
+		F95F90931B01BD740002BD1C /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F95F90921B01BD740002BD1C /* Socket.cpp */; };
+		F95F90961B01BD800002BD1C /* TCP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F95F90941B01BD800002BD1C /* TCP.cpp */; };
+		F95F90971B01BD800002BD1C /* UDP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F95F90951B01BD800002BD1C /* UDP.cpp */; };
+		F95F90991B01EBE90002BD1C /* AcceptDict.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F95F90981B01EBE90002BD1C /* AcceptDict.hpp */; };
+		F95F909B1B01EBF70002BD1C /* AcceptDict.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F95F909A1B01EBF70002BD1C /* AcceptDict.cpp */; };
 		F965FF201AA587F30092ABBA /* MapModule.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F965FF1F1AA587F30092ABBA /* MapModule.hpp */; };
 		F965FF241AA588010092ABBA /* Annotation.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F965FF211AA588010092ABBA /* Annotation.hpp */; };
 		F965FF251AA588010092ABBA /* Constants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F965FF221AA588010092ABBA /* Constants.hpp */; };
@@ -135,6 +143,12 @@
 		F96BCAC41A25CEB000745C3B /* NativePlatformExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96BCAC21A25CEB000745C3B /* NativePlatformExample.hpp */; };
 		F9901B091AA5A355003FFD52 /* MapRegionTypev2.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9901B081AA5A355003FFD52 /* MapRegionTypev2.hpp */; };
 		F9901B0B1AA5A366003FFD52 /* MapRegionTypev2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9901B0A1AA5A366003FFD52 /* MapRegionTypev2.cpp */; };
+		F9991D521AFF5A6400C7DDF2 /* Cookie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9991D511AFF5A6400C7DDF2 /* Cookie.cpp */; };
+		F9991D551AFF5A9200C7DDF2 /* Constants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9991D531AFF5A9200C7DDF2 /* Constants.hpp */; };
+		F9991D561AFF5A9200C7DDF2 /* Cookie.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9991D541AFF5A9200C7DDF2 /* Cookie.hpp */; };
+		F9991D581AFF5A9F00C7DDF2 /* NetworkModule.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9991D571AFF5A9F00C7DDF2 /* NetworkModule.hpp */; };
+		F9991D5A1AFF7D4100C7DDF2 /* PushNotificationConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9991D591AFF7D4100C7DDF2 /* PushNotificationConfig.cpp */; };
+		F9991D5C1AFF7D4E00C7DDF2 /* PushNotificationConfig.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9991D5B1AFF7D4E00C7DDF2 /* PushNotificationConfig.hpp */; };
 		F99AE3B41ADFA2F500D0F91E /* ActivityIndicator.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F99AE3B21ADFA2F500D0F91E /* ActivityIndicator.hpp */; };
 		F99AE3B51ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F99AE3B31ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp */; };
 		F99AE3B81ADFA30300D0F91E /* ActivityIndicator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F99AE3B61ADFA30300D0F91E /* ActivityIndicator.cpp */; };
@@ -168,7 +182,6 @@
 		F9B1AF5D1A8DB4E100DEF4D6 /* ListSection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B1AF5C1A8DB4E100DEF4D6 /* ListSection.cpp */; };
 		F9B1AF5F1A8DB4EF00DEF4D6 /* ListSection.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B1AF5E1A8DB4EF00DEF4D6 /* ListSection.hpp */; };
 		F9B1AF611A8DC18E00DEF4D6 /* ListViewAnimationProperties.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B1AF601A8DC18E00DEF4D6 /* ListViewAnimationProperties.hpp */; };
-		F9B1AF6B1A8E2E9400DEF4D6 /* Network.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B1AF6A1A8E2E9400DEF4D6 /* Network.hpp */; };
 		F9B1AF6D1A8E2EA300DEF4D6 /* NetworkModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B1AF6C1A8E2EA300DEF4D6 /* NetworkModule.cpp */; };
 		F9B1AF6F1A8E2EBE00DEF4D6 /* DatabaseModule.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B1AF6E1A8E2EBE00DEF4D6 /* DatabaseModule.hpp */; };
 		F9B1AF711A8E2ECF00DEF4D6 /* HTTPClient.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B1AF701A8E2ECF00DEF4D6 /* HTTPClient.hpp */; };
@@ -322,6 +335,14 @@
 		F95C3E261AA59C6A006AB8C7 /* Route.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Route.hpp; path = include/Titanium/Map/Route.hpp; sourceTree = "<group>"; };
 		F95C3E291AA59C75006AB8C7 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = src/Map/Camera.cpp; sourceTree = "<group>"; };
 		F95C3E2A1AA59C75006AB8C7 /* Route.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Route.cpp; path = src/Map/Route.cpp; sourceTree = "<group>"; };
+		F95F908B1B01BD510002BD1C /* Socket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Socket.hpp; path = include/Titanium/Network/Socket.hpp; sourceTree = "<group>"; };
+		F95F908E1B01BD680002BD1C /* TCP.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TCP.hpp; path = include/Titanium/Network/Socket/TCP.hpp; sourceTree = "<group>"; };
+		F95F908F1B01BD680002BD1C /* UDP.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = UDP.hpp; path = include/Titanium/Network/Socket/UDP.hpp; sourceTree = "<group>"; };
+		F95F90921B01BD740002BD1C /* Socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Socket.cpp; path = src/Network/Socket.cpp; sourceTree = "<group>"; };
+		F95F90941B01BD800002BD1C /* TCP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCP.cpp; path = src/Network/Socket/TCP.cpp; sourceTree = "<group>"; };
+		F95F90951B01BD800002BD1C /* UDP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UDP.cpp; path = src/Network/Socket/UDP.cpp; sourceTree = "<group>"; };
+		F95F90981B01EBE90002BD1C /* AcceptDict.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AcceptDict.hpp; path = include/Titanium/Network/Socket/AcceptDict.hpp; sourceTree = "<group>"; };
+		F95F909A1B01EBF70002BD1C /* AcceptDict.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AcceptDict.cpp; path = src/Network/Socket/AcceptDict.cpp; sourceTree = "<group>"; };
 		F965FF1F1AA587F30092ABBA /* MapModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapModule.hpp; path = include/Titanium/MapModule.hpp; sourceTree = "<group>"; };
 		F965FF211AA588010092ABBA /* Annotation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Annotation.hpp; path = include/Titanium/Map/Annotation.hpp; sourceTree = "<group>"; };
 		F965FF221AA588010092ABBA /* Constants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Constants.hpp; path = include/Titanium/Map/Constants.hpp; sourceTree = "<group>"; };
@@ -347,6 +368,12 @@
 		F96BCAC21A25CEB000745C3B /* NativePlatformExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativePlatformExample.hpp; sourceTree = "<group>"; };
 		F9901B081AA5A355003FFD52 /* MapRegionTypev2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapRegionTypev2.hpp; path = include/Titanium/Map/MapRegionTypev2.hpp; sourceTree = "<group>"; };
 		F9901B0A1AA5A366003FFD52 /* MapRegionTypev2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapRegionTypev2.cpp; path = src/Map/MapRegionTypev2.cpp; sourceTree = "<group>"; };
+		F9991D511AFF5A6400C7DDF2 /* Cookie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cookie.cpp; path = src/Network/Cookie.cpp; sourceTree = "<group>"; };
+		F9991D531AFF5A9200C7DDF2 /* Constants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Constants.hpp; path = include/Titanium/Network/Constants.hpp; sourceTree = "<group>"; };
+		F9991D541AFF5A9200C7DDF2 /* Cookie.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Cookie.hpp; path = include/Titanium/Network/Cookie.hpp; sourceTree = "<group>"; };
+		F9991D571AFF5A9F00C7DDF2 /* NetworkModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NetworkModule.hpp; path = include/Titanium/NetworkModule.hpp; sourceTree = "<group>"; };
+		F9991D591AFF7D4100C7DDF2 /* PushNotificationConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PushNotificationConfig.cpp; path = src/Network/PushNotificationConfig.cpp; sourceTree = "<group>"; };
+		F9991D5B1AFF7D4E00C7DDF2 /* PushNotificationConfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PushNotificationConfig.hpp; path = include/Titanium/Network/PushNotificationConfig.hpp; sourceTree = "<group>"; };
 		F99AE3B21ADFA2F500D0F91E /* ActivityIndicator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ActivityIndicator.hpp; path = include/Titanium/UI/ActivityIndicator.hpp; sourceTree = "<group>"; };
 		F99AE3B31ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ActivityIndicatorStyle.hpp; path = include/Titanium/UI/ActivityIndicatorStyle.hpp; sourceTree = "<group>"; };
 		F99AE3B61ADFA30300D0F91E /* ActivityIndicator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ActivityIndicator.cpp; path = src/UI/ActivityIndicator.cpp; sourceTree = "<group>"; };
@@ -380,7 +407,6 @@
 		F9B1AF5C1A8DB4E100DEF4D6 /* ListSection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ListSection.cpp; path = src/UI/ListSection.cpp; sourceTree = "<group>"; };
 		F9B1AF5E1A8DB4EF00DEF4D6 /* ListSection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ListSection.hpp; path = include/Titanium/UI/ListSection.hpp; sourceTree = "<group>"; };
 		F9B1AF601A8DC18E00DEF4D6 /* ListViewAnimationProperties.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ListViewAnimationProperties.hpp; path = include/Titanium/UI/ListViewAnimationProperties.hpp; sourceTree = "<group>"; };
-		F9B1AF6A1A8E2E9400DEF4D6 /* Network.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Network.hpp; path = ../Network/include/TitaniumWindows/Network.hpp; sourceTree = "<group>"; };
 		F9B1AF6C1A8E2EA300DEF4D6 /* NetworkModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NetworkModule.cpp; path = src/NetworkModule.cpp; sourceTree = "<group>"; };
 		F9B1AF6E1A8E2EBE00DEF4D6 /* DatabaseModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DatabaseModule.hpp; path = include/Titanium/DatabaseModule.hpp; sourceTree = "<group>"; };
 		F9B1AF701A8E2ECF00DEF4D6 /* HTTPClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = HTTPClient.hpp; path = include/Titanium/Network/HTTPClient.hpp; sourceTree = "<group>"; };
@@ -675,6 +701,21 @@
 			name = detail;
 			sourceTree = "<group>";
 		};
+		F95F908D1B01BD560002BD1C /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				F95F909A1B01EBF70002BD1C /* AcceptDict.cpp */,
+				F95F90981B01EBE90002BD1C /* AcceptDict.hpp */,
+				F95F908E1B01BD680002BD1C /* TCP.hpp */,
+				F95F90941B01BD800002BD1C /* TCP.cpp */,
+				F95F908F1B01BD680002BD1C /* UDP.hpp */,
+				F95F90951B01BD800002BD1C /* UDP.cpp */,
+				F95F908B1B01BD510002BD1C /* Socket.hpp */,
+				F95F90921B01BD740002BD1C /* Socket.cpp */,
+			);
+			name = Socket;
+			sourceTree = "<group>";
+		};
 		F965FF2F1AA5899D0092ABBA /* Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -712,10 +753,16 @@
 		F968A1C91AB9A97900A0D546 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				F9B1AF701A8E2ECF00DEF4D6 /* HTTPClient.hpp */,
+				F95F908D1B01BD560002BD1C /* Socket */,
+				F9991D5B1AFF7D4E00C7DDF2 /* PushNotificationConfig.hpp */,
+				F9991D591AFF7D4100C7DDF2 /* PushNotificationConfig.cpp */,
+				F9991D541AFF5A9200C7DDF2 /* Cookie.hpp */,
+				F9991D511AFF5A6400C7DDF2 /* Cookie.cpp */,
+				F9991D571AFF5A9F00C7DDF2 /* NetworkModule.hpp */,
 				F9B1AF6C1A8E2EA300DEF4D6 /* NetworkModule.cpp */,
-				F9B1AF6A1A8E2E9400DEF4D6 /* Network.hpp */,
+				F9991D531AFF5A9200C7DDF2 /* Constants.hpp */,
 				F96A53DD1AA5CFEA00AD4011 /* Constants.cpp */,
+				F9B1AF701A8E2ECF00DEF4D6 /* HTTPClient.hpp */,
 				F9B1AF801A8E2F2B00DEF4D6 /* HTTPClient.cpp */,
 			);
 			name = Network;
@@ -778,6 +825,7 @@
 				F9B177951A2C46F100ECE602 /* Accelerometer.hpp in Headers */,
 				C9E6AFB81A13043300FED053 /* Titanium.hpp in Headers */,
 				F93CDC421A96D24C00C42D8C /* Gradient.hpp in Headers */,
+				F9991D5C1AFF7D4E00C7DDF2 /* PushNotificationConfig.hpp in Headers */,
 				F9B1AF771A8E2EDD00DEF4D6 /* ResultSet.hpp in Headers */,
 				F9B549791A402D520051A096 /* NativeTiExample.hpp in Headers */,
 				F9ACB7E91AF9CE01008C2F3C /* TableViewSection.hpp in Headers */,
@@ -812,23 +860,28 @@
 				F9ACB7DF1AF9CE01008C2F3C /* OpenWindowParams.hpp in Headers */,
 				F9ACB7E31AF9CE01008C2F3C /* ProgressBar.hpp in Headers */,
 				F93CDC401A96D24C00C42D8C /* Dimension.hpp in Headers */,
+				F95F90901B01BD680002BD1C /* TCP.hpp in Headers */,
 				C97E14861A4CB0E200C15EDC /* ScrollView.hpp in Headers */,
 				C90B900D1A198370005F3210 /* ApplicationBuilder.hpp in Headers */,
 				F9ACB7DE1AF9CE01008C2F3C /* MatrixCreationDict.hpp in Headers */,
 				C90B90091A19804D005F3210 /* Application.hpp in Headers */,
 				C980919B1A2149A300AE5930 /* TitaniumKit_EXPORT.h in Headers */,
+				F9991D581AFF5A9F00C7DDF2 /* NetworkModule.hpp in Headers */,
 				F9E96F8B1A415D6E001E0EC4 /* DisplayCaps.hpp in Headers */,
 				F93CDC431A96D24C00C42D8C /* Point.hpp in Headers */,
 				C9E6AFEC1A13F95300FED053 /* TiLogger.hpp in Headers */,
 				C9E6AFED1A13F95500FED053 /* TiLoggerPolicyInterface.hpp in Headers */,
 				F966AF7D1AC11AE900351707 /* ViewLayoutDelegate.hpp in Headers */,
+				F95F90991B01EBE90002BD1C /* AcceptDict.hpp in Headers */,
 				F9BE4A7D1A88999400301999 /* NativeWebViewExample.hpp in Headers */,
 				F9B47E731A2EF1440052879A /* FilesystemModule.hpp in Headers */,
 				F9B47E7F1A2EF1860052879A /* NativeFileExample.hpp in Headers */,
+				F95F90911B01BD680002BD1C /* UDP.hpp in Headers */,
 				F95C3E281AA59C6A006AB8C7 /* Route.hpp in Headers */,
 				F96BCAC41A25CEB000745C3B /* NativePlatformExample.hpp in Headers */,
 				C9E6AFEE1A13F95900FED053 /* TiLoggerPolicyConsole.hpp in Headers */,
 				C90B90131A1ADC7D005F3210 /* NativeViewExample.hpp in Headers */,
+				F9991D551AFF5A9200C7DDF2 /* Constants.hpp in Headers */,
 				F965FF241AA588010092ABBA /* Annotation.hpp in Headers */,
 				C9BED2261A28F4CD00CFF800 /* Constants.hpp in Headers */,
 				C90950921A2951A7002133E1 /* Gesture.hpp in Headers */,
@@ -837,6 +890,7 @@
 				F9ACB7DD1AF9CE01008C2F3C /* EmailDialog.hpp in Headers */,
 				F9ACB7E81AF9CE01008C2F3C /* TableViewRow.hpp in Headers */,
 				F9B1AF751A8E2EDD00DEF4D6 /* Constants.hpp in Headers */,
+				F95F908C1B01BD510002BD1C /* Socket.hpp in Headers */,
 				C9E6AFF01A13F96000FED053 /* TiLoggerPimpl.hpp in Headers */,
 				C9E6AFEA1A13F94900FED053 /* TiUtil.hpp in Headers */,
 				F9B1AF5F1A8DB4EF00DEF4D6 /* ListSection.hpp in Headers */,
@@ -846,13 +900,13 @@
 				C950EF8F1A48D8FB000EE5AC /* ImageView.hpp in Headers */,
 				F9ACB7E61AF9CE01008C2F3C /* TableView.hpp in Headers */,
 				C9E6AFE91A13F94500FED053 /* HashUtilities.hpp in Headers */,
+				F9991D561AFF5A9200C7DDF2 /* Cookie.hpp in Headers */,
 				C9BED2211A27B14200CFF800 /* NativeModuleExample.hpp in Headers */,
 				F93CDC411A96D24C00C42D8C /* Font.hpp in Headers */,
 				C90950961A2954B3002133E1 /* TextField.hpp in Headers */,
 				F9901B091AA5A355003FFD52 /* MapRegionTypev2.hpp in Headers */,
 				C90950A21A296802002133E1 /* Picker.hpp in Headers */,
 				F9ACB7E51AF9CE01008C2F3C /* Switch.hpp in Headers */,
-				F9B1AF6B1A8E2E9400DEF4D6 /* Network.hpp in Headers */,
 				F9BD6B9F1A96FA4200D721A9 /* ListViewMarkerProps.hpp in Headers */,
 				F91676F71AA5A92A006A6E44 /* CameraAnimationParams.hpp in Headers */,
 				F965FF201AA587F30092ABBA /* MapModule.hpp in Headers */,
@@ -962,6 +1016,8 @@
 				C90B8F931A16D83F005F3210 /* Window.cpp in Sources */,
 				C950EF931A48D90A000EE5AC /* ImageView.cpp in Sources */,
 				F96A53DC1AA5CFC200AD4011 /* Properties.cpp in Sources */,
+				F95F90961B01BD800002BD1C /* TCP.cpp in Sources */,
+				F95F90971B01BD800002BD1C /* UDP.cpp in Sources */,
 				C90950831A291EB5002133E1 /* Animation.cpp in Sources */,
 				F9ACB7CA1AF9CDCD008C2F3C /* Switch.cpp in Sources */,
 				F96A53DA1AA5CFB700AD4011 /* App.cpp in Sources */,
@@ -970,12 +1026,16 @@
 				F9B1AF5D1A8DB4E100DEF4D6 /* ListSection.cpp in Sources */,
 				F966AF7F1AC11AF700351707 /* ViewLayoutDelegate.cpp in Sources */,
 				C9BED2201A27B14200CFF800 /* NativeModuleExample.cpp in Sources */,
+				F9991D5A1AFF7D4100C7DDF2 /* PushNotificationConfig.cpp in Sources */,
 				C909509F1A2963F3002133E1 /* ListView.cpp in Sources */,
 				F9901B0B1AA5A366003FFD52 /* MapRegionTypev2.cpp in Sources */,
+				F95F909B1B01EBF70002BD1C /* AcceptDict.cpp in Sources */,
 				F968A1C61AB93F6C00A0D546 /* FileStream.cpp in Sources */,
+				F9991D521AFF5A6400C7DDF2 /* Cookie.cpp in Sources */,
 				F9B1AF831A8E2F4400DEF4D6 /* sqlite3.c in Sources */,
 				F9ACB7C81AF9CDCD008C2F3C /* ProgressBar.cpp in Sources */,
 				F9B47E831A2EF94A0052879A /* Constants.cpp in Sources */,
+				F95F90931B01BD740002BD1C /* Socket.cpp in Sources */,
 				F93104261ABBDDAB0067470D /* TableViewRow.cpp in Sources */,
 				C90950931A2951A7002133E1 /* Gesture.cpp in Sources */,
 				F93104251ABBDDAB0067470D /* TableView.cpp in Sources */,

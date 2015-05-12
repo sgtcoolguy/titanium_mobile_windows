@@ -134,6 +134,18 @@ set(SOURCE_Network
   src/Network/HTTPClient.cpp
   include/Titanium/Network/Constants.hpp
   src/Network/Constants.cpp
+  include/Titanium/Network/Cookie.hpp
+  src/Network/Cookie.cpp
+  include/Titanium/Network/PushNotificationConfig.hpp
+  src/Network/PushNotificationConfig.cpp
+  include/Titanium/Network/Socket.hpp
+  src/Network/Socket.cpp
+  include/Titanium/Network/Socket/TCP.hpp
+  src/Network/Socket/TCP.cpp
+  include/Titanium/Network/Socket/UDP.hpp
+  src/Network/Socket/UDP.cpp
+  include/Titanium/Network/Socket/AcceptDict.hpp
+  src/Network/Socket/AcceptDict.cpp
   )
 
 set(SOURCE_UI
