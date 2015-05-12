@@ -2,9 +2,9 @@ var fs = require('fs'),
 	ejs = require('ejs'),
 	path = require('path'),
 	wrench = require('wrench'),
+	async = require('async'),
 	metadata = JSON.parse(fs.readFileSync(path.join(__dirname, 'hyperloop_windows_metabase.json.gz'))),
 	all_classes = metadata['classes'],
-	classDefinition, // tmp var
 	// where do we stick our wrappers?
 	dest = path.join(__dirname, '..', '..', '..', 'Source', 'Titanium'),
 	require_hook = path.join(__dirname, '..', '..', '..', 'Source', 'Titanium', 'src', 'WindowsNativeModuleLoader.cpp'),
@@ -20,30 +20,31 @@ var fs = require('fs'),
 	// We need to skip/map a number of collections to JSArray and JSObject
 	// We handle these types specially
 	blacklist = [
+		"object",
 		"Windows.Foundation.Collections.IIterable`1<T>",
-	    "Windows.Foundation.Collections.IIterator`1<T>",
-	    "Windows.Foundation.Collections.IVectorView`1<T>",
-	    "Windows.Foundation.Collections.IVector`1<T>",
-	    "Windows.Foundation.Collections.IKeyValuePair`2<K,V>",
-	    "Windows.Foundation.Collections.IMap`2<K,V>",
-	    "Windows.Foundation.Collections.IMapView`2<K,V>",
-	    "Windows.Foundation.Collections.VectorChangedEventHandler`1<T>",
-	    "Windows.Foundation.Collections.IObservableVector`1<T>",
-	    "Windows.Foundation.Collections.IMapChangedEventArgs`1<K>",
-	    "Windows.Foundation.Collections.MapChangedEventHandler`2<K,V>",
-	    "Windows.Foundation.Collections.IObservableMap`2<K,V>",
-	    "Windows.Foundation.AsyncOperationWithProgressCompletedHandler`2<TResult,TProgress>",
-	    "Windows.Foundation.IAsyncOperationWithProgress`2<TResult,TProgress>",
-	    "Windows.Foundation.AsyncOperationCompletedHandler`1<TResult>",
-	    "Windows.Foundation.IAsyncOperation`1<TResult>",
-	    "Windows.Foundation.AsyncActionWithProgressCompletedHandler`1<TProgress>",
-	    "Windows.Foundation.IAsyncActionWithProgress`1<TProgress>",
-	    "Windows.Foundation.AsyncOperationProgressHandler`2<TResult,TProgress>",
-	    "Windows.Foundation.AsyncActionProgressHandler`1<TProgress>",
-	    "Windows.Foundation.IReference`1<T>",
-	    "Windows.Foundation.IReferenceArray`1<T>",
-	    "Windows.Foundation.TypedEventHandler`2<TSender,TResult>",
-	    "Windows.Foundation.EventHandler`1<T>"
+		"Windows.Foundation.Collections.IIterator`1<T>",
+		"Windows.Foundation.Collections.IVectorView`1<T>",
+		"Windows.Foundation.Collections.IVector`1<T>",
+		"Windows.Foundation.Collections.IKeyValuePair`2<K,V>",
+		"Windows.Foundation.Collections.IMap`2<K,V>",
+		"Windows.Foundation.Collections.IMapView`2<K,V>",
+		"Windows.Foundation.Collections.VectorChangedEventHandler`1<T>",
+		"Windows.Foundation.Collections.IObservableVector`1<T>",
+		"Windows.Foundation.Collections.IMapChangedEventArgs`1<K>",
+		"Windows.Foundation.Collections.MapChangedEventHandler`2<K,V>",
+		"Windows.Foundation.Collections.IObservableMap`2<K,V>",
+		"Windows.Foundation.AsyncOperationWithProgressCompletedHandler`2<TResult,TProgress>",
+		"Windows.Foundation.IAsyncOperationWithProgress`2<TResult,TProgress>",
+		"Windows.Foundation.AsyncOperationCompletedHandler`1<TResult>",
+		"Windows.Foundation.IAsyncOperation`1<TResult>",
+		"Windows.Foundation.AsyncActionWithProgressCompletedHandler`1<TProgress>",
+		"Windows.Foundation.IAsyncActionWithProgress`1<TProgress>",
+		"Windows.Foundation.AsyncOperationProgressHandler`2<TResult,TProgress>",
+		"Windows.Foundation.AsyncActionProgressHandler`1<TProgress>",
+		"Windows.Foundation.IReference`1<T>",
+		"Windows.Foundation.IReferenceArray`1<T>",
+		"Windows.Foundation.TypedEventHandler`2<TSender,TResult>",
+		"Windows.Foundation.EventHandler`1<T>"
 	];
 
 function normalizeType(typeName) {
@@ -68,8 +69,14 @@ function expandTypes(typeName) {
 	if (type.indexOf('`1<') != -1) {
 		collectionName = normalizeType(type.substring(0, type.indexOf('`1<')));
 		types.unshift(collectionName + '`1<T>');
-		type = normalizeType(type.substring(type.indexOf('`1<') + 3));
-		types.unshift(type);
+		types = types.concat(expandTypes(type.substring(type.indexOf('`1<') + 3, type.length - 1)));
+	} else if (type.indexOf('`2<') != -1) {
+		collectionName = normalizeType(type.substring(0, type.indexOf('`2<')));
+		types.unshift(collectionName + '`2<K,V>');
+		type = type.substring(type.indexOf('`2<') + 3, type.length - 1);
+		// split on ,!
+		types = types.concat(expandTypes(type.substring(0, type.indexOf(','))));
+		types = types.concat(expandTypes(type.substring(type.indexOf(',') + 1)));
 	} else {
 		types.unshift(normalizeType(typeName));
 	}
@@ -201,83 +208,105 @@ all_classes['Platform.Object'] = {
 	methods: [],
 	attributes: [
 		"public",
-        "auto",
-        "ansi",
-        "windowsruntime"
-    ],
-    'extends': 'Module'
+		"auto",
+		"ansi",
+		"windowsruntime"
+	],
+	'extends': 'Module'
 }
 seeds.unshift('Platform.Object');
 // TODO Add a cast method that takes one String, and generate a huuuuge block of conversions inside it for every type we know of below!
 
-
 // Now that we have the full list of types, let's stub them
-for (var i = 0; i < seeds.length; i++) {
-	var classname = seeds[i];
+async.each(seeds, function(classname, callback) {
+	var classDefinition = all_classes[classname];
+	console.log('Processing class ' + classname);
+
 	// Skip blacklisted types
 	if (blacklist.indexOf(classname) != -1) {
-		continue;
+		callback();
+		return;
 	}
-	classDefinition = all_classes[classname];
 	
 	if (!classDefinition) {
-		console.log("Something went wrong. No metadata for type: " + classname);
-		continue;
+		callback("Something went wrong. No metadata for type: " + classname);
+		return;
 	}
 
 	// skip structs and enums
 	if (classDefinition['extends'] && 
 		(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
 		classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
-		continue;
+		callback();
+		return;
 	}
 
 	// Stub the header
 	console.log("Stubbing header for " + classname);
 	var hpp_file = path.join(__dirname, 'templates', 'Proxy.hpp');
 	fs.readFile(hpp_file, 'utf8', function (err, data) {
-	    if (err) throw err;
+		if (err) callback(err);
 
 		var generated_proxy_header = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends']}, {filename: hpp_file});
-	    fs.writeFile(path.join(dest, 'include', classname + '.hpp'), generated_proxy_header, {flags : 'w'}, function(err) {
-	        if (err) throw err;
-	    });
+		fs.writeFile(path.join(dest, 'include', classname + '.hpp'), generated_proxy_header, {flags : 'w'}, function(err) {
+			if (err) callback(err);
+		});
 	});
 
 	// Stub the implementation
 	console.log("Stubbing implementation for " + classname);
 	var cpp_file = path.join(__dirname, 'templates', 'Proxy.cpp');
 	fs.readFile(cpp_file, 'utf8', function (err, data) {
-	    if (err) throw err;
+		if (err) callback(err);
 
 		var generated_proxy_impl = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends'], dependencies: classDefinition.dependencies}, {filename: cpp_file});
 		fs.writeFile(path.join(dest, 'src', classname + '.cpp'), generated_proxy_impl, {flags : 'w'}, function(err) {
-	        if (err) throw err;
-	    });
+			if (err) {
+				callback(err);
+			}
+			else {
+				callback();
+			}
+		});
 	});
-}
+}, function(err){
+	// if any of the file processing produced an error, err would equal that error
+	if( err ) {
+	  // One of the iterations produced an error.
+	  // All processing will now stop.
+	  console.log(err.toString());
+	} else {
+	  console.log('All files have been processed successfully');
+	}
+});
 
 // Now we'll add all the types we know about as includes into our require hook class
 // This let's us load these types by name using require!
 console.log("Adding types to require hook implementation...");
 fs.readFile(require_hook, 'utf8', function (err, data) {
-    if (err) throw err;
+	if (err) throw err;
 
-    var classes = "";
+	var classes = "";
 	var loader_switch = "";
 
 	// Add our includes
 	for (var i = 0; i < seeds.length; i++) {
-		classes += "#include \"" + seeds[i] + ".hpp\"\r\n";
-		loader_switch += "else if (path == \"Windows.UI.Xaml.Controls.Page\") {\r\n			instantiated = context.CreateObject(JSExport<::Titanium::" + seeds[i].replace(/\./g, '::') + ">::Class());\r\n		}\r\n";
-	}
-	loader_switch += "else {\r\n			return false;\r\n		}";
-	loader_switch = loader_switch.substring(5); // drop first "else "
-	data = data.replace('// INSERT_INCLUDES', classes);
-	data = data.replace('// INSERT_SWITCH', classes);
 
-    fs.writeFile (require_hook, data, function(err) {
-        if (err) throw err;
-    });
+		// Skip blacklisted types
+		if (blacklist.indexOf(seeds[i]) != -1) {
+			continue;
+		}
+
+		classes += "#include \"" + seeds[i] + ".hpp\"\r\n";
+		loader_switch += "\t\telse if (path == \"" + seeds[i] + "\") {\r\n\t\t\tinstantiated = context.CreateObject(JSExport<::Titanium::" + seeds[i].replace(/\./g, '::') + ">::Class());\r\n\t\t}\r\n";
+	}
+	loader_switch += "\t\telse {\r\n			return false;\r\n		}";
+	loader_switch = loader_switch.substring(7); // drop first "\t\telse "
+	data = data.replace('// INSERT_INCLUDES', classes);
+	data = data.replace('// INSERT_SWITCH', loader_switch);
+
+	fs.writeFile (require_hook, data, function(err) {
+		if (err) throw err;
+	});
 });
 

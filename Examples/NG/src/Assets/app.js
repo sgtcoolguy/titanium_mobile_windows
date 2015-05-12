@@ -1,7 +1,11 @@
-var win = new Windows.UI.Xaml.Controls.Canvas();
+var Canvas = require("Windows.UI.Xaml.Controls.Canvas"),
+    TextBlock = require("Windows.UI.Xaml.Controls.TextBlock"),
+    Window = require("Windows.UI.Xaml.Window");
+
+var win = new Canvas();
 
 // Add stuff to the window!
-var label = new Windows.UI.Xaml.Controls.TextBlock();
+var label = new TextBlock();
 label.FontSize = 60;
 label.Text = "Hello World!";
 //label.TextAlignment = Windows.UI.Xaml.TextAlignment.Center;
@@ -10,5 +14,5 @@ label.Text = "Hello World!";
 
 win.Children.Append(label);
 
-Windows.UI.Xaml.Window.Current.Content = win;
-Windows.UI.Xaml.Window.Current.Activate();
+Window.Current.Content = win;
+Window.Current.Activate();

@@ -28,7 +28,6 @@ namespace TitaniumWindows
 
 	std::string GlobalObject::requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname)
 	{
-<<<<<<< Updated upstream
 		auto result = Titanium::GlobalObject::requestResolveModule(parent, moduleId, dirname);
 		if (!result.empty()) {
 			return result;

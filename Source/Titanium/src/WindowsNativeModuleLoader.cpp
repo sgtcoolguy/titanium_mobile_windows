@@ -21,17 +21,15 @@ namespace TitaniumWindows
 		auto context = parent.get_context();
 		auto global = context.get_global_object();
 
-		// TODO Instantiate the type! Do we need some huge if/else block to test string for types, generated from list of all possible types?
 		JSObject instantiated = context.CreateObject();
-		
 		// INSERT_SWITCH
 
 		// Split type/path by '.', then build up the namespaces!
 		JSObject current_object = global;
-		#pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable:4996)
-			std::vector<std::string> parts;
-			boost::split(parts, path, boost::is_any_of("."));
+		std::vector<std::string> parts;
+		boost::split(parts, path, boost::is_any_of("."));
 #pragma warning(pop)
 		for (size_t i = 0, len = parts.size(); i < len - 1; i++) {
 			auto name = parts.at(i);
@@ -46,7 +44,8 @@ namespace TitaniumWindows
 				current_object = static_cast<JSObject>(current_value);
 			}
 		}
-		current_object.SetProperty("base_name", instantiated);
+		// hang the actual type at the end!
+		current_object.SetProperty(parts.at(parts.size() - 1), instantiated);
 
 		return true;
 	}
