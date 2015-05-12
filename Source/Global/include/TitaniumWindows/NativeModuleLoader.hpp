@@ -20,7 +20,7 @@ namespace TitaniumWindows
 
 	  @discussion This is the callback mechanism to laod up a native type using require!
 	*/
-	class TITANIUMWINDOWS_GLOBAL_EXPORT NativeModuleLoader final
+	class TITANIUMWINDOWS_GLOBAL_EXPORT NativeModuleLoader
 	{
 	public:
 

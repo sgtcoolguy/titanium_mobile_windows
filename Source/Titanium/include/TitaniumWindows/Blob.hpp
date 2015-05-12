@@ -7,7 +7,7 @@
 #ifndef _TITANIUMWINDOWS_BLOB_HPP_
 #define _TITANIUMWINDOWS_BLOB_HPP_
 
-#include "detail/BlobBase.hpp"
+#include "detail/TitaniumWindowsBase.hpp"
 
 namespace TitaniumWindows
 {

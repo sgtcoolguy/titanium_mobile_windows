@@ -4,14 +4,14 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "File.hpp"
+#include "TitaniumWindows/File.hpp"
 #include "Titanium/detail/TiBase.hpp"
 #include <algorithm>
 #include <iostream>
 #include <objbase.h>
 #include <ppltasks.h>
 #include <collection.h>
-#include "Blob.hpp"
+#include "TitaniumWindows/Blob.hpp"
 #include <boost/algorithm/string/replace.hpp>
 
 using namespace Windows::Storage;

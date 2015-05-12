@@ -28,6 +28,7 @@ namespace TitaniumWindows
 
 	std::string GlobalObject::requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname)
 	{
+<<<<<<< Updated upstream
 		auto result = Titanium::GlobalObject::requestResolveModule(parent, moduleId, dirname);
 		if (!result.empty()) {
 			return result;
@@ -42,6 +43,8 @@ namespace TitaniumWindows
 
 	bool GlobalObject::requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT
 	{
+		// TODO If the name is a Windows type, return yes!
+		// How can we look up the types? i.e. Windows.Ui.Xaml.Controls.Page
 		auto module_path = resolve(path);
 		TITANIUM_LOG_DEBUG("GlobalObject::requiredModuleExists: ", TitaniumWindows::Utility::ConvertUTF8String(module_path));
 

@@ -7,7 +7,7 @@
 #ifndef _TITANIUMWINDOWS_FILE_HPP_
 #define _TITANIUMWINDOWS_FILE_HPP_
 
-#include "detail/FilesystemBase.hpp"
+#include "detail/TitaniumWindowsBase.hpp"
 #include "Titanium/Filesystem/Constants.hpp"
 #include "TitaniumWindows/Utility.hpp"
 

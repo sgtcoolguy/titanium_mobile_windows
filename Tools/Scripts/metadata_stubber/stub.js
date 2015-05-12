@@ -4,16 +4,21 @@ var fs = require('fs'),
 	wrench = require('wrench'),
 	metadata = JSON.parse(fs.readFileSync(path.join(__dirname, 'hyperloop_windows_metabase.json.gz'))),
 	all_classes = metadata['classes'],
-	classDefinition,
-	dest = path.join(__dirname, '..', '..', '..', 'Source', 'UI'),
-	// Start with seeds from my simple hellow world app
+	classDefinition, // tmp var
+	// where do we stick our wrappers?
+	dest = path.join(__dirname, '..', '..', '..', 'Source', 'Titanium'),
+	require_hook = path.join(__dirname, '..', '..', '..', 'Source', 'Titanium', 'src', 'WindowsNativeModuleLoader.cpp'),
+	// Start with seeds from my simple hello world app
 	seeds = [
 		'Windows.UI.Xaml.Controls.Canvas',
 		'Windows.UI.Xaml.Controls.TextBlock',
 		'Windows.UI.Xaml.Controls.Page',
 		'Windows.UI.Xaml.Window'
 	],
-	// TODO We need to skip/map a number of collections to JSArray and JSObject
+	// TODO Let's assume everything for now
+	//seeds = [],
+	// We need to skip/map a number of collections to JSArray and JSObject
+	// We handle these types specially
 	blacklist = [
 		"Windows.Foundation.Collections.IIterable`1<T>",
 	    "Windows.Foundation.Collections.IIterator`1<T>",
@@ -40,10 +45,6 @@ var fs = require('fs'),
 	    "Windows.Foundation.TypedEventHandler`2<TSender,TResult>",
 	    "Windows.Foundation.EventHandler`1<T>"
 	];
-
-// For when we dump files into a "generated" sub-folder
-//wrench.mkdirSyncRecursive(path.join(__dirname, 'generated', 'include'));
-//wrench.mkdirSyncRecursive(path.join(__dirname, 'generated', 'src'));
 
 function normalizeType(typeName) {
 	var type = typeName.trim();
@@ -156,11 +157,9 @@ function getDependencies(classname) {
 	return types;
 }
 
-// Using the seeds, generate the list of types we need to stub!
 // If we have no seeds, assume we want everything!
 if (seeds.length == 0) {
-	for (var i = 0; i < seeds.length; i++) {
-		var classname = seeds[i];
+	for (classname in all_classes) {
 		classDefinition = all_classes[classname];
 		// skip structs and enums
 		if (classDefinition['extends'] && 
@@ -172,30 +171,30 @@ if (seeds.length == 0) {
 		seeds.unshift(classname);
 	}
 }
-else {
-	// We've specified seed types, use those to gather the full list of types we'll need to generate
-	var todo = [];
-	for (var i = 0; i < seeds.length; i++) {
-		todo.unshift(seeds[i]);
-	}
-	while (todo.length > 0) {
-		var classname = todo.shift();
-		console.log("Gathering dependencies of: " + classname);
-		var dependencies = getDependencies(classname);
-		// are there any new types here?
-		for (var j = 0; j < dependencies.length; j++) {
-			var the_dependency = dependencies[j];
-			if (seeds.indexOf(the_dependency) == -1) {
-				// new type. Add it to our seed listing and our queue to gather it's dependencies
-				console.log("Adding type to list: " + the_dependency);
-				seeds.unshift(the_dependency);
-				todo.unshift(the_dependency);
-			}
+
+// Using the seeds, generate the list of types we need to stub!
+// We've specified seed types, use those to gather the full list of types we'll need to generate
+var todo = [];
+for (var i = 0; i < seeds.length; i++) {
+	todo.unshift(seeds[i]);
+}
+while (todo.length > 0) {
+	var classname = todo.shift();
+	console.log("Gathering dependencies of: " + classname);
+	var dependencies = getDependencies(classname);
+	// are there any new types here?
+	for (var j = 0; j < dependencies.length; j++) {
+		var the_dependency = dependencies[j];
+		if (seeds.indexOf(the_dependency) == -1) {
+			// new type. Add it to our seed listing and our queue to gather it's dependencies
+			console.log("Adding type to list: " + the_dependency);
+			seeds.unshift(the_dependency);
+			todo.unshift(the_dependency);
 		}
 	}
 }
 
-// TODO Generate a base class that everything can extend where we can hang a single unwrap method to get back an Object!
+// Generate a base class that everything can extend where we can hang a single unwrap method to get back an Object!
 all_classes['Platform.Object'] = {
 	"name": 'Platform.Object',
 	properties: {},
@@ -209,6 +208,8 @@ all_classes['Platform.Object'] = {
     'extends': 'Module'
 }
 seeds.unshift('Platform.Object');
+// TODO Add a cast method that takes one String, and generate a huuuuge block of conversions inside it for every type we know of below!
+
 
 // Now that we have the full list of types, let's stub them
 for (var i = 0; i < seeds.length; i++) {
@@ -234,13 +235,49 @@ for (var i = 0; i < seeds.length; i++) {
 	// Stub the header
 	console.log("Stubbing header for " + classname);
 	var hpp_file = path.join(__dirname, 'templates', 'Proxy.hpp');
-	var generated_proxy_header = ejs.render('' + fs.readFileSync(hpp_file), {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends']}, {filename: hpp_file});
-	fs.writeFileSync(path.join(dest, 'include', classname + '.hpp'), generated_proxy_header, {flags : 'w'});
+	fs.readFile(hpp_file, 'utf8', function (err, data) {
+	    if (err) throw err;
+
+		var generated_proxy_header = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends']}, {filename: hpp_file});
+	    fs.writeFile(path.join(dest, 'include', classname + '.hpp'), generated_proxy_header, {flags : 'w'}, function(err) {
+	        if (err) throw err;
+	    });
+	});
 
 	// Stub the implementation
 	console.log("Stubbing implementation for " + classname);
 	var cpp_file = path.join(__dirname, 'templates', 'Proxy.cpp');
-	// We need the whole all_classes data so we can look up types such as structs/enums to map to JSObjects/JSNumbers
-	var generated_proxy_impl = ejs.render('' + fs.readFileSync(cpp_file), {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends'], dependencies: classDefinition.dependencies}, {filename: cpp_file});
-	fs.writeFileSync(path.join(dest, 'src', classname + '.cpp'), generated_proxy_impl, {flags : 'w'});
+	fs.readFile(cpp_file, 'utf8', function (err, data) {
+	    if (err) throw err;
+
+		var generated_proxy_impl = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends'], dependencies: classDefinition.dependencies}, {filename: cpp_file});
+		fs.writeFile(path.join(dest, 'src', classname + '.cpp'), generated_proxy_impl, {flags : 'w'}, function(err) {
+	        if (err) throw err;
+	    });
+	});
 }
+
+// Now we'll add all the types we know about as includes into our require hook class
+// This let's us load these types by name using require!
+console.log("Adding types to require hook implementation...");
+fs.readFile(require_hook, 'utf8', function (err, data) {
+    if (err) throw err;
+
+    var classes = "";
+	var loader_switch = "";
+
+	// Add our includes
+	for (var i = 0; i < seeds.length; i++) {
+		classes += "#include \"" + seeds[i] + ".hpp\"\r\n";
+		loader_switch += "else if (path == \"Windows.UI.Xaml.Controls.Page\") {\r\n			instantiated = context.CreateObject(JSExport<::Titanium::" + seeds[i].replace(/\./g, '::') + ">::Class());\r\n		}\r\n";
+	}
+	loader_switch += "else {\r\n			return false;\r\n		}";
+	loader_switch = loader_switch.substring(5); // drop first "else "
+	data = data.replace('// INSERT_INCLUDES', classes);
+	data = data.replace('// INSERT_SWITCH', classes);
+
+    fs.writeFile (require_hook, data, function(err) {
+        if (err) throw err;
+    });
+});
+

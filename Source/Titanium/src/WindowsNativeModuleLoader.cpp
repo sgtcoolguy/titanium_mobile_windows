@@ -4,12 +4,11 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUMWINDOWS_WindowsNativeModuleLoader_HPP_
-#define _TITANIUMWINDOWS_WindowsNativeModuleLoader_HPP_
-
-#include "TitaniumWindows/NativeModuleLoader.hpp"
+#include "TitaniumWindows/WindowsNativeModuleLoader.hpp"
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string.hpp>
+
+// INSERT_INCLUDES
 
 // FIXME This will only work if we generate _all_ type wrappers and include them here. Otherwise we need to move this into the user's app and limit to those types used...
 
@@ -23,13 +22,9 @@ namespace TitaniumWindows
 		auto global = context.get_global_object();
 
 		// TODO Instantiate the type! Do we need some huge if/else block to test string for types, generated from list of all possible types?
-		JSObject instantiated;
-		if (path == 'Windows.UI.Xaml.Controls.Page') {
-			instantiated = js_context.CreateObject(JSExport<Titanium::Windows::UI::Xaml::Controls::Page>::Class());
-		}
-		if (instantiated == nullptr) {
-			return false;
-		}
+		JSObject instantiated = context.CreateObject();
+		
+		// INSERT_SWITCH
 
 		// Split type/path by '.', then build up the namespaces!
 		JSObject current_object = global;
@@ -57,4 +52,3 @@ namespace TitaniumWindows
 	}
 }  // namespace TitaniumWindows
 
-#endif  // _TITANIUMWINDOWS_WindowsNativeModuleLoader_HPP_

@@ -1,26 +1,21 @@
 = TODO =
-- handle overloads of same method with different argument counts/types. We have one bridge method that needs to handle every variation of overload.
-- Handle interfaces
-	- How do we handle methods that return/expect interfaces? Do we generate wrappers for interfaces?
-	- How do we handle setting up inheritance in C++? In JSExportInitialize()/JS?
-	- Good example is Windows.Foundation.WwwFormUrlDecoder - it extends System.Object, but implements a number of interfaces (some templated!)
-- Handle mapping primitives better
-	- I might not be casting appropriately, and we may need to worry about signed/unsigned mismatches
-	- I'm not handling all the primitive types, just some
+- Generate the types inside the user's app, not in UI module?
+	- Maybe a separate Native module/dll with everything that we ship? Maybe in the TitaniumWindows umbrella module/dll?
+- Walk the user's app.js to record the types needed and use that to determine what to include and register off global?
+	- We'd need a way for the user's app code to be able to register the stuff on the global namespace...
+	- We could also enforce use of "require" and hack require to on-demand register the type on global? Or maybe just have it return a reference to the type?
+- Casting
+	- Add a "cast" method to Platform::Object that takes a String and tries to unwrap/rewrap with the new type
+		i.e. something.cast('Windows.UI.Xaml.Controls.Page');
+		behind the scenes it uses a big if/else block that we generate with every possible type we know about and does an auto new_wrapper = context.CreateObject(JSExport<Type::Name::Here>::Class());
+		new_wrapper->wrap(dynamic_cast<Type::Name::Here^>(unwrapPlatform_Object()));
+		- Should it modify the existing object by assigning to it under the hood, or return the new wrapped object?
 - Events
 	- I'm not exposing events/handlers at all - or maybe I am but haven't really hooked them up properly...
 	- We'll likely want to allow users to register a function callback as a handler and do the magic work behind the scenes for them.
-- Handle non-default constructors for wrapped types
-- Use JSExport as root, not Titanium::Module.
-- Allow unwrapping to base "Object" for methods where we get/set plain Object
-- Map collection types to JSArray/JSObject properly
-	- We need to be able to convert from IMap/IMapView <-> JSObject, and IVector/IVectorView <-> JSArray. Not sure about iterable/iterator, key-value pair, etc. See blacklist in stub.js
-	- We also need to handle "primitive" arrays as well, such as in WwwFormUrlDecoder.GetMany()
-- Fix up includes of used types. We don't clean up the types to handle primitive arrays, collections with templates, etc.
 
 == Improvements to Metadata ==
 - Consistently use "class Name.Of.Class" or "Name.Of.Class" for types. Probably the former.
-- !!! Add constructor info for structs (so we know arg count, types, maybe even fields they correspond to?)
 - Mark API support for each type. There are types documented that work on windows Phone 10 tehcnical preview, but not 8 or 8.1.
 - Pare down the amount of data to just what we need? (Doesn't matter much if just used to geenrate stubs and isn't getting embedded in app or shipped in distribution)
 - Fix up naming of complex/templated types?

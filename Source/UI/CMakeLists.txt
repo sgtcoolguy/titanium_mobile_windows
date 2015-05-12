@@ -107,26 +107,12 @@ set(SOURCE_UI_Windows
 
 source_group(Titanium\\UI\\Windows FILES ${SOURCE_UI_Windows})
 
-
-file(GLOB_RECURSE WINDOWS_WRAPPERS "src/Windows.*.cpp")
-file(GLOB_RECURSE WINDOWS_HEADERS "include/Windows.*.hpp")
-
-set(SOURCE_UI_WindowsNative
-${WINDOWS_WRAPPERS}
-${WINDOWS_HEADERS}
-include/Platform.Object.hpp
-src/Platform.Object.cpp
-  )
-
-source_group(Titanium\\UI\\WindowsNative FILES ${SOURCE_UI_WindowsNative})
-
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
 add_library(TitaniumWindows_UI SHARED
   ${SOURCE_UI}
   ${SOURCE_UI_Windows}
-  ${SOURCE_UI_WindowsNative}
   )
 
 include(GenerateExportHeader)
