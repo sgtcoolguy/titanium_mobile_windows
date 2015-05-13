@@ -144,7 +144,7 @@ namespace Titanium
 	{
 		const auto packageJSONFile = path + "/package.json";
 		if (requiredModuleExists(packageJSONFile)) {
-				const auto content = readRequiredModule(packageJSONFile);
+				const auto content = readRequiredModule(parent, packageJSONFile);
 				const auto result = parent.get_context().CreateValueFromJSON(content);
 				if (result.IsObject()) {
 					const auto json = static_cast<JSObject>(result);
@@ -247,7 +247,7 @@ namespace Titanium
 			return module_cache__.at(module_path);
 		}
 
-		const auto module_js = readRequiredModule(module_path);
+		const auto module_js = readRequiredModule(parent, module_path);
 
 		if (module_js.empty()) {
 			detail::ThrowRuntimeError("require", "Could not load module " + moduleId);

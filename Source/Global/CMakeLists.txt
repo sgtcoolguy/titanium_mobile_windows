@@ -52,6 +52,7 @@ set(SOURCE_Global
   src/GlobalObject.cpp
   include/TitaniumWindows/detail/GlobalBase.hpp
   include/TitaniumWindows/NativeModuleLoader.hpp
+  src/NativeModuleLoader.cpp
   )
 
 source_group(Titanium\\Global FILES ${SOURCE_Global})

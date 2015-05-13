@@ -38,6 +38,8 @@ namespace TitaniumWindows
 		if (moduleId.find("Windows.") == 0) {
 			return "native:" + moduleId;
 		}
+
+		return result;
 	}
 
 	bool GlobalObject::requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT
@@ -63,16 +65,20 @@ namespace TitaniumWindows
 		return exists;
 	}
 
+	void GlobalObject::registerNativeModuleLoader(NativeModuleLoader* module_loader)
+	{
+		module_loader__ = module_loader;
+	}
+
 	std::string GlobalObject::readRequiredModule(const JSObject& parent, const std::string& path) const
 	{
 		if (path.find("native:") == 0) {
-			// if it is one, then we need to defer to some plugin/helper class that registers to handle it
-			// since I don't think we want to gum up Global module with all the natives?
-
-			auto context = parent.get_context();
-			// auto native_class = js_context.CreateObject(JSExport<Titanium::Windows::UI::Xaml::Controls::Page>::Class());
-			// register the native class off the windows namespaces on global
-			return "module.exports = Windows.UI.Xaml.Controls.Page;";
+			// Slice off "native:" and pass it along
+			auto class_name = path.substr(7);
+			auto created_object = module_loader__->registerNativeModule(parent, class_name);
+			
+			// TODO We know this got hooked on the global using the full name, so let's cheat and use that knowledge?
+			return "module.exports = " + class_name + ";";
 		}
 
 		auto module_path = resolve(path);

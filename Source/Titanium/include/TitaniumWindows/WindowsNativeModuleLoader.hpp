@@ -17,9 +17,8 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_EXPORT WindowsNativeModuleLoader final : public ::TitaniumWindows::NativeModuleLoader
 		{
 		public:
-
-
-			WindowsNativeModuleLoader() = default;
+			WindowsNativeModuleLoader();
+			~WindowsNativeModuleLoader();
 
 			virtual bool registerNativeModule(const JSObject& parent, const std::string& path) const override final;
 		};

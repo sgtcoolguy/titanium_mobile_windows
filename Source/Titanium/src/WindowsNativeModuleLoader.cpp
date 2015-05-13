@@ -16,19 +16,28 @@ namespace TitaniumWindows
 {
 	using namespace HAL;
 
+	WindowsNativeModuleLoader::WindowsNativeModuleLoader()
+	{
+	}
+
+	WindowsNativeModuleLoader::~WindowsNativeModuleLoader()
+	{
+	}
+
 	bool WindowsNativeModuleLoader::registerNativeModule(const JSObject& parent, const std::string& path) const
 	{
 		auto context = parent.get_context();
-		auto global = context.get_global_object();
-
 		JSObject instantiated = context.CreateObject();
+		// TODO Use a std::map that we populate once and just check for a key with that name?
 		// INSERT_SWITCH
 
+
+		auto global = context.get_global_object();
 		// Split type/path by '.', then build up the namespaces!
 		JSObject current_object = global;
+		std::vector<std::string> parts;
 #pragma warning(push)
 #pragma warning(disable:4996)
-		std::vector<std::string> parts;
 		boost::split(parts, path, boost::is_any_of("."));
 #pragma warning(pop)
 		for (size_t i = 0, len = parts.size(); i < len - 1; i++) {
