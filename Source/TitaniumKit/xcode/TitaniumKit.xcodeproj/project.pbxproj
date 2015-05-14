@@ -141,6 +141,14 @@
 		F96BCAC01A25CE6100745C3B /* PlatformModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96BCABF1A25CE6100745C3B /* PlatformModule.cpp */; };
 		F96BCAC31A25CEB000745C3B /* NativePlatformExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96BCAC11A25CEB000745C3B /* NativePlatformExample.cpp */; };
 		F96BCAC41A25CEB000745C3B /* NativePlatformExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96BCAC21A25CEB000745C3B /* NativePlatformExample.hpp */; };
+		F97467EC1B043D9000E96892 /* CameraOptionsType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467E61B043D9000E96892 /* CameraOptionsType.cpp */; };
+		F97467ED1B043D9000E96892 /* MediaQueryType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467E71B043D9000E96892 /* MediaQueryType.cpp */; };
+		F97467EE1B043D9000E96892 /* MusicLibraryOptionsType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467E81B043D9000E96892 /* MusicLibraryOptionsType.cpp */; };
+		F97467EF1B043D9000E96892 /* PhotoGalleryOptionsType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467E91B043D9000E96892 /* PhotoGalleryOptionsType.cpp */; };
+		F97467F01B043D9000E96892 /* PreviewImageOptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467EA1B043D9000E96892 /* PreviewImageOptions.cpp */; };
+		F97467F11B043D9000E96892 /* RouteDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467EB1B043D9000E96892 /* RouteDescription.cpp */; };
+		F97467F31B04626C00E96892 /* MediaQueryInfoType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F97467F21B04626C00E96892 /* MediaQueryInfoType.hpp */; };
+		F97467F51B04627700E96892 /* MediaQueryInfoType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467F41B04627700E96892 /* MediaQueryInfoType.cpp */; };
 		F9901B091AA5A355003FFD52 /* MapRegionTypev2.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9901B081AA5A355003FFD52 /* MapRegionTypev2.hpp */; };
 		F9901B0B1AA5A366003FFD52 /* MapRegionTypev2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9901B0A1AA5A366003FFD52 /* MapRegionTypev2.cpp */; };
 		F9991D521AFF5A6400C7DDF2 /* Cookie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9991D511AFF5A6400C7DDF2 /* Cookie.cpp */; };
@@ -211,6 +219,17 @@
 		F9BD6BA11A96FA4E00D721A9 /* ListViewMarkerProps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9BD6BA01A96FA4E00D721A9 /* ListViewMarkerProps.cpp */; };
 		F9BE4A7C1A88999400301999 /* NativeWebViewExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9BE4A7A1A88999400301999 /* NativeWebViewExample.cpp */; };
 		F9BE4A7D1A88999400301999 /* NativeWebViewExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9BE4A7B1A88999400301999 /* NativeWebViewExample.hpp */; };
+		F9E391921B0316A30096BA2D /* MediaModule.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E391911B0316A30096BA2D /* MediaModule.hpp */; };
+		F9E391A11B0318640096BA2D /* CameraOptionsType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E391961B0318640096BA2D /* CameraOptionsType.hpp */; };
+		F9E391A31B0318640096BA2D /* MediaQueryType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E391981B0318640096BA2D /* MediaQueryType.hpp */; };
+		F9E391A51B0318640096BA2D /* MusicLibraryOptionsType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E3919A1B0318640096BA2D /* MusicLibraryOptionsType.hpp */; };
+		F9E391A61B0318640096BA2D /* PhotoGalleryOptionsType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E3919B1B0318640096BA2D /* PhotoGalleryOptionsType.hpp */; };
+		F9E391A71B0318640096BA2D /* PreviewImageOptions.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E3919C1B0318640096BA2D /* PreviewImageOptions.hpp */; };
+		F9E391A81B0318640096BA2D /* RouteDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E3919D1B0318640096BA2D /* RouteDescription.hpp */; };
+		F9E391AA1B0324840096BA2D /* Item.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E391A91B0324840096BA2D /* Item.hpp */; };
+		F9E391AC1B03289C0096BA2D /* Constants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E391AB1B03289C0096BA2D /* Constants.hpp */; };
+		F9E391AE1B032A160096BA2D /* MediaModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9E391AD1B032A160096BA2D /* MediaModule.cpp */; };
+		F9E391B01B032A2C0096BA2D /* Item.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9E391AF1B032A2C0096BA2D /* Item.cpp */; };
 		F9E96F891A415D62001E0EC4 /* DisplayCaps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F881A415D62001E0EC4 /* DisplayCaps.cpp */; };
 		F9E96F8B1A415D6E001E0EC4 /* DisplayCaps.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F8A1A415D6E001E0EC4 /* DisplayCaps.hpp */; };
 /* End PBXBuildFile section */
@@ -366,6 +385,14 @@
 		F96BCABF1A25CE6100745C3B /* PlatformModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlatformModule.cpp; path = src/PlatformModule.cpp; sourceTree = "<group>"; };
 		F96BCAC11A25CEB000745C3B /* NativePlatformExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativePlatformExample.cpp; sourceTree = "<group>"; };
 		F96BCAC21A25CEB000745C3B /* NativePlatformExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativePlatformExample.hpp; sourceTree = "<group>"; };
+		F97467E61B043D9000E96892 /* CameraOptionsType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CameraOptionsType.cpp; path = src/Media/CameraOptionsType.cpp; sourceTree = "<group>"; };
+		F97467E71B043D9000E96892 /* MediaQueryType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MediaQueryType.cpp; path = src/Media/MediaQueryType.cpp; sourceTree = "<group>"; };
+		F97467E81B043D9000E96892 /* MusicLibraryOptionsType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MusicLibraryOptionsType.cpp; path = src/Media/MusicLibraryOptionsType.cpp; sourceTree = "<group>"; };
+		F97467E91B043D9000E96892 /* PhotoGalleryOptionsType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PhotoGalleryOptionsType.cpp; path = src/Media/PhotoGalleryOptionsType.cpp; sourceTree = "<group>"; };
+		F97467EA1B043D9000E96892 /* PreviewImageOptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PreviewImageOptions.cpp; path = src/Media/PreviewImageOptions.cpp; sourceTree = "<group>"; };
+		F97467EB1B043D9000E96892 /* RouteDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RouteDescription.cpp; path = src/Media/RouteDescription.cpp; sourceTree = "<group>"; };
+		F97467F21B04626C00E96892 /* MediaQueryInfoType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MediaQueryInfoType.hpp; path = include/Titanium/Media/MediaQueryInfoType.hpp; sourceTree = "<group>"; };
+		F97467F41B04627700E96892 /* MediaQueryInfoType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MediaQueryInfoType.cpp; path = src/Media/MediaQueryInfoType.cpp; sourceTree = "<group>"; };
 		F9901B081AA5A355003FFD52 /* MapRegionTypev2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapRegionTypev2.hpp; path = include/Titanium/Map/MapRegionTypev2.hpp; sourceTree = "<group>"; };
 		F9901B0A1AA5A366003FFD52 /* MapRegionTypev2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapRegionTypev2.cpp; path = src/Map/MapRegionTypev2.cpp; sourceTree = "<group>"; };
 		F9991D511AFF5A6400C7DDF2 /* Cookie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cookie.cpp; path = src/Network/Cookie.cpp; sourceTree = "<group>"; };
@@ -436,6 +463,17 @@
 		F9BD6BA01A96FA4E00D721A9 /* ListViewMarkerProps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ListViewMarkerProps.cpp; path = src/UI/ListViewMarkerProps.cpp; sourceTree = "<group>"; };
 		F9BE4A7A1A88999400301999 /* NativeWebViewExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeWebViewExample.cpp; sourceTree = "<group>"; };
 		F9BE4A7B1A88999400301999 /* NativeWebViewExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeWebViewExample.hpp; sourceTree = "<group>"; };
+		F9E391911B0316A30096BA2D /* MediaModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MediaModule.hpp; path = include/Titanium/MediaModule.hpp; sourceTree = "<group>"; };
+		F9E391961B0318640096BA2D /* CameraOptionsType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CameraOptionsType.hpp; path = include/Titanium/Media/CameraOptionsType.hpp; sourceTree = "<group>"; };
+		F9E391981B0318640096BA2D /* MediaQueryType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MediaQueryType.hpp; path = include/Titanium/Media/MediaQueryType.hpp; sourceTree = "<group>"; };
+		F9E3919A1B0318640096BA2D /* MusicLibraryOptionsType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MusicLibraryOptionsType.hpp; path = include/Titanium/Media/MusicLibraryOptionsType.hpp; sourceTree = "<group>"; };
+		F9E3919B1B0318640096BA2D /* PhotoGalleryOptionsType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PhotoGalleryOptionsType.hpp; path = include/Titanium/Media/PhotoGalleryOptionsType.hpp; sourceTree = "<group>"; };
+		F9E3919C1B0318640096BA2D /* PreviewImageOptions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PreviewImageOptions.hpp; path = include/Titanium/Media/PreviewImageOptions.hpp; sourceTree = "<group>"; };
+		F9E3919D1B0318640096BA2D /* RouteDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RouteDescription.hpp; path = include/Titanium/Media/RouteDescription.hpp; sourceTree = "<group>"; };
+		F9E391A91B0324840096BA2D /* Item.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Item.hpp; path = include/Titanium/Media/Item.hpp; sourceTree = "<group>"; };
+		F9E391AB1B03289C0096BA2D /* Constants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Constants.hpp; path = include/Titanium/Media/Constants.hpp; sourceTree = "<group>"; };
+		F9E391AD1B032A160096BA2D /* MediaModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MediaModule.cpp; path = src/MediaModule.cpp; sourceTree = "<group>"; };
+		F9E391AF1B032A2C0096BA2D /* Item.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Item.cpp; path = src/Media/Item.cpp; sourceTree = "<group>"; };
 		F9E96F881A415D62001E0EC4 /* DisplayCaps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DisplayCaps.cpp; path = src/Platform/DisplayCaps.cpp; sourceTree = "<group>"; };
 		F9E96F8A1A415D6E001E0EC4 /* DisplayCaps.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DisplayCaps.hpp; path = include/Titanium/Platform/DisplayCaps.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -608,6 +646,7 @@
 		C974544B1A02A2B000CB4CA9 /* TitaniumKit */ = {
 			isa = PBXGroup;
 			children = (
+				F9E391901B03168B0096BA2D /* Media */,
 				F968A1CA1AB9A98500A0D546 /* Database */,
 				F968A1C91AB9A97900A0D546 /* Network */,
 				F968A1C71AB9A91F00A0D546 /* App */,
@@ -798,6 +837,32 @@
 			name = Filesystem;
 			sourceTree = "<group>";
 		};
+		F9E391901B03168B0096BA2D /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				F9E391AB1B03289C0096BA2D /* Constants.hpp */,
+				F97467E61B043D9000E96892 /* CameraOptionsType.cpp */,
+				F9E391961B0318640096BA2D /* CameraOptionsType.hpp */,
+				F97467F41B04627700E96892 /* MediaQueryInfoType.cpp */,
+				F97467F21B04626C00E96892 /* MediaQueryInfoType.hpp */,
+				F97467E71B043D9000E96892 /* MediaQueryType.cpp */,
+				F9E391981B0318640096BA2D /* MediaQueryType.hpp */,
+				F97467E81B043D9000E96892 /* MusicLibraryOptionsType.cpp */,
+				F9E3919A1B0318640096BA2D /* MusicLibraryOptionsType.hpp */,
+				F97467E91B043D9000E96892 /* PhotoGalleryOptionsType.cpp */,
+				F9E3919B1B0318640096BA2D /* PhotoGalleryOptionsType.hpp */,
+				F97467EA1B043D9000E96892 /* PreviewImageOptions.cpp */,
+				F9E3919C1B0318640096BA2D /* PreviewImageOptions.hpp */,
+				F97467EB1B043D9000E96892 /* RouteDescription.cpp */,
+				F9E3919D1B0318640096BA2D /* RouteDescription.hpp */,
+				F9E391911B0316A30096BA2D /* MediaModule.hpp */,
+				F9E391AD1B032A160096BA2D /* MediaModule.cpp */,
+				F9E391A91B0324840096BA2D /* Item.hpp */,
+				F9E391AF1B032A2C0096BA2D /* Item.cpp */,
+			);
+			name = Media;
+			sourceTree = "<group>";
+		};
 		F9E96F871A415CAD001E0EC4 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
@@ -819,6 +884,7 @@
 				C909508D1A292CFA002133E1 /* TextArea.hpp in Headers */,
 				F99AE3B41ADFA2F500D0F91E /* ActivityIndicator.hpp in Headers */,
 				C90B8F981A16DBAD005F3210 /* Button.hpp in Headers */,
+				F9E391A71B0318640096BA2D /* PreviewImageOptions.hpp in Headers */,
 				C90950821A291EB5002133E1 /* Animation.hpp in Headers */,
 				F9B1AF6F1A8E2EBE00DEF4D6 /* DatabaseModule.hpp in Headers */,
 				F931042E1ABBE94B0067470D /* TitleAttributesParams.hpp in Headers */,
@@ -833,6 +899,7 @@
 				C90950A61A297E03002133E1 /* WebView.hpp in Headers */,
 				F9B1AF711A8E2ECF00DEF4D6 /* HTTPClient.hpp in Headers */,
 				F96A53D41AA5B60D00AD4011 /* MapLocationTypev2.hpp in Headers */,
+				F9E391A11B0318640096BA2D /* CameraOptionsType.hpp in Headers */,
 				F9ACB7E01AF9CE01008C2F3C /* OptionDialog.hpp in Headers */,
 				F9ACB7E21AF9CE01008C2F3C /* OptionDialogShowParams.hpp in Headers */,
 				F96BCABD1A25CE4C00745C3B /* PlatformModule.hpp in Headers */,
@@ -852,16 +919,20 @@
 				F9B1AF761A8E2EDD00DEF4D6 /* DB.hpp in Headers */,
 				F908310F1A2EA3AC00CB810B /* Blob.hpp in Headers */,
 				C974545B1A02A2E500CB4CA9 /* Module.hpp in Headers */,
+				F9E391A61B0318640096BA2D /* PhotoGalleryOptionsType.hpp in Headers */,
 				C9E6AFE71A13F93F00FED053 /* TiBase.hpp in Headers */,
 				F965FF261AA588010092ABBA /* View.hpp in Headers */,
 				F9B47E811A2EF93E0052879A /* Constants.hpp in Headers */,
 				F95C3E271AA59C6A006AB8C7 /* Camera.hpp in Headers */,
 				F9ACB7E11AF9CE01008C2F3C /* OptionDialogHideParams.hpp in Headers */,
+				F97467F31B04626C00E96892 /* MediaQueryInfoType.hpp in Headers */,
 				F9ACB7DF1AF9CE01008C2F3C /* OpenWindowParams.hpp in Headers */,
+				F9E391AA1B0324840096BA2D /* Item.hpp in Headers */,
 				F9ACB7E31AF9CE01008C2F3C /* ProgressBar.hpp in Headers */,
 				F93CDC401A96D24C00C42D8C /* Dimension.hpp in Headers */,
 				F95F90901B01BD680002BD1C /* TCP.hpp in Headers */,
 				C97E14861A4CB0E200C15EDC /* ScrollView.hpp in Headers */,
+				F9E391A81B0318640096BA2D /* RouteDescription.hpp in Headers */,
 				C90B900D1A198370005F3210 /* ApplicationBuilder.hpp in Headers */,
 				F9ACB7DE1AF9CE01008C2F3C /* MatrixCreationDict.hpp in Headers */,
 				C90B90091A19804D005F3210 /* Application.hpp in Headers */,
@@ -882,6 +953,7 @@
 				C9E6AFEE1A13F95900FED053 /* TiLoggerPolicyConsole.hpp in Headers */,
 				C90B90131A1ADC7D005F3210 /* NativeViewExample.hpp in Headers */,
 				F9991D551AFF5A9200C7DDF2 /* Constants.hpp in Headers */,
+				F9E391A51B0318640096BA2D /* MusicLibraryOptionsType.hpp in Headers */,
 				F965FF241AA588010092ABBA /* Annotation.hpp in Headers */,
 				C9BED2261A28F4CD00CFF800 /* Constants.hpp in Headers */,
 				C90950921A2951A7002133E1 /* Gesture.hpp in Headers */,
@@ -892,6 +964,7 @@
 				F9B1AF751A8E2EDD00DEF4D6 /* Constants.hpp in Headers */,
 				F95F908C1B01BD510002BD1C /* Socket.hpp in Headers */,
 				C9E6AFF01A13F96000FED053 /* TiLoggerPimpl.hpp in Headers */,
+				F9E391AC1B03289C0096BA2D /* Constants.hpp in Headers */,
 				C9E6AFEA1A13F94900FED053 /* TiUtil.hpp in Headers */,
 				F9B1AF5F1A8DB4EF00DEF4D6 /* ListSection.hpp in Headers */,
 				F9B47E791A2EF16B0052879A /* File.hpp in Headers */,
@@ -901,6 +974,8 @@
 				F9ACB7E61AF9CE01008C2F3C /* TableView.hpp in Headers */,
 				C9E6AFE91A13F94500FED053 /* HashUtilities.hpp in Headers */,
 				F9991D561AFF5A9200C7DDF2 /* Cookie.hpp in Headers */,
+				F9E391A31B0318640096BA2D /* MediaQueryType.hpp in Headers */,
+				F9E391921B0316A30096BA2D /* MediaModule.hpp in Headers */,
 				C9BED2211A27B14200CFF800 /* NativeModuleExample.hpp in Headers */,
 				F93CDC411A96D24C00C42D8C /* Font.hpp in Headers */,
 				C90950961A2954B3002133E1 /* TextField.hpp in Headers */,
@@ -1017,8 +1092,11 @@
 				C950EF931A48D90A000EE5AC /* ImageView.cpp in Sources */,
 				F96A53DC1AA5CFC200AD4011 /* Properties.cpp in Sources */,
 				F95F90961B01BD800002BD1C /* TCP.cpp in Sources */,
+				F97467F11B043D9000E96892 /* RouteDescription.cpp in Sources */,
+				F97467ED1B043D9000E96892 /* MediaQueryType.cpp in Sources */,
 				F95F90971B01BD800002BD1C /* UDP.cpp in Sources */,
 				C90950831A291EB5002133E1 /* Animation.cpp in Sources */,
+				F97467EE1B043D9000E96892 /* MusicLibraryOptionsType.cpp in Sources */,
 				F9ACB7CA1AF9CDCD008C2F3C /* Switch.cpp in Sources */,
 				F96A53DA1AA5CFB700AD4011 /* App.cpp in Sources */,
 				F9ACB7C91AF9CDCD008C2F3C /* ScrollableView.cpp in Sources */,
@@ -1042,6 +1120,7 @@
 				F965FF2E1AA588230092ABBA /* View.cpp in Sources */,
 				F96A53D61AA5B64300AD4011 /* MapLocationTypev2.cpp in Sources */,
 				F9B1AF811A8E2F2B00DEF4D6 /* HTTPClient.cpp in Sources */,
+				F9E391AE1B032A160096BA2D /* MediaModule.cpp in Sources */,
 				F96BCAC31A25CEB000745C3B /* NativePlatformExample.cpp in Sources */,
 				C90B8F8F1A16D346005F3210 /* View.cpp in Sources */,
 				F99AE3B81ADFA30300D0F91E /* ActivityIndicator.cpp in Sources */,
@@ -1059,6 +1138,7 @@
 				F9B1AF7F1A8E2F1D00DEF4D6 /* DatabaseModule.cpp in Sources */,
 				F9E96F891A415D62001E0EC4 /* DisplayCaps.cpp in Sources */,
 				F91676F91AA5A935006A6E44 /* CameraAnimationParams.cpp in Sources */,
+				F97467F51B04627700E96892 /* MediaQueryInfoType.cpp in Sources */,
 				F9B47E7E1A2EF1860052879A /* NativeFileExample.cpp in Sources */,
 				F9ACB7CB1AF9CDCD008C2F3C /* TableViewAnimationProperties.cpp in Sources */,
 				F90831151A2EA3FA00CB810B /* NativeBlobExample.cpp in Sources */,
@@ -1083,11 +1163,14 @@
 				F93104241ABBDDAB0067470D /* OpenWindowParams.cpp in Sources */,
 				C90B8F881A167E36005F3210 /* Module.cpp in Sources */,
 				F965FF2D1AA588230092ABBA /* Constants.cpp in Sources */,
+				F97467EF1B043D9000E96892 /* PhotoGalleryOptionsType.cpp in Sources */,
+				F97467F01B043D9000E96892 /* PreviewImageOptions.cpp in Sources */,
 				F93104271ABBDDAB0067470D /* TableViewSection.cpp in Sources */,
 				F913EFBD1A835FE4009080D1 /* Slider.cpp in Sources */,
 				C97E14871A4CB0E200C15EDC /* ScrollView.cpp in Sources */,
 				F9BD6BA11A96FA4E00D721A9 /* ListViewMarkerProps.cpp in Sources */,
 				F9B47E7B1A2EF1730052879A /* File.cpp in Sources */,
+				F9E391B01B032A2C0096BA2D /* Item.cpp in Sources */,
 				C9E6AFE61A13F93800FED053 /* GlobalObject.cpp in Sources */,
 				C9E6AFF11A13F96400FED053 /* TiLoggerPimpl.cpp in Sources */,
 				F96A53D81AA5CFAB00AD4011 /* EmailDialog.cpp in Sources */,
@@ -1097,6 +1180,7 @@
 				F9B1AF6D1A8E2EA300DEF4D6 /* NetworkModule.cpp in Sources */,
 				F93CDC491A96D25E00C42D8C /* Font.cpp in Sources */,
 				F9B47E761A2EF1500052879A /* FilesystemModule.cpp in Sources */,
+				F97467EC1B043D9000E96892 /* CameraOptionsType.cpp in Sources */,
 				F9ACB7C31AF9CDCD008C2F3C /* 2DMatrix.cpp in Sources */,
 				C90B8F971A16DBAD005F3210 /* Button.cpp in Sources */,
 			);

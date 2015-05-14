@@ -127,6 +127,26 @@ set(SOURCE_Filesystem
   src/Filesystem/FileStream.cpp
   )
 
+set(SOURCE_Media
+  include/Titanium/MediaModule.hpp
+  src/MediaModule.cpp
+  include/Titanium/Media/Constants.hpp
+  include/Titanium/Media/CameraOptionsType.hpp
+  src/Media/CameraOptionsType.cpp
+  include/Titanium/Media/MediaQueryType.hpp
+  src/Media/MediaQueryType.cpp
+  include/Titanium/Media/MediaQueryInfoType.hpp
+  src/Media/MediaQueryInfoType.cpp
+  include/Titanium/Media/MusicLibraryOptionsType.hpp
+  src/Media/MusicLibraryOptionsType.cpp
+  include/Titanium/Media/PhotoGalleryOptionsType.hpp
+  src/Media/PhotoGalleryOptionsType.cpp
+  include/Titanium/Media/PreviewImageOptions.hpp
+  src/Media/PreviewImageOptions.cpp
+  include/Titanium/Media/RouteDescription.hpp
+  src/Media/RouteDescription.cpp
+  )
+
 set(SOURCE_Network
   include/Titanium/NetworkModule.hpp
   src/NetworkModule.cpp
@@ -317,6 +337,7 @@ source_group(TitaniumKit\\Filesystem       FILES ${SOURCE_Filesystem})
 source_group(TitaniumKit\\App              FILES ${SOURCE_App})
 source_group(TitaniumKit\\App\\Properties  FILES ${SOURCE_Properties})
 source_group(TitaniumKit\\Network          FILES ${SOURCE_Network})
+source_group(TitaniumKit\\Media            FILES ${SOURCE_Media})
 source_group(TitaniumKit\\Analytics        FILES ${SOURCE_Analytics})
 source_group(TitaniumKit\\XML              FILES ${SOURCE_XML})
 source_group(TitaniumKit\\Map              FILES ${SOURCE_Map})
@@ -342,6 +363,7 @@ add_library(TitaniumKit SHARED
   ${SOURCE_App}
   ${SOURCE_Properties}
   ${SOURCE_Network}
+  ${SOURCE_Media}
   ${SOURCE_Analytics}
   ${SOURCE_XML}
   ${SOURCE_Utils}

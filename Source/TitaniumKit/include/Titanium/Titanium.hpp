@@ -28,6 +28,7 @@
 #include "Titanium/Blob.hpp"
 #include "Titanium/FilesystemModule.hpp"
 #include "Titanium/DatabaseModule.hpp"
+#include "Titanium/MediaModule.hpp"
 #include "Titanium/NetworkModule.hpp"
 #include "Titanium/XML.hpp"
 #include "Titanium/MapModule.hpp"

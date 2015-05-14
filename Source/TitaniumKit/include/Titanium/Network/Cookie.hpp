@@ -154,7 +154,7 @@ namespace Titanium
 #pragma warning(disable : 4251)
 			std::string comment__;
 			std::string domain__;
-			std::string expiryDate__;
+			std::string expiryDate__; // TODO: std::chrono::time_point (or some other "date"-like type)?
 			bool httponly__;
 			std::string name__;
 			std::string originalUrl__;

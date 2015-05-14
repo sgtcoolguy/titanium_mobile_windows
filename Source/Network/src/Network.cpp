@@ -9,20 +9,33 @@
 
 namespace TitaniumWindows
 {
+	using namespace Windows::Networking::Connectivity;
+
 	NetworkModule::NetworkModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Titanium::NetworkModule(js_context)
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::NetworkModule::ctor Initialize");
+		change_event__ = NetworkInformation::NetworkStatusChanged += ref new NetworkStatusChangedEventHandler([this](Platform::Object^ sender) {
+			if (enable_change_event__) {
+				const auto ctx = get_context();
+				auto object = ctx.CreateObject();
+				object.SetProperty("networkType", js_get_networkType());
+				object.SetProperty("networkTypeName", js_get_networkTypeName());
+				object.SetProperty("online", js_get_online());
+				fireEvent("change", object);
+			}
+		});
 	}
 
 	NetworkModule::~NetworkModule()
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::NetworkModule::dtor");
+		NetworkInformation::NetworkStatusChanged -= change_event__;
 	}
 
 	Titanium::Network::TYPE NetworkModule::get_networkType() const TITANIUM_NOEXCEPT
 	{
-		const auto profile = Windows::Networking::Connectivity::NetworkInformation::GetInternetConnectionProfile();
+		const auto profile = NetworkInformation::GetInternetConnectionProfile();
 
 		if (profile == nullptr) {
 			return Titanium::Network::TYPE::UNKNOWN;
@@ -55,18 +68,18 @@ namespace TitaniumWindows
 	}
 
 	bool NetworkModule::get_online() const TITANIUM_NOEXCEPT {
-		const auto profile = Windows::Networking::Connectivity::NetworkInformation::GetInternetConnectionProfile();
+		const auto profile = NetworkInformation::GetInternetConnectionProfile();
 		if (profile == nullptr) {
 			return false;
 		}
 		switch (profile->GetNetworkConnectivityLevel()) {
-		case Windows::Networking::Connectivity::NetworkConnectivityLevel::None:
+		case NetworkConnectivityLevel::None:
 			return false;
-		case Windows::Networking::Connectivity::NetworkConnectivityLevel::LocalAccess:
+		case NetworkConnectivityLevel::LocalAccess:
 			return false;
-		case Windows::Networking::Connectivity::NetworkConnectivityLevel::ConstrainedInternetAccess:
+		case NetworkConnectivityLevel::ConstrainedInternetAccess:
 			return true;
-		case Windows::Networking::Connectivity::NetworkConnectivityLevel::InternetAccess:
+		case NetworkConnectivityLevel::InternetAccess:
 			return true;
 		}
 		return false;
@@ -78,4 +91,19 @@ namespace TitaniumWindows
 		JSExport<NetworkModule>::SetParent(JSExport<Titanium::NetworkModule>::Class());
 	}
 
-}  
+	void NetworkModule::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+	{
+		Titanium::Module::enableEvent(event_name);
+		if (event_name == "change") {
+			enable_change_event__ = true;
+		}
+	}
+
+	void NetworkModule::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+	{
+		Titanium::Module::disableEvent(event_name);
+		if (event_name == "change") {
+			enable_change_event__ = false;
+		}
+	}
+}

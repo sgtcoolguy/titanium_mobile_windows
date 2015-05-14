@@ -126,6 +126,9 @@ JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME))
 #define TITANIUM_ADD_PROPERTY(MODULE, NAME) \
 JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME), std::mem_fn(&MODULE::js_set_##NAME))
 
+#define JSOBJECT_GETPROPERTY(IN, NAME, TYPE, DEFAULT_VALUE) \
+IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
+
 #define ENSURE_ARGUMENT_BOUNDS(INDEX) TITANIUM_ASSERT_AND_THROW((arguments.size() >= INDEX + 1), ("Index out of bounds: "#INDEX))
 
 #define ENSURE_OPTIONAL_OBJECT_AT_INDEX(OUT,INDEX) \
@@ -213,6 +216,12 @@ JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME), s
   TITANIUM_ASSERT_AND_THROW(_obj_##INDEX.IsArray(), "Expected Array"); \
   auto OUT = static_cast<JSArray>(_obj_##INDEX);
 
+#define ENSURE_ARRAY(IN, OUT) \
+  TITANIUM_ASSERT_AND_THROW(IN.IsObject(), "Expected Object"); \
+  const auto obj_##IN = static_cast<JSObject>(IN); \
+  TITANIUM_ASSERT_AND_THROW(obj_##IN.IsArray(), "Expected Array"); \
+  auto OUT = static_cast<JSArray>(obj_##IN);
+
 #define ENSURE_INT_AT_INDEX(OUT,INDEX) \
   ENSURE_NUMBER_AT_INDEX(OUT,INDEX,int32_t)
 
@@ -236,6 +245,12 @@ TITANIUM_FUNCTION(MODULE, NAME) \
   ENSURE_VALUE_AT_INDEX(argument, 0); \
   js_set_##PROPERTY(argument); \
   return get_context().CreateUndefined(); \
+}
+
+#define ENSURE_MODULE_OBJECT(IN,OUT,TYPE) \
+std::shared_ptr<TYPE> OUT = nullptr; \
+if (IN.IsObject()) { \
+  OUT = static_cast<JSObject>(IN).GetPrivate<TYPE>(); \
 }
 
 #define ENSURE_TYPE_ARRAY(IN,OUT,TYPE) \
