@@ -140,12 +140,32 @@ if (type == 'bool') {
 -%>
 <%- include('native_to_js.cpp', {type: full_type_name, metadata: metadata, to_assign: to_assign, argument_name: argument_name }) -%>
 <%
-	} else { // normal class
+	} else { // normal class, or MAYBE a struct/enum without leading 'valuetype ' in name!
+		// FIXME Move detection of class vs struct vs enum vs primitive to very top!
+		var other_type = metadata[type.trim()];
+		var is_struct = false;
+		if (!other_type) {
+			console.log("No metadata found for: " + type.trim()); // useful to know what type we need to pull into our stripped down metadata
+		}
+		else {
+			is_struct = (other_type.extends == '[mscorlib]System.ValueType');
+		}
+		if (is_struct) {
+-%>
+			auto <%= to_assign %> = context.CreateObject();<%
+			for (field_name in other_type.fields) {
+-%>
+<%- include('native_to_js.cpp', {type: other_type.fields[field_name].type, metadata: metadata, to_assign: argument_name + '_' + field_name + '_', argument_name: argument_name + '.' + field_name }) -%>			<%= to_assign %>.SetProperty("<%= field_name %>", <%= argument_name %>_<%= field_name %>_);
+<%
+			}
+		}
+		else { // normal class
 -%>
 			auto <%= to_assign %> = context.CreateObject(JSExport<<%- full_type_name %>>::Class());
 			auto <%= to_assign %>_wrapper = <%= to_assign %>.GetPrivate<<%- full_type_name %>>();
 			<%= to_assign %>_wrapper->wrap(<%- argument_name %>);
-<% 
+<%
+		}
 	}
 }
 -%>

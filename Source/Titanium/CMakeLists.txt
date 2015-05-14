@@ -97,12 +97,14 @@ source_group(TitaniumWindows FILES ${SOURCE_TitaniumWindows})
 
 file(GLOB_RECURSE WINDOWS_WRAPPERS "src/Windows.*.cpp")
 file(GLOB_RECURSE WINDOWS_HEADERS "include/Windows.*.hpp")
+file(GLOB_RECURSE PLATFORM_WRAPPERS "src/Platform.*.cpp")
+file(GLOB_RECURSE PLATFORM_HEADERS "include/Platform.*.hpp")
 
 set(SOURCE_TitaniumWindows_Native
 ${WINDOWS_WRAPPERS}
 ${WINDOWS_HEADERS}
-include/Platform.Object.hpp
-src/Platform.Object.cpp
+${PLATFORM_WRAPPERS}
+${PLATFORM_HEADERS}
   )
 
 source_group(TitaniumWindows\\\\Native FILES ${SOURCE_TitaniumWindows_Native})

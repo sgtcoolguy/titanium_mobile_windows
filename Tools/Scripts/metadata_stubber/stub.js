@@ -9,12 +9,20 @@ var fs = require('fs'),
 	dest = path.join(__dirname, '..', '..', '..', 'Source', 'Titanium'),
 	require_hook = path.join(__dirname, '..', '..', '..', 'Source', 'Titanium', 'src', 'WindowsNativeModuleLoader.cpp'),
 	// Start with seeds from my simple hello world app
+	//seeds = [
+	//	'Windows.UI.Xaml.Controls.Canvas',
+	//	'Windows.UI.Xaml.Controls.TextBlock',
+	//	'Windows.UI.Xaml.Controls.Page',
+	//	'Windows.UI.Xaml.Window'
+	//],
+	// Seeds from life
 	seeds = [
-		'Windows.UI.Xaml.Controls.Canvas',
-		'Windows.UI.Xaml.Controls.TextBlock',
-		'Windows.UI.Xaml.Controls.Page',
-		'Windows.UI.Xaml.Window'
-	],
+		'Windows.UI.Xaml.Window',
+    	'Windows.UI.Colors',
+   		'Windows.UI.Xaml.Media.SolidColorBrush',
+    	'Windows.UI.Xaml.Controls.Canvas',
+    	'Windows.UI.Xaml.Controls.TextBlock'
+    ],
 	// TODO Let's assume everything for now
 	//seeds = [],
 	// We need to skip/map a number of collections to JSArray and JSObject
@@ -52,11 +60,17 @@ function normalizeType(typeName) {
 	if (type.indexOf('class ') == 0) {
 		type = type.substring(6);
 	}
+	if (type.indexOf('valuetype ') == 0) {
+		type = type.substring(10);
+	}
 	if (type.indexOf('>') == (type.length - 1)) {
 		type = type.substring(0, type.length - 1);
 	}
 	if (type.indexOf('[]') == (type.length - 2)) {
 		type = type.substring(0, type.length - 2);
+	}
+	if (type.indexOf('&') == (type.length - 1)) {
+		type = type.substring(0, type.length - 1);
 	}
 	if (type == 'object') {
 		type = 'Platform.Object';
@@ -87,7 +101,8 @@ function expandTypes(typeName) {
 
 function addNewTypes(rawTypeName, existingTypes) {
 	var types = [];
-	if (rawTypeName.indexOf('class ') == 0 || rawTypeName.indexOf('Windows.') == 0) {
+	if (rawTypeName.indexOf('class ') == 0 || rawTypeName.indexOf('Windows.') == 0
+		|| rawTypeName.indexOf('valuetype ') == 0) {
 		types = expandTypes(rawTypeName);
 		for (var i = 0; i < types.length; i++) {
 			// skip template names
@@ -118,11 +133,11 @@ function getDependencies(classname) {
 	}
 
 	// skip structs and enums
-	if (classDefinition['extends'] && 
-		(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
-		classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
-		return types;
-	}
+	//if (classDefinition['extends'] && 
+	//	(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
+	//	classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
+	//	return types;
+	//}
 
 	// Add parent
 	if (classDefinition['extends']) {
@@ -160,7 +175,6 @@ function getDependencies(classname) {
 			}
 		}
 	}
-	// TODO Can we inject the set of types to include into the metadata for this type?!
 	classDefinition.dependencies = types;
 	classDefinition.dependencies.unshift(classname);
 	return types;
@@ -250,6 +264,7 @@ async.each(seeds, function(classname, callback) {
 		if (err) callback(err);
 
 		var generated_proxy_header = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends']}, {filename: hpp_file});
+		// TODO Only write new contents if they differ from existing!
 		fs.writeFile(path.join(dest, 'include', classname + '.hpp'), generated_proxy_header, {flags : 'w'}, function(err) {
 			if (err) callback(err);
 		});
@@ -262,6 +277,8 @@ async.each(seeds, function(classname, callback) {
 		if (err) callback(err);
 
 		var generated_proxy_impl = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends'], dependencies: classDefinition.dependencies}, {filename: cpp_file});
+		
+		// TODO Only write new contents if they differ from existing!
 		fs.writeFile(path.join(dest, 'src', classname + '.cpp'), generated_proxy_impl, {flags : 'w'}, function(err) {
 			if (err) {
 				callback(err);
@@ -282,30 +299,102 @@ async.each(seeds, function(classname, callback) {
 	}
 });
 
+/*
+ * Returns an array of fully qualified enum value names.
+ */
+function getEnumDependencies(type_name, metadata) {
+	var fields = [],
+		classDefinition = metadata[type_name],
+		dependency = "",
+		dependency_definition;
+
+	if (classDefinition && classDefinition.dependencies) {
+		for (var j = 0; j < classDefinition.dependencies.length; j++) {
+			dependency = classDefinition.dependencies[j];
+			dependency_definition = metadata[dependency];
+			// for any enum dependencies...
+			if (dependency_definition['extends'] && 
+				dependency_definition['extends'].indexOf("[mscorlib]System.Enum") == 0) {
+				for (field_name in dependency_definition.fields) {
+					// only register public fields
+					if (dependency_definition.fields[field_name].attributes.indexOf('public') == -1) {
+						continue;
+					}
+					fields.unshift(dependency +'.' + field_name);
+				}
+			}
+		}
+	}
+	return fields;
+}
+
 // Now we'll add all the types we know about as includes into our require hook class
 // This let's us load these types by name using require!
 console.log("Adding types to require hook implementation...");
 fs.readFile(require_hook, 'utf8', function (err, data) {
 	if (err) throw err;
 
-	var classes = "";
-	var loader_switch = "";
+	var classes = "", // built up #includes
+		loader_switch = "", // built up type instantiation/loading code
+		enum_loader = "", // built up blockf or loading enum dependencies of a type
+		classname = "", // name of current type in outer loop
+		classDefinition, // definition of current type in outer loop
+		dependency, // current enum dependency
+		enum_dependencies = []; // list of all enum dependencies for this type
 
 	// Add our includes
+	// TODO Remove duplicates!
 	for (var i = 0; i < seeds.length; i++) {
-
+		classname = seeds[i];
 		// Skip blacklisted types
-		if (blacklist.indexOf(seeds[i]) != -1) {
+		if (blacklist.indexOf(classname) != -1) {
 			continue;
 		}
+		classDefinition = all_classes[classname];
+		if (!classDefinition) {
+			console.log("Unable to find metadata for: " + classname);
+			continue;
+		}
+		// skip enums and structs
+		if (classDefinition['extends'] && 
+			(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
+			classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
+			continue;	
+		}
 
-		classes += "#include \"" + seeds[i] + ".hpp\"\r\n";
-		loader_switch += "\t\telse if (path == \"" + seeds[i] + "\") {\r\n\t\t\tinstantiated = context.CreateObject(JSExport<::Titanium::" + seeds[i].replace(/\./g, '::') + ">::Class());\r\n\t\t}\r\n";
+		classes += "#include \"" + classname + ".hpp\"\r\n";
+		loader_switch += "\t\telse if (path == \"" + classname + "\") {\r\n\t\t\tinstantiated = context.CreateObject(JSExport<::Titanium::" + classname.replace(/\./g, '::') + ">::Class());\r\n";
+		
+		// Load up enum dependencies!
+		// Add dependencies of current type
+		enum_dependencies = getEnumDependencies(classname, all_classes);
+		if (enum_dependencies && enum_dependencies.length > 0) {
+			enum_loader += "\t\telse if (type_name == \"" + classname + "\") {\r\n";
+			// Call registerEnums for parent type too
+			if (classDefinition['extends'] &&
+				classDefinition['extends'].indexOf('[mscorlib]') == -1) {
+				enum_loader += "\t\t\tregisterEnums(context, \"" + classDefinition['extends'] + "\");\r\n";
+			}
+			for (var j = 0; j < enum_dependencies.length; j++) {
+				dependency = enum_dependencies[j];
+			
+				// hook the value up
+				// TODO make use of native_to_js.cpp ejs template for this?
+				enum_loader += "\t\t\tregisterValue(context, \"" + dependency + "\", context.CreateNumber(static_cast<int32_t>(static_cast<int>(::" + dependency.replace(/\./g, '::') + "))));\r\n";		
+			}
+			enum_loader += "\t\t}\r\n";
+			loader_switch += "\t\t\tregisterEnums(context, path);\r\n";
+		}
+		loader_switch += "\t\t}\r\n";
 	}
-	loader_switch += "\t\telse {\r\n			return false;\r\n		}";
-	loader_switch = loader_switch.substring(7); // drop first "\t\telse "
-	data = data.replace('// INSERT_INCLUDES', classes);
-	data = data.replace('// INSERT_SWITCH', loader_switch);
+	loader_switch += "\t\telse {\r\n\t\t\treturn false;\r\n\t\t}\r\n\t\t// END_SWITCH";
+	loader_switch = "// INSERT_SWITCH\r\n\t\t" + loader_switch.substring(7); // drop first "\t\telse "
+	enum_loader = "// INSERT_ENUMS\r\n\t\t" + enum_loader.substring(7) + "\t\t// END_ENUMS"; // drop first "\t\telse "
+	classes = "// INSERT_INCLUDES\r\n" + classes + "// END_INCLUDES";
+
+	data = data.substring(0, data.indexOf('// INSERT_INCLUDES')) + classes + data.substring(data.indexOf('// END_INCLUDES') + 15);
+    data = data.substring(0, data.indexOf('// INSERT_SWITCH')) + loader_switch + data.substring(data.indexOf('// END_SWITCH') + 13);
+    data = data.substring(0, data.indexOf('// INSERT_ENUMS')) + enum_loader + data.substring(data.indexOf('// END_ENUMS') + 12);
 
 	fs.writeFile (require_hook, data, function(err) {
 		if (err) throw err;

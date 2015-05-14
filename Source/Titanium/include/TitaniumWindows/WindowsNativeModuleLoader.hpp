@@ -21,6 +21,10 @@ namespace TitaniumWindows
 			~WindowsNativeModuleLoader();
 
 			virtual bool registerNativeModule(const JSObject& parent, const std::string& path) const override final;
+
+		private:
+			void registerValue(const JSContext& context, const std::string& name, const JSValue& value) const;
+			void registerEnums(const JSContext& context, const std::string& type_name) const;
 		};
 }  // namespace TitaniumWindows
 
