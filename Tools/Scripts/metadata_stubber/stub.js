@@ -58,10 +58,12 @@ function normalizeType(typeName) {
 	if (type.indexOf('[]') == (type.length - 2)) {
 		type = type.substring(0, type.length - 2);
 	}
+	if (type == 'object') {
+		type = 'Platform.Object';
+	}
 	return type;
 }
 
-// TODO Handle multiple nesting!
 function expandTypes(typeName) {
 	var types = [],
 		type = typeName.trim(),

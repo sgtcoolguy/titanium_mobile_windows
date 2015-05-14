@@ -1,6 +1,5 @@
 = TODO =
-- Generate the types inside the user's app, not in UI module?
-	- Maybe a separate Native module/dll with everything that we ship? Maybe in the TitaniumWindows umbrella module/dll?
+- Generate the types inside the user's app, not in TitaniumWindows module?
 - Walk the user's app.js to record the types needed and use that to determine what to include and register off global?
 	- We'd need a way for the user's app code to be able to register the stuff on the global namespace...
 	- We could also enforce use of "require" and hack require to on-demand register the type on global? Or maybe just have it return a reference to the type?
@@ -13,6 +12,8 @@
 - Events
 	- I'm not exposing events/handlers at all - or maybe I am but haven't really hooked them up properly...
 	- We'll likely want to allow users to register a function callback as a handler and do the magic work behind the scenes for them.
+- Enums
+	- Should we look at the dependencies of a type and when it includes enums, we then register the enum and it's values into the global namespace?
 
 == Improvements to Metadata ==
 - Consistently use "class Name.Of.Class" or "Name.Of.Class" for types. Probably the former.

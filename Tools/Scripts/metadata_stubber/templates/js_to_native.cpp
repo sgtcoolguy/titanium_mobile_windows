@@ -15,10 +15,15 @@ if (type == 'bool') {
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
 			auto <%= to_assign %> = static_cast<uint32_t>(<%= argument_name %>);
 <%
-} else if (type == 'double' || type == 'float32' || type == 'float64') {
+} else if (type == 'double') {
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
 			auto <%= to_assign %> = static_cast<double>(<%= argument_name %>);
+<%
+} else if (type == 'float32' || type == 'float64') {
+-%> 
+			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
+			auto <%= to_assign %> = static_cast<float>(static_cast<double>(<%= argument_name %>));
 <%
 } else if (type == 'string') {
 -%> 

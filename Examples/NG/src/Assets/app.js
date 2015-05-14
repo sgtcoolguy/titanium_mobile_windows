@@ -8,6 +8,7 @@ var win = new Canvas();
 var label = new TextBlock();
 label.FontSize = 60;
 label.Text = "Hello World!";
+// TODO How do I handle enums? When we require a type that references enums, should we hook them into the global namespace?
 //label.TextAlignment = Windows.UI.Xaml.TextAlignment.Center;
 //label.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
 //label.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Center;
