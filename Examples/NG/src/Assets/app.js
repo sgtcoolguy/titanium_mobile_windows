@@ -1,4 +1,6 @@
-var CELL_SIZE = 30,
+"use strict";
+
+var CELL_SIZE = 10,
 	FPS_INTERVAL = 30;
 
 var Window = require('Windows.UI.Xaml.Window'),
@@ -31,7 +33,7 @@ var xSize = (universe.Width / CELL_SIZE) | 0,
 	ySize = (universe.Height / CELL_SIZE) | 0;
 
 // populate cells
-console.log('populating cells...');
+Ti.API.info('populating cells...');
 var cells = [];
 for (var x = 0; x < xSize; x++) {
     cells[x] = [];
@@ -59,7 +61,7 @@ for (var x = 0; x < xSize; x++) {
         universe.Children.Append(cellProxy);
     }
 }
-console.log('done populating cells.');
+Ti.API.info('done populating cells.');
 
 // start app
 window.Content = universe;
