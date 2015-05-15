@@ -91,11 +91,11 @@ namespace Titanium
 		, quality_low__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::Quality::Low)))
 		, quality_medium__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::Quality::Medium)))
 		, unknown_error__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::Error::Unknown)))
-		, video_control_default__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoControl::Default)))
-		, video_control_embedded__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoControl::Embedded)))
-		, video_control_fullscreen__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoControl::Fullscreen)))
-		, video_control_hidden__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoControl::Hidden)))
-		, video_control_none__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoControl::None)))
+		, video_control_default__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoControlStyle::Default)))
+		, video_control_embedded__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoControlStyle::Embedded)))
+		, video_control_fullscreen__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoControlStyle::Fullscreen)))
+		, video_control_hidden__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoControlStyle::Hidden)))
+		, video_control_none__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoControlStyle::None)))
 		, video_finish_reason_playback_ended__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoFinishReason::PlaybackEnded)))
 		, video_finish_reason_playback_error__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoFinishReason::PlaybackError)))
 		, video_finish_reason_user_exited__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::VideoFinishReason::UserExited)))
@@ -1005,22 +1005,9 @@ namespace Titanium
 		return appMusicPlayer__;
 	}
 
-	TITANIUM_PROPERTY_GETTER(MediaModule, audioPlaying)
-	{
-		return get_context().CreateBoolean(get_audioPlaying());
-	}
-
-	TITANIUM_PROPERTY_GETTER(MediaModule, audioSessionCategory)
-	{
-		return get_context().CreateNumber(static_cast<std::uint32_t>(get_audioSessionCategory()));
-	}
-
-	TITANIUM_PROPERTY_SETTER(MediaModule, audioSessionCategory)
-	{
-		TITANIUM_ASSERT(argument.IsNumber());
-		set_audioSessionCategory(static_cast<Media::AudioSessionCategory>(static_cast<std::uint32_t>(argument)));
-		return true;
-	}
+	TITANIUM_PROPERTY_GETTER_BOOL(MediaModule, audioPlaying)
+	TITANIUM_PROPERTY_GETTER_ENUM(MediaModule, audioSessionCategory)
+	TITANIUM_PROPERTY_SETTER_ENUM(MediaModule, audioSessionCategory, Media::AudioSessionCategory)
 
 	TITANIUM_PROPERTY_GETTER(MediaModule, availableCameras)
 	{
@@ -1101,53 +1088,18 @@ namespace Titanium
 		return true;
 	}
 
-	TITANIUM_PROPERTY_GETTER(MediaModule, averageMicrophonePower)
-	{
-		return get_context().CreateNumber(get_averageMicrophonePower());
-	}
-
-	TITANIUM_PROPERTY_SETTER(MediaModule, averageMicrophonePower)
-	{
-		TITANIUM_ASSERT(argument.IsNumber());
-		set_averageMicrophonePower(static_cast<double>(argument));
-		return true;
-	}
-
-	TITANIUM_PROPERTY_GETTER(MediaModule, cameraFlashMode)
-	{
-		return get_context().CreateNumber(static_cast<std::uint32_t>(get_cameraFlashMode()));
-	}
-
-	TITANIUM_PROPERTY_SETTER(MediaModule, cameraFlashMode)
-	{
-		TITANIUM_ASSERT(argument.IsNumber());
-		set_cameraFlashMode(static_cast<Media::CameraOption>(static_cast<std::uint32_t>(argument)));
-		return true;
-	}
-
-	TITANIUM_PROPERTY_GETTER(MediaModule, canRecord)
-	{
-		return get_context().CreateBoolean(get_canRecord());
-	}
-
-	TITANIUM_PROPERTY_GETTER(MediaModule, currentRoute)
-	{
-		return RouteDescription_to_js(get_context(), currentRoute__);
-	}
-
-	TITANIUM_PROPERTY_GETTER(MediaModule, isCameraSupported)
-	{
-		return get_context().CreateBoolean(get_isCameraSupported());
-	}
+	TITANIUM_PROPERTY_GETTER_DOUBLE(MediaModule, averageMicrophonePower)
+	TITANIUM_PROPERTY_SETTER_DOUBLE(MediaModule, averageMicrophonePower)
+	TITANIUM_PROPERTY_GETTER_ENUM(MediaModule, cameraFlashMode)
+	TITANIUM_PROPERTY_SETTER_ENUM(MediaModule, cameraFlashMode, Media::CameraOption)
+	TITANIUM_PROPERTY_GETTER_BOOL(MediaModule, canRecord)
+	TITANIUM_PROPERTY_GETTER_STRUCT(MediaModule, currentRoute, RouteDescription)
+	TITANIUM_PROPERTY_GETTER_BOOL(MediaModule, isCameraSupported)
+	TITANIUM_PROPERTY_GETTER_DOUBLE(MediaModule, volume)
 
 	TITANIUM_PROPERTY_GETTER(MediaModule, systemMusicPlayer)
 	{
 		return systemMusicPlayer__;
-	}
-
-	TITANIUM_PROPERTY_GETTER(MediaModule, volume)
-	{
-		return get_context().CreateNumber(get_volume());
 	}
 
 	TITANIUM_FUNCTION(MediaModule, beep)

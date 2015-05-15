@@ -6,8 +6,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUM_NETWORK_CAMERAOPTIONSTYPE_HPP_
-#define _TITANIUM_NETWORK_CAMERAOPTIONSTYPE_HPP_
+#ifndef _TITANIUM_MEDIA_CAMERAOPTIONSTYPE_HPP_
+#define _TITANIUM_MEDIA_CAMERAOPTIONSTYPE_HPP_
 
 #include "Titanium/detail/TiBase.hpp"
 #include "Titanium/Media/Constants.hpp"
@@ -57,4 +57,4 @@ namespace Titanium
 		
 	} // namespace Media
 } // namespace Titanium
-#endif // _TITANIUM_NETWORK_CAMERAOPTIONSTYPE_HPP_
+#endif // _TITANIUM_MEDIA_CAMERAOPTIONSTYPE_HPP_

@@ -9,6 +9,8 @@
 #ifndef _TITANIUM_MEDIA_CONSTANTS_HPP_
 #define _TITANIUM_MEDIA_CONSTANTS_HPP_
 
+#include "Titanium/detail/TiBase.hpp"
+
 namespace Titanium
 {
 	using namespace HAL;
@@ -158,13 +160,14 @@ namespace Titanium
 			Unknown
 		};
 		
-		enum class VideoControl
+		enum class VideoControlStyle
 		{
 			Default,
 			Embedded,
 			Fullscreen,
 			Hidden,
-			None
+			None,
+			VolumeOnly
 		};
 		
 		enum class VideoFinishReason
@@ -184,9 +187,9 @@ namespace Titanium
 		
 		enum class VideoMediaType
 		{
-			Audio,
-			None,
-			Video
+			Audio  = 1 << 0,  // 1 << 0 == 1,
+			None   = 1 << 1,  // 1 << 1 == 2,
+			Video  = 1 << 2   // 1 << 2 == 4
 		};
 		
 		enum class VideoPlaybackState
@@ -229,7 +232,57 @@ namespace Titanium
 			PreviousSync
 		};
 
+		enum class AudioState
+		{
+			Buffering,
+			Initialized,
+			Paused,
+			Playing,
+			Starting,
+			Stopped,
+			Stopping,
+			WaitingForData,
+			WaitingForQueue
+		};
+
+		enum class RecordingState
+		{
+			Paused,
+			Recording,
+			Stopped
+		};
+
+		class TITANIUMKIT_EXPORT Constants final
+		{
+		public:
+			static std::unordered_set<VideoMediaType> to_VideoMediaType(std::underlying_type<VideoMediaType>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<VideoMediaType>::type to_underlying_type(const std::unordered_set<VideoMediaType>&) TITANIUM_NOEXCEPT;
+			static std::underlying_type<VideoMediaType>::type to_underlying_type(const VideoMediaType&) TITANIUM_NOEXCEPT;
+		};
+
+
 	} // namespace Media
 } // namespace Titanium
+
+// Provide a hash function so that a Titanium::Media::VideoMediaType can be stored in an
+// unordered container.
+namespace std
+{
+	template <>
+	struct hash<Titanium::Media::VideoMediaType>
+	{
+		using argument_type = Titanium::Media::VideoMediaType;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast<underlying_type>(property_attribute));
+		}
+	};
+}
+
+
 
 #endif // _TITANIUM_MEDIA_CONSTANTS_HPP_

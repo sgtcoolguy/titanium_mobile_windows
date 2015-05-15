@@ -131,6 +131,7 @@ set(SOURCE_Media
   include/Titanium/MediaModule.hpp
   src/MediaModule.cpp
   include/Titanium/Media/Constants.hpp
+  src/Media/Constants.cpp
   include/Titanium/Media/CameraOptionsType.hpp
   src/Media/CameraOptionsType.cpp
   include/Titanium/Media/MediaQueryType.hpp
@@ -145,6 +146,18 @@ set(SOURCE_Media
   src/Media/PreviewImageOptions.cpp
   include/Titanium/Media/RouteDescription.hpp
   src/Media/RouteDescription.cpp
+  include/Titanium/Media/Item.hpp
+  src/Media/Item.cpp
+  include/Titanium/Media/Sound.hpp
+  src/Media/Sound.cpp
+  include/Titanium/Media/AudioPlayer.hpp
+  src/Media/AudioPlayer.cpp
+  include/Titanium/Media/AudioRecorder.hpp
+  src/Media/AudioRecorder.cpp
+  include/Titanium/Media/MusicPlayer.hpp
+  src/Media/MusicPlayer.cpp
+  include/Titanium/Media/VideoPlayer.hpp
+  src/Media/VideoPlayer.cpp
   )
 
 set(SOURCE_Network

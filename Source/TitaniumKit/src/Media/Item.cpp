@@ -56,7 +56,8 @@ namespace Titanium
 		TITANIUM_PROPERTY_READ(Item, std::uint32_t, skipCount)
 		TITANIUM_PROPERTY_READ(Item, std::string, title)
 
-		void Item::JSExportInitialize() {
+		void Item::JSExportInitialize() 
+		{
 			JSExport<Item>::SetClassVersion(1);
 			JSExport<Item>::SetParent(JSExport<Module>::Class());
 
@@ -101,58 +102,25 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(Item, getTitle);
 		}
 
-		TITANIUM_PROPERTY_GETTER(Item, albumArtist)
-		{
-			return get_context().CreateString(get_albumArtist());
-		}
-
-		TITANIUM_PROPERTY_GETTER(Item, albumTitle)
-		{
-			return get_context().CreateString(get_albumTitle());
-		}
-
-		TITANIUM_PROPERTY_GETTER(Item, artist)
-		{
-			return get_context().CreateString(get_artist());
-		}
-
-		TITANIUM_PROPERTY_GETTER(Item, artwork)
-		{
-			if (artwork__ == nullptr) {
-				return get_context().CreateNull();
-			}
-			return artwork__->get_object();
-		}
-
-		TITANIUM_PROPERTY_GETTER(Item, composer)
-		{
-			return get_context().CreateString(get_composer());
-		}
-
-		TITANIUM_PROPERTY_GETTER(Item, genre)
-		{
-			return get_context().CreateString(get_genre());
-		}
-
-		TITANIUM_PROPERTY_GETTER(Item, isCompilation)
-		{
-			return get_context().CreateBoolean(get_isCompilation());
-		}
-
-		TITANIUM_PROPERTY_GETTER(Item, lyrics)
-		{
-			return get_context().CreateString(get_lyrics());
-		}
-
-		TITANIUM_PROPERTY_GETTER(Item, podcastTitle)
-		{
-			return get_context().CreateString(get_podcastTitle());
-		}
-
-		TITANIUM_PROPERTY_GETTER(Item, title)
-		{
-			return get_context().CreateString(get_title());
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(Item, albumArtist)
+		TITANIUM_PROPERTY_GETTER_STRING(Item, albumTitle)
+		TITANIUM_PROPERTY_GETTER_STRING(Item, artist)
+		TITANIUM_PROPERTY_GETTER_OBJECT(Item, artwork)
+		TITANIUM_PROPERTY_GETTER_STRING(Item, composer)
+		TITANIUM_PROPERTY_GETTER_STRING(Item, genre)
+		TITANIUM_PROPERTY_GETTER_BOOL(Item, isCompilation)
+		TITANIUM_PROPERTY_GETTER_STRING(Item, lyrics)
+		TITANIUM_PROPERTY_GETTER_STRING(Item, podcastTitle)
+		TITANIUM_PROPERTY_GETTER_STRING(Item, title)
+		TITANIUM_PROPERTY_GETTER_UINT(Item, rating)
+		TITANIUM_PROPERTY_GETTER_UINT(Item, discCount)
+		TITANIUM_PROPERTY_GETTER_UINT(Item, playCount)
+		TITANIUM_PROPERTY_GETTER_UINT(Item, skipCount)
+		TITANIUM_PROPERTY_GETTER_UINT(Item, discNumber)
+		TITANIUM_PROPERTY_GETTER_UINT(Item, albumTrackCount)
+		TITANIUM_PROPERTY_GETTER_UINT(Item, albumTrackNumber)
+		TITANIUM_PROPERTY_GETTER_TIME(Item, playbackDuration)
+		TITANIUM_PROPERTY_GETTER_ENUM(Item, mediaType)
 
 		TITANIUM_FUNCTION_AS_GETTER(Item, getAlbumArtist, albumArtist)
 		TITANIUM_FUNCTION_AS_GETTER(Item, getAlbumTitle, albumTitle)

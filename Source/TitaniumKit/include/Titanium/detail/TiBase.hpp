@@ -231,6 +231,10 @@ IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
 #define ENSURE_DOUBLE_AT_INDEX(OUT,INDEX) \
   ENSURE_NUMBER_AT_INDEX(OUT,INDEX,double)
 
+#define ENSURE_TIME_AT_INDEX(OUT,INDEX) \
+  ENSURE_NUMBER_AT_INDEX(OUT##_##INDEX,INDEX,uint32_t); \
+  auto OUT = std::chrono::seconds(static_cast<std::chrono::seconds::rep>(OUT##_##INDEX));
+
 // Shorthand for getter accessor function for a value property that has a getter (cpp)
 #define TITANIUM_FUNCTION_AS_GETTER(MODULE, NAME, PROPERTY) \
 TITANIUM_FUNCTION(MODULE, NAME) \
@@ -320,6 +324,14 @@ TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
 	set_##NAME(std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(argument)))); \
 	return true; \
 }
+
+#define TITANIUM_PROPERTY_SETTER_TIME_SECONDS(MODULE, NAME) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+  TITANIUM_ASSERT(argument.IsNumber()); \
+  set_##NAME(std::chrono::seconds(static_cast<std::chrono::seconds::rep>(static_cast<std::uint32_t>(argument)))); \
+  return true; \
+}
+
 
 #define TITANIUM_PROPERTY_GETTER_STRING(MODULE, NAME) \
 	TITANIUM_PROPERTY_GETTER_TYPE(MODULE, NAME, std::string, String)

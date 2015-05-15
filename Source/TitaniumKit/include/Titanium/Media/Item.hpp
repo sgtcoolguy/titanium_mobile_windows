@@ -6,8 +6,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUM_ITEM_HPP_
-#define _TITANIUM_ITEM_HPP_
+#ifndef _TITANIUM_MEDIA_ITEM_HPP_
+#define _TITANIUM_MEDIA_ITEM_HPP_
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Blob.hpp"
@@ -241,4 +241,4 @@ namespace Titanium
 
 	} // namespace Media
 } // namespace Titanium
-#endif // _TITANIUM_ITEM_HPP_
+#endif // _TITANIUM_MEDIA_ITEM_HPP_

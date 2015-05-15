@@ -98,6 +98,12 @@
 		F931042A1ABBE2F50067470D /* ShadowDict.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F93104291ABBE2F50067470D /* ShadowDict.cpp */; };
 		F931042C1ABBE3540067470D /* ShadowDict.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F931042B1ABBE3540067470D /* ShadowDict.hpp */; };
 		F931042E1ABBE94B0067470D /* TitleAttributesParams.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F931042D1ABBE94B0067470D /* TitleAttributesParams.hpp */; };
+		F93CAA231B0594660068B429 /* AudioPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F93CAA221B0594660068B429 /* AudioPlayer.hpp */; };
+		F93CAA251B0594740068B429 /* AudioPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F93CAA241B0594740068B429 /* AudioPlayer.cpp */; };
+		F93CAA271B05AF7B0068B429 /* AudioRecorder.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F93CAA261B05AF7B0068B429 /* AudioRecorder.hpp */; };
+		F93CAA291B05AF880068B429 /* AudioRecorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F93CAA281B05AF880068B429 /* AudioRecorder.cpp */; };
+		F93CAA2B1B05D16F0068B429 /* MusicPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F93CAA2A1B05D16F0068B429 /* MusicPlayer.hpp */; };
+		F93CAA2D1B05D1790068B429 /* MusicPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F93CAA2C1B05D1790068B429 /* MusicPlayer.cpp */; };
 		F93CDC401A96D24C00C42D8C /* Dimension.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F93CDC3C1A96D24C00C42D8C /* Dimension.hpp */; };
 		F93CDC411A96D24C00C42D8C /* Font.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F93CDC3D1A96D24C00C42D8C /* Font.hpp */; };
 		F93CDC421A96D24C00C42D8C /* Gradient.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F93CDC3E1A96D24C00C42D8C /* Gradient.hpp */; };
@@ -149,6 +155,9 @@
 		F97467F11B043D9000E96892 /* RouteDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467EB1B043D9000E96892 /* RouteDescription.cpp */; };
 		F97467F31B04626C00E96892 /* MediaQueryInfoType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F97467F21B04626C00E96892 /* MediaQueryInfoType.hpp */; };
 		F97467F51B04627700E96892 /* MediaQueryInfoType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467F41B04627700E96892 /* MediaQueryInfoType.cpp */; };
+		F98B67391B05E6B500B910AA /* VideoPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F98B67381B05E6B500B910AA /* VideoPlayer.cpp */; };
+		F98B673B1B05E6C300B910AA /* VideoPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F98B673A1B05E6C300B910AA /* VideoPlayer.hpp */; };
+		F98B673D1B05F38600B910AA /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F98B673C1B05F38600B910AA /* Constants.cpp */; };
 		F9901B091AA5A355003FFD52 /* MapRegionTypev2.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9901B081AA5A355003FFD52 /* MapRegionTypev2.hpp */; };
 		F9901B0B1AA5A366003FFD52 /* MapRegionTypev2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9901B0A1AA5A366003FFD52 /* MapRegionTypev2.cpp */; };
 		F9991D521AFF5A6400C7DDF2 /* Cookie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9991D511AFF5A6400C7DDF2 /* Cookie.cpp */; };
@@ -215,6 +224,8 @@
 		F9B549751A40272E0051A096 /* TiModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B549741A40272E0051A096 /* TiModule.cpp */; };
 		F9B549781A402D520051A096 /* NativeTiExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9B549761A402D520051A096 /* NativeTiExample.cpp */; };
 		F9B549791A402D520051A096 /* NativeTiExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9B549771A402D520051A096 /* NativeTiExample.hpp */; };
+		F9BD46961B0589980054F841 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9BD46951B0589980054F841 /* Sound.cpp */; };
+		F9BD46981B0589A80054F841 /* Sound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9BD46971B0589A80054F841 /* Sound.hpp */; };
 		F9BD6B9F1A96FA4200D721A9 /* ListViewMarkerProps.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9BD6B9E1A96FA4200D721A9 /* ListViewMarkerProps.hpp */; };
 		F9BD6BA11A96FA4E00D721A9 /* ListViewMarkerProps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9BD6BA01A96FA4E00D721A9 /* ListViewMarkerProps.cpp */; };
 		F9BE4A7C1A88999400301999 /* NativeWebViewExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9BE4A7A1A88999400301999 /* NativeWebViewExample.cpp */; };
@@ -342,6 +353,12 @@
 		F93104291ABBE2F50067470D /* ShadowDict.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShadowDict.cpp; path = src/UI/ShadowDict.cpp; sourceTree = "<group>"; };
 		F931042B1ABBE3540067470D /* ShadowDict.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ShadowDict.hpp; path = include/Titanium/UI/ShadowDict.hpp; sourceTree = "<group>"; };
 		F931042D1ABBE94B0067470D /* TitleAttributesParams.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TitleAttributesParams.hpp; path = include/Titanium/UI/TitleAttributesParams.hpp; sourceTree = "<group>"; };
+		F93CAA221B0594660068B429 /* AudioPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AudioPlayer.hpp; path = include/Titanium/Media/AudioPlayer.hpp; sourceTree = "<group>"; };
+		F93CAA241B0594740068B429 /* AudioPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioPlayer.cpp; path = src/Media/AudioPlayer.cpp; sourceTree = "<group>"; };
+		F93CAA261B05AF7B0068B429 /* AudioRecorder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AudioRecorder.hpp; path = include/Titanium/Media/AudioRecorder.hpp; sourceTree = "<group>"; };
+		F93CAA281B05AF880068B429 /* AudioRecorder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioRecorder.cpp; path = src/Media/AudioRecorder.cpp; sourceTree = "<group>"; };
+		F93CAA2A1B05D16F0068B429 /* MusicPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MusicPlayer.hpp; path = include/Titanium/Media/MusicPlayer.hpp; sourceTree = "<group>"; };
+		F93CAA2C1B05D1790068B429 /* MusicPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MusicPlayer.cpp; path = src/Media/MusicPlayer.cpp; sourceTree = "<group>"; };
 		F93CDC3C1A96D24C00C42D8C /* Dimension.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Dimension.hpp; path = include/Titanium/UI/Dimension.hpp; sourceTree = "<group>"; };
 		F93CDC3D1A96D24C00C42D8C /* Font.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Font.hpp; path = include/Titanium/UI/Font.hpp; sourceTree = "<group>"; };
 		F93CDC3E1A96D24C00C42D8C /* Gradient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Gradient.hpp; path = include/Titanium/UI/Gradient.hpp; sourceTree = "<group>"; };
@@ -393,6 +410,9 @@
 		F97467EB1B043D9000E96892 /* RouteDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RouteDescription.cpp; path = src/Media/RouteDescription.cpp; sourceTree = "<group>"; };
 		F97467F21B04626C00E96892 /* MediaQueryInfoType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MediaQueryInfoType.hpp; path = include/Titanium/Media/MediaQueryInfoType.hpp; sourceTree = "<group>"; };
 		F97467F41B04627700E96892 /* MediaQueryInfoType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MediaQueryInfoType.cpp; path = src/Media/MediaQueryInfoType.cpp; sourceTree = "<group>"; };
+		F98B67381B05E6B500B910AA /* VideoPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VideoPlayer.cpp; path = src/Media/VideoPlayer.cpp; sourceTree = "<group>"; };
+		F98B673A1B05E6C300B910AA /* VideoPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VideoPlayer.hpp; path = include/Titanium/Media/VideoPlayer.hpp; sourceTree = "<group>"; };
+		F98B673C1B05F38600B910AA /* Constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Constants.cpp; path = src/Media/Constants.cpp; sourceTree = "<group>"; };
 		F9901B081AA5A355003FFD52 /* MapRegionTypev2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapRegionTypev2.hpp; path = include/Titanium/Map/MapRegionTypev2.hpp; sourceTree = "<group>"; };
 		F9901B0A1AA5A366003FFD52 /* MapRegionTypev2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapRegionTypev2.cpp; path = src/Map/MapRegionTypev2.cpp; sourceTree = "<group>"; };
 		F9991D511AFF5A6400C7DDF2 /* Cookie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cookie.cpp; path = src/Network/Cookie.cpp; sourceTree = "<group>"; };
@@ -459,6 +479,8 @@
 		F9B549741A40272E0051A096 /* TiModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TiModule.cpp; path = src/TiModule.cpp; sourceTree = "<group>"; };
 		F9B549761A402D520051A096 /* NativeTiExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeTiExample.cpp; sourceTree = "<group>"; };
 		F9B549771A402D520051A096 /* NativeTiExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeTiExample.hpp; sourceTree = "<group>"; };
+		F9BD46951B0589980054F841 /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sound.cpp; path = src/Media/Sound.cpp; sourceTree = "<group>"; };
+		F9BD46971B0589A80054F841 /* Sound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Sound.hpp; path = include/Titanium/Media/Sound.hpp; sourceTree = "<group>"; };
 		F9BD6B9E1A96FA4200D721A9 /* ListViewMarkerProps.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ListViewMarkerProps.hpp; path = include/Titanium/UI/ListViewMarkerProps.hpp; sourceTree = "<group>"; };
 		F9BD6BA01A96FA4E00D721A9 /* ListViewMarkerProps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ListViewMarkerProps.cpp; path = src/UI/ListViewMarkerProps.cpp; sourceTree = "<group>"; };
 		F9BE4A7A1A88999400301999 /* NativeWebViewExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeWebViewExample.cpp; sourceTree = "<group>"; };
@@ -841,6 +863,17 @@
 			isa = PBXGroup;
 			children = (
 				F9E391AB1B03289C0096BA2D /* Constants.hpp */,
+				F98B673C1B05F38600B910AA /* Constants.cpp */,
+				F98B673A1B05E6C300B910AA /* VideoPlayer.hpp */,
+				F98B67381B05E6B500B910AA /* VideoPlayer.cpp */,
+				F93CAA2C1B05D1790068B429 /* MusicPlayer.cpp */,
+				F93CAA2A1B05D16F0068B429 /* MusicPlayer.hpp */,
+				F93CAA281B05AF880068B429 /* AudioRecorder.cpp */,
+				F93CAA261B05AF7B0068B429 /* AudioRecorder.hpp */,
+				F93CAA241B0594740068B429 /* AudioPlayer.cpp */,
+				F93CAA221B0594660068B429 /* AudioPlayer.hpp */,
+				F9BD46971B0589A80054F841 /* Sound.hpp */,
+				F9BD46951B0589980054F841 /* Sound.cpp */,
 				F97467E61B043D9000E96892 /* CameraOptionsType.cpp */,
 				F9E391961B0318640096BA2D /* CameraOptionsType.hpp */,
 				F97467F41B04627700E96892 /* MediaQueryInfoType.cpp */,
@@ -894,6 +927,7 @@
 				F9991D5C1AFF7D4E00C7DDF2 /* PushNotificationConfig.hpp in Headers */,
 				F9B1AF771A8E2EDD00DEF4D6 /* ResultSet.hpp in Headers */,
 				F9B549791A402D520051A096 /* NativeTiExample.hpp in Headers */,
+				F9BD46981B0589A80054F841 /* Sound.hpp in Headers */,
 				F9ACB7E91AF9CE01008C2F3C /* TableViewSection.hpp in Headers */,
 				C974545C1A02A2E500CB4CA9 /* GlobalObject.hpp in Headers */,
 				C90950A61A297E03002133E1 /* WebView.hpp in Headers */,
@@ -920,8 +954,10 @@
 				F908310F1A2EA3AC00CB810B /* Blob.hpp in Headers */,
 				C974545B1A02A2E500CB4CA9 /* Module.hpp in Headers */,
 				F9E391A61B0318640096BA2D /* PhotoGalleryOptionsType.hpp in Headers */,
+				F93CAA231B0594660068B429 /* AudioPlayer.hpp in Headers */,
 				C9E6AFE71A13F93F00FED053 /* TiBase.hpp in Headers */,
 				F965FF261AA588010092ABBA /* View.hpp in Headers */,
+				F93CAA271B05AF7B0068B429 /* AudioRecorder.hpp in Headers */,
 				F9B47E811A2EF93E0052879A /* Constants.hpp in Headers */,
 				F95C3E271AA59C6A006AB8C7 /* Camera.hpp in Headers */,
 				F9ACB7E11AF9CE01008C2F3C /* OptionDialogHideParams.hpp in Headers */,
@@ -944,6 +980,7 @@
 				C9E6AFED1A13F95500FED053 /* TiLoggerPolicyInterface.hpp in Headers */,
 				F966AF7D1AC11AE900351707 /* ViewLayoutDelegate.hpp in Headers */,
 				F95F90991B01EBE90002BD1C /* AcceptDict.hpp in Headers */,
+				F98B673B1B05E6C300B910AA /* VideoPlayer.hpp in Headers */,
 				F9BE4A7D1A88999400301999 /* NativeWebViewExample.hpp in Headers */,
 				F9B47E731A2EF1440052879A /* FilesystemModule.hpp in Headers */,
 				F9B47E7F1A2EF1860052879A /* NativeFileExample.hpp in Headers */,
@@ -971,6 +1008,7 @@
 				F90831161A2EA3FA00CB810B /* NativeBlobExample.hpp in Headers */,
 				F9ACB7E71AF9CE01008C2F3C /* TableViewAnimationProperties.hpp in Headers */,
 				C950EF8F1A48D8FB000EE5AC /* ImageView.hpp in Headers */,
+				F93CAA2B1B05D16F0068B429 /* MusicPlayer.hpp in Headers */,
 				F9ACB7E61AF9CE01008C2F3C /* TableView.hpp in Headers */,
 				C9E6AFE91A13F94500FED053 /* HashUtilities.hpp in Headers */,
 				F9991D561AFF5A9200C7DDF2 /* Cookie.hpp in Headers */,
@@ -1084,6 +1122,7 @@
 				F913EFBC1A835FE4009080D1 /* AlertDialog.cpp in Sources */,
 				F96A53E21AA5D03E00AD4011 /* XML.cpp in Sources */,
 				F9BE4A7C1A88999400301999 /* NativeWebViewExample.cpp in Sources */,
+				F93CAA251B0594740068B429 /* AudioPlayer.cpp in Sources */,
 				F9ACB7C41AF9CDCD008C2F3C /* MatrixCreationDict.cpp in Sources */,
 				F931042A1ABBE2F50067470D /* ShadowDict.cpp in Sources */,
 				F9B549781A402D520051A096 /* NativeTiExample.cpp in Sources */,
@@ -1100,9 +1139,12 @@
 				F9ACB7CA1AF9CDCD008C2F3C /* Switch.cpp in Sources */,
 				F96A53DA1AA5CFB700AD4011 /* App.cpp in Sources */,
 				F9ACB7C91AF9CDCD008C2F3C /* ScrollableView.cpp in Sources */,
+				F93CAA2D1B05D1790068B429 /* MusicPlayer.cpp in Sources */,
+				F93CAA291B05AF880068B429 /* AudioRecorder.cpp in Sources */,
 				F9B549751A40272E0051A096 /* TiModule.cpp in Sources */,
 				F9B1AF5D1A8DB4E100DEF4D6 /* ListSection.cpp in Sources */,
 				F966AF7F1AC11AF700351707 /* ViewLayoutDelegate.cpp in Sources */,
+				F98B673D1B05F38600B910AA /* Constants.cpp in Sources */,
 				C9BED2201A27B14200CFF800 /* NativeModuleExample.cpp in Sources */,
 				F9991D5A1AFF7D4100C7DDF2 /* PushNotificationConfig.cpp in Sources */,
 				C909509F1A2963F3002133E1 /* ListView.cpp in Sources */,
@@ -1145,6 +1187,7 @@
 				C950EF941A48D90A000EE5AC /* Label.cpp in Sources */,
 				F90831121A2EA3B500CB810B /* Blob.cpp in Sources */,
 				C90B90121A1ADC7D005F3210 /* NativeViewExample.cpp in Sources */,
+				F98B67391B05E6B500B910AA /* VideoPlayer.cpp in Sources */,
 				F96A53DE1AA5CFEA00AD4011 /* Constants.cpp in Sources */,
 				F93CDC4B1A96D25E00C42D8C /* Point.cpp in Sources */,
 				F93104281ABBDDAB0067470D /* TitleAttributesParams.cpp in Sources */,
@@ -1153,6 +1196,7 @@
 				F99AE3B91ADFA30300D0F91E /* ActivityIndicatorStyle.cpp in Sources */,
 				C90B8FD31A17CB1C005F3210 /* API.cpp in Sources */,
 				F9B1AF7B1A8E2EEC00DEF4D6 /* Constants.cpp in Sources */,
+				F9BD46961B0589980054F841 /* Sound.cpp in Sources */,
 				C90950A71A297E03002133E1 /* WebView.cpp in Sources */,
 				C90950971A2954B3002133E1 /* TextField.cpp in Sources */,
 				F9ACB7C71AF9CDCD008C2F3C /* OptionDialogShowParams.cpp in Sources */,
