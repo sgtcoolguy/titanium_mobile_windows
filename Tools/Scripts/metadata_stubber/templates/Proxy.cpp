@@ -17,14 +17,25 @@ if (parent && parent.indexOf('[mscorlib]') != 0) {
 	parent_name = parent.trim();
 }
 
-// Find the constructor
-var constructor = null;
+// Set up overloaded constructors!
 if (methods) {
 	for (var i = 0; i < methods.length; i++) {
-		if (methods[i].name == '.ctor' && methods[i].attributes.indexOf('public') != -1) {
-			constructor = methods[i];
-			break;
+		var method = methods[i];
+		var overloads = [];
+
+		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
+			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0) {
+				continue;
 		}
+		// Skip non-public methods
+		if (method.attributes.indexOf("public") == -1) {
+			continue;
+		}
+
+		// Combine overloaded methods...
+		overloads = unique_methods[method.name] || [];
+		overloads.unshift(method);
+		unique_methods[method.name] = overloads;
 	}
 }
 
@@ -86,34 +97,53 @@ for (var i = 0; i < types_to_include.length; i++) {
 		{
 			TITANIUM_LOG_DEBUG("<%= base_name %>::postCallAsConstructor ", this);
 <%
-if (constructor) {
-
+if (unique_methods['.ctor']) {
+	// FIXME Combine with common code from function.cpp!
 	var arguments = "",
 		arg,
 		type,
-		as_param;
+		as_param,
+		method,
+		methods = unique_methods[".ctor"];
 
-	// Build up our arguments!
-	for (var x = 0; x < constructor.args.length; x++) {
-		arg = constructor.args[x];
-		type = arg.type;
-		as_param = arg.name;
-		arguments += as_param + ", ";
+	// FIXME We should be smarter about dispatching to overloads. Arg count alone isn't enough. We need to distinguish types too!
+	for (var i = 0; i < methods.length; i++) {
+		arguments = "";
+		method = methods[i];
+
+-%>
+			if (arguments.size() == <%= method.args.length %>) {
+<%
+		// Build up our arguments!
+		for (var x = 0; x < method.args.length; x++) {
+			arg = method.args[x];
+			type = arg.type;
+			as_param = arg.name;
+			if (arg.inout == "out") {
+				if (type.indexOf('[]') == type.length - 2) { // it's an array!
+					// Don't prepend with &, and don't mess up the type name, since it won't have a trailing &
+				} else {
+					as_param = "&" + as_param;
+					type = type.substring(0, type.length - 1); // drop & from type we pass along to conversion
+				}
+			}
+			arguments += as_param + ", ";
 -%>
 				auto _<%= x %> = arguments.at(<%= x %>);<%- include('js_to_native.cpp', {type: type, metadata: metadata, to_assign: arg.name, argument_name: '_' + x}) -%>
+<%
+		}
 
+		// Chop off trailing ", " in arg list
+		if (method.args.length > 0) {
+			arguments = arguments.substring(0, arguments.length - 2);
+		}
+%>
+				wrapped__ = ref new ::<%= windows_name %>(<%- arguments %>);
+			}
 <%
 	}
-
-	// Chop off trailing ", "
-	if (constructor.args.length > 0) {
-		arguments = arguments.substring(0, arguments.length - 2);
-	}
--%>
-			wrapped__ = ref new ::<%= windows_name %>(<%= arguments %>);
-<%
 }
--%>
+%>
 		}
 
 		::<%= windows_name %>^ <%= base_name %>::unwrap<%= underscore_name %>() const
@@ -150,33 +180,12 @@ for (property_name in properties) {
 }
 // Methods
 if (methods) {
-	for (var i = 0; i < methods.length; i++) {
-		var method = methods[i];
-		var overloads = [];
-		// FIXME For this and below, we need to combine overloaded methods into one!
-		// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
-		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
-			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
-			method.name == ".ctor") {
+	for (method_name in unique_methods) {
+		if (method_name == ".ctor") {
 				continue;
 		}
-		// Skip non-public methods
-		if (method.attributes.indexOf("public") == -1) {
-			continue;
-		}
-
-		// Combine overloaded methods...
-		overloads = unique_methods[method.name] || [];
-		var skip = overloads.length > 0;
-		overloads.unshift(method);
-		unique_methods[method.name] = overloads;
-		// don't add method twice
-		if (skip) {
-			continue;
-		}
-		
 -%>
-			TITANIUM_ADD_FUNCTION(<%= base_name %>, <%= method.name %>);
+			TITANIUM_ADD_FUNCTION(<%= base_name %>, <%= method_name %>);
 <%
 	}
 }
@@ -196,19 +205,12 @@ for (property_name in properties) {
 if (methods) {
 	for (method_name in unique_methods) {
 		var methods = unique_methods[method_name];
-		var method = methods[0]; // FIXME We need to combine the definitions!
-		// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
-		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
-			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
-			method.name == '.ctor') {
+		var method = methods[0];
+		if (method.name == '.ctor') {
 				continue;
 		}
-		// Skip non-public methods
-		if (method.attributes.indexOf("public") == -1) {
-			continue;
-		}
 -%>
-<%- include('function.cpp', {base_name: base_name, methods: methods}) %>
+<%- include('function.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
 <%
 	}
 }

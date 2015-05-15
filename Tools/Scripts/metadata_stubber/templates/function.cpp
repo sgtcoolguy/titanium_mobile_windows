@@ -2,11 +2,13 @@
 		{
 			auto context = get_context();
 <%
+// FIXME What if function is static?!
 var arguments = "",
 	arg,
 	type,
 	as_param,
-	method;
+	method,
+	receiver = "unwrap()->";
 
 // FIXME We should be smarter about dispatching to overloads. Arg count alone isn't enough. We need to distinguish types too!
 for (var i = 0; i < methods.length; i++) {
@@ -41,15 +43,22 @@ for (var i = 0; i < methods.length; i++) {
 		arguments = arguments.substring(0, arguments.length - 2);
 	}
 
+	// Is this a static method or an instance method?
+	if (method.attributes.indexOf('static') != -1) {
+		receiver = "::" + full_name.replace(/\./g, '::') + "::";
+	} else {
+		receiver = "unwrap()->";
+	}
+
 	// Now invoke the method and return the result!
 	if (method.returnType == 'void') {
 -%>
-				unwrap()-><%= method.name %>(<%= arguments %>);
+				<%- receiver %><%= method.name %>(<%= arguments %>);
 				return context.CreateUndefined(); 
 <%
 	} else {
 -%>
-				auto method_result = unwrap()-><%= method.name %>(<%- arguments %>);<%- include('native_to_js.cpp', {type: method.returnType, metadata: metadata, to_assign: 'result', argument_name: 'method_result'}) -%>
+				auto method_result = <%- receiver %><%= method.name %>(<%- arguments %>);<%- include('native_to_js.cpp', {type: method.returnType, metadata: metadata, to_assign: 'result', argument_name: 'method_result'}) -%>
 <%
 		// If we had "out" parameters, we now need to assign the values back to the JS Objects before returning result!
 
