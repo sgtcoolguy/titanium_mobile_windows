@@ -7,13 +7,16 @@ var fs = require('fs'),
 	all_classes = metadata['classes'],
 	// where do we stick our wrappers?
 	dest = path.join(__dirname, '..', '..', '..', 'Source', 'Titanium'),
-	require_hook = path.join(__dirname, '..', '..', '..', 'Source', 'Titanium', 'src', 'WindowsNativeModuleLoader.cpp'),
+	require_hook = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp'),
+	platform_object_cpp = path.join(dest, 'src', 'Platform.Object.cpp'),
 	seeds = [
 		"Windows.UI.Xaml.Window",
 		"Windows.UI.Colors",
 		"Windows.UI.Xaml.Media.SolidColorBrush",
-    	"Windows.UI.Xaml.Controls.Canvas",
-    	"Windows.UI.Xaml.Controls.TextBlock",
+		"Windows.UI.Xaml.Controls.Canvas",
+		"Windows.UI.Xaml.Controls.TextBlock",
+		'Windows.UI.Xaml.Controls.Frame',
+		'Windows.UI.Xaml.Controls.Page',
 		//"Windows.UI.Xaml.Visibility"
 	],
 	// We need to skip/map a number of collections to JSArray and JSObject
@@ -46,6 +49,12 @@ var fs = require('fs'),
 		"Windows.Foundation.EventHandler`1<T>"
 	];
 
+/**
+ * Takes a type name string and tries to return just the basic type name,
+ * handling common metadata issues, primtive arrays, prefixes, reference suffixes, etc.
+ * @param {string} typeName - the full name of the type from the metadata, expects non-templated type strings
+ * @return {string}
+ */
 function normalizeType(typeName) {
 	var type = typeName.trim();
 	if (type.indexOf('class ') == 0) {
@@ -70,6 +79,13 @@ function normalizeType(typeName) {
 	return type;
 }
 
+/*
+ * Given a complex/full type name from metadata, tries to expand to all component types.
+ * In most cases it juts normalized the simple type name.
+ * For templated types it will return all types involved.
+ * @param {string} typeName - the full name of the type from the metadata
+ * @return {Array[string]}
+ */
 function expandTypes(typeName) {
 	var types = [],
 		type = typeName.trim(),
@@ -91,6 +107,12 @@ function expandTypes(typeName) {
 	return types;
 }
 
+/*
+ * Given a complex/full type name from metadata, expands out all types involved and adds any new types to the passed in array.
+ * @param {string} rawTypeName - the full name of the type from the metadata
+ * @param {Array[string]} existingTypes - the Array of existing known types
+ * @return {void}
+ */
 function addNewTypes(rawTypeName, existingTypes) {
 	var types = [];
 	if (rawTypeName.indexOf('class ') == 0 || rawTypeName.indexOf('Windows.') == 0
@@ -110,6 +132,8 @@ function addNewTypes(rawTypeName, existingTypes) {
 
 /**
  * Given a type name, look up all the types it references. Returns an array of strings (type names)
+ * @param {string} classname - the full name of the type from the metadata
+ * @return {Array[string]} - the full set of dependencies for this type
  */
 function getDependencies(classname) {
 	var classDefinition = all_classes[classname],
@@ -165,141 +189,11 @@ function getDependencies(classname) {
 	return types;
 }
 
-// If we have no seeds, assume we want everything!
-if (seeds.length == 0) {
-	for (classname in all_classes) {
-		classDefinition = all_classes[classname];
-		// skip structs and enums
-		if (classDefinition['extends'] && 
-			(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
-			classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
-			continue;
-		}
-
-		seeds.unshift(classname);
-	}
-}
-
-// Sort seeds by name and remove duplicates
-seeds = seeds.sort();
-seeds = seeds.filter(function(elem, pos) {
-    return seeds.indexOf(elem) == pos;
-});
-
-// Using the seeds, generate the list of types we need to stub!
-// We've specified seed types, use those to gather the full list of types we'll need to generate
-var todo = [];
-for (var i = 0; i < seeds.length; i++) {
-	todo.unshift(seeds[i]);
-}
-while (todo.length > 0) {
-	var classname = todo.shift();
-	//console.log("Gathering dependencies of: " + classname);
-	var dependencies = getDependencies(classname);
-	// are there any new types here?
-	for (var j = 0; j < dependencies.length; j++) {
-		var the_dependency = dependencies[j];
-		if (seeds.indexOf(the_dependency) == -1) {
-			// new type. Add it to our seed listing and our queue to gather it's dependencies
-			//console.log("Adding type to list: " + the_dependency);
-			seeds.unshift(the_dependency);
-			todo.unshift(the_dependency);
-		}
-	}
-}
-
-
-// Generate a base class that everything can extend where we can hang a single unwrap method to get back an Object!
-all_classes['Platform.Object'] = {
-	"name": 'Platform.Object',
-	properties: {},
-	methods: [],
-	attributes: [
-		"public",
-		"auto",
-		"ansi",
-		"windowsruntime"
-	],
-	'extends': 'Module'
-}
-seeds.unshift('Platform.Object');
-// TODO Add a cast method that takes one String, and generate a huuuuge block of conversions inside it for every type we know of below!
-
-
-// sort again and de-dupe
-seeds = seeds.sort();
-seeds = seeds.filter(function(elem, pos) {
-    return seeds.indexOf(elem) == pos;
-});
-
-// Now that we have the full list of types, let's stub them
-async.eachLimit(seeds, 25, function(classname, callback) {
-	var classDefinition = all_classes[classname];
-	console.log('Generating stubs for: ' + classname);
-
-	// Skip blacklisted types
-	if (blacklist.indexOf(classname) != -1) {
-		callback();
-		return;
-	}
-	
-	if (!classDefinition) {
-		callback("Something went wrong. No metadata for type: " + classname);
-		return;
-	}
-
-	// skip structs and enums
-	if (classDefinition['extends'] && 
-		(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
-		classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
-		callback();
-		return;
-	}
-
-	// Stub the header
-	//console.log("Stubbing header for " + classname);
-	var hpp_file = path.join(__dirname, 'templates', 'Proxy.hpp');
-	fs.readFile(hpp_file, 'utf8', function (err, data) {
-		if (err) callback(err);
-
-		var generated_proxy_header = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends']}, {filename: hpp_file});
-		// TODO Only write new contents if they differ from existing!
-		fs.writeFile(path.join(dest, 'include', classname + '.hpp'), generated_proxy_header, {flags : 'w'}, function(err) {
-			if (err) callback(err);
-		});
-	});
-
-	// Stub the implementation
-	//console.log("Stubbing implementation for " + classname);
-	var cpp_file = path.join(__dirname, 'templates', 'Proxy.cpp');
-	fs.readFile(cpp_file, 'utf8', function (err, data) {
-		if (err) callback(err);
-
-		var generated_proxy_impl = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends'], dependencies: classDefinition.dependencies}, {filename: cpp_file});
-		
-		// TODO Only write new contents if they differ from existing!
-		fs.writeFile(path.join(dest, 'src', classname + '.cpp'), generated_proxy_impl, {flags : 'w'}, function(err) {
-			if (err) {
-				callback(err);
-			}
-			else {
-				callback();
-			}
-		});
-	});
-}, function(err){
-	// if any of the file processing produced an error, err would equal that error
-	if( err ) {
-	  // One of the iterations produced an error.
-	  // All processing will now stop.
-	  console.log(err.toString());
-	} else {
-	  console.log('All files have been processed successfully');
-	}
-});
-
 /*
  * Returns an array of fully qualified enum value names.
+ * @param {string} type_name - the name of the type as it should appear in the metadata
+ * @param {Object} metadata - the metadata loaded from disk
+ * @return {Array[string]} - the fully qualified names of any enum dependencies of the given type
  */
 function getEnumDependencies(type_name, metadata) {
 	var fields = [],
@@ -327,76 +221,323 @@ function getEnumDependencies(type_name, metadata) {
 	return fields;
 }
 
-// Now we'll add all the types we know about as includes into our require hook class
-// This let's us load these types by name using require!
-console.log("Adding types to require hook implementation...");
-fs.readFile(require_hook, 'utf8', function (err, data) {
-	if (err) throw err;
+/*
+ * Given the list of seeds let's traverse the metadata to get dependency info,
+ * sort and remove dupes from the seeds, add custom info to the metadata, etc.
+ */
+function initialize(next) {
+	// If we have no seeds, assume we want everything!
+	if (seeds.length == 0) {
+		for (classname in all_classes) {
+			classDefinition = all_classes[classname];
+			// skip structs and enums
+			if (classDefinition['extends'] && 
+				(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
+				classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
+				continue;
+			}
 
-	var classes = "", // built up #includes
-		loader_switch = "", // built up type instantiation/loading code
-		enum_loader = "", // built up blockf or loading enum dependencies of a type
-		classname = "", // name of current type in outer loop
-		classDefinition, // definition of current type in outer loop
-		dependency, // current enum dependency
-		enum_dependencies = []; // list of all enum dependencies for this type
+			seeds.unshift(classname);
+		}
+	}
 
-	// Add our includes
-	// TODO Remove duplicates!
+	// Sort seeds by name and remove duplicates
+	seeds = seeds.sort();
+	seeds = seeds.filter(function(elem, pos) {
+		return seeds.indexOf(elem) == pos;
+	});
+
+	// Using the seeds, generate the list of types we need to stub!
+	// We've specified seed types, use those to gather the full list of types we'll need to generate
+	var todo = [];
 	for (var i = 0; i < seeds.length; i++) {
-		classname = seeds[i];
+		todo.unshift(seeds[i]);
+	}
+	while (todo.length > 0) {
+		var classname = todo.shift();
+		//console.log("Gathering dependencies of: " + classname);
+		var dependencies = getDependencies(classname);
+		// are there any new types here?
+		for (var j = 0; j < dependencies.length; j++) {
+			var the_dependency = dependencies[j];
+			if (seeds.indexOf(the_dependency) == -1) {
+				// new type. Add it to our seed listing and our queue to gather it's dependencies
+				//console.log("Adding type to list: " + the_dependency);
+				seeds.unshift(the_dependency);
+				todo.unshift(the_dependency);
+			}
+		}
+	}
+
+
+	// Generate a base class that everything can extend where we can hang a single unwrap method to get back an Object!
+	all_classes['Platform.Object'] = {
+		"name": 'Platform.Object',
+		properties: {},
+		methods: [
+			{
+				"attributes": [
+					"public",
+					"hidebysig",
+					"newslot",
+					"abstract",
+					"virtual",
+					"instance",
+					"cil",
+					"managed"
+				],
+				"returnType": "class Platform.Object",
+				"name": "cast",
+				"args": [
+					{
+					  "inout": "in",
+					  "type": "string",
+					  "name": "to_cast"
+					}
+				]
+			}
+		],
+		attributes: [
+			"public",
+			"auto",
+			"ansi",
+			"windowsruntime"
+		],
+		'extends': 'Module'
+	}
+	seeds.unshift('Platform.Object');
+
+	// sort again and de-dupe
+	seeds = seeds.sort();
+	seeds = seeds.filter(function(elem, pos) {
+		return seeds.indexOf(elem) == pos;
+	});
+	next();
+}
+
+/*
+ * Generates the native wrappers for the list of classes in seeds.
+ */
+function generateWrappers(next) {
+	// Now that we have the full list of types, let's stub them
+	async.eachLimit(seeds, 25, function(classname, callback) {
+		var classDefinition = all_classes[classname];
+		console.log('Generating stubs for: ' + classname);
+
 		// Skip blacklisted types
 		if (blacklist.indexOf(classname) != -1) {
-			continue;
+			callback();
+			return;
 		}
-		classDefinition = all_classes[classname];
+		
 		if (!classDefinition) {
-			console.log("Unable to find metadata for: " + classname);
-			continue;
+			callback("Something went wrong. No metadata for type: " + classname);
+			return;
 		}
-		// skip enums and structs
+
+		// skip structs and enums
 		if (classDefinition['extends'] && 
 			(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
 			classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
-			continue;	
+			callback();
+			return;
 		}
 
-		classes += "#include \"" + classname + ".hpp\"\r\n";
-		loader_switch += "\t\telse if (path == \"" + classname + "\") {\r\n\t\t\tinstantiated = context.CreateObject(JSExport<::Titanium::" + classname.replace(/\./g, '::') + ">::Class());\r\n";
-		
-		// Load up enum dependencies!
-		// Add dependencies of current type
-		enum_dependencies = getEnumDependencies(classname, all_classes);
-		if (enum_dependencies && enum_dependencies.length > 0) {
-			enum_loader += "\t\telse if (type_name == \"" + classname + "\") {\r\n";
-			// Call registerEnums for parent type too
-			if (classDefinition['extends'] &&
-				classDefinition['extends'].indexOf('[mscorlib]') == -1) {
-				enum_loader += "\t\t\tregisterEnums(context, \"" + classDefinition['extends'] + "\");\r\n";
-			}
-			for (var j = 0; j < enum_dependencies.length; j++) {
-				dependency = enum_dependencies[j];
+		// Stub the header
+		//console.log("Stubbing header for " + classname);
+		var hpp_file = path.join(__dirname, 'templates', 'Proxy.hpp');
+		fs.readFile(hpp_file, 'utf8', function (err, data) {
+			if (err) callback(err);
+
+			var generated_proxy_header = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends']}, {filename: hpp_file});
+			// TODO Only write new contents if they differ from existing!
+			fs.writeFile(path.join(dest, 'include', classname + '.hpp'), generated_proxy_header, {flags : 'w'}, function(err) {
+				if (err) callback(err);
+			});
+		});
+
+		// Stub the implementation
+		//console.log("Stubbing implementation for " + classname);
+		var cpp_file = path.join(__dirname, 'templates', 'Proxy.cpp');
+		fs.readFile(cpp_file, 'utf8', function (err, data) {
+			if (err) callback(err);
+
+			var generated_proxy_impl = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends'], dependencies: classDefinition.dependencies}, {filename: cpp_file});
 			
-				// hook the value up
-				// TODO make use of native_to_js.cpp ejs template for this?
-				enum_loader += "\t\t\tregisterValue(context, \"" + dependency + "\", context.CreateNumber(static_cast<int32_t>(static_cast<int>(::" + dependency.replace(/\./g, '::') + "))));\r\n";		
-			}
-			enum_loader += "\t\t}\r\n";
-			loader_switch += "\t\t\tregisterEnums(context, path);\r\n";
-		}
-		loader_switch += "\t\t}\r\n";
-	}
-	loader_switch += "\t\telse {\r\n\t\t\treturn false;\r\n\t\t}\r\n\t\t// END_SWITCH";
-	loader_switch = "// INSERT_SWITCH\r\n\t\t" + loader_switch.substring(7); // drop first "\t\telse "
-	enum_loader = "// INSERT_ENUMS\r\n\t\t" + enum_loader.substring(7) + "\t\t// END_ENUMS"; // drop first "\t\telse "
-	classes = "// INSERT_INCLUDES\r\n" + classes + "// END_INCLUDES";
+			// TODO Only write new contents if they differ from existing!
+			fs.writeFile(path.join(dest, 'src', classname + '.cpp'), generated_proxy_impl, {flags : 'w'}, function(err) {
+				if (err) {
+					callback(err);
+				}
+				else {
+					callback();
+				}
+			});
+		});
+	}, next);
+}
 
-	data = data.substring(0, data.indexOf('// INSERT_INCLUDES')) + classes + data.substring(data.indexOf('// END_INCLUDES') + 15);
-    data = data.substring(0, data.indexOf('// INSERT_SWITCH')) + loader_switch + data.substring(data.indexOf('// END_SWITCH') + 13);
-    data = data.substring(0, data.indexOf('// INSERT_ENUMS')) + enum_loader + data.substring(data.indexOf('// END_ENUMS') + 12);
-
-	fs.writeFile (require_hook, data, function(err) {
+/**
+ * Generates the code in WindowsNativeModuleLoader to handle require calls for native types.
+ * This will load up the type in JS, hang it off global under the fully qualified type name,
+ * and will also register any enum values in the appropriate namespace for any enum dependencies of the type.
+ */
+function generateRequireHook(next) {
+	// Now we'll add all the types we know about as includes into our require hook class
+	// This let's us load these types by name using require!
+	console.log("Adding types to require hook implementation...");
+	fs.readFile(require_hook, 'utf8', function (err, data) {
 		if (err) throw err;
-	});
-});
 
+		var classes = "", // built up includes
+			loader_switch = "", // built up type instantiation/loading code
+			enum_loader = "", // built up block for loading enum dependencies of a type
+			classname = "", // name of current type in outer loop
+			classDefinition, // definition of current type in outer loop
+			dependency, // current enum dependency
+			enum_dependencies = []; // list of all enum dependencies for this type
+
+		// Add our includes
+		for (var i = 0; i < seeds.length; i++) {
+			classname = seeds[i];
+			// Skip blacklisted types
+			if (blacklist.indexOf(classname) != -1) {
+				continue;
+			}
+			classDefinition = all_classes[classname];
+			if (!classDefinition) {
+				console.log("Unable to find metadata for: " + classname);
+				continue;
+			}
+			// skip enums and structs
+			if (classDefinition['extends'] && 
+				(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
+				classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
+				continue;	
+			}
+
+			classes += "#include \"" + classname + ".hpp\"\r\n";
+			loader_switch += "\t\telse if (path == \"" + classname + "\") {\r\n\t\t\tinstantiated = context.CreateObject(JSExport<::Titanium::" + classname.replace(/\./g, '::') + ">::Class());\r\n";
+			
+			// Load up enum dependencies!
+			// Add dependencies of current type
+			enum_dependencies = getEnumDependencies(classname, all_classes);
+			if (enum_dependencies && enum_dependencies.length > 0) {
+				enum_loader += "\t\telse if (type_name == \"" + classname + "\") {\r\n";
+				// Call registerEnums for parent type too
+				if (classDefinition['extends'] &&
+					classDefinition['extends'].indexOf('[mscorlib]') == -1) {
+					enum_loader += "\t\t\tregisterEnums(context, \"" + classDefinition['extends'] + "\");\r\n";
+				}
+				for (var j = 0; j < enum_dependencies.length; j++) {
+					dependency = enum_dependencies[j];
+				
+					// hook the value up
+					// TODO make use of native_to_js.cpp ejs template for this?
+					enum_loader += "\t\t\tregisterValue(context, \"" + dependency + "\", context.CreateNumber(static_cast<int32_t>(static_cast<int>(::" + dependency.replace(/\./g, '::') + "))));\r\n";		
+				}
+				enum_loader += "\t\t}\r\n";
+				loader_switch += "\t\t\tregisterEnums(context, path);\r\n";
+			}
+			loader_switch += "\t\t}\r\n";
+		}
+		loader_switch += "\t\telse {\r\n\t\t\treturn false;\r\n\t\t}\r\n\t\t// END_SWITCH";
+		loader_switch = "// INSERT_SWITCH\r\n\t\t" + loader_switch.substring(7); // drop first "\t\telse "
+		enum_loader = "// INSERT_ENUMS\r\n\t\t" + enum_loader.substring(7) + "\t\t// END_ENUMS"; // drop first "\t\telse "
+		classes = "// INSERT_INCLUDES\r\n" + classes + "// END_INCLUDES";
+
+		data = data.substring(0, data.indexOf('// INSERT_INCLUDES')) + classes + data.substring(data.indexOf('// END_INCLUDES') + 15);
+		data = data.substring(0, data.indexOf('// INSERT_SWITCH')) + loader_switch + data.substring(data.indexOf('// END_SWITCH') + 13);
+		data = data.substring(0, data.indexOf('// INSERT_ENUMS')) + enum_loader + data.substring(data.indexOf('// END_ENUMS') + 12);
+
+		fs.writeFile(require_hook, data, function(err) {
+			next(err);
+		});
+	});
+}
+
+/*
+ * This adds the real cast implementation to Platform::Object natiev wrapper allowing us to unwrap,
+ * wrap the object in the more specific type wrapper and return that new wrapper.
+ */
+function generateCasting(next) {
+	// FIXME We need to hook this in same class as we hook all the other stuff - the require hook! Otherwise Platform.Object has to include every other type in it!
+	console.log("Adding casting method to Platform.Object implementation...");
+	fs.readFile(platform_object_cpp, 'utf8', function (err, data) {
+		if (err) throw err;
+
+		var classes = "", // built up #includes
+			cast_block = "",
+			classname = "", // name of current type in outer loop
+			classDefinition; // definition of current type in outer loop
+
+		// Add our includes
+		for (var i = 0; i < seeds.length; i++) {
+			classname = seeds[i];
+			// Skip blacklisted types
+			if (blacklist.indexOf(classname) != -1) {
+				continue;
+			}
+			classDefinition = all_classes[classname];
+			if (!classDefinition) {
+				console.log("Unable to find metadata for: " + classname);
+				continue;
+			}
+			// skip enums and structs
+			if (classDefinition['extends'] && 
+				(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
+				classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
+				continue;	
+			}
+			classes += "#include \"" + classname + ".hpp\"\r\n";
+			cast_block += "\t\t\t\telse if (to_cast == \"" + classname + "\") {\r\n" +
+				"\t\t\t\t\tauto result = context.CreateObject(JSExport<Titanium::" + classname.replace(/\./g, '::') + ">::Class());\r\n" + 
+				"\t\t\t\t\tauto result_wrapper = result.GetPrivate<Titanium::" + classname.replace(/\./g, '::') + ">();\r\n" +
+				"\t\t\t\t\tresult_wrapper->wrap(dynamic_cast<::" + classname.replace(/\./g, '::') + "^>(unwrap()));\r\n" +
+				"\t\t\t\t\treturn result;\r\n" +
+				"\t\t\t\t}\r\n";
+		}
+		cast_block = "auto to_cast = static_cast<std::string>(_0);\r\n\t\t\t\t" + cast_block.substring(9); // drop first "\t\telse "
+		classes = "// INSERT_INCLUDES\r\n" + classes + "// END_INCLUDES";
+
+		var include_index = data.indexOf('#include "Platform.Object.hpp"');
+		data = data.substring(0, include_index) + classes + data.substring(include_index + 31);
+
+		// Insert cast block
+		data = data.substring(0, data.indexOf('auto to_cast =')) + cast_block + data.substring(data.indexOf('return result;') + 14);
+		// Replace #include "Platform.Object.hpp" with same includes as native module loader!
+		
+		
+		fs.writeFile(platform_object_cpp, data, function(err) {
+			next(err);
+		});
+	});
+}
+
+// The main work: initialize our set of types/dependencies,
+// generate our wrappers, then generate the cast/require stuff async.
+async.series([
+	function(callback){
+        initialize(callback);
+    },
+    function(callback){
+        generateWrappers(callback);
+    },
+    function(callback){
+	    async.parallel([
+		    function(callback){
+		        generateRequireHook(callback);
+		    },
+		     function(callback){
+		        generateCasting(callback);
+		    }
+		], callback);
+	}
+],
+// optional callback
+function(err, results) {
+	if (err) {
+		console.log(err);
+		process.exit(1);
+	}
+});
