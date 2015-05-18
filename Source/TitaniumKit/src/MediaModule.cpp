@@ -132,7 +132,6 @@ namespace Titanium
 		, averageMicrophonePower__(0)
 		, cameraFlashMode__(Media::CameraOption::FlashAuto)
 		, canRecord__(false)
-		, currentRoute__({js_context.CreateNull()})
 		, isCameraSupported__(false)
 		, peakMicrophonePower__(0)
 		, systemMusicPlayer__(get_context().CreateNull())
@@ -246,7 +245,7 @@ namespace Titanium
 		TITANIUM_LOG_WARN("MediaModule::takeScreenshot: Unimplemented");
 	}
 
-	void MediaModule::vibrate(std::vector<std::uint32_t> pattern) TITANIUM_NOEXCEPT
+	void MediaModule::vibrate(std::vector<std::chrono::milliseconds> pattern) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("MediaModule::vibrate: Unimplemented");
 	}
@@ -1248,9 +1247,9 @@ namespace Titanium
 	{
 		ENSURE_ARRAY_AT_INDEX(js_pattern, 0);
 		const auto js_pattern_array = static_cast<std::vector<JSValue>>(js_pattern);
-		std::vector<std::uint32_t> patterns;
+		std::vector<std::chrono::milliseconds> patterns;
 		for (const auto v : js_pattern_array) {
-			patterns.push_back(static_cast<std::uint32_t>(v));
+			patterns.push_back(std::chrono::seconds(static_cast<std::chrono::seconds::rep>(static_cast<std::uint32_t>(v))));
 		}
 		vibrate(patterns);
 		return get_context().CreateUndefined();

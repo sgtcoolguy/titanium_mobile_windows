@@ -39,5 +39,31 @@ namespace Titanium
 			return static_cast<std::underlying_type<VideoMediaType>::type>(videoMediaType);
 		}
 		
+		std::unordered_set<MusicMediaType> Constants::to_MusicMediaType(std::underlying_type<MusicMediaType>::type musicMediaTypes) TITANIUM_NOEXCEPT
+		{
+			std::unordered_set<MusicMediaType> musicMediaType_set;
+			static_cast<void>((musicMediaTypes & (1 << 0)) && musicMediaType_set.emplace(MusicMediaType::All).second);
+			static_cast<void>((musicMediaTypes & (1 << 1)) && musicMediaType_set.emplace(MusicMediaType::AnyAudio).second);
+			static_cast<void>((musicMediaTypes & (1 << 2)) && musicMediaType_set.emplace(MusicMediaType::AudioBook).second);
+			static_cast<void>((musicMediaTypes & (1 << 3)) && musicMediaType_set.emplace(MusicMediaType::Music).second);
+			static_cast<void>((musicMediaTypes & (1 << 4)) && musicMediaType_set.emplace(MusicMediaType::Podcast).second);
+			return musicMediaType_set;
+		}
+
+		std::underlying_type<MusicMediaType>::type Constants::to_underlying_type(const std::unordered_set<MusicMediaType>& musicMediaType_set) TITANIUM_NOEXCEPT
+		{
+			std::underlying_type<MusicMediaType>::type result = 0;
+			for (auto musicMediaType : musicMediaType_set) {
+				result |= static_cast<std::underlying_type<MusicMediaType>::type>(musicMediaType);
+			}
+
+			return result;
+		}
+
+		std::underlying_type<MusicMediaType>::type Constants::to_underlying_type(const MusicMediaType& musicMediaType) TITANIUM_NOEXCEPT
+		{
+			return static_cast<std::underlying_type<MusicMediaType>::type>(musicMediaType);
+		}
+		
 	} // namespace Media
 } // namespace Titanium

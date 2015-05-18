@@ -61,6 +61,8 @@ set(SOURCE_TitaniumKit
   src/Module.cpp
   include/Titanium/Gesture.hpp
   src/Gesture.cpp
+  include/Titanium/ErrorResponse.hpp
+  src/ErrorResponse.cpp
   )
 
 set(SOURCE_TitaniumKit_detail
@@ -132,6 +134,8 @@ set(SOURCE_Media
   src/MediaModule.cpp
   include/Titanium/Media/Constants.hpp
   src/Media/Constants.cpp
+  include/Titanium/Media/CameraMediaItemType.hpp
+  src/Media/CameraMediaItemType.cpp
   include/Titanium/Media/CameraOptionsType.hpp
   src/Media/CameraOptionsType.cpp
   include/Titanium/Media/MediaQueryType.hpp

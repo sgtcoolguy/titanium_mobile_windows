@@ -19,7 +19,7 @@ namespace Titanium
 
 		/*!
 		  @struct
-		  @discussion An Object describing the current audio route.
+		  @discussion A full query descriptor for a filtering predicate.
 		  This is an abstract type. Any object meeting this description can be used where this type is used.
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/MediaQueryInfoType
 		*/

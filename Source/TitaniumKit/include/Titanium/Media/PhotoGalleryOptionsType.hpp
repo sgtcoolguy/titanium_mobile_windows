@@ -10,23 +10,36 @@
 #define _TITANIUM_MEDIA_PHOTOGALLERYOPTIONSTYPE_HPP_
 
 #include "Titanium/detail/TiBase.hpp"
+#include "Titanium/Media/Constants.hpp"
 
 namespace Titanium
 {
+
+	namespace UI
+	{
+		class View;
+	} // namespace UI
+
 	namespace Media
 	{
 		using namespace HAL;
 
 		/*!
 		  @struct
-		  @discussion An Object describing the current audio route.
+		  @discussion Simple object for specifying options to openPhotoGallery.
 		  This is an abstract type. Any object meeting this description can be used where this type is used.
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/PhotoGalleryOptionsType
 		*/
 		struct PhotoGalleryOptionsType
 		{
+			bool allowEditing;
+			bool animated;
+			std::int32_t arrowDirection;
+			bool autohide;
 			JSValue cancel;
 			JSValue error;
+			std::vector<MediaType> mediaTypes;
+			std::shared_ptr<Titanium::UI::View> popoverView;
 			JSValue success;
 		};
 		

@@ -15,22 +15,11 @@ namespace TitaniumWindows
 		: Titanium::NetworkModule(js_context)
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::NetworkModule::ctor Initialize");
-		change_event__ = NetworkInformation::NetworkStatusChanged += ref new NetworkStatusChangedEventHandler([this](Platform::Object^ sender) {
-			if (enable_change_event__) {
-				const auto ctx = get_context();
-				auto object = ctx.CreateObject();
-				object.SetProperty("networkType", js_get_networkType());
-				object.SetProperty("networkTypeName", js_get_networkTypeName());
-				object.SetProperty("online", js_get_online());
-				fireEvent("change", object);
-			}
-		});
 	}
 
 	NetworkModule::~NetworkModule()
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::NetworkModule::dtor");
-		NetworkInformation::NetworkStatusChanged -= change_event__;
 	}
 
 	Titanium::Network::TYPE NetworkModule::get_networkType() const TITANIUM_NOEXCEPT
@@ -95,7 +84,14 @@ namespace TitaniumWindows
 	{
 		Titanium::Module::enableEvent(event_name);
 		if (event_name == "change") {
-			enable_change_event__ = true;
+			change_event__ = NetworkInformation::NetworkStatusChanged += ref new NetworkStatusChangedEventHandler([this](Platform::Object^ sender) {
+				const auto ctx = get_context();
+				auto object = ctx.CreateObject();
+				object.SetProperty("networkType", js_get_networkType());
+				object.SetProperty("networkTypeName", js_get_networkTypeName());
+				object.SetProperty("online", js_get_online());
+				fireEvent("change", object);
+			});
 		}
 	}
 
@@ -103,7 +99,7 @@ namespace TitaniumWindows
 	{
 		Titanium::Module::disableEvent(event_name);
 		if (event_name == "change") {
-			enable_change_event__ = false;
+			NetworkInformation::NetworkStatusChanged -= change_event__;
 		}
 	}
 }

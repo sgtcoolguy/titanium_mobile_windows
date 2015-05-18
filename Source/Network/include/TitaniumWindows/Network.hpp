@@ -41,7 +41,6 @@ namespace TitaniumWindows
 		virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 	protected:
-		bool enable_change_event__ { false };
 		Windows::Foundation::EventRegistrationToken change_event__;
 	};
 

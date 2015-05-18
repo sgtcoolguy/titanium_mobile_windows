@@ -13,19 +13,22 @@
 
 namespace Titanium
 {
+	class Blob;
+
 	namespace Media
 	{
 		using namespace HAL;
 
 		/*!
 		  @struct
-		  @discussion An Object describing the current audio route.
+		  @discussion Options passed to Titanium.Media.previewImage.
 		  This is an abstract type. Any object meeting this description can be used where this type is used.
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/PreviewImageOptions
 		*/
 		struct PreviewImageOptions
 		{
 			JSValue error;
+			std::shared_ptr<Titanium::Blob> image;
 			JSValue success;
 		};
 		

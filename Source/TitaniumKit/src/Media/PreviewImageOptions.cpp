@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/Media/PreviewImageOptions.hpp"
+#include "Titanium/Blob.hpp"
 
 namespace Titanium
 {
@@ -16,8 +17,12 @@ namespace Titanium
 
 		PreviewImageOptions js_to_PreviewImageOptions(const JSObject& object)
 		{
+			const auto js_image = object.GetProperty("image");
+			ENSURE_MODULE_OBJECT(js_image, image, Titanium::Blob);
+
 			PreviewImageOptions config {
 				object.GetProperty("error"),
+				image,
 				object.GetProperty("success")
 			};
 			

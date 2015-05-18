@@ -10,6 +10,7 @@
 #define _TITANIUM_MEDIA_ROUTEDESCRIPTION_HPP_
 
 #include "Titanium/detail/TiBase.hpp"
+#include "Titanium/Media/Constants.hpp"
 
 namespace Titanium
 {
@@ -25,7 +26,8 @@ namespace Titanium
 		*/
 		struct RouteDescription
 		{
-			JSValue callback;
+			std::vector<AudioSessionPort> inputs;
+			std::vector<AudioSessionPort> outputs;
 		};
 		
 		RouteDescription js_to_RouteDescription(const JSObject& object);

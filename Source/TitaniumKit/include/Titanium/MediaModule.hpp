@@ -19,6 +19,7 @@
 #include "Titanium/Media/PreviewImageOptions.hpp"
 #include "Titanium/Media/RouteDescription.hpp"
 #include <unordered_map>
+#include <chrono>
 
 namespace Titanium
 {
@@ -256,7 +257,7 @@ namespace Titanium
 		  @abstract vibrate
 		  @discussion Makes the device vibrate.
 		*/
-		virtual void vibrate(std::vector<std::uint32_t> pattern) TITANIUM_NOEXCEPT;
+		virtual void vibrate(std::vector<std::chrono::milliseconds> pattern) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method

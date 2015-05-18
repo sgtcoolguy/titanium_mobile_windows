@@ -115,11 +115,11 @@ namespace Titanium
 
 		enum class MusicMediaType
 		{
-			All,
-			AnyAudio,
-			AudioBook,
-			Music,
-			Podcast
+			All       = 1 << 0,  // 1 << 0 == 1,
+			AnyAudio  = 1 << 1,  // 1 << 0 == 2,
+			AudioBook = 1 << 2,  // 1 << 0 == 4,
+			Music     = 1 << 3,  // 1 << 0 == 8,
+			Podcast   = 1 << 4,  // 1 << 0 == 16
 		};
 		
 		enum class MusicPlayerRepeat
@@ -258,13 +258,17 @@ namespace Titanium
 			static std::unordered_set<VideoMediaType> to_VideoMediaType(std::underlying_type<VideoMediaType>::type) TITANIUM_NOEXCEPT;
 			static std::underlying_type<VideoMediaType>::type to_underlying_type(const std::unordered_set<VideoMediaType>&) TITANIUM_NOEXCEPT;
 			static std::underlying_type<VideoMediaType>::type to_underlying_type(const VideoMediaType&) TITANIUM_NOEXCEPT;
+
+			static std::unordered_set<MusicMediaType> to_MusicMediaType(std::underlying_type<MusicMediaType>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<MusicMediaType>::type to_underlying_type(const std::unordered_set<MusicMediaType>&) TITANIUM_NOEXCEPT;
+			static std::underlying_type<MusicMediaType>::type to_underlying_type(const MusicMediaType&) TITANIUM_NOEXCEPT;
 		};
 
 
 	} // namespace Media
 } // namespace Titanium
 
-// Provide a hash function so that a Titanium::Media::VideoMediaType can be stored in an
+// Provide a hash function so that a Media types can be stored in an
 // unordered container.
 namespace std
 {
@@ -281,6 +285,21 @@ namespace std
 			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
+
+	template <>
+	struct hash<Titanium::Media::MusicMediaType>
+	{
+		using argument_type = Titanium::Media::MusicMediaType;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast<underlying_type>(property_attribute));
+		}
+	};
+	
 }
 
 
