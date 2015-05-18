@@ -42,6 +42,11 @@ if (methods) {
 
 // gather all the types referenced in this file! We calculated this already in stub.js (assuming we set seeds)
 var types_to_include = dependencies || [full_name];
+// sort and de-dupe
+types_to_include = types_to_include.sort();
+types_to_include = types_to_include.filter(function(elem, pos) {
+    return types_to_include.indexOf(elem) == pos;
+});
 -%>
 /**
  * Windows Native Wrapper for <%= full_name %>
@@ -71,9 +76,9 @@ for (var i = 0; i < types_to_include.length; i++) {
 	}
 	// Skip enums and structs
 	var other_type = metadata[type_name];
-	if (other_type['extends'] && 
+	if (!other_type || (other_type['extends'] && 
 		(other_type['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
-		other_type['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
+		other_type['extends'].indexOf("[mscorlib]System.ValueType") == 0))) {
 		continue;	
 	}
 -%>

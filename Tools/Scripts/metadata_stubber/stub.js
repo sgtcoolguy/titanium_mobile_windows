@@ -8,23 +8,14 @@ var fs = require('fs'),
 	// where do we stick our wrappers?
 	dest = path.join(__dirname, '..', '..', '..', 'Source', 'Titanium'),
 	require_hook = path.join(__dirname, '..', '..', '..', 'Source', 'Titanium', 'src', 'WindowsNativeModuleLoader.cpp'),
-	// Start with seeds from my simple hello world app
-	//seeds = [
-	//	'Windows.UI.Xaml.Controls.Canvas',
-	//	'Windows.UI.Xaml.Controls.TextBlock',
-	//	'Windows.UI.Xaml.Controls.Page',
-	//	'Windows.UI.Xaml.Window'
-	//],
-	// Seeds from life
 	seeds = [
-		'Windows.UI.Xaml.Window',
-    	'Windows.UI.Colors',
-   		'Windows.UI.Xaml.Media.SolidColorBrush',
-    	'Windows.UI.Xaml.Controls.Canvas',
-    	'Windows.UI.Xaml.Controls.TextBlock'
-    ],
-	// TODO Let's assume everything for now
-	//seeds = [],
+		"Windows.UI.Xaml.Window",
+		"Windows.UI.Colors",
+		"Windows.UI.Xaml.Media.SolidColorBrush",
+    	"Windows.UI.Xaml.Controls.Canvas",
+    	"Windows.UI.Xaml.Controls.TextBlock",
+		//"Windows.UI.Xaml.Visibility"
+	],
 	// We need to skip/map a number of collections to JSArray and JSObject
 	// We handle these types specially
 	blacklist = [
@@ -66,11 +57,12 @@ function normalizeType(typeName) {
 	if (type.indexOf('>') == (type.length - 1)) {
 		type = type.substring(0, type.length - 1);
 	}
-	if (type.indexOf('[]') == (type.length - 2)) {
-		type = type.substring(0, type.length - 2);
-	}
+	// must drop r& before []
 	if (type.indexOf('&') == (type.length - 1)) {
 		type = type.substring(0, type.length - 1);
+	}
+	if (type.indexOf('[]') == (type.length - 2)) {
+		type = type.substring(0, type.length - 2);
 	}
 	if (type == 'object') {
 		type = 'Platform.Object';
@@ -132,13 +124,6 @@ function getDependencies(classname) {
 		return types;
 	}
 
-	// skip structs and enums
-	//if (classDefinition['extends'] && 
-	//	(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
-	//	classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
-	//	return types;
-	//}
-
 	// Add parent
 	if (classDefinition['extends']) {
 		addNewTypes(classDefinition['extends'], types);
@@ -195,6 +180,12 @@ if (seeds.length == 0) {
 	}
 }
 
+// Sort seeds by name and remove duplicates
+seeds = seeds.sort();
+seeds = seeds.filter(function(elem, pos) {
+    return seeds.indexOf(elem) == pos;
+});
+
 // Using the seeds, generate the list of types we need to stub!
 // We've specified seed types, use those to gather the full list of types we'll need to generate
 var todo = [];
@@ -203,19 +194,20 @@ for (var i = 0; i < seeds.length; i++) {
 }
 while (todo.length > 0) {
 	var classname = todo.shift();
-	console.log("Gathering dependencies of: " + classname);
+	//console.log("Gathering dependencies of: " + classname);
 	var dependencies = getDependencies(classname);
 	// are there any new types here?
 	for (var j = 0; j < dependencies.length; j++) {
 		var the_dependency = dependencies[j];
 		if (seeds.indexOf(the_dependency) == -1) {
 			// new type. Add it to our seed listing and our queue to gather it's dependencies
-			console.log("Adding type to list: " + the_dependency);
+			//console.log("Adding type to list: " + the_dependency);
 			seeds.unshift(the_dependency);
 			todo.unshift(the_dependency);
 		}
 	}
 }
+
 
 // Generate a base class that everything can extend where we can hang a single unwrap method to get back an Object!
 all_classes['Platform.Object'] = {
@@ -233,10 +225,17 @@ all_classes['Platform.Object'] = {
 seeds.unshift('Platform.Object');
 // TODO Add a cast method that takes one String, and generate a huuuuge block of conversions inside it for every type we know of below!
 
+
+// sort again and de-dupe
+seeds = seeds.sort();
+seeds = seeds.filter(function(elem, pos) {
+    return seeds.indexOf(elem) == pos;
+});
+
 // Now that we have the full list of types, let's stub them
-async.each(seeds, function(classname, callback) {
+async.eachLimit(seeds, 25, function(classname, callback) {
 	var classDefinition = all_classes[classname];
-	console.log('Processing class ' + classname);
+	console.log('Generating stubs for: ' + classname);
 
 	// Skip blacklisted types
 	if (blacklist.indexOf(classname) != -1) {
@@ -258,7 +257,7 @@ async.each(seeds, function(classname, callback) {
 	}
 
 	// Stub the header
-	console.log("Stubbing header for " + classname);
+	//console.log("Stubbing header for " + classname);
 	var hpp_file = path.join(__dirname, 'templates', 'Proxy.hpp');
 	fs.readFile(hpp_file, 'utf8', function (err, data) {
 		if (err) callback(err);
@@ -271,7 +270,7 @@ async.each(seeds, function(classname, callback) {
 	});
 
 	// Stub the implementation
-	console.log("Stubbing implementation for " + classname);
+	//console.log("Stubbing implementation for " + classname);
 	var cpp_file = path.join(__dirname, 'templates', 'Proxy.cpp');
 	fs.readFile(cpp_file, 'utf8', function (err, data) {
 		if (err) callback(err);
@@ -313,7 +312,7 @@ function getEnumDependencies(type_name, metadata) {
 			dependency = classDefinition.dependencies[j];
 			dependency_definition = metadata[dependency];
 			// for any enum dependencies...
-			if (dependency_definition['extends'] && 
+			if (dependency_definition && dependency_definition['extends'] && 
 				dependency_definition['extends'].indexOf("[mscorlib]System.Enum") == 0) {
 				for (field_name in dependency_definition.fields) {
 					// only register public fields

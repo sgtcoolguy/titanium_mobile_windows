@@ -31,6 +31,7 @@ if (type == 'bool') {
 			auto <%= to_assign %> = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(<%= argument_name %>));
 <%
 } else if (type.indexOf('valuetype ') == 0) {
+	// FIXME Handle primitive arrays of structs!
 	var real_type_name = type.substring(10).trim();
 	// May ask for reference to a type as an argument to a method, so let's drop the trailing & for now.
 	if (real_type_name.lastIndexOf('&') == real_type_name.length - 1) {
@@ -40,8 +41,8 @@ if (type == 'bool') {
 	if (!other_type) {
 		console.log("No metadata found for: " + real_type_name); // useful to know what type we need to pull into our stripped down metadata
 	}
-	var is_enum = (other_type.extends == '[mscorlib]System.Enum');
-	var is_struct = (other_type.extends == '[mscorlib]System.ValueType');
+	var is_enum = (other_type && other_type.extends == '[mscorlib]System.Enum');
+	var is_struct = (other_type && other_type.extends == '[mscorlib]System.ValueType');
 	var windows_type_name = real_type_name.to_windows_name();
 
 	if (is_struct) {
