@@ -244,11 +244,11 @@ namespace TitaniumWindows
 				component->RenderTransform = group;
 
 				const auto top = animation->get_top();
-				if (top != 0) { // FIXME How can I tell if we've actually specified this or not? We need equivalent of Option/IReference type...
+				if (top) {
 					// TODO Bottom
 					// Because we're animating a transform, the value behaves like setting By, not To. So we need to calculate the difference and set our target To to that value
 					const auto current_top = Windows::UI::Xaml::Controls::Canvas::GetTop(component);
-					const auto diff = top - current_top;
+					const auto diff = *top - current_top;
 					
 					const auto top_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 					top_anim->To = diff;
@@ -263,10 +263,10 @@ namespace TitaniumWindows
 				// If they specify just bottom, no top or height, just translate bottom?
 
 				const auto left = animation->get_left(); // TODO Right
-				if (left != 0) { // FIXME How can I tell if we've actually specified this or not?
+				if (left) {
 					// TODO If "right", we need to calculate the current position of "right", take the diff and then do a transform By, not To
 					const auto current_left = Windows::UI::Xaml::Controls::Canvas::GetLeft(component);
-					const auto diff = left - current_left;
+					const auto diff = *left - current_left;
 
 					const auto left_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 					left_anim->To = diff;
@@ -279,10 +279,10 @@ namespace TitaniumWindows
 
 				// For width and height, we have to calculate the scale to use to achieve desired height/width, since animating the Height or Width properties are ppor performance-wise and best avoided.
 				const auto height = animation->get_height();
-				if (height != 0) { // FIXME How can I tell if we've actually specified this or not?
+				if (height) {
 					const auto height_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 					const auto current_height = component->Height;
-					const auto scaleY = height / current_height;
+					const auto scaleY = *height / current_height;
 					height_anim->To = scaleY;  // TODO Need to determine scale to use to achieve the desired height!
 					height_anim->EasingFunction = ease;
 					storyboard->SetTargetProperty(height_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleY)");
@@ -291,10 +291,10 @@ namespace TitaniumWindows
 				}
 
 				const auto width = animation->get_width();
-				if (width != 0) { // FIXME How can I tell if we've actually specified this or not? Use Platform::IBox<T>!
+				if (width) {
 					const auto width_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 					const auto current_width = component->Width;
-					const auto scaleX = height / current_width;
+					const auto scaleX = *width / current_width;
 					width_anim->To = scaleX;
 					width_anim->EasingFunction = ease;
 					storyboard->SetTargetProperty(width_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleX)");
@@ -339,9 +339,9 @@ namespace TitaniumWindows
 
 			// opacity
 			const auto opacity = animation->get_opacity();
-			if (opacity >= 0) { // assume negative opacity means we never set one!
+			if (opacity) {
 				const auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
-				double_anim->To = static_cast<double>(opacity);
+				double_anim->To = *opacity;
 				double_anim->EasingFunction = ease;
 
 				storyboard->SetTargetProperty(double_anim, "Opacity");
@@ -351,10 +351,10 @@ namespace TitaniumWindows
 
 			// zIndex
 			const auto zIndex = animation->get_zIndex();
-			const auto current_zIndex = Windows::UI::Xaml::Controls::Canvas::GetZIndex(component);
-			if (zIndex != current_zIndex) {
+			if (zIndex) {
 				const auto zIndex_anim = ref new Windows::UI::Xaml::Media::Animation::ObjectAnimationUsingKeyFrames();
-				
+			
+				const auto current_zIndex = Windows::UI::Xaml::Controls::Canvas::GetZIndex(component);
 				// FIXME This just transitions from current zIndex to new all at once at end of animation. We need to do our own interpolation based on the curve!
 				const auto start_frame = ref new Windows::UI::Xaml::Media::Animation::DiscreteObjectKeyFrame();
 				start_frame->Value = current_zIndex;
@@ -366,7 +366,7 @@ namespace TitaniumWindows
 				zIndex_anim->KeyFrames->Append(start_frame);
 
 				const auto end_frame = ref new Windows::UI::Xaml::Media::Animation::DiscreteObjectKeyFrame();
-				end_frame->Value = zIndex;
+				end_frame->Value = *zIndex;
 				end_frame->KeyTime = Windows::UI::Xaml::Media::Animation::KeyTimeHelper::FromTimeSpan(duration);
 				zIndex_anim->KeyFrames->Append(end_frame);
 

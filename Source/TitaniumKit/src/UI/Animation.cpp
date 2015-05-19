@@ -18,23 +18,15 @@ namespace Titanium
 			: Module(js_context),
 			autoreverse__(false),
 			backgroundColor__(""),
-			bottom__(0),
 			color__(""),
 			curve__(ANIMATION_CURVE::EASE_IN), // FIXME on iOS, leaving the default value actually uses dfeault ease here: https://developer.apple.com/library/mac/documentation/Cocoa/Reference/CAMediaTimingFunction_class/index.html#//apple_ref/doc/constant_group/Predefined_Timing_Functions
 			// which is NOT lineaer, and NOT the same as that used for EASE_IN. Basically it's an unexposed "other" ease function!
 			delay__(0),
 			duration__(0),
-			height__(0),
-			left__(0),
-			opacity__(-1),
 			opaque__(true),
 			repeat__(1),
-			right__(0),
-			top__(0),
 			transition__(0),
-			visible__(true),
-			width__(0),
-			zIndex__(1)
+			visible__(true)
 		{
 			TITANIUM_LOG_DEBUG("Animation:: ctor ", this);
 		}
@@ -49,7 +41,7 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_READWRITE(Animation, std::string, backgroundColor)
 
-		TITANIUM_PROPERTY_READWRITE(Animation, double, bottom)
+		TITANIUM_PROPERTY_READWRITE(Animation, boost::optional<double>, bottom)
 
 		TITANIUM_PROPERTY_READWRITE(Animation, Point, center)
 
@@ -61,19 +53,19 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_READWRITE(Animation, std::chrono::milliseconds, duration)
 
-		TITANIUM_PROPERTY_READWRITE(Animation, double, height)
+		TITANIUM_PROPERTY_READWRITE(Animation, boost::optional<double>, height)
 
-		TITANIUM_PROPERTY_READWRITE(Animation, double, left)
+		TITANIUM_PROPERTY_READWRITE(Animation, boost::optional<double>, left)
 
-		TITANIUM_PROPERTY_READWRITE(Animation, double, opacity)
+		TITANIUM_PROPERTY_READWRITE(Animation, boost::optional<double>, opacity)
 
 		TITANIUM_PROPERTY_READWRITE(Animation, bool, opaque)
 
 		TITANIUM_PROPERTY_READWRITE(Animation, uint32_t, repeat)
 
-		TITANIUM_PROPERTY_READWRITE(Animation, double, right)
+		TITANIUM_PROPERTY_READWRITE(Animation, boost::optional<double>, right)
 
-		TITANIUM_PROPERTY_READWRITE(Animation, double, top)
+		TITANIUM_PROPERTY_READWRITE(Animation, boost::optional<double>, top)
 
 		TITANIUM_PROPERTY_READWRITE(Animation, std::shared_ptr<TwoDMatrix>, transform)
 
@@ -83,9 +75,9 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_READWRITE(Animation, bool, visible)
 
-		TITANIUM_PROPERTY_READWRITE(Animation, double, width)
+		TITANIUM_PROPERTY_READWRITE(Animation, boost::optional<double>, width)
 
-		TITANIUM_PROPERTY_READWRITE(Animation, uint32_t, zIndex)
+		TITANIUM_PROPERTY_READWRITE(Animation, boost::optional<uint32_t>, zIndex)
 
 		void Animation::JSExportInitialize() {
 			JSExport<Animation>::SetClassVersion(1);
@@ -198,7 +190,11 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Animation, bottom)
 		{
-			return get_context().CreateNumber(get_bottom());
+			auto bottom = get_bottom();
+			if (bottom) {
+				return get_context().CreateNumber(*bottom);
+			}
+			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_PROPERTY_SETTER(Animation, bottom)
@@ -272,7 +268,11 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Animation, height)
 		{
-			return get_context().CreateNumber(get_height());
+			auto height = get_height();
+			if (height) {
+				return get_context().CreateNumber(*height);
+			}
+			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_PROPERTY_SETTER(Animation, height)
@@ -284,7 +284,11 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Animation, left)
 		{
-			return get_context().CreateNumber(get_left());
+			auto left = get_left();
+			if (left) {
+				return get_context().CreateNumber(*left);
+			}
+			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_PROPERTY_SETTER(Animation, left)
@@ -296,7 +300,11 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Animation, opacity)
 		{
-			return get_context().CreateNumber(get_opacity());
+			auto opacity = get_opacity();
+			if (opacity) {
+				return get_context().CreateNumber(*opacity);
+			}
+			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_PROPERTY_SETTER(Animation, opacity)
@@ -332,7 +340,11 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Animation, right)
 		{
-			return get_context().CreateNumber(get_right());
+			auto right = get_right();
+			if (right) {
+				return get_context().CreateNumber(*right);
+			}
+			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_PROPERTY_SETTER(Animation, right)
@@ -344,7 +356,11 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Animation, top)
 		{
-			return get_context().CreateNumber(get_top());
+			auto top = get_top();
+			if (top) {
+				get_context().CreateNumber(*top);
+			}
+			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_PROPERTY_SETTER(Animation, top)
@@ -406,7 +422,11 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Animation, width)
 		{
-			return get_context().CreateNumber(get_width());
+			auto width = get_width();
+			if (width) {
+				return get_context().CreateNumber(*width);
+			}
+			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_PROPERTY_SETTER(Animation, width)
@@ -418,7 +438,11 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Animation, zIndex)
 		{
-			return get_context().CreateNumber(get_zIndex());
+			auto zIndex = get_zIndex();
+			if (zIndex) {
+				return get_context().CreateNumber(*zIndex);
+			}
+			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_PROPERTY_SETTER(Animation, zIndex)

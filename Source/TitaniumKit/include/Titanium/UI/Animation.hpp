@@ -13,6 +13,7 @@
 #include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/2DMatrix.hpp"
+#include "boost\optional.hpp"
 
 namespace Titanium
 {
@@ -59,7 +60,7 @@ namespace Titanium
 			  @abstract bottom
 			  @discussion Value of the `bottom` property at the end of the animation.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(double, bottom);
+			TITANIUM_PROPERTY_IMPL_DEF(boost::optional<double>, bottom);
 
 			/*!
 			  @property
@@ -101,21 +102,21 @@ namespace Titanium
 			  @abstract height
 			  @discussion Value of the `height` property at the end of the animation.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(double, height);
+			TITANIUM_PROPERTY_IMPL_DEF(boost::optional<double>, height);
 
 			/*!
 			  @property
 			  @abstract left
 			  @discussion Value of the `left` property at the end of the animation.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(double, left);
+			TITANIUM_PROPERTY_IMPL_DEF(boost::optional<double>, left);
 
 			/*!
 			  @property
 			  @abstract opacity
 			  @discussion Value of the `opacity` property at the end of the animation.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(double, opacity);
+			TITANIUM_PROPERTY_IMPL_DEF(boost::optional<double>, opacity);
 
 			/*!
 			  @property
@@ -136,14 +137,14 @@ namespace Titanium
 			  @abstract right
 			  @discussion Value of the `right` property at the end of the animation.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(double, right);
+			TITANIUM_PROPERTY_IMPL_DEF(boost::optional<double>, right);
 
 			/*!
 			  @property
 			  @abstract top
 			  @discussion Value of the `top` property at the end of the animation.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(double, top);
+			TITANIUM_PROPERTY_IMPL_DEF(boost::optional<double>, top);
 
 			/*!
 			  @property
@@ -178,14 +179,14 @@ namespace Titanium
 			  @abstract width
 			  @discussion Value of the `width` property at the end of the animation.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(double, width);
+			TITANIUM_PROPERTY_IMPL_DEF(boost::optional<double>, width);
 
 			/*!
 			  @property
 			  @abstract zIndex
 			  @discussion Value of the `zIndex` property at the end of the animation.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(uint32_t, zIndex);
+			TITANIUM_PROPERTY_IMPL_DEF(boost::optional<uint32_t>, zIndex);
 
 			Animation(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
@@ -294,25 +295,25 @@ namespace Titanium
 				Point anchorPoint__;
 				bool autoreverse__;
 				std::string backgroundColor__;
-				double bottom__;
+				boost::optional<double> bottom__;
 				Point center__;
 				std::string color__;
 				ANIMATION_CURVE curve__;
 				std::chrono::milliseconds delay__;
 				std::chrono::milliseconds duration__;
-				double height__;
-				double left__;
-				double opacity__;
+				boost::optional<double> height__;
+				boost::optional<double> left__;
+				boost::optional<double> opacity__;
 				bool opaque__;
 				uint32_t repeat__;
-				double right__;
-				double top__;
+				boost::optional<double> right__;
+				boost::optional<double> top__;
 				std::shared_ptr<Titanium::UI::TwoDMatrix> transform__;
 				uint32_t transition__;
 				std::shared_ptr<Titanium::UI::View> view__;
 				bool visible__;
-				double width__;
-				uint32_t zIndex__;
+				boost::optional<double> width__;
+				boost::optional<uint32_t> zIndex__;
 #pragma warning(pop)
 		};
 
