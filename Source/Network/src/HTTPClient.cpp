@@ -19,12 +19,7 @@ namespace TitaniumWindows
 		HTTPClient::HTTPClient(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Titanium::Network::HTTPClient(js_context)
 		{
-			TITANIUM_LOG_DEBUG("TitaniumWindows::Network::HTTPClient::ctor Initialize");
-
-			responseData__ = std::vector<std::uint8_t>();
-			responseDataLen__ = 0;
-			readyState__ = Titanium::Network::N_REQUEST_STATE_UNSENT;
-			disposed__ = false;
+			TITANIUM_LOG_DEBUG("TitaniumWindows::Network::HTTPClient::ctor");
 		}
 
 		HTTPClient::~HTTPClient()
@@ -32,7 +27,6 @@ namespace TitaniumWindows
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Network::HTTPClient::dtor");
 			abort();
 
-			disposed__ = true;
 			filter__ = nullptr;
 			httpClient__ = nullptr;
 			dispatcherTimer__ = nullptr;
@@ -53,11 +47,11 @@ namespace TitaniumWindows
 			}
 		}
 
-		void HTTPClient::clearCookies(const std::string& url) TITANIUM_NOEXCEPT
+		void HTTPClient::clearCookies(const std::string& location) TITANIUM_NOEXCEPT
 		{
 			auto filter = ref new Windows::Web::Http::Filters::HttpBaseProtocolFilter();
 
-			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url));
+			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location));
 			auto cookieCollection = filter->CookieManager->GetCookies(uri);
 
 			Windows::Foundation::Collections::IIterator<Windows::Web::Http::HttpCookie^>^ iterator = cookieCollection->First();
@@ -77,18 +71,18 @@ namespace TitaniumWindows
 			}
 		}
 
-		void HTTPClient::open(const std::string& method, const std::string& url) TITANIUM_NOEXCEPT
+		void HTTPClient::open(const std::string& method, const std::string& location) TITANIUM_NOEXCEPT
 		{
-			method__ = N_HTTPCLIENT_METHOD_GET;
+			method__ = Titanium::Network::RequestMethod::Get;
 			if (method == "DELETE") {
-				method__ = N_HTTPCLIENT_METHOD_DELETE;
+				method__ = Titanium::Network::RequestMethod::Delete;
 			} else if (method == "POST") {
-				method__ = N_HTTPCLIENT_METHOD_POST;
+				method__ = Titanium::Network::RequestMethod::Post;
 			} else if (method == "PUT") {
-				method__ = N_HTTPCLIENT_METHOD_PUT;
+				method__ = Titanium::Network::RequestMethod::Put;
 			}
 
-			url__ = url;
+			location__ = location;
 			filter__ = ref new Windows::Web::Http::Filters::HttpBaseProtocolFilter();
 			httpClient__ = ref new Windows::Web::Http::HttpClient(filter__);
 			cancellationTokenSource__ = concurrency::cancellation_token_source();
@@ -100,7 +94,7 @@ namespace TitaniumWindows
 
 		void HTTPClient::send() TITANIUM_NOEXCEPT
 		{
-			Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url__));
+			Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
 			Windows::Web::Http::HttpRequestMessage^ request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Get, uri);
 
 			setRequestHeaders(request);
@@ -115,7 +109,7 @@ namespace TitaniumWindows
 				interruption_point();
 
 				// TODO Make a set_readystate method that sets the field and fires the callback and just call that
-				readyState__ = Titanium::Network::N_REQUEST_STATE_OPENED;
+				readyState__ = Titanium::Network::RequestState::Opened;
 				onreadystatechange(readyState__);
 
 				SerializeHeaders(response);
@@ -125,7 +119,7 @@ namespace TitaniumWindows
 			.then([this, token](Windows::Storage::Streams::IInputStream^ stream) {
 				interruption_point();
 
-				readyState__ = Titanium::Network::N_REQUEST_STATE_LOADING;
+				readyState__ = Titanium::Network::RequestState::Loading;
 				onreadystatechange(readyState__);
 
 				return HTTPResultAsync(stream, token);
@@ -135,7 +129,7 @@ namespace TitaniumWindows
 					// Check if any previous task threw an exception.
 					previousTask.get();
 
-					readyState__ = Titanium::Network::N_REQUEST_STATE_DONE;
+					readyState__ = Titanium::Network::RequestState::Done;
 					if (!disposed__ && httpClient__) {
 						onreadystatechange(readyState__);
 					}
@@ -160,12 +154,12 @@ namespace TitaniumWindows
 			Windows::Web::Http::IHttpContent^ postData;
 			Windows::Foundation::IAsyncOperationWithProgress<Windows::Web::Http::HttpResponseMessage^, Windows::Web::Http::HttpProgress>^ operation;
 
-			if (method__ == N_HTTPCLIENT_METHOD_GET) {
+			if (method__ == Titanium::Network::RequestMethod::Get) {
 				TITANIUM_LOG_WARN("HTTPClient::send: Data found during a GET request. Data will be ignored.");
 				send();
 			}
 
-			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url__));
+			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
 
 			// Startup a timer that will abort the request after the timeout period is reached.
 			startDispatcherTimer();
@@ -194,7 +188,7 @@ namespace TitaniumWindows
 				postData = ref new Windows::Web::Http::HttpFormUrlEncodedContent(keyValues);
 			}
 
-			if (method__ == N_HTTPCLIENT_METHOD_POST) {
+			if (method__ == Titanium::Network::RequestMethod::Post) {
 				operation = httpClient__->PostAsync(uri, postData);
 			} else {
 				operation = httpClient__->PutAsync(uri, postData);
@@ -204,7 +198,7 @@ namespace TitaniumWindows
 			.then([this](Windows::Web::Http::HttpResponseMessage^ response) {
 				interruption_point();
 
-				readyState__ = Titanium::Network::N_REQUEST_STATE_OPENED;
+				readyState__ = Titanium::Network::RequestState::Opened;
 				onreadystatechange(readyState__);
 
 				SerializeHeaders(response);
@@ -216,7 +210,7 @@ namespace TitaniumWindows
 					// Check if any previous task threw an exception.
 					previousTask.get();
 
-					readyState__ = Titanium::Network::N_REQUEST_STATE_DONE;
+					readyState__ = Titanium::Network::RequestState::Done;
 					if (!disposed__ && httpClient__) {
 						onreadystatechange(readyState__);
 
@@ -244,19 +238,19 @@ namespace TitaniumWindows
 			Windows::Web::Http::IHttpContent^ postData;
 			Windows::Foundation::IAsyncOperationWithProgress<Windows::Web::Http::HttpResponseMessage^, Windows::Web::Http::HttpProgress>^ operation;
 
-			if (method__ == N_HTTPCLIENT_METHOD_GET) {
+			if (method__ == Titanium::Network::RequestMethod::Get) {
 				TITANIUM_LOG_WARN("HTTPClient::send: Data found during a GET request. Data will be ignored.");
 				send();
 			}
 
-			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url__));
+			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
 
 			// Startup a timer that will abort the request after the timeout period is reached.
 			startDispatcherTimer();
 
 			postData = ref new Windows::Web::Http::HttpStringContent(TitaniumWindows::Utility::ConvertString(postDataStr));
 
-			if (method__ == N_HTTPCLIENT_METHOD_POST) {
+			if (method__ == Titanium::Network::RequestMethod::Post) {
 				operation = httpClient__->PostAsync(uri, postData);
 			} else {
 				operation = httpClient__->PutAsync(uri, postData);
@@ -268,7 +262,7 @@ namespace TitaniumWindows
 
 				SerializeHeaders(response);
 
-				readyState__ = Titanium::Network::N_REQUEST_STATE_OPENED;
+				readyState__ = Titanium::Network::RequestState::Opened;
 				onreadystatechange(readyState__);
 
 				return response;
@@ -278,7 +272,7 @@ namespace TitaniumWindows
 					// Check if any previous task threw an exception.
 					previousTask.get();
 
-					readyState__ = Titanium::Network::N_REQUEST_STATE_DONE;
+					readyState__ = Titanium::Network::RequestState::Done;
 					if (!disposed__ && httpClient__) {
 						onreadystatechange(readyState__);
 
@@ -315,26 +309,6 @@ namespace TitaniumWindows
 			}
 
 			return s_stream.str();
-		}
-
-		std::uint32_t HTTPClient::get_readyState() const TITANIUM_NOEXCEPT
-		{
-			return readyState__;
-		}
-
-		std::vector<std::uint8_t> HTTPClient::get_responseData() const TITANIUM_NOEXCEPT
-		{
-			return responseData__;
-		}
-
-		std::string HTTPClient::get_responseText() const TITANIUM_NOEXCEPT
-		{
-			return std::string(responseData__.begin(), responseData__.end());
-		}
-
-		std::uint32_t HTTPClient::get_status() const TITANIUM_NOEXCEPT
-		{
-			return requestStatus__;
 		}
 
 		void HTTPClient::set_timeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT
@@ -443,7 +417,7 @@ namespace TitaniumWindows
 
 		void HTTPClient::SerializeHeaders(Windows::Web::Http::HttpResponseMessage^ response)
 		{
-			requestStatus__ = (std::uint32_t)response->StatusCode;
+			status__ = (std::uint32_t)response->StatusCode;
 
 			SerializeHeaderCollection(response->Headers);
 			SerializeHeaderCollection(response->Content->Headers);
@@ -456,8 +430,8 @@ namespace TitaniumWindows
 				contentLength__ = -1;  // chunked encoding
 			}
 
-			readyState__ = Titanium::Network::N_REQUEST_STATE_HEADERS_RECEIVED;
-			onreadystatechange(Titanium::Network::N_REQUEST_STATE_HEADERS_RECEIVED);
+			readyState__ = Titanium::Network::RequestState::Headers_Received;
+			onreadystatechange(Titanium::Network::RequestState::Headers_Received);
 		}
 
 		void HTTPClient::SerializeHeaderCollection(Windows::Foundation::Collections::IIterable<Windows::Foundation::Collections::IKeyValuePair<Platform::String^, Platform::String^>^>^ headers)
@@ -470,7 +444,7 @@ namespace TitaniumWindows
 
 		void HTTPClient::addCookiesToRequest()
 		{
-			auto url = TitaniumWindows::Utility::ConvertString(url__);
+			auto location = TitaniumWindows::Utility::ConvertString(location__);
 
 			for (auto it = requestHeaders__.begin(); it != requestHeaders__.end(); ++it) {
 				
@@ -480,7 +454,7 @@ namespace TitaniumWindows
 				if (key->Equals("Cookie")) {
 					//////////////////////////////////////////////////////////////////
 					try {
-						auto cookie = ref new Windows::Web::Http::HttpCookie(key, url, "/");
+						auto cookie = ref new Windows::Web::Http::HttpCookie(key, location, "/");
 
 						char* context = nullptr;
 						char* pvalue = strtok_s((char*)it->second.c_str(), "=", &context);

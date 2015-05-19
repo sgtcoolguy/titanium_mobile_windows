@@ -60,7 +60,7 @@ unsigned NativeBlobExample::get_width() const TITANIUM_NOEXCEPT
 	return 0;
 }
 
-void NativeBlobExample::append(std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT
+void NativeBlobExample::append(const std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT
 {
 	TITANIUM_LOG_DEBUG("NativeBlobExample::append");
 }

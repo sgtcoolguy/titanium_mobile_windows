@@ -17,14 +17,6 @@ namespace TitaniumWindows
 {
 	namespace Network
 	{
-		enum NATIVE_HTTPCLIENT_METHOD {
-			N_HTTPCLIENT_METHOD_GET,
-			N_HTTPCLIENT_METHOD_PUT,
-			N_HTTPCLIENT_METHOD_POST,
-			N_HTTPCLIENT_METHOD_DELETE,
-			N_HTTPCLIENT_METHOD_HEAD
-		};
-
 		using namespace HAL;
 
 		class TITANIUMWINDOWS_NETWORK_EXPORT HTTPClient final : public Titanium::Network::HTTPClient, public JSExport<HTTPClient>
@@ -52,20 +44,13 @@ namespace TitaniumWindows
 			virtual void setRequestHeader(const std::string& name, const std::string& value) TITANIUM_NOEXCEPT override final;
 			// properties
 			virtual std::string get_allResponseHeaders() const TITANIUM_NOEXCEPT override final;
-			virtual std::uint32_t get_readyState() const TITANIUM_NOEXCEPT override final;
-			virtual std::vector<std::uint8_t> get_responseData() const TITANIUM_NOEXCEPT override final;
-			virtual std::string get_responseText() const TITANIUM_NOEXCEPT override final;		
-			virtual std::uint32_t get_status() const TITANIUM_NOEXCEPT override final;
 			virtual void set_timeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT override final;
 			
-
-		private:
+		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			// method_ - type of HTTP request (GET, POST, PUT)
-			NATIVE_HTTPCLIENT_METHOD method__;
-			// url__ - the full address of the HTTP request for example http://www.appcelerator.com
-			std::string url__;
+			Titanium::Network::RequestMethod method__;
 			// filter__ - controls the HTTP session and data flow
 			Windows::Web::Http::Filters::HttpBaseProtocolFilter^ filter__;
 			// httpClient__ - higher level HTTP client that provides WinRT API to HTTP sessions and communications
@@ -79,31 +64,24 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::DispatcherTimer^ dispatcherTimer__;
 			// responseStream__ - holds response string, the stream is not exposed
 			Windows::Storage::Streams::IBuffer^ responseStream__;
-			// responseData__ - vector used holds raw response data
-			std::vector<std::uint8_t>  responseData__;
 			// responseDataLen__ - count of character contained in data vector
-			long responseDataLen__;
+			long responseDataLen__ { 0 };
 			// timeoutSpan__ - the span in milliseconds during which the request is active
 			Windows::Foundation::TimeSpan timeoutSpan__;
-			// requestStatus__ - the http status returned from the server
-			std::uint32_t requestStatus__;
-			// readyState__ - current state of the connection
-			std::uint32_t readyState__;
 			// responseHeaders__ - the collection of key value pairs returned from the server
+
 			std::map<const std::string, std::string> responseHeaders__;
 			// contentLength__ - the value in the Content-Length attribute of the response header
 			// If no length is returned the server has returned the data using chunked encoding
-			long contentLength__; // -1 if response is using chunked encoding
+			long contentLength__ { 0 }; // -1 if response is using chunked encoding
 			// requestHeaders__ - the collection of key value pairs to be sent to the server
 			std::map<const std::string, std::string> requestHeaders__;
 
-			bool disposed__;
+			bool disposed__ { false };
 #pragma warning(pop)
 
 			void startDispatcherTimer();
-
 			task<Windows::Storage::Streams::IBuffer^> HTTPClient::HTTPResultAsync(Windows::Storage::Streams::IInputStream^ stream, concurrency::cancellation_token token);
-
 			Windows::Storage::Streams::Buffer^ charVecToBuffer(std::vector<std::uint8_t> char_vector);
 
 			void SerializeHeaders(Windows::Web::Http::HttpResponseMessage^ response);

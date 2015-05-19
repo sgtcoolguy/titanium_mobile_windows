@@ -9,7 +9,12 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Network/Constants.hpp"
+#include "Titanium/Network/Cookie.hpp"
 #include "Titanium/Network/HTTPClient.hpp"
+#include "Titanium/Network/Socket.hpp"
+#include "Titanium/Network/Socket/TCP.hpp"
+#include "Titanium/Network/Socket/UDP.hpp"
+#include "Titanium/Network/PushNotificationConfig.hpp"
 
 namespace Titanium
 {
@@ -23,35 +28,139 @@ namespace Titanium
 	class TITANIUMKIT_EXPORT NetworkModule : public Module, public JSExport<NetworkModule>
 	{
 	public:
-		/*!
-		  @method
-		  @abstract createHTTPClient 
-		  @discussion Returns a HTTP object allowing users to make http request and query the HTTP object.
-		*/
-		virtual JSObject createHTTPClient(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
-		  @method
-		  @abstract networkType : Number
+		  @property
+		  @abstract allHTTPCookies
+		  @discussion A list of all cookies in the cookie storage.
+		*/
+		TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::vector<std::shared_ptr<Network::Cookie>>, allHTTPCookies);
+
+		/*!
+		  @property
+		  @abstract networkType
 		  @discussion Network type value as a constant.
-
-		  One of the NETWORK constants defined in Titanium.Network.
 		*/
-		virtual Titanium::Network::TYPE get_networkType() const TITANIUM_NOEXCEPT;
+		TITANIUM_PROPERTY_IMPL_READONLY_DEF(Network::TYPE, networkType);
 
 		/*!
-		  @method
-		  @abstract networkTypeName : String
-		  @discussion Network type as a String. Returns one of NONE, WIFI, LAN, MOBILE, or UNKNOWN.
+		  @property
+		  @abstract networkTypeName
+		  @discussion Network type as a String. Returns one of `NONE`, `WIFI`, `LAN`, `MOBILE`, or `UNKNOWN`.
 		*/
-		virtual std::string get_networkTypeName() const TITANIUM_NOEXCEPT final;
+		TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::string, networkTypeName);
 
 		/*!
-		  @method
-		  @abstract online : Boolean
+		  @property
+		  @abstract online
 		  @discussion Boolean value indicating if the device can reach the Internet.
 		*/
-		virtual bool get_online() const TITANIUM_NOEXCEPT;
+		TITANIUM_PROPERTY_IMPL_READONLY_DEF(bool, online);
+
+		/*!
+		  @property
+		  @abstract remoteDeviceUUID
+		  @discussion Remote device UUID if the device is registered with the Apple Push NotificationService, or null if it is not registered.
+		*/
+		TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::string, remoteDeviceUUID);
+
+		/*!
+		  @property
+		  @abstract remoteNotificationTypes
+		  @discussion Array of push notification type constants enabled for the application.
+		*/
+		TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::vector<Network::NOTIFICATION_TYPE>, remoteNotificationTypes);
+
+		/*!
+		  @property
+		  @abstract remoteNotificationsEnabled
+		  @discussion Indicates whether push  notifications have been enabled using [registerForPushNotifications](Titanium.Network.registerForPushNotifications).
+		*/
+		TITANIUM_PROPERTY_IMPL_READONLY_DEF(bool, remoteNotificationsEnabled);
+
+		/*!
+		  @method
+		  @abstract addHTTPCookie
+		  @discussion Adds a cookie to the HTTP client cookie store.
+		*/
+		virtual void addHTTPCookie(std::shared_ptr<Network::Cookie> cookie) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract addSystemCookie
+		  @discussion Adds a cookie to the system cookie store.
+		*/
+		virtual void addSystemCookie(std::shared_ptr<Network::Cookie> cookie) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract getHTTPCookies
+		  @discussion Gets all the cookies with the domain, path and name matched with the given values from the HTTP client cookie store.
+		*/
+		virtual std::vector<std::shared_ptr<Network::Cookie>> getHTTPCookies(const std::string& domain, const std::string& path, const std::string& name) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract getHTTPCookiesForDomain
+		  @discussion Gets all the cookies with the domain matched with the given values from the HTTP client cookie store.
+		*/
+		virtual std::vector<std::shared_ptr<Network::Cookie>> getHTTPCookiesForDomain(const std::string& domain) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract getSystemCookies
+		  @discussion Gets all the cookies with the domain, path and name matched with the given values from the system cookie store.
+		*/
+		virtual std::vector<std::shared_ptr<Network::Cookie>> getSystemCookies(const std::string& domain, const std::string& path, const std::string& name) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract removeAllHTTPCookies
+		  @discussion Removes all the cookies from the HTTP client cookie store.
+		*/
+		virtual void removeAllHTTPCookies() TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract removeAllSystemCookies
+		  @discussion Removes all the cookie from the system client cookie store.
+		*/
+		virtual void removeAllSystemCookies() TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract removeHTTPCookie
+		  @discussion Removes the cookie with the domain, path and name exactly the same as the given values from the HTTP client cookie store.
+		*/
+		virtual void removeHTTPCookie(const std::string& domain, const std::string& path, const std::string& name) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract removeHTTPCookiesForDomain
+		  @discussion Removes the cookies with the domain matched with the given values from the HTTP client cookie store.
+		*/
+		virtual void removeHTTPCookiesForDomain(const std::string& domain) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract removeSystemCookie
+		  @discussion Removes the cookie with the domain, path and name exactly the same as the given values from the system cookie store.
+		*/
+		virtual void removeSystemCookie(const std::string& domain, const std::string& path, const std::string& name) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract registerForPushNotifications
+		  @discussion Registers for push notifications with the Apple Push Notification Service.
+		*/
+		virtual void registerForPushNotifications(const Network::PushNotificationConfig& config) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract unregisterForPushNotifications
+		  @discussion Unregisters the application for push notifications.
+		*/
+		virtual void unregisterForPushNotifications() TITANIUM_NOEXCEPT;
 
 		TITANIUM_PROPERTY_READONLY_DEF(NETWORK_LAN);
 		TITANIUM_PROPERTY_READONLY_DEF(NETWORK_MOBILE);
@@ -60,12 +169,46 @@ namespace Titanium
 		TITANIUM_PROPERTY_READONLY_DEF(NETWORK_WIFI);
 		TITANIUM_PROPERTY_READONLY_DEF(NOTIFICATION_TYPE_ALERT);
 		TITANIUM_PROPERTY_READONLY_DEF(NOTIFICATION_TYPE_BADGE);
-		TITANIUM_PROPERTY_READONLY_DEF(NOTIFICATION_TYPE_NEWSSTAND);
 		TITANIUM_PROPERTY_READONLY_DEF(NOTIFICATION_TYPE_SOUND);
-		TITANIUM_PROPERTY_READONLY_DEF(PROGRESS_UNKNOWN);
+		TITANIUM_PROPERTY_READONLY_DEF(NOTIFICATION_TYPE_NEWSSTAND);
 		TITANIUM_PROPERTY_READONLY_DEF(TLS_VERSION_1_0);
 		TITANIUM_PROPERTY_READONLY_DEF(TLS_VERSION_1_1);
 		TITANIUM_PROPERTY_READONLY_DEF(TLS_VERSION_1_2);
+		TITANIUM_PROPERTY_READONLY_DEF(PROGRESS_UNKNOWN);
+		TITANIUM_PROPERTY_READONLY_DEF(allHTTPCookies);
+		TITANIUM_PROPERTY_READONLY_DEF(networkType);
+		TITANIUM_PROPERTY_READONLY_DEF(networkTypeName);
+		TITANIUM_PROPERTY_READONLY_DEF(online);
+		TITANIUM_PROPERTY_READONLY_DEF(remoteDeviceUUID);
+		TITANIUM_PROPERTY_READONLY_DEF(remoteNotificationTypes);
+		TITANIUM_PROPERTY_READONLY_DEF(remoteNotificationsEnabled);
+		TITANIUM_PROPERTY_DEF(httpURLFormatter);
+
+		TITANIUM_FUNCTION_DEF(addHTTPCookie);
+		TITANIUM_FUNCTION_DEF(addSystemCookie);
+		TITANIUM_FUNCTION_DEF(createBonjourBrowser);
+		TITANIUM_FUNCTION_DEF(createBonjourService);
+		TITANIUM_FUNCTION_DEF(getHTTPCookies);
+		TITANIUM_FUNCTION_DEF(getHTTPCookiesForDomain);
+		TITANIUM_FUNCTION_DEF(getSystemCookies);
+		TITANIUM_FUNCTION_DEF(removeAllHTTPCookies);
+		TITANIUM_FUNCTION_DEF(removeAllSystemCookies);
+		TITANIUM_FUNCTION_DEF(removeHTTPCookie);
+		TITANIUM_FUNCTION_DEF(removeHTTPCookiesForDomain);
+		TITANIUM_FUNCTION_DEF(removeSystemCookie);
+		TITANIUM_FUNCTION_DEF(registerForPushNotifications);
+		TITANIUM_FUNCTION_DEF(unregisterForPushNotifications);
+		TITANIUM_FUNCTION_DEF(createCookie);
+		TITANIUM_FUNCTION_DEF(createHTTPClient);
+		TITANIUM_FUNCTION_DEF(getAllHTTPCookies);
+		TITANIUM_FUNCTION_DEF(getNetworkType);
+		TITANIUM_FUNCTION_DEF(getNetworkTypeName);
+		TITANIUM_FUNCTION_DEF(getOnline);
+		TITANIUM_FUNCTION_DEF(getRemoteDeviceUUID);
+		TITANIUM_FUNCTION_DEF(getRemoteNotificationTypes);
+		TITANIUM_FUNCTION_DEF(getRemoteNotificationsEnabled);
+		TITANIUM_FUNCTION_DEF(getHttpURLFormatter);
+		TITANIUM_FUNCTION_DEF(setHttpURLFormatter);
 
 		NetworkModule(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -79,12 +222,9 @@ namespace Titanium
 
 		static void JSExportInitialize();
 
-		TITANIUM_FUNCTION_DEF(createHTTPClient);
-		TITANIUM_PROPERTY_READONLY_DEF(networkType);
-		TITANIUM_PROPERTY_READONLY_DEF(networkTypeName);
-		TITANIUM_PROPERTY_READONLY_DEF(online);
-
 	private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 		JSValue network_lan__;
 		JSValue network_mobile__;
 		JSValue network_none__;
@@ -92,12 +232,32 @@ namespace Titanium
 		JSValue network_wifi__;
 		JSValue notification_type_alert__;
 		JSValue notification_type_badge__;
-		JSValue notification_type_newsstand__;
 		JSValue notification_type_sound__;
-		JSValue progress_unknown__;
+		JSValue notification_type_newsstand__;
+		JSValue read_mode__;
+		JSValue read_write_mode__;
+		JSValue write_mode__;
+		JSValue socket_closed__;
+		JSValue socket_connected__;
+		JSValue socket_error__;
+		JSValue socket_initialized__;
+		JSValue socket_listening__;
 		JSValue tls_version_1_0__;
 		JSValue tls_version_1_1__;
 		JSValue tls_version_1_2__;
+		JSValue progress_unknown__;
+		
+		Network::TYPE networkType__;
+		std::string networkTypeName__;
+		bool online__;
+		std::string remoteDeviceUUID__;
+		std::vector<Network::NOTIFICATION_TYPE> remoteNotificationTypes__;
+		bool remoteNotificationsEnabled__;
+		
+		// User-defined function that is called everytime HTTPClient connects to a remote resource.
+		JSValue httpURLFormatter__;
+#pragma warning(pop)
+
 	};
 } // namespace Titanium
 

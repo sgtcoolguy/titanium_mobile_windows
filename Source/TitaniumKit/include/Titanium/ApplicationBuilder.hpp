@@ -118,8 +118,17 @@ namespace Titanium
 		JSObject HTTPClientObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& HTTPClientObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject CookieObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& CookieObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject NetworkObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& NetworkObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject TCPObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& TCPObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject UDPObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& UDPObject(const JSObject&) TITANIUM_NOEXCEPT;
 		
 		JSObject XMLObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& XMLObject(const JSObject&) TITANIUM_NOEXCEPT;
@@ -212,7 +221,10 @@ namespace Titanium
 		JSObject database__;
 		JSObject webview__;
 		JSObject httpclient__;
+		JSObject cookie__;
 		JSObject network__;
+		JSObject tcp__;
+		JSObject udp__;
 		JSObject xml__;
 		JSObject tableview__;
 		JSObject tableviewsection__;

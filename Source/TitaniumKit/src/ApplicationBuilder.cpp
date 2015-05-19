@@ -61,7 +61,10 @@ namespace Titanium
 		  database__(js_context__.CreateObject(JSExport<Titanium::DatabaseModule>::Class())),
 		  webview__(js_context__.CreateObject(JSExport<Titanium::UI::WebView>::Class())),
 		  httpclient__(js_context__.CreateObject(JSExport<Titanium::Network::HTTPClient>::Class())),
+		  cookie__(js_context__.CreateObject(JSExport<Titanium::Network::Cookie>::Class())),
 		  network__(js_context__.CreateObject(JSExport<Titanium::NetworkModule>::Class())),
+		  tcp__(js_context__.CreateObject(JSExport<Titanium::Network::Socket::TCP>::Class())),
+		  udp__(js_context__.CreateObject(JSExport<Titanium::Network::Socket::UDP>::Class())),
 		  xml__(js_context__.CreateObject(JSExport<Titanium::XML>::Class())),
 		  map__(js_context__.CreateObject(JSExport<Titanium::MapModule>::Class())),
 		  mapAnnotation__(js_context__.CreateObject(JSExport<Titanium::Map::Annotation>::Class())),
@@ -107,7 +110,13 @@ namespace Titanium
 		ui__.SetProperty("ScrollableView", scrollableView__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 
 		filesystem__.SetProperty("File", file__);
+
+		JSObject socket__ = js_context__.CreateObject(JSExport<Titanium::Network::SocketModule>::Class());
+		socket__.SetProperty("TCP", tcp__);
+		socket__.SetProperty("UDP", udp__);
+		network__.SetProperty("Socket", socket__);
 		network__.SetProperty("HTTPClient", httpclient__);
+		network__.SetProperty("Cookie", cookie__);
 
 		JSObject titanium = ti__;
 		global_object__.SetProperty("Titanium", titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -517,6 +526,17 @@ namespace Titanium
 		return *this;
 	}
 
+	JSObject ApplicationBuilder::CookieObject() const TITANIUM_NOEXCEPT
+	{
+		return cookie__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::CookieObject(const JSObject& cookie) TITANIUM_NOEXCEPT
+	{
+		cookie__ = cookie;
+		return *this;
+	}
+
 	JSObject ApplicationBuilder::NetworkObject() const TITANIUM_NOEXCEPT
 	{
 		return network__;
@@ -525,6 +545,28 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::NetworkObject(const JSObject& network) TITANIUM_NOEXCEPT
 	{
 		network__ = network;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::TCPObject() const TITANIUM_NOEXCEPT
+	{
+		return tcp__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::TCPObject(const JSObject& tcp) TITANIUM_NOEXCEPT
+	{
+		tcp__ = tcp;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::UDPObject() const TITANIUM_NOEXCEPT
+	{
+		return udp__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::UDPObject(const JSObject& udp) TITANIUM_NOEXCEPT
+	{
+		udp__ = udp;
 		return *this;
 	}
 
