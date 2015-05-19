@@ -11,7 +11,12 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Media/Constants.hpp"
+#include "Titanium/Media/AudioPlayer.hpp"
+#include "Titanium/Media/AudioRecorder.hpp"
 #include "Titanium/Media/Item.hpp"
+#include "Titanium/Media/Sound.hpp"
+#include "Titanium/Media/MusicPlayer.hpp"
+#include "Titanium/Media/VideoPlayer.hpp"
 #include "Titanium/Media/CameraOptionsType.hpp"
 #include "Titanium/Media/MediaQueryType.hpp"
 #include "Titanium/Media/MusicLibraryOptionsType.hpp"

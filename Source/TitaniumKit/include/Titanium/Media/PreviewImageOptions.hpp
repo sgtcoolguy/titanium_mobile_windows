@@ -10,6 +10,7 @@
 #define _TITANIUM_MEDIA_PREVIEWIMAGEOPTIONS_HPP_
 
 #include "Titanium/detail/TiBase.hpp"
+#include "Titanium/ErrorResponse.hpp"
 
 namespace Titanium
 {
@@ -27,8 +28,11 @@ namespace Titanium
 		*/
 		struct PreviewImageOptions
 		{
-			JSValue error;
 			std::shared_ptr<Titanium::Blob> image;
+			std::function<void(const ErrorResponse&)> onerror;
+			std::function<void()> onsuccess;
+			// need to keep these references to prevent from GC
+			JSValue error;
 			JSValue success;
 		};
 		

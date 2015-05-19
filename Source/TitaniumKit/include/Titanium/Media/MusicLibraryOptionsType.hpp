@@ -10,7 +10,9 @@
 #define _TITANIUM_MEDIA_MUSICLIBRARYOPTIONSTYPE_HPP_
 
 #include "Titanium/detail/TiBase.hpp"
+#include "Titanium/ErrorResponse.hpp"
 #include "Titanium/Media/Constants.hpp"
+#include "Titanium/Media/MusicLibraryResponseType.hpp"
 
 namespace Titanium
 {
@@ -29,9 +31,13 @@ namespace Titanium
 			bool allowMultipleSelections;
 			bool animated;
 			bool autohide;
+			std::vector<MusicMediaType> mediaTypes;
+			std::function<void(const ErrorResponse&)> oncancel;
+			std::function<void(const ErrorResponse&)> onerror;
+			std::function<void(const MusicLibraryResponseType&)> onsuccess;
+			// need to keep these references to prevent from GC
 			JSValue cancel;
 			JSValue error;
-			std::vector<MusicMediaType> mediaTypes;
 			JSValue success;
 		};
 		

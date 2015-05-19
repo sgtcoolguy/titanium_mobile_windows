@@ -21,6 +21,7 @@
 #include "Titanium/FilesystemModule.hpp"
 #include "Titanium/DatabaseModule.hpp"
 #include "Titanium/NetworkModule.hpp"
+#include "Titanium/MediaModule.hpp"
 #include "Titanium/XML.hpp"
 #include "Titanium/MapModule.hpp"
 
@@ -65,6 +66,13 @@ namespace Titanium
 		  network__(js_context__.CreateObject(JSExport<Titanium::NetworkModule>::Class())),
 		  tcp__(js_context__.CreateObject(JSExport<Titanium::Network::Socket::TCP>::Class())),
 		  udp__(js_context__.CreateObject(JSExport<Titanium::Network::Socket::UDP>::Class())),
+		  media__(js_context__.CreateObject(JSExport<Titanium::MediaModule>::Class())),
+		  audioplayer__(js_context__.CreateObject(JSExport<Titanium::Media::AudioPlayer>::Class())),
+		  audiorecorder__(js_context__.CreateObject(JSExport<Titanium::Media::AudioRecorder>::Class())),
+		  audioitem__(js_context__.CreateObject(JSExport<Titanium::Media::Item>::Class())),
+		  musicplayer__(js_context__.CreateObject(JSExport<Titanium::Media::MusicPlayer>::Class())),
+		  sound__(js_context__.CreateObject(JSExport<Titanium::Media::Sound>::Class())),
+		  videoplayer__(js_context__.CreateObject(JSExport<Titanium::Media::VideoPlayer>::Class())),
 		  xml__(js_context__.CreateObject(JSExport<Titanium::XML>::Class())),
 		  map__(js_context__.CreateObject(JSExport<Titanium::MapModule>::Class())),
 		  mapAnnotation__(js_context__.CreateObject(JSExport<Titanium::Map::Annotation>::Class())),
@@ -118,6 +126,13 @@ namespace Titanium
 		network__.SetProperty("HTTPClient", httpclient__);
 		network__.SetProperty("Cookie", cookie__);
 
+		media__.SetProperty("AudioPlayer", audioplayer__);
+		media__.SetProperty("AudioRecorder", audiorecorder__);
+		media__.SetProperty("Item", audioitem__);
+		media__.SetProperty("MusicPlayer", musicplayer__);
+		media__.SetProperty("Sound", sound__);
+		media__.SetProperty("VideoPlayer", videoplayer__);
+
 		JSObject titanium = ti__;
 		global_object__.SetProperty("Titanium", titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		global_object__.SetProperty("Ti", titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -138,6 +153,9 @@ namespace Titanium
 
 		titanium.SetProperty("Network", network__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Analytics", analytics__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+
+		titanium.SetProperty("Media", media__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+
 		// Map
 		titanium.SetProperty("Map", map__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		map__.SetProperty("Annotation", mapAnnotation__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
@@ -567,6 +585,83 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::UDPObject(const JSObject& udp) TITANIUM_NOEXCEPT
 	{
 		udp__ = udp;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::MediaObject() const TITANIUM_NOEXCEPT
+	{
+		return media__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::MediaObject(const JSObject& media) TITANIUM_NOEXCEPT
+	{
+		media__ = media;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::AudioPlayerObject() const TITANIUM_NOEXCEPT
+	{
+		return audioplayer__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::AudioPlayerObject(const JSObject& player) TITANIUM_NOEXCEPT
+	{
+		audioplayer__ = player;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::AudioRecorderObject() const TITANIUM_NOEXCEPT
+	{
+		return audiorecorder__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::AudioRecorderObject(const JSObject& recorder) TITANIUM_NOEXCEPT
+	{
+		audiorecorder__ = recorder;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::AudioItemObject() const TITANIUM_NOEXCEPT
+	{
+		return audioitem__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::AudioItemObject(const JSObject& item) TITANIUM_NOEXCEPT
+	{
+		audioitem__ = item;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::MusicPlayerObject() const TITANIUM_NOEXCEPT
+	{
+		return musicplayer__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::MusicPlayerObject(const JSObject& player) TITANIUM_NOEXCEPT
+	{
+		musicplayer__ = player;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::SoundObject() const TITANIUM_NOEXCEPT
+	{
+		return sound__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::SoundObject(const JSObject& sound) TITANIUM_NOEXCEPT
+	{
+		sound__ = sound;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::VideoPlayerObject() const TITANIUM_NOEXCEPT
+	{
+		return videoplayer__;
+	}
+	
+	ApplicationBuilder& ApplicationBuilder::VideoPlayerObject(const JSObject& player) TITANIUM_NOEXCEPT
+	{
+		videoplayer__ = player;
 		return *this;
 	}
 

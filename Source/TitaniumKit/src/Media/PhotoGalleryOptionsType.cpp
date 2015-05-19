@@ -53,15 +53,55 @@ namespace Titanium
 			const auto js_popoverView = object.GetProperty("popoverView");
 			ENSURE_MODULE_OBJECT(js_popoverView, popoverView, Titanium::UI::View);
 
+			const auto success_property = object.GetProperty("success");
+			const auto onsuccess = [success_property](const CameraMediaItemType& item) {
+				if (success_property.IsObject()) {
+					auto func = static_cast<JSObject>(success_property);
+					if (func.IsFunction()) {
+						const std::vector<JSValue> args = {
+							CameraMediaItemType_to_js(func.get_context(), item)
+						};
+						func(args, func);
+					}
+				}
+			};
+			const auto cancel_property = object.GetProperty("cancel");
+			const auto oncancel = [cancel_property](const ErrorResponse& e) {
+				if (cancel_property.IsObject()) {
+					auto func = static_cast<JSObject>(cancel_property);
+					if (func.IsFunction()) {
+						const std::vector<JSValue> args = {
+							ErrorResponse_to_js(func.get_context(), e)
+						};
+						func(args, func);
+					}
+				}
+			};
+			const auto error_property = object.GetProperty("error");
+			const auto onerror = [error_property](const ErrorResponse& e) {
+				if (error_property.IsObject()) {
+					auto func = static_cast<JSObject>(error_property);
+					if (func.IsFunction()) {
+						const std::vector<JSValue> args = {
+							ErrorResponse_to_js(func.get_context(), e)
+						};
+						func(args, func);
+					}
+				}
+			};
+
 			PhotoGalleryOptionsType config {
 				allowEditing,
 				animated,
 				arrowDirection,
 				autohide,
-				object.GetProperty("cancel"),
-				object.GetProperty("error"),
 				mediaTypes,
 				popoverView,
+				oncancel,
+				onerror,
+				onsuccess,
+				object.GetProperty("cancel"),
+				object.GetProperty("error"),
 				object.GetProperty("success"),
 			};
 			

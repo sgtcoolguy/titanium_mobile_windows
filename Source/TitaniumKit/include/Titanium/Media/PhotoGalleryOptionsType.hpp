@@ -10,7 +10,9 @@
 #define _TITANIUM_MEDIA_PHOTOGALLERYOPTIONSTYPE_HPP_
 
 #include "Titanium/detail/TiBase.hpp"
+#include "Titanium/ErrorResponse.hpp"
 #include "Titanium/Media/Constants.hpp"
+#include "Titanium/Media/CameraMediaItemType.hpp"
 
 namespace Titanium
 {
@@ -36,10 +38,14 @@ namespace Titanium
 			bool animated;
 			std::int32_t arrowDirection;
 			bool autohide;
-			JSValue cancel;
-			JSValue error;
 			std::vector<MediaType> mediaTypes;
 			std::shared_ptr<Titanium::UI::View> popoverView;
+			std::function<void(const ErrorResponse&)> oncancel;
+			std::function<void(const ErrorResponse&)> onerror;
+			std::function<void(const CameraMediaItemType&)> onsuccess;
+			// need to keep these references to prevent from GC
+			JSValue cancel;
+			JSValue error;
 			JSValue success;
 		};
 		

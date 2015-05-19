@@ -134,6 +134,8 @@ set(SOURCE_Media
   src/MediaModule.cpp
   include/Titanium/Media/Constants.hpp
   src/Media/Constants.cpp
+  include/Titanium/Media/MusicLibraryResponseType.hpp
+  src/Media/MusicLibraryResponseType.cpp
   include/Titanium/Media/CameraMediaItemType.hpp
   src/Media/CameraMediaItemType.cpp
   include/Titanium/Media/CameraOptionsType.hpp

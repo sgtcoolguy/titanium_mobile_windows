@@ -49,13 +49,53 @@ namespace Titanium
 				}
 			}
 
+			const auto success_property = object.GetProperty("success");
+			const auto onsuccess = [success_property](const MusicLibraryResponseType& item) {
+				if (success_property.IsObject()) {
+					auto func = static_cast<JSObject>(success_property);
+					if (func.IsFunction()) {
+						const std::vector<JSValue> args = {
+							MusicLibraryResponseType_to_js(func.get_context(), item)
+						};
+						func(args, func);
+					}
+				}
+			};
+			const auto cancel_property = object.GetProperty("cancel");
+			const auto oncancel = [cancel_property](const ErrorResponse& e) {
+				if (cancel_property.IsObject()) {
+					auto func = static_cast<JSObject>(cancel_property);
+					if (func.IsFunction()) {
+						const std::vector<JSValue> args = {
+							ErrorResponse_to_js(func.get_context(), e)
+						};
+						func(args, func);
+					}
+				}
+			};
+			const auto error_property = object.GetProperty("error");
+			const auto onerror = [error_property](const ErrorResponse& e) {
+				if (error_property.IsObject()) {
+					auto func = static_cast<JSObject>(error_property);
+					if (func.IsFunction()) {
+						const std::vector<JSValue> args = {
+							ErrorResponse_to_js(func.get_context(), e)
+						};
+						func(args, func);
+					}
+				}
+			};
+
 			MusicLibraryOptionsType config {
 				allowMultipleSelections,
 				animated,
 				autohide,
+				mediaTypes,
+				oncancel,
+				onerror,
+				onsuccess,
 				object.GetProperty("cancel"),
 				object.GetProperty("error"),
-				mediaTypes,
 				object.GetProperty("success"),
 			};
 			
@@ -76,7 +116,6 @@ namespace Titanium
 				js_mediaTypes.push_back(js_context.CreateNumber(static_cast<std::uint32_t>(v)));
 			}
 			object.SetProperty("mediaTypes", js_context.CreateArray(js_mediaTypes));
-
 			object.SetProperty("success", config.success);
 			return object;
 		}

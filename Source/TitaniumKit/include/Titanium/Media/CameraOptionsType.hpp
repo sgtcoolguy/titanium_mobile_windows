@@ -10,8 +10,11 @@
 #define _TITANIUM_MEDIA_CAMERAOPTIONSTYPE_HPP_
 
 #include "Titanium/detail/TiBase.hpp"
+#include "Titanium/ErrorResponse.hpp"
 #include "Titanium/Media/Constants.hpp"
+#include "Titanium/Media/CameraMediaItemType.hpp"
 #include <chrono>
+#include <functional>
 
 namespace Titanium
 {
@@ -38,19 +41,23 @@ namespace Titanium
 			std::uint32_t arrowDirection;
 			bool autohide;
 			bool autorotate;
-			JSValue cancel;
-			JSValue error;
 			bool isPopOver;
 			std::vector<MediaType> mediaTypes;
 			std::shared_ptr<Titanium::UI::View> overlay;
 			std::shared_ptr<Titanium::UI::View> popoverView;
 			bool saveToPhotoGallery;
 			bool showControls;
-			JSValue success;
 			std::shared_ptr<Titanium::UI::TwoDMatrix> transform;
 			std::chrono::milliseconds videoMaximumDuration;
 			Quality videoQuality;
-	};
+			std::function<void(const ErrorResponse&)> oncancel;
+			std::function<void(const ErrorResponse&)> onerror;
+			std::function<void(const CameraMediaItemType&)> onsuccess;
+			// need to keep these references to prevent from GC
+			JSValue cancel;
+			JSValue error;
+			JSValue success;
+		};
 		
 		CameraOptionsType js_to_CameraOptionsType(const JSObject& object);
 		JSObject CameraOptionsType_to_js(const JSContext& js_context, const CameraOptionsType& config);

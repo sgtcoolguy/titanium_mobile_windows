@@ -160,6 +160,12 @@
 		F98B673D1B05F38600B910AA /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F98B673C1B05F38600B910AA /* Constants.cpp */; };
 		F9901B091AA5A355003FFD52 /* MapRegionTypev2.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9901B081AA5A355003FFD52 /* MapRegionTypev2.hpp */; };
 		F9901B0B1AA5A366003FFD52 /* MapRegionTypev2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9901B0A1AA5A366003FFD52 /* MapRegionTypev2.cpp */; };
+		F991B6431B0A08E00058FA3A /* CameraMediaItemType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F991B6421B0A08E00058FA3A /* CameraMediaItemType.cpp */; };
+		F991B6451B0A08EC0058FA3A /* CameraMediaItemType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F991B6441B0A08EC0058FA3A /* CameraMediaItemType.hpp */; };
+		F991B6471B0A16690058FA3A /* ErrorResponse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F991B6461B0A16690058FA3A /* ErrorResponse.hpp */; };
+		F991B6491B0A16750058FA3A /* ErrorResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F991B6481B0A16750058FA3A /* ErrorResponse.cpp */; };
+		F991B64B1B0A1B5D0058FA3A /* MusicLibraryResponseType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F991B64A1B0A1B5D0058FA3A /* MusicLibraryResponseType.hpp */; };
+		F991B64D1B0A1B680058FA3A /* MusicLibraryResponseType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F991B64C1B0A1B680058FA3A /* MusicLibraryResponseType.cpp */; };
 		F9991D521AFF5A6400C7DDF2 /* Cookie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9991D511AFF5A6400C7DDF2 /* Cookie.cpp */; };
 		F9991D551AFF5A9200C7DDF2 /* Constants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9991D531AFF5A9200C7DDF2 /* Constants.hpp */; };
 		F9991D561AFF5A9200C7DDF2 /* Cookie.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9991D541AFF5A9200C7DDF2 /* Cookie.hpp */; };
@@ -415,6 +421,12 @@
 		F98B673C1B05F38600B910AA /* Constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Constants.cpp; path = src/Media/Constants.cpp; sourceTree = "<group>"; };
 		F9901B081AA5A355003FFD52 /* MapRegionTypev2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MapRegionTypev2.hpp; path = include/Titanium/Map/MapRegionTypev2.hpp; sourceTree = "<group>"; };
 		F9901B0A1AA5A366003FFD52 /* MapRegionTypev2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapRegionTypev2.cpp; path = src/Map/MapRegionTypev2.cpp; sourceTree = "<group>"; };
+		F991B6421B0A08E00058FA3A /* CameraMediaItemType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CameraMediaItemType.cpp; path = src/Media/CameraMediaItemType.cpp; sourceTree = "<group>"; };
+		F991B6441B0A08EC0058FA3A /* CameraMediaItemType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CameraMediaItemType.hpp; path = include/Titanium/Media/CameraMediaItemType.hpp; sourceTree = "<group>"; };
+		F991B6461B0A16690058FA3A /* ErrorResponse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ErrorResponse.hpp; path = include/Titanium/ErrorResponse.hpp; sourceTree = "<group>"; };
+		F991B6481B0A16750058FA3A /* ErrorResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ErrorResponse.cpp; path = src/ErrorResponse.cpp; sourceTree = "<group>"; };
+		F991B64A1B0A1B5D0058FA3A /* MusicLibraryResponseType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MusicLibraryResponseType.hpp; path = include/Titanium/Media/MusicLibraryResponseType.hpp; sourceTree = "<group>"; };
+		F991B64C1B0A1B680058FA3A /* MusicLibraryResponseType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MusicLibraryResponseType.cpp; path = src/Media/MusicLibraryResponseType.cpp; sourceTree = "<group>"; };
 		F9991D511AFF5A6400C7DDF2 /* Cookie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cookie.cpp; path = src/Network/Cookie.cpp; sourceTree = "<group>"; };
 		F9991D531AFF5A9200C7DDF2 /* Constants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Constants.hpp; path = include/Titanium/Network/Constants.hpp; sourceTree = "<group>"; };
 		F9991D541AFF5A9200C7DDF2 /* Cookie.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Cookie.hpp; path = include/Titanium/Network/Cookie.hpp; sourceTree = "<group>"; };
@@ -678,6 +690,8 @@
 				C9E6AFBB1A13D34900FED053 /* detail */,
 				C90B8F8B1A16D32C005F3210 /* UI */,
 				F96A53DF1AA5D00F00AD4011 /* Analytics.cpp */,
+				F991B6461B0A16690058FA3A /* ErrorResponse.hpp */,
+				F991B6481B0A16750058FA3A /* ErrorResponse.cpp */,
 				F96A53E11AA5D03E00AD4011 /* XML.cpp */,
 				C980919A1A2149A300AE5930 /* TitaniumKit_EXPORT.h */,
 				C9E6AFB71A13043300FED053 /* Titanium.hpp */,
@@ -862,6 +876,8 @@
 		F9E391901B03168B0096BA2D /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				F991B6441B0A08EC0058FA3A /* CameraMediaItemType.hpp */,
+				F991B6421B0A08E00058FA3A /* CameraMediaItemType.cpp */,
 				F9E391AB1B03289C0096BA2D /* Constants.hpp */,
 				F98B673C1B05F38600B910AA /* Constants.cpp */,
 				F98B673A1B05E6C300B910AA /* VideoPlayer.hpp */,
@@ -880,6 +896,8 @@
 				F97467F21B04626C00E96892 /* MediaQueryInfoType.hpp */,
 				F97467E71B043D9000E96892 /* MediaQueryType.cpp */,
 				F9E391981B0318640096BA2D /* MediaQueryType.hpp */,
+				F991B64C1B0A1B680058FA3A /* MusicLibraryResponseType.cpp */,
+				F991B64A1B0A1B5D0058FA3A /* MusicLibraryResponseType.hpp */,
 				F97467E81B043D9000E96892 /* MusicLibraryOptionsType.cpp */,
 				F9E3919A1B0318640096BA2D /* MusicLibraryOptionsType.hpp */,
 				F97467E91B043D9000E96892 /* PhotoGalleryOptionsType.cpp */,
@@ -937,6 +955,7 @@
 				F9ACB7E01AF9CE01008C2F3C /* OptionDialog.hpp in Headers */,
 				F9ACB7E21AF9CE01008C2F3C /* OptionDialogShowParams.hpp in Headers */,
 				F96BCABD1A25CE4C00745C3B /* PlatformModule.hpp in Headers */,
+				F991B64B1B0A1B5D0058FA3A /* MusicLibraryResponseType.hpp in Headers */,
 				F9B549731A4027220051A096 /* TiModule.hpp in Headers */,
 				F9ACB7DB1AF9CE01008C2F3C /* 2DMatrix.hpp in Headers */,
 				C90B8F901A16D346005F3210 /* View.hpp in Headers */,
@@ -950,6 +969,7 @@
 				C909509E1A2963F3002133E1 /* ListView.hpp in Headers */,
 				F99AE3B51ADFA2F500D0F91E /* ActivityIndicatorStyle.hpp in Headers */,
 				F9ACB7E41AF9CE01008C2F3C /* ScrollableView.hpp in Headers */,
+				F991B6471B0A16690058FA3A /* ErrorResponse.hpp in Headers */,
 				F9B1AF761A8E2EDD00DEF4D6 /* DB.hpp in Headers */,
 				F908310F1A2EA3AC00CB810B /* Blob.hpp in Headers */,
 				C974545B1A02A2E500CB4CA9 /* Module.hpp in Headers */,
@@ -1017,6 +1037,7 @@
 				C9BED2211A27B14200CFF800 /* NativeModuleExample.hpp in Headers */,
 				F93CDC411A96D24C00C42D8C /* Font.hpp in Headers */,
 				C90950961A2954B3002133E1 /* TextField.hpp in Headers */,
+				F991B6451B0A08EC0058FA3A /* CameraMediaItemType.hpp in Headers */,
 				F9901B091AA5A355003FFD52 /* MapRegionTypev2.hpp in Headers */,
 				C90950A21A296802002133E1 /* Picker.hpp in Headers */,
 				F9ACB7E51AF9CE01008C2F3C /* Switch.hpp in Headers */,
@@ -1128,6 +1149,7 @@
 				F9B549781A402D520051A096 /* NativeTiExample.cpp in Sources */,
 				F9B177981A2C46FB00ECE602 /* Accelerometer.cpp in Sources */,
 				C90B8F931A16D83F005F3210 /* Window.cpp in Sources */,
+				F991B6491B0A16750058FA3A /* ErrorResponse.cpp in Sources */,
 				C950EF931A48D90A000EE5AC /* ImageView.cpp in Sources */,
 				F96A53DC1AA5CFC200AD4011 /* Properties.cpp in Sources */,
 				F95F90961B01BD800002BD1C /* TCP.cpp in Sources */,
@@ -1216,11 +1238,13 @@
 				F9B47E7B1A2EF1730052879A /* File.cpp in Sources */,
 				F9E391B01B032A2C0096BA2D /* Item.cpp in Sources */,
 				C9E6AFE61A13F93800FED053 /* GlobalObject.cpp in Sources */,
+				F991B6431B0A08E00058FA3A /* CameraMediaItemType.cpp in Sources */,
 				C9E6AFF11A13F96400FED053 /* TiLoggerPimpl.cpp in Sources */,
 				F96A53D81AA5CFAB00AD4011 /* EmailDialog.cpp in Sources */,
 				C9E6AFEB1A13F94C00FED053 /* TiUtil.cpp in Sources */,
 				C90B8F9B1A16DDB0005F3210 /* UIModule.cpp in Sources */,
 				F9B1AF8D1A8E391A00DEF4D6 /* ListViewAnimationProperties.cpp in Sources */,
+				F991B64D1B0A1B680058FA3A /* MusicLibraryResponseType.cpp in Sources */,
 				F9B1AF6D1A8E2EA300DEF4D6 /* NetworkModule.cpp in Sources */,
 				F93CDC491A96D25E00C42D8C /* Font.cpp in Sources */,
 				F9B47E761A2EF1500052879A /* FilesystemModule.cpp in Sources */,

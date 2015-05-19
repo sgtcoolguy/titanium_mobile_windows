@@ -20,9 +20,33 @@ namespace Titanium
 			const auto js_image = object.GetProperty("image");
 			ENSURE_MODULE_OBJECT(js_image, image, Titanium::Blob);
 
+			const auto success_property = object.GetProperty("success");
+			const auto onsuccess = [success_property]() {
+				if (success_property.IsObject()) {
+					auto func = static_cast<JSObject>(success_property);
+					if (func.IsFunction()) {
+						func(func);
+					}
+				}
+			};
+			const auto error_property = object.GetProperty("error");
+			const auto onerror = [error_property](const ErrorResponse& e) {
+				if (error_property.IsObject()) {
+					auto func = static_cast<JSObject>(error_property);
+					if (func.IsFunction()) {
+						const std::vector<JSValue> args = {
+							ErrorResponse_to_js(func.get_context(), e)
+						};
+						func(args, func);
+					}
+				}
+			};
+
 			PreviewImageOptions config {
-				object.GetProperty("error"),
 				image,
+				onerror,
+				onsuccess,
+				object.GetProperty("error"),
 				object.GetProperty("success")
 			};
 			
