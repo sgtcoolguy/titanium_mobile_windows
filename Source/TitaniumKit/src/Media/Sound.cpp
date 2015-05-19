@@ -35,7 +35,7 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_READWRITE(Sound, bool, allowBackground)
-		TITANIUM_PROPERTY_READ(Sound, std::chrono::milliseconds, duration)
+		TITANIUM_PROPERTY_READ(Sound, std::uint32_t, duration)
 		TITANIUM_PROPERTY_READWRITE(Sound, bool, looping)
 		TITANIUM_PROPERTY_READWRITE(Sound, bool, paused)
 		TITANIUM_PROPERTY_READ(Sound, bool, playing)
@@ -185,7 +185,7 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER_BOOL(Sound, allowBackground)
 		TITANIUM_PROPERTY_SETTER_BOOL(Sound, allowBackground)
-		TITANIUM_PROPERTY_GETTER_TIME(Sound, duration)
+		TITANIUM_PROPERTY_GETTER_UINT(Sound, duration)
 		TITANIUM_PROPERTY_GETTER_BOOL(Sound, looping)
 		TITANIUM_PROPERTY_SETTER_BOOL(Sound, looping)
 		TITANIUM_PROPERTY_GETTER_BOOL(Sound, paused)

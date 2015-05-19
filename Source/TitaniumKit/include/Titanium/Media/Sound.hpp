@@ -40,7 +40,7 @@ namespace Titanium
 			  @abstract duration
 			  @discussion Duration of the audio resource.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::chrono::milliseconds, duration);
+			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::uint32_t, duration);
 
 			/*!
 			  @property
@@ -214,7 +214,7 @@ namespace Titanium
 			JSValue state_waiting_for_data__;
 			JSValue state_waiting_for_queue__;
 			bool allowBackground__;
-			std::chrono::milliseconds duration__;
+			std::uint32_t duration__;
 			bool looping__;
 			bool paused__;
 			bool playing__;
