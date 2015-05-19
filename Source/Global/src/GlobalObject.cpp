@@ -1,7 +1,7 @@
 /**
  * Global for Windows
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -26,8 +26,26 @@ namespace TitaniumWindows
 		return location + "\\" + newpath;
 	}
 
+	std::string GlobalObject::requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname)
+	{
+		auto result = Titanium::GlobalObject::requestResolveModule(parent, moduleId, dirname);
+		if (!result.empty()) {
+			return result;
+		}
+
+		// TODO Unable to find the module normally. Let's see if it's a native type, if so we can resolve it properly.
+		// Maybe we should use some special prefix/suffix for the native type so we can avoid clashes and denote it special so that below it's easier to know when we're explicitly loading up a native type?
+		if (moduleId.find("Windows.") == 0) {
+			return "native:" + moduleId;
+		}
+
+		return result;
+	}
+
 	bool GlobalObject::requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT
 	{
+		// TODO If the name is a Windows type, return yes!
+		// How can we look up the types? i.e. Windows.Ui.Xaml.Controls.Page
 		auto module_path = resolve(path);
 		TITANIUM_LOG_DEBUG("GlobalObject::requiredModuleExists: ", TitaniumWindows::Utility::ConvertUTF8String(module_path));
 
@@ -47,8 +65,22 @@ namespace TitaniumWindows
 		return exists;
 	}
 
-	std::string GlobalObject::readRequiredModule(const std::string& path) const
+	void GlobalObject::registerNativeModuleLoader(NativeModuleLoader* module_loader)
 	{
+		module_loader__ = module_loader;
+	}
+
+	std::string GlobalObject::readRequiredModule(const JSObject& parent, const std::string& path) const
+	{
+		if (path.find("native:") == 0) {
+			// Slice off "native:" and pass it along
+			auto class_name = path.substr(7);
+			auto created_object = module_loader__->registerNativeModule(parent, class_name);
+			
+			// TODO We know this got hooked on the global using the full name, so let's cheat and use that knowledge?
+			return "module.exports = " + class_name + ";";
+		}
+
 		auto module_path = resolve(path);
 		TITANIUM_LOG_DEBUG("GlobalObject::loadRequiredModule: module_path = ", TitaniumWindows::Utility::ConvertUTF8String(module_path));
 

@@ -263,7 +263,7 @@ namespace Titanium
 		static const std::string COMMONJS_SEPARATOR__;
 #pragma warning(pop)
 
-		virtual std::string requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname = COMMONJS_SEPARATOR__) TITANIUM_NOEXCEPT final;
+		virtual std::string requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname = COMMONJS_SEPARATOR__) TITANIUM_NOEXCEPT;
 		virtual std::string resolvePath(const std::string& path, const std::string& dir = COMMONJS_SEPARATOR__) const TITANIUM_NOEXCEPT final;
 		virtual std::string resolvePathAsModule(const JSObject& parent, const std::string& resolvedPath, const std::string& dirname) const TITANIUM_NOEXCEPT final;
 		virtual std::string resolvePathAsDirectory(const JSObject& parent, const std::string& resolvedPath) const TITANIUM_NOEXCEPT final;
@@ -272,7 +272,7 @@ namespace Titanium
     
 		// platform-dependent functions
 		virtual bool requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT;
-		virtual std::string readRequiredModule(const std::string& path) const;
+		virtual std::string readRequiredModule(const JSObject& parent, const std::string& path) const;
     
 		/*!
 		  @method

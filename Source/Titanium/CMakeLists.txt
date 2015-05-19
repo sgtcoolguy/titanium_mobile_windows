@@ -82,20 +82,37 @@ if(NOT TARGET TitaniumWindows_Utility)
 endif()
 
 set(SOURCE_TitaniumWindows
-  src/TitaniumWindows.hpp
+  include/TitaniumWindows/TitaniumWindows.hpp
   src/TitaniumWindows.cpp
   src/Blob.cpp
-  src/Blob.hpp
+  include/TitaniumWindows/Blob.hpp
   src/File.cpp
-  src/File.hpp
-  src/detail/BlobBase.hpp
-  src/detail/FilesystemBase.hpp
+  include/TitaniumWindows/File.hpp
+  include/TitaniumWindows/detail/TitaniumWindowsBase.hpp
+  include/TitaniumWindows/WindowsNativeModuleLoader.hpp
+  src/WindowsNativeModuleLoader.cpp
 )
 
 source_group(TitaniumWindows FILES ${SOURCE_TitaniumWindows})
 
+file(GLOB_RECURSE WINDOWS_WRAPPERS "src/Windows.*.cpp")
+file(GLOB_RECURSE WINDOWS_HEADERS "include/Windows.*.hpp")
+file(GLOB_RECURSE PLATFORM_WRAPPERS "src/Platform.*.cpp")
+file(GLOB_RECURSE PLATFORM_HEADERS "include/Platform.*.hpp")
+
+set(SOURCE_TitaniumWindows_Native
+${WINDOWS_WRAPPERS}
+${WINDOWS_HEADERS}
+${PLATFORM_WRAPPERS}
+${PLATFORM_HEADERS}
+  )
+
+source_group(TitaniumWindows\\\\Native FILES ${SOURCE_TitaniumWindows_Native})
+
+
 add_library(TitaniumWindows SHARED
   ${SOURCE_TitaniumWindows}
+  ${SOURCE_TitaniumWindows_Native}
   )
 
 
@@ -120,6 +137,7 @@ target_link_libraries(TitaniumWindows
   )
 
 target_include_directories(TitaniumWindows PUBLIC
+  ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:TitaniumWindows_Global,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Ti,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_API,INTERFACE_INCLUDE_DIRECTORIES>
@@ -169,6 +187,12 @@ set_target_properties(TitaniumWindows PROPERTIES VS_WINRT_COMPONENT TRUE)
 # Therefore we disable /OPT:REF and /OPT:ICF for the Debug
 # configuration.
 set_property(TARGET TitaniumWindows APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
+
+# Fix error C1128: number of sections exceeded object file format limit
+set_property(TARGET TitaniumWindows APPEND_STRING PROPERTY COMPILE_FLAGS "/bigobj")
+
+# Fix error C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe (needed by boost::split)
+set_property(TARGET TitaniumWindows APPEND_STRING PROPERTY COMPILE_FLAGS " -D_SCL_SECURE_NO_WARNINGS")
 
 if (NOT TitaniumWindows_DISABLE_TESTS)
   add_subdirectory(test)

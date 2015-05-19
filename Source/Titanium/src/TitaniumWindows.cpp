@@ -6,7 +6,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "TitaniumWindows.hpp"
+#include "TitaniumWindows/TitaniumWindows.hpp"
 
 #include "TitaniumWindows/GlobalObject.hpp"
 #include "TitaniumWindows/UIModule.hpp"
@@ -21,9 +21,10 @@
 #include "TitaniumWindows/Filesystem.hpp"
 #include "TitaniumWindows/Network.hpp"
 #include "TitaniumWindows/Map.hpp"
-#include "Blob.hpp"
-#include "File.hpp"
-#include "HTTPClient.hpp"
+#include "TitaniumWindows/Blob.hpp"
+#include "TitaniumWindows/File.hpp"
+#include "TitaniumWindows/HTTPClient.hpp"
+#include "TitaniumWindows/WindowsNativeModuleLoader.hpp"
 
 #include <Windows.h>
 #include <collection.h>
@@ -88,6 +89,9 @@ namespace TitaniumWindows
 		                                                            .ProgressBarObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ProgressBar>::Class()))
 		                                                            .ScrollableViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ScrollableView>::Class()))
 		                                                            .build());
+		auto global = js_context__.get_global_object().GetPrivate<TitaniumWindows::GlobalObject>();
+		auto module_loader = new TitaniumWindows::WindowsNativeModuleLoader();
+		global->registerNativeModuleLoader(module_loader);
 
 		Suspending += ref new Windows::UI::Xaml::SuspendingEventHandler(this, &Application::OnSuspending);
 		Resuming += ref new Windows::Foundation::EventHandler<::Platform::Object ^>(this, &Application::OnResuming);

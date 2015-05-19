@@ -40,7 +40,7 @@ namespace TitaniumWindows
 	void UIModule::set_backgroundColor(const std::string& color) TITANIUM_NOEXCEPT
 	{
 		Titanium::UIModule::set_backgroundColor(color);
-		auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame ^>(Windows::UI::Xaml::Window::Current->Content);
+		auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 		if (rootFrame != nullptr) {
 			rootFrame->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(WindowsViewLayoutDelegate::ColorForName(color));
 		}
