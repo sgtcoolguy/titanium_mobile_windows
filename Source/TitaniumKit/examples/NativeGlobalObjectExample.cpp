@@ -20,7 +20,7 @@ bool NativeGlobalObjectExample::requiredModuleExists(const std::string& path) co
 	return (require_resource__.find(path) != require_resource__.end());
 }
 
-std::string NativeGlobalObjectExample::readRequiredModule(const std::string& path) const
+std::string NativeGlobalObjectExample::readRequiredModule(const JSObject& parent, const std::string& path) const
 {
 	TITANIUM_LOG_DEBUG("GlobalObjectDelegateExample::loadRequiredModule for ", path);
 	if (require_resource__.find(path) == require_resource__.end()) {
