@@ -16,14 +16,15 @@ This is a set of node scripts and EJS templates that will generate native type w
 - The set of #includes and cast implementation in Source\Titanium\src\Platform.Object.cpp
 
 ## How to Generate types
-```bash
+```bat
 cd titanium_mobile_windows\Tools\Scripts\metadata_stubber
 npm install .
 node stub.js
-cd ~/Documents
-node \path\to\titanium_mobile_windows\Tools\Scripts\generate_project.rb new NG
+cd C:\Users\username\Documents
+node C:\path\to\titanium_mobile_windows\Tools\Scripts\generate_project.rb new NG
 NG.WindowsPhone.Win32\NG.sln
 ```
+The final command will open the generated solution in Visual Studio for you, from there you can build and launch the app in an emulator or on a device.
 
 ## Using native types in JS code
 Native types are used in your app by using require:
