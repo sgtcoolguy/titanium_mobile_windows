@@ -141,7 +141,7 @@ namespace Titanium
 		{
 		public:
 			static const int32_t PROGRESS_UNKNOWN = -1;
-			
+	
 			static std::string to_string(const TYPE&) TITANIUM_NOEXCEPT;
 			static TYPE to_TYPE(const std::string& typeName) TITANIUM_NOEXCEPT;
 			static TYPE to_TYPE(std::underlying_type<TYPE>::type) TITANIUM_NOEXCEPT;
