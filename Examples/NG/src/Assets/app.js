@@ -1,135 +1,102 @@
-"use strict";
+// this sets the background color of the master UIView (when there are no windows/tab groups on it)
+Titanium.UI.setBackgroundColor('#000');
 
-var CELL_SIZE = 10,
-	FPS_INTERVAL = 30;
+// create tab group
+var tabGroup = Titanium.UI.createTabGroup();
 
-var Window = require('Windows.UI.Xaml.Window'),
-    Colors = require('Windows.UI.Colors'),
-    window = Window.Current,
-    SolidColorBrush = require('Windows.UI.Xaml.Media.SolidColorBrush'),
-    Canvas = require('Windows.UI.Xaml.Controls.Canvas'),
-    TextBlock = require('Windows.UI.Xaml.Controls.TextBlock'),
-	White = new SolidColorBrush(Colors.White),
-	Black = new SolidColorBrush(Colors.Black),
-	universe = new Canvas(),
-	label = new TextBlock(),
-    Visibility = Windows.UI.Xaml.Visibility;
 
-// set up universe
-universe.Height = window.Bounds.Height;
-universe.Width = window.Bounds.Width;
-universe.Background = Black;
+//
+// create base UI tab and root window
+//
+var win1 = Titanium.UI.createWindow({
+    title: 'Tab 1',
+    backgroundColor: 'Blue'
+});
+var tab1 = Titanium.UI.createTab({
+    icon: 'KS_nav_views.png',
+    title: 'Tab 1',
+    window: win1
+});
 
-// set up label
-label.Text = 'Loading, please wait.';
-label.TextAlignment = Windows.UI.Xaml.TextAlignment.Right;
-label.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Top;
-label.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Right;
-label.FontSize = 60;
-universe.Children.Append(label);
 
-// set up the rest of the variables
-var xSize = (universe.Width / CELL_SIZE) | 0,
-	ySize = (universe.Height / CELL_SIZE) | 0;
+var label = Ti.UI.createLabel({
+    'text': 'quotes go here',
+    'color': '#ff00ff',
+    'top': 500,
+    'left': 10,
+    width: Ti.UI.FILL
+});
 
-// populate cells
-Ti.API.info('populating cells...');
-var cells = [];
-for (var x = 0; x < xSize; x++) {
-    cells[x] = [];
-    for (var y = 0; y < ySize; y++) {
-        // is this cell alive?
-        var alive = Math.random() >= 0.5;
+var imageView = Ti.UI.createImageView({
+    'top': 420,
+    'left': 10,
+    image: 'http://iconizer.net/files/IconSweets/orig/email.png'
+});
 
-        // create native UI view
-        var cellProxy = new Canvas();
-        cellProxy.Height = CELL_SIZE;
-        cellProxy.Width = CELL_SIZE;
-        Canvas.SetLeft(cellProxy, x * CELL_SIZE);
-        Canvas.SetTop(cellProxy, y * CELL_SIZE);
-        cellProxy.Background = White;
-        cellProxy.Visibility = alive ? Visibility.Visible : Visibility.Collapsed;
+imageView.addEventListener('click', function (e) {
+    var emailDialog = Ti.UI.createEmailDialog({
+        toRecipients: ['me@example.com'],
+        subject: 'My Subject',
+        messageBody: "This is an example email"
+    });
+    emailDialog.addEventListener('complete', function (e) {
+        Ti.API.info("Email sent!");
+    })
+    emailDialog.open();
+});
 
-        // save the cell
-        cells[x][y] = {
-            proxy: cellProxy,
-            lastAlive: alive,
-            alive: alive
-        };
+var ring = Ti.UI.createActivityIndicator({
+    top:  200,
+    left: 20,
+    message: 'Loading...will be closed in 5 seconds'
+});
+ring.show();
 
-        // add cell to universe
-        universe.Children.Append(cellProxy);
-    }
-}
-Ti.API.info('done populating cells.');
+setTimeout(function () {
+    ring.hide();
+}, 5000);
 
-// start app
-window.Content = universe;
-window.Activate();
+var button1 = Ti.UI.createButton({
+    top:  20,
+    left: 10,
+    title: 'Show Alert',
+    backgroundColor: 'Green'
+});
 
-// the render function
-var ctr = 0;
-var lastReport = Date.now();
+button1.addEventListener('click', function (e) {
+    alert('Lorem ipsum dolor sit amet');
+    label.text = 'Lorem ipsum dolor sit amet';
+});
 
-function update(params) {
-    var x, y, cell;
+win1.add(label);
+win1.add(imageView);
+win1.add(button1);
+win1.add(ring);
 
-    // render current generation
-    for (x = 0; x < xSize; x++) {
-        for (y = 0; y < ySize; y++) {
-            cell = cells[x][y];
+//
+// create controls tab and root window
+//
+var win2 = Titanium.UI.createWindow({
+    title: 'Tab 2',
+    backgroundColor: '#fff'
+});
+var tab2 = Titanium.UI.createTab({
+    icon: 'KS_nav_ui.png',
+    title: 'Tab 2',
+    window: win2
+});
 
-            // minimize number of times we need to modify the proxy object
-            if (cell.alive !== cell.lastAlive) {
-                cell.proxy.Visibility = cell.alive ? Visibility.Visible : Visibility.Collapsed;
-                //cell.proxy.setHidden(!cell.alive);
-            }
+var slider = Ti.UI.createSlider({ left: 20, right: 20, backgroundColor: 'green' });
+slider.addEventListener('change', function (e) {
+    Ti.API.info('Slider value: ' + e.value);
+});
+win2.add(slider);
 
-            // save the state
-            cell.lastAlive = cell.alive;
-        }
-    }
+//
+//  add tabs
+//
+tabGroup.addTab(tab1);
+tabGroup.addTab(tab2);
 
-    // build next generation
-    for (x = 0; x < xSize; x++) {
-        for (y = 0; y < ySize; y++) {
-            cell = cells[x][y];
-            cell.alive = getNextState(x, y, cell.lastAlive);
-        }
-    }
-
-    // show the average FPS
-    if (!(++ctr % FPS_INTERVAL)) {
-        ctr = 1;
-        var currentReport = Date.now(),
-			fps = 1.0 / (currentReport - lastReport);
-        label.Text = 'FPS: ' + Math.round(FPS_INTERVAL * 10 * fps) / 10;
-        lastReport = currentReport;
-    }
-}
-
-// calculate the next state of each cell
-function getNextState(x, y, alive) {
-    var count = 0,
-		xm1 = x > 0,
-		xp1 = x + 1 < xSize,
-		ym1 = y > 0,
-		yp1 = y + 1 < ySize;
-
-    if (xm1) {
-        if (ym1 && cells[x - 1][y - 1].lastAlive) { count++; }
-        if (cells[x - 1][y].lastAlive) { count++; }
-        if (yp1 && cells[x - 1][y + 1].lastAlive) { count++; }
-    }
-    if (xp1) {
-        if (ym1 && cells[x + 1][y - 1].lastAlive) { count++; }
-        if (cells[x + 1][y].lastAlive) { count++; }
-        if (yp1 && cells[x + 1][y + 1].lastAlive) { count++; }
-    }
-    if (ym1 && cells[x][y - 1].lastAlive) { count++; }
-    if (yp1 && cells[x][y + 1].lastAlive) { count++; }
-
-    return (alive && (count === 2 || count === 3)) || (!alive && count === 3);
-}
-
-setInterval(update, 1000 / FPS_INTERVAL);
+// open tab group
+tabGroup.open();
