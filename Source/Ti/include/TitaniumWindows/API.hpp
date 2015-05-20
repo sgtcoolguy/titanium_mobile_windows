@@ -43,7 +43,7 @@ namespace TitaniumWindows
 
 	  @discussion This is the Titanium.API implementation for Windows.
 	*/
-	class TITANIUMWINDOWS_API_EXPORT API final : public Titanium::API, public JSExport<API>
+	class TITANIUMWINDOWS_TI_EXPORT API final : public Titanium::API, public JSExport<API>
 	{
 	public:
 		static bool done__;

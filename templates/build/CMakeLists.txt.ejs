@@ -38,18 +38,14 @@ list(INSERT CMAKE_MODULE_PATH 0 ${APPCELERATOR_CMAKE_MODULE_PATH})
 find_package(HAL REQUIRED)
 find_package(TitaniumKit REQUIRED)
 find_package(TitaniumWindows REQUIRED)
-find_package(TitaniumWindows_API REQUIRED)
 find_package(TitaniumWindows_Sensors REQUIRED)
-find_package(TitaniumWindows_App REQUIRED)
 find_package(TitaniumWindows_Filesystem REQUIRED)
 find_package(TitaniumWindows_Global REQUIRED)
 find_package(TitaniumWindows_Map REQUIRED)
 find_package(TitaniumWindows_Network REQUIRED)
-find_package(TitaniumWindows_Platform REQUIRED)
 find_package(TitaniumWindows_Ti REQUIRED)
 find_package(TitaniumWindows_UI REQUIRED)
 find_package(TitaniumWindows_Utility REQUIRED)
-find_package(TitaniumWindows_Utils REQUIRED)
 find_package(LayoutEngine REQUIRED)
 
 # No user-servicable parts below this line.
@@ -113,36 +109,29 @@ set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_COMPONENT TRUE)
 target_link_libraries(${EXE_NAME} HAL)
 target_link_libraries(${EXE_NAME} TitaniumKit)
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_LIBRARIES})
-target_link_libraries(${EXE_NAME} ${TitaniumWindows_API_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Sensors_LIBRARIES})
-target_link_libraries(${EXE_NAME} ${TitaniumWindows_App_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Filesystem_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Global_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Map_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Network_LIBRARIES})
-target_link_libraries(${EXE_NAME} ${TitaniumWindows_Platform_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Ti_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_UI_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Utility_LIBRARIES})
-target_link_libraries(${EXE_NAME} ${TitaniumWindows_Utils_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${LayoutEngine_LIBRARIES})
 
 target_include_directories(${EXE_NAME} PUBLIC
   $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
   ${TitaniumWindows_INCLUDE_DIRS}
-  ${TitaniumWindows_API_INCLUDE_DIRS}
   ${TitaniumWindows_Sensors_INCLUDE_DIRS}
-  ${TitaniumWindows_App_INCLUDE_DIRS}
   ${TitaniumWindows_Filesystem_INCLUDE_DIRS}
   ${TitaniumWindows_Global_INCLUDE_DIRS}
   ${TitaniumWindows_Map_INCLUDE_DIRS}
   ${TitaniumWindows_Network_INCLUDE_DIRS}
-  ${TitaniumWindows_Platform_INCLUDE_DIRS}
   ${TitaniumWindows_Ti_INCLUDE_DIRS}
   ${TitaniumWindows_UI_INCLUDE_DIRS}
   ${TitaniumWindows_Utility_INCLUDE_DIRS}
   ${LayoutEngine_INCLUDE_DIRS}
   )
 
-set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_REFERENCES "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/${PLATFORM}/${Ti_ARCH}/TitaniumWindows.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_API/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_API.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Sensors/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Sensors.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_App/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_App.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Filesystem/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Filesystem.winmd;winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Global/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Global.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Map/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Map.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Network/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Network.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Platform/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Platform.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Ti/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Ti.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_UI/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_UI.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utility/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Utility.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utils/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Utils.winmd")
+set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_REFERENCES "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/${PLATFORM}/${Ti_ARCH}/TitaniumWindows.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Sensors/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Sensors.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Filesystem/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Filesystem.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Global/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Global.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Map/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Map.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Network/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Network.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Ti/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Ti.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_UI/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_UI.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utility/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Utility.winmd;")

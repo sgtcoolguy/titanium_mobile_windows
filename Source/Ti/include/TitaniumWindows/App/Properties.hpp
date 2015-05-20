@@ -25,7 +25,7 @@ namespace TitaniumWindows
 
 		  @discussion This is the Titanium.App.Properties implementation for Windows.
 		*/
-		class TITANIUMWINDOWS_APP_EXPORT Properties final : public Titanium::App::Properties, public JSExport<Properties>
+		class TITANIUMWINDOWS_TI_EXPORT Properties final : public Titanium::App::Properties, public JSExport<Properties>
 		{
 
 		public:

@@ -26,7 +26,7 @@ namespace TitaniumWindows
 
 	  @discussion This is the Titanium.Utils implementation for Windows.
 	*/
-	class TITANIUMWINDOWS_UTILS_EXPORT Utils final : public Titanium::Utils, public JSExport<Utils>
+	class TITANIUMWINDOWS_TI_EXPORT Utils final : public Titanium::Utils, public JSExport<Utils>
 	{
 
 	public:

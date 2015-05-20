@@ -20,7 +20,7 @@ namespace TitaniumWindows
 
 	  @discussion This is the Titanium.App implementation for Windows.
 	*/
-	class TITANIUMWINDOWS_APP_EXPORT AppModule final : public Titanium::AppModule, public JSExport<AppModule>
+	class TITANIUMWINDOWS_TI_EXPORT AppModule final : public Titanium::AppModule, public JSExport<AppModule>
 	{
 
 	public:

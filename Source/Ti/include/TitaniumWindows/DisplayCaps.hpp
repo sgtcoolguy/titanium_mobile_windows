@@ -18,7 +18,7 @@ namespace TitaniumWindows
 
 	  @discussion This is the Titanium.Platform.DisplayCaps implementation for Windows.
 	*/
-	class TITANIUMWINDOWS_PLATFORM_EXPORT DisplayCaps final : public Titanium::Platform::DisplayCaps, public JSExport<DisplayCaps>
+	class TITANIUMWINDOWS_TI_EXPORT DisplayCaps final : public Titanium::Platform::DisplayCaps, public JSExport<DisplayCaps>
 	{
 	public:
 		virtual std::string density() const TITANIUM_NOEXCEPT;
