@@ -48,50 +48,52 @@ if(NOT TARGET TitaniumWindows_Utility)
 endif()
 
 set(SOURCE_UI
-  include/TitaniumWindows/UIModule.hpp
-  src/UIModule.cpp
-  include/TitaniumWindows/UI/Switch.hpp
-  src/Switch.cpp
-  include/TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp
-  src/WindowsViewLayoutDelegate.cpp
+  include/TitaniumWindows/UI/detail/UIBase.hpp
+  include/TitaniumWindows/UI.hpp
+  include/TitaniumWindows/UI/ActivityIndicator.hpp
+  src/ActivityIndicator.cpp
+  include/TitaniumWindows/UI/AlertDialog.hpp
+  src/AlertDialog.cpp
+  include/TitaniumWindows/UI/Button.hpp
+  src/Button.cpp
   include/TitaniumWindows/UI/EmailDialog.hpp
   src/EmailDialog.cpp
-  include/TitaniumWindows/UI/View.hpp
-  src/View.cpp
   include/TitaniumWindows/UI/ImageView.hpp
   src/ImageView.cpp
   include/TitaniumWindows/UI/Label.hpp
   src/Label.cpp
-  include/TitaniumWindows/UI/Window.hpp
-  src/Window.cpp
-  include/TitaniumWindows/UI/Button.hpp
-  src/Button.cpp
-  include/TitaniumWindows/UI/AlertDialog.hpp
-  src/AlertDialog.cpp
-  include/TitaniumWindows/UI/detail/UIBase.hpp
-  include/TitaniumWindows/UI.hpp
-  include/TitaniumWindows/UI/ScrollView.hpp
-  src/ScrollView.cpp
-  include/TitaniumWindows/UI/Slider.hpp
-  src/Slider.cpp
-  include/TitaniumWindows/UI/TextField.hpp
-  src/TextField.cpp
   include/TitaniumWindows/UI/ListView.hpp
   src/ListView.cpp
-  include/TitaniumWindows/UI/WebView.hpp
-  src/WebView.cpp
-  include/TitaniumWindows/UI/TableView.hpp
-  src/TableView.cpp
-  include/TitaniumWindows/UI/TableViewRow.hpp
-  src/TableViewRow.cpp
-  include/TitaniumWindows/UI/ActivityIndicator.hpp
-  src/ActivityIndicator.cpp
+  include/TitaniumWindows/UI/Notification.hpp
+  src/Notification.cpp
   include/TitaniumWindows/UI/OptionDialog.hpp
   src/OptionDialog.cpp
   include/TitaniumWindows/UI/ProgressBar.hpp
   src/ProgressBar.cpp
   include/TitaniumWindows/UI/ScrollableView.hpp
   src/ScrollableView.cpp
+  include/TitaniumWindows/UI/ScrollView.hpp
+  src/ScrollView.cpp
+  include/TitaniumWindows/UI/Slider.hpp
+  src/Slider.cpp
+  include/TitaniumWindows/UI/Switch.hpp
+  src/Switch.cpp
+  include/TitaniumWindows/UI/TableView.hpp
+  src/TableView.cpp
+  include/TitaniumWindows/UI/TableViewRow.hpp
+  src/TableViewRow.cpp
+  include/TitaniumWindows/UI/TextField.hpp
+  src/TextField.cpp
+  include/TitaniumWindows/UIModule.hpp
+  src/UIModule.cpp
+  include/TitaniumWindows/UI/View.hpp
+  src/View.cpp
+  include/TitaniumWindows/UI/WebView.hpp
+  src/WebView.cpp
+  include/TitaniumWindows/UI/Window.hpp
+  src/Window.cpp
+  include/TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp
+  src/WindowsViewLayoutDelegate.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})

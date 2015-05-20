@@ -31,7 +31,8 @@
           BackgroundColor="#171717"
           ForegroundText="light"
           Square150x150Logo="Logo.png"
-          Square30x30Logo="SmallLogo.png">
+          Square30x30Logo="SmallLogo.png"
+          ToastCapable="true">
         <m2:DefaultTile ShortName="@SHORT_NAME@">
           <m2:ShowNameOnTiles>
             <m2:ShowOn Tile="square150x150Logo" />

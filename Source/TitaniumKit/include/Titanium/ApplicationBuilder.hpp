@@ -64,6 +64,9 @@ namespace Titanium
 		JSObject TwoDMatrixObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& TwoDMatrixObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject NotificationObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& NotificationObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject ViewObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -214,6 +217,7 @@ namespace Titanium
 		JSObject ui__;
 		JSObject api__;
 		JSObject view__;
+		JSObject notification__;
 		JSObject twodmatrix__;
 		JSObject geolocation__;
 		JSObject switch__;

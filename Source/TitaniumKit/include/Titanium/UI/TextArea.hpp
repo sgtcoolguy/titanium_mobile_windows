@@ -117,12 +117,15 @@ namespace Titanium
 			TITANIUM_PROPERTY_DEF(verticalAlign);
 
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			std::unordered_set<AUTOLINK> autoLink__;
 			KEYBOARD keyboardType__;
 			RETURNKEY returnKeyType__;
 			TEXT_ALIGNMENT textAlign__;
 			TEXT_AUTOCAPITALIZATION autocapitalization__;
 			TEXT_VERTICAL_ALIGNMENT verticalAlign__;
+#pragma warning(pop)
 		};
 	} // namespace UI
 }  // namespace Titanium
