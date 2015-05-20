@@ -68,7 +68,7 @@ function cmake_build_cmd {
     cmd+=" -DCMAKE_SYSTEM_VERSION=8.1"
     cmd+=" -DTitaniumWindows_DISABLE_TESTS=${OFF}"
     cmd+=" -DTitaniumWindows_Global_DISABLE_TESTS=ON"
-    cmd+=" -DTitaniumWindows_API_DISABLE_TESTS=ON"
+    cmd+=" -DTitaniumWindows_Ti_DISABLE_TESTS=ON"
     cmd+=" -DTitaniumWindows_UI_DISABLE_TESTS=ON"
     cmd+=" -DTitaniumKit_DISABLE_TESTS=ON"
     cmd+=" -DHAL_DISABLE_TESTS=ON"

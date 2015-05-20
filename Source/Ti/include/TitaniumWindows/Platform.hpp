@@ -18,7 +18,7 @@ namespace TitaniumWindows
 
 	  @discussion This is the Titanium.Platform implementation for Windows.
 	*/
-	class TITANIUMWINDOWS_PLATFORM_EXPORT Platform final : public Titanium::PlatformModule, public JSExport<Platform>
+	class TITANIUMWINDOWS_TI_EXPORT Platform final : public Titanium::PlatformModule, public JSExport<Platform>
 	{
 	public:
 		Platform(const JSContext&) TITANIUM_NOEXCEPT;

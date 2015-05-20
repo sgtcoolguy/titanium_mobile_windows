@@ -40,19 +40,62 @@ if(NOT TARGET TitaniumKit)
 	add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit EXCLUDE_FROM_ALL)
 endif()
 
+if(NOT TARGET TitaniumWindows_Utility)
+  get_filename_component(Utility_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../Utility ABSOLUTE)
+  add_subdirectory(${Utility_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Utility EXCLUDE_FROM_ALL)
+endif()
+
 set(SOURCE_Ti
   include/TitaniumWindows/TiModule.hpp
   src/TiModule.cpp
   include/TitaniumWindows/detail/TiModuleBase.hpp
   )
 
+set(SOURCE_API
+  include/TitaniumWindows/API.hpp
+  src/API.cpp
+  include/TitaniumWindows/detail/APIBase.hpp
+  )
+
+set(SOURCE_App
+  include/TitaniumWindows/App/Properties.hpp
+  src/Properties.cpp
+  include/TitaniumWindows/App.hpp
+  include/TitaniumWindows/detail/AppBase.hpp
+  include/TitaniumWindows/AppModule.hpp
+  src/AppModule.cpp
+  )
+
+set(SOURCE_Platform
+  include/TitaniumWindows/Platform.hpp
+  include/TitaniumWindows/DisplayCaps.hpp
+  src/Platform.cpp
+  src/DisplayCaps.cpp
+  include/TitaniumWindows/detail/PlatformBase.hpp
+  include/TitaniumWindows/detail/DisplayCapsBase.hpp
+  )
+
+set(SOURCE_Utils
+  include/TitaniumWindows/Utils.hpp
+  src/Utils.cpp
+  include/TitaniumWindows/detail/UtilsBase.hpp
+  )
+
 source_group(Titanium\\Ti FILES ${SOURCE_Ti})
+source_group(Titanium\\API FILES ${SOURCE_API})
+source_group(Titanium\\App FILES ${SOURCE_App})
+source_group(Titanium\\Platform FILES ${SOURCE_Platform})
+source_group(Titanium\\Utils FILES ${SOURCE_Utils})
 
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
 add_library(TitaniumWindows_Ti SHARED
   ${SOURCE_Ti}
+  ${SOURCE_API}
+  ${SOURCE_App}
+  ${SOURCE_Platform}
+  ${SOURCE_Utils}
   )
 
 include(GenerateExportHeader)
@@ -62,10 +105,12 @@ target_compile_definitions(TitaniumWindows_Ti PRIVATE TitaniumWindows_Ti_EXPORTS
 target_include_directories(TitaniumWindows_Ti PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
 target_link_libraries(TitaniumWindows_Ti
   TitaniumKit
+  TitaniumWindows_Utility
   )
 
 set_target_properties(TitaniumWindows_Ti PROPERTIES VS_WINRT_COMPONENT TRUE)

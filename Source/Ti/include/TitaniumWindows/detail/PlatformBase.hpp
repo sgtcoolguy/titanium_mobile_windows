@@ -10,7 +10,7 @@
 #ifndef _TITANIUMWINDOWS_DETAIL_PLATFORMBASE_HPP_
 #define _TITANIUMWINDOWS_DETAIL_PLATFORMBASE_HPP_
 
-#include "TitaniumWindows_Platform_EXPORT.h"
+#include "TitaniumWindows_Ti_EXPORT.h"
 
 #include "Titanium/Titanium.hpp"
 #include "Titanium/detail/TiLogger.hpp"
