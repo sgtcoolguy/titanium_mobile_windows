@@ -37,8 +37,11 @@ namespace TitaniumWindows
 		virtual Titanium::Network::TYPE get_networkType() const TITANIUM_NOEXCEPT override final;
 		virtual bool get_online() const TITANIUM_NOEXCEPT override final;
 
+		virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+		virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+
 	protected:
-	private:
+		Windows::Foundation::EventRegistrationToken change_event__;
 	};
 
 }  

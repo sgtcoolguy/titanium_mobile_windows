@@ -126,6 +126,9 @@ JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME))
 #define TITANIUM_ADD_PROPERTY(MODULE, NAME) \
 JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME), std::mem_fn(&MODULE::js_set_##NAME))
 
+#define JSOBJECT_GETPROPERTY(IN, NAME, TYPE, DEFAULT_VALUE) \
+IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
+
 #define ENSURE_ARGUMENT_BOUNDS(INDEX) TITANIUM_ASSERT_AND_THROW((arguments.size() >= INDEX + 1), ("Index out of bounds: "#INDEX))
 
 #define ENSURE_OPTIONAL_OBJECT_AT_INDEX(OUT,INDEX) \
@@ -213,6 +216,12 @@ JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME), s
   TITANIUM_ASSERT_AND_THROW(_obj_##INDEX.IsArray(), "Expected Array"); \
   auto OUT = static_cast<JSArray>(_obj_##INDEX);
 
+#define ENSURE_ARRAY(IN, OUT) \
+  TITANIUM_ASSERT_AND_THROW(IN.IsObject(), "Expected Object"); \
+  const auto obj_##IN = static_cast<JSObject>(IN); \
+  TITANIUM_ASSERT_AND_THROW(obj_##IN.IsArray(), "Expected Array"); \
+  auto OUT = static_cast<JSArray>(obj_##IN);
+
 #define ENSURE_INT_AT_INDEX(OUT,INDEX) \
   ENSURE_NUMBER_AT_INDEX(OUT,INDEX,int32_t)
 
@@ -221,6 +230,10 @@ JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME), s
 
 #define ENSURE_DOUBLE_AT_INDEX(OUT,INDEX) \
   ENSURE_NUMBER_AT_INDEX(OUT,INDEX,double)
+
+#define ENSURE_TIME_AT_INDEX(OUT,INDEX) \
+  ENSURE_NUMBER_AT_INDEX(OUT##_##INDEX,INDEX,uint32_t); \
+  auto OUT = std::chrono::seconds(static_cast<std::chrono::seconds::rep>(OUT##_##INDEX));
 
 // Shorthand for getter accessor function for a value property that has a getter (cpp)
 #define TITANIUM_FUNCTION_AS_GETTER(MODULE, NAME, PROPERTY) \
@@ -236,6 +249,12 @@ TITANIUM_FUNCTION(MODULE, NAME) \
   ENSURE_VALUE_AT_INDEX(argument, 0); \
   js_set_##PROPERTY(argument); \
   return get_context().CreateUndefined(); \
+}
+
+#define ENSURE_MODULE_OBJECT(IN,OUT,TYPE) \
+std::shared_ptr<TYPE> OUT = nullptr; \
+if (IN.IsObject()) { \
+  OUT = static_cast<JSObject>(IN).GetPrivate<TYPE>(); \
 }
 
 #define ENSURE_TYPE_ARRAY(IN,OUT,TYPE) \
@@ -305,6 +324,14 @@ TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
 	set_##NAME(std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(argument)))); \
 	return true; \
 }
+
+#define TITANIUM_PROPERTY_SETTER_TIME_SECONDS(MODULE, NAME) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+  TITANIUM_ASSERT(argument.IsNumber()); \
+  set_##NAME(std::chrono::seconds(static_cast<std::chrono::seconds::rep>(static_cast<std::uint32_t>(argument)))); \
+  return true; \
+}
+
 
 #define TITANIUM_PROPERTY_GETTER_STRING(MODULE, NAME) \
 	TITANIUM_PROPERTY_GETTER_TYPE(MODULE, NAME, std::string, String)

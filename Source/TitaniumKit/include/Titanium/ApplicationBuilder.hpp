@@ -129,6 +129,27 @@ namespace Titanium
 
 		JSObject UDPObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& UDPObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject MediaObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& MediaObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject AudioPlayerObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& AudioPlayerObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject AudioRecorderObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& AudioRecorderObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject AudioItemObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& AudioItemObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject MusicPlayerObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& MusicPlayerObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject SoundObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& SoundObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject VideoPlayerObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& VideoPlayerObject(const JSObject&) TITANIUM_NOEXCEPT;
 		
 		JSObject XMLObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& XMLObject(const JSObject&) TITANIUM_NOEXCEPT;
@@ -225,6 +246,13 @@ namespace Titanium
 		JSObject network__;
 		JSObject tcp__;
 		JSObject udp__;
+		JSObject media__;
+		JSObject audioplayer__;
+		JSObject audiorecorder__;
+		JSObject audioitem__;
+		JSObject musicplayer__;
+		JSObject sound__;
+		JSObject videoplayer__;
 		JSObject xml__;
 		JSObject tableview__;
 		JSObject tableviewsection__;
