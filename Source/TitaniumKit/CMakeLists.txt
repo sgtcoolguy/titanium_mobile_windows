@@ -188,93 +188,95 @@ set(SOURCE_Network
   )
 
 set(SOURCE_UI
-  include/Titanium/UI/Switch.hpp
-  src/UI/Switch.cpp
-  include/Titanium/UI/ViewLayoutDelegate.hpp
-  src/UI/ViewLayoutDelegate.cpp
-  include/Titanium/UIModule.hpp
-  src/UIModule.cpp
+  include/Titanium/UI/2DMatrix.hpp
+  src/UI/2DMatrix.cpp
+  include/Titanium/UI/ActivityIndicator.hpp
+  src/UI/ActivityIndicator.cpp
+  include/Titanium/UI/ActivityIndicatorStyle.hpp
+  src/UI/ActivityIndicatorStyle.cpp
+  include/Titanium/UI/AlertDialog.hpp
+  src/UI/AlertDialog.cpp
+  include/Titanium/UI/Animation.hpp
+  src/UI/Animation.cpp
+  include/Titanium/UI/Button.hpp
+  src/UI/Button.cpp
+  include/Titanium/UI/CloseWindowParams.hpp
+  src/UI/CloseWindowParams.cpp
   include/Titanium/UI/Constants.hpp
   src/UI/Constants.cpp
-  include/Titanium/UI/Point.hpp
-  src/UI/Point.cpp
   include/Titanium/UI/Dimension.hpp
   src/UI/Dimension.cpp
+  include/Titanium/UI/EmailDialog.hpp
+  src/UI/EmailDialog.cpp
   include/Titanium/UI/Font.hpp
   src/UI/Font.cpp
   include/Titanium/UI/Gradient.hpp
   src/UI/Gradient.cpp
   include/Titanium/UI/ImageView.hpp
   src/UI/ImageView.cpp
-  include/Titanium/UI/View.hpp
-  src/UI/View.cpp
-  include/Titanium/UI/Window.hpp
-  src/UI/Window.cpp
-  include/Titanium/UI/Button.hpp
-  src/UI/Button.cpp
   include/Titanium/UI/Label.hpp
   src/UI/Label.cpp
-  include/Titanium/UI/Animation.hpp
-  src/UI/Animation.cpp
-  include/Titanium/UI/TextArea.hpp
-  src/UI/Button.cpp
-  include/Titanium/UI/TextField.hpp
-  src/UI/TextField.cpp
-  include/Titanium/UI/Picker.hpp
-  src/UI/Picker.cpp
-  include/Titanium/UI/WebView.hpp
-  src/UI/WebView.cpp
-  include/Titanium/UI/AlertDialog.hpp
-  src/UI/AlertDialog.cpp
-  include/Titanium/UI/ScrollView.hpp
-  src/UI/ScrollView.cpp
-  include/Titanium/UI/Slider.hpp
-  src/UI/Slider.cpp
-  include/Titanium/UI/ListViewAnimationProperties.hpp
-  src/UI/ListViewAnimationProperties.cpp
-  include/Titanium/UI/TableViewAnimationProperties.hpp
-  src/UI/TableViewAnimationProperties.cpp
-  include/Titanium/UI/ListViewMarkerProps.hpp
-  src/UI/ListViewMarkerProps.cpp
-  include/Titanium/UI/ListView.hpp
-  src/UI/ListView.cpp
   include/Titanium/UI/ListSection.hpp
   src/UI/ListSection.cpp
   include/Titanium/UI/listview_js.hpp
-  include/Titanium/UI/EmailDialog.hpp
-  src/UI/EmailDialog.cpp
-  include/Titanium/UI/TableView.hpp
-  src/UI/TableView.cpp
-  include/Titanium/UI/TableViewRow.hpp
-  src/UI/TableViewRow.cpp
-  include/Titanium/UI/TableViewSection.hpp
-  src/UI/TableViewSection.cpp
-  include/Titanium/UI/OpenWindowParams.hpp
-  src/UI/OpenWindowParams.cpp
-  include/Titanium/UI/CloseWindowParams.hpp
-  src/UI/CloseWindowParams.cpp
-  include/Titanium/UI/TitleAttributesParams.hpp
-  src/UI/TitleAttributesParams.cpp
-  include/Titanium/UI/ShadowDict.hpp
-  src/UI/ShadowDict.cpp
-  include/Titanium/UI/ActivityIndicator.hpp
-  src/UI/ActivityIndicator.cpp
-  include/Titanium/UI/ActivityIndicatorStyle.hpp
-  src/UI/ActivityIndicatorStyle.cpp
-  include/Titanium/UI/2DMatrix.hpp
-  src/UI/2DMatrix.cpp
+  include/Titanium/UI/ListView.hpp
+  src/UI/ListView.cpp
+  include/Titanium/UI/ListViewAnimationProperties.hpp
+  src/UI/ListViewAnimationProperties.cpp
+  include/Titanium/UI/ListViewMarkerProps.hpp
+  src/UI/ListViewMarkerProps.cpp
   include/Titanium/UI/MatrixCreationDict.hpp
   src/UI/MatrixCreationDict.cpp
+  include/Titanium/UI/Notification.hpp
+  src/UI/Notification.cpp
+  include/Titanium/UI/OpenWindowParams.hpp
+  src/UI/OpenWindowParams.cpp
+  include/Titanium/UI/OptionDialog.hpp
+  src/UI/OptionDialog.cpp
+  include/Titanium/UI/OptionDialogHideParams.hpp
+  src/UI/OptionDialogHideParams.cpp
+  include/Titanium/UI/OptionDialogShowParams.hpp
+  src/UI/OptionDialogShowParams.cpp
+  include/Titanium/UI/Picker.hpp
+  src/UI/Picker.cpp
+  include/Titanium/UI/Point.hpp
+  src/UI/Point.cpp
   include/Titanium/UI/ProgressBar.hpp
   src/UI/ProgressBar.cpp
   include/Titanium/UI/ScrollableView.hpp
   src/UI/ScrollableView.cpp
-  include/Titanium/UI/OptionDialog.hpp
-  src/UI/OptionDialog.cpp
-  include/Titanium/UI/OptionDialogShowParams.hpp
-  src/UI/OptionDialogShowParams.cpp
-  include/Titanium/UI/OptionDialogHideParams.hpp
-  src/UI/OptionDialogHideParams.cpp
+  include/Titanium/UI/ScrollView.hpp
+  src/UI/ScrollView.cpp
+  include/Titanium/UI/ShadowDict.hpp
+  src/UI/ShadowDict.cpp
+  include/Titanium/UI/Slider.hpp
+  src/UI/Slider.cpp
+  include/Titanium/UI/Switch.hpp
+  src/UI/Switch.cpp
+  include/Titanium/UI/TableView.hpp
+  src/UI/TableView.cpp
+  include/Titanium/UI/TableViewAnimationProperties.hpp
+  src/UI/TableViewAnimationProperties.cpp
+  include/Titanium/UI/TableViewRow.hpp
+  src/UI/TableViewRow.cpp
+  include/Titanium/UI/TableViewSection.hpp
+  src/UI/TableViewSection.cpp
+  include/Titanium/UI/TextArea.hpp
+  src/UI/TextArea.cpp
+  include/Titanium/UI/TextField.hpp
+  src/UI/TextField.cpp
+  include/Titanium/UI/TitleAttributesParams.hpp
+  src/UI/TitleAttributesParams.cpp
+  include/Titanium/UIModule.hpp
+  src/UIModule.cpp
+  include/Titanium/UI/View.hpp
+  src/UI/View.cpp
+  include/Titanium/UI/ViewLayoutDelegate.hpp
+  src/UI/ViewLayoutDelegate.cpp
+  include/Titanium/UI/WebView.hpp
+  src/UI/WebView.cpp
+  include/Titanium/UI/Window.hpp
+  src/UI/Window.cpp
   )
 
 set(SOURCE_TiLogger_detail

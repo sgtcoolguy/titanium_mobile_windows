@@ -16,6 +16,10 @@
 #include "TitaniumWindows/UI/ImageView.hpp"
 #include "TitaniumWindows/UI/Label.hpp"
 #include "TitaniumWindows/UI/ListView.hpp"
+#include "TitaniumWindows/UI/Notification.hpp"
+#include "TitaniumWindows/UI/OptionDialog.hpp"
+#include "TitaniumWindows/UI/ProgressBar.hpp"
+#include "TitaniumWindows/UI/ScrollableView.hpp"
 #include "TitaniumWindows/UI/ScrollView.hpp"
 #include "TitaniumWindows/UI/Slider.hpp"
 #include "TitaniumWindows/UI/Switch.hpp"
@@ -25,8 +29,5 @@
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/UI/WebView.hpp"
 #include "TitaniumWindows/UI/Window.hpp"
-#include "TitaniumWindows/UI/OptionDialog.hpp"
-#include "TitaniumWindows/UI/ProgressBar.hpp"
-#include "TitaniumWindows/UI/ScrollableView.hpp"
 
 #endif  // _TITANIUMWINDOWS_UI_HPP_

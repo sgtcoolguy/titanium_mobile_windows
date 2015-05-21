@@ -34,6 +34,7 @@ namespace Titanium
 		  ui__(js_context__.CreateObject(JSExport<Titanium::UIModule>::Class())),
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
+	      notification__(js_context__.CreateObject(JSExport<Titanium::UI::Notification>::Class())),
 		  twodmatrix__(js_context__.CreateObject(JSExport<Titanium::UI::TwoDMatrix>::Class())),
 		  geolocation__(js_context__.CreateObject(JSExport<Titanium::GeolocationModule>::Class())),
 		  switch__(js_context__.CreateObject(JSExport<Titanium::UI::Switch>::Class())),
@@ -103,6 +104,10 @@ namespace Titanium
 		ui__.SetProperty("Label", label__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("ListView", listview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("ListSection", listsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("Notification", notification__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		ui__.SetProperty("OptionDialog", optionDialog__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		ui__.SetProperty("ProgressBar", progressBar__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		ui__.SetProperty("ScrollableView", scrollableView__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		ui__.SetProperty("ScrollView", scrollview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Slider", slider__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Switch", switch__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -113,10 +118,7 @@ namespace Titanium
 		ui__.SetProperty("View", view__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("WebView", webview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Window", window__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		ui__.SetProperty("OptionDialog", optionDialog__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
-		ui__.SetProperty("ProgressBar", progressBar__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
-		ui__.SetProperty("ScrollableView", scrollableView__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
-
+		
 		filesystem__.SetProperty("File", file__);
 
 		JSObject socket__ = js_context__.CreateObject(JSExport<Titanium::Network::SocketModule>::Class());
@@ -165,7 +167,7 @@ namespace Titanium
 		// XML
 		titanium.SetProperty("XML", xml__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 
-		JSString builtin_functions_script = R"js(
+JSString builtin_functions_script = R"js(
 			  console = {};
 			  console.log   = Ti.API.info;
 			  console.info  = Ti.API.info;
@@ -343,6 +345,17 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::TwoDMatrixObject(const JSObject& TwoDMatrix) TITANIUM_NOEXCEPT
 	{
 		twodmatrix__ = TwoDMatrix;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::NotificationObject() const TITANIUM_NOEXCEPT
+	{
+		return notification__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::NotificationObject(const JSObject& Notification) TITANIUM_NOEXCEPT
+	{
+		notification__ = Notification;
 		return *this;
 	}
 

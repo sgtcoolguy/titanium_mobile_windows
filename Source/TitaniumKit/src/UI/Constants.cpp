@@ -1676,5 +1676,5 @@ namespace Titanium
 		{
 			return static_cast<std::underlying_type<UNIT>::type>(unit);
 		}
-	}
-}  // namespace Titanium { namespace UI {
+	} // namespace UI
+}  // namespace Titanium
