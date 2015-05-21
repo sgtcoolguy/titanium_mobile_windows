@@ -9,7 +9,8 @@
 #ifndef _TITANIUMWINDOWS_APPMODULE_HPP_
 #define _TITANIUMWINDOWS_APPMODULE_HPP_
 
-#include "TitaniumWindows/detail/AppBase.hpp"
+#include "Titanium/App.hpp"
+#include "TitaniumWindows_Ti_EXPORT.h"
 
 namespace TitaniumWindows
 {

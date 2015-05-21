@@ -9,7 +9,8 @@
 #ifndef _TITANIUMWINDOWS_UTILS_HPP_
 #define _TITANIUMWINDOWS_UTILS_HPP_
 
-#include "TitaniumWindows/detail/UtilsBase.hpp"
+#include "Titanium/Utils.hpp"
+#include "TitaniumWindows_Ti_EXPORT.h"
 
 using namespace Windows::Security::Cryptography;
 using namespace Windows::Security::Cryptography::Core;

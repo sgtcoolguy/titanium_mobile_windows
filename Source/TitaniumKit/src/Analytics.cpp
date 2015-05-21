@@ -6,7 +6,6 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include <string>
 #include "Titanium/Analytics.hpp"
 #include "Titanium/analytics_js.hpp"
 

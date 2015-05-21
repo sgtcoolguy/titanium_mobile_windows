@@ -39,6 +39,6 @@ namespace Titanium
 		JSContext js_context__;
 	};
 
-}  // namespace Titanium {
+}  // namespace Titanium
 
 #endif  // _TITANIUM_APPLICATION_HPP_

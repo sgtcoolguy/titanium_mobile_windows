@@ -11,7 +11,6 @@
 
 #include "Titanium/detail/TiLoggerPimpl.hpp"
 #include "Titanium/detail/TiLoggerPolicyConsole.hpp"
-#include "Titanium/detail/TiLoggerPolicyFile.hpp"
 #include <sstream>
 #include <iomanip>
 #include <cstdint>

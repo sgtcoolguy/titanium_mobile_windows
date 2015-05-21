@@ -7,7 +7,8 @@
 #ifndef _TITANIUMWINDOWS_DISPLAYCAPS_HPP_
 #define _TITANIUMWINDOWS_DISPLAYCAPS_HPP_
 
-#include "TitaniumWindows/detail/DisplayCapsBase.hpp"
+#include "Titanium/Platform/DisplayCaps.hpp"
+#include "TitaniumWindows_Ti_EXPORT.h"
 
 namespace TitaniumWindows
 {

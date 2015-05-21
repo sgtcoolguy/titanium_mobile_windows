@@ -7,7 +7,8 @@
 #ifndef _TITANIUMWINDOWS_ACCELEROMETER_HPP_
 #define _TITANIUMWINDOWS_ACCELEROMETER_HPP_
 
-#include "TitaniumWindows/detail/AccelerometerBase.hpp"
+#include "Titanium/Accelerometer.hpp"
+#include "TitaniumWindows_Sensors_EXPORT.h"
 
 namespace TitaniumWindows
 {

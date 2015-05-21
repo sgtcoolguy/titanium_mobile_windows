@@ -48,20 +48,17 @@ endif()
 set(SOURCE_Ti
   include/TitaniumWindows/TiModule.hpp
   src/TiModule.cpp
-  include/TitaniumWindows/detail/TiModuleBase.hpp
   )
 
 set(SOURCE_API
   include/TitaniumWindows/API.hpp
   src/API.cpp
-  include/TitaniumWindows/detail/APIBase.hpp
   )
 
 set(SOURCE_App
   include/TitaniumWindows/App/Properties.hpp
   src/Properties.cpp
   include/TitaniumWindows/App.hpp
-  include/TitaniumWindows/detail/AppBase.hpp
   include/TitaniumWindows/AppModule.hpp
   src/AppModule.cpp
   )
@@ -71,14 +68,11 @@ set(SOURCE_Platform
   include/TitaniumWindows/DisplayCaps.hpp
   src/Platform.cpp
   src/DisplayCaps.cpp
-  include/TitaniumWindows/detail/PlatformBase.hpp
-  include/TitaniumWindows/detail/DisplayCapsBase.hpp
   )
 
 set(SOURCE_Utils
   include/TitaniumWindows/Utils.hpp
   src/Utils.cpp
-  include/TitaniumWindows/detail/UtilsBase.hpp
   )
 
 source_group(Titanium\\Ti FILES ${SOURCE_Ti})

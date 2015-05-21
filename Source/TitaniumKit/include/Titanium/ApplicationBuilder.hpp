@@ -9,12 +9,13 @@
 #ifndef _TITANIUM_APPLICATIONBUILDER_HPP_
 #define _TITANIUM_APPLICATIONBUILDER_HPP_
 
-#include "Titanium/Application.hpp"
-#include <memory>
+#include "Titanium/detail/TiBase.hpp"
 
 namespace Titanium
 {
 	using namespace HAL;
+
+	class Application;
 
 	class TITANIUMKIT_EXPORT ApplicationBuilder final
 	{

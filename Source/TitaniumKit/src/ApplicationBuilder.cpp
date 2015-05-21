@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/ApplicationBuilder.hpp"
+#include "Titanium/Application.hpp"
 #include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
