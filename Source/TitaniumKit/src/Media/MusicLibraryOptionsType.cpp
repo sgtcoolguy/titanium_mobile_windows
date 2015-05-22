@@ -86,17 +86,21 @@ namespace Titanium
 				}
 			};
 
+			MusicLibraryOptionsTypeCallbacks callbacks {
+				object.GetProperty("cancel"),
+				object.GetProperty("error"),
+				object.GetProperty("success"),
+				oncancel,
+				onerror,
+				onsuccess
+			};
+
 			MusicLibraryOptionsType config {
 				allowMultipleSelections,
 				animated,
 				autohide,
 				mediaTypes,
-				oncancel,
-				onerror,
-				onsuccess,
-				object.GetProperty("cancel"),
-				object.GetProperty("error"),
-				object.GetProperty("success"),
+				callbacks
 			};
 			
 			return config;
@@ -108,15 +112,15 @@ namespace Titanium
 			object.SetProperty("allowMultipleSelections", js_context.CreateBoolean(config.allowMultipleSelections));
 			object.SetProperty("animated", js_context.CreateBoolean(config.animated));
 			object.SetProperty("autohide", js_context.CreateBoolean(config.autohide));
-			object.SetProperty("cancel",  config.cancel);
-			object.SetProperty("error",   config.error);
+			object.SetProperty("cancel",  config.callbacks.cancel);
+			object.SetProperty("error",   config.callbacks.error);
 
 			std::vector<JSValue> js_mediaTypes;
 			for (const auto v : config.mediaTypes) {
 				js_mediaTypes.push_back(js_context.CreateNumber(static_cast<std::uint32_t>(v)));
 			}
 			object.SetProperty("mediaTypes", js_context.CreateArray(js_mediaTypes));
-			object.SetProperty("success", config.success);
+			object.SetProperty("success", config.callbacks.success);
 			return object;
 		}
 	} // namespace Media

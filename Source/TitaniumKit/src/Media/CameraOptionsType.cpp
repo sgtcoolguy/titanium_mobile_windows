@@ -76,6 +76,15 @@ namespace Titanium
 					}
 				}
 			};
+
+			CameraOptionsTypeCallbacks callbacks {
+				cancel_property,
+				error_property,
+				success_property,
+				oncancel,
+				onerror,
+				onsuccess,
+			};
 			
 			CameraOptionsType config {
 				JSOBJECT_GETPROPERTY(object, allowEditing, bool, false),
@@ -92,12 +101,7 @@ namespace Titanium
 				transform,
 				std::chrono::milliseconds::min(),
 				Quality::High,
-				oncancel,
-				onerror,
-				onsuccess,
-				cancel_property,
-				error_property,
-				success_property,
+				callbacks
 			};
 			
 			return config;
@@ -131,15 +135,15 @@ namespace Titanium
 			object.SetProperty("arrowDirection", js_context.CreateNumber(config.arrowDirection));
 			object.SetProperty("autohide", js_context.CreateBoolean(config.autohide));
 			object.SetProperty("autorotate", js_context.CreateBoolean(config.autorotate));
-			object.SetProperty("cancel",  config.cancel);
-			object.SetProperty("error",   config.error);
+			object.SetProperty("cancel",  config.callbacks.cancel);
+			object.SetProperty("error",   config.callbacks.error);
 			object.SetProperty("isPopOver", js_context.CreateBoolean(config.isPopOver));
 			object.SetProperty("mediaTypes", js_context.CreateArray(mediaTypes));
 			object.SetProperty("overlay", overlay);
 			object.SetProperty("popoverView", popoverView);
 			object.SetProperty("saveToPhotoGallery", js_context.CreateBoolean(config.saveToPhotoGallery));
 			object.SetProperty("showControls", js_context.CreateBoolean(config.showControls));
-			object.SetProperty("success", config.success);
+			object.SetProperty("success", config.callbacks.success);
 			object.SetProperty("videoMaximumDuration", js_context.CreateNumber(static_cast<double>(config.videoMaximumDuration.count())));
 			object.SetProperty("videoQuality", js_context.CreateNumber(static_cast<std::uint32_t>(config.videoQuality)));
 			return object;
