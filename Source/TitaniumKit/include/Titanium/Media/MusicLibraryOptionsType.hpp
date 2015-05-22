@@ -20,6 +20,17 @@ namespace Titanium
 	{
 		using namespace HAL;
 
+		struct MusicLibraryOptionsTypeCallbacks 
+		{
+			// need to keep these references to prevent from GC
+			JSValue cancel;
+			JSValue error;
+			JSValue success;
+			std::function<void(const ErrorResponse&)> oncancel;
+			std::function<void(const ErrorResponse&)> onerror;
+			std::function<void(const MusicLibraryResponseType&)> onsuccess;
+		};
+
 		/*!
 		  @struct
 		  @discussion Simple object for specifying options to openMusicLibrary.
@@ -32,13 +43,7 @@ namespace Titanium
 			bool animated;
 			bool autohide;
 			std::vector<MusicMediaType> mediaTypes;
-			std::function<void(const ErrorResponse&)> oncancel;
-			std::function<void(const ErrorResponse&)> onerror;
-			std::function<void(const MusicLibraryResponseType&)> onsuccess;
-			// need to keep these references to prevent from GC
-			JSValue cancel;
-			JSValue error;
-			JSValue success;
+			MusicLibraryOptionsTypeCallbacks callbacks;
 		};
 		
 		MusicLibraryOptionsType js_to_MusicLibraryOptionsType(const JSObject& object);

@@ -48,6 +48,7 @@ get_filename_component(TitaniumKit_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../Tit
 get_filename_component(HAL_SOURCE_DIR               ${PROJECT_SOURCE_DIR}/../HAL               ABSOLUTE)
 get_filename_component(LayoutEngine_SOURCE_DIR      ${PROJECT_SOURCE_DIR}/../LayoutEngine 	   ABSOLUTE)
 get_filename_component(Map_SOURCE_DIR               ${PROJECT_SOURCE_DIR}/../Map               ABSOLUTE)
+get_filename_component(Media_SOURCE_DIR             ${PROJECT_SOURCE_DIR}/../Media             ABSOLUTE)
 
 add_subdirectory(${Global_SOURCE_DIR}        ${CMAKE_CURRENT_BINARY_DIR}/Global        EXCLUDE_FROM_ALL)
 add_subdirectory(${Ti_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/Ti            EXCLUDE_FROM_ALL)
@@ -56,6 +57,7 @@ add_subdirectory(${Filesystem_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Filesys
 add_subdirectory(${Network_SOURCE_DIR}    	 ${CMAKE_CURRENT_BINARY_DIR}/Network       EXCLUDE_FROM_ALL)
 add_subdirectory(${UI_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/UI            EXCLUDE_FROM_ALL)
 add_subdirectory(${Map_SOURCE_DIR}           ${CMAKE_CURRENT_BINARY_DIR}/Map           EXCLUDE_FROM_ALL)
+add_subdirectory(${Media_SOURCE_DIR}         ${CMAKE_CURRENT_BINARY_DIR}/Media         EXCLUDE_FROM_ALL)
 
 if(NOT TARGET TitaniumKit)
   add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit EXCLUDE_FROM_ALL)
@@ -121,6 +123,7 @@ target_link_libraries(TitaniumWindows
   TitaniumWindows_UI
   TitaniumWindows_Utility
   TitaniumWindows_Map
+  TitaniumWindows_Media
   LayoutEngine
   )
 
@@ -134,6 +137,7 @@ target_include_directories(TitaniumWindows PUBLIC
   $<TARGET_PROPERTY:TitaniumWindows_UI,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Map,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Media,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
 set_target_properties(TitaniumWindows PROPERTIES VS_WINRT_COMPONENT TRUE)

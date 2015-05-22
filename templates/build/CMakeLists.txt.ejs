@@ -45,6 +45,7 @@ find_package(TitaniumWindows_Map REQUIRED)
 find_package(TitaniumWindows_Network REQUIRED)
 find_package(TitaniumWindows_Ti REQUIRED)
 find_package(TitaniumWindows_UI REQUIRED)
+find_package(TitaniumWindows_Media REQUIRED)
 find_package(TitaniumWindows_Utility REQUIRED)
 find_package(LayoutEngine REQUIRED)
 
@@ -117,6 +118,7 @@ target_link_libraries(${EXE_NAME} ${TitaniumWindows_Network_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Ti_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_UI_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Utility_LIBRARIES})
+target_link_libraries(${EXE_NAME} ${TitaniumWindows_Media_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${LayoutEngine_LIBRARIES})
 
 target_include_directories(${EXE_NAME} PUBLIC
@@ -131,7 +133,8 @@ target_include_directories(${EXE_NAME} PUBLIC
   ${TitaniumWindows_Ti_INCLUDE_DIRS}
   ${TitaniumWindows_UI_INCLUDE_DIRS}
   ${TitaniumWindows_Utility_INCLUDE_DIRS}
+  ${TitaniumWindows_Media_INCLUDE_DIRS}
   ${LayoutEngine_INCLUDE_DIRS}
   )
 
-set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_REFERENCES "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/${PLATFORM}/${Ti_ARCH}/TitaniumWindows.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Sensors/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Sensors.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Filesystem/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Filesystem.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Global/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Global.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Map/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Map.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Network/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Network.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Ti/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Ti.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_UI/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_UI.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utility/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Utility.winmd;")
+set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_REFERENCES "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/${PLATFORM}/${Ti_ARCH}/TitaniumWindows.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Sensors/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Sensors.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Filesystem/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Filesystem.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Global/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Global.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Map/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Map.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Network/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Network.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Ti/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Ti.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_UI/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_UI.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utility/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Utility.winmd;${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Media/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Media.winmd;")

@@ -90,6 +90,15 @@ namespace Titanium
 				}
 			};
 
+			PhotoGalleryOptionsTypeCallbacks callbacks {
+				object.GetProperty("cancel"),
+				object.GetProperty("error"),
+				object.GetProperty("success"),
+				oncancel,
+				onerror,
+				onsuccess
+			};
+
 			PhotoGalleryOptionsType config {
 				allowEditing,
 				animated,
@@ -97,12 +106,7 @@ namespace Titanium
 				autohide,
 				mediaTypes,
 				popoverView,
-				oncancel,
-				onerror,
-				onsuccess,
-				object.GetProperty("cancel"),
-				object.GetProperty("error"),
-				object.GetProperty("success"),
+				callbacks
 			};
 			
 			return config;
@@ -115,8 +119,8 @@ namespace Titanium
 			object.SetProperty("animated", js_context.CreateBoolean(config.animated));
 			object.SetProperty("arrowDirection", js_context.CreateNumber(config.arrowDirection));
 			object.SetProperty("autohide", js_context.CreateBoolean(config.autohide));
-			object.SetProperty("cancel",  config.cancel);
-			object.SetProperty("error",   config.error);
+			object.SetProperty("cancel",  config.callbacks.cancel);
+			object.SetProperty("error", config.callbacks.error);
 
 			std::vector<JSValue> js_mediaTypes;
 			for (const auto v : config.mediaTypes) {
@@ -128,7 +132,7 @@ namespace Titanium
 				object.SetProperty("popoverView", config.popoverView->get_object());
 			}
 
-			object.SetProperty("success", config.success);
+			object.SetProperty("success", config.callbacks.success);
 			return object;
 		}
 	} // namespace Media

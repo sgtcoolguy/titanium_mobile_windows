@@ -28,6 +28,17 @@ namespace Titanium
 	{
 		using namespace HAL;
 
+		struct CameraOptionsTypeCallbacks 
+		{
+			// need to keep these references to prevent from GC
+			JSValue cancel;
+			JSValue error;
+			JSValue success;
+			std::function<void(const ErrorResponse&)> oncancel;
+			std::function<void(const ErrorResponse&)> onerror;
+			std::function<void(const CameraMediaItemType&)> onsuccess;
+		};
+
 		/*!
 		  @struct
 		  @discussion Simple object for specifying options to showCamera.
@@ -50,13 +61,7 @@ namespace Titanium
 			std::shared_ptr<Titanium::UI::TwoDMatrix> transform;
 			std::chrono::milliseconds videoMaximumDuration;
 			Quality videoQuality;
-			std::function<void(const ErrorResponse&)> oncancel;
-			std::function<void(const ErrorResponse&)> onerror;
-			std::function<void(const CameraMediaItemType&)> onsuccess;
-			// need to keep these references to prevent from GC
-			JSValue cancel;
-			JSValue error;
-			JSValue success;
+			CameraOptionsTypeCallbacks callbacks;
 		};
 		
 		CameraOptionsType js_to_CameraOptionsType(const JSObject& object);

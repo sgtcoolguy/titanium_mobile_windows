@@ -1238,7 +1238,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(MediaModule, takeScreenshot)
 	{
-		ENSURE_OBJECT_AT_INDEX(callback, 0);
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(callback, 0);
 		takeScreenshot(callback);
 		return get_context().CreateUndefined();
 	}

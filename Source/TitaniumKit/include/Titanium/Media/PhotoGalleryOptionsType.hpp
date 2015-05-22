@@ -26,6 +26,17 @@ namespace Titanium
 	{
 		using namespace HAL;
 
+		struct PhotoGalleryOptionsTypeCallbacks 
+		{
+			// need to keep these references to prevent from GC
+			JSValue cancel;
+			JSValue error;
+			JSValue success;
+			std::function<void(const ErrorResponse&)> oncancel;
+			std::function<void(const ErrorResponse&)> onerror;
+			std::function<void(const CameraMediaItemType&)> onsuccess;
+		};
+
 		/*!
 		  @struct
 		  @discussion Simple object for specifying options to openPhotoGallery.
@@ -40,13 +51,7 @@ namespace Titanium
 			bool autohide;
 			std::vector<MediaType> mediaTypes;
 			std::shared_ptr<Titanium::UI::View> popoverView;
-			std::function<void(const ErrorResponse&)> oncancel;
-			std::function<void(const ErrorResponse&)> onerror;
-			std::function<void(const CameraMediaItemType&)> onsuccess;
-			// need to keep these references to prevent from GC
-			JSValue cancel;
-			JSValue error;
-			JSValue success;
+			PhotoGalleryOptionsTypeCallbacks callbacks;
 		};
 		
 		PhotoGalleryOptionsType js_to_PhotoGalleryOptionsType(const JSObject& object);
