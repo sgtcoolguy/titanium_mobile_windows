@@ -118,6 +118,7 @@ function copyToDistribution(sourceDir, destDir, buildType, platform, arch, callb
 			'HAL': 'Global\\TitaniumKit\\HAL',
 			'LayoutEngine': 'LayoutEngine',
 			'TitaniumWindows_Map': 'Map',
+			'TitaniumWindows_Media': 'Media',
 			'TitaniumWindows_Network': 'Network',
 			'TitaniumWindows_Ti': 'Ti',
 			'TitaniumWindows': '',
