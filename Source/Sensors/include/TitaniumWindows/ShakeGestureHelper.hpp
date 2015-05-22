@@ -26,6 +26,6 @@ namespace TitaniumWindows
 	private:
 		std::chrono::system_clock::time_point shakeStart_;
 	};
-}  // namespace Titanium {
+}  // namespace TitaniumWindows
 
 #endif  // _TITANIUMWINDOWS_SHAKEGESTUREHELPER_HPP_

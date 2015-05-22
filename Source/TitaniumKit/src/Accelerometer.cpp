@@ -5,8 +5,6 @@
  */
 
 #include "Titanium/Accelerometer.hpp"
-#include <unordered_map>
-#include <sstream>
 
 namespace Titanium
 {

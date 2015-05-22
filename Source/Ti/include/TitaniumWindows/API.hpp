@@ -9,7 +9,8 @@
 #ifndef _TITANIUMWINDOWS_API_HPP_
 #define _TITANIUMWINDOWS_API_HPP_
 
-#include "TitaniumWindows/detail/APIBase.hpp"
+#include "Titanium/API.hpp"
+#include "TitaniumWindows_Ti_EXPORT.h"
 #include <agents.h>
 
 namespace TitaniumWindows

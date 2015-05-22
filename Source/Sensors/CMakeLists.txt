@@ -54,9 +54,6 @@ set(SOURCE_Sensors
   src/Gesture.cpp
   src/Geolocation.cpp
   src/ShakeGestureHelper.cpp
-  include/TitaniumWindows/detail/AccelerometerBase.hpp
-  include/TitaniumWindows/detail/GestureBase.hpp
-  include/TitaniumWindows/detail/GeolocationBase.hpp
   )
 
 source_group(Titanium\\Sensors FILES ${SOURCE_Sensors})

@@ -9,7 +9,8 @@
 #ifndef _TITANIUMWINDOWS_PROPERTIES_HPP_
 #define _TITANIUMWINDOWS_PROPERTIES_HPP_
 
-#include "TitaniumWindows/detail/AppBase.hpp"
+#include "Titanium/App/Properties.hpp"
+#include "TitaniumWindows_Ti_EXPORT.h"
 
 using namespace Windows::Storage;
 using namespace Windows::Foundation;

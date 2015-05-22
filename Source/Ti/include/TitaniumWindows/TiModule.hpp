@@ -7,7 +7,8 @@
 #ifndef _TITANIUMWINDOWS_TIMODULE_HPP_
 #define _TITANIUMWINDOWS_TIMODULE_HPP_
 
-#include "TitaniumWindows/detail/TiModuleBase.hpp"
+#include "Titanium/TiModule.hpp"
+#include "TitaniumWindows_Ti_EXPORT.h"
 
 namespace TitaniumWindows
 {

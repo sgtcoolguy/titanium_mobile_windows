@@ -7,7 +7,8 @@
 #ifndef _TITANIUMWINDOWS_PLATFORM_HPP_
 #define _TITANIUMWINDOWS_PLATFORM_HPP_
 
-#include "TitaniumWindows/detail/PlatformBase.hpp"
+#include "Titanium/PlatformModule.hpp"
+#include "TitaniumWindows_Ti_EXPORT.h"
 
 namespace TitaniumWindows
 {

@@ -9,8 +9,8 @@
 #ifndef _TITANIUMWINDOWS_GEOLOCATION_HPP_
 #define _TITANIUMWINDOWS_GEOLOCATION_HPP_
 
-#include "TitaniumWindows/detail/GeolocationBase.hpp"
-#include "Titanium/Geolocation/Constants.hpp"
+#include "Titanium/GeolocationModule.hpp"
+#include "TitaniumWindows_Sensors_EXPORT.h"
 
 namespace TitaniumWindows
 {

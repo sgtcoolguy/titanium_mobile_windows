@@ -7,7 +7,8 @@
 #ifndef _TITANIUMWINDOWS_GESTURE_HPP_
 #define _TITANIUMWINDOWS_GESTURE_HPP_
 
-#include "TitaniumWindows/detail/GestureBase.hpp"
+#include "Titanium/Gesture.hpp"
+#include "TitaniumWindows_Sensors_EXPORT.h"
 #include "TitaniumWindows/ShakeGestureHelper.hpp"
 
 namespace TitaniumWindows
