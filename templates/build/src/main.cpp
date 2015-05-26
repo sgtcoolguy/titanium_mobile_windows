@@ -1,12 +1,13 @@
 /**
  * Titanium for Windows
  *
- * Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
 #include "OutputDebugStringBuf.hpp"
 #include <iostream>
+#include "TitaniumWindows/WindowsNativeModuleLoader.hpp"
 
 int main(Platform::Array<Platform::String^>^) {
 
@@ -21,7 +22,8 @@ int main(Platform::Array<Platform::String^>^) {
 #endif
 
   Windows::UI::Xaml::Application::Start(ref new Windows::UI::Xaml::ApplicationInitializationCallback([](Windows::UI::Xaml::ApplicationInitializationCallbackParams^ params) {
-    ref new TitaniumWindows::Application();
+		auto module_loader = new TitaniumWindows::WindowsNativeModuleLoader();
+    ref new TitaniumWindows::Application(module_loader);
   }));
 
   return 0;

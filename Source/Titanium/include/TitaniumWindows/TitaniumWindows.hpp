@@ -18,7 +18,7 @@ namespace TitaniumWindows
 	public ref class Application sealed : public Windows::UI::Xaml::Application
 	{
 	public:
-		Application();
+		Application(std::weak_ptr<NativeModuleLoader> module_loader = nullptr);
 		virtual ~Application();
 
 		virtual void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ args) override;
@@ -42,6 +42,7 @@ namespace TitaniumWindows
 		HAL::JSContextGroup js_context_group__;
 		HAL::JSContext js_context__;
 		std::shared_ptr<Titanium::Application> application__;
+		std::weak_ptr<NativeModuleLoader> module_loader__;
 	};
 
 }  // namespace TitaniumWindows

@@ -1,3 +1,15 @@
+/**
+ * Generates native API wrapper classes and headers from API metadata.
+ *
+ * @module lib/stub
+ *
+ * @copyright
+ * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ *
+ * @license
+ * Licensed under the terms of the Apache Public License
+ * Please see the LICENSE included with this distribution for details.
+ */
 var fs = require('fs'),
 	ejs = require('ejs'),
 	path = require('path'),
@@ -5,20 +17,6 @@ var fs = require('fs'),
 	async = require('async'),
 	metadata = JSON.parse(fs.readFileSync(path.join(__dirname, 'hyperloop_windows_metabase.json.gz'))),
 	all_classes = metadata['classes'],
-	// where do we stick our wrappers?
-	dest = path.join(__dirname, '..', '..', '..', 'Source', 'Titanium'),
-	require_hook = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp'),
-	platform_object_cpp = path.join(dest, 'src', 'Platform.Object.cpp'),
-	seeds = [
-		"Windows.UI.Xaml.Window",
-		"Windows.UI.Colors",
-		"Windows.UI.Xaml.Media.SolidColorBrush",
-		"Windows.UI.Xaml.Controls.Canvas",
-		"Windows.UI.Xaml.Controls.TextBlock",
-		'Windows.UI.Xaml.Controls.Frame',
-		'Windows.UI.Xaml.Controls.Page',
-		//"Windows.UI.Xaml.Visibility"
-	],
 	// We need to skip/map a number of collections to JSArray and JSObject
 	// We handle these types specially
 	blacklist = [
@@ -66,7 +64,7 @@ function normalizeType(typeName) {
 	if (type.indexOf('>') == (type.length - 1)) {
 		type = type.substring(0, type.length - 1);
 	}
-	// must drop r& before []
+	// must drop & before []
 	if (type.indexOf('&') == (type.length - 1)) {
 		type = type.substring(0, type.length - 1);
 	}
@@ -224,12 +222,14 @@ function getEnumDependencies(type_name, metadata) {
 /*
  * Given the list of seeds let's traverse the metadata to get dependency info,
  * sort and remove dupes from the seeds, add custom info to the metadata, etc.
+ * @param {Array[string]} seeds - the list of types we need to generate.
+ * @param {Function} next - 
  */
-function initialize(next) {
+function initialize(seeds, next) {
 	// If we have no seeds, assume we want everything!
 	if (seeds.length == 0) {
 		for (classname in all_classes) {
-			classDefinition = all_classes[classname];
+			var classDefinition = all_classes[classname];
 			// skip structs and enums
 			if (classDefinition['extends'] && 
 				(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
@@ -304,7 +304,7 @@ function initialize(next) {
 			"windowsruntime"
 		],
 		'extends': 'Module'
-	}
+	};
 	seeds.unshift('Platform.Object');
 
 	// sort again and de-dupe
@@ -312,13 +312,16 @@ function initialize(next) {
 	seeds = seeds.filter(function(elem, pos) {
 		return seeds.indexOf(elem) == pos;
 	});
-	next();
+	next(null, seeds);
 }
 
 /*
  * Generates the native wrappers for the list of classes in seeds.
+ * @param {String} dest -
+ * @param {Array[string]} seeds - 
+ * @param {Function} next - 
  */
-function generateWrappers(next) {
+function generateWrappers(dest, seeds, next) {
 	// Now that we have the full list of types, let's stub them
 	async.eachLimit(seeds, 25, function(classname, callback) {
 		var classDefinition = all_classes[classname];
@@ -381,8 +384,12 @@ function generateWrappers(next) {
  * Generates the code in WindowsNativeModuleLoader to handle require calls for native types.
  * This will load up the type in JS, hang it off global under the fully qualified type name,
  * and will also register any enum values in the appropriate namespace for any enum dependencies of the type.
+ * @param {String} dest - 
+ * @param {Array[string]} seeds - 
+ * @param {Function} next - 
  */
-function generateRequireHook(next) {
+function generateRequireHook(dest, seeds, next) {
+	var require_hook = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
 	console.log("Adding types to require hook implementation...");
@@ -457,11 +464,15 @@ function generateRequireHook(next) {
 }
 
 /*
- * This adds the real cast implementation to Platform::Object natiev wrapper allowing us to unwrap,
+ * This adds the real cast implementation to Platform::Object native wrapper allowing us to unwrap,
  * wrap the object in the more specific type wrapper and return that new wrapper.
+ * @param {String} dest - 
+ * @param {Array[string]} seeds -
+ * @param {Function} callback -  
  */
-function generateCasting(next) {
-	// FIXME We need to hook this in same class as we hook all the other stuff - the require hook! Otherwise Platform.Object has to include every other type in it!
+function generateCasting(dest, seeds, next) {
+	// where do we stick our wrappers?
+	var platform_object_cpp = path.join(dest, 'src', 'Platform.Object.cpp');
 	console.log("Adding casting method to Platform.Object implementation...");
 	fs.readFile(platform_object_cpp, 'utf8', function (err, data) {
 		if (err) throw err;
@@ -507,37 +518,35 @@ function generateCasting(next) {
 		data = data.substring(0, data.indexOf('auto to_cast =')) + cast_block + data.substring(data.indexOf('return result;') + 14);
 		// Replace #include "Platform.Object.hpp" with same includes as native module loader!
 		
-		
 		fs.writeFile(platform_object_cpp, data, function(err) {
 			next(err);
 		});
 	});
 }
 
-// The main work: initialize our set of types/dependencies,
-// generate our wrappers, then generate the cast/require stuff async.
-async.series([
-	function(callback){
-        initialize(callback);
-    },
-    function(callback){
-        generateWrappers(callback);
-    },
-    function(callback){
-	    async.parallel([
-		    function(callback){
-		        generateRequireHook(callback);
-		    },
-		     function(callback){
-		        generateCasting(callback);
-		    }
-		], callback);
-	}
-],
-// optional callback
-function(err, results) {
-	if (err) {
-		console.log(err);
-		process.exit(1);
-	}
-});
+/**
+ * Generates the set of native type wrappers.
+ * @param {String} dest - the location on disk where to place the generate types.
+ * @param {Array{string}} seeds - The list of types needed
+ * @param {Function} finished - Callback when detection is finished
+ */
+exports.generate = function generate(dest, seeds, finished) {
+	async.series([
+		function(callback){
+	        initialize(seeds, callback);
+	    },
+	    function(callback){
+	        generateWrappers(dest, seeds, callback);
+	    },
+	    function(callback){
+		    async.parallel([
+			    function(callback){
+			        generateRequireHook(dest, seeds, callback);
+			    },
+			     function(callback){
+			        generateCasting(dest, seeds, callback);
+			    }
+			], callback);
+		}
+	], finished);
+};
