@@ -17,6 +17,7 @@ find_dependency(TitaniumWindows_Utils)
 find_dependency(TitaniumWindows_UI)
 find_dependency(TitaniumWindows_Utility)
 find_dependency(TitaniumWindows_Map)
+find_dependency(TitaniumWindows_Media)
 find_dependency(LayoutEngine)
 
 include("${CMAKE_BINARY_DIR}/TitaniumWindows_Targets.cmake")
