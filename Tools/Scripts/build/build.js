@@ -46,6 +46,7 @@ function runCMake(sourceDir, buildDir, buildType, platform, arch, callback) {
 			'-DTitaniumWindows_UI_DISABLE_TESTS=ON',
 			'-DTitaniumWindows_Utility_DISABLE_TESTS=ON',
 			'-DTitaniumWindows_Map_DISABLE_TESTS=ON',
+			'-DTitaniumWindows_Media_DISABLE_TESTS=ON',
 			'-DHAL_DISABLE_TESTS=ON',
 			'-DTitaniumKit_DISABLE_TESTS=ON',
 			'-Wno-dev',
