@@ -40,7 +40,7 @@ namespace TitaniumWindows
 {
 	using namespace HAL;
 
-	Application::Application(std::weak_ptr<NativeModuleLoader> module_loader)
+	Application::Application(std::shared_ptr<NativeModuleLoader> module_loader)
 	    : js_context__(js_context_group__.CreateContext(JSExport<TitaniumWindows::GlobalObject>::Class()))
 	{
 		module_loader__ = module_loader;
@@ -118,7 +118,7 @@ namespace TitaniumWindows
 		});
 
 		Suspending += ref new Windows::UI::Xaml::SuspendingEventHandler(this, &Application::OnSuspending);
-		Resuming += ref new Windows::Foundation::EventHandler<::Platform::Object ^>(this, &Application::OnResuming);
+		Resuming += ref new Windows::Foundation::EventHandler<::Platform::Object^>(this, &Application::OnResuming);
 
 		// #if _DEBUG
 		//  if (IsDebuggerPresent()) {

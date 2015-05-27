@@ -59,6 +59,6 @@ namespace TitaniumWindows
 		virtual std::shared_ptr<Titanium::GlobalObject::Timer> CreateTimer(Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT override final;
 	};
 
-}  // namespace TitaniumWindows {
+}  // namespace TitaniumWindows
 
 #endif  // _TITANIUMWINDOWS_GLOBALOBJECT_HPP_

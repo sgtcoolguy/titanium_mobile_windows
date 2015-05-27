@@ -212,4 +212,4 @@ namespace TitaniumWindows
 		TITANIUM_LOG_DEBUG("GlobalObject::ctor CallAsConstructor");
 	}
 
-}  // namespace TitaniumWindows {
+}  // namespace TitaniumWindows

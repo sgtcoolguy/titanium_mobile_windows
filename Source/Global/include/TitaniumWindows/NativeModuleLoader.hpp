@@ -25,7 +25,7 @@ namespace TitaniumWindows
 	public:
 
 		NativeModuleLoader() TITANIUM_NOEXCEPT;
-
+		// FIXME Can we do this with Platform::String and some other class that wraps JSObject? We need to make this a ref class sealed, which means we can't expose native types like JSObject in public methods/members!
 		virtual bool registerNativeModule(const JSObject& parent, const std::string& path) const = 0;
 	};
 
