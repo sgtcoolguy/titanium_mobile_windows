@@ -1,6 +1,6 @@
 # Titanium for Windows
 #
-# Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
+# Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
 # Licensed under the terms of the Apache Public License.
 # Please see the LICENSE included with this distribution for details.
 cmake_minimum_required(VERSION 3.0.0)
@@ -37,42 +37,38 @@ config_compiler_and_linker()
 # Allow "make test" to work.
 enable_testing()
 
-get_filename_component(Global_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../Global            ABSOLUTE)
-get_filename_component(Ti_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../Ti                ABSOLUTE)
-get_filename_component(Sensors_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Sensors           ABSOLUTE)
 get_filename_component(Filesystem_SOURCE_DIR        ${PROJECT_SOURCE_DIR}/../Filesystem        ABSOLUTE)
-get_filename_component(Network_SOURCE_DIR         	${PROJECT_SOURCE_DIR}/../Network       	   ABSOLUTE)
-get_filename_component(UI_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../UI                ABSOLUTE)
-get_filename_component(Utility_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Utility           ABSOLUTE)
-get_filename_component(TitaniumKit_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../TitaniumKit       ABSOLUTE)
+get_filename_component(Global_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../Global            ABSOLUTE)
 get_filename_component(HAL_SOURCE_DIR               ${PROJECT_SOURCE_DIR}/../HAL               ABSOLUTE)
-get_filename_component(LayoutEngine_SOURCE_DIR      ${PROJECT_SOURCE_DIR}/../LayoutEngine 	   ABSOLUTE)
+get_filename_component(LayoutEngine_SOURCE_DIR      ${PROJECT_SOURCE_DIR}/../LayoutEngine      ABSOLUTE)
 get_filename_component(Map_SOURCE_DIR               ${PROJECT_SOURCE_DIR}/../Map               ABSOLUTE)
 get_filename_component(Media_SOURCE_DIR             ${PROJECT_SOURCE_DIR}/../Media             ABSOLUTE)
+get_filename_component(Network_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Network           ABSOLUTE)
+get_filename_component(Sensors_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Sensors           ABSOLUTE)
+get_filename_component(Ti_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../Ti                ABSOLUTE)
+get_filename_component(TitaniumKit_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../TitaniumKit       ABSOLUTE)
+get_filename_component(UI_SOURCE_DIR                ${PROJECT_SOURCE_DIR}/../UI                ABSOLUTE)
+get_filename_component(Utility_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../Utility           ABSOLUTE)
 
-add_subdirectory(${Global_SOURCE_DIR}        ${CMAKE_CURRENT_BINARY_DIR}/Global        EXCLUDE_FROM_ALL)
-add_subdirectory(${Ti_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/Ti            EXCLUDE_FROM_ALL)
-add_subdirectory(${Sensors_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Sensors       EXCLUDE_FROM_ALL)
 add_subdirectory(${Filesystem_SOURCE_DIR}    ${CMAKE_CURRENT_BINARY_DIR}/Filesystem    EXCLUDE_FROM_ALL)
-add_subdirectory(${Network_SOURCE_DIR}    	 ${CMAKE_CURRENT_BINARY_DIR}/Network       EXCLUDE_FROM_ALL)
-add_subdirectory(${UI_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/UI            EXCLUDE_FROM_ALL)
-add_subdirectory(${Map_SOURCE_DIR}           ${CMAKE_CURRENT_BINARY_DIR}/Map           EXCLUDE_FROM_ALL)
-add_subdirectory(${Media_SOURCE_DIR}         ${CMAKE_CURRENT_BINARY_DIR}/Media         EXCLUDE_FROM_ALL)
-
-if(NOT TARGET TitaniumKit)
-  add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit EXCLUDE_FROM_ALL)
-endif()
-
+add_subdirectory(${Global_SOURCE_DIR}        ${CMAKE_CURRENT_BINARY_DIR}/Global        EXCLUDE_FROM_ALL)
 if (NOT TARGET HAL)
-  add_subdirectory(${HAL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/HAL EXCLUDE_FROM_ALL)
+  add_subdirectory(${HAL_SOURCE_DIR}         ${CMAKE_CURRENT_BINARY_DIR}/HAL           EXCLUDE_FROM_ALL)
 endif()
-
 if (NOT TARGET LayoutEngine)
   add_subdirectory(${LayoutEngine_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/LayoutEngine EXCLUDE_FROM_ALL)
 endif()
-
+add_subdirectory(${Map_SOURCE_DIR}           ${CMAKE_CURRENT_BINARY_DIR}/Map           EXCLUDE_FROM_ALL)
+add_subdirectory(${Media_SOURCE_DIR}         ${CMAKE_CURRENT_BINARY_DIR}/Media         EXCLUDE_FROM_ALL)
+add_subdirectory(${Network_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Network       EXCLUDE_FROM_ALL)
+add_subdirectory(${Sensors_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Sensors       EXCLUDE_FROM_ALL)
+add_subdirectory(${Ti_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/Ti            EXCLUDE_FROM_ALL)
+if(NOT TARGET TitaniumKit)
+  add_subdirectory(${TitaniumKit_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/TitaniumKit   EXCLUDE_FROM_ALL)
+endif()
+add_subdirectory(${UI_SOURCE_DIR}            ${CMAKE_CURRENT_BINARY_DIR}/UI            EXCLUDE_FROM_ALL)
 if(NOT TARGET TitaniumWindows_Utility)
-  add_subdirectory(${Utility_SOURCE_DIR}       ${CMAKE_CURRENT_BINARY_DIR}/Utility       EXCLUDE_FROM_ALL)
+  add_subdirectory(${Utility_SOURCE_DIR}     ${CMAKE_CURRENT_BINARY_DIR}/Utility       EXCLUDE_FROM_ALL)
 endif()
 
 set(SOURCE_TitaniumWindows
@@ -115,34 +111,39 @@ generate_export_header(TitaniumWindows)
 target_compile_definitions(TitaniumWindows PRIVATE TitaniumWindows_EXPORTS)
 
 target_link_libraries(TitaniumWindows
-  TitaniumWindows_Global
-  TitaniumWindows_Ti
-  TitaniumWindows_Sensors
   TitaniumWindows_Filesystem
-  TitaniumWindows_Network
-  TitaniumWindows_UI
-  TitaniumWindows_Utility
+  TitaniumWindows_Global
+  HAL
+  LayoutEngine
   TitaniumWindows_Map
   TitaniumWindows_Media
-  LayoutEngine
+  TitaniumWindows_Network
+  TitaniumWindows_Sensors
+  TitaniumWindows_Ti
+  TitaniumKit
+  TitaniumWindows_UI
+  TitaniumWindows_Utility
   )
 
 target_include_directories(TitaniumWindows PUBLIC
   ${PROJECT_SOURCE_DIR}/include
-  $<TARGET_PROPERTY:TitaniumWindows_Global,INTERFACE_INCLUDE_DIRECTORIES>
-  $<TARGET_PROPERTY:TitaniumWindows_Ti,INTERFACE_INCLUDE_DIRECTORIES>
-  $<TARGET_PROPERTY:TitaniumWindows_Sensors,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Filesystem,INTERFACE_INCLUDE_DIRECTORIES>
-  $<TARGET_PROPERTY:TitaniumWindows_Network,INTERFACE_INCLUDE_DIRECTORIES>
-  $<TARGET_PROPERTY:TitaniumWindows_UI,INTERFACE_INCLUDE_DIRECTORIES>
-  $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Global,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:LayoutEngine,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Map,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Media,INTERFACE_INCLUDE_DIRECTORIES>
-  )
+  $<TARGET_PROPERTY:TitaniumWindows_Network,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Sensors,INTERFACE_INCLUDE_DIRECTORIES> 
+  $<TARGET_PROPERTY:TitaniumWindows_Ti,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_UI,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
+)
 
 set_target_properties(TitaniumWindows PROPERTIES VS_WINRT_COMPONENT TRUE)
 
-# Silence this warning when lnking the Debug configuration:
+# Silence this warning when linking the Debug configuration:
 #
 # "LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF'
 # specification ..."
