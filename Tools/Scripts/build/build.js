@@ -46,6 +46,7 @@ function runCMake(sourceDir, buildDir, buildType, platform, arch, callback) {
 			'-DTitaniumWindows_UI_DISABLE_TESTS=ON',
 			'-DTitaniumWindows_Utility_DISABLE_TESTS=ON',
 			'-DTitaniumWindows_Map_DISABLE_TESTS=ON',
+			'-DTitaniumWindows_Media_DISABLE_TESTS=ON',
 			'-DHAL_DISABLE_TESTS=ON',
 			'-DTitaniumKit_DISABLE_TESTS=ON',
 			'-Wno-dev',
@@ -115,16 +116,16 @@ function copyToDistribution(sourceDir, destDir, buildType, platform, arch, callb
 			'TitaniumWindows_Sensors': 'Sensors',
 			'TitaniumWindows_Filesystem': 'Filesystem',
 			'TitaniumWindows_Global': 'Global',
-			'HAL': 'Global\\TitaniumKit\\HAL',
+			'HAL': 'Filesystem\\TitaniumKit\\HAL',
 			'LayoutEngine': 'LayoutEngine',
 			'TitaniumWindows_Map': 'Map',
 			'TitaniumWindows_Media': 'Media',
 			'TitaniumWindows_Network': 'Network',
 			'TitaniumWindows_Ti': 'Ti',
 			'TitaniumWindows': '',
-			'TitaniumKit': 'Global\\TitaniumKit',
-			'TitaniumWindows_UI': 'UI',
-			'TitaniumWindows_Utility': 'Global\\Utility',
+			'TitaniumKit': 'Filesystem\\TitaniumKit',
+			'TitaniumWindows_UI': 'Map\\UI',
+			'TitaniumWindows_Utility': 'Filesystem\\Utility',
 		},
 		libDestDir,
 		libSrcDir,
@@ -192,7 +193,7 @@ function buildAndPackage(sourceDir, buildDir, destDir, buildType, platform, arch
 			callback(err);
 		} else {
 			// Wipe the build dir if everything went well. Don't remove top-level build root, because previous build steps may have added results we care about there (i.e. CTest)
-			wrench.rmdirSyncRecursive(path.join(buildDir, platformAbbrev, arch));
+			//wrench.rmdirSyncRecursive(path.join(buildDir, platformAbbrev, arch));
 			callback();
 		}
 	});
