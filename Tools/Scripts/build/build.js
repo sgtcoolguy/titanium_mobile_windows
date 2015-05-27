@@ -124,7 +124,7 @@ function copyToDistribution(sourceDir, destDir, buildType, platform, arch, callb
 			'TitaniumWindows_Ti': 'Ti',
 			'TitaniumWindows': '',
 			'TitaniumKit': 'Filesystem\\TitaniumKit',
-			'TitaniumWindows_UI': 'UI',
+			'TitaniumWindows_UI': 'Map\\UI',
 			'TitaniumWindows_Utility': 'Filesystem\\Utility',
 		},
 		libDestDir,
