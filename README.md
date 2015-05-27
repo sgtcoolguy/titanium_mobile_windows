@@ -43,7 +43,7 @@ npm install .
 node setup.js
 ```
 
-The script should download any necessary development libraries and set the appropriate environment variables for you. Once set up, you may proceed to [Getting Started](#getting-started) section to generate an example app to use as a development base.
+The script should download any necessary development libraries and set the appropriate environment variables for you. Restart your command prompt, then you may proceed to the [Getting Started](#getting-started) section to generate an example app to use as a development base.
 
 ### OS X
 
