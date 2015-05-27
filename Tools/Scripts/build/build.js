@@ -193,7 +193,7 @@ function buildAndPackage(sourceDir, buildDir, destDir, buildType, platform, arch
 			callback(err);
 		} else {
 			// Wipe the build dir if everything went well. Don't remove top-level build root, because previous build steps may have added results we care about there (i.e. CTest)
-			wrench.rmdirSyncRecursive(path.join(buildDir, platformAbbrev, arch));
+			//wrench.rmdirSyncRecursive(path.join(buildDir, platformAbbrev, arch));
 			callback();
 		}
 	});
