@@ -276,11 +276,11 @@ namespace Titanium
 
 		// special module such as ti.map
 		virtual bool requiredBuiltinModuleExists(const JSContext& js_context, const std::string& moduleId) const TITANIUM_NOEXCEPT;
-		virtual JSValue requireBuiltinModule(const JSContext& js_context, const std::string& moduleId) TITANIUM_NOEXCEPT;
+		virtual JSValue requireBuiltinModule(const JSContext& js_context, const std::string& moduleId);
 
 		// native module
 		virtual bool requiredNativeModuleExists(const JSContext& js_context, const std::string& moduleId) const TITANIUM_NOEXCEPT;
-		virtual JSValue requireNativeModule(const JSContext& js_context, const std::string& moduleId) TITANIUM_NOEXCEPT;
+		virtual JSValue requireNativeModule(const JSContext& js_context, const std::string& moduleId);
 
 		/*!
 		  @method
