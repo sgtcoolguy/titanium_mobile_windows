@@ -34,6 +34,8 @@ endif()
 get_filename_component(APPCELERATOR_CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../cmake ABSOLUTE)
 list(INSERT CMAKE_MODULE_PATH 0 ${APPCELERATOR_CMAKE_MODULE_PATH})
 
+include(precompiled_header)
+
 # Convert analytics.js into a c string in an hpp that we can include
 include(GenerateCPPHeaderFile)
 generate_cpp_header_file(resource_analytics_js_hpp ${PROJECT_SOURCE_DIR}/src/analytics.js ${PROJECT_SOURCE_DIR}/include/Titanium/analytics_js.hpp)
@@ -370,12 +372,12 @@ source_group(TitaniumKit\\TiLogger\\detail FILES ${SOURCE_TiLogger_detail})
 #set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 #set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
-add_library(TitaniumKit SHARED
+# Turn on precompiled headers
+set(SOURCE_ALL_EXCEPT_DATABASE
   ${SOURCE_TitaniumKit}
   ${SOURCE_TitaniumKit_detail}
   ${SOURCE_Ti}
   ${SOURCE_API}
-  ${SOURCE_Database}
   ${SOURCE_Platform}
   ${SOURCE_Accelerometer}
   ${SOURCE_Gesture}
@@ -393,6 +395,12 @@ add_library(TitaniumKit SHARED
   ${SOURCE_Map}
   ${SOURCE_Geolocation}
   ${SOURCE_TiLogger_detail}
+)
+enable_precompiled_headers(include/stdafx.h SOURCE_ALL_EXCEPT_DATABASE)
+
+add_library(TitaniumKit SHARED
+  ${SOURCE_ALL_EXCEPT_DATABASE}
+  ${SOURCE_Database}
   )
 
 add_dependencies(TitaniumKit resource_analytics_js_hpp)
@@ -461,6 +469,11 @@ if (WIN32)
 
   # Fix error C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe (needed by boost::split)
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -D_SCL_SECURE_NO_WARNINGS")
+
+  # Verbose compilation for MSVC
+  if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /showIncludes")
+  endif(MSVC)
 else()
   # enable well-known compiler warnings
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS "-Wall")
