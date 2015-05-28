@@ -392,7 +392,7 @@ function generateRequireHook(dest, seeds, next) {
 	var require_hook = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
-	console.log("Adding types to require hook implementation...");
+	console.log("Adding require hook implementation in WindowsNativeModuleLoader.cpp...");
 	fs.readFile(require_hook, 'utf8', function (err, data) {
 		if (err) throw err;
 
@@ -458,6 +458,58 @@ function generateRequireHook(dest, seeds, next) {
 		data = data.substring(0, data.indexOf('// INSERT_ENUMS')) + enum_loader + data.substring(data.indexOf('// END_ENUMS') + 12);
 
 		fs.writeFile(require_hook, data, function(err) {
+			next(err);
+		});
+	});
+}
+
+/**
+ * Generates the code in main.cpp to handle building up the list of native types registered.
+ * @param {String} dest - 
+ * @param {Array[string]} seeds - 
+ * @param {Function} next - 
+ */
+function generateNativeTypeListing(dest, seeds, next) {
+	var main_cpp = path.join(dest, 'src', 'main.cpp');
+	// Now we'll add all the types we know about as includes into our require hook class
+	// This let's us load these types by name using require!
+	console.log("Adding native API hooks to main.cpp...");
+	fs.readFile(main_cpp, 'utf8', function (err, data) {
+		if (err) throw err;
+
+		var classes = "", // built up includes
+			native_names = "", // built up code for appending list of native type names
+			classDefinition; // definition of current type in outer loop
+
+		// Add our includes
+		for (var i = 0; i < seeds.length; i++) {
+			classname = seeds[i];
+			// Skip blacklisted types
+			if (blacklist.indexOf(classname) != -1) {
+				continue;
+			}
+			classDefinition = all_classes[classname];
+			if (!classDefinition) {
+				console.log("Unable to find metadata for: " + classname);
+				continue;
+			}
+			// skip enums and structs
+			if (classDefinition['extends'] && 
+				(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
+				classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
+				continue;	
+			}
+
+			classes += "#include \"" + classname + ".hpp\"\r\n";
+			native_names += "  names->Append(\"" + classname + "\");\r\n";
+		}
+		native_names = "//// INSERT SUPPORTED NATIVE MODULE NAMES START\r\n" + native_names + "//// INSERT SUPPORTED NATIVE MODULE NAMES END";
+		classes = "//// NATIVE_MODULE_INCLUDES START\r\n" + classes + "//// NATIVE_MODULE_INCLUDES END";
+
+		data = data.substring(0, data.indexOf('//// NATIVE_MODULE_INCLUDES START')) + classes + data.substring(data.indexOf('//// NATIVE_MODULE_INCLUDES END') + 31);
+		data = data.substring(0, data.indexOf('//// INSERT SUPPORTED NATIVE MODULE NAMES START')) + native_names + data.substring(data.indexOf('//// INSERT SUPPORTED NATIVE MODULE NAMES END') + 45);
+
+		fs.writeFile(main_cpp, data, function(err) {
 			next(err);
 		});
 	});
@@ -532,18 +584,21 @@ function generateCasting(dest, seeds, next) {
  */
 exports.generate = function generate(dest, seeds, finished) {
 	async.series([
-		function(callback){
+		function(callback) {
 	        initialize(seeds, callback);
 	    },
-	    function(callback){
+	    function(callback) {
 	        generateWrappers(dest, seeds, callback);
 	    },
-	    function(callback){
+	    function(callback) {
 		    async.parallel([
-			    function(callback){
+			    function(callback) {
 			        generateRequireHook(dest, seeds, callback);
 			    },
-			     function(callback){
+			    function(callback) {
+			        generateNativeTypeListing(dest, seeds, callback);
+			    },
+			    function(callback) {
 			        generateCasting(dest, seeds, callback);
 			    }
 			], callback);

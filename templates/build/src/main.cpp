@@ -11,8 +11,8 @@
 
 #include <collection.h>
 
-#include "TitaniumWindows/WindowsNativeModuleLoader.hpp"
 #include "HAL/HAL.hpp"
+#include "TitaniumWindows/WindowsNativeModuleLoader.hpp"
 
 //// NATIVE_MODULE_INCLUDES START
 
