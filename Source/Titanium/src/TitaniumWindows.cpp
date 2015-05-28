@@ -40,10 +40,9 @@ namespace TitaniumWindows
 {
 	using namespace HAL;
 
-	Application::Application(std::shared_ptr<NativeModuleLoader> module_loader)
+	Application::Application()
 	    : js_context__(js_context_group__.CreateContext(JSExport<TitaniumWindows::GlobalObject>::Class()))
 	{
-		module_loader__ = module_loader;
 	}
 
 	Application::~Application()
@@ -91,7 +90,6 @@ namespace TitaniumWindows
 		                                                            .ScrollableViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ScrollableView>::Class()))
 		                                                            .MediaObject(js_context__.CreateObject(JSExport<TitaniumWindows::MediaModule>::Class()))
 		                                                            .build());
-<<<<<<< HEAD
 
 		const auto js_context_ref = reinterpret_cast<std::intptr_t>(static_cast<JSContextRef>(js_context__));
 		const auto js_preloaded_modules = JSObject(js_context__, reinterpret_cast<JSObjectRef>(TitaniumModulePreload(js_context_ref)));

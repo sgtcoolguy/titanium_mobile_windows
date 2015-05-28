@@ -58,9 +58,8 @@ namespace TitaniumWindows
 		// END_ENUMS
 	}
 
-	bool WindowsNativeModuleLoader::registerNativeModule(const JSObject& parent, const std::string& path) const
+	JSValue WindowsNativeModuleLoader::registerNativeModule(const JSContext& context, const std::string& path) const
 	{
-		auto context = parent.get_context();
 		JSObject instantiated = context.CreateObject();
 		// TODO Use a std::map that we populate once and just check for a key with that name?
 		// INSERT_SWITCH
@@ -68,7 +67,7 @@ namespace TitaniumWindows
 
 		registerValue(context, path, instantiated);
 
-		return true;
+		return static_cast<JSValue>(instantiated);
 	}
 }  // namespace TitaniumWindows
 

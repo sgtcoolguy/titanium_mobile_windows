@@ -7,20 +7,19 @@
 #ifndef _TITANIUMWINDOWS_WindowsNativeModuleLoader_HPP_
 #define _TITANIUMWINDOWS_WindowsNativeModuleLoader_HPP_
 
-#include "detail/TitaniumWindowsBase.hpp"
-#include "TitaniumWindows/NativeModuleLoader.hpp"
+#include "HAL/HAL.hpp"
 
 namespace TitaniumWindows
 {
 	using namespace HAL;
 
-		class TITANIUMWINDOWS_EXPORT WindowsNativeModuleLoader final : public ::TitaniumWindows::NativeModuleLoader
+		class WindowsNativeModuleLoader final
 		{
 		public:
 			WindowsNativeModuleLoader();
 			~WindowsNativeModuleLoader();
 
-			virtual bool registerNativeModule(const JSObject& parent, const std::string& path) const override final;
+			JSValue registerNativeModule(const JSContext& context, const std::string& path) const;
 
 		private:
 			void registerValue(const JSContext& context, const std::string& name, const JSValue& value) const;
