@@ -10,11 +10,12 @@
 #define _APPLICATION_TITANIUMWINDOWS_HPP_
 
 #include "Titanium/Titanium.hpp"
+#include "TitaniumWindows/TItaniumApplicationCallback.hpp"
+#include <unordered_map>
 
 namespace TitaniumWindows
 {
-public
-	ref class Application sealed : public Windows::UI::Xaml::Application
+	public ref class Application sealed : public Windows::UI::Xaml::Application
 	{
 	public:
 		Application();
@@ -23,6 +24,10 @@ public
 		virtual void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ args) override;
 		void OnSuspending(Object^ sender, Windows::ApplicationModel::SuspendingEventArgs^ e);
 		void OnResuming(Object ^sender, Object ^args);
+
+		event TitaniumModulePreloadHandler^ TitaniumModulePreload;
+		event TitaniumModuleRequireHandler^ TitaniumModuleRequire;
+		event TitaniumModuleNamesHandler^   TitaniumModuleNames;
 
 	private:
 
