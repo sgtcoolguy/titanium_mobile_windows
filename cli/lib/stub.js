@@ -255,14 +255,14 @@ function initialize(seeds, next) {
 	}
 	while (todo.length > 0) {
 		var classname = todo.shift();
-		//console.log("Gathering dependencies of: " + classname);
+		console.log("Gathering dependencies of: " + classname);
 		var dependencies = getDependencies(classname);
 		// are there any new types here?
 		for (var j = 0; j < dependencies.length; j++) {
 			var the_dependency = dependencies[j];
 			if (seeds.indexOf(the_dependency) == -1) {
 				// new type. Add it to our seed listing and our queue to gather it's dependencies
-				//console.log("Adding type to list: " + the_dependency);
+				console.log("Adding type to list: " + the_dependency);
 				seeds.unshift(the_dependency);
 				todo.unshift(the_dependency);
 			}
@@ -583,25 +583,28 @@ function generateCasting(dest, seeds, next) {
  * @param {Function} finished - Callback when detection is finished
  */
 exports.generate = function generate(dest, seeds, finished) {
-	async.series([
-		function(callback) {
-	        initialize(seeds, callback);
-	    },
-	    function(callback) {
-	        generateWrappers(dest, seeds, callback);
-	    },
-	    function(callback) {
-		    async.parallel([
-			    function(callback) {
-			        generateRequireHook(dest, seeds, callback);
-			    },
-			    function(callback) {
-			        generateNativeTypeListing(dest, seeds, callback);
-			    },
-			    function(callback) {
-			        generateCasting(dest, seeds, callback);
-			    }
-			], callback);
+	initialize(seeds, function(err, all_types) {
+		if (err) {
+			finished(err);
+			return;
 		}
-	], finished);
+		async.series([
+			function(callback) {
+		        generateWrappers(dest, all_types, callback);
+		    },
+		    function(callback) {
+			    async.parallel([
+				    function(callback) {
+				        generateRequireHook(dest, all_types, callback);
+				    },
+				    function(callback) {
+				        generateNativeTypeListing(dest, all_types, callback);
+				    },
+				    function(callback) {
+				        generateCasting(dest, all_types, callback);
+				    }
+				], callback);
+			}
+		], finished);
+	});
 };

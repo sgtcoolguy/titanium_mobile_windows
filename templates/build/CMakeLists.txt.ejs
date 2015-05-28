@@ -101,8 +101,8 @@ file(GLOB_RECURSE PLATFORM_WRAPPERS "src/Platform.*.cpp")
 file(GLOB_RECURSE PLATFORM_HEADERS "include/Platform.*.hpp")
 
 set(SOURCE_Windows_Native
-  src/WindowsNativeLoader.cpp
-  include/WindowsNativeLoader.hpp
+  src/WindowsNativeModuleLoader.cpp
+  include/WindowsNativeModuleLoader.hpp
   ${WINDOWS_WRAPPERS}
   ${WINDOWS_HEADERS}
   ${PLATFORM_WRAPPERS}
@@ -139,6 +139,7 @@ target_link_libraries(${EXE_NAME} ${TitaniumWindows_UI_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Utility_LIBRARIES})
 
 target_include_directories(${EXE_NAME} PUBLIC
+  ${PROJECT_SOURCE_DIR}/include
   ${TitaniumWindows_Filesystem_INCLUDE_DIRS}
   ${TitaniumWindows_Global_INCLUDE_DIRS}
   $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
