@@ -7,12 +7,11 @@
 #ifndef _TITANIUMWINDOWS_WindowsNativeModuleLoader_HPP_
 #define _TITANIUMWINDOWS_WindowsNativeModuleLoader_HPP_
 
+#include "HAL/HAL.hpp"
+
 namespace TitaniumWindows
 {
 	using namespace HAL;
-
-	class JSContext;
-	class JSValue;
 
 	class WindowsNativeModuleLoader final
 	{
