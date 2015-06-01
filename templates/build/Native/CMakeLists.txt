@@ -6,7 +6,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
-  set(PLATFORM wp)
+  set(PLATFORM phone)
   add_definitions("-DPHONE")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsStore")
   set(PLATFORM store)
@@ -105,3 +105,5 @@ set_property(TARGET TitaniumWindows_Native
 # Therefore we disable /OPT:REF and /OPT:ICF for the Debug
 # configuration.
 set_property(TARGET TitaniumWindows_Native APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
+# Fix error C1128: number of sections exceeded object file format limit
+set_property(TARGET TitaniumWindows_Native APPEND_STRING PROPERTY COMPILE_FLAGS "/bigobj")

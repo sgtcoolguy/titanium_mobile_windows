@@ -4,7 +4,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "TitaniumWindows/WindowsNativeModuleLoader.hpp"
+#include "WindowsNativeModuleLoader.hpp"
 // INSERT_INCLUDES
 // END_INCLUDES
 

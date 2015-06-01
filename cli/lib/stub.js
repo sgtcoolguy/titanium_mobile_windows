@@ -448,7 +448,7 @@ function generateRequireHook(dest, seeds, next) {
 			}
 			loader_switch += "\t\t}\r\n";
 		}
-		loader_switch += "\t\telse {\r\n\t\t\treturn false;\r\n\t\t}\r\n\t\t// END_SWITCH";
+		loader_switch += "\t\telse {\r\n\t\t\treturn context.CreateUndefined();\r\n\t\t}\r\n\t\t// END_SWITCH";
 		loader_switch = "// INSERT_SWITCH\r\n\t\t" + loader_switch.substring(7); // drop first "\t\telse "
 		enum_loader = "// INSERT_ENUMS\r\n\t\t" + enum_loader.substring(7) + "\t\t// END_ENUMS"; // drop first "\t\telse "
 		classes = "// INSERT_INCLUDES\r\n" + classes + "// END_INCLUDES";

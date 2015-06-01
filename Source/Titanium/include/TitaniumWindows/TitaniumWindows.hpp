@@ -10,7 +10,7 @@
 #define _APPLICATION_TITANIUMWINDOWS_HPP_
 
 #include "Titanium/Titanium.hpp"
-#include "TitaniumWindows/TItaniumApplicationCallback.hpp"
+#include "TitaniumWindows/TitaniumApplicationCallback.hpp"
 #include <unordered_map>
 
 namespace TitaniumWindows
