@@ -210,11 +210,13 @@ async.series([
 	function (next) {
 		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'x86', next);
 	},
+	// TODO Do all these others async. Use async.parallel, and use non-sync versions of file ops!
 	function (next) {
 		console.log("Copying over include headers...");
-		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'HAL', 'include'), path.join(distRoot, 'HAL', 'include'));
-		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'Utility', 'include'), path.join(distRoot, 'TitwniumWindows_Utility', 'include'));
-		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'detail'), path.join(distRoot, 'TitaniumKit', 'include', 'Titanium', 'detail'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'HAL', 'include', 'HAL'), path.join(distLib, 'HAL', 'include', 'HAL'));
+		wrench.mkdirSyncRecursive(path.join(distLib, 'TitaniumKit', 'include', 'Titanium'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'Utility', 'include', 'TitaniumWindows'), path.join(distLib, 'TitaniumWindows_Utility', 'include', 'TitaniumWindows'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'detail'), path.join(distLib, 'TitaniumKit', 'include', 'Titanium', 'detail'));	
 		next();
 	},
 	function (next) {
