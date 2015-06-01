@@ -1524,7 +1524,7 @@ WindowsBuilder.prototype.generateNativeWrappers = function generateNativeWrapper
 	];
 	this.logger.info(__('Generating Native Type Wrappers'));
 
-	nativeTypeGenerator.generate(this.buildDir, seeds, next);
+	nativeTypeGenerator.generate(path.join(this.buildDir, 'Native'), seeds, next);
 };
 
 /**

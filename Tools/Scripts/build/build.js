@@ -219,6 +219,13 @@ async.series([
 		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsStore', 'x86', next);
 	},
 	function (next) {
+		console.log("Copying over include headers...");
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'HAL', 'include'), path.join(distRoot, 'HAL', 'include'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'Utility', 'include'), path.join(distRoot, 'TitwniumWindows_Utility', 'include'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'detail'), path.join(distRoot, 'TitaniumKit', 'include', 'Titanium', 'detail'));
+		next();
+	},
+	function (next) {
 		console.log("Copying over package.json...");
 		fs.writeFileSync(path.join(distRoot, 'package.json'), fs.readFileSync(path.join(rootDir, 'package.json')));
 		next();

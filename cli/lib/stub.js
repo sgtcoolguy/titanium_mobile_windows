@@ -470,10 +470,10 @@ function generateRequireHook(dest, seeds, next) {
  * @param {Function} next - 
  */
 function generateNativeTypeListing(dest, seeds, next) {
-	var main_cpp = path.join(dest, 'src', 'main.cpp');
+	var main_cpp = path.join(dest, 'src', 'RequireHook.cpp');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
-	console.log("Adding native API hooks to main.cpp...");
+	console.log("Adding native API type listing to RequireHook.cpp...");
 	fs.readFile(main_cpp, 'utf8', function (err, data) {
 		if (err) throw err;
 
