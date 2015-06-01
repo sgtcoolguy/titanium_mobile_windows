@@ -51,6 +51,11 @@ find_package(TitaniumWindows_Utility REQUIRED)
 
 # No user-servicable parts below this line.
 
+if(NOT TARGET TitaniumWindows_Native)
+  get_filename_component(Native_SOURCE_DIR ${PROJECT_SOURCE_DIR}/Native ABSOLUTE)
+  add_subdirectory(${Native_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Native EXCLUDE_FROM_ALL)
+endif()
+
 # Variable naming the built executable.
 set(EXE_NAME ${PROJECT_NAME})
 
@@ -94,27 +99,10 @@ set_property(SOURCE ${SOURCE_<%= key.replace(/\//g, '_') %>} PROPERTY VS_DEPLOYM
 set_property(SOURCE ${SOURCE_<%= key.replace(/\//g, '_') %>} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 <% } %>
 
-# Native type wrappers and infrastructure
-file(GLOB_RECURSE WINDOWS_WRAPPERS "src/Windows.*.cpp")
-file(GLOB_RECURSE WINDOWS_HEADERS "include/Windows.*.hpp")
-file(GLOB_RECURSE PLATFORM_WRAPPERS "src/Platform.*.cpp")
-file(GLOB_RECURSE PLATFORM_HEADERS "include/Platform.*.hpp")
-
-set(SOURCE_Windows_Native
-  src/WindowsNativeModuleLoader.cpp
-  include/WindowsNativeModuleLoader.hpp
-  ${WINDOWS_WRAPPERS}
-  ${WINDOWS_HEADERS}
-  ${PLATFORM_WRAPPERS}
-  ${PLATFORM_HEADERS}
-)
-source_group(Windows\\\\Native FILES ${SOURCE_Windows_Native})
-
 # Add all the files to the app
 add_executable(${EXE_NAME} WIN32
   src/main.cpp
   include/OutputDebugStringBuf.hpp
-  ${SOURCE_Windows_Native}
   ${SOURCE_Assets}
 <% for(var key in sourceGroups) { -%>
   <% if (key == '.') { continue; } -%>
@@ -137,9 +125,11 @@ target_link_libraries(${EXE_NAME} ${TitaniumWindows_LIBRARIES})
 target_link_libraries(${EXE_NAME} TitaniumKit)
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_UI_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Utility_LIBRARIES})
+target_link_libraries(${EXE_NAME} TitaniumWindows_Native)
 
 target_include_directories(${EXE_NAME} PUBLIC
   ${PROJECT_SOURCE_DIR}/include
+  $<TARGET_PROPERTY:TitaniumWindows_Native,INTERFACE_INCLUDE_DIRECTORIES>
   ${TitaniumWindows_Filesystem_INCLUDE_DIRS}
   ${TitaniumWindows_Global_INCLUDE_DIRS}
   $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>

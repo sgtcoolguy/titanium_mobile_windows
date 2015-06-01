@@ -92,7 +92,11 @@ namespace TitaniumWindows
 		                                                            .build());
 
 		const auto js_context_ref = reinterpret_cast<std::intptr_t>(static_cast<JSContextRef>(js_context__));
-		const auto js_preloaded_modules = JSObject(js_context__, reinterpret_cast<JSObjectRef>(TitaniumModulePreload(js_context_ref)));
+		auto preloaded = TitaniumModulePreload(js_context_ref);
+		auto js_preloaded_modules = js_context__.CreateObject();
+		if (preloaded) {
+			js_preloaded_modules = JSObject(js_context__, reinterpret_cast<JSObjectRef>(TitaniumModulePreload(js_context_ref)));
+		}
 
 		// store all preloaded native modules
 		std::unordered_map<std::string, JSValue> preloaded_modules;
@@ -103,8 +107,10 @@ namespace TitaniumWindows
 		// store all supported native module names
 		std::vector<std::string> native_module_names;
 		const auto rt_native_module_names = TitaniumModuleNames(js_context_ref);
-		for (auto v : rt_native_module_names) {
-			native_module_names.push_back(TitaniumWindows::Utility::ConvertString(v));
+		if (rt_native_module_names) {
+			for (auto v : rt_native_module_names) {
+				native_module_names.push_back(TitaniumWindows::Utility::ConvertString(v));
+			}
 		}
 
 		// registerNativeModuleRequireHook will be called for "non-preloaded" modules
