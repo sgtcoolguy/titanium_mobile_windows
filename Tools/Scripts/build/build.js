@@ -210,14 +210,6 @@ async.series([
 	function (next) {
 		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'x86', next);
 	},
-	// TODO Maybe we can be more efficient by running the mocha tests here after we have enough of the libs to run the emulator.
-	// If they pass, keep building, otherwise exit early?
-	function (next) {
-		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'ARM', next);
-	},
-	function (next) {
-		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsStore', 'x86', next);
-	},
 	function (next) {
 		console.log("Copying over include headers...");
 		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'HAL', 'include'), path.join(distRoot, 'HAL', 'include'));
