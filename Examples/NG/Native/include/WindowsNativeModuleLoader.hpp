@@ -7,24 +7,25 @@
 #ifndef _TITANIUMWINDOWS_WindowsNativeModuleLoader_HPP_
 #define _TITANIUMWINDOWS_WindowsNativeModuleLoader_HPP_
 
-#include "HAL/HAL.hpp"
-
 namespace TitaniumWindows
 {
 	using namespace HAL;
 
-		class WindowsNativeModuleLoader final
-		{
-		public:
-			WindowsNativeModuleLoader();
-			~WindowsNativeModuleLoader();
+	class JSContext;
+	class JSValue;
 
-			JSValue registerNativeModule(const JSContext& context, const std::string& path) const;
+	class WindowsNativeModuleLoader final
+	{
+	public:
+		WindowsNativeModuleLoader();
+		~WindowsNativeModuleLoader();
 
-		private:
-			void registerValue(const JSContext& context, const std::string& name, const JSValue& value) const;
-			void registerEnums(const JSContext& context, const std::string& type_name) const;
-		};
+		JSValue registerNativeModule(const JSContext& context, const std::string& path) const;
+
+	private:
+		void registerValue(const JSContext& context, const std::string& name, const JSValue& value) const;
+		void registerEnums(const JSContext& context, const std::string& type_name) const;
+	};
 }  // namespace TitaniumWindows
 
 #endif  // _TITANIUMWINDOWS_WindowsNativeModuleLoader_HPP_

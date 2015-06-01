@@ -5,8 +5,6 @@
  */
 
 #include "WindowsNativeModuleLoader.hpp"
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string.hpp>
 // INSERT_INCLUDES
 // END_INCLUDES
 
@@ -26,7 +24,33 @@ namespace TitaniumWindows
 
 	void WindowsNativeModuleLoader::registerValue(const JSContext& context, const std::string& name, const JSValue& value) const
 	{
-	
+		// FIXME If we've already hung a value at this name, we shouldn't do any of this!
+		auto global = context.get_global_object();
+		// Split type/path by '.', then build up the namespaces!
+		JSObject current_object = global;
+
+		std::stringstream stream(name);
+		std::string segment;
+		std::vector<std::string> parts;
+		while(std::getline(stream, segment, '.'))
+		{
+		   parts.push_back(segment);
+		}
+		for (size_t i = 0, len = parts.size(); i < len - 1; i++) {
+			auto part = parts.at(i);
+
+			if (!current_object.HasProperty(part)) {
+				auto child_object = context.CreateObject();
+				current_object.SetProperty(part, child_object);
+				current_object = child_object;
+			} else {
+				auto current_value = current_object.GetProperty(part);
+				TITANIUM_ASSERT(current_value.IsObject());
+				current_object = static_cast<JSObject>(current_value);
+			}
+		}
+		// hang the actual value at the end!
+		current_object.SetProperty(parts.at(parts.size() - 1), value);
 	}
 
 	void WindowsNativeModuleLoader::registerEnums(const JSContext& context, const std::string& type_name) const
