@@ -217,6 +217,11 @@ async.series([
 		wrench.mkdirSyncRecursive(path.join(distLib, 'TitaniumKit', 'include', 'Titanium'));
 		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'Utility', 'include', 'TitaniumWindows'), path.join(distLib, 'TitaniumWindows_Utility', 'include', 'TitaniumWindows'));
 		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'detail'), path.join(distLib, 'TitaniumKit', 'include', 'Titanium', 'detail'));	
+		// Copy over the JSC headers to HAL!
+		wrench.copyDirSyncRecursive(path.join(process.env.JavaScriptCore_HOME, 'includes', 'JavaScriptCore'), path.join(distLib, 'HAL', 'include', 'JavaScriptCore'));
+		// Copy over TitaniumKit's Titanium/Module.hpp until we fix the wrappers to not use it!
+		fs.writeFileSync(path.join(distLib, 'TitaniumKit', 'include', 'Titanium', 'Module.hpp'), fs.readFileSync(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'Module.hpp')));
+		
 		next();
 	},
 	function (next) {

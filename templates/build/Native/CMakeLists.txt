@@ -35,12 +35,13 @@ include(${APPCELERATOR_CMAKE_MODULE_PATH}/internal_utils.cmake)
 # Defined in internal_utils.cmake.
 config_compiler_and_linker()
 
-# point to our Find*.cmake scripts
-find_package(TitaniumWindows REQUIRED)
+
+file(GLOB_RECURSE WINDOWS_WRAPPERS "src/*.cpp")
+file(GLOB_RECURSE WINDOWS_HEADERS "include/*.hpp")
 
 set(SOURCE_Native
-  include/*.hpp
-  src/*.cpp
+${WINDOWS_WRAPPERS}
+${WINDOWS_HEADERS}
   )
 
 source_group(Titanium\\Native FILES ${SOURCE_Native})
@@ -58,13 +59,11 @@ target_compile_definitions(TitaniumWindows_Native PRIVATE TitaniumWindows_Native
 
 target_include_directories(TitaniumWindows_Native PUBLIC
   ${PROJECT_SOURCE_DIR}/include
-  $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
-  $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
+  ${TitaniumWindows_INCLUDE_DIRS}
+  ${TitaniumWindows_Utility_INCLUDE_DIRS}
   )
 
-target_link_libraries(TitaniumWindows_Native
-  ${TitaniumWindows_LIBRARIES}
-  )
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_LIBRARIES})
 
 set_target_properties(TitaniumWindows_Native PROPERTIES VS_WINRT_COMPONENT TRUE)
 
@@ -106,44 +105,3 @@ set_property(TARGET TitaniumWindows_Native
 # Therefore we disable /OPT:REF and /OPT:ICF for the Debug
 # configuration.
 set_property(TARGET TitaniumWindows_Native APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
-
-if (NOT TitaniumWindows_Native_DISABLE_TESTS)
-  add_subdirectory(test)
-endif()
-
-
-# Support find_package(TitaniumWindows_Native 0.1 REQUIRED)
-
-set_property(TARGET TitaniumWindows_Native PROPERTY VERSION ${TitaniumWindows_Native_VERSION})
-set_property(TARGET TitaniumWindows_Native PROPERTY SOVERSION 0)
-set_property(TARGET TitaniumWindows_Native PROPERTY INTERFACE_TitaniumWindows_Native_MAJOR_VERSION 0)
-set_property(TARGET TitaniumWindows_Native APPEND PROPERTY
-  COMPATIBLE_INTERFACE_STRING TitaniumWindows_Native_MAJOR_VERSION
-  )
-
-install(TARGETS TitaniumWindows_Native EXPORT TitaniumWindows_Native_Targets
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
-  )
-
-export(EXPORT TitaniumWindows_Native_Targets
-  FILE "${CMAKE_BINARY_DIR}/TitaniumWindows_Native_Targets.cmake"
-)
-
-configure_file(cmake/TitaniumWindows_Native_Config.cmake
-  "${CMAKE_BINARY_DIR}/TitaniumWindows_Native_Config.cmake"
-  COPYONLY
-  )
-
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-  "${CMAKE_BINARY_DIR}/TitaniumWindows_Native_ConfigVersion.cmake"
-  VERSION ${TitaniumWindows_Native_VERSION}
-  COMPATIBILITY AnyNewerVersion
-  )
-
-# Store the current build directory in the CMake user package registry
-# so that find_package(TitaniumWindows_Native) works.
-export(PACKAGE TitaniumWindows_Native)
