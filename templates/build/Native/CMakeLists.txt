@@ -56,17 +56,37 @@ include(GenerateExportHeader)
 generate_export_header(TitaniumWindows_Native)
 target_compile_definitions(TitaniumWindows_Native PRIVATE TitaniumWindows_Native_EXPORTS)
 
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_Filesystem_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_Global_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native HAL)
+target_link_libraries(TitaniumWindows_Native ${LayoutEngine_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_Map_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_Media_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_Network_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_Sensors_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_Ti_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native TitaniumKit)
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_UI_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_Utility_LIBRARIES})
+
 target_include_directories(TitaniumWindows_Native PUBLIC
   ${PROJECT_SOURCE_DIR}/include
+  ${TitaniumWindows_Filesystem_INCLUDE_DIRS}
+  ${TitaniumWindows_Global_INCLUDE_DIRS}
   $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
+  ${LayoutEngine_INCLUDE_DIRS}
+  ${TitaniumWindows_Map_INCLUDE_DIRS}
+  ${TitaniumWindows_Media_INCLUDE_DIRS}
+  ${TitaniumWindows_Network_INCLUDE_DIRS}
+  ${TitaniumWindows_Sensors_INCLUDE_DIRS}
+  ${TitaniumWindows_Ti_INCLUDE_DIRS}
+  ${TitaniumWindows_INCLUDE_DIRS}
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
+  ${TitaniumWindows_UI_INCLUDE_DIRS}
+  ${TitaniumWindows_Utility_INCLUDE_DIRS}
   $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
-  )
-
-target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_LIBRARIES})
-target_link_libraries(TitaniumWindows_Native HAL)
-target_link_libraries(TitaniumWindows_Native TitaniumKit)
-target_link_libraries(TitaniumWindows_Native TitaniumWindows_Utility)
+)
 
 set_target_properties(TitaniumWindows_Native PROPERTIES VS_WINRT_COMPONENT TRUE)
 
