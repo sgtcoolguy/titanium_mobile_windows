@@ -388,12 +388,12 @@ function generateWrappers(dest, seeds, next) {
  * @param {Array[string]} seeds - 
  * @param {Function} next - 
  */
-function generateRequireHook(dest, seeds, next) {
-	var require_hook = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp');
+function generateWindowsNativeModuleLoader(dest, seeds, next) {
+	var native_loader = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
 	console.log("Adding require hook implementation in WindowsNativeModuleLoader.cpp...");
-	fs.readFile(require_hook, 'utf8', function (err, data) {
+	fs.readFile(native_loader, 'utf8', function (err, data) {
 		if (err) throw err;
 
 		var classes = "", // built up includes
@@ -457,28 +457,28 @@ function generateRequireHook(dest, seeds, next) {
 		data = data.substring(0, data.indexOf('// INSERT_SWITCH')) + loader_switch + data.substring(data.indexOf('// END_SWITCH') + 13);
 		data = data.substring(0, data.indexOf('// INSERT_ENUMS')) + enum_loader + data.substring(data.indexOf('// END_ENUMS') + 12);
 
-		fs.writeFile(require_hook, data, function(err) {
+		fs.writeFile(native_loader, data, function(err) {
 			next(err);
 		});
 	});
 }
 
 /**
- * Generates the code in main.cpp to handle building up the list of native types registered.
+ * Generates the code in RequireHook.cpp to handle building up the list of native types registered.
  * @param {String} dest - 
  * @param {Array[string]} seeds - 
  * @param {Function} next - 
  */
-function generateNativeTypeListing(dest, seeds, next) {
-	var main_cpp = path.join(dest, 'src', 'RequireHook.cpp');
+function generateRequireHook(dest, seeds, next) {
+	var require_hook = path.join(dest, 'src', 'RequireHook.cpp');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
 	console.log("Adding native API type listing to RequireHook.cpp...");
-	fs.readFile(main_cpp, 'utf8', function (err, data) {
+	fs.readFile(require_hook, 'utf8', function (err, data) {
 		if (err) throw err;
 
-		var classes = "", // built up includes
-			native_names = "", // built up code for appending list of native type names
+		var native_module_includes = [], // built up includes
+			native_modules = [], // built up code for appending list of native types
 			classDefinition; // definition of current type in outer loop
 
 		// Add our includes
@@ -500,16 +500,16 @@ function generateNativeTypeListing(dest, seeds, next) {
 				continue;	
 			}
 
-			classes += "#include \"" + classname + ".hpp\"\r\n";
-			native_names += "  names->Append(\"" + classname + "\");\r\n";
+			native_module_includes.push(classname + ".hpp");
+			native_modules.push({name:classname});
 		}
-		native_names = "//// INSERT SUPPORTED NATIVE MODULE NAMES START\r\n" + native_names + "//// INSERT SUPPORTED NATIVE MODULE NAMES END";
-		classes = "//// NATIVE_MODULE_INCLUDES START\r\n" + classes + "//// NATIVE_MODULE_INCLUDES END";
 
-		data = data.substring(0, data.indexOf('//// NATIVE_MODULE_INCLUDES START')) + classes + data.substring(data.indexOf('//// NATIVE_MODULE_INCLUDES END') + 31);
-		data = data.substring(0, data.indexOf('//// INSERT SUPPORTED NATIVE MODULE NAMES START')) + native_names + data.substring(data.indexOf('//// INSERT SUPPORTED NATIVE MODULE NAMES END') + 45);
+		data = ejs.render(data, { 
+			native_module_includes:native_module_includes,
+			native_modules:native_modules 
+			}, {});
 
-		fs.writeFile(main_cpp, data, function(err) {
+		fs.writeFile(require_hook, data, function(err) {
 			next(err);
 		});
 	});
@@ -595,10 +595,10 @@ exports.generate = function generate(dest, seeds, finished) {
 		    function(callback) {
 			    async.parallel([
 				    function(callback) {
-				        generateRequireHook(dest, all_types, callback);
+				        generateWindowsNativeModuleLoader(dest, all_types, callback);
 				    },
 				    function(callback) {
-				        generateNativeTypeListing(dest, all_types, callback);
+				        generateRequireHook(dest, all_types, callback);
 				    },
 				    function(callback) {
 				        generateCasting(dest, all_types, callback);

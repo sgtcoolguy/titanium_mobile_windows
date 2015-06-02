@@ -5,6 +5,8 @@
  */
 
 #include "WindowsNativeModuleLoader.hpp"
+#include "Titanium/detail/TiBase.hpp"
+
 // INSERT_INCLUDES
 // END_INCLUDES
 
@@ -45,7 +47,7 @@ namespace TitaniumWindows
 				current_object = child_object;
 			} else {
 				auto current_value = current_object.GetProperty(part);
-				//TITANIUM_ASSERT(current_value.IsObject());
+				TITANIUM_ASSERT(current_value.IsObject());
 				current_object = static_cast<JSObject>(current_value);
 			}
 		}
@@ -70,5 +72,6 @@ namespace TitaniumWindows
 
 		return static_cast<JSValue>(instantiated);
 	}
+
 }  // namespace TitaniumWindows
 

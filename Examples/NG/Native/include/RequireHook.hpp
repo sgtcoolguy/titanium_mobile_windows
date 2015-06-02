@@ -9,6 +9,7 @@
 #define _TITANIUM_MOBILE_WINDOWS_REQUIREHOOK_HPP_
 
 #include <cstdint>
+#include "WindowsNativeModuleLoader.hpp"
 
 namespace TitaniumWindows_Native
 {
@@ -29,6 +30,11 @@ namespace TitaniumWindows_Native
 		Windows::Foundation::EventRegistrationToken require__;
 		Windows::Foundation::EventRegistrationToken names__;
 		TitaniumWindows::Application^ app__;
+
+#pragma warning(push)
+#pragma warning(disable : 4251)
+		std::shared_ptr<TitaniumWindows::WindowsNativeModuleLoader> native_module_loader__;
+#pragma warning(pop)	
 	};
 }  // namespace TitaniumWindows
 

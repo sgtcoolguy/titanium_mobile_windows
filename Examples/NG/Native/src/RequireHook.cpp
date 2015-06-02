@@ -6,13 +6,16 @@
 * Please see the LICENSE included with this distribution for details.
 */
 #include "RequireHook.hpp"
-#include "WindowsNativeModuleLoader.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "HAL/HAL.hpp"
 #include <collection.h>
 
 //// NATIVE_MODULE_INCLUDES START
-
+/*
+<% for(var i=0; i<native_module_includes.length; i++) { -%>
+#include "<%= native_module_includes[i] %>"
+<% } -%>
+*/
 //// NATIVE_MODULE_INCLUDES END
 
 namespace TitaniumWindows_Native
@@ -21,6 +24,7 @@ namespace TitaniumWindows_Native
 	using namespace HAL;
 
 	RequireHook::RequireHook()
+		: native_module_loader__(std::make_shared<TitaniumWindows::WindowsNativeModuleLoader>())
 	{
 	}
 
@@ -28,7 +32,7 @@ namespace TitaniumWindows_Native
 	{
 		app__->TitaniumModulePreload -= preload__;
 		app__->TitaniumModuleRequire -= require__;
-		app__->TitaniumModuleNames -= names__;
+		app__->TitaniumModuleNames   -= names__;
 	}
 
 	void RequireHook::Register(TitaniumWindows::Application^ app)
@@ -36,7 +40,9 @@ namespace TitaniumWindows_Native
 		app__ = app;
 		preload__ = app__->TitaniumModulePreload += ref new TitaniumWindows::TitaniumModulePreloadHandler(this, &TitaniumWindows_Native::RequireHook::OnTitaniumModulePreload);
 		require__ = app__->TitaniumModuleRequire += ref new TitaniumWindows::TitaniumModuleRequireHandler(this, &TitaniumWindows_Native::RequireHook::OnTitaniumModuleRequire);
-		names__ = app__->TitaniumModuleNames += ref new TitaniumWindows::TitaniumModuleNamesHandler(this, &TitaniumWindows_Native::RequireHook::OnTitaniumModuleNames);
+		names__   = app__->TitaniumModuleNames   += ref new TitaniumWindows::TitaniumModuleNamesHandler(this, &TitaniumWindows_Native::RequireHook::OnTitaniumModuleNames);
+
+		app__->SaveRequireHook(this);
 	}
 
 	// This should return pointer to JSObject (key-value) which consists of module name & preloaded JSObject
@@ -46,11 +52,18 @@ namespace TitaniumWindows_Native
 
 		auto js_preloaded_module_map = js_context.CreateObject();
 
-		//// INITIALLIZE PRELOADED NATIVE MODULE START
 
 		//// TODO: native module initialization 
 		//// js_preloaded_module_map.SetProperty("com.example.test", js_context.CreateObject(JSExport<Com::Example::Test>::Class()));
 
+		//// INITIALLIZE PRELOADED NATIVE MODULE START
+/*
+<% for(var i=0; i<native_modules.length; i++) { -%>
+  <% if (native_modules[i].preload) { -%>
+		js_preloaded_module_map.SetProperty("<%= native_modules[i].name %>", js_context.CreateObject(JSExport<<%= native_modules[i].className %>>::Class()));
+  <% } -%>
+<% } -%>
+*/
 		//// INITIALLIZE PRELOADED NATIVE MODULE END
 
 		return reinterpret_cast<std::intptr_t>(static_cast<JSValueRef>(js_preloaded_module_map));
@@ -61,8 +74,7 @@ namespace TitaniumWindows_Native
 	{
 		const auto js_context = JSContext(reinterpret_cast<JSContextRef>(js_context_ref));
 
-		auto loader = new TitaniumWindows::WindowsNativeModuleLoader();
-		auto value = loader->registerNativeModule(js_context, TitaniumWindows::Utility::ConvertString(moduleId));
+		auto value = native_module_loader__->registerNativeModule(js_context, TitaniumWindows::Utility::ConvertString(moduleId));
 
 		return reinterpret_cast<std::intptr_t>(static_cast<JSValueRef>(value));
 	}
@@ -72,14 +84,24 @@ namespace TitaniumWindows_Native
 	{
 		auto names = ref new ::Platform::Collections::Vector<::Platform::String^>();
 
-		//// INSERT SUPPORTED NATIVE MODULE NAMES START
 
 		//// TODO: Insert supported module names here
 		//// names->Append("com.example.test");
 		//// names->Append("Windows.UI.Xaml.Controls.Button");
 		//// names->Append("Windows.UI.Xaml.Controls.ListView");
 
+		//// INSERT SUPPORTED NATIVE MODULE NAMES START
+/*
+<% for(var i=0; i<native_modules.length; i++) { -%>
+		names->Append("<%= native_modules[i].name %>");
+<% } -%>
+*/
 		//// INSERT SUPPORTED NATIVE MODULE NAMES END
+
+		const auto native_module_names = native_module_loader__->getNativeModuleNames();
+		for (const auto name : native_module_names) {
+			names->Append(TitaniumWindows::Utility::ConvertString(name));
+		}
 
 		return names;
 	}

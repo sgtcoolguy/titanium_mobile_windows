@@ -5,6 +5,8 @@
  */
 
 #include "WindowsNativeModuleLoader.hpp"
+#include "Titanium/detail/TiBase.hpp"
+
 // INSERT_INCLUDES
 // END_INCLUDES
 
@@ -70,5 +72,6 @@ namespace TitaniumWindows
 
 		return static_cast<JSValue>(instantiated);
 	}
+
 }  // namespace TitaniumWindows
 

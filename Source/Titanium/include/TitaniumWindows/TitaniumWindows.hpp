@@ -29,6 +29,11 @@ namespace TitaniumWindows
 		event TitaniumModuleRequireHandler^ TitaniumModuleRequire;
 		event TitaniumModuleNamesHandler^   TitaniumModuleNames;
 
+		// Used just for saving reference to TitaniumWindows_Native::RequireHook to prevent from GC
+		void SaveRequireHook(Object^ requireHook) {
+			this->requireHook__ = requireHook;
+		}
+
 	private:
 
 #if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
@@ -42,6 +47,8 @@ namespace TitaniumWindows
 		HAL::JSContextGroup js_context_group__;
 		HAL::JSContext js_context__;
 		std::shared_ptr<Titanium::Application> application__;
+
+		Object^ requireHook__;
 	};
 
 }  // namespace TitaniumWindows

@@ -20,10 +20,10 @@ int main(Platform::Array<Platform::String^>^) {
   std::wclog.rdbuf(&wcharDebugOutput);
 #endif
 
-  Windows::UI::Xaml::Application::Start(ref new Windows::UI::Xaml::ApplicationInitializationCallback([](Windows::UI::Xaml::ApplicationInitializationCallbackParams^ params) {
-     auto app = ref new TitaniumWindows::Application();
-	 auto hook = ref new TitaniumWindows_Native::RequireHook();
-	 hook->Register(app);
+	Windows::UI::Xaml::Application::Start(ref new Windows::UI::Xaml::ApplicationInitializationCallback([](Windows::UI::Xaml::ApplicationInitializationCallbackParams^ params) {
+		auto app = ref new TitaniumWindows::Application();
+		auto hook = ref new TitaniumWindows_Native::RequireHook();
+		hook->Register(app);
   }));
 
   return 0;

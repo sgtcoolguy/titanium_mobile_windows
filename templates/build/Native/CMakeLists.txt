@@ -35,7 +35,6 @@ include(${APPCELERATOR_CMAKE_MODULE_PATH}/internal_utils.cmake)
 # Defined in internal_utils.cmake.
 config_compiler_and_linker()
 
-
 file(GLOB_RECURSE WINDOWS_WRAPPERS "src/*.cpp")
 file(GLOB_RECURSE WINDOWS_HEADERS "include/*.hpp")
 
@@ -59,11 +58,15 @@ target_compile_definitions(TitaniumWindows_Native PRIVATE TitaniumWindows_Native
 
 target_include_directories(TitaniumWindows_Native PUBLIC
   ${PROJECT_SOURCE_DIR}/include
-  ${TitaniumWindows_INCLUDE_DIRS}
-  ${TitaniumWindows_Utility_INCLUDE_DIRS}
+  $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
-target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_LIBRARIES})
+target_link_libraries(TitaniuomWindows_Native ${TitaniumWindows_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native HAL)
+target_link_libraries(TitaniumWindows_Native TitaniumKit)
+target_link_libraries(TitaniumWindows_Native TitaniumWindows_Utility)
 
 set_target_properties(TitaniumWindows_Native PROPERTIES VS_WINRT_COMPONENT TRUE)
 

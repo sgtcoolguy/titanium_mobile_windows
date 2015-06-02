@@ -6,11 +6,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 #include "OutputDebugStringBuf.hpp"
-
 #include <iostream>
-
-#include <collection.h>
-
 
 int main(Platform::Array<Platform::String^>^) {
 
@@ -26,7 +22,8 @@ int main(Platform::Array<Platform::String^>^) {
 
   Windows::UI::Xaml::Application::Start(ref new Windows::UI::Xaml::ApplicationInitializationCallback([](Windows::UI::Xaml::ApplicationInitializationCallbackParams^ params) {
     auto app = ref new TitaniumWindows::Application();
-    auto hook = ref new TitaniumWindows::RequireHook(app);
+    auto hook = ref new TitaniumWindows_Native::RequireHook();
+    hook->Register(app);
   }));
 
   return 0;
