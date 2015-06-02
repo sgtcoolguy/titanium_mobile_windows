@@ -210,6 +210,14 @@ async.series([
 	function (next) {
 		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'x86', next);
 	},
+	// TODO Maybe we can be more efficient by running the mocha tests here after we have enough of the libs to run the emulator.		
+	// If they pass, keep building, otherwise exit early?		
+	function (next) {		
+		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'ARM', next);		
+	},		
+	function (next) {		
+		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsStore', 'x86', next);		
+	},
 	// TODO Do all these others async. Use async.parallel, and use non-sync versions of file ops!
 	function (next) {
 		console.log("Copying over include headers...");
