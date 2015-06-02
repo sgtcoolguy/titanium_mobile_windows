@@ -98,11 +98,6 @@ namespace TitaniumWindows_Native
 */
 		//// INSERT SUPPORTED NATIVE MODULE NAMES END
 
-		const auto native_module_names = native_module_loader__->getNativeModuleNames();
-		for (const auto name : native_module_names) {
-			names->Append(TitaniumWindows::Utility::ConvertString(name));
-		}
-
 		return names;
 	}
 
