@@ -63,7 +63,7 @@ target_include_directories(TitaniumWindows_Native PUBLIC
   $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
-target_link_libraries(TitaniuomWindows_Native ${TitaniumWindows_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_LIBRARIES})
 target_link_libraries(TitaniumWindows_Native HAL)
 target_link_libraries(TitaniumWindows_Native TitaniumKit)
 target_link_libraries(TitaniumWindows_Native TitaniumWindows_Utility)

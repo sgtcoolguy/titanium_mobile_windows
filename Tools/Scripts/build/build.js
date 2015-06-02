@@ -231,11 +231,18 @@ async.series([
 	},
 	function (next) {
 		console.log("Copying over templates...");
+		if (fs.existsSync(path.join(distRoot, 'templates'))) {
+			wrench.rmdirSyncRecursive(path.join(distRoot, 'templates'));
+		}
 		wrench.copyDirSyncRecursive(path.join(rootDir, 'templates'), path.join(distRoot, 'templates'));
 		next();
 	},
 	function (next) {
 		console.log("Copying over CLI...");
+		if (fs.existsSync(path.join(distRoot, 'cli'))) {
+			wrench.rmdirSyncRecursive(path.join(distRoot, 'cli'));
+		}
+		// FIXME For some reason, locally this isn't copying all of cli/vendor/cmake/share (specifically cmake-3.1 subfolder)
 		wrench.copyDirSyncRecursive(path.join(rootDir, 'cli'), path.join(distRoot, 'cli'));
 		next();
 	},

@@ -39,11 +39,12 @@ if(NOT TARGET TitaniumWindows)
   add_subdirectory(${Utility_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Titanium EXCLUDE_FROM_ALL)
 endif()
 
+file(GLOB_RECURSE WINDOWS_WRAPPERS "src/*.cpp")
+file(GLOB_RECURSE WINDOWS_HEADERS "include/*.hpp")
+
 set(SOURCE_Native
-  include/RequireHook.hpp
-  include/WindowsNativeModuleLoader.hpp
-  src/RequireHook.cpp
-  src/WindowsNativeModuleLoader.cpp
+${WINDOWS_WRAPPERS}
+${WINDOWS_HEADERS}
   )
 
 source_group(Titanium\\Native FILES ${SOURCE_Native})
@@ -103,44 +104,4 @@ set_target_properties(TitaniumWindows_Native PROPERTIES VS_WINRT_COMPONENT TRUE)
 # Therefore we disable /OPT:REF and /OPT:ICF for the Debug
 # configuration.
 set_property(TARGET TitaniumWindows_Native APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
-
-if (NOT TitaniumWindows_Native_DISABLE_TESTS)
-  add_subdirectory(test)
-endif()
-
-
-# Support find_package(TitaniumWindows_Native 0.1 REQUIRED)
-
-set_property(TARGET TitaniumWindows_Native PROPERTY VERSION ${TitaniumWindows_Native_VERSION})
-set_property(TARGET TitaniumWindows_Native PROPERTY SOVERSION 0)
-set_property(TARGET TitaniumWindows_Native PROPERTY INTERFACE_TitaniumWindows_Native_MAJOR_VERSION 0)
-set_property(TARGET TitaniumWindows_Native APPEND PROPERTY
-  COMPATIBLE_INTERFACE_STRING TitaniumWindows_Native_MAJOR_VERSION
-  )
-
-install(TARGETS TitaniumWindows_Native EXPORT TitaniumWindows_Native_Targets
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
-  )
-
-export(EXPORT TitaniumWindows_Native_Targets
-  FILE "${CMAKE_BINARY_DIR}/TitaniumWindows_Native_Targets.cmake"
-)
-
-configure_file(cmake/TitaniumWindows_Native_Config.cmake
-  "${CMAKE_BINARY_DIR}/TitaniumWindows_Native_Config.cmake"
-  COPYONLY
-  )
-
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-  "${CMAKE_BINARY_DIR}/TitaniumWindows_Native_ConfigVersion.cmake"
-  VERSION ${TitaniumWindows_Native_VERSION}
-  COMPATIBILITY AnyNewerVersion
-  )
-
-# Store the current build directory in the CMake user package registry
-# so that find_package(TitaniumWindows_Native) works.
-export(PACKAGE TitaniumWindows_Native)
+set_property(TARGET TitaniumWindows_Native APPEND_STRING PROPERTY COMPILE_FLAGS "/bigobj")
