@@ -598,9 +598,11 @@ WindowsBuilder.prototype.validate = function validate(logger, config, cli) {
 
 			// TODO: Windows specific module stuff, if needed
 
+			var that = this;
+
 			modules.found.forEach(function (module) {
 				if (module.platform.indexOf('commonjs') != -1) {
-					this.commonJsModules.push(module);
+					that.commonJsModules.push(module);
 				}
 
 				// TODO: more Windows specific module stuff, if needed
@@ -645,6 +647,7 @@ WindowsBuilder.prototype.run = function run(logger, config, cli, finished) {
         'copyResources',
         'generateI18N',
 		'generateNativeWrappers',
+        'generateModuleFinder',
         'generateCmakeList',
         'runCmake',
         'compileApp',
@@ -750,6 +753,7 @@ WindowsBuilder.prototype.initialize = function initialize(next) {
 	// files
 	this.buildManifestFile = path.join(this.buildDir, 'build-manifest.json');
 	this.cmakeListFile = path.join(this.buildDir, 'CMakeLists.txt'); // lives above the buildSrcDir
+	this.cmakeFinderDir = path.join(this.buildDir, 'cmake');
 
 	next();
 };
@@ -1528,13 +1532,38 @@ WindowsBuilder.prototype.generateNativeWrappers = function generateNativeWrapper
 };
 
 /**
+ * Generates finders for cmake to find a native module DLL/winmd.
+ *
+ * @param {Function} next - A function to call after generating the cmake finders
+ */
+WindowsBuilder.prototype.generateModuleFinder = function generateModuleFinder(next) {
+	var template = fs.readFileSync(path.join(this.cmakeFinderDir, 'FindNativeModule.cmake.ejs'), 'utf8');
+
+	for (var i=0; i<this.modules.length; i++) {
+		var module = this.modules[i],
+			name = module.manifest.name;
+
+		module.path = module.modulePath.replace(/\\/g, '/');
+
+		if (module.manifest.platform == 'windows') {
+		    var dest = path.join(this.cmakeFinderDir, 'Find' + name + '.cmake');
+			this.logger.info(__('Writing CMake module finder %s', dest));
+			fs.writeFileSync(dest, ejs.render(template, {module:module}, {}));
+		}
+	}
+
+	next();
+};
+
+/**
  * Generates a cmakelist to define what cmake is doing to generate the VS project.
  *
  * @param {Function} next - A function to call after generating the cmakelist.txt file.
  */
 WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	var assetList = [],
-		sourceGroups = {};
+		sourceGroups = {},
+		native_modules = [];
 
 	this.logger.info(__('Writing CMakeLists.txt: %s', this.cmakeListFile.cyan));
 	// TODO If forceBuild is false AND no assets have changed, then we can skip this and the cmake step, I think!
@@ -1577,6 +1606,14 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 		sourceGroups[folderName] = listing;
 	});
 
+	// Native modules
+	for (var i = 0; i < this.modules.length; i++) {
+		var module = this.modules[i];
+		if (module.manifest.platform == 'windows') {
+			native_modules.push({projectName: module.manifest.name});		
+		}
+	}
+
 	this.cli.createHook('build.windows.writeCMakeLists', this, function (manifest, cb) {
 		fs.existsSync(this.buildDir) || wrench.mkdirSyncRecursive(this.buildDir);
 		fs.existsSync(this.cmakeListFile) && fs.unlinkSync(this.cmakeListFile);
@@ -1591,7 +1628,8 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 			version: this.tiapp.version,
 			assets: assetList.join('\n'),
 			appId: this.cli.tiapp.id,
-			sourceGroups: sourceGroups
+			sourceGroups: sourceGroups,
+			native_modules: native_modules
 		}
 	), next);
 };
