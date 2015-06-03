@@ -210,13 +210,27 @@ async.series([
 	function (next) {
 		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'x86', next);
 	},
-	// TODO Maybe we can be more efficient by running the mocha tests here after we have enough of the libs to run the emulator.
-	// If they pass, keep building, otherwise exit early?
-	function (next) {
-		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'ARM', next);
+	// TODO Maybe we can be more efficient by running the mocha tests here after we have enough of the libs to run the emulator.		
+	// If they pass, keep building, otherwise exit early?		
+	function (next) {		
+		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'ARM', next);		
+	},		
+	function (next) {		
+		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsStore', 'x86', next);		
 	},
+	// TODO Do all these others async. Use async.parallel, and use non-sync versions of file ops!
 	function (next) {
-		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsStore', 'x86', next);
+		console.log("Copying over include headers...");
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'HAL', 'include', 'HAL'), path.join(distLib, 'HAL', 'include', 'HAL'));
+		wrench.mkdirSyncRecursive(path.join(distLib, 'TitaniumKit', 'include', 'Titanium'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'Utility', 'include', 'TitaniumWindows'), path.join(distLib, 'TitaniumWindows_Utility', 'include', 'TitaniumWindows'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'detail'), path.join(distLib, 'TitaniumKit', 'include', 'Titanium', 'detail'));	
+		// Copy over the JSC headers to HAL!
+		wrench.copyDirSyncRecursive(path.join(process.env.JavaScriptCore_HOME, 'includes', 'JavaScriptCore'), path.join(distLib, 'HAL', 'include', 'JavaScriptCore'));
+		// Copy over TitaniumKit's Titanium/Module.hpp until we fix the wrappers to not use it!
+		fs.writeFileSync(path.join(distLib, 'TitaniumKit', 'include', 'Titanium', 'Module.hpp'), fs.readFileSync(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'Module.hpp')));
+		
+		next();
 	},
 	function (next) {
 		console.log("Copying over package.json...");
@@ -225,11 +239,18 @@ async.series([
 	},
 	function (next) {
 		console.log("Copying over templates...");
+		if (fs.existsSync(path.join(distRoot, 'templates'))) {
+			wrench.rmdirSyncRecursive(path.join(distRoot, 'templates'));
+		}
 		wrench.copyDirSyncRecursive(path.join(rootDir, 'templates'), path.join(distRoot, 'templates'));
 		next();
 	},
 	function (next) {
 		console.log("Copying over CLI...");
+		if (fs.existsSync(path.join(distRoot, 'cli'))) {
+			wrench.rmdirSyncRecursive(path.join(distRoot, 'cli'));
+		}
+		// FIXME For some reason, locally this isn't copying all of cli/vendor/cmake/share (specifically cmake-3.1 subfolder)
 		wrench.copyDirSyncRecursive(path.join(rootDir, 'cli'), path.join(distRoot, 'cli'));
 		next();
 	},
