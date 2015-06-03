@@ -469,7 +469,7 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
  * @param {Array[string]} seeds - 
  * @param {Function} next - 
  */
-function generateRequireHook(dest, seeds, next) {
+function generateRequireHook(dest, seeds, modules, next) {
 	var require_hook = path.join(dest, 'src', 'RequireHook.cpp');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
@@ -480,6 +480,19 @@ function generateRequireHook(dest, seeds, next) {
 		var native_module_includes = [], // built up includes
 			native_modules = [], // built up code for appending list of native types
 			classDefinition; // definition of current type in outer loop
+
+		// Add includes for native modules
+		for (var i = 0; i < modules.length; i++) {
+			var module = modules[i];
+			if (module.manifest.platform == "windows") {
+				native_module_includes.push(module.manifest.name + ".hpp");
+				native_modules.push({
+					name:module.manifest.moduleid,
+					className:module.manifest.classname,
+					preload: true
+				});
+			}
+		}
 
 		// Add our includes
 		for (var i = 0; i < seeds.length; i++) {
@@ -582,7 +595,7 @@ function generateCasting(dest, seeds, next) {
  * @param {Array{string}} seeds - The list of types needed
  * @param {Function} finished - Callback when detection is finished
  */
-exports.generate = function generate(dest, seeds, finished) {
+exports.generate = function generate(dest, seeds, modules, finished) {
 	initialize(seeds, function(err, all_types) {
 		if (err) {
 			finished(err);
@@ -598,7 +611,7 @@ exports.generate = function generate(dest, seeds, finished) {
 				        generateWindowsNativeModuleLoader(dest, all_types, callback);
 				    },
 				    function(callback) {
-				        generateRequireHook(dest, all_types, callback);
+				        generateRequireHook(dest, all_types, modules, callback);
 				    },
 				    function(callback) {
 				        generateCasting(dest, all_types, callback);

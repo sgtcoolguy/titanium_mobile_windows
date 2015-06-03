@@ -1528,7 +1528,7 @@ WindowsBuilder.prototype.generateNativeWrappers = function generateNativeWrapper
 	];
 	this.logger.info(__('Generating Native Type Wrappers'));
 
-	nativeTypeGenerator.generate(path.join(this.buildDir, 'Native'), seeds, next);
+	nativeTypeGenerator.generate(path.join(this.buildDir, 'Native'), seeds, this.modules, next);
 };
 
 /**
@@ -1610,7 +1610,10 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	for (var i = 0; i < this.modules.length; i++) {
 		var module = this.modules[i];
 		if (module.manifest.platform == 'windows') {
-			native_modules.push({projectName: module.manifest.name});		
+			native_modules.push({
+				name: module.manifest.name,
+				path:module.modulePath.replace(/\\/g, '/')
+			});
 		}
 	}
 
