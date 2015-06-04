@@ -49,6 +49,10 @@ find_package(TitaniumKit REQUIRED)
 find_package(TitaniumWindows_UI REQUIRED)
 find_package(TitaniumWindows_Utility REQUIRED)
 
+<% for(var i = 0; i < native_modules.length; i++) { -%>
+find_package(<%= native_modules[i].projectname %> REQUIRED)
+<% } -%>
+
 # No user-servicable parts below this line.
 
 if(NOT TARGET TitaniumWindows_Native)
@@ -127,6 +131,10 @@ target_link_libraries(${EXE_NAME} ${TitaniumWindows_UI_LIBRARIES})
 target_link_libraries(${EXE_NAME} ${TitaniumWindows_Utility_LIBRARIES})
 target_link_libraries(${EXE_NAME} TitaniumWindows_Native)
 
+<% for(var i = 0; i < native_modules.length; i++) { -%>
+target_link_libraries(${EXE_NAME} <%= native_modules[i].projectname %>)
+<% } -%>
+
 target_include_directories(${EXE_NAME} PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:TitaniumWindows_Native,INTERFACE_INCLUDE_DIRECTORIES>
@@ -143,6 +151,9 @@ target_include_directories(${EXE_NAME} PUBLIC
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
   ${TitaniumWindows_UI_INCLUDE_DIRS}
   ${TitaniumWindows_Utility_INCLUDE_DIRS}
+<% for(var i = 0; i < native_modules.length; i++) { -%>
+  ${<%= native_modules[i].projectname %>_INCLUDE_DIRS}
+<% } -%>
 )
 
 set_property(TARGET ${EXE_NAME}
@@ -157,4 +168,7 @@ set_property(TARGET ${EXE_NAME}
   "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/${PLATFORM}/${Ti_ARCH}/TitaniumWindows.winmd"
   "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_UI/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_UI.winmd"
   "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utility/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Utility.winmd"
+<% for(var i = 0; i < native_modules.length; i++) { -%>
+  "<%= native_modules[i].path %>/${PLATFORM}/${Ti_ARCH}/<%= native_modules[i].projectname %>.winmd"
+<% } -%>
 )

@@ -600,9 +600,11 @@ WindowsBuilder.prototype.validate = function validate(logger, config, cli) {
 
 			// TODO: Windows specific module stuff, if needed
 
+			var that = this;
+
 			modules.found.forEach(function (module) {
 				if (module.platform.indexOf('commonjs') != -1) {
-					this.commonJsModules.push(module);
+					that.commonJsModules.push(module);
 				}
 
 				// TODO: more Windows specific module stuff, if needed
@@ -646,7 +648,8 @@ WindowsBuilder.prototype.run = function run(logger, config, cli, finished) {
         'checkAppJs',
         'copyResources',
         'generateI18N',
-		'generateNativeWrappers',
+        'generateNativeWrappers',
+        'generateModuleFinder',
         'generateCmakeList',
         'runCmake',
         'compileApp',
@@ -752,6 +755,7 @@ WindowsBuilder.prototype.initialize = function initialize(next) {
 	// files
 	this.buildManifestFile = path.join(this.buildDir, 'build-manifest.json');
 	this.cmakeListFile = path.join(this.buildDir, 'CMakeLists.txt'); // lives above the buildSrcDir
+	this.cmakeFinderDir = path.join(this.buildDir, 'cmake');
 
 	next();
 };
@@ -1533,7 +1537,31 @@ WindowsBuilder.prototype.generateI18N = function generateI18N(next) {
 WindowsBuilder.prototype.generateNativeWrappers = function generateNativeWrappers(next) {
 	this.logger.info(__('Generating Native Type Wrappers'));
 
-	nativeTypeGenerator.generate(path.join(this.buildDir, 'Native'), this.seeds, next);
+	nativeTypeGenerator.generate(path.join(this.buildDir, 'Native'), this.seeds, this.modules, next);
+};
+
+/**
+ * Generates finders for cmake to find a native module DLL/winmd.
+ *
+ * @param {Function} next - A function to call after generating the cmake finders
+ */
+WindowsBuilder.prototype.generateModuleFinder = function generateModuleFinder(next) {
+	var template = fs.readFileSync(path.join(this.cmakeFinderDir, 'FindNativeModule.cmake.ejs'), 'utf8');
+
+	for (var i=0; i<this.modules.length; i++) {
+		var module = this.modules[i],
+			projectname = module.manifest.projectname;
+
+		module.path = module.modulePath.replace(/\\/g, '/').replace(' ', '\\ ');
+
+		if (module.manifest.platform == 'windows') {
+		    var dest = path.join(this.cmakeFinderDir, 'Find' + projectname + '.cmake');
+			this.logger.info(__('Writing CMake module finder %s', dest));
+			fs.writeFileSync(dest, ejs.render(template, {module:module}, {}));
+		}
+	}
+
+	next();
 };
 
 /**
@@ -1543,7 +1571,8 @@ WindowsBuilder.prototype.generateNativeWrappers = function generateNativeWrapper
  */
 WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	var assetList = [],
-		sourceGroups = {};
+		sourceGroups = {},
+		native_modules = [];
 
 	this.logger.info(__('Writing CMakeLists.txt: %s', this.cmakeListFile.cyan));
 	// TODO If forceBuild is false AND no assets have changed, then we can skip this and the cmake step, I think!
@@ -1586,6 +1615,17 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 		sourceGroups[folderName] = listing;
 	});
 
+	// Native modules
+	for (var i = 0; i < this.modules.length; i++) {
+		var module = this.modules[i];
+		if (module.manifest.platform == 'windows') {
+			native_modules.push({
+				projectname: module.manifest.projectname,
+				path:module.modulePath.replace(/\\/g, '/').replace(' ', '\\ ')
+			});
+		}
+	}
+
 	this.cli.createHook('build.windows.writeCMakeLists', this, function (manifest, cb) {
 		fs.existsSync(this.buildDir) || wrench.mkdirSyncRecursive(this.buildDir);
 		fs.existsSync(this.cmakeListFile) && fs.unlinkSync(this.cmakeListFile);
@@ -1596,11 +1636,12 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 		).toString(),
 		{
 			projectName: this.cli.tiapp.name,
-			windowsSrcDir: path.resolve(__dirname, '..', '..').replace(/\\/g, '/'), // cmake likes unix separators
+			windowsSrcDir: path.resolve(__dirname, '..', '..').replace(/\\/g, '/').replace(' ', '\\ '), // cmake likes unix separators
 			version: this.tiapp.version,
 			assets: assetList.join('\n'),
 			appId: this.cli.tiapp.id,
-			sourceGroups: sourceGroups
+			sourceGroups: sourceGroups,
+			native_modules: native_modules
 		}
 	), next);
 };
@@ -1657,7 +1698,8 @@ WindowsBuilder.prototype.runCmake = function runCmake(next) {
 WindowsBuilder.prototype.compileApp = function compileApp(next) {
 	var _t = this;
 		slnFile = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.sln'),
-		vcxproj = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.vcxproj');
+		vcxproj = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.vcxproj'),
+		nativeVcxProj = path.resolve(this.cmakeTargetDir, 'Native', 'TitaniumWindows_Native.vcxproj'),
 	this.logger.info(__('Running MSBuild on solution: %s', slnFile.cyan));
 
 	// Modify the vcxproj to inject some properties, so we always bundle
@@ -1665,7 +1707,15 @@ WindowsBuilder.prototype.compileApp = function compileApp(next) {
 	fs.existsSync(vcxproj) && fs.renameSync(vcxproj, vcxproj + '.bak');
 	// Only modify the one property group we care about!
 	modified = modified.replace(/<\/PropertyGroup>\s*<ItemDefinitionGroup/m, '<AppxBundle>Always</AppxBundle><AppxBundlePlatforms>' + this.arch + '</AppxBundlePlatforms>$&');
+	// Fix quoted hint paths for native module winmd paths
+	modified = modified.replace(/<HintPath>"([^"]+?)"<\/HintPath>/, '<HintPath>$1<\/HintPath>');
 	fs.writeFileSync(vcxproj, modified);
+
+	// Modify the Native vcxproj to fix quoted hint paths for module winmd paths
+	modified = fs.readFileSync(nativeVcxProj, 'utf8');
+	fs.existsSync(nativeVcxProj) && fs.renameSync(nativeVcxProj, nativeVcxProj + '.bak');
+	modified = modified.replace(/<HintPath>"([^"]+?)"<\/HintPath>/, '<HintPath>$1<\/HintPath>');
+	fs.writeFileSync(nativeVcxProj, modified);
 
 	// Use spawn directly so we can pipe output as we go
 	// FIXME Edit windowslib to allow realtime output
