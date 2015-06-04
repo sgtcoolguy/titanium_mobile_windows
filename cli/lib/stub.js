@@ -227,19 +227,20 @@ function getEnumDependencies(type_name, metadata) {
  */
 function initialize(seeds, next) {
 	// If we have no seeds, assume we want everything!
-	if (seeds.length == 0) {
-		for (classname in all_classes) {
-			var classDefinition = all_classes[classname];
+	// FIXME What should be used as "every" and what should be used as "none"?
+	//if (seeds.length == 0) {
+	//	for (classname in all_classes) {
+	//		var classDefinition = all_classes[classname];
 			// skip structs and enums
-			if (classDefinition['extends'] && 
-				(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
-				classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
-				continue;
-			}
+	//		if (classDefinition['extends'] && 
+	//			(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
+	//			classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
+	//			continue;
+	//		}
 
-			seeds.unshift(classname);
-		}
-	}
+	//		seeds.unshift(classname);
+	//	}
+	//}
 
 	// Sort seeds by name and remove duplicates
 	seeds = seeds.sort();

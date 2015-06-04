@@ -31,6 +31,7 @@ const
 	windowslib = require('windowslib'),
 	windowsPackageJson = appc.pkginfo.package(module),
 	wrench = require('wrench'),
+	UglifyJS = require('uglify-js'),
 	__ = appc.i18n(__dirname).__;
 
 /*
@@ -79,6 +80,7 @@ function WindowsBuilder() {
 	this.defaultTarget = 'wp-emulator';
 
 	this.tiSymbols = {};
+	this.seeds = [];
 }
 
 util.inherits(WindowsBuilder, Builder);
@@ -1358,7 +1360,24 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 		appc.async.series(this, Object.keys(jsFiles).map(function (id) {
 			return function (done) {
 				var from = jsFiles[id],
-					to = path.join(this.buildTargetAssetsDir, id);
+					to = path.join(this.buildTargetAssetsDir, id),
+					t_ = this;
+
+				// Look for native requires here
+				// FIXME Avoid parsing the AST twice! We do it below using jsanalyze for non html referenced JS files!
+				var toplevel = UglifyJS.parse(fs.readFileSync(from).toString());
+				var walker = new UglifyJS.TreeWalker(function(node){
+					// FIXME What if it is a requires, but not a string? What if it is a dynamically built string?
+				    if (node instanceof UglifyJS.AST_Call && node.expression.name == 'require' &&
+				    	node.args && node.args.length == 1 && node.args[0] instanceof UglifyJS.AST_String) {
+				    	if (node.args[0].getValue().indexOf('Windows.') === 0) {
+				    		t_.logger.info("Detected native API reference: " + node.args[0].getValue());
+				    		t_.seeds.unshift(node.args[0].getValue());
+				    	}
+				    }
+				});
+				toplevel.walk(walker);
+
 
 				if (htmlJsFiles[id]) {
 					// this js file is referenced from an html file, so don't minify or encrypt
@@ -1512,19 +1531,9 @@ WindowsBuilder.prototype.generateI18N = function generateI18N(next) {
  * @param {Function} next - A function to call after the native types have been generated.
  */
 WindowsBuilder.prototype.generateNativeWrappers = function generateNativeWrappers(next) {
-	// FIXME Walk the user's JS files to generate the listing of native types we need!
-	var seeds = [
-		"Windows.UI.Xaml.Window",
-		"Windows.UI.Colors",
-		"Windows.UI.Xaml.Media.SolidColorBrush",
-		"Windows.UI.Xaml.Controls.Canvas",
-		"Windows.UI.Xaml.Controls.TextBlock",
-		'Windows.UI.Xaml.Controls.Frame',
-		'Windows.UI.Xaml.Controls.Page'
-	];
 	this.logger.info(__('Generating Native Type Wrappers'));
 
-	nativeTypeGenerator.generate(path.join(this.buildDir, 'Native'), seeds, next);
+	nativeTypeGenerator.generate(path.join(this.buildDir, 'Native'), this.seeds, next);
 };
 
 /**
