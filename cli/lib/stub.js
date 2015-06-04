@@ -402,7 +402,7 @@ function generateCmakeList(dest, seeds, modules, next) {
 			if (module.manifest.platform == "windows") {
 				native_modules.push({
 					projectname:module.manifest.projectname,
-					path:module.modulePath.replace(/\\/g, '/')
+					path:module.modulePath.replace(/\\/g, '/').replace(' ', '\\ ')
 				});
 			}
 		}

@@ -1552,7 +1552,7 @@ WindowsBuilder.prototype.generateModuleFinder = function generateModuleFinder(ne
 		var module = this.modules[i],
 			projectname = module.manifest.projectname;
 
-		module.path = module.modulePath.replace(/\\/g, '/');
+		module.path = module.modulePath.replace(/\\/g, '/').replace(' ', '\\ ');
 
 		if (module.manifest.platform == 'windows') {
 		    var dest = path.join(this.cmakeFinderDir, 'Find' + projectname + '.cmake');
@@ -1621,7 +1621,7 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 		if (module.manifest.platform == 'windows') {
 			native_modules.push({
 				projectname: module.manifest.projectname,
-				path:module.modulePath.replace(/\\/g, '/')
+				path:module.modulePath.replace(/\\/g, '/').replace(' ', '\\ ')
 			});
 		}
 	}
@@ -1636,7 +1636,7 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 		).toString(),
 		{
 			projectName: this.cli.tiapp.name,
-			windowsSrcDir: path.resolve(__dirname, '..', '..').replace(/\\/g, '/'), // cmake likes unix separators
+			windowsSrcDir: path.resolve(__dirname, '..', '..').replace(/\\/g, '/').replace(' ', '\\ '), // cmake likes unix separators
 			version: this.tiapp.version,
 			assets: assetList.join('\n'),
 			appId: this.cli.tiapp.id,
@@ -1698,7 +1698,8 @@ WindowsBuilder.prototype.runCmake = function runCmake(next) {
 WindowsBuilder.prototype.compileApp = function compileApp(next) {
 	var _t = this;
 		slnFile = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.sln'),
-		vcxproj = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.vcxproj');
+		vcxproj = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.vcxproj'),
+		nativeVcxProj = path.resolve(this.cmakeTargetDir, 'Native', 'TitaniumWindows_Native.vcxproj'),
 	this.logger.info(__('Running MSBuild on solution: %s', slnFile.cyan));
 
 	// Modify the vcxproj to inject some properties, so we always bundle
@@ -1706,7 +1707,15 @@ WindowsBuilder.prototype.compileApp = function compileApp(next) {
 	fs.existsSync(vcxproj) && fs.renameSync(vcxproj, vcxproj + '.bak');
 	// Only modify the one property group we care about!
 	modified = modified.replace(/<\/PropertyGroup>\s*<ItemDefinitionGroup/m, '<AppxBundle>Always</AppxBundle><AppxBundlePlatforms>' + this.arch + '</AppxBundlePlatforms>$&');
+	// Fix quoted hint paths for native module winmd paths
+	modified = modified.replace(/<HintPath>"([^"]+?)"<\/HintPath>/, '<HintPath>$1<\/HintPath>');
 	fs.writeFileSync(vcxproj, modified);
+
+	// Modify the Native vcxproj to fix quoted hint paths for module winmd paths
+	modified = fs.readFileSync(nativeVcxProj, 'utf8');
+	fs.existsSync(nativeVcxProj) && fs.renameSync(nativeVcxProj, nativeVcxProj + '.bak');
+	modified = modified.replace(/<HintPath>"([^"]+?)"<\/HintPath>/, '<HintPath>$1<\/HintPath>');
+	fs.writeFileSync(nativeVcxProj, modified);
 
 	// Use spawn directly so we can pipe output as we go
 	// FIXME Edit windowslib to allow realtime output
