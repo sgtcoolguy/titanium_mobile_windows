@@ -382,6 +382,42 @@ function generateWrappers(dest, seeds, next) {
 }
 
 /**
+ * Generates CMakeLists.txt to handle building up the list of native modules
+ * @param {String} dest - 
+ * @param {Array[string]} seeds - 
+ * @param {Array[map]} modules - 
+ * @param {Function} next - 
+ */
+function generateCmakeList(dest, seeds, modules, next) {
+	var cmakelist_template = path.join(dest, 'CMakeLists.txt.ejs'),
+		cmakelist = path.join(dest, 'CMakeLists.txt');
+	console.log("Setting up native modules for CMakeLists.txt...");
+	fs.readFile(cmakelist_template, 'utf8', function (err, data) {
+		if (err) throw err;
+
+		var native_modules = [];
+
+		for (var i = 0; i < modules.length; i++) {
+			var module = modules[i];
+			if (module.manifest.platform == "windows") {
+				native_modules.push({
+					projectname:module.manifest.projectname,
+					path:module.modulePath.replace(/\\/g, '/')
+				});
+			}
+		}
+
+		data = ejs.render(data, {native_modules:native_modules }, {});
+
+		fs.writeFile(cmakelist, data, function(err) {
+			next(err);
+		});
+	});
+}
+
+
+
+/**
  * Generates the code in WindowsNativeModuleLoader to handle require calls for native types.
  * This will load up the type in JS, hang it off global under the fully qualified type name,
  * and will also register any enum values in the appropriate namespace for any enum dependencies of the type.
@@ -468,9 +504,10 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
  * Generates the code in RequireHook.cpp to handle building up the list of native types registered.
  * @param {String} dest - 
  * @param {Array[string]} seeds - 
+ * @param {Array[map]} modules - 
  * @param {Function} next - 
  */
-function generateRequireHook(dest, seeds, next) {
+function generateRequireHook(dest, seeds, modules, next) {
 	var require_hook = path.join(dest, 'src', 'RequireHook.cpp');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
@@ -481,6 +518,19 @@ function generateRequireHook(dest, seeds, next) {
 		var native_module_includes = [], // built up includes
 			native_modules = [], // built up code for appending list of native types
 			classDefinition; // definition of current type in outer loop
+
+		// Add includes for native modules
+		for (var i = 0; i < modules.length; i++) {
+			var module = modules[i];
+			if (module.manifest.platform == "windows") {
+				native_module_includes.push(module.manifest.moduleid + ".hpp");
+				native_modules.push({
+					name:module.manifest.moduleid,
+					className:module.manifest.classname,
+					preload: true
+				});
+			}
+		}
 
 		// Add our includes
 		for (var i = 0; i < seeds.length; i++) {
@@ -583,7 +633,7 @@ function generateCasting(dest, seeds, next) {
  * @param {Array{string}} seeds - The list of types needed
  * @param {Function} finished - Callback when detection is finished
  */
-exports.generate = function generate(dest, seeds, finished) {
+exports.generate = function generate(dest, seeds, modules, finished) {
 	initialize(seeds, function(err, all_types) {
 		if (err) {
 			finished(err);
@@ -596,10 +646,13 @@ exports.generate = function generate(dest, seeds, finished) {
 		    function(callback) {
 			    async.parallel([
 				    function(callback) {
+				        generateCmakeList(dest, all_types, modules, callback);
+				    },
+				    function(callback) {
 				        generateWindowsNativeModuleLoader(dest, all_types, callback);
 				    },
 				    function(callback) {
-				        generateRequireHook(dest, all_types, callback);
+				        generateRequireHook(dest, all_types, modules, callback);
 				    },
 				    function(callback) {
 				        generateCasting(dest, all_types, callback);
