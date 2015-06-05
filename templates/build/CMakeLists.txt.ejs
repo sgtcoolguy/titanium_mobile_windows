@@ -89,7 +89,7 @@ set_property(SOURCE ${SOURCE_Assets} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 
 <% for(var key in sourceGroups) {%>
 <% if (key == '.') { continue; } -%>
-set(SOURCE_<%= key.replace(/\//g, '_') %>
+set(SOURCE_<%= key.replace(/[\.\/]/g, '_') %>
   <% for(var i = 0; i < sourceGroups[key].length; i++) { -%>
     "<%= sourceGroups[key][i] %>"
   <% } -%>
@@ -99,8 +99,8 @@ source_group("<%= key %>" FILES
     "<%= sourceGroups[key][i] %>"
   <% } -%>
 )
-set_property(SOURCE ${SOURCE_<%= key.replace(/\//g, '_') %>} PROPERTY VS_DEPLOYMENT_LOCATION "<%= key.replace(/\//g, '\\\\') %>")
-set_property(SOURCE ${SOURCE_<%= key.replace(/\//g, '_') %>} PROPERTY VS_DEPLOYMENT_CONTENT 1)
+set_property(SOURCE ${SOURCE_<%= key.replace(/[\.\/]/g, '_') %>} PROPERTY VS_DEPLOYMENT_LOCATION "<%= key.replace(/\//g, '\\\\') %>")
+set_property(SOURCE ${SOURCE_<%= key.replace(/[\.\/]/g, '_') %>} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 <% } %>
 
 # Add all the files to the app
@@ -110,7 +110,7 @@ add_executable(${EXE_NAME} WIN32
   ${SOURCE_Assets}
 <% for(var key in sourceGroups) { -%>
   <% if (key == '.') { continue; } -%>
-  ${SOURCE_<%= key.replace(/\//g, '_') %>}
+  ${SOURCE_<%= key.replace(/[\.\/]/g, '_') %>}
 <% } -%>
 )
 
