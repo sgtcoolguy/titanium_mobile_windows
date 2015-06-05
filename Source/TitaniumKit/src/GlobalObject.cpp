@@ -64,7 +64,7 @@ namespace Titanium
 	{
 		std::vector<std::string> paths;
 		if (dirname == COMMONJS_SEPARATOR__) {
-			paths.push_back("/node_modules");
+			paths.push_back("node_modules");
 		} else {
 #pragma warning(push)
 #pragma warning(disable:4996)
@@ -150,7 +150,7 @@ namespace Titanium
 					const auto json = static_cast<JSObject>(result);
 					auto mainValue = json.GetProperty("main");
 					if (mainValue.IsString()) {
-						return path+COMMONJS_SEPARATOR__+static_cast<std::string>(mainValue);
+						return resolvePathAsFile(parent, path+COMMONJS_SEPARATOR__+static_cast<std::string>(mainValue));
 					}
 				}
 		}

@@ -1215,6 +1215,13 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 						break;
 
 					case 'js':
+						if (opts && opts.trackJS === false) {
+							_t.cli.createHook('build.windows.copyResource', _t, function (from, to, cb) {
+								copyFile.call(_t, from, to, cb);
+							})(from, to, next);
+							break;
+						}
+
 						// track each js file so we can copy/minify later
 
 						// we use the destination file name minus the path to the assets dir as the id
@@ -1304,8 +1311,9 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 		// copy the main module
 		tasks.push(function (cb) {
 			copyDir.call(this, {
-				src: module.libFile,
-				dest: this.buildTargetAssetsDir,
+				trackJS: false,
+				src: module.modulePath,
+				dest: path.join(this.buildTargetAssetsDir, 'node_modules', module.id),
 				onJsConflict: function (src, dest, id) {
 					this.logger.error(__('There is a project resource "%s" that conflicts with a CommonJS module', id));
 					this.logger.error(__('Please rename the file, then rebuild') + '\n');
@@ -1317,8 +1325,9 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 		// copy the assets
 		tasks.push(function (cb) {
 			copyDir.call(this, {
+				trackJS: false,
 				src: path.join(module.modulePath, 'assets'),
-				dest: path.join(this.buildTargetAssetsDir, 'modules', module.id)
+				dest: path.join(this.buildTargetAssetsDir, 'node_modules', module.id, 'assets')
 			}, cb);
 		});
 	});
