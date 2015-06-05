@@ -92,7 +92,7 @@ TEST_F(GlobalObjectTests, requireModuleExports_change_parent)
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+	global_object_ptr->add_require("node_modules/hello.js", hello_js);
 	JSValue result = js_context.JSEvaluateScript("var re = require; var hello = re('hello'); hello('World');");
 
 	XCTAssertTrue(result.IsString());
@@ -127,7 +127,7 @@ TEST_F(GlobalObjectTests, requireModuleExports)
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+	global_object_ptr->add_require("node_modules/hello.js", hello_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsString());
@@ -154,7 +154,7 @@ TEST_F(GlobalObjectTests, requireExports)
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+	global_object_ptr->add_require("node_modules/hello.js", hello_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsString());
@@ -208,7 +208,7 @@ TEST_F(GlobalObjectTests, requireWithJS)
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+	global_object_ptr->add_require("node_modules/hello.js", hello_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsString());
@@ -232,7 +232,7 @@ TEST_F(GlobalObjectTests, requireWithJSON)
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/node_modules/hello.json", hello_js);
+	global_object_ptr->add_require("node_modules/hello.json", hello_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsString());
@@ -256,7 +256,7 @@ TEST_F(GlobalObjectTests, requireWithIndexJSON)
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/node_modules/hello/index.json", hello_js);
+	global_object_ptr->add_require("node_modules/hello/index.json", hello_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsString());
@@ -283,7 +283,7 @@ TEST_F(GlobalObjectTests, requireFromDirectory)
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/node_modules/hello/index.js", hello_js);
+	global_object_ptr->add_require("node_modules/hello/index.js", hello_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsString());
@@ -314,8 +314,8 @@ TEST_F(GlobalObjectTests, requireFromPackageJSON)
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/node_modules/hello/package.json", package_json);
-	global_object_ptr->add_require("/node_modules/hello/main.js", hello_js);
+	global_object_ptr->add_require("node_modules/hello/package.json", package_json);
+	global_object_ptr->add_require("node_modules/hello/main.js", hello_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsString());
@@ -343,7 +343,7 @@ TEST_F(GlobalObjectTests, requireDuplicateModules)
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+	global_object_ptr->add_require("node_modules/hello.js", hello_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsString());
@@ -371,7 +371,7 @@ TEST_F(GlobalObjectTests, requireModuleCache)
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
+	global_object_ptr->add_require("node_modules/hello.js", hello_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsBoolean());
@@ -403,8 +403,8 @@ TEST_F(GlobalObjectTests, requireNestedModule)
 	auto global_object_ptr = global_object.GetPrivate<NativeGlobalObjectExample>();
 	XCTAssertNotEqual(nullptr, global_object_ptr);
 
-	global_object_ptr->add_require("/node_modules/hello.js", hello_js);
-	global_object_ptr->add_require("/node_modules/m.js", module_js);
+	global_object_ptr->add_require("node_modules/hello.js", hello_js);
+	global_object_ptr->add_require("node_modules/m.js", module_js);
 	JSValue result = js_context.JSEvaluateScript(app_js);
 
 	XCTAssertTrue(result.IsString());
