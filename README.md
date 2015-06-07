@@ -7,24 +7,22 @@
 Table of Contents
 =================
 
-  * [Prerequisites](#prerequisites)
-    * [Windows](#windows)
-    * [OS X](#os-x)
   * [Getting Started](#getting-started)
-  * [Contributing](#contributing)
+    * [Requirements](#requirements)
+      * [Windows](#windows)
+      * [OS X](#os-x)
+  * [Quick Start](#quick-start)
+  * [Module Development](#module_development)
+  * [TitaniumKit Development](#titaniumkit_development)
     * [How to Help](#how-to-help)
       * [Ti-mocha Tests](#ti-mocha-tests)
       * [Generate Proxy Stubs](#generate-proxy-stubs)
+  * [Contributing](#contributing)
   * [Legal](#legal)
 
-## Prerequisites
+## Getting Started
 
-```bash
-git clone https://github.com/appcelerator/titanium_mobile_windows.git
-cd titanium_mobile_windows
-git submodule init
-git submodule update
-```
+### Requirements
 
 :warning: Windows 8.1 app development requires *Windows 8.1*, with a *Hyper-V* capable system (for phone emulators) - see the [system requirements listing from MSDN](https://msdn.microsoft.com/en-us/library/windows/apps/ff626524%28v=vs.105%29.aspx) for more details.
 
@@ -36,14 +34,34 @@ Step 2. Install the [Windows Phone 8.1 emulators](https://dev.windows.com/en-us/
 
 Step 3. Install [Node](https://nodejs.org/download/).
 
-Step 4. Run the setup.js Node script included in this repository in cmd.exe or Powershell:
+Step 4. Install latest Titanium CLI
+
+```bash
+npm -g install git://github.com/appcelerator/titanium.git
+ti sdk install -b master -d
+```
+
+If you are planning to develop TitaniumKit and/or Titanium API, set up module development environment with following steps.
+
+Step 5.
+
+```bash
+cd YOUR_WORKSPACE
+git clone https://github.com/appcelerator/titanium_mobile_windows.git
+cd titanium_mobile_windows
+git submodule init
+git submodule update
+```
+
+Step 6. Run the setup.js Node script included in this repository in cmd.exe or Powershell:
+
 ```bash
 cd Tools\Scripts
 npm install .
 node setup.js
 ```
 
-The script should download any necessary development libraries and set the appropriate environment variables for you. Restart your command prompt, then you may proceed to the [Getting Started](#getting-started) section to generate an example app to use as a development base.
+The script should download any necessary development libraries and set the appropriate environment variables for you. Restart your command prompt, then you may proceed to the [TitaniumKit Development](#titaniumkit_development) section to generate an example app to use as a development base.
 
 ### OS X
 
@@ -62,9 +80,27 @@ $ curl -O http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-osx.zip
 $ unzip gtest-1.7.0-osx.zip
 ```
 
-Please note that while you may do HAL and TitaniumKit builds and development work on the mac, you will not be able to do any Windows Platform development or generate apps/examples (as documented in [Getting Started](#getting-started)).
+Please note that while you may do HAL and TitaniumKit builds and development work on the mac, you will not be able to do any Windows Platform development or generate apps/examples (as documented in [TitaniumKit Development](#titaniumkit_development)).
 
-## Getting Started
+## Quick Start
+
+```bash
+cd YOUR_WORKSPACE
+ti create -p windows -t app
+cd YOUR_APP_DIRECTORY
+ti build -p windows -C 8-1-1 -G 00000000-0000-1000-8000-000000000000
+```
+
+## Module Development
+
+*WIP*
+
+```bash
+cd YOUR_WORKSPACE
+ti create -p windows -t module
+```
+
+## TitaniumKit Development
 
 After installing the prerequisites you should try to build our
 reference app NG. We recommend performing out-of-source builds,
@@ -84,7 +120,39 @@ node "${HOME}/Documents/GitHub/titanium_mobile_windows/Tools/Scripts/generate_pr
 # Now open the project in Visual Studio for development
 NG.WindowsPhone.Win32/NG.sln
 ```
+
 :warning: By default Visual Studio 2013 will prompt you to break at handled and unhandled exceptions. During startup of our framework and examples, a number of handled exceptions may occur related to finding files or establishing a connection to the CLI logger. When they occur, uncheck the checkmark box and click the *Continue* button. Further launches of the app should no longer display a dialog to break at these handled exceptions.
+
+### How to Help
+
+We could always use a helping hand or two. If you're looking for how to get started helping out the project here are a few suggestions.
+
+#### Generate Proxy Stubs
+We've included a node script that will use the Titanium documentation to generate stub implementations of a proxy up in the TitaniumKit layer and the Windows implementation subclasses. To invoke it, please try:
+
+```bash
+cd Tools\Scripts\module_generator
+npm install .
+node generator.js
+```
+
+#### Ti-Mocha Tests
+
+We'd love to have broader APi coverage in our ti-mocha test suite, or have the existing suite improved. It's also a great place to see tests we're skipping due to bugs or missing implementations/feature.
+  - The tests live under Examples/NMocha/src/Assets. You can edit an existing suite to add more tests, or write new test suites. We use the naming format ti._proxy.name_.test.js and then add a require statement to the app.js file.
+  - Even if you're not on Windows, you can submit changes to the tests in a PR and our build machine will build and run the tests, giving the results as a comment to the PR.
+  - To run the mocha test suite locally under a Windows Phone emulator:
+```bash
+# If you have not yet run the following from the prerequisite installation steps above, please do:
+cd Tools\Scripts
+npm install .
+# Now go to directory where you'd like project generated
+cd "${HOME}/Documents"
+# Generates a project from our included NMocha example
+node "${HOME}/Documents/GitHub/titanium_mobile_windows/Tools/Scripts/generate_project.js" new NMocha
+# Now open the project in Visual Studio for development
+NMocha.WindowsPhone.Win32/NMocha.sln
+```
 
 ## Contributing
 
@@ -107,35 +175,6 @@ minutes, and only needs to be completed once.
 indicate your email address in your first pull request so that we can
 make sure that will locate your CLA.  Once you've submitted it, you no
 longer need to send one for subsequent submissions.
-
-### How to Help
-
-We could always use a helping hand or two. If you're looking for how to get started helping out the project here are a few suggestions.
-
-#### Ti-Mocha Tests
-We'd love to have broader APi coverage in our ti-mocha test suite, or have the existing suite improved. It's also a great place to see tests we're skipping due to bugs or missing implementations/feature.
-  - The tests live under Examples/NMocha/src/Assets. You can edit an existing suite to add more tests, or write new test suites. We use the naming format ti._proxy.name_.test.js and then add a require statement to the app.js file.
-  - Even if you're not on Windows, you can submit changes to the tests in a PR and our build machine will build and run the tests, giving the results as a comment to the PR.
-  - To run the mocha test suite locally under a Windows Phone emulator:
-```bash
-# If you have not yet run the following from the prerequisite installation steps above, please do:
-cd Tools\Scripts
-npm install .
-# Now go to directory where you'd like project generated
-cd "${HOME}/Documents"
-# Generates a project from our included NMocha example
-node "${HOME}/Documents/GitHub/titanium_mobile_windows/Tools/Scripts/generate_project.js" new NMocha
-# Now open the project in Visual Studio for development
-NMocha.WindowsPhone.Win32/NMocha.sln
-```
-
-#### Generate Proxy Stubs
-We've included a node script that will use the Titanium documentation to generate stub implementations of a proxy up in the TitaniumKit layer and the Windows implementation subclasses. To invoke it, please try:
-```bash
-cd Tools\Scripts\module_generator
-npm install .
-node generator.js
-```
 
 ## Legal
 
