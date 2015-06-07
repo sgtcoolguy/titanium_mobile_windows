@@ -41,7 +41,7 @@ npm -g install git://github.com/appcelerator/titanium.git
 ti sdk install -b master -d
 ```
 
-If you are planning to develop TitaniumKit and/or Titanium API, set up module development environment with following steps.
+If you are planning to develop TitaniumKit, set up module development environment with following steps.
 
 Step 5.
 
@@ -64,6 +64,8 @@ node setup.js
 The script should download any necessary development libraries and set the appropriate environment variables for you. Restart your command prompt, then you may proceed to the [TitaniumKit Development](#titaniumkit_development) section to generate an example app to use as a development base.
 
 ### OS X
+
+If you are planning to develop TitaniumKit, set up module development environment with following steps.
 
 Step 1. Install Xcode 6
 
