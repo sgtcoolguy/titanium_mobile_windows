@@ -606,6 +606,12 @@ function generateCasting(dest, seeds, next) {
 		// Insert cast block
 		data = data.substring(0, data.indexOf('auto to_cast =')) + cast_block + data.substring(data.indexOf('return result;') + 14);
 		// Replace #include "Platform.Object.hpp" with same includes as native module loader!
+
+		// FIXME We need to hack Platform.Object even more! We need to add a callback_map__ as a JSObject protected field
+		// We stick the callback functions from JS into the map by their id returned by hanging the listener?
+		// See GlobalObject.cpp/hpp in TitaniumKit for how.
+		// We could remove usage of add_* methods and force use of add/removeEventListener method from Titanium::Module. We'd have to change how we generate
+		// the wrappers for event handling
 		
 		fs.writeFile(platform_object_cpp, data, function(err) {
 			next(err);

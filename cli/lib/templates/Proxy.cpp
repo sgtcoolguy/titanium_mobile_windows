@@ -185,7 +185,7 @@ for (property_name in properties) {
 // Methods
 if (methods) {
 	for (method_name in unique_methods) {
-		if (method_name == ".ctor") {
+		if (method_name == ".ctor" || method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0) {
 				continue;
 		}
 -%>
@@ -210,25 +210,57 @@ if (methods) {
 	for (method_name in unique_methods) {
 		var methods = unique_methods[method_name];
 		var method = methods[0];
-		if (method.name == '.ctor') {
-				continue;
+		if (method.name == '.ctor' || method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0) {
+			continue;
 		}
+-%>
+<%- include('function.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
+<%
+	}
+}
+-%>
+		void <%= base_name %>::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			<%- parent_name.to_windows_name() %>::enableEvent(event_name);
+
+			const JSContext context = this->get_context();
+<%
+// Event handlers!
+if (methods) {
+	for (method_name in unique_methods) {
+		var methods = unique_methods[method_name];
+		var method = methods[0];
 		if (method.name.indexOf('add_') == 0) {
 -%>
 <%- include('add_event_handler.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
 <%
-		} else if (method.name.indexOf('remove_') == 0) {
+		}
+	}
+}
+-%>
+		}
+
+		void <%= base_name %>::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			<%- parent_name.to_windows_name() %>::disableEvent(event_name);
+
+			const JSContext context = this->get_context();
+<%
+// Event handlers!
+if (methods) {
+	for (method_name in unique_methods) {
+		var methods = unique_methods[method_name];
+		var method = methods[0];
+		if (method.name.indexOf('remove_') == 0) {
 -%>
 <%- include('remove_event_handler.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
-<%
-		} else {
--%>
-<%- include('function.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
 <%
 		}
 	}
 }
-
+-%>
+		}
+<%
 for (var i = namespaces.length - 2; i>= 0; i--) {
 -%>
 <%= Array(i + 1).join('\t') %>} // namespace <%= namespaces[i] %>

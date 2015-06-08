@@ -105,6 +105,8 @@ if (methods) {
 			static void JSExportInitialize();
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 
 			::<%= windows_name %>^ unwrap<%= underscore_name %>() const;
 			void wrap(::<%= windows_name %>^ object);
@@ -118,6 +120,7 @@ if (parent_name == 'Module') { -%>
 
 		private:
 			::<%= windows_name %>^ unwrap() const;
+			// Add fields to hold the event registration tokens for handlers!
 
 		};
 

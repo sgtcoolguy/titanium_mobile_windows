@@ -1,8 +1,3 @@
-		TITANIUM_FUNCTION(<%= base_name %>, <%= methods[0].name %>)
-		{
-			auto context = this_object.get_context();
-			// TODO Handle no args, just return undefined?
-			ENSURE_OBJECT_AT_INDEX(callback, 0);
 <%
 // TODO We need to assert that there is one argument, that it's an object and a function. It's our callback
 // TODO We then need to hook an event handler like so:
@@ -80,11 +75,11 @@ if (handler_type_name.indexOf("Windows.Foundation.EventHandler`1") == 0) {
 
 }
 -%>
-			auto method_result = unwrap()-><%= event_name %> += ref new ::<%- handler_type_name.replace(/\./g, '::') %>([context, &callback](<%- parameters %>) {
-				// TODO Convert the args and pass them to callback!
-				// Takes a const std::vector<JSValue>&  arguments
-				callback(context.get_global_object());
-			});
-			<%- include('native_to_js.cpp', {type: methods[0].returnType, metadata: metadata, to_assign: 'result', argument_name: 'method_result'}) -%>
-			return result; 
-		}
+			if (event_name == "<%= event_name %>") {
+				auto method_result = unwrap()-><%= event_name %> += ref new ::<%- handler_type_name.replace(/\./g, '::') %>([context, this](<%- parameters %>) {
+					auto eventArgs = context.CreateObject();
+					// TODO Convert the args and pass them to event object we pass to callback!
+					this->fireEvent("<%= event_name %>", eventArgs);
+				});
+				return;
+			}
