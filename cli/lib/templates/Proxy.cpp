@@ -185,7 +185,7 @@ for (property_name in properties) {
 // Methods
 if (methods) {
 	for (method_name in unique_methods) {
-		if (method_name == ".ctor" || method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0) {
+		if (method_name == ".ctor" || method_name.indexOf('add_') == 0 || method_name.indexOf('remove_') == 0) {
 				continue;
 		}
 -%>

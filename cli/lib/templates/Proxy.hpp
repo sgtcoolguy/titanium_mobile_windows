@@ -73,6 +73,7 @@ if (methods) {
 		var method = methods[i];
 		// Skip if method starts with get_, put_ (properties), constructor
 		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
+			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
 			method.name == '.ctor') {
 				continue;
 		}
@@ -120,8 +121,19 @@ if (parent_name == 'Module') { -%>
 
 		private:
 			::<%= windows_name %>^ unwrap() const;
-			// Add fields to hold the event registration tokens for handlers!
-
+<%
+if (methods) {
+	for (var i = 0; i < methods.length; i++) {
+		var method = methods[i];
+		// Add registration tokens for event handlers
+		if (method.name.indexOf('add_') == 0) {
+-%>
+			::Windows::Foundation::EventRegistrationToken <%= method.name.substring(4) %>_token__;
+<%
+		}
+	}
+}
+-%>
 		};
 
 <% for (var i = namespaces.length - 2; i>= 0; i--) { -%>

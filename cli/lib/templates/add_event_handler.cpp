@@ -76,7 +76,7 @@ if (handler_type_name.indexOf("Windows.Foundation.EventHandler`1") == 0) {
 }
 -%>
 			if (event_name == "<%= event_name %>") {
-				auto method_result = unwrap()-><%= event_name %> += ref new ::<%- handler_type_name.replace(/\./g, '::') %>([context, this](<%- parameters %>) {
+				<%= event_name %>_token__ = unwrap()-><%= event_name %> += ref new ::<%- handler_type_name.replace(/\./g, '::') %>([context, this](<%- parameters %>) {
 					auto eventArgs = context.CreateObject();
 					// TODO Convert the args and pass them to event object we pass to callback!
 					this->fireEvent("<%= event_name %>", eventArgs);
