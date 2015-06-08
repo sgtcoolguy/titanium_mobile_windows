@@ -22,9 +22,8 @@ if (methods) {
 	for (var i = 0; i < methods.length; i++) {
 		var method = methods[i];
 		var overloads = [];
-
-		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
-			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0) {
+		// skip property methods
+		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0) {
 				continue;
 		}
 		// Skip non-public methods
@@ -214,9 +213,19 @@ if (methods) {
 		if (method.name == '.ctor') {
 				continue;
 		}
+		if (method.name.indexOf('add_') == 0) {
+-%>
+<%- include('add_event_handler.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
+<%
+		} else if (method.name.indexOf('remove_') == 0) {
+-%>
+<%- include('remove_event_handler.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
+<%
+		} else {
 -%>
 <%- include('function.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
 <%
+		}
 	}
 }
 

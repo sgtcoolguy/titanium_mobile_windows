@@ -169,6 +169,7 @@ function getDependencies(classname) {
 				method.name == '.ctor') {
 					continue;
 			}
+
 			// Skip non-public methods
 			if (method.attributes.indexOf("public") == -1) {
 				continue;
@@ -226,22 +227,6 @@ function getEnumDependencies(type_name, metadata) {
  * @param {Function} next - 
  */
 function initialize(seeds, next) {
-	// If we have no seeds, assume we want everything!
-	// FIXME What should be used as "every" and what should be used as "none"?
-	//if (seeds.length == 0) {
-	//	for (classname in all_classes) {
-	//		var classDefinition = all_classes[classname];
-			// skip structs and enums
-	//		if (classDefinition['extends'] && 
-	//			(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
-	//			classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
-	//			continue;
-	//		}
-
-	//		seeds.unshift(classname);
-	//	}
-	//}
-
 	// Sort seeds by name and remove duplicates
 	seeds = seeds.sort();
 	seeds = seeds.filter(function(elem, pos) {
@@ -463,10 +448,11 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
 			classes += "#include \"" + classname + ".hpp\"\r\n";
 			loader_switch += "\t\telse if (path == \"" + classname + "\") {\r\n\t\t\tinstantiated = context.CreateObject(JSExport<::Titanium::" + classname.replace(/\./g, '::') + ">::Class());\r\n";
 			
+			// FIXME if we have no enum dependencies, our parents/ancestors still might!
 			// Load up enum dependencies!
 			// Add dependencies of current type
-			enum_dependencies = getEnumDependencies(classname, all_classes);
-			if (enum_dependencies && enum_dependencies.length > 0) {
+			enum_dependencies = getEnumDependencies(classname, all_classes) || [];
+			//if (enum_dependencies && enum_dependencies.length > 0) {
 				enum_loader += "\t\telse if (type_name == \"" + classname + "\") {\r\n";
 				// Call registerEnums for parent type too
 				if (classDefinition['extends'] &&
@@ -482,7 +468,7 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
 				}
 				enum_loader += "\t\t}\r\n";
 				loader_switch += "\t\t\tregisterEnums(context, path);\r\n";
-			}
+			//}
 			loader_switch += "\t\t}\r\n";
 		}
 		loader_switch += "\t\telse {\r\n\t\t\treturn context.CreateUndefined();\r\n\t\t}\r\n\t\t// END_SWITCH";

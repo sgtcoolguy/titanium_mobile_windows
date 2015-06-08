@@ -1,5 +1,5 @@
 <%
-// TODO int64, uint64, single, char16
+// TODO uint64, single, char16
 if (type == 'bool') {
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsBoolean(), "Expected boolean");
@@ -19,6 +19,11 @@ if (type == 'bool') {
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
 			auto <%= to_assign %> = static_cast<double>(<%= argument_name %>);
+<%
+} else if (type == 'int64') {
+-%> 
+			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
+			auto <%= to_assign %> = static_cast<int64>(static_cast<double>(<%= argument_name %>));
 <%
 } else if (type == 'float32' || type == 'float64') {
 -%> 
