@@ -80,7 +80,7 @@ function processClass(root, file, next) {
 					}
 				}
 
-				var name = line.split(',')[1].split(')')[0];
+				var name = line.split(',')[1].split(')')[0].substring(1);
 
 				if (module_name == null) module_name = namespaces.join('.')+(module != '' ? '.'+module : '');
 				if (module_name == 'Titanium.GlobalObject') module_name = 'Global';
@@ -88,7 +88,7 @@ function processClass(root, file, next) {
 				if (module_name == 'Titanium.Ti') module_name = 'Titanium';
 
 				if (isProperty || isPropertyRo) properties.push(name);
-				if (isMethod) methods.push(name);
+				if (isMethod && name[0] != '_') methods.push(name);
 
 			} else if (line.contains(namespace_signature)) {
 				var namespace = line.substr(line.indexOf(namespace_signature)+namespace_signature.length).replace('Module','');
