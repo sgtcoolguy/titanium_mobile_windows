@@ -4,10 +4,9 @@
  * Please see the LICENSE included with this distribution for details.
  */
 var path = require('path'),
-	fs = require('fs'),
+	fs = require('fs-extra'),
 	async = require('async'),
 	colors = require('colors'),
-	wrench = require('wrench'),
 	ejs = require('ejs'),
 	spawn = require('child_process').spawn,
 	exec = require('child_process').exec,
@@ -54,10 +53,10 @@ function copyWindowsIntoSDK(sdkPath, next) {
 		dest = path.join(sdkPath, 'windows');
 	if (fs.existsSync(dest)) {
 		hadWindowsSDK = true;
-		wrench.rmdirSyncRecursive(dest);
+		fs.removeSync(dest);
 	}
 	// TODO Be smarter about copying to speed it up? Only copy diff? 
-	wrench.copyDirSyncRecursive(windowsSDKDir, dest);
+	fs.copySync(windowsSDKDir, dest);
 	next();
 }
 
@@ -85,9 +84,7 @@ function generateWindowsProject(next) {
 	var projectDir = path.join(__dirname, 'mocha'),
 		prc;
 	// If the project already exists, wipe it
-	if (fs.existsSync(projectDir)) {
-		wrench.rmdirSyncRecursive(projectDir);
-	}
+	fs.emptyDirSync(projectDir);
 	prc = spawn('node', [titanium, 'create', '-t', 'app', '-p', 'windows', '-n', 'mocha', '--id', 'com.appcelerator.mocha.testing', '-u', 'http://www.appcelerator.com', '-d', '.', '--no-prompt']);
 
 	prc.on('close', function (code) {
@@ -103,9 +100,8 @@ function generateWindowsProject(next) {
 function copyMochaAssets(next) {
 	var mochaAssetsDir = path.join(__dirname, '..', '..', '..', 'Examples', 'NMocha', 'src', 'Assets'),
 		dest = path.join(__dirname, 'mocha', 'Resources');
-	wrench.copyDirSyncRecursive(mochaAssetsDir, dest, {
-		forceDelete: true
-	});
+	fs.emptyDirSync(dest);
+	fs.copySync(mochaAssetsDir, dest);
 	next();
 }
 
