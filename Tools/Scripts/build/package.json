@@ -22,7 +22,7 @@
     "async": "~0.9.0",
     "colors": "~0.6.2",
     "ejs": "~2.2.4",
-  	"wrench": "~1.5.4",
+    "fs-extra": "~0.18.4",
     "titanium": "git://github.com/appcelerator/titanium.git#master"
   },
   "engines": {

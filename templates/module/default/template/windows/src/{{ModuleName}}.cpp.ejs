@@ -1,0 +1,36 @@
+/**
+ * Titanium Windows Native Module - <%- moduleName %>
+ *
+ * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License.
+ * Please see the LICENSE included with this distribution for details.
+ */
+
+#include "<%- moduleName %>.hpp"
+
+<%  var namespaces = moduleId.split('.'),
+	indent = Array(namespaces.length).join('\t');
+    for(var i = 0; i < namespaces.length; i++) { -%>
+<%- 	Array(i+1).join('\t') %>namespace <%- namespaces[i] %>
+<%- 	Array(i+1).join('\t') %>{
+<%  } -%>
+<%- indent %>	<%- moduleName %>::<%- moduleName %>(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+<%- indent %>	{
+<%- indent %>		TITANIUM_LOG_DEBUG("<%- moduleName %>::ctor Initialize");
+<%- indent %>	}
+
+<%- indent %>	void <%- moduleName %>::postInitialize(JSObject& js_object)
+<%- indent %>	{
+<%- indent %>	}
+
+<%- indent %>	void <%- moduleName %>::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+<%- indent %>	{
+<%- indent %>	}
+
+<%- indent %>	void <%- moduleName %>::JSExportInitialize()
+<%- indent %>	{
+<%- indent %>		JSExport<<%- moduleName %>>::SetClassVersion(1);
+<%- indent %>	}
+<%  for(var i = namespaces.length; i > 0; i--) { -%>
+<%- 	Array(i).join('\t') %>}
+<%  } -%>
