@@ -227,6 +227,18 @@ function walkdir(dirpath, base, callback) {
   });
 }
 
+function capitalize(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function camelCase(moduleId) {
+	var ids = moduleId.split('.'), names = [];
+	for (var i = 0; i < ids.length; i++) {
+		names.push(capitalize(ids[i]));
+	}
+	return names.join('');
+}
+
 WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 	var buildDir = path.join(this.projectDir, 'build'),
 		moduleDir = path.join(buildDir, this.manifest.moduleid, this.manifest.version),
@@ -246,6 +258,7 @@ WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 
 	fs.createReadStream(path.join(this.projectDir, '..', 'LICENSE')).pipe(fs.createWriteStream(path.join(moduleDir, 'LICENSE')));
 	fs.createReadStream(path.join(this.projectDir, 'manifest')).pipe(fs.createWriteStream(path.join(moduleDir, 'manifest')));
+	fs.createReadStream(path.join(this.projectDir, 'timodule.xml')).pipe(fs.createWriteStream(path.join(moduleDir, 'timodule.xml')));
 
 	// copy compiled libraries
 	types.forEach(function(type, index) {
@@ -271,6 +284,14 @@ WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 
 			// Library
 			fs.createReadStream(moduleSrc+'.lib').pipe(fs.createWriteStream(moduleDst+'.lib'));
+
+			// copy one of export.hpp
+			var export_file     = _t.manifest.name+'_export.h',
+				export_hpp_from = path.join(moduleProjectDir, export_file),
+				export_hpp_to   = path.join(moduleDir, 'include', export_file);
+			if (!fs.existsSync(export_hpp_to)) {
+				fs.createReadStream(export_hpp_from).pipe(fs.createWriteStream(export_hpp_to));
+			}
 		});
 	});
 

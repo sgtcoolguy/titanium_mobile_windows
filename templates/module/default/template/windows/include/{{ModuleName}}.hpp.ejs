@@ -7,19 +7,24 @@
  */
 
 <%
-function sanitize(str) {
-	return str.replace(/\./g, '_');
-}
 function capitalize(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
-var MODULE_NAME = sanitize(moduleName).toUpperCase();
+function camelCase(moduleId) {
+  var ids = moduleId.split('.'), names = [];
+  for (var i = 0; i < ids.length; i++) {
+    names.push(capitalize(ids[i]));
+  }
+  return names.join('');
+}
+var projectName = camelCase(moduleName);
+var MODULE_NAME = projectName.toUpperCase();
 -%>
 
 #ifndef _<%- MODULE_NAME %>_HPP_
 #define _<%- MODULE_NAME %>_HPP_
 
-#include "<%- moduleName %>_EXPORT.h"
+#include "<%- projectName %>_EXPORT.h"
 #include "Titanium/detail/TiBase.hpp"
 
 <%

@@ -14,9 +14,22 @@ const
 	path = require('path'),
 	wrench = require('wrench'),
 	async = require('async'),
+	ejs = require('ejs'),
 	spawn = require('child_process').spawn;
 
 exports.cliVersion = '>=3.2';
+
+function capitalize(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function camelCase(moduleId) {
+	var ids = moduleId.split('.'), names = [];
+	for (var i = 0; i < ids.length; i++) {
+		names.push(capitalize(ids[i]));
+	}
+	return names.join('');
+}
 
 exports.init = function (logger, config, cli) {
 	cli.on('create.post.module.platform.windows', {
@@ -33,9 +46,17 @@ exports.init = function (logger, config, cli) {
 					logger.info('Copying CMake package finders');
 					wrench.mkdirSyncRecursive(path.join(cmakeFindDirDst));
 					cmakeFinds.forEach(function(pkg) {
-						logger.info('-- '+pkg);
 						fs.writeFileSync(path.join(cmakeFindDirDst, 'Find'+pkg+'.cmake'), fs.readFileSync(path.join(cmakeFindDirSrc, 'Find'+pkg+'.cmake')));
 					});
+					next();
+				},
+				function(next) {
+					logger.info('Creating CMake module config');
+					var config_template = fs.readFileSync(path.join(cmakeFindDirDst, 'CustomModule_Config.cmake'), 'utf-8'),
+						projectName = camelCase(data.id);
+
+					var config_content = ejs.render(config_template, {projectName:projectName, moduleName:data.id}, {});
+					fs.writeFileSync(path.join(cmakeFindDirDst, camelCase(data.id)+'_Config.cmake'), config_content);
 					next();
 				},
 				function(next) {

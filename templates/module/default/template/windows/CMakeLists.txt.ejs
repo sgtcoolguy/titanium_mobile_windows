@@ -1,8 +1,23 @@
-# Titanium Windows Native Module - <%- moduleName %>
+# Titanium Windows Native Module - <%- projectName %>
 #
 # Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
 # Licensed under the terms of the Apache Public License.
 # Please see the LICENSE included with this distribution for details.
+
+<%
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function camelCase(moduleId) {
+  var ids = moduleId.split('.'), names = [];
+  for (var i = 0; i < ids.length; i++) {
+    names.push(capitalize(ids[i]));
+  }
+  return names.join('');
+}
+var projectName = camelCase(moduleName);
+-%>
 
 cmake_minimum_required(VERSION 3.0.0)
 
@@ -15,9 +30,9 @@ else()
   message(FATAL_ERROR "This app supports Store / Phone only.")
 endif()
 
-project(<%- moduleName %>)
+project(<%- projectName %>)
 
-set(<%- moduleName %>_VERSION 0.1.0)
+set(<%- projectName %>_VERSION 0.1.0)
 
 set(WINDOWS_SOURCE_DIR "<%- tisdkPath.replace(/\\/g,'/') %>/windows")
 
@@ -27,7 +42,7 @@ SET(CMAKE_FIND_LIBRARY_SUFFIXES ".lib" ".dll")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
-option(<%- moduleName %>_DISABLE_TESTS "Disable compiling the tests" OFF)
+option(<%- projectName %>_DISABLE_TESTS "Disable compiling the tests" OFF)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -45,25 +60,25 @@ find_package(JavaScriptCore REQUIRED)
 
 enable_testing()
 
-set(SOURCE_<%- moduleName %>
+set(SOURCE_<%- projectName %>
   include/<%- moduleName %>.hpp
   src/<%- moduleName %>.cpp
   )
 
-source_group(<%- moduleName %> FILES ${SOURCE_<%- moduleName %>})
+source_group(<%- projectName %> FILES ${SOURCE_<%- projectName %>})
 
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
-add_library(<%- moduleName %> SHARED
-  ${SOURCE_<%- moduleName %>}
+add_library(<%- projectName %> SHARED
+  ${SOURCE_<%- projectName %>}
   )
 
 include(GenerateExportHeader)
-generate_export_header(<%- moduleName %>)
-target_compile_definitions(<%- moduleName %> PRIVATE <%- moduleName %>_EXPORTS)
+generate_export_header(<%- projectName %>)
+target_compile_definitions(<%- projectName %> PRIVATE <%- projectName %>_EXPORTS)
 
-target_include_directories(<%- moduleName %> PUBLIC
+target_include_directories(<%- projectName %> PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
@@ -71,50 +86,50 @@ target_include_directories(<%- moduleName %> PUBLIC
   ${Boost_INCLUDE_DIRS}
   )
 
-target_link_libraries(<%- moduleName %>
+target_link_libraries(<%- projectName %>
   ${Boost_LIBRARIES}
   HAL
   TitaniumKit
   )
 
-set_target_properties(<%- moduleName %> PROPERTIES VS_WINRT_COMPONENT TRUE)
+set_target_properties(<%- projectName %> PROPERTIES VS_WINRT_COMPONENT TRUE)
 
-set_property(TARGET <%- moduleName %> APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
+set_property(TARGET <%- projectName %> APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
 
-if (NOT <%- moduleName %>_DISABLE_TESTS)
+if (NOT <%- projectName %>_DISABLE_TESTS)
   add_subdirectory(test)
 endif()
 
-set_property(TARGET <%- moduleName %> PROPERTY VERSION ${<%- moduleName %>_VERSION})
-set_property(TARGET <%- moduleName %> PROPERTY SOVERSION 0)
-set_property(TARGET <%- moduleName %> PROPERTY INTERFACE_<%- moduleName %>_MAJOR_VERSION 0)
-set_property(TARGET <%- moduleName %> APPEND PROPERTY
-  COMPATIBLE_INTERFACE_STRING <%- moduleName %>_MAJOR_VERSION
+set_property(TARGET <%- projectName %> PROPERTY VERSION ${<%- projectName %>_VERSION})
+set_property(TARGET <%- projectName %> PROPERTY SOVERSION 0)
+set_property(TARGET <%- projectName %> PROPERTY INTERFACE_<%- projectName %>_MAJOR_VERSION 0)
+set_property(TARGET <%- projectName %> APPEND PROPERTY
+  COMPATIBLE_INTERFACE_STRING <%- projectName %>_MAJOR_VERSION
   )
 
-install(TARGETS <%- moduleName %> EXPORT <%- moduleName %>_Targets
+install(TARGETS <%- projectName %> EXPORT <%- projectName %>_Targets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
   INCLUDES DESTINATION include
   )
 
-export(EXPORT <%- moduleName %>_Targets
-  FILE "${CMAKE_BINARY_DIR}/<%- moduleName %>_Targets.cmake"
+export(EXPORT <%- projectName %>_Targets
+  FILE "${CMAKE_BINARY_DIR}/<%- projectName %>_Targets.cmake"
 )
 
-configure_file(cmake/<%- moduleName %>_Config.cmake
-  "${CMAKE_BINARY_DIR}/<%- moduleName %>_Config.cmake"
+configure_file(cmake/<%- projectName %>_Config.cmake
+  "${CMAKE_BINARY_DIR}/<%- projectName %>_Config.cmake"
   COPYONLY
   )
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-  "${CMAKE_BINARY_DIR}/<%- moduleName %>_ConfigVersion.cmake"
-  VERSION ${<%- moduleName %>_VERSION}
+  "${CMAKE_BINARY_DIR}/<%- projectName %>_ConfigVersion.cmake"
+  VERSION ${<%- projectName %>_VERSION}
   COMPATIBILITY AnyNewerVersion
   )
 
-set_target_properties(<%- moduleName %> PROPERTIES VS_WINRT_REFERENCES HAL)
+set_target_properties(<%- projectName %> PROPERTIES VS_WINRT_REFERENCES HAL)
 
-export(PACKAGE <%- moduleName %>)
+export(PACKAGE <%- projectName %>)

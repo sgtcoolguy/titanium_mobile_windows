@@ -2,6 +2,22 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
+
+<%
+function capitalize(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function camelCase(moduleId) {
+	var ids = moduleId.split('.'), names = [];
+	for (var i = 0; i < ids.length; i++) {
+		names.push(capitalize(ids[i]));
+	}
+	return names.join('');
+}
+var projectName = camelCase(moduleName);
+-%>
+
 version: 1.0.0
 apiversion: 2
 architectures: ARM x86
@@ -11,7 +27,7 @@ license: Specify your license
 copyright: Copyright (c) <%- (new Date).getFullYear() %> by <%- publisher %>
 
 # these should not be edited
-name: <%- moduleName %>
+name: <%- projectName %>
 moduleid: <%- moduleId %>
 guid: <%- guid %>
 platform: <%- platform %>
