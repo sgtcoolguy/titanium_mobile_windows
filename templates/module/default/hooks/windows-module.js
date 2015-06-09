@@ -14,6 +14,7 @@ const
 	path = require('path'),
 	wrench = require('wrench'),
 	async = require('async'),
+	ejs = require('ejs'),
 	spawn = require('child_process').spawn;
 
 exports.cliVersion = '>=3.2';
@@ -33,9 +34,17 @@ exports.init = function (logger, config, cli) {
 					logger.info('Copying CMake package finders');
 					wrench.mkdirSyncRecursive(path.join(cmakeFindDirDst));
 					cmakeFinds.forEach(function(pkg) {
-						logger.info('-- '+pkg);
 						fs.writeFileSync(path.join(cmakeFindDirDst, 'Find'+pkg+'.cmake'), fs.readFileSync(path.join(cmakeFindDirSrc, 'Find'+pkg+'.cmake')));
 					});
+					next();
+				},
+				function(next) {
+					logger.info('Creating CMake module config');
+					var config_template = fs.readFileSync(path.join(cmakeFindDirDst, 'CustomModule_Config.cmake'), 'utf-8'),
+						projectName = data.id.replace(/\./g,'_');
+
+					var config_content = ejs.render(config_template, {projectName:projectName, moduleName:data.id}, {});
+					fs.writeFileSync(path.join(cmakeFindDirDst, projectName+'_Config.cmake'), config_content);
 					next();
 				},
 				function(next) {

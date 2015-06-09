@@ -1559,7 +1559,7 @@ WindowsBuilder.prototype.generateModuleFinder = function generateModuleFinder(ne
 
 	for (var i=0; i<this.modules.length; i++) {
 		var module = this.modules[i],
-			projectname = module.manifest.projectname;
+			projectname = module.manifest.projectname ? module.manifest.projectname : module.manifest.name;
 
 		module.path = module.modulePath.replace(/\\/g, '/').replace(' ', '\\ ');
 
@@ -1626,10 +1626,11 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 
 	// Native modules
 	for (var i = 0; i < this.modules.length; i++) {
-		var module = this.modules[i];
+		var module = this.modules[i],
+			projectname = module.manifest.projectname ? module.manifest.projectname : module.manifest.name;
 		if (module.manifest.platform == 'windows') {
 			native_modules.push({
-				projectname: module.manifest.projectname,
+				projectname: projectname,
 				path:module.modulePath.replace(/\\/g, '/').replace(' ', '\\ ')
 			});
 		}

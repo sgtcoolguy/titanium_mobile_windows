@@ -5,32 +5,42 @@
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
-
 #include "<%- moduleName %>.hpp"
 
-<%  var namespaces = moduleId.split('.'),
-	indent = Array(namespaces.length).join('\t');
-    for(var i = 0; i < namespaces.length; i++) { -%>
-<%- 	Array(i+1).join('\t') %>namespace <%- namespaces[i] %>
-<%- 	Array(i+1).join('\t') %>{
-<%  } -%>
-<%- indent %>	<%- moduleName %>::<%- moduleName %>(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
+<%
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+  var namespaces = moduleId.split('.'),
+      indent = Array(namespaces.length-1).join('\t'),
+      className = moduleName;
+  for(var i = 0; i < namespaces.length; i++) {
+    if (i < namespaces.length - 1) { -%>
+<%-   Array(i+1).join('\t') %>namespace <%- capitalize(namespaces[i]) %>
+<%-   Array(i+1).join('\t') %>{
+<%  } else {
+      className = capitalize(namespaces[i]);
+    }
+  }
+-%>
+<%- indent %>	<%- className %>::<%- className %>(const JSContext& js_context) TITANIUM_NOEXCEPT
+<%- indent %>		: JSExportObject(js_context)
 <%- indent %>	{
-<%- indent %>		TITANIUM_LOG_DEBUG("<%- moduleName %>::ctor Initialize");
+<%- indent %>		TITANIUM_LOG_DEBUG("<%- className %>::ctor Initialize");
 <%- indent %>	}
 
-<%- indent %>	void <%- moduleName %>::postInitialize(JSObject& js_object)
+<%- indent %>	void <%- className %>::postInitialize(JSObject& js_object)
 <%- indent %>	{
 <%- indent %>	}
 
-<%- indent %>	void <%- moduleName %>::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+<%- indent %>	void <%- className %>::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 <%- indent %>	{
 <%- indent %>	}
 
-<%- indent %>	void <%- moduleName %>::JSExportInitialize()
+<%- indent %>	void <%- className %>::JSExportInitialize()
 <%- indent %>	{
-<%- indent %>		JSExport<<%- moduleName %>>::SetClassVersion(1);
+<%- indent %>		JSExport<<%- className %>>::SetClassVersion(1);
 <%- indent %>	}
-<%  for(var i = namespaces.length; i > 0; i--) { -%>
+<%  for(var i = namespaces.length-1; i > 0; i--) { -%>
 <%- 	Array(i).join('\t') %>}
 <%  } -%>

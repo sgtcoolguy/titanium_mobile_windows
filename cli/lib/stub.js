@@ -398,10 +398,11 @@ function generateCmakeList(dest, seeds, modules, next) {
 		var native_modules = [];
 
 		for (var i = 0; i < modules.length; i++) {
-			var module = modules[i];
+			var module = modules[i],
+				projectname = module.manifest.projectname ? module.manifest.projectname : module.manifest.name;
 			if (module.manifest.platform == "windows") {
 				native_modules.push({
-					projectname:module.manifest.projectname,
+					projectname:projectname,
 					path:module.modulePath.replace(/\\/g, '/').replace(' ', '\\ ')
 				});
 			}
@@ -500,6 +501,18 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
 	});
 }
 
+function capitalize(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function getCppClassForModule(moduleId) {
+	var ids = moduleId.split('.'), names = [];
+	for (var i = 0; i < ids.length; i++) {
+		names.push(capitalize(ids[i]));
+	}
+	return names.join('::');
+}
+
 /**
  * Generates the code in RequireHook.cpp to handle building up the list of native types registered.
  * @param {String} dest - 
@@ -521,12 +534,13 @@ function generateRequireHook(dest, seeds, modules, next) {
 
 		// Add includes for native modules
 		for (var i = 0; i < modules.length; i++) {
-			var module = modules[i];
+			var module = modules[i],
+				classname = module.manifest.classname ? module.manifest.classname : getCppClassForModule(module.manifest.moduleid);
 			if (module.manifest.platform == "windows") {
 				native_module_includes.push(module.manifest.moduleid + ".hpp");
 				native_modules.push({
 					name:module.manifest.moduleid,
-					className:module.manifest.classname,
+					className:classname,
 					preload: true
 				});
 			}
