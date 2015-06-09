@@ -1,0 +1,14 @@
+name: Titanium.Gesture
+methods:
+  - name: isFaceUp
+    summary: Returns whether the current window is considered face up by the device.
+    description: Returns `true` if face up else returns `false`.
+    returns:
+      type: Boolean
+    platforms: [windowsphone]
+  - name: isFaceDown
+    summary: Returns whether the current window is considered face down by the device.
+    description: Returns `true` if face down else returns `false`.
+    returns:
+      type: Boolean
+    platforms: [windowsphone]
