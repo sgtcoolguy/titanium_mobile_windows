@@ -1549,18 +1549,6 @@ WindowsBuilder.prototype.generateNativeWrappers = function generateNativeWrapper
 	nativeTypeGenerator.generate(path.join(this.buildDir, 'Native'), this.seeds, this.modules, next);
 };
 
-function capitalize(str) {
-	return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function camelCase(moduleId) {
-	var ids = moduleId.split('.'), names = [];
-	for (var i = 0; i < ids.length; i++) {
-		names.push(capitalize(ids[i]));
-	}
-	return names.join('');
-}
-
 /**
  * Generates finders for cmake to find a native module DLL/winmd.
  *
@@ -1571,7 +1559,7 @@ WindowsBuilder.prototype.generateModuleFinder = function generateModuleFinder(ne
 
 	for (var i=0; i<this.modules.length; i++) {
 		var module = this.modules[i],
-			projectname = module.manifest.projectname ? module.manifest.projectname : camelCalse(module.manifest.moduleid);
+			projectname = module.manifest.projectname ? module.manifest.projectname : module.manifest.name;
 
 		module.path = module.modulePath.replace(/\\/g, '/').replace(' ', '\\ ');
 
@@ -1639,7 +1627,7 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	// Native modules
 	for (var i = 0; i < this.modules.length; i++) {
 		var module = this.modules[i],
-			projectname = module.manifest.projectname ? module.manifest.projectname : camelCase(module.manifest.moduleid);
+			projectname = module.manifest.projectname ? module.manifest.projectname : module.manifest.name;
 		if (module.manifest.platform == 'windows') {
 			native_modules.push({
 				projectname: projectname,

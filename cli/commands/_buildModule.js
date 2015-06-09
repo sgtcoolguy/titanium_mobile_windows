@@ -227,18 +227,6 @@ function walkdir(dirpath, base, callback) {
   });
 }
 
-function capitalize(str) {
-	return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function camelCase(moduleId) {
-	var ids = moduleId.split('.'), names = [];
-	for (var i = 0; i < ids.length; i++) {
-		names.push(capitalize(ids[i]));
-	}
-	return names.join('');
-}
-
 WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 	var buildDir = path.join(this.projectDir, 'build'),
 		moduleDir = path.join(buildDir, this.manifest.moduleid, this.manifest.version),

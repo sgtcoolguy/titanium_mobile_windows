@@ -5,18 +5,7 @@
 # Please see the LICENSE included with this distribution for details.
 
 <%
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function camelCase(moduleId) {
-  var ids = moduleId.split('.'), names = [];
-  for (var i = 0; i < ids.length; i++) {
-    names.push(capitalize(ids[i]));
-  }
-  return names.join('');
-}
-var projectName = camelCase(moduleName);
+var projectName = moduleName.replace(/\./g,'_');
 -%>
 
 cmake_minimum_required(VERSION 3.0.0)

@@ -399,7 +399,7 @@ function generateCmakeList(dest, seeds, modules, next) {
 
 		for (var i = 0; i < modules.length; i++) {
 			var module = modules[i],
-				projectname = module.manifest.projectname ? module.manifest.projectname : camelCase(module.manifest.moduleid);
+				projectname = module.manifest.projectname ? module.manifest.projectname : module.manifest.name;
 			if (module.manifest.platform == "windows") {
 				native_modules.push({
 					projectname:projectname,
@@ -503,14 +503,6 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
 
 function capitalize(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function camelCase(moduleId) {
-	var ids = moduleId.split('.'), names = [];
-	for (var i = 0; i < ids.length; i++) {
-		names.push(capitalize(ids[i]));
-	}
-	return names.join('');
 }
 
 function getCppClassForModule(moduleId) {

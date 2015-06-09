@@ -19,18 +19,6 @@ const
 
 exports.cliVersion = '>=3.2';
 
-function capitalize(str) {
-	return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function camelCase(moduleId) {
-	var ids = moduleId.split('.'), names = [];
-	for (var i = 0; i < ids.length; i++) {
-		names.push(capitalize(ids[i]));
-	}
-	return names.join('');
-}
-
 exports.init = function (logger, config, cli) {
 	cli.on('create.post.module.platform.windows', {
 		post: function (data, callback) {
@@ -53,10 +41,10 @@ exports.init = function (logger, config, cli) {
 				function(next) {
 					logger.info('Creating CMake module config');
 					var config_template = fs.readFileSync(path.join(cmakeFindDirDst, 'CustomModule_Config.cmake'), 'utf-8'),
-						projectName = camelCase(data.id);
+						projectName = data.id.replace(/\./g,'_');
 
 					var config_content = ejs.render(config_template, {projectName:projectName, moduleName:data.id}, {});
-					fs.writeFileSync(path.join(cmakeFindDirDst, camelCase(data.id)+'_Config.cmake'), config_content);
+					fs.writeFileSync(path.join(cmakeFindDirDst, projectName+'_Config.cmake'), config_content);
 					next();
 				},
 				function(next) {
