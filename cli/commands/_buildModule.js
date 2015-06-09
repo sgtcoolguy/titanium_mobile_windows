@@ -21,10 +21,10 @@ var archiver = require('archiver'),
 	windowslib = require('windowslib'),
 	util = require('util'),
 	spawn = require('child_process').spawn,
-
 	types = ['WindowsPhone', 'WindowsStore'],
 	typesMin = ['phone', 'store'],
-	configuration = 'Release';
+	configuration = 'Release',
+	vs_architectures = {ARM:'ARM', x86:'Win32'}; // x86 -> Win32 mapping
 
 function WindowsModuleBuilder() {
 	Builder.apply(this, arguments);
@@ -145,6 +145,13 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 	var _t = this;
 
 	function build(sln, config, arch, next) {
+		// user may skip specific architecture by using CLI.
+		// at least we are skipping WindowsStore.ARM for now
+		if (!fs.existsSync(sln)) {
+			_t.logger.info('Skipping ' + sln);
+			next();
+			return;
+		}
 		var p = spawn(_t.windowsInfo.selectedVisualStudio.vcvarsall, [
 			'&&', 'MSBuild', '/m', '/p:Platform=' + arch, '/p:Configuration=' + config, sln
 		]);
@@ -166,7 +173,8 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 	var archs = _t.manifest.architectures.split(' ');
 	async.eachSeries(types, function(type, next_type) {
 		async.eachSeries(archs, function(arch, next_arch) {
-			build(path.resolve(_t.projectDir, type+'.'+arch, _t.manifest.name+'.sln'), configuration, arch, next_arch);
+			var architecture = vs_architectures[arch];
+			build(path.resolve(_t.projectDir, type+'.'+architecture, _t.manifest.name+'.sln'), configuration, architecture, next_arch);
 		}, function(err) {
 			if (err) {
 				throw err;
@@ -180,6 +188,44 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 		next();
 	});
 };
+
+function walkdir(dirpath, base, callback) {
+  var results = [];
+  if (typeof base === 'function') {
+    callback = base;
+    base = dirpath;
+  }
+  fs.readdir(dirpath, function(err, list) {
+    var i = 0;
+    var file;
+    var filepath;
+    if (err) {
+      return callback(err);
+    }
+    (function next() {
+      file = list[i++];
+      if (!file) {
+        return callback(null, results);
+      }
+      filepath = path.join(dirpath, file);
+      fs.stat(filepath, function(err, stats) {
+        results.push({
+          path: filepath,
+          relative: path.relative(base, filepath).replace(/\\/g, '/'),
+          stats: stats
+        });
+        if (stats && stats.isDirectory()) {
+          walkdir(filepath, base, function(err, res) {
+            results = results.concat(res);
+            next();
+          });
+        } else {
+          next();
+        }
+      });
+    })();
+  });
+}
 
 WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 	var buildDir = path.join(this.projectDir, 'build'),
@@ -204,7 +250,14 @@ WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 	// copy compiled libraries
 	types.forEach(function(type, index) {
 		_t.manifest.architectures.split(' ').forEach(function(arch) {
-			var moduleSrc = path.join(_t.projectDir, type+'.'+arch, configuration, _t.manifest.name),
+			var moduleProjectDir = path.join(_t.projectDir, type+'.'+vs_architectures[arch]);
+
+			if (!fs.existsSync(moduleProjectDir)) {
+				_t.logger.debug('Skipping '+moduleProjectDir);
+				return;
+			}
+
+			var moduleSrc = path.join(moduleProjectDir, configuration, _t.manifest.name),
 				moduleDst = path.join(moduleDir, typesMin[index], arch, _t.manifest.name);
 
 			// create module directory
@@ -231,14 +284,28 @@ WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 	archive.on('error', function(err) {
 		throw err;
 	});
-	archive.pipe(output);
-	archive.directory(buildDir, 'modules/windows');
-	archive.finalize();
-
 	output.on('close', function() {
 		_t.logger.info('Done.');
 		next();
 	});
+
+	archive.pipe(output);
+
+	walkdir(moduleDir, function(err, files) {
+		if (err) {
+			throw err;
+		}
+		for (var i = 0; i < files.length; i++) {
+			var file = files[i];
+			var relative_path = path.join('modules', 'windows', _t.manifest.moduleid, _t.manifest.version, file.relative);
+			if (file.stats.isFile()) {
+				_t.logger.debug('Packing: '+JSON.stringify(relative_path, null, 2));
+				archive.append(fs.createReadStream(file.path), {name: relative_path });
+			}
+		}	
+		archive.finalize();
+	});
+
 };
 
 (function (windowsModuleBuilder) {

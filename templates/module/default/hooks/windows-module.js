@@ -42,10 +42,10 @@ exports.init = function (logger, config, cli) {
 					logger.info('Generating WindowsPhone ARM project');
 					runCMake(logger, cmake, projectDir, 'WindowsPhone', 'ARM', next);
 				},
-				function(next) {
-					logger.info('Generating WindowsStore ARM project');
-					runCMake(logger, cmake, projectDir, 'WindowsStore', 'ARM', next);
-				},
+				//function(next) {
+				//	logger.info('Generating WindowsStore ARM project');
+				//	runCMake(logger, cmake, projectDir, 'WindowsStore', 'ARM', next);
+				//},
 				function(next) {
 					logger.info('Generating WindowsPhone Win32 project');
 					runCMake(logger, cmake, projectDir, 'WindowsPhone', 'Win32', next);
