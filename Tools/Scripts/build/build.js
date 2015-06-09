@@ -4,9 +4,10 @@
  * Please see the LICENSE included with this distribution for details.
  */
 var path = require('path'),
-	fs = require('fs-extra'),
+	fs = require('fs'),
 	async = require('async'),
 	colors = require('colors'),
+	wrench = require('wrench'),
 	spawn = require('child_process').spawn,
 	cmakeLocation = path.join(__dirname, '..', '..', '..', 'cli', 'vendor', 'cmake', 'bin', 'cmake.exe'),
 	MSBuildLocation = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe";
@@ -24,7 +25,10 @@ function runCMake(sourceDir, buildDir, buildType, platform, arch, callback) {
 		generator = 'Visual Studio 12 2013';
 	
 	// If the buildDir already exists, wipe it
-	fs.emptyDirSync(buildDir);
+	if (fs.existsSync(buildDir)) {
+		wrench.rmdirSyncRecursive(buildDir);
+	}
+	wrench.mkdirSyncRecursive(buildDir);
 
 	if ('ARM' == arch) {
 		generator += ' ARM';
@@ -141,12 +145,23 @@ function copyToDistribution(sourceDir, destDir, buildType, platform, arch, callb
 		libDestDir = path.join(destDir, lib, platformAbbrev, arch);
 
 		// Make the destination folder
-		fs.emptyDirSync(libDestDir);
-		fs.copySync(libSrcDir, libDestDir);
+		if (fs.existsSync(libDestDir)) {
+			wrench.rmdirSyncRecursive(libDestDir);
+		}
+		wrench.mkdirSyncRecursive(libDestDir);
 
+ 		// Copy the build artifacts
+ 		// TODO Only copy dll/winmd/lib? Do we need anything else? pri?
+		wrench.copyDirSyncRecursive(libSrcDir, libDestDir, {
+			forceDelete: true, // Whether to overwrite existing directory or not
+			preserveTimestamps: true, // Preserve the mtime and atime when copying files
+			// FIXME This seems to be copying over everything for TitaniumWindows artifacts, but not sub-libraries
+			include: new RegExp(lib + "\.*") // Include the library's artifacts regardless of file extension
+		});
 		// Copy the export header!
 		header = lib.toLowerCase() + '_export.h';
-		fs.copySync(path.join(sourceDir, platformAbbrev, arch, suffix, header), path.join(destDir, lib, 'include', header));
+		wrench.mkdirSyncRecursive(path.join(destDir, lib, 'include'));
+		fs.writeFileSync(path.join(destDir, lib, 'include', header), fs.readFileSync(path.join(sourceDir, platformAbbrev, arch, suffix, header)));
 	}
 	callback();
 }
@@ -198,41 +213,45 @@ async.series([
 	// TODO Maybe we can be more efficient by running the mocha tests here after we have enough of the libs to run the emulator.		
 	// If they pass, keep building, otherwise exit early?		
 	function (next) {		
-		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'ARM', next);
+		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'ARM', next);		
 	},		
 	function (next) {		
-		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsStore', 'x86', next);
-	},
-	function (next) {
-		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsStore', 'ARM', next);
+		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsStore', 'x86', next);		
 	},
 	// TODO Do all these others async. Use async.parallel, and use non-sync versions of file ops!
 	function (next) {
 		console.log("Copying over include headers...");
-		fs.copySync(path.join(rootDir, 'Source', 'HAL', 'include', 'HAL'), path.join(distLib, 'HAL', 'include', 'HAL'));
-		fs.copySync(path.join(rootDir, 'Source', 'Utility', 'include', 'TitaniumWindows'), path.join(distLib, 'TitaniumWindows_Utility', 'include', 'TitaniumWindows'));
-		fs.copySync(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'detail'), path.join(distLib, 'TitaniumKit', 'include', 'Titanium', 'detail'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'HAL', 'include', 'HAL'), path.join(distLib, 'HAL', 'include', 'HAL'));
+		wrench.mkdirSyncRecursive(path.join(distLib, 'TitaniumKit', 'include', 'Titanium'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'Utility', 'include', 'TitaniumWindows'), path.join(distLib, 'TitaniumWindows_Utility', 'include', 'TitaniumWindows'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'detail'), path.join(distLib, 'TitaniumKit', 'include', 'Titanium', 'detail'));	
 		// Copy over the JSC headers to HAL!
-		fs.copySync(path.join(process.env.JavaScriptCore_HOME, 'includes', 'JavaScriptCore'), path.join(distLib, 'HAL', 'include', 'JavaScriptCore'));
+		wrench.copyDirSyncRecursive(path.join(process.env.JavaScriptCore_HOME, 'includes', 'JavaScriptCore'), path.join(distLib, 'HAL', 'include', 'JavaScriptCore'));
 		// Copy over TitaniumKit's Titanium/Module.hpp until we fix the wrappers to not use it!
-		fs.copySync(path.join(distLib, 'TitaniumKit', 'include', 'Titanium', 'Module.hpp'), path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'Module.hpp'));
+		fs.writeFileSync(path.join(distLib, 'TitaniumKit', 'include', 'Titanium', 'Module.hpp'), fs.readFileSync(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'Module.hpp')));
+		
 		next();
 	},
 	function (next) {
 		console.log("Copying over package.json...");
-		fs.copySync(path.join(rootDir, 'package.json'), path.join(distRoot, 'package.json'));
+		fs.writeFileSync(path.join(distRoot, 'package.json'), fs.readFileSync(path.join(rootDir, 'package.json')));
 		next();
 	},
 	function (next) {
 		console.log("Copying over templates...");
-		fs.emptyDirSync(path.join(distRoot, 'templates'));
-		fs.copySync(path.join(rootDir, 'templates'), path.join(distRoot, 'templates'));
+		if (fs.existsSync(path.join(distRoot, 'templates'))) {
+			wrench.rmdirSyncRecursive(path.join(distRoot, 'templates'));
+		}
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'templates'), path.join(distRoot, 'templates'));
 		next();
 	},
 	function (next) {
 		console.log("Copying over CLI...");
-		fs.emptyDirSync(path.join(distRoot, 'cli'));
-		fs.copySync(path.join(rootDir, 'cli'), path.join(distRoot, 'cli'));
+		if (fs.existsSync(path.join(distRoot, 'cli'))) {
+			wrench.rmdirSyncRecursive(path.join(distRoot, 'cli'));
+		}
+		// FIXME For some reason, locally this isn't copying all of cli/vendor/cmake/share (specifically cmake-3.1 subfolder)
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'cli'), path.join(distRoot, 'cli'));
 		next();
 	},
 	// TODO Generate docs and copy them over! We should start integrating together all these disparate node scripts into a cohesive set!
