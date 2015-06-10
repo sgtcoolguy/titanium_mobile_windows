@@ -103,7 +103,7 @@ function(cxx_executable name dir libs)
     ${name} "${cxx_default}" "${libs}" "${dir}/${name}.cpp" ${ARGN})
 endfunction()
 
-find_package(GTest REQUIRED)
+find_package(GTest)
 
 # cxx_test_with_flags(name cxx_flags libs srcs...)
 #
