@@ -5,34 +5,36 @@
 // metadata: pointer to the full metadata
 // argument_name: the name of the JS variable we're converting from
 
-
-// here we generate constructor args.
-// FIXME the matadata gives no indication if the struct has a constructor or not, or the arg order. So I don't think this will work properly!
-// Looks like we'll need to improve the metadata generator. But it also appears that for those not having constructors they can only be accessed
-// through read-only getters. So let's just hope this works well enough for now...
-var ctr_args = "";
-for (field_name in type.fields) {
-	var field_type = type.fields[field_name].type;
-	if (field_type == 'string') {
-		ctr_args =+ "\"\", ";
-	} else if (field_type == 'bool') {
-		ctr_args += "false, ";
-	} else {
-		// assume number for any other type.
-		ctr_args += "0, ";
-	}
-}
-ctr_args = ctr_args.substring(0, ctr_args.length - 2); 
 -%>
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");
 			auto object_<%= to_assign %> = static_cast<JSObject>(<%= argument_name %>);
+<%
+// For every other struct we've run into, assigning fields works fine
+// GridLength doesn't so we need to use the constructor
+if (type.name != 'Windows.UI.Xaml.GridLength') {
+-%>
 			::<%= type.name.to_windows_name() %> <%= to_assign %>;
 			// Assign fields explicitly since we didn't use a constructor
 <%
+}
+
+// Convert all the field values to native
 for (field_name in type.fields) {
 -%>
 			auto object_<%= to_assign %>_<%= field_name %> = object_<%= to_assign %>.GetProperty("<%= field_name %>");<%- include('js_to_native.cpp', {type:  type.fields[field_name].type, metadata: metadata, to_assign: 'object_' + to_assign + '_' + field_name + '_', argument_name: 'object_' + to_assign + '_' + field_name}) -%>
+<%
+	// assign the value to the struct field
+	if (type.name != 'Windows.UI.Xaml.GridLength') {
+-%>
 			<%= to_assign %>.<%= field_name %> = object_<%= to_assign %>_<%= field_name %>_;
+<%
+	}
+}
+
+// FIXME This is a hack to use constructor because fields are read-only. We should add constructor info to metadata!
+if (type.name == 'Windows.UI.Xaml.GridLength') {
+-%>
+			::<%= type.name.to_windows_name() %> <%= to_assign %>(object_<%= to_assign %>_Value_, object_<%= to_assign %>_GridUnitType_);
 <%
 }
 -%>
