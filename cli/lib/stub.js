@@ -458,10 +458,17 @@ function generateWrappers(dest, seeds, next) {
 		fs.readFile(cpp_file, 'utf8', function (err, data) {
 			if (err) callback(err);
 
-			var generated_proxy_impl = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends'], dependencies: classDefinition.dependencies}, {filename: cpp_file});
-			
+			var destFile = path.join(dest, 'src', classname + '.cpp'),
+				generated_proxy_impl = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends'], dependencies: classDefinition.dependencies}, {filename: cpp_file});
+			if (fs.existsSync(destFile)) {
+				if (fs.readFileSync(destFile).toString() == generated_proxy_impl) {
+					console.log("Natiev wrapper for " + classname + " unchanged, retaining existing file.");
+					callback();
+					return;
+				}
+			}
 			// TODO Only write new contents if they differ from existing!
-			fs.writeFile(path.join(dest, 'src', classname + '.cpp'), generated_proxy_impl, {flags : 'w'}, function(err) {
+			fs.writeFile(destFile, generated_proxy_impl, {flags : 'w'}, function(err) {
 				if (err) {
 					callback(err);
 				}
@@ -487,7 +494,8 @@ function generateCmakeList(dest, seeds, modules, next) {
 	fs.readFile(cmakelist_template, 'utf8', function (err, data) {
 		if (err) throw err;
 
-		var native_modules = [];
+		var native_modules = [],
+			contents = "";
 
 		for (var i = 0; i < modules.length; i++) {
 			var module = modules[i];
@@ -500,7 +508,15 @@ function generateCmakeList(dest, seeds, modules, next) {
 		}
 
 		data = ejs.render(data, {native_modules:native_modules }, {});
-
+		if (fs.existsSync(cmakelist)) {
+			contents = fs.readFileSync(cmakelist).toString();
+			if (contents == data) {
+				console.log("CMakeLists.txt contents unchanged, retaining existing file.");
+				next();
+				return;
+			}
+		}
+		
 		fs.writeFile(cmakelist, data, function(err) {
 			next(err);
 		});
