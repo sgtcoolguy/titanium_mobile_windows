@@ -17,8 +17,26 @@ var fs = require('fs'),
 	async = require('async'),
 	metadata = JSON.parse(fs.readFileSync(path.join(__dirname, 'hyperloop_windows_metabase.json.gz'))),
 	all_classes = metadata['classes'],
+	// The Metadata doesn't contain info on what APIs are specific to phone or store
+	// So for now, let's hard-code the ones we know
+	store_only_enums = [
+		'Windows.Storage.FileAttributes.LocallyIncomplete'
+	],
+	store_only_methods = {
+		'Windows.Storage.Search.StorageFileQueryResult': ['GetMatchingPropertiesWithRanges'],
+		'Windows.Storage.FileProperties.StorageItemThumbnail': ['Close'],
+		'Windows.Storage.StorageStreamTransaction': ['Close'],
+		'Windows.Storage.StreamedFileDataRequest': ['Close'],
+		'Windows.Storage.StorageFile': ['IsEqual'],
+		'Windows.Storage.StorageFolder': ['IsEqual']
+	},
+	store_only_properties = {
+		'Windows.Storage.Search.QueryOptions': ['StorageProviderIdFilter'],
+		'Windows.Storage.StorageFolder': ['Provider'],
+		'Windows.Storage.StorageFile': ['Provider', 'IsAvailable']
+	},
 	// We need to skip/map a number of collections to JSArray and JSObject
-	// We handle these types specially
+	// We handle these types specially in our conversions
 	blacklist = [
 		"object",
 		"Windows.Foundation.Collections.IIterable`1<T>",
@@ -33,17 +51,17 @@ var fs = require('fs'),
 		"Windows.Foundation.Collections.IMapChangedEventArgs`1<K>",
 		"Windows.Foundation.Collections.MapChangedEventHandler`2<K,V>",
 		"Windows.Foundation.Collections.IObservableMap`2<K,V>",
-		"Windows.Foundation.AsyncOperationWithProgressCompletedHandler`2<TResult,TProgress>",
-		"Windows.Foundation.IAsyncOperationWithProgress`2<TResult,TProgress>",
-		"Windows.Foundation.AsyncOperationCompletedHandler`1<TResult>",
-		"Windows.Foundation.IAsyncOperation`1<TResult>",
-		"Windows.Foundation.AsyncActionWithProgressCompletedHandler`1<TProgress>",
-		"Windows.Foundation.IAsyncActionWithProgress`1<TProgress>",
-		"Windows.Foundation.AsyncOperationProgressHandler`2<TResult,TProgress>",
-		"Windows.Foundation.AsyncActionProgressHandler`1<TProgress>",
+		"Windows.Foundation.AsyncOperationWithProgressCompletedHandler`2<K,V>",
+		"Windows.Foundation.IAsyncOperationWithProgress`2<K,V>",
+		"Windows.Foundation.AsyncOperationCompletedHandler`1<T>",
+		"Windows.Foundation.IAsyncOperation`1<T>",
+		"Windows.Foundation.AsyncActionWithProgressCompletedHandler`1<T>",
+		"Windows.Foundation.IAsyncActionWithProgress`1<T>",
+		"Windows.Foundation.AsyncOperationProgressHandler`2<K,V>",
+		"Windows.Foundation.AsyncActionProgressHandler`1<T>",
 		"Windows.Foundation.IReference`1<T>",
 		"Windows.Foundation.IReferenceArray`1<T>",
-		"Windows.Foundation.TypedEventHandler`2<TSender,TResult>",
+		"Windows.Foundation.TypedEventHandler`2<K,V>",
 		"Windows.Foundation.EventHandler`1<T>"
 	];
 
@@ -87,18 +105,25 @@ function normalizeType(typeName) {
 function expandTypes(typeName) {
 	var types = [],
 		type = typeName.trim(),
+		index = type.indexOf('`'), // index used to hold indexOf results
+		count = "", // number of templated args!
 		collectionName;
-	if (type.indexOf('`1<') != -1) {
-		collectionName = normalizeType(type.substring(0, type.indexOf('`1<')));
-		types.unshift(collectionName + '`1<T>');
-		types = types.concat(expandTypes(type.substring(type.indexOf('`1<') + 3, type.length - 1)));
-	} else if (type.indexOf('`2<') != -1) {
-		collectionName = normalizeType(type.substring(0, type.indexOf('`2<')));
-		types.unshift(collectionName + '`2<K,V>');
-		type = type.substring(type.indexOf('`2<') + 3, type.length - 1);
-		// split on ,!
-		types = types.concat(expandTypes(type.substring(0, type.indexOf(','))));
-		types = types.concat(expandTypes(type.substring(type.indexOf(',') + 1)));
+
+	if (index != -1) {
+		count = type.substring(index + 1, index + 2); // are there 1 or 2 templated args?
+		if (count == '1') {
+			collectionName = normalizeType(type.substring(0, index)); // grab the original type
+			types.unshift(collectionName + '`1<T>');
+			types = types.concat(expandTypes(type.substring(index + 3, type.length - 1))); // recurse into template arg
+		} else if (count == '2') {
+			collectionName = normalizeType(type.substring(0, index)); // grab the original type
+			types.unshift(collectionName + '`2<K,V>');
+			type = type.substring(index + 3, type.length - 1); // take the segment inside the template <>
+			// split on ','
+			index = type.indexOf(',');
+			types = types.concat(expandTypes(type.substring(0, index))); // recurse into first template arg
+			types = types.concat(expandTypes(type.substring(index + 1))); // recurse into second template arg
+		}
 	} else {
 		types.unshift(normalizeType(typeName));
 	}
@@ -117,14 +142,68 @@ function addNewTypes(rawTypeName, existingTypes) {
 		|| rawTypeName.indexOf('valuetype ') == 0) {
 		types = expandTypes(rawTypeName);
 		for (var i = 0; i < types.length; i++) {
-			// skip template names
-			if (types[i].indexOf("!") == 0) {
+			// skip template names, primitives
+			if (types[i].indexOf("!") == 0 || types[i] == 'bool' ||
+				types[i] == 'uint32' || types[i] == 'float64' || types[i] == 'string' ||
+				types[i] == 'Windows.Storage.StorageProvider') { // FIXME A Windows Store-only API!
 				continue;
 			}
 			if (existingTypes.indexOf(types[i]) == -1) {
 				existingTypes.unshift(types[i]);
 			}
 		}
+	}
+}
+
+/*
+ */
+function addEventPropertyTypes(addEventMethod, existingTypes) {
+	var handler_type_name = addEventMethod.args[0].type, // first arg type, should only be one arg
+		handler_type,
+		invoke_method,
+		event_type_name = "",
+		event_type;
+	// handle special common handler types:
+	if (handler_type_name.indexOf("Windows.Foundation.EventHandler`1") != -1) {
+		event_type_name = expandTypes(handler_type_name)[1];
+	} else if (handler_type_name.indexOf("Windows.Foundation.TypedEventHandler`2") != -1) {
+		event_type_name = expandTypes(handler_type_name)[2];
+	} else {
+		// Dedicated event handler delegate type
+		handler_type_name = normalizeType(handler_type_name);
+		handler_type = all_classes[handler_type_name]; // grab handler type from metadata
+		if (!handler_type) {
+			// Make this an error?
+			console.log("Unable to find metadata for: " + handler_type_name);
+			return;
+		}
+
+		// Find the Invoke method in handler_type.methods!
+		// FIXME Use nicer JS to find it!
+		for (var i = 0; i < handler_type.methods.length; i++) {
+			var method = handler_type.methods[i];
+			if (method.name == "Invoke") {
+				invoke_method = method;
+				break;
+			}
+		}
+		// event is last argument
+		event_type_name = normalizeType(invoke_method.args[invoke_method.args.length - 1].type);
+	}
+
+	console.log("Determined event type to be: " + event_type_name);
+	// Pull the metadata for the actual event object
+	event_type = all_classes[event_type_name];
+	if (!event_type) {
+		// Make this an error?
+		console.log("Unable to find metadata for: " + event_type_name);
+		return;
+	}
+
+	// We need types for all the properties of the event! We don't need the event types because we flatten the event to attach all it's
+	// properties to our own event object
+	for (property_name in event_type.properties) {
+		addNewTypes(event_type.properties[property_name].returnType, existingTypes);
 	}
 }
 
@@ -156,6 +235,11 @@ function getDependencies(classname) {
 		method;
 	// check property types
 	for (property_name in classDefinition.properties) {
+		// FIXME StorageProvider is a Windows Store only API, but we don't have anything in the metadata to let us know, nor have I figured out how to guard it to store apps only for now.
+		if (property_name == 'Provider' && classname.indexOf('StorageFile') != -1) {
+			continue;
+		}
+
 		prop = classDefinition.properties[property_name];
 		addNewTypes(prop.returnType, types);
 	}
@@ -163,15 +247,21 @@ function getDependencies(classname) {
 	if (classDefinition.methods) {
 		for (var i = 0; i < classDefinition.methods.length; i++) {
 			method = classDefinition.methods[i];
-			// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
+
+			// Skip if method starts with get_, put_ (properties), remove_ (events)
 			if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
-				method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
-				method.name == '.ctor') {
+				method.name.indexOf('remove_') == 0 || method.name == '.ctor') {
 					continue;
 			}
 
 			// Skip non-public methods
 			if (method.attributes.indexOf("public") == -1) {
+				continue;
+			}
+
+			// Handle event handlers specially!
+			if (method.name.indexOf('add_') == 0) {
+				addEventPropertyTypes(method, types);
 				continue;
 			}
 
@@ -232,6 +322,23 @@ function initialize(seeds, next) {
 	seeds = seeds.filter(function(elem, pos) {
 		return seeds.indexOf(elem) == pos;
 	});
+
+	// Adjust the metadata to mark certain methods and properties as store-only! 
+	for (class_name in store_only_methods) {
+		var methods = all_classes[class_name].methods;
+		var store_methods = store_only_methods[class_name];
+		for (var i = 0; i < methods.length; i++) {
+			if (store_methods.indexOf(methods[i].name) != -1) {
+				methods[i]['api'] = 'store';
+			}
+		}
+	}
+	for (class_name in store_only_properties) {
+		var props = store_only_properties[class_name];
+		for (var i = 0; i < props.length; i++) {
+			all_classes[class_name].properties[props[i]]['api'] = 'store';
+		}
+	}
 
 	// Using the seeds, generate the list of types we need to stub!
 	// We've specified seed types, use those to gather the full list of types we'll need to generate
@@ -447,28 +554,31 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
 
 			classes += "#include \"" + classname + ".hpp\"\r\n";
 			loader_switch += "\t\telse if (path == \"" + classname + "\") {\r\n\t\t\tinstantiated = context.CreateObject(JSExport<::Titanium::" + classname.replace(/\./g, '::') + ">::Class());\r\n";
-			
-			// FIXME if we have no enum dependencies, our parents/ancestors still might!
+
 			// Load up enum dependencies!
 			// Add dependencies of current type
 			enum_dependencies = getEnumDependencies(classname, all_classes) || [];
-			//if (enum_dependencies && enum_dependencies.length > 0) {
-				enum_loader += "\t\telse if (type_name == \"" + classname + "\") {\r\n";
-				// Call registerEnums for parent type too
-				if (classDefinition['extends'] &&
-					classDefinition['extends'].indexOf('[mscorlib]') == -1) {
-					enum_loader += "\t\t\tregisterEnums(context, \"" + classDefinition['extends'] + "\");\r\n";
+			enum_loader += "\t\telse if (type_name == \"" + classname + "\") {\r\n";
+			// Call registerEnums for parent type too
+			if (classDefinition['extends'] &&
+				classDefinition['extends'].indexOf('[mscorlib]') == -1) {
+				enum_loader += "\t\t\tregisterEnums(context, \"" + classDefinition['extends'] + "\");\r\n";
+			}
+			for (var j = 0; j < enum_dependencies.length; j++) {
+				dependency = enum_dependencies[j];
+			
+				// hook the value up
+				if (store_only_enums.indexOf(dependency) != -1) {
+					enum_loader += "#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP\r\n";
 				}
-				for (var j = 0; j < enum_dependencies.length; j++) {
-					dependency = enum_dependencies[j];
-				
-					// hook the value up
-					// TODO make use of native_to_js.cpp ejs template for this?
-					enum_loader += "\t\t\tregisterValue(context, \"" + dependency + "\", context.CreateNumber(static_cast<int32_t>(static_cast<int>(::" + dependency.replace(/\./g, '::') + "))));\r\n";		
+				// TODO make use of native_to_js.cpp ejs template for this?
+				enum_loader += "\t\t\tregisterValue(context, \"" + dependency + "\", context.CreateNumber(static_cast<int32_t>(static_cast<int>(::" + dependency.replace(/\./g, '::') + "))));\r\n";		
+				if (store_only_enums.indexOf(dependency) != -1) {
+					enum_loader += "#endif\r\n";
 				}
-				enum_loader += "\t\t}\r\n";
-				loader_switch += "\t\t\tregisterEnums(context, path);\r\n";
-			//}
+			}
+			enum_loader += "\t\t}\r\n";
+			loader_switch += "\t\t\tregisterEnums(context, path);\r\n";
 			loader_switch += "\t\t}\r\n";
 		}
 		loader_switch += "\t\telse {\r\n\t\t\treturn context.CreateUndefined();\r\n\t\t}\r\n\t\t// END_SWITCH";

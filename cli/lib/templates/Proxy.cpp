@@ -30,6 +30,15 @@ if (methods) {
 		if (method.attributes.indexOf("public") == -1) {
 			continue;
 		}
+		// For now skip store only methods
+		// FIXME Guard with #ifdef!
+		if (method.api && method.api == 'store') {
+			continue;
+		}
+		// skip methods return async ops until we implement a Promise equivalent wrapper
+		if (method.returnType.indexOf('.IAsync') != -1) {
+			continue;
+		}
 
 		// Combine overloaded methods...
 		overloads = unique_methods[method.name] || [];
@@ -85,6 +94,7 @@ for (var i = 0; i < types_to_include.length; i++) {
 <%
 }
 -%>
+#include <collection.h>
 
 <% for (var i = 0; i < namespaces.length - 1; i++) { -%>
 <%= Array(i + 1).join('\t') %>namespace <%= namespaces[i] %>
@@ -173,6 +183,12 @@ if (unique_methods['.ctor']) {
 <%
 // properties
 for (property_name in properties) {
+	// FIXME handle phone-only APIs!
+	if (properties[property_name].api && properties[property_name].api == 'store') {
+-%>
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+<%
+	}
 	if (properties[property_name]['setter']) {
 -%>
 			TITANIUM_ADD_PROPERTY(<%= base_name %>, <%= property_name %>);
@@ -181,6 +197,11 @@ for (property_name in properties) {
 -%>
 			TITANIUM_ADD_PROPERTY_READONLY(<%= base_name %>, <%= property_name %>);
 <%	}
+	if (properties[property_name].api) {
+-%>
+#endif
+<%
+	}
 }
 // Methods
 if (methods) {
@@ -188,9 +209,21 @@ if (methods) {
 		if (method_name == ".ctor" || method_name.indexOf('add_') == 0 || method_name.indexOf('remove_') == 0) {
 				continue;
 		}
+
+		// FIXME handle phone-only APIs!
+		if (unique_methods[method_name][0].api && unique_methods[method_name][0].api == 'store') {
+-%>
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+<%
+		}
 -%>
 			TITANIUM_ADD_FUNCTION(<%= base_name %>, <%= method_name %>);
 <%
+		if (unique_methods[method_name][0].api) {
+-%>
+#endif
+<%
+		}
 	}
 }
 -%>
@@ -198,12 +231,23 @@ if (methods) {
 
 <%
 for (property_name in properties) {
+	// FIXME handle phone-only APIs!
+	if (properties[property_name].api && properties[property_name].api == 'store') {
+-%>
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+<%
+	}
 	if (properties[property_name]['setter']) { -%>
 <%- include('setter.cpp', {base_name: base_name}) %>
 <%  
 	} -%>
 <%- include('getter.cpp', {base_name: base_name}) %>
-<% 
+<%
+	if (properties[property_name].api) {
+-%>
+#endif
+<%
+	}
 } // End Properties
 // Methods
 if (methods) {

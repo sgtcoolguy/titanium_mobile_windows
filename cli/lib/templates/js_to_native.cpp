@@ -1,125 +1,66 @@
 <%
-// TODO uint64, single, char16
-if (type == 'bool') {
--%> 
-			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsBoolean(), "Expected boolean");
-			auto <%= to_assign %> = static_cast<bool>(<%= argument_name %>);
-<%
-} else if (type == 'int32' || type == 'int16' || type == 'int') {
--%> 
-			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
-			auto <%= to_assign %> = static_cast<int32_t>(<%= argument_name %>);
-<%
-} else if (type == 'uint32' || type == 'uint16' || type == 'uint8') {
--%> 
-			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
-			auto <%= to_assign %> = static_cast<uint32_t>(<%= argument_name %>);
-<%
-} else if (type == 'double') {
--%> 
-			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
-			auto <%= to_assign %> = static_cast<double>(<%= argument_name %>);
-<%
-} else if (type == 'int64') {
--%> 
-			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
-			auto <%= to_assign %> = static_cast<int64>(static_cast<double>(<%= argument_name %>));
-<%
-} else if (type == 'float32' || type == 'float64') {
--%> 
-			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
-			auto <%= to_assign %> = static_cast<float>(static_cast<double>(<%= argument_name %>));
-<%
-} else if (type == 'string') {
--%> 
-			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsString(), "Expected String");
-			auto <%= to_assign %> = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(<%= argument_name %>));
-<%
-} else if (type.indexOf('valuetype ') == 0) {
-	// FIXME Handle primitive arrays of structs!
-	var real_type_name = type.substring(10).trim();
-	// May ask for reference to a type as an argument to a method, so let's drop the trailing & for now.
-	if (real_type_name.lastIndexOf('&') == real_type_name.length - 1) {
-		real_type_name = real_type_name.substring(0, real_type_name.length - 1);
-	}
-	var other_type = metadata[real_type_name];
-	if (!other_type) {
-		console.log("No metadata found for: " + real_type_name); // useful to know what type we need to pull into our stripped down metadata
-	}
-	var is_enum = (other_type && other_type.extends == '[mscorlib]System.Enum');
-	var is_struct = (other_type && other_type.extends == '[mscorlib]System.ValueType');
-	var windows_type_name = real_type_name.to_windows_name();
+// This expects:
+// to_assign: the name of the native variable to assign the resulting object to
+// type: the name of the type we're converting
+// metadata: pointer to the full metadata
+// argument_name: the name of the JS variable we're converting from
 
-	if (is_struct) {
-		// here we generate constructor args.
-		// FIXME the matadata gives no indication if the struct has a constructor or not, or the arg order. So I don't think this will work properly!
-		// Looks like we'll need to improve the metadata generator. But it also appears that for those not having constructors they can only be accessed
-		// through read-only getters. So let's just hope this works well enough for now...
-		var ctr_args = "";
-		for (field_name in other_type.fields) {
-			var field_type = other_type.fields[field_name].type;
-			if (field_type == 'string') {
-				ctr_args =+ "\"\", ";
-			} else if (field_type == 'bool') {
-				ctr_args += "false, ";
-			} else {
-				// assume number for any other type.
-				ctr_args += "0, ";
-			}
-		}
-		ctr_args = ctr_args.substring(0, ctr_args.length - 2); 
+// This is the metho which determines which specific sub-template should be used for this type conversion.
+// Is it a primitive? enum? struct? guid? class of some sort?
+
+type = type.trim(); // strip off extra space
+
+if (type == '' || type == 'object') {
+	type = 'Platform.Object';
 -%>
-			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");
-			auto object_<%= to_assign %> = static_cast<JSObject>(<%= argument_name %>);
-			::<%= windows_type_name %> <%= to_assign %>;
-			// Assign fields explicitly since we didn't use a constructor
+<%- include('js_to_native_class.cpp', {type: type, metadata: metadata, to_assign: to_assign, argument_name: argument_name}) -%>
 <%
-		for (field_name in other_type.fields) {
+}
+else if (type.indexOf('class ') == 0) {
+	type = type.substring(6); // strip off leading 'class '
 -%>
-			auto object_<%= to_assign %>_<%= field_name %> = object_<%= to_assign %>.GetProperty("<%= field_name %>");<%- include('js_to_native.cpp', {type:  other_type.fields[field_name].type, metadata: metadata, to_assign: 'object_' + to_assign + '_' + field_name + '_', argument_name: 'object_' + to_assign + '_' + field_name}) -%>
-			<%= to_assign %>.<%= field_name %> = object_<%= to_assign %>_<%= field_name %>_;
+<%- include('js_to_native_class.cpp', {type: type, metadata: metadata, to_assign: to_assign, argument_name: argument_name}) -%>
 <%
-		}
-	} else if (is_enum) {
+}
+// TODO Any other primitive types?
+else if (type == 'bool' || type == 'int32' || type == 'uint32' || 
+		type == 'double' || type == 'uint16' || type == 'uint8' ||
+		type == 'int16' || type == 'int' || type == 'string' ||
+		type == 'float32' || type == 'float64' || type == 'int64' ||
+		type == 'int64' || type == 'uint64' || type == 'single' ||
+		type == 'char16' || type == 'Platform.String') {
 -%>
-			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
-			auto <%= to_assign %> = static_cast<::<%= real_type_name.replace(/\./g, '::') %>>(static_cast<int32_t>(<%= argument_name %>)); // TODO Look up enum in metadata to know what type it's value is? 
+<%- include('js_to_native_primitive.cpp', {to_assign: to_assign, argument_name: argument_name}) -%>
 <%
-	} else {
-		// Has to be struct or enum or we have an issue!
-		console.log("Got a valuetype that is neither struct nor enum: " + real_type_name);
-	}
 } else {
-	//	It's a class. Assume we have a JSObject wrapping a native impl
-	var full_type_name = type.trim().replace(/\./g, '::');
-	if (full_type_name.indexOf('class ') == 0) {
-		full_type_name = full_type_name.substring(6);
+	// may start with 'valuetype '
+	if (type.indexOf('valuetype ') == 0) {
+		type = type.substring(10).trim(); // strip off leading 'valuetype '
 	}
-	if (full_type_name == 'object' || full_type_name == '') {
-		full_type_name = 'Platform::Object';
+
+	// Now look it up in the metadata
+	var type_definition = metadata[type];
+	if (!type_definition) {
+		// FIXME If we see it's a complex type, don't spit out this warning? i.e. Windows.Foundation.Collections.IKeyValuePair`2<object,object>
+		console.log("No metadata found for: " + type); // useful to know what type we need to pull into our stripped down metadata
 	}
+	if (type_definition && type_definition.extends == '[mscorlib]System.Enum')
+	{
 -%>
-			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");
-			auto object_<%= to_assign %> = static_cast<JSObject>(<%= argument_name %>);
+<%- include('js_to_native_enum.cpp', {to_assign: to_assign, argument_name: argument_name}) -%>
 <%
-	if (full_type_name.indexOf('[]') == full_type_name.length - 2) {
-		// Strip off the [], then proceed knowing it's an array...
-		full_type_name = full_type_name.substring(0, full_type_name.length - 2);
+	}
+	else if (type_definition && type_definition.extends == '[mscorlib]System.ValueType') {
 -%>
-			TITANIUM_ASSERT(object_<%= to_assign %>.IsArray());
-			const auto array_<%= to_assign %> = static_cast<JSArray>(object_<%= to_assign %>);
-			auto items_<%= to_assign %> = array_<%= to_assign %>.GetPrivateItems<<%= full_type_name %>>(); // std::vector<std::shared_ptr<<%= full_type_name %>>
-			auto <%= to_assign %> = ref new ::Platform::Array<::<%= full_type_name %>^>(items_<%= to_assign %>.size());
-			for (size_t i = 0; i < items_<%= to_assign %>.size(); ++i) {
-				items[i] = items_<%= to_assign %>.at(i)->unwrap<%= full_type_name.replace(/::/g, '_') %>();
-			}
+<%- include('js_to_native_struct.cpp', {type: type_definition, metadata: metadata, to_assign: to_assign, argument_name: argument_name}) -%>
 <%
+	}
+	else if (type_definition && type_definition.extends == '[mscorlib]System.Guid') {
+		console.log("We don't know how to handle Guid yet!")
 	} else {
--%> 
-			auto wrapper_<%= to_assign %> = object_<%= to_assign %>.GetPrivate<<%= full_type_name %>>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
-			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto <%= to_assign %> = wrapper_<%= to_assign %>->unwrap<%= full_type_name.replace(/::/g, '_') %>();
+		// assume class!
+-%>
+<%- include('js_to_native_class.cpp', {type: type, metadata: metadata, to_assign: to_assign, argument_name: argument_name}) -%>
 <%
 	}
 }

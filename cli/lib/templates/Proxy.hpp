@@ -55,13 +55,23 @@ if (parent_name == 'Module') { -%>
 		public:
 <%
 for (property_name in properties) {
-	// FIXME There _are_ such things as protected properties! See Windows::UI::Xaml::Controls::Control::DefaultStyleKey. We need to skip these!
+	// FIXME Handle phone-only APIs
+	if (properties[property_name].api && properties[property_name].api == 'store') {
+-%>
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+<%
+	}
 	if (properties[property_name]['setter']) { -%>
 			TITANIUM_PROPERTY_DEF(<%= property_name %>);
 <%
 	} else {
 -%>
 			TITANIUM_PROPERTY_READONLY_DEF(<%= property_name %>);
+<%
+	}
+	if (properties[property_name].api) {
+-%>
+#endif
 <%
 	}
 }
@@ -81,14 +91,30 @@ if (methods) {
 		if (method.attributes.indexOf("public") == -1) {
 			continue;
 		}
+		// FIXME skip methods return async ops until we implement a Promise equivalent wrapper
+		if (method.returnType.indexOf('.IAsync') != -1) {
+			continue;
+		}
+		// FIXME What if there are multiple overloads but only _some_ of them are specific to one platform?
 		// Guard against overloaded methods, we'll have to handle each variation in one JS bridge method in cpp
 		if (unique_methods.indexOf(method.name) != -1) {
 			continue;
 		}
 		unique_methods.unshift(method.name);
+		// FIXME Handle phone-only APIs!
+		if (method.api && method.api == 'store') {
+-%>
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+<%
+		}
 -%>
 			TITANIUM_FUNCTION_DEF(<%= method.name %>);
 <%
+		if (method.api) {
+-%>
+#endif
+<%
+		}
 	}
 }
 -%>

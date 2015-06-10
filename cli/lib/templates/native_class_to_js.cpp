@@ -8,16 +8,28 @@
 //	It's a class. Let's wrap the native item in our native wrapper for the defined type
 type = type.trim();
 //console.log(type);
-// TODO How do we handle other possible templated types like the Async stuff?
 
-if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
+// FIXME We need some way to handle IAsyncOperation! WinJS uses: https://msdn.microsoft.com/en-us/library/windows/apps/br211867.aspx
+// Basically we need a mechanism to hang a done callback function which receives the result!
+
+if (type.indexOf('Windows.Foundation.IReference`1') == 0) {
+	type = type.substring(type.indexOf('`1<') + 3, type.length - 1);
+-%>
+		JSValue <%= to_assign %> = context.CreateNull();
+		if (<%- argument_name %> != nullptr) {
+			<%- include('native_to_js.cpp', {type: type, metadata: metadata, to_assign: argument_name + '_maybe', argument_name: argument_name + '->Value' }) -%>		
+			<%= to_assign %> = <%- argument_name %>_maybe;
+		}
+<%
+}
+else if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 	// Strip off the [], then proceed knowing it's an array...
 	type = type.substring(0, type.length - 2);
 -%>
 			std::vector<JSValue> <%= to_assign %>_vector;
 			for (size_t i = 0; i < <%- argument_name %>->Length; ++i) {
-				<%- include('native_class_to_js.cpp', {type: type, metadata: metadata, to_assign: argument_name + '_tmp', argument_name: argument_name + '[i]' }) -%>		
-        		<%= to_assign %>_vector.push_back(<%- argument_name %>_tmp);
+				<%- include('native_class_to_js.cpp', {type: type, metadata: metadata, to_assign: argument_name + '_tmp', argument_name: argument_name + '[i]' }) -%>
+				<%= to_assign %>_vector.push_back(<%- argument_name %>_tmp);
 			}
 
 			auto <%= to_assign %> = get_context().CreateArray(<%= to_assign %>_vector);
@@ -28,8 +40,9 @@ if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 -%>
 			std::vector<JSValue> <%= to_assign %>_vector;
 			for (uint32_t i = 0; i < <%= argument_name %>->Size; ++i) {
-				<%- include('native_to_js.cpp', {type: type, metadata: metadata, to_assign: argument_name + '_tmp', argument_name: argument_name + '->GetAt(i)' }) -%>
-        		<%= to_assign %>_vector.push_back(<%= argument_name %>_tmp);
+				auto current = <%- argument_name %>->GetAt(i);
+				<%- include('native_to_js.cpp', {type: type, metadata: metadata, to_assign: argument_name + '_tmp', argument_name: 'current' }) -%>
+				<%= to_assign %>_vector.push_back(<%= argument_name %>_tmp);
 			}
 
 			auto <%= to_assign %> = get_context().CreateArray(<%= to_assign %>_vector);
@@ -41,8 +54,8 @@ if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 			std::vector<JSValue> <%= to_assign %>_vector;
 			while (<%- argument_name %>->HasCurrent) {
 				<%- include('native_to_js.cpp', {type: type, metadata: metadata, to_assign: argument_name + '_tmp', argument_name: argument_name + '->Current' }) -%>
-        		<%= to_assign %>_vector.push_back(<%- argument_name %>_tmp);
-        		<%- argument_name %>->MoveNext();
+				<%= to_assign %>_vector.push_back(<%- argument_name %>_tmp);
+				<%- argument_name %>->MoveNext();
 			}
 
 			auto <%= to_assign %> = get_context().CreateArray(<%= to_assign %>_vector);
@@ -67,8 +80,8 @@ if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 			auto <%= to_assign %> = context.CreateObject();
 			<%- include('native_to_js.cpp', {type: key_type_name, metadata: metadata, to_assign: to_assign + '_key_tmp', argument_name: argument_name + '->Key' }) -%>
 			<%- include('native_to_js.cpp', {type: value_type_name, metadata: metadata, to_assign: to_assign + '_value_tmp', argument_name: argument_name + '->Value' }) -%>
-        	<%= to_assign %>.SetProperty("key", <%= to_assign %>_key_tmp);
-        	<%= to_assign %>.SetProperty("value", <%= to_assign %>_value_tmp);
+			<%= to_assign %>.SetProperty("key", <%= to_assign %>_key_tmp);
+			<%= to_assign %>.SetProperty("value", <%= to_assign %>_value_tmp);
 <%
 } else if (type.indexOf('.IMap') != -1) { // IMap/IMapView
 	// Pull out the internal types for key and value!

@@ -1,3 +1,10 @@
+<%
+if (methods[0].api && methods[0].api == 'store') {
+-%>
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+<%
+}
+-%>
 		TITANIUM_FUNCTION(<%= base_name %>, <%= methods[0].name %>)
 		{
 			auto context = get_context();
@@ -53,7 +60,7 @@ for (var i = 0; i < methods.length; i++) {
 	// Now invoke the method and return the result!
 	if (method.returnType == 'void') {
 -%>
-				<%- receiver %><%= method.name %>(<%= arguments %>);
+				<%- receiver %><%= method.name %>(<%- arguments %>);
 				return context.CreateUndefined(); 
 <%
 	} else {
@@ -91,3 +98,10 @@ for (var i = 0; i < methods.length; i++) {
 			TITANIUM_LOG_DEBUG("No method signature matched <%= base_name %>::<%= methods[0].name %> with # of args: ", arguments.size());
 			return context.CreateUndefined(); 
 		}
+<%
+if (methods[0].api) {
+-%>
+#endif
+<%
+}
+-%>
