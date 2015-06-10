@@ -23,6 +23,10 @@ const
 
 exports.cliVersion = '>=3.2.1';
 
+function sanitizeProjectName(str) {
+	return str.replace(/[^a-zA-Z0-9_]/g, '_').replace(/_+/g, '_').split(/[\W_]/).map(function (s) { return appc.string.capitalize(s); }).join('');
+}
+
 exports.init = function (logger, config, cli) {
 	var emuHandle,
 		emuInstall,
@@ -190,9 +194,9 @@ exports.init = function (logger, config, cli) {
 
 				var tiapp = builder.tiapp,
 					// name of the directory holding appx and dependencies subfolder
-					dirName = tiapp.name + '_1.1.0.0' + ((builder.buildConfiguration == 'Debug') ? '_Debug_Test' : '_Test');
+					dirName = sanitizeProjectName(tiapp.name) + '_1.1.0.0' + ((builder.buildConfiguration == 'Debug') ? '_Debug_Test' : '_Test');
 					// path to folder holding appx
-					appxDir = path.resolve(builder.cmakeTargetDir, 'AppPackages', tiapp.name, dirName),
+					appxDir = path.resolve(builder.cmakeTargetDir, 'AppPackages', sanitizeProjectName(tiapp.name), dirName),
 					// path to folder holding depencies of the app
 					dependenciesDir = path.resolve(appxDir, 'Dependencies', (builder.cmakeArch == 'Win32') ? 'x86' : builder.cmakeArch),
 					// Options for installing app
