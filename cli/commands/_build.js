@@ -1755,7 +1755,13 @@ WindowsBuilder.prototype.compileApp = function compileApp(next) {
 			'&&', 'MSBuild', '/m', '/t:rebuild', '/p:Platform=' + _t.cmakeArch, '/p:Configuration=' + _t.buildConfiguration, slnFile
 		]);
 		p.stdout.on('data', function (data) {
-  			_t.logger.info(data.toString().trim());
+			var line = data.toString().trim();
+			if (line.indexOf(':\\') === -1) {
+				_t.logger.debug(line);
+			}
+			else {
+				_t.logger.trace(line);
+			}
 		});
 		p.stderr.on('data', function (data) {
   			_t.logger.warn(data.toString().trim());
