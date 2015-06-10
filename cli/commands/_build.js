@@ -1820,7 +1820,9 @@ WindowsBuilder.prototype.copyResultsToProject = function copyResultsToProject(ne
 		// make sure destination exists
 		fs.existsSync(this.originalBuildDir) || wrench.mkdirSyncRecursive(this.originalBuildDir);
 		// Now copy this.buildDir into this.originalBuildDir
-		wrench.copyDirSyncRecursive(this.buildDir, this.originalBuildDir);
+		wrench.copyDirSyncRecursive(this.buildDir, this.originalBuildDir, {
+			forceDelete: true
+		});
 	}
 	next();
 };
