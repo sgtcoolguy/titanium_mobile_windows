@@ -39,15 +39,6 @@ exports.init = function (logger, config, cli) {
 					next();
 				},
 				function(next) {
-					logger.info('Creating CMake module config');
-					var config_template = fs.readFileSync(path.join(cmakeFindDirDst, 'CustomModule_Config.cmake'), 'utf-8'),
-						projectName = data.id.replace(/\./g,'_');
-
-					var config_content = ejs.render(config_template, {projectName:projectName, moduleName:data.id}, {});
-					fs.writeFileSync(path.join(cmakeFindDirDst, projectName+'_Config.cmake'), config_content);
-					next();
-				},
-				function(next) {
 					logger.info('Generating WindowsPhone ARM project');
 					runCMake(logger, cmake, projectDir, 'WindowsPhone', 'ARM', next);
 				},

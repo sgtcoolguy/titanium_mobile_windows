@@ -399,7 +399,7 @@ function generateCmakeList(dest, seeds, modules, next) {
 
 		for (var i = 0; i < modules.length; i++) {
 			var module = modules[i],
-				projectname = module.manifest.projectname ? module.manifest.projectname : module.manifest.name;
+				projectname = module.manifest.moduleIdAsIdentifier;
 			if (module.manifest.platform == "windows") {
 				native_modules.push({
 					projectname:projectname,
@@ -510,7 +510,7 @@ function getCppClassForModule(moduleId) {
 	for (var i = 0; i < ids.length; i++) {
 		names.push(capitalize(ids[i]));
 	}
-	return names.join('::');
+	return names.length > 0 ? names.join('::') : capitalize(moduleId);
 }
 
 /**
@@ -537,7 +537,7 @@ function generateRequireHook(dest, seeds, modules, next) {
 			var module = modules[i],
 				classname = module.manifest.classname ? module.manifest.classname : getCppClassForModule(module.manifest.moduleid);
 			if (module.manifest.platform == "windows") {
-				native_module_includes.push(module.manifest.moduleid + ".hpp");
+				native_module_includes.push(module.manifest.moduleIdAsIdentifier + ".hpp");
 				native_modules.push({
 					name:module.manifest.moduleid,
 					className:classname,

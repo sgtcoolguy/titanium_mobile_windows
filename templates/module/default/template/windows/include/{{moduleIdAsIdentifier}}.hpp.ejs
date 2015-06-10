@@ -10,21 +10,19 @@
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
-var projectName = moduleName.replace(/\./g, '_');
-var MODULE_NAME = projectName.toUpperCase();
+var MODULE_NAME = moduleIdAsIdentifier.toUpperCase();
 -%>
 
 #ifndef _<%- MODULE_NAME %>_HPP_
 #define _<%- MODULE_NAME %>_HPP_
 
-#include "<%- projectName %>_EXPORT.h"
+#include "<%- moduleIdAsIdentifier %>_EXPORT.h"
 #include "Titanium/detail/TiBase.hpp"
 
 <%
   var namespaces = moduleId.split('.'),
       indent = Array(namespaces.length-1).join('\t'),
-      className = moduleName;
+      className = moduleIdAsIdentifier;
   for(var i = 0; i < namespaces.length; i++) {
     if (i < namespaces.length - 1) { -%>
 <%-   Array(i+1).join('\t') %>namespace <%- capitalize(namespaces[i]) %>
