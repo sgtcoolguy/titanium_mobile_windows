@@ -510,7 +510,7 @@ function getCppClassForModule(moduleId) {
 	for (var i = 0; i < ids.length; i++) {
 		names.push(capitalize(ids[i]));
 	}
-	return names.join('::');
+	return names.length > 0 ? names.join('::') : capitalize(moduleId);
 }
 
 /**

@@ -11,7 +11,7 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-var projectName = moduleName.replace(/\./g, '_');
+var projectName = moduleId.replace(/\./g, '_');
 var MODULE_NAME = projectName.toUpperCase();
 -%>
 
@@ -24,7 +24,7 @@ var MODULE_NAME = projectName.toUpperCase();
 <%
   var namespaces = moduleId.split('.'),
       indent = Array(namespaces.length-1).join('\t'),
-      className = moduleName;
+      className = capitalize(moduleId);
   for(var i = 0; i < namespaces.length; i++) {
     if (i < namespaces.length - 1) { -%>
 <%-   Array(i+1).join('\t') %>namespace <%- capitalize(namespaces[i]) %>

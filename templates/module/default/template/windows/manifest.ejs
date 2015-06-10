@@ -3,10 +3,6 @@
 # during compilation, packaging, distribution, etc.
 #
 
-<%
-var projectName = moduleName.replace(/\./g, '_');
--%>
-
 version: 1.0.0
 apiversion: 2
 architectures: ARM x86
@@ -16,7 +12,7 @@ license: Specify your license
 copyright: Copyright (c) <%- (new Date).getFullYear() %> by <%- publisher %>
 
 # these should not be edited
-name: <%- projectName %>
+name: <%- moduleName %>
 moduleid: <%- moduleId %>
 guid: <%- guid %>
 platform: <%- platform %>

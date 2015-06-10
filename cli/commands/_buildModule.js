@@ -174,7 +174,7 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 	async.eachSeries(types, function(type, next_type) {
 		async.eachSeries(archs, function(arch, next_arch) {
 			var architecture = vs_architectures[arch];
-			build(path.resolve(_t.projectDir, type+'.'+architecture, _t.manifest.name+'.sln'), configuration, architecture, next_arch);
+			build(path.resolve(_t.projectDir, type+'.'+architecture, _t.manifest.moduleid.replace(/\./g,'_')+'.sln'), configuration, architecture, next_arch);
 		}, function(err) {
 			if (err) {
 				throw err;
@@ -230,6 +230,7 @@ function walkdir(dirpath, base, callback) {
 WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 	var buildDir = path.join(this.projectDir, 'build'),
 		moduleDir = path.join(buildDir, this.manifest.moduleid, this.manifest.version),
+		projectname = this.manifest.projectname ? this.manifest.projectname : this.manifest.moduleid.replace(/\./g,'_'),
 		_t = this;
 
 	// empty any existing module directory
@@ -258,8 +259,8 @@ WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 				return;
 			}
 
-			var moduleSrc = path.join(moduleProjectDir, configuration, _t.manifest.name),
-				moduleDst = path.join(moduleDir, typesMin[index], arch, _t.manifest.name);
+			var moduleSrc = path.join(moduleProjectDir, configuration, projectname),
+				moduleDst = path.join(moduleDir, typesMin[index], arch, projectname);
 
 			// create module directory
 			wrench.mkdirSyncRecursive(path.join(moduleDir, typesMin[index], arch));
@@ -274,7 +275,7 @@ WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 			fs.createReadStream(moduleSrc+'.lib').pipe(fs.createWriteStream(moduleDst+'.lib'));
 
 			// copy one of export.hpp
-			var export_file     = _t.manifest.name+'_export.h',
+			var export_file     = projectname+'_export.h',
 				export_hpp_from = path.join(moduleProjectDir, export_file),
 				export_hpp_to   = path.join(moduleDir, 'include', export_file);
 			if (!fs.existsSync(export_hpp_to)) {

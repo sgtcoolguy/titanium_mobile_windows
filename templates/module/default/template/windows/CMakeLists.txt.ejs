@@ -1,11 +1,11 @@
-# Titanium Windows Native Module - <%- projectName %>
+# Titanium Windows Native Module - <%- moduleName %>
 #
 # Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
 # Licensed under the terms of the Apache Public License.
 # Please see the LICENSE included with this distribution for details.
 
 <%
-var projectName = moduleName.replace(/\./g,'_');
+var projectName = moduleId.replace(/\./g,'_');
 -%>
 
 cmake_minimum_required(VERSION 3.0.0)
@@ -50,8 +50,8 @@ find_package(JavaScriptCore REQUIRED)
 enable_testing()
 
 set(SOURCE_<%- projectName %>
-  include/<%- moduleName %>.hpp
-  src/<%- moduleName %>.cpp
+  include/<%- moduleId %>.hpp
+  src/<%- moduleId %>.cpp
   )
 
 source_group(<%- projectName %> FILES ${SOURCE_<%- projectName %>})

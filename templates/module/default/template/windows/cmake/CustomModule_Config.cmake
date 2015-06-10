@@ -8,4 +8,4 @@ include(CMakeFindDependencyMacro)
 find_dependency(HAL)
 find_dependency(TitaniumKit)
 
-include("${CMAKE_BINARY_DIR}/TitaniumWindows_<%- moduleName %>_Targets.cmake")
+include("${CMAKE_BINARY_DIR}/TitaniumWindows_<%- projectName %>_Targets.cmake")

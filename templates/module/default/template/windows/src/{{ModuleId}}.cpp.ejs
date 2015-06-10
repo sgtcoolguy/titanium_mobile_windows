@@ -5,7 +5,7 @@
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
-#include "<%- moduleName %>.hpp"
+#include "<%- moduleId %>.hpp"
 
 <%
   function capitalize(str) {
@@ -13,7 +13,7 @@
   }
   var namespaces = moduleId.split('.'),
       indent = Array(namespaces.length-1).join('\t'),
-      className = moduleName;
+      className = capitalize(moduleId);
   for(var i = 0; i < namespaces.length; i++) {
     if (i < namespaces.length - 1) { -%>
 <%-   Array(i+1).join('\t') %>namespace <%- capitalize(namespaces[i]) %>
