@@ -1645,7 +1645,7 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 			path.resolve(this.platformPath, 'templates', 'build', 'CMakeLists.txt.ejs')
 		).toString(),
 		{
-			projectName: this.cli.tiapp.name,
+			projectName: getCMakeProjectName(this.cli.tiapp.name),
 			windowsSrcDir: path.resolve(__dirname, '..', '..').replace(/\\/g, '/').replace(' ', '\\ '), // cmake likes unix separators
 			version: this.tiapp.version,
 			assets: assetList.join('\n'),
@@ -1700,6 +1700,10 @@ WindowsBuilder.prototype.runCmake = function runCmake(next) {
 	});
 };
 
+function getCMakeProjectName(str) {
+	return str.replace(/[^a-zA-Z0-9_]/g, '_').replace(/_+/g, '_').split(/[\W_]/).map(function (s) { return appc.string.capitalize(s); }).join('');
+}
+
 /**
  * Compiles the generated Visual Studio project.
  *
@@ -1707,8 +1711,9 @@ WindowsBuilder.prototype.runCmake = function runCmake(next) {
  */
 WindowsBuilder.prototype.compileApp = function compileApp(next) {
 	var _t = this;
-		slnFile = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.sln'),
-		vcxproj = path.resolve(this.cmakeTargetDir, this.cli.tiapp.name + '.vcxproj'),
+		cmakeProjectName = getCMakeProjectName(this.cli.tiapp.name),
+		slnFile = path.resolve(this.cmakeTargetDir, cmakeProjectName + '.sln'),
+		vcxproj = path.resolve(this.cmakeTargetDir, cmakeProjectName + '.vcxproj'),
 		nativeVcxProj = path.resolve(this.cmakeTargetDir, 'Native', 'TitaniumWindows_Native.vcxproj'),
 	this.logger.info(__('Running MSBuild on solution: %s', slnFile.cyan));
 
