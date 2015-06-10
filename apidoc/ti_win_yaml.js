@@ -86,6 +86,7 @@ function processClass(root, file, next) {
 				if (module_name == 'Titanium.GlobalObject') module_name = 'Global';
 				if (module_name == 'Titanium' && module == '') module_name = 'Titanium.Proxy';
 				if (module_name == 'Titanium.Ti') module_name = 'Titanium';
+				if (module_name == 'Titanium.UI.TwoDMatrix') module_name = 'Titanium.UI.2DMatrix';
 
 				if (isProperty || isPropertyRo) properties.push(name);
 				if (isMethod && name[0] != '_') methods.push(name);
