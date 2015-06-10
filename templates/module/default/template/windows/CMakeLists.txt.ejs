@@ -4,10 +4,6 @@
 # Licensed under the terms of the Apache Public License.
 # Please see the LICENSE included with this distribution for details.
 
-<%
-var projectName = moduleId.replace(/\./g,'_');
--%>
-
 cmake_minimum_required(VERSION 3.0.0)
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
@@ -19,9 +15,9 @@ else()
   message(FATAL_ERROR "This app supports Store / Phone only.")
 endif()
 
-project(<%- projectName %>)
+project(<%- moduleIdAsIdentifier %>)
 
-set(<%- projectName %>_VERSION 0.1.0)
+set(<%- moduleIdAsIdentifier %>_VERSION 0.1.0)
 
 set(WINDOWS_SOURCE_DIR "<%- tisdkPath.replace(/\\/g,'/') %>/windows")
 
@@ -31,7 +27,7 @@ SET(CMAKE_FIND_LIBRARY_SUFFIXES ".lib" ".dll")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
-option(<%- projectName %>_DISABLE_TESTS "Disable compiling the tests" OFF)
+option(<%- moduleIdAsIdentifier %>_DISABLE_TESTS "Disable compiling the tests" OFF)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -49,25 +45,25 @@ find_package(JavaScriptCore REQUIRED)
 
 enable_testing()
 
-set(SOURCE_<%- projectName %>
-  include/<%- moduleId %>.hpp
-  src/<%- moduleId %>.cpp
+set(SOURCE_<%- moduleIdAsIdentifier %>
+  include/<%- moduleIdAsIdentifier %>.hpp
+  src/<%- moduleIdAsIdentifier %>.cpp
   )
 
-source_group(<%- projectName %> FILES ${SOURCE_<%- projectName %>})
+source_group(<%- moduleIdAsIdentifier %> FILES ${SOURCE_<%- moduleIdAsIdentifier %>})
 
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
-add_library(<%- projectName %> SHARED
-  ${SOURCE_<%- projectName %>}
+add_library(<%- moduleIdAsIdentifier %> SHARED
+  ${SOURCE_<%- moduleIdAsIdentifier %>}
   )
 
 include(GenerateExportHeader)
-generate_export_header(<%- projectName %>)
-target_compile_definitions(<%- projectName %> PRIVATE <%- projectName %>_EXPORTS)
+generate_export_header(<%- moduleIdAsIdentifier %>)
+target_compile_definitions(<%- moduleIdAsIdentifier %> PRIVATE <%- moduleIdAsIdentifier %>_EXPORTS)
 
-target_include_directories(<%- projectName %> PUBLIC
+target_include_directories(<%- moduleIdAsIdentifier %> PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:HAL,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
@@ -75,50 +71,50 @@ target_include_directories(<%- projectName %> PUBLIC
   ${Boost_INCLUDE_DIRS}
   )
 
-target_link_libraries(<%- projectName %>
+target_link_libraries(<%- moduleIdAsIdentifier %>
   ${Boost_LIBRARIES}
   HAL
   TitaniumKit
   )
 
-set_target_properties(<%- projectName %> PROPERTIES VS_WINRT_COMPONENT TRUE)
+set_target_properties(<%- moduleIdAsIdentifier %> PROPERTIES VS_WINRT_COMPONENT TRUE)
 
-set_property(TARGET <%- projectName %> APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
+set_property(TARGET <%- moduleIdAsIdentifier %> APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
 
-if (NOT <%- projectName %>_DISABLE_TESTS)
+if (NOT <%- moduleIdAsIdentifier %>_DISABLE_TESTS)
   add_subdirectory(test)
 endif()
 
-set_property(TARGET <%- projectName %> PROPERTY VERSION ${<%- projectName %>_VERSION})
-set_property(TARGET <%- projectName %> PROPERTY SOVERSION 0)
-set_property(TARGET <%- projectName %> PROPERTY INTERFACE_<%- projectName %>_MAJOR_VERSION 0)
-set_property(TARGET <%- projectName %> APPEND PROPERTY
-  COMPATIBLE_INTERFACE_STRING <%- projectName %>_MAJOR_VERSION
+set_property(TARGET <%- moduleIdAsIdentifier %> PROPERTY VERSION ${<%- moduleIdAsIdentifier %>_VERSION})
+set_property(TARGET <%- moduleIdAsIdentifier %> PROPERTY SOVERSION 0)
+set_property(TARGET <%- moduleIdAsIdentifier %> PROPERTY INTERFACE_<%- moduleIdAsIdentifier %>_MAJOR_VERSION 0)
+set_property(TARGET <%- moduleIdAsIdentifier %> APPEND PROPERTY
+  COMPATIBLE_INTERFACE_STRING <%- moduleIdAsIdentifier %>_MAJOR_VERSION
   )
 
-install(TARGETS <%- projectName %> EXPORT <%- projectName %>_Targets
+install(TARGETS <%- moduleIdAsIdentifier %> EXPORT <%- moduleIdAsIdentifier %>_Targets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
   INCLUDES DESTINATION include
   )
 
-export(EXPORT <%- projectName %>_Targets
-  FILE "${CMAKE_BINARY_DIR}/<%- projectName %>_Targets.cmake"
+export(EXPORT <%- moduleIdAsIdentifier %>_Targets
+  FILE "${CMAKE_BINARY_DIR}/<%- moduleIdAsIdentifier %>_Targets.cmake"
 )
 
-configure_file(cmake/<%- projectName %>_Config.cmake
-  "${CMAKE_BINARY_DIR}/<%- projectName %>_Config.cmake"
+configure_file(cmake/<%- moduleIdAsIdentifier %>_Config.cmake
+  "${CMAKE_BINARY_DIR}/<%- moduleIdAsIdentifier %>_Config.cmake"
   COPYONLY
   )
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-  "${CMAKE_BINARY_DIR}/<%- projectName %>_ConfigVersion.cmake"
-  VERSION ${<%- projectName %>_VERSION}
+  "${CMAKE_BINARY_DIR}/<%- moduleIdAsIdentifier %>_ConfigVersion.cmake"
+  VERSION ${<%- moduleIdAsIdentifier %>_VERSION}
   COMPATIBILITY AnyNewerVersion
   )
 
-set_target_properties(<%- projectName %> PROPERTIES VS_WINRT_REFERENCES HAL)
+set_target_properties(<%- moduleIdAsIdentifier %> PROPERTIES VS_WINRT_REFERENCES HAL)
 
-export(PACKAGE <%- projectName %>)
+export(PACKAGE <%- moduleIdAsIdentifier %>)

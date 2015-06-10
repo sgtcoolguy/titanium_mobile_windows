@@ -174,7 +174,7 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 	async.eachSeries(types, function(type, next_type) {
 		async.eachSeries(archs, function(arch, next_arch) {
 			var architecture = vs_architectures[arch];
-			build(path.resolve(_t.projectDir, type+'.'+architecture, _t.manifest.moduleid.replace(/\./g,'_')+'.sln'), configuration, architecture, next_arch);
+			build(path.resolve(_t.projectDir, type+'.'+architecture, _t.manifest.moduleIdAsIdentifier+'.sln'), configuration, architecture, next_arch);
 		}, function(err) {
 			if (err) {
 				throw err;
@@ -230,7 +230,7 @@ function walkdir(dirpath, base, callback) {
 WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 	var buildDir = path.join(this.projectDir, 'build'),
 		moduleDir = path.join(buildDir, this.manifest.moduleid, this.manifest.version),
-		projectname = this.manifest.projectname ? this.manifest.projectname : this.manifest.moduleid.replace(/\./g,'_'),
+		projectname = this.manifest.moduleIdAsIdentifier,
 		_t = this;
 
 	// empty any existing module directory

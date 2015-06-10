@@ -1,4 +1,4 @@
-# Find<%= module.manifest.name %>
+# Find<%= module.manifest.moduleIdAsIdentifier %>
 # Author: <%= module.manifest.author %>
 #
 # Copyright (c) 2014 by Appcelerator, Inc. All Rights Reserved.
@@ -8,10 +8,6 @@
 # Author: <%= module.manifest.author %>
 # Created: <%= new Date().toDateString() %>
 
-<%
-var projectName = module.manifest.projectname ? module.manifest.projectname : module.manifest.moduleid.replace(/\./g,'_');
--%>
-
 if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
   set(PLATFORM phone)
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsStore")
@@ -20,22 +16,22 @@ else()
   message(FATAL_ERROR "This app supports Store / Phone only.")
 endif()
 
-set(<%= projectName %>_ARCH "x86")
+set(<%= module.manifest.moduleIdAsIdentifier %>_ARCH "x86")
 if(CMAKE_GENERATOR MATCHES "^Visual Studio .+ ARM$")
-  set(<%= projectName %>_ARCH "arm")
+  set(<%= module.manifest.moduleIdAsIdentifier %>_ARCH "arm")
 endif()
 
-# Create imported target <%= projectName %>
-add_library(<%= projectName %> SHARED IMPORTED)
+# Create imported target <%= module.manifest.moduleIdAsIdentifier %>
+add_library(<%= module.manifest.moduleIdAsIdentifier %> SHARED IMPORTED)
 
-set_target_properties(<%= projectName %> PROPERTIES
-  COMPATIBLE_INTERFACE_STRING "<%= projectName %>_MAJOR_VERSION"
+set_target_properties(<%= module.manifest.moduleIdAsIdentifier %> PROPERTIES
+  COMPATIBLE_INTERFACE_STRING "<%= module.manifest.moduleIdAsIdentifier %>_MAJOR_VERSION"
   INTERFACE_INCLUDE_DIRECTORIES "<%= module.path %>/include;$<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>"
   INTERFACE_LINK_LIBRARIES "TitaniumKit"
-  INTERFACE_<%= projectName %>_MAJOR_VERSION "0"
+  INTERFACE_<%= module.manifest.moduleIdAsIdentifier %>_MAJOR_VERSION "0"
 )
 
-set_target_properties(<%= projectName %> PROPERTIES
-  IMPORTED_IMPLIB "<%= module.path %>/${PLATFORM}/${<%= projectName %>_ARCH}/<%= projectName %>.lib"
-  IMPORTED_LOCATION "<%= module.path %>/${PLATFORM}/${<%= projectName %>_ARCH}/<%= projectName %>.dll"
+set_target_properties(<%= module.manifest.moduleIdAsIdentifier %> PROPERTIES
+  IMPORTED_IMPLIB "<%= module.path %>/${PLATFORM}/${<%= module.manifest.moduleIdAsIdentifier %>_ARCH}/<%= module.manifest.moduleIdAsIdentifier %>.lib"
+  IMPORTED_LOCATION "<%= module.path %>/${PLATFORM}/${<%= module.manifest.moduleIdAsIdentifier %>_ARCH}/<%= module.manifest.moduleIdAsIdentifier %>.dll"
   )
