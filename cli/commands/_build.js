@@ -1130,7 +1130,7 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 		fs.existsSync(d) || wrench.mkdirSyncRecursive(d);
 
 		if (fs.existsSync(to)) {
-			_t.logger.warn(__('Overwriting file %s', to.cyan));
+			_t.logger.debug(__('Overwriting file %s', to.cyan));
 		}
 
 		this.logger.debug(__('Copying %s => %s', from.cyan, to.cyan));
@@ -1546,6 +1546,7 @@ WindowsBuilder.prototype.generateI18N = function generateI18N(next) {
 WindowsBuilder.prototype.generateNativeWrappers = function generateNativeWrappers(next) {
 	this.logger.info(__('Generating Native Type Wrappers'));
 
+	nativeTypeGenerator.setLogger(this.logger);
 	nativeTypeGenerator.generate(path.join(this.buildDir, 'Native'), this.seeds, this.modules, next);
 };
 
@@ -1764,7 +1765,19 @@ WindowsBuilder.prototype.compileApp = function compileApp(next) {
 			'&&', 'MSBuild', '/m', '/t:rebuild', '/p:Platform=' + _t.cmakeArch, '/p:Configuration=' + _t.buildConfiguration, slnFile
 		]);
 		p.stdout.on('data', function (data) {
-  			_t.logger.info(data.toString().trim());
+			var line = data.toString().trim();
+			if (line.indexOf('error ') >= 0) {
+				_t.logger.warn(line);
+			}
+			else if (line.indexOf('warning ') >= 0) {
+				_t.logger.warn(line);
+			}
+			else if (line.indexOf(':\\') === -1) {
+				_t.logger.debug(line);
+			}
+			else {
+				_t.logger.trace(line);
+			}
 		});
 		p.stderr.on('data', function (data) {
   			_t.logger.warn(data.toString().trim());

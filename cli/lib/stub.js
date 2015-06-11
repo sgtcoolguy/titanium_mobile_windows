@@ -65,6 +65,11 @@ var fs = require('fs'),
 		"Windows.Foundation.EventHandler`1<T>"
 	];
 
+var logger;
+exports.setLogger = function(_logger) {
+	logger = _logger;
+};
+
 /**
  * Takes a type name string and tries to return just the basic type name,
  * handling common metadata issues, primtive arrays, prefixes, reference suffixes, etc.
@@ -216,7 +221,7 @@ function getDependencies(classname) {
 	var classDefinition = all_classes[classname],
 		types = [];
 	if (!classDefinition) {
-		console.log("Something went wrong. No metadata for type: " + classname);
+		logger.warn("Something went wrong. No metadata for type: " + classname);
 		return types;
 	}
 
@@ -348,14 +353,14 @@ function initialize(seeds, next) {
 	}
 	while (todo.length > 0) {
 		var classname = todo.shift();
-		console.log("Gathering dependencies of: " + classname);
+		logger.trace("Gathering dependencies of: " + classname);
 		var dependencies = getDependencies(classname);
 		// are there any new types here?
 		for (var j = 0; j < dependencies.length; j++) {
 			var the_dependency = dependencies[j];
 			if (seeds.indexOf(the_dependency) == -1) {
 				// new type. Add it to our seed listing and our queue to gather it's dependencies
-				console.log("Adding type to list: " + the_dependency);
+				logger.trace("Adding type to list: " + the_dependency);
 				seeds.unshift(the_dependency);
 				todo.unshift(the_dependency);
 			}
@@ -418,7 +423,7 @@ function generateWrappers(dest, seeds, next) {
 	// Now that we have the full list of types, let's stub them
 	async.eachLimit(seeds, 25, function(classname, callback) {
 		var classDefinition = all_classes[classname];
-		console.log('Generating stubs for: ' + classname);
+		logger.info('Generating stubs for: ' + classname);
 
 		// Skip blacklisted types
 		if (blacklist.indexOf(classname) != -1) {
@@ -440,7 +445,7 @@ function generateWrappers(dest, seeds, next) {
 		}
 
 		// Stub the header
-		//console.log("Stubbing header for " + classname);
+		//logger.trace("Stubbing header for " + classname);
 		var hpp_file = path.join(__dirname, 'templates', 'Proxy.hpp');
 		fs.readFile(hpp_file, 'utf8', function (err, data) {
 			if (err) callback(err);
@@ -453,7 +458,7 @@ function generateWrappers(dest, seeds, next) {
 		});
 
 		// Stub the implementation
-		//console.log("Stubbing implementation for " + classname);
+		//logger.trace("Stubbing implementation for " + classname);
 		var cpp_file = path.join(__dirname, 'templates', 'Proxy.cpp');
 		fs.readFile(cpp_file, 'utf8', function (err, data) {
 			if (err) callback(err);
@@ -490,7 +495,7 @@ function generateWrappers(dest, seeds, next) {
 function generateCmakeList(dest, seeds, modules, next) {
 	var cmakelist_template = path.join(dest, 'CMakeLists.txt.ejs'),
 		cmakelist = path.join(dest, 'CMakeLists.txt');
-	console.log("Setting up native modules for CMakeLists.txt...");
+	logger.info("Setting up native modules for CMakeLists.txt...");
 	fs.readFile(cmakelist_template, 'utf8', function (err, data) {
 		if (err) throw err;
 
@@ -538,7 +543,7 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
 	var native_loader = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
-	console.log("Adding require hook implementation in WindowsNativeModuleLoader.cpp...");
+	logger.trace("Adding require hook implementation in WindowsNativeModuleLoader.cpp...");
 	fs.readFile(native_loader, 'utf8', function (err, data) {
 		if (err) throw err;
 
@@ -559,7 +564,7 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
 			}
 			classDefinition = all_classes[classname];
 			if (!classDefinition) {
-				console.log("Unable to find metadata for: " + classname);
+				logger.warn("Unable to find metadata for: " + classname);
 				continue;
 			}
 			// skip enums and structs
@@ -636,7 +641,7 @@ function generateRequireHook(dest, seeds, modules, next) {
 	var require_hook = path.join(dest, 'src', 'RequireHook.cpp');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
-	console.log("Adding native API type listing to RequireHook.cpp...");
+	logger.trace("Adding native API type listing to RequireHook.cpp...");
 	fs.readFile(require_hook, 'utf8', function (err, data) {
 		if (err) throw err;
 
@@ -667,7 +672,7 @@ function generateRequireHook(dest, seeds, modules, next) {
 			}
 			classDefinition = all_classes[classname];
 			if (!classDefinition) {
-				console.log("Unable to find metadata for: " + classname);
+				logger.warn("Unable to find metadata for: " + classname);
 				continue;
 			}
 			// skip enums and structs
@@ -702,7 +707,7 @@ function generateRequireHook(dest, seeds, modules, next) {
 function generateCasting(dest, seeds, next) {
 	// where do we stick our wrappers?
 	var platform_object_cpp = path.join(dest, 'src', 'Platform.Object.cpp');
-	console.log("Adding casting method to Platform.Object implementation...");
+	logger.trace("Adding casting method to Platform.Object implementation...");
 	fs.readFile(platform_object_cpp, 'utf8', function (err, data) {
 		if (err) throw err;
 
@@ -720,7 +725,7 @@ function generateCasting(dest, seeds, next) {
 			}
 			classDefinition = all_classes[classname];
 			if (!classDefinition) {
-				console.log("Unable to find metadata for: " + classname);
+				logger.warn("Unable to find metadata for: " + classname);
 				continue;
 			}
 			// skip enums and structs
