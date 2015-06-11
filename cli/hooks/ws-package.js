@@ -44,6 +44,7 @@ exports.init = function (logger, config, cli) {
 			publisherName = publisherName.value;
 
 			if (wsCert) {
+				logger.info('User specified a cert, recording path, calculating thumbprint');
 				builder.certificatePath = wsCert;
 				calculateThumbprint(wsCert, function (err, thumbprint) {
 					builder.certificateThumbprint = thumbprint;
