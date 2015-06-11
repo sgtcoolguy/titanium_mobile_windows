@@ -774,11 +774,11 @@ WindowsBuilder.prototype.initialize = function initialize(next) {
 			this.cmakeArch = 'Win32';
 		}
 		this.cmakePlatform = 'WindowsPhone';
-		this.cmakePlatformAbbrev = 'wp';
+		this.cmakePlatformAbbrev = 'phone';
 	} else {
 		this.cmakeArch = 'Win32';
 		this.cmakePlatform = 'WindowsStore';
-		this.cmakePlatformAbbrev = 'ws';
+		this.cmakePlatformAbbrev = 'store';
 	}
 	this.arch = this.cmakeArch == 'Win32' ? 'x86' : this.cmakeArch;
 	this.cmakeTarget  = this.cmakePlatformAbbrev +'.' + this.arch;
@@ -1330,8 +1330,7 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 
 		// Copy TitaniumKit and HAL dlls over into src folder
 		function (cb) {
-			var plat = this.target == 'ws-local' ? 'store' : 'phone';
-			var src = path.join(this.platformPath, 'lib', 'TitaniumKit', plat, this.arch, 'TitaniumKit.dll');
+			var src = path.join(this.platformPath, 'lib', 'TitaniumKit', this.cmakePlatformAbbrev, this.arch, 'TitaniumKit.dll');
 			copyFile.call(this,
 				src,
 				path.join(this.buildDir, 'lib', 'TitaniumKit.dll'),
@@ -1339,8 +1338,7 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 		},
 
 		function (cb) {
-			var plat = this.target == 'ws-local' ? 'store' : 'phone';
-			var src = path.join(this.platformPath, 'lib', 'HAL', plat, this.arch, 'HAL.dll');
+			var src = path.join(this.platformPath, 'lib', 'HAL', this.cmakePlatformAbbrev, this.arch, 'HAL.dll');
 			copyFile.call(this,
 				src,
 				path.join(this.buildDir, 'lib', 'HAL.dll'),
