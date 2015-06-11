@@ -55,13 +55,23 @@ if (parent_name == 'Module') { -%>
 		public:
 <%
 for (property_name in properties) {
-	// FIXME There _are_ such things as protected properties! See Windows::UI::Xaml::Controls::Control::DefaultStyleKey. We need to skip these!
+	// FIXME Handle phone-only APIs
+	if (properties[property_name].api && properties[property_name].api == 'store') {
+-%>
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+<%
+	}
 	if (properties[property_name]['setter']) { -%>
 			TITANIUM_PROPERTY_DEF(<%= property_name %>);
 <%
 	} else {
 -%>
 			TITANIUM_PROPERTY_READONLY_DEF(<%= property_name %>);
+<%
+	}
+	if (properties[property_name].api) {
+-%>
+#endif
 <%
 	}
 }
@@ -71,23 +81,40 @@ for (property_name in properties) {
 if (methods) {
 	for (var i = 0; i < methods.length; i++) {
 		var method = methods[i];
-		// Skip if method starts with get_, put_ (properties), add_ or remove_ (events)
+		// Skip if method starts with get_, put_ (properties), constructor
 		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
-			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 || method.name == '.ctor') {
+			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0 ||
+			method.name == '.ctor') {
 				continue;
 		}
 		// Skip non-public methods
 		if (method.attributes.indexOf("public") == -1) {
 			continue;
 		}
+		// FIXME skip methods return async ops until we implement a Promise equivalent wrapper
+		if (method.returnType.indexOf('.IAsync') != -1) {
+			continue;
+		}
+		// FIXME What if there are multiple overloads but only _some_ of them are specific to one platform?
 		// Guard against overloaded methods, we'll have to handle each variation in one JS bridge method in cpp
 		if (unique_methods.indexOf(method.name) != -1) {
 			continue;
 		}
 		unique_methods.unshift(method.name);
+		// FIXME Handle phone-only APIs!
+		if (method.api && method.api == 'store') {
+-%>
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+<%
+		}
 -%>
 			TITANIUM_FUNCTION_DEF(<%= method.name %>);
 <%
+		if (method.api) {
+-%>
+#endif
+<%
+		}
 	}
 }
 -%>
@@ -105,6 +132,8 @@ if (methods) {
 			static void JSExportInitialize();
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 
 			::<%= windows_name %>^ unwrap<%= underscore_name %>() const;
 			void wrap(::<%= windows_name %>^ object);
@@ -118,7 +147,19 @@ if (parent_name == 'Module') { -%>
 
 		private:
 			::<%= windows_name %>^ unwrap() const;
-
+<%
+if (methods) {
+	for (var i = 0; i < methods.length; i++) {
+		var method = methods[i];
+		// Add registration tokens for event handlers
+		if (method.name.indexOf('add_') == 0) {
+-%>
+			::Windows::Foundation::EventRegistrationToken <%= method.name.substring(4) %>_token__;
+<%
+		}
+	}
+}
+-%>
 		};
 
 <% for (var i = namespaces.length - 2; i>= 0; i--) { -%>

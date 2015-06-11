@@ -1637,8 +1637,17 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 	}
 
 	this.cli.createHook('build.windows.writeCMakeLists', this, function (manifest, cb) {
-		fs.existsSync(this.buildDir) || wrench.mkdirSyncRecursive(this.buildDir);
-		fs.existsSync(this.cmakeListFile) && fs.unlinkSync(this.cmakeListFile);
+		fs.existsSync(this.buildDir) || wrench.mkdirSyncRecursive(this.buildDir)
+
+		if (fs.existsSync(this.cmakeListFile)) {
+			if (manifest == fs.readFileSync(this.cmakeListFile).toString())
+			{
+				this.logger.info("CmakeLists.txt contents unchanged, retaining existing file.");
+				cb();
+				return;
+			}
+			fs.unlinkSync(this.cmakeListFile);
+		}
 		fs.writeFile(this.cmakeListFile, manifest, cb);
 	})(ejs.render(
 		fs.readFileSync(

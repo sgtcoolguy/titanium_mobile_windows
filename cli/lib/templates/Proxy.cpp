@@ -22,13 +22,21 @@ if (methods) {
 	for (var i = 0; i < methods.length; i++) {
 		var method = methods[i];
 		var overloads = [];
-
-		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0 ||
-			method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0) {
+		// skip property methods
+		if (method.name.indexOf('get_') == 0 || method.name.indexOf('put_') == 0) {
 				continue;
 		}
 		// Skip non-public methods
 		if (method.attributes.indexOf("public") == -1) {
+			continue;
+		}
+		// For now skip store only methods
+		// FIXME Guard with #ifdef!
+		if (method.api && method.api == 'store') {
+			continue;
+		}
+		// skip methods return async ops until we implement a Promise equivalent wrapper
+		if (method.returnType.indexOf('.IAsync') != -1) {
 			continue;
 		}
 
@@ -86,6 +94,7 @@ for (var i = 0; i < types_to_include.length; i++) {
 <%
 }
 -%>
+#include <collection.h>
 
 <% for (var i = 0; i < namespaces.length - 1; i++) { -%>
 <%= Array(i + 1).join('\t') %>namespace <%= namespaces[i] %>
@@ -174,6 +183,12 @@ if (unique_methods['.ctor']) {
 <%
 // properties
 for (property_name in properties) {
+	// FIXME handle phone-only APIs!
+	if (properties[property_name].api && properties[property_name].api == 'store') {
+-%>
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+<%
+	}
 	if (properties[property_name]['setter']) {
 -%>
 			TITANIUM_ADD_PROPERTY(<%= base_name %>, <%= property_name %>);
@@ -182,16 +197,33 @@ for (property_name in properties) {
 -%>
 			TITANIUM_ADD_PROPERTY_READONLY(<%= base_name %>, <%= property_name %>);
 <%	}
+	if (properties[property_name].api) {
+-%>
+#endif
+<%
+	}
 }
 // Methods
 if (methods) {
 	for (method_name in unique_methods) {
-		if (method_name == ".ctor") {
+		if (method_name == ".ctor" || method_name.indexOf('add_') == 0 || method_name.indexOf('remove_') == 0) {
 				continue;
+		}
+
+		// FIXME handle phone-only APIs!
+		if (unique_methods[method_name][0].api && unique_methods[method_name][0].api == 'store') {
+-%>
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+<%
 		}
 -%>
 			TITANIUM_ADD_FUNCTION(<%= base_name %>, <%= method_name %>);
 <%
+		if (unique_methods[method_name][0].api) {
+-%>
+#endif
+<%
+		}
 	}
 }
 -%>
@@ -199,27 +231,80 @@ if (methods) {
 
 <%
 for (property_name in properties) {
+	// FIXME handle phone-only APIs!
+	if (properties[property_name].api && properties[property_name].api == 'store') {
+-%>
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+<%
+	}
 	if (properties[property_name]['setter']) { -%>
 <%- include('setter.cpp', {base_name: base_name}) %>
 <%  
 	} -%>
 <%- include('getter.cpp', {base_name: base_name}) %>
-<% 
+<%
+	if (properties[property_name].api) {
+-%>
+#endif
+<%
+	}
 } // End Properties
 // Methods
 if (methods) {
 	for (method_name in unique_methods) {
 		var methods = unique_methods[method_name];
 		var method = methods[0];
-		if (method.name == '.ctor') {
-				continue;
+		if (method.name == '.ctor' || method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0) {
+			continue;
 		}
 -%>
 <%- include('function.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
 <%
 	}
 }
+-%>
+		void <%= base_name %>::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			<%- parent_name.to_windows_name() %>::enableEvent(event_name);
 
+			const JSContext context = this->get_context();
+<%
+// Event handlers!
+if (methods) {
+	for (method_name in unique_methods) {
+		var methods = unique_methods[method_name];
+		var method = methods[0];
+		if (method.name.indexOf('add_') == 0) {
+-%>
+<%- include('add_event_handler.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
+<%
+		}
+	}
+}
+-%>
+		}
+
+		void <%= base_name %>::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			<%- parent_name.to_windows_name() %>::disableEvent(event_name);
+
+			const JSContext context = this->get_context();
+<%
+// Event handlers!
+if (methods) {
+	for (method_name in unique_methods) {
+		var methods = unique_methods[method_name];
+		var method = methods[0];
+		if (method.name.indexOf('remove_') == 0) {
+-%>
+<%- include('remove_event_handler.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
+<%
+		}
+	}
+}
+-%>
+		}
+<%
 for (var i = namespaces.length - 2; i>= 0; i--) {
 -%>
 <%= Array(i + 1).join('\t') %>} // namespace <%= namespaces[i] %>
