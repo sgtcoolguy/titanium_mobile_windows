@@ -16,11 +16,30 @@ const
 	wrench = require('wrench'),
 	moment = require('moment'),
 	async = require('async'),
+	cp = require('child_process'),
+	exec = cp.exec,
 	__ = appc.i18n(__dirname).__;
 
 exports.cliVersion = '>=3.2';
 
 exports.init = function (logger, config, cli) {
+
+	function calculateThumbprint(pathToCert, password, next) {
+		if (!password) {
+			password = '""';
+		} 
+		exec('certutil -p ' + password + ' -dump "' + pathToCert + '"', function (code, out, err) {
+			if (code) {
+				next(err);
+			}
+			else if (out.indexOf('The system cannot find the file specified.') >= 0) {
+				next(new Error('No certificate was found at the path: "' + pathToCert + '"'));
+			}
+			else {
+				next(null, out.split('Cert Hash(sha1): ')[1].split('\r')[0].split(' ').join('').toUpperCase());
+			}
+		});
+	}
 
 	cli.on('build.pre.compile', {
 		priority: 10000,
@@ -38,7 +57,7 @@ exports.init = function (logger, config, cli) {
 				return next(new Error(__(
 					'ti.windows.publishername is a required tiapp.xml string property for publishing!' +
 					'\nFor example:' +
-					'\n<property name="ti.windows.publishername" type="string">CN=Appcelerator, Inc.</property>'
+					'\n<property name="ti.windows.publishername" type="string">CN=Appcelerator Inc.</property>'
 				)));
 			}
 			publisherName = publisherName.value;
@@ -46,7 +65,7 @@ exports.init = function (logger, config, cli) {
 			if (wsCert) {
 				logger.info('User specified a cert, recording path, calculating thumbprint');
 				builder.certificatePath = wsCert;
-				calculateThumbprint(wsCert, function (err, thumbprint) {
+				calculateThumbprint(wsCert, builder.pfxPassword, function (err, thumbprint) {
 					builder.certificateThumbprint = thumbprint;
 					finished();
 				});
@@ -70,8 +89,8 @@ exports.init = function (logger, config, cli) {
 					logger.info(__('Creating a certificate'));
 					logger.info(__('Please follow the prompts'));
 					var args = [
-						'/n', publisherName, '/r', '/h', '0', '/eku', '1.3.6.1.5.5.7.3.3,1.3.6.1.4.1.311.10.3.13',
-						'/e', expirationDate, '/sv', pvk, cer
+						'-n', publisherName, '-r', '-h', '0', '-eku', '1.3.6.1.5.5.7.3.3,1.3.6.1.4.1.311.10.3.13',
+						'-e', expirationDate, '-sv', pvk, cer
 					];
 					appc.subprocess.run(wSDK.makeCert.x86, args, function (code, out, err) {
 						return !err ? next() : next(err || new Error('Certificate generation failed'));
@@ -87,8 +106,8 @@ exports.init = function (logger, config, cli) {
 						args.push(builder.pfxPassword);
 					}
 					appc.subprocess.run(wSDK.pvk2pfx.x86, args, function (code, out, err) {
-						if (err) {
-							next(err);
+						if (code) {
+							next(err || new Error('PFX generation failed'));
 						}
 						else if (!fs.existsSync(pfx)) {
 							next(new Error('PFX file was not generated at: "' + pfx + '"'));
@@ -116,7 +135,7 @@ exports.init = function (logger, config, cli) {
 				},
 				function usePFX(next) {
 					builder.certificatePath = pfx;
-					calculateThumbprint(pfx, function (err, thumbprint) {
+					calculateThumbprint(pfx, builder.pfxPassword, function (err, thumbprint) {
 						builder.certificateThumbprint = thumbprint;
 						err ? next(err) : next();
 					});
@@ -154,21 +173,4 @@ exports.init = function (logger, config, cli) {
 			finished();
 		}
 	});
-
-	function calculateThumbprint(pathToCert, next) {
-		appc.subprocess.run('certutil', [
-			'-dump', pathToCert
-		], function (code, out, err) {
-			if (err) {
-				next(err);
-			}
-			else if (out.indexOf('The system cannot find the file specified.') >= 0) {
-				next(new Error('No certificate was found at the path: "' + pathToCert + '"'));
-			}
-			else {
-				next(null, out.split('Cert Hash(sha1): ')[1].split('\r')[0].split(' ').join('').toUpperCase());
-			}
-		});
-	}
-
 };
