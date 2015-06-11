@@ -165,6 +165,9 @@ exports.init = function (logger, config, cli) {
 
 				// TODO Remove existing package if it's already installed? Otherwise we'll fail here if same package same version is already installed!
 				async.series([function(next) {
+					logger.info(__('Uninstalling old versions of the application'));
+					windowslib.winstore.uninstall(appId, opts, next);
+				}, function(next) {
 					logger.info(__('Installing the application'));
 					windowslib.winstore.install(projectDir, opts, next);
 				}, function(next) {
