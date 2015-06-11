@@ -44,7 +44,7 @@ exports.init = function (logger, config, cli) {
 	cli.on('build.pre.compile', {
 		priority: 10000,
 		post: function (builder, finished) {
-			if (builder.buildOnly || builder.target !== 'dist-winstore') {
+			if (builder.buildOnly || !/^ws-local|dist-winstore$/.test(builder.target)) {
 				return finished();
 			}
 
@@ -97,6 +97,10 @@ exports.init = function (logger, config, cli) {
 					});
 				},
 				function checkPFX(next) {
+					if (fs.existsSync(pfx)) {
+						logger.info(__('Using existing generated pfx'));
+						return next();
+					}
 					logger.info(__('Creating a PFX'));
 					var args = [
 						'-pvk', pvk, '-spc', cer, '-pfx', pfx
