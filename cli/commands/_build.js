@@ -389,7 +389,7 @@ WindowsBuilder.prototype.configOptionTarget = function configOptionTarget(order)
 				this.conf.options['output-dir'].required = true;
 			}
 
-			if (value === 'dist-winstore') {
+			if (value === 'dist-winstore' || value == 'ws-local') {
 				this.conf.options['ws-cert'].required = true;
 				this.conf.options['pfx-password'].required = true;
 			}
@@ -511,7 +511,7 @@ WindowsBuilder.prototype.configOptionPFXPassword = function configOptionPFXPassw
 
 	return {
 		abbr: 'P',
-		desc: __('the PFX password; only applicable when target is %s', 'dist-winstore'.cyan),
+		desc: __('the PFX password; only applicable when target is %s or %s', 'ws-local'.cyan, 'dist-winstore'.cyan),
 		hint: 'password',
 		order: order,
 		prompt: function (callback) {
@@ -1767,7 +1767,7 @@ WindowsBuilder.prototype.compileApp = function compileApp(next) {
 		'<AppxBundle>Always</AppxBundle>' +
 		'<AppxBundlePlatforms>' + this.arch + '</AppxBundlePlatforms>' +
 		(
-			this.target !== 'dist-winstore' ? '' :
+			!/^ws-local|dist-winstore$/.test(this.target) ? '' :
 			'<PackageCertificateThumbprint>' + this.certificateThumbprint + '</PackageCertificateThumbprint>' +
 			'<PackageCertificateKeyFile>' + this.certificatePath + '</PackageCertificateKeyFile>'
 		) + '$&');
