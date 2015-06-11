@@ -785,7 +785,8 @@ namespace TitaniumWindows
 				prop.value = "UI.FILL";
 			}
 
-			Titanium::LayoutEngine::populateLayoutPoperties(prop, &layout_node__->properties, 1);
+			auto ppi = Windows::Graphics::Display::DisplayInformation::GetForCurrentView()->LogicalDpi;
+			Titanium::LayoutEngine::populateLayoutPoperties(prop, &layout_node__->properties, ppi);
 
 			if (isLoaded()) {
 				requestLayout();
