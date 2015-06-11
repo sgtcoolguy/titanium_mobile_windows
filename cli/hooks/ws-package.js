@@ -16,30 +16,12 @@ const
 	wrench = require('wrench'),
 	moment = require('moment'),
 	async = require('async'),
-	cp = require('child_process'),
-	exec = cp.exec,
+	windowslib = require('windowslib'),
 	__ = appc.i18n(__dirname).__;
 
 exports.cliVersion = '>=3.2';
 
 exports.init = function (logger, config, cli) {
-
-	function calculateThumbprint(pathToCert, password, next) {
-		if (!password) {
-			password = '""';
-		} 
-		exec('certutil -p ' + password + ' -dump "' + pathToCert + '"', function (code, out, err) {
-			if (code) {
-				next(err);
-			}
-			else if (out.indexOf('The system cannot find the file specified.') >= 0) {
-				next(new Error('No certificate was found at the path: "' + pathToCert + '"'));
-			}
-			else {
-				next(null, out.split('Cert Hash(sha1): ')[1].split('\r')[0].split(' ').join('').toUpperCase());
-			}
-		});
-	}
 
 	cli.on('build.pre.compile', {
 		priority: 10000,
@@ -63,9 +45,8 @@ exports.init = function (logger, config, cli) {
 			publisherName = publisherName.value;
 
 			if (wsCert) {
-				logger.info('User specified a cert, recording path, calculating thumbprint');
 				builder.certificatePath = wsCert;
-				calculateThumbprint(wsCert, builder.pfxPassword, function (err, thumbprint) {
+				windowslib.certs.thumbprint(wsCert, builder.pfxPassword, function (err, thumbprint) {
 					builder.certificateThumbprint = thumbprint;
 					finished();
 				});
@@ -88,11 +69,7 @@ exports.init = function (logger, config, cli) {
 					logger.info('');
 					logger.info(__('Creating a certificate'));
 					logger.info(__('Please follow the prompts'));
-					var args = [
-						'-n', publisherName, '-r', '-h', '0', '-eku', '1.3.6.1.5.5.7.3.3,1.3.6.1.4.1.311.10.3.13',
-						'-e', expirationDate, '-sv', pvk, cer
-					];
-					appc.subprocess.run(wSDK.makeCert.x86, args, function (code, out, err) {
+					windowslib.certs.generate(publisherName, cer, builder.windowslibOptions, function(err, privateKey, certFile) {
 						return !err ? next() : next(err || new Error('Certificate generation failed'));
 					});
 				},
@@ -102,16 +79,9 @@ exports.init = function (logger, config, cli) {
 						return next();
 					}
 					logger.info(__('Creating a PFX'));
-					var args = [
-						'-pvk', pvk, '-spc', cer, '-pfx', pfx
-					];
-					if (builder.pfxPassword && builder.pfxPassword !== '') {
-						args.push('-pi');
-						args.push(builder.pfxPassword);
-					}
-					appc.subprocess.run(wSDK.pvk2pfx.x86, args, function (code, out, err) {
-						if (code) {
-							next(err || new Error('PFX generation failed'));
+					windowslib.certs.generatePFX(pvk, cer, pfx, builder.pfxPassword, builder.windowslibOptions, function(err, pfxFile) {
+						if (err) {
+							next(err);
 						}
 						else if (!fs.existsSync(pfx)) {
 							next(new Error('PFX file was not generated at: "' + pfx + '"'));
@@ -139,7 +109,7 @@ exports.init = function (logger, config, cli) {
 				},
 				function usePFX(next) {
 					builder.certificatePath = pfx;
-					calculateThumbprint(pfx, builder.pfxPassword, function (err, thumbprint) {
+					windowslib.certs.thumbprint(pfx, builder.pfxPassword, function (err, thumbprint) {
 						builder.certificateThumbprint = thumbprint;
 						err ? next(err) : next();
 					});
