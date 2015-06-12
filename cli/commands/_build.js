@@ -1771,13 +1771,17 @@ WindowsBuilder.prototype.readTiAppManifest = function readTiAppManifest() {
  *
  *  Example:
  *	<windows>
- *		<manifest>
- *			<Capabilities target="phone">
+ *		<manifest target="phone">
+ *			<Capabilities>
  *				<Capability Name="location" />
  *			</Capabilities>
- *			<Capabilities target="store">
+ *		</manifest>
+ *		<manifest target="store">
+ *			<Capabilities>
  *				<Capability Name="optical" />
  *			</Capabilities>
+ *		</manifest>
+ *		<manifest>
  *			<Capabilities>
  *				<Capability Name="internetClient" />
  *			</Capabilities>
