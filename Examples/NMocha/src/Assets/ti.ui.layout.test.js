@@ -755,8 +755,7 @@ describe("Titanium.UI.Layout", function () {
     });
     
     // Functional Test #1001 #1002 #1003 #1004 #1005 #1006
-    // Not supported in Windows yet
-    it.skip("unitMeasurements", function (finish) {
+    it("unitMeasurements", function (finish) {
         var win = createWindow({}, finish);
         var child = Ti.UI.createView({
             height: "50mm",
