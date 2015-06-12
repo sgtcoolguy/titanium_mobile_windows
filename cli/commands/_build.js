@@ -1791,16 +1791,17 @@ WindowsBuilder.prototype.readTiAppManifest = function readTiAppManifest() {
 WindowsBuilder.prototype.generateAppxManifest = function generateAppxManifest(next) {
 
 	this.tiapp.windows = this.tiapp.windows || {};
-
 	this.readTiAppManifest();
-
-	if (!this.tiapp.windows.manifests) {
-		next();
-		return;
-	}
 
 	var xprops = {phone:{}, store:{}},
 		domParser = new DOMParser();
+
+	if (!this.tiapp.windows.manifests) {
+		this.generateAppxManifestForPlatform("store", xprops.store);
+		this.generateAppxManifestForPlatform("phone", xprops.phone);
+		next();
+		return;
+	}
 
 	// Construct manifest properties
 	for (var i = 0; i < this.tiapp.windows.manifests.length; i++) {

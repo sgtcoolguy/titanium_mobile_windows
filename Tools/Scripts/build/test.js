@@ -111,6 +111,7 @@ function addTiAppProperties(next) {
 		content.push(line);
 		if (line.indexOf('<guid>') >= 0) {
 			content.push('\t'+publishername);
+			content.push('\t<windows><manifest><Capabilities><Capability Name=\"internetClient\" /></Capabilities></manifest></windows>');
 		}
 	});
 	fs.writeFileSync(tiapp_xml, content.join('\n'));
