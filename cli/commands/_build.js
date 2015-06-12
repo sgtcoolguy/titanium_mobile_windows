@@ -1786,6 +1786,8 @@ WindowsBuilder.prototype.readTiAppManifest = function readTiAppManifest() {
  */
 WindowsBuilder.prototype.generateAppxManifest = function generateAppxManifest(next) {
 
+	this.tiapp.windows = this.tiapp.windows || {};
+
 	this.readTiAppManifest();
 
 	if (!this.tiapp.windows.manifests) {
