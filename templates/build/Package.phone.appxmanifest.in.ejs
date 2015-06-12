@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest"
-	 xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-
+	 xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest"
+	 xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
+  
   <Identity Name="@PACKAGE_GUID@"
 	    Publisher="CN=appcelerator"
 	    Version="1.1.0.0" />
+  
+  <mp:PhoneIdentity PhoneProductId="@PHONE_PRODUCT_ID@"
+        PhonePublisherId="00000000-0000-0000-0000-000000000000" />
 
   <Properties>
     <DisplayName>@SHORT_NAME@</DisplayName>
     <PublisherDisplayName>Appcelerator</PublisherDisplayName>
     <Logo>StoreLogo.png</Logo>
+<% for(var i = 0; i < manifest.Properties.length; i++) { -%>
+    <%- manifest.Properties[i] %>
+<% } -%>
   </Properties>
-
+  
   <Prerequisites>
-    <OSMinVersion>6.3</OSMinVersion>
-    <OSMaxVersionTested>6.3</OSMaxVersionTested>
+    <OSMinVersion>6.3.1</OSMinVersion>
+    <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
+<% for(var i = 0; i < manifest.Prerequisites.length; i++) { -%>
+    <%- manifest.Prerequisites[i] %>
+<% } -%>
   </Prerequisites>
 
   <Resources>
     <Resource Language="x-generate" />
+<% for(var i = 0; i < manifest.Resources.length; i++) { -%>
+    <%- manifest.Resources[i] %>
+<% } -%>
   </Resources>
-  
+
   <Applications>
     <Application Id="App"
 		 Executable="$targetnametoken$.exe"
@@ -44,7 +57,9 @@
   </Applications>
   
   <Capabilities>
-    <Capability Name="internetClient" />
+<% for(var i = 0; i < manifest.Capabilities.length; i++) { -%>
+    <%- manifest.Capabilities[i] %>
+<% } -%>
   </Capabilities>
   
 </Package>

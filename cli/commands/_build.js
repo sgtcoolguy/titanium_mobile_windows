@@ -650,6 +650,7 @@ WindowsBuilder.prototype.run = function run(logger, config, cli, finished) {
         'generateI18N',
         'generateNativeWrappers',
         'generateModuleFinder',
+        'generateAppxManifest',
         'generateCmakeList',
         'runCmake',
         'compileApp',
@@ -1664,6 +1665,129 @@ WindowsBuilder.prototype.generateCmakeList = function generateCmakeList(next) {
 			native_modules: native_modules
 		}
 	), next);
+};
+
+/**
+ * Write appxmanifest.in according to manifest properties
+ */
+WindowsBuilder.prototype.generateAppxManifestForPlatform = function generateAppxManifestForPlatform(target, properties) {
+	var template = fs.readFileSync(path.resolve(this.platformPath, 
+		'templates', 'build', 'Package.'+target+'.appxmanifest.in.ejs'), 'utf8'),
+		dest = path.join(this.buildDir, 'Package.'+target+'.appxmanifest.in');
+
+	// Supported properties
+	properties.Properties    = properties.Properties    || [];
+	properties.Capabilities  = properties.Capabilities  || [];
+	properties.Prerequisites = properties.Prerequisites || [];
+	properties.Resources     = properties.Resources     || [];
+
+	this.logger.info(__('Writing appxmanifest %s', dest));
+	fs.writeFileSync(dest, ejs.render(template, {
+		manifest:properties
+	}, {}));
+};
+
+/**
+ * Read windows manifests from tiapp.xml
+ */
+WindowsBuilder.prototype.readTiAppManifest = function readTiAppManifest() {
+	if (this.tiapp.windows.manifests) {
+		return;
+	}
+
+	var tiapp = fs.readFileSync(path.join(this.projectDir, 'tiapp.xml'), 'utf8'),
+		dom = new DOMParser().parseFromString(tiapp, 'text/xml'),
+		root = dom.documentElement,
+		_t = this, windows_node;
+
+	appc.xml.forEachElement(root, function(elem) {
+		if (elem.tagName == "windows") {
+			windows_node = elem;
+		}
+	});
+
+	if (!windows_node) {
+		return;
+	}
+
+	appc.xml.forEachElement(windows_node, function (elem) {
+		switch(elem.tagName) {
+		case 'manifest': 
+			_t.tiapp.windows.manifests = _t.tiapp.windows.manifests || [];
+			_t.tiapp.windows.manifests.push(elem.toString());
+			break;
+		}
+	});
+};
+
+/**
+ * Generate appx manifest properties
+ * 
+ * <manifest>:
+ *   . May appear multiple times (target="phone" or target="store")
+ *   . When it doesn't have "target" that means common properties across phone & store
+ *
+ *  Example:
+ *	<windows>
+ *		<manifest>
+ *			<Capabilities target="phone">
+ *				<Capability Name="location" />
+ *			</Capabilities>
+ *			<Capabilities target="store">
+ *				<Capability Name="optical" />
+ *			</Capabilities>
+ *			<Capabilities>
+ *				<Capability Name="internetClient" />
+ *			</Capabilities>
+ *		</manifest>
+ *	</windows>
+ */
+WindowsBuilder.prototype.generateAppxManifest = function generateAppxManifest(next) {
+
+	this.readTiAppManifest();
+
+	if (!this.tiapp.windows.manifests) {
+		next();
+		return;
+	}
+
+	var xprops = {phone:{}, store:{}},
+		domParser = new DOMParser();
+
+	// Construct manifest properties
+	for (var i = 0; i < this.tiapp.windows.manifests.length; i++) {
+		var manifest = this.tiapp.windows.manifests[i];
+
+		var dom = domParser.parseFromString(manifest, 'text/xml'),
+			root = dom.documentElement, properties = {},
+			target = appc.xml.getAttr(root, "target");
+
+		appc.xml.forEachElement(root, function(node) {
+			var key = node.tagName,
+				elements = [];
+			appc.xml.forEachElement(node, function(elm) {
+				elements.push(elm.toString());
+			});
+			properties[key] = elements;
+
+			xprops.phone[key] = xprops.phone[key] || [];
+			xprops.store[key] = xprops.store[key] || [];
+
+			if (target == "phone") {
+				xprops.phone[key] = xprops.phone[key].concat(elements);
+			} else if (target == "store") {
+				xprops.store[key] = xprops.store[key].concat(elements);
+			} else {
+				xprops.phone[key] = xprops.phone[key].concat(elements);
+				xprops.store[key] = xprops.store[key].concat(elements);
+			}
+		});
+	}
+
+	this.generateAppxManifestForPlatform("store", xprops.store);
+	this.generateAppxManifestForPlatform("phone", xprops.phone);
+
+	next();
 };
 
 /**
