@@ -249,7 +249,16 @@ namespace Titanium
     this.__ti_private__.window.add(this.__ti_private__.content);
     this.__ti_private__.index = 0;
     this.__ti_private__.tabs = [];
+
     var self = this;
+
+    Ti.Gesture.addEventListener('orientationchange', function(e) {
+        self.__ti_private__.content.contentWidth = Ti.Platform.displayCaps.platformWidth * self.__ti_private__.tabs.length;
+        // waiting for a while as layout doesn't happen immediately on LayoutEngine
+        setTimeout(function() {
+            self.setActiveTab(self.__ti_private__.index);
+        }, 50);
+    });
   };
   TabGroup.prototype.applyProperties = function (_args) {
       _args = _args || {};
@@ -259,7 +268,7 @@ namespace Titanium
   };
   TabGroup.prototype.setActiveTab = function (_n) {
       this.__ti_private__.index = _n;
-      this.__ti_private__.content.scrollTo(this.__ti_private__.windowWidth*_n, 0);
+      this.__ti_private__.content.scrollTo(Ti.Platform.displayCaps.platformWidth*_n, 0);
       Ti.UI.setCurrentTab(this.__ti_private__.tabs[_n]);
   }
   TabGroup.prototype.open = function () {
@@ -286,7 +295,6 @@ namespace Titanium
 
       // TODO This works only when TabGroup is filled fulll screen.
       // This should be set from actual window width
-      this.__ti_private__.windowWidth = Ti.Platform.displayCaps.platformWidth;
       this.__ti_private__.content.contentWidth = Ti.Platform.displayCaps.platformWidth * tabLength;
       
       _tab.__ti_private__.index = tabLength - 1;
