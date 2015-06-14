@@ -60,6 +60,7 @@ namespace TitaniumWindows
 
 		void TableView::setData(std::vector<JSObject>& data, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
+			Titanium::UI::TableView::setData(data, animation);
 			tableViewItems__->Clear();
 			for (uint32_t i=0;i<data.size();i++) {
 				addTableItem(data[i]);
@@ -103,12 +104,26 @@ namespace TitaniumWindows
 				auto group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
 				group->Append(rowContent);
 
+				auto sectionCount = get_sectionCount();
+
 				// Add as ListViewItem so that we can map item index
-				auto item = ref new ListViewItem();
-				item->View = rowContent;
-				item->ItemIndex = tableViewItems__->Size;
-				item->SectionIndex = get_sectionCount()-1;
-				tableViewItems__->Append(item);
+				auto list_item = ref new ListViewItem();
+				list_item->View = rowContent;
+				list_item->ItemIndex = tableViewItems__->Size;
+				list_item->SectionIndex = sectionCount > 0 ? sectionCount - 1 : 0;
+				tableViewItems__->Append(list_item);
+
+				if (sectionCount > 0) {
+					auto section = sections__.at(list_item->SectionIndex);
+					section->add(view);
+				} else {
+					// Add new section if we don't have any sections
+					auto section_obj = item.get_context().CreateObject(JSExport<Titanium::UI::TableViewSection>::Class());
+					auto section = section_obj.GetPrivate<Titanium::UI::TableViewSection>();
+
+					section->add(view);
+					sections__.push_back(section);
+				}
 
 				// Add as child view to make layout engine work
 				auto layoutDelegate = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
@@ -225,6 +240,12 @@ namespace TitaniumWindows
 			if (event_name == "click") {
 				click_event__ = tableview__->SelectionChanged += ref new Windows::UI::Xaml::Controls::SelectionChangedEventHandler(
 					[this, ctx](::Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
+
+					if (data__.size() == 0) {
+						TITANIUM_LOG_DEBUG("TableView is clicked but there's no data");
+						return;
+					}
+
 					auto listview = safe_cast<Windows::UI::Xaml::Controls::ListView^>(sender);
 
 					TITANIUM_ASSERT((listview->SelectedIndex < 0) || (static_cast<unsigned int>(listview->SelectedIndex) < tableViewItems__->Size));
@@ -232,11 +253,16 @@ namespace TitaniumWindows
 					if (listViewItem->isHeader) return;
 
 					auto sindex = listViewItem->SectionIndex;
+					auto row = sections__[listViewItem->SectionIndex]->get_rows().at(listViewItem->ItemIndex);
+
+					// Is data constructed from TableViewSection?
+					auto fromSection = data__[0].GetPrivate<Titanium::UI::TableViewSection>() != nullptr;
 
 					JSObject  eventArgs = ctx.CreateObject();
 					eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(listViewItem->SectionIndex));
 					eventArgs.SetProperty("index", ctx.CreateNumber(listViewItem->ItemIndex));
-					eventArgs.SetProperty("row", sections__[listViewItem->SectionIndex]->get_rows().at(listViewItem->ItemIndex)->get_object());
+					eventArgs.SetProperty("row", row->get_object());
+					eventArgs.SetProperty("rowData", fromSection ? row->get_object() : data__.at(listViewItem->ItemIndex));
 
 					this->fireEvent("click", eventArgs);
 				});
