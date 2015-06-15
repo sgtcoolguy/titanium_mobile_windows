@@ -84,9 +84,15 @@ function Titanium_RedScreenOfDeath(e) {
 			os << "}";
 			return js_context__.JSEvaluateScript(os.str());
 		} catch (const std::exception& stdex) {
-			const std::string what = stdex.what();
-			TITANIUM_LOG_ERROR(what);
-			return js_context__.JSEvaluateScript("Titanium_RedScreenOfDeath('" + what + "');");
+#ifdef NDEBUG
+			throw stdex;
+#else
+			const auto what = js_context__.CreateString(stdex.what());
+			const auto rsod = js_context__.get_global_object().GetProperty("Titanium_RedScreenOfDeath");
+			auto rsod_func = static_cast<JSObject>(rsod);
+			const std::vector<JSValue> args = { what };
+			return rsod_func(args, rsod_func);
+#endif
 		}
 		return js_context__.CreateUndefined();
 	}
