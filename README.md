@@ -95,11 +95,11 @@ ti build -p windows -C 8-1-1 -G 00000000-0000-1000-8000-000000000000
 
 ## Module Development
 
-*WIP*
-
 ```bash
 cd YOUR_WORKSPACE
 ti create -p windows -t module
+cd YOUR_MODULE_NAME/windows
+ti build -p windows -C 8-1-1 -G 00000000-0000-1000-8000-000000000000
 ```
 
 ## TitaniumKit Development
