@@ -88,6 +88,8 @@ namespace TitaniumWindows
 			void SerializeHeaderCollection(Windows::Foundation::Collections::IIterable<Windows::Foundation::Collections::IKeyValuePair<::Platform::String^, ::Platform::String^>^>^ headers);
 			void setRequestHeaders(Windows::Web::Http::HttpRequestMessage^ request);
 			void addCookiesToRequest();
+
+			void send(Windows::Web::Http::IHttpContent^ content);
 		};
 	} // namespace Network
 } // namespace TitaniumWindows

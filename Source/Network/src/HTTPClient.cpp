@@ -86,7 +86,7 @@ namespace TitaniumWindows
 			filter__ = ref new Windows::Web::Http::Filters::HttpBaseProtocolFilter();
 			httpClient__ = ref new Windows::Web::Http::HttpClient(filter__);
 			cancellationTokenSource__ = concurrency::cancellation_token_source();
-			filter__->AllowAutoRedirect;
+			filter__->AllowAutoRedirect = true;
 			filter__->CacheControl->ReadBehavior = Windows::Web::Http::Filters::HttpCacheReadBehavior::MostRecent;
 
 			addCookiesToRequest();
@@ -94,76 +94,18 @@ namespace TitaniumWindows
 
 		void HTTPClient::send() TITANIUM_NOEXCEPT
 		{
-			Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
-			Windows::Web::Http::HttpRequestMessage^ request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Get, uri);
-
-			setRequestHeaders(request);
-
-			// Startup a timer that will abort the request after the timeout period is reached.
-			startDispatcherTimer();
-			// FIXME Combine logic from all three send overloads. The others don't set request headers, but handling of response is all the same. Just a matter of constructing the request is different
-			// clang-format off
-			const auto token = cancellationTokenSource__.get_token();
-			create_task(httpClient__->SendRequestAsync(request, Windows::Web::Http::HttpCompletionOption::ResponseHeadersRead), token)
-			.then([this, token](Windows::Web::Http::HttpResponseMessage^ response) {
-				interruption_point();
-
-				// TODO Make a set_readystate method that sets the field and fires the callback and just call that
-				readyState__ = Titanium::Network::RequestState::Opened;
-				onreadystatechange(readyState__);
-
-				SerializeHeaders(response);
-
-				return create_task(response->Content->ReadAsInputStreamAsync(), token);
-			}, task_continuation_context::use_current())
-			.then([this, token](Windows::Storage::Streams::IInputStream^ stream) {
-				interruption_point();
-
-				readyState__ = Titanium::Network::RequestState::Loading;
-				onreadystatechange(readyState__);
-
-				return HTTPResultAsync(stream, token);
-			}, task_continuation_context::use_current())
-			.then([this](task<Windows::Storage::Streams::IBuffer^> previousTask) {
-				try {
-					// Check if any previous task threw an exception.
-					previousTask.get();
-
-					readyState__ = Titanium::Network::RequestState::Done;
-					if (!disposed__ && httpClient__) {
-						onreadystatechange(readyState__);
-					}
-				}
-				catch (const task_canceled&) {
-					if (!disposed__ && httpClient__) {
-						onerror(-1, "Session Cancelled", false);
-					}
-				}
-				catch (Platform::Exception^ ex) {
-					if (!disposed__ && httpClient__) {
-						std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
-						onerror(ex->HResult, error, false);
-					}
-				}
-			});
-			// clang-format on
+			Windows::Web::Http::IHttpContent^ postData;
+			send(postData);
 		}
 
 		void HTTPClient::send(const std::map<std::string, std::vector<std::uint8_t>>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT
 		{
-			Windows::Web::Http::IHttpContent^ postData;
-			Windows::Foundation::IAsyncOperationWithProgress<Windows::Web::Http::HttpResponseMessage^, Windows::Web::Http::HttpProgress>^ operation;
-
 			if (method__ == Titanium::Network::RequestMethod::Get) {
-				TITANIUM_LOG_WARN("HTTPClient::send: Data found during a GET request. Data will be ignored.");
-				send();
+				TITANIUM_LOG_WARN("HTTPClient::send: Data found during a GET request. Method will be changed to POST.");
+				method__ = Titanium::Network::RequestMethod::Post;
 			}
 
-			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
-
-			// Startup a timer that will abort the request after the timeout period is reached.
-			startDispatcherTimer();
-
+			Windows::Web::Http::IHttpContent^ postData;
 			if (useMultipartForm) {
 				postData = ref new Windows::Web::Http::HttpMultipartFormDataContent();
 
@@ -187,87 +129,56 @@ namespace TitaniumWindows
 
 				postData = ref new Windows::Web::Http::HttpFormUrlEncodedContent(keyValues);
 			}
-
-			if (method__ == Titanium::Network::RequestMethod::Post) {
-				operation = httpClient__->PostAsync(uri, postData);
-			} else {
-				operation = httpClient__->PutAsync(uri, postData);
-			}
-			// clang-format off
-			create_task(operation, cancellationTokenSource__.get_token())
-			.then([this](Windows::Web::Http::HttpResponseMessage^ response) {
-				interruption_point();
-
-				readyState__ = Titanium::Network::RequestState::Opened;
-				onreadystatechange(readyState__);
-
-				SerializeHeaders(response);
-
-				return response;
-			}, task_continuation_context::use_current())
-			.then([=](task<Windows::Web::Http::HttpResponseMessage^> previousTask) {
-				try {
-					// Check if any previous task threw an exception.
-					previousTask.get();
-
-					readyState__ = Titanium::Network::RequestState::Done;
-					if (!disposed__ && httpClient__) {
-						onreadystatechange(readyState__);
-
-						onload(0, "Response has been loaded.", true);
-						onsendstream(1.0);
-					}
-				}
-				catch (const task_canceled&) {
-					if (!disposed__ && httpClient__) {
-						onerror(-1, "Session Cancelled", false);
-					}
-				}
-				catch (Platform::Exception^ ex) {
-					if (!disposed__ && httpClient__) {
-						std::string error(TitaniumWindows::Utility::ConvertString(ex->Message));
-						onerror(ex->HResult, error, false);
-					}
-				}
-			}, task_continuation_context::use_current());
-			// clang-format on
+			send(postData);
 		}
 
 		void HTTPClient::send(const std::string& postDataStr) TITANIUM_NOEXCEPT
 		{
-			Windows::Web::Http::IHttpContent^ postData;
-			Windows::Foundation::IAsyncOperationWithProgress<Windows::Web::Http::HttpResponseMessage^, Windows::Web::Http::HttpProgress>^ operation;
+			Windows::Web::Http::IHttpContent^ postData = ref new Windows::Web::Http::HttpStringContent(TitaniumWindows::Utility::ConvertString(postDataStr));
+			send(postData);
+		}
 
-			if (method__ == Titanium::Network::RequestMethod::Get) {
-				TITANIUM_LOG_WARN("HTTPClient::send: Data found during a GET request. Data will be ignored.");
-				send();
-			}
-
+		void HTTPClient::send(Windows::Web::Http::IHttpContent^ content)
+		{
 			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
+
+			Windows::Foundation::IAsyncOperationWithProgress<Windows::Web::Http::HttpResponseMessage^, Windows::Web::Http::HttpProgress>^ operation;
+			if (method__ == Titanium::Network::RequestMethod::Post) {
+				operation = httpClient__->PostAsync(uri, content);
+			} else if (method__ == Titanium::Network::RequestMethod::Put) {
+				operation = httpClient__->PutAsync(uri, content);
+			} else if (method__ == Titanium::Network::RequestMethod::Delete) {
+				operation = httpClient__->DeleteAsync(uri);
+			} else {
+				operation = httpClient__->GetAsync(uri);
+			}
 
 			// Startup a timer that will abort the request after the timeout period is reached.
 			startDispatcherTimer();
 
-			postData = ref new Windows::Web::Http::HttpStringContent(TitaniumWindows::Utility::ConvertString(postDataStr));
-
-			if (method__ == Titanium::Network::RequestMethod::Post) {
-				operation = httpClient__->PostAsync(uri, postData);
-			} else {
-				operation = httpClient__->PutAsync(uri, postData);
-			}
 			// clang-format off
-			create_task(operation, cancellationTokenSource__.get_token())
-			.then([this](Windows::Web::Http::HttpResponseMessage^ response) {
+			const auto token = cancellationTokenSource__.get_token();
+			create_task(operation, token)
+				.then([this, token](Windows::Web::Http::HttpResponseMessage^ response) {
 				interruption_point();
-
-				SerializeHeaders(response);
 
 				readyState__ = Titanium::Network::RequestState::Opened;
 				onreadystatechange(readyState__);
 
-				return response;
+				SerializeHeaders(response);
+
+				return create_task(response->Content->ReadAsInputStreamAsync(), token);
 			}, task_continuation_context::use_current())
-			.then([=](task<Windows::Web::Http::HttpResponseMessage^> previousTask) {
+				.then([this, token](Windows::Storage::Streams::IInputStream^ stream) {
+				interruption_point();
+
+				readyState__ = Titanium::Network::RequestState::Loading;
+				onreadystatechange(readyState__);
+				// FIXME Fire ondatastream/onsendstream callbacks throughout!
+
+				return HTTPResultAsync(stream, token);
+			}, task_continuation_context::use_current())
+				.then([this](task<Windows::Storage::Streams::IBuffer^> previousTask) {
 				try {
 					// Check if any previous task threw an exception.
 					previousTask.get();
@@ -278,6 +189,7 @@ namespace TitaniumWindows
 
 						onload(0, "Response has been loaded.", true);
 						onsendstream(1.0);
+						ondatastream(1.0);
 					}
 				}
 				catch (const task_canceled&) {
@@ -291,7 +203,7 @@ namespace TitaniumWindows
 						onerror(ex->HResult, error, false);
 					}
 				}
-			}, task_continuation_context::use_current());
+			});
 			// clang-format on
 		}
 
@@ -380,7 +292,7 @@ namespace TitaniumWindows
 
 		void HTTPClient::startDispatcherTimer()
 		{
-			if (dispatcherTimer__ == nullptr) {
+			if (dispatcherTimer__ == nullptr && timeoutSpan__.Duration > 0) {
 				dispatcherTimer__ = ref new Windows::UI::Xaml::DispatcherTimer();
 				dispatcherTimer__->Interval = timeoutSpan__;
 				auto timeoutRegistrationToken__ = dispatcherTimer__->Tick += ref new Windows::Foundation::EventHandler<Platform::Object^>([this](Platform::Object^ sender, Platform::Object^ e) {
