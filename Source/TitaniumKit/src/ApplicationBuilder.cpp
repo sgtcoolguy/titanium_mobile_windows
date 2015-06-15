@@ -179,7 +179,7 @@ JSString builtin_functions_script = R"js(
 			  alert = function (_msg) {
 				  Ti.UI.createAlertDialog({
 					  title: 'Alert',
-					  message: _msg
+					  message: _msg + ''
 				  }).show();
 			  };
 
