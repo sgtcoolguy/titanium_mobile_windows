@@ -1719,7 +1719,7 @@ WindowsBuilder.prototype.generateAppxManifestForPlatform = function generateAppx
 
 	// Supported properties
 	properties.Properties    = properties.Properties    || [];
-	properties.Capabilities  = properties.Capabilities  || [];
+	properties.Capabilities  = properties.Capabilities  || [ '<Capability Name=\"internetClient\" />'];
 	properties.Prerequisites = properties.Prerequisites || [];
 	properties.Resources     = properties.Resources     || [];
 
