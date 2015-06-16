@@ -24,10 +24,6 @@ namespace TitaniumWindows
 	Geolocation::Geolocation(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Titanium::GeolocationModule(js_context)
 	{
-		geolocator_ = ref new Geolocator();
-		geolocator_->MovementThreshold = 1;
-		geolocator_->ReportInterval = 0;
-		geolocator_->DesiredAccuracy = PositionAccuracy::High;
 	}
 
 	void Geolocation::JSExportInitialize() {
@@ -35,8 +31,20 @@ namespace TitaniumWindows
 		JSExport<Geolocation>::SetParent(JSExport<Titanium::GeolocationModule>::Class());
 	}
 
+	void Geolocation::ensureLoadGeolocator() 
+	{
+		if (geolocator_ == nullptr) {
+			geolocator_ = ref new Geolocator();
+			geolocator_->MovementThreshold = 1;
+			geolocator_->ReportInterval = 0;
+			geolocator_->DesiredAccuracy = PositionAccuracy::High;
+		}
+	}
+
 	void Geolocation::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 	{
+		ensureLoadGeolocator();
+
 		// Location event
 		if (event_name == "location") {
 			location_event_ = geolocator_->PositionChanged += ref new TypedEventHandler<Geolocator^, PositionChangedEventArgs^>([=](Geolocator^ locator, PositionChangedEventArgs^ args) {
@@ -78,6 +86,8 @@ namespace TitaniumWindows
 	{
 		using namespace Titanium::Geolocation;
 
+		ensureLoadGeolocator();
+
 		switch (accuracy) {
 			case ACCURACY::BEST:
 			case ACCURACY::HIGH:
@@ -118,12 +128,19 @@ namespace TitaniumWindows
 
 	void Geolocation::set_distanceFilter(const double& distance) TITANIUM_NOEXCEPT
 	{
+		ensureLoadGeolocator();
+
 		geolocator_->MovementThreshold = distance;
 		Titanium::GeolocationModule::set_distanceFilter(distance);
 	}
 
 	bool Geolocation::get_locationServicesEnabled() const TITANIUM_NOEXCEPT
 	{
+		// we can't load GeoLocator here because this is const function. Just return false when it's not ready.
+		if (geolocator_ == nullptr) {
+			return false;
+		}
+
 		PositionStatus status = geolocator_->LocationStatus;
 			switch (status) {
 				case PositionStatus::Ready:
@@ -191,6 +208,8 @@ namespace TitaniumWindows
 
 	void Geolocation::getCurrentHeading(JSObject callback) TITANIUM_NOEXCEPT
 	{
+		ensureLoadGeolocator();
+
 		concurrency::create_task(geolocator_->GetGeopositionAsync()).then([this, callback](Geoposition^ position) {
 			const auto data = position->Coordinate;
 			JSObject headingResponse = get_context().CreateObject();
@@ -223,6 +242,8 @@ namespace TitaniumWindows
 
 	void Geolocation::getCurrentPosition(JSObject callback) TITANIUM_NOEXCEPT
 	{
+		ensureLoadGeolocator();
+
 		concurrency::create_task(geolocator_->GetGeopositionAsync()).then([this, callback](Geoposition^ position) {
 			const auto data = position->Coordinate;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 			JSObject locationResult = get_context().CreateObject();
@@ -261,6 +282,8 @@ namespace TitaniumWindows
 
 	void Geolocation::reverseGeocoder(const double& latitude, const double& longitude, JSObject callback) TITANIUM_NOEXCEPT
 	{
+		ensureLoadGeolocator();
+
 		auto requestString = std::string("http://api.appcelerator.net/p/v1/geo?d=r");
 
 		//TODO : Use real GUID, MID, SID
