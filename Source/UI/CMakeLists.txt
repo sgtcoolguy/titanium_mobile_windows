@@ -82,6 +82,8 @@ set(SOURCE_UI
   src/TableView.cpp
   include/TitaniumWindows/UI/TableViewRow.hpp
   src/TableViewRow.cpp
+  include/TitaniumWindows/UI/TextArea.hpp
+  src/TextArea.cpp
   include/TitaniumWindows/UI/TextField.hpp
   src/TextField.cpp
   include/TitaniumWindows/UIModule.hpp

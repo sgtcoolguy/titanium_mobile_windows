@@ -760,6 +760,7 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(UIModule, createSwitch);
 		TITANIUM_ADD_FUNCTION(UIModule, createTab);
 		TITANIUM_ADD_FUNCTION(UIModule, createTabGroup);
+		TITANIUM_ADD_FUNCTION(UIModule, createTextArea);
 		TITANIUM_ADD_FUNCTION(UIModule, createTextField);
 		TITANIUM_ADD_FUNCTION(UIModule, createTableView);
 		TITANIUM_ADD_FUNCTION(UIModule, createTableViewRow);
@@ -1051,6 +1052,12 @@ namespace Titanium
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(Window);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createTextArea)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(TextArea);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createWebView)

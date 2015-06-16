@@ -62,6 +62,7 @@ namespace TitaniumWindows
 																	.GeolocationObject(js_context__.CreateObject(JSExport<TitaniumWindows::Geolocation>::Class()))
 		                                                            .AccelerometerObject(js_context__.CreateObject(JSExport<TitaniumWindows::Accelerometer>::Class()))
 		                                                            .ViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::View>::Class()))
+		                                                            .TextAreaObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TextArea>::Class()))
 		                                                            .NotificationObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::Notification>::Class()))
 		                                                            .SwitchObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::Switch>::Class()))
 		                                                            .UtilsObject(js_context__.CreateObject(JSExport<TitaniumWindows::Utils>::Class()))

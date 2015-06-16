@@ -35,6 +35,7 @@ namespace Titanium
 		  ui__(js_context__.CreateObject(JSExport<Titanium::UIModule>::Class())),
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
+	      textarea__(js_context__.CreateObject(JSExport<Titanium::UI::TextArea>::Class())),
 	      notification__(js_context__.CreateObject(JSExport<Titanium::UI::Notification>::Class())),
 		  twodmatrix__(js_context__.CreateObject(JSExport<Titanium::UI::TwoDMatrix>::Class())),
 		  geolocation__(js_context__.CreateObject(JSExport<Titanium::GeolocationModule>::Class())),
@@ -115,6 +116,7 @@ namespace Titanium
 		ui__.SetProperty("TableView",tableview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("TableViewSection", tableviewsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("TableViewRow", tableviewrow__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("TextArea", textarea__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		ui__.SetProperty("TextField", textField__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("View", view__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("WebView", webview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -357,6 +359,17 @@ JSString builtin_functions_script = R"js(
 	ApplicationBuilder& ApplicationBuilder::NotificationObject(const JSObject& Notification) TITANIUM_NOEXCEPT
 	{
 		notification__ = Notification;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::TextAreaObject() const TITANIUM_NOEXCEPT
+	{
+		return textarea__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::TextAreaObject(const JSObject& TextArea) TITANIUM_NOEXCEPT
+	{
+		textarea__ = TextArea;
 		return *this;
 	}
 

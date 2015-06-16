@@ -25,6 +25,7 @@
 #include "TitaniumWindows/UI/Switch.hpp"
 #include "TitaniumWindows/UI/TableView.hpp"
 #include "TitaniumWindows/UI/TableViewRow.hpp"
+#include "TitaniumWindows/UI/TextArea.hpp"
 #include "TitaniumWindows/UI/TextField.hpp"
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/UI/WebView.hpp"

@@ -92,6 +92,11 @@ namespace TitaniumWindows
 			else {
 				return;
 			}
+			auto scope = text_box__->InputScope;
+			if (!scope) {
+				scope = ref new Windows::UI::Xaml::Input::InputScope();
+				text_box__->InputScope = scope;
+			}
 			text_box__->InputScope->Names->Clear();
 			text_box__->InputScope->Names->Append(scope_name);
 		}

@@ -31,6 +31,7 @@
 #include "Titanium/UI/TableView.hpp"
 #include "Titanium/UI/TableViewRow.hpp"
 #include "Titanium/UI/TableViewSection.hpp"
+#include "Titanium/UI/TextArea.hpp"
 #include "Titanium/UI/TextField.hpp"
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/WebView.hpp"
@@ -256,6 +257,7 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(createTableView);
 		TITANIUM_FUNCTION_DEF(createTableViewRow);
 		TITANIUM_FUNCTION_DEF(createTableViewSection);
+		TITANIUM_FUNCTION_DEF(createTextArea);
 		TITANIUM_FUNCTION_DEF(createTextField);
 		TITANIUM_FUNCTION_DEF(createView);
 		TITANIUM_FUNCTION_DEF(createWebView);
