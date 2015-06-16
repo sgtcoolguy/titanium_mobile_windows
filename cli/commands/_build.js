@@ -1186,6 +1186,36 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 		}
 	}
 
+	/*
+	 * Check JS syntax and report errors. Mostly copied from jsanalyze
+	 */
+	function reportJSErrors(filename, contents, ex) {
+		var errmsg = [ __('Failed to parse %s', filename) ];
+		if (ex.line) {
+			errmsg.push(__('%s [line %s, column %s]', ex.message, ex.line, ex.col));
+		} else {
+			errmsg.push(ex.message);
+		}
+		try {
+			contents = contents.split('\n');
+			if (ex.line && ex.line <= contents.length) {
+				errmsg.push('');
+				errmsg.push('    ' + contents[ex.line-1].replace(/\t/g, ' '));
+				if (ex.col) {
+					var i = 0,
+						len = ex.col,
+						buffer = '    ';
+					for (; i < len; i++) {
+						buffer += '-';
+					}
+					errmsg.push(buffer + '^');
+				}
+				errmsg.push('');
+			}
+		} catch (ex2) {}
+		return errmsg.join('\n');
+	}
+
 	function recursivelyCopy(src, dest, ignoreRootDirs, opts, done) {
 		var files;
 		if (fs.statSync(src).isDirectory()) {
@@ -1417,8 +1447,15 @@ WindowsBuilder.prototype.copyResources = function copyResources(next) {
 					t_ = this;
 
 				// Look for native requires here
-				// FIXME Avoid parsing the AST twice! We do it below using jsanalyze for non html referenced JS files!
-				var toplevel = UglifyJS.parse(fs.readFileSync(from).toString());
+				var fromContent = fs.readFileSync(from, {encoding:'utf8'});
+				try {
+					// FIXME Avoid parsing the AST twice! We do it below using jsanalyze for non html referenced JS files!
+					var toplevel = UglifyJS.parse(fromContent);
+				} catch  (E) {
+					t_.logger.error(reportJSErrors(from, fromContent, E));
+					return;
+				}
+
 				var walker = new UglifyJS.TreeWalker(function(node){
 					// FIXME What if it is a requires, but not a string? What if it is a dynamically built string?
 				    if (node instanceof UglifyJS.AST_Call && node.expression.name == 'require' &&
