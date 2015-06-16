@@ -46,6 +46,8 @@ namespace TitaniumWindows
 
 		virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
+		void ensureLoadGeolocator();
+
 	private:
 
 		Windows::Devices::Geolocation::Geolocator^ geolocator_;
