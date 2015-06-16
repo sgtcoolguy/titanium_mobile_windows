@@ -116,6 +116,15 @@ namespace Titanium
 		}
 	}
 
+	void Module::showRedScreenOfDeath(const std::string& message) TITANIUM_NOEXCEPT {
+		const auto ctx = get_context();
+		const auto what = ctx.CreateString(message);
+		const auto rsod = ctx.get_global_object().GetProperty("Titanium_RedScreenOfDeath");
+		auto rsod_func = static_cast<JSObject>(rsod);
+		const std::vector<JSValue> args = { what };
+		rsod_func(args, rsod_func);
+	}
+
 	void Module::fireEvent(const std::string& name) TITANIUM_NOEXCEPT
 	{
 		fireEvent(name, get_context().CreateObject());
@@ -146,26 +155,37 @@ namespace Titanium
 		}
 		event_copy.SetProperty("type", event.get_context().CreateString(name));
 
-		for (size_t i = 0; i < event_listener_count; ++i) {
-			JSObject callback_payload = event_listener_list.at(i);
+		try {
+			for (size_t i = 0; i < event_listener_count; ++i) {
+				JSObject callback_payload = event_listener_list.at(i);
 
-			JSValue callback_property = callback_payload.GetProperty("callback");
+				JSValue callback_property = callback_payload.GetProperty("callback");
 
-			// Precondition
-			TITANIUM_ASSERT(callback_property.IsObject());
-			JSObject callback = static_cast<JSObject>(callback_property);
+				// Precondition
+				TITANIUM_ASSERT(callback_property.IsObject());
+				JSObject callback = static_cast<JSObject>(callback_property);
 
-			// Precondition
-			TITANIUM_ASSERT(callback.IsFunction());
+				// Precondition
+				TITANIUM_ASSERT(callback.IsFunction());
 
-			JSValue this_object_property = callback_payload.GetProperty("this_object");
+				JSValue this_object_property = callback_payload.GetProperty("this_object");
 
-			// Precondition
-			TITANIUM_ASSERT(this_object_property.IsObject());
-			JSObject this_object = static_cast<JSObject>(this_object_property);
+				// Precondition
+				TITANIUM_ASSERT(this_object_property.IsObject());
+				JSObject this_object = static_cast<JSObject>(this_object_property);
 
-			TITANIUM_LOG_DEBUG("Module::fireEvent: name = '", name, "' for listener at index ", i, " for ", this);
-			callback({ static_cast<JSValue>(event_copy) }, this_object);
+				TITANIUM_LOG_DEBUG("Module::fireEvent: name = '", name, "' for listener at index ", i, " for ", this);
+				callback({ static_cast<JSValue>(event_copy) }, this_object);
+			}
+		} catch (const HAL::detail::js_runtime_error& ex) {
+#ifdef NDEBUG
+			throw ex;
+#else
+			std::ostringstream os;
+			os << "Runtime Error during " << name << " event: " << ex.js_message();
+
+			showRedScreenOfDeath(os.str());
+#endif
 		}
 	}
 

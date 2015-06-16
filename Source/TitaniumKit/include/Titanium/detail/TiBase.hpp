@@ -12,11 +12,19 @@
 #define TITANIUM_LOGGING_ENABLE
 // #define TITANIUM_THREAD_SAFE
 
-#define TITANIUM_ASSERT(expr) assert(expr)
-#define TITANIUM_ASSERT_AND_THROW(expr, message) \
-  if (!expr) { \
-    HAL::detail::ThrowRuntimeError("Invalid argument supplied", message); \
-  }
+#ifdef NDEBUG
+#define TITANIUM_ASSERT(expr)
+#else
+#define TITANIUM_ASSERT(expr) ((expr) ? (void)0 : \
+    HAL::detail::ThrowRuntimeError("Assertion failed", #expr))
+#endif
+
+#ifdef NDEBUG
+#define TITANIUM_ASSERT_AND_THROW(expr, message) 
+#else
+#define TITANIUM_ASSERT_AND_THROW(expr, message) ((expr) ? (void)0 : \
+    HAL::detail::ThrowRuntimeError("Invalid argument supplied", message))
+#endif
 
 #define TITANIUM_NOEXCEPT_ENABLE
 #define TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
