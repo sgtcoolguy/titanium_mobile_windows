@@ -36,8 +36,8 @@ namespace Titanium
 			JSValue success;
 		};
 		
-		PreviewImageOptions js_to_PreviewImageOptions(const JSObject& object);
-		JSObject PreviewImageOptions_to_js(const JSContext& js_context, const PreviewImageOptions& config);
+		TITANIUMKIT_EXPORT PreviewImageOptions js_to_PreviewImageOptions(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject PreviewImageOptions_to_js(const JSContext& js_context, const PreviewImageOptions& config);
 		
 	} // namespace Media
 } // namespace Titanium

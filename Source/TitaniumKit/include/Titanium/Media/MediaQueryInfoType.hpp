@@ -29,8 +29,8 @@ namespace Titanium
 			JSValue value;
 		};
 		
-		MediaQueryInfoType js_to_MediaQueryInfoType(const JSValue& info);
-		JSObject MediaQueryInfoType_to_js(const JSContext& js_context, const MediaQueryInfoType& config);
+		TITANIUMKIT_EXPORT MediaQueryInfoType js_to_MediaQueryInfoType(const JSValue& info);
+		TITANIUMKIT_EXPORT JSObject MediaQueryInfoType_to_js(const JSContext& js_context, const MediaQueryInfoType& config);
 		
 	} // namespace Media
 } // namespace Titanium

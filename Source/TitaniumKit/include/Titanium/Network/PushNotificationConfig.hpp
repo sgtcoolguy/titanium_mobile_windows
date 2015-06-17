@@ -33,8 +33,8 @@ namespace Titanium
 			std::vector<Titanium::Network::TYPE> types;
 		};
 		
-		PushNotificationConfig js_to_PushNotificationConfig(const JSObject& object);
-		JSObject PushNotificationConfig_to_js(const JSContext& js_context, const PushNotificationConfig& config);
+		TITANIUMKIT_EXPORT PushNotificationConfig js_to_PushNotificationConfig(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject PushNotificationConfig_to_js(const JSContext& js_context, const PushNotificationConfig& config);
 		
 	} // namespace Network
 } // namespace Titanium

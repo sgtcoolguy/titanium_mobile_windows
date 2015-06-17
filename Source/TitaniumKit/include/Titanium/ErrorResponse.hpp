@@ -28,8 +28,8 @@ namespace Titanium
 		bool success { true };
 	};
 	
-	ErrorResponse js_to_ErrorResponse(const JSObject& object);
-	JSObject ErrorResponse_to_js(const JSContext& js_context, const ErrorResponse& ErrorResponse);
+	TITANIUMKIT_EXPORT ErrorResponse js_to_ErrorResponse(const JSObject& object);
+	TITANIUMKIT_EXPORT JSObject ErrorResponse_to_js(const JSContext& js_context, const ErrorResponse& ErrorResponse);
 	
 } // namespace Titanium
 #endif // _TITANIUM_UI_ERRORRESPONSE_HPP_

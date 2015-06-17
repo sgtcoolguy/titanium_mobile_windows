@@ -31,8 +31,8 @@ namespace Titanium
 				std::chrono::milliseconds timeout;
 			};
 			
-			AcceptDict js_to_AcceptDict(const JSObject& object);
-			JSObject AcceptDict_to_js(const JSContext& js_context, const AcceptDict& config);
+			TITANIUMKIT_EXPORT AcceptDict js_to_AcceptDict(const JSObject& object);
+			TITANIUMKIT_EXPORT JSObject AcceptDict_to_js(const JSContext& js_context, const AcceptDict& config);
 
 		} // namespace Socket
 	} // namespace Network

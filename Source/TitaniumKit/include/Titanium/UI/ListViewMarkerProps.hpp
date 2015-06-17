@@ -28,7 +28,7 @@ namespace Titanium
 			int32_t sectionIndex {0};
 		};
 		
-		ListViewMarkerProps js_to_ListViewMarkerProps(const JSObject& object);
+		TITANIUMKIT_EXPORT ListViewMarkerProps js_to_ListViewMarkerProps(const JSObject& object);
 	} // namespace UI
 } // namespace Titanium
 #endif // _TITANIUM_UI_LISTVIEWMARKERPROPS_HPP_

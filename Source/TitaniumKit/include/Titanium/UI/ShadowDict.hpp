@@ -32,8 +32,8 @@ namespace Titanium
 			Dimension offset;
 		};
 		
-		ShadowDict js_to_ShadowDict(const JSObject& object);
-		JSObject ShadowDict_to_js(const JSContext& js_context, const ShadowDict& shadowDict);
+		TITANIUMKIT_EXPORT ShadowDict js_to_ShadowDict(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject ShadowDict_to_js(const JSContext& js_context, const ShadowDict& shadowDict);
 		
 	} // namespace UI
 } // namespace Titanium

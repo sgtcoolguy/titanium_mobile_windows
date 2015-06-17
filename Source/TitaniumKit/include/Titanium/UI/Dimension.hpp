@@ -30,8 +30,8 @@ namespace Titanium
 			uint32_t height { 0 };
 		};
 
-		Dimension js_to_Dimension(const JSObject& object);
-		JSObject Dimension_to_js(const JSContext& js_context, const Dimension& dimension);
+		TITANIUMKIT_EXPORT Dimension js_to_Dimension(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject Dimension_to_js(const JSContext& js_context, const Dimension& dimension);
 	} // namespace UI
 } // namespace Titanium
 #endif // _TITANIUM_DIMENSION_HPP_

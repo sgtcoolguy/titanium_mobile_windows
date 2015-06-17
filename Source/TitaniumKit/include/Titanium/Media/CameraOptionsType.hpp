@@ -64,8 +64,8 @@ namespace Titanium
 			CameraOptionsTypeCallbacks callbacks;
 		};
 		
-		CameraOptionsType js_to_CameraOptionsType(const JSObject& object);
-		JSObject CameraOptionsType_to_js(const JSContext& js_context, const CameraOptionsType& config);
+		TITANIUMKIT_EXPORT CameraOptionsType js_to_CameraOptionsType(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject CameraOptionsType_to_js(const JSContext& js_context, const CameraOptionsType& config);
 		
 	} // namespace Media
 } // namespace Titanium

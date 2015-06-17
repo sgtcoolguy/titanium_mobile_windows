@@ -30,8 +30,8 @@ namespace Titanium
 			std::vector<AudioSessionPort> outputs;
 		};
 		
-		RouteDescription js_to_RouteDescription(const JSObject& object);
-		JSObject RouteDescription_to_js(const JSContext& js_context, const RouteDescription& config);
+		TITANIUMKIT_EXPORT RouteDescription js_to_RouteDescription(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject RouteDescription_to_js(const JSContext& js_context, const RouteDescription& config);
 		
 	} // namespace Media
 } // namespace Titanium

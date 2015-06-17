@@ -33,8 +33,8 @@ namespace Titanium
 			uint32_t zoom;
 		};
 		
-		MapRegionTypev2 js_to_MapRegionTypev2(const JSObject& object);
-		JSObject MapRegionTypev2_to_js(const JSContext& js_context, MapRegionTypev2 value);
+		TITANIUMKIT_EXPORT MapRegionTypev2 js_to_MapRegionTypev2(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject MapRegionTypev2_to_js(const JSContext& js_context, MapRegionTypev2 value);
 		
 	} // namespace Map
 } // namespace Titanium

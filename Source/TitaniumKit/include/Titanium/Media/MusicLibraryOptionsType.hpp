@@ -46,8 +46,8 @@ namespace Titanium
 			MusicLibraryOptionsTypeCallbacks callbacks;
 		};
 		
-		MusicLibraryOptionsType js_to_MusicLibraryOptionsType(const JSObject& object);
-		JSObject MusicLibraryOptionsType_to_js(const JSContext& js_context, const MusicLibraryOptionsType& config);
+		TITANIUMKIT_EXPORT MusicLibraryOptionsType js_to_MusicLibraryOptionsType(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject MusicLibraryOptionsType_to_js(const JSContext& js_context, const MusicLibraryOptionsType& config);
 		
 	} // namespace Media
 } // namespace Titanium

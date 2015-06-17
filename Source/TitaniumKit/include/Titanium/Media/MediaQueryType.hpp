@@ -38,8 +38,8 @@ namespace Titanium
 			MediaQueryInfoType title;
 		};
 		
-		MediaQueryType js_to_MediaQueryType(const JSObject& object);
-		JSObject MediaQueryType_to_js(const JSContext& js_context, const MediaQueryType& config);
+		TITANIUMKIT_EXPORT MediaQueryType js_to_MediaQueryType(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject MediaQueryType_to_js(const JSContext& js_context, const MediaQueryType& config);
 		
 	} // namespace Media
 } // namespace Titanium

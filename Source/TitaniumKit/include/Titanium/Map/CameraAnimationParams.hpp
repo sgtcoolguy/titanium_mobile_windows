@@ -31,8 +31,8 @@ namespace Titanium
 			std::chrono::milliseconds duration;
 		};
 		
-		CameraAnimationParams js_to_CameraAnimationParams(const JSObject& object);
-		JSObject CameraAnimationParams_to_js(const JSContext& js_context, CameraAnimationParams value);
+		TITANIUMKIT_EXPORT CameraAnimationParams js_to_CameraAnimationParams(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject CameraAnimationParams_to_js(const JSContext& js_context, CameraAnimationParams value);
 		
 	} // namespace Map
 } // namespace Titanium

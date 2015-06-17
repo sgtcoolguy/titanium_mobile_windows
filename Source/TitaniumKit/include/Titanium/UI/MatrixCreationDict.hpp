@@ -31,8 +31,8 @@ namespace Titanium
 			double scale {1};
 		};
 
-		MatrixCreationDict js_to_MatrixCreationDict(const JSObject& object);
-		JSObject MatrixCreationDict_to_js(const JSContext& js_context, const MatrixCreationDict& dict);
+		TITANIUMKIT_EXPORT MatrixCreationDict js_to_MatrixCreationDict(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject MatrixCreationDict_to_js(const JSContext& js_context, const MatrixCreationDict& dict);
 		
 	} // namespace UI
 } // namespace Titanium

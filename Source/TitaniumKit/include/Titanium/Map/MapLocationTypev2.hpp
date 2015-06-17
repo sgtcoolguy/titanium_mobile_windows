@@ -31,8 +31,8 @@ namespace Titanium
 			double longitudeDelta;
 		};
 		
-		MapLocationTypev2 js_to_MapLocationTypev2(const JSObject& object);
-		JSObject MapLocationTypev2_to_js(const JSContext& js_context, MapLocationTypev2 value);
+		TITANIUMKIT_EXPORT MapLocationTypev2 js_to_MapLocationTypev2(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject MapLocationTypev2_to_js(const JSContext& js_context, MapLocationTypev2 value);
 		
 	} // namespace Map
 } // namespace Titanium

@@ -35,8 +35,8 @@ namespace Titanium
 			std::unordered_set<MusicMediaType> types;
 		};
 		
-		MusicLibraryResponseType js_to_MusicLibraryResponseType(const JSObject& object);
-		JSObject MusicLibraryResponseType_to_js(const JSContext& js_context, const MusicLibraryResponseType& config);
+		TITANIUMKIT_EXPORT MusicLibraryResponseType js_to_MusicLibraryResponseType(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject MusicLibraryResponseType_to_js(const JSContext& js_context, const MusicLibraryResponseType& config);
 		
 	} // namespace Media
 } // namespace Titanium

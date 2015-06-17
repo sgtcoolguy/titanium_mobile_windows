@@ -54,8 +54,8 @@ namespace Titanium
 			PhotoGalleryOptionsTypeCallbacks callbacks;
 		};
 		
-		PhotoGalleryOptionsType js_to_PhotoGalleryOptionsType(const JSObject& object);
-		JSObject PhotoGalleryOptionsType_to_js(const JSContext& js_context, const PhotoGalleryOptionsType& config);
+		TITANIUMKIT_EXPORT PhotoGalleryOptionsType js_to_PhotoGalleryOptionsType(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject PhotoGalleryOptionsType_to_js(const JSContext& js_context, const PhotoGalleryOptionsType& config);
 		
 	} // namespace Media
 } // namespace Titanium

@@ -37,8 +37,8 @@ namespace Titanium
 			bool success { true };
 		};
 		
-		CameraMediaItemType js_to_CameraMediaItemType(const JSObject& object);
-		JSObject CameraMediaItemType_to_js(const JSContext& js_context, const CameraMediaItemType& config);
+		TITANIUMKIT_EXPORT CameraMediaItemType js_to_CameraMediaItemType(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject CameraMediaItemType_to_js(const JSContext& js_context, const CameraMediaItemType& config);
 		
 	} // namespace Media
 } // namespace Titanium

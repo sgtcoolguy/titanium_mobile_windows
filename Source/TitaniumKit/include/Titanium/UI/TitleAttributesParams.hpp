@@ -32,8 +32,8 @@ namespace Titanium
 			ShadowDict   shadow;
 		};
 		
-		TitleAttributesParams js_to_TitleAttributesParams(const JSObject& object);
-		JSObject TitleAttributesParams_to_js(const JSContext& js_context, const TitleAttributesParams& params);
+		TITANIUMKIT_EXPORT TitleAttributesParams js_to_TitleAttributesParams(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject TitleAttributesParams_to_js(const JSContext& js_context, const TitleAttributesParams& params);
 		
 	} // namespace UI
 } // namespace Titanium
