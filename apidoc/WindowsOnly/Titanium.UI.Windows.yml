@@ -1,0 +1,46 @@
+name: Titanium.UI.Windows
+summary: |
+    Windows Phone specific UI capabilities.
+    All properties, methods and events in this namespace will only work on Windows Phone devices.
+extends: Titanium.Module
+platforms: [windowsphone]
+
+methods:
+  - name: createAppBarButton
+    summary: Creates and returns an instance of a <Titanium.UI.Windows.AppBarButton>.
+    parameters:
+      - name: params
+        summary: |
+            Properties to set on a new object, including any defined by <Titanium.UI.Windows.AppBarButton>
+            except those marked not-creation or read-only.
+
+        type: Dictionary<Titanium.UI.Windows.AppBarButton>
+    returns:
+      - type: Titanium.UI.Windows.AppBarButton
+
+  - name: createAppBarSeparator
+    summary: Creates a separator for the command bar.
+    returns:
+      - type: Object
+
+  - name: createAppBarToggleButton
+    summary: Creates and returns an instance of a <Titanium.UI.Windows.AppBarToggleButton>.
+    parameters:
+      - name: params
+        summary: |
+            Properties to set on a new object, including any defined by <Titanium.UI.Windows.AppBarToggleButton>
+            except those marked not-creation or read-only.
+        type: Dictionary<Titanium.UI.Windows.AppBarToggleButton>
+    returns:
+      - type: Titanium.UI.Windows.AppBarToggleButton
+
+  - name: createCommandBar
+    summary: Creates and returns an instance of a <Titanium.UI.Windows.CommandBar>.
+    parameters:
+      - name: params
+        summary: |
+            Properties to set on a new object, including any defined by <Titanium.UI.Windows.CommandBar>
+            except those marked not-creation or read-only.
+        type: Dictionary<Titanium.UI.Windows.CommandBar>
+    returns:
+      - type: Titanium.UI.Windows.CommandBar

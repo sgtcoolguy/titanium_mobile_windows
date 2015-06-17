@@ -1,0 +1,1366 @@
+name: Titanium.UI.Windows.SystemIcon
+summary: A set of constants used to create Windows Phone system buttons.
+description: |
+    Assign one of the constants to the `icon` property of either a
+    <Titanium.UI.Windows.AppBarButton> or <Titanium.UI.Windows.AppBarToggleButton>
+    object to create a Windows Phone system button for an application bar.
+
+        var addButton = Ti.UI.Windows.createAppBarButton({
+            icon: Titanium.UI.Windows.SystemIcon.ADD
+        });
+extends: Titanium.Proxy
+createable: false
+platforms: [windowsphone]
+
+properties:
+  - name: ACCEPT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **Accept** button.
+    type: Number
+    permission: read-only
+  - name: ACCOUNT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **Account** button.
+    type: Number
+    permission: read-only
+  - name: ADD
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **Add** button.
+    type: Number
+    permission: read-only
+  - name: ADDFRIEND
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **Add Friend** button.
+    type: Number
+    permission: read-only
+  - name: ADMIN
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **Admin** button.
+    type: Number
+    permission: read-only
+  - name: ALIGNCENTER
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **Align Center** button.
+    type: Number
+    permission: read-only
+  - name: ALIGNLEFT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **Align Left** button.
+    type: Number
+    permission: read-only
+  - name: ALIGNRIGHT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **Align Right** button.
+    type: Number
+    permission: read-only
+  - name: ALLAPPS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **All Apps** button.
+    type: Number
+    permission: read-only
+  - name: ATTACH
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **Attach** button.
+    type: Number
+    permission: read-only
+  - name: ATTACHCAMERA
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **Attach Camera** button.
+    type: Number
+    permission: read-only
+  - name: AUDIO
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        an **Audio** button.
+    type: Number
+    permission: read-only
+  - name: BACK
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Back** button.
+    type: Number
+    permission: read-only
+  - name: BACKTOWINDOW
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Back to Window** button.
+    type: Number
+    permission: read-only
+  - name: BLOCKCONTACT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Block Contact** button.
+    type: Number
+    permission: read-only
+  - name: BOLD
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Bold** button.
+    type: Number
+    permission: read-only
+  - name: BOOKMARKS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Bookmarks** button.
+    type: Number
+    permission: read-only
+  - name: BROWSEPHOTOS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Browse Photos** button.
+    type: Number
+    permission: read-only
+  - name: BULLETS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Bullets** button.
+    type: Number
+    permission: read-only
+  - name: CALCULATOR
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Calculator** button.
+    type: Number
+    permission: read-only
+  - name: CALENDAR
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Calendar** button.
+    type: Number
+    permission: read-only
+  - name: CALENDARDAY
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Calendar Day** button.
+    type: Number
+    permission: read-only
+  - name: CALENDARREPLY
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Calendar Reply** button.
+    type: Number
+    permission: read-only
+  - name: CALENDARWEEK
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Calendar Week** button.
+    type: Number
+    permission: read-only
+  - name: CAMERA
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Camera** button.
+    type: Number
+    permission: read-only
+  - name: CANCEL
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Cancel** button.
+    type: Number
+    permission: read-only
+  - name: CAPTION
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Caption** button.
+    type: Number
+    permission: read-only
+  - name: CELLPHONE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Cellphone** button.
+    type: Number
+    permission: read-only
+  - name: CHARACTER
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Character** button.
+    type: Number
+    permission: read-only
+  - name: CLEAR
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Clear** button.
+    type: Number
+    permission: read-only
+  - name: CLEARSELECTION
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Clear Selection** button.
+    type: Number
+    permission: read-only
+  - name: CLOCK
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Clock** button.
+    type: Number
+    permission: read-only
+  - name: CLOSEDCAPTION
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Closed Caption** button.
+    type: Number
+    permission: read-only
+  - name: CLOSEPANE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Close Pane** button.
+    type: Number
+    permission: read-only
+  - name: COMMENT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Comment** button.
+    type: Number
+    permission: read-only
+  - name: CONTACT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Contact** button.
+    type: Number
+    permission: read-only
+  - name: CONTACT2
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Contact 2** button.
+    type: Number
+    permission: read-only
+  - name: CONTACTINFO
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Contact Info** button.
+    type: Number
+    permission: read-only
+  - name: CONTACTPRESENCE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Contact Presence** button.
+    type: Number
+    permission: read-only
+  - name: COPY
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Copy** button.
+    type: Number
+    permission: read-only
+  - name: CROP
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Crop** button.
+    type: Number
+    permission: read-only
+  - name: CUT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Cut** button.
+    type: Number
+    permission: read-only
+  - name: DELETE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Delete** button.
+    type: Number
+    permission: read-only
+  - name: DIRECTIONS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Directions** button.
+    type: Number
+    permission: read-only
+  - name: DISABLEUPDATES
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Disable Updates** button.
+    type: Number
+    permission: read-only
+  - name: DISCONNECTDRIVE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Disconnect Drive** button.
+    type: Number
+    permission: read-only
+  - name: DISLIKE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Dislike** button.
+    type: Number
+    permission: read-only
+  - name: DOCKBOTTOM
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Dock Bottom** button.
+    type: Number
+    permission: read-only
+  - name: DOCKLEFT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Dock Left** button.
+    type: Number
+    permission: read-only
+  - name: DOCKRIGHT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Dock Right** button.
+    type: Number
+    permission: read-only
+  - name: DOCUMENT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Document** button.
+    type: Number
+    permission: read-only
+  - name: DOWNLOAD
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Download** button.
+    type: Number
+    permission: read-only
+  - name: EDIT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Edit** button.
+    type: Number
+    permission: read-only
+  - name: EMOJI
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Emoji** button.
+    type: Number
+    permission: read-only
+  - name: EMOJI2
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Emoji 2** button.
+    type: Number
+    permission: read-only
+  - name: FAVORITE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Favorite** button.
+    type: Number
+    permission: read-only
+  - name: FILTER
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Filter** button.
+    type: Number
+    permission: read-only
+  - name: FIND
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Find** button.
+    type: Number
+    permission: read-only
+  - name: FLAG
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Flag** button.
+    type: Number
+    permission: read-only
+  - name: FOLDER
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Folder** button.
+    type: Number
+    permission: read-only
+  - name: FONT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Font** button.
+    type: Number
+    permission: read-only
+  - name: FONTCOLOR
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Font Color** button.
+    type: Number
+    permission: read-only
+  - name: FONTDECREASE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Font Decrease** button.
+    type: Number
+    permission: read-only
+  - name: FONTINCREASE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Font Increase** button.
+    type: Number
+    permission: read-only
+  - name: FONTSIZE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Font Size** button.
+    type: Number
+    permission: read-only
+  - name: FORWARD
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Forward** button.
+    type: Number
+    permission: read-only
+  - name: FOURBARS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Four Bars** button.
+    type: Number
+    permission: read-only
+  - name: FULLSCREEN
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Fullscreen** button.
+    type: Number
+    permission: read-only
+  - name: GLOBE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Globe** button.
+    type: Number
+    permission: read-only
+  - name: GO
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Go** button.
+    type: Number
+    permission: read-only
+  - name: GOTOSTART
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Go to Start** button.
+    type: Number
+    permission: read-only
+  - name: GOTOTODAY
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Go to Today** button.
+    type: Number
+    permission: read-only
+  - name: HANGUP
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Hangup** button.
+    type: Number
+    permission: read-only
+  - name: HELP
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Help** button.
+    type: Number
+    permission: read-only
+  - name: HIDEBCC
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Hide BCC** button.
+    type: Number
+    permission: read-only
+  - name: HIGHLIGHT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Highlight** button.
+    type: Number
+    permission: read-only
+  - name: HOME
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Home** button.
+    type: Number
+    permission: read-only
+  - name: IMPORT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Import** button.
+    type: Number
+    permission: read-only
+  - name: IMPORTALL
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Import All** button.
+    type: Number
+    permission: read-only
+  - name: IMPORTANT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Important** button.
+    type: Number
+    permission: read-only
+  - name: ITALIC
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Italic** button.
+    type: Number
+    permission: read-only
+  - name: KEYBOARD
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Keyboard** button.
+    type: Number
+    permission: read-only
+  - name: LEAVECHAT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Leave Chat** button.
+    type: Number
+    permission: read-only
+  - name: LIBRARY
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Library** button.
+    type: Number
+    permission: read-only
+  - name: LIKE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Like** button.
+    type: Number
+    permission: read-only
+  - name: LIKEDISLIKE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Like-Dislike** button.
+    type: Number
+    permission: read-only
+  - name: LINK
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Link** button.
+    type: Number
+    permission: read-only
+  - name: LIST
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **List** button.
+    type: Number
+    permission: read-only
+  - name: MAIL
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Mail** button.
+    type: Number
+    permission: read-only
+  - name: MAILFILLED
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Mail Filled** button.
+    type: Number
+    permission: read-only
+  - name: MAILFORWARD
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Mail Forward** button.
+    type: Number
+    permission: read-only
+  - name: MAILREPLY
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Mail Reply** button.
+    type: Number
+    permission: read-only
+  - name: MAILREPLYALL
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Mail Reply All** button.
+    type: Number
+    permission: read-only
+  - name: MANAGE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Manage** button.
+    type: Number
+    permission: read-only
+  - name: MAP
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Map** button.
+    type: Number
+    permission: read-only
+  - name: MAPDRIVE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Map Drive** button.
+    type: Number
+    permission: read-only
+  - name: MAPPIN
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Map Pin** button.
+    type: Number
+    permission: read-only
+  - name: MEMO
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Memo** button.
+    type: Number
+    permission: read-only
+  - name: MESSAGE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Message** button.
+    type: Number
+    permission: read-only
+  - name: MICROPHONE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Microphone** button.
+    type: Number
+    permission: read-only
+  - name: MORE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **More** button.
+    type: Number
+    permission: read-only
+  - name: MOVETOFOLDER
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Move to Folder** button.
+    type: Number
+    permission: read-only
+  - name: MUSICINFO
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Music Info** button.
+    type: Number
+    permission: read-only
+  - name: MUTE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Mute** button.
+    type: Number
+    permission: read-only
+  - name: NEWFOLDER
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **New Folder** button.
+    type: Number
+    permission: read-only
+  - name: NEWWINDOW
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **New Window** button.
+    type: Number
+    permission: read-only
+  - name: NEXT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Next** button.
+    type: Number
+    permission: read-only
+  - name: ONEBAR
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **One Bar** button.
+    type: Number
+    permission: read-only
+  - name: OPENFILE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Open File** button.
+    type: Number
+    permission: read-only
+  - name: OPENLOCAL
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Open Local** button.
+    type: Number
+    permission: read-only
+  - name: OPENPANE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Open Pane** button.
+    type: Number
+    permission: read-only
+  - name: OPENWITH
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Open With** button.
+    type: Number
+    permission: read-only
+  - name: ORIENTATION
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Orientation** button.
+    type: Number
+    permission: read-only
+  - name: OTHERUSER
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Other User** button.
+    type: Number
+    permission: read-only
+  - name: OUTLINESTAR
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Outline Star** button.
+    type: Number
+    permission: read-only
+  - name: PAGE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Page** button.
+    type: Number
+    permission: read-only
+  - name: PAGE2
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Page 2** button.
+    type: Number
+    permission: read-only
+  - name: PASTE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Paste** button.
+    type: Number
+    permission: read-only
+  - name: PAUSE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Pause** button.
+    type: Number
+    permission: read-only
+  - name: PEOPLE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **People** button.
+    type: Number
+    permission: read-only
+  - name: PERMISSIONS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Permissions** button.
+    type: Number
+    permission: read-only
+  - name: PHONE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Phone** button.
+    type: Number
+    permission: read-only
+  - name: PHONEBOOK
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Phonebook** button.
+    type: Number
+    permission: read-only
+  - name: PICTURES
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Pictures** button.
+    type: Number
+    permission: read-only
+  - name: PIN
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Pin** button.
+    type: Number
+    permission: read-only
+  - name: PLACEHOLDER
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Placeholder** button.
+    type: Number
+    permission: read-only
+  - name: PLAY
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Play** button.
+    type: Number
+    permission: read-only
+  - name: POSTUPDATE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Post Update** button.
+    type: Number
+    permission: read-only
+  - name: PREVIEW
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Preview** button.
+    type: Number
+    permission: read-only
+  - name: PREVIEWLINK
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Preview Link** button.
+    type: Number
+    permission: read-only
+  - name: PREVIOUS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Previous** button.
+    type: Number
+    permission: read-only
+  - name: PRIORITY
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Priority** button.
+    type: Number
+    permission: read-only
+  - name: PROTECTEDDOCUMENT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Protected Document** button.
+    type: Number
+    permission: read-only
+  - name: READ
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Read** button.
+    type: Number
+    permission: read-only
+  - name: REDO
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Redo** button.
+    type: Number
+    permission: read-only
+  - name: REFRESH
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Refresh** button.
+    type: Number
+    permission: read-only
+  - name: REMOTE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Remote** button.
+    type: Number
+    permission: read-only
+  - name: REMOVE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Remove** button.
+    type: Number
+    permission: read-only
+  - name: RENAME
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Rename** button.
+    type: Number
+    permission: read-only
+  - name: REPAIR
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Repair** button.
+    type: Number
+    permission: read-only
+  - name: REPEATALL
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Repeat All** button.
+    type: Number
+    permission: read-only
+  - name: REPEATONE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Repeat One** button.
+    type: Number
+    permission: read-only
+  - name: REPORTHACKED
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Report Hacked** button.
+    type: Number
+    permission: read-only
+  - name: RESHARE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Reshare** button.
+    type: Number
+    permission: read-only
+  - name: ROTATE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Rotate** button.
+    type: Number
+    permission: read-only
+  - name: ROTATECAMERA
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Rotate Camera** button.
+    type: Number
+    permission: read-only
+  - name: SAVE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Save** button.
+    type: Number
+    permission: read-only
+  - name: SAVELOCAL
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Save Local** button.
+    type: Number
+    permission: read-only
+  - name: SCAN
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Scan** button.
+    type: Number
+    permission: read-only
+  - name: SELECTALL
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Select All** button.
+    type: Number
+    permission: read-only
+  - name: SEND
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Send** button.
+    type: Number
+    permission: read-only
+  - name: SETLOCKSCREEN
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Set Lock Screen** button.
+    type: Number
+    permission: read-only
+  - name: SETTILE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Set Tile** button.
+    type: Number
+    permission: read-only
+  - name: SETTING
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Setting** button.
+    type: Number
+    permission: read-only
+  - name: SHOP
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Shop** button.
+    type: Number
+    permission: read-only
+  - name: SHOWBCC
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Show BCC** button.
+    type: Number
+    permission: read-only
+  - name: SHOWRESULTS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Show Results** button.
+    type: Number
+    permission: read-only
+  - name: SHUFFLE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Shuffle** button.
+    type: Number
+    permission: read-only
+  - name: SLIDESHOW
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Slideshow** button.
+    type: Number
+    permission: read-only
+  - name: SOLIDSTAR
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Solid Star** button.
+    type: Number
+    permission: read-only
+  - name: SORT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Sort** button.
+    type: Number
+    permission: read-only
+  - name: STOP
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Stop** button.
+    type: Number
+    permission: read-only
+  - name: STOPSLIDESHOW
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Stop Slideshow** button.
+    type: Number
+    permission: read-only
+  - name: STREET
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Street** button.
+    type: Number
+    permission: read-only
+  - name: SWITCH
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Switch** button.
+    type: Number
+    permission: read-only
+  - name: SWITCHAPPS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Switch Apps** button.
+    type: Number
+    permission: read-only
+  - name: SYNC
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Sync** button.
+    type: Number
+    permission: read-only
+  - name: SYNCFOLDER
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Sync Folder** button.
+    type: Number
+    permission: read-only
+  - name: TAG
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Tag** button.
+    type: Number
+    permission: read-only
+  - name: TARGET
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Target** button.
+    type: Number
+    permission: read-only
+  - name: THREEBARS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Three Bars** button.
+    type: Number
+    permission: read-only
+  - name: TOUCHPOINTER
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Touch Pointer** button.
+    type: Number
+    permission: read-only
+  - name: TRIM
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Trim** button.
+    type: Number
+    permission: read-only
+  - name: TWOBARS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Two Bars** button.
+    type: Number
+    permission: read-only
+  - name: TWOPAGE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Two Page** button.
+    type: Number
+    permission: read-only
+  - name: UNDERLINE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Underline** button.
+    type: Number
+    permission: read-only
+  - name: UNDO
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Undo** button.
+    type: Number
+    permission: read-only
+  - name: UNFAVORITE
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Unfavorite** button.
+    type: Number
+    permission: read-only
+  - name: UNPIN
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Unpin** button.
+    type: Number
+    permission: read-only
+  - name: UNSYNCFOLDER
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Unsync Folder** button.
+    type: Number
+    permission: read-only
+  - name: UP
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Up** button.
+    type: Number
+    permission: read-only
+  - name: UPLOAD
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Upload** button.
+    type: Number
+    permission: read-only
+  - name: VIDEO
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Video** button.
+    type: Number
+    permission: read-only
+  - name: VIDEOCHAT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Video Chat** button.
+    type: Number
+    permission: read-only
+  - name: VIEW
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **View** button.
+    type: Number
+    permission: read-only
+  - name: VIEWALL
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **View All** button.
+    type: Number
+    permission: read-only
+  - name: VOLUME
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Volume** button.
+    type: Number
+    permission: read-only
+  - name: WEBCAM
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Webcam** button.
+    type: Number
+    permission: read-only
+  - name: WORLD
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **World** button.
+    type: Number
+    permission: read-only
+  - name: ZEROBARS
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Zero Bars** button.
+    type: Number
+    permission: read-only
+  - name: ZOOM
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Zoom** button.
+    type: Number
+    permission: read-only
+  - name: ZOOMIN
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Zoom In** button.
+    type: Number
+    permission: read-only
+  - name: ZOOMOUT
+    summary: |
+        Use with either the [AppBarButton.icon](Titanium.UI.Windows.AppBarButton.icon) or
+        [AppBarToggleButton.icon](Titanium.UI.Windows.AppBarToggleButton.icon) properties to specify
+        a **Zoom Out** button.
+    type: Number
+    permission: read-only

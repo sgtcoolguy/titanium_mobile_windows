@@ -1,0 +1,46 @@
+name: Titanium.UI.Windows.CommandBar
+summary: A Windows Phone application bar located at the bottom of the window.
+description: |
+    The command bar displays a row of buttons used to indicate additional actions the user can
+    perform.
+
+    To create a command bar, first create buttons and separator objects using the following methods:
+
+      * [Titanium.UI.Windows.createAppBarButton()](Titanium.UI.Windows.createAppBarButton)
+      * [Titanium.UI.Windows.createAppBarToggleButton()](Titanium.UI.Windows.createAppBarToggleButton)
+      * [Titanium.UI.Windows.createAppBarSeparator()](Titanium.UI.Windows.createAppBarSeparator)
+
+    Then, pass an array or button and separator objects to the `items` property when creating a
+    command bar with the [`Titanium.UI.Windows.createCommandBar()`](Titanium.UI.Windows.createCommandBar)
+    method.
+
+    Finally, add the command bar to a Titanium.UI.Window object.
+
+        var backButton = Ti.UI.Windows.createAppBarButton({
+                icon: Ti.UI.Windows.SystemIcon.BACK
+            }),
+            likeButton = Ti.UI.Windows.createAppBarToggleButton({
+                icon: Ti.UI.Windows.SystemIcon.LIKEDISLIKE
+            }),
+            forwardButton = Titanium.UI.Windows.createAppBarButton({
+                icon: Ti.UI.Windows.SystemIcon.FORWARD
+            }),
+            commandBar = Ti.UI.Windows.createCommandBar({
+                items [backButton, likeButton, forwardButton]
+            }),
+        win = Ti.UI.createWindow();
+        win.add(commandBar);
+        win.open();
+extends: Titanium.Module
+platforms: [windowsphone]
+
+properties:
+  - name: items
+    summary: Items to display in the command bar.
+    description: |
+        Add <Titanium.UI.Windows.AppBarButton> and <Titanium.UI.Windows.AppBarToggleButton> objects
+        as well as separators created with the <Titanium.UI.Windows.createAppBarSeparator> method.
+
+        Up to four items may be added.  If more than four items are added,
+        only the first four items will appear.
+    type: Array<Object>

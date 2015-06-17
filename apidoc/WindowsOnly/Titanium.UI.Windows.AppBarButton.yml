@@ -1,0 +1,29 @@
+name: Titanium.UI.Windows.AppBarButton
+summary: Windows Phone application bar button.
+description: |
+    To create an application bar button, use the
+    [Titanium.UI.Windows.createAppBarButton()](Titanium.UI.Windows.createAppBarButton) method
+    and set the `icon` property to one of the `Titanium.UI.Windows.SystemIcon` constants.
+
+        var addButton = Ti.UI.Windows.createAppBarButton({
+            icon: Titanium.UI.Windows.SystemIcon.ADD
+        });
+
+    Then, add the button to a `Titanium.UI.Windows.CommandBar` object.
+extends: Titanium.Module
+platforms: [windowsphone]
+
+properties:
+  - name: icon
+    summary: Icon to display for the button.
+    type: Number
+    constants: Titanium.UI.Windows.SystemIcon.*
+
+  - name: touchEnabled
+    summary: Determines whether the view should receive touch events.
+    type: Boolean
+    default: true
+
+events:
+  - name: click
+    summary: Fired when the user presses the button.

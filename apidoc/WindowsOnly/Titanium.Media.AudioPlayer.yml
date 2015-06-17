@@ -2,6 +2,5 @@ name: Titanium.Media.AudioPlayer
 properties:
   - name: autoplay
     summary: Indicates if the audio should automatically start playback.
-    returns:
-      type: Boolean
+    type: Boolean
     platforms: [windowsphone]
