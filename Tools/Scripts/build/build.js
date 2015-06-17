@@ -222,13 +222,19 @@ async.series([
 	function (next) {
 		console.log("Copying over include headers...");
 		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'HAL', 'include', 'HAL'), path.join(distLib, 'HAL', 'include', 'HAL'));
-		wrench.mkdirSyncRecursive(path.join(distLib, 'TitaniumKit', 'include', 'Titanium'));
-		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'Utility', 'include', 'TitaniumWindows'), path.join(distLib, 'TitaniumWindows_Utility', 'include', 'TitaniumWindows'));
-		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'detail'), path.join(distLib, 'TitaniumKit', 'include', 'Titanium', 'detail'));	
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium'), path.join(distLib, 'TitaniumKit', 'include', 'Titanium'));
+
 		// Copy over the JSC headers to HAL!
 		wrench.copyDirSyncRecursive(path.join(process.env.JavaScriptCore_HOME, 'includes', 'JavaScriptCore'), path.join(distLib, 'HAL', 'include', 'JavaScriptCore'));
-		// Copy over TitaniumKit's Titanium/Module.hpp until we fix the wrappers to not use it!
-		fs.writeFileSync(path.join(distLib, 'TitaniumKit', 'include', 'Titanium', 'Module.hpp'), fs.readFileSync(path.join(rootDir, 'Source', 'TitaniumKit', 'include', 'Titanium', 'Module.hpp')));
+
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'Utility', 'include', 'TitaniumWindows'), path.join(distLib, 'TitaniumWindows_Utility', 'include', 'TitaniumWindows'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'LayoutEngine', 'include', 'LayoutEngine'), path.join(distLib, 'LayoutEngine', 'include', 'LayoutEngine'));
+		wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', 'Titanium', 'include', 'TitaniumWindows'), path.join(distLib, 'TitaniumWindows', 'include', 'TitaniumWindows'));
+
+		var include_TitaniumWindows = ['UI', 'Filesystem', 'Global', 'Filesystem', 'Map', 'Media', 'Network', 'Sensors', 'Ti' ];
+		for (var i = 0; i < include_TitaniumWindows.length; i++) {
+			wrench.copyDirSyncRecursive(path.join(rootDir, 'Source', include_TitaniumWindows[i], 'include', 'TitaniumWindows'), path.join(distLib, 'TitaniumWindows_'+include_TitaniumWindows[i], 'include', 'TitaniumWindows'));
+		}
 		
 		next();
 	},
