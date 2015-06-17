@@ -25,7 +25,14 @@ namespace Titanium
  * @param (e) Error or Exception
  */
 function Titanium_RedScreenOfDeath(e) {
+
+    // We don't want to show RSOD in production mode. re-throw.
+    if (Ti.App.deployType == "production") {
+        throw e;
+    }
+
     try {
+
         Ti.API.error("Application Error: "+JSON.stringify(e, null, 2));
 
         var f = e.fileName || "",
@@ -84,15 +91,11 @@ function Titanium_RedScreenOfDeath(e) {
 			os << "}";
 			return js_context__.JSEvaluateScript(os.str());
 		} catch (const std::exception& stdex) {
-#ifdef NDEBUG
-			throw stdex;
-#else
 			const auto what = js_context__.CreateString(stdex.what());
 			const auto rsod = js_context__.get_global_object().GetProperty("Titanium_RedScreenOfDeath");
 			auto rsod_func = static_cast<JSObject>(rsod);
 			const std::vector<JSValue> args = { what };
 			return rsod_func(args, rsod_func);
-#endif
 		}
 		return js_context__.CreateUndefined();
 	}
