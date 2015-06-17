@@ -178,14 +178,10 @@ namespace Titanium
 				callback({ static_cast<JSValue>(event_copy) }, this_object);
 			}
 		} catch (const HAL::detail::js_runtime_error& ex) {
-#ifdef NDEBUG
-			throw ex;
-#else
 			std::ostringstream os;
 			os << "Runtime Error during " << name << " event: " << ex.js_message();
 
 			showRedScreenOfDeath(os.str());
-#endif
 		}
 	}
 
