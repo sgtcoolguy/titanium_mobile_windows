@@ -73,6 +73,7 @@ namespace TitaniumWindows
 	}
 	std::string Platform::architecture() const TITANIUM_NOEXCEPT
 	{
+		// FIXME This is what architectures the _app_ supports, not the current processor architecture!
 		using namespace Windows::System;
 		switch (Windows::ApplicationModel::Package::Current->Id->Architecture) {
 			case ProcessorArchitecture::Arm:
@@ -89,7 +90,11 @@ namespace TitaniumWindows
 	}
 	unsigned Platform::availableMemory() const TITANIUM_NOEXCEPT
 	{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+		return Windows::System::MemoryManager::AppMemoryUsageLimit - Windows::System::MemoryManager::AppMemoryUsage;
+#else
 		return 0;
+#endif
 	}
 
 	double Platform::batteryLevel() const TITANIUM_NOEXCEPT
@@ -165,7 +170,9 @@ namespace TitaniumWindows
 	}
 	unsigned Platform::processorCount() const TITANIUM_NOEXCEPT
 	{
-		return 0;
+		_SYSTEM_INFO sysInfo;
+		GetNativeSystemInfo(&sysInfo);
+		return sysInfo.dwNumberOfProcessors;
 	}
 	std::string Platform::runtime() const TITANIUM_NOEXCEPT
 	{
