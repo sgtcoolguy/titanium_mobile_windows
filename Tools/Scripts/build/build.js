@@ -8,9 +8,42 @@ var path = require('path'),
 	async = require('async'),
 	colors = require('colors'),
 	wrench = require('wrench'),
+	exec = require('child_process').exec,
 	spawn = require('child_process').spawn,
 	cmakeLocation = path.join(__dirname, '..', '..', '..', 'cli', 'vendor', 'cmake', 'bin', 'cmake.exe'),
 	MSBuildLocation = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe";
+
+/**
+ * @param tiModuleCPP the file to update
+ * @param callback what to invoke when done/errored 
+ */
+function updateBuildValuesInTitaniumModule(tiModuleCPP, callback)
+{
+	var prc = exec('git show --abbrev-commit --no-color', { cwd: path.dirname(tiModuleCPP) }, function (error, stdout, stderr) {
+		var githash;
+		if (error) {
+			return callback('Failed to get Git HASH: ' + error);
+		}
+
+		githash = stdout.substring(7, 15).trim(); // drop leading 'commit ', just take 7-character sha
+
+		fs.readFile(tiModuleCPP, function(err, data) {
+			var contents;
+					timestamp,
+					date;
+			if (err) {
+				return callback('Failed to get contents of TiModule.cpp to replace hard-coded values: ' + error);
+			}
+			date = new Date();
+			timestamp = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getYear() + " " + date.getHours() + ":" + date.getMinutes();
+
+			contents = data.toString();
+			// FIXME How can we set the version? It doesn't get set until later _after_ we've built! We'll need to pull it in from some file!
+			contents = contents.replace(/__TITANIUM_BUILD_DATE__/, timestamp).replace(/__TITANIUM_BUILD_HASH__/, githash);
+			fs.writeFile(tiModuleCPP, contents, callback);
+		});
+	});
+}
 
 /**
  * @param sourceDir Where the source is
@@ -23,7 +56,7 @@ var path = require('path'),
 function runCMake(sourceDir, buildDir, buildType, platform, arch, callback) {
 	var prc,
 		generator = 'Visual Studio 12 2013';
-	
+
 	// If the buildDir already exists, wipe it
 	if (fs.existsSync(buildDir)) {
 		wrench.rmdirSyncRecursive(buildDir);
@@ -56,10 +89,10 @@ function runCMake(sourceDir, buildDir, buildType, platform, arch, callback) {
 			cwd: buildDir
 	});
 	prc.stdout.on('data', function (data) {
-	   console.log(data.toString().trim());
+		console.log(data.toString().trim());
 	});
 	prc.stderr.on('data', function (data) {
-	   console.log(data.toString().trim().red);
+		console.log(data.toString().trim().red);
 	});
 
 	prc.on('close', function (code) {
@@ -80,16 +113,18 @@ function runCMake(sourceDir, buildDir, buildType, platform, arch, callback) {
 function runMSBuild(slnFile, buildType, arch, callback) {
 	var prc,
 		args = ['/p:Configuration=' + buildType];
-		if ('ARM' == arch) {
-			args.unshift('/p:Platform=ARM');
-		}
-		args.unshift(slnFile);
+
+	if ('ARM' == arch) {
+		args.unshift('/p:Platform=ARM');
+	}
+	args.unshift(slnFile);
+
 	prc = spawn(MSBuildLocation, args);
 	prc.stdout.on('data', function (data) {
-	   console.log(data.toString().trim());
+		console.log(data.toString().trim());
 	});
 	prc.stderr.on('data', function (data) {
-	   console.log(data.toString().trim().red);
+		console.log(data.toString().trim().red);
 	});
 
 	prc.on('close', function (code) {
@@ -150,8 +185,8 @@ function copyToDistribution(sourceDir, destDir, buildType, platform, arch, callb
 		}
 		wrench.mkdirSyncRecursive(libDestDir);
 
- 		// Copy the build artifacts
- 		// TODO Only copy dll/winmd/lib? Do we need anything else? pri?
+		// Copy the build artifacts
+		// TODO Only copy dll/winmd/lib? Do we need anything else? pri?
 		wrench.copyDirSyncRecursive(libSrcDir, libDestDir, {
 			forceDelete: true, // Whether to overwrite existing directory or not
 			preserveTimestamps: true, // Preserve the mtime and atime when copying files
@@ -193,7 +228,7 @@ function buildAndPackage(sourceDir, buildDir, destDir, buildType, platform, arch
 			callback(err);
 		} else {
 			// Wipe the build dir if everything went well. Don't remove top-level build root, because previous build steps may have added results we care about there (i.e. CTest)
-			//wrench.rmdirSyncRecursive(path.join(buildDir, platformAbbrev, arch));
+			wrench.rmdirSyncRecursive(path.join(buildDir, platformAbbrev, arch));
 			callback();
 		}
 	});
@@ -207,6 +242,9 @@ var rootDir = path.join(__dirname, '..', '..', '..'),
 	distLib = path.join(distRoot, 'lib');
 
 async.series([
+	function (next) {
+		updateBuildValuesInTitaniumModule(path.join(rootDir, 'Source', 'Ti', 'src', 'TiModule.cpp'), next);
+	},
 	function (next) {
 		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'x86', next);
 	},
