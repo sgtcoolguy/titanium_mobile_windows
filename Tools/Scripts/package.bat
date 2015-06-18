@@ -1,5 +1,4 @@
-rmdir build /Q /S
-rmdir dist /Q /S
+git clean -fdx
 
 mkdir dist
 mkdir dist\windows
