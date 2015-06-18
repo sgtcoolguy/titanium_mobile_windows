@@ -31,7 +31,7 @@ namespace TitaniumWindows
 
 	std::string TiModule::version() const TITANIUM_NOEXCEPT
 	{
-		return "4.1.0";
+		return "__TITANIUM_VERSION__";
 	}
 
 	std::string TiModule::buildDate() const TITANIUM_NOEXCEPT
