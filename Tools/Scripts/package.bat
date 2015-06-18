@@ -1,3 +1,6 @@
+rmdir build /Q /S
+rmdir dist /Q /S
+
 mkdir dist
 mkdir dist\windows
 mkdir dist\windows\doc
