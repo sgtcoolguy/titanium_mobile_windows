@@ -140,18 +140,24 @@ namespace TitaniumWindows
 
 		void HTTPClient::send(Windows::Web::Http::IHttpContent^ content)
 		{
-			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
-
-			Windows::Foundation::IAsyncOperationWithProgress<Windows::Web::Http::HttpResponseMessage^, Windows::Web::Http::HttpProgress>^ operation;
+			auto uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
+			
+			// Set up the request
+			Windows::Web::Http::HttpRequestMessage^ request;
 			if (method__ == Titanium::Network::RequestMethod::Post) {
-				operation = httpClient__->PostAsync(uri, content);
+				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Post, uri);
+				request->Content = content;
 			} else if (method__ == Titanium::Network::RequestMethod::Put) {
-				operation = httpClient__->PutAsync(uri, content);
+				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Put, uri);
+				request->Content = content;
 			} else if (method__ == Titanium::Network::RequestMethod::Delete) {
-				operation = httpClient__->DeleteAsync(uri);
+				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Delete, uri);
 			} else {
-				operation = httpClient__->GetAsync(uri);
+				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Get, uri);
 			}
+			setRequestHeaders(request);
+
+			auto operation = httpClient__->SendRequestAsync(request);
 
 			// Startup a timer that will abort the request after the timeout period is reached.
 			startDispatcherTimer();
