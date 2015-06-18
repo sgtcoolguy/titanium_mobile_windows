@@ -210,10 +210,14 @@ namespace TitaniumWindows
 
 	void Application::OnSuspending(Object ^ sender, Windows::ApplicationModel::SuspendingEventArgs ^ e)
 	{
+		auto deferral = e->SuspendingOperation->GetDeferral();
+
 		// Since we only have "suspending" event, we fires both pause and paused event.
 		GET_TITANIUM_APP(App);
 		App->fireEvent("pause");
 		App->fireEvent("paused");
+
+		deferral->Complete();
 	}
 
 }  // namespace TitaniumWindows

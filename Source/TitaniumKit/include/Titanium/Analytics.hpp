@@ -41,6 +41,7 @@ namespace Titanium
 		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
 		TITANIUM_PROPERTY_READONLY_DEF(lastEvent);
+		TITANIUM_FUNCTION_DEF(_start);
 		TITANIUM_FUNCTION_DEF(featureEvent);
 		TITANIUM_FUNCTION_DEF(navEvent);
 		TITANIUM_FUNCTION_DEF(getLastEvent);
