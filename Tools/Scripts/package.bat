@@ -1,4 +1,4 @@
-git clean -fdx
+call git clean -fdx
 
 mkdir dist
 mkdir dist\windows
