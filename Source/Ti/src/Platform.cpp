@@ -166,6 +166,11 @@ namespace TitaniumWindows
 	}
 	std::string Platform::netmask() const TITANIUM_NOEXCEPT
 	{
+
+		using namespace Windows::Devices::Enumeration;
+
+	
+
 		using namespace Windows::Networking;
 		using namespace Windows::Networking::Connectivity;
 		const auto hosts = NetworkInformation::GetHostNames();
