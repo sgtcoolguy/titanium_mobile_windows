@@ -1,3 +1,5 @@
+call git clean -fdx
+
 mkdir dist
 mkdir dist\windows
 mkdir dist\windows\doc
