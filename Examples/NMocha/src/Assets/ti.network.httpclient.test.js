@@ -102,19 +102,29 @@ describe("Titanium.Network.HTTPClient", function () {
         xhr.send();
     });
 
-    it.skip("requestHeaderMethods", function (finish) {
+    it("requestHeaderMethods", function (finish) {
         this.timeout(3e4);
         var xhr = Ti.Network.createHTTPClient();
         xhr.setTimeout(3e4);
         xhr.onload = function (e) {
-            //TODO: set up a server that parrots back the request headers so
-            //that we can verfiy what we actually send.
+            var response;
+            should(e.code).eql(0);
+            if (xhr.status == 200) {
+                should(e.success).eql(true);
+
+                response = JSON.parse(xhr.responseText);
+                response['adhocHeader'].should.eql('notcleared');
+                response.should.not.have.property('clearedHeader');
+            } else if (xhr.status != 503) { // service unavailable (over quota)
+                fail("Received unexpected response: " + xhr.status);
+                return;
+            }
             finish();
         };
         xhr.onerror = function (e) {
-            should(e).should.be.type('undefined');
+            should(e).be.type('undefined');
         };
-        xhr.open("GET", "http://www.appcelerator.com");
+        xhr.open("GET", "http://headers.jsontest.com/");
         xhr.setRequestHeader("adhocHeader", "notcleared");
         xhr.setRequestHeader("clearedHeader", "notcleared");
         should(function () {

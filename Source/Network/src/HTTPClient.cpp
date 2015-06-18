@@ -209,12 +209,23 @@ namespace TitaniumWindows
 						onerror(ex->HResult, error, false);
 					}
 				}
+				catch (const std::exception& e) {
+					if (!disposed__ && httpClient__) {
+						std::string error(e.what());
+						onerror(-1, error, false);
+					}
+				}
 			});
 			// clang-format on
 		}
 
 		void HTTPClient::setRequestHeader(const std::string& key, const std::string& value) TITANIUM_NOEXCEPT
 		{
+			auto it = requestHeaders__.find(key);
+			if (it != requestHeaders__.end()) {
+				requestHeaders__.erase(it);
+			}
+
 			requestHeaders__.insert(std::make_pair(key, value));
 		}
 
@@ -248,11 +259,16 @@ namespace TitaniumWindows
 
 			for (it = requestHeaders__.begin(); it != requestHeaders__.end(); ++it) {
 				auto key = TitaniumWindows::Utility::ConvertString(it->first);
-				auto value = TitaniumWindows::Utility::ConvertString(it->second);
-
 				// ignore cookies they are added during open to the request filter.
 				if (!key->Equals("Cookie")) {
-					request->Headers->Append(key, value);
+					auto value = it->second;
+					if (!value.empty()) {
+						request->Headers->Append(key, TitaniumWindows::Utility::ConvertString(value));
+					} else {
+						if (request->Headers->HasKey(key)) {
+							request->Headers->Remove(key);
+						}
+					}
 				}
 			}
 		}
@@ -335,7 +351,7 @@ namespace TitaniumWindows
 
 		void HTTPClient::SerializeHeaders(Windows::Web::Http::HttpResponseMessage^ response)
 		{
-			status__ = (std::uint32_t)response->StatusCode;
+			status__ = static_cast<std::uint32_t>(response->StatusCode);
 
 			SerializeHeaderCollection(response->Headers);
 			SerializeHeaderCollection(response->Content->Headers);

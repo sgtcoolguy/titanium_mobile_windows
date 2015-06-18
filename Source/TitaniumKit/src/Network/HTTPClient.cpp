@@ -321,10 +321,14 @@ namespace Titanium
 		TITANIUM_FUNCTION(HTTPClient, setRequestHeader)
 		{
 			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsString());
 			const auto _1 = arguments.at(1);
-			TITANIUM_ASSERT(_0.IsString() && _1.IsString());
+			TITANIUM_ASSERT(_1.IsString() || _1.IsNull());
 			const auto name = static_cast<std::string>(_0);
-			const auto value = static_cast<std::string>(_1);
+			std::string value;
+			if (!_1.IsNull()) {
+				value = static_cast<std::string>(_1);
+			}
 			setRequestHeader(name, value);
 			return get_context().CreateUndefined();
 		}
