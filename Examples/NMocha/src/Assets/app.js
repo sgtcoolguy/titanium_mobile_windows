@@ -49,6 +49,7 @@ require('./ti.ui.textfield.test');
 require('./ti.ui.window.test');
 require('./ti.utils.test');
 require('./ti.xml.test');
+require('./ti.locale.test');
 // ============================================================================
 
 

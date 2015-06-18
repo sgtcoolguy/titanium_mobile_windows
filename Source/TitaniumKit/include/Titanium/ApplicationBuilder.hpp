@@ -23,6 +23,9 @@ namespace Titanium
 		ApplicationBuilder(const JSContext& js_context) TITANIUM_NOEXCEPT;
 		Application build();
 
+		JSObject GlobalString() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& GlobalString(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject TiObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& TiObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -46,6 +49,9 @@ namespace Titanium
 
 		JSObject AnalyticsObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& AnalyticsObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject LocaleObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& LocaleObject(const JSObject&) TITANIUM_NOEXCEPT;
 
 		JSObject EmailDialogObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& EmailDialogObject(const JSObject&) TITANIUM_NOEXCEPT;
@@ -217,9 +223,11 @@ namespace Titanium
 #pragma warning(disable : 4251)
 		JSContext js_context__;
 		JSObject global_object__;
+		JSObject global_string__;
 		JSObject ti__;
 		JSObject ui__;
 		JSObject api__;
+		JSObject locale__;
 		JSObject view__;
 		JSObject textarea__;
 		JSObject notification__;

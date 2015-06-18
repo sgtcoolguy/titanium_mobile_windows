@@ -118,10 +118,30 @@ set(SOURCE_Assets
 
 set_property(SOURCE ${SOURCE_Assets} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 
+set(SOURCE_i18n_en
+      "src/Assets/i18n/en/strings.xml"
+  )
+source_group("i18n/en" FILES 
+      "src/Assets/i18n/en/strings.xml"
+  )
+set_property(SOURCE ${SOURCE_i18n_en} PROPERTY VS_DEPLOYMENT_LOCATION "i18n\\en")
+set_property(SOURCE ${SOURCE_i18n_en} PROPERTY VS_DEPLOYMENT_CONTENT 1)
+
+set(SOURCE_i18n_ja
+      "src/Assets/i18n/ja/strings.xml"
+  )
+source_group("i18n/ja" FILES 
+      "src/Assets/i18n/ja/strings.xml"
+  )
+set_property(SOURCE ${SOURCE_i18n_ja} PROPERTY VS_DEPLOYMENT_LOCATION "i18n\\ja")
+set_property(SOURCE ${SOURCE_i18n_ja} PROPERTY VS_DEPLOYMENT_CONTENT 1)
+
 add_executable(${EXE_NAME} WIN32
   src/main.cpp
   src/OutputDebugStringBuf.hpp
   ${SOURCE_Assets}
+  ${SOURCE_i18n_en}
+  ${SOURCE_i18n_ja}
 )
 
 set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_COMPONENT TRUE)

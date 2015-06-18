@@ -179,7 +179,7 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(clearTimeout);
 		TITANIUM_FUNCTION_DEF(setInterval);
 		TITANIUM_FUNCTION_DEF(clearInterval);
-		
+
 		using Callback_t = std::function<void()>;
 
 		/*!
