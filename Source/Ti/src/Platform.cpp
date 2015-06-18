@@ -63,16 +63,21 @@ namespace TitaniumWindows
 			if (!result.empty()) {
 				return;
 			}
-			const auto hostname = TitaniumWindows::Utility::ConvertString(host->CanonicalName);
-			std::smatch match;
-			if (std::regex_search(hostname, match, pattern)) {
-				result = hostname;
-			}
+			// Enforce Wifi? This definitely doesn't work for Simulator properly. We also may not want to enforce wifi for desktop...
+			//if (host->IPInformation && host->IPInformation->NetworkAdapter->IanaInterfaceType == 71) {
+				const auto hostname = TitaniumWindows::Utility::ConvertString(host->CanonicalName);
+				std::smatch match;
+				if (std::regex_search(hostname, match, pattern)) {
+					result = hostname;
+				}
+			//}
 		});
 		return result;
 	}
 	std::string Platform::architecture() const TITANIUM_NOEXCEPT
 	{
+		// FIXME This is what architectures the _app_ supports, not the current processor architecture!
+		// Use GetNativeSystemInfo processor architecture enum value and map it? Maybe only for unknown/neutral?
 		using namespace Windows::System;
 		switch (Windows::ApplicationModel::Package::Current->Id->Architecture) {
 			case ProcessorArchitecture::Arm:
@@ -89,7 +94,11 @@ namespace TitaniumWindows
 	}
 	unsigned Platform::availableMemory() const TITANIUM_NOEXCEPT
 	{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+		return Windows::System::MemoryManager::AppMemoryUsageLimit - Windows::System::MemoryManager::AppMemoryUsage;
+#else
 		return 0;
+#endif
 	}
 
 	double Platform::batteryLevel() const TITANIUM_NOEXCEPT
@@ -157,7 +166,130 @@ namespace TitaniumWindows
 	}
 	std::string Platform::netmask() const TITANIUM_NOEXCEPT
 	{
-		return "";
+
+		using namespace Windows::Devices::Enumeration;
+
+	
+
+		using namespace Windows::Networking;
+		using namespace Windows::Networking::Connectivity;
+		const auto hosts = NetworkInformation::GetHostNames();
+		std::string result = "";
+		std::for_each(begin(hosts), end(hosts), [&result](HostName^ host) {
+			if (host->IPInformation) {
+				// FIXME How can we ensure this is the Wifi connection?
+				auto prefix = host->IPInformation->PrefixLength;
+				if (prefix) {
+					auto value = prefix->Value;
+					// Convert to subnet mask! Any way to do this more conveniently? a giant switch is just plain bad.
+					// http://www.gadgetwiz.com/network/netmask.html
+					switch (value) {
+					case 0:
+						result = "0.0.0.0";
+						break;
+					case 1:
+						result = "128.0.0.0";
+						break;
+					case 2:
+						result = "192.0.0.0";
+						break;
+					case 3:
+						result = "224.0.0.0";
+						break;
+					case 4:
+						result = "240.0.0.0";
+						break;
+					case 5:
+						result = "248.0.0.0";
+						break;
+					case 6:
+						result = "252.0.0.0";
+						break;
+					case 7:
+						result = "254.0.0.0";
+						break;
+					case 8:
+						result = "255.0.0.0";
+						break;
+					case 9:
+						result = "255.128.0.0";
+						break;
+					case 10:
+						result = "255.192.0.0";
+						break;
+					case 11:
+						result = "255.224.0.0";
+						break;
+					case 12:
+						result = "255.240.0.0";
+						break;
+					case 13:
+						result = "255.248.0.0";
+						break;
+					case 14:
+						result = "255.252.0.0";
+						break;
+					case 15:
+						result = "255.254.0.0";
+						break;
+					case 16:
+						result = "255.255.0.0";
+						break;
+					case 17:
+						result = "255.255.128.0";
+						break;
+					case 18:
+						result = "255.255.192.0";
+						break;
+					case 19:
+						result = "255.255.224.0";
+						break;
+					case 20:
+						result = "255.255.240.0";
+						break;
+					case 21:
+						result = "255.255.248.0";
+						break;
+					case 22:
+						result = "255.255.252.0";
+						break;
+					case 23:
+						result = "255.255.254.0";
+						break;
+					case 24:
+						result = "255.255.255.0";
+						break;
+					case 25:
+						result = "255.255.255.128";
+						break;
+					case 26:
+						result = "255.255.255.192";
+						break;
+					case 27:
+						result = "255.255.255.224";
+						break;
+					case 28:
+						result = "255.255.255.240";
+						break;
+					case 29:
+						result = "255.255.255.248";
+						break;
+					case 30:
+						result = "255.255.255.252";
+						break;
+					case 31:
+						result = "255.255.255.254";
+						break;
+					case 32:
+						result = "255.255.255.255";
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		});
+		return result;
 	}
 	std::string Platform::ostype() const TITANIUM_NOEXCEPT
 	{
@@ -165,7 +297,9 @@ namespace TitaniumWindows
 	}
 	unsigned Platform::processorCount() const TITANIUM_NOEXCEPT
 	{
-		return 0;
+		_SYSTEM_INFO sysInfo;
+		GetNativeSystemInfo(&sysInfo);
+		return sysInfo.dwNumberOfProcessors;
 	}
 	std::string Platform::runtime() const TITANIUM_NOEXCEPT
 	{
