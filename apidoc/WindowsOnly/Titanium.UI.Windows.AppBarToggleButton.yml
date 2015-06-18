@@ -1,0 +1,41 @@
+name: Titanium.UI.Windows.AppBarToggleButton
+summary: Toggle button for the Windows Phone application bar.
+description: |
+    Unlike the <Titanium.UI.Windows.AppBarButton>, the toggle button has a swtich state, like a
+    checkbox.
+
+    To create an application bar button, use the
+    [Titanium.UI.Windows.createAppBarButton()](Titanium.UI.Windows.createAppBarButton) method
+    and set the `icon` property to one of the `Titanium.UI.Windows.SystemIcon` constants.
+
+        var likeButton = Ti.UI.Windows.createAppBarToggleButton({
+            icon: Titanium.UI.Windows.SystemIcon.LIKEDISLIKE
+        });
+
+    Then, add the button to a `Titanium.UI.Windows.CommandBar` object.
+platforms: [windowsphone]
+extends: Titanium.Module
+
+properties:
+  - name: checked
+    summary: Indicates if the button is toggled on or off.
+    type: Boolean
+    default: false
+
+  - name: icon
+    summary: Icon to display for the button.
+    type: Number
+    constants: Titanium.UI.Windows.SystemIcon.*
+
+  - name: touchEnabled
+    summary: Determines whether the view should receive touch events.
+    type: Boolean
+    default: true
+
+events:
+  - name: click
+    summary: Fired when the user presses the button.
+    properties:
+      - name: checked
+        summary: Indicates if the button is checked or not.
+        type: Boolean

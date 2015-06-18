@@ -3,6 +3,10 @@
 
 C Titanium.Accelerometer
 
+C Titanium.UI.ActivityIndicator
+M show
+M hide
+
 C Global.JSON
 M parse
 M stringify
