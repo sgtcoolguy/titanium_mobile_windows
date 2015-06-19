@@ -25,82 +25,102 @@ namespace Titanium
 	{
 		return "";
 	}
+
 	std::string PlatformModule::architecture() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
-	unsigned PlatformModule::availableMemory() const TITANIUM_NOEXCEPT
+
+	std::uint64_t PlatformModule::availableMemory() const TITANIUM_NOEXCEPT
 	{
 		return 0;
 	}
+
 	double PlatformModule::batteryLevel() const TITANIUM_NOEXCEPT
 	{
 		return 0;
 	}
+
 	bool PlatformModule::batteryMonitoring() const TITANIUM_NOEXCEPT
 	{
 		return false;
 	}
+
 	void PlatformModule::set_batteryMonitoring(const bool& batteryMonitoring) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("PlatformModule::set_batteryMonitoring: Unimplemented");
 	}
+
 	Platform::BatteryState PlatformModule::batteryState() const TITANIUM_NOEXCEPT
 	{
 		return Platform::BatteryState::UNKNOWN;
 	}
+
 	std::string PlatformModule::id() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string PlatformModule::locale() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string PlatformModule::macaddress() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string PlatformModule::manufacturer() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string PlatformModule::model() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string PlatformModule::name() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string PlatformModule::netmask() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string PlatformModule::osname() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string PlatformModule::ostype() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	unsigned PlatformModule::processorCount() const TITANIUM_NOEXCEPT
 	{
 		return 0;
 	}
+
 	std::string PlatformModule::runtime() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string PlatformModule::username() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string PlatformModule::version() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string PlatformModule::createUUID() TITANIUM_NOEXCEPT
 	{
 		return "";
@@ -110,10 +130,12 @@ namespace Titanium
 	{
 		return false;
 	}
+
 	bool PlatformModule::openURL(const std::string& url) TITANIUM_NOEXCEPT
 	{
 		return false;
 	}
+
 	bool PlatformModule::is24HourTimeFormat() TITANIUM_NOEXCEPT
 	{
 		return false;
@@ -123,80 +145,99 @@ namespace Titanium
 	{
 		return get_context().CreateString(address());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, architecture)
 	{
 		return get_context().CreateString(architecture());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, availableMemory)
 	{
-		return get_context().CreateNumber(availableMemory());
+		return get_context().CreateNumber(static_cast<double>(availableMemory()));
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, batteryLevel)
 	{
 		return get_context().CreateNumber(batteryLevel());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, batteryMonitoring)
 	{
 		return get_context().CreateBoolean(batteryMonitoring());
 	}
+
 	TITANIUM_PROPERTY_SETTER(PlatformModule, batteryMonitoring)
 	{
 		TITANIUM_ASSERT(argument.IsBoolean());
 		set_batteryMonitoring(static_cast<bool>(argument));
 		return true;
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, batteryState)
 	{
 		return get_context().CreateNumber(batteryState());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, id)
 	{
 		return get_context().CreateString(id());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, locale)
 	{
 		return get_context().CreateString(locale());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, macaddress)
 	{
 		return get_context().CreateString(macaddress());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, manufacturer)
 	{
 		return get_context().CreateString(manufacturer());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, model)
 	{
 		return get_context().CreateString(model());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, name)
 	{
 		return get_context().CreateString(name());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, netmask)
 	{
 		return get_context().CreateString(netmask());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, osname)
 	{
 		return get_context().CreateString(osname());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, ostype)
 	{
 		return get_context().CreateString(ostype());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, processorCount)
 	{
 		return get_context().CreateNumber(processorCount());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, runtime)
 	{
 		return get_context().CreateString(runtime());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, username)
 	{
 		return get_context().CreateString(username());
 	}
+
 	TITANIUM_PROPERTY_GETTER(PlatformModule, version)
 	{
 		return get_context().CreateString(version());
@@ -206,22 +247,27 @@ namespace Titanium
 	{
 		return js_get_address();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getArchitecture)
 	{
 		return js_get_architecture();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getAvailableMemory)
 	{
 		return js_get_availableMemory();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getBatteryLevel)
 	{
 		return js_get_batteryLevel();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getBatteryMonitoring)
 	{
 		return js_get_batteryMonitoring();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, setBatteryMonitoring)
 	{
 		TITANIUM_ASSERT(arguments.size() == 1);
@@ -233,66 +279,77 @@ namespace Titanium
 
 		return this_object.get_context().CreateUndefined();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getBatteryState)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_batteryState();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getId)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_id();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getLocale)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_locale();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getMacaddress)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_macaddress();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getManufacturer)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_manufacturer();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getModel)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_model();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getName)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_name();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getNetmask)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_netmask();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getOsname)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_osname();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getOstype)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_ostype();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getProcessorCount)
 	{
 		const auto js_context = this_object.get_context();
@@ -305,12 +362,14 @@ namespace Titanium
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_runtime();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getUsername)
 	{
 		const auto js_context = this_object.get_context();
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return platform_ptr->js_get_username();
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, getVersion)
 	{
 		const auto js_context = this_object.get_context();
@@ -345,6 +404,7 @@ namespace Titanium
 		const auto platform_ptr = GetStaticObject(js_context).GetPrivate<PlatformModule>();
 		return js_context.CreateBoolean(platform_ptr->openURL(_0));
 	}
+
 	TITANIUM_FUNCTION(PlatformModule, is24HourTimeFormat)
 	{
 		const auto js_context = this_object.get_context();
