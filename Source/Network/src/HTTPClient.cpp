@@ -140,18 +140,24 @@ namespace TitaniumWindows
 
 		void HTTPClient::send(Windows::Web::Http::IHttpContent^ content)
 		{
-			Windows::Foundation::Uri ^ uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
-
-			Windows::Foundation::IAsyncOperationWithProgress<Windows::Web::Http::HttpResponseMessage^, Windows::Web::Http::HttpProgress>^ operation;
+			auto uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
+			
+			// Set up the request
+			Windows::Web::Http::HttpRequestMessage^ request;
 			if (method__ == Titanium::Network::RequestMethod::Post) {
-				operation = httpClient__->PostAsync(uri, content);
+				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Post, uri);
+				request->Content = content;
 			} else if (method__ == Titanium::Network::RequestMethod::Put) {
-				operation = httpClient__->PutAsync(uri, content);
+				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Put, uri);
+				request->Content = content;
 			} else if (method__ == Titanium::Network::RequestMethod::Delete) {
-				operation = httpClient__->DeleteAsync(uri);
+				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Delete, uri);
 			} else {
-				operation = httpClient__->GetAsync(uri);
+				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Get, uri);
 			}
+			setRequestHeaders(request);
+
+			auto operation = httpClient__->SendRequestAsync(request);
 
 			// Startup a timer that will abort the request after the timeout period is reached.
 			startDispatcherTimer();
@@ -203,12 +209,23 @@ namespace TitaniumWindows
 						onerror(ex->HResult, error, false);
 					}
 				}
+				catch (const std::exception& e) {
+					if (!disposed__ && httpClient__) {
+						std::string error(e.what());
+						onerror(-1, error, false);
+					}
+				}
 			});
 			// clang-format on
 		}
 
 		void HTTPClient::setRequestHeader(const std::string& key, const std::string& value) TITANIUM_NOEXCEPT
 		{
+			auto it = requestHeaders__.find(key);
+			if (it != requestHeaders__.end()) {
+				requestHeaders__.erase(it);
+			}
+
 			requestHeaders__.insert(std::make_pair(key, value));
 		}
 
@@ -242,11 +259,16 @@ namespace TitaniumWindows
 
 			for (it = requestHeaders__.begin(); it != requestHeaders__.end(); ++it) {
 				auto key = TitaniumWindows::Utility::ConvertString(it->first);
-				auto value = TitaniumWindows::Utility::ConvertString(it->second);
-
 				// ignore cookies they are added during open to the request filter.
 				if (!key->Equals("Cookie")) {
-					request->Headers->Append(key, value);
+					auto value = it->second;
+					if (!value.empty()) {
+						request->Headers->Append(key, TitaniumWindows::Utility::ConvertString(value));
+					} else {
+						if (request->Headers->HasKey(key)) {
+							request->Headers->Remove(key);
+						}
+					}
 				}
 			}
 		}
@@ -329,7 +351,7 @@ namespace TitaniumWindows
 
 		void HTTPClient::SerializeHeaders(Windows::Web::Http::HttpResponseMessage^ response)
 		{
-			status__ = (std::uint32_t)response->StatusCode;
+			status__ = static_cast<std::uint32_t>(response->StatusCode);
 
 			SerializeHeaderCollection(response->Headers);
 			SerializeHeaderCollection(response->Content->Headers);
