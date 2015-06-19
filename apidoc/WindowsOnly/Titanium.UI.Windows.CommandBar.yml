@@ -10,7 +10,7 @@ description: |
       * [Titanium.UI.Windows.createAppBarToggleButton()](Titanium.UI.Windows.createAppBarToggleButton)
       * [Titanium.UI.Windows.createAppBarSeparator()](Titanium.UI.Windows.createAppBarSeparator)
 
-    Then, pass an array or button and separator objects to the `items` property when creating a
+    Then, pass an array of button and separator objects to the `items` property when creating a
     command bar with the [`Titanium.UI.Windows.createCommandBar()`](Titanium.UI.Windows.createCommandBar)
     method.
 

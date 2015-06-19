@@ -7,7 +7,8 @@ var lbl = require('line-by-line'),
     path = require('path'),
 	fs = require('fs.extra'),
 	TI_KIT_SRC_DIRECTORY = '../Source/TitaniumKit/src',
-	TI_WIN_DOC_DIRECTORY = '../apidoc/Titanium';
+	TI_WIN_DOC_DIRECTORY = '../apidoc/Titanium',
+	TI_WIN_SRC_DIRECTORY = '../Source/';
 
 // Add 'contains' prototype to String
 if (typeof String.prototype.contains === 'undefined') {
@@ -24,6 +25,9 @@ var namespace_signature = 'namespace ';
 
 var properties_found = 0;
 var methods_found = 0;
+var events_found = 0;
+
+var docs = {};
 
 // Walk through the TitaniumKit source directory
 var walker = fs.walk(TI_KIT_SRC_DIRECTORY)
@@ -36,21 +40,95 @@ walker.on("file",
 		}
 	}
 );
-walker.on("end",
-	function () {
+walker.on("end", processEvents);
 
+function processEvents () {
+	var recurse = fs.walk(TI_WIN_SRC_DIRECTORY);
+	recurse.on("file", function (root, stat, next) {
+		if (stat.name.contains('.cpp')) {
+		    processEvent(root, stat.name, next);
+		} else {
+			next();
+		}
+	});
+	recurse.on('end', function() {
+		var className, cls;
+		for (className in docs) {
+			cls = docs[className];
+			generateYAML(cls.root, cls.module_name, cls.module, cls.properties, cls.methods, cls.events);
+		}
 		console.log('\nProcessing whitelist.txt...');
 		processWhitelist('whitelist.txt', function() {
 			console.log('\nFound '+methods_found+' methods');
 			console.log('Found '+properties_found+' propeties');
-			console.log('Total APIs : '+(methods_found+properties_found));
+			console.log('Found '+events_found+' events');
+			console.log('Total APIs : '+(methods_found+properties_found+events_found));
 			
 			var docPath = process.argv[1].replace(/\\/g, '/')
 			docPath = docPath.substring(0, docPath.lastIndexOf('/'))+'/Titanium';
 			console.log('\nTo append the documentation run the following command from titanium_mobile/apidoc :\n\nnode docgen.js -f parity -a '+docPath);
 		});
-	}
-);
+	});
+}
+
+function processEvent(root, file, next) {
+	var l = new lbl(path.join(root, file)),
+		name = null,
+		events = [],
+		namespace = [],
+		module = file.replace('.cpp', '').replace('Module', '');
+		if (module === 'TitaniumWindow') {
+			module = 'App';
+		}
+	l.on('line', function(line) {
+		if (~line.indexOf('fireEvent') && !~line.indexOf('//') && !~line.indexOf('%') && !~line.indexOf('TITANIUM_LOG')) {
+			if ((name = line.split('"')[1]) && !~events.indexOf(name)) {
+				events.push(name);
+			}
+		} else if (~line.indexOf(namespace_signature) && !~line.indexOf('//') && !~line.indexOf('using')) {
+			var ns = line.trim().split(' ')[1].replace('Module','');
+			switch (ns) {
+				case 'TitaniumWindows':
+					ns = 'Titanium';
+					break;
+				case 'GlobalObject':
+					ns = 'Global';
+					namespace = [];
+					break;
+				case 'WindowsXaml':
+					ns = 'Windows';
+					break;
+			}
+			namespace.push(ns);
+		}
+	});
+	l.on('error', function (err) {
+		console.log('Error : ' + err);
+	});
+	l.on('end', function () {
+		var ns,
+			black_list = ['WindowsViewLayoutDelegate', 'TitaniumWindows'];
+		namespace.push(module);
+		ns = namespace.join('.');
+		if (namespace[0] === 'Titanium' && !~namespace.indexOf('Windows') && !~black_list.indexOf(module) && events.length > 0) {
+			events_found += events.length;
+			if (ns in docs) {
+				docs[ns].events = docs[ns].events.concat(events);
+			} else {
+				docs[ns] = {
+					root: root,
+					module_name: ns,
+					module: module,
+					properties: [],
+					methods: [],
+					events: events
+				}
+			}
+		}
+		next();
+	});
+}
+
 
 // Extract titanium properties and methods from the class file
 function processClass(root, file, next) {
@@ -111,16 +189,22 @@ function processClass(root, file, next) {
 			methods_found += methods.length;
 			if (module != null) {
 				if (module == '') module = 'Titanium';
-				generateYAML(root, module_name, module, properties, methods, next);
-			} else {
-				next();
+				docs[module_name] = {
+					root: root,
+					module_name: module_name,
+					module: module,
+					properties: properties || [],
+					methods: methods || [],
+					events: []
+				}
 			}
+			next();
 		}
 	);
 }
 
 // Generate a YAML file from the extracted information
-function generateYAML(root, module_name, module, properties, methods, next) {
+function generateYAML(root, module_name, module, properties, methods, events, next) {
 	var folder = root.split('/').pop();
 
 	var yaml = 'name: '+module_name+'\n'+
@@ -135,6 +219,12 @@ function generateYAML(root, module_name, module, properties, methods, next) {
 	for (i in methods) {
 		var method = methods[i];
 		yaml += '  - name: '+method+'\n'+
+	            '    platforms: [windowsphone]\n';
+	}
+	if (events.length > 0) yaml += 'events:\n';
+	for (i in events) {
+		var event = events[i];
+		yaml += '  - name: '+event+'\n'+
 	            '    platforms: [windowsphone]\n';
 	}
 
@@ -167,6 +257,7 @@ function processWhitelist(file, next) {
 	var module = null;
 	var properties = [];
 	var methods = [];
+	var events = [];
 
     var l = new lbl(file);
 	l.on('line',
@@ -179,12 +270,13 @@ function processWhitelist(file, next) {
 			if (type === 'C') {
 				if (module != null) {
 					var folder = module_name.substring(module_name.split('.')[0].length+1, module_name.length-module.length-1).replace(/\./g, '/');
-					generateYAML(folder, module_name, module+'_white', properties, methods);
+					generateYAML(folder, module_name, module+'_white', properties, methods, events);
 					module_name = null;
 					namespaces = [];
 					module = null;
 					properties = [];
 					methods = [];
+					events = [];
 				}
 				module_name = element[1];
 				var split_module = module_name.split('.');
@@ -199,6 +291,10 @@ function processWhitelist(file, next) {
 			} else if (type === 'M') {
 				var name = element[1];
 				methods.push(name);
+
+			// Event
+			} else if (type === 'E') {
+				events.push(element[1]);
 			}
 		}
 	);
@@ -210,7 +306,7 @@ function processWhitelist(file, next) {
 	l.on('end',
 		function () {
 			var folder = module_name.substring(module_name.split('.')[0].length+1, module_name.length-module.length-1).replace(/\./g, '/');
-			generateYAML(folder, module_name, module+'_white', properties, methods, function() {next();});
+			generateYAML(folder, module_name, module+'_white', properties, methods, events, function() {next();});
 		}
 	);
 }
