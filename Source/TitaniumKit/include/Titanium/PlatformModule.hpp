@@ -33,7 +33,7 @@ namespace Titanium
 	public:
 		virtual std::string address() const TITANIUM_NOEXCEPT;
 		virtual std::string architecture() const TITANIUM_NOEXCEPT;
-		virtual unsigned availableMemory() const TITANIUM_NOEXCEPT;
+		virtual std::uint64_t availableMemory() const TITANIUM_NOEXCEPT;
 		virtual double batteryLevel() const TITANIUM_NOEXCEPT;
 		virtual bool batteryMonitoring() const TITANIUM_NOEXCEPT;
 		virtual void set_batteryMonitoring(const bool& batteryMonitoring) TITANIUM_NOEXCEPT;

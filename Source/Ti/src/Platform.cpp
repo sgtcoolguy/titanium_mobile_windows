@@ -92,7 +92,8 @@ namespace TitaniumWindows
 				return "unknown";
 		}
 	}
-	unsigned Platform::availableMemory() const TITANIUM_NOEXCEPT
+	
+	std::uint64_t Platform::availableMemory() const TITANIUM_NOEXCEPT
 	{
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 		return Windows::System::MemoryManager::AppMemoryUsageLimit - Windows::System::MemoryManager::AppMemoryUsage;
