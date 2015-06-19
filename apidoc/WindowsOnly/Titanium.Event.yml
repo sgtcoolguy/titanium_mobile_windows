@@ -1,0 +1,8 @@
+name: Titanium.Event
+platforms: [windowsphone]
+properties:
+  - name: source
+    platforms: [windowsphone]
+
+  - name: type
+    platforms: [windowsphone]

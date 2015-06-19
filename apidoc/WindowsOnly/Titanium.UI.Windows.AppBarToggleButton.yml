@@ -5,7 +5,7 @@ description: |
     checkbox.
 
     To create an application bar button, use the
-    [Titanium.UI.Windows.createAppBarButton()](Titanium.UI.Windows.createAppBarButton) method
+    [Titanium.UI.Windows.createAppBarToggleButton()](Titanium.UI.Windows.createAppBarToggleButton) method
     and set the `icon` property to one of the `Titanium.UI.Windows.SystemIcon` constants.
 
         var likeButton = Ti.UI.Windows.createAppBarToggleButton({

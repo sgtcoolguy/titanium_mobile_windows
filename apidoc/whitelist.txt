@@ -1,11 +1,12 @@
 # Titanium Windows Whitelist
 # C - Class, M - Method, P - Property
 
-C Titanium.Accelerometer
+C Titanium.UI.View
+E postlayout
 
-C Titanium.UI.ActivityIndicator
-M show
-M hide
+C Titanium.UI.Animation
+E complete
+E start
 
 C Global.JSON
 M parse
