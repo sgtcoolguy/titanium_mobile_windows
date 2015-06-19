@@ -21,6 +21,20 @@ namespace TitaniumWindows
 		TITANIUM_LOG_DEBUG("TitaniumWindows::Locale::dtor");
 	}
 
+	std::string Locale::getString(const std::string& key, const std::string& hint) TITANIUM_NOEXCEPT
+	{
+		try {
+			const auto loader = Windows::ApplicationModel::Resources::ResourceLoader::GetForCurrentView();
+			const auto value = loader->GetString(TitaniumWindows::Utility::ConvertUTF8String(key));
+			if (value) {
+				return TitaniumWindows::Utility::ConvertUTF8String(value);
+			}
+		} catch (...) {
+			TITANIUM_LOG_ERROR("Error during Locale::getString");
+		}
+		return hint.empty() ? key : hint;
+	}
+
 	void Locale::JSExportInitialize()
 	{
 		JSExport<Locale>::SetClassVersion(1);

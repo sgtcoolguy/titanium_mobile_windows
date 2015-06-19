@@ -71,6 +71,13 @@ namespace Titanium
 		*/
 		virtual std::string getLocaleCurrencySymbol(const std::string& locale) TITANIUM_NOEXCEPT;
 
+		/*!
+		  @method
+		  @abstract getString
+		  @discussion Returns a string, localized according to the current system locale
+		*/
+		virtual std::string getString(const std::string& key, const std::string& hint) TITANIUM_NOEXCEPT;
+
 		Locale(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~Locale() = default;
@@ -84,8 +91,6 @@ namespace Titanium
 		static void JSExportInitialize();
 		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 
-		void postTitaniumInitialize(const JSContext& js_context);
-
 		TITANIUM_PROPERTY_READONLY_DEF(currentCountry);
 		TITANIUM_PROPERTY_READONLY_DEF(currentLanguage);
 		TITANIUM_PROPERTY_READONLY_DEF(currentLocale);
@@ -97,6 +102,7 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(getCurrentCountry);
 		TITANIUM_FUNCTION_DEF(getCurrentLanguage);
 		TITANIUM_FUNCTION_DEF(getCurrentLocale);
+		TITANIUM_FUNCTION_DEF(getString);
 
 	protected:
 #pragma warning(push)

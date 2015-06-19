@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources>
-  <string name="phrase" formatted="false">You say %2$s and I say %1$s!</string>
-  <string name="greeting">hello</string>
-  <string name="signoff">goodbye</string>
-</resources>

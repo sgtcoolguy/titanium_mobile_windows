@@ -17,11 +17,18 @@ namespace TitaniumWindows
 	/*!
 	  @class
 
-	  @discussion This is the top-level Titanium module implementation for Windows.
+	  @discussion This is the Titanium.Locale module implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_TI_EXPORT Locale final : public Titanium::Locale, public JSExport<Locale>
 	{
 	public:
+
+		/*!
+		  @method
+		  @abstract getString
+		  @discussion Returns a string, localized according to the current system locale
+		*/
+		virtual std::string getString(const std::string& key, const std::string& hint) TITANIUM_NOEXCEPT;
 
 		Locale(const JSContext&) TITANIUM_NOEXCEPT;
 

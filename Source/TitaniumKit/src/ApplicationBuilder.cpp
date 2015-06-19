@@ -182,7 +182,6 @@ namespace Titanium
 
 		// Locale
 		titanium.SetProperty("Locale", locale__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
-		locale__.GetPrivate<Titanium::Locale>()->postTitaniumInitialize(js_context__);
 
 		JSString builtin_functions_script = R"js(
 			  console = {};

@@ -46,55 +46,10 @@ namespace Titanium
 		return "";
 	}
 
-	void Locale::postTitaniumInitialize(const JSContext& js_context)
+	std::string Locale::getString(const std::string& key, const std::string& hint) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_DEBUG("Locale::postTitaniumInitialize");
-
-		static const std::string ti_locale_init_js = R"TI_LOCALE_JS(
-			Ti.Locale.getString = function(key, hint) {
-				// We never load the file again once it is cached
-				if (Ti.Locale._getString_Cache) {
-					if (Ti.Locale._getString_Cache[key]) {
-						return Ti.Locale._getString_Cache[key];
-					} else {
-						return hint ? key : hint;
-					}
-				}
-				var sep = Ti.Filesystem.separator;
-				var localeStringsFilePath = Ti.Filesystem.applicationDirectory + sep + 'i18n' + sep + Ti.Locale.currentLanguage;
-				var localeStringsFile = Ti.Filesystem.getFile(localeStringsFilePath, 'strings.xml');
-				if (localeStringsFile.exists()) {
-					try {
-						var ELEMENT_NODE = 1;
-						var node = Ti.XML.parseString(localeStringsFile.read().text).documentElement;
-						var child = node.firstChild;
-						Ti.Locale._getString_Cache = {};
-						while (child) {
-							if (child.nodeType == ELEMENT_NODE) {
-								if (child.firstChild && child.firstChild.data) {
-									var value = child.firstChild.data.toString();
-									var name  = child.getAttribute('name');
-									if (name) {
-										Ti.Locale._getString_Cache[name.toString()] = value;
-									}
-								}
-							}
-							child = child.nextSibling;
-						}
-						if (Ti.Locale._getString_Cache[key]) {
-							return Ti.Locale._getString_Cache[key];
-						} else {
-							return hint ? key : hint;
-						}
-					} catch (E) {
-						return hint ? key : hint;
-					}
-				}
-				return hint ? key : hint;
-			};
-		)TI_LOCALE_JS";
-
-		js_context.JSEvaluateScript(ti_locale_init_js);
+		TITANIUM_LOG_WARN("Locale::getString: Unimplemented");
+		return hint.empty() ? key : hint;
 	}
 
 	void Locale::JSExportInitialize() 
@@ -113,6 +68,7 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(Locale, getCurrentCountry);
 		TITANIUM_ADD_FUNCTION(Locale, getCurrentLanguage);
 		TITANIUM_ADD_FUNCTION(Locale, getCurrentLocale);
+		TITANIUM_ADD_FUNCTION(Locale, getString);
 	}
 
 	JSObject Locale::GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -167,6 +123,14 @@ namespace Titanium
 		ENSURE_STRING_AT_INDEX(locale, 0);
 		const auto ctx = this_object.get_context();
 		return ctx.CreateString(GetStaticObject(ctx).GetPrivate<Locale>()->getLocaleCurrencySymbol(locale));
+	}
+
+	TITANIUM_FUNCTION(Locale, getString)
+	{
+		ENSURE_STRING_AT_INDEX(key, 0);
+		ENSURE_OPTIONAL_STRING_AT_INDEX(hint, 1, "");
+		const auto ctx = this_object.get_context();
+		return ctx.CreateString(GetStaticObject(ctx).GetPrivate<Locale>()->getString(key, hint));
 	}
 
 	TITANIUM_FUNCTION_AS_GETTER(Locale, getCurrentCountry, currentCountry)
