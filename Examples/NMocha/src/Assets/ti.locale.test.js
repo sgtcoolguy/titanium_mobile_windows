@@ -71,7 +71,7 @@ describe('Titanium.Locale', function () {
         finish();
     });
 
-    it.skip('Ti.Locale.getString_format', function (finish) {
+    it('Ti.Locale.getString_format', function (finish) {
         var i18nMissingMsg = '<no translation available>';
         var string1 = 'You say ' + Ti.Locale.getString('signoff', i18nMissingMsg) + ' and I say ' + Ti.Locale.getString('greeting', i18nMissingMsg) + '!';
         var string2 = String.format(L('phrase'), L('greeting', i18nMissingMsg), L('signoff', i18nMissingMsg));

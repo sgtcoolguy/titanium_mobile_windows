@@ -25,6 +25,7 @@ function mixin(WindowsBuilder) {
 	WindowsBuilder.prototype.generateCmakeList = generateCmakeList;
 	WindowsBuilder.prototype.generateAppxManifestForPlatform = generateAppxManifestForPlatform;
 	WindowsBuilder.prototype.generateAppxManifest = generateAppxManifest;
+	WindowsBuilder.prototype.addI18nVSResources = addI18nVSResources;
 }
 
 /**
@@ -76,11 +77,49 @@ function generateI18N(next) {
 		fs.existsSync(destDir) || wrench.mkdirSyncRecursive(destDir);
 		fs.writeFileSync(dest, '<?xml version="1.0" encoding="UTF-8"?>\n' + dom.documentElement.toString());
 
-		// TODO: update the Visual Studio project to add the generated Resources.resw file (i.e. "dest")
+		// save the destination files to update the Visual Studio project later at addI18nVSItemGroup
+		this.i18nVSResources = this.i18nVSResources || [];
+		this.i18nVSResources.push(dest);
 	}, this);
 
 	next();
 };
+
+/**
+ * Updates the Visual Studio project to add the generated Resources.resw file
+ *
+ * @param {Function} next - A function to call after resources have been generated.
+ */
+function addI18nVSResources(next) {
+	if (!this.i18nVSResources) {
+		next();
+		return;
+	}
+
+	var _t = this,
+		cmakeProjectName = this.sanitizeProjectName(this.cli.tiapp.name),
+		slnFile = path.resolve(this.cmakeTargetDir, cmakeProjectName + '.sln'),
+		vcxproj = path.resolve(this.cmakeTargetDir, cmakeProjectName + '.vcxproj');
+
+	this.logger.debug(JSON.stringify(this.i18nVSResources));
+	this.logger.debug(JSON.stringify(slnFile));
+	this.logger.debug(JSON.stringify(vcxproj));
+
+	var modified = fs.readFileSync(vcxproj, 'utf8');
+	fs.existsSync(vcxproj) && fs.renameSync(vcxproj, vcxproj + '.bak');
+
+	var itemGroupContent = ['</ItemGroup>', '<ItemGroup>'];
+	for (var i = 0; i < this.i18nVSResources.length; i++) {
+		itemGroupContent.push('  <PRIResource Include="' + this.i18nVSResources[i]  + '" />');
+	}
+	itemGroupContent.push('</ItemGroup>');
+
+	// add it after the first occurrence of </ItemGroup>
+	modified = modified.replace(/<\/ItemGroup>/, itemGroupContent.join('\r\n  '));
+	fs.writeFileSync(vcxproj, modified)
+
+	next();
+}
 
 /**
  * Generates the native type wrappers and adds them to the Visual Studio project.
