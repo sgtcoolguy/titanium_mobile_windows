@@ -118,7 +118,9 @@ namespace TitaniumWindows
 			while (!API::done__) {
 				message = concurrency::receive(API::buffer__); // wait for next message to log
 				if (writer == nullptr) { // no TCP connection
-					std::wclog << TitaniumWindows::Utility::ConvertUTF8String(message)->Data() << std::endl;
+					for (size_t max = 255, i = 0; i < message.length(); i += max) {
+						std::wclog << TitaniumWindows::Utility::ConvertUTF8String(message.substr(i, max))->Data() << std::endl;
+					}
 				} else { // forward over tcp socket
 					writer->WriteString(TitaniumWindows::Utility::ConvertUTF8String(message) + "\n");  // Logger assumes \n for newlines!
 					writer->StoreAsync();
