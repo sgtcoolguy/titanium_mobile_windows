@@ -96,14 +96,9 @@ function addI18nVSResources(next) {
 		return;
 	}
 
-	var _t = this,
-		cmakeProjectName = this.sanitizeProjectName(this.cli.tiapp.name),
+	var cmakeProjectName = this.sanitizeProjectName(this.cli.tiapp.name),
 		slnFile = path.resolve(this.cmakeTargetDir, cmakeProjectName + '.sln'),
 		vcxproj = path.resolve(this.cmakeTargetDir, cmakeProjectName + '.vcxproj');
-
-	this.logger.debug(JSON.stringify(this.i18nVSResources));
-	this.logger.debug(JSON.stringify(slnFile));
-	this.logger.debug(JSON.stringify(vcxproj));
 
 	var modified = fs.readFileSync(vcxproj, 'utf8');
 	fs.existsSync(vcxproj) && fs.renameSync(vcxproj, vcxproj + '.bak');
