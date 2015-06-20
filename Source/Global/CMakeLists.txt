@@ -50,6 +50,8 @@ endif()
 set(SOURCE_Global
   include/TitaniumWindows/GlobalObject.hpp
   src/GlobalObject.cpp
+  include/TitaniumWindows/GlobalString.hpp
+  src/GlobalString.cpp
   include/TitaniumWindows/detail/GlobalBase.hpp
   )
 

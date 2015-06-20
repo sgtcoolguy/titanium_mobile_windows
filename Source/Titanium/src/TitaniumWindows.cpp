@@ -25,6 +25,7 @@
 #include "TitaniumWindows/HTTPClient.hpp"
 #include "TitaniumWindows/Media.hpp"
 #include "TitaniumWindows/Geolocation.hpp"
+#include "TitaniumWindows/Locale.hpp"
 
 #include <Windows.h>
 #include <collection.h>
@@ -57,9 +58,10 @@ namespace TitaniumWindows
 		                                                            .UIObject(js_context__.CreateObject(JSExport<TitaniumWindows::UIModule>::Class()))
 		                                                            .APIObject(js_context__.CreateObject(JSExport<TitaniumWindows::API>::Class()))
 		                                                            .AppObject(js_context__.CreateObject(JSExport<TitaniumWindows::AppModule>::Class()))
+		                                                            .LocaleObject(js_context__.CreateObject(JSExport<TitaniumWindows::Locale>::Class()))
 		                                                            .PlatformObject(js_context__.CreateObject(JSExport<TitaniumWindows::Platform>::Class()))
 		                                                            .GestureObject(js_context__.CreateObject(JSExport<TitaniumWindows::Gesture>::Class()))
-																	.GeolocationObject(js_context__.CreateObject(JSExport<TitaniumWindows::Geolocation>::Class()))
+		                                                            .GeolocationObject(js_context__.CreateObject(JSExport<TitaniumWindows::Geolocation>::Class()))
 		                                                            .AccelerometerObject(js_context__.CreateObject(JSExport<TitaniumWindows::Accelerometer>::Class()))
 		                                                            .ViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::View>::Class()))
 		                                                            .TextAreaObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TextArea>::Class()))

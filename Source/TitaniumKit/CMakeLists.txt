@@ -43,6 +43,7 @@ generate_cpp_header_file(resource_listview_js_hpp ${PROJECT_SOURCE_DIR}/src/UI/l
 generate_cpp_header_file(resource_xml_dom_js_hpp ${PROJECT_SOURCE_DIR}/src/XML/dom.js ${PROJECT_SOURCE_DIR}/include/Titanium/XML/dom_js.hpp)
 generate_cpp_header_file(resource_xml_dom_parser_js_hpp ${PROJECT_SOURCE_DIR}/src/XML/dom-parser.js ${PROJECT_SOURCE_DIR}/include/Titanium/XML/dom_parser_js.hpp)
 generate_cpp_header_file(resource_xml_sax_js_hpp ${PROJECT_SOURCE_DIR}/src/XML/sax.js ${PROJECT_SOURCE_DIR}/include/Titanium/XML/sax_js.hpp)
+generate_cpp_header_file(resource_global_sprintf_js_hpp ${PROJECT_SOURCE_DIR}/src/Global/sprintf.js ${PROJECT_SOURCE_DIR}/include/Titanium/Global/sprintf_js.hpp)
 
 set(Boost_USE_STATIC_LIBS ON )
 set(Boost_USE_MULTITHREADED ON )
@@ -59,6 +60,9 @@ set(SOURCE_TitaniumKit
   src/Application.cpp
   include/Titanium/GlobalObject.hpp
   src/GlobalObject.cpp
+  include/Titanium/GlobalString.hpp
+  src/GlobalString.cpp
+  include/Titanium/Global/sprintf_js.hpp
   include/Titanium/Module.hpp
   src/Module.cpp
   include/Titanium/Gesture.hpp
@@ -83,6 +87,11 @@ set(SOURCE_Ti
 set(SOURCE_API
   include/Titanium/API.hpp
   src/API.cpp
+  )
+
+set(SOURCE_Locale
+  include/Titanium/Locale.hpp
+  src/Locale.cpp
   )
 
 set(SOURCE_Database
@@ -351,6 +360,7 @@ source_group(TitaniumKit                   FILES ${SOURCE_TitaniumKit})
 source_group(TitaniumKit\\detail           FILES ${SOURCE_TitaniumKit_detail})
 source_group(TitaniumKit\\Ti               FILES ${SOURCE_Ti})
 source_group(TitaniumKit\\API              FILES ${SOURCE_API})
+source_group(TitaniumKit\\Locale           FILES ${SOURCE_Locale})
 source_group(TitaniumKit\\Database         FILES ${SOURCE_Database})
 source_group(TitaniumKit\\Platform         FILES ${SOURCE_Platform})
 source_group(TitaniumKit\\Accelerometer    FILES ${SOURCE_Accelerometer})
@@ -378,6 +388,7 @@ set(SOURCE_ALL_EXCEPT_DATABASE
   ${SOURCE_TitaniumKit_detail}
   ${SOURCE_Ti}
   ${SOURCE_API}
+  ${SOURCE_Locale}
   ${SOURCE_Platform}
   ${SOURCE_Accelerometer}
   ${SOURCE_Gesture}
@@ -408,6 +419,7 @@ add_dependencies(TitaniumKit resource_listview_js_hpp)
 add_dependencies(TitaniumKit resource_xml_dom_js_hpp)
 add_dependencies(TitaniumKit resource_xml_dom_parser_js_hpp)
 add_dependencies(TitaniumKit resource_xml_sax_js_hpp)
+add_dependencies(TitaniumKit resource_global_sprintf_js_hpp)
 
 include(GenerateExportHeader)
 generate_export_header(TitaniumKit)

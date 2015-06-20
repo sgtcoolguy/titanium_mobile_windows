@@ -55,6 +55,11 @@ set(SOURCE_API
   src/API.cpp
   )
 
+set(SOURCE_Locale
+  include/TitaniumWindows/Locale.hpp
+  src/Locale.cpp
+  )
+
 set(SOURCE_App
   include/TitaniumWindows/App/Properties.hpp
   src/Properties.cpp
@@ -78,6 +83,7 @@ set(SOURCE_Utils
 source_group(Titanium\\Ti FILES ${SOURCE_Ti})
 source_group(Titanium\\API FILES ${SOURCE_API})
 source_group(Titanium\\App FILES ${SOURCE_App})
+source_group(Titanium\\Locale FILES ${SOURCE_Locale})
 source_group(Titanium\\Platform FILES ${SOURCE_Platform})
 source_group(Titanium\\Utils FILES ${SOURCE_Utils})
 
@@ -88,6 +94,7 @@ add_library(TitaniumWindows_Ti SHARED
   ${SOURCE_Ti}
   ${SOURCE_API}
   ${SOURCE_App}
+  ${SOURCE_Locale}
   ${SOURCE_Platform}
   ${SOURCE_Utils}
   )

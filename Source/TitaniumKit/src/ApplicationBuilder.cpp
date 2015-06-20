@@ -8,6 +8,7 @@
 
 #include "Titanium/ApplicationBuilder.hpp"
 #include "Titanium/Application.hpp"
+#include "Titanium/GlobalString.hpp"
 #include "Titanium/TiModule.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/UIModule.hpp"
@@ -21,6 +22,7 @@
 #include "Titanium/Blob.hpp"
 #include "Titanium/FilesystemModule.hpp"
 #include "Titanium/DatabaseModule.hpp"
+#include "Titanium/Locale.hpp"
 #include "Titanium/NetworkModule.hpp"
 #include "Titanium/MediaModule.hpp"
 #include "Titanium/XML.hpp"
@@ -31,12 +33,14 @@ namespace Titanium
 	ApplicationBuilder::ApplicationBuilder(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: js_context__(js_context),
 		  global_object__(js_context__.get_global_object()),
+		  global_string__(js_context__.CreateObject(JSExport<Titanium::GlobalString>::Class())),
 		  ti__(js_context__.CreateObject(JSExport<Titanium::TiModule>::Class())),
 		  ui__(js_context__.CreateObject(JSExport<Titanium::UIModule>::Class())),
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
+		  locale__(js_context__.CreateObject(JSExport<Titanium::Locale>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
-	      textarea__(js_context__.CreateObject(JSExport<Titanium::UI::TextArea>::Class())),
-	      notification__(js_context__.CreateObject(JSExport<Titanium::UI::Notification>::Class())),
+		  textarea__(js_context__.CreateObject(JSExport<Titanium::UI::TextArea>::Class())),
+		  notification__(js_context__.CreateObject(JSExport<Titanium::UI::Notification>::Class())),
 		  twodmatrix__(js_context__.CreateObject(JSExport<Titanium::UI::TwoDMatrix>::Class())),
 		  geolocation__(js_context__.CreateObject(JSExport<Titanium::GeolocationModule>::Class())),
 		  switch__(js_context__.CreateObject(JSExport<Titanium::UI::Switch>::Class())),
@@ -143,7 +147,7 @@ namespace Titanium
 		global_object__.SetProperty("Ti", titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 
 		titanium.SetProperty("API", api__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		titanium.SetProperty("UI", ui__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("UI", ui__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		titanium.SetProperty("Platform", platform__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Accelerometer", accelerometer__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Gesture", gesture__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -170,7 +174,16 @@ namespace Titanium
 		// XML
 		titanium.SetProperty("XML", xml__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 
-JSString builtin_functions_script = R"js(
+		// Global.String
+		auto stringObj = static_cast<JSObject>(global_object__.GetProperty("String"));
+		for (const auto& property_name : static_cast<std::vector<JSString>>(global_string__.GetPropertyNames())) {
+			stringObj.SetProperty(property_name, global_string__.GetProperty(property_name));
+		}
+
+		// Locale
+		titanium.SetProperty("Locale", locale__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+
+		JSString builtin_functions_script = R"js(
 			  console = {};
 			  console.log   = Ti.API.info;
 			  console.info  = Ti.API.info;
@@ -190,6 +203,8 @@ JSString builtin_functions_script = R"js(
 
 			  Ti.Network.encodeURIComponent = encodeURIComponent;
 			  Ti.Network.decodeURIComponent = decodeURIComponent;
+
+			  L = Ti.Locale.getString;
 			)js";
 
 		js_context__.JSEvaluateScript(builtin_functions_script);
@@ -227,6 +242,17 @@ JSString builtin_functions_script = R"js(
 	ApplicationBuilder& ApplicationBuilder::APIObject(const JSObject& api) TITANIUM_NOEXCEPT
 	{
 		api__ = api;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::LocaleObject() const TITANIUM_NOEXCEPT
+	{
+		return locale__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::LocaleObject(const JSObject& locale) TITANIUM_NOEXCEPT
+	{
+		locale__ = locale;
 		return *this;
 	}
 

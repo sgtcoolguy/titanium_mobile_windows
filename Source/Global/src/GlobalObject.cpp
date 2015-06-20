@@ -209,7 +209,6 @@ namespace TitaniumWindows
 	{
 		JSExport<GlobalObject>::SetClassVersion(1);
 		JSExport<GlobalObject>::SetParent(JSExport<Titanium::GlobalObject>::Class());
-		TITANIUM_LOG_DEBUG("GlobalObject::ctor CallAsConstructor");
 	}
 
 }  // namespace TitaniumWindows
