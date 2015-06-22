@@ -28,9 +28,9 @@ function updateBuildValuesInTitaniumModule(tiModuleCPP, callback)
 		githash = stdout.substring(7, 15).trim(); // drop leading 'commit ', just take 7-character sha
 
 		fs.readFile(tiModuleCPP, function(err, data) {
-			var contents;
-					timestamp,
-					date;
+			var contents,
+				timestamp,
+				date;
 			if (err) {
 				return callback('Failed to get contents of TiModule.cpp to replace hard-coded values: ' + error);
 			}
@@ -249,12 +249,12 @@ async.series([
 		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'x86', next);
 	},
 	// TODO Maybe we can be more efficient by running the mocha tests here after we have enough of the libs to run the emulator.		
-	// If they pass, keep building, otherwise exit early?		
-	function (next) {		
-		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'ARM', next);		
-	},		
-	function (next) {		
-		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsStore', 'x86', next);		
+	// If they pass, keep building, otherwise exit early?
+	function (next) {
+		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsPhone', 'ARM', next);
+	},
+	function (next) {
+		buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', 'WindowsStore', 'x86', next);
 	},
 	// TODO Do all these others async. Use async.parallel, and use non-sync versions of file ops!
 	function (next) {
