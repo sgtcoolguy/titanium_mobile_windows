@@ -100,25 +100,6 @@ function generateWindowsProject(next) {
 	});
 }
 
-// Add required properties
-function addTiAppProperties(next) {
-	var tiapp_xml = path.join(__dirname, 'mocha', 'tiapp.xml'),
-		publishername = '<property name="ti.windows.publishername" type="string">CN=Dawson Toth</property>';
-
-	// Not so smart but this should work...
-	var content = [];
-	fs.readFileSync(tiapp_xml).toString().split(/\r?\n/).forEach(function(line){
-		content.push(line);
-		if (line.indexOf('<guid>') >= 0) {
-			content.push('\t'+publishername);
-			content.push('\t<windows><manifest><Capabilities><Capability Name=\"internetClient\" /></Capabilities></manifest></windows>');
-		}
-	});
-	fs.writeFileSync(tiapp_xml, content.join('\n'));
-
-	next();
-}
-
 function copyMochaAssets(next) {
 	var mochaAssetsDir = path.join(__dirname, '..', '..', '..', 'Examples', 'NMocha', 'src', 'Assets'),
 		dest = path.join(__dirname, 'mocha', 'Resources');
@@ -254,10 +235,6 @@ async.series([
 	function (next) {
 		console.log("Generating Windows project");
 		generateWindowsProject(next);
-	},
-	function (next) {
-		console.log("Adding properties for tiapp.xml");
-		addTiAppProperties(next);
 	},
 	function (next) {
 		console.log("Copying test scripts into project");
