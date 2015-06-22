@@ -509,13 +509,13 @@ namespace Titanium
 		{
 			const auto js_context = this_object.get_context();
 
-			if (arguments.size() < 2) {
+			if (arguments.size() < 1) {
 				return js_context.CreateUndefined();
 			}
 
 			const auto _0 = arguments.at(0);
 
-			const auto _1 = arguments.at(1);
+			const auto _1 = arguments.size() < 2 ? js_context.CreateBoolean(false) : arguments.at(1);
 			TITANIUM_ASSERT(_1.IsBoolean());
 			const auto append = static_cast<bool>(_1);
 
