@@ -42,6 +42,7 @@ namespace TitaniumWindows
 
 			virtual void set_max(const double& max) TITANIUM_NOEXCEPT override final;
 			virtual void set_min(const double& min) TITANIUM_NOEXCEPT override final;
+			virtual double get_value() const TITANIUM_NOEXCEPT override final;
 			virtual void set_value(const double& value) TITANIUM_NOEXCEPT override final;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
