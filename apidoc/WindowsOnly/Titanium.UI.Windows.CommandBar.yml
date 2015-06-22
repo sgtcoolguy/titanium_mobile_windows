@@ -2,7 +2,8 @@ name: Titanium.UI.Windows.CommandBar
 summary: A Windows Phone application bar located at the bottom of the window.
 description: |
     The command bar displays a row of buttons used to indicate additional actions the user can
-    perform.
+    perform. For Windows Store applications, right-click on the application to reveal the command
+    bar.
 
     To create a command bar, first create buttons and separator objects using the following methods:
 
@@ -11,7 +12,7 @@ description: |
       * [Titanium.UI.Windows.createAppBarSeparator()](Titanium.UI.Windows.createAppBarSeparator)
 
     Then, pass an array of button and separator objects to the `items` property when creating a
-    command bar with the [`Titanium.UI.Windows.createCommandBar()`](Titanium.UI.Windows.createCommandBar)
+    command bar with the [Titanium.UI.Windows.createCommandBar()](Titanium.UI.Windows.createCommandBar)
     method.
 
     Finally, add the command bar to a Titanium.UI.Window object.
@@ -41,6 +42,6 @@ properties:
         Add <Titanium.UI.Windows.AppBarButton> and <Titanium.UI.Windows.AppBarToggleButton> objects
         as well as separators created with the <Titanium.UI.Windows.createAppBarSeparator> method.
 
-        Up to four items may be added.  If more than four items are added,
+        On Windows Phone applications, up to four items may be added.  If more than four items are added,
         only the first four items will appear.
     type: Array<Object>
