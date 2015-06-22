@@ -36,12 +36,12 @@ namespace TitaniumWindows
 
 	std::string TiModule::buildDate() const TITANIUM_NOEXCEPT
 	{
-		return "__TITANIUM_BUILD_DATE__";
+		return "6/22/2015 15:18";
 	}
 
 	std::string TiModule::buildHash() const TITANIUM_NOEXCEPT
 	{
-		return "__TITANIUM_BUILD_HASH__";
+		return "aac7571";
 	}
 
 }  // namespace TitaniumWindows
