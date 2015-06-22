@@ -44,7 +44,7 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Slider, max)
 		{
-			return get_context().CreateNumber(max__);
+			return get_context().CreateNumber(get_max());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Slider, max)
@@ -56,7 +56,7 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Slider, min)
 		{
-			return get_context().CreateNumber(min__);
+			return get_context().CreateNumber(get_min());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Slider, min)
@@ -68,7 +68,7 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Slider, value)
 		{
-			return get_context().CreateNumber(value__);
+			return get_context().CreateNumber(get_value());
 		}
 
 		TITANIUM_PROPERTY_SETTER(Slider, value)
