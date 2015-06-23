@@ -120,7 +120,7 @@ cd "${HOME}/Documents"
 # Generates a project from our included NG example
 node "${HOME}/Documents/GitHub/titanium_mobile_windows/Tools/Scripts/generate_project.js" new NG
 # Now open the project in Visual Studio for development
-NG.WindowsPhone.Win32/NG.sln
+start NG.WindowsPhone.Win32/NG.sln
 ```
 
 :warning: By default Visual Studio 2013 will prompt you to break at handled and unhandled exceptions. During startup of our framework and examples, a number of handled exceptions may occur related to finding files or establishing a connection to the CLI logger. When they occur, uncheck the checkmark box and click the *Continue* button. Further launches of the app should no longer display a dialog to break at these handled exceptions.
