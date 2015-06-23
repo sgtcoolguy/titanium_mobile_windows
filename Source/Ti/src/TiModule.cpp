@@ -5,9 +5,6 @@
  */
 
 #include "TitaniumWindows/TiModule.hpp"
-#include "Titanium/detail/TiBase.hpp"
-#include <iostream>
-#include <objbase.h>
 
 namespace TitaniumWindows
 {
@@ -36,12 +33,12 @@ namespace TitaniumWindows
 
 	std::string TiModule::buildDate() const TITANIUM_NOEXCEPT
 	{
-		return "6/22/2015 15:18";
+		return "__TITANIUM_BUILD_DATE__";
 	}
 
 	std::string TiModule::buildHash() const TITANIUM_NOEXCEPT
 	{
-		return "aac7571";
+		return "__TITANIUM_BUILD_HASH__";
 	}
 
 }  // namespace TitaniumWindows
