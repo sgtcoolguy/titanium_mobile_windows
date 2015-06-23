@@ -40,8 +40,7 @@ namespace TitaniumWindows
 			binding->Source = collectionViewSource__;
 			Windows::UI::Xaml::Data::BindingOperations::SetBinding(tableview__, Windows::UI::Xaml::Controls::ListView::ItemsSourceProperty, binding);
 
-			// Use "SelectionChanged" event to handle click event
-			tableview__->IsItemClickEnabled = false;
+			tableview__->IsItemClickEnabled = true;
 
 			tableViewItems__ = ref new ::Platform::Collections::Vector<ListViewItem^>();
 
@@ -238,8 +237,8 @@ namespace TitaniumWindows
 			const JSContext ctx = this->get_context();
 
 			if (event_name == "click") {
-				click_event__ = tableview__->SelectionChanged += ref new Windows::UI::Xaml::Controls::SelectionChangedEventHandler(
-					[this, ctx](::Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
+				click_event__ = tableview__->ItemClick += ref new Windows::UI::Xaml::Controls::ItemClickEventHandler(
+					[this, ctx](::Platform::Object^ sender, Windows::UI::Xaml::Controls::ItemClickEventArgs^ e) {
 
 					if (data__.size() == 0) {
 						TITANIUM_LOG_DEBUG("TableView is clicked but there's no data");
@@ -248,8 +247,12 @@ namespace TitaniumWindows
 
 					auto listview = safe_cast<Windows::UI::Xaml::Controls::ListView^>(sender);
 
-					TITANIUM_ASSERT((listview->SelectedIndex < 0) || (static_cast<unsigned int>(listview->SelectedIndex) < tableViewItems__->Size));
-					auto listViewItem = tableViewItems__->GetAt(listview->SelectedIndex);
+					uint32_t index = -1;
+					listview->Items->IndexOf(e->ClickedItem, &index);
+					if (index == -1) return;
+					TITANIUM_ASSERT(index > -1 || index < tableViewItems__->Size);
+					
+					auto listViewItem = tableViewItems__->GetAt(index);
 					if (listViewItem->isHeader) return;
 
 					auto sindex = listViewItem->SectionIndex;
