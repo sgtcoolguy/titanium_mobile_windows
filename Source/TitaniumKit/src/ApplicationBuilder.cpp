@@ -201,6 +201,9 @@ namespace Titanium
 			  // Load _app_info_.json
 			  Ti.App._loadAppInfo();
 
+			  // Start analytics
+			  Ti.Analytics._start();
+
 			  Ti.Network.encodeURIComponent = encodeURIComponent;
 			  Ti.Network.decodeURIComponent = decodeURIComponent;
 

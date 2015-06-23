@@ -48,6 +48,7 @@ namespace Titanium
 		JSExport<Analytics>::SetParent(JSExport<Module>::Class());
 
 		TITANIUM_ADD_PROPERTY_READONLY(Analytics, lastEvent);
+		TITANIUM_ADD_FUNCTION(Analytics, _start);
 		TITANIUM_ADD_FUNCTION(Analytics, featureEvent);
 		TITANIUM_ADD_FUNCTION(Analytics, navEvent);
 		TITANIUM_ADD_FUNCTION(Analytics, getLastEvent);
@@ -66,14 +67,14 @@ namespace Titanium
 
 	TITANIUM_PROPERTY_GETTER(Analytics, lastEvent)
 	{
-//		// lazy loading
-//		const auto loaded = loadJS();
-//		if (loaded) {
-//			return ti_analytics__.GetProperty("lastEvent");
-//		} else {
-//			TITANIUM_LOG_ERROR("Failed to execute Analytics.lastEvent");
-			return get_context().CreateNull();
-//		}
+		auto func = ti_analytics__.GetProperty("lastEvent");
+		return static_cast<JSObject>(func)(get_context().get_global_object());
+	}
+
+	TITANIUM_FUNCTION(Analytics, _start)
+	{
+		const auto analytics = GetStaticObject(this_object.get_context()).GetPrivate<Analytics>();
+		return this_object.get_context().CreateBoolean(analytics->loadJS());
 	}
 
 	TITANIUM_FUNCTION(Analytics, featureEvent)
