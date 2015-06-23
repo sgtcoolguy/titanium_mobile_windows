@@ -98,7 +98,8 @@ function validate(logger, config, cli) {
 	if (!this.publisherName || !this.publisherName.value) {
 		if (cli.tiapp.publisher) {
 			this.logger.warn(__(
-				'ti.windows.publishername is a required tiapp.xml string property for publishing! We will default to a value generated from tiapp.publisher value.' +
+				'ti.windows.publishername is suggested in your tiapp.xml for publishing!' +
+				'\nWe will default to a value generated from your tiapp.publisher value.' +
 				'\nFor example:' +
 				'\n<property name="ti.windows.publishername" type="string">CN=' + cli.tiapp.publisher + '</property>'
 			));
@@ -106,8 +107,9 @@ function validate(logger, config, cli) {
 		}
 		else {
 			logger.error(__(
-				'ti.windows.publishername is a required tiapp.xml string property for publishing!' +
+				'Publisher and ti.windows.publishername are required in your tiapp.xml!' +
 				'\nFor example:' +
+				'\n<publisher>Appcelerator Inc.</publisher>' +
 				'\n<property name="ti.windows.publishername" type="string">CN=Appcelerator Inc.</property>'
 			));
 			logger.log();
