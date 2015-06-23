@@ -31,18 +31,8 @@ exports.init = function (logger, config, cli) {
 			}
 
 			var projectDir = builder.projectDir,
-				publisherName = builder.tiapp.properties['ti.windows.publishername'],
 				wSDK = builder.windowsInfo.windows[builder.wpsdk],
 				wsCert = builder.wsCert;
-
-			if (!publisherName || !publisherName.value) {
-				return next(new Error(__(
-					'ti.windows.publishername is a required tiapp.xml string property for publishing!' +
-					'\nFor example:' +
-					'\n<property name="ti.windows.publishername" type="string">CN=Appcelerator Inc.</property>'
-				)));
-			}
-			publisherName = publisherName.value;
 
 			if (wsCert) {
 				builder.certificatePath = wsCert;
@@ -69,7 +59,7 @@ exports.init = function (logger, config, cli) {
 					logger.info('');
 					logger.info(__('Creating a certificate'));
 					logger.info(__('Please follow the prompts'));
-					windowslib.certs.generate(publisherName, cer, builder.windowslibOptions, function(err, privateKey, certFile) {
+					windowslib.certs.generate(builder.publisherName, cer, builder.windowslibOptions, function(err, privateKey, certFile) {
 						return !err ? next() : next(err || new Error('Certificate generation failed'));
 					});
 				},
