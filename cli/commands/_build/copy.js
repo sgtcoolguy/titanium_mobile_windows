@@ -480,7 +480,7 @@ function copyResources(next) {
 					description: this.tiapp.description,
 					copyright: this.tiapp.copyright,
 					guid: this.tiapp.guid,
-					sdkVersion: this.sdk && this.sdk.name
+					sdkVersion: this.cli && this.cli.sdk && this.cli.sdk.name
 				};
 			fs.writeFileSync(
 				appInfoFile,
