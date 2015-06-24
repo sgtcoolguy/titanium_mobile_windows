@@ -295,9 +295,7 @@ namespace TitaniumWindows
 					ondatastream(-1.0); // chunked encoding was used
 				}
 
-				if (!responseBuffer->Length) {
-					onload(0, "Response has been loaded.", true);
-				} else {
+				if (responseBuffer->Length) {
 					auto reader = ::Windows::Storage::Streams::DataReader::FromBuffer(responseBuffer);
 					responseData__.resize(responseDataLen__ + responseBuffer->Length);
 					reader->ReadBytes(
