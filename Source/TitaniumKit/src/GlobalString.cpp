@@ -93,7 +93,9 @@ namespace Titanium
 	TITANIUM_FUNCTION(GlobalString, formatDate) 
 	{
 		ENSURE_OBJECT_AT_INDEX(date, 0);
-		ENSURE_OPTIONAL_STRING_AT_INDEX(format, 1, "");
+		ENSURE_OPTIONAL_STRING_AT_INDEX(format, 1, "short");
+
+		TITANIUM_ASSERT_AND_THROW((format == "short" || format == "medium" || format == "long" || format == "full"), "String.formatDate format should be either short, medium, long or full");
 
 		const auto js_context = this_object.get_context();
 		return js_context.CreateString(GetStaticObject(js_context).GetPrivate<GlobalString>()->formatDate(date, format));
