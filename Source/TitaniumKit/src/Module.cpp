@@ -216,7 +216,7 @@ namespace Titanium
 			}
 		}
 
-		TITANIUM_LOG_ERROR("Module::eventListenerIndex: index = ", index, " for event '", name, "'");
+		TITANIUM_LOG_DEBUG("Module::eventListenerIndex: index = ", index, " for event '", name, "'");
 		return index;
 	}
 

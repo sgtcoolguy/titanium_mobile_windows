@@ -1,6 +1,5 @@
-
 /**
- * The Titanium Analytics module.
+ * Analytics
  *
  * @module analytics
  *
@@ -11,617 +10,232 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var ANALYTICS_URL = "https://api.appcelerator.com/p/v3/mobile-track/",
-	// Delays for function to post events to server/URL
-	MINOR_SEND_ANALYTICS_DELAY = 5000, // default delay for sending events
-	DEFAULT_TIME_SEPARATION_ANALYTICS = 30000, // additional delay for sending certain event types (see sendAnalytics(true);)
-	// Database names/fields
-	DB_NAME = 'appcAnalytics.db', // Name of the internal database we use to store events
-	SEQUENCE = 'Seq', // Name of property we use to track event ids
-	ENROLLED = "Enrolled",
-	APP_VERSION = "AppVersion";
-	// Event types
-	EVENT_APP_ENROLL = "ti.enroll",
-	EVENT_APP_FOREGROUND = "ti.foreground",
-	EVENT_APP_BACKGROUND = "ti.background",
-	EVENT_ERROR = "ti.crash",
-	EVENT_APP_GEO = "ti.geo",
-	// Determine how many events to send at once
-	BUCKET_SIZE_FAST_NETWORK = 10,
-	BUCKET_SIZE_SLOW_NETWORK = 5; // currently unused
+var ANALYTICS_URL = 'https://api.appcelerator.com/p/v3/mobile-track/',
+	ANALYTICS_FILE = 'analytics.json',
+	SESSION_TIME_SEPARATION = 30,
+	RETRY_TIMEOUT = 3,
+	RETRY_COUNT = 3,
+	TIMEOUT = 3,
+	EVENT_APP_FEATURE = 'app.feature',
+	EVENT_APP_NAV = 'app.nav',
+	EVENT_APP_ENROLL = 'ti.enroll',
+	EVENT_APP_FOREGROUND = 'ti.foreground',
+	EVENT_APP_BACKGROUND = 'ti.background';
 
 /**
- * Creates the Analytics module object.
+ * Creates the analytics object
  * @class
- * @classdesc Analytics module.
+ * @classdesc Analytics object
  * @constructor
  */
 function Analytics() {
-	this.sessionId = Ti.Platform.createUUID();
-	this.lastEventID = null;
-	this.lastEvent = null;
-	this.sendEnrollEvent = false;
-	this.sending = false;
+	this.sessionId = Ti.Platform.createUUID().replace(/[{}]/g,'');
+	this.eventQueue = [];
+	this.loadEventQueue();
+	this.sequence = 0;
+	this.http = null;
+	this.timestamp = null;
+	this.lastEvent = {};
 }
 
-/**
- * @param {String} eventType - event type
- * @param {Object} data - payload data
- * @returns {Object} - the event as an Object
- * @private
- */
-Analytics.prototype.createAnalyticsEvent = function createAnalyticsEvent(eventType, data) {
-	Ti.API.info('createAnalyticsEvent');
-	return {
-		type: eventType,
-		timestamp: new Date().toISOString(),
-		mid: Ti.Platform.id,
-		sid: this.sessionId,
-		appGUID: Ti.App.guid,
-		payload: JSON.stringify(data),
-		expandPayload: true
-	};
+Analytics.prototype.loadEventQueue = function loadEventQueue() {
+	if (!this.analyticsFile) {
+		this.analyticsFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + ANALYTICS_FILE);
+	}
+	if (this.analyticsFile && this.analyticsFile.exists()) {
+		this.eventQueue = JSON.parse(this.analyticsFile.read().text) || [];
+	}
+};
+
+Analytics.prototype.saveEventQueue = function saveEventQueue() {
+	if (!this.analyticsFile) {
+		this.analyticsFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + ANALYTICS_FILE);
+	}
+	this.analyticsFile && this.analyticsFile.write(JSON.stringify(this.eventQueue));
 };
 
 /**
- * Generates a event object to store in the DB or send along to the analytics server.
- * @param {String} deployType - The deployType to use
+ * Creates an event and adds it to the event queue
+ * @param {String} eventType - event type (e.g: 'app.feature')
+ * @param {Object} data - JSON event data
  * @private
  */
-Analytics.prototype.createAppEnrollEvent = function createAppEnrollEvent(deployType) {
-	Ti.API.info('createAppEnrollEvent');
-	return this.createAnalyticsEvent(EVENT_APP_ENROLL, {
-		app_name: Ti.App.name,
-		oscpu: Ti.Platform.processorCount,
+Analytics.prototype.createEvent = function createEvent(eventType, data) {
+	var event = {
+		id: Ti.Platform.createUUID().replace(/[{}]/g,'') + ':' + Ti.Platform.id,
+		sid: this.sessionId,
+		ts: new Date().toISOString(),
+		event: eventType,
+		seq: this.sequence++,
+		mid: Ti.Platform.id,
+		ver: '3',
+		aguid: Ti.App.guid
+	};
+	data && (event['data'] = JSON.stringify(data));
+	this.eventQueue.push(event);
+	this.lastEvent = event;
+};
+
+/**
+ * Creates a 'ti.enroll' event and adds it to the event queue
+ * @private
+ */
+Analytics.prototype.createEnrollEvent = function createAppEnrollEvent() {
+	this.createEvent(EVENT_APP_ENROLL, {
 		platform: Ti.Platform.name,
-		app_id: Ti.App.id,
-		ostype: Ti.Platform.ostype,
 		osarch: Ti.Platform.architecture,
 		model: Ti.Platform.model,
-		deploytype: deployType,
-		app_version: Ti.App.version,
-		tz: new Date().getTimezoneOffset(),
+		oscpu: Ti.Platform.processorCount,
+		ostype: Ti.Platform.ostype,
+		deploytype: Ti.App.deployType,
+		app_id: Ti.App.id,
+		app_name: Ti.App.name,
 		os: Ti.Platform.osname,
-		osver: Ti.Platform.version,
-		sdkver: Ti.version,
+		tz: new Date().getTimezoneOffset(),
 		nettype: Ti.Network.networkTypeName,
-		sequence: undefined
-		//		buildtype: 
+		app_version: Ti.App.version,
+		osver: Ti.Platform.version,
+		sdkver: Ti.version
 	});
 };
 
 /**
- * @param {String} type - event type
- * @param {String} name - event name
- * @param {Object} data - payload data
+ * Creates a 'ti.foreground' event and adds it to the event queue
  * @private
  */
-Analytics.prototype.createEvent = function createEvent(type, name, data) {
-	Ti.API.info('createEvent');
-	var eventData = data || {};
-	eventData.eventName = name;
-	return this.createAnalyticsEvent(type, eventData);
+Analytics.prototype.createForegroundEvent = function foregroundEvent() {
+	this.createEvent(EVENT_APP_FOREGROUND, {
+		platform: Ti.Platform.name,
+		osarch: Ti.Platform.architecture,
+		model: Ti.Platform.model,
+		oscpu: Ti.Platform.processorCount,
+		ostype: Ti.Platform.ostype,
+		deploytype: Ti.App.deployType,
+		app_id: Ti.App.id,
+		app_name: Ti.App.name,
+		os: Ti.Platform.osname,
+		tz: new Date().getTimezoneOffset(),
+		nettype: Ti.Network.networkTypeName,
+		app_version: Ti.App.version,
+		osver: Ti.Platform.version,
+		sdkver: Ti.version
+	});
 };
 
 /**
- * Adds an event to the Database and schedules a job to send it along to the server.
- * @param {Object} event - The event to store in the DB and send along to the server
+ * Creates a 'ti.background' event and adds it to the event queue
  * @private
  */
-Analytics.prototype.postAnalyticsEvent = function postAnalyticsEvent(event) {
-	Ti.API.info('postAnalyticsEvent');
-	this.lastEvent = event;
+Analytics.prototype.createBackgroundEvent = function backgroundEvent() {
+	this.createEvent(EVENT_APP_BACKGROUND, null);
+};
 
-	if (event.type == EVENT_APP_ENROLL) {
-		this.sendEnrollEvent = this.needsEnrollEvent();
-		if (this.sendEnrollEvent) {
-			this.lastEventID = this.addEvent(event);
-			this.sendAnalytics(false);
-			this.markEnrolled();
-		}
-	} else if (event.type == EVENT_APP_FOREGROUND) {
-		var lastForegroundEvent = this.getLastEventForType(EVENT_APP_BACKGROUND);
-		if (lastForegroundEvent && lastForegroundEvent.ts) {
-			var lastEnd = Date.parse(lastForegroundEvent.ts).getTime();
-			var start = Date.parse(event.timestamp).getTime();
-			// If the new activity starts immediately after the previous activity pauses, we consider
-			// the app is still in foreground so will not send any analytics events
-			if (start - lastEnd < DEFAULT_TIME_SEPARATION_ANALYTICS) {
-				this.deleteEvents([ lastForegroundEvent._id ]);
-				return;
+/**
+ * Creates a 'app.feature' event and adds it to the event queue
+ * @param {String} name - feature event name
+ * @param {Object} data - JSON event data
+ * @private
+ */
+Analytics.prototype.createFeatureEvent = function featureEvent(name, data) {
+	data['eventName'] = name;
+	this.createEvent(EVENT_APP_FEATURE, data);
+};
+
+/**
+ * Creates a 'app.nav' event and adds it to the event queue
+ * @param {String} from - navigation from
+ * @param {String} to - navigation to
+ * @param {String} name - feature event name
+ * @param {Object} data - JSON event data
+ * @private
+ */
+Analytics.prototype.createNavEvent = function navEvent(from, to, name, data) {
+	data['eventName'] = name;
+	data['from'] = from;
+	data['to'] = to;
+	this.createEvent(EVENT_APP_NAV, data);
+};
+
+/**
+ * Send all events in the event queue
+ * @private
+ */
+Analytics.prototype.postEvents = function postEvents() {
+	if (Ti.Network.online) {
+		var _t = this,
+			retry = 0;
+		function post() {
+			if (_t.http == null) {
+				_t.http = Ti.Network.createHTTPClient({
+					onload: function (e) {
+						_t.eventQueue = [];
+						_t.saveEventQueue();
+					},
+					onerror: function (e) {
+						retry++;
+						if (retry <= RETRY_COUNT) {
+							setTimeout(post(), RETRY_TIMEOUT * 1000);
+							Ti.API.debug('Failed to send analytics events. Retrying in ' + RETRY_TIMEOUT + ' seconds. Attempt #' + retry + '.');
+						} else {
+							Ti.API.error('Failed to send analytics events after ' + RETRY_COUNT + ' attempts.');
+							_t.saveEventQueue();
+						}
+					},
+					timeout: TIMEOUT * 1000
+				});
+				_t.http.open('POST', ANALYTICS_URL);
+				_t.http.setRequestHeader('Content-Type', 'application/json');
 			}
+			_t.http.send(JSON.stringify(_t.eventQueue));
 		}
-
-		// We don't want to reset the sid on the first foreground after an enroll event.
-		if (sendEnrollEvent) {
-			sendEnrollEvent = false;
-		} else {
-			this.sessionId = Ti.Platform.createUUID();
-			event.sid = this.sessionId;
-		}
-
-		this.lastEventID = this.addEvent(event);
-		this.sendAnalytics(false);
-	} else if (event.type == EVENT_APP_BACKGROUND) {
-		this.lastEventID = this.addEvent(event);
-		this.sendAnalytics(true);
+		post();
 	} else {
-		this.lastEventID = this.addEvent(event);
-		this.sendAnalytics(false);
+		this.saveEventQueue();
 	}
 };
 
-/**
- * Schedules the run method to trigger after a delay to send along events.
- * @param {Boolean} useSessionTimeout - Whether we should add some additional delay in scheduling the event loop to send the event(s)
- * @private
- */
-Analytics.prototype.sendAnalytics = function sendAnalytics(useSessionTimeout) {
-	Ti.API.info('sendAnalytics');
-	var delay = MINOR_SEND_ANALYTICS_DELAY;
-	if (useSessionTimeout) {
-		delay += DEFAULT_TIME_SEPARATION_ANALYTICS;
-	}
-	setTimeout(this.run.bind(this), delay); // send the events after a delay
-};
-
-/**
- * Returns a boolean indicating if we are online/in a network state where we should send along events to the server.
- * @returns {Boolean}
- * @private
- */
-Analytics.prototype.canSend = function canSend() {
-	Ti.API.info('canSend');
-	if (!Ti.Network.online) {
-		return false;
-	}
-
-	var type = Ti.Network.networkType;
-	if (type == Titanium.Network.NETWORK_MOBILE) {
-		// FIXME How do we tell if we're roaming or not? We don't want to send if roaming, but otherwise we're OK!
-		return true;
-	}
-	// TODO What about UNKNOWN or NONE?
-
-	return true;
-};
-
-/**
- * The heart of the service, this is meant to run as a scheduled task to send along events to the analytics server via POSTs.
- * @private
- */
-Analytics.prototype.run = function run() {
-	Ti.API.info("Analytics Service Started");
-
-	if (this.sending) {
-		Ti.API.info("Send already in progress, skipping");
-		return;
-	}
-	this.sending = true;
-
-	// do we even have events to send?
-	if (!this.hasEvents()) {
-		Ti.API.debug("No events to send.");
-		Ti.API.info("Stopping Analytics Service");
-		this.sending = false;
-		return;
-	}
-	// are we online?
-	if (!this.canSend()) {
-		Ti.API.warn("Network unavailable, can't send analytics");
-		Ti.API.info("Stopping Analytics Service");
-		this.sending = false;
-		return;
-	}
-
-	// keep track of how many times we've tried this set of records
-	var retryCount = 0;
-
-	var events = this.getEventsAsJSON(BUCKET_SIZE_FAST_NETWORK); // map from event id to actual event
-	
-	var eventIds = Object.keys(events); // event ids
-	Ti.API.info("Event ids: " + JSON.stringify(eventIds));
-
-	var records = []; // the events to send
-	// build up data to send and records to delete on success
-	for (var i = 0; i < eventIds.length; i++) {
-		var id = eventIds[i];
-		var event = events[id];
-		// ids are kept even on error JSON to prevent unrestrained growth
-		// and a queue blocked by bad records.
-		records.unshift(event);
-		
-		Ti.API.debug("Sending event: type = " + event.event + ", timestamp = " + event.ts);
-	}
-	events = null; // we don't need this map now. We've split them into ids (eventIds) and actual events (records)
-
-	if (records.length > 0) {		
-		Ti.API.debug("Sending " + records.length + " analytics events.");
-		
-		var jsonData = records.toString() + "\n";
-		var postUrl = (Ti.App.guid === null) ? ANALYTICS_URL : (ANALYTICS_URL + Ti.App.guid);
-		function postRecords() {
-			var self = this;
-			var client = Ti.Network.createHTTPClient({
-				onload : function(e) {
-					// we posted the events, let's delete them from the DB and reschedule run loop to send next batch of events
-					self.deleteEvents(eventIds);
-					self.sending = false;
-					setTimeout(self.run.bind(self), 1); // try to send the next set of records
-				},
-
-				onerror : function(e) {
-					// We failed to send
-					Ti.API.debug("Error posting events: " + e.error);
-					retryCount++;
-
-					// Stop retrying after 5 attempts, leave the events in the DB.
-					if (retryCount >= 5) {
-						Ti.API.error("Failed to send analytics events after 5 attempts");
-						Ti.API.info("Stopping Analytics Service");
-						self.sending = false;
-					} else {
-						// if count is 1-4, retry to send this set after 15 seconds
-						Ti.API.debug("Failed to send analytics events. Retrying in 15 seconds");
-						setTimeout(postRecords.bind(self), 15000);
-					}
-				},
-				timeout : 5000  // in milliseconds
-			});
-			// Prepare the connection.
-			client.open("POST", postUrl);
-			client.setRequestHeader("Content-Type", "text/json");
-			// Send the request.
-			client.send(jsonData);
-
-			//client.params["http.protocol.expect-continue"] = false; // FIXME Do we need this? How would we do it in Titanium?
-		}
-		postRecords.bind(this)();
-	} else {
-		Ti.API.info("Stopping Analytics Service");
-		this.sending = false;
-	}
-};
-
-/**
- * Determine if the tables we need are in the database.
- * @private
- */
-Analytics.prototype.databaseExists = function databaseExists() {
-	Ti.API.info("databaseExists");
-	var db = Ti.Database.open(DB_NAME);
-	try {
-		var resultSet = db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='Events';");
-		try {
-			return resultSet.isValidRow() && ('Events' == resultSet.field(0));
-		} finally {
-			resultSet.close();
-		}
-	}
-	finally {
-		db.close();
-	}
-	return false;
-};
-
-/**
- * Create the database we use to store analytics events to send along, and other properties we care about.
- * @private
- */
-Analytics.prototype.createDatabase = function createDatabase() {
-	Ti.API.info("createDatabase");
-	var db = Ti.Database.open(DB_NAME);
-	try {
-		db.execute("CREATE TABLE Events (_id INTEGER PRIMARY KEY AUTOINCREMENT, EventId TEXT, Event TEXT, Timestamp TEXT, MID TEXT, SID TEXT, AppGUID TEXT, isJSON INTEGER, Payload TEXT, Seq INTEGER);");
-		db.execute("CREATE TABLE Props (_id INTEGER PRIMARY KEY, Name TEXT, Value TEXT);");
-		db.execute("INSERT INTO Props(Name, Value) VALUES ('Enrolled', '0')");
-		db.execute("INSERT INTO Props(Name, Value) VALUES ('AppVersion', ?)", Ti.App.version);
-		db.execute("INSERT INTO Props(Name, Value) VALUES (?, '0')", SEQUENCE);
-	}
-	finally {
-		db.close();
-	}
-};
-
-/**
- * Creates the event id to uniquely identify the event.
- * @returns {String} - the generated event id
- * @private
- */
-Analytics.prototype.createEventId = function createEventId() {
-	return Ti.Platform.createUUID() + ":" + Ti.Platform.id;
-};
-
-/**
- * Looks up a property value by name in the database.
- * @param {String} name - the property name/key to look up.
- * @returns {String} - the value stored for the given property key/name
- * @private
- */
-Analytics.prototype.getProps = function getProps(name) {
-	Ti.API.info('getProps');
-	var db = Ti.Database.open(DB_NAME);
-	try {
-		var resultSet = db.execute("SELECT Value FROM Props WHERE Name = ?", name.toString());
-		try {
-			if (!resultSet.isValidRow()) {
-				return null;
-			}
-			return resultSet.field(0, Ti.Database.FIELD_TYPE_STRING);
-		} finally {
-			resultSet.close();
-		}
-	}
-	finally {
-		db.close();
-	}
-};
-
-/**
- * Stores a value under a name in the database.
- * @param {String} name - the property name/key
- * @param {String} value - the property value
- * @private
- */
-Analytics.prototype.updateProps = function updateProps(name, value) {
-	Ti.API.info('updateProps');
-	var db = Ti.Database.open(DB_NAME);
-	try {
-		db.execute("UPDATE Props SET Value = ? WHERE Name = ?", value.toString(), name.toString());
-	} finally {
-		db.close();
-	}
-};
-
-/**
- * Determines if we've enrolled this app before. If we are enrolled this will also check if the app version has
- * changed and if so will update the app version and reset the sequence counter.
- * @returns {Boolean}
- * @private
- */
-Analytics.prototype.needsEnrollEvent = function needsEnrollEvent() {
-	Ti.API.info('needsEnrollEvent');
-	var appVersion = null,
-		isEnrolled = ("1" == this.getProps(ENROLLED));
-
-	if (isEnrolled) {
-		appVersion = this.getProps(APP_VERSION);
-		if (appVersion) {
-			if (appVersion != Ti.App.version) { // if new version of app, record version in DB and reset the sequence number
-				this.updateProps(APP_VERSION, Ti.App.version);
-				this.updateProps(SEQUENCE, "0");
-			}
-		}
-	}
-
-	return !isEnrolled;
-};
-
-/**
- * Records in the database that we've enrolled.
- * @private
- */
-Analytics.prototype.markEnrolled = function markEnrolled() {
-	this.updateProps(ENROLLED, "1");
-};
-
-/**
- * Adds an analytics event to our database.
- * @param {Object} event - an Object containing the event data that we want to store in the database
- * @returns {String} - the unique event id of the event we just stored.
- * @private
- */
-Analytics.prototype.addEvent = function addEvent(event) {
-	Ti.API.info('addEvent');
-	var sequence,
-		eventID,
-		db;
-	sequence = parseInt(this.getProps(SEQUENCE));
-	Ti.API.info("Sequence: " + sequence);
-	eventID = this.createEventId();
-
-	db = Ti.Database.open(DB_NAME);
-	try {
-		Ti.API.info("Inserting: " + JSON.stringify(event));
-		db.execute("INSERT INTO Events(EventId, Event, Timestamp, MID, SID, AppGUID, isJSON, Payload, Seq) VALUES(?,?,?,?,?,?,?,?,?)", 
-				eventID, event.type, event.timestamp, event.mid, event.sid, event.appGUID, event.expandPayload ? 1 : 0, event.payload, sequence);
-	} finally {
-		db.close();
-	}
-	event.sequence = sequence;
-	// Update sequence number after each event
-	// FIXNE Somehow we're getting NaN for sequence here!
-	this.updateProps(SEQUENCE, (sequence + 1).toString());
-
-	return eventID;
-};
-
-/**
- * Deletes a set of events from the database.
- * @param {Array} records - an Array of integer ids to delete
- * @private
- */
-Analytics.prototype.deleteEvents = function deleteEvents(records) {
-	Ti.API.info('deleteEvents');
-	if (!records || records.length === 0) {
-		return;
-	}
-
-	var db = Ti.Database.open(DB_NAME),
-		sql = "DELETE FROM Events WHERE _id IN (";
-	
-	for (var i = 0; i < records.length; i++) {
-		if (i > 0) {
-			sql += ", ";
-		}
-		sql += '?';
-	}
-	sql += ")";
-	try {
-		db.execute(sql, records);
-	} finally {
-		db.close();
-	}
-};
-
-/**
- * Determines if we have any events stored in our database.
- * @returns {Boolean} indicating if any events are stored in our database.
- * @private
- */
-Analytics.prototype.hasEvents = function hasEvents() {
-	Ti.API.info('hasEvents');
-	var db = Ti.Database.open(DB_NAME);
-	try {
-		var resultSet = db.execute("SELECT exists(SELECT _id FROM Events)");
-		try {
-			return (resultSet.field(0, Ti.Database.FIELD_TYPE_INT) !== 0);
-		} finally {
-			resultSet.close();
-		}
-	} finally {
-		db.close();
-	}
-	return false;
-};
-
-/*
- * Composes an event Object from the Database query results. The results use the key names expected by the analytics server, so aren't very long and readable.
- * It makes for a nasty mis-match with createAnalyticsEvent (the objects we use to populate the database).
- * @param {Titanium.Database.ResultSet} resultSet - resultSet pointing at a row of results from the Events table.
- * @private
- */
-Analytics.prototype.deserializeEvent = function deserializeEvent(resultSet) {
-	Ti.API.info('deserializeEvent');
-	var result = {};
-
-	if (resultSet.isValidRow()) {
-		result.ver = '3';
-		result.id = resultSet.fieldByName('EventId');
-		result.event = resultSet.fieldByName('Event');
-		result.ts = resultSet.fieldByName('Timestamp');
-		result.mid = resultSet.fieldByName('MID');
-		result.sid = resultSet.fieldByName('SID');
-		result.aguid = resultSet.fieldByName('AppGUID');
-
-		var isJSON = (resultSet.fieldByName('isJSON', Ti.Database.FIELD_TYPE_INT) == 1) ? true : false;
-		var payload = resultSet.fieldByName('Payload');
-		if (isJSON) {
-			result.data = JSON.parse(payload);
-		} else {
-			result.data = payload;
-		}
-		result.seq = resultSet.fieldByName(SEQUENCE, Ti.Database.FIELD_TYPE_INT);
-		result._id = resultSet.fieldByName('_id'); // cheat and store the db id in here too
-	}
-
-	return result;
-};
-
-/*
- * Get the most recent event given the type.
- * @param {String} eventType - type of event we're looking up
- * @private
- */
-Analytics.prototype.getLastEventForType = function getLastEventForType(eventType) {
-	Ti.API.info('getLastEventForType');
-	var db = Ti.Database.open(DB_NAME);	
-	try {
-		var resultSet = db.execute("SELECT _id, EventId, Event, Timestamp, MID, SID, AppGUID, isJSON, Payload, Seq FROM Events WHERE Event=? ORDER BY Timestamp DESC LIMIT 1;", eventType);
-		try {
-			if (resultSet.isValidRow()) {
-				return this.deserializeEvent(resultSet);
-			}
-		} finally {
-			resultSet.close();
-		}
-	} finally {
-		db.close();
-	}
-	return {}; // return empty object if we fail?
-};
-
-/*
- * Grab events out of the database
- * @param {Number} limit - max number of records to pull
- * @returns {Array} array of events
- * @private
- */
-Analytics.prototype.getEventsAsJSON = function getEventsAsJSON(limit) {
-	Ti.API.info('getEventsAsJSON');
-	var db = Ti.Database.open(DB_NAME),
-		result = {},
-		resultSet,
-		event;
-
-	try {
-		resultSet = db.execute("SELECT _id, EventId, Event, Timestamp, MID, SID, AppGUID, isJSON, Payload, Seq FROM Events ORDER BY Timestamp ASC LIMIT ?;", limit);
-		try {
-			while (resultSet.isValidRow()) {
-				event = this.deserializeEvent(resultSet);
-				result[event._id] = event;
-				resultSet.next();
-			}
-		} finally {
-			resultSet.close();
-		}
-	} finally {
-		db.close();
-	}
-	return result;
-};
-
-/**
- * Sends a feature event for this application session.
- * @param {String} name - Event name, displayed in Analytics UI.
- * @param {Object} [data] - Extra data related to the event, not displayed in Analytics UI. The object must be serializable as JSON.
- */
-Analytics.prototype.featureEvent = function featureEvent(name, data) {
-	Ti.API.info('featureEvent');
-	this.postAnalyticsEvent(this.createEvent("app.feature", name, data));
-};
-
-/**
- * Sends a navigation event for this application session. Not displayed in Analytics UI.
- * @param {String} from - String describing the location the user navigated from.
- * @param {String} to - String describing the location the user navigated to.
- * @param {String} [name] - Event name.
- * @param {Object} [data] - Extra data related to the event. The object must be serializable as JSON.
- */
-Analytics.prototype.navEvent = function navEvent(from, to, name, data) {
-	Ti.API.info('navEvent');
-	var eventData = data || {};
-	eventData.from = from;
-	eventData.to = to;
-	this.postAnalyticsEvent(this.createEvent("app.nav", name, eventData)); 
-};
-
-
-/**
- * Sends an application enroll event used to indicate the first launch
- * of the application after it has been installed or upgraded.
- */
-Analytics.prototype.sendAppEnrollEvent = function sendAppEnrollEvent() {
-	Ti.API.info('sendAppEnrollEvent');
-	this.postAnalyticsEvent(this.createAppEnrollEvent('development'));
-};
-
-// Create an instance of the module and expose just the methods we want
-Ti.API.info('creating instance of Analytics class');
+// create analytics
 var analytics = new Analytics();
-Ti.API.info('checking if database exists');
-if (!analytics.databaseExists()) {
-	Ti.API.info('creating database');
-	analytics.createDatabase();
+// enroll on our first launch
+if (!Ti.App.Properties.getBool('_firstLaunch', false)) {
+	Ti.App.Properties.setBool('_firstLaunch', true);
+	analytics.createEnrollEvent();
 }
-analytics.sendAppEnrollEvent();
+// queue ti.foreground event
+analytics.createForegroundEvent();
+// send events
+analytics.postEvents();
+// listen for 'resume' and 'pause' events
+Ti.App.addEventListener('resume', function resume(e) {
+	// generate a new sessionId if we have been suspeneded for over 30 seconds
+	if (analytics.timestamp && (new Date().getTime() - analytics.timestamp) > SESSION_TIME_SEPARATION) {
+		analytics.sessionId = Ti.Platform.createUUID().replace(/[{}]/g,'');
+	}
+	// queue ti.foreground event
+	analytics.createForegroundEvent();
+	// send events
+	analytics.postEvents();
+});
+Ti.App.addEventListener('pause', function pause(e) {
+	// save suspend timestamp
+	analytics.timestamp = new Date().getTime();
+	//queue ti.background event
+	analytics.createBackgroundEvent();
+	// send events
+	analytics.postEvents();
+});
 
-// Limit what we expose
-this.exports = {};
-this.exports.featureEvent = function(name, data) {
-	analytics.featureEvent(name, data);
+// set exports
+this.exports = {
+	featureEvent: function (name, data) {
+		analytics.createFeatureEvent(name, data);
+		analytics.postEvents();
+	},
+	navEvent: function (from, to, name, data) {
+		analytics.createNavEvent(from, to, name, data);
+		analytics.postEvents();
+	},
+	lastEvent: function () {
+		return analytics.lastEvent;
+	}
 };
-this.exports.navEvent = function(from, to, name, data) {
-	analytics.navEvent(from, to, name, data);
-};
-Object.defineProperty(this.exports, "lastEvent", { value: analytics.lastEvent, writable : false });

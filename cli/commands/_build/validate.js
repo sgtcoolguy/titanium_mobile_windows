@@ -93,6 +93,32 @@ function validate(logger, config, cli) {
 		process.exit(1);
 	}
 
+	// check the publisher name
+	this.publisherName = cli.tiapp.properties['ti.windows.publishername'];
+	if (!this.publisherName || !this.publisherName.value) {
+		if (cli.tiapp.publisher) {
+			this.logger.warn(__(
+				'ti.windows.publishername is suggested in your tiapp.xml for publishing!' +
+				'\nWe will default to a value generated from your tiapp.publisher value.' +
+				'\nFor example:' +
+				'\n<property name="ti.windows.publishername" type="string">CN=' + cli.tiapp.publisher + '</property>'
+			));
+			this.publisherName = "CN=" + cli.tiapp.publisher;
+		}
+		else {
+			logger.error(__(
+				'Publisher and ti.windows.publishername are required in your tiapp.xml!' +
+				'\nFor example:' +
+				'\n<publisher>Appcelerator Inc.</publisher>' +
+				'\n<property name="ti.windows.publishername" type="string">CN=Appcelerator Inc.</property>'
+			));
+			logger.log();
+			process.exit(1);
+		}
+	} else {
+		this.publisherName = this.publisherName.value;
+	}
+
 	// check that the build directory is writeable
 	// try to build under temp if the path is shorter and we have write access
 	var tempBuildDir = path.join(os.tmpdir());

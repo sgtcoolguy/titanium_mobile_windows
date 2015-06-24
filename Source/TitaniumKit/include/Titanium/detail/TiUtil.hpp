@@ -9,7 +9,7 @@
 #ifndef _TITANIUM_TIUTIL_HPP_
 #define _TITANIUM_TIUTIL_HPP_
 
-#include "Titanium/detail/TiBase.hpp"
+#include "TitaniumKit_EXPORT.h"
 
 #include <string>
 
@@ -22,8 +22,6 @@ namespace Titanium
 		{
 			return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
 		}
-
-		using namespace HAL;
 
 		// Log and throw a std::logic_error from an internal component.
 		TITANIUMKIT_EXPORT void ThrowLogicError(const std::string& internal_component_name, const std::string& message);

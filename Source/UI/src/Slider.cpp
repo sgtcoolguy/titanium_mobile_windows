@@ -47,6 +47,11 @@ namespace TitaniumWindows
 			slider__->Minimum = min;
 		}
 
+		double Slider::get_value() const TITANIUM_NOEXCEPT
+		{
+			return slider__->Value;
+		}
+
 		void Slider::set_value(const double& value) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Slider::set_value(value);

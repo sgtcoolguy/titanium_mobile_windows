@@ -163,6 +163,7 @@ function generateCmakeList(next) {
 		native_modules = [];
 
 	this.logger.info(__('Writing CMakeLists.txt: %s', this.cmakeListFile.cyan));
+
 	// TODO If forceBuild is false AND no assets have changed, then we can skip this and the cmake step, I think!
 	function getFilesRecursive(folder) {
 		var fileContents = fs.readdirSync(folder),
@@ -238,7 +239,7 @@ function generateCmakeList(next) {
 			version: this.tiapp.version,
 			assets: assetList.join('\n'),
 			publisherDisplayName: this.cli.tiapp.publisher,
-			publisherName: this.cli.tiapp.properties['ti.windows.publishername'].value,
+			publisherName: this.publisherName,
 			appId: this.cli.tiapp.id,
 			sourceGroups: sourceGroups,
 			native_modules: native_modules
