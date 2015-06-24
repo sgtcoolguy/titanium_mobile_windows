@@ -140,7 +140,11 @@ describe("Titanium.Network.HTTPClient", function () {
             finish();
         };
         xhr.onerror = function (e) {
-            should(e).be.type('undefined');
+            if (xhr.status != 503) { // service unavailable (over quota)
+                fail("Received unexpected response: " + xhr.status);
+                return;
+            }
+            finish();
         };
         xhr.open("GET", "http://headers.jsontest.com/");
         xhr.setRequestHeader("adhocHeader", "notcleared");
