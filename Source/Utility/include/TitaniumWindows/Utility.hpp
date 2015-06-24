@@ -51,7 +51,7 @@ namespace TitaniumWindows
 		//
 		// Convert std::string into Platform::String^
 		//
-		TITANIUMWINDOWS_UTILITY_EXPORT::Platform::String^ ConvertString(const std::string& str);
+		TITANIUMWINDOWS_UTILITY_EXPORT ::Platform::String^ ConvertString(const std::string& str);
 
 		//
 		// Convert Platform::String^ into std::string
@@ -61,7 +61,7 @@ namespace TitaniumWindows
 		//
 		// Convert UTF-8 std::string into Platform::String^
 		//
-		TITANIUMWINDOWS_UTILITY_EXPORT::Platform::String^ ConvertUTF8String(const std::string& str);
+		TITANIUMWINDOWS_UTILITY_EXPORT ::Platform::String^ ConvertUTF8String(const std::string& str);
 
 		//
 		// Convert Platform::String^ into UTF-8 std::string

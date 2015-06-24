@@ -100,6 +100,7 @@ set_target_properties(TitaniumWindows_Native PROPERTIES VS_WINRT_COMPONENT TRUE)
 set_property(TARGET TitaniumWindows_Native
   PROPERTY VS_WINRT_REFERENCES
   "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/${PLATFORM}/${Ti_ARCH}/TitaniumWindows.winmd"
+  "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utility/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Utility.winmd
 <% for(var i = 0; i < native_modules.length; i++) { -%>
   "<%= native_modules[i].path %>/${PLATFORM}/${Ti_ARCH}/<%= native_modules[i].projectname %>.winmd"
 <% } -%>
