@@ -8,6 +8,7 @@
 
 #include "Titanium/Media/MusicLibraryResponseType.hpp"
 #include "Titanium/Media/Item.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

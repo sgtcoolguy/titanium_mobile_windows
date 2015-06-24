@@ -124,8 +124,6 @@ namespace Titanium
 		API& operator=(API&&) = default;
 #endif
 
-		// TODO: The following functions can automatically be generated from
-		// the YAML API docs.
 		static void JSExportInitialize();
 		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
 

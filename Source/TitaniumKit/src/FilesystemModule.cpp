@@ -5,6 +5,9 @@
  */
 
 #include "Titanium/FilesystemModule.hpp"
+#include "Titanium/Filesystem/File.hpp"
+#include "Titanium/Filesystem/FileStream.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <sstream>
 
 namespace Titanium

@@ -8,6 +8,7 @@
 
 #include "Titanium/Media/PhotoGalleryOptionsType.hpp"
 #include "Titanium/UI/View.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

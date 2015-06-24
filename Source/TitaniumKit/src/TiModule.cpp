@@ -5,6 +5,7 @@
  */
 
 #include "Titanium/TiModule.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <unordered_map>
 #include <sstream>
 

@@ -9,11 +9,8 @@
 #ifndef _TITANIUMWINDOWS_UI_IMAGEVIEW_HPP_
 #define _TITANIUMWINDOWS_UI_IMAGEVIEW_HPP_
 
-#include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include <algorithm>
-#include <boost/algorithm/string/predicate.hpp>
-#include <ppltasks.h>
-#include "Titanium/UI/Animation.hpp"
+#include "TitaniumWindows_UI_EXPORT.h"
+#include "Titanium/UI/ImageView.hpp"
 
 namespace TitaniumWindows
 {

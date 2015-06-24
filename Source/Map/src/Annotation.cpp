@@ -8,6 +8,7 @@
 
 #include "TitaniumWindows/Map/Annotation.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 using namespace Windows::UI::Xaml::Controls::Maps;

@@ -6,7 +6,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/GlobalObject.hpp"
+#include "Titanium/Module.hpp"
 #include "NativeModuleExample.hpp"
 #include "gtest/gtest.h"
 

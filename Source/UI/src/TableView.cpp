@@ -9,9 +9,11 @@
 #include "TitaniumWindows/UI/ListView.hpp"
 #include "TitaniumWindows/UI/TableView.hpp"
 #include "TitaniumWindows/UI/TableViewRow.hpp"
+#include "Titanium/UI/TableViewSection.hpp"
 #include "TitaniumWindows/UI/View.hpp"
-
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 #include <collection.h>
 

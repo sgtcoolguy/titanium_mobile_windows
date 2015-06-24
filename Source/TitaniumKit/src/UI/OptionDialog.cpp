@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/OptionDialog.hpp"
 #include "Titanium/UI/View.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

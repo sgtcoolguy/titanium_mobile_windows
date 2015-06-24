@@ -5,6 +5,7 @@
  */
 
 #include "TitaniumWindows/Media/Sound.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 namespace TitaniumWindows
 {

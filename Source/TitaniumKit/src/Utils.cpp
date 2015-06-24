@@ -7,6 +7,9 @@
  */
 
 #include "Titanium/Utils.hpp"
+#include "Titanium/Blob.hpp"
+#include "Titanium/Filesystem/File.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 #include <boost/archive/iterators/base64_from_binary.hpp>
 #include <boost/archive/iterators/binary_from_base64.hpp>

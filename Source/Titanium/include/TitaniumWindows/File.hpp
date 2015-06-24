@@ -7,8 +7,8 @@
 #ifndef _TITANIUMWINDOWS_FILE_HPP_
 #define _TITANIUMWINDOWS_FILE_HPP_
 
-#include "detail/TitaniumWindowsBase.hpp"
-#include "Titanium/Filesystem/Constants.hpp"
+#include "TitaniumWindows_EXPORT.h"
+#include "Titanium/Filesystem/File.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows

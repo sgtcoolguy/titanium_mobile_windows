@@ -9,6 +9,7 @@
 #include "TitaniumWindows/UI/Button.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace TitaniumWindows
 {

@@ -10,14 +10,16 @@
 #define _TITANIUM_TABLEVIEWSECTION_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/UI/View.hpp"
-#include "Titanium/UI/TableViewRow.hpp"
 
 namespace Titanium
 {
 	namespace UI
 	{
 		using namespace HAL;
+		
+		class TableViewRow;
+		class View;
+
 		using TableViewRow_shared_ptr_t = std::shared_ptr<TableViewRow>;
 		using View_shared_ptr_t = std::shared_ptr<View>;
 

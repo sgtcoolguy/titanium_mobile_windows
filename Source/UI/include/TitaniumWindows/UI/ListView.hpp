@@ -9,7 +9,8 @@
 #ifndef _TITANIUMWINDOWS_UI_LISTVIEW_HPP_
 #define _TITANIUMWINDOWS_UI_LISTVIEW_HPP_
 
-#include "TitaniumWindows/UI/detail/UIBase.hpp"
+#include "TitaniumWindows_UI_EXPORT.h"
+#include "Titanium/UI/ListView.hpp"
 
 namespace TitaniumWindows
 {
@@ -102,7 +103,7 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::ListView^ listview__;
 			Windows::UI::Xaml::Data::CollectionViewSource^ collectionViewSource__;
 			// This is the "view" of the underlying list view items that is shown in the UI. It may be filtered from set_searchText
-			Windows::Foundation::Collections::IObservableVector<Platform::Object^>^ collectionViewItems__;
+			Windows::Foundation::Collections::IObservableVector<::Platform::Object^>^ collectionViewItems__;
 
 			// Section and item index mapping. This is the _full_ listing of the underlying data
 			Windows::Foundation::Collections::IVector<ListViewItem^>^ listViewItems__;

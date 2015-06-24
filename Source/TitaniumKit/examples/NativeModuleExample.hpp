@@ -9,7 +9,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEMODULEEXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEMODULEEXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/Module.hpp"
 
 using namespace HAL;
 

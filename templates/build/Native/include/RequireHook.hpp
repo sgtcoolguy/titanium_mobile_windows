@@ -9,7 +9,12 @@
 #define _TITANIUM_MOBILE_WINDOWS_REQUIREHOOK_HPP_
 
 #include <cstdint>
-#include "WindowsNativeModuleLoader.hpp"
+#include <memory>
+
+namespace TitaniumWindows
+{
+	class WindowsNativeModuleLoader;
+}
 
 namespace TitaniumWindows_Native
 {

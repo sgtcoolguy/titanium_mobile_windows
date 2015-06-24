@@ -7,6 +7,10 @@
  */
 
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
+#include "Titanium/UI/View.hpp"
+#include "Titanium/UI/Animation.hpp"
+#include "Titanium/UI/2DMatrix.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <string>
 #include <algorithm>
 #include <cctype>

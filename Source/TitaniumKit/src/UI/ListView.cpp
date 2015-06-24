@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/UI/ListView.hpp"
+#include "Titanium/UI/ListViewAnimationProperties.hpp"
 #include "Titanium/UI/listview_js.hpp"
 
 namespace Titanium

@@ -7,7 +7,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEGESTUREEXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEGESTUREEXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/Gesture.hpp"
 
 using namespace HAL;
 

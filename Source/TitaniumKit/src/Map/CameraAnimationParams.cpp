@@ -7,6 +7,8 @@
  */
 
 #include "Titanium/Map/CameraAnimationParams.hpp"
+#include "Titanium/Map/Camera.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

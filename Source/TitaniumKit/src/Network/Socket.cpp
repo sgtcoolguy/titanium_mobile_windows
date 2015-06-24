@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/Network/Socket.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/Module.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <cstdint>
 
 namespace Titanium

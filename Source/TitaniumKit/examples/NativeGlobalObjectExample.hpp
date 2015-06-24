@@ -9,7 +9,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEGLOBALOBJECTEXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEGLOBALOBJECTEXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/GlobalObject.hpp"
 #include <unordered_map>
 
 using namespace HAL;

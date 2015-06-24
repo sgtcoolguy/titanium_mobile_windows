@@ -10,6 +10,14 @@
 #include "TitaniumWindows_Filesystem_EXPORT.h"
 #include "Titanium/FilesystemModule.hpp"
 
+namespace Titanium
+{
+	namespace Filesystem
+	{
+		class FileStream;
+	}
+}
+
 namespace TitaniumWindows
 {
 	using namespace HAL;

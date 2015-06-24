@@ -7,7 +7,8 @@
 #ifndef _TITANIUMWINDOWS_HTTPCLIENT_HPP_
 #define _TITANIUMWINDOWS_HTTPCLIENT_HPP_
 
-#include "TitaniumWindows/detail/NetworkBase.hpp"
+#include "TitaniumWindows_Network_EXPORT.h"
+#include "Titanium/Network/HTTPClient.hpp"
 #include <ppltasks.h>
 #include <Robuffer.h>
 

@@ -7,6 +7,7 @@
 */
 
 #include "TitaniumWindows/AppModule.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 using namespace Windows::Foundation;
 using namespace Windows::UI::ViewManagement;

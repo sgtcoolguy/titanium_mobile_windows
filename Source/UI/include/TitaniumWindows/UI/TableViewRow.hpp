@@ -9,18 +9,16 @@
 #ifndef _TITANIUMWINDOWS_TABLEVIEWROW_HPP_
 #define _TITANIUMWINDOWS_TABLEVIEWROW_HPP_
 
-#include "TitaniumWindows/UI/detail/UIBase.hpp"
-#include "WindowsViewLayoutDelegate.hpp"
-
-#include "Titanium/UI/Font.hpp"
-#include "Label.hpp"
-#include "View.hpp"
+#include "TitaniumWindows_UI_EXPORT.h"
+#include "Titanium/UI/TableViewRow.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
 		using namespace HAL;
+
+		class Label;
 
 		/*!
 		  @class

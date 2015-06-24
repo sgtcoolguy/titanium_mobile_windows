@@ -5,6 +5,7 @@
  */
 
 #include "Titanium/Accelerometer.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

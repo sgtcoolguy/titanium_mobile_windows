@@ -9,7 +9,7 @@
 #ifndef _TITANIUMWINDOWS_MAP_VIEW_HPP_
 #define _TITANIUMWINDOWS_MAP_VIEW_HPP_
 
-#include "TitaniumWindows/Map/detail/MapBase.hpp"
+#include "TitaniumWindows_Map_EXPORT.h"
 #include "Titanium/Map/View.hpp"
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
@@ -22,6 +22,7 @@ namespace TitaniumWindows
 	namespace Map
 	{
 		using namespace HAL;
+
 		using Annotation_shared_ptr_t = std::shared_ptr<Titanium::Map::Annotation>;
 
 		/*!

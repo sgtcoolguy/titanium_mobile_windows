@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/Media/AudioRecorder.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

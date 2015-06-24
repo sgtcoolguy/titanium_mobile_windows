@@ -7,6 +7,9 @@
  */
 
 #include "Titanium/UI/EmailDialog.hpp"
+#include "Titanium/Filesystem/File.hpp"
+#include "Titanium/Blob.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 #ifdef FAILED
 #pragma push_macro("FAILED")

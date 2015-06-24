@@ -7,6 +7,7 @@
  */
 
 #include "NativeViewExample.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 NativeViewLayoutDelegate::NativeViewLayoutDelegate(JSObject& this_object)
 {

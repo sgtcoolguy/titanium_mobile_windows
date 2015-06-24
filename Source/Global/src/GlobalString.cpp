@@ -7,7 +7,7 @@
  */
 
 #include "TitaniumWindows/GlobalString.hpp"
-#include "Titanium/detail/TiBase.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 namespace TitaniumWindows
 {

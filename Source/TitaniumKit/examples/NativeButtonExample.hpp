@@ -9,8 +9,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEBUTTONEXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEBUTTONEXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
-#include <string>
+#include "Titanium/UI/Button.hpp"
 
 using namespace HAL;
 

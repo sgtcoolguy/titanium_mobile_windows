@@ -12,12 +12,13 @@
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/Dimension.hpp"
 #include "Titanium/Media/Constants.hpp"
-#include "Titanium/Blob.hpp"
 #include <chrono>
 #include <unordered_set>
 
 namespace Titanium
 {
+	class Blob;
+
 	namespace Media
 	{
 		using namespace HAL;

@@ -4,7 +4,14 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/GlobalObject.hpp"
+#include "Titanium/MediaModule.hpp"
+#include "Titanium/Media/AudioPlayer.hpp"
+#include "Titanium/Media/AudioRecorder.hpp"
+#include "Titanium/Media/Item.hpp"
+#include "Titanium/Media/MusicPlayer.hpp"
+#include "Titanium/Media/Sound.hpp"
+#include "Titanium/Media/VideoPlayer.hpp"
 #include "gtest/gtest.h"
 
 #define XCTAssertEqual ASSERT_EQ

@@ -7,6 +7,10 @@
  */
 
 #include "Titanium/Map/View.hpp"
+#include "Titanium/Map/Annotation.hpp"
+#include "Titanium/Map/Route.hpp"
+#include "Titanium/Map/Camera.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

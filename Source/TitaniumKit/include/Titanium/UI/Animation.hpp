@@ -11,8 +11,7 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/UI/Constants.hpp"
-#include "Titanium/UI/View.hpp"
-#include "Titanium/UI/2DMatrix.hpp"
+#include "Titanium/UI/Point.hpp"
 #include <boost/optional.hpp>
 
 namespace Titanium
@@ -23,6 +22,7 @@ namespace Titanium
 		using namespace HAL;
 
 		class View;
+		class TwoDMatrix;
 
 		/*!
 		  @class

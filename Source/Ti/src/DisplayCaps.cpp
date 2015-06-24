@@ -5,7 +5,7 @@
  */
 
 #include "TitaniumWindows/DisplayCaps.hpp"
-#include "Titanium/detail/TiBase.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 #include <iostream>
 #include <objbase.h>
 

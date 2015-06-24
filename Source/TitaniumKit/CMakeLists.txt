@@ -73,6 +73,7 @@ set(SOURCE_TitaniumKit
 
 set(SOURCE_TitaniumKit_detail
   include/Titanium/detail/TiBase.hpp
+  include/Titanium/detail/TiImpl.hpp
   src/detail/TiBase.cpp
   include/Titanium/detail/HashUtilities.hpp
   include/Titanium/detail/TiUtil.hpp

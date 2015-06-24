@@ -11,6 +11,7 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Geolocation/Constants.hpp"
+#include "HAL/HAL.hpp"
 
 namespace Titanium
 {

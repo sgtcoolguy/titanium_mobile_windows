@@ -11,7 +11,6 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Media/Constants.hpp"
-#include "Titanium/Media/Item.hpp"
 #include <chrono>
 
 namespace Titanium
@@ -19,6 +18,8 @@ namespace Titanium
 	namespace Media
 	{
 		using namespace HAL;
+
+		class Item;
 
 		/*!
 		  @class

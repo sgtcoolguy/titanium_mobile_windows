@@ -6,6 +6,7 @@
 * Please see the LICENSE included with this distribution for details.
 */
 
+#include "Titanium/detail/TiImpl.hpp"
 #include "Titanium/App.hpp"
 
 namespace Titanium

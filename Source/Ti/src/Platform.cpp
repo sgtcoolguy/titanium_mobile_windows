@@ -5,8 +5,7 @@
  */
 
 #include "TitaniumWindows/Platform.hpp"
-#include "Titanium/detail/TiBase.hpp"
-#include "Titanium/PlatformModule.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/DisplayCaps.hpp"
 #include <iostream>

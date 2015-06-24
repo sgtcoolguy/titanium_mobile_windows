@@ -9,7 +9,7 @@
 #define _TITANIUMWINDOWS_WINDOWS_SYSTEMICON_HPP_
 
 #include "Titanium/Module.hpp"
-#include "TitaniumWindows/UI/detail/UIBase.hpp"
+#include "TitaniumWindows_UI_EXPORT.h"
 
 namespace TitaniumWindows
 {

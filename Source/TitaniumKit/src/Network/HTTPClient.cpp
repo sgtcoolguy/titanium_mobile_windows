@@ -6,6 +6,7 @@
 
 #include "Titanium/Network/HTTPClient.hpp"
 #include "Titanium/Blob.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

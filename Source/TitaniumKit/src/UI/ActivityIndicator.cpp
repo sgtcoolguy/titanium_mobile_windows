@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/UI/ActivityIndicator.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

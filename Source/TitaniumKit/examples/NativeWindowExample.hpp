@@ -9,7 +9,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEWINDOWEXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEWINDOWEXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/UI/Window.hpp"
 
 using namespace HAL;
 

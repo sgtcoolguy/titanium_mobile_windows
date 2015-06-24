@@ -11,6 +11,7 @@
 #include "TitaniumWindows/UI/Windows/AppBarToggleButton.hpp"
 #include "TitaniumWindows/UI/Windows/AppBarSeparator.hpp"
 #include "TitaniumWindows/UI/Windows/SystemIcon.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 #define CREATE_TITANIUM_UI_WINDOWS(NAME) \
   JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium"); \

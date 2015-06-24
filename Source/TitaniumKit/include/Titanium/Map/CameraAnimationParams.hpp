@@ -10,7 +10,6 @@
 #define _TITANIUM_MAP_CAMERAANIMATIONPARAMS_HPP_
 
 #include "Titanium/detail/TiBase.hpp"
-#include "titanium/Map/Camera.hpp"
 #include "Titanium/UI/Constants.hpp"
 
 namespace Titanium
@@ -18,6 +17,8 @@ namespace Titanium
 	namespace Map
 	{
 		using namespace HAL;
+
+		class Camera;
 
 		/*!
 		  @struct

@@ -7,6 +7,7 @@
  */
 
 #include "NativeListViewExample.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 NativeListViewExample::NativeListViewExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::UI::ListView(js_context)

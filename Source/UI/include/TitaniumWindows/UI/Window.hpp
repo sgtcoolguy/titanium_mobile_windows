@@ -9,15 +9,20 @@
 #ifndef _TITANIUMWINDOWS_UI_WINDOW_HPP_
 #define _TITANIUMWINDOWS_UI_WINDOW_HPP_
 
-#include "TitaniumWindows/UI/detail/UIBase.hpp"
+#include "TitaniumWindows_UI_EXPORT.h"
+#include "Titanium/UI/Window.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
-#include "TitaniumWindows/UI/Windows/CommandBar.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
 		using namespace HAL;
+
+		namespace WindowsXaml
+		{
+			class CommandBar;
+		}
 
 		/*!
 		  @class
