@@ -143,3 +143,37 @@ describe("Titanium.API", function () {
         finish();
     });
 });
+
+describe("Global.String", function () {
+    it("format", function (finish) {
+        should(String.format).not.be.undefined;
+        should(String.format).be.a.Function;
+        should(String.format("formatString", "value")).be.a.String;
+        finish();
+    });
+    it("formatCurrency", function (finish) {
+        should(String.formatCurrency).not.be.undefined;
+        should(String.formatCurrency).be.a.Function;
+        should(String.formatCurrency(123)).be.a.String;
+        finish();
+    });
+    it("formatDate", function (finish) {
+        should(String.formatDate).not.be.undefined;
+        should(String.formatDate).be.a.Function;
+        should(String.formatDate(new Date())).be.a.String;
+        finish();
+    });
+    it("formatDecimal", function (finish) {
+        should(String.formatDecimal).not.be.undefined;
+        should(String.formatDecimal).be.a.Function;
+        should(String.formatDecimal(123)).be.a.String;
+        finish();
+    });
+    it("formatTime", function (finish) {
+        should(String.formatTime).not.be.undefined;
+        should(String.formatTime).be.a.Function;
+        should(String.formatTime(new Date())).be.a.String;
+        finish();
+    });
+
+});
