@@ -5,6 +5,7 @@
  */
 
 #include "NativeBlobExample.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 #include <iostream>
 
 NativeBlobExample::NativeBlobExample(const JSContext& js_context) TITANIUM_NOEXCEPT

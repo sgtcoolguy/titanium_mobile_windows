@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/UI/WebView.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

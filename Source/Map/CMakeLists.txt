@@ -56,7 +56,6 @@ set(SOURCE_Map
   include/TitaniumWindows/Map/View.hpp
   src/View.cpp
   include/TitaniumWindows/Map.hpp
-  include/TitaniumWindows/Map/detail/MapBase.hpp
   include/TitaniumWindows/Map/Annotation.hpp
   src/Annotation.cpp
   )

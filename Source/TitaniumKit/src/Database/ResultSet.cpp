@@ -4,8 +4,9 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "Titanium/Database/DB.hpp"
 #include "Titanium/Database/ResultSet.hpp"
+#include "Titanium/Database/DB.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <type_traits>
 
 namespace Titanium

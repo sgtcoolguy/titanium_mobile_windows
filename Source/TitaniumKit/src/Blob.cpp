@@ -4,7 +4,9 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Titanium/detail/TiImpl.hpp"
 #include "Titanium/Blob.hpp"
+#include "Titanium/Filesystem/File.hpp"
 #include <type_traits>
 
 namespace Titanium

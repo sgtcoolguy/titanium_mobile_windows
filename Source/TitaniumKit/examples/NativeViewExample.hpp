@@ -9,7 +9,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEVIEW_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEVIEW_HPP_
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/UI/View.hpp"
 #include "Titanium/UI/ViewLayoutDelegate.hpp"
 
 using namespace HAL;

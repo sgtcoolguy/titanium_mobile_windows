@@ -7,7 +7,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEACCELEROMATEREXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEACCELEROMATEREXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/Accelerometer.hpp"
 
 using namespace HAL;
 

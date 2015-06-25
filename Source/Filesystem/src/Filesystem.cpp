@@ -5,10 +5,12 @@
  */
 
 #include "TitaniumWindows/Filesystem.hpp"
-#include "Titanium/detail/TiBase.hpp"
+#include "Titanium/Filesystem/FileStream.hpp"
+#include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <iostream>
 #include <objbase.h>
-#include "TitaniumWindows/Utility.hpp"
+
 
 namespace TitaniumWindows
 {

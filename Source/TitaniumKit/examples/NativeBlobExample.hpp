@@ -7,7 +7,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEBLOBEXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEBLOBEXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/Blob.hpp"
 
 using namespace HAL;
 

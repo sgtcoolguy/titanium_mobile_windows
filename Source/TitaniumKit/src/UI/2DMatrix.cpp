@@ -7,6 +7,8 @@
  */
 
 #include "Titanium/UI/2DMatrix.hpp"
+#include "Titanium/UI/MatrixCreationDict.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 #define _USE_MATH_DEFINES
 #include <math.h>

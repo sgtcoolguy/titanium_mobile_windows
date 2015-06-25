@@ -10,35 +10,15 @@
 #define _TITANIUM_UI_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/UI/2DMatrix.hpp"
-#include "Titanium/UI/ActivityIndicator.hpp"
-#include "Titanium/UI/ActivityIndicatorStyle.hpp"
-#include "Titanium/UI/AlertDialog.hpp"
-#include "Titanium/UI/Animation.hpp"
-#include "Titanium/UI/Button.hpp"
-#include "Titanium/UI/EmailDialog.hpp" 
-#include "Titanium/UI/ImageView.hpp"
-#include "Titanium/UI/Label.hpp"
-#include "Titanium/UI/ListView.hpp"
-#include "Titanium/UI/ListSection.hpp"
-#include "Titanium/UI/Notification.hpp"
-#include "Titanium/UI/OptionDialog.hpp"
-#include "Titanium/UI/ProgressBar.hpp"
-#include "Titanium/UI/ScrollableView.hpp"
-#include "Titanium/UI/ScrollView.hpp"
-#include "Titanium/UI/Slider.hpp"
-#include "Titanium/UI/Switch.hpp"
-#include "Titanium/UI/TableView.hpp"
-#include "Titanium/UI/TableViewRow.hpp"
-#include "Titanium/UI/TableViewSection.hpp"
-#include "Titanium/UI/TextArea.hpp"
-#include "Titanium/UI/TextField.hpp"
-#include "Titanium/UI/View.hpp"
-#include "Titanium/UI/WebView.hpp"
-#include "Titanium/UI/Window.hpp"
 
 namespace Titanium
 {
+	namespace UI
+	{
+		class View;
+		class Window;
+	}
+
 	using namespace HAL;
 
 	/*!

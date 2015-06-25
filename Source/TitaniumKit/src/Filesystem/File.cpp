@@ -5,6 +5,7 @@
  */
 
 #include "Titanium/Filesystem/File.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include "Titanium/Filesystem/FileStream.hpp"
 #include "Titanium/Blob.hpp"
 #include <type_traits>

@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/API.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <unordered_map>
 #include <sstream>
 

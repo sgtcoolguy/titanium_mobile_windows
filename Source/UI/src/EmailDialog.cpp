@@ -8,6 +8,7 @@
 
 #include "TitaniumWindows/UI/EmailDialog.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 namespace TitaniumWindows
 {

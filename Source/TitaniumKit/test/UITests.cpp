@@ -6,7 +6,10 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/GlobalObject.hpp"
+#include "Titanium/UIModule.hpp"
+#include "Titanium/UI/ActivityIndicator.hpp"
+#include "Titanium/UI/ActivityIndicatorStyle.hpp"
 #include "gtest/gtest.h"
 
 #define XCTAssertEqual ASSERT_EQ

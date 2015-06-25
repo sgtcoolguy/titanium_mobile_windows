@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/ViewLayoutDelegate.hpp"
 #include "Titanium/UI/View.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 namespace Titanium
 {

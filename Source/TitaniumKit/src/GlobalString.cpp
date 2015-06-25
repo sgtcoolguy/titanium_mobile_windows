@@ -8,6 +8,7 @@
 
 #include "Titanium/GlobalString.hpp"
 #include "Titanium/Global/sprintf_js.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -71,19 +72,34 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(GlobalString, formatTime);
 	}
 
+	JSObject GlobalString::GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT
+	{
+		JSValue Titanium_property = js_context.get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+		JSValue Object_property = Titanium.GetProperty("String");
+		TITANIUM_ASSERT(Object_property.IsObject());  // precondition
+		return static_cast<JSObject>(Object_property);
+	}
+
 	TITANIUM_FUNCTION(GlobalString, formatCurrency) 
 	{
 		ENSURE_DOUBLE_AT_INDEX(value, 0);
 
-		return this_object.get_context().CreateString(formatCurrency(value));
+		const auto js_context = this_object.get_context();
+		return js_context.CreateString(GetStaticObject(js_context).GetPrivate<GlobalString>()->formatCurrency(value));
 	}
 
 	TITANIUM_FUNCTION(GlobalString, formatDate) 
 	{
 		ENSURE_OBJECT_AT_INDEX(date, 0);
-		ENSURE_OPTIONAL_STRING_AT_INDEX(format, 1, "");
+		ENSURE_OPTIONAL_STRING_AT_INDEX(format, 1, "short");
 
-		return this_object.get_context().CreateString(formatDate(date, format));
+		TITANIUM_ASSERT_AND_THROW((format == "short" || format == "medium" || format == "long" || format == "full"), "String.formatDate format should be either short, medium, long or full");
+
+		const auto js_context = this_object.get_context();
+		return js_context.CreateString(GetStaticObject(js_context).GetPrivate<GlobalString>()->formatDate(date, format));
 	}
 
 	TITANIUM_FUNCTION(GlobalString, formatDecimal) 
@@ -92,15 +108,19 @@ namespace Titanium
 		ENSURE_OPTIONAL_STRING_AT_INDEX(locale, 1, "");
 		ENSURE_OPTIONAL_STRING_AT_INDEX(pattern, 2, "");
 
-		return this_object.get_context().CreateString(formatDecimal(value, locale, pattern));
+		const auto js_context = this_object.get_context();
+		return js_context.CreateString(GetStaticObject(js_context).GetPrivate<GlobalString>()->formatDecimal(value, locale, pattern));
 	}
 
 	TITANIUM_FUNCTION(GlobalString, formatTime) 
 	{
 		ENSURE_OBJECT_AT_INDEX(date, 0);
-		ENSURE_OPTIONAL_STRING_AT_INDEX(format, 1, "");
+		ENSURE_OPTIONAL_STRING_AT_INDEX(format, 1, "short");
 
-		return this_object.get_context().CreateString(formatTime(date, format));
+		TITANIUM_ASSERT_AND_THROW((format == "short" || format == "medium" || format == "long" || format == "full"), "String.formatDate format should be either short, medium, long or full");
+
+		const auto js_context = this_object.get_context();
+		return js_context.CreateString(GetStaticObject(js_context).GetPrivate<GlobalString>()->formatTime(date, format));
 	}
 
 }  // namespace Titanium

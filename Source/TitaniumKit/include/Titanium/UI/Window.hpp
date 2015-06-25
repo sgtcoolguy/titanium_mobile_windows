@@ -11,8 +11,6 @@
 
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/Constants.hpp"
-#include "Titanium/UI/OpenWindowParams.hpp"
-#include "Titanium/UI/CloseWindowParams.hpp"
 #include "Titanium/UI/TitleAttributesParams.hpp"
 
 namespace Titanium
@@ -20,6 +18,9 @@ namespace Titanium
 	namespace UI
 	{
 		using namespace HAL;
+
+		class OpenWindowParams;
+		class CloseWindowParams;
 
 		/*!
 		  @class

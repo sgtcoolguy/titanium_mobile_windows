@@ -8,6 +8,7 @@
 
 #include "TitaniumWindows/UI/AlertDialog.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 namespace TitaniumWindows
 {
@@ -50,17 +51,21 @@ namespace TitaniumWindows
 				dialog->Commands->Append(ref new Windows::UI::Popups::UICommand(TitaniumWindows::Utility::ConvertUTF8String(buttonNames__[i]), nullptr, PropertyValue::CreateInt32(i)));
 			}
 
-			concurrency::create_task(dialog->ShowAsync()).then([this](IUICommand^ command) {
-				std::int32_t index = 0;
-				if (command != nullptr) {
-					index = dynamic_cast<IPropertyValue^>(command->Id)->GetInt32();
-				}
-				const JSContext ctx = get_context();
-				JSObject eventArgs = ctx.CreateObject();
-				eventArgs.SetProperty("index", ctx.CreateNumber(index));
-				eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
-				fireEvent("click", eventArgs);
-			});
+			try {
+				concurrency::create_task(dialog->ShowAsync()).then([this](IUICommand^ command) {
+					std::int32_t index = 0;
+					if (command != nullptr) {
+						index = dynamic_cast<IPropertyValue^>(command->Id)->GetInt32();
+					}
+					const JSContext ctx = get_context();
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("index", ctx.CreateNumber(index));
+					eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
+					fireEvent("click", eventArgs);
+				});
+			} catch (...) {
+				detail::ThrowRuntimeError("Ti.UI.AlertDialog", "Exception during show()");
+			}
 		}
 	} // namespace UI
 } // namespace TitaniumWindows

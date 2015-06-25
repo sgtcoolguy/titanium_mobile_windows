@@ -5,7 +5,9 @@
  */
 
 #include "Titanium/Database/DB.hpp"
+#include "Titanium/Database/ResultSet.hpp"
 #include "Titanium/Filesystem/File.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 // Taken from iOS SDK
 #define SQLITE_BUSY_TIMEOUT 5000

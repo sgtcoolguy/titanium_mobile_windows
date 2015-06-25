@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/UI/OpenWindowParams.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

@@ -10,7 +10,6 @@
 #define _TITANIUM_APP_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/App/Properties.hpp"
 
 namespace Titanium
 {

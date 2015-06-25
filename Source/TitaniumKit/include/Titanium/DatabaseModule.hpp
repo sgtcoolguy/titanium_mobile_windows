@@ -10,9 +10,6 @@
 #define _TITANIUM_DATABASE_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/Database/Constants.hpp"
-#include "Titanium/Database/DB.hpp"
-#include "Titanium/Database/ResultSet.hpp"
 
 namespace Titanium
 {

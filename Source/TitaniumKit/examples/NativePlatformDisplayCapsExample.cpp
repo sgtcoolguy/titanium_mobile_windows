@@ -5,6 +5,7 @@
  */
 
 #include "NativePlatformDisplayCapsExample.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 #include <iostream>
 
 NativePlatformDisplayCapsExample::NativePlatformDisplayCapsExample(const JSContext& js_context) TITANIUM_NOEXCEPT

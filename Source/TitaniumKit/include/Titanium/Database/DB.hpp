@@ -7,7 +7,8 @@
 #ifndef _TITANIUM_DATABASE_DB_HPP_
 #define _TITANIUM_DATABASE_DB_HPP_
 
-#include "Titanium/Database/ResultSet.hpp"
+#include "Titanium/Module.hpp"
+#include "sqlite3.h"
 #include <unordered_map>
 
 namespace Titanium
@@ -15,6 +16,8 @@ namespace Titanium
 	namespace Database
 	{
 		using namespace HAL;
+
+		class ResultSet;
 
 		/*!
 		  @class

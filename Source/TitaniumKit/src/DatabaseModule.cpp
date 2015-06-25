@@ -7,6 +7,10 @@
  */
 
 #include "Titanium/DatabaseModule.hpp"
+#include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/Database/Constants.hpp"
+#include "Titanium/Database/DB.hpp"
+#include "Titanium/Database/ResultSet.hpp"
 #include <unordered_map>
 #include <sstream>
 

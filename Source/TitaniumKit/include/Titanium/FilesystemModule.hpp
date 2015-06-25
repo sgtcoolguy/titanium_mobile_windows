@@ -9,12 +9,17 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Filesystem/Constants.hpp"
-#include "Titanium/Filesystem/File.hpp"
-#include "Titanium/Filesystem/FileStream.hpp"
 
 namespace Titanium
 {
+	namespace Filesystem
+	{
+		class File;
+		class FileStream;
+	}
+
 	using namespace HAL;
+
 	using File_shared_ptr_t = std::shared_ptr<Titanium::Filesystem::File>;
 	using FileStream_shared_ptr_t = std::shared_ptr<Titanium::Filesystem::FileStream>;
 

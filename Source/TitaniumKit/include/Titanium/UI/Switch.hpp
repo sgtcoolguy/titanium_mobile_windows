@@ -9,7 +9,6 @@
 #ifndef _TITANIUM_SWITCH_HPP_
 #define _TITANIUM_SWITCH_HPP_
 
-#include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/View.hpp"
 
 namespace Titanium

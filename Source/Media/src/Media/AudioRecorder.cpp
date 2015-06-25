@@ -6,6 +6,7 @@
 
 #include "TitaniumWindows/Media/AudioRecorder.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <ppltasks.h>
 
 namespace TitaniumWindows

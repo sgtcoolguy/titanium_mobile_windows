@@ -5,6 +5,7 @@
  */
 
 #include "Titanium/Platform/DisplayCaps.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <unordered_map>
 #include <sstream>
 

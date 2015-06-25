@@ -10,7 +10,6 @@
 #define _TITANIUM_TCP_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/Network/Socket/AcceptDict.hpp"
 #include "Titanium/Network/Socket.hpp"
 
 namespace Titanium
@@ -21,6 +20,8 @@ namespace Titanium
 		{
 
 			using namespace HAL;
+
+			struct AcceptDict;
 
 			/*!
 			  @class

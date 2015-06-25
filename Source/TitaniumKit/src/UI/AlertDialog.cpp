@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/UI/AlertDialog.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

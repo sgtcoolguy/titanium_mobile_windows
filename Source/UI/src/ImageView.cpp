@@ -11,6 +11,10 @@
 #include "LayoutEngine/LayoutEngine.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
+#include <algorithm>
+#include <boost/algorithm/string/predicate.hpp>
+#include <ppltasks.h>
+
 namespace TitaniumWindows
 {
 	namespace UI

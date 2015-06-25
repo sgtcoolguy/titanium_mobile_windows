@@ -6,6 +6,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
+#include "Titanium/detail/TiLogger.hpp"
 #include "Titanium/Geolocation/Constants.hpp"
 #include <unordered_map>
 #include <mutex>

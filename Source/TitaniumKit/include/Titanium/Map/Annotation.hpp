@@ -11,15 +11,20 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/UI/Point.hpp"
-#include "Titanium/UI/View.hpp"
 #include "Titanium/Map/Constants.hpp"
 
 namespace Titanium
 {
+	namespace UI
+	{
+		class View;
+	}
+
 	namespace Map
 	{
 
 		using namespace HAL;
+
 		using TiView_shared_ptr_t = std::shared_ptr<Titanium::UI::View>;
 
 		/*!

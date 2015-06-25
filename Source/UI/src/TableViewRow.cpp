@@ -6,8 +6,10 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "Titanium/detail/TiBase.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include "TitaniumWindows/UI/TableViewRow.hpp"
+#include "TitaniumWindows/UI/Label.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows

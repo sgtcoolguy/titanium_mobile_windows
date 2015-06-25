@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/Media/MusicLibraryOptionsType.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 namespace Titanium
 {

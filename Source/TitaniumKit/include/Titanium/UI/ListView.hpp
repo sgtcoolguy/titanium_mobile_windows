@@ -11,8 +11,8 @@
 
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/ListSection.hpp"
-#include "Titanium/UI/ListViewAnimationProperties.hpp"
 #include "Titanium/UI/ListViewMarkerProps.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <vector>
 #include <unordered_map>
 
@@ -21,6 +21,9 @@ namespace Titanium
 	namespace UI
 	{
 		using namespace HAL;
+
+		class ListViewAnimationProperties;
+
 		using ListSection_shared_ptr_t = std::shared_ptr<ListSection>;
 		using View_shared_ptr_t = std::shared_ptr<View>;
 		

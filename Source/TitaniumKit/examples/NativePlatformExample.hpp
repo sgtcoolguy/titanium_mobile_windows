@@ -7,7 +7,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEPLATFORMEXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEPLATFORMEXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/PlatformModule.hpp"
 
 using namespace HAL;
 

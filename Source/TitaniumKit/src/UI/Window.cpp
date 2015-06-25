@@ -8,6 +8,9 @@
 
 #include "Titanium/UI/Window.hpp"
 #include "Titanium/UIModule.hpp"
+#include "Titanium/UI/OpenWindowParams.hpp"
+#include "Titanium/UI/CloseWindowParams.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 #define GET_UI() \
   const auto Titanium_property = get_context().get_global_object().GetProperty("Titanium"); \

@@ -31,8 +31,6 @@ if (parent && parent.indexOf('[mscorlib]') != 0) {
 #define _<%= name_upper %>_HPP_
 
 #include "TitaniumWindows_Native_EXPORT.h"
-#include "Titanium/detail/TiBase.hpp"
-#include "TitaniumWindows/Utility.hpp"
 <%
 if (parent_name == 'Module') { -%>
 #include "Titanium/Module.hpp"

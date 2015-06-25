@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/UI/Gradient.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <vector>
 
 namespace Titanium

@@ -7,6 +7,7 @@
  */
 
 #include "NativeModuleExample.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 NativeModuleExample::NativeModuleExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::Module(js_context),

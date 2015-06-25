@@ -7,7 +7,16 @@
 #ifndef _TITANIUMWINDOWS_FILESYSTEMMODULE_HPP_
 #define _TITANIUMWINDOWS_FILESYSTEMMODULE_HPP_
 
-#include "TitaniumWindows/detail/FilesystemBase.hpp"
+#include "TitaniumWindows_Filesystem_EXPORT.h"
+#include "Titanium/FilesystemModule.hpp"
+
+namespace Titanium
+{
+	namespace Filesystem
+	{
+		class FileStream;
+	}
+}
 
 namespace TitaniumWindows
 {

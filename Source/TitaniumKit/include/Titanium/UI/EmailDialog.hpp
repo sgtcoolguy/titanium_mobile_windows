@@ -10,9 +10,6 @@
 #define _TITANIUM_EMAILDIALOG_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/Filesystem/File.hpp"
-#include "Titanium/Blob.hpp"
-#include <vector>
 
 #ifdef FAILED
 #pragma push_macro("FAILED")
@@ -22,6 +19,12 @@
 
 namespace Titanium
 {
+	class Blob;
+	namespace Filesystem
+	{
+		class File;
+	}
+
 	namespace UI
 	{
 		using namespace HAL;

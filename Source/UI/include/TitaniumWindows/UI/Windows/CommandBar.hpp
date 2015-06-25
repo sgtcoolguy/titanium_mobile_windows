@@ -8,7 +8,8 @@
 #ifndef _TITANIUMWINDOWS_WINDOWS_COMMANDBAR_HPP_
 #define _TITANIUMWINDOWS_WINDOWS_COMMANDBAR_HPP_
 
-#include "TitaniumWindows/UI/detail/UIBase.hpp"
+#include "TitaniumWindows_UI_EXPORT.h"
+#include "Titanium/Module.hpp"
 
 namespace TitaniumWindows
 {

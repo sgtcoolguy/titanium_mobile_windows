@@ -5,7 +5,7 @@
  */
 
 #include "WindowsNativeModuleLoader.hpp"
-#include "Titanium/detail/TiBase.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 // INSERT_INCLUDES
 // END_INCLUDES

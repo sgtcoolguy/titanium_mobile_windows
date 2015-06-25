@@ -7,7 +7,7 @@
  */
 
 #include "NativeGlobalObjectExample.hpp"
-#include "Titanium/detail/TiBase.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 void NativeGlobalObjectExample::add_require(const std::string& name, const std::string& body) TITANIUM_NOEXCEPT
 {

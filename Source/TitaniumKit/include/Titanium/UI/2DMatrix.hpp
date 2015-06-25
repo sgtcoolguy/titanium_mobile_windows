@@ -10,7 +10,6 @@
 #define _TITANIUM_2DMATRIX_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/UI/MatrixCreationDict.hpp"
 
 namespace Titanium
 {

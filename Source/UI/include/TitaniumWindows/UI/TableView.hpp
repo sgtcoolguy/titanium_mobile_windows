@@ -9,9 +9,8 @@
 #ifndef _TITANIUMWINDOWS_View_HPP_
 #define _TITANIUMWINDOWS_View_HPP_
 
-#include "TitaniumWindows/UI/detail/UIBase.hpp"
-
-#include "Titanium/UI/TableViewAnimationProperties.hpp"
+#include "TitaniumWindows_UI_EXPORT.h"
+#include "Titanium/UI/TableView.hpp"
 
 namespace TitaniumWindows
 {
@@ -60,7 +59,7 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::ListView^ tableview__;
 			Windows::Foundation::Collections::IVector<ListViewItem^>^ tableViewItems__;
 			Windows::UI::Xaml::Data::CollectionViewSource^ collectionViewSource__;
-			Windows::Foundation::Collections::IObservableVector<Platform::Object^>^ collectionViewItems__;
+			Windows::Foundation::Collections::IObservableVector<::Platform::Object^>^ collectionViewItems__;
 
 			Windows::Foundation::EventRegistrationToken click_event__;
 		};

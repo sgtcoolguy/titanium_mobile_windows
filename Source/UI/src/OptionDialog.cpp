@@ -8,6 +8,7 @@
 
 #include "TitaniumWindows/UI/OptionDialog.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 #include <ppltasks.h>
 
 namespace TitaniumWindows

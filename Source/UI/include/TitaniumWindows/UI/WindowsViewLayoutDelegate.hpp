@@ -9,10 +9,8 @@
 #ifndef _TITANIUMWINDOWS_UI_WINDOWSVIEWLAYOUTDELEGATE_HPP_
 #define _TITANIUMWINDOWS_UI_WINDOWSVIEWLAYOUTDELEGATE_HPP_
 
+#include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/ViewLayoutDelegate.hpp"
-#include "Titanium/UI/Constants.hpp"
-#include "Titanium/UI/Point.hpp"
-#include "TitaniumWindows/UI/detail/UIBase.hpp"
 #include "LayoutEngine/LayoutEngine.hpp"
 
 namespace TitaniumWindows

@@ -9,7 +9,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEWEBVIEWEXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEWEBVIEWEXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/UI/WebView.hpp"
 
 using namespace HAL;
 

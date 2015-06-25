@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/Gesture.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <type_traits>
 
 namespace Titanium
@@ -21,9 +22,6 @@ namespace Titanium
 		TITANIUM_LOG_WARN("Gesture::get_orientation: Unimplemented");
 		return Titanium::UI::ORIENTATION::UNKNOWN;
 	}
-
-	// TODO: The following functions can automatically be generated from
-	// the YAML API docs.
 
 	void Gesture::JSExportInitialize()
 	{

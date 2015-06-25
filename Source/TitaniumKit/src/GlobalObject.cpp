@@ -8,6 +8,7 @@
 
 #include "Titanium/GlobalObject.hpp"
 #include "Titanium/detail/TiUtil.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <sstream>
 #include <functional>
 #include <boost/algorithm/string/predicate.hpp>

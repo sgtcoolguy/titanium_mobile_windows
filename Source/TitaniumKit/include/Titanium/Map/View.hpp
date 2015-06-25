@@ -14,9 +14,6 @@
 #include "Titanium/Map/MapRegionTypev2.hpp"
 #include "Titanium/Map/MapLocationTypev2.hpp"
 #include "Titanium/Map/CameraAnimationParams.hpp"
-#include "Titanium/Map/Annotation.hpp"
-#include "Titanium/Map/Route.hpp"
-#include "Titanium/Map/Camera.hpp"
 
 #include <vector>
 
@@ -25,6 +22,10 @@ namespace Titanium
 	namespace Map
 	{
 		using namespace HAL;
+
+		class Annotation;
+		class Route;
+
 		using Annotation_shared_ptr_t = std::shared_ptr<Annotation>;
 		using Route_shared_ptr_t = std::shared_ptr<Route>;
 		using Camera_shared_ptr_t = std::shared_ptr<Camera>;

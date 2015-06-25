@@ -5,6 +5,7 @@
  */
 
 #include "Titanium/NetworkModule.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

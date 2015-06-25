@@ -6,7 +6,9 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/GlobalObject.hpp"
+#include "Titanium/UImodule.hpp"
+#include "Titanium/UI/ListSection.hpp"
 #include "NativeListViewExample.hpp"
 #include "Titanium/UI/listview_js.hpp"
 #include "gtest/gtest.h"

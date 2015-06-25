@@ -7,13 +7,12 @@
 #ifndef _TITANIUMWINDOWS_BLOB_HPP_
 #define _TITANIUMWINDOWS_BLOB_HPP_
 
-#include "detail/TitaniumWindowsBase.hpp"
+#include "TitaniumWindows_EXPORT.h"
+#include "Titanium/Blob.hpp"
 
 namespace TitaniumWindows
 {
 	using namespace HAL;
-
-	using File_shared_ptr_t = std::shared_ptr<Titanium::Filesystem::File>;
 
 	/*!
 	  @class

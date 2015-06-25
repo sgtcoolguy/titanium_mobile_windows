@@ -10,12 +10,16 @@
 #define _TITANIUM_UTILS_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/Blob.hpp"
-#include "Titanium/Filesystem/File.hpp"
 
 namespace Titanium
 {
 	using namespace HAL;
+
+	class Blob;
+	namespace Filesystem
+	{
+		class File;
+	}
 
 	using Blob_shared_ptr_t = std::shared_ptr<Blob>;
 	using File_shared_ptr_t = std::shared_ptr<Filesystem::File>;

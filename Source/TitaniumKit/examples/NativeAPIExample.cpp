@@ -7,6 +7,7 @@
  */
 
 #include "NativeAPIExample.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 #include <iostream>
 
 NativeAPIExample::NativeAPIExample(const JSContext& js_context) TITANIUM_NOEXCEPT

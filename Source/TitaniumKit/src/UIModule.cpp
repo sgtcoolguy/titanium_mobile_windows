@@ -7,6 +7,10 @@
  */
 
 #include "Titanium/UIModule.hpp"
+#include "Titanium/UI/Constants.hpp"
+#include "Titanium/UI/View.hpp"
+#include "Titanium/UI/Window.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <sstream>
 
 #define CREATE_TITANIUM_UI(NAME) \

@@ -5,6 +5,7 @@
  */
 
 #include "NativeGestureExample.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 #include <iostream>
 
 NativeGestureExample::NativeGestureExample(const JSContext& js_context) TITANIUM_NOEXCEPT
