@@ -16,6 +16,8 @@
 #include <cctype>
 #include <collection.h>
 
+#include "TitaniumWindows/Utility.hpp"
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -60,8 +62,11 @@ namespace TitaniumWindows
 				if (isLoaded()) {
 					requestLayout();
 				}
-
-				nativeView->Children->Append(nativeChildView);
+				try {
+					nativeView->Children->Append(nativeChildView);
+				} catch(Platform::Exception^ e) {
+					detail::ThrowRuntimeError("add", Utility::ConvertString(e->Message));
+				}
 			} else {
 				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::add: Unknown child component");
 			}
