@@ -146,12 +146,27 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 	var _t = this;
 
 	function build(sln, config, arch, next) {
+		var nativeAssetsDir = path.dirname(sln),
+			vcxproj = path.join(nativeAssetsDir, _t.manifest.moduleIdAsIdentifier+'.vcxproj'),
+			vcxContent,
+			buildPath;
 		// user may skip specific architecture by using CLI.
 		// at least we are skipping WindowsStore.ARM for now
 		if (!fs.existsSync(sln)) {
 			_t.logger.info('Skipping ' + sln);
 			next();
 			return;
+		}
+
+		vcxContent = fs.readFileSync(vcxproj, 'utf8');
+		// Check the build output dir that the module is set up for.
+		// If it doesn't exist, copy our local copy of everything over to it.
+		buildPath = path.resolve(vcxContent.match(/<OutDir .+?>(.+?)<\/OutDir>/)[1], '..');
+		if (!fs.existsSync(buildPath)) {
+			wrench.mkdirSyncRecursive(buildPath);
+			wrench.copyDirSyncRecursive(nativeAssetsDir, buildPath, {
+				forceDelete: true
+			});
 		}
 
 		var p = spawn(_t.windowsInfo.selectedVisualStudio.vcvarsall, [
@@ -187,8 +202,10 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 	var archs = _t.manifest.architectures.split(' ');
 	async.eachSeries(types, function(type, next_type) {
 		async.eachSeries(archs, function(arch, next_arch) {
-			var architecture = vs_architectures[arch];
-			build(path.resolve(_t.projectDir, type+'.'+architecture, _t.manifest.moduleIdAsIdentifier+'.sln'), configuration, architecture, next_arch);
+			var architecture = vs_architectures[arch],
+				sln = path.resolve(_t.projectDir, type+'.'+architecture, _t.manifest.moduleIdAsIdentifier+'.sln');
+
+			build(sln, configuration, architecture, next_arch);
 		}, function(err) {
 			if (err) {
 				throw err;
@@ -279,7 +296,7 @@ WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 			// We may have built in temp because of long path issues!
 			// Check to see if the dll exists in normal spot, if not, fall back to trying temp location!
 			if (!fs.existsSync(moduleSrc + '.dll')) {
-				moduleSrc = path.join(os.tmpdir(), path.basename(_t.projectDir), path.basename(moduleProjectDir), configuration, projectname);
+				moduleSrc = path.join(os.tmpdir(), path.basename(path.dirname(_t.projectDir)), path.basename(moduleProjectDir), configuration, projectname);
 			}
 
 			// create module directory

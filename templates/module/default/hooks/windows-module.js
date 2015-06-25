@@ -75,7 +75,7 @@ function runCMake(logger, cmake, projectDir, targetEnv, targetArch, callback){
 		tempBuildDir;
 
 	// try to build under temp if the path is shorter and we have write access
-	tempBuildDir = path.join(os.tmpdir(), path.basename(projectDir), path.basename(targetDir));
+	tempBuildDir = path.join(os.tmpdir(), path.basename(path.dirname(projectDir)), path.basename(targetDir));
 	if ((tempBuildDir.length < targetDir.length) && appc.fs.isDirWritable(os.tmpdir())) {
 		originalTargetDir = targetDir;
 		targetDir = tempBuildDir; // build under temp!
