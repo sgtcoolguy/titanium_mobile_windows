@@ -162,11 +162,14 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 		// Check the build output dir that the module is set up for.
 		// If it doesn't exist, copy our local copy of everything over to it.
 		buildPath = path.resolve(vcxContent.match(/<OutDir .+?>(.+?)<\/OutDir>/)[1], '..');
-		if (!fs.existsSync(buildPath)) {
-			wrench.mkdirSyncRecursive(buildPath);
+		if (buildPath != nativeAssetsDir) {
+			fs.existsSync(buildPath) && wrench.rmdirSyncRecursive(buildPath);
+			// make sure destination exists
+			fs.existsSync(buildPath) || wrench.mkdirSyncRecursive(buildPath);
 			wrench.copyDirSyncRecursive(nativeAssetsDir, buildPath, {
 				forceDelete: true
 			});
+			sln = path.join(buildPath, _t.manifest.moduleIdAsIdentifier+'.vcxproj');
 		}
 
 		var p = spawn(_t.windowsInfo.selectedVisualStudio.vcvarsall, [
