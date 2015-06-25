@@ -68,7 +68,7 @@ target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_Ti_LIBRARIES})
 target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_LIBRARIES})
 target_link_libraries(TitaniumWindows_Native TitaniumKit)
 target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_UI_LIBRARIES})
-target_link_libraries(TitaniumWindows_Native ${TitaniumWindows_Utility_LIBRARIES})
+target_link_libraries(TitaniumWindows_Native TitaniumWindows_Utility)
 
 <% for(var i = 0; i < native_modules.length; i++) { -%>
 target_link_libraries(TitaniumWindows_Native <%= native_modules[i].projectname %>)
@@ -88,7 +88,6 @@ target_include_directories(TitaniumWindows_Native PUBLIC
   ${TitaniumWindows_INCLUDE_DIRS}
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
   ${TitaniumWindows_UI_INCLUDE_DIRS}
-  ${TitaniumWindows_Utility_INCLUDE_DIRS}
   $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
 <% for(var i = 0; i < native_modules.length; i++) { -%>
   $<TARGET_PROPERTY:<%= native_modules[i].projectname %>,INTERFACE_INCLUDE_DIRECTORIES>
@@ -100,7 +99,7 @@ set_target_properties(TitaniumWindows_Native PROPERTIES VS_WINRT_COMPONENT TRUE)
 set_property(TARGET TitaniumWindows_Native
   PROPERTY VS_WINRT_REFERENCES
   "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows/${PLATFORM}/${Ti_ARCH}/TitaniumWindows.winmd"
-  "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utility/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Utility.winmd
+  "${WINDOWS_SOURCE_DIR}/lib/TitaniumWindows_Utility/${PLATFORM}/${Ti_ARCH}/TitaniumWindows_Utility.winmd"
 <% for(var i = 0; i < native_modules.length; i++) { -%>
   "<%= native_modules[i].path %>/${PLATFORM}/${Ti_ARCH}/<%= native_modules[i].projectname %>.winmd"
 <% } -%>
