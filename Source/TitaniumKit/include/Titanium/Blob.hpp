@@ -8,11 +8,15 @@
 #define _TITANIUM_BLOB_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Filesystem/File.hpp"
 
 namespace Titanium
 {
 	using namespace HAL;
+
+	namespace Filesystem
+	{
+		class File;
+	}
 
 	using File_shared_ptr_t = std::shared_ptr<Filesystem::File>;
 

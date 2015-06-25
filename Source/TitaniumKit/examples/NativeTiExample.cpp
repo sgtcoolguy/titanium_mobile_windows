@@ -5,6 +5,7 @@
  */
 
 #include "NativeTiExample.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 #include <iostream>
 
 NativeTiExample::NativeTiExample(const JSContext& js_context) TITANIUM_NOEXCEPT

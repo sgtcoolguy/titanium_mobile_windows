@@ -9,7 +9,6 @@
 #ifndef _TITANIUM_UI_SLIDER_HPP_
 #define _TITANIUM_UI_SLIDER_HPP_
 
-#include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/View.hpp"
 
 namespace Titanium

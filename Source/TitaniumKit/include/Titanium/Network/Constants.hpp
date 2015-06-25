@@ -42,6 +42,12 @@ namespace Titanium
 			READ_WRITE
 		};
 
+#ifdef ERROR
+#pragma push_macro("ERROR")
+#undef ERROR
+#define _restore_ERROR_
+#endif
+
 		enum class TITANIUMKIT_EXPORT SOCKET {
 			INITIALIZED,
 			CONNECTED,
@@ -49,6 +55,11 @@ namespace Titanium
 			CLOSED,
 			ERROR
 		};
+
+#ifdef _restore_ERROR_
+#pragma pop_macro("ERROR")
+#undef _restore_ERROR_
+#endif
 
 	} // namespace Network
 }  // namespace Titanium

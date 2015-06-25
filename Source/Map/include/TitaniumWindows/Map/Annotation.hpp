@@ -9,7 +9,7 @@
 #ifndef _TITANIUMWINDOWS_MAP_ANNOTATION_HPP_
 #define _TITANIUMWINDOWS_MAP_ANNOTATION_HPP_
 
-#include "TitaniumWindows/Map/detail/MapBase.hpp"
+#include "TitaniumWindows_Map_EXPORT.h"
 #include "Titanium/Map/Annotation.hpp"
 
 namespace TitaniumWindows

@@ -8,6 +8,7 @@
 
 #include "Titanium/Media/PreviewImageOptions.hpp"
 #include "Titanium/Blob.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

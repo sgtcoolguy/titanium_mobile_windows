@@ -10,7 +10,7 @@
 #define _TITANIUM_TABLEVIEWROW_HPP_
 
 #include "Titanium/UI/View.hpp"
-#include "Font.hpp"
+#include "Titanium/UI/Font.hpp"
 
 namespace Titanium
 {

@@ -9,6 +9,7 @@
 #include "Titanium/Media/CameraOptionsType.hpp"
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/2DMatrix.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

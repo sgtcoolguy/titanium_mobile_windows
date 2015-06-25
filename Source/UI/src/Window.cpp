@@ -8,6 +8,8 @@
 
 #include "TitaniumWindows/UI/Window.hpp"
 #include "TitaniumWindows/UI/View.hpp"
+#include "TitaniumWindows/UI/Windows/CommandBar.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <windows.h>
 
 namespace TitaniumWindows

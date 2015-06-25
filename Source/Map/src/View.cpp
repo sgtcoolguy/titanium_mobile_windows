@@ -10,6 +10,7 @@
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/Map/Annotation.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 using namespace Windows::Devices::Geolocation;

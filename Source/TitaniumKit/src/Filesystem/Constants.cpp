@@ -5,6 +5,7 @@
  */
 
 #include "Titanium/Filesystem/Constants.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 #include <unordered_map>
 #include <mutex>
 

@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/Media/RouteDescription.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

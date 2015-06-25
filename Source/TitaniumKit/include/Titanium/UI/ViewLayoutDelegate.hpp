@@ -10,6 +10,7 @@
 #define _TITANIUM_UI_VIEWLAYOUTDELEGATE_HPP_
 
 #include "TitaniumKit_EXPORT.h"
+#include "Titanium/detail/TiLogger.hpp"
 #include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/Point.hpp"
 #include "Titanium/UI/Dimension.hpp"

@@ -7,8 +7,8 @@
 #ifndef _TITANIUMWINDOWS_NETWORKMODULE_HPP_
 #define _TITANIUMWINDOWS_NETWORKMODULE_HPP_
 
-#include "TitaniumWindows/detail/NetworkBase.hpp"
-#include "TitaniumWindows/Network/HTTPClient.hpp"
+#include "TitaniumWindows_Network_EXPORT.h"
+#include "Titanium/NetworkModule.hpp"
 
 namespace TitaniumWindows
 {

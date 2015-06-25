@@ -6,7 +6,11 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/GlobalObject.hpp"
+#include "Titanium/API.hpp"
+#include "Titanium/UIModule.hpp"
+#include "Titanium/UI/Button.hpp"
+#include "Titanium/UI/Window.hpp"
 #include "NativeViewExample.hpp"
 #include "gtest/gtest.h"
 

@@ -9,9 +9,14 @@
 #ifndef _APPLICATION_TITANIUMWINDOWS_HPP_
 #define _APPLICATION_TITANIUMWINDOWS_HPP_
 
-#include "Titanium/Titanium.hpp"
+#include "HAL/HAL.hpp"
 #include "TitaniumWindows/TitaniumApplicationCallback.hpp"
 #include <unordered_map>
+
+namespace Titanium
+{
+	class Application;
+}
 
 namespace TitaniumWindows
 {

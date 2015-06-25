@@ -9,11 +9,13 @@
 #ifndef _TITANIUM_UI_IMAGEVIEW_HPP_
 #define _TITANIUM_UI_IMAGEVIEW_HPP_
 
-#include "Titanium/Blob.hpp"
 #include "Titanium/UI/View.hpp"
 
 namespace Titanium
 {
+
+	class Blob;
+
 	namespace UI
 	{
 		using namespace HAL;

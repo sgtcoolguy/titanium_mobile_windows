@@ -7,13 +7,14 @@
 */
 #define _SCL_SECURE_NO_WARNINGS
 
+#include "Titanium/detail/TiLogger.hpp"
+#include "TitaniumWindows/API.hpp"
+#include "TitaniumWindows/Utility.hpp"
+
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
-#include "Titanium/detail/TiBase.hpp"
-#include "TitaniumWindows/API.hpp"
-#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
 {

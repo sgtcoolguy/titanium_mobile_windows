@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/UI/TextField.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <type_traits>
 
 namespace Titanium

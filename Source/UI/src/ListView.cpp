@@ -7,11 +7,13 @@
  */
 
 #include "TitaniumWindows/UI/ListView.hpp"
+#include "Titanium/UI/ListSection.hpp"
 #include "TitaniumWindows/UI/View.hpp"
-#include <collection.h>
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
-
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiImpl.hpp"
+
+#include <collection.h>
 
 namespace TitaniumWindows
 {

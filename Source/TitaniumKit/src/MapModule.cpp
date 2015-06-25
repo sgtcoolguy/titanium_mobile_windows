@@ -7,7 +7,7 @@
  */
 
 #include "Titanium/MapModule.hpp"
-#include "Titanium/UIModule.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

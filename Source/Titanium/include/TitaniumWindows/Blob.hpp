@@ -14,8 +14,6 @@ namespace TitaniumWindows
 {
 	using namespace HAL;
 
-	using File_shared_ptr_t = std::shared_ptr<Titanium::Filesystem::File>;
-
 	/*!
 	  @class
 

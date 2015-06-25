@@ -7,6 +7,7 @@
  */
 
 #include "NativeButtonExample.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 NativeButtonExample::NativeButtonExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::UI::Button(js_context)

@@ -10,9 +10,6 @@
 #define _TITANIUM_TABLEVIEW_HPP_
 
 #include "Titanium/UI/View.hpp"
-#include "Titanium/UI/TableViewRow.hpp"
-#include "Titanium/UI/TableViewSection.hpp"
-#include "Titanium/UI/TableViewAnimationProperties.hpp"
 
 #include <vector>
 #include <unordered_map>
@@ -22,6 +19,10 @@ namespace Titanium
 	namespace UI
 	{
 		using namespace HAL;
+
+		class TableViewAnimationProperties;
+		class TableViewRow;
+		class TableViewSection;
 
 		using TableViewSection_shared_ptr_t = std::shared_ptr<TableViewSection>;
 		using TableViewRow_shared_ptr_t = std::shared_ptr<TableViewRow>;

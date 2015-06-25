@@ -7,7 +7,6 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEPLATFORMDISPLAYCAPSEXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEPLATFORMDISPLAYCAPSEXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
 #include "Titanium/Platform/DisplayCaps.hpp"
 
 using namespace HAL;

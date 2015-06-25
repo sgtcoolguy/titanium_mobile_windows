@@ -8,6 +8,7 @@
 
 #include "NativeWindowExample.hpp"
 #include "NativeViewExample.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 NativeWindowExample::NativeWindowExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::UI::Window(js_context)

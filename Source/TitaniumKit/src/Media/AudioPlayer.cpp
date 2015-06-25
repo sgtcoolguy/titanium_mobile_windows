@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/Media/AudioPlayer.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

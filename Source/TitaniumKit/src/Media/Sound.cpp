@@ -8,6 +8,7 @@
 
 #include "Titanium/Media/Sound.hpp"
 #include "Titanium/Media/Constants.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

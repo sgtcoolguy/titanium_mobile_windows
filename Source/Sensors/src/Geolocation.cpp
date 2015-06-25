@@ -7,7 +7,7 @@
  */
 
 #include "TitaniumWindows/Geolocation.hpp"
-#include "Titanium/detail/TiBase.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 #include <boost/algorithm/string.hpp>
 #include <ppltasks.h>

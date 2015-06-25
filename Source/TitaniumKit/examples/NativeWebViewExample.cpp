@@ -7,6 +7,7 @@
  */
 
 #include "NativeWebViewExample.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 
 NativeWebViewExample::NativeWebViewExample(const JSContext& js_context) TITANIUM_NOEXCEPT
     : Titanium::UI::WebView(js_context)

@@ -7,7 +7,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVEFILESYSTEMEXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVEFILESYSTEMEXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/FilesystemModule.hpp"
 
 using namespace HAL;
 

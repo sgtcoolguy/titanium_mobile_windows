@@ -4,7 +4,10 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/GlobalObject.hpp"
+#include "Titanium/NetworkModule.hpp"
+#include "Titanium/Network/Cookie.hpp"
+#include "Titanium/Network/HTTPClient.hpp"
 #include "gtest/gtest.h"
 
 #define XCTAssertEqual ASSERT_EQ

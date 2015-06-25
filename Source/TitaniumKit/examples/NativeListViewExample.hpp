@@ -9,8 +9,7 @@
 #ifndef _TITANIUM_EXAMPLES_NATIVELISTVIEWEXAMPLE_HPP_
 #define _TITANIUM_EXAMPLES_NATIVELISTVIEWEXAMPLE_HPP_
 
-#include "Titanium/Titanium.hpp"
-#include <string>
+#include "Titanium/UI/ListView.hpp"
 
 using namespace HAL;
 

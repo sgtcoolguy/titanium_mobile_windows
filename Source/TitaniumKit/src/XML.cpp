@@ -5,6 +5,7 @@
  */
 
 #include "Titanium/XML.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <type_traits>
 
 #include "Titanium/XML/dom_js.hpp"

@@ -5,8 +5,11 @@
  */
 
 #include "TitaniumWindows/Media.hpp"
+#include "Titanium/Filesystem/File.hpp"
+#include "Titanium/Media/Item.hpp"
 #include "Titanium/Media/CameraOptionsType.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <ppltasks.h>
 
 namespace TitaniumWindows

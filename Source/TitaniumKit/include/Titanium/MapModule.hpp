@@ -11,10 +11,6 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Map/Constants.hpp"
-#include "Titanium/Map/Annotation.hpp"
-#include "Titanium/Map/Camera.hpp"
-#include "Titanium/Map/Route.hpp"
-#include "Titanium/Map/View.hpp"
 
 #ifdef SERVICE_DISABLED
 #pragma push_macro("SERVICE_DISABLED")

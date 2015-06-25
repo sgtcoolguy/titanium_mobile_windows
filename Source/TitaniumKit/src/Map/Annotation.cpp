@@ -7,6 +7,8 @@
  */
 
 #include "Titanium/Map/Annotation.hpp"
+#include "Titanium/UI/View.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

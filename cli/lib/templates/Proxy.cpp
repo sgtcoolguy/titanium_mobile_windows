@@ -94,6 +94,9 @@ for (var i = 0; i < types_to_include.length; i++) {
 <%
 }
 -%>
+
+#include "Titanium/detail/TiImpl.hpp"
+#include "TitaniumWindows/Utility.hpp"
 #include <collection.h>
 
 <% for (var i = 0; i < namespaces.length - 1; i++) { -%>

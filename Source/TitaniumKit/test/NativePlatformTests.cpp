@@ -4,7 +4,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#include "Titanium/Titanium.hpp"
+#include "Titanium/GlobalObject.hpp"
 #include "NativePlatformExample.hpp"
 #include "NativePlatformDisplayCapsExample.hpp"
 #include "gtest/gtest.h"

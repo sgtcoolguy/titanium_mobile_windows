@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/UI/Picker.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include <type_traits>
 
 namespace Titanium
@@ -28,9 +29,6 @@ namespace Titanium
 		{
 			TITANIUM_LOG_WARN("Picker::set_type: Unimplemented");
 		}
-
-		// TODO: The following functions can automatically be generated from
-		// the YAML API docs.
 
 		void Picker::JSExportInitialize()
 		{

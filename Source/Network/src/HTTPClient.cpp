@@ -5,7 +5,7 @@
  */
 
 #include "TitaniumWindows/Network/HTTPClient.hpp"
-#include "Titanium/detail/TiBase.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
 #include <collection.h>

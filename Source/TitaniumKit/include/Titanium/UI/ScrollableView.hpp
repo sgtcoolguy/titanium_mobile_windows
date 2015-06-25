@@ -9,7 +9,6 @@
 #ifndef _TITANIUM_UI_SCROLLABLEVIEW_HPP_
 #define _TITANIUM_UI_SCROLLABLEVIEW_HPP_
 
-#include "Titanium/Module.hpp"
 #include "Titanium/UI/Dimension.hpp"
 #include "Titanium/UI/View.hpp"
 

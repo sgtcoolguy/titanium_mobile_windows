@@ -7,6 +7,10 @@
  */
 
 #include "Titanium/UI/TableView.hpp"
+#include "Titanium/UI/TableViewRow.hpp"
+#include "Titanium/UI/TableViewSection.hpp"
+#include "Titanium/UI/TableViewAnimationProperties.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

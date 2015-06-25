@@ -6,8 +6,8 @@
 * Please see the LICENSE included with this distribution for details.
 */
 #include "RequireHook.hpp"
+#include "WindowsNativeModuleLoader.hpp"
 #include "TitaniumWindows/Utility.hpp"
-#include "HAL/HAL.hpp"
 #include <collection.h>
 
 //// NATIVE_MODULE_INCLUDES START

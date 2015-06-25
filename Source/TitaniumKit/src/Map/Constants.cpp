@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/Map/Constants.hpp"
+#include "Titanium/detail/TiLogger.hpp"
 #include <unordered_map>
 #include <mutex>
 

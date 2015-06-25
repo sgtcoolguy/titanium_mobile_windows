@@ -7,6 +7,14 @@
  */
 
 #include "Titanium/MediaModule.hpp"
+#include "Titanium/Filesystem/File.hpp"
+#include "Titanium/Media/Item.hpp"
+#include "Titanium/Media/MusicLibraryOptionsType.hpp"
+#include "Titanium/Media/PhotoGalleryOptionsType.hpp"
+#include "Titanium/Media/MediaQueryType.hpp"
+#include "Titanium/Media/CameraOptionsType.hpp"
+#include "Titanium/Media/PreviewImageOptions.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

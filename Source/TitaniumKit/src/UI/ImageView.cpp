@@ -7,6 +7,8 @@
  */
 
 #include "Titanium/UI/ImageView.hpp"
+#include "Titanium/Blob.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 #define IMAGEVIEW_MIN_INTERVAL 30
 
