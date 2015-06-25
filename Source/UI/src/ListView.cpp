@@ -37,8 +37,7 @@ namespace TitaniumWindows
 			binding->Source = collectionViewSource__;
 			Windows::UI::Xaml::Data::BindingOperations::SetBinding(listview__, Windows::UI::Xaml::Controls::ListView::ItemsSourceProperty, binding);
 
-			// Use "SelectionChanged" event to handle click event
-			listview__->IsItemClickEnabled = false;
+			listview__->IsItemClickEnabled = true;
 
 			listViewItems__ = ref new ::Platform::Collections::Vector<ListViewItem^>();
 
@@ -62,25 +61,23 @@ namespace TitaniumWindows
 			const JSContext ctx = this->get_context();
 
 			if (event_name == "itemclick") {
-				click_event__ = listview__->SelectionChanged += ref new Windows::UI::Xaml::Controls::SelectionChangedEventHandler(
-					[this, ctx](::Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
+				click_event__ = listview__->ItemClick += ref new Windows::UI::Xaml::Controls::ItemClickEventHandler(
+					[this, ctx](::Platform::Object^ sender, Windows::UI::Xaml::Controls::ItemClickEventArgs^ e) {
 					if (is_filtering__) return; // setting the new filtered source will trigger this callback
 					auto listview = safe_cast<Windows::UI::Xaml::Controls::ListView^>(sender);
 
-					auto index = listview->SelectedIndex;
-					TITANIUM_ASSERT((index < 0) || (static_cast<unsigned int>(index) < listViewItems__->Size));
-					if (index == -1) {
-						return;
-					}
-					auto uindex = static_cast<uint32_t>(index);
+					uint32_t index = -1;
+					listview->Items->IndexOf(e->ClickedItem, &index);
+					if (index == -1) return;
+					TITANIUM_ASSERT(index > -1 || index < listViewItems__->Size);
 					
 					TitaniumWindows::UI::ListViewItem^ listViewItem;
 					if (get_searchText() != "") { // get mapped index when filtered
-						auto real_index = filteredItems__.at(uindex);
+						auto real_index = filteredItems__.at(index);
 						listViewItem = listViewItems__->GetAt(real_index);
 					}
 					else {
-						listViewItem = listViewItems__->GetAt(uindex);
+						listViewItem = listViewItems__->GetAt(index);
 					}
 					if (listViewItem->isHeader) return;
 

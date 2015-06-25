@@ -23,7 +23,6 @@ namespace Titanium
 			, loading__(js_context.CreateNumber(static_cast<uint32_t>(RequestState::Loading)))
 			, opened__(js_context.CreateNumber(static_cast<uint32_t>(RequestState::Opened)))
 			, unsent__(js_context.CreateNumber(static_cast<uint32_t>(RequestState::Unsent)))
-			, responseXML__(js_context.CreateNull())
 			, securityManager__(js_context.CreateNull())
 			, status__(200)
 			, readyState__(RequestState::Unsent)
@@ -57,7 +56,6 @@ namespace Titanium
 			auto data = get_responseData();
 			return std::string(data.begin(), data.end());
 		}
-
 
 		std::string HTTPClient::get_statusText() const TITANIUM_NOEXCEPT
 		{
@@ -355,7 +353,24 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, responseXML)
 		{
-			return responseXML__;
+			auto text = js_get_responseText();
+			if (text.IsNull()) {
+				return text;
+			}
+
+			auto global_object = get_context().get_global_object();
+
+			auto ti = global_object.GetProperty("Titanium");
+			auto Titanium = static_cast<JSObject>(ti);
+			auto xml = Titanium.GetProperty("XML");
+			auto XML = static_cast<JSObject>(xml);
+
+			auto parseString = XML.GetProperty("parseString");
+			auto parseStringObject = static_cast<JSObject>(parseString);
+			std::vector<JSValue> arguments = { text };
+			auto result = parseStringObject(arguments, global_object);
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(HTTPClient, getResponseXML)
@@ -458,11 +473,10 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_SETTER(HTTPClient, ondatastream)
 		{
-			using namespace std::placeholders;
-
-			ondatastream__ = argument;
+			ondatastream__ = argument; // allow setting to null/undefined
 
 			if (ondatastream__.IsObject() && static_cast<JSObject>(ondatastream__).IsFunction()) {
+				using namespace std::placeholders;
 				datastream.connect(std::bind(&HTTPClient::ondatastream, this, _1));
 			}
 
@@ -479,11 +493,10 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_SETTER(HTTPClient, onerror)
 		{
-			using namespace std::placeholders;
-
-			onerror__ = argument;
+			onerror__ = argument; // allow setting to null/undefined
 
 			if (onerror__.IsObject() && static_cast<JSObject>(onerror__).IsFunction()) {
+				using namespace std::placeholders;
 				error.connect(std::bind(&HTTPClient::onerror, this, _1, _2, _3));
 			}
 
@@ -500,11 +513,11 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_SETTER(HTTPClient, onload)
 		{
-			using namespace std::placeholders;
-
-			onload__ = argument;
+			onload__ = argument; // allow setting to null/undefined
 
 			if (onload__.IsObject() && static_cast<JSObject>(onload__).IsFunction()) {
+				using namespace std::placeholders;
+				// TODO Only connect if no slots yet!
 				loaded.connect(std::bind(&HTTPClient::onload, this, _1, _2, _3));
 			}
 
@@ -521,11 +534,10 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_SETTER(HTTPClient, onreadystatechange)
 		{
-			using namespace std::placeholders;
-
-			onreadystatechange__ = argument;
+			onreadystatechange__ = argument; // allow setting to null/undefined
 
 			if (onreadystatechange__.IsObject() && static_cast<JSObject>(onreadystatechange__).IsFunction()) {
+				using namespace std::placeholders;
 				readystatechange.connect(std::bind(&HTTPClient::onreadystatechange, this, _1));
 			}
 
@@ -542,11 +554,10 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_SETTER(HTTPClient, onsendstream)
 		{
-			using namespace std::placeholders;
-
-			onsendstream__ = argument;
+			onsendstream__ = argument; // allow setting to null/undefined
 
 			if (onsendstream__.IsObject() && static_cast<JSObject>(onsendstream__).IsFunction()) {
+				using namespace std::placeholders;
 				sendstream.connect(std::bind(&HTTPClient::onsendstream, this, _1));
 			}
 
