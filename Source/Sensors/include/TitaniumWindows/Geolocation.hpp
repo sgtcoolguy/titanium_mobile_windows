@@ -37,7 +37,6 @@ namespace TitaniumWindows
 
 		virtual void set_accuracy(const Titanium::Geolocation::ACCURACY& accuracy) TITANIUM_NOEXCEPT override;
 		virtual void set_distanceFilter(const double& distance) TITANIUM_NOEXCEPT override;
-		virtual bool get_locationServicesEnabled() const TITANIUM_NOEXCEPT override;
 
 		virtual void forwardGeocoder(const std::string& address, JSObject callback) TITANIUM_NOEXCEPT override;
 		virtual void getCurrentHeading(JSObject callback) TITANIUM_NOEXCEPT override;
@@ -46,7 +45,9 @@ namespace TitaniumWindows
 
 		virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
+	protected:
 		void ensureLoadGeolocator();
+		void loadAppxManifest();
 
 	private:
 
