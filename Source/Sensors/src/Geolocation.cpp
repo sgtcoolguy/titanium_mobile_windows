@@ -11,6 +11,8 @@
 
 #include <boost/algorithm/string.hpp>
 #include <ppltasks.h>
+#include <collection.h>
+#include <algorithm>
 #include <boost/lexical_cast.hpp>
 
 #include "TitaniumWindows/Utility.hpp"
@@ -24,6 +26,7 @@ namespace TitaniumWindows
 	Geolocation::Geolocation(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Titanium::GeolocationModule(js_context)
 	{
+		loadAppxManifest();
 	}
 
 	void Geolocation::JSExportInitialize() {
@@ -134,30 +137,37 @@ namespace TitaniumWindows
 		Titanium::GeolocationModule::set_distanceFilter(distance);
 	}
 
-	bool Geolocation::get_locationServicesEnabled() const TITANIUM_NOEXCEPT
+	void Geolocation::loadAppxManifest()
 	{
-		// we can't load GeoLocator here because this is const function. Just return false when it's not ready.
-		if (geolocator_ == nullptr) {
-			return false;
-		}
+		using namespace Windows::Data::Xml::Dom;
+		using namespace Windows::Storage;
+		using namespace concurrency;
 
-		PositionStatus status = geolocator_->LocationStatus;
-			switch (status) {
-				case PositionStatus::Ready:
-					// This is bad, should set locationServicesEnabled__ as mutable?
-					const_cast<Geolocation*>(this)->set_locationServicesEnabled(true);
-					break;
-				case PositionStatus::Disabled:
-				case PositionStatus::Initializing:
-				case PositionStatus::NoData:
-				case PositionStatus::NotAvailable:
-				case PositionStatus::NotInitialized:
-				default:
-					// This is bad, should set locationServicesEnabled__ as mutable?
-					const_cast<Geolocation*>(this)->set_locationServicesEnabled(false);
-					break;
-			};
-		return Titanium::GeolocationModule::get_locationServicesEnabled();
+		concurrency::event event;
+		task<StorageFile^>(Windows::ApplicationModel::Package::Current->InstalledLocation->GetFileAsync("AppxManifest.xml")).then([&event, this](task<StorageFile^> fileTask) {
+			try {
+				task<XmlDocument^>(XmlDocument::LoadFromFileAsync(fileTask.get())).then([&event, this](task<XmlDocument^> docTask) {
+					try {
+						const auto doc = docTask.get();
+						const auto items = doc->GetElementsByTagName("DeviceCapability");
+						for (unsigned int i = 0; i < items->Length; i++) {
+							const auto node = items->GetAt(i);
+							const auto name = static_cast<Platform::String^>(node->Attributes->GetNamedItem("Name")->NodeValue);
+							if (name == "location") {
+								set_locationServicesEnabled(true);
+							}
+						}
+					} catch (...) {
+						set_locationServicesEnabled(false);
+					}
+					event.set();
+				}, concurrency::task_continuation_context::use_arbitrary());
+			} catch (...) {
+				set_locationServicesEnabled(true);
+				event.set();
+			}
+		}, concurrency::task_continuation_context::use_arbitrary());
+		event.wait();
 	}
 
 	void Geolocation::forwardGeocoder(const std::string& address, JSObject callback) TITANIUM_NOEXCEPT
