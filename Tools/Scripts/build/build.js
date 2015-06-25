@@ -127,12 +127,12 @@ function buildAndPackage(sourceDir, buildDir, destDir, buildType, platform, arch
  * @param callback what to invoke when done/errored
  */
 function updateBuildValuesInTitaniumModule(tiModuleCPP, callback) {
-	exec('git show --abbrev-commit --no-color', {cwd: path.dirname(tiModuleCPP)}, function (error, stdout, stderr) {
+	exec('git rev-parse --short --no-color HEAD', {cwd: path.dirname(tiModuleCPP)}, function (error, stdout, stderr) {
 		if (error) {
 			return callback('Failed to get Git HASH: ' + error);
 		}
 
-		var githash = stdout.substring(7, 15).trim(); // drop leading 'commit ', just take 7-character sha
+		var githash = stdout.trim(); // drop leading 'commit ', just take 7-character sha
 
 		fs.readFile(tiModuleCPP, function (err, data) {
 			var contents,
