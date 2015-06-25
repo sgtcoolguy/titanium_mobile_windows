@@ -16,6 +16,7 @@ var archiver = require('archiver'),
 	appc = require('node-appc'),
 	Builder = require('titanium-sdk/lib/builder'),
 	fs = require('fs'),
+	os = require('os'),
 	wrench = require('wrench'),
 	path = require('path'),
 	windowslib = require('windowslib'),
@@ -152,11 +153,24 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 			next();
 			return;
 		}
+
 		var p = spawn(_t.windowsInfo.selectedVisualStudio.vcvarsall, [
 			'&&', 'MSBuild', '/m', '/p:Platform=' + arch, '/p:Configuration=' + config, sln
 		]);
 		p.stdout.on('data', function (data) {
-			_t.logger.info(data.toString().trim());
+			var line = data.toString().trim();
+			if (line.indexOf('error ') >= 0) {
+				_t.logger.warn(line);
+			}
+			else if (line.indexOf('warning ') >= 0) {
+				_t.logger.warn(line);
+			}
+			else if (line.indexOf(':\\') === -1) {
+				_t.logger.debug(line);
+			}
+			else {
+				_t.logger.trace(line);
+			}
 		});
 		p.stderr.on('data', function (data) {
 			_t.logger.error(data.toString().trim());
@@ -261,6 +275,12 @@ WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 
 			var moduleSrc = path.join(moduleProjectDir, configuration, projectname),
 				moduleDst = path.join(moduleDir, typesMin[index], arch, projectname);
+
+			// We may have built in temp because of long path issues!
+			// Check to see if the dll exists in normal spot, if not, fall back to trying temp location!
+			if (!fs.existsSync(moduleSrc + '.dll')) {
+				moduleSrc = path.join(os.tmpdir(), path.basename(_t.projectDir), path.basename(moduleProjectDir), configuration, projectname);
+			}
 
 			// create module directory
 			wrench.mkdirSyncRecursive(path.join(moduleDir, typesMin[index], arch));
