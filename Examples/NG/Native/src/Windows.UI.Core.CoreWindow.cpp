@@ -10,6 +10,7 @@
 #include "Windows.UI.Core.CoreCursor.hpp"
 #include "Windows.UI.Core.CoreDispatcher.hpp"
 #include "Windows.UI.Core.CoreWindow.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -71,9 +72,11 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(CoreWindow, PointerCursor)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Core::CoreCursor>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Core::CoreCursor>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Core_CoreCursor();
@@ -86,14 +89,17 @@ namespace Titanium
 		{
 			auto value = unwrap()->PointerCursor;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Core::CoreCursor>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Core::CoreCursor>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Core::CoreCursor>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(CoreWindow, IsInputEnabled)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
 
 			unwrap()->IsInputEnabled = value;
@@ -104,12 +110,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->IsInputEnabled;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(CoreWindow, FlowDirection)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Core::CoreWindowFlowDirection>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->FlowDirection = value;
@@ -120,75 +129,110 @@ namespace Titanium
 		{
 			auto value = unwrap()->FlowDirection;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, AutomationHostProvider)
 		{
 			auto value = unwrap()->AutomationHostProvider;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, Bounds)
 		{
 			auto value = unwrap()->Bounds;
 			auto context = get_context();
-
-			auto result = context.CreateObject();			auto value_X_ = context.CreateNumber(static_cast<double>(value.X));
-			result.SetProperty("X", value_X_);
-			auto value_Y_ = context.CreateNumber(static_cast<double>(value.Y));
-			result.SetProperty("Y", value_Y_);
-			auto value_Width_ = context.CreateNumber(static_cast<double>(value.Width));
-			result.SetProperty("Width", value_Width_);
-			auto value_Height_ = context.CreateNumber(static_cast<double>(value.Height));
-			result.SetProperty("Height", value_Height_);
-			return result;
+
+			auto result = context.CreateObject();
+
+
+			auto value_X_ = context.CreateNumber(static_cast<double>(value.X));
+
+			result.SetProperty("X", value_X_);
+
+
+
+			auto value_Y_ = context.CreateNumber(static_cast<double>(value.Y));
+
+			result.SetProperty("Y", value_Y_);
+
+
+
+			auto value_Width_ = context.CreateNumber(static_cast<double>(value.Width));
+
+			result.SetProperty("Width", value_Width_);
+
+
+
+			auto value_Height_ = context.CreateNumber(static_cast<double>(value.Height));
+
+			result.SetProperty("Height", value_Height_);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, CustomProperties)
 		{
 			auto value = unwrap()->CustomProperties;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IPropertySet>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::Foundation::Collections::IPropertySet>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::Foundation::Collections::IPropertySet>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, Dispatcher)
 		{
 			auto value = unwrap()->Dispatcher;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Core::CoreDispatcher>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Core::CoreDispatcher>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Core::CoreDispatcher>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, PointerPosition)
 		{
 			auto value = unwrap()->PointerPosition;
 			auto context = get_context();
-
-			auto result = context.CreateObject();			auto value_X_ = context.CreateNumber(static_cast<double>(value.X));
-			result.SetProperty("X", value_X_);
-			auto value_Y_ = context.CreateNumber(static_cast<double>(value.Y));
-			result.SetProperty("Y", value_Y_);
-			return result;
+
+			auto result = context.CreateObject();
+
+
+			auto value_X_ = context.CreateNumber(static_cast<double>(value.X));
+
+			result.SetProperty("X", value_X_);
+
+
+
+			auto value_Y_ = context.CreateNumber(static_cast<double>(value.Y));
+
+			result.SetProperty("Y", value_Y_);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreWindow, Visible)
 		{
 			auto value = unwrap()->Visible;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(CoreWindow, Activate)
@@ -221,12 +265,15 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto virtualKey = static_cast<::Windows::System::VirtualKey>(static_cast<int32_t>(_0)); // TODO Look up enum in metadata to know what type it's value is? 
 
-				auto method_result = unwrap()->GetAsyncKeyState(virtualKey);
+				auto method_result = unwrap()->GetAsyncKeyState(virtualKey);
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(method_result))); // FIXME What if the enum isn't an int based one?!
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -238,12 +285,15 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto virtualKey = static_cast<::Windows::System::VirtualKey>(static_cast<int32_t>(_0)); // TODO Look up enum in metadata to know what type it's value is? 
 
-				auto method_result = unwrap()->GetKeyState(virtualKey);
+				auto method_result = unwrap()->GetKeyState(virtualKey);
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(method_result))); // FIXME What if the enum isn't an int based one?!
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -281,10 +331,13 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 0) {
-				auto method_result = ::Windows::UI::Core::CoreWindow::GetForCurrentThread();			auto result = context.CreateObject(JSExport<Windows::UI::Core::CoreWindow>::Class());
+				auto method_result = ::Windows::UI::Core::CoreWindow::GetForCurrentThread();
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Core::CoreWindow>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Core::CoreWindow>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!

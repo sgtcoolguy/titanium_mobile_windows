@@ -7,6 +7,7 @@
  */
 
 #include "Windows.UI.Core.IdleDispatchedHandlerArgs.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -56,8 +57,10 @@ namespace Titanium
 		{
 			auto value = unwrap()->IsDispatcherIdle;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 			} // namespace Core

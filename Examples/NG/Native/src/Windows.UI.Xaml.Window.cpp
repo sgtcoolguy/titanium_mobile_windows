@@ -10,6 +10,7 @@
 #include "Windows.UI.Core.CoreWindow.hpp"
 #include "Windows.UI.Xaml.UIElement.hpp"
 #include "Windows.UI.Xaml.Window.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -63,9 +64,11 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(Window, Content)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::UIElement>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::UIElement>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_UIElement();
@@ -78,64 +81,91 @@ namespace Titanium
 		{
 			auto value = unwrap()->Content;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::UIElement>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::UIElement>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::UIElement>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Window, Bounds)
 		{
 			auto value = unwrap()->Bounds;
 			auto context = get_context();
-
-			auto result = context.CreateObject();			auto value_X_ = context.CreateNumber(static_cast<double>(value.X));
-			result.SetProperty("X", value_X_);
-			auto value_Y_ = context.CreateNumber(static_cast<double>(value.Y));
-			result.SetProperty("Y", value_Y_);
-			auto value_Width_ = context.CreateNumber(static_cast<double>(value.Width));
-			result.SetProperty("Width", value_Width_);
-			auto value_Height_ = context.CreateNumber(static_cast<double>(value.Height));
-			result.SetProperty("Height", value_Height_);
-			return result;
+
+			auto result = context.CreateObject();
+
+
+			auto value_X_ = context.CreateNumber(static_cast<double>(value.X));
+
+			result.SetProperty("X", value_X_);
+
+
+
+			auto value_Y_ = context.CreateNumber(static_cast<double>(value.Y));
+
+			result.SetProperty("Y", value_Y_);
+
+
+
+			auto value_Width_ = context.CreateNumber(static_cast<double>(value.Width));
+
+			result.SetProperty("Width", value_Width_);
+
+
+
+			auto value_Height_ = context.CreateNumber(static_cast<double>(value.Height));
+
+			result.SetProperty("Height", value_Height_);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Window, CoreWindow)
 		{
 			auto value = unwrap()->CoreWindow;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Core::CoreWindow>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Core::CoreWindow>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Core::CoreWindow>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Window, Dispatcher)
 		{
 			auto value = unwrap()->Dispatcher;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Core::CoreDispatcher>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Core::CoreDispatcher>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Core::CoreDispatcher>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Window, Visible)
 		{
 			auto value = unwrap()->Visible;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Window, Current)
 		{
 			auto value = unwrap()->Current;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Window>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Window>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Window>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Window, Activate)

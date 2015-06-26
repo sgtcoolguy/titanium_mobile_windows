@@ -9,6 +9,7 @@
 #include "Windows.UI.Xaml.CreateDefaultValueCallback.hpp"
 #include "Windows.UI.Xaml.PropertyChangedCallback.hpp"
 #include "Windows.UI.Xaml.PropertyMetadata.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -29,15 +30,19 @@ namespace Titanium
 		{
 			TITANIUM_LOG_DEBUG("PropertyMetadata::postCallAsConstructor ", this);
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_defaultValue = static_cast<JSObject>(_0);
- 			auto wrapper_defaultValue = object_defaultValue.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_defaultValue = object_defaultValue.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto defaultValue = wrapper_defaultValue->unwrapPlatform_Object();
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_propertyChangedCallback = static_cast<JSObject>(_1);
- 			auto wrapper_propertyChangedCallback = object_propertyChangedCallback.GetPrivate<Windows::UI::Xaml::PropertyChangedCallback>();
+ 
+			auto wrapper_propertyChangedCallback = object_propertyChangedCallback.GetPrivate<Windows::UI::Xaml::PropertyChangedCallback>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto propertyChangedCallback = wrapper_propertyChangedCallback->unwrapWindows_UI_Xaml_PropertyChangedCallback();
@@ -45,9 +50,11 @@ namespace Titanium
 				wrapped__ = ref new ::Windows::UI::Xaml::PropertyMetadata(defaultValue, propertyChangedCallback);
 			}
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_defaultValue = static_cast<JSObject>(_0);
- 			auto wrapper_defaultValue = object_defaultValue.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_defaultValue = object_defaultValue.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto defaultValue = wrapper_defaultValue->unwrapPlatform_Object();
@@ -86,93 +93,121 @@ namespace Titanium
 		{
 			auto value = unwrap()->CreateDefaultValueCallback;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::CreateDefaultValueCallback>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::CreateDefaultValueCallback>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::CreateDefaultValueCallback>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(PropertyMetadata, DefaultValue)
 		{
 			auto value = unwrap()->DefaultValue;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(PropertyMetadata, Create)
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_createDefaultValueCallback = static_cast<JSObject>(_0);
- 			auto wrapper_createDefaultValueCallback = object_createDefaultValueCallback.GetPrivate<Windows::UI::Xaml::CreateDefaultValueCallback>();
+ 
+			auto wrapper_createDefaultValueCallback = object_createDefaultValueCallback.GetPrivate<Windows::UI::Xaml::CreateDefaultValueCallback>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto createDefaultValueCallback = wrapper_createDefaultValueCallback->unwrapWindows_UI_Xaml_CreateDefaultValueCallback();
 
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_propertyChangedCallback = static_cast<JSObject>(_1);
- 			auto wrapper_propertyChangedCallback = object_propertyChangedCallback.GetPrivate<Windows::UI::Xaml::PropertyChangedCallback>();
+ 
+			auto wrapper_propertyChangedCallback = object_propertyChangedCallback.GetPrivate<Windows::UI::Xaml::PropertyChangedCallback>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto propertyChangedCallback = wrapper_propertyChangedCallback->unwrapWindows_UI_Xaml_PropertyChangedCallback();
 
-				auto method_result = ::Windows::UI::Xaml::PropertyMetadata::Create(createDefaultValueCallback, propertyChangedCallback);			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::PropertyMetadata>::Class());
+				auto method_result = ::Windows::UI::Xaml::PropertyMetadata::Create(createDefaultValueCallback, propertyChangedCallback);
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::PropertyMetadata>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::PropertyMetadata>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_createDefaultValueCallback = static_cast<JSObject>(_0);
- 			auto wrapper_createDefaultValueCallback = object_createDefaultValueCallback.GetPrivate<Windows::UI::Xaml::CreateDefaultValueCallback>();
+ 
+			auto wrapper_createDefaultValueCallback = object_createDefaultValueCallback.GetPrivate<Windows::UI::Xaml::CreateDefaultValueCallback>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto createDefaultValueCallback = wrapper_createDefaultValueCallback->unwrapWindows_UI_Xaml_CreateDefaultValueCallback();
 
-				auto method_result = ::Windows::UI::Xaml::PropertyMetadata::Create(createDefaultValueCallback);			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::PropertyMetadata>::Class());
+				auto method_result = ::Windows::UI::Xaml::PropertyMetadata::Create(createDefaultValueCallback);
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::PropertyMetadata>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::PropertyMetadata>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_defaultValue = static_cast<JSObject>(_0);
- 			auto wrapper_defaultValue = object_defaultValue.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_defaultValue = object_defaultValue.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto defaultValue = wrapper_defaultValue->unwrapPlatform_Object();
 
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_propertyChangedCallback = static_cast<JSObject>(_1);
- 			auto wrapper_propertyChangedCallback = object_propertyChangedCallback.GetPrivate<Windows::UI::Xaml::PropertyChangedCallback>();
+ 
+			auto wrapper_propertyChangedCallback = object_propertyChangedCallback.GetPrivate<Windows::UI::Xaml::PropertyChangedCallback>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto propertyChangedCallback = wrapper_propertyChangedCallback->unwrapWindows_UI_Xaml_PropertyChangedCallback();
 
-				auto method_result = ::Windows::UI::Xaml::PropertyMetadata::Create(defaultValue, propertyChangedCallback);			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::PropertyMetadata>::Class());
+				auto method_result = ::Windows::UI::Xaml::PropertyMetadata::Create(defaultValue, propertyChangedCallback);
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::PropertyMetadata>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::PropertyMetadata>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_defaultValue = static_cast<JSObject>(_0);
- 			auto wrapper_defaultValue = object_defaultValue.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_defaultValue = object_defaultValue.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto defaultValue = wrapper_defaultValue->unwrapPlatform_Object();
 
-				auto method_result = ::Windows::UI::Xaml::PropertyMetadata::Create(defaultValue);			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::PropertyMetadata>::Class());
+				auto method_result = ::Windows::UI::Xaml::PropertyMetadata::Create(defaultValue);
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::PropertyMetadata>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::PropertyMetadata>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!

@@ -10,6 +10,7 @@
 #include "Windows.UI.Xaml.Controls.Panel.hpp"
 #include "Windows.UI.Xaml.DependencyProperty.hpp"
 #include "Windows.UI.Xaml.UIElement.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -73,45 +74,56 @@ namespace Titanium
 		{
 			auto value = unwrap()->LeftProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Canvas, TopProperty)
 		{
 			auto value = unwrap()->TopProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Canvas, ZIndexProperty)
 		{
 			auto value = unwrap()->ZIndexProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Canvas, GetLeft)
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_element = static_cast<JSObject>(_0);
- 			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
+ 
+			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto element = wrapper_element->unwrapWindows_UI_Xaml_UIElement();
 
-				auto method_result = ::Windows::UI::Xaml::Controls::Canvas::GetLeft(element);			auto result = context.CreateNumber(static_cast<double>(method_result));
-				return result;
+				auto method_result = ::Windows::UI::Xaml::Controls::Canvas::GetLeft(element);
+
+			auto result = context.CreateNumber(static_cast<double>(method_result));
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -123,14 +135,17 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_element = static_cast<JSObject>(_0);
- 			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
+ 
+			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto element = wrapper_element->unwrapWindows_UI_Xaml_UIElement();
 
-				auto _1 = arguments.at(1); 			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
+				auto _1 = arguments.at(1); 
+			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
 			auto length = static_cast<float>(static_cast<double>(_1));
 
 				::Windows::UI::Xaml::Controls::Canvas::SetLeft(element, length);
@@ -146,15 +161,20 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_element = static_cast<JSObject>(_0);
- 			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
+ 
+			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto element = wrapper_element->unwrapWindows_UI_Xaml_UIElement();
 
-				auto method_result = ::Windows::UI::Xaml::Controls::Canvas::GetTop(element);			auto result = context.CreateNumber(static_cast<double>(method_result));
-				return result;
+				auto method_result = ::Windows::UI::Xaml::Controls::Canvas::GetTop(element);
+
+			auto result = context.CreateNumber(static_cast<double>(method_result));
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -166,14 +186,17 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_element = static_cast<JSObject>(_0);
- 			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
+ 
+			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto element = wrapper_element->unwrapWindows_UI_Xaml_UIElement();
 
-				auto _1 = arguments.at(1); 			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
+				auto _1 = arguments.at(1); 
+			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
 			auto length = static_cast<float>(static_cast<double>(_1));
 
 				::Windows::UI::Xaml::Controls::Canvas::SetTop(element, length);
@@ -189,15 +212,20 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_element = static_cast<JSObject>(_0);
- 			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
+ 
+			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto element = wrapper_element->unwrapWindows_UI_Xaml_UIElement();
 
-				auto method_result = ::Windows::UI::Xaml::Controls::Canvas::GetZIndex(element); 			auto result = context.CreateNumber(method_result);
-				return result;
+				auto method_result = ::Windows::UI::Xaml::Controls::Canvas::GetZIndex(element);
+ 
+			auto result = context.CreateNumber(method_result);
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -209,14 +237,17 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_element = static_cast<JSObject>(_0);
- 			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
+ 
+			auto wrapper_element = object_element.GetPrivate<Windows::UI::Xaml::UIElement>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto element = wrapper_element->unwrapWindows_UI_Xaml_UIElement();
 
-				auto _1 = arguments.at(1); 			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
+				auto _1 = arguments.at(1); 
+			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
 			auto value = static_cast<int32_t>(_1);
 
 				::Windows::UI::Xaml::Controls::Canvas::SetZIndex(element, value);

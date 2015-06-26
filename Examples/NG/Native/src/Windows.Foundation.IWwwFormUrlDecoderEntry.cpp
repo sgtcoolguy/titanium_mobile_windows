@@ -7,6 +7,7 @@
  */
 
 #include "Windows.Foundation.IWwwFormUrlDecoderEntry.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -55,16 +56,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->Name;
 			auto context = get_context();
- 			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
-			return result;
+ 
+			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(IWwwFormUrlDecoderEntry, Value)
 		{
 			auto value = unwrap()->Value;
 			auto context = get_context();
- 			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
-			return result;
+ 
+			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
+
+			return result;
 		}
 
 		} // namespace Foundation

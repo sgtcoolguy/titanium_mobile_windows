@@ -7,6 +7,7 @@
  */
 
 #include "Windows.Foundation.Collections.IPropertySet.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

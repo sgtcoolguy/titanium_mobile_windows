@@ -8,6 +8,7 @@
 
 #include "Windows.UI.Xaml.Documents.Inline.hpp"
 #include "Windows.UI.Xaml.Documents.InlineCollection.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -71,21 +72,27 @@ namespace Titanium
 		{
 			auto value = unwrap()->Size;
 			auto context = get_context();
- 			auto result = context.CreateNumber(value);
-			return result;
+ 
+			auto result = context.CreateNumber(value);
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(InlineCollection, GetAt)
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0); 			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0); 
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto index = static_cast<uint32_t>(_0);
 
-				auto method_result = unwrap()->GetAt(index);			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::Inline>::Class());
+				auto method_result = unwrap()->GetAt(index);
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::Inline>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -97,16 +104,23 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 0) {
-				auto method_result = unwrap()->GetView();			std::vector<JSValue> result_vector;
+				auto method_result = unwrap()->GetView();
+
+			std::vector<JSValue> result_vector;
 			for (uint32_t i = 0; i < method_result->Size; ++i) {
-							auto method_result_tmp = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::Inline>::Class());
+				
+
+			auto method_result_tmp = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::Inline>::Class());
 			auto method_result_tmp_wrapper = method_result_tmp.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
 			method_result_tmp_wrapper->wrap(method_result->GetAt(i));
-        		result_vector.push_back(method_result_tmp);
+
+
+        		result_vector.push_back(method_result_tmp);
 			}
 
 			auto result = get_context().CreateArray(result_vector);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -118,18 +132,26 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(_0);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Documents_Inline();
 
-				auto _1 = arguments.at(1); 			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
+				auto _1 = arguments.at(1); 
+			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
 			auto index = static_cast<uint32_t>(_1);
 
-				auto method_result = unwrap()->IndexOf(value, &index); 			auto result = context.CreateBoolean(method_result); 
- 			auto out_1 = context.CreateNumber(index);
+				auto method_result = unwrap()->IndexOf(value, &index);
+ 
+			auto result = context.CreateBoolean(method_result); 
+
+
+ 
+			auto out_1 = context.CreateNumber(index);
 
 				_1 = out_1;
 				return result;
@@ -144,12 +166,15 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0); 			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0); 
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto index = static_cast<uint32_t>(_0);
 
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(_1);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Documents_Inline();
@@ -167,12 +192,15 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0); 			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0); 
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto index = static_cast<uint32_t>(_0);
 
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(_1);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Documents_Inline();
@@ -190,7 +218,8 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0); 			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0); 
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto index = static_cast<uint32_t>(_0);
 
 				unwrap()->RemoveAt(index);
@@ -206,9 +235,11 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(_0);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Documents_Inline();
@@ -252,12 +283,15 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0); 			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0); 
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto startIndex = static_cast<uint32_t>(_0);
 
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_items = static_cast<JSObject>(_1);
-			TITANIUM_ASSERT(object_items.IsArray());
+
+			TITANIUM_ASSERT(object_items.IsArray());
 			const auto array_items = static_cast<JSArray>(object_items);
 			auto items_items = array_items.GetPrivateItems<Windows::UI::Xaml::Documents::Inline>(); // std::vector<std::shared_ptr<Windows::UI::Xaml::Documents::Inline>
 			auto items = ref new ::Platform::Array<::Windows::UI::Xaml::Documents::Inline^>(items_items.size());
@@ -265,13 +299,20 @@ namespace Titanium
 				items[i] = items_items.at(i)->unwrapWindows_UI_Xaml_Documents_Inline();
 			}
 
-				auto method_result = unwrap()->GetMany(startIndex, items); 			auto result = context.CreateNumber(method_result);
-			std::vector<JSValue> out_1_vector;
+				auto method_result = unwrap()->GetMany(startIndex, items);
+ 
+			auto result = context.CreateNumber(method_result);
+
+
+
+			std::vector<JSValue> out_1_vector;
 			for (size_t i = 0; i < items->Length; ++i) {
-							auto items_tmp = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::Inline>::Class());
+				
+			auto items_tmp = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::Inline>::Class());
 			auto items_tmp_wrapper = items_tmp.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
 			items_tmp_wrapper->wrap(items[i]);
-		        		out_1_vector.push_back(items_tmp);
+		
+        		out_1_vector.push_back(items_tmp);
 			}
 
 			auto out_1 = get_context().CreateArray(out_1_vector);
@@ -289,9 +330,11 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_items = static_cast<JSObject>(_0);
-			TITANIUM_ASSERT(object_items.IsArray());
+
+			TITANIUM_ASSERT(object_items.IsArray());
 			const auto array_items = static_cast<JSArray>(object_items);
 			auto items_items = array_items.GetPrivateItems<Windows::UI::Xaml::Documents::Inline>(); // std::vector<std::shared_ptr<Windows::UI::Xaml::Documents::Inline>
 			auto items = ref new ::Platform::Array<::Windows::UI::Xaml::Documents::Inline^>(items_items.size());
@@ -312,17 +355,24 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 0) {
-				auto method_result = unwrap()->First();			std::vector<JSValue> result_vector;
+				auto method_result = unwrap()->First();
+
+			std::vector<JSValue> result_vector;
 			while (method_result->HasCurrent) {
-							auto method_result_tmp = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::Inline>::Class());
+				
+
+			auto method_result_tmp = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::Inline>::Class());
 			auto method_result_tmp_wrapper = method_result_tmp.GetPrivate<Windows::UI::Xaml::Documents::Inline>();
 			method_result_tmp_wrapper->wrap(method_result->Current);
-        		result_vector.push_back(method_result_tmp);
+
+
+        		result_vector.push_back(method_result_tmp);
         		method_result->MoveNext();
 			}
 
 			auto result = get_context().CreateArray(result_vector);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!

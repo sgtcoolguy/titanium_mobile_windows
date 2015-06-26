@@ -12,6 +12,7 @@
 #include "Windows.UI.Xaml.Documents.TextPointer.hpp"
 #include "Windows.UI.Xaml.Media.Brush.hpp"
 #include "Windows.UI.Xaml.Media.FontFamily.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -81,7 +82,8 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(TextElement, Language)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
 			auto value = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(argument));
 
 			unwrap()->Language = value;
@@ -92,14 +94,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->Language;
 			auto context = get_context();
- 			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
-			return result;
+ 
+			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(TextElement, Foreground)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Brush>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Brush>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Media_Brush();
@@ -112,20 +118,26 @@ namespace Titanium
 		{
 			auto value = unwrap()->Foreground;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Brush>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Brush>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Media::Brush>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(TextElement, FontWeight)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
 			::Windows::UI::Text::FontWeight value;
 			// Assign fields explicitly since we didn't use a constructor
-			auto object_value_Weight = object_value.GetProperty("Weight"); 			TITANIUM_ASSERT_AND_THROW(object_value_Weight.IsNumber(), "Expected Number");
+
+			auto object_value_Weight = object_value.GetProperty("Weight"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Weight.IsNumber(), "Expected Number");
 			auto object_value_Weight_ = static_cast<uint32_t>(object_value_Weight);
-			value.Weight = object_value_Weight_;
+
+			value.Weight = object_value_Weight_;
 
 			unwrap()->FontWeight = value;
 			return true;
@@ -135,14 +147,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->FontWeight;
 			auto context = get_context();
-
-			auto result = context.CreateObject();			auto value_Weight_ = context.CreateNumber(static_cast<uint32_t>(value.Weight));
-			result.SetProperty("Weight", value_Weight_);
-			return result;
+
+			auto result = context.CreateObject();
+
+
+			auto value_Weight_ = context.CreateNumber(static_cast<uint32_t>(value.Weight));
+
+			result.SetProperty("Weight", value_Weight_);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(TextElement, FontStyle)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Text::FontStyle>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->FontStyle = value;
@@ -153,13 +171,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->FontStyle;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(TextElement, FontStretch)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Text::FontStretch>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->FontStretch = value;
@@ -170,13 +190,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->FontStretch;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(TextElement, FontSize)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<float>(static_cast<double>(argument));
 
 			unwrap()->FontSize = value;
@@ -187,14 +209,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->FontSize;
 			auto context = get_context();
-			auto result = context.CreateNumber(static_cast<double>(value));
-			return result;
+
+			auto result = context.CreateNumber(static_cast<double>(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(TextElement, FontFamily)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::FontFamily>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::FontFamily>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Media_FontFamily();
@@ -207,14 +233,17 @@ namespace Titanium
 		{
 			auto value = unwrap()->FontFamily;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::FontFamily>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::FontFamily>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Media::FontFamily>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(TextElement, CharacterSpacing)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<int32_t>(argument);
 
 			unwrap()->CharacterSpacing = value;
@@ -225,149 +254,181 @@ namespace Titanium
 		{
 			auto value = unwrap()->CharacterSpacing;
 			auto context = get_context();
- 			auto result = context.CreateNumber(value);
-			return result;
+ 
+			auto result = context.CreateNumber(value);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, ContentEnd)
 		{
 			auto value = unwrap()->ContentEnd;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::TextPointer>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::TextPointer>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Documents::TextPointer>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, ContentStart)
 		{
 			auto value = unwrap()->ContentStart;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::TextPointer>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::TextPointer>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Documents::TextPointer>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, ElementEnd)
 		{
 			auto value = unwrap()->ElementEnd;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::TextPointer>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::TextPointer>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Documents::TextPointer>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, ElementStart)
 		{
 			auto value = unwrap()->ElementStart;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::TextPointer>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Documents::TextPointer>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Documents::TextPointer>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, Name)
 		{
 			auto value = unwrap()->Name;
 			auto context = get_context();
- 			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
-			return result;
+ 
+			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, CharacterSpacingProperty)
 		{
 			auto value = unwrap()->CharacterSpacingProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, FontFamilyProperty)
 		{
 			auto value = unwrap()->FontFamilyProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, FontSizeProperty)
 		{
 			auto value = unwrap()->FontSizeProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, FontStretchProperty)
 		{
 			auto value = unwrap()->FontStretchProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, FontStyleProperty)
 		{
 			auto value = unwrap()->FontStyleProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, FontWeightProperty)
 		{
 			auto value = unwrap()->FontWeightProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, ForegroundProperty)
 		{
 			auto value = unwrap()->ForegroundProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextElement, LanguageProperty)
 		{
 			auto value = unwrap()->LanguageProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(TextElement, FindName)
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0); 			TITANIUM_ASSERT_AND_THROW(_0.IsString(), "Expected String");
+				auto _0 = arguments.at(0); 
+			TITANIUM_ASSERT_AND_THROW(_0.IsString(), "Expected String");
 			auto name = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(_0));
 
-				auto method_result = unwrap()->FindName(name);			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+				auto method_result = unwrap()->FindName(name);
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!

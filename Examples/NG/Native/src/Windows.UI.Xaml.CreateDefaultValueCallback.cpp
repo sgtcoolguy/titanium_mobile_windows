@@ -7,6 +7,7 @@
  */
 
 #include "Windows.UI.Xaml.CreateDefaultValueCallback.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -56,10 +57,13 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 0) {
-				auto method_result = unwrap()->Invoke();			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+				auto method_result = unwrap()->Invoke();
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
