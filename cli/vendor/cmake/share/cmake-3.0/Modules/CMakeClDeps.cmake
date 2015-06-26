@@ -25,7 +25,7 @@ if(CMAKE_GENERATOR MATCHES "Ninja" AND CMAKE_C_COMPILER AND CMAKE_COMMAND)
   set(showdir ${CMAKE_BINARY_DIR}/CMakeFiles/ShowIncludes)
   file(WRITE ${showdir}/foo.h "\n")
   file(WRITE ${showdir}/main.c "#include \"foo.h\" \nint main(){}\n")
-  execute_process(COMMAND ${CMAKE_C_COMPILER} /nologo /showIncludes ${showdir}/main.c
+  execute_process(COMMAND ${CMAKE_C_COMPILER} /nologo ${showdir}/main.c
                   WORKING_DIRECTORY ${showdir} OUTPUT_VARIABLE outLine)
   string(REGEX MATCH "\n([^:]*:[^:]*:[ \t]*)" tmp "${outLine}")
   set(localizedPrefix "${CMAKE_MATCH_1}")

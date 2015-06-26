@@ -3,6 +3,7 @@ var appc = require('node-appc'),
 	fs = require('fs'),
 	os = require('os'),
 	path = require('path'),
+	version = appc.version,
 	__ = appc.i18n(__dirname).__;
 
 /*
@@ -149,6 +150,8 @@ function validate(logger, config, cli) {
 		cli.tiapp.icon = 'appicon.png';
 	}
 
+	this.jdkInfo = null;
+
 	return function (callback) {
 		this.validateTiModules('windows', this.deployType, function (err, modules) {
 			this.modules = modules.found;
@@ -156,20 +159,34 @@ function validate(logger, config, cli) {
 
 			// TODO: Windows specific module stuff, if needed
 
-			var that = this;
-
 			modules.found.forEach(function (module) {
 				if (module.platform.indexOf('commonjs') != -1) {
-					that.commonJsModules.push(module);
+					this.commonJsModules.push(module);
 				}
 
 				// TODO: more Windows specific module stuff, if needed
 
 				// scan the module for any CLI hooks
 				cli.scanHooks(path.join(module.modulePath, 'hooks'));
-			});
+			}.bind(this));
 
-			callback();
+			// detect java development kit
+			appc.jdk.detect(config, null, function (jdkInfo) {
+				if (!jdkInfo.version) {
+					logger.error(__('Unable to locate the Java Development Kit') + '\n');
+					logger.log(__('You can specify the location by setting the %s environment variable.', 'JAVA_HOME'.cyan) + '\n');
+					process.exit(1);
+				}
+
+				if (!version.satisfies(jdkInfo.version, this.packageJson.vendorDependencies.java)) {
+					logger.error(__('JDK version %s detected, but only version %s is supported', jdkInfo.version, this.packageJson.vendorDependencies.java) + '\n');
+					process.exit(1);
+				}
+
+				this.jdkInfo = jdkInfo;
+				callback();
+
+			}.bind(this));
 		}.bind(this));
 	}.bind(this);
 }

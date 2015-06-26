@@ -24,6 +24,7 @@ namespace TitaniumWindows
 	{
 	public:
 		Application();
+		Application(::Platform::String^ seed);
 		virtual ~Application();
 
 		virtual void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ args) override;
