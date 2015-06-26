@@ -54,6 +54,8 @@ namespace TitaniumWindows
 
 		private:
 
+			void clearTableData();
+			void resetTableDataBinding();
 			void addTableItem(JSObject& item) TITANIUM_NOEXCEPT;
 
 			Windows::UI::Xaml::Controls::ListView^ tableview__;
