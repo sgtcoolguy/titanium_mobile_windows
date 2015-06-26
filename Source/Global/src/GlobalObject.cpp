@@ -96,70 +96,17 @@ namespace TitaniumWindows
 	}
 
 	static std::string seed__ = "";
-	void GlobalObject::setSeed(const std::string& seed)
+	void GlobalObject::SetSeed(const std::string& seed)
 	{
 		seed__ = seed;
 	}
 
-	bool GlobalObject::usesSeed()
-	{
-		return seed__.empty();
-	}
-
-	Windows::Storage::Streams::IBuffer^ GlobalObject::readFile(::Platform::String^ path)
-	{
-		bool hasError = false;
-		concurrency::event event;
-
-		IBuffer^ spEncryptedBuffer;
-		IBuffer^ spIVBuffer;
-		concurrency::task<StorageFile^>(StorageFile::GetFileFromPathAsync(path))
-		.then([](StorageFile^ file) {
-			return FileIO::ReadBufferAsync(file);
-		}, task_continuation_context::use_arbitrary())
-		.then([&spEncryptedBuffer, &path](IBuffer^ buffer) {
-			spEncryptedBuffer = buffer;
-			return StorageFile::GetFileFromPathAsync(path + ".iv");
-		}, task_continuation_context::use_arbitrary())
-		.then([](StorageFile^ file) {
-			return FileIO::ReadBufferAsync(file);
-		}, task_continuation_context::use_arbitrary())
-		.then([&spIVBuffer, &hasError, &event](concurrency::task<IBuffer^> task) {
-			try {
-				spIVBuffer = task.get();
-			}
-			catch (Platform::COMException^ ex) {
-				hasError = true;
-			}
-			event.set();
-		}, task_continuation_context::use_arbitrary());;
-
-		event.wait();
-
-		if (hasError) {
-			detail::ThrowRuntimeError("require", "Could not load file: path = " + TitaniumWindows::Utility::ConvertUTF8String(path));
-			return nullptr;
-		}
-
-		try {
-			// Select a symmetric algorithm
-			Platform::String^ strAlgorithm = SymmetricAlgorithmNames::AesCbcPkcs7;
-			SymmetricKeyAlgorithmProvider^ spAlgorithm = SymmetricKeyAlgorithmProvider::OpenAlgorithm(strAlgorithm);
-
-			// Prepare our key.
-			IBuffer^ keyMaterial = CryptographicBuffer::DecodeFromBase64String(TitaniumWindows::Utility::ConvertString(seed__));
-			CryptographicKey^ spKeyPair = spAlgorithm->CreateSymmetricKey(keyMaterial);
-
-			// Decrypt.
-			return CryptographicEngine::Decrypt(spKeyPair, spEncryptedBuffer, spIVBuffer);
-		}
-		catch (Platform::COMException^ ex) {
-			detail::ThrowRuntimeError("require", "Could not load file: path = " + TitaniumWindows::Utility::ConvertUTF8String(path) + ", message = " + TitaniumWindows::Utility::ConvertUTF8String(ex->Message));
-			return nullptr;
-		}
-	}
-
 	std::string GlobalObject::readRequiredModule(const JSObject& parent, const std::string& path) const
+	{
+		return readRequiredModule(path);
+	}
+
+	std::string GlobalObject::readRequiredModule(const std::string& path)
 	{
 		auto module_path = resolve(path);
 		TITANIUM_LOG_DEBUG("GlobalObject::loadRequiredModule: module_path = ", TitaniumWindows::Utility::ConvertUTF8String(module_path));
@@ -185,8 +132,50 @@ namespace TitaniumWindows
 			event.wait();
 		}
 		else {
-			auto spUnencryptedBuffer = readFile(module_path);
-			content = CryptographicBuffer::ConvertBinaryToString(BinaryStringEncoding::Utf8, spUnencryptedBuffer);
+			IBuffer^ spEncryptedBuffer;
+			IBuffer^ spIVBuffer;
+			concurrency::task<StorageFile^>(StorageFile::GetFileFromPathAsync(module_path))
+				.then([](StorageFile^ file) {
+					return FileIO::ReadBufferAsync(file);
+				}, task_continuation_context::use_arbitrary())
+				.then([&spEncryptedBuffer, &module_path](IBuffer^ buffer) {
+					spEncryptedBuffer = buffer;
+					return StorageFile::GetFileFromPathAsync(module_path + ".iv");
+				}, task_continuation_context::use_arbitrary())
+				.then([](StorageFile^ file) {
+					return FileIO::ReadBufferAsync(file);
+				}, task_continuation_context::use_arbitrary())
+				.then([&spIVBuffer, &hasError, &event](concurrency::task<IBuffer^> task) {
+					try {
+						spIVBuffer = task.get();
+					}
+					catch (Platform::COMException^ ex) {
+						hasError = true;
+					}
+					event.set();
+				}, task_continuation_context::use_arbitrary());;
+
+			event.wait();
+
+			if (!hasError) {
+				try {
+					// Select a symmetric algorithm
+					Platform::String^ strAlgorithm = SymmetricAlgorithmNames::AesCbcPkcs7;
+					SymmetricKeyAlgorithmProvider^ spAlgorithm = SymmetricKeyAlgorithmProvider::OpenAlgorithm(strAlgorithm);
+
+					// Prepare our key.
+					IBuffer^ keyMaterial = CryptographicBuffer::DecodeFromBase64String(TitaniumWindows::Utility::ConvertString(seed__));
+					CryptographicKey^ spKeyPair = spAlgorithm->CreateSymmetricKey(keyMaterial);
+
+					// Decrypt.
+					IBuffer^ spUnencryptedBuffer = CryptographicEngine::Decrypt(spKeyPair, spEncryptedBuffer, spIVBuffer);
+					content = CryptographicBuffer::ConvertBinaryToString(BinaryStringEncoding::Utf8, spUnencryptedBuffer);
+				}
+				catch (Platform::COMException^ ex) {
+					detail::ThrowRuntimeError("require", "Could not load module: module_path = " + TitaniumWindows::Utility::ConvertUTF8String(module_path) + ", message = " + TitaniumWindows::Utility::ConvertUTF8String(ex->Message));
+					hasError = true;
+				}
+			}
 		}
 
 		if (hasError) {

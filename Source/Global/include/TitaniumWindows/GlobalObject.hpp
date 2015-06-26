@@ -37,9 +37,8 @@ namespace TitaniumWindows
 #endif
 
 		static void JSExportInitialize();
-		static void setSeed(const std::string& seed);
-		static bool usesSeed();
-		static Windows::Storage::Streams::IBuffer^ readFile(::Platform::String^ path);
+		static void SetSeed(const std::string& seed);
+		static std::string GlobalObject::readRequiredModule(const std::string& path);
 
 		virtual void registerNativeModuleRequireHook(const std::vector<std::string>& supported_module_names, const std::unordered_map<std::string, JSValue>& preloaded_modules, std::function<JSValue(const std::string&)> requireCallback);
 
