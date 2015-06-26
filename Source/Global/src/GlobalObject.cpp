@@ -67,11 +67,14 @@ namespace TitaniumWindows
 	{
 		const auto newpath = TitaniumWindows::Utility::ConvertUTF8String(boost::algorithm::replace_all_copy(path, "/", "\\"));
 
-		Windows::ApplicationModel::Package^ package = Windows::ApplicationModel::Package::Current;
-		Windows::Storage::StorageFolder^ installed_location = package->InstalledLocation;
-		Platform::String^ location = installed_location->Path;
+		if (!boost::contains(path, ":")) {
+			Windows::ApplicationModel::Package^ package = Windows::ApplicationModel::Package::Current;
+			Windows::Storage::StorageFolder^ installed_location = package->InstalledLocation;
+			Platform::String^ location = installed_location->Path;
 
-		return location + "\\" + newpath;
+			return location + "\\" + newpath;
+		}
+		return newpath;
 	}
 
 	bool GlobalObject::requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT
@@ -95,7 +98,6 @@ namespace TitaniumWindows
 		return exists;
 	}
 
-	static std::string seed__ = "";
 	void GlobalObject::SetSeed(const std::string& seed)
 	{
 		seed__ = seed;
@@ -103,13 +105,8 @@ namespace TitaniumWindows
 
 	std::string GlobalObject::readRequiredModule(const JSObject& parent, const std::string& path) const
 	{
-		return readRequiredModule(path);
-	}
-
-	std::string GlobalObject::readRequiredModule(const std::string& path)
-	{
 		auto module_path = resolve(path);
-		TITANIUM_LOG_DEBUG("GlobalObject::loadRequiredModule: module_path = ", TitaniumWindows::Utility::ConvertUTF8String(module_path));
+		TITANIUM_LOG_DEBUG("GlobalObject::loadRequiredModule: module_path = ", Utility::ConvertUTF8String(module_path));
 
 		Platform::String^ content;
 		bool hasError = false;
@@ -117,18 +114,18 @@ namespace TitaniumWindows
 
 		if (seed__.empty()) {
 			concurrency::task<StorageFile^>(StorageFile::GetFileFromPathAsync(module_path))
-				.then([&content, &hasError, &event](StorageFile^ file) {
-					return FileIO::ReadTextAsync(file, UnicodeEncoding::Utf8);
-				}, task_continuation_context::use_arbitrary())
-				.then([&content, &hasError, &event](concurrency::task<Platform::String^> task) {
+				.then([&content, &hasError, &event](concurrency::task<StorageFile^> task) {
 					try {
-						content = task.get();
-					}
-					catch (Platform::COMException^ ex) {
+						concurrency::task<Platform::String^>(FileIO::ReadTextAsync(task.get(), UnicodeEncoding::Utf8))
+							.then([&content, &hasError, &event](concurrency::task<Platform::String^> task) {
+								content = task.get();
+								event.set();
+							}, concurrency::task_continuation_context::use_arbitrary());
+					} catch (Platform::COMException^ ex) {
 						hasError = true;
+						event.set();
 					}
-					event.set();
-				}, task_continuation_context::use_arbitrary());
+				}, concurrency::task_continuation_context::use_arbitrary());
 			event.wait();
 		}
 		else {

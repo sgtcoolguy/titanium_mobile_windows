@@ -37,7 +37,11 @@ namespace TitaniumWindows
 		path_ = TitaniumWindows::Utility::ConvertString(file->Path);
 		if (boost::ends_with(path_, ".js") || boost::ends_with(path_, ".json")){
 			// TODO: We should refactor to get the IBuffer back directly, rather than converting the contents multiple times.
-			std::string contents = GlobalObject::readRequiredModule(path_);
+
+			auto js_global = get_context().get_global_object();
+			auto global = js_global.GetPrivate<TitaniumWindows::GlobalObject>();
+			TITANIUM_ASSERT(global != nullptr);
+			std::string contents = global->readRequiredModule(get_object(), path_);
 			auto buffer = CryptographicBuffer::ConvertStringToBinary(TitaniumWindows::Utility::ConvertString(contents), BinaryStringEncoding::Utf8);
 			data_ = TitaniumWindows::Utility::GetContentFromBuffer(buffer);
 		}

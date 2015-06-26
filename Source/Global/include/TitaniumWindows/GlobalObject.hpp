@@ -37,9 +37,8 @@ namespace TitaniumWindows
 #endif
 
 		static void JSExportInitialize();
-		static void SetSeed(const std::string& seed);
-		static std::string GlobalObject::readRequiredModule(const std::string& path);
-
+		void SetSeed(const std::string& seed);
+		virtual std::string readRequiredModule(const JSObject& parent, const std::string& path) const override final;
 		virtual void registerNativeModuleRequireHook(const std::vector<std::string>& supported_module_names, const std::unordered_map<std::string, JSValue>& preloaded_modules, std::function<JSValue(const std::string&)> requireCallback);
 
 	protected:
@@ -57,9 +56,14 @@ namespace TitaniumWindows
 		virtual bool requiredNativeModuleExists(const JSContext& js_context, const std::string& moduleId) const TITANIUM_NOEXCEPT override;
 		virtual JSValue requireNativeModule(const JSContext& js_context, const std::string& moduleId) TITANIUM_NOEXCEPT override;
 
-		virtual std::string readRequiredModule(const JSObject& parent, const std::string& path) const override final;
 		virtual bool requiredModuleExists(const std::string& path) const TITANIUM_NOEXCEPT override final;
 		virtual std::shared_ptr<Titanium::GlobalObject::Timer> CreateTimer(Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT override final;
+
+	private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
+		std::string seed__;
+#pragma warning(pop)
 	};
 
 }  // namespace TitaniumWindows
