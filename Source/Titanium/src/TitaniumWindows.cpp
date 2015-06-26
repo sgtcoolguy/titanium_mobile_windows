@@ -75,7 +75,7 @@ namespace TitaniumWindows
 
 	Application::Application(::Platform::String^ seed) : Application::Application()
 	{
-		GlobalObject::SetSeed(TitaniumWindows::Utility::ConvertString(seed));
+		GlobalObject::setSeed(TitaniumWindows::Utility::ConvertString(seed));
 	}
 
 	Application::~Application()
