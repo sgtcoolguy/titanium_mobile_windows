@@ -8,6 +8,7 @@
 #include "Titanium/Database/DB.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include <type_traits>
+#include <boost/algorithm/string.hpp>    
 
 namespace Titanium
 {
@@ -136,7 +137,8 @@ namespace Titanium
 		uint32_t ResultSet::fieldIndex(const std::string& name) TITANIUM_NOEXCEPT
 		{
 			for (uint32_t i = 0, len = static_cast<uint32_t>(column_names__.size()); i < len; i++) {
-				if (column_names__[i] == name) {
+				// Case insensitive string comparison 
+				if (boost::iequals(column_names__[i], name)) {
 					return i;
 				}
 			}

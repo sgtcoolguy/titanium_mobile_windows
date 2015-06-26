@@ -27,24 +27,38 @@ namespace TitaniumWindows
 			TITANIUM_LOG_DEBUG("TableView::ctor Initialize");
 		}
 
-		void TableView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		void TableView::resetTableDataBinding()
 		{
-			Titanium::UI::TableView::postCallAsConstructor(js_context, arguments);
-
-			tableview__ = ref new Windows::UI::Xaml::Controls::ListView();
-
 			collectionViewSource__ = ref new Windows::UI::Xaml::Data::CollectionViewSource();
-			collectionViewItems__  = ref new ::Platform::Collections::Vector<::Platform::Object^>();
 			collectionViewSource__->Source = collectionViewItems__;
 			collectionViewSource__->IsSourceGrouped = true;
 
 			auto binding = ref new Windows::UI::Xaml::Data::Binding();
 			binding->Source = collectionViewSource__;
 			Windows::UI::Xaml::Data::BindingOperations::SetBinding(tableview__, Windows::UI::Xaml::Controls::ListView::ItemsSourceProperty, binding);
+		}
+
+		void TableView::clearTableData(const bool& clearSections) 
+		{
+			collectionViewItems__->Clear();
+			tableViewItems__->Clear();
+			if (clearSections) {
+				sections__.clear();
+			}
+			resetTableDataBinding();
+		}
+
+		void TableView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		{
+			Titanium::UI::TableView::postCallAsConstructor(js_context, arguments);
+
+			tableview__ = ref new Windows::UI::Xaml::Controls::ListView();
+			tableViewItems__ = ref new ::Platform::Collections::Vector<ListViewItem^>();
+			collectionViewItems__ = ref new ::Platform::Collections::Vector<::Platform::Object^>();
+
+			resetTableDataBinding();
 
 			tableview__->IsItemClickEnabled = true;
-
-			tableViewItems__ = ref new ::Platform::Collections::Vector<ListViewItem^>();
 
 			Titanium::UI::TableView::setLayoutDelegate<WindowsViewLayoutDelegate>();
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
@@ -61,16 +75,19 @@ namespace TitaniumWindows
 
 		void TableView::setData(std::vector<JSObject>& data, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
+			clearTableData();
+
 			Titanium::UI::TableView::setData(data, animation);
-			tableViewItems__->Clear();
-			for (uint32_t i=0;i<data.size();i++) {
+			for (uint32_t i = 0; i<data.size(); i++) {
 				addTableItem(data[i]);
 			}
 		}
 
 		void TableView::set_sections(const std::vector<TableViewSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT
 		{
-			tableViewItems__->Clear();
+			// don't clear sections__ here, because sections may points to section__...
+			clearTableData(false);
+
 			std::vector<TableViewSection_shared_ptr_t> new_sections(sections.begin(), sections.end());
 			for (uint32_t i=0;i<new_sections.size();i++) {
 				auto section = new_sections[i]->get_object();
