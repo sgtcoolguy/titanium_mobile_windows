@@ -75,7 +75,10 @@ namespace TitaniumWindows
 
 	Application::Application(::Platform::String^ seed) : Application::Application()
 	{
-		GlobalObject::SetSeed(TitaniumWindows::Utility::ConvertString(seed));
+		auto js_global = js_context__.get_global_object();
+		auto global = js_global.GetPrivate<TitaniumWindows::GlobalObject>();
+		TITANIUM_ASSERT(global != nullptr);
+		global->SetSeed(TitaniumWindows::Utility::ConvertString(seed));
 	}
 
 	Application::~Application()
