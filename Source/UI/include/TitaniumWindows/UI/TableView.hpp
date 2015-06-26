@@ -54,7 +54,7 @@ namespace TitaniumWindows
 
 		private:
 
-			void clearTableData();
+			void clearTableData(const bool& clearSections = true);
 			void resetTableDataBinding();
 			void addTableItem(JSObject& item) TITANIUM_NOEXCEPT;
 

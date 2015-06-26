@@ -38,12 +38,13 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Data::BindingOperations::SetBinding(tableview__, Windows::UI::Xaml::Controls::ListView::ItemsSourceProperty, binding);
 		}
 
-		void TableView::clearTableData() 
+		void TableView::clearTableData(const bool& clearSections) 
 		{
 			collectionViewItems__->Clear();
 			tableViewItems__->Clear();
-			sections__.clear();
-
+			if (clearSections) {
+				sections__.clear();
+			}
 			resetTableDataBinding();
 		}
 
@@ -84,7 +85,8 @@ namespace TitaniumWindows
 
 		void TableView::set_sections(const std::vector<TableViewSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT
 		{
-			clearTableData();
+			// don't clear sections__ here, because sections may points to section__...
+			clearTableData(false);
 
 			std::vector<TableViewSection_shared_ptr_t> new_sections(sections.begin(), sections.end());
 			for (uint32_t i=0;i<new_sections.size();i++) {
