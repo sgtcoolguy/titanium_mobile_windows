@@ -9,6 +9,7 @@
 #include "Windows.UI.Xaml.Controls.DataTemplateSelector.hpp"
 #include "Windows.UI.Xaml.DataTemplate.hpp"
 #include "Windows.UI.Xaml.DependencyObject.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -64,38 +65,50 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_item = static_cast<JSObject>(_0);
- 			auto wrapper_item = object_item.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_item = object_item.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto item = wrapper_item->unwrapPlatform_Object();
 
-				auto method_result = unwrap()->SelectTemplate(item);			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DataTemplate>::Class());
+				auto method_result = unwrap()->SelectTemplate(item);
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DataTemplate>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DataTemplate>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_item = static_cast<JSObject>(_0);
- 			auto wrapper_item = object_item.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_item = object_item.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto item = wrapper_item->unwrapPlatform_Object();
 
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_container = static_cast<JSObject>(_1);
- 			auto wrapper_container = object_container.GetPrivate<Windows::UI::Xaml::DependencyObject>();
+ 
+			auto wrapper_container = object_container.GetPrivate<Windows::UI::Xaml::DependencyObject>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto container = wrapper_container->unwrapWindows_UI_Xaml_DependencyObject();
 
-				auto method_result = unwrap()->SelectTemplate(item, container);			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DataTemplate>::Class());
+				auto method_result = unwrap()->SelectTemplate(item, container);
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DataTemplate>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DataTemplate>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!

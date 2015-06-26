@@ -9,6 +9,7 @@
 #include "Windows.UI.Xaml.Data.Binding.hpp"
 #include "Windows.UI.Xaml.Data.BindingExpression.hpp"
 #include "Windows.UI.Xaml.Data.BindingExpressionBase.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -62,20 +63,24 @@ namespace Titanium
 		{
 			auto value = unwrap()->DataItem;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(BindingExpression, ParentBinding)
 		{
 			auto value = unwrap()->ParentBinding;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Data::Binding>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Data::Binding>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Data::Binding>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(BindingExpression, UpdateSource)

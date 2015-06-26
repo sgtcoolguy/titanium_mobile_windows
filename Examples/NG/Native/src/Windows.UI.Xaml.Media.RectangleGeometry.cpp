@@ -9,6 +9,7 @@
 #include "Windows.UI.Xaml.DependencyProperty.hpp"
 #include "Windows.UI.Xaml.Media.Geometry.hpp"
 #include "Windows.UI.Xaml.Media.RectangleGeometry.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -62,22 +63,35 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(RectangleGeometry, Rect)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
 			::Windows::Foundation::Rect value;
 			// Assign fields explicitly since we didn't use a constructor
-			auto object_value_X = object_value.GetProperty("X"); 			TITANIUM_ASSERT_AND_THROW(object_value_X.IsNumber(), "Expected Number");
+
+			auto object_value_X = object_value.GetProperty("X"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_X.IsNumber(), "Expected Number");
 			auto object_value_X_ = static_cast<float>(static_cast<double>(object_value_X));
-			value.X = object_value_X_;
-			auto object_value_Y = object_value.GetProperty("Y"); 			TITANIUM_ASSERT_AND_THROW(object_value_Y.IsNumber(), "Expected Number");
+
+			value.X = object_value_X_;
+
+			auto object_value_Y = object_value.GetProperty("Y"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Y.IsNumber(), "Expected Number");
 			auto object_value_Y_ = static_cast<float>(static_cast<double>(object_value_Y));
-			value.Y = object_value_Y_;
-			auto object_value_Width = object_value.GetProperty("Width"); 			TITANIUM_ASSERT_AND_THROW(object_value_Width.IsNumber(), "Expected Number");
+
+			value.Y = object_value_Y_;
+
+			auto object_value_Width = object_value.GetProperty("Width"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Width.IsNumber(), "Expected Number");
 			auto object_value_Width_ = static_cast<float>(static_cast<double>(object_value_Width));
-			value.Width = object_value_Width_;
-			auto object_value_Height = object_value.GetProperty("Height"); 			TITANIUM_ASSERT_AND_THROW(object_value_Height.IsNumber(), "Expected Number");
+
+			value.Width = object_value_Width_;
+
+			auto object_value_Height = object_value.GetProperty("Height"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Height.IsNumber(), "Expected Number");
 			auto object_value_Height_ = static_cast<float>(static_cast<double>(object_value_Height));
-			value.Height = object_value_Height_;
+
+			value.Height = object_value_Height_;
 
 			unwrap()->Rect = value;
 			return true;
@@ -87,26 +101,45 @@ namespace Titanium
 		{
 			auto value = unwrap()->Rect;
 			auto context = get_context();
-
-			auto result = context.CreateObject();			auto value_X_ = context.CreateNumber(static_cast<double>(value.X));
-			result.SetProperty("X", value_X_);
-			auto value_Y_ = context.CreateNumber(static_cast<double>(value.Y));
-			result.SetProperty("Y", value_Y_);
-			auto value_Width_ = context.CreateNumber(static_cast<double>(value.Width));
-			result.SetProperty("Width", value_Width_);
-			auto value_Height_ = context.CreateNumber(static_cast<double>(value.Height));
-			result.SetProperty("Height", value_Height_);
-			return result;
+
+			auto result = context.CreateObject();
+
+
+			auto value_X_ = context.CreateNumber(static_cast<double>(value.X));
+
+			result.SetProperty("X", value_X_);
+
+
+
+			auto value_Y_ = context.CreateNumber(static_cast<double>(value.Y));
+
+			result.SetProperty("Y", value_Y_);
+
+
+
+			auto value_Width_ = context.CreateNumber(static_cast<double>(value.Width));
+
+			result.SetProperty("Width", value_Width_);
+
+
+
+			auto value_Height_ = context.CreateNumber(static_cast<double>(value.Height));
+
+			result.SetProperty("Height", value_Height_);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(RectangleGeometry, RectProperty)
 		{
 			auto value = unwrap()->RectProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 				} // namespace Media

@@ -111,12 +111,21 @@ describe('Titanium.Database', function () {
             should(rowid).be.a.Number;
             should(rowid).be.eql(index);
 
+            // Case insensitive search
+            rowid = rows.fieldByName('ROWID');
+            should(rowid).be.a.Number;
+            should(rowid).be.eql(index);
+
             // Validate the text field
             var text = rows.field(1);
             should(text).be.a.String;
 
             // Validate the number field
             var number = rows.fieldByName('number');
+            should(number).be.a.Number;
+
+            //Case insensitive search
+            number = rows.fieldByName('NUMBER');
             should(number).be.a.Number;
 
             // Validate the test data

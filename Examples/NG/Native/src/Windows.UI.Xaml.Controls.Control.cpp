@@ -12,6 +12,7 @@
 #include "Windows.UI.Xaml.FrameworkElement.hpp"
 #include "Windows.UI.Xaml.Media.Brush.hpp"
 #include "Windows.UI.Xaml.Media.FontFamily.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -101,7 +102,8 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, FontStyle)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Text::FontStyle>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->FontStyle = value;
@@ -112,13 +114,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->FontStyle;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, FontStretch)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Text::FontStretch>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->FontStretch = value;
@@ -129,13 +133,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->FontStretch;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, FontSize)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<float>(static_cast<double>(argument));
 
 			unwrap()->FontSize = value;
@@ -146,14 +152,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->FontSize;
 			auto context = get_context();
-			auto result = context.CreateNumber(static_cast<double>(value));
-			return result;
+
+			auto result = context.CreateNumber(static_cast<double>(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, FontFamily)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::FontFamily>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::FontFamily>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Media_FontFamily();
@@ -166,20 +176,26 @@ namespace Titanium
 		{
 			auto value = unwrap()->FontFamily;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::FontFamily>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::FontFamily>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Media::FontFamily>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, FontWeight)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
 			::Windows::UI::Text::FontWeight value;
 			// Assign fields explicitly since we didn't use a constructor
-			auto object_value_Weight = object_value.GetProperty("Weight"); 			TITANIUM_ASSERT_AND_THROW(object_value_Weight.IsNumber(), "Expected Number");
+
+			auto object_value_Weight = object_value.GetProperty("Weight"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Weight.IsNumber(), "Expected Number");
 			auto object_value_Weight_ = static_cast<uint32_t>(object_value_Weight);
-			value.Weight = object_value_Weight_;
+
+			value.Weight = object_value_Weight_;
 
 			unwrap()->FontWeight = value;
 			return true;
@@ -189,14 +205,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->FontWeight;
 			auto context = get_context();
-
-			auto result = context.CreateObject();			auto value_Weight_ = context.CreateNumber(static_cast<uint32_t>(value.Weight));
-			result.SetProperty("Weight", value_Weight_);
-			return result;
+
+			auto result = context.CreateObject();
+
+
+			auto value_Weight_ = context.CreateNumber(static_cast<uint32_t>(value.Weight));
+
+			result.SetProperty("Weight", value_Weight_);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, CharacterSpacing)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<int32_t>(argument);
 
 			unwrap()->CharacterSpacing = value;
@@ -207,27 +229,42 @@ namespace Titanium
 		{
 			auto value = unwrap()->CharacterSpacing;
 			auto context = get_context();
- 			auto result = context.CreateNumber(value);
-			return result;
+ 
+			auto result = context.CreateNumber(value);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, BorderThickness)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
 			::Windows::UI::Xaml::Thickness value;
 			// Assign fields explicitly since we didn't use a constructor
-			auto object_value_Left = object_value.GetProperty("Left"); 			TITANIUM_ASSERT_AND_THROW(object_value_Left.IsNumber(), "Expected Number");
+
+			auto object_value_Left = object_value.GetProperty("Left"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Left.IsNumber(), "Expected Number");
 			auto object_value_Left_ = static_cast<float>(static_cast<double>(object_value_Left));
-			value.Left = object_value_Left_;
-			auto object_value_Top = object_value.GetProperty("Top"); 			TITANIUM_ASSERT_AND_THROW(object_value_Top.IsNumber(), "Expected Number");
+
+			value.Left = object_value_Left_;
+
+			auto object_value_Top = object_value.GetProperty("Top"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Top.IsNumber(), "Expected Number");
 			auto object_value_Top_ = static_cast<float>(static_cast<double>(object_value_Top));
-			value.Top = object_value_Top_;
-			auto object_value_Right = object_value.GetProperty("Right"); 			TITANIUM_ASSERT_AND_THROW(object_value_Right.IsNumber(), "Expected Number");
+
+			value.Top = object_value_Top_;
+
+			auto object_value_Right = object_value.GetProperty("Right"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Right.IsNumber(), "Expected Number");
 			auto object_value_Right_ = static_cast<float>(static_cast<double>(object_value_Right));
-			value.Right = object_value_Right_;
-			auto object_value_Bottom = object_value.GetProperty("Bottom"); 			TITANIUM_ASSERT_AND_THROW(object_value_Bottom.IsNumber(), "Expected Number");
+
+			value.Right = object_value_Right_;
+
+			auto object_value_Bottom = object_value.GetProperty("Bottom"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Bottom.IsNumber(), "Expected Number");
 			auto object_value_Bottom_ = static_cast<float>(static_cast<double>(object_value_Bottom));
-			value.Bottom = object_value_Bottom_;
+
+			value.Bottom = object_value_Bottom_;
 
 			unwrap()->BorderThickness = value;
 			return true;
@@ -237,22 +274,41 @@ namespace Titanium
 		{
 			auto value = unwrap()->BorderThickness;
 			auto context = get_context();
-
-			auto result = context.CreateObject();			auto value_Left_ = context.CreateNumber(static_cast<double>(value.Left));
-			result.SetProperty("Left", value_Left_);
-			auto value_Top_ = context.CreateNumber(static_cast<double>(value.Top));
-			result.SetProperty("Top", value_Top_);
-			auto value_Right_ = context.CreateNumber(static_cast<double>(value.Right));
-			result.SetProperty("Right", value_Right_);
-			auto value_Bottom_ = context.CreateNumber(static_cast<double>(value.Bottom));
-			result.SetProperty("Bottom", value_Bottom_);
-			return result;
+
+			auto result = context.CreateObject();
+
+
+			auto value_Left_ = context.CreateNumber(static_cast<double>(value.Left));
+
+			result.SetProperty("Left", value_Left_);
+
+
+
+			auto value_Top_ = context.CreateNumber(static_cast<double>(value.Top));
+
+			result.SetProperty("Top", value_Top_);
+
+
+
+			auto value_Right_ = context.CreateNumber(static_cast<double>(value.Right));
+
+			result.SetProperty("Right", value_Right_);
+
+
+
+			auto value_Bottom_ = context.CreateNumber(static_cast<double>(value.Bottom));
+
+			result.SetProperty("Bottom", value_Bottom_);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, BorderBrush)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Brush>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Brush>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Media_Brush();
@@ -265,16 +321,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->BorderBrush;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Brush>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Brush>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Media::Brush>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, Background)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Brush>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Brush>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Media_Brush();
@@ -287,14 +347,17 @@ namespace Titanium
 		{
 			auto value = unwrap()->Background;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Brush>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Brush>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Media::Brush>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, VerticalContentAlignment)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::VerticalAlignment>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->VerticalContentAlignment = value;
@@ -305,15 +368,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->VerticalContentAlignment;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, Template)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Controls::ControlTemplate>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Controls::ControlTemplate>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Controls_ControlTemplate();
@@ -326,14 +392,17 @@ namespace Titanium
 		{
 			auto value = unwrap()->Template;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Controls::ControlTemplate>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Controls::ControlTemplate>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Controls::ControlTemplate>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, TabNavigation)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::Input::KeyboardNavigationMode>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->TabNavigation = value;
@@ -344,13 +413,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->TabNavigation;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, TabIndex)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<int32_t>(argument);
 
 			unwrap()->TabIndex = value;
@@ -361,27 +432,42 @@ namespace Titanium
 		{
 			auto value = unwrap()->TabIndex;
 			auto context = get_context();
- 			auto result = context.CreateNumber(value);
-			return result;
+ 
+			auto result = context.CreateNumber(value);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, Padding)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
 			::Windows::UI::Xaml::Thickness value;
 			// Assign fields explicitly since we didn't use a constructor
-			auto object_value_Left = object_value.GetProperty("Left"); 			TITANIUM_ASSERT_AND_THROW(object_value_Left.IsNumber(), "Expected Number");
+
+			auto object_value_Left = object_value.GetProperty("Left"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Left.IsNumber(), "Expected Number");
 			auto object_value_Left_ = static_cast<float>(static_cast<double>(object_value_Left));
-			value.Left = object_value_Left_;
-			auto object_value_Top = object_value.GetProperty("Top"); 			TITANIUM_ASSERT_AND_THROW(object_value_Top.IsNumber(), "Expected Number");
+
+			value.Left = object_value_Left_;
+
+			auto object_value_Top = object_value.GetProperty("Top"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Top.IsNumber(), "Expected Number");
 			auto object_value_Top_ = static_cast<float>(static_cast<double>(object_value_Top));
-			value.Top = object_value_Top_;
-			auto object_value_Right = object_value.GetProperty("Right"); 			TITANIUM_ASSERT_AND_THROW(object_value_Right.IsNumber(), "Expected Number");
+
+			value.Top = object_value_Top_;
+
+			auto object_value_Right = object_value.GetProperty("Right"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Right.IsNumber(), "Expected Number");
 			auto object_value_Right_ = static_cast<float>(static_cast<double>(object_value_Right));
-			value.Right = object_value_Right_;
-			auto object_value_Bottom = object_value.GetProperty("Bottom"); 			TITANIUM_ASSERT_AND_THROW(object_value_Bottom.IsNumber(), "Expected Number");
+
+			value.Right = object_value_Right_;
+
+			auto object_value_Bottom = object_value.GetProperty("Bottom"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Bottom.IsNumber(), "Expected Number");
 			auto object_value_Bottom_ = static_cast<float>(static_cast<double>(object_value_Bottom));
-			value.Bottom = object_value_Bottom_;
+
+			value.Bottom = object_value_Bottom_;
 
 			unwrap()->Padding = value;
 			return true;
@@ -391,20 +477,38 @@ namespace Titanium
 		{
 			auto value = unwrap()->Padding;
 			auto context = get_context();
-
-			auto result = context.CreateObject();			auto value_Left_ = context.CreateNumber(static_cast<double>(value.Left));
-			result.SetProperty("Left", value_Left_);
-			auto value_Top_ = context.CreateNumber(static_cast<double>(value.Top));
-			result.SetProperty("Top", value_Top_);
-			auto value_Right_ = context.CreateNumber(static_cast<double>(value.Right));
-			result.SetProperty("Right", value_Right_);
-			auto value_Bottom_ = context.CreateNumber(static_cast<double>(value.Bottom));
-			result.SetProperty("Bottom", value_Bottom_);
-			return result;
+
+			auto result = context.CreateObject();
+
+
+			auto value_Left_ = context.CreateNumber(static_cast<double>(value.Left));
+
+			result.SetProperty("Left", value_Left_);
+
+
+
+			auto value_Top_ = context.CreateNumber(static_cast<double>(value.Top));
+
+			result.SetProperty("Top", value_Top_);
+
+
+
+			auto value_Right_ = context.CreateNumber(static_cast<double>(value.Right));
+
+			result.SetProperty("Right", value_Right_);
+
+
+
+			auto value_Bottom_ = context.CreateNumber(static_cast<double>(value.Bottom));
+
+			result.SetProperty("Bottom", value_Bottom_);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, IsTabStop)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
 
 			unwrap()->IsTabStop = value;
@@ -415,12 +519,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->IsTabStop;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, IsEnabled)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
 
 			unwrap()->IsEnabled = value;
@@ -431,12 +538,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->IsEnabled;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, HorizontalContentAlignment)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::HorizontalAlignment>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->HorizontalContentAlignment = value;
@@ -447,15 +557,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->HorizontalContentAlignment;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, Foreground)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Brush>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Brush>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Media_Brush();
@@ -468,25 +581,30 @@ namespace Titanium
 		{
 			auto value = unwrap()->Foreground;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Brush>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Brush>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Media::Brush>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, FocusState)
 		{
 			auto value = unwrap()->FocusState;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Control, DefaultStyleKey)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapPlatform_Object();
@@ -499,218 +617,263 @@ namespace Titanium
 		{
 			auto value = unwrap()->DefaultStyleKey;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, BackgroundProperty)
 		{
 			auto value = unwrap()->BackgroundProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, BorderBrushProperty)
 		{
 			auto value = unwrap()->BorderBrushProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, BorderThicknessProperty)
 		{
 			auto value = unwrap()->BorderThicknessProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, CharacterSpacingProperty)
 		{
 			auto value = unwrap()->CharacterSpacingProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, DefaultStyleKeyProperty)
 		{
 			auto value = unwrap()->DefaultStyleKeyProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, FocusStateProperty)
 		{
 			auto value = unwrap()->FocusStateProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, FontFamilyProperty)
 		{
 			auto value = unwrap()->FontFamilyProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, FontSizeProperty)
 		{
 			auto value = unwrap()->FontSizeProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, FontStretchProperty)
 		{
 			auto value = unwrap()->FontStretchProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, FontStyleProperty)
 		{
 			auto value = unwrap()->FontStyleProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, FontWeightProperty)
 		{
 			auto value = unwrap()->FontWeightProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, ForegroundProperty)
 		{
 			auto value = unwrap()->ForegroundProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, HorizontalContentAlignmentProperty)
 		{
 			auto value = unwrap()->HorizontalContentAlignmentProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, IsEnabledProperty)
 		{
 			auto value = unwrap()->IsEnabledProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, IsTabStopProperty)
 		{
 			auto value = unwrap()->IsTabStopProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, PaddingProperty)
 		{
 			auto value = unwrap()->PaddingProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, TabIndexProperty)
 		{
 			auto value = unwrap()->TabIndexProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, TabNavigationProperty)
 		{
 			auto value = unwrap()->TabNavigationProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, TemplateProperty)
 		{
 			auto value = unwrap()->TemplateProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Control, VerticalContentAlignmentProperty)
 		{
 			auto value = unwrap()->VerticalContentAlignmentProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(Control, ApplyTemplate)
 		{
 			auto context = get_context();
 			if (arguments.size() == 0) {
-				auto method_result = unwrap()->ApplyTemplate(); 			auto result = context.CreateBoolean(method_result); 
-				return result;
+				auto method_result = unwrap()->ApplyTemplate();
+ 
+			auto result = context.CreateBoolean(method_result); 
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -722,11 +885,15 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::FocusState>(static_cast<int32_t>(_0)); // TODO Look up enum in metadata to know what type it's value is? 
 
-				auto method_result = unwrap()->Focus(value); 			auto result = context.CreateBoolean(method_result); 
-				return result;
+				auto method_result = unwrap()->Focus(value);
+ 
+			auto result = context.CreateBoolean(method_result); 
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!

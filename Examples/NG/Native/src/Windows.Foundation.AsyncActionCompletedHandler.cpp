@@ -8,6 +8,7 @@
 
 #include "Windows.Foundation.AsyncActionCompletedHandler.hpp"
 #include "Windows.Foundation.IAsyncAction.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -55,14 +56,17 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_asyncInfo = static_cast<JSObject>(_0);
- 			auto wrapper_asyncInfo = object_asyncInfo.GetPrivate<Windows::Foundation::IAsyncAction>();
+ 
+			auto wrapper_asyncInfo = object_asyncInfo.GetPrivate<Windows::Foundation::IAsyncAction>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto asyncInfo = wrapper_asyncInfo->unwrapWindows_Foundation_IAsyncAction();
 
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
 			auto asyncStatus = static_cast<::Windows::Foundation::AsyncStatus>(static_cast<int32_t>(_1)); // TODO Look up enum in metadata to know what type it's value is? 
 
 				unwrap()->Invoke(asyncInfo, asyncStatus);

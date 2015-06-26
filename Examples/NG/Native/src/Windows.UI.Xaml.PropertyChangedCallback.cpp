@@ -9,6 +9,7 @@
 #include "Windows.UI.Xaml.DependencyObject.hpp"
 #include "Windows.UI.Xaml.DependencyPropertyChangedEventArgs.hpp"
 #include "Windows.UI.Xaml.PropertyChangedCallback.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -58,16 +59,20 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_d = static_cast<JSObject>(_0);
- 			auto wrapper_d = object_d.GetPrivate<Windows::UI::Xaml::DependencyObject>();
+ 
+			auto wrapper_d = object_d.GetPrivate<Windows::UI::Xaml::DependencyObject>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto d = wrapper_d->unwrapWindows_UI_Xaml_DependencyObject();
 
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_e = static_cast<JSObject>(_1);
- 			auto wrapper_e = object_e.GetPrivate<Windows::UI::Xaml::DependencyPropertyChangedEventArgs>();
+ 
+			auto wrapper_e = object_e.GetPrivate<Windows::UI::Xaml::DependencyPropertyChangedEventArgs>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto e = wrapper_e->unwrapWindows_UI_Xaml_DependencyPropertyChangedEventArgs();

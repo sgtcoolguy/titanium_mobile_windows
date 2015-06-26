@@ -7,6 +7,7 @@
  */
 
 #include "Windows.UI.Xaml.Data.BindingExpressionBase.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

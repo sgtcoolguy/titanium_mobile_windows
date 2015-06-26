@@ -10,6 +10,7 @@
 #include "Windows.UI.Xaml.DependencyProperty.hpp"
 #include "Windows.UI.Xaml.Media.Geometry.hpp"
 #include "Windows.UI.Xaml.Media.Transform.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -62,9 +63,11 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(Geometry, Transform)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Transform>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Transform>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Media_Transform();
@@ -77,56 +80,81 @@ namespace Titanium
 		{
 			auto value = unwrap()->Transform;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Transform>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Transform>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Media::Transform>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Geometry, Bounds)
 		{
 			auto value = unwrap()->Bounds;
 			auto context = get_context();
-
-			auto result = context.CreateObject();			auto value_X_ = context.CreateNumber(static_cast<double>(value.X));
-			result.SetProperty("X", value_X_);
-			auto value_Y_ = context.CreateNumber(static_cast<double>(value.Y));
-			result.SetProperty("Y", value_Y_);
-			auto value_Width_ = context.CreateNumber(static_cast<double>(value.Width));
-			result.SetProperty("Width", value_Width_);
-			auto value_Height_ = context.CreateNumber(static_cast<double>(value.Height));
-			result.SetProperty("Height", value_Height_);
-			return result;
+
+			auto result = context.CreateObject();
+
+
+			auto value_X_ = context.CreateNumber(static_cast<double>(value.X));
+
+			result.SetProperty("X", value_X_);
+
+
+
+			auto value_Y_ = context.CreateNumber(static_cast<double>(value.Y));
+
+			result.SetProperty("Y", value_Y_);
+
+
+
+			auto value_Width_ = context.CreateNumber(static_cast<double>(value.Width));
+
+			result.SetProperty("Width", value_Width_);
+
+
+
+			auto value_Height_ = context.CreateNumber(static_cast<double>(value.Height));
+
+			result.SetProperty("Height", value_Height_);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Geometry, Empty)
 		{
 			auto value = unwrap()->Empty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Geometry>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Geometry>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Media::Geometry>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Geometry, StandardFlatteningTolerance)
 		{
 			auto value = unwrap()->StandardFlatteningTolerance;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Geometry, TransformProperty)
 		{
 			auto value = unwrap()->TransformProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 				} // namespace Media

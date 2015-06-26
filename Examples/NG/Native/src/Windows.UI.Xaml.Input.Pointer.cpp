@@ -7,6 +7,7 @@
  */
 
 #include "Windows.UI.Xaml.Input.Pointer.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -61,33 +62,40 @@ namespace Titanium
 		{
 			auto value = unwrap()->IsInContact;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Pointer, IsInRange)
 		{
 			auto value = unwrap()->IsInRange;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Pointer, PointerDeviceType)
 		{
 			auto value = unwrap()->PointerDeviceType;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Pointer, PointerId)
 		{
 			auto value = unwrap()->PointerId;
 			auto context = get_context();
- 			auto result = context.CreateNumber(value);
-			return result;
+ 
+			auto result = context.CreateNumber(value);
+
+			return result;
 		}
 
 				} // namespace Input

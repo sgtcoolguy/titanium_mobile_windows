@@ -8,6 +8,7 @@
 
 #include "Windows.Foundation.AsyncActionCompletedHandler.hpp"
 #include "Windows.Foundation.IAsyncAction.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -53,9 +54,11 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(IAsyncAction, Completed)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::Foundation::AsyncActionCompletedHandler>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::Foundation::AsyncActionCompletedHandler>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_Foundation_AsyncActionCompletedHandler();
@@ -68,10 +71,12 @@ namespace Titanium
 		{
 			auto value = unwrap()->Completed;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::Foundation::AsyncActionCompletedHandler>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::Foundation::AsyncActionCompletedHandler>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::Foundation::AsyncActionCompletedHandler>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(IAsyncAction, GetResults)

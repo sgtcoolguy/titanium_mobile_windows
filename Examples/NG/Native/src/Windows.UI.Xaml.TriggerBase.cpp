@@ -8,6 +8,7 @@
 
 #include "Windows.UI.Xaml.DependencyObject.hpp"
 #include "Windows.UI.Xaml.TriggerBase.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

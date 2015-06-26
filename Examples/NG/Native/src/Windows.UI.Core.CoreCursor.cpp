@@ -7,6 +7,7 @@
  */
 
 #include "Windows.UI.Core.CoreCursor.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -27,9 +28,11 @@ namespace Titanium
 		{
 			TITANIUM_LOG_DEBUG("CoreCursor::postCallAsConstructor ", this);
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto type = static_cast<::Windows::UI::Core::CoreCursorType>(static_cast<int32_t>(_0)); // TODO Look up enum in metadata to know what type it's value is? 
-				auto _1 = arguments.at(1); 			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
+				auto _1 = arguments.at(1); 
+			TITANIUM_ASSERT_AND_THROW(_1.IsNumber(), "Expected Number");
 			auto id = static_cast<uint32_t>(_1);
 
 				wrapped__ = ref new ::Windows::UI::Core::CoreCursor(type, id);
@@ -65,17 +68,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->Id;
 			auto context = get_context();
- 			auto result = context.CreateNumber(value);
-			return result;
+ 
+			auto result = context.CreateNumber(value);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreCursor, Type)
 		{
 			auto value = unwrap()->Type;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 			} // namespace Core

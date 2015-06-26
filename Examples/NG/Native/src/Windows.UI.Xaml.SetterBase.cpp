@@ -8,6 +8,7 @@
 
 #include "Windows.UI.Xaml.DependencyObject.hpp"
 #include "Windows.UI.Xaml.SetterBase.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -57,8 +58,10 @@ namespace Titanium
 		{
 			auto value = unwrap()->IsSealed;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 			} // namespace Xaml

@@ -48,10 +48,3 @@ We hook native type loading off of require calls. If we are unable to load a fil
 Loading of native types through require is done by registering a NativeModuleLoader subclass on the global. Right now, the classes and the hook are all generated in the TitaniumWindows module. Ideally this would be hooked into the build process of the user's app and we could crawl the app for native requires pre-build to generate our listing of "seed" types and generate all the wrappers and hook in the user's app.
 
 Please note that this approach is very similar to our Windows Hyperloop approach - we statically generate native code at build time to handle the mapping of native APIs. This approach involves no special syntax, but suffers from issues of bloating the app with the native wrappers.
-
-## Alternative Approaches
-There is an alternate, but scarier approach - which is to dynamically load native types using RoActivateInstance and then use virtual function table pointers to handle method invocation. Obviously that is a more low-level approach, but would solve any "bloating" issues with increasing app size due to wrappers.
-- https://msdn.microsoft.com/en-uS/office/office365/hh699869.aspx
-- http://blogs.microsoft.co.il/sasha/2011/09/17/under-the-covers-of-winrt-using-c/
-- http://www.codeproject.com/Articles/153096/Intercepting-Calls-to-COM-Interfaces
-- http://blogs.msdn.com/b/oldnewthing/archive/2004/02/05/68017.aspx

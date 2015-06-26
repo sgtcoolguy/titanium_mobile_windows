@@ -7,6 +7,7 @@
  */
 
 #include "Windows.UI.Core.DispatchedHandler.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

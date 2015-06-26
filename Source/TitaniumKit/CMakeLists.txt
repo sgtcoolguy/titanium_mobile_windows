@@ -314,6 +314,7 @@ set(SOURCE_Analytics
   include/Titanium/Analytics.hpp
   include/Titanium/analytics_js.hpp
   src/Analytics.cpp
+  src/analytics.js
 )
 
 set(SOURCE_XML

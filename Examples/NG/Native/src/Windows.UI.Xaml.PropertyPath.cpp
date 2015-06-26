@@ -8,6 +8,7 @@
 
 #include "Windows.UI.Xaml.DependencyObject.hpp"
 #include "Windows.UI.Xaml.PropertyPath.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -28,7 +29,8 @@ namespace Titanium
 		{
 			TITANIUM_LOG_DEBUG("PropertyPath::postCallAsConstructor ", this);
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0); 			TITANIUM_ASSERT_AND_THROW(_0.IsString(), "Expected String");
+				auto _0 = arguments.at(0); 
+			TITANIUM_ASSERT_AND_THROW(_0.IsString(), "Expected String");
 			auto path = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(_0));
 
 				wrapped__ = ref new ::Windows::UI::Xaml::PropertyPath(path);
@@ -63,8 +65,10 @@ namespace Titanium
 		{
 			auto value = unwrap()->Path;
 			auto context = get_context();
- 			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
-			return result;
+ 
+			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
+
+			return result;
 		}
 
 			} // namespace Xaml

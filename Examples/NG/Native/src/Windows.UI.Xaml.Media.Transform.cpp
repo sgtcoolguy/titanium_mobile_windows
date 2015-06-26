@@ -8,6 +8,7 @@
 
 #include "Windows.UI.Xaml.Media.GeneralTransform.hpp"
 #include "Windows.UI.Xaml.Media.Transform.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

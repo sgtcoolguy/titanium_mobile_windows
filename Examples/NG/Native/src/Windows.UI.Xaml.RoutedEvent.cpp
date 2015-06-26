@@ -7,6 +7,7 @@
  */
 
 #include "Windows.UI.Xaml.RoutedEvent.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

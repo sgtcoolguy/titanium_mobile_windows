@@ -10,6 +10,7 @@
 #include "Windows.UI.Xaml.DependencyProperty.hpp"
 #include "Windows.UI.Xaml.Media.Brush.hpp"
 #include "Windows.UI.Xaml.Media.Transform.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -63,9 +64,11 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(Brush, Transform)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Transform>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Transform>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Media_Transform();
@@ -78,16 +81,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->Transform;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Transform>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Transform>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Media::Transform>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Brush, RelativeTransform)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Transform>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Media::Transform>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Media_Transform();
@@ -100,14 +107,17 @@ namespace Titanium
 		{
 			auto value = unwrap()->RelativeTransform;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Transform>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Media::Transform>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Media::Transform>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Brush, Opacity)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<float>(static_cast<double>(argument));
 
 			unwrap()->Opacity = value;
@@ -118,38 +128,46 @@ namespace Titanium
 		{
 			auto value = unwrap()->Opacity;
 			auto context = get_context();
-			auto result = context.CreateNumber(static_cast<double>(value));
-			return result;
+
+			auto result = context.CreateNumber(static_cast<double>(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Brush, OpacityProperty)
 		{
 			auto value = unwrap()->OpacityProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Brush, RelativeTransformProperty)
 		{
 			auto value = unwrap()->RelativeTransformProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Brush, TransformProperty)
 		{
 			auto value = unwrap()->TransformProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 				} // namespace Media

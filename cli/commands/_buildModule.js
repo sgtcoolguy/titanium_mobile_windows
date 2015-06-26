@@ -16,6 +16,7 @@ var archiver = require('archiver'),
 	appc = require('node-appc'),
 	Builder = require('titanium-sdk/lib/builder'),
 	fs = require('fs'),
+	os = require('os'),
 	wrench = require('wrench'),
 	path = require('path'),
 	windowslib = require('windowslib'),
@@ -145,6 +146,10 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 	var _t = this;
 
 	function build(sln, config, arch, next) {
+		var nativeAssetsDir = path.dirname(sln),
+			vcxproj = path.join(nativeAssetsDir, _t.manifest.moduleIdAsIdentifier+'.vcxproj'),
+			vcxContent,
+			buildPath;
 		// user may skip specific architecture by using CLI.
 		// at least we are skipping WindowsStore.ARM for now
 		if (!fs.existsSync(sln)) {
@@ -152,11 +157,38 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 			next();
 			return;
 		}
+
+		vcxContent = fs.readFileSync(vcxproj, 'utf8');
+		// Check the build output dir that the module is set up for.
+		// If it doesn't exist, copy our local copy of everything over to it.
+		buildPath = path.resolve(vcxContent.match(/<OutDir .+?>(.+?)<\/OutDir>/)[1], '..');
+		if (buildPath != nativeAssetsDir) {
+			fs.existsSync(buildPath) && wrench.rmdirSyncRecursive(buildPath);
+			// make sure destination exists
+			fs.existsSync(buildPath) || wrench.mkdirSyncRecursive(buildPath);
+			wrench.copyDirSyncRecursive(nativeAssetsDir, buildPath, {
+				forceDelete: true
+			});
+			sln = path.join(buildPath, _t.manifest.moduleIdAsIdentifier+'.vcxproj');
+		}
+
 		var p = spawn(_t.windowsInfo.selectedVisualStudio.vcvarsall, [
 			'&&', 'MSBuild', '/m', '/p:Platform=' + arch, '/p:Configuration=' + config, sln
 		]);
 		p.stdout.on('data', function (data) {
-			_t.logger.info(data.toString().trim());
+			var line = data.toString().trim();
+			if (line.indexOf('error ') >= 0) {
+				_t.logger.warn(line);
+			}
+			else if (line.indexOf('warning ') >= 0) {
+				_t.logger.warn(line);
+			}
+			else if (line.indexOf(':\\') === -1) {
+				_t.logger.debug(line);
+			}
+			else {
+				_t.logger.trace(line);
+			}
 		});
 		p.stderr.on('data', function (data) {
 			_t.logger.error(data.toString().trim());
@@ -173,8 +205,10 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 	var archs = _t.manifest.architectures.split(' ');
 	async.eachSeries(types, function(type, next_type) {
 		async.eachSeries(archs, function(arch, next_arch) {
-			var architecture = vs_architectures[arch];
-			build(path.resolve(_t.projectDir, type+'.'+architecture, _t.manifest.moduleIdAsIdentifier+'.sln'), configuration, architecture, next_arch);
+			var architecture = vs_architectures[arch],
+				sln = path.resolve(_t.projectDir, type+'.'+architecture, _t.manifest.moduleIdAsIdentifier+'.sln');
+
+			build(sln, configuration, architecture, next_arch);
 		}, function(err) {
 			if (err) {
 				throw err;
@@ -261,6 +295,12 @@ WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 
 			var moduleSrc = path.join(moduleProjectDir, configuration, projectname),
 				moduleDst = path.join(moduleDir, typesMin[index], arch, projectname);
+
+			// We may have built in temp because of long path issues!
+			// Check to see if the dll exists in normal spot, if not, fall back to trying temp location!
+			if (!fs.existsSync(moduleSrc + '.dll')) {
+				moduleSrc = path.join(os.tmpdir(), path.basename(path.dirname(_t.projectDir)), path.basename(moduleProjectDir), configuration, projectname);
+			}
 
 			// create module directory
 			wrench.mkdirSyncRecursive(path.join(moduleDir, typesMin[index], arch));
