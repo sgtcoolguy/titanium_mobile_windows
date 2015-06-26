@@ -10,6 +10,7 @@
 #include "Windows.UI.Xaml.Controls.UserControl.hpp"
 #include "Windows.UI.Xaml.DependencyProperty.hpp"
 #include "Windows.UI.Xaml.UIElement.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -63,9 +64,11 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(UserControl, Content)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::UIElement>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::UIElement>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_UIElement();
@@ -78,20 +81,24 @@ namespace Titanium
 		{
 			auto value = unwrap()->Content;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::UIElement>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::UIElement>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::UIElement>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(UserControl, ContentProperty)
 		{
 			auto value = unwrap()->ContentProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 				} // namespace Controls

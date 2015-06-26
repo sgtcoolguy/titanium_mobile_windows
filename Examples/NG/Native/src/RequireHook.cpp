@@ -7,6 +7,7 @@
 */
 #include "RequireHook.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 #include "HAL/HAL.hpp"
 #include <collection.h>
 

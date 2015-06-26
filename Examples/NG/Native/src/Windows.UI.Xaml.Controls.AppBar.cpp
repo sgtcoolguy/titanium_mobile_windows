@@ -9,6 +9,7 @@
 #include "Windows.UI.Xaml.Controls.AppBar.hpp"
 #include "Windows.UI.Xaml.Controls.ContentControl.hpp"
 #include "Windows.UI.Xaml.DependencyProperty.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -64,7 +65,8 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(AppBar, IsSticky)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
 
 			unwrap()->IsSticky = value;
@@ -75,12 +77,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->IsSticky;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(AppBar, IsOpen)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsBoolean(), "Expected boolean");
 			auto value = static_cast<bool>(argument);
 
 			unwrap()->IsOpen = value;
@@ -91,28 +96,34 @@ namespace Titanium
 		{
 			auto value = unwrap()->IsOpen;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(AppBar, IsOpenProperty)
 		{
 			auto value = unwrap()->IsOpenProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(AppBar, IsStickyProperty)
 		{
 			auto value = unwrap()->IsStickyProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 				} // namespace Controls

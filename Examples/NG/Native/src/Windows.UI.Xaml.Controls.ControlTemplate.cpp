@@ -8,6 +8,7 @@
 
 #include "Windows.UI.Xaml.Controls.ControlTemplate.hpp"
 #include "Windows.UI.Xaml.FrameworkTemplate.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -60,16 +61,23 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(ControlTemplate, TargetType)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
 			::Windows::UI::Xaml::Interop::TypeName value;
 			// Assign fields explicitly since we didn't use a constructor
-			auto object_value_Name = object_value.GetProperty("Name"); 			TITANIUM_ASSERT_AND_THROW(object_value_Name.IsString(), "Expected String");
+
+			auto object_value_Name = object_value.GetProperty("Name"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Name.IsString(), "Expected String");
 			auto object_value_Name_ = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(object_value_Name));
-			value.Name = object_value_Name_;
-			auto object_value_Kind = object_value.GetProperty("Kind");			TITANIUM_ASSERT_AND_THROW(object_value_Kind.IsNumber(), "Expected Number");
+
+			value.Name = object_value_Name_;
+
+			auto object_value_Kind = object_value.GetProperty("Kind");
+			TITANIUM_ASSERT_AND_THROW(object_value_Kind.IsNumber(), "Expected Number");
 			auto object_value_Kind_ = static_cast<::Windows::UI::Xaml::Interop::TypeKind>(static_cast<int32_t>(object_value_Kind)); // TODO Look up enum in metadata to know what type it's value is? 
-			value.Kind = object_value_Kind_;
+
+			value.Kind = object_value_Kind_;
 
 			unwrap()->TargetType = value;
 			return true;
@@ -79,13 +87,21 @@ namespace Titanium
 		{
 			auto value = unwrap()->TargetType;
 			auto context = get_context();
-
-			auto result = context.CreateObject(); 			auto value_Name_ = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value.Name));
-			result.SetProperty("Name", value_Name_);
-
+
+			auto result = context.CreateObject();
+
+ 
+			auto value_Name_ = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value.Name));
+
+			result.SetProperty("Name", value_Name_);
+
+
+
 			auto value_Kind_ = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value.Kind))); // FIXME What if the enum isn't an int based one?!
-			result.SetProperty("Kind", value_Kind_);
-			return result;
+
+			result.SetProperty("Kind", value_Kind_);
+
+			return result;
 		}
 
 				} // namespace Controls

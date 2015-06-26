@@ -8,6 +8,7 @@
 
 #include "Windows.UI.Xaml.Documents.Inline.hpp"
 #include "Windows.UI.Xaml.Documents.TextElement.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

@@ -11,6 +11,7 @@
 #include "Windows.UI.Xaml.Controls.Page.hpp"
 #include "Windows.UI.Xaml.Controls.UserControl.hpp"
 #include "Windows.UI.Xaml.DependencyProperty.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -69,9 +70,11 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(Page, TopAppBar)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Controls::AppBar>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Controls::AppBar>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Controls_AppBar();
@@ -84,14 +87,17 @@ namespace Titanium
 		{
 			auto value = unwrap()->TopAppBar;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Controls::AppBar>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Controls::AppBar>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Controls::AppBar>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Page, NavigationCacheMode)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::Navigation::NavigationCacheMode>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->NavigationCacheMode = value;
@@ -102,15 +108,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->NavigationCacheMode;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Page, BottomAppBar)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Controls::AppBar>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Controls::AppBar>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Controls_AppBar();
@@ -123,50 +132,60 @@ namespace Titanium
 		{
 			auto value = unwrap()->BottomAppBar;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Controls::AppBar>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Controls::AppBar>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Controls::AppBar>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Page, Frame)
 		{
 			auto value = unwrap()->Frame;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Controls::Frame>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Controls::Frame>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Controls::Frame>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Page, BottomAppBarProperty)
 		{
 			auto value = unwrap()->BottomAppBarProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Page, FrameProperty)
 		{
 			auto value = unwrap()->FrameProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(Page, TopAppBarProperty)
 		{
 			auto value = unwrap()->TopAppBarProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 				} // namespace Controls

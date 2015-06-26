@@ -10,6 +10,7 @@
 #include "Windows.UI.Core.CoreDispatcher.hpp"
 #include "Windows.UI.Core.DispatchedHandler.hpp"
 #include "Windows.UI.Core.IdleDispatchedHandler.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -62,7 +63,8 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(CoreDispatcher, CurrentPriority)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Core::CoreDispatcherPriority>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->CurrentPriority = value;
@@ -73,24 +75,28 @@ namespace Titanium
 		{
 			auto value = unwrap()->CurrentPriority;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(CoreDispatcher, HasThreadAccess)
 		{
 			auto value = unwrap()->HasThreadAccess;
 			auto context = get_context();
- 			auto result = context.CreateBoolean(value); 
-			return result;
+ 
+			auto result = context.CreateBoolean(value); 
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(CoreDispatcher, ProcessEvents)
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto options = static_cast<::Windows::UI::Core::CoreProcessEventsOption>(static_cast<int32_t>(_0)); // TODO Look up enum in metadata to know what type it's value is? 
 
 				unwrap()->ProcessEvents(options);
@@ -106,20 +112,26 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto priority = static_cast<::Windows::UI::Core::CoreDispatcherPriority>(static_cast<int32_t>(_0)); // TODO Look up enum in metadata to know what type it's value is? 
 
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_agileCallback = static_cast<JSObject>(_1);
- 			auto wrapper_agileCallback = object_agileCallback.GetPrivate<Windows::UI::Core::DispatchedHandler>();
+ 
+			auto wrapper_agileCallback = object_agileCallback.GetPrivate<Windows::UI::Core::DispatchedHandler>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto agileCallback = wrapper_agileCallback->unwrapWindows_UI_Core_DispatchedHandler();
 
-				auto method_result = unwrap()->RunAsync(priority, agileCallback);			auto result = context.CreateObject(JSExport<Windows::Foundation::IAsyncAction>::Class());
+				auto method_result = unwrap()->RunAsync(priority, agileCallback);
+
+			auto result = context.CreateObject(JSExport<Windows::Foundation::IAsyncAction>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::Foundation::IAsyncAction>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -131,17 +143,22 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_agileCallback = static_cast<JSObject>(_0);
- 			auto wrapper_agileCallback = object_agileCallback.GetPrivate<Windows::UI::Core::IdleDispatchedHandler>();
+ 
+			auto wrapper_agileCallback = object_agileCallback.GetPrivate<Windows::UI::Core::IdleDispatchedHandler>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto agileCallback = wrapper_agileCallback->unwrapWindows_UI_Core_IdleDispatchedHandler();
 
-				auto method_result = unwrap()->RunIdleAsync(agileCallback);			auto result = context.CreateObject(JSExport<Windows::Foundation::IAsyncAction>::Class());
+				auto method_result = unwrap()->RunIdleAsync(agileCallback);
+
+			auto result = context.CreateObject(JSExport<Windows::Foundation::IAsyncAction>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::Foundation::IAsyncAction>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -153,16 +170,23 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsNumber(), "Expected Number");
 			auto priority = static_cast<::Windows::UI::Core::CoreDispatcherPriority>(static_cast<int32_t>(_0)); // TODO Look up enum in metadata to know what type it's value is? 
 
-				auto method_result = unwrap()->ShouldYield(priority); 			auto result = context.CreateBoolean(method_result); 
-				return result;
+				auto method_result = unwrap()->ShouldYield(priority);
+ 
+			auto result = context.CreateBoolean(method_result); 
+
+				return result;
 			}
 
 			if (arguments.size() == 0) {
-				auto method_result = unwrap()->ShouldYield(); 			auto result = context.CreateBoolean(method_result); 
-				return result;
+				auto method_result = unwrap()->ShouldYield();
+ 
+			auto result = context.CreateBoolean(method_result); 
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!

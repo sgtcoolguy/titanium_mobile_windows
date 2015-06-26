@@ -7,6 +7,7 @@
  */
 
 // INSERT_INCLUDES
+#include "Titanium/detail/TiImpl.hpp"
 #include "Platform.Object.hpp"
 #include "Windows.Foundation.AsyncActionCompletedHandler.hpp"
 #include "Windows.Foundation.Collections.IPropertySet.hpp"

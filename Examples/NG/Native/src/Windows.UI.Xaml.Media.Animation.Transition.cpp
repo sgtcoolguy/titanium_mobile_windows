@@ -8,6 +8,7 @@
 
 #include "Windows.UI.Xaml.DependencyObject.hpp"
 #include "Windows.UI.Xaml.Media.Animation.Transition.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {

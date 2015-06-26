@@ -10,6 +10,7 @@
 #include "Windows.Foundation.Uri.hpp"
 #include "Windows.UI.Xaml.DependencyObject.hpp"
 #include "Windows.UI.Xaml.ResourceDictionary.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -73,14 +74,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->Size;
 			auto context = get_context();
- 			auto result = context.CreateNumber(value);
-			return result;
+ 
+			auto result = context.CreateNumber(value);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(ResourceDictionary, Source)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::Foundation::Uri>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::Foundation::Uri>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_Foundation_Uri();
@@ -93,67 +98,98 @@ namespace Titanium
 		{
 			auto value = unwrap()->Source;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::Foundation::Uri>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::Foundation::Uri>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::Foundation::Uri>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(ResourceDictionary, MergedDictionaries)
 		{
 			auto value = unwrap()->MergedDictionaries;
 			auto context = get_context();
-			std::vector<JSValue> result_vector;
+
+			std::vector<JSValue> result_vector;
 			for (uint32_t i = 0; i < value->Size; ++i) {
-							auto value_tmp = context.CreateObject(JSExport<Windows::UI::Xaml::ResourceDictionary>::Class());
+				
+
+			auto value_tmp = context.CreateObject(JSExport<Windows::UI::Xaml::ResourceDictionary>::Class());
 			auto value_tmp_wrapper = value_tmp.GetPrivate<Windows::UI::Xaml::ResourceDictionary>();
 			value_tmp_wrapper->wrap(value->GetAt(i));
-        		result_vector.push_back(value_tmp);
+
+
+        		result_vector.push_back(value_tmp);
 			}
 
 			auto result = get_context().CreateArray(result_vector);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(ResourceDictionary, ThemeDictionaries)
 		{
 			auto value = unwrap()->ThemeDictionaries;
 			auto context = get_context();
-			auto result_iter = value->First();
-						std::vector<JSValue> result_vector;
+
+
+			auto result_iter = value->First();
+			
+			std::vector<JSValue> result_vector;
 			while (result_iter->HasCurrent) {
-							auto result_iter_tmp = context.CreateObject();
-						auto result_iter_tmp_key_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
+				
+
+			auto result_iter_tmp = context.CreateObject();
+			
+
+			auto result_iter_tmp_key_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_iter_tmp_key_tmp_wrapper = result_iter_tmp_key_tmp.GetPrivate<Platform::Object>();
 			result_iter_tmp_key_tmp_wrapper->wrap(result_iter->Current->Key);
-						auto result_iter_tmp_value_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
+
+
+			
+
+			auto result_iter_tmp_value_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_iter_tmp_value_tmp_wrapper = result_iter_tmp_value_tmp.GetPrivate<Platform::Object>();
 			result_iter_tmp_value_tmp_wrapper->wrap(result_iter->Current->Value);
-        	result_iter_tmp.SetProperty("key", result_iter_tmp_key_tmp);
+
+
+        	result_iter_tmp.SetProperty("key", result_iter_tmp_key_tmp);
         	result_iter_tmp.SetProperty("value", result_iter_tmp_value_tmp);
-        		result_vector.push_back(result_iter_tmp);
+
+
+        		result_vector.push_back(result_iter_tmp);
         		result_iter->MoveNext();
 			}
 
 			auto result = get_context().CreateArray(result_vector);
-			return result;
+
+
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(ResourceDictionary, Lookup)
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_key = static_cast<JSObject>(_0);
- 			auto wrapper_key = object_key.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_key = object_key.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto key = wrapper_key->unwrapPlatform_Object();
 
-				auto method_result = unwrap()->Lookup(key);			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+				auto method_result = unwrap()->Lookup(key);
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -165,15 +201,20 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_key = static_cast<JSObject>(_0);
- 			auto wrapper_key = object_key.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_key = object_key.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto key = wrapper_key->unwrapPlatform_Object();
 
-				auto method_result = unwrap()->HasKey(key); 			auto result = context.CreateBoolean(method_result); 
-				return result;
+				auto method_result = unwrap()->HasKey(key);
+ 
+			auto result = context.CreateBoolean(method_result); 
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -185,24 +226,43 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 0) {
-				auto method_result = unwrap()->GetView();			auto result_iter = method_result->First();
-						std::vector<JSValue> result_vector;
+				auto method_result = unwrap()->GetView();
+
+
+			auto result_iter = method_result->First();
+			
+			std::vector<JSValue> result_vector;
 			while (result_iter->HasCurrent) {
-							auto result_iter_tmp = context.CreateObject();
-						auto result_iter_tmp_key_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
+				
+
+			auto result_iter_tmp = context.CreateObject();
+			
+
+			auto result_iter_tmp_key_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_iter_tmp_key_tmp_wrapper = result_iter_tmp_key_tmp.GetPrivate<Platform::Object>();
 			result_iter_tmp_key_tmp_wrapper->wrap(result_iter->Current->Key);
-						auto result_iter_tmp_value_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
+
+
+			
+
+			auto result_iter_tmp_value_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_iter_tmp_value_tmp_wrapper = result_iter_tmp_value_tmp.GetPrivate<Platform::Object>();
 			result_iter_tmp_value_tmp_wrapper->wrap(result_iter->Current->Value);
-        	result_iter_tmp.SetProperty("key", result_iter_tmp_key_tmp);
+
+
+        	result_iter_tmp.SetProperty("key", result_iter_tmp_key_tmp);
         	result_iter_tmp.SetProperty("value", result_iter_tmp_value_tmp);
-        		result_vector.push_back(result_iter_tmp);
+
+
+        		result_vector.push_back(result_iter_tmp);
         		result_iter->MoveNext();
 			}
 
 			auto result = get_context().CreateArray(result_vector);
-				return result;
+
+
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -214,22 +274,29 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_key = static_cast<JSObject>(_0);
- 			auto wrapper_key = object_key.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_key = object_key.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto key = wrapper_key->unwrapPlatform_Object();
 
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(_1);
- 			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapPlatform_Object();
 
-				auto method_result = unwrap()->Insert(key, value); 			auto result = context.CreateBoolean(method_result); 
-				return result;
+				auto method_result = unwrap()->Insert(key, value);
+ 
+			auto result = context.CreateBoolean(method_result); 
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -241,9 +308,11 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_key = static_cast<JSObject>(_0);
- 			auto wrapper_key = object_key.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_key = object_key.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto key = wrapper_key->unwrapPlatform_Object();
@@ -274,23 +343,38 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 0) {
-				auto method_result = unwrap()->First();			std::vector<JSValue> result_vector;
+				auto method_result = unwrap()->First();
+
+			std::vector<JSValue> result_vector;
 			while (method_result->HasCurrent) {
-							auto method_result_tmp = context.CreateObject();
-						auto method_result_tmp_key_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
+				
+
+			auto method_result_tmp = context.CreateObject();
+			
+
+			auto method_result_tmp_key_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto method_result_tmp_key_tmp_wrapper = method_result_tmp_key_tmp.GetPrivate<Platform::Object>();
 			method_result_tmp_key_tmp_wrapper->wrap(method_result->Current->Key);
-						auto method_result_tmp_value_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
+
+
+			
+
+			auto method_result_tmp_value_tmp = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto method_result_tmp_value_tmp_wrapper = method_result_tmp_value_tmp.GetPrivate<Platform::Object>();
 			method_result_tmp_value_tmp_wrapper->wrap(method_result->Current->Value);
-        	method_result_tmp.SetProperty("key", method_result_tmp_key_tmp);
+
+
+        	method_result_tmp.SetProperty("key", method_result_tmp_key_tmp);
         	method_result_tmp.SetProperty("value", method_result_tmp_value_tmp);
-        		result_vector.push_back(method_result_tmp);
+
+
+        		result_vector.push_back(method_result_tmp);
         		method_result->MoveNext();
 			}
 
 			auto result = get_context().CreateArray(result_vector);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!

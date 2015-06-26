@@ -8,6 +8,7 @@
 
 #include "Windows.UI.Xaml.Data.RelativeSource.hpp"
 #include "Windows.UI.Xaml.DependencyObject.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -60,7 +61,8 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(RelativeSource, Mode)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::Data::RelativeSourceMode>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->Mode = value;
@@ -71,9 +73,10 @@ namespace Titanium
 		{
 			auto value = unwrap()->Mode;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 				} // namespace Data

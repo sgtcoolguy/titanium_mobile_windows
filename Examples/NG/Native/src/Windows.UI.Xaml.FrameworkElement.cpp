@@ -16,6 +16,7 @@
 #include "Windows.UI.Xaml.Style.hpp"
 #include "Windows.UI.Xaml.TriggerCollection.hpp"
 #include "Windows.UI.Xaml.UIElement.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -104,7 +105,8 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, Language)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
 			auto value = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(argument));
 
 			unwrap()->Language = value;
@@ -115,12 +117,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->Language;
 			auto context = get_context();
- 			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
-			return result;
+ 
+			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, HorizontalAlignment)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::HorizontalAlignment>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->HorizontalAlignment = value;
@@ -131,13 +136,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->HorizontalAlignment;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, Height)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<float>(static_cast<double>(argument));
 
 			unwrap()->Height = value;
@@ -148,12 +155,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->Height;
 			auto context = get_context();
-			auto result = context.CreateNumber(static_cast<double>(value));
-			return result;
+
+			auto result = context.CreateNumber(static_cast<double>(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, MaxWidth)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<float>(static_cast<double>(argument));
 
 			unwrap()->MaxWidth = value;
@@ -164,12 +174,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->MaxWidth;
 			auto context = get_context();
-			auto result = context.CreateNumber(static_cast<double>(value));
-			return result;
+
+			auto result = context.CreateNumber(static_cast<double>(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, FlowDirection)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::FlowDirection>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->FlowDirection = value;
@@ -180,15 +193,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->FlowDirection;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, DataContext)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapPlatform_Object();
@@ -201,14 +217,17 @@ namespace Titanium
 		{
 			auto value = unwrap()->DataContext;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, MaxHeight)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<float>(static_cast<double>(argument));
 
 			unwrap()->MaxHeight = value;
@@ -219,12 +238,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->MaxHeight;
 			auto context = get_context();
-			auto result = context.CreateNumber(static_cast<double>(value));
-			return result;
+
+			auto result = context.CreateNumber(static_cast<double>(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, Name)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
 			auto value = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(argument));
 
 			unwrap()->Name = value;
@@ -235,12 +257,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->Name;
 			auto context = get_context();
- 			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
-			return result;
+ 
+			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, Width)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<float>(static_cast<double>(argument));
 
 			unwrap()->Width = value;
@@ -251,12 +276,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->Width;
 			auto context = get_context();
-			auto result = context.CreateNumber(static_cast<double>(value));
-			return result;
+
+			auto result = context.CreateNumber(static_cast<double>(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, VerticalAlignment)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::VerticalAlignment>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->VerticalAlignment = value;
@@ -267,15 +295,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->VerticalAlignment;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, Tag)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapPlatform_Object();
@@ -288,16 +319,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->Tag;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, Style)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Style>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Style>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Style();
@@ -310,16 +345,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->Style;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Style>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Style>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Style>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, Resources)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::ResourceDictionary>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::ResourceDictionary>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_ResourceDictionary();
@@ -332,29 +371,44 @@ namespace Titanium
 		{
 			auto value = unwrap()->Resources;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::ResourceDictionary>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::ResourceDictionary>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::ResourceDictionary>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, Margin)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
 			::Windows::UI::Xaml::Thickness value;
 			// Assign fields explicitly since we didn't use a constructor
-			auto object_value_Left = object_value.GetProperty("Left"); 			TITANIUM_ASSERT_AND_THROW(object_value_Left.IsNumber(), "Expected Number");
+
+			auto object_value_Left = object_value.GetProperty("Left"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Left.IsNumber(), "Expected Number");
 			auto object_value_Left_ = static_cast<float>(static_cast<double>(object_value_Left));
-			value.Left = object_value_Left_;
-			auto object_value_Top = object_value.GetProperty("Top"); 			TITANIUM_ASSERT_AND_THROW(object_value_Top.IsNumber(), "Expected Number");
+
+			value.Left = object_value_Left_;
+
+			auto object_value_Top = object_value.GetProperty("Top"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Top.IsNumber(), "Expected Number");
 			auto object_value_Top_ = static_cast<float>(static_cast<double>(object_value_Top));
-			value.Top = object_value_Top_;
-			auto object_value_Right = object_value.GetProperty("Right"); 			TITANIUM_ASSERT_AND_THROW(object_value_Right.IsNumber(), "Expected Number");
+
+			value.Top = object_value_Top_;
+
+			auto object_value_Right = object_value.GetProperty("Right"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Right.IsNumber(), "Expected Number");
 			auto object_value_Right_ = static_cast<float>(static_cast<double>(object_value_Right));
-			value.Right = object_value_Right_;
-			auto object_value_Bottom = object_value.GetProperty("Bottom"); 			TITANIUM_ASSERT_AND_THROW(object_value_Bottom.IsNumber(), "Expected Number");
+
+			value.Right = object_value_Right_;
+
+			auto object_value_Bottom = object_value.GetProperty("Bottom"); 
+			TITANIUM_ASSERT_AND_THROW(object_value_Bottom.IsNumber(), "Expected Number");
 			auto object_value_Bottom_ = static_cast<float>(static_cast<double>(object_value_Bottom));
-			value.Bottom = object_value_Bottom_;
+
+			value.Bottom = object_value_Bottom_;
 
 			unwrap()->Margin = value;
 			return true;
@@ -364,20 +418,38 @@ namespace Titanium
 		{
 			auto value = unwrap()->Margin;
 			auto context = get_context();
-
-			auto result = context.CreateObject();			auto value_Left_ = context.CreateNumber(static_cast<double>(value.Left));
-			result.SetProperty("Left", value_Left_);
-			auto value_Top_ = context.CreateNumber(static_cast<double>(value.Top));
-			result.SetProperty("Top", value_Top_);
-			auto value_Right_ = context.CreateNumber(static_cast<double>(value.Right));
-			result.SetProperty("Right", value_Right_);
-			auto value_Bottom_ = context.CreateNumber(static_cast<double>(value.Bottom));
-			result.SetProperty("Bottom", value_Bottom_);
-			return result;
+
+			auto result = context.CreateObject();
+
+
+			auto value_Left_ = context.CreateNumber(static_cast<double>(value.Left));
+
+			result.SetProperty("Left", value_Left_);
+
+
+
+			auto value_Top_ = context.CreateNumber(static_cast<double>(value.Top));
+
+			result.SetProperty("Top", value_Top_);
+
+
+
+			auto value_Right_ = context.CreateNumber(static_cast<double>(value.Right));
+
+			result.SetProperty("Right", value_Right_);
+
+
+
+			auto value_Bottom_ = context.CreateNumber(static_cast<double>(value.Bottom));
+
+			result.SetProperty("Bottom", value_Bottom_);
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, MinWidth)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<float>(static_cast<double>(argument));
 
 			unwrap()->MinWidth = value;
@@ -388,12 +460,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->MinWidth;
 			auto context = get_context();
-			auto result = context.CreateNumber(static_cast<double>(value));
-			return result;
+
+			auto result = context.CreateNumber(static_cast<double>(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, MinHeight)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<float>(static_cast<double>(argument));
 
 			unwrap()->MinHeight = value;
@@ -404,58 +479,71 @@ namespace Titanium
 		{
 			auto value = unwrap()->MinHeight;
 			auto context = get_context();
-			auto result = context.CreateNumber(static_cast<double>(value));
-			return result;
+
+			auto result = context.CreateNumber(static_cast<double>(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, ActualHeight)
 		{
 			auto value = unwrap()->ActualHeight;
 			auto context = get_context();
-			auto result = context.CreateNumber(static_cast<double>(value));
-			return result;
+
+			auto result = context.CreateNumber(static_cast<double>(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, ActualWidth)
 		{
 			auto value = unwrap()->ActualWidth;
 			auto context = get_context();
-			auto result = context.CreateNumber(static_cast<double>(value));
-			return result;
+
+			auto result = context.CreateNumber(static_cast<double>(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, BaseUri)
 		{
 			auto value = unwrap()->BaseUri;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::Foundation::Uri>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::Foundation::Uri>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::Foundation::Uri>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, Parent)
 		{
 			auto value = unwrap()->Parent;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyObject>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyObject>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyObject>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, Triggers)
 		{
 			auto value = unwrap()->Triggers;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::TriggerCollection>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::TriggerCollection>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::TriggerCollection>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(FrameworkElement, RequestedTheme)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::ElementTheme>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->RequestedTheme = value;
@@ -466,202 +554,243 @@ namespace Titanium
 		{
 			auto value = unwrap()->RequestedTheme;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, RequestedThemeProperty)
 		{
 			auto value = unwrap()->RequestedThemeProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, ActualHeightProperty)
 		{
 			auto value = unwrap()->ActualHeightProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, ActualWidthProperty)
 		{
 			auto value = unwrap()->ActualWidthProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, DataContextProperty)
 		{
 			auto value = unwrap()->DataContextProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, FlowDirectionProperty)
 		{
 			auto value = unwrap()->FlowDirectionProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, HeightProperty)
 		{
 			auto value = unwrap()->HeightProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, HorizontalAlignmentProperty)
 		{
 			auto value = unwrap()->HorizontalAlignmentProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, LanguageProperty)
 		{
 			auto value = unwrap()->LanguageProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, MarginProperty)
 		{
 			auto value = unwrap()->MarginProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, MaxHeightProperty)
 		{
 			auto value = unwrap()->MaxHeightProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, MaxWidthProperty)
 		{
 			auto value = unwrap()->MaxWidthProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, MinHeightProperty)
 		{
 			auto value = unwrap()->MinHeightProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, MinWidthProperty)
 		{
 			auto value = unwrap()->MinWidthProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, NameProperty)
 		{
 			auto value = unwrap()->NameProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, StyleProperty)
 		{
 			auto value = unwrap()->StyleProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, TagProperty)
 		{
 			auto value = unwrap()->TagProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, VerticalAlignmentProperty)
 		{
 			auto value = unwrap()->VerticalAlignmentProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_GETTER(FrameworkElement, WidthProperty)
 		{
 			auto value = unwrap()->WidthProperty;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyProperty>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_FUNCTION(FrameworkElement, FindName)
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0); 			TITANIUM_ASSERT_AND_THROW(_0.IsString(), "Expected String");
+				auto _0 = arguments.at(0); 
+			TITANIUM_ASSERT_AND_THROW(_0.IsString(), "Expected String");
 			auto name = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(_0));
 
-				auto method_result = unwrap()->FindName(name);			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+				auto method_result = unwrap()->FindName(name);
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!
@@ -673,16 +802,20 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 2) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_dp = static_cast<JSObject>(_0);
- 			auto wrapper_dp = object_dp.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
+ 
+			auto wrapper_dp = object_dp.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto dp = wrapper_dp->unwrapWindows_UI_Xaml_DependencyProperty();
 
-				auto _1 = arguments.at(1);			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
+				auto _1 = arguments.at(1);
+			TITANIUM_ASSERT_AND_THROW(_1.IsObject(), "Expected Object");
 			auto object_binding = static_cast<JSObject>(_1);
- 			auto wrapper_binding = object_binding.GetPrivate<Windows::UI::Xaml::Data::BindingBase>();
+ 
+			auto wrapper_binding = object_binding.GetPrivate<Windows::UI::Xaml::Data::BindingBase>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto binding = wrapper_binding->unwrapWindows_UI_Xaml_Data_BindingBase();
@@ -700,17 +833,22 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 1) {
-				auto _0 = arguments.at(0);			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto _0 = arguments.at(0);
+			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
 			auto object_dp = static_cast<JSObject>(_0);
- 			auto wrapper_dp = object_dp.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
+ 
+			auto wrapper_dp = object_dp.GetPrivate<Windows::UI::Xaml::DependencyProperty>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto dp = wrapper_dp->unwrapWindows_UI_Xaml_DependencyProperty();
 
-				auto method_result = unwrap()->GetBindingExpression(dp);			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Data::BindingExpression>::Class());
+				auto method_result = unwrap()->GetBindingExpression(dp);
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Data::BindingExpression>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Data::BindingExpression>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!

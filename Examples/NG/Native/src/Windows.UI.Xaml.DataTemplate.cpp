@@ -9,6 +9,7 @@
 #include "Windows.UI.Xaml.DataTemplate.hpp"
 #include "Windows.UI.Xaml.DependencyObject.hpp"
 #include "Windows.UI.Xaml.FrameworkTemplate.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -62,10 +63,13 @@ namespace Titanium
 		{
 			auto context = get_context();
 			if (arguments.size() == 0) {
-				auto method_result = unwrap()->LoadContent();			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyObject>::Class());
+				auto method_result = unwrap()->LoadContent();
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::DependencyObject>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::DependencyObject>();
 			result_wrapper->wrap(method_result);
-				return result;
+
+				return result;
 			}
 
 			// Catch-all if no arg count matches!

@@ -11,6 +11,7 @@
 #include "Windows.UI.Xaml.Data.IValueConverter.hpp"
 #include "Windows.UI.Xaml.Data.RelativeSource.hpp"
 #include "Windows.UI.Xaml.PropertyPath.hpp"
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace Titanium
 {
@@ -73,7 +74,8 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_SETTER(Binding, UpdateSourceTrigger)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::Data::UpdateSourceTrigger>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->UpdateSourceTrigger = value;
@@ -84,15 +86,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->UpdateSourceTrigger;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Binding, TargetNullValue)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapPlatform_Object();
@@ -105,16 +110,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->TargetNullValue;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Binding, FallbackValue)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapPlatform_Object();
@@ -127,16 +136,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->FallbackValue;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Binding, Source)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapPlatform_Object();
@@ -149,16 +162,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->Source;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Binding, RelativeSource)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Data::RelativeSource>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Data::RelativeSource>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Data_RelativeSource();
@@ -171,16 +188,20 @@ namespace Titanium
 		{
 			auto value = unwrap()->RelativeSource;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Data::RelativeSource>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Data::RelativeSource>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Data::RelativeSource>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Binding, Path)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::PropertyPath>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::PropertyPath>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_PropertyPath();
@@ -193,14 +214,17 @@ namespace Titanium
 		{
 			auto value = unwrap()->Path;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::PropertyPath>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::PropertyPath>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::PropertyPath>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Binding, Mode)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Expected Number");
 			auto value = static_cast<::Windows::UI::Xaml::Data::BindingMode>(static_cast<int32_t>(argument)); // TODO Look up enum in metadata to know what type it's value is? 
 
 			unwrap()->Mode = value;
@@ -211,13 +235,15 @@ namespace Titanium
 		{
 			auto value = unwrap()->Mode;
 			auto context = get_context();
-
+
 			auto result = context.CreateNumber(static_cast<int32_t>(static_cast<int>(value))); // FIXME What if the enum isn't an int based one?!
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Binding, ElementName)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
 			auto value = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(argument));
 
 			unwrap()->ElementName = value;
@@ -228,14 +254,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->ElementName;
 			auto context = get_context();
- 			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
-			return result;
+ 
+			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Binding, ConverterParameter)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Platform::Object>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapPlatform_Object();
@@ -248,14 +278,17 @@ namespace Titanium
 		{
 			auto value = unwrap()->ConverterParameter;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
+
+			auto result = context.CreateObject(JSExport<Platform::Object>::Class());
 			auto result_wrapper = result.GetPrivate<Platform::Object>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Binding, ConverterLanguage)
-		{ 			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
+		{ 
+			TITANIUM_ASSERT_AND_THROW(argument.IsString(), "Expected String");
 			auto value = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(argument));
 
 			unwrap()->ConverterLanguage = value;
@@ -266,14 +299,18 @@ namespace Titanium
 		{
 			auto value = unwrap()->ConverterLanguage;
 			auto context = get_context();
- 			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
-			return result;
+ 
+			auto result = context.CreateString(TitaniumWindows::Utility::ConvertUTF8String(value));
+
+			return result;
 		}
 
 		TITANIUM_PROPERTY_SETTER(Binding, Converter)
-		{			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
+		{
+			TITANIUM_ASSERT_AND_THROW(argument.IsObject(), "Expected Object");
 			auto object_value = static_cast<JSObject>(argument);
- 			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Data::IValueConverter>();
+ 
+			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::Data::IValueConverter>();
 			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
 			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
 			auto value = wrapper_value->unwrapWindows_UI_Xaml_Data_IValueConverter();
@@ -286,10 +323,12 @@ namespace Titanium
 		{
 			auto value = unwrap()->Converter;
 			auto context = get_context();
-			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Data::IValueConverter>::Class());
+
+			auto result = context.CreateObject(JSExport<Windows::UI::Xaml::Data::IValueConverter>::Class());
 			auto result_wrapper = result.GetPrivate<Windows::UI::Xaml::Data::IValueConverter>();
 			result_wrapper->wrap(value);
-			return result;
+
+			return result;
 		}
 
 				} // namespace Data
