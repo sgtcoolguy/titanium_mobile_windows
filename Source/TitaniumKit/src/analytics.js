@@ -31,6 +31,9 @@ var ANALYTICS_URL = 'https://api.appcelerator.com/p/v3/mobile-track/',
 function Analytics() {
 	this.sessionId = Ti.Platform.createUUID().replace(/[{}]/g,'');
 	this.eventQueue = [];
+	if (!this.analyticsFile) {
+	    this.analyticsFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + ANALYTICS_FILE);
+	}
 	this.loadEventQueue();
 	this.sequence = 0;
 	this.http = null;
@@ -39,18 +42,12 @@ function Analytics() {
 }
 
 Analytics.prototype.loadEventQueue = function loadEventQueue() {
-	if (!this.analyticsFile) {
-		this.analyticsFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + ANALYTICS_FILE);
-	}
 	if (this.analyticsFile && this.analyticsFile.exists()) {
 		this.eventQueue = JSON.parse(this.analyticsFile.read().text) || [];
 	}
 };
 
 Analytics.prototype.saveEventQueue = function saveEventQueue() {
-	if (!this.analyticsFile) {
-		this.analyticsFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + ANALYTICS_FILE);
-	}
 	this.analyticsFile && this.analyticsFile.write(JSON.stringify(this.eventQueue));
 };
 
@@ -184,8 +181,8 @@ Analytics.prototype.postEvents = function postEvents() {
 					timeout: TIMEOUT * 1000
 				});
 				_t.http.open('POST', ANALYTICS_URL);
-				_t.http.setRequestHeader('Content-Type', 'application/json');
 			}
+			_t.http.setRequestHeader('Content-Type', 'application/json');
 			_t.http.send(JSON.stringify(_t.eventQueue));
 		}
 		post();

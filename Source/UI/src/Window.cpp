@@ -9,6 +9,7 @@
 #include "TitaniumWindows/UI/Window.hpp"
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/UI/Windows/CommandBar.hpp"
+#include "Titanium/App.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include <windows.h>
 
@@ -108,6 +109,17 @@ namespace TitaniumWindows
 				window->enableEvents();
 				window->fireEvent("focus");
 			} else {
+				JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
+				TITANIUM_ASSERT(Titanium_property.IsObject());
+				JSObject Titanium = static_cast<JSObject>(Titanium_property);
+				JSValue App_property = Titanium.GetProperty("App");
+				TITANIUM_ASSERT(App_property.IsObject());
+				std::shared_ptr<Titanium::AppModule> App = static_cast<JSObject>(App_property).GetPrivate<Titanium::AppModule>();
+
+				// fire pause events
+				App->fireEvent("pause");
+				App->fireEvent("paused");
+
 				// exit the app because there's no window to navigate back
 				window_stack__.clear();
 				Windows::UI::Xaml::Application::Current->Exit();
