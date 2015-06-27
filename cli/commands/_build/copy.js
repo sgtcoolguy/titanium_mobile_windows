@@ -493,10 +493,8 @@ function copyResources(next) {
 				return next();
 			}
 
-			// TODO: Titanium Windows will probably have a different encryption mechanism... replace the below code with
-			//       whatever encryption steps are necessary.
-
-			next();
+			
+			this.processEncryption(next);
 		});
 	});
-};
+}

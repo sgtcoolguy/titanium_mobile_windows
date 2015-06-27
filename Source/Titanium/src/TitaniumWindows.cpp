@@ -69,9 +69,16 @@ namespace TitaniumWindows
 {
 	using namespace HAL;
 
-	Application::Application()
-	    : js_context__(js_context_group__.CreateContext(JSExport<TitaniumWindows::GlobalObject>::Class()))
+	Application::Application() : js_context__(js_context_group__.CreateContext(JSExport<TitaniumWindows::GlobalObject>::Class()))
 	{
+	}
+
+	Application::Application(::Platform::String^ seed) : Application::Application()
+	{
+		auto js_global = js_context__.get_global_object();
+		auto global = js_global.GetPrivate<TitaniumWindows::GlobalObject>();
+		TITANIUM_ASSERT(global != nullptr);
+		global->SetSeed(TitaniumWindows::Utility::ConvertString(seed));
 	}
 
 	Application::~Application()

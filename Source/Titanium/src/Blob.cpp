@@ -6,7 +6,11 @@
 
 #include "TitaniumWindows/Blob.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "TitaniumWindows/GlobalObject.hpp"
 #include <boost/algorithm/string/predicate.hpp>
+
+using Windows::Security::Cryptography::CryptographicBuffer;
+using Windows::Security::Cryptography::BinaryStringEncoding;
 
 namespace TitaniumWindows
 {
@@ -29,8 +33,21 @@ namespace TitaniumWindows
 	{
 		width_ = 0;
 		height_ = 0;
-		data_ = TitaniumWindows::Utility::GetContentFromFile(file);
+
 		path_ = TitaniumWindows::Utility::ConvertString(file->Path);
+		if (boost::ends_with(path_, ".js") || boost::ends_with(path_, ".json")){
+			// TODO: We should refactor to get the IBuffer back directly, rather than converting the contents multiple times.
+
+			auto js_global = get_context().get_global_object();
+			auto global = js_global.GetPrivate<TitaniumWindows::GlobalObject>();
+			TITANIUM_ASSERT(global != nullptr);
+			std::string contents = global->readRequiredModule(get_object(), path_);
+			auto buffer = CryptographicBuffer::ConvertStringToBinary(TitaniumWindows::Utility::ConvertString(contents), BinaryStringEncoding::Utf8);
+			data_ = TitaniumWindows::Utility::GetContentFromBuffer(buffer);
+		}
+		else {
+			data_ = TitaniumWindows::Utility::GetContentFromFile(file);
+		}
 
 		mimetype_ = TitaniumWindows::Utility::ConvertString(file->ContentType);
 		if (mimetype_ == "application/x-javascript") { // handle special cases to match other platforms
