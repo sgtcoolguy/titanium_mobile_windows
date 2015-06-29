@@ -486,7 +486,7 @@ if (WIN32)
 
   # Verbose compilation for MSVC
   if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /showIncludes")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
   endif(MSVC)
 else()
   # enable well-known compiler warnings

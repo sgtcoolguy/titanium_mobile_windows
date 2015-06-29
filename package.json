@@ -27,7 +27,8 @@
 		"visual studio": "12.x",
 		"windows phone sdk": "8.1",
 		"msbuild": ">=4.0",
-		"node": ">=0.10.0 <=0.12.x"
+		"node": ">=0.10.0 <=0.12.x",
+		"java": "<=1.8.x"
 	},
 	"engines": {
 		"node": ">=0.10.13"
