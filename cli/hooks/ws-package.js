@@ -92,9 +92,11 @@ exports.init = function (logger, config, cli) {
 					logger.info(__('Importing PFX'));
 					logger.info(__('Please follow the prompts'));
 					logger.info(__('(The default options will suffice)'));
-					require('child_process').exec('start ' + pfx, function (err) {
-						// Give them a bit of time to finish the import process.
-						setTimeout(next, 5000);
+
+					var pfxDir = path.dirname(pfx),
+						pfxName = path.basename(pfx);
+					require('child_process').exec('start /B /WAIT /D "' + pfxDir + '" ' + pfxName, function (err) {
+						err ? next(err) : next();
 					});
 				},
 				function usePFX(next) {

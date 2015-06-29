@@ -20,12 +20,8 @@ module.exports = function configOptionPFXPassword(order) {
 		hint: 'password',
 		order: order,
 		prompt: function (callback) {
-			if (this.cli.argv['ws-cert']) {
-				// We don't need a password! Carry on, mate.
-				return callback();
-			}
 			callback(fields.text({
-				promptLabel: __('What is (or will be) your PFX password?'),
+				promptLabel: __('What ' + (this.cli.argv['ws-cert'] ? 'is' : 'will be') + ' your PFX password?'),
 				password: true,
 				validate: validate.bind(this)
 			}));

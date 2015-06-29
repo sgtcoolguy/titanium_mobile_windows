@@ -1,5 +1,6 @@
 var appc = require('node-appc'),
 	fields = require('fields'),
+	path = require('path'),
 	fs = require('fs'),
 	__ = appc.i18n(__dirname).__;
 
@@ -32,12 +33,16 @@ module.exports = function configOptionWSCert(order) {
 		order: order,
 		prompt: function (callback) {
 			var certs = fs.readdirSync('./').filter(function (file) {
-					return file.slice(-4).toLowerCase() === '.pfx';
-				}),
-				existingCert = certs.length && appc.fs.resolvePath(certs[0]);
+				return file.slice(-4).toLowerCase() === '.pfx';
+			});
+			if (certs.length === 1) {
+				console.log('(Hint: Found a pfx file in working directory: ' + certs[0] + ')');
+			}
+			else if (certs.length > 1) {
+				console.log('(Hint: Found these pfx files in working directory: ' + certs.join(', ') + ')');
+			}
 			callback(fields.file({
-				promptLabel: __('Where is the __pfx file__ used to sign the app? (leave blank to generate)'),
-				default: fs.existsSync(existingCert) ? certs[0] : undefined,
+				promptLabel: __('What __pfx file__ should sign the app? (leave blank to generate)'),
 				complete: true,
 				showHidden: true,
 				ignoreDirs: this.ignoreDirs,
