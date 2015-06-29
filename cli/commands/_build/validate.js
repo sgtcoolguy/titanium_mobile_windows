@@ -170,7 +170,11 @@ function validate(logger, config, cli) {
 				cli.scanHooks(path.join(module.modulePath, 'hooks'));
 			}.bind(this));
 
-			// detect java development kit
+			// Are we not encrypting JS? Then we don't need to detect the JDK.
+			if (!this.encryptJS) {
+				return callback();
+			}
+			// detect java development kit.
 			appc.jdk.detect(config, null, function (jdkInfo) {
 				if (!jdkInfo.version) {
 					logger.error(__('Unable to locate the Java Development Kit') + '\n');
