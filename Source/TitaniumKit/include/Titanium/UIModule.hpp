@@ -33,38 +33,6 @@ namespace Titanium
 	public:
 
 		/*!
-		  @method
-
-		  @abstract createTab( [parameters] ) : Titanium.UI.Tab
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.Tab.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.Tab except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.Tab>)
-
-		  @result Titanium.UI.Tab
-		*/
-		JSObject createTab(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
-		  @method
-
-		  @abstract createTabGroup( [parameters] ) : Titanium.UI.TabGroup
-
-		  @discussion Creates and returns an instance of
-		  Titanium.UI.TabGroup.
-
-		  @param parameters Properties to set on a new object, including
-		  any defined by Titanium.UI.TabGroup except those marked
-		  not-creation or read-only.  (Dictionary<Titanium.UI.TabGroup>)
-
-		  @result Titanium.UI.TabGroup
-		*/
-		JSObject createTabGroup(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT;
-
-		/*!
 		@property
 		@abstract currentTab
 		@discussion Value of the `currentTab` property

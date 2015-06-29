@@ -145,175 +145,6 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("UIModule:: dtor ", this);
 	}
 
-	JSObject UIModule::createTab(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_DEBUG("UI::createTab");
-		//
-		// TODO: Evaluate and cache this function at startup
-		//
-		const std::string script = R"JS(
-  var Tab = function() {
-    Object.defineProperty(this, "__ti_private__", {
-        enumerable: false,
-        value: {}
-    });
-    this.__ti_private__.window = null;
-    this.__ti_private__.title = Ti.UI.createButton({title:'', height:'Ti.UI.SIZE', left:0, borderWidth:0});
-    this.__ti_private__.title.font = { fontSize: 20 };
-  };
-  Object.defineProperties(Tab.prototype, {
-    "window": {
-        set:function(value){this.setWindow(value);},
-        get:function(){return this.getWindow();},
-        enumerable:true
-    },
-    "title": {
-        set:function(value){this.setTitle(value);},
-        get:function(){return this.getTitle();},
-        enumerable:true
-    },
-    "icon": {
-        set:function(value){this.setIcon(value);},
-        get:function(){return this.getIocon();},
-        enumerable:true
-    }
-  });
-  Tab.prototype.setWindow = function (_window) {
-      this.__ti_private__.window = _window;
-      this.__ti_private__.window.height = Ti.UI.FILL;
-  };
-  Tab.prototype.getWindow = function () {
-      return this.__ti_private__.window;
-  }
-  Tab.prototype.getTitle = function () {
-      return this.__ti_private__.title.title;
-  };
-  Tab.prototype.setTitle = function (_title) {
-      this.__ti_private__.title.title = _title;
-  };
-  Tab.prototype.getIcon = function () {
-      return this.__ti_private__.title.image;
-  };
-  Tab.prototype.setIcon = function (_icon) {
-      this.__ti_private__.title.image = _icon;
-  };
-  Tab.prototype.open = function (_window) {
-      _window.open();
-  };
-  Tab.prototype.close = function (_window) {
-      _window.close();
-  };
-  Tab.prototype.applyProperties = function (_args) {
-      _args = _args || {};
-      for (var key in _args) {
-          this[key] = _args[key];
-      }
-  };
-  var ui = new Tab();
-  ui.applyProperties(_arguments);
-  return ui;
-    )JS";
-
-		return static_cast<JSObject>(get_context().CreateFunction(script, { "_arguments" })({ parameters }, this_object));
-	}
-
-	JSObject UIModule::createTabGroup(const JSObject& parameters, JSObject& this_object) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_DEBUG("UI::createTabGroup");
-		//
-		// TODO: Evaluate and cache this function at startup
-		//
-		const std::string script = R"JS(
-  var TabGroup = function() {
-    Object.defineProperty(this, "__ti_private__", {
-        enumerable: false,
-        value: {}
-    });
-    this.__ti_private__.window = Ti.UI.createWindow();
-    this.__ti_private__.window.name = 'tab_window';
-    this.__ti_private__.window.layout = 'vertical';
-    this.__ti_private__.bar = Ti.UI.createView();
-    this.__ti_private__.bar.top = 0;
-    this.__ti_private__.bar.width  = Ti.UI.FILL;
-    this.__ti_private__.bar.height = Ti.UI.SIZE;
-    this.__ti_private__.bar.backgroundColor = 'red';
-    this.__ti_private__.bar.layout = 'horizontal';
-    this.__ti_private__.bar.name = 'tabBar';
-    this.__ti_private__.content = Ti.UI.createScrollView();
-    this.__ti_private__.content.scrollingEnabled = false;
-    this.__ti_private__.content.showHorizontalScrollIndicator = false;
-    this.__ti_private__.content.showVerticalScrollIndicator = false;
-    this.__ti_private__.content.top = 0;
-    this.__ti_private__.content.width  = Ti.UI.FILL;
-    this.__ti_private__.content.height = Ti.UI.FILL;
-    this.__ti_private__.content.layout = "horizontal";
-    this.__ti_private__.content.name = 'scrollView';
-    this.__ti_private__.content.backgroundColor = '#ccc';
-    this.__ti_private__.window.add(this.__ti_private__.bar);
-    this.__ti_private__.window.add(this.__ti_private__.content);
-    this.__ti_private__.index = 0;
-    this.__ti_private__.tabs = [];
-
-    var self = this;
-
-    Ti.Gesture.addEventListener('orientationchange', function(e) {
-        self.__ti_private__.content.contentWidth = Ti.Platform.displayCaps.platformWidth * self.__ti_private__.tabs.length;
-        // waiting for a while as layout doesn't happen immediately on LayoutEngine
-        setTimeout(function() {
-            self.setActiveTab(self.__ti_private__.index);
-        }, 50);
-    });
-  };
-  TabGroup.prototype.applyProperties = function (_args) {
-      _args = _args || {};
-      for (var key in _args) {
-          this[key] = _args[key];
-      }
-  };
-  TabGroup.prototype.setActiveTab = function (_n) {
-      this.__ti_private__.index = _n;
-      this.__ti_private__.content.scrollTo(Ti.Platform.displayCaps.platformWidth*_n, 0);
-      Ti.UI.setCurrentTab(this.__ti_private__.tabs[_n]);
-  }
-  TabGroup.prototype.open = function () {
-      this.__ti_private__.window.open();
-      this.setActiveTab(0);
-  };
-  TabGroup.prototype.addTab = function (_tab) {
-      var self = this;
-
-      _tab.__ti_private__.title.addEventListener('postlayout', function() {
-          self.__ti_private__.bar.height =  _tab.__ti_private__.title.size.height;
-      });
-
-      this.__ti_private__.tabs.push(_tab);
-      this.__ti_private__.bar.add(_tab.__ti_private__.title);
-      this.__ti_private__.content.add(_tab.window);
-
-      var tabLength = this.__ti_private__.tabs.length;
-      var width = (1 / tabLength * 100) + '%';
-      this.__ti_private__.tabs.forEach(function (tab) {
-          tab.title.width = width;
-          tab.window.width = width;
-      });
-
-      // TODO This works only when TabGroup is filled fulll screen.
-      // This should be set from actual window width
-      this.__ti_private__.content.contentWidth = Ti.Platform.displayCaps.platformWidth * tabLength;
-      
-      _tab.__ti_private__.index = tabLength - 1;
-      var index = _tab.__ti_private__.index;
-      _tab.__ti_private__.title.addEventListener('click', function (e) {
-          self.setActiveTab(index);
-      });
-  };
-  var ui = new TabGroup();
-  ui.applyProperties(_arguments);
-  return ui;
-    )JS";
-		return static_cast<JSObject>(get_context().CreateFunction(script, { "_arguments" })({ parameters }, this_object));
-	}
-
 	TITANIUM_PROPERTY_READWRITE(UIModule, std::string, backgroundColor);
 	TITANIUM_PROPERTY_READWRITE(UIModule, std::string, backgroundImage);
 	TITANIUM_PROPERTY_READWRITE(UIModule, std::shared_ptr<Titanium::UI::View>, currentTab);
@@ -1013,13 +844,13 @@ namespace Titanium
 	TITANIUM_FUNCTION(UIModule, createTab)
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		return createTab(parameters, this_object);
+		CREATE_TITANIUM_UI(Tab);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createTabGroup)
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		return createTabGroup(parameters, this_object);
+		CREATE_TITANIUM_UI(TabGroup);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createTableViewRow)
