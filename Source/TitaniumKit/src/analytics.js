@@ -134,6 +134,7 @@ Analytics.prototype.createBackgroundEvent = function backgroundEvent() {
  * @private
  */
 Analytics.prototype.createFeatureEvent = function featureEvent(name, data) {
+	data = data || {};
 	data['eventName'] = name;
 	this.createEvent(EVENT_APP_FEATURE, data);
 };
@@ -147,6 +148,7 @@ Analytics.prototype.createFeatureEvent = function featureEvent(name, data) {
  * @private
  */
 Analytics.prototype.createNavEvent = function navEvent(from, to, name, data) {
+	data = data || {};
 	data['eventName'] = name;
 	data['from'] = from;
 	data['to'] = to;
