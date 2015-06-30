@@ -22,11 +22,14 @@ function installSDK(next) {
 	prc.stdout.on('data', function (data) {
 	   console.log(data.toString().trim());
 	});
+	prc.stderr.on('data', function (data) {
+	   console.error(data.toString().trim());
+	});
 
 	prc.on('close', function (code) {
 		var setProcess;
 		if (code != 0) {
-			next("Failed to install master SDK");
+			next("Failed to install master SDK. Exit code: " + code);
 		} else {
 			next();
 		}
