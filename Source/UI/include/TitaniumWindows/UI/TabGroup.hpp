@@ -45,6 +45,9 @@ namespace TitaniumWindows
 			virtual void open() TITANIUM_NOEXCEPT override;
 			virtual void close() TITANIUM_NOEXCEPT override;
 
+			virtual void set_activeTab(const std::shared_ptr<Titanium::UI::Tab>& activeTab) TITANIUM_NOEXCEPT override;
+			virtual void set_activeTab(const std::shared_ptr<Titanium::UI::Tab>& activeTab, const bool updateUI) TITANIUM_NOEXCEPT;
+
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)

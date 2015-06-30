@@ -35,7 +35,7 @@ namespace TitaniumWindows
 
 			pivot__->SelectionChanged += ref new SelectionChangedEventHandler([this](Platform::Object^ sender, SelectionChangedEventArgs^ e) {
 				TITANIUM_ASSERT(tabs__.size() > pivot__->SelectedIndex);
-				set_activeTab(tabs__.at(pivot__->SelectedIndex));
+				set_activeTab(tabs__.at(pivot__->SelectedIndex), false);
 			});
 
 			grid__->Children->Append(pivot__);
@@ -46,6 +46,19 @@ namespace TitaniumWindows
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(grid__);
 
 			window__->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->add(get_object().GetPrivate<Titanium::UI::View>());
+		}
+
+		void TabGroup::set_activeTab(const std::shared_ptr<Titanium::UI::Tab>& activeTab) TITANIUM_NOEXCEPT
+		{
+			set_activeTab(activeTab, true);
+		}
+
+		void TabGroup::set_activeTab(const std::shared_ptr<Titanium::UI::Tab>& activeTab, bool updateUI) TITANIUM_NOEXCEPT
+		{
+			if (updateUI && activeTab != activeTab__) {
+				pivot__->SelectedItem = activeTab->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
+			}
+			Titanium::UI::TabGroup::set_activeTab(activeTab);
 		}
 
 		void TabGroup::open() TITANIUM_NOEXCEPT

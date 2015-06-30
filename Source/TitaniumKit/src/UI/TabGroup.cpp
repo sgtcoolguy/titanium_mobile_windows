@@ -23,6 +23,9 @@ namespace Titanium
 		TITANIUM_PROPERTY_READ(TabGroup, std::shared_ptr<Tab>, activeTab)
 		void TabGroup::set_activeTab(const std::shared_ptr<Tab>& activeTab) TITANIUM_NOEXCEPT
 		{
+			if (activeTab == activeTab__) {
+				return;
+			}
 			if (activeTab__ != nullptr) {
 				activeTab__->close();
 			}
