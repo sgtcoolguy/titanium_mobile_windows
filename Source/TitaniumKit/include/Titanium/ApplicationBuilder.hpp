@@ -167,6 +167,12 @@ namespace Titanium
 		JSObject XMLObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& XMLObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject Tab() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& Tab(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject TabGroup() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& TabGroup(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject TableViewObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& TableViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -271,6 +277,8 @@ namespace Titanium
 		JSObject sound__;
 		JSObject videoplayer__;
 		JSObject xml__;
+		JSObject tab__;
+		JSObject tabgroup__;
 		JSObject tableview__;
 		JSObject tableviewsection__;
 		JSObject tableviewrow__;

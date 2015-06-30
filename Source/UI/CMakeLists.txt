@@ -78,6 +78,10 @@ set(SOURCE_UI
   src/Slider.cpp
   include/TitaniumWindows/UI/Switch.hpp
   src/Switch.cpp
+  include/TitaniumWindows/UI/Tab.hpp
+  src/Tab.cpp
+  include/TitaniumWindows/UI/TabGroup.hpp
+  src/TabGroup.cpp
   include/TitaniumWindows/UI/TableView.hpp
   src/TableView.cpp
   include/TitaniumWindows/UI/TableViewRow.hpp

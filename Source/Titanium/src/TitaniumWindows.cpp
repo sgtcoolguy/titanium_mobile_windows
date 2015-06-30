@@ -42,6 +42,8 @@
 #include "TitaniumWindows/UI/WebView.hpp"
 #include "TitaniumWindows/Map/View.hpp"
 #include "TitaniumWindows/Map/Annotation.hpp"
+#include "TitaniumWindows/UI/Tab.hpp"
+#include "TitaniumWindows/UI/TabGroup.hpp"
 #include "TitaniumWindows/UI/TableView.hpp"
 #include "TitaniumWindows/UI/TableViewRow.hpp"
 #include "TitaniumWindows/UI/ActivityIndicator.hpp"
@@ -122,6 +124,8 @@ namespace TitaniumWindows
 		                                                            .WebViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::WebView>::Class()))
 		                                                            .MapViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::Map::View>::Class()))
 		                                                            .MapAnnotationObject(js_context__.CreateObject(JSExport<TitaniumWindows::Map::Annotation>::Class()))
+		                                                            .Tab(js_context__.CreateObject(JSExport<TitaniumWindows::UI::Tab>::Class()))
+		                                                            .TabGroup(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TabGroup>::Class()))
 		                                                            .TableViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TableView>::Class()))
 		                                                            .TableViewRowObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TableViewRow>::Class()))
 		                                                            .ActivityIndicatorObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ActivityIndicator>::Class()))
