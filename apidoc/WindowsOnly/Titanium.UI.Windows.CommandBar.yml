@@ -27,7 +27,7 @@ description: |
                 icon: Ti.UI.Windows.SystemIcon.FORWARD
             }),
             commandBar = Ti.UI.Windows.createCommandBar({
-                items [backButton, likeButton, forwardButton]
+                items: [backButton, likeButton, forwardButton]
             }),
         win = Ti.UI.createWindow();
         win.add(commandBar);
