@@ -27,6 +27,7 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::TabGroup::postCallAsConstructor(js_context, arguments);	
 			
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			// root Window object to make layout work
 			window__ = js_context.CreateObject(JSExport<TitaniumWindows::UI::Window>::Class()).CallAsConstructor().GetPrivate<TitaniumWindows::UI::Window>();
 
@@ -46,6 +47,7 @@ namespace TitaniumWindows
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(grid__);
 
 			window__->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->add(get_object().GetPrivate<Titanium::UI::View>());
+#endif
 		}
 
 		void TabGroup::set_activeTab(const std::shared_ptr<Titanium::UI::Tab>& activeTab) TITANIUM_NOEXCEPT
@@ -55,9 +57,11 @@ namespace TitaniumWindows
 
 		void TabGroup::set_activeTab(const std::shared_ptr<Titanium::UI::Tab>& activeTab, bool updateUI) TITANIUM_NOEXCEPT
 		{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			if (updateUI && activeTab != activeTab__) {
 				pivot__->SelectedItem = activeTab->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 			}
+#endif
 			Titanium::UI::TabGroup::set_activeTab(activeTab);
 		}
 
@@ -76,10 +80,12 @@ namespace TitaniumWindows
 		void TabGroup::addTab(const std::shared_ptr<Titanium::UI::Tab>& tab) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::TabGroup::addTab(tab);
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			const auto windows_tab = dynamic_cast<TitaniumWindows::UI::Tab*>(tab.get());
 			if (windows_tab) {
 				pivot__->Items->Append(windows_tab->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent());
 			}
+#endif
 		}
 
 		void TabGroup::JSExportInitialize() 

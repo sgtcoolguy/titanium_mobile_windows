@@ -43,7 +43,9 @@ namespace TitaniumWindows
 			virtual void set_window(const std::shared_ptr<Titanium::UI::Window>& window) TITANIUM_NOEXCEPT override;
 
 		private:
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			Windows::UI::Xaml::Controls::PivotItem^ pivotItem__;
+#endif
 		};
 	}  // namespace UI
 }  // namespace TitaniumWindows

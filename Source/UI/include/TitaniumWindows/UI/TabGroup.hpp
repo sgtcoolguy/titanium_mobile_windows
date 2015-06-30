@@ -52,8 +52,12 @@ namespace TitaniumWindows
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			std::shared_ptr<TitaniumWindows::UI::Window> window__;
+
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			Windows::UI::Xaml::Controls::Grid^  grid__;
 			Windows::UI::Xaml::Controls::Pivot^ pivot__;
+#endif
+
 #pragma warning(pop)
 
 		};
