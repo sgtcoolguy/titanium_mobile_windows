@@ -265,6 +265,10 @@ set(SOURCE_UI
   src/UI/Slider.cpp
   include/Titanium/UI/Switch.hpp
   src/UI/Switch.cpp
+  include/Titanium/UI/Tab.hpp
+  src/UI/Tab.cpp
+  include/Titanium/UI/TabGroup.hpp
+  src/UI/TabGroup.cpp
   include/Titanium/UI/TableView.hpp
   src/UI/TableView.cpp
   include/Titanium/UI/TableViewAnimationProperties.hpp

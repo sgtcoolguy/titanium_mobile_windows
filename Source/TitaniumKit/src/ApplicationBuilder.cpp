@@ -36,6 +36,8 @@
 #include "Titanium/UI/Label.hpp"
 #include "Titanium/UI/Slider.hpp"
 #include "Titanium/UI/ScrollView.hpp"
+#include "Titanium/UI/Tab.hpp"
+#include "Titanium/UI/TabGroup.hpp"
 #include "Titanium/UI/TextField.hpp"
 #include "Titanium/PlatformModule.hpp"
 #include "Titanium/Accelerometer.hpp"
@@ -131,6 +133,8 @@ namespace Titanium
 		  mapCamera__(js_context__.CreateObject(JSExport<Titanium::Map::Camera>::Class())),
 		  mapRoute__(js_context__.CreateObject(JSExport<Titanium::Map::Route>::Class())),
 		  mapView__(js_context__.CreateObject(JSExport<Titanium::Map::View>::Class())),
+		  tab__(js_context__.CreateObject(JSExport<Titanium::UI::Tab>::Class())),
+		  tabgroup__(js_context__.CreateObject(JSExport<Titanium::UI::TabGroup>::Class())),
 		  tableview__(js_context__.CreateObject(JSExport<Titanium::UI::TableView>::Class())),
 		  tableviewsection__(js_context__.CreateObject(JSExport<Titanium::UI::TableViewSection>::Class())),
 		  tableviewrow__(js_context__.CreateObject(JSExport<Titanium::UI::TableViewRow>::Class())),
@@ -162,6 +166,8 @@ namespace Titanium
 		ui__.SetProperty("ScrollView", scrollview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Slider", slider__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Switch", switch__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("Tab",tab__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("TabGroup",tabgroup__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("TableView",tableview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("TableViewSection", tableviewsection__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("TableViewRow", tableviewrow__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -788,6 +794,28 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::XMLObject(const JSObject& XML) TITANIUM_NOEXCEPT
 	{
 		xml__ = XML;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::Tab() const TITANIUM_NOEXCEPT
+	{
+		return tab__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::Tab(const JSObject& view) TITANIUM_NOEXCEPT
+	{
+		tab__ = view;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::TabGroup() const TITANIUM_NOEXCEPT
+	{
+		return tabgroup__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::TabGroup(const JSObject& view) TITANIUM_NOEXCEPT
+	{
+		tabgroup__ = view;
 		return *this;
 	}
 
