@@ -37,7 +37,12 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(Tab, bool, activeIconIsMask)
 		TITANIUM_PROPERTY_READWRITE(Tab, std::string, title)
 		TITANIUM_PROPERTY_READWRITE(Tab, std::string, titleid)
-		TITANIUM_PROPERTY_READWRITE(Tab, std::shared_ptr<Window>, window)
+		TITANIUM_PROPERTY_READ(Tab, std::shared_ptr<Window>, window)
+		void Tab::set_window(const std::shared_ptr<Window>& window) TITANIUM_NOEXCEPT
+		{
+			window__ = window;
+			window__->isTopLevel(false);
+		}
 
 		void Tab::open(const std::shared_ptr<OpenWindowParams>& options) TITANIUM_NOEXCEPT
 		{

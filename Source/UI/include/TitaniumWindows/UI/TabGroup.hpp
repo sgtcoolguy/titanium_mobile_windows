@@ -46,9 +46,12 @@ namespace TitaniumWindows
 			virtual void close() TITANIUM_NOEXCEPT override;
 
 		private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			std::shared_ptr<TitaniumWindows::UI::Window> window__;
 			Windows::UI::Xaml::Controls::Grid^  grid__;
 			Windows::UI::Xaml::Controls::Pivot^ pivot__;
+#pragma warning(pop)
 
 		};
 	}  // namespace UI

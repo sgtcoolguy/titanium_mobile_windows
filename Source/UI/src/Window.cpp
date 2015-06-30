@@ -65,6 +65,19 @@ namespace TitaniumWindows
 #endif
 		}
 
+		void Window::updateWindowsCommandBar(const std::shared_ptr<TitaniumWindows::UI::WindowsXaml::CommandBar>& commandbar)
+		{
+			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
+			const auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
+			if (page) {
+				if (commandbar) {
+					page->BottomAppBar = commandbar->getComponent();
+				} else {
+					page->BottomAppBar = nullptr;
+				}
+			}
+		}
+
 		void Window::close(const std::shared_ptr<Titanium::UI::CloseWindowParams>& params) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Window::close(params);
@@ -75,6 +88,11 @@ namespace TitaniumWindows
 
 			// disable all events further because it doesn't make sense.
 			disableEvents();
+
+			if (!isTopLevel__) {
+				updateWindowsCommandBar(nullptr);
+				return;
+			}
 
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 			if (!get_exitOnClose() && window_stack__.size() > 1) {
@@ -129,6 +147,14 @@ namespace TitaniumWindows
 		void Window::open(const std::shared_ptr<Titanium::UI::OpenWindowParams>& params) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Window::open(params);
+
+			if (!isTopLevel__) {
+				updateWindowsCommandBar(bottomAppBar__);
+				enableEvents();
+				fireEvent("open");
+				fireEvent("focus");
+				return;
+			}
 
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 			rootFrame->Navigate(Windows::UI::Xaml::Controls::Page::typeid);

@@ -16,6 +16,8 @@ namespace TitaniumWindows
 	namespace UI
 	{
 
+		using namespace Windows::UI::Xaml::Controls;
+
 		TabGroup::TabGroup(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::TabGroup(js_context)
 		{
@@ -28,8 +30,13 @@ namespace TitaniumWindows
 			// root Window object to make layout work
 			window__ = js_context.CreateObject(JSExport<TitaniumWindows::UI::Window>::Class()).CallAsConstructor().GetPrivate<TitaniumWindows::UI::Window>();
 
-			grid__  = ref new Windows::UI::Xaml::Controls::Grid();
-			pivot__ = ref new Windows::UI::Xaml::Controls::Pivot();
+			grid__  = ref new Grid();
+			pivot__ = ref new Pivot();
+
+			pivot__->SelectionChanged += ref new SelectionChangedEventHandler([this](Platform::Object^ sender, SelectionChangedEventArgs^ e) {
+				TITANIUM_ASSERT(tabs__.size() > pivot__->SelectedIndex);
+				set_activeTab(tabs__.at(pivot__->SelectedIndex));
+			});
 
 			grid__->Children->Append(pivot__);
 
@@ -43,8 +50,8 @@ namespace TitaniumWindows
 
 		void TabGroup::open() TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::TabGroup::open();
 			window__->open(nullptr);
+			Titanium::UI::TabGroup::open();
 		}
 
 		void TabGroup::close() TITANIUM_NOEXCEPT
