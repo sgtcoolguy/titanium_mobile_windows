@@ -8,7 +8,6 @@
 
 #include "TitaniumWindows/UI/Tab.hpp"
 #include "TitaniumWindows/UI/Window.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
@@ -25,6 +24,9 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::Tab::postCallAsConstructor(js_context, arguments);	
 			pivotItem__ = ref new Windows::UI::Xaml::Controls::PivotItem();
+
+			Titanium::UI::Tab::setLayoutDelegate<WindowsViewLayoutDelegate>();
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(pivotItem__);
 		}
 
 		void Tab::set_title(const std::string& title) TITANIUM_NOEXCEPT

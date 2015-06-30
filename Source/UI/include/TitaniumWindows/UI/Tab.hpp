@@ -42,11 +42,6 @@ namespace TitaniumWindows
 			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override;
 			virtual void set_window(const std::shared_ptr<Titanium::UI::Window>& window) TITANIUM_NOEXCEPT override;
 
-			Windows::UI::Xaml::Controls::PivotItem^ getWindowsComponent() 
-			{
-				return pivotItem__;
-			}
-
 		private:
 			Windows::UI::Xaml::Controls::PivotItem^ pivotItem__;
 		};

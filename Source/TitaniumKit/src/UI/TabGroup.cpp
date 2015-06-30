@@ -20,7 +20,16 @@ namespace Titanium
 		{
 		}
 
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::shared_ptr<Tab>, activeTab)
+		TITANIUM_PROPERTY_READ(TabGroup, std::shared_ptr<Tab>, activeTab)
+		void TabGroup::set_activeTab(const std::shared_ptr<Tab>& activeTab) TITANIUM_NOEXCEPT
+		{
+			if (activeTab__ != nullptr) {
+				activeTab__->close();
+			}
+			activeTab__ = activeTab;
+			activeTab__->open();
+		}
+
 		TITANIUM_PROPERTY_READ(TabGroup, JSValue, activity)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, bool, allowUserCustomization)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, barColor)
@@ -222,419 +231,82 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(TabGroup, setTabsAtBottom);
 		}
 
-		TITANIUM_PROPERTY_GETTER(TabGroup, activeTab)
-		{
-			if (activeTab__ != nullptr) {
-				return activeTab__->get_object();
-			}
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, activeTab)
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			set_activeTab(static_cast<JSObject>(argument).GetPrivate<Tab>());
-			return true;
-		}
-
+		TITANIUM_PROPERTY_GETTER_OBJECT(TabGroup, activeTab)
+		TITANIUM_PROPERTY_SETTER_OBJECT(TabGroup, activeTab, Tab)
 		TITANIUM_PROPERTY_GETTER(TabGroup, activity)
 		{
 			return activity__;
 		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, allowUserCustomization)
-		{
-			return get_context().CreateBoolean(get_allowUserCustomization());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, allowUserCustomization)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_allowUserCustomization(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, barColor)
-		{
-			return get_context().CreateString(get_barColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, barColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_barColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, translucent)
-		{
-			return get_context().CreateBoolean(get_translucent());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, translucent)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_translucent(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, titleAttributes)
-		{
-			return TitleAttributesParams_to_js(get_context(), titleAttributes__);
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, titleAttributes)
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			js_to_TitleAttributesParams(static_cast<JSObject>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, navTintColor)
-		{
-			return get_context().CreateString(get_navTintColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, navTintColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_navTintColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, editButtonTitle)
-		{
-			return get_context().CreateString(get_editButtonTitle());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, editButtonTitle)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_editButtonTitle(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, exitOnClose)
-		{
-			return get_context().CreateBoolean(get_exitOnClose());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, exitOnClose)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_exitOnClose(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, navBarHidden)
-		{
-			return get_context().CreateBoolean(get_navBarHidden());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, navBarHidden)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_navBarHidden(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, swipeable)
-		{
-			return get_context().CreateBoolean(get_swipeable());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, swipeable)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_swipeable(static_cast<bool>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, smoothScrollOnTabClick)
-		{
-			return get_context().CreateBoolean(get_smoothScrollOnTabClick());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, smoothScrollOnTabClick)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_smoothScrollOnTabClick(static_cast<bool>(argument));
-			return true;
-		}
-
+		TITANIUM_PROPERTY_GETTER_BOOL(TabGroup, allowUserCustomization)
+		TITANIUM_PROPERTY_SETTER_BOOL(TabGroup, allowUserCustomization)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, barColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, barColor)
+		TITANIUM_PROPERTY_GETTER_BOOL(TabGroup, translucent)
+		TITANIUM_PROPERTY_SETTER_BOOL(TabGroup, translucent)
+		TITANIUM_PROPERTY_GETTER_STRUCT(TabGroup, titleAttributes, TitleAttributesParams)
+		TITANIUM_PROPERTY_SETTER_STRUCT(TabGroup, titleAttributes, TitleAttributesParams)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, navTintColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, navTintColor)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, editButtonTitle)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, editButtonTitle)
+		TITANIUM_PROPERTY_GETTER_BOOL(TabGroup, exitOnClose)
+		TITANIUM_PROPERTY_SETTER_BOOL(TabGroup, exitOnClose)
+		TITANIUM_PROPERTY_GETTER_BOOL(TabGroup, navBarHidden)
+		TITANIUM_PROPERTY_SETTER_BOOL(TabGroup, navBarHidden)
+		TITANIUM_PROPERTY_GETTER_BOOL(TabGroup, swipeable)
+		TITANIUM_PROPERTY_SETTER_BOOL(TabGroup, swipeable)
+		TITANIUM_PROPERTY_GETTER_BOOL(TabGroup, smoothScrollOnTabClick)
+		TITANIUM_PROPERTY_SETTER_BOOL(TabGroup, smoothScrollOnTabClick)
 		TITANIUM_PROPERTY_GETTER_OBJECT_ARRAY(TabGroup, tabs);
 		TITANIUM_PROPERTY_SETTER_OBJECT_ARRAY(TabGroup, tabs, Titanium::UI::Tab);
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, windowSoftInputMode)
-		{
-			return get_context().CreateNumber(get_windowSoftInputMode());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, windowSoftInputMode)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_windowSoftInputMode(static_cast<double>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, tabsBackgroundColor)
-		{
-			return get_context().CreateString(get_tabsBackgroundColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, tabsBackgroundColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_tabsBackgroundColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, tabsTintColor)
-		{
-			return get_context().CreateString(get_tabsTintColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, tabsTintColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_tabsTintColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, title)
-		{
-			return get_context().CreateString(get_title());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, title)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_title(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, tabsBackgroundImage)
-		{
-			return get_context().CreateString(get_tabsBackgroundImage());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, tabsBackgroundImage)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_tabsBackgroundImage(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, shadowImage)
-		{
-			return get_context().CreateString(get_shadowImage());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, shadowImage)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_shadowImage(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, activeTabIconTint)
-		{
-			return get_context().CreateString(get_activeTabIconTint());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, activeTabIconTint)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_activeTabIconTint(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, tabsBackgroundDisabledColor)
-		{
-			return get_context().CreateString(get_tabsBackgroundDisabledColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, tabsBackgroundDisabledColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_tabsBackgroundDisabledColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, tabsBackgroundDisabledImage)
-		{
-			return get_context().CreateString(get_tabsBackgroundDisabledImage());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, tabsBackgroundDisabledImage)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_tabsBackgroundDisabledImage(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, tabsBackgroundFocusedColor)
-		{
-			return get_context().CreateString(get_tabsBackgroundFocusedColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, tabsBackgroundFocusedColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_tabsBackgroundFocusedColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, tabsBackgroundFocusedImage)
-		{
-			return get_context().CreateString(get_tabsBackgroundFocusedImage());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, tabsBackgroundFocusedImage)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_tabsBackgroundFocusedImage(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, tabsBackgroundSelectedColor)
-		{
-			return get_context().CreateString(get_tabsBackgroundSelectedColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, tabsBackgroundSelectedColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_tabsBackgroundSelectedColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, tabsBackgroundSelectedImage)
-		{
-			return get_context().CreateString(get_tabsBackgroundSelectedImage());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, tabsBackgroundSelectedImage)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_tabsBackgroundSelectedImage(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, activeTabBackgroundColor)
-		{
-			return get_context().CreateString(get_activeTabBackgroundColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, activeTabBackgroundColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_activeTabBackgroundColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, activeTabBackgroundImage)
-		{
-			return get_context().CreateString(get_activeTabBackgroundImage());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, activeTabBackgroundImage)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_activeTabBackgroundImage(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, activeTabBackgroundDisabledColor)
-		{
-			return get_context().CreateString(get_activeTabBackgroundDisabledColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, activeTabBackgroundDisabledColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_activeTabBackgroundDisabledColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, activeTabBackgroundDisabledImage)
-		{
-			return get_context().CreateString(get_activeTabBackgroundDisabledImage());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, activeTabBackgroundDisabledImage)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_activeTabBackgroundDisabledImage(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, activeTabBackgroundFocusedColor)
-		{
-			return get_context().CreateString(get_activeTabBackgroundFocusedColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, activeTabBackgroundFocusedColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_activeTabBackgroundFocusedColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, activeTabBackgroundFocusedImage)
-		{
-			return get_context().CreateString(get_activeTabBackgroundFocusedImage());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, activeTabBackgroundFocusedImage)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_activeTabBackgroundFocusedImage(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, activeTabBackgroundSelectedColor)
-		{
-			return get_context().CreateString(get_activeTabBackgroundSelectedColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, activeTabBackgroundSelectedColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_activeTabBackgroundSelectedColor(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, activeTabBackgroundSelectedImage)
-		{
-			return get_context().CreateString(get_activeTabBackgroundSelectedImage());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, activeTabBackgroundSelectedImage)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_activeTabBackgroundSelectedImage(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(TabGroup, tabDividerColor)
-		{
-			return get_context().CreateString(get_tabDividerColor());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TabGroup, tabDividerColor)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_tabDividerColor(static_cast<std::string>(argument));
-			return true;
-		}
-
+		TITANIUM_PROPERTY_GETTER_INT(TabGroup, windowSoftInputMode)
+		TITANIUM_PROPERTY_SETTER_INT(TabGroup, windowSoftInputMode)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabsBackgroundColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabsBackgroundColor)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabsTintColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabsTintColor)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, title)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, title)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabsBackgroundImage)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabsBackgroundImage)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, shadowImage)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, shadowImage)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, activeTabIconTint)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, activeTabIconTint)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabsBackgroundDisabledColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabsBackgroundDisabledColor)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabsBackgroundDisabledImage)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabsBackgroundDisabledImage)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabsBackgroundFocusedColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabsBackgroundFocusedColor)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabsBackgroundFocusedImage)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabsBackgroundFocusedImage)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabsBackgroundSelectedColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabsBackgroundSelectedColor)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabsBackgroundSelectedImage)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabsBackgroundSelectedImage)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, activeTabBackgroundColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, activeTabBackgroundColor)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, activeTabBackgroundImage)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, activeTabBackgroundImage)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, activeTabBackgroundDisabledColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, activeTabBackgroundDisabledColor)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, activeTabBackgroundDisabledImage)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, activeTabBackgroundDisabledImage)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, activeTabBackgroundFocusedColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, activeTabBackgroundFocusedColor)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, activeTabBackgroundFocusedImage)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, activeTabBackgroundFocusedImage)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, activeTabBackgroundSelectedColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, activeTabBackgroundSelectedColor)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, activeTabBackgroundSelectedImage)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, activeTabBackgroundSelectedImage)
+		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabDividerColor)
+		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabDividerColor)
 		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabDividerWidth);
 		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabDividerWidth);
-
 		TITANIUM_PROPERTY_GETTER_STRING(TabGroup, tabHeight);
 		TITANIUM_PROPERTY_SETTER_STRING(TabGroup, tabHeight);
-
 		TITANIUM_PROPERTY_GETTER_BOOL(TabGroup, tabsAtBottom);
 		TITANIUM_PROPERTY_SETTER_BOOL(TabGroup, tabsAtBottom);
 

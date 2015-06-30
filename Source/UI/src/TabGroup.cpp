@@ -58,7 +58,7 @@ namespace TitaniumWindows
 			Titanium::UI::TabGroup::addTab(tab);
 			const auto windows_tab = dynamic_cast<TitaniumWindows::UI::Tab*>(tab.get());
 			if (windows_tab) {
-				pivot__->Items->Append(windows_tab->getWindowsComponent());
+				pivot__->Items->Append(windows_tab->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent());
 			}
 		}
 
