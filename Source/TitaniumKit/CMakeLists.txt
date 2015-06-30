@@ -265,6 +265,10 @@ set(SOURCE_UI
   src/UI/Slider.cpp
   include/Titanium/UI/Switch.hpp
   src/UI/Switch.cpp
+  include/Titanium/UI/Tab.hpp
+  src/UI/Tab.cpp
+  include/Titanium/UI/TabGroup.hpp
+  src/UI/TabGroup.cpp
   include/Titanium/UI/TableView.hpp
   src/UI/TableView.cpp
   include/Titanium/UI/TableViewAnimationProperties.hpp
@@ -486,7 +490,7 @@ if (WIN32)
 
   # Verbose compilation for MSVC
   if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /showIncludes")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
   endif(MSVC)
 else()
   # enable well-known compiler warnings

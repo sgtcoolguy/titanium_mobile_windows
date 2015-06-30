@@ -68,6 +68,8 @@ namespace TitaniumWindows
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 
+			void updateWindowsCommandBar(const std::shared_ptr<TitaniumWindows::UI::WindowsXaml::CommandBar>& commandbar);
+
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
