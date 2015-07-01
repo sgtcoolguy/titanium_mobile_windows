@@ -243,6 +243,7 @@ namespace Titanium
 			  console.info  = Ti.API.info;
 			  console.warn  = Ti.API.warn;
 			  console.error = Ti.API.error;
+			  console.debug = Ti.API.debug;
 
 			  // Create the global alert function
 			  alert = function (_msg) {
