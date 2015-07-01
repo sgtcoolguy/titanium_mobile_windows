@@ -303,9 +303,16 @@ namespace TitaniumWindows
 
 		bool File::createDirectory() TITANIUM_NOEXCEPT
 		{
+			// check that parent exists, and if not, create it first!
+			auto parent = get_parent();
+			if (!parent->exists()) {
+				if (!parent->createDirectory()) {
+					return false;
+				}
+			}
 			const bool result = createDirectory(path_);
 			if (result) {
-				// because this creates new directory which didn't exit, update the folder_ member
+				// because this creates new directory which didn't exist, update the folder_ member
 				folder_ = getFolderFromPathSync(path_);
 				file_ = nullptr;
 			}
