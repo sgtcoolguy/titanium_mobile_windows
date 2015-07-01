@@ -46,7 +46,10 @@ namespace TitaniumWindows
 			}
 
 			concurrency::create_task(dialog->ShowAsync()).then([this](IUICommand^ command) {
-				const auto index = dynamic_cast<IPropertyValue^>(command->Id)->GetInt32();
+				std::int32_t index = 0;
+				if (command != nullptr) {
+					index = dynamic_cast<IPropertyValue^>(command->Id)->GetInt32();
+				}
 				const JSContext ctx = get_context();
 				JSObject eventArgs = ctx.CreateObject();
 				eventArgs.SetProperty("index", ctx.CreateNumber(index));
