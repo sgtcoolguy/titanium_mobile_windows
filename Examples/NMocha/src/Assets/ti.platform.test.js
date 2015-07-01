@@ -9,8 +9,16 @@ var should = require('./should');
 
 describe("Titanium.Platform", function () {
     it("createUUID", function (finish) {
+        var result;
         should(Ti.Platform.createUUID).be.a.Function;
-        should(Ti.Platform.createUUID()).be.a.String;
+
+        result = Ti.Platform.createUUID();
+        should(result).be.a.String;
+        should(result.length).eql(36);
+        // Verify format using regexp!
+        should(result.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)).not.eql(null);
+        should(result.charAt(0)).not.eql("{");
+        should(result.charAt(result.length - 1)).not.eql("}");
         finish();
     });
     it("openURL", function (finish) {

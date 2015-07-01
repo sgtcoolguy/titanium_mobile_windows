@@ -8,6 +8,7 @@
 
 #include "TitaniumWindows/UI/OptionDialog.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/API.hpp"
 #include "Titanium/detail/TiLogger.hpp"
 #include <ppltasks.h>
 
@@ -40,20 +41,47 @@ namespace TitaniumWindows
 			if (cancelIndex >= 0) {
 				dialog->CancelCommandIndex = get_cancel();
 			}
+			auto maxButtons = options__.size();
+			if (options__.size() > MaxButtonCount) {
+				auto Titanium_property = get_context().get_global_object().GetProperty("Titanium");
+				TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+				auto Titanium = static_cast<JSObject>(Titanium_property);
 
-			for (std::vector<std::string>::size_type i = 0; i != options__.size(); i++) {
+				auto Object_property = Titanium.GetProperty("API");
+				TITANIUM_ASSERT(Object_property.IsObject());  // precondition
+				auto api = static_cast<JSObject>(Object_property);
+				auto native_api = api.GetPrivate<Titanium::API>();
+				native_api->error("Number of buttons exceeds platform maximum (" + std::to_string(MaxButtonCount) + "), list will be truncated.");
+				maxButtons = MaxButtonCount;
+			}
+			for (size_t i = 0; i < maxButtons; i++) {
 				dialog->Commands->Append(ref new Windows::UI::Popups::UICommand(TitaniumWindows::Utility::ConvertUTF8String(options__[i]), nullptr, PropertyValue::CreateInt32(i)));
 			}
 
-			concurrency::create_task(dialog->ShowAsync()).then([this](IUICommand^ command) {
-				const auto index = dynamic_cast<IPropertyValue^>(command->Id)->GetInt32();
-				const JSContext ctx = get_context();
-				JSObject eventArgs = ctx.CreateObject();
-				eventArgs.SetProperty("index", ctx.CreateNumber(index));
-				eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
-				eventArgs.SetProperty("destructive", ctx.CreateNumber(get_destructive()));
-				fireEvent("click", eventArgs);
-			});
+			try {
+				concurrency::create_task(dialog->ShowAsync()).then([this](IUICommand^ command) {
+					std::int32_t index = 0;
+					if (command != nullptr) {
+						auto casted = dynamic_cast<IPropertyValue^>(command->Id);
+						if (casted != nullptr) {
+							index = casted->GetInt32();
+						}
+					}
+					const JSContext ctx = get_context();
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("index", ctx.CreateNumber(index));
+					eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
+					eventArgs.SetProperty("destructive", ctx.CreateNumber(get_destructive()));
+					fireEvent("click", eventArgs);
+				});
+			}
+			catch (::Platform::COMException^ ce) {
+				// Typically would have happened on phone if we supplied more than max buttons allowed
+				detail::ThrowRuntimeError("Ti.UI.OptionDialog", "Exception during show(): " + Utility::ConvertUTF8String(ce->Message));
+			}
+			catch (...) {
+				detail::ThrowRuntimeError("Ti.UI.OptionDialog", "Exception during show()");
+			}
 		}
 
 		void OptionDialog::hide(const Titanium::UI::OptionDialogHideParams& params) TITANIUM_NOEXCEPT

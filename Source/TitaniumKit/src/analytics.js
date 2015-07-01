@@ -29,7 +29,7 @@ var ANALYTICS_URL = 'https://api.appcelerator.com/p/v3/mobile-track/',
  * @constructor
  */
 function Analytics() {
-	this.sessionId = Ti.Platform.createUUID().replace(/[{}]/g,'');
+	this.sessionId = Ti.Platform.createUUID();
 	this.eventQueue = [];
 	if (!this.analyticsFile) {
 	    this.analyticsFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + ANALYTICS_FILE);
@@ -59,7 +59,7 @@ Analytics.prototype.saveEventQueue = function saveEventQueue() {
  */
 Analytics.prototype.createEvent = function createEvent(eventType, data) {
 	var event = {
-		id: Ti.Platform.createUUID().replace(/[{}]/g,'') + ':' + Ti.Platform.id,
+		id: Ti.Platform.createUUID() + ':' + Ti.Platform.id,
 		sid: this.sessionId,
 		ts: new Date().toISOString(),
 		event: eventType,
@@ -208,7 +208,7 @@ analytics.postEvents();
 Ti.App.addEventListener('resume', function resume(e) {
 	// generate a new sessionId if we have been suspeneded for over 30 seconds
 	if (analytics.timestamp && (new Date().getTime() - analytics.timestamp) > SESSION_TIME_SEPARATION) {
-		analytics.sessionId = Ti.Platform.createUUID().replace(/[{}]/g,'');
+		analytics.sessionId = Ti.Platform.createUUID();
 	}
 	// queue ti.foreground event
 	analytics.createForegroundEvent();

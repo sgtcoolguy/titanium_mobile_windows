@@ -8,6 +8,7 @@
 
 #include "TitaniumWindows/UI/AlertDialog.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/API.hpp"
 #include "Titanium/detail/TiLogger.hpp"
 
 namespace TitaniumWindows
@@ -47,7 +48,20 @@ namespace TitaniumWindows
 				dialog->CancelCommandIndex = get_cancel();
 			}
 
-			for (std::vector<std::string>::size_type i = 0; i != buttonNames__.size(); i++) {
+			auto maxButtons = buttonNames__.size();
+			if (buttonNames__.size() > MaxButtonCount) {
+				auto Titanium_property = get_context().get_global_object().GetProperty("Titanium");
+				TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+				auto Titanium = static_cast<JSObject>(Titanium_property);
+
+				auto Object_property = Titanium.GetProperty("API");
+				TITANIUM_ASSERT(Object_property.IsObject());  // precondition
+				auto api = static_cast<JSObject>(Object_property);
+				auto native_api = api.GetPrivate<Titanium::API>();
+				native_api->error("Number of buttons exceeds platform maximum (" + std::to_string(MaxButtonCount) + "), list will be truncated.");
+				maxButtons = MaxButtonCount;
+			}
+			for (size_t i = 0; i < maxButtons; i++) {
 				dialog->Commands->Append(ref new Windows::UI::Popups::UICommand(TitaniumWindows::Utility::ConvertUTF8String(buttonNames__[i]), nullptr, PropertyValue::CreateInt32(i)));
 			}
 
@@ -55,7 +69,10 @@ namespace TitaniumWindows
 				concurrency::create_task(dialog->ShowAsync()).then([this](IUICommand^ command) {
 					std::int32_t index = 0;
 					if (command != nullptr) {
-						index = dynamic_cast<IPropertyValue^>(command->Id)->GetInt32();
+						auto casted = dynamic_cast<IPropertyValue^>(command->Id);
+						if (casted != nullptr) {
+							index = casted->GetInt32();
+						}
 					}
 					const JSContext ctx = get_context();
 					JSObject eventArgs = ctx.CreateObject();
@@ -63,7 +80,12 @@ namespace TitaniumWindows
 					eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
 					fireEvent("click", eventArgs);
 				});
-			} catch (...) {
+			}
+			catch (::Platform::COMException^ ce) {
+				// Typically would have happened on phone if we supplied more than max buttons allowed
+				detail::ThrowRuntimeError("Ti.UI.AlertDialog", "Exception during show(): " + Utility::ConvertUTF8String(ce->Message));
+			}
+			catch (...) {
 				detail::ThrowRuntimeError("Ti.UI.AlertDialog", "Exception during show()");
 			}
 		}
