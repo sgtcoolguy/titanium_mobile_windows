@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/AlertDialog.hpp"
+#include <Windows.h>
 
 namespace TitaniumWindows
 {
@@ -41,6 +42,12 @@ namespace TitaniumWindows
 
 			virtual void hide() TITANIUM_NOEXCEPT override;
 			virtual void show() TITANIUM_NOEXCEPT override;
+
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+			static const std::uint32_t MaxButtonCount = 2;
+#else
+			static const std::uint32_t MaxButtonCount = 3;
+#endif
 
 		};
 	} // namespace UI
