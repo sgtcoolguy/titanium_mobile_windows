@@ -71,6 +71,7 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(add);
 			TITANIUM_FUNCTION_DEF(animate);
 			TITANIUM_FUNCTION_DEF(hide);
+			TITANIUM_FUNCTION_DEF(remove);
 			TITANIUM_FUNCTION_DEF(show);
 			
 			TITANIUM_PROPERTY_DEF(backgroundColor);

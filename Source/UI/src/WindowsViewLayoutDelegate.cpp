@@ -36,12 +36,39 @@ namespace TitaniumWindows
 			Titanium::UI::ViewLayoutDelegate::postInitialize();
 		}
 
-		// TODO: implement this
 		void WindowsViewLayoutDelegate::remove(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::remove(view);
 
-			TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::remove not implemented");
+			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
+
+			if (nativeView == nullptr) {
+				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::remove: Unknown component");
+				return;
+			}
+
+			auto newView = view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
+			auto nativeChildView = newView->getComponent();
+			if (nativeChildView != nullptr) {
+				Titanium::LayoutEngine::nodeRemoveChild(layout_node__, newView->getLayoutNode());
+				if (isLoaded()) {
+					requestLayout();
+				}
+				try {
+					uint32_t index = -1;
+					auto result = nativeView->Children->IndexOf(nativeChildView, &index);
+					if (result) {
+						nativeView->Children->RemoveAt(index);
+					} else {
+						TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::remove: Component not in list of children");
+					}
+				}
+				catch (Platform::Exception^ e) {
+					detail::ThrowRuntimeError("remove", Utility::ConvertString(e->Message));
+				}
+			} else {
+				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::remove: Unknown child component");
+			}
 		}
 
 		void WindowsViewLayoutDelegate::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
