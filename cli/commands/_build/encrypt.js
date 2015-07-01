@@ -77,11 +77,11 @@ function processEncryption(next) {
 				return next();
 			}
 
-			if (process.platform !== 'win32' || !/jvm\.dll/i.test(err.msg)) {
+			if (process.platform !== 'win32' || !/jvm\.dll/i.test(err.msg) && !/JAVA_HOME/i.test(err.msg)) {
 				fatal(err);
 			}
 
-			// windows 64-bit failed, try again using 32-bit
+			// windows 32-bit failed, try again using 64-bit
 			this.logger.debug(__('32-bit titanium prep failed, trying again using 64-bit'));
 			titaniumPrep = 'titanium_prep.win64.exe';
 			titaniumPrepHook(

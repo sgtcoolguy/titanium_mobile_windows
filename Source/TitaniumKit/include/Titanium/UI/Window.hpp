@@ -286,7 +286,14 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(getTranslucent);
 			TITANIUM_FUNCTION_DEF(setTranslucent);
 
-		private:
+			// determine if this is top-level Window
+			// Window can be part of View in some components such as Ti.UI.Tab.
+			virtual void isTopLevel(const bool& value) TITANIUM_NOEXCEPT final
+			{
+				isTopLevel__ = value;
+			}
+
+		protected:
 // Silence 4251 on Windows since private member variables do not
 // need to be exported from a DLL.
 #pragma warning(push)
@@ -306,6 +313,8 @@ namespace Titanium
 
 			JSObject openWindowParams_ctor__;
 			JSObject closeWindowParams_ctor__;
+
+			bool isTopLevel__ { true };
 #pragma warning(pop)
 		};
 	} // namespace UI
