@@ -42,13 +42,7 @@ namespace Titanium
 	{
 		TITANIUM_LOG_DEBUG("Filesystem::getFile: ", path);
 
-		JSValue Titanium_property = js_context.get_global_object().GetProperty("Titanium");
-		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = static_cast<JSObject>(Titanium_property);
-
-		JSValue FS_property = Titanium.GetProperty("Filesystem");
-		TITANIUM_ASSERT(FS_property.IsObject());  // precondition
-		JSObject FS = static_cast<JSObject>(FS_property);
+		JSObject FS = GetStaticObject(js_context);
 
 		JSValue File_property = FS.GetProperty("File");
 		TITANIUM_ASSERT(File_property.IsObject());  // precondition
@@ -179,19 +173,8 @@ namespace Titanium
 	{
 		const auto js_context = this_object.get_context();
 
-		JSValue Titanium_property = js_context.get_global_object().GetProperty("Titanium");
-		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = static_cast<JSObject>(Titanium_property);
-
-		JSValue FS_property = Titanium.GetProperty("Filesystem");
-		TITANIUM_ASSERT(FS_property.IsObject());  // precondition
-		JSObject FS = static_cast<JSObject>(FS_property);
-
-		JSValue sep_property = FS.GetProperty("separator");
-		TITANIUM_ASSERT(sep_property.IsString());  // precondition
-		std::string separator = static_cast<std::string>(sep_property);
-
 		const auto filesystem_ptr = GetStaticObject(js_context).GetPrivate<FilesystemModule>();
+		std::string separator = filesystem_ptr->separator();
 
 		// join paths with separator
 		std::ostringstream oss;

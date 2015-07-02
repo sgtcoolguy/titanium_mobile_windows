@@ -7,9 +7,6 @@
 #include "TitaniumWindows/File.hpp"
 #include "TitaniumWindows/Blob.hpp"
 #include "Titanium/detail/TiImpl.hpp"
-#include <algorithm>
-#include <iostream>
-#include <objbase.h>
 #include <ppltasks.h>
 #include <collection.h>
 #include <boost/algorithm/string/replace.hpp>
@@ -40,7 +37,7 @@ namespace TitaniumWindows
 		}
 
 		void File::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
-			// TODO: if argument is empty, we assumes it's called from initializer.
+			// TODO: if argument is empty, we assume it's called from initializer.
 			if (arguments.empty()) {
 				return;
 			}
@@ -51,9 +48,9 @@ namespace TitaniumWindows
 			// this assumes we already joined the arguments with separator
 			std::string name = normalizePath(static_cast<std::string>(arguments.at(0)));
 
-			const auto location = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
 			// if this path is relative path, let's use application installed location path
 			if (name.find(":\\") == std::string::npos) {
+				const auto location = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
 				path_ = TitaniumWindows::Utility::ConvertString(location) + "\\" + name;
 			} else {
 				path_ = name;
@@ -63,7 +60,12 @@ namespace TitaniumWindows
 
 			file_ = getFileFromPathSync(path_);
 			if (file_ == nullptr) {
-				folder_ = getFolderFromPathSync(path_);
+				try {
+					folder_ = getFolderFromPathSync(path_);
+				}
+				catch (Platform::AccessDeniedException^ e) {
+					denied_ = true;
+				}
 			}
 		}
 
@@ -85,23 +87,29 @@ namespace TitaniumWindows
 			const auto parent = path.substr(0, separator);
 			const auto desiredName = path.substr(separator + 1);
 
-			const auto folder = getFolderFromPathSync(parent);
+			// Folder may exist but we are denied access to it. How do we create the subfolder then?
+			try {
+				const auto folder = getFolderFromPathSync(parent);
+				bool result = false;
+				concurrency::event event;
+				task<StorageFolder^>(folder->CreateFolderAsync(TitaniumWindows::Utility::ConvertString(desiredName))).then([&result, &event](task<StorageFolder^> task) {
+						try {
+							task.get();
+							result = true;
+						} catch (Platform::COMException^ ex) {
+							TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+						}
+						event.set();
+					},
+					concurrency::task_continuation_context::use_arbitrary());
+				event.wait();
 
-			bool result = false;
-			concurrency::event event;
-			task<StorageFolder^>(folder->CreateFolderAsync(TitaniumWindows::Utility::ConvertString(desiredName))).then([&result, &event](task<StorageFolder^> task) {
-					try {
-						task.get();
-						result = true;
-					} catch (Platform::COMException^ ex) {
-						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
-					}
-					event.set();
-				},
-				concurrency::task_continuation_context::use_arbitrary());
-			event.wait();
-
-			return result;
+				return result;
+			}
+			catch (Platform::AccessDeniedException^ e) {
+				TITANIUM_LOG_DEBUG("TitaniumWindows::Filesystem::File::createDirectory(std::string): Denied access to parent folder");
+				return false;
+			}
 		}
 
 		FileProperties::BasicProperties^ File::getStorageProperties(IStorageItem^ file) const
@@ -134,10 +142,15 @@ namespace TitaniumWindows
 		Windows::Storage::StorageFolder^ File::getFolderFromPathSync(Platform::String^ filename) const
 		{
 			Windows::Storage::StorageFolder^ storageFolder = nullptr;
+			bool denied = false;
 			concurrency::event event;
-			task<StorageFolder^>(Windows::Storage::StorageFolder::GetFolderFromPathAsync(filename)).then([&storageFolder, &event](task<StorageFolder^> task) {
+			task<StorageFolder^>(Windows::Storage::StorageFolder::GetFolderFromPathAsync(filename)).then([&storageFolder, &denied, &event](task<StorageFolder^> task) {
 					try {
 						storageFolder = task.get();
+					}
+					catch (Platform::AccessDeniedException^ e) {
+						storageFolder = nullptr;
+						denied = true;
 					}
 					catch (Platform::COMException^ ex) {
 						storageFolder = nullptr;
@@ -147,6 +160,9 @@ namespace TitaniumWindows
 				concurrency::task_continuation_context::use_arbitrary());
 			event.wait();
 
+			if (denied) {
+				throw ref new Platform::AccessDeniedException();
+			}
 			return storageFolder;
 		}
 
@@ -201,18 +217,24 @@ namespace TitaniumWindows
 			const std::string path = path_;
 			const std::string parent = path.substr(0, path.find_last_of("\\"));
 
-			auto File = get_context().CreateObject(JSExport<Titanium::Filesystem::File>::Class());
+			JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
+			TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+			JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+			JSValue FS_property = Titanium.GetProperty("Filesystem");
+			TITANIUM_ASSERT(FS_property.IsObject());  // precondition
+			JSObject FS = static_cast<JSObject>(FS_property);
+
+			JSValue File_property = FS.GetProperty("File");
+			TITANIUM_ASSERT(File_property.IsObject());  // precondition
+			JSObject File = static_cast<JSObject>(File_property);
+
 			return File.CallAsConstructor(parent).GetPrivate<Titanium::Filesystem::File>();
 		}
 
 		bool File::get_readonly() const TITANIUM_NOEXCEPT
 		{
-			auto item = getStorageItem();
-			if (item == nullptr) {
-				return false;
-			}
-			using namespace Windows::Storage;
-			return ((item->Attributes & FileAttributes::ReadOnly) == FileAttributes::ReadOnly);
+			return !get_writable();
 		}
 
 		bool File::get_remoteBackup() const TITANIUM_NOEXCEPT
@@ -227,6 +249,9 @@ namespace TitaniumWindows
 
 		bool File::get_writable() const TITANIUM_NOEXCEPT
 		{
+			if (denied_) {
+				return false;
+			}
 			auto item = getStorageItem();
 			if (item == nullptr) {
 				return false;
@@ -303,9 +328,17 @@ namespace TitaniumWindows
 
 		bool File::createDirectory() TITANIUM_NOEXCEPT
 		{
+			// check that parent exists, and if not, create it first!
+			auto parent = get_parent();
+			if (parent == nullptr) {
+				return false;
+			}
+			if (!parent->exists() && !parent->createDirectory()) {
+				return false;
+			}
 			const bool result = createDirectory(path_);
 			if (result) {
-				// because this creates new directory which didn't exit, update the folder_ member
+				// because this creates new directory which didn't exist, update the folder_ member
 				folder_ = getFolderFromPathSync(path_);
 				file_ = nullptr;
 			}
@@ -336,6 +369,7 @@ namespace TitaniumWindows
 
 		bool File::deleteDirectory(const bool& recursive) TITANIUM_NOEXCEPT
 		{
+			TITANIUM_LOG_DEBUG("TitaniumWindows::Filesystem::File::deleteDirectory: ", path_);
 			if (!isFolder()) {
 				return false;
 			}
@@ -393,7 +427,7 @@ namespace TitaniumWindows
 
 		bool File::exists() TITANIUM_NOEXCEPT
 		{
-			return (getStorageItem() != nullptr);
+			return denied_ || (getStorageItem() != nullptr);
 		}
 
 		std::string File::extension() TITANIUM_NOEXCEPT
@@ -448,6 +482,9 @@ namespace TitaniumWindows
 
 		bool File::isDirectory() TITANIUM_NOEXCEPT
 		{
+			if (denied_) {
+				return true;
+			}
 			auto item = getStorageItem();
 			if (item == nullptr) {
 				return false;

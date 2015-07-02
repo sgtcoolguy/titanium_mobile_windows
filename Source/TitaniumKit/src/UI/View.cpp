@@ -49,6 +49,7 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(View, add);
 			TITANIUM_ADD_FUNCTION(View, animate);
 			TITANIUM_ADD_FUNCTION(View, hide);
+			TITANIUM_ADD_FUNCTION(View, remove);
 			TITANIUM_ADD_FUNCTION(View, show);
 
 			// properties
@@ -115,6 +116,13 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() == 0);
 			layoutDelegate__->hide();
+			return get_context().CreateUndefined();
+		}
+
+		TITANIUM_FUNCTION(View, remove)
+		{
+			ENSURE_OBJECT_AT_INDEX(view, 0);
+			layoutDelegate__->remove(view.GetPrivate<View>());
 			return get_context().CreateUndefined();
 		}
 
