@@ -165,6 +165,7 @@ namespace TitaniumWindows
 			std::string name_;
 			std::string path_;
 #pragma warning(pop)
+			bool denied_ { false }; // Folder may exist, but we are denied access!
 
 			// We need both file and folder because Windows Runtime
 			// distinguishes it.
