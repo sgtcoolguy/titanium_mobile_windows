@@ -19,6 +19,13 @@ function mixin(WindowsBuilder) {
 }
 
 /**
+ * Escapes a value in a relative distinguished name. Used to generate the distinguished name for the windows cert string from tiapp publisher value.
+ **/
+function escapeRDN(value) {
+	return value.trim().replace(/\\/g, '\\\\').replace(/([\/,#+<>;"=])/g, '\\$1');
+}
+
+/**
  * Validates the Windows build-specific arguments, tiapp.xml settings, and environment.
  *
  * @param {Object} logger - The logger instance.
@@ -102,9 +109,9 @@ function validate(logger, config, cli) {
 				'ti.windows.publishername is suggested in your tiapp.xml for publishing!' +
 				'\nWe will default to a value generated from your tiapp.publisher value.' +
 				'\nFor example:' +
-				'\n<property name="ti.windows.publishername" type="string">CN=' + cli.tiapp.publisher + '</property>'
+				'\n<property name="ti.windows.publishername" type="string">CN=' + escapeRDN(cli.tiapp.publisher) + '</property>'
 			));
-			this.publisherName = "CN=" + cli.tiapp.publisher;
+			this.publisherName = "CN=" + escapeRDN(cli.tiapp.publisher);
 		}
 		else {
 			logger.error(__(
