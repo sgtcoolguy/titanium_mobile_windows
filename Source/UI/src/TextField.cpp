@@ -28,6 +28,9 @@ namespace TitaniumWindows
 			text_box__->AcceptsReturn = false;
 			text_box__->IsSpellCheckEnabled = true;
 
+			// TIMOB-19143: reset MinWidth to fix size issues
+			text_box__->MinWidth = 0;
+
 			Titanium::UI::TextField::setLayoutDelegate<WindowsViewLayoutDelegate>();
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(text_box__);
 		}
