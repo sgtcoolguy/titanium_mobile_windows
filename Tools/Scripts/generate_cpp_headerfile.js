@@ -61,7 +61,7 @@ function bufferToCIntArray(data) {
     return output.join('').trim();
 }
 
-for (var i = 2; i < files_to_process.length; i++) {
+for (var i = 0; i < files_to_process.length; i++) {
     var from_file = files_to_process[i].from;
     var to_file   = files_to_process[i].to;
 
