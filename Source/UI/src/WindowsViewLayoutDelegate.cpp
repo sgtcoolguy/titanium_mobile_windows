@@ -831,7 +831,26 @@ namespace TitaniumWindows
 				prop.value = "UI.FILL";
 			}
 
-			auto ppi = Windows::Graphics::Display::DisplayInformation::GetForCurrentView()->LogicalDpi;
+			auto info = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
+			double ppi = info->LogicalDpi;
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
+			switch (name) {
+				case Titanium::LayoutEngine::ValueName::CenterX:
+				case Titanium::LayoutEngine::ValueName::Left:
+				case Titanium::LayoutEngine::ValueName::Right:
+				case Titanium::LayoutEngine::ValueName::Width:
+				case Titanium::LayoutEngine::ValueName::MinWidth:
+					ppi = info->RawDpiX / info->RawPixelsPerViewPixel;
+					break;
+				case Titanium::LayoutEngine::ValueName::CenterY:
+				case Titanium::LayoutEngine::ValueName::Top:
+				case Titanium::LayoutEngine::ValueName::Bottom:
+				case Titanium::LayoutEngine::ValueName::Height:
+				case Titanium::LayoutEngine::ValueName::MinHeight:
+					ppi = info->RawDpiY / info->RawPixelsPerViewPixel;
+					break;
+			}
+#endif
 			Titanium::LayoutEngine::populateLayoutPoperties(prop, &layout_node__->properties, ppi);
 
 			if (isLoaded()) {
