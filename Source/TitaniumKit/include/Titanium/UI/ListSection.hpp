@@ -19,7 +19,8 @@ namespace Titanium
 	{
 
 		using namespace HAL;
-		using View_shared_ptr_t = std::shared_ptr<View>;
+
+		class ListView;
 
 		/*!
 		  @struct
@@ -69,14 +70,14 @@ namespace Titanium
 			  @abstract footerView
 			  @discussion View to use for this section footer.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, footerView);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<View>, footerView);
 
 			/*!
 			  @property
 			  @abstract headerView
 			  @discussion View to use for this section header
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, headerView);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<View>, headerView);
 
 			/*!
 			  @property
@@ -84,7 +85,6 @@ namespace Titanium
 			  @discussion Items of this list section.
 			*/
 			TITANIUM_PROPERTY_IMPL_DEF(std::vector<ListDataItem>, items);
-			virtual void items_set_notify(size_t index, size_t count); // for subclass
 
 			/*!
 			  @method
@@ -170,13 +170,15 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setHeaderView);
 			TITANIUM_FUNCTION_DEF(getItems);
 
+			virtual void fireListSectionEvent(const std::string& event_name, const std::uint32_t& index, const std::uint32_t& itemCount = 1, const std::uint32_t& affectedRows = 1);
+
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			std::string footerTitle__;
 			std::string headerTitle__;
-			View_shared_ptr_t footerView__;
-			View_shared_ptr_t headerView__;
+			std::shared_ptr<View> footerView__;
+			std::shared_ptr<View> headerView__;
 			std::vector<ListDataItem> items__;
 
 			JSObject listviewAnimationProperties_ctor__;
