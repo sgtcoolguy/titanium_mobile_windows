@@ -153,6 +153,10 @@ namespace Titanium
 		  @discussion Application version, from `tiapp.xml`.
 		*/
 		virtual std::string version() const TITANIUM_NOEXCEPT;
+
+		// FIXME This is a giant hack to stuff the SDK version into _app_info_.json at build-time. Should be on TiModule!
+		virtual std::string _sdkVersion() const TITANIUM_NOEXCEPT;
+
 		/*!
 		  @method
 		  @abstract fireSystemEvent
@@ -197,6 +201,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_READONLY_DEF(sessionId);
 		TITANIUM_PROPERTY_READONLY_DEF(url);
 		TITANIUM_PROPERTY_READONLY_DEF(version);
+		TITANIUM_PROPERTY_READONLY_DEF(_sdkVersion);
 
 		TITANIUM_FUNCTION_DEF(fireSystemEvent);
 		TITANIUM_FUNCTION_DEF(getAccessibilityEnabled);
@@ -242,6 +247,7 @@ namespace Titanium
 		std::string sessionId__;
 		std::string url__;
 		std::string version__;
+		std::string _sdkVersion__;
 #pragma warning(pop)
 	};
 }

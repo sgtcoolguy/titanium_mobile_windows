@@ -63,7 +63,8 @@ namespace Titanium
 		publisher__("__PUBLISHER__"),
 		sessionId__("__SESSION_ID__"),
 		url__("__URL__"),
-		version__("__VERSION__")
+		version__("__VERSION__"),
+		_sdkVersion__("__TITANIUM_VERSION__") // FIXME This should live in TiModule!
 	{
 		TITANIUM_LOG_DEBUG("AppModule:: ctor ", this);
 	}
@@ -89,6 +90,7 @@ namespace Titanium
 		publisher__ = getAppInfo<std::string>("publisher", publisher__);
 		url__ = getAppInfo<std::string>("url", url__);
 		version__ = getAppInfo<std::string>("version", version__);
+		_sdkVersion__ = getAppInfo<std::string>("sdkVersion", _sdkVersion__);
 	}
 
 	TITANIUM_PROPERTY_GETTER(AppModule, EVENT_ACCESSIBILITY_ANNOUNCEMENT)
@@ -201,6 +203,11 @@ namespace Titanium
 		return version__;
 	}
 
+	std::string AppModule::_sdkVersion() const TITANIUM_NOEXCEPT
+	{
+		return _sdkVersion__;
+	}
+
 	void AppModule::fireSystemEvent(const std::string& eventName, const JSObject& param) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("AppModule::fireSystemEvent: Unimplemented");
@@ -234,6 +241,7 @@ namespace Titanium
 		TITANIUM_ADD_PROPERTY_READONLY(AppModule, sessionId);
 		TITANIUM_ADD_PROPERTY_READONLY(AppModule, url);
 		TITANIUM_ADD_PROPERTY_READONLY(AppModule, version);
+		TITANIUM_ADD_PROPERTY_READONLY(AppModule, _sdkVersion);
 
 		TITANIUM_ADD_FUNCTION(AppModule, fireSystemEvent);
 		TITANIUM_ADD_FUNCTION(AppModule, getAccessibilityEnabled);
@@ -372,6 +380,11 @@ namespace Titanium
 	TITANIUM_PROPERTY_GETTER(AppModule, version)
 	{
 		return get_context().CreateString(version());
+	}
+
+	TITANIUM_PROPERTY_GETTER(AppModule, _sdkVersion)
+	{
+		return get_context().CreateString(_sdkVersion());
 	}
 
 	TITANIUM_FUNCTION(AppModule, fireSystemEvent)
