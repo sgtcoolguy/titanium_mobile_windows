@@ -260,7 +260,25 @@ function copyResources(next) {
 	}
 
 	var tasks = [
-		// first task is to copy all files in the Resources directory, but ignore
+		// First, copy template files for CMake/MSBuild FIXME Move these into subdir so we copy only ones we need!
+		function (cb) {
+			var src = path.join(this.platformPath, 'templates', 'build');
+			copyDir.call(this, {
+				src: src,
+				dest: this.buildDir // throw into top-level build dir
+			}, cb);
+		},
+
+		// Copy cmake folder over, with our helper scripts to find the bundled dependency libs
+		function (cb) {
+			var src = path.join(this.platformPath, 'templates', 'build', 'cmake');
+			copyDir.call(this, {
+				src: src,
+				dest: path.join(this.buildDir, 'cmake')
+			}, cb);
+		},
+
+		// Next task is to copy all files in the Resources directory, but ignore
 		// any directory that is the name of a known platform
 		function (cb) {
 			var src = path.join(this.projectDir, 'Resources');
@@ -277,24 +295,6 @@ function copyResources(next) {
 			copyDir.call(this, {
 				src: src,
 				dest: this.buildTargetAssetsDir
-			}, cb);
-		},
-
-		// next copy template files for CMake/MSBuild FIXME Move these into subdir so we copy only ones we need!
-		function (cb) {
-			var src = path.join(this.platformPath, 'templates', 'build');
-			copyDir.call(this, {
-				src: src,
-				dest: this.buildDir // throw into top-level build dir
-			}, cb);
-		},
-
-		// Copy cmake folder over, with our helper scripts to find the bundled dependency libs
-		function (cb) {
-			var src = path.join(this.platformPath, 'templates', 'build', 'cmake');
-			copyDir.call(this, {
-				src: src,
-				dest: path.join(this.buildDir, 'cmake')
 			}, cb);
 		},
 
