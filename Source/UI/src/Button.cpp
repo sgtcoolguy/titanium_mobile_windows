@@ -47,6 +47,9 @@ namespace TitaniumWindows
 			button__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Center;
 			button__->FontSize = DefaultFontSize;
 
+			// TIMOB-19143: reset MinWidth to fix size issues
+			button__->MinWidth = 0;
+
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(button__);
 		}
 
