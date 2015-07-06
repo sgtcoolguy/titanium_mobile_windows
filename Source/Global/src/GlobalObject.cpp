@@ -98,7 +98,7 @@ namespace TitaniumWindows
 		return exists;
 	}
 
-	void GlobalObject::SetSeed(const std::string& seed)
+	void GlobalObject::setSeed(::Platform::String^ seed)
 	{
 		seed__ = seed;
 	}
@@ -112,7 +112,7 @@ namespace TitaniumWindows
 		bool hasError = false;
 		concurrency::event event;
 
-		if (seed__.empty()) {
+		if (seed__ == nullptr || seed__->IsEmpty()) {
 			concurrency::task<StorageFile^>(StorageFile::GetFileFromPathAsync(module_path))
 				.then([&content, &hasError, &event](concurrency::task<StorageFile^> task) {
 					try {
@@ -127,58 +127,63 @@ namespace TitaniumWindows
 					}
 				}, concurrency::task_continuation_context::use_arbitrary());
 			event.wait();
-		}
-		else {
-			IBuffer^ spEncryptedBuffer;
-			IBuffer^ spIVBuffer;
-			concurrency::task<StorageFile^>(StorageFile::GetFileFromPathAsync(module_path))
+		} else {
+			IBuffer^ file_buffer = nullptr;
+			IBuffer^ iv_buffer = nullptr;
+			bool encrypted = false;
+
+			concurrency::task<StorageFile^>(
+				// read file
+				StorageFile::GetFileFromPathAsync(module_path))
 				.then([](StorageFile^ file) {
 					return FileIO::ReadBufferAsync(file);
 				}, task_continuation_context::use_arbitrary())
-				.then([&spEncryptedBuffer, &module_path](IBuffer^ buffer) {
-					spEncryptedBuffer = buffer;
+
+				// set file buffer
+				.then([&file_buffer, &module_path](IBuffer^ buffer) {
+					file_buffer = buffer;
 					return StorageFile::GetFileFromPathAsync(module_path + ".iv");
 				}, task_continuation_context::use_arbitrary())
-				.then([](StorageFile^ file) {
+
+				// read IV file
+				.then([&encrypted](StorageFile^ file) {
+					encrypted = true;
 					return FileIO::ReadBufferAsync(file);
 				}, task_continuation_context::use_arbitrary())
-				.then([&spIVBuffer, &hasError, &event](concurrency::task<IBuffer^> task) {
+
+				// set IV buffer
+				.then([&iv_buffer, &encrypted, &file_buffer, &hasError, &event](concurrency::task<IBuffer^> task) {
 					try {
-						spIVBuffer = task.get();
-					}
-					catch (Platform::COMException^ ex) {
-						hasError = true;
+						iv_buffer = task.get();
+					} catch (Platform::COMException^ ex) {
+						if (encrypted && !file_buffer) {
+							hasError = true;
+						}
 					}
 					event.set();
-				}, task_continuation_context::use_arbitrary());;
-
+				}, task_continuation_context::use_arbitrary()
+			);
 			event.wait();
 
-			if (!hasError) {
+			// decrypt file
+			if (!hasError && encrypted) {
 				try {
-					// Select a symmetric algorithm
-					Platform::String^ strAlgorithm = SymmetricAlgorithmNames::AesCbcPkcs7;
-					SymmetricKeyAlgorithmProvider^ spAlgorithm = SymmetricKeyAlgorithmProvider::OpenAlgorithm(strAlgorithm);
-
-					// Prepare our key.
-					IBuffer^ keyMaterial = CryptographicBuffer::DecodeFromBase64String(TitaniumWindows::Utility::ConvertString(seed__));
-					CryptographicKey^ spKeyPair = spAlgorithm->CreateSymmetricKey(keyMaterial);
-
-					// Decrypt.
-					IBuffer^ spUnencryptedBuffer = CryptographicEngine::Decrypt(spKeyPair, spEncryptedBuffer, spIVBuffer);
-					content = CryptographicBuffer::ConvertBinaryToString(BinaryStringEncoding::Utf8, spUnencryptedBuffer);
-				}
-				catch (Platform::COMException^ ex) {
+					SymmetricKeyAlgorithmProvider^ provider = SymmetricKeyAlgorithmProvider::OpenAlgorithm(SymmetricAlgorithmNames::AesCbcPkcs7);
+					CryptographicKey^ key = provider->CreateSymmetricKey(CryptographicBuffer::DecodeFromBase64String(seed__));
+					IBuffer^ decrypted_buffer = CryptographicEngine::Decrypt(key, file_buffer, iv_buffer);
+					content = CryptographicBuffer::ConvertBinaryToString(BinaryStringEncoding::Utf8, decrypted_buffer);
+				} catch (Platform::COMException^ ex) {
 					detail::ThrowRuntimeError("require", "Could not load module: module_path = " + TitaniumWindows::Utility::ConvertUTF8String(module_path) + ", message = " + TitaniumWindows::Utility::ConvertUTF8String(ex->Message));
 					hasError = true;
 				}
+			// not encrypted, return contents
+			} else if (!encrypted && file_buffer) {
+				content = CryptographicBuffer::ConvertBinaryToString(BinaryStringEncoding::Utf8, file_buffer);
 			}
 		}
-
 		if (hasError) {
 			detail::ThrowRuntimeError("require", "Could not load module: module_path = " + TitaniumWindows::Utility::ConvertUTF8String(module_path));
 		}
-
 		return TitaniumWindows::Utility::ConvertUTF8String(content);
 	}
 
@@ -272,7 +277,8 @@ namespace TitaniumWindows
 		return std::make_shared<TitaniumWindows::Timer>(callback, interval);
 	}
 	GlobalObject::GlobalObject(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Titanium::GlobalObject(js_context)
+	    : Titanium::GlobalObject(js_context),
+		seed__(nullptr)
 	{
 		TITANIUM_LOG_DEBUG("GlobalObject::ctor");
 	}
