@@ -236,7 +236,7 @@ function generateCmakeList(next) {
 		{
 			projectName: this.sanitizeProjectName(this.cli.tiapp.name),
 			windowsSrcDir: path.resolve(__dirname, '..', '..', '..').replace(/\\/g, '/').replace(' ', '\\ '), // cmake likes unix separators
-			version: this.tiapp.version,
+			version: appc.version.format(this.tiapp.version, 4, 4, true),
 			assets: assetList.join('\n'),
 			publisherDisplayName: this.cli.tiapp.publisher,
 			publisherName: this.publisherName,
