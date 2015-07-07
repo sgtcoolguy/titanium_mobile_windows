@@ -1,5 +1,5 @@
 name: Titanium.UI.Windows.AppBarButton
-summary: Windows Phone application bar button.
+summary: Windows application bar button.
 description: |
     To create an application bar button, use the
     [Titanium.UI.Windows.createAppBarButton()](Titanium.UI.Windows.createAppBarButton) method
