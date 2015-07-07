@@ -86,8 +86,11 @@ namespace TitaniumWindows
 				Titanium::Module::enableEvent(event_name);
 
 				if (event_name == "click") {
-					click_event__ = button__->Click += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
-						this->fireEvent("click");
+					const auto ctx = this->get_context();
+					click_event__ = button__->Click += ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e) {
+						auto eventArgs = ctx.CreateObject();
+						eventArgs.SetProperty("checked", ctx.CreateBoolean(button__->IsChecked->Value));
+						this->fireEvent("click", eventArgs);
 					});
 
 				}
