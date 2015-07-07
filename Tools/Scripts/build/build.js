@@ -21,6 +21,7 @@ var rootDir = path.join(__dirname, '..', '..', '..'),
 	distLib = path.join(distRoot, 'lib'),
 	beQuiet = process.argv.indexOf('--quiet') >= 0,
 	beParallel = process.argv.indexOf('--parallel') >= 0,
+	limitArchitectures = process.argv.indexOf('--only') >= 0,
 	overallTimer = process.hrtime(),
 	timer = process.hrtime();
 
@@ -35,7 +36,14 @@ async.series([
 			{target: 'WindowsPhone', architecture: 'x86'},
 			{target: 'WindowsPhone', architecture: 'ARM'},
 			{target: 'WindowsStore', architecture: 'x86'}
-		], function (configuration, next) {
+		].filter(function (item) {
+				if (!limitArchitectures) {
+					return true;
+				}
+				else {
+					return process.argv.indexOf(item.target + '-' + item.architecture) >= 0;
+				}
+			}), function (configuration, next) {
 			buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', configuration.target, configuration.architecture, next);
 		}, next);
 	},
