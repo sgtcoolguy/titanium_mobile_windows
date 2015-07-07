@@ -68,7 +68,7 @@ Analytics.prototype.createEvent = function createEvent(eventType, data) {
 		ver: '3',
 		aguid: Ti.App.guid
 	};
-	data && (event['data'] = JSON.stringify(data));
+	data && (event['data'] = data);
 	this.eventQueue.push(event);
 	this.lastEvent = event;
 };
@@ -207,7 +207,7 @@ analytics.postEvents();
 // listen for 'resume' and 'pause' events
 Ti.App.addEventListener('resume', function resume(e) {
 	// generate a new sessionId if we have been suspeneded for over 30 seconds
-	if (analytics.timestamp && (new Date().getTime() - analytics.timestamp) > SESSION_TIME_SEPARATION) {
+	if (analytics.timestamp && (new Date().getTime() - analytics.timestamp)/1000 > SESSION_TIME_SEPARATION) {
 		analytics.sessionId = Ti.Platform.createUUID();
 	}
 	// queue ti.foreground event
