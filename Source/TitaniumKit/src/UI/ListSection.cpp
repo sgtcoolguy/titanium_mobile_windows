@@ -102,13 +102,13 @@ namespace Titanium
 			fireListSectionEvent("append", index, dataItems.size());
 		}
 
-		void ListSection::insertItemsAt(std::uint32_t index, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListSection::insertItemsAt(const std::uint32_t& index, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			items__.insert(items__.begin() + index, dataItems.begin(), dataItems.end());
 			fireListSectionEvent("append", index, dataItems.size());
 		}
 
-		void ListSection::replaceItemsAt(std::uint32_t index, std::uint32_t count, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListSection::replaceItemsAt(const std::uint32_t& index, const std::uint32_t& count, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(items__.size() >= index + count);
 			items__.erase(items__.begin() + index, items__.begin() + index + count);
@@ -116,25 +116,25 @@ namespace Titanium
 			fireListSectionEvent("replace", index, /* item count */ dataItems.size(), /* affected rows */ count);
 		}
 
-		void ListSection::deleteItemsAt(std::uint32_t index, std::uint32_t count, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListSection::deleteItemsAt(const std::uint32_t& index, const std::uint32_t& count, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(items__.size() >= index + count);
 			items__.erase (items__.begin() + index, items__.begin() + index + count);
 			fireListSectionEvent("delete", index, count, count);
 		}
 
-		ListDataItem ListSection::getItemAt(std::uint32_t index) TITANIUM_NOEXCEPT
+		ListDataItem ListSection::getItemAt(const std::uint32_t& index) TITANIUM_NOEXCEPT
 		{
 			return items__.at(index);
 		}
 
-		void ListSection::updateItemAt(std::uint32_t index, const ListDataItem& dataItem, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListSection::updateItemAt(const std::uint32_t& index, const ListDataItem& dataItem, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			items__.at(index) = dataItem;
 			fireListSectionEvent("update", index);
 		}
 
-			void ListSection::fireListSectionEvent(const std::string& event_name, const std::uint32_t& index, const std::uint32_t& itemCount, const std::uint32_t& affectedRows)
+		void ListSection::fireListSectionEvent(const std::string& event_name, const std::uint32_t& index, const std::uint32_t& itemCount, const std::uint32_t& affectedRows)
 		{
 			const auto js_listview = get_object().GetProperty("listview");
 			if (!js_listview.IsObject()) {

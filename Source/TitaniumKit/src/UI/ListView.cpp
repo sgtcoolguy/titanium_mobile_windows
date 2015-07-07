@@ -74,7 +74,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(ListView, std::string, separatorColor)
 		TITANIUM_PROPERTY_READWRITE(ListView, std::string, defaultItemTemplate)
 
-		void ListView::scrollToItem(uint32_t sectionIndex, uint32_t itemIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListView::scrollToItem(const uint32_t& sectionIndex, const uint32_t& itemIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ListView::scrollToItem: Unimplemented");
 		}
@@ -86,17 +86,17 @@ namespace Titanium
 			}
 		}
 
-		void ListView::deleteSectionAt(uint32_t index, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListView::deleteSectionAt(const uint32_t& index, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			sections__.erase(sections__.begin()+index);
 		}
 
-		void ListView::insertSectionAt(uint32_t index, const std::vector<std::shared_ptr<ListSection>>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListView::insertSectionAt(const uint32_t& index, const std::vector<std::shared_ptr<ListSection>>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			sections__.insert(sections__.begin() + index, section.begin(), section.end());
 		}
 
-		void ListView::replaceSectionAt(uint32_t index, const std::vector<std::shared_ptr<ListSection>>& sections, const std::shared_ptr<ListViewAnimationProperties>& animationn) TITANIUM_NOEXCEPT
+		void ListView::replaceSectionAt(const uint32_t& index, const std::vector<std::shared_ptr<ListSection>>& sections, const std::shared_ptr<ListViewAnimationProperties>& animationn) TITANIUM_NOEXCEPT
 		{
 			sections__.erase (sections__.begin() + index, sections__.begin() + index + sections.size());
 			sections__.insert(sections__.begin() + index, sections.begin(), sections.end());
@@ -107,7 +107,7 @@ namespace Titanium
 			marker__ = marker;
 		}
 
-		void ListView::fireListSectionEvent(const std::string& name, const std::shared_ptr<ListSection> section, const std::uint32_t& itemIndex, const std::uint32_t& itemCount, const std::uint32_t& affectedRows)
+		void ListView::fireListSectionEvent(const std::string& name, const std::shared_ptr<ListSection>& section, const std::uint32_t& itemIndex, const std::uint32_t& itemCount, const std::uint32_t& affectedRows)
 		{
 			const auto ctx = get_context();
 			auto event_args = ctx.CreateObject();

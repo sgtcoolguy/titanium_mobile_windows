@@ -33,9 +33,9 @@ namespace TitaniumWindows
 		public:
 
 			virtual void appendSection(const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
-			virtual void deleteSectionAt(uint32_t sectionIndex, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
-			virtual void insertSectionAt(uint32_t sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
-			virtual void replaceSectionAt(uint32_t sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void deleteSectionAt(const uint32_t& sectionIndex, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void insertSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void replaceSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
 
 			ListView(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -57,7 +57,7 @@ namespace TitaniumWindows
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
-			virtual void fireListSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::ListSection> section, const std::uint32_t& itemIndex = 0, const std::uint32_t& itemCount = 0, const std::uint32_t& affectedRows = 0) override;
+			virtual void fireListSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::ListSection>& section, const std::uint32_t& itemIndex = 0, const std::uint32_t& itemCount = 0, const std::uint32_t& affectedRows = 0) override;
 
 			::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ createUIElementsForSection(const std::uint32_t& sectionIndex) TITANIUM_NOEXCEPT;
 
@@ -68,7 +68,8 @@ namespace TitaniumWindows
 			void registerListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
 			void appendListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ group);
 			void insertListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ group, const std::uint32_t& index);
-			std::tuple<std::uint32_t, std::int32_t> ListView::searchFromSelectedIndex(const std::uint32_t& selectedIndex);
+			// Search for section index and item index. Returns {sectionIndex, itemIndex}
+			std::tuple<std::uint32_t, std::int32_t> searchFromSelectedIndex(const std::uint32_t& selectedIndex);
 			void bindCollectionViewSource();
 			void unbindCollectionViewSource();
 

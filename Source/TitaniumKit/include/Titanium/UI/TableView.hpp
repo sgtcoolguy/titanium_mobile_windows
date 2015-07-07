@@ -24,10 +24,6 @@ namespace Titanium
 		class TableViewRow;
 		class TableViewSection;
 
-		using TableViewSection_shared_ptr_t = std::shared_ptr<TableViewSection>;
-		using TableViewRow_shared_ptr_t = std::shared_ptr<TableViewRow>;
-		using View_shared_ptr_t = std::shared_ptr<View>;
-
 		/*!
 		  @class
 		  @discussion This is the Titanium TableView Module.
@@ -43,204 +39,203 @@ namespace Titanium
 			  @abstract data
 			  @discussion Rows of the table view.
 			*/
-			virtual std::vector<JSObject> get_data() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(std::vector<JSObject>, data);
 
 			/*!
 			  @method
 			  @abstract setData
 			  @discussion Sets the data in the table.
 			*/
-			virtual void setData(std::vector<JSObject>& data, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void setData(const std::vector<JSObject>& data, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @property
 			  @abstract filterAttribute
 			  @discussion Filter attribute to be used when searching.
 			*/
-			virtual std::string get_filterAttribute() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(std::string, filterAttribute);
 
 			/*!
 			  @property
 			  @abstract filterAnchored
 			  @discussion Determines whether the search is limited to the start of the string
 			*/
-			virtual bool get_filterAnchored() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(bool, filterAnchored);
 
 			/*!
 			  @property
 			  @abstract filterCaseInsensitive
 			  @discussion Determines whether the search is case insensitive.
 			*/
-			virtual bool get_filterCaseInsensitive() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(bool, filterCaseInsensitive);
 
 			/*!
 			  @property
 			  @abstract footerTitle
 			  @discussion Table view footer title.
 			*/
-			virtual std::string get_footerTitle() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(std::string, footerTitle);
 
 			/*!
 			  @property
 			  @abstract footerView
 			  @discussion Table view footer as a view that will be rendered instead of a label.
 			*/
-			virtual View_shared_ptr_t get_footerView() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<View>, footerView);
 
 			/*!
 			  @property
 			  @abstract headerTitle
 			  @discussion Table view header title.
 			*/
-			virtual std::string get_headerTitle() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(std::string, headerTitle);
 
 			/*!
 			  @property
 			  @abstract headerView
 			  @discussion Table view header as a view that will be rendered instead of a label.
 			*/
-			virtual View_shared_ptr_t get_headerView() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<View>, headerView);
 
 			/*!
 			  @property
 			  @abstract maxRowHeight
 			  @discussion Maximum row height for table view rows.
 			*/
-			virtual double get_maxRowHeight() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(double, maxRowHeight);
 
 			/*!
 			  @property
 			  @abstract minRowHeight
 			  @discussion Minimum row height for table view rows.
 			*/
-			virtual double get_minRowHeight() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(double, minRowHeight);
 
 			/*!
 			  @property
 			  @abstract rowHeight
 			  @discussion Default row height for table view rows.
 			*/
-			virtual double get_rowHeight() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(double, rowHeight);
 
 			/*!
 			  @property
 			  @abstract search
 			  @discussion Search field to use for the table view.
 			*/
-			virtual JSValue get_search() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(JSValue, search);
 
 			/*!
 			  @property
 			  @abstract sectionCount
 			  @discussion Number of sections in this table view.
 			*/
-			virtual uint32_t get_sectionCount() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::uint32_t, sectionCount);
 
 			/*!
 			  @property
 			  @abstract sections
 			  @discussion Sections of this table.
 			*/
-			virtual std::vector<TableViewSection_shared_ptr_t> get_sections() const TITANIUM_NOEXCEPT;
-			virtual void set_sections(const std::vector<TableViewSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::shared_ptr<TableViewSection>>, sections);
 
 			/*!
 			  @property
 			  @abstract separatorColor
 			  @discussion Separator line color between rows, as a color name or hex triplet.
 			*/
-			virtual std::string get_separatorColor() const TITANIUM_NOEXCEPT;
+  			TITANIUM_PROPERTY_IMPL_DEF(std::string, separatorColor);
 
 			/*!
 			  @method
 			  @abstract appendRow
 			  @discussion Appends a single row or an array of rows to the end of the table.
 			*/
-			virtual void appendRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void appendRow(const std::vector<std::shared_ptr<TableViewRow>>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract appendSection
 			  @discussion Appends a single section or an array of sections to the end of the table.
 			*/
-			virtual void appendSection(const TableViewSection_shared_ptr_t section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void appendSection(const std::vector<std::shared_ptr<TableViewSection>>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract deleteRow
 			  @discussion Deletes an existing row.
 			*/
-			virtual void deleteRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void deleteRow(const std::uint32_t& rowIndex, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract deleteSection
 			  @discussion Deletes an existing section.
 			*/
-			virtual void deleteSection(uint32_t section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void deleteSection(const uint32_t& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertRowAfter
 			  @discussion Inserts a row after another row.
 			*/
-			virtual void insertRowAfter(uint32_t index, JSValue row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void insertRowAfter(const uint32_t& index, const std::vector<std::shared_ptr<TableViewRow>>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertSectionAfter
 			  @discussion Inserts a section after another section.
 			*/
-			virtual void insertSectionAfter(uint32_t index, JSValue section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionAfter(const uint32_t& index, const std::vector<std::shared_ptr<TableViewSection>>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertRowBefore
 			  @discussion Inserts a row before another row.
 			*/
-			virtual void insertRowBefore(uint32_t index, JSValue row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void insertRowBefore(const uint32_t& index, const std::vector<std::shared_ptr<TableViewRow>>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertSectionBefore
 			  @discussion Inserts a section before another section.
 			*/
-			virtual void insertSectionBefore(uint32_t index, JSValue section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionBefore(const uint32_t& index, const std::vector<std::shared_ptr<TableViewSection>>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract scrollToIndex
 			  @discussion Scrolls the table view to ensure that the specified row is on screen.
 			*/
-			virtual void scrollToIndex(uint32_t index, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void scrollToIndex(const uint32_t& index, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract scrollToTop
 			  @discussion Scrolls the table to a specific top position where 0 is the topmost y position in the table view.
 			*/
-			virtual void scrollToTop(uint32_t top, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void scrollToTop(const uint32_t& top, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract selectRow
 			  @discussion Programmatically selects a row. In Android, it sets the currently selected item. If in touch mode,the item will not be selected but it will still be positioned appropriately. If the specified selection position is less than 0, then the item at position 0 will be selected.
 			*/
-			virtual void selectRow(uint32_t row) TITANIUM_NOEXCEPT;
+			virtual void selectRow(const uint32_t& row) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract updateRow
 			  @discussion Updates an existing row, optionally with animation.
 			*/
-			virtual void updateRow(uint32_t index, TableViewRow_shared_ptr_t row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void updateRow(const uint32_t& index, const std::shared_ptr<TableViewRow>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract updateSection
 			  @discussion Updates an existing section, optionally with animation.
 			*/
-			virtual void updateSection(uint32_t index, TableViewSection_shared_ptr_t section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void updateSection(const uint32_t& index, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			TableView(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableView() = default;
@@ -254,20 +249,20 @@ namespace Titanium
 			static void JSExportInitialize();
 
 			TITANIUM_PROPERTY_DEF(data);
-			TITANIUM_PROPERTY_READONLY_DEF(filterAttribute);
-			TITANIUM_PROPERTY_READONLY_DEF(filterAnchored);
-			TITANIUM_PROPERTY_READONLY_DEF(filterCaseInsensitive);
-			TITANIUM_PROPERTY_READONLY_DEF(footerTitle);
-			TITANIUM_PROPERTY_READONLY_DEF(footerView);
-			TITANIUM_PROPERTY_READONLY_DEF(headerTitle);
-			TITANIUM_PROPERTY_READONLY_DEF(headerView);
-			TITANIUM_PROPERTY_READONLY_DEF(maxRowHeight);
-			TITANIUM_PROPERTY_READONLY_DEF(minRowHeight);
-			TITANIUM_PROPERTY_READONLY_DEF(rowHeight);
-			TITANIUM_PROPERTY_READONLY_DEF(search);
+			TITANIUM_PROPERTY_DEF(filterAttribute);
+			TITANIUM_PROPERTY_DEF(filterAnchored);
+			TITANIUM_PROPERTY_DEF(filterCaseInsensitive);
+			TITANIUM_PROPERTY_DEF(footerTitle);
+			TITANIUM_PROPERTY_DEF(footerView);
+			TITANIUM_PROPERTY_DEF(headerTitle);
+			TITANIUM_PROPERTY_DEF(headerView);
+			TITANIUM_PROPERTY_DEF(maxRowHeight);
+			TITANIUM_PROPERTY_DEF(minRowHeight);
+			TITANIUM_PROPERTY_DEF(rowHeight);
+			TITANIUM_PROPERTY_DEF(search);
 			TITANIUM_PROPERTY_READONLY_DEF(sectionCount);
-			TITANIUM_PROPERTY_READONLY_DEF(sections);
-			TITANIUM_PROPERTY_READONLY_DEF(separatorColor);
+			TITANIUM_PROPERTY_DEF(sections);
+			TITANIUM_PROPERTY_DEF(separatorColor);
 			TITANIUM_FUNCTION_DEF(appendRow);
 			TITANIUM_FUNCTION_DEF(appendSection);
 			TITANIUM_FUNCTION_DEF(deleteRow);
@@ -311,6 +306,10 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(getSeparatorColor);
 			TITANIUM_FUNCTION_DEF(setSeparatorColor);
 
+			// Receive all events fired from TableViewSection.
+			// Subclass may override this to catch changes for section.
+			virtual void fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<TableViewSection>& section, const std::uint32_t& rowIndex);
+
 			protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
@@ -319,15 +318,17 @@ namespace Titanium
 				bool filterAnchored__;
 				bool filterCaseInsensitive__;
 				std::string footerTitle__;
-				View_shared_ptr_t footerView__;
+				std::shared_ptr<View> footerView__;
 				std::string headerTitle__;
-				View_shared_ptr_t headerView__;
+				std::shared_ptr<View> headerView__;
 				double maxRowHeight__;
 				double minRowHeight__;
 				double rowHeight__;
 				JSValue search__;
-				std::vector<TableViewSection_shared_ptr_t> sections__;
+				std::vector<std::shared_ptr<TableViewSection>> sections__;
 				std::string separatorColor__;
+				JSObject tableviewAnimationProperties_ctor__;
+
 #pragma warning(pop)
 		};
 

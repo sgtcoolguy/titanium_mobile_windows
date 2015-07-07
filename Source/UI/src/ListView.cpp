@@ -85,15 +85,14 @@ namespace TitaniumWindows
 				} else if (selectedIndex == 0) {
 					// that's a first header
 					break;
+				} else if (totalItemCount == selectedIndex) {
+					// this indicates header is selected
+					itemIndex = -1;
+					sectionIndex++;
+					break;
 				} else {
-					if (totalItemCount == selectedIndex) {
-						// this indicates header is selected
-						itemIndex = -1;
-						sectionIndex++;
-					} else {
-						// this indicates selected index is in this section
-						itemIndex = selectedIndex - (totalItemCount - items->Size) - 1;
-					}
+					// this indicates selected index is in this section
+					itemIndex = selectedIndex - (totalItemCount - items->Size) - 1;
 					break;
 				}
 			}
@@ -272,7 +271,7 @@ namespace TitaniumWindows
 			bindCollectionViewSource();
 		}
 
-		void ListView::deleteSectionAt(uint32_t sectionIndex, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListView::deleteSectionAt(const uint32_t& sectionIndex, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ListView::deleteSectionAt(sectionIndex, animation);
 
@@ -286,36 +285,25 @@ namespace TitaniumWindows
 			bindCollectionViewSource();
 		}
 
-		void ListView::insertSectionAt(uint32_t sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListView::insertSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ListView::insertSectionAt(sectionIndex, section, animation);
 
-			// unbind collection view source to avoid exception
-			unbindCollectionViewSource();
-
-			collectionViewItems__->InsertAt(sectionIndex, createUIElementsForSection(sectionIndex));
-			unfiltered_headers__.insert(unfiltered_headers__.begin() + sectionIndex, static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex))->GetAt(0));
-
-			// bind collection view again
-			bindCollectionViewSource();
+			// NOTE: reset all sections beucase collectionViewItems__->InsertAt() messed up views.
+			// something to do with section.views JavaScript array maybe? Need to revisit.
+			set_sections(sections__);
 		}
 
-		void ListView::replaceSectionAt(uint32_t sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListView::replaceSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ListView::replaceSectionAt(sectionIndex, section, animation);
 
-			// unbind collection view source to avoid exception
-			unbindCollectionViewSource();
-
-			collectionViewItems__->RemoveAt(sectionIndex);
-			collectionViewItems__->InsertAt(sectionIndex, createUIElementsForSection(sectionIndex));
-			unfiltered_headers__.emplace(unfiltered_headers__.begin() + sectionIndex, static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex))->GetAt(0));
-
-			// bind collection view again
-			bindCollectionViewSource();
+			// NOTE: reset all sections beucase collectionViewItems__->InsertAt() messed up views. need to revisit.
+			// something to do with section.views JavaScript array maybe? Need to revisit.
+			set_sections(sections__);
 		}
 
-		void ListView::fireListSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::ListSection> section, const std::uint32_t& itemIndex, const std::uint32_t& itemCount, const std::uint32_t& affectedRows)
+		void ListView::fireListSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::ListSection>& section, const std::uint32_t& itemIndex, const std::uint32_t& itemCount, const std::uint32_t& affectedRows)
 		{
 			const std::uint32_t sectionIndex = std::distance(sections__.begin(), std::find(sections__.begin(), sections__.end(), section));
 			if (sectionIndex < 0 || collectionViewItems__->Size <= sectionIndex) {

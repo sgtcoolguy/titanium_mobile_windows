@@ -45,7 +45,7 @@ namespace Titanium
 			 * Create views for the section at given index
 			 */
 			template<typename T>
-			std::vector<std::shared_ptr<T>> createSectionViewAt(uint32_t index)
+			std::vector<std::shared_ptr<T>> createSectionViewAt(const uint32_t& index)
 			{
 				// lazy loading
 				loadJS();
@@ -66,7 +66,7 @@ namespace Titanium
 			}
 
 			template<typename T>
-			std::shared_ptr<T> createSectionItemViewAt(std::uint32_t sectionIndex, uint32_t itemIndex) {
+			std::shared_ptr<T> createSectionItemViewAt(const std::uint32_t& sectionIndex, const uint32_t& itemIndex) {
 				loadJS();
 				auto section = sections__.at(sectionIndex);
 				const std::vector<JSValue> args { get_object(), sections__.at(sectionIndex)->get_object(), get_context().CreateNumber(itemIndex) };
@@ -157,7 +157,7 @@ namespace Titanium
 			  @abstract scrollToItem
 			  @discussion Scrolls to a specific item.
 			*/
-			virtual void scrollToItem(uint32_t sectionIndex, uint32_t itemIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void scrollToItem(const uint32_t& sectionIndex, const uint32_t& itemIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -171,21 +171,21 @@ namespace Titanium
 			  @abstract deleteSectionAt
 			  @discussion Deletes an existing section.
 			*/
-			virtual void deleteSectionAt(uint32_t sectionIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void deleteSectionAt(const uint32_t& sectionIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertSectionAt
 			  @discussion Inserts a section or an array of sections at a specific index.
 			*/
-			virtual void insertSectionAt(uint32_t sectionIndex, const std::vector<std::shared_ptr<ListSection>>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<ListSection>>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract replaceSectionAt
 			  @discussion Replaces an existing section.
 			*/
-			virtual void replaceSectionAt(uint32_t sectionIndex, const std::vector<std::shared_ptr<ListSection>>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void replaceSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<ListSection>>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -255,7 +255,7 @@ namespace Titanium
 
 			// Receive all events fired from ListSection.
 			// Subclass may override this to catch changes for section.
-			virtual void fireListSectionEvent(const std::string& name, const std::shared_ptr<ListSection> section, const std::uint32_t& itemIndex = 0, const std::uint32_t& itemCount = 0, const std::uint32_t& affectedRows = 0);
+			virtual void fireListSectionEvent(const std::string& name, const std::shared_ptr<ListSection>& section, const std::uint32_t& itemIndex = 0, const std::uint32_t& itemCount = 0, const std::uint32_t& affectedRows = 0);
 
 		protected:
 #pragma warning(push)

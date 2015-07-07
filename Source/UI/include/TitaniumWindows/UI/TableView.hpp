@@ -17,59 +17,6 @@ namespace TitaniumWindows
 	namespace UI
 	{
 		using namespace HAL;
-		using TableViewSection_shared_ptr_t = std::shared_ptr<Titanium::UI::TableViewSection>;
-		using TableViewRow_shared_ptr_t = std::shared_ptr<Titanium::UI::TableViewRow>;
-
-		/*!
-		@class ListViewItem
-
-		@discussion This class represents item in ListView which is used for mapping ListView item with index and view
-		*/
-		ref class ListViewItem {
-		public:
-			property Windows::UI::Xaml::UIElement^ View
-			{
-				Windows::UI::Xaml::UIElement^ get() {
-					return view__;
-				}
-				void set(Windows::UI::Xaml::UIElement^ value) {
-					view__ = value;
-				}
-			}
-			property uint32_t SectionIndex
-			{
-				uint32_t get() {
-					return sectionIndex__;
-				}
-				void set(uint32_t value) {
-					sectionIndex__ = value;
-				}
-			}
-			property uint32_t ItemIndex
-			{
-				uint32_t get() {
-					return itemIndex__;
-				}
-				void set(uint32_t value) {
-					itemIndex__ = value;
-				}
-			}
-			property bool isHeader
-			{
-				bool get() {
-					return isHeader__;
-				}
-				void set(bool value) {
-					isHeader__ = value;
-				}
-			}
-
-		private:
-			Windows::UI::Xaml::UIElement^ view__;
-			uint32_t sectionIndex__;
-			uint32_t itemIndex__;
-			bool isHeader__;
-		};
 
 		/*!
 		  @class
@@ -97,20 +44,29 @@ namespace TitaniumWindows
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
-			virtual void set_sections(const std::vector<TableViewSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT override;
-			virtual void setData(std::vector<JSObject>& data, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void set_sections(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections) TITANIUM_NOEXCEPT override;
+			virtual void set_data(const std::vector<JSObject>& data) TITANIUM_NOEXCEPT override;
 
-			virtual void appendRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
-			virtual void deleteRow(const TableViewRow_shared_ptr_t row, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void appendRow(const std::vector<std::shared_ptr<Titanium::UI::TableViewRow>>& row, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void appendSection(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
 
 		private:
+			// Search for section index and item index. Returns {sectionIndex, itemIndex}
+			std::tuple<std::uint32_t, std::int32_t> searchFromSelectedIndex(const std::uint32_t& selectedIndex);
+			void bindCollectionViewSource();
+			void unbindCollectionViewSource();
 
-			void clearTableData(const bool& clearSections = true);
+			void registerTableViewRowAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
+
+			// Receive all events fired from TableViewSection.
+			// Subclass may override this to catch changes for section.
+			virtual void fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::uint32_t& rowIndex) override;
+
+			void clearTableData();
 			void resetTableDataBinding();
-			void addTableItem(JSObject& item) TITANIUM_NOEXCEPT;
+			void addTableItem(const JSObject& item) TITANIUM_NOEXCEPT;
 
 			Windows::UI::Xaml::Controls::ListView^ tableview__;
-			Windows::Foundation::Collections::IVector<ListViewItem^>^ tableViewItems__;
 			Windows::UI::Xaml::Data::CollectionViewSource^ collectionViewSource__;
 			Windows::Foundation::Collections::IObservableVector<::Platform::Object^>^ collectionViewItems__;
 
