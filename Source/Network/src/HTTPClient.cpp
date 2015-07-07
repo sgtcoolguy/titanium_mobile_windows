@@ -90,6 +90,9 @@ namespace TitaniumWindows
 			filter__->CacheControl->ReadBehavior = Windows::Web::Http::Filters::HttpCacheReadBehavior::MostRecent;
 
 			addCookiesToRequest();
+
+			auto user_agent = get_context().JSEvaluateScript("Ti.userAgent");
+			setRequestHeader("User-Agent", static_cast<std::string>(user_agent));
 		}
 
 		void HTTPClient::send() TITANIUM_NOEXCEPT
@@ -256,11 +259,22 @@ namespace TitaniumWindows
 		// Native
 		void HTTPClient::setRequestHeaders(Windows::Web::Http::HttpRequestMessage^ request) TITANIUM_NOEXCEPT
 		{
+			// Set the default headers:
+			// X-Titanium-Id
+			auto app_guid = get_context().JSEvaluateScript("Ti.App.guid");
+			request->Headers->Append("X-Titanium-Id", TitaniumWindows::Utility::ConvertString(static_cast<std::string>(app_guid)));
+
 			// Set type safe headers. Content-Type is the most popular may need to set others.
 			auto it = requestHeaders__.find("Content-Type");
 			if (it != requestHeaders__.end()) {
 				request->Content->Headers->ContentType =
 					ref new Windows::Web::Http::Headers::HttpMediaTypeHeaderValue(TitaniumWindows::Utility::ConvertString(it->second));
+				requestHeaders__.erase(it);
+			}
+			// User Agent
+			it = requestHeaders__.find("User-Agent");
+			if (it != requestHeaders__.end()) {
+				request->Headers->UserAgent->TryParseAdd(TitaniumWindows::Utility::ConvertString(it->second));
 				requestHeaders__.erase(it);
 			}
 

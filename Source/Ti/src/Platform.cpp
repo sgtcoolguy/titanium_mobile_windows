@@ -73,6 +73,7 @@ namespace TitaniumWindows
 		});
 		return result;
 	}
+
 	std::string Platform::architecture() const TITANIUM_NOEXCEPT
 	{
 		// FIXME This is what architectures the _app_ supports, not the current processor architecture!
@@ -134,23 +135,28 @@ namespace TitaniumWindows
 		return Titanium::Platform::BatteryState::UNKNOWN;
 #endif
 	}
+
 	std::string Platform::id() const TITANIUM_NOEXCEPT
 	{
 		return TitaniumWindows::Utility::ConvertString(Windows::System::UserProfile::AdvertisingManager::AdvertisingId);
 	}
+
 	std::string Platform::locale() const TITANIUM_NOEXCEPT
 	{
 		return std::locale("").name();
 	}
+
 	std::string Platform::macaddress() const TITANIUM_NOEXCEPT
 	{
 		return "";
 	}
+
 	std::string Platform::manufacturer() const TITANIUM_NOEXCEPT
 	{
 		const auto deviceInfo = ref new Windows::Security::ExchangeActiveSyncProvisioning::EasClientDeviceInformation();
 		return TitaniumWindows::Utility::ConvertString(deviceInfo->SystemManufacturer);
 	}
+
 	std::string Platform::model() const TITANIUM_NOEXCEPT
 	{
 		const auto deviceInfo = ref new Windows::Security::ExchangeActiveSyncProvisioning::EasClientDeviceInformation();
@@ -160,17 +166,14 @@ namespace TitaniumWindows
 			return TitaniumWindows::Utility::ConvertString(deviceInfo->SystemSku);
 		}
 	}
+
 	std::string Platform::name() const TITANIUM_NOEXCEPT
 	{
 		return "windows";
 	}
+
 	std::string Platform::netmask() const TITANIUM_NOEXCEPT
 	{
-
-		using namespace Windows::Devices::Enumeration;
-
-	
-
 		using namespace Windows::Networking;
 		using namespace Windows::Networking::Connectivity;
 		const auto hosts = NetworkInformation::GetHostNames();
@@ -325,9 +328,30 @@ namespace TitaniumWindows
 	}
 	std::string Platform::version() const TITANIUM_NOEXCEPT
 	{
-		// Looks like there's no way to retrieve OS version from WinRT
-		// For now let's return dummy version string
-		return "0.0";
+		using namespace Windows::Devices::Enumeration::Pnp;
+		auto requestedProperties = ref new ::Platform::Collections::Vector<::Platform::String^>();
+		requestedProperties->Append("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},3"); // version
+		requestedProperties->Append("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},9"); // provider
+
+		std::string os_version = "6.3.9600"; // Win 8.1 base value
+		concurrency::event event;
+		concurrency::create_task(PnpObject::FindAllAsync(PnpObjectType::Device, requestedProperties)).then([&event, &os_version](PnpObjectCollection^ collection) {
+			auto found = false;
+			for (auto object : collection) {
+				auto provider = object->Properties->Lookup("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},9")->ToString();
+				if (provider == "Microsoft") {
+					auto version = object->Properties->Lookup("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},3")->ToString();
+					os_version = Utility::ConvertUTF8String(version);
+					found = true;
+					break;
+				}
+				if (found) break;
+			}
+			event.set();
+		},
+		concurrency::task_continuation_context::use_arbitrary());
+		event.wait();
+		return os_version;
 	}
 
 	bool Platform::canOpenURL(const std::string& url) TITANIUM_NOEXCEPT
