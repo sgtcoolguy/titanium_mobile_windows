@@ -1,5 +1,5 @@
 name: Titanium.UI.Windows.AppBarToggleButton
-summary: Toggle button for the Windows Phone application bar.
+summary: Toggle button for the Windows application bar.
 description: |
     Unlike the <Titanium.UI.Windows.AppBarButton>, the toggle button has a swtich state, like a
     checkbox.

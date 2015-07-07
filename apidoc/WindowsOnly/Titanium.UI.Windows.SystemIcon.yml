@@ -1,5 +1,5 @@
 name: Titanium.UI.Windows.SystemIcon
-summary: A set of constants used to create Windows Phone system buttons.
+summary: A set of constants used to create Windows system buttons.
 description: |
     Assign one of the constants to the `icon` property of either a
     <Titanium.UI.Windows.AppBarButton> or <Titanium.UI.Windows.AppBarToggleButton>
@@ -8,6 +8,9 @@ description: |
         var addButton = Ti.UI.Windows.createAppBarButton({
             icon: Titanium.UI.Windows.SystemIcon.ADD
         });
+
+    For screenshots of each system icon, refer to
+    [Windows Dev Center: System enumeration](https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.symbol).
 extends: Titanium.Proxy
 createable: false
 platforms: [windowsphone]

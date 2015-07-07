@@ -1,7 +1,7 @@
 name: Titanium.UI.Windows
 summary: |
     Windows Phone specific UI capabilities.
-    All properties, methods and events in this namespace will only work on Windows Phone devices.
+    All properties, methods and events in this namespace will only work on Windows or Windows Phone devices.
 extends: Titanium.Module
 platforms: [windowsphone]
 
@@ -21,7 +21,7 @@ methods:
   - name: createAppBarSeparator
     summary: Creates a separator for the command bar.
     returns:
-      - type: Object
+      - type: Titanium.UI.Windows.AppBarSeparator
 
   - name: createAppBarToggleButton
     summary: Creates and returns an instance of a <Titanium.UI.Windows.AppBarToggleButton>.
