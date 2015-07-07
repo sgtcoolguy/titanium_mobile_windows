@@ -13,9 +13,10 @@ namespace Titanium
 {
 
 	template<typename _T> _T AppModule::getAppInfo(std::string property, _T defaultValue) {
-		
-		// Statically create json JSValue to load _app_info_.json once
-		static JSValue json = get_context().CreateUndefined();
+
+		// Skip
+		static bool skip = false;
+		if (skip) return defaultValue;
 
 		// Statically create loadJson javascript function
 		static JSFunction loadJson = get_context().CreateFunction(
@@ -31,12 +32,20 @@ namespace Titanium
 		);
 
 		// Load _app_info_.json
-		if (json.IsUndefined()) json = loadJson(get_context().get_global_object());
+		if (app_info__.IsUndefined()) {
+			app_info__ = loadJson(get_context().get_global_object());
+
+			// _app_info_.json does not exist, skip attempting to load it
+			if (app_info__.IsUndefined()) {
+				skip = true;
+				return defaultValue;
+			}
+		}
 
 		// Read property
-		std::vector<JSValue> args = {json, get_context().CreateString(property)};
+		std::vector<JSValue> args = {app_info__, get_context().CreateString(property)};
 		auto result = readJson(args, get_context().get_global_object());
-		
+
 		// Return property value if it exists
 		if (!result.IsNull()) return static_cast<_T>(result);
 
@@ -46,6 +55,7 @@ namespace Titanium
 
 	AppModule::AppModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Module(js_context),
+		app_info__(get_context().CreateUndefined()),
 		accessibilityEnabled__(false),
 		analytics__(false),
 		copyright__("__COPYRIGHT__"),

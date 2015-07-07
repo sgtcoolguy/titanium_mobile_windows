@@ -228,6 +228,7 @@ namespace Titanium
 	protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+		JSValue app_info__;
 		bool accessibilityEnabled__;
 		bool analytics__;
 		std::string copyright__;
