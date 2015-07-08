@@ -13,12 +13,13 @@
 #include "TitaniumWindows/Utility.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 
-#include <collection.h>
-
 namespace TitaniumWindows
 {
 	namespace UI
 	{
+		using namespace Platform::Collections;
+		using namespace Windows::UI::Xaml;
+
 		ListView::ListView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::ListView(js_context)
 		{
@@ -28,20 +29,10 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ListView::postCallAsConstructor(js_context, arguments);	
 			
-			listview__ = ref new Windows::UI::Xaml::Controls::ListView();
-
-			collectionViewSource__ = ref new Windows::UI::Xaml::Data::CollectionViewSource();
-			collectionViewItems__  = ref new ::Platform::Collections::Vector<::Platform::Object^>();
-			collectionViewSource__->Source = collectionViewItems__;
-			collectionViewSource__->IsSourceGrouped = true;
-
-			auto binding = ref new Windows::UI::Xaml::Data::Binding();
-			binding->Source = collectionViewSource__;
-			Windows::UI::Xaml::Data::BindingOperations::SetBinding(listview__, Windows::UI::Xaml::Controls::ListView::ItemsSourceProperty, binding);
-
+			listview__ = ref new Controls::ListView();
 			listview__->IsItemClickEnabled = true;
 
-			listViewItems__ = ref new ::Platform::Collections::Vector<ListViewItem^>();
+			resetListViewDataBinding();
 
 			Titanium::UI::ListView::setLayoutDelegate<WindowsViewLayoutDelegate>();
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
@@ -50,10 +41,62 @@ namespace TitaniumWindows
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(listview__);
 		}
 
+		void ListView::resetListViewDataBinding() 
+		{
+			collectionViewSource__ = ref new Data::CollectionViewSource();
+			collectionViewItems__  = ref new Vector<Platform::Object^>();
+			collectionViewSource__->Source = collectionViewItems__;
+			collectionViewSource__->IsSourceGrouped = true;
+
+			auto binding = ref new Data::Binding();
+			binding->Source = collectionViewSource__;
+			Data::BindingOperations::SetBinding(listview__, Controls::ListView::ItemsSourceProperty, binding);
+		}
+
+		void ListView::clearListViewData() 
+		{
+			resetListViewDataBinding();
+			collectionViewItems__->Clear();
+			unfiltered_headers__.clear();
+			unfiltered_sectionItems__.clear();
+		}
+
 		void ListView::JSExportInitialize() 
 		{
 			JSExport<ListView>::SetClassVersion(1);
 			JSExport<ListView>::SetParent(JSExport<Titanium::UI::ListView>::Class());
+		}
+
+		/*
+		 * Search for section index and item index
+		 * TODO: Is there a better way to do this?
+		 */
+		std::tuple<std::uint32_t, std::int32_t> ListView::searchFromSelectedIndex(const std::uint32_t& selectedIndex) 
+		{
+			std::int32_t  itemIndex      = -1; // -1 means it's a header
+			std::uint32_t sectionIndex   =  0;
+			std::uint32_t totalItemCount =  0;
+			for (sectionIndex = 0; sectionIndex < collectionViewItems__->Size; sectionIndex++) {
+				const auto items = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
+				totalItemCount += items->Size;
+				if (totalItemCount < selectedIndex) {
+					// we just count the total item
+					continue;
+				} else if (selectedIndex == 0) {
+					// that's a first header
+					break;
+				} else if (totalItemCount == selectedIndex) {
+					// this indicates header is selected
+					itemIndex = -1;
+					sectionIndex++;
+					break;
+				} else {
+					// this indicates selected index is in this section
+					itemIndex = selectedIndex - (totalItemCount - items->Size) - 1;
+					break;
+				}
+			}
+			return std::make_tuple(sectionIndex, itemIndex);
 		}
 
 		void ListView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
@@ -63,29 +106,22 @@ namespace TitaniumWindows
 			const JSContext ctx = this->get_context();
 
 			if (event_name == "itemclick") {
-				click_event__ = listview__->ItemClick += ref new Windows::UI::Xaml::Controls::ItemClickEventHandler(
-					[this, ctx](::Platform::Object^ sender, Windows::UI::Xaml::Controls::ItemClickEventArgs^ e) {
-					if (is_filtering__) return; // setting the new filtered source will trigger this callback
-					auto listview = safe_cast<Windows::UI::Xaml::Controls::ListView^>(sender);
+				click_event__ = listview__->ItemClick += ref new Controls::ItemClickEventHandler(
+					[this, ctx](Platform::Object^ sender, Controls::ItemClickEventArgs^ e) {
+					auto listview = safe_cast<Controls::ListView^>(sender);
 
-					uint32_t index = -1;
-					listview->Items->IndexOf(e->ClickedItem, &index);
-					if (index == -1) return;
-					TITANIUM_ASSERT(index > -1 || index < listViewItems__->Size);
-					
-					TitaniumWindows::UI::ListViewItem^ listViewItem;
-					if (get_searchText() != "") { // get mapped index when filtered
-						auto real_index = filteredItems__.at(index);
-						listViewItem = listViewItems__->GetAt(real_index);
-					}
-					else {
-						listViewItem = listViewItems__->GetAt(index);
-					}
-					if (listViewItem->isHeader) return;
+					uint32_t selectedIndex = -1;
+					listview->Items->IndexOf(e->ClickedItem, &selectedIndex);
+					if (selectedIndex == -1) return;
+
+					const auto result = searchFromSelectedIndex(selectedIndex);
+					const auto sectionIndex = std::get<0>(result);
+					const auto itemIndex    = std::get<1>(result);
 
 					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(listViewItem->SectionIndex));
-					eventArgs.SetProperty("itemIndex", ctx.CreateNumber(listViewItem->ItemIndex));
+					eventArgs.SetProperty("section", sections__.at(sectionIndex)->get_object());
+					eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(sectionIndex));
+					eventArgs.SetProperty("itemIndex", ctx.CreateNumber(itemIndex));
 
 					// TODO more properties
 					this->fireEvent("itemclick", eventArgs);
@@ -101,43 +137,54 @@ namespace TitaniumWindows
 				listview__->ItemClick -= click_event__;
 			}
 		}
-		// TODO We should really override the methods that modify sections and items in sections, so that we don't do unnecessary work rebuilding the filtered listing if the new item/s are filtered out!
-		void ListView::set_searchText(const std::string& searchText) TITANIUM_NOEXCEPT {
-			if (searchText == searchText__) { // if value didn't change don't do any work
+
+		void ListView::set_searchText(const std::string& pretransform_searchText) TITANIUM_NOEXCEPT 
+		{
+			if (pretransform_searchText == searchText__) { // if value didn't change don't do any work
 				return;
 			}
-			Titanium::UI::ListView::set_searchText(searchText); // set field
-			is_filtering__ = true;
-			filteredItems__.clear();
+			Titanium::UI::ListView::set_searchText(pretransform_searchText);
 
-			auto search = searchText;
-			const bool filtering = (search != "");
-			const bool case_insensitive = get_caseInsensitiveSearch();
-			if (case_insensitive) {
-				// Make searchText lowercase! Note that this likely _isn't_ UTF-8 friendly
-				std::transform(search.begin(), search.end(), search.begin(), ::tolower);
-			}
+			is_filtering__ = !pretransform_searchText.empty();
 
-			// Let's build up a filtered listing
-			auto filtered = ref new ::Platform::Collections::Vector<::Platform::Object^>();
-			// We store all results in a single "group"/section with no header
-			auto group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
-
-			uint32_t listViewItemsIndex = 0; // Keep track of what index we correspond to in listViewItems__
-			for (uint32_t sectionIndex = 0; sectionIndex < get_sectionCount(); sectionIndex++) {
-				auto items = sections__[sectionIndex]->get_items();
-				// if we're not filtering, we show the section's header, and we place results into groups/sections - not one single group of results
-				if (!filtering) {
-					group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
-					group->Append(listViewItems__->GetAt(listViewItemsIndex)->View);
-					filteredItems__.emplace_back(listViewItemsIndex);
+			if (is_filtering__) {
+				auto searchText = pretransform_searchText;
+				const bool case_insensitive = get_caseInsensitiveSearch();
+				if (case_insensitive) {
+					// Make searchText lowercase! Note that this likely _isn't_ UTF-8 friendly
+					std::transform(searchText.begin(), searchText.end(), searchText.begin(), ::tolower);
 				}
 
-				listViewItemsIndex++; // there's headers in the listViewItems__ collection, so we need to bump up the index to skip them
-				for (uint32_t itemIndex = 0; itemIndex < items.size(); itemIndex++) {
-					if (filtering) {
-						auto item = items[itemIndex];
-						auto properties = item.properties;
+				// restore views and items so that we can search from entire items
+				if (unfiltered_sectionItems__.size() > 0) {
+					for (std::uint32_t sectionIndex = 0; sectionIndex < sections__.size(); sectionIndex++) {
+						const auto section = sections__.at(sectionIndex);
+						const auto items = unfiltered_sectionItems__.at(sectionIndex);
+						if (items.size() > 0 && (section->get_items().size() != items.size())) {
+							// save header view as it may be hidden according to the results
+							restoreHeaderViewIfNecessary(sectionIndex);
+
+							// restore section items
+							section->set_items(items);
+						}
+					}
+				}
+
+				unfiltered_sectionItems__.clear();
+
+				for (std::uint32_t sectionIndex = 0; sectionIndex < sections__.size(); sectionIndex++) {
+					const auto section = sections__.at(sectionIndex);
+
+					std::vector<Titanium::UI::ListDataItem> filtered_items;
+					const auto items = section->get_items();
+					
+					// save "unfiltered" section items
+					unfiltered_sectionItems__.push_back(items);
+
+					for (std::uint32_t itemIndex = 0; itemIndex < items.size(); itemIndex++) {
+						const auto item = items[itemIndex];
+						const auto properties = item.properties;
+
 						if (properties.find("searchableText") != properties.end()) {
 							const auto text = properties.at("searchableText");
 							TITANIUM_ASSERT(text.IsString());
@@ -146,99 +193,223 @@ namespace TitaniumWindows
 								// make string lowercase! Note that this likely _isn't_ UTF-8 friendly
 								std::transform(string.begin(), string.end(), string.begin(), ::tolower);
 							}
-							if (string.find(search) != std::string::npos) {
+							if (string.find(searchText) != std::string::npos) {
 								// match, add item to filtered collection!
-								group->Append(listViewItems__->GetAt(listViewItemsIndex)->View);
-								filteredItems__.emplace_back(listViewItemsIndex);
+								filtered_items.push_back(item);
 							}
 						}
-					} else {
-						group->Append(listViewItems__->GetAt(listViewItemsIndex)->View);
-						filteredItems__.emplace_back(listViewItemsIndex);
 					}
-					listViewItemsIndex++; // record that we're moving on to the next item
+					section->set_items(filtered_items);
+
+					// hide header view when no items are found
+					if (filtered_items.size() == 0) {
+						hideHeaderView(sectionIndex);
+					}
 				}
-				// When no filter, append each original section/group
-				if (!filtering) {
-					filtered->Append(group);
+			} else {
+				// restore "unfiltered" section items
+				for (std::uint32_t sectionIndex = 0; sectionIndex < sections__.size(); sectionIndex++) {
+					const auto section = sections__.at(sectionIndex);
+					const auto unfiltered_items = unfiltered_sectionItems__.at(sectionIndex);
+					if (unfiltered_items.size() > 0 && (unfiltered_items.size() != section->get_items().size())) {
+						restoreHeaderViewIfNecessary(sectionIndex);
+						section->set_items(unfiltered_items);
+					}
 				}
+				unfiltered_sectionItems__.clear();
 			}
-			// We're actually filtering, so append the one and only group holding results
-			if (filtering) {
-				filtered->Append(group);
-			}
-			// Now let's tell the ListView to use the filtered listing
-			collectionViewItems__ = filtered;
-			collectionViewSource__->Source = collectionViewItems__;
-			is_filtering__ = false;
 		}
 
-		void ListView::set_sections(const std::vector<ListSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT
+		void ListView::hideHeaderView(const std::uint32_t& sectionIndex) 
+		{
+			TITANIUM_ASSERT(sections__.size() > sectionIndex);
+			const auto section = sections__.at(sectionIndex);
+			const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
+			if (views->Size > 0 && views->Size != section->get_items().size()) {
+				views->RemoveAt(0);
+			}
+		}
+
+		// restore header view as it may be hidden according to the search results
+		void ListView::restoreHeaderViewIfNecessary(const std::uint32_t& sectionIndex)
+		{
+			TITANIUM_ASSERT(sections__.size() > sectionIndex);
+			const auto section = sections__.at(sectionIndex);
+			const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
+			if (views->Size == section->get_items().size()) {
+				views->InsertAt(0, unfiltered_headers__.at(sectionIndex));
+			}
+		}
+
+		void ListView::bindCollectionViewSource() 
+		{
+			collectionViewSource__->Source = collectionViewItems__;
+		}
+
+		void ListView::unbindCollectionViewSource()
+		{
+			collectionViewSource__->Source = ref new Vector<Platform::Object^>();
+		}
+
+		void ListView::appendSection(const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& sections, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			auto start = sections__.size();
+
+			Titanium::UI::ListView::appendSection(sections, animation);
+
+			// unbind collection view source to avoid exception
+			unbindCollectionViewSource();
+
+			for (std::uint32_t i = 0; i < sections.size(); i++) {
+				const auto section = sections.at(i);
+				const auto sectionIndex = start + i;
+				collectionViewItems__->Append(createUIElementsForSection(sectionIndex));
+				unfiltered_headers__.push_back(static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex))->GetAt(0));
+			}
+
+			// bind collection view again
+			bindCollectionViewSource();
+		}
+
+		void ListView::deleteSectionAt(const uint32_t& sectionIndex, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ListView::deleteSectionAt(sectionIndex, animation);
+
+			// unbind collection view source to avoid exception
+			unbindCollectionViewSource();
+
+			collectionViewItems__->RemoveAt(sectionIndex);
+			unfiltered_headers__.erase(unfiltered_headers__.begin() + sectionIndex);
+
+			// bind collection view again
+			bindCollectionViewSource();
+		}
+
+		void ListView::insertSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ListView::insertSectionAt(sectionIndex, section, animation);
+
+			// NOTE: reset all sections beucase collectionViewItems__->InsertAt() messed up views.
+			// something to do with section.views JavaScript array maybe? Need to revisit.
+			set_sections(sections__);
+		}
+
+		void ListView::replaceSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ListView::replaceSectionAt(sectionIndex, section, animation);
+
+			// NOTE: reset all sections beucase collectionViewItems__->InsertAt() messed up views. need to revisit.
+			// something to do with section.views JavaScript array maybe? Need to revisit.
+			set_sections(sections__);
+		}
+
+		void ListView::fireListSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::ListSection>& section, const std::uint32_t& itemIndex, const std::uint32_t& itemCount, const std::uint32_t& affectedRows)
+		{
+			const std::uint32_t sectionIndex = std::distance(sections__.begin(), std::find(sections__.begin(), sections__.end(), section));
+			if (sectionIndex < 0 || collectionViewItems__->Size <= sectionIndex) {
+				return;
+			}
+			// this is list of view for the section including header view
+			const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
+			
+			TITANIUM_ASSERT(views);
+
+			if (name == "append") {
+				for (std::uint32_t i = itemIndex; i < itemIndex + itemCount; i++) {
+					const auto view = createSectionItemViewAt<TitaniumWindows::UI::View>(sectionIndex, i);
+					appendListViewItemForSection(view, views);
+				}
+			} else if (name == "update" || name == "replace") {
+				// "update" and "replace" are basically same, it removes existing content and insert new one
+				std::uint32_t index = itemIndex + 1; // +1 because index=0 is header
+				for (std::uint32_t i = index; i < index + affectedRows; i++) {
+					views->RemoveAt(index);
+				}
+				for (std::uint32_t i = itemIndex; i < itemIndex + itemCount; i++) {
+					const auto view = createSectionItemViewAt<TitaniumWindows::UI::View>(sectionIndex, i);
+					insertListViewItemForSection(view, views, index++);
+				}
+			} else if (name == "delete") {
+				const std::uint32_t index = itemIndex + 1; // +1 because index=0 is header
+				TITANIUM_ASSERT(views->Size > index);
+				for (std::uint32_t i = index; i < index + itemCount; i++) {
+					views->RemoveAt(index);
+				}
+			} else if (name == "clear") {
+				if (views->Size > 0) {
+					// clear section view except header view
+					const auto header = views->GetAt(0);
+					views->Clear();
+					views->Append(header);
+				} else {
+					views->Clear();
+				}
+			}
+			Titanium::UI::ListView::fireListSectionEvent(name, section, itemIndex, itemCount, affectedRows);
+		}
+
+		Vector<UIElement^>^ ListView::createUIElementsForSection(const std::uint32_t& sectionIndex) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(sections__.size() > sectionIndex);
+
+			const auto views = createSectionViewAt<TitaniumWindows::UI::View>(sectionIndex);
+			auto group = ref new Vector<UIElement^>();
+
+			// Set section header
+			const auto section = sections__[sectionIndex];
+			const auto view = section->get_headerView();
+			if (view != nullptr) {
+				auto windows_view = dynamic_cast<TitaniumWindows::UI::View*>(view.get());
+				auto component = windows_view->getComponent();
+				group->Append(component);
+
+				// Add as child view to make layout engine work
+				registerListViewItemAsLayoutNode(view);
+			} else {
+				Controls::ListViewHeaderItem^ header = ref new Controls::ListViewHeaderItem();
+				auto headerText = ref new Controls::TextBlock();
+				headerText->Text = Utility::ConvertUTF8String(section->get_headerTitle());
+				headerText->FontSize = 28; // Change this?
+				header->Content = headerText;
+				group->Append(header);
+			}
+
+			for (uint32_t itemIndex = 0; itemIndex < views.size(); itemIndex++) {
+				appendListViewItemForSection(views.at(itemIndex), group);
+			}
+			return group;
+		}
+
+		void ListView::registerListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view)
+		{
+			auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
+			Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
+			if (layoutDelegate->isLoaded()) {
+				layoutDelegate->requestLayout();
+			}
+		}
+
+		void ListView::appendListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, Vector<UIElement^>^ group)
+		{
+			group->Append(view->getComponent());
+			registerListViewItemAsLayoutNode(view);
+		}
+
+		void ListView::insertListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, Vector<UIElement^>^ group, const std::uint32_t& index) 
+		{
+			group->InsertAt(index, view->getComponent());
+			registerListViewItemAsLayoutNode(view);
+		}
+
+		void ListView::set_sections(const std::vector<std::shared_ptr <Titanium::UI::ListSection>>& sections) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ListView::set_sections(sections);
 
-			listViewItems__->Clear();
-			collectionViewItems__->Clear();
-			filteredItems__.clear();
+			clearListViewData();
 
-			for (uint32_t sectionIndex = 0; sectionIndex < get_sectionCount(); sectionIndex++) {
-				auto views = createSectionViewAt<TitaniumWindows::UI::View>(sectionIndex);
-				auto group = ref new ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>();
-
-				// Set section header
-				auto header_item = ref new ListViewItem();
-				const auto section = sections[sectionIndex];
-				auto view = section->get_headerView();
-				if (view != nullptr) {
-					auto windows_view = dynamic_cast<TitaniumWindows::UI::View*>(view.get());
-					auto component = windows_view->getComponent();
-					group->Append(component);
-					header_item->View = component;
-
-					// Add as child view to make layout engine work
-					auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
-					Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
-					if (layoutDelegate->isLoaded()) {
-						layoutDelegate->requestLayout();
-					}
-				} else {
-					Windows::UI::Xaml::Controls::ListViewHeaderItem^ header = ref new Windows::UI::Xaml::Controls::ListViewHeaderItem();
-					auto headerText = ref new Windows::UI::Xaml::Controls::TextBlock();
-					headerText->Text = Utility::ConvertUTF8String(section->get_headerTitle());
-					headerText->FontSize = 28; // Change this?
-					header->Content = headerText;
-					group->Append(header);
-				}
-
-				// Create ListViewItem header placeholder to keep index mapping valid
-				header_item->isHeader = true;
-				listViewItems__->Append(header_item);
-
-				for (uint32_t itemIndex = 0; itemIndex < views.size(); itemIndex++) {
-					auto view = views.at(itemIndex);
-
-					auto nativeChildView = view->getComponent();
-					TITANIUM_ASSERT(nativeChildView);
-
-					// Add as list item
-					group->Append(nativeChildView);
-
-					// Add as ListViewItem so that we can map item index
-					auto item = ref new ListViewItem();
-					item->View = nativeChildView;
-					item->ItemIndex = itemIndex;
-					item->SectionIndex = sectionIndex;
-					listViewItems__->Append(item);
-
-					// Add as child view to make layout engine work
-					auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
-					Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
-					if (layoutDelegate->isLoaded()) {
-						layoutDelegate->requestLayout();
-					}
-				}
-
-				collectionViewItems__->Append(group);
+			for (uint32_t sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
+				collectionViewItems__->Append(createUIElementsForSection(sectionIndex));
+				unfiltered_headers__.push_back(static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex))->GetAt(0));
 			}
 		}
 	}  // namespace UI

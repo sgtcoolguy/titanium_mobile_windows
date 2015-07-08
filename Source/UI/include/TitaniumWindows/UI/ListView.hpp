@@ -11,6 +11,8 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/ListView.hpp"
+#include <collection.h>
+#include <tuple>
 
 namespace TitaniumWindows
 {
@@ -18,58 +20,8 @@ namespace TitaniumWindows
 	{
 
 		using namespace HAL;
-		using ListSection_shared_ptr_t = std::shared_ptr <Titanium::UI::ListSection>;
 
-		/*!
-		@class ListViewItem
-
-		@discussion This class represents item in ListView which is used for mapping ListView item with index and view
-		*/
-		ref class ListViewItem {
-		public:
-			property Windows::UI::Xaml::UIElement^ View
-			{
-				Windows::UI::Xaml::UIElement^ get() {
-					return view__;
-				}
-				void set(Windows::UI::Xaml::UIElement^ value) {
-					view__ = value;
-				}
-			}
-			property uint32_t SectionIndex
-			{
-				uint32_t get() {
-					return sectionIndex__;
-				}
-				void set(uint32_t value) {
-					sectionIndex__ = value;
-				}
-			}
-			property uint32_t ItemIndex
-			{
-				uint32_t get() {
-					return itemIndex__;
-				}
-				void set(uint32_t value) {
-					itemIndex__ = value;
-				}
-			}
-			property bool isHeader
-			{
-				bool get() {
-					return isHeader__;
-				}
-				void set(bool value) {
-					isHeader__ = value;
-				}
-			}
-
-		private:
-			Windows::UI::Xaml::UIElement^ view__;
-			uint32_t sectionIndex__;
-			uint32_t itemIndex__;
-			bool isHeader__;
-		};
+		class View;
 
 		/*!
 		  @class
@@ -79,6 +31,12 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT ListView final : public Titanium::UI::ListView, public JSExport<ListView>
 		{
 		public:
+
+			virtual void appendSection(const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void deleteSectionAt(const uint32_t& sectionIndex, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void insertSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void replaceSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+
 			ListView(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ListView()                  = default;
@@ -94,25 +52,45 @@ namespace TitaniumWindows
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			virtual void set_searchText(const std::string& searchText) TITANIUM_NOEXCEPT;
-			virtual void set_sections(const std::vector<ListSection_shared_ptr_t>& sections) TITANIUM_NOEXCEPT override;
+			virtual void set_sections(const std::vector<std::shared_ptr <Titanium::UI::ListSection>>& sections) TITANIUM_NOEXCEPT override;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
+			virtual void fireListSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::ListSection>& section, const std::uint32_t& itemIndex = 0, const std::uint32_t& itemCount = 0, const std::uint32_t& affectedRows = 0) override;
+
+			::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ createUIElementsForSection(const std::uint32_t& sectionIndex) TITANIUM_NOEXCEPT;
+
+			void resetListViewDataBinding();
+			void clearListViewData();
+
 		private:
+			void registerListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
+			void appendListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ group);
+			void insertListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ group, const std::uint32_t& index);
+			// Search for section index and item index. Returns {sectionIndex, itemIndex}
+			std::tuple<std::uint32_t, std::int32_t> searchFromSelectedIndex(const std::uint32_t& selectedIndex);
+			void bindCollectionViewSource();
+			void unbindCollectionViewSource();
+
+			// hide header view
+			void hideHeaderView(const std::uint32_t& sectionIndex);
+
+			// restore header view as it may be hidden according to the results
+			void restoreHeaderViewIfNecessary(const std::uint32_t& sectionIndex);
+
 			Windows::UI::Xaml::Controls::ListView^ listview__;
 			Windows::UI::Xaml::Data::CollectionViewSource^ collectionViewSource__;
+
 			// This is the "view" of the underlying list view items that is shown in the UI. It may be filtered from set_searchText
 			Windows::Foundation::Collections::IObservableVector<::Platform::Object^>^ collectionViewItems__;
 
-			// Section and item index mapping. This is the _full_ listing of the underlying data
-			Windows::Foundation::Collections::IVector<ListViewItem^>^ listViewItems__;
-
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			// Mapping from the position of an item in the filtered listing to the real index in listViewItems__
-			std::vector<uint32_t> filteredItems__;
-			bool is_filtering__;
+			bool is_filtering__ { false };
+
+			std::vector<Windows::UI::Xaml::UIElement^> unfiltered_headers__;
+			std::vector<std::vector<Titanium::UI::ListDataItem>> unfiltered_sectionItems__;
 #pragma warning(pop)
 
 			Windows::Foundation::EventRegistrationToken click_event__;

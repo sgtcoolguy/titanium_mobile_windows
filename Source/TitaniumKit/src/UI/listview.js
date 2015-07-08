@@ -72,6 +72,7 @@ function lookup(name) {
 
 // Create item views from section
 function createSectionView(listview, section) {
+	section.listview = listview;
 	section.items = section.items || [];
 	listview.templates = listview.templates || [];
 	listview.defaultItemTemplate = listview.defaultItemTemplate || Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT;
@@ -99,7 +100,7 @@ function createSectionItemView(item, template, parent) {
 		options = {top:0, left:0, width:Ti.UI.SIZE, height:Ti.UI.SIZE};
 	}
 	var view = template.createView(options);
-	if (item[template.bindId]) {
+	if (template.bindId && item[template.bindId]) {
 		view.applyProperties(item[template.bindId]);
 	} else if (item.properties) {
 		// builtin template has different format
@@ -128,6 +129,7 @@ function createSectionItemAt(listview, section, index) {
 }
 
 this.exports = {};
+this.exports.createSectionItemAt = createSectionItemAt;
 this.exports.createSectionView = createSectionView;
 this.exports.processTemplates  = processTemplates;
 this.exports.loaded = false;

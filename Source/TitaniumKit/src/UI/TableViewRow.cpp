@@ -23,16 +23,13 @@ namespace Titanium
     	}
 
 		TITANIUM_PROPERTY_READWRITE(TableViewRow, std::string, color)
-
 		TITANIUM_PROPERTY_READWRITE(TableViewRow, Font, font)
-
 		TITANIUM_PROPERTY_READWRITE(TableViewRow, bool, hasCheck)
-
 		TITANIUM_PROPERTY_READWRITE(TableViewRow, bool, hasChild)
-
 		TITANIUM_PROPERTY_READWRITE(TableViewRow, std::string, title)
 
-		void TableViewRow::JSExportInitialize() {
+		void TableViewRow::JSExportInitialize() 
+		{
 			JSExport<TableViewRow>::SetClassVersion(1);
 			JSExport<TableViewRow>::SetParent(JSExport<View>::Class());
 

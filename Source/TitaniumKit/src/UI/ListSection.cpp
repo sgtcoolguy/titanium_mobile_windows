@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/ListSection.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/UI/ListView.hpp"
 
 namespace Titanium
 {
@@ -73,22 +74,20 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_READWRITE(ListSection, std::string, footerTitle)
-		
 		TITANIUM_PROPERTY_READWRITE(ListSection, std::string, headerTitle)
-
-		TITANIUM_PROPERTY_READWRITE(ListSection, View_shared_ptr_t, footerView)
-
-		TITANIUM_PROPERTY_READWRITE(ListSection, View_shared_ptr_t, headerView)
+		TITANIUM_PROPERTY_READWRITE(ListSection, std::shared_ptr<View>, footerView)
+		TITANIUM_PROPERTY_READWRITE(ListSection, std::shared_ptr<View>, headerView)
 
 		std::vector<ListDataItem> ListSection::get_items() const TITANIUM_NOEXCEPT
 		{
 			return items__;
 		}
 
-		void ListSection::set_items(const std::vector<ListDataItem>& value) TITANIUM_NOEXCEPT
+		void ListSection::set_items(const std::vector<ListDataItem>& values) TITANIUM_NOEXCEPT
 		{
-			items__ = value;
-			items_set_notify(0, items__.size());
+			fireListSectionEvent("clear", 0, items__.size());
+			items__ = values;
+			fireListSectionEvent("append", 0, values.size());
 		}
 
 		void ListSection::setItems(const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
@@ -98,46 +97,56 @@ namespace Titanium
 
 		void ListSection::appendItems(const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
+			const auto index = items__.size();
 			items__.insert(items__.end(), dataItems.begin(), dataItems.end());
-			items_set_notify(items__.size(), dataItems.size());
+			fireListSectionEvent("append", index, dataItems.size());
 		}
 
-		void ListSection::insertItemsAt(uint32_t index, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListSection::insertItemsAt(const std::uint32_t& index, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			items__.insert(items__.begin() + index, dataItems.begin(), dataItems.end());
-			items_set_notify(index, dataItems.size());
+			fireListSectionEvent("append", index, dataItems.size());
 		}
 
-		void ListSection::replaceItemsAt(uint32_t index, uint32_t count, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListSection::replaceItemsAt(const std::uint32_t& index, const std::uint32_t& count, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			items__.erase (items__.begin() + index, items__.begin() + index + count);
+			TITANIUM_ASSERT(items__.size() >= index + count);
+			items__.erase(items__.begin() + index, items__.begin() + index + count);
 			items__.insert(items__.begin() + index, dataItems.begin(), dataItems.end());
-			items_set_notify(index, dataItems.size());
+			fireListSectionEvent("replace", index, /* item count */ dataItems.size(), /* affected rows */ count);
 		}
 
-		void ListSection::deleteItemsAt(uint32_t index, uint32_t count, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListSection::deleteItemsAt(const std::uint32_t& index, const std::uint32_t& count, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
+			TITANIUM_ASSERT(items__.size() >= index + count);
 			items__.erase (items__.begin() + index, items__.begin() + index + count);
-			items_set_notify(index, count);
+			fireListSectionEvent("delete", index, count, count);
 		}
 
-		ListDataItem ListSection::getItemAt(uint32_t index) TITANIUM_NOEXCEPT
+		ListDataItem ListSection::getItemAt(const std::uint32_t& index) TITANIUM_NOEXCEPT
 		{
 			return items__.at(index);
 		}
 
-		void ListSection::updateItemAt(uint32_t index, const ListDataItem& dataItem, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListSection::updateItemAt(const std::uint32_t& index, const ListDataItem& dataItem, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			items__.at(index) = dataItem;
-			items_set_notify(index, 1);
+			fireListSectionEvent("update", index);
 		}
 
-		void ListSection::items_set_notify(size_t index, size_t count)
+		void ListSection::fireListSectionEvent(const std::string& event_name, const std::uint32_t& index, const std::uint32_t& itemCount, const std::uint32_t& affectedRows)
 		{
-			TITANIUM_LOG_WARN("ListSection::items_set_notify: Unimplemented");
+			const auto js_listview = get_object().GetProperty("listview");
+			if (!js_listview.IsObject()) {
+				return;
+			}
+			const auto listview = static_cast<JSObject>(js_listview).GetPrivate<ListView>();
+			TITANIUM_ASSERT(listview);
+			listview->fireListSectionEvent(event_name, get_object().GetPrivate<ListSection>(), index, itemCount, affectedRows);
 		}
 		
-		void ListSection::JSExportInitialize() {
+		void ListSection::JSExportInitialize() 
+		{
 			JSExport<ListSection>::SetClassVersion(1);
 			JSExport<ListSection>::SetParent(JSExport<Module>::Class());
 
@@ -296,7 +305,7 @@ namespace Titanium
 				TITANIUM_ASSERT(_1.IsObject());
 
 				JSObject animation = js_context.CreateObject();
-				const auto itemIndex = static_cast<uint32_t>(_0);
+				const auto itemIndex = static_cast<std::uint32_t>(_0);
 				const auto dataItems = js_to_ListDataItem_array(static_cast<JSObject>(_1));
 
 				if (arguments.size() >= 3) {
@@ -322,8 +331,8 @@ namespace Titanium
 				TITANIUM_ASSERT(_2.IsObject());
 
 				JSObject animation = js_context.CreateObject();
-				const auto index = static_cast<uint32_t>(_0);
-				const auto count = static_cast<uint32_t>(_1);
+				const auto index = static_cast<std::uint32_t>(_0);
+				const auto count = static_cast<std::uint32_t>(_1);
 				const auto dataItems = js_to_ListDataItem_array(static_cast<JSObject>(_2));
 
 				if (arguments.size() >= 4) {
@@ -348,8 +357,8 @@ namespace Titanium
 				TITANIUM_ASSERT(_1.IsNumber());
 
 				JSObject animation = js_context.CreateObject();
-				const auto itemIndex = static_cast<uint32_t>(_0);
-				const auto count = static_cast<uint32_t>(_1);
+				const auto itemIndex = static_cast<std::uint32_t>(_0);
+				const auto count = static_cast<std::uint32_t>(_1);
 
 				if (arguments.size() >= 3) {
 					const auto _2 = arguments.at(2);
@@ -367,7 +376,7 @@ namespace Titanium
 			if (arguments.size() >= 1) {
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
-				const auto itemIndex = static_cast<uint32_t>(_0);
+				const auto itemIndex = static_cast<std::uint32_t>(_0);
 				return ListDataItem_to_js(get_context(), getItemAt(itemIndex));
 			}
 			return get_context().CreateUndefined();
@@ -383,7 +392,7 @@ namespace Titanium
 				TITANIUM_ASSERT(_1.IsObject());
 
 				JSObject animation = js_context.CreateObject();
-				const auto index    = static_cast<uint32_t>(_0);
+				const auto index    = static_cast<std::uint32_t>(_0);
 				const auto dataItem = js_to_ListDataItem(static_cast<JSObject>(_1));
 
 				if (arguments.size() >= 3) {

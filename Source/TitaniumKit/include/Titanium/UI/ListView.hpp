@@ -24,9 +24,6 @@ namespace Titanium
 
 		class ListViewAnimationProperties;
 
-		using ListSection_shared_ptr_t = std::shared_ptr<ListSection>;
-		using View_shared_ptr_t = std::shared_ptr<View>;
-		
 		/*!
 		  @class
 		  @discussion This is the Titanium.UI.ListView Module.
@@ -42,10 +39,13 @@ namespace Titanium
 			  @abstract sections
 			  @discussion Sections of this list.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(std::vector<ListSection_shared_ptr_t>, sections);
+			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::shared_ptr<ListSection>>, sections);
 
+			/*
+			 * Create views for the section at given index
+			 */
 			template<typename T>
-			std::vector<std::shared_ptr<T>> createSectionViewAt(uint32_t index)
+			std::vector<std::shared_ptr<T>> createSectionViewAt(const uint32_t& index)
 			{
 				// lazy loading
 				loadJS();
@@ -63,6 +63,16 @@ namespace Titanium
 				}
 				
 				return items;
+			}
+
+			template<typename T>
+			std::shared_ptr<T> createSectionItemViewAt(const std::uint32_t& sectionIndex, const uint32_t& itemIndex) {
+				loadJS();
+				auto section = sections__.at(sectionIndex);
+				const std::vector<JSValue> args { get_object(), sections__.at(sectionIndex)->get_object(), get_context().CreateNumber(itemIndex) };
+				JSValue js_view = sectionViewItemCreateFunction__(args, ti_listview_exports__);
+				TITANIUM_ASSERT(js_view.IsObject());
+				return static_cast<JSObject>(js_view).GetPrivate<T>();
 			}
 
 			/*!
@@ -84,21 +94,21 @@ namespace Titanium
 			 @abstract footerView
 			 @discussion List view footer as a view that will be rendered instead of a label.
 			 */
-			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, footerView);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<View>, footerView);
 			
 			/*!
 			 @property
 			 @abstract headerView
 			 @discussion List view header as a view that will be rendered instead of a label.
 			 */
-			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, headerView);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<View>, headerView);
 			
 			/*!
 			 @property
 			 @abstract searchView
 			 @discussion Search field to use for the list view.
 			 */
-			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, searchView);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<View>, searchView);
 
 			/*!
 			  @property
@@ -147,35 +157,35 @@ namespace Titanium
 			  @abstract scrollToItem
 			  @discussion Scrolls to a specific item.
 			*/
-			virtual void scrollToItem(uint32_t sectionIndex, uint32_t itemIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void scrollToItem(const uint32_t& sectionIndex, const uint32_t& itemIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract appendSection
 			  @discussion Appends a single section or an array of sections to the end of the list.
 			*/
-			virtual void appendSection(const std::vector<ListSection_shared_ptr_t>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void appendSection(const std::vector<std::shared_ptr<ListSection>>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract deleteSectionAt
 			  @discussion Deletes an existing section.
 			*/
-			virtual void deleteSectionAt(uint32_t sectionIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void deleteSectionAt(const uint32_t& sectionIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertSectionAt
 			  @discussion Inserts a section or an array of sections at a specific index.
 			*/
-			virtual void insertSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<ListSection>>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract replaceSectionAt
 			  @discussion Replaces an existing section.
 			*/
-			virtual void replaceSectionAt(uint32_t sectionIndex, const std::vector<ListSection_shared_ptr_t>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void replaceSectionAt(const uint32_t& sectionIndex, const std::vector<std::shared_ptr<ListSection>>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -243,15 +253,19 @@ namespace Titanium
 
 			void loadJS();
 
+			// Receive all events fired from ListSection.
+			// Subclass may override this to catch changes for section.
+			virtual void fireListSectionEvent(const std::string& name, const std::shared_ptr<ListSection>& section, const std::uint32_t& itemIndex = 0, const std::uint32_t& itemCount = 0, const std::uint32_t& affectedRows = 0);
+
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			std::vector<ListSection_shared_ptr_t> sections__;
+			std::vector<std::shared_ptr<ListSection>> sections__;
 			std::string footerTitle__;
 			std::string headerTitle__;
-			View_shared_ptr_t footerView__;
-			View_shared_ptr_t headerView__;
-			View_shared_ptr_t searchView__;
+			std::shared_ptr<View> footerView__;
+			std::shared_ptr<View> headerView__;
+			std::shared_ptr<View> searchView__;
 			std::string searchText__;
 			bool caseInsensitiveSearch__ { false };
 			bool showVerticalScrollIndicator__;
@@ -261,6 +275,7 @@ namespace Titanium
 
 			JSObject ti_listview_exports__;
 			JSObject sectionViewCreateFunction__;
+			JSObject sectionViewItemCreateFunction__;
 			JSObject listviewAnimationProperties_ctor__;
 #pragma warning(pop)
 		};

@@ -19,7 +19,8 @@ namespace Titanium
 	{
 
 		using namespace HAL;
-		using View_shared_ptr_t = std::shared_ptr<View>;
+
+		class ListView;
 
 		/*!
 		  @struct
@@ -37,8 +38,8 @@ namespace Titanium
 		};
 
 		// Convert JSObject into ListDataItem
-		ListDataItem js_to_ListDataItem(const JSObject& object);
-		JSObject ListDataItem_to_js(const JSContext& js_context, const ListDataItem& item);
+		TITANIUMKIT_EXPORT ListDataItem js_to_ListDataItem(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject ListDataItem_to_js(const JSContext& js_context, const ListDataItem& item);
 
 		/*!
 		  @class
@@ -69,14 +70,14 @@ namespace Titanium
 			  @abstract footerView
 			  @discussion View to use for this section footer.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, footerView);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<View>, footerView);
 
 			/*!
 			  @property
 			  @abstract headerView
 			  @discussion View to use for this section header
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(View_shared_ptr_t, headerView);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<View>, headerView);
 
 			/*!
 			  @property
@@ -84,7 +85,6 @@ namespace Titanium
 			  @discussion Items of this list section.
 			*/
 			TITANIUM_PROPERTY_IMPL_DEF(std::vector<ListDataItem>, items);
-			virtual void items_set_notify(size_t index, size_t count); // for subclass
 
 			/*!
 			  @method
@@ -105,35 +105,35 @@ namespace Titanium
 			  @abstract insertItemsAt
 			  @discussion Inserts data entries to the list section at the specified index.
 			*/
-			virtual void insertItemsAt(uint32_t itemIndex, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void insertItemsAt(const uint32_t& itemIndex, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract replaceItemsAt
 			  @discussion Removes count entries from the list section at the specified index,then inserts data entries to the list section at the same index.
 			*/
-			virtual void replaceItemsAt(uint32_t index, uint32_t count, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void replaceItemsAt(const uint32_t& index, const uint32_t& count, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract deleteItemsAt
 			  @discussion Removes count entries from the list section at the specified index.
 			*/
-			virtual void deleteItemsAt(uint32_t itemIndex, uint32_t count, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void deleteItemsAt(const uint32_t& itemIndex, const uint32_t& count, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract getItemAt
 			  @discussion Returns the item entry from the list view at the specified index.
 			*/
-			virtual ListDataItem getItemAt(uint32_t itemIndex) TITANIUM_NOEXCEPT;
+			virtual ListDataItem getItemAt(const uint32_t& itemIndex) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract updateItemAt
 			  @discussion Updates an item at the specified index.
 			*/
-			virtual void updateItemAt(uint32_t index, const ListDataItem& dataItem, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void updateItemAt(const uint32_t& index, const ListDataItem& dataItem, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			ListSection(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
@@ -170,13 +170,15 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setHeaderView);
 			TITANIUM_FUNCTION_DEF(getItems);
 
+			virtual void fireListSectionEvent(const std::string& event_name, const std::uint32_t& index, const std::uint32_t& itemCount = 1, const std::uint32_t& affectedRows = 1);
+
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			std::string footerTitle__;
 			std::string headerTitle__;
-			View_shared_ptr_t footerView__;
-			View_shared_ptr_t headerView__;
+			std::shared_ptr<View> footerView__;
+			std::shared_ptr<View> headerView__;
 			std::vector<ListDataItem> items__;
 
 			JSObject listviewAnimationProperties_ctor__;

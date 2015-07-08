@@ -24,11 +24,12 @@ namespace Titanium
 			showVerticalScrollIndicator__(true),
 			separatorColor__(""),
 			ti_listview_exports__(js_context.CreateObject()),
-			sectionViewCreateFunction__(js_context.CreateObject())
+			sectionViewCreateFunction__(js_context.CreateObject()),
+			sectionViewItemCreateFunction__(js_context.CreateObject()) 
 		{
 		}
 
-		TITANIUM_PROPERTY_READWRITE(ListView, std::vector<ListSection_shared_ptr_t>, sections)
+		TITANIUM_PROPERTY_READWRITE(ListView, std::vector<std::shared_ptr<ListSection>>, sections)
 
 		void ListView::loadJS()
 		{
@@ -45,24 +46,23 @@ namespace Titanium
 			TITANIUM_ASSERT(export_object.HasProperty("exports"));
 			ti_listview_exports__ = static_cast<JSObject>(export_object.GetProperty("exports"));
 
-			auto func = ti_listview_exports__.GetProperty("createSectionView");
-			TITANIUM_ASSERT(func.IsObject());
-			sectionViewCreateFunction__ = static_cast<JSObject>(func);
+			auto js_sectionViewCreateFunction = ti_listview_exports__.GetProperty("createSectionView");
+			TITANIUM_ASSERT(js_sectionViewCreateFunction.IsObject());
+			sectionViewCreateFunction__ = static_cast<JSObject>(js_sectionViewCreateFunction);
 			TITANIUM_ASSERT(sectionViewCreateFunction__.IsFunction());
+
+			auto js_createSectionViewItemAt = ti_listview_exports__.GetProperty("createSectionItemAt");
+			TITANIUM_ASSERT(js_createSectionViewItemAt.IsObject());
+			sectionViewItemCreateFunction__ = static_cast<JSObject>(js_createSectionViewItemAt);
+			TITANIUM_ASSERT(sectionViewItemCreateFunction__.IsFunction());
 		}
 
 		TITANIUM_PROPERTY_READWRITE(ListView, std::string, footerTitle)
-
 		TITANIUM_PROPERTY_READWRITE(ListView, std::string, headerTitle)
-
-		TITANIUM_PROPERTY_READWRITE(ListView, View_shared_ptr_t, footerView)
-		
-		TITANIUM_PROPERTY_READWRITE(ListView, View_shared_ptr_t, headerView)
-
-		TITANIUM_PROPERTY_READWRITE(ListView, View_shared_ptr_t, searchView)
-		
+		TITANIUM_PROPERTY_READWRITE(ListView, std::shared_ptr<View>, footerView)
+		TITANIUM_PROPERTY_READWRITE(ListView, std::shared_ptr<View>, headerView)
+		TITANIUM_PROPERTY_READWRITE(ListView, std::shared_ptr<View>, searchView)
 		TITANIUM_PROPERTY_READWRITE(ListView, std::string, searchText)
-
 		TITANIUM_PROPERTY_READWRITE(ListView, bool, caseInsensitiveSearch)
 
 		uint32_t ListView::get_sectionCount() const TITANIUM_NOEXCEPT
@@ -71,41 +71,35 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_READWRITE(ListView, bool, showVerticalScrollIndicator)
-
 		TITANIUM_PROPERTY_READWRITE(ListView, std::string, separatorColor)
-
 		TITANIUM_PROPERTY_READWRITE(ListView, std::string, defaultItemTemplate)
 
-		void ListView::scrollToItem(uint32_t sectionIndex, uint32_t itemIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListView::scrollToItem(const uint32_t& sectionIndex, const uint32_t& itemIndex, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ListView::scrollToItem: Unimplemented");
 		}
 
-		void ListView::appendSection(const std::vector<ListSection_shared_ptr_t>& sections, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListView::appendSection(const std::vector<std::shared_ptr<ListSection>>& sections, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			for (const auto section : sections) {
 				sections__.push_back(section);
 			}
-			set_sections(sections__);
 		}
 
-		void ListView::deleteSectionAt(uint32_t index, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListView::deleteSectionAt(const uint32_t& index, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			sections__.erase(sections__.begin()+index);
-			set_sections(sections__);
 		}
 
-		void ListView::insertSectionAt(uint32_t index, const std::vector<ListSection_shared_ptr_t>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void ListView::insertSectionAt(const uint32_t& index, const std::vector<std::shared_ptr<ListSection>>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			sections__.insert(sections__.begin() + index, section.begin(), section.end());
-			set_sections(sections__);
 		}
 
-		void ListView::replaceSectionAt(uint32_t index, const std::vector<ListSection_shared_ptr_t>& sections, const std::shared_ptr<ListViewAnimationProperties>& animationn) TITANIUM_NOEXCEPT
+		void ListView::replaceSectionAt(const uint32_t& index, const std::vector<std::shared_ptr<ListSection>>& sections, const std::shared_ptr<ListViewAnimationProperties>& animationn) TITANIUM_NOEXCEPT
 		{
 			sections__.erase (sections__.begin() + index, sections__.begin() + index + sections.size());
 			sections__.insert(sections__.begin() + index, sections.begin(), sections.end());
-			set_sections(sections__);
 		}
 
 		void ListView::setMarker(const ListViewMarkerProps& marker) TITANIUM_NOEXCEPT
@@ -113,7 +107,21 @@ namespace Titanium
 			marker__ = marker;
 		}
 
-		void ListView::JSExportInitialize() {
+		void ListView::fireListSectionEvent(const std::string& name, const std::shared_ptr<ListSection>& section, const std::uint32_t& itemIndex, const std::uint32_t& itemCount, const std::uint32_t& affectedRows)
+		{
+			const auto ctx = get_context();
+			auto event_args = ctx.CreateObject();
+			event_args.SetProperty("section", get_object());
+			event_args.SetProperty("itemIndex", ctx.CreateNumber(itemIndex));
+			event_args.SetProperty("itemCount", ctx.CreateNumber(itemCount));
+			const std::uint32_t sectionIndex = std::distance(sections__.begin(), std::find(sections__.begin(), sections__.end(), section));
+			event_args.SetProperty("sectionIndex", get_context().CreateNumber(sectionIndex));
+
+			fireEvent(name, event_args);
+		}
+
+		void ListView::JSExportInitialize() 
+		{
 			JSExport<ListView>::SetClassVersion(1);
 			JSExport<ListView>::SetParent(JSExport<View>::Class());
 
@@ -359,7 +367,7 @@ namespace Titanium
 			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 1) {
 				JSObject animation = js_context.CreateObject();
-				std::vector<ListSection_shared_ptr_t> sections;
+				std::vector<std::shared_ptr<ListSection>> sections;
 
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
@@ -410,13 +418,13 @@ namespace Titanium
 			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
 				JSObject animation = js_context.CreateObject();
-				std::vector<ListSection_shared_ptr_t> sections;
+				std::vector<std::shared_ptr<ListSection>> sections;
 
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
 				const auto sectionIndex = static_cast<uint32_t>(_0);
 
-				const auto _1 = arguments.at(0);
+				const auto _1 = arguments.at(1);
 				TITANIUM_ASSERT(_1.IsObject());
 				const auto js_sections = static_cast<JSObject>(_1);
 
@@ -443,13 +451,13 @@ namespace Titanium
 			const auto js_context = this_object.get_context();
 			if (arguments.size() >= 2) {
 				JSObject animation = js_context.CreateObject();
-				std::vector<ListSection_shared_ptr_t> sections;
+				std::vector<std::shared_ptr<ListSection>> sections;
 
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsNumber());
 				const auto sectionIndex = static_cast<uint32_t>(_0);
 
-				const auto _1 = arguments.at(0);
+				const auto _1 = arguments.at(1);
 				TITANIUM_ASSERT(_1.IsObject());
 				const auto js_sections = static_cast<JSObject>(_1);
 
