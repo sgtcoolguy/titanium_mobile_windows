@@ -18,6 +18,8 @@ namespace TitaniumWindows
 		using namespace Windows::UI::Popups;
 		using namespace Windows::Foundation;
 
+		std::vector<Windows::UI::Popups::MessageDialog^> AlertDialog::dialogs__;
+
 		AlertDialog::AlertDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Titanium::UI::AlertDialog(js_context)
 		{
@@ -66,26 +68,35 @@ namespace TitaniumWindows
 			}
 
 			try {
-				concurrency::create_task(dialog->ShowAsync()).then([this](IUICommand^ command) {
-					std::int32_t index = 0;
-					if (command != nullptr) {
-						auto casted = dynamic_cast<IPropertyValue^>(command->Id);
-						if (casted != nullptr) {
-							index = casted->GetInt32();
+				dialogs__.push_back(dialog);
+				if (dialogs__.size() == 1) {
+					static std::function<void(IUICommand^)> on_click;
+					on_click = [this](IUICommand^ command) {
+						std::int32_t index = 0;
+						if (command != nullptr) {
+							auto casted = dynamic_cast<IPropertyValue^>(command->Id);
+							if (casted != nullptr) {
+								index = casted->GetInt32();
+							}
 						}
-					}
-					const JSContext ctx = get_context();
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("index", ctx.CreateNumber(index));
-					eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
-					fireEvent("click", eventArgs);
-				});
-			}
-			catch (::Platform::COMException^ ce) {
+						const JSContext ctx = get_context();
+						JSObject eventArgs = ctx.CreateObject();
+						eventArgs.SetProperty("index", ctx.CreateNumber(index));
+						eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
+						fireEvent("click", eventArgs);
+
+						// display next dialog in queue
+						if (dialogs__.size() > 1) {
+							dialogs__.erase(dialogs__.begin());
+							concurrency::create_task(dialogs__.front()->ShowAsync()).then(on_click);
+						}
+					};
+					concurrency::create_task(dialog->ShowAsync()).then(on_click);
+				}
+			} catch (::Platform::COMException^ ce) {
 				// Typically would have happened on phone if we supplied more than max buttons allowed
 				detail::ThrowRuntimeError("Ti.UI.AlertDialog", "Exception during show(): " + Utility::ConvertUTF8String(ce->Message));
-			}
-			catch (...) {
+			} catch (...) {
 				detail::ThrowRuntimeError("Ti.UI.AlertDialog", "Exception during show()");
 			}
 		}
