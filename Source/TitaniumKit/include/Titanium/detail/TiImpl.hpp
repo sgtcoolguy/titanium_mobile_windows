@@ -95,7 +95,7 @@ IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
     const auto _##INDEX = arguments.at(INDEX); \
     if (!_##INDEX.IsUndefined() && !_##INDEX.IsNull()) { \
       OUT = static_cast<std::string>(_##INDEX); \
-  	} \
+    } \
   }
 
 #define ENSURE_OPTIONAL_NUMBER_AT_INDEX(OUT,INDEX,VALUE,TYPE) \
@@ -140,10 +140,10 @@ IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
 #define ENSURE_STRING_AT_INDEX(OUT,INDEX) \
   ENSURE_ARGUMENT_BOUNDS(INDEX); \
   const auto _##INDEX = arguments.at(INDEX); \
-	std::string OUT; \
+  std::string OUT; \
   if (!_##INDEX.IsUndefined() && !_##INDEX.IsNull()) { \
     OUT = static_cast<std::string>(_##INDEX); \
-	}
+  }
 
 #define ENSURE_VALUE_AT_INDEX(OUT,INDEX) \
   ENSURE_ARGUMENT_BOUNDS(INDEX); \
@@ -284,12 +284,12 @@ TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
 
 #define TITANIUM_PROPERTY_SETTER_STRING(MODULE, NAME) \
 TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
-	std::string value; \
+  std::string value; \
   if (!argument.IsUndefined() && !argument.IsNull()) { \
     value = static_cast<std::string>(argument); \
   } \
   set_##NAME(value); \
-	return true; \
+  return true; \
 }
 
 #define TITANIUM_PROPERTY_GETTER_DOUBLE(MODULE, NAME) \
