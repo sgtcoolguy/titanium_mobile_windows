@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/TableView.hpp"
+#include <collection.h>
 
 namespace TitaniumWindows
 {
@@ -47,7 +48,7 @@ namespace TitaniumWindows
 			virtual void set_sections(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections) TITANIUM_NOEXCEPT override;
 			virtual void set_data(const std::vector<JSObject>& data) TITANIUM_NOEXCEPT override;
 
-			virtual void appendRow(const std::vector<std::shared_ptr<Titanium::UI::TableViewRow>>& row, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void appendRowAtSection(const std::uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::TableViewRow>>& row) TITANIUM_NOEXCEPT override;
 			virtual void appendSection(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
 
 		private:
@@ -56,6 +57,8 @@ namespace TitaniumWindows
 			void bindCollectionViewSource();
 			void unbindCollectionViewSource();
 
+			::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ createUIElementsForSection(const std::uint32_t& sectionIndex) TITANIUM_NOEXCEPT;
+			Windows::UI::Xaml::Controls::ListViewHeaderItem^ createDefaultSectionHeader(const std::shared_ptr<Titanium::UI::TableViewSection>& seciton);
 			void registerTableViewRowAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
 
 			// Receive all events fired from TableViewSection.
@@ -64,7 +67,6 @@ namespace TitaniumWindows
 
 			void clearTableData();
 			void resetTableDataBinding();
-			void addTableItem(const JSObject& item) TITANIUM_NOEXCEPT;
 
 			Windows::UI::Xaml::Controls::ListView^ tableview__;
 			Windows::UI::Xaml::Data::CollectionViewSource^ collectionViewSource__;

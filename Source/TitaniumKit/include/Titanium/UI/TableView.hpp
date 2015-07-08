@@ -152,6 +152,7 @@ namespace Titanium
 			  @discussion Appends a single row or an array of rows to the end of the table.
 			*/
 			virtual void appendRow(const std::vector<std::shared_ptr<TableViewRow>>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void appendRowAtSection(const std::uint32_t& sectionIndex, const std::vector<std::shared_ptr<TableViewRow>>& row) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -166,6 +167,7 @@ namespace Titanium
 			  @discussion Deletes an existing row.
 			*/
 			virtual void deleteRow(const std::uint32_t& rowIndex, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void deleteRow(const std::shared_ptr<TableViewRow>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -179,28 +181,28 @@ namespace Titanium
 			  @abstract insertRowAfter
 			  @discussion Inserts a row after another row.
 			*/
-			virtual void insertRowAfter(const uint32_t& index, const std::vector<std::shared_ptr<TableViewRow>>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void insertRowAfter(const uint32_t& index, const std::shared_ptr<TableViewRow>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertSectionAfter
 			  @discussion Inserts a section after another section.
 			*/
-			virtual void insertSectionAfter(const uint32_t& index, const std::vector<std::shared_ptr<TableViewSection>>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionAfter(const uint32_t& index, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertRowBefore
 			  @discussion Inserts a row before another row.
 			*/
-			virtual void insertRowBefore(const uint32_t& index, const std::vector<std::shared_ptr<TableViewRow>>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void insertRowBefore(const uint32_t& index, const std::shared_ptr<TableViewRow>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract insertSectionBefore
 			  @discussion Inserts a section before another section.
 			*/
-			virtual void insertSectionBefore(const uint32_t& index, const std::vector<std::shared_ptr<TableViewSection>>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
+			virtual void insertSectionBefore(const uint32_t& index, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -309,6 +311,8 @@ namespace Titanium
 			// Receive all events fired from TableViewSection.
 			// Subclass may override this to catch changes for section.
 			virtual void fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<TableViewSection>& section, const std::uint32_t& rowIndex);
+
+			virtual void createEmptyTableViewSection();
 
 			protected:
 #pragma warning(push)

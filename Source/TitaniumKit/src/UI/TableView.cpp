@@ -12,6 +12,19 @@
 #include "Titanium/UI/TableViewAnimationProperties.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 
+#define CREATE_TITANIUM_UI_INSTANCE(OUT, PARAM, NAME) \
+  JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium"); \
+  TITANIUM_ASSERT(Titanium_property.IsObject()); \
+  JSObject Titanium = static_cast<JSObject>(Titanium_property); \
+  JSValue UI_property = Titanium.GetProperty("UI"); \
+  TITANIUM_ASSERT(UI_property.IsObject()); \
+  JSObject UI = static_cast<JSObject>(UI_property); \
+  JSValue NAME##_property = UI.GetProperty(#NAME); \
+  TITANIUM_ASSERT(NAME##_property.IsObject()); \
+  JSObject NAME = static_cast<JSObject>(NAME##_property); \
+  auto OUT = NAME.CallAsConstructor(PARAM); \
+  Titanium::Module::applyProperties(PARAM, OUT);
+
 namespace Titanium
 {
 	namespace UI
@@ -39,6 +52,9 @@ namespace Titanium
 		{
 			sections__ = sections;
 			data__.clear();
+			for (std::uint32_t i = 0; i < sections.size(); i++) {
+				data__.push_back(sections.at(i)->get_object());
+			}
 		}
 
 		TITANIUM_PROPERTY_READ(TableView, std::vector<JSObject>, data)
@@ -48,9 +64,25 @@ namespace Titanium
 			data__ = data;
 			sections__.clear();
 			for (std::uint32_t i = 0; i < data.size(); i++) {
-				const auto section = data.at(i).GetPrivate<TableViewSection>();
+				const auto datum    = data.at(i);
+				const auto section  = datum.GetPrivate<Titanium::UI::TableViewSection>();
 				if (section != nullptr) {
 					sections__.push_back(section);
+				} else {
+					// if there's no sections create new one and add rows into it.
+					if (sections__.size() == 0) {
+						createEmptyTableViewSection();
+					}
+					const auto firstSection = sections__.at(0);
+					const auto row = datum.GetPrivate<Titanium::UI::TableViewRow>();
+
+					// if row is TableViewRow, add it into section. otherwise create new one.
+					if (row != nullptr) {
+						firstSection->add(row);
+					} else {
+						CREATE_TITANIUM_UI_INSTANCE(js_row, datum, TableViewRow);
+						firstSection->add(js_row.GetPrivate<Titanium::UI::TableViewRow>());
+					}
 				}
 			}
 		}
@@ -78,15 +110,28 @@ namespace Titanium
 			return static_cast<std::uint32_t>(sections__.size());
 		}
 
+		void TableView::createEmptyTableViewSection() 
+		{
+			const auto properties = get_context().CreateObject();
+			CREATE_TITANIUM_UI_INSTANCE(js_section, properties, TableViewSection);
+			sections__.push_back(js_section.GetPrivate<Titanium::UI::TableViewSection>());
+		}
+
 		void TableView::appendRow(const std::vector<std::shared_ptr<TableViewRow>>& rows, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			// create new section if there's no section
+			// create new section if there's no one
 			if (sections__.size() == 0) {
-				const auto js_section = get_context().CreateObject(JSExport<Titanium::UI::TableViewSection>::Class());
-				appendSection({ js_section.GetPrivate<Titanium::UI::TableViewSection>() }, nullptr);
+				createEmptyTableViewSection();
 			}
 
-			std::shared_ptr<Titanium::UI::TableViewSection> section = sections__.at(sections__.size() - 1);
+			appendRowAtSection(sections__.size() - 1, rows);
+		}
+
+		void TableView::appendRowAtSection(const std::uint32_t& sectionIndex, const std::vector<std::shared_ptr<TableViewRow>>& rows) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_ASSERT(sections__.size() > sectionIndex);
+
+			std::shared_ptr<Titanium::UI::TableViewSection> section = sections__.at(sectionIndex);
 			for (const auto row : rows) {
 				section->add(row);
 			}
@@ -104,29 +149,34 @@ namespace Titanium
 			TITANIUM_LOG_WARN("TableView::deleteRow: Unimplemented");
 		}
 
+		void TableView::deleteRow(const std::shared_ptr<TableViewRow>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("TableView::deleteRow: Unimplemented");
+		}
+
 		void TableView::deleteSection(const uint32_t& sectionIndex, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			sections__.erase(sections__.begin()+sectionIndex);
 		}
 
-		void TableView::insertRowAfter(const uint32_t& index, const std::vector<std::shared_ptr<TableViewRow>>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void TableView::insertRowAfter(const uint32_t& index, const std::shared_ptr<TableViewRow>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::insertRowAfter: Unimplemented");
 		}
 
-		void TableView::insertSectionAfter(const uint32_t& index, const std::vector<std::shared_ptr<TableViewSection>>& sections, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void TableView::insertSectionAfter(const uint32_t& index, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			sections__.insert(sections__.begin() + index + 1, sections.begin(), sections.end());
+			sections__.insert(sections__.begin() + index + 1, section);
 		}
 
-		void TableView::insertRowBefore(const uint32_t& index, const std::vector<std::shared_ptr<TableViewRow>>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void TableView::insertRowBefore(const uint32_t& index, const std::shared_ptr<TableViewRow>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("TableView::insertRowBefore: Unimplemented");
 		}
 
-		void TableView::insertSectionBefore(const uint32_t& index, const std::vector<std::shared_ptr<TableViewSection>>& sections, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		void TableView::insertSectionBefore(const uint32_t& index, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			sections__.insert(sections__.begin() + index, sections.begin(), sections.end());
+			sections__.insert(sections__.begin() + index, section);
 		}
 
 		void TableView::scrollToIndex(const uint32_t& index, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
@@ -255,7 +305,7 @@ namespace Titanium
 			}
 			set_data(tableObjects);
 
-			return false;
+			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER_STRING(TableView, filterAttribute)
@@ -357,301 +407,251 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(TableView, deleteRow)
 		{
-			TITANIUM_LOG_WARN("TableView.deleteRow is not implemented yet");
-			if (arguments.size() < 2) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 2) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsObject());
+			const auto js_context = this_object.get_context();
+
+			ENSURE_ARGUMENT_BOUNDS(0);
+			const auto _0 = arguments.at(0);
+
+			JSObject animation = js_context.CreateObject();
+			if (arguments.size() >= 2) {
 				const auto _1 = arguments.at(1);
-				//TITANIUM_ASSERT(_1.IsTableViewAnimationProperties());
-				const auto row = static_cast<JSObject>(_0);
-				const auto animation = static_cast<JSObject>(_1);
-				// deleteRow(row, animation);
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsObject());
-				const auto row = static_cast<JSObject>(_0);
-				// deleteRow(row);
+				if (_1.IsObject()) {
+					animation = tableviewAnimationProperties_ctor__.CallAsConstructor({_1});
+				}
 			}
+
+			if (_0.IsNumber()) {
+				deleteRow(static_cast<std::uint32_t>(_0), animation.GetPrivate<TableViewAnimationProperties>());
+			} else if (_0.IsObject()) {
+				deleteRow(static_cast<JSObject>(_0).GetPrivate<TableViewRow>(), animation.GetPrivate<TableViewAnimationProperties>());
+			}
+
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(TableView, deleteSection)
 		{
-			if (arguments.size() < 2) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 2) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
+			const auto js_context = this_object.get_context();
+
+			ENSURE_UINT_AT_INDEX(sectionIndex, 0);
+
+			JSObject animation = js_context.CreateObject();
+			if (arguments.size() >= 2) {
 				const auto _1 = arguments.at(1);
-				TITANIUM_ASSERT(_1.IsObject());
-				const uint32_t section = static_cast<uint32_t>(_0);
-				const auto animation = static_cast<JSObject>(_1);
-				deleteSection(section, animation.GetPrivate<TableViewAnimationProperties>());
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const uint32_t section = static_cast<uint32_t>(_0);
-				const auto animation = get_context().CreateObject();
-				deleteSection(section, animation.GetPrivate<TableViewAnimationProperties>());
+				if (_1.IsObject()) {
+					animation = tableviewAnimationProperties_ctor__.CallAsConstructor({_1});
+				}
 			}
-			return get_context().CreateUndefined();
+
+			deleteSection(sectionIndex, animation.GetPrivate<TableViewAnimationProperties>());
+
+			return this_object.get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(TableView, insertRowAfter)
 		{
-			TITANIUM_LOG_WARN("TableView.insertRowAfter is not implemented yet");
-			if (arguments.size() < 3) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 3) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				TITANIUM_ASSERT(_1.IsObject());
+			const auto js_context = this_object.get_context();
+
+			ENSURE_UINT_AT_INDEX(rowIndex, 0);
+			ENSURE_OBJECT_AT_INDEX(js_row, 1);
+
+			JSObject animation = js_context.CreateObject();
+			if (arguments.size() >= 3) {
 				const auto _2 = arguments.at(2);
-				//TITANIUM_ASSERT(_2.IsTableViewAnimationProperties());
-				const double index = static_cast<double>(_0);
-				const auto row = static_cast<JSObject>(_1);
-				const auto animation = static_cast<JSObject>(_2);
-				// insertRowAfter(index, row, animation);
-			} else if (arguments.size() >= 2) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				TITANIUM_ASSERT(_1.IsObject());
-				const double index = static_cast<double>(_0);
-				const auto row = static_cast<JSObject>(_1);
-				// insertRowAfter(index, row);
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const double index = static_cast<double>(_0);
-				// insertRowAfter(index);
+				if (_2.IsObject()) {
+					animation = tableviewAnimationProperties_ctor__.CallAsConstructor({_2});
+				}
 			}
+
+			auto row = js_row.GetPrivate<TableViewRow>();
+			if (row == nullptr) {
+				// create new row, assuming js_row is JS dictionary object
+				CREATE_TITANIUM_UI_INSTANCE(new_row, js_row, TableViewRow);
+				row = new_row.GetPrivate<Titanium::UI::TableViewRow>();
+			}
+
+			insertRowAfter(rowIndex, row, animation.GetPrivate<TableViewAnimationProperties>());
+
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(TableView, insertSectionAfter)
 		{
-			TITANIUM_LOG_WARN("TableView.insertSectionAfter is not implemented yet");
-			if (arguments.size() < 3) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 3) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				TITANIUM_ASSERT(_1.IsObject());
+			const auto js_context = this_object.get_context();
+
+			ENSURE_UINT_AT_INDEX(sectionIndex, 0);
+			ENSURE_OBJECT_AT_INDEX(js_section, 1);
+
+			JSObject animation = js_context.CreateObject();
+			if (arguments.size() >= 3) {
 				const auto _2 = arguments.at(2);
-				//TITANIUM_ASSERT(_2.IsTableViewAnimationProperties());
-				const double index = static_cast<double>(_0);
-				const auto section = static_cast<JSObject>(_1);
-				const auto animation = static_cast<JSObject>(_2);
-				// insertSectionAfter(index, section, animation);
-			} else if (arguments.size() >= 2) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				TITANIUM_ASSERT(_1.IsObject());
-				const double index = static_cast<double>(_0);
-				const auto section = static_cast<JSObject>(_1);
-				// insertSectionAfter(index, section);
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const double index = static_cast<double>(_0);
-				// insertSectionAfter(index);
+				if (_2.IsObject()) {
+					animation = tableviewAnimationProperties_ctor__.CallAsConstructor({_2});
+				}
 			}
+
+			auto section = js_section.GetPrivate<TableViewSection>();
+			if (section == nullptr) {
+				// create new section, assuming js_section is JS dictionary object
+				CREATE_TITANIUM_UI_INSTANCE(new_section, js_section, TableViewSection);
+				section = new_section.GetPrivate<Titanium::UI::TableViewSection>();
+			}
+
+			insertSectionAfter(sectionIndex, section, animation.GetPrivate<TableViewAnimationProperties>());
+
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(TableView, insertRowBefore)
 		{
-			TITANIUM_LOG_WARN("TableView.insertRowBefore is not implemented yet");
-			if (arguments.size() < 3) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 3) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				TITANIUM_ASSERT(_1.IsObject());
+			const auto js_context = this_object.get_context();
+
+			ENSURE_UINT_AT_INDEX(rowIndex, 0);
+			ENSURE_OBJECT_AT_INDEX(js_row, 1);
+
+			JSObject animation = js_context.CreateObject();
+			if (arguments.size() >= 3) {
 				const auto _2 = arguments.at(2);
-				//TITANIUM_ASSERT(_2.IsTableViewAnimationProperties());
-				const double index = static_cast<double>(_0);
-				const auto row = static_cast<JSObject>(_1);
-				const auto animation = static_cast<JSObject>(_2);
-				// insertRowBefore(index, row, animation);
-			} else if (arguments.size() >= 2) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				TITANIUM_ASSERT(_1.IsObject());
-				const double index = static_cast<double>(_0);
-				const auto row = static_cast<JSObject>(_1);
-				// insertRowBefore(index, row);
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const double index = static_cast<double>(_0);
-				// insertRowBefore(index);
+				if (_2.IsObject()) {
+					animation = tableviewAnimationProperties_ctor__.CallAsConstructor({_2});
+				}
 			}
+
+			auto row = js_row.GetPrivate<TableViewRow>();
+			if (row == nullptr) {
+				// create new row, assuming js_row is JS dictionary object
+				CREATE_TITANIUM_UI_INSTANCE(new_row, js_row, TableViewRow);
+				row = new_row.GetPrivate<Titanium::UI::TableViewRow>();
+			}
+
+			insertRowBefore(rowIndex, row, animation.GetPrivate<TableViewAnimationProperties>());
+
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(TableView, insertSectionBefore)
 		{
-			TITANIUM_LOG_WARN("TableView.insertSectionBefore is not implemented yet");
-			if (arguments.size() < 3) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 3) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				TITANIUM_ASSERT(_1.IsObject());
+			const auto js_context = this_object.get_context();
+
+			ENSURE_UINT_AT_INDEX(sectionIndex, 0);
+			ENSURE_OBJECT_AT_INDEX(js_section, 1);
+
+			JSObject animation = js_context.CreateObject();
+			if (arguments.size() >= 3) {
 				const auto _2 = arguments.at(2);
-				//TITANIUM_ASSERT(_2.IsTableViewAnimationProperties());
-				const double index = static_cast<double>(_0);
-				const auto section = static_cast<JSObject>(_1);
-				const auto animation = static_cast<JSObject>(_2);
-				// insertSectionBefore(index, section, animation);
-			} else if (arguments.size() >= 2) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				TITANIUM_ASSERT(_1.IsObject());
-				const double index = static_cast<double>(_0);
-				const auto section = static_cast<JSObject>(_1);
-				// insertSectionBefore(index, section);
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const double index = static_cast<double>(_0);
-				// insertSectionBefore(index);
+				if (_2.IsObject()) {
+					animation = tableviewAnimationProperties_ctor__.CallAsConstructor({_2});
+				}
 			}
+
+			auto section = js_section.GetPrivate<TableViewSection>();
+			if (section == nullptr) {
+				// create new section, assuming js_section is JS dictionary object
+				CREATE_TITANIUM_UI_INSTANCE(new_section, js_section, TableViewSection);
+				section = new_section.GetPrivate<Titanium::UI::TableViewSection>();
+			}
+
+			insertSectionBefore(sectionIndex, section, animation.GetPrivate<TableViewAnimationProperties>());
+
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(TableView, scrollToIndex)
 		{
-			TITANIUM_LOG_WARN("TableView.scrollToIndex is not implemented yet");
-			if (arguments.size() < 2) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 2) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
+			const auto js_context = this_object.get_context();
+
+			ENSURE_UINT_AT_INDEX(index, 0);
+
+			JSObject animation = js_context.CreateObject();
+			if (arguments.size() >= 2) {
 				const auto _1 = arguments.at(1);
-				//TITANIUM_ASSERT(_1.IsTableViewAnimationProperties());
-				const double index = static_cast<double>(_0);
-				const auto animation = static_cast<JSObject>(_1);
-				// scrollToIndex(index, animation);
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const double index = static_cast<double>(_0);
-				// scrollToIndex(index);
+				if (_1.IsObject()) {
+					animation = tableviewAnimationProperties_ctor__.CallAsConstructor({_1});
+				}
 			}
+
+			scrollToIndex(index, animation.GetPrivate<TableViewAnimationProperties>());
+
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(TableView, scrollToTop)
 		{
-			TITANIUM_LOG_WARN("TableView.scrollToTop is not implemented yet");
-			if (arguments.size() < 2) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 2) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
+			const auto js_context = this_object.get_context();
+
+			ENSURE_UINT_AT_INDEX(index, 0);
+
+			JSObject animation = js_context.CreateObject();
+			if (arguments.size() >= 2) {
 				const auto _1 = arguments.at(1);
-				//TITANIUM_ASSERT(_1.IsTableViewAnimationProperties());
-				const double top = static_cast<double>(_0);
-				const auto animation = static_cast<JSObject>(_1);
-				// scrollToTop(top, animation);
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const double top = static_cast<double>(_0);
-				// scrollToTop(top);
+				if (_1.IsObject()) {
+					animation = tableviewAnimationProperties_ctor__.CallAsConstructor({_1});
+				}
 			}
+
+			scrollToTop(index, animation.GetPrivate<TableViewAnimationProperties>());
+			
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(TableView, selectRow)
 		{
-			TITANIUM_LOG_WARN("TableView.selectRow is not implemented yet");
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const double row = static_cast<double>(_0);
-				// selectRow(row);
-			}
+			ENSURE_UINT_AT_INDEX(index, 0);
+			selectRow(index);
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(TableView, updateRow)
 		{
-			TITANIUM_LOG_WARN("TableView.updateRow is not implemented yet");
-			if (arguments.size() < 3) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 3) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				//TITANIUM_ASSERT(_1.IsTitanium.UI.TableViewRow());
+			const auto js_context = this_object.get_context();
+
+			ENSURE_UINT_AT_INDEX(rowIndex, 0);
+			ENSURE_OBJECT_AT_INDEX(js_row, 1);
+
+			JSObject animation = js_context.CreateObject();
+			if (arguments.size() >= 3) {
 				const auto _2 = arguments.at(2);
-				//TITANIUM_ASSERT(_2.IsTableViewAnimationProperties());
-				const double index = static_cast<double>(_0);
-				const auto row = static_cast<JSObject>(_1);
-				const auto animation = static_cast<JSObject>(_2);
-				// updateRow(index, row, animation);
-			} else if (arguments.size() >= 2) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				//TITANIUM_ASSERT(_1.IsTitanium.UI.TableViewRow());
-				const double index = static_cast<double>(_0);
-				const auto row = static_cast<JSObject>(_1);
-				// updateRow(index, row);
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const double index = static_cast<double>(_0);
-				// updateRow(index);
+				if (_2.IsObject()) {
+					animation = tableviewAnimationProperties_ctor__.CallAsConstructor({_2});
+				}
 			}
+
+			auto row = js_row.GetPrivate<TableViewRow>();
+			if (row == nullptr) {
+				// create new row, assuming js_row is JS dictionary object
+				CREATE_TITANIUM_UI_INSTANCE(new_row, js_row, TableViewRow);
+				row = new_row.GetPrivate<Titanium::UI::TableViewRow>();
+			}
+
+			updateRow(rowIndex, row, animation.GetPrivate<TableViewAnimationProperties>());
+
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(TableView, updateSection)
 		{
-			TITANIUM_LOG_WARN("TableView.updateSection is not implemented yet");
-			if (arguments.size() < 3) {
-				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 3) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				//TITANIUM_ASSERT(_1.IsTitanium.UI.TableViewSection());
+			const auto js_context = this_object.get_context();
+
+			ENSURE_UINT_AT_INDEX(sectionIndex, 0);
+			ENSURE_OBJECT_AT_INDEX(js_section, 1);
+
+			JSObject animation = js_context.CreateObject();
+			if (arguments.size() >= 3) {
 				const auto _2 = arguments.at(2);
-				//TITANIUM_ASSERT(_2.IsTableViewAnimationProperties());
-				const double index = static_cast<double>(_0);
-				const auto section = static_cast<JSObject>(_1);
-				const auto animation = static_cast<JSObject>(_2);
-				// updateSection(index, section, animation);
-			} else if (arguments.size() >= 2) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const auto _1 = arguments.at(1);
-				//TITANIUM_ASSERT(_1.IsTitanium.UI.TableViewSection());
-				const double index = static_cast<double>(_0);
-				const auto section = static_cast<JSObject>(_1);
-				// updateSection(index, section);
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsNumber());
-				const double index = static_cast<double>(_0);
-				// updateSection(index);
+				if (_2.IsObject()) {
+					animation = tableviewAnimationProperties_ctor__.CallAsConstructor({_2});
+				}
 			}
+
+			auto section = js_section.GetPrivate<TableViewSection>();
+			if (section == nullptr) {
+				// create new section, assuming js_section is JS dictionary object
+				CREATE_TITANIUM_UI_INSTANCE(new_section, js_section, TableViewSection);
+				section = new_section.GetPrivate<Titanium::UI::TableViewSection>();
+			}
+
+			updateSection(sectionIndex, section, animation.GetPrivate<TableViewAnimationProperties>());
+
 			return get_context().CreateUndefined();
 		}
 
