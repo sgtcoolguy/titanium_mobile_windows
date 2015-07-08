@@ -44,8 +44,7 @@ exports.init = function (logger, config, cli) {
 				return;
 			}
 
-			var expirationDate = moment().add(1, 'year').format('MM/DD/YYYY'),
-				pvk = path.join(projectDir, 'generated.pvk'),
+			var pvk = path.join(projectDir, 'generated.pvk'),
 				cer = path.join(projectDir, 'generated.cer'),
 				pfx = path.join(projectDir, 'generated.pfx');
 

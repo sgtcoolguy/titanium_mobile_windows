@@ -21,8 +21,8 @@ function mixin(WindowsBuilder) {
 /**
  * Escapes a value in a relative distinguished name. Used to generate the distinguished name for the windows cert string from tiapp publisher value.
  **/
-function escapeRDN(value) {
-	return value.trim().replace(/\\/g, '\\\\').replace(/([\/,#+<>;"=])/g, '\\$1');
+function restrictToManifestSTPublisher(value) {
+	return value.trim().replace(/[, ="<>#;]/g, '');
 }
 
 /**
@@ -109,16 +109,16 @@ function validate(logger, config, cli) {
 				'ti.windows.publishername is suggested in your tiapp.xml for publishing!' +
 				'\nWe will default to a value generated from your tiapp.publisher value.' +
 				'\nFor example:' +
-				'\n<property name="ti.windows.publishername" type="string">CN=' + escapeRDN(cli.tiapp.publisher) + '</property>'
+				'\n<property name="ti.windows.publishername" type="string">CN=' + cli.tiapp.publisher + '</property>'
 			));
-			this.publisherName = "CN=" + escapeRDN(cli.tiapp.publisher);
+			this.publisherName = "CN=" + cli.tiapp.publisher;
 		}
 		else {
 			logger.error(__(
 				'Publisher and ti.windows.publishername are required in your tiapp.xml!' +
 				'\nFor example:' +
 				'\n<publisher>Appcelerator Inc.</publisher>' +
-				'\n<property name="ti.windows.publishername" type="string">CN=Appcelerator Inc.</property>'
+				'\n<property name="ti.windows.publishername" type="string">CN=Appcelerator, Inc.</property>'
 			));
 			logger.log();
 			process.exit(1);
@@ -126,6 +126,7 @@ function validate(logger, config, cli) {
 	} else {
 		this.publisherName = this.publisherName.value;
 	}
+	this.publisherName = this.publisherName.split('=').map(restrictToManifestSTPublisher).join('=');
 
 	// check that the build directory is writeable
 	// try to build under temp if the path is shorter and we have write access
