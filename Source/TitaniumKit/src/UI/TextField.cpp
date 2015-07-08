@@ -201,33 +201,14 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getClearButtonMode, clearButtonMode)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setClearButtonMode, clearButtonMode)
 
-		TITANIUM_PROPERTY_GETTER(TextField, color)
-		{
-			return get_context().CreateString(get_color());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TextField, color)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_color(static_cast<std::string>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(TextField, color)
+		TITANIUM_PROPERTY_SETTER_STRING(TextField, color)
 
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getColor, color)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setColor, color)
 
-		TITANIUM_PROPERTY_GETTER(TextField, editable)
-		{
-			return get_context().CreateBoolean(get_editable());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TextField, editable)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			editable__ = static_cast<bool>(argument);
-			set_editable(editable__);
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(TextField, editable)
+		TITANIUM_PROPERTY_SETTER_BOOL(TextField, editable)
 
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getEditable, editable)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setEditable, editable)
@@ -248,33 +229,14 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getEllipsize, ellipsize)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setEllipsize, ellipsize)
 
-		TITANIUM_PROPERTY_GETTER(TextField, enableReturnKey)
-		{
-			return get_context().CreateBoolean(get_enableReturnKey());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TextField, enableReturnKey)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			enableReturnKey__ = static_cast<bool>(argument);
-			set_enableReturnKey(enableReturnKey__);
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(TextField, enableReturnKey)
+		TITANIUM_PROPERTY_SETTER_BOOL(TextField, enableReturnKey)
 
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getEnableReturnKey, enableReturnKey)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setEnableReturnKey, enableReturnKey)
 
-		TITANIUM_PROPERTY_GETTER(TextField, hintText)
-		{
-			return get_context().CreateString(get_hintText());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TextField, hintText)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_hintText(static_cast<std::string>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(TextField, hintText)
+		TITANIUM_PROPERTY_SETTER_STRING(TextField, hintText)
 
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getHintText, hintText)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setHintText, hintText)
@@ -311,32 +273,14 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getLeftButtonMode, leftButtonMode)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setLeftButtonMode, leftButtonMode)
 
-		TITANIUM_PROPERTY_GETTER(TextField, maxLength)
-		{
-			return get_context().CreateNumber(get_maxLength());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TextField, maxLength)
-		{
-			TITANIUM_ASSERT(argument.IsNumber());
-			set_maxLength(static_cast<int32_t>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_INT(TextField, maxLength)
+		TITANIUM_PROPERTY_SETTER_INT(TextField, maxLength)
 
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getMaxLength, maxLength)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setMaxLength, maxLength)
 
-		TITANIUM_PROPERTY_GETTER(TextField, passwordMask)
-		{
-			return get_context().CreateBoolean(get_passwordMask());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TextField, passwordMask)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_passwordMask(static_cast<bool>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(TextField, passwordMask)
+		TITANIUM_PROPERTY_SETTER_BOOL(TextField, passwordMask)
 
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getPasswordMask, passwordMask)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setPasswordMask, passwordMask)
@@ -373,17 +317,8 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getRightButtonMode, rightButtonMode)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setRightButtonMode, rightButtonMode)
 
-		TITANIUM_PROPERTY_GETTER(TextField, suppressReturn)
-		{
-			return get_context().CreateBoolean(get_suppressReturn());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TextField, suppressReturn)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_suppressReturn(static_cast<bool>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(TextField, suppressReturn)
+		TITANIUM_PROPERTY_SETTER_BOOL(TextField, suppressReturn)
 
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getSuppressReturn, suppressReturn)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setSuppressReturn, suppressReturn)
@@ -412,17 +347,8 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getTextAlign, textAlign)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setTextAlign, textAlign)
 
-		TITANIUM_PROPERTY_GETTER(TextField, value)
-		{
-			return get_context().CreateString(get_value());
-		}
-
-		TITANIUM_PROPERTY_SETTER(TextField, value)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_value(static_cast<std::string>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(TextField, value)
+		TITANIUM_PROPERTY_SETTER_STRING(TextField, value)
 
 		TITANIUM_FUNCTION_AS_GETTER(TextField, getValue, value)
 		TITANIUM_FUNCTION_AS_SETTER(TextField, setValue, value)
