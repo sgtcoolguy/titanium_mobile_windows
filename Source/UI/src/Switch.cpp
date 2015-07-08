@@ -31,7 +31,6 @@ namespace TitaniumWindows
 			});
 
 			Titanium::UI::Switch::setLayoutDelegate<WindowsViewLayoutDelegate>();
-			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(switch__);
 		}
 

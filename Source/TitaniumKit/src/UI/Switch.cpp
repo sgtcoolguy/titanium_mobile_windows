@@ -23,7 +23,7 @@ namespace Titanium
 
 		void Switch::JSExportInitialize() {
 			JSExport<Switch>::SetClassVersion(1);
-			JSExport<Switch>::SetParent(JSExport<Module>::Class());
+			JSExport<Switch>::SetParent(JSExport<View>::Class());
 
 			TITANIUM_ADD_PROPERTY(Switch, value);
 			TITANIUM_ADD_FUNCTION(Switch, getValue);
