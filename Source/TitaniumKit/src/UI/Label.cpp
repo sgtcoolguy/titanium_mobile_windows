@@ -66,29 +66,11 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(Label, setWordWrap);
 		}
 
-		TITANIUM_PROPERTY_GETTER(Label, color)
-		{
-			return get_context().CreateString(get_color());
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(Label, color)
+		TITANIUM_PROPERTY_SETTER_STRING(Label, color)
 
-		TITANIUM_PROPERTY_SETTER(Label, color)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_color(static_cast<std::string>(argument));
-			return true;
-		}
-
-		TITANIUM_PROPERTY_GETTER(Label, ellipsize)
-		{
-			return get_context().CreateBoolean(get_ellipsize());
-		}
-
-		TITANIUM_PROPERTY_SETTER(Label, ellipsize)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_ellipsize(static_cast<bool>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(Label, ellipsize)
+		TITANIUM_PROPERTY_SETTER_BOOL(Label, ellipsize)
 
 		TITANIUM_PROPERTY_GETTER(Label, font)
 		{
@@ -103,17 +85,8 @@ namespace Titanium
 			return true;
 		}
 
-		TITANIUM_PROPERTY_GETTER(Label, text)
-		{
-			return get_context().CreateString(text__);
-		}
-
-		TITANIUM_PROPERTY_SETTER(Label, text)
-		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_text(static_cast<std::string>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_STRING(Label, text)
+		TITANIUM_PROPERTY_SETTER_STRING(Label, text)
 
 		TITANIUM_PROPERTY_GETTER(Label, textAlign)
 		{
@@ -153,17 +126,8 @@ namespace Titanium
 			return result;
 		}
 
-		TITANIUM_PROPERTY_GETTER(Label, wordWrap)
-		{
-			return get_context().CreateBoolean(wordWrap__);
-		}
-
-		TITANIUM_PROPERTY_SETTER(Label, wordWrap)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_wordWrap(static_cast<bool>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_BOOL(Label, wordWrap)
+		TITANIUM_PROPERTY_SETTER_BOOL(Label, wordWrap)
 
 		TITANIUM_FUNCTION_AS_GETTER(Label, getColor, color)
 		TITANIUM_FUNCTION_AS_SETTER(Label, setColor, color)
