@@ -59,6 +59,11 @@ namespace TitaniumWindows
 			collectionViewItems__->Clear();
 			unfiltered_headers__.clear();
 			unfiltered_sectionItems__.clear();
+
+			for (const auto view : headers_as_view__) {
+				unregisterListViewItemAsLayoutNode(view);
+			}
+			headers_as_view__.clear();
 		}
 
 		void ListView::JSExportInitialize() 
@@ -145,16 +150,19 @@ namespace TitaniumWindows
 			}
 			Titanium::UI::ListView::set_searchText(pretransform_searchText);
 
-			is_filtering__ = !pretransform_searchText.empty();
-
 			if (is_filtering__) {
+				return;
+			}
+
+			is_filtering__ = true;
+
+			if (!pretransform_searchText.empty()) {
 				auto searchText = pretransform_searchText;
 				const bool case_insensitive = get_caseInsensitiveSearch();
 				if (case_insensitive) {
 					// Make searchText lowercase! Note that this likely _isn't_ UTF-8 friendly
 					std::transform(searchText.begin(), searchText.end(), searchText.begin(), ::tolower);
 				}
-
 				// restore views and items so that we can search from entire items
 				if (unfiltered_sectionItems__.size() > 0) {
 					for (std::uint32_t sectionIndex = 0; sectionIndex < sections__.size(); sectionIndex++) {
@@ -164,7 +172,7 @@ namespace TitaniumWindows
 							// save header view as it may be hidden according to the results
 							restoreHeaderViewIfNecessary(sectionIndex);
 
-							// restore section items
+							// restore section items without updating view
 							section->set_items(items);
 						}
 					}
@@ -177,23 +185,22 @@ namespace TitaniumWindows
 
 					std::vector<Titanium::UI::ListDataItem> filtered_items;
 					const auto items = section->get_items();
-					
+
 					// save "unfiltered" section items
 					unfiltered_sectionItems__.push_back(items);
 
 					for (std::uint32_t itemIndex = 0; itemIndex < items.size(); itemIndex++) {
-						const auto item = items[itemIndex];
+						const auto item = items.at(itemIndex);
 						const auto properties = item.properties;
-
 						if (properties.find("searchableText") != properties.end()) {
 							const auto text = properties.at("searchableText");
 							TITANIUM_ASSERT(text.IsString());
-							auto string = static_cast<std::string>(text);
+							auto str = static_cast<std::string>(text);
 							if (case_insensitive) {
 								// make string lowercase! Note that this likely _isn't_ UTF-8 friendly
-								std::transform(string.begin(), string.end(), string.begin(), ::tolower);
+								std::transform(str.begin(), str.end(), str.begin(), ::tolower);
 							}
-							if (string.find(searchText) != std::string::npos) {
+							if (str.find(searchText) != std::string::npos) {
 								// match, add item to filtered collection!
 								filtered_items.push_back(item);
 							}
@@ -218,6 +225,8 @@ namespace TitaniumWindows
 				}
 				unfiltered_sectionItems__.clear();
 			}
+
+			is_filtering__ = false;
 		}
 
 		void ListView::hideHeaderView(const std::uint32_t& sectionIndex) 
@@ -318,24 +327,34 @@ namespace TitaniumWindows
 				for (std::uint32_t i = itemIndex; i < itemIndex + itemCount; i++) {
 					const auto view = createSectionItemViewAt<TitaniumWindows::UI::View>(sectionIndex, i);
 					appendListViewItemForSection(view, views);
+					section->setViewForSectionItem(itemIndex, view);
 				}
 			} else if (name == "update" || name == "replace") {
 				// "update" and "replace" are basically same, it removes existing content and insert new one
 				std::uint32_t index = itemIndex + 1; // +1 because index=0 is header
 				for (std::uint32_t i = index; i < index + affectedRows; i++) {
 					views->RemoveAt(index);
+					unregisterListViewItemAsLayoutNode(section->getViewForSectionItem(i - 1));
+					section->setViewForSectionItem(i - 1, nullptr);
 				}
 				for (std::uint32_t i = itemIndex; i < itemIndex + itemCount; i++) {
 					const auto view = createSectionItemViewAt<TitaniumWindows::UI::View>(sectionIndex, i);
 					insertListViewItemForSection(view, views, index++);
+					section->setViewForSectionItem(itemIndex, view);
 				}
 			} else if (name == "delete") {
 				const std::uint32_t index = itemIndex + 1; // +1 because index=0 is header
 				TITANIUM_ASSERT(views->Size > index);
 				for (std::uint32_t i = index; i < index + itemCount; i++) {
 					views->RemoveAt(index);
+					unregisterListViewItemAsLayoutNode(section->getViewForSectionItem(i - 1));
+					section->setViewForSectionItem(i - 1, nullptr);
 				}
 			} else if (name == "clear") {
+				for (std::uint32_t i = itemIndex; i < itemIndex + itemCount; i++) {
+					unregisterListViewItemAsLayoutNode(section->getViewForSectionItem(i));
+					section->setViewForSectionItem(i, nullptr);
+				}
 				if (views->Size > 0) {
 					// clear section view except header view
 					const auto header = views->GetAt(0);
@@ -351,12 +370,11 @@ namespace TitaniumWindows
 		Vector<UIElement^>^ ListView::createUIElementsForSection(const std::uint32_t& sectionIndex) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(sections__.size() > sectionIndex);
-
 			const auto views = createSectionViewAt<TitaniumWindows::UI::View>(sectionIndex);
 			auto group = ref new Vector<UIElement^>();
 
 			// Set section header
-			const auto section = sections__[sectionIndex];
+			const auto section = sections__.at(sectionIndex);
 			const auto view = section->get_headerView();
 			if (view != nullptr) {
 				auto windows_view = dynamic_cast<TitaniumWindows::UI::View*>(view.get());
@@ -365,6 +383,7 @@ namespace TitaniumWindows
 
 				// Add as child view to make layout engine work
 				registerListViewItemAsLayoutNode(view);
+				headers_as_view__.push_back(view);
 			} else {
 				Controls::ListViewHeaderItem^ header = ref new Controls::ListViewHeaderItem();
 				auto headerText = ref new Controls::TextBlock();
@@ -376,17 +395,27 @@ namespace TitaniumWindows
 
 			for (uint32_t itemIndex = 0; itemIndex < views.size(); itemIndex++) {
 				appendListViewItemForSection(views.at(itemIndex), group);
+				section->setViewForSectionItem(itemIndex, views.at(itemIndex));
 			}
 			return group;
 		}
 
 		void ListView::registerListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view)
 		{
+			if (view == nullptr) {
+				return;
+			}
 			auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
 			Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
-			if (layoutDelegate->isLoaded()) {
-				layoutDelegate->requestLayout();
+		}
+
+		void ListView::unregisterListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view) 
+		{
+			if (view == nullptr) {
+				return;
 			}
+			auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
+			Titanium::LayoutEngine::nodeRemoveChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
 		}
 
 		void ListView::appendListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, Vector<UIElement^>^ group)

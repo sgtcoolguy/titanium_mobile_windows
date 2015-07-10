@@ -371,7 +371,7 @@ namespace TitaniumWindows
 #pragma warning(disable : 4251)
 			Windows::UI::Xaml::FrameworkElement^ component__ { nullptr };
 
-			Titanium::LayoutEngine::Node* layout_node__;
+			Titanium::LayoutEngine::Node* layout_node__ { nullptr };
 
 			bool postlayout_listening__{ false };
 			Windows::Foundation::EventRegistrationToken size_change_event__;

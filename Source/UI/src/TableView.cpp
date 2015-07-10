@@ -173,9 +173,6 @@ namespace TitaniumWindows
 		{
 			auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
 			Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
-			if (layoutDelegate->isLoaded()) {
-				layoutDelegate->requestLayout();
-			}
 		}
 
 		/*

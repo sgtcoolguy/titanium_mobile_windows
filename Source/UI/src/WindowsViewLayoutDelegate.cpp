@@ -604,7 +604,7 @@ namespace TitaniumWindows
 
 		static void onLayoutCallback(Titanium::LayoutEngine::Node* node)
 		{
-			auto view = static_cast<WindowsViewLayoutDelegate*>(node->data);
+			const auto view = static_cast<WindowsViewLayoutDelegate*>(node->data);
 			auto rect = Titanium::LayoutEngine::RectMake(node->element.measuredLeft, node->element.measuredTop, node->element.measuredWidth, node->element.measuredHeight);
 			view->onLayoutEngineCallback(rect, node->name);
 		}

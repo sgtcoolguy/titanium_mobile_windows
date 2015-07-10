@@ -70,13 +70,7 @@ function lookup(name) {
 	return proxy['create' + proxyName];
 }
 
-// Create item views from section
-function createSectionView(listview, section) {
-	section.listview = listview;
-	section.items = section.items || [];
-	listview.templates = listview.templates || [];
-	listview.defaultItemTemplate = listview.defaultItemTemplate || Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT;
-
+function ensureLoadTemplates(listview) {
 	// prepare default template
 	if (!this.loaded) {
 		listview.templates[Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT] = LISTVIEW_LIST_ITEM_TEMPLATE_DEFAULT;
@@ -86,6 +80,16 @@ function createSectionView(listview, section) {
 		}
 		this.loaded = true;
 	}
+}
+
+// Create item views from section
+function createSectionView(listview, section) {
+	section.listview = listview;
+	section.items = section.items || [];
+	listview.templates = listview.templates || [];
+	listview.defaultItemTemplate = listview.defaultItemTemplate || Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT;
+
+	ensureLoadTemplates(listview);
 
 	section.views = []; // store views to protect from gc
 	for (var i = 0; i < section.items.length; i++) {
@@ -99,6 +103,11 @@ function createSectionItemView(item, template, parent) {
 	if (!options) {
 		options = {top:0, left:0, width:Ti.UI.SIZE, height:Ti.UI.SIZE};
 	}
+
+	if (!template.createView) {
+		processTemplates(template);
+	}
+
 	var view = template.createView(options);
 	if (template.bindId && item[template.bindId]) {
 		view.applyProperties(item[template.bindId]);
@@ -125,6 +134,7 @@ function createSectionItemView(item, template, parent) {
 function createSectionItemAt(listview, section, index) {
 	var item = section.items[index];
 	var template = listview.templates[listview.defaultItemTemplate];
+
 	return createSectionItemView(item, template);
 }
 

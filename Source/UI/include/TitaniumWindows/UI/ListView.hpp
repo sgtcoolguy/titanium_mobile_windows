@@ -66,6 +66,7 @@ namespace TitaniumWindows
 
 		private:
 			void registerListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
+			void unregisterListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
 			void appendListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ group);
 			void insertListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ group, const std::uint32_t& index);
 			// Search for section index and item index. Returns {sectionIndex, itemIndex}
@@ -91,6 +92,7 @@ namespace TitaniumWindows
 
 			std::vector<Windows::UI::Xaml::UIElement^> unfiltered_headers__;
 			std::vector<std::vector<Titanium::UI::ListDataItem>> unfiltered_sectionItems__;
+			std::vector<std::shared_ptr<Titanium::UI::View>> headers_as_view__;
 #pragma warning(pop)
 
 			Windows::Foundation::EventRegistrationToken click_event__;

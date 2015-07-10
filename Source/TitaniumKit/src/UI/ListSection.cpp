@@ -144,7 +144,21 @@ namespace Titanium
 			TITANIUM_ASSERT(listview);
 			listview->fireListSectionEvent(event_name, get_object().GetPrivate<ListSection>(), index, itemCount, affectedRows);
 		}
-		
+
+		void ListSection::setViewForSectionItem(const std::uint32_t& itemIndex, const std::shared_ptr<View>& view) 
+		{
+			TITANIUM_ASSERT(items__.size() > itemIndex);
+			auto item = items__.at(itemIndex);
+			item.view = view;
+			items__.at(itemIndex) = item;
+		}
+
+		std::shared_ptr<View> ListSection::getViewForSectionItem(const std::uint32_t& itemIndex) 
+		{
+			TITANIUM_ASSERT(items__.size() > itemIndex);
+			return items__.at(itemIndex).view;
+		}
+
 		void ListSection::JSExportInitialize() 
 		{
 			JSExport<ListSection>::SetClassVersion(1);

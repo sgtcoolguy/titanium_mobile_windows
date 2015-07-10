@@ -35,6 +35,8 @@ namespace Titanium
 			std::string templateId;
 			// Contains key-value pairs of properties and values that are applied to the custom property binding
 			std::unordered_map<std::string, JSValue> bindings;
+			// Titanium View which is associated with this item
+			std::shared_ptr<View> view { nullptr };
 		};
 
 		// Convert JSObject into ListDataItem
@@ -171,6 +173,8 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(getItems);
 
 			virtual void fireListSectionEvent(const std::string& event_name, const std::uint32_t& index, const std::uint32_t& itemCount = 1, const std::uint32_t& affectedRows = 1);
+			virtual void setViewForSectionItem(const std::uint32_t& itemIndex, const std::shared_ptr<View>& view);
+			virtual std::shared_ptr<View> getViewForSectionItem(const std::uint32_t& itemIndex);
 
 		protected:
 #pragma warning(push)
