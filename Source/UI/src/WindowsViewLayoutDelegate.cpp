@@ -99,16 +99,15 @@ namespace TitaniumWindows
 			}
 		}
 
-		void WindowsViewLayoutDelegate::hide() TITANIUM_NOEXCEPT
+		bool WindowsViewLayoutDelegate::get_visible() const TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutDelegate::hide();
-			getComponent()->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+			return getComponent()->Visibility == Windows::UI::Xaml::Visibility::Visible;
 		}
 
-		void WindowsViewLayoutDelegate::show() TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::set_visible(const bool& visible) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutDelegate::show();
-			getComponent()->Visibility = Windows::UI::Xaml::Visibility::Visible;
+			Titanium::UI::ViewLayoutDelegate::set_visible(visible);
+			getComponent()->Visibility = (visible ? Windows::UI::Xaml::Visibility::Visible : Windows::UI::Xaml::Visibility::Collapsed);
 		}
 
 		void WindowsViewLayoutDelegate::animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT

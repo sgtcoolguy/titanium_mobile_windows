@@ -43,32 +43,6 @@ namespace TitaniumWindows
 			/*!
 			  @method
 
-			  @abstract hide() : void
-
-			  @discussion Hides the view and it's chldren in the view's hierarchy.
-
-			  @param 
-
-			  @result void
-			*/
-			virtual void hide() TITANIUM_NOEXCEPT override;
-
-			/*!
-			  @method
-
-			  @abstract show() : void
-
-			  @discussion Causes the view and the view's hierarchy to be displayed. 
-
-			  @param 
-
-			  @result void
-			*/
-			virtual void show() TITANIUM_NOEXCEPT override;
-
-			/*!
-			  @method
-
 			  @abstract backgroundColor : String
 
 			  @discussion Background color of the view, as a color name or hex triplet.
@@ -326,6 +300,16 @@ namespace TitaniumWindows
 			  Titanium.UI.SIZE
 			*/
 			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
+
+			/*!
+			  @method
+
+			  @abstract visible : Boolean
+
+			  @discussion Determines whether the view is visible
+			*/
+			virtual bool get_visible() const TITANIUM_NOEXCEPT override;
+			virtual void set_visible(const bool& visible) TITANIUM_NOEXCEPT override;
 
 			WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT;
 			virtual ~WindowsViewLayoutDelegate() = default;
