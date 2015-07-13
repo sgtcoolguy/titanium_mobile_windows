@@ -56,6 +56,9 @@ namespace Titanium
 			*/
 			virtual void animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback) TITANIUM_NOEXCEPT;
 
+			virtual void blur();
+			virtual void focus();
+
 			View(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~View() TITANIUM_NOEXCEPT;  //= default;

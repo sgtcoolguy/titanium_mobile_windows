@@ -50,6 +50,22 @@ namespace TitaniumWindows
 			Titanium::UI::Tab::set_window(window);
 		}
 
+		void Tab::blur() 
+		{
+			if (window__) {
+				window__->blur();
+			}
+			Titanium::UI::Tab::blur();
+		}
+
+		void Tab::focus() 
+		{
+			if (window__) {
+				window__->focus();
+			}
+			Titanium::UI::Tab::focus();
+		}
+
 		void Tab::JSExportInitialize() 
 		{
 			JSExport<Tab>::SetClassVersion(1);

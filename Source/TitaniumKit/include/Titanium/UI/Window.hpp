@@ -45,6 +45,11 @@ namespace Titanium
 			*/
 			virtual void close(const std::shared_ptr<CloseWindowParams>& params) TITANIUM_NOEXCEPT;
 
+			/*
+			 * Closes the view of the Window, used by Ti.UI.TabGroup 
+			*/
+			virtual void closeAsView();
+
 			/*!
 			  @method
 
@@ -58,6 +63,11 @@ namespace Titanium
 			  @result void
 			*/
 			virtual void open(const std::shared_ptr<OpenWindowParams>& params) TITANIUM_NOEXCEPT;
+
+			/*
+			* Opens the view of the Window, used by Ti.UI.TabGroup
+			*/
+			virtual void openAsView();
 
 			/*!
 			  @method
@@ -286,13 +296,6 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(getTranslucent);
 			TITANIUM_FUNCTION_DEF(setTranslucent);
 
-			// determine if this is top-level Window
-			// Window can be part of View in some components such as Ti.UI.Tab.
-			virtual void isTopLevel(const bool& value) TITANIUM_NOEXCEPT final
-			{
-				isTopLevel__ = value;
-			}
-
 		protected:
 // Silence 4251 on Windows since private member variables do not
 // need to be exported from a DLL.
@@ -313,8 +316,6 @@ namespace Titanium
 
 			JSObject openWindowParams_ctor__;
 			JSObject closeWindowParams_ctor__;
-
-			bool isTopLevel__ { true };
 #pragma warning(pop)
 		};
 	} // namespace UI

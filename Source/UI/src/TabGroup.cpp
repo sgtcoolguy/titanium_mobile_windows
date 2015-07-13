@@ -30,6 +30,7 @@ namespace TitaniumWindows
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			// root Window object to make layout work
 			window__ = js_context.CreateObject(JSExport<TitaniumWindows::UI::Window>::Class()).CallAsConstructor().GetPrivate<TitaniumWindows::UI::Window>();
+			window__->setTabGroupContainer(true);
 
 			grid__  = ref new Grid();
 			pivot__ = ref new Pivot();

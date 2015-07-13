@@ -9,8 +9,10 @@
 #include "TitaniumWindows/UI/Window.hpp"
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/UI/Windows/CommandBar.hpp"
+#include "TitaniumWindows/UI/Tab.hpp"
 #include "Titanium/App.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/UIModule.hpp"
 #include <windows.h>
 
 namespace TitaniumWindows
@@ -78,21 +80,51 @@ namespace TitaniumWindows
 			}
 		}
 
+		std::shared_ptr<TitaniumWindows::UI::WindowsXaml::CommandBar> Window::getBottomAppBar() TITANIUM_NOEXCEPT
+		{
+			// if this Window is parent container of TabGroup,
+			// let's get CommandBar from active Tab.
+			if (isTabGroupContainer()) {
+				const auto Ti = static_cast<JSObject>(get_context().get_global_object().GetProperty("Titanium"));
+				const auto UI = static_cast<JSObject>(Ti.GetProperty("UI")).GetPrivate<Titanium::UIModule>();
+				const auto tab = UI->get_currentTab();
+				if (tab != nullptr) {
+					const auto activeTab = dynamic_cast<TitaniumWindows::UI::Tab*>(tab.get());
+					TITANIUM_ASSERT(activeTab != nullptr);
+					const auto win = activeTab->get_window();
+					if (win != nullptr) {
+						const auto tabWindow = dynamic_cast<TitaniumWindows::UI::Window*>(win.get());
+						TITANIUM_ASSERT(tabWindow != nullptr);
+						return tabWindow->getBottomAppBar();
+					}
+				}
+			}
+
+			return bottomAppBar__;
+		}
+
+		void Window::blur() 
+		{
+			updateWindowsCommandBar(nullptr);
+			Titanium::UI::Window::blur();
+		}
+
+		void Window::focus() 
+		{
+			updateWindowsCommandBar(getBottomAppBar());
+			Titanium::UI::Window::focus();
+		}
+
 		void Window::close(const std::shared_ptr<Titanium::UI::CloseWindowParams>& params) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Window::close(params);
 
 			// Fire blur & close event on this window
-			fireEvent("blur");
+			blur();
 			fireEvent("close");
 
 			// disable all events further because it doesn't make sense.
 			disableEvents();
-
-			if (!isTopLevel__) {
-				updateWindowsCommandBar(nullptr);
-				return;
-			}
 
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 			if (!get_exitOnClose() && window_stack__.size() > 1) {
@@ -117,15 +149,9 @@ namespace TitaniumWindows
 				auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
 				page->Content = window->getComponent();
 
-				// reset bottom app bar
-				page->BottomAppBar = nullptr;
-				if (window->getBottomAppBar() != nullptr) {
-					page->BottomAppBar = window->getBottomAppBar()->getComponent();
-				}
-
 				// start accepting events for the new Window
 				window->enableEvents();
-				window->fireEvent("focus");
+				window->focus();
 			} else {
 				JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
 				TITANIUM_ASSERT(Titanium_property.IsObject());
@@ -148,29 +174,15 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::Window::open(params);
 
-			if (!isTopLevel__) {
-				updateWindowsCommandBar(bottomAppBar__);
-				enableEvents();
-				fireEvent("open");
-				fireEvent("focus");
-				return;
-			}
-
 			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 			rootFrame->Navigate(Windows::UI::Xaml::Controls::Page::typeid);
 			auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
 			page->Content = canvas__;
 
-			// reset bottom app bar
-			page->BottomAppBar = nullptr;
-			if (bottomAppBar__ != nullptr) {
-				page->BottomAppBar = bottomAppBar__->getComponent();
-			}
-
 			if (window_stack__.size() > 0) {
 				// Fire blur on the last window
 				auto lastwin = window_stack__.back();
-				lastwin->fireEvent("blur");
+				lastwin->blur();
 
 				// disable all events further for the old Window
 				lastwin->disableEvents();
@@ -185,7 +197,7 @@ namespace TitaniumWindows
 			fireEvent("open");
 
 			// Fire focus event on this window
-			fireEvent("focus");
+			focus();
 		}
 
 		void Window::JSExportInitialize()

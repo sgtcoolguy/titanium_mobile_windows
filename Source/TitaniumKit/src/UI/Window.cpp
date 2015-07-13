@@ -59,28 +59,27 @@ namespace Titanium
 			ui_ptr->set_currentWindow(this->get_object().GetPrivate<Titanium::UI::Window>());
 		}
 
+		void Window::closeAsView()
+		{
+			fireEvent("close");
+		}
+
+		void Window::openAsView()
+		{
+			fireEvent("open");
+		}
+
 		TITANIUM_PROPERTY_READWRITE(Window, bool, exitOnClose)
-
 		TITANIUM_PROPERTY_READWRITE(Window, std::unordered_set<EXTEND_EDGE>, extendEdges)
-
 		TITANIUM_PROPERTY_READWRITE(Window, bool, fullscreen)
-
 		TITANIUM_PROPERTY_READWRITE(Window, bool, hideShadow)
-
 		TITANIUM_PROPERTY_READWRITE(Window, bool, modal)
-
 		TITANIUM_PROPERTY_READWRITE(Window, bool, navBarHidden)
-
 		TITANIUM_PROPERTY_READWRITE(Window, std::string, navTintColor)
-
 		TITANIUM_PROPERTY_READWRITE(Window, std::vector<ORIENTATION>, orientationModes)
-
 		TITANIUM_PROPERTY_READWRITE(Window, std::string, theme)
-
 		TITANIUM_PROPERTY_READWRITE(Window, TitleAttributesParams, titleAttributes)
-
 		TITANIUM_PROPERTY_READWRITE(Window, bool, translucent)
-
 		TITANIUM_PROPERTY_READWRITE(Window, std::string, barColor)
 
 		void Window::JSExportInitialize()

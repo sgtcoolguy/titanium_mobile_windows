@@ -178,6 +178,9 @@ namespace Titanium
 			*/
 			virtual void close(const std::shared_ptr<CloseWindowParams>& options = nullptr) TITANIUM_NOEXCEPT;
 
+			virtual void blur()  override;
+			virtual void focus() override;
+
 			Tab(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Tab() = default;
