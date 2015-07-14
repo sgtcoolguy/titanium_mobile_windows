@@ -273,7 +273,7 @@ namespace TitaniumWindows
 			coords.SetProperty("heading", get_context().CreateNumber(data->Heading->Value));
 			coords.SetProperty("latitude", get_context().CreateNumber(data->Point->Position.Latitude));
 			coords.SetProperty("timestamp", get_context().CreateNumber(static_cast<double>(data->Timestamp.UniversalTime)));
-			coords.SetProperty("altitudeAccuracy", get_context().CreateNumber(data->AltitudeAccuracy->Value));
+			//coords.SetProperty("altitudeAccuracy", get_context().CreateNumber(data->AltitudeAccuracy->Value));
 			coords.SetProperty("accuracy", get_context().CreateNumber(data->Accuracy));
 			locationResult.SetProperty("coords", coords);
 
@@ -307,7 +307,7 @@ namespace TitaniumWindows
 
 		const auto httpClient = ref new HttpClient();
 		concurrency::create_task(httpClient->GetAsync(requestUri)).then([this, callback](HttpResponseMessage^ response) {
-			auto result = get_context().CreateString(Utility::ConvertString(response->Content->ToString()));
+			auto result = get_context().CreateValueFromJSON(Utility::ConvertString(response->Content->ToString()));
 
 			// Cast callback as non-const JSObject
 			// TODO : More elegant way of doing this
