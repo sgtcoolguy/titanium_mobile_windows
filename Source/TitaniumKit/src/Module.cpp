@@ -59,9 +59,9 @@ namespace Titanium
 				enableEvent(name);
 			}
 			TITANIUM_LOG_DEBUG("Module::addEventListener: add listener at index ", callback_list_index, " for event '", name, "' for ", this);
-			event_listener_list.emplace_back(callback_payload);
+			event_listener_list.push_back(callback_payload);
 		}
-		event_listener_map__.emplace(name, event_listener_list);
+		event_listener_map__[name] = event_listener_list;
 	}
 
 	void Module::removeEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
@@ -214,6 +214,7 @@ namespace Titanium
 
 				index = i;
 				found = true;
+				break;
 			}
 		}
 

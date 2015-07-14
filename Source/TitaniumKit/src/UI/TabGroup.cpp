@@ -27,10 +27,10 @@ namespace Titanium
 				return;
 			}
 			if (activeTab__ != nullptr) {
-				activeTab__->close();
+				activeTab__->blur();
 			}
 			activeTab__ = activeTab;
-			activeTab__->open();
+			activeTab__->focus();
 		}
 
 		TITANIUM_PROPERTY_READ(TabGroup, JSValue, activity)
@@ -79,10 +79,12 @@ namespace Titanium
 		void TabGroup::close() TITANIUM_NOEXCEPT
 		{
 			if (activeTab__) {
-				activeTab__->close();
-				activeTab__ = nullptr;
-			} else {
-				TITANIUM_LOG_WARN("TabGroup::close() failed: no active window");
+				activeTab__->blur();
+			}
+
+			// closes all Tabs
+			for (const auto tab : tabs__) {
+				tab->close();
 			}
 		}
 
@@ -93,13 +95,12 @@ namespace Titanium
 
 		void TabGroup::open() TITANIUM_NOEXCEPT
 		{
-			if (tabs__.size() > 0 && activeTab__ == nullptr) {
-				activeTab__ = tabs__.at(0);
+			// opens all Tabs according to iOS implementation
+			for (const auto tab : tabs__) {
+				tab->open();
 			}
 			if (activeTab__) {
-				activeTab__->open();
-			} else {
-				TITANIUM_LOG_WARN("TabGroup::open() failed: no window attached");
+				activeTab__->focus();
 			}
 		}
 

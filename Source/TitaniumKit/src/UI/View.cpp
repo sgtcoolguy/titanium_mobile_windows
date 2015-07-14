@@ -40,6 +40,16 @@ namespace Titanium
 			layoutDelegate__->animate(animation, callback, get_object());
 		}
 
+		void View::blur() 
+		{
+			fireEvent("blur");
+		}
+
+		void View::focus() 
+		{
+			fireEvent("focus");
+		}
+
 		void View::JSExportInitialize()
 		{
 			JSExport<View>::SetClassVersion(1);

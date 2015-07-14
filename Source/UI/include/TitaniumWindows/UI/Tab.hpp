@@ -41,6 +41,8 @@ namespace TitaniumWindows
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override;
 			virtual void set_window(const std::shared_ptr<Titanium::UI::Window>& window) TITANIUM_NOEXCEPT override;
+			virtual void blur()  override;
+			virtual void focus() override;
 
 		private:
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP

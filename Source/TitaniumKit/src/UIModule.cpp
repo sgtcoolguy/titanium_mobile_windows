@@ -8,7 +8,7 @@
 
 #include "Titanium/UIModule.hpp"
 #include "Titanium/UI/Constants.hpp"
-#include "Titanium/UI/View.hpp"
+#include "Titanium/UI/Tab.hpp"
 #include "Titanium/UI/Window.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include <sstream>
@@ -147,7 +147,7 @@ namespace Titanium
 
 	TITANIUM_PROPERTY_READWRITE(UIModule, std::string, backgroundColor);
 	TITANIUM_PROPERTY_READWRITE(UIModule, std::string, backgroundImage);
-	TITANIUM_PROPERTY_READWRITE(UIModule, std::shared_ptr<Titanium::UI::View>, currentTab);
+	TITANIUM_PROPERTY_READWRITE(UIModule, std::shared_ptr<Titanium::UI::Tab>, currentTab);
 	TITANIUM_PROPERTY_READWRITE(UIModule, std::shared_ptr<Titanium::UI::Window>, currentWindow);
 
 	TITANIUM_PROPERTY_GETTER(UIModule, ANIMATION_CURVE_EASE_IN)
@@ -937,7 +937,7 @@ namespace Titanium
 	TITANIUM_PROPERTY_SETTER(UIModule, currentTab) 
 	{
 		if (argument.IsObject()) {
-			set_currentTab(static_cast<JSObject>(argument).GetPrivate<Titanium::UI::View>());
+			set_currentTab(static_cast<JSObject>(argument).GetPrivate<Titanium::UI::Tab>());
 		} else {
 			set_currentTab(nullptr);
 		}

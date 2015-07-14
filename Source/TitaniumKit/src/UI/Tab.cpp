@@ -9,6 +9,7 @@
 #include "Titanium/UI/Tab.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include "Titanium/UI/Window.hpp"
+#include "Titanium/UIModule.hpp"
 #include "Titanium/UI/OpenWindowParams.hpp"
 #include "Titanium/UI/CloseWindowParams.hpp"
 
@@ -37,17 +38,32 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(Tab, bool, activeIconIsMask)
 		TITANIUM_PROPERTY_READWRITE(Tab, std::string, title)
 		TITANIUM_PROPERTY_READWRITE(Tab, std::string, titleid)
-		TITANIUM_PROPERTY_READ(Tab, std::shared_ptr<Window>, window)
-		void Tab::set_window(const std::shared_ptr<Window>& window) TITANIUM_NOEXCEPT
+		TITANIUM_PROPERTY_READWRITE(Tab, std::shared_ptr<Window>, window)
+
+		void Tab::focus() 
 		{
-			window__ = window;
-			window__->isTopLevel(false);
+			Titanium::UI::View::focus();
+
+			// Update Ti.UI.currentTab
+			const auto Ti = static_cast<JSObject>(get_context().get_global_object().GetProperty("Titanium"));
+			const auto UI = static_cast<JSObject>(Ti.GetProperty("UI")).GetPrivate<Titanium::UIModule>();
+			UI->set_currentTab(get_object().GetPrivate<Titanium::UI::Tab>());
+		}
+
+		void Tab::blur() 
+		{
+			Titanium::UI::View::blur();
+
+			// Update Ti.UI.currentTab
+			const auto Ti = static_cast<JSObject>(get_context().get_global_object().GetProperty("Titanium"));
+			const auto UI = static_cast<JSObject>(Ti.GetProperty("UI")).GetPrivate<Titanium::UIModule>();
+			UI->set_currentTab(nullptr);
 		}
 
 		void Tab::open(const std::shared_ptr<OpenWindowParams>& options) TITANIUM_NOEXCEPT
 		{
 			if (window__) {
-				window__->open(options);
+				window__->openAsView();
 			} else {
 				TITANIUM_LOG_WARN("Tab::open() failed: no window is attached");
 			}
@@ -62,7 +78,7 @@ namespace Titanium
 		void Tab::close(const std::shared_ptr<CloseWindowParams>& options) TITANIUM_NOEXCEPT
 		{
 			if (window__) {
-				window__->close(options);
+				window__->closeAsView();
 			} else {
 				TITANIUM_LOG_WARN("Tab::close() failed: no window is attached");
 			}

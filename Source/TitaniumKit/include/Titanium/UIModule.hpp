@@ -15,8 +15,8 @@ namespace Titanium
 {
 	namespace UI
 	{
-		class View;
 		class Window;
+		class Tab;
 	}
 
 	using namespace HAL;
@@ -37,7 +37,7 @@ namespace Titanium
 		@abstract currentTab
 		@discussion Value of the `currentTab` property
 		*/
-		TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<Titanium::UI::View>, currentTab);
+		TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<Titanium::UI::Tab>, currentTab);
 
 		/*!
 		@property
@@ -329,7 +329,7 @@ namespace Titanium
 
 #pragma warning(push)
 #pragma warning(disable: 4251)
-		std::shared_ptr<Titanium::UI::View> currentTab__;
+		std::shared_ptr<Titanium::UI::Tab> currentTab__;
 		std::shared_ptr<Titanium::UI::Window> currentWindow__;
 
 		std::string backgroundColor__;

@@ -38,6 +38,8 @@ namespace TitaniumWindows
 			virtual void close(const std::shared_ptr<Titanium::UI::CloseWindowParams>&) TITANIUM_NOEXCEPT override final;
 			virtual void open(const std::shared_ptr<Titanium::UI::OpenWindowParams>&) TITANIUM_NOEXCEPT override final;
 			virtual void set_fullscreen(const bool& fullscreen) TITANIUM_NOEXCEPT override final;
+			virtual void blur()  override;
+			virtual void focus() override;
 
 			Window(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -57,10 +59,18 @@ namespace TitaniumWindows
 				return canvas__;
 			}
 
-			virtual std::shared_ptr<TitaniumWindows::UI::WindowsXaml::CommandBar> getBottomAppBar() const TITANIUM_NOEXCEPT
+			// return true if this Window is parent container of TabGroup
+			virtual bool isTabGroupContainer() const TITANIUM_NOEXCEPT  
 			{
-				return bottomAppBar__;
+				return is_tabgroup_container__;
 			}
+
+			virtual void setTabGroupContainer(const bool& value) TITANIUM_NOEXCEPT
+			{
+				is_tabgroup_container__ = value;
+			}
+
+			virtual std::shared_ptr<TitaniumWindows::UI::WindowsXaml::CommandBar> getBottomAppBar() TITANIUM_NOEXCEPT;
 
 			virtual void enableEvents()  TITANIUM_NOEXCEPT override;
 			virtual void disableEvents() TITANIUM_NOEXCEPT override;
@@ -79,6 +89,7 @@ namespace TitaniumWindows
 			Windows::Foundation::EventRegistrationToken backpressed_event__;
 			bool is_custom_backpress_event__ { false };
 			bool is_window_event_active__ { false };
+			bool is_tabgroup_container__ { false };
 #pragma warning(pop)
 		};
 
