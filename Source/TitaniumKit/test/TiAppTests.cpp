@@ -55,3 +55,42 @@ TEST_F(TiAppTests, BasicFeatures)
 	XCTAssertNoThrow(js_context.JSEvaluateScript("Ti.App.getVersion();"));
 
 }
+
+TEST_F(TiAppTests, TIMOB_19213)
+{
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
+	auto global_object = js_context.get_global_object();
+
+	XCTAssertFalse(global_object.HasProperty("Titanium"));
+	auto Titanium = js_context.CreateObject();
+	global_object.SetProperty("Titanium", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(global_object.HasProperty("Titanium"));
+
+	// Make the alias "Ti" for the "Titanium" property.
+	XCTAssertFalse(global_object.HasProperty("Ti"));
+	global_object.SetProperty("Ti", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(global_object.HasProperty("Ti"));
+
+	XCTAssertFalse(Titanium.HasProperty("App"));
+	auto App = js_context.CreateObject(JSExport<Titanium::AppModule>::Class());
+	Titanium.SetProperty("App", App, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(Titanium.HasProperty("App"));
+
+	std::string script = R"js(
+		var count = 0;
+		Ti.App.addEventListener('app:test', function() {
+			count += 5;
+		});
+		Ti.App.addEventListener('app:test', function() {
+			count += 8;
+		});
+		Ti.App.addEventListener('app:test', function() {
+			count += 13;
+		});
+		Ti.App.fireEvent('app:test');
+		count;
+	)js";
+
+	auto result = js_context.JSEvaluateScript(script);
+	XCTAssertEqual(26, static_cast<std::uint32_t>(result));
+}
