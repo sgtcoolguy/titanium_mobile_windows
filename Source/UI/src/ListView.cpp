@@ -123,14 +123,17 @@ namespace TitaniumWindows
 					const auto sectionIndex = std::get<0>(result);
 					const auto itemIndex    = std::get<1>(result);
 					const auto section      = sections__.at(sectionIndex);
-					const auto properties   = section->getItemAt(itemIndex).properties;
 
 					JSObject eventArgs = ctx.CreateObject();
-					if (properties.find("itemId") != properties.end()) {
-						eventArgs.SetProperty("itemId", properties.at("itemId"));
-					}
-					if (properties.find("bindId") != properties.end()) {
-						eventArgs.SetProperty("bindId", properties.at("bindId"));
+					if (itemIndex >= 0) {
+						TITANIUM_ASSERT(section->get_items().size() > static_cast<std::uint32_t>(itemIndex));
+						const auto properties = section->getItemAt(itemIndex).properties;
+						if (properties.find("itemId") != properties.end()) {
+							eventArgs.SetProperty("itemId", properties.at("itemId"));
+						}
+						if (properties.find("bindId") != properties.end()) {
+							eventArgs.SetProperty("bindId", properties.at("bindId"));
+						}
 					}
 					eventArgs.SetProperty("section", section->get_object());
 					eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(sectionIndex));
