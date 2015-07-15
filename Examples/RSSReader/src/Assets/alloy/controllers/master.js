@@ -83,6 +83,10 @@ function Controller() {
         id: "master"
     });
     $.__views.master && $.addTopLevelView($.__views.master);
+    $.__views.commandBar = Ti.UI.Windows.createCommandBar({
+        id: "commandBar"
+    });
+    $.__views.master.add($.__views.commandBar);
     var __alloyId3 = {};
     var __alloyId6 = [];
     var __alloyId8 = {
@@ -149,6 +153,13 @@ function Controller() {
     var moment = require("alloy/moment");
     !function() {
         "use strict";
+        $.refreshButton = Ti.UI.Windows.createAppBarButton({
+            icon: Ti.UI.Windows.SystemIcon.REFRESH
+        });
+        $.refreshButton.addEventListener("click", function() {
+            refresh();
+        });
+        $.commandBar.items = [ $.refreshButton ];
         refresh();
     }(arguments[0] || {});
     __defers["$.__views.__alloyId2!itemclick!select"] && $.addListener($.__views.__alloyId2, "itemclick", select);
