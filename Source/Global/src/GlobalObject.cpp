@@ -32,13 +32,15 @@ namespace TitaniumWindows
 	{
 		// store supported native module names
 		for (const auto v : native_module_names) {
-			native_module_names__.emplace(v, false);
+			const auto insert_result = native_module_names__.emplace(v,  false);
+			TITANIUM_ASSERT(insert_result.second);
 		}
 
 		// register preloaded modules
 		for (const auto v : preloaded_modules) {
-			native_module_cache__.emplace(v.first, v.second);
-			native_module_names__.emplace(v.first, true); // mark it as loaded
+			const auto insert_result = native_module_cache__.emplace(v.first,  v.second);
+			TITANIUM_ASSERT(insert_result.second);
+			native_module_names__[v.first] = true; // mark it as loaded
 		}
 
 		// register require callback
@@ -57,7 +59,7 @@ namespace TitaniumWindows
 			return native_module_cache__.at(moduleId);
 		}
 		// mark it as loaded
-		native_module_names__.emplace(moduleId, true);
+		native_module_names__[moduleId] = true;
 
 		// otherwise try to load dynamically
 		return native_module_requireHook__(moduleId);
