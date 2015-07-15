@@ -46,7 +46,7 @@ namespace TitaniumWindows
 		//private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			static std::vector<Windows::UI::Popups::MessageDialog^> dialogs__;
+			static std::vector<Windows::UI::Popups::MessageDialog^> dialog_queue__;
 
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
 			static const std::uint32_t MaxButtonCount = 2;
