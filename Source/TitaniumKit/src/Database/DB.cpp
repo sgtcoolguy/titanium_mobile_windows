@@ -174,7 +174,8 @@ namespace Titanium
 			const auto resultSet_object = get_context().CreateObject(JSExport<Titanium::Database::ResultSet>::Class());
 			const auto resultSet = resultSet_object.GetPrivate<Titanium::Database::ResultSet>();
 			resultSet->setDatabase(this);
-			resultSets__.emplace(statement, resultSet);
+			const auto insert_result = resultSets__.emplace(statement, resultSet);
+			TITANIUM_ASSERT(insert_result.second);
 			int affectedRows = 0;
 			if (stepResult == SQLITE_DONE) {
 				sqlite3_finalize(statement);
