@@ -122,13 +122,19 @@ namespace TitaniumWindows
 					const auto result = searchFromSelectedIndex(selectedIndex);
 					const auto sectionIndex = std::get<0>(result);
 					const auto itemIndex    = std::get<1>(result);
+					const auto section      = sections__.at(sectionIndex);
+					const auto properties   = section->getItemAt(itemIndex).properties;
 
 					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("section", sections__.at(sectionIndex)->get_object());
+					if (properties.find("itemId") != properties.end()) {
+						eventArgs.SetProperty("itemId", properties.at("itemId"));
+					}
+					if (properties.find("bindId") != properties.end()) {
+						eventArgs.SetProperty("bindId", properties.at("bindId"));
+					}
+					eventArgs.SetProperty("section", section->get_object());
 					eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(sectionIndex));
 					eventArgs.SetProperty("itemIndex", ctx.CreateNumber(itemIndex));
-
-					// TODO more properties
 					this->fireEvent("itemclick", eventArgs);
 				});
 			}
