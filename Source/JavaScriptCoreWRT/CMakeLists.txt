@@ -139,11 +139,6 @@ if (WIN32)
   set_property(TARGET JavaScriptCoreWRT APPEND_STRING PROPERTY LINK_FLAGS_RELEASE "/LTCG")
 endif()
 
-if (NOT JavaScriptCoreWRT_DISABLE_TESTS)
-  add_subdirectory(examples)
-  add_subdirectory(test)
-endif()
-
 # Support find_package(JavaScriptCoreWRT 0.5 REQUIRED)
 
 set_property(TARGET JavaScriptCoreWRT PROPERTY VERSION ${JavaScriptCoreWRT_VERSION})

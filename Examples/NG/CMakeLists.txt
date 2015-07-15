@@ -36,6 +36,8 @@ get_filename_component(Utility_SOURCE_DIR       ${PROJECT_SOURCE_DIR}/../../Sour
 get_filename_component(UI_SOURCE_DIR            ${PROJECT_SOURCE_DIR}/../../Source/UI            ABSOLUTE)
 get_filename_component(TitaniumKit_SOURCE_DIR   ${PROJECT_SOURCE_DIR}/../../Source/TitaniumKit   ABSOLUTE)
 get_filename_component(HAL_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/HAL           ABSOLUTE)
+get_filename_component(JavaScriptCoreWRT_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/JavaScriptCoreWRT           ABSOLUTE)
+get_filename_component(NativeProxyComponent_SOURCE_DIR           ${PROJECT_SOURCE_DIR}/../../Source/NativeProxyComponent           ABSOLUTE)
 
 if(NOT TARGET TitaniumWindows)
   add_subdirectory(${Titanium_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Titanium EXCLUDE_FROM_ALL)
@@ -85,10 +87,15 @@ if (NOT TARGET HAL)
   add_subdirectory(${HAL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/HAL EXCLUDE_FROM_ALL)
 endif()
 
-if(NOT TARGET TitaniumWindows_Native)
-  get_filename_component(Native_SOURCE_DIR ${PROJECT_SOURCE_DIR}/Native ABSOLUTE)
-  add_subdirectory(${Native_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Native EXCLUDE_FROM_ALL)
+if (NOT TARGET JavaScriptCoreWRT)
+  add_subdirectory(${JavaScriptCoreWRT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/JavaScriptCoreWRT EXCLUDE_FROM_ALL)
 endif()
+
+include_external_msproject(
+    NativeProxyComponent ${NativeProxyComponent_SOURCE_DIR}/NativeProxyComponent/NativeProxyComponent.csproj
+    TYPE FAE04EC0-301F-11D3-BF4B-00C04F79EFBC
+    PLATFORM "Any CPU"
+)
 
 # No user-servicable parts below this line.
 
@@ -125,9 +132,10 @@ add_executable(${EXE_NAME} WIN32
 )
 
 set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_COMPONENT TRUE)
-target_link_libraries(${EXE_NAME} TitaniumWindows TitaniumWindows_Native)
+target_link_libraries(${EXE_NAME} TitaniumWindows JavaScriptCoreWRT)
+add_dependencies(${EXE_NAME} NativeProxyComponent)
 
 target_include_directories(${EXE_NAME} PUBLIC
   $<TARGET_PROPERTY:TitaniumWindows,INTERFACE_INCLUDE_DIRECTORIES>
-  $<TARGET_PROPERTY:TitaniumWindows_Native,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:JavaScriptCoreWRT,INTERFACE_INCLUDE_DIRECTORIES>
   )

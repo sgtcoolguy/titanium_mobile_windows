@@ -240,6 +240,10 @@ namespace JavaScriptCore
 	{
 		return ::JSValueIsObjectOfClass(_CTX(ctx), _VAL(value), _CLS(jsClass));
 	}
+	bool JS::JSValueIsString(JSContextRef^ ctx, JSValueRef^ value)
+	{
+		return ::JSValueIsString(_CTX(ctx), _VAL(value));
+	}
 	bool JS::JSValueIsStrictEqual(JSContextRef^ ctx, JSValueRef^ a, JSValueRef^ b)
 	{
 		return ::JSValueIsStrictEqual(_CTX(ctx), _VAL(a), _VAL(b));

@@ -22,7 +22,7 @@ int main(Platform::Array<Platform::String^>^) {
 
 	Windows::UI::Xaml::Application::Start(ref new Windows::UI::Xaml::ApplicationInitializationCallback([](Windows::UI::Xaml::ApplicationInitializationCallbackParams^ params) {
 		auto app = ref new TitaniumWindows::Application();
-		auto hook = ref new TitaniumWindows_Native::RequireHook();
+		auto hook = ref new NativeProxyComponent::DynamicLoader();
 		hook->Register(app);
   }));
 

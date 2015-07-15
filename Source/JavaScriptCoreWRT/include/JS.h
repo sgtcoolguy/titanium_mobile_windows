@@ -159,6 +159,7 @@ namespace JavaScriptCore
 		static bool JSValueIsObject(JSContextRef^ ctx, JSValueRef^ value);
 		static bool JSValueIsObjectOfClass(JSContextRef^ ctx, JSValueRef^ value, JSClassRef^ jsClass);
 		static bool JSValueIsStrictEqual(JSContextRef^ ctx, JSValueRef^ a, JSValueRef^ b);
+		static bool JSValueIsString(JSContextRef^ ctx, JSValueRef^ value);
 		static bool JSValueIsUndefined(JSContextRef^ ctx, JSValueRef^ value);
 
 		static JSObjectRef^ JSContextGetGlobalObject(JSContextRef^ ctx);
