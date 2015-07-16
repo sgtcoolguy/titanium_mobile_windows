@@ -11,8 +11,8 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/AlertDialog.hpp"
-#include <ppltasks.h>
 #include <functional>
+#include <agile.h>
 
 namespace TitaniumWindows
 {
@@ -45,10 +45,11 @@ namespace TitaniumWindows
 			virtual void hide() TITANIUM_NOEXCEPT override;
 			virtual void show() TITANIUM_NOEXCEPT override;
 
-		//private:
+		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			static std::vector<Windows::UI::Popups::MessageDialog^> dialog_queue__;
+			::Platform::Agile<Windows::UI::Popups::MessageDialog^> dialog__;
+			static std::vector<std::shared_ptr<AlertDialog>> dialog_queue__;
 			std::function<void(Windows::UI::Popups::IUICommand^)> on_click__;
 
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
