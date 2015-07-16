@@ -32,6 +32,30 @@ namespace TitaniumWindows
 			JSExport<AlertDialog>::SetParent(JSExport<Titanium::UI::AlertDialog>::Class());
 		}
 
+		void AlertDialog::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
+		{
+			on_click__ = [this](IUICommand^ command) {
+				std::int32_t index = 0;
+				if (command != nullptr) {
+					const auto casted = dynamic_cast<IPropertyValue^>(command->Id);
+					if (casted != nullptr) {
+						index = casted->GetInt32();
+					}
+				}
+				const JSContext ctx = get_context();
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("index", ctx.CreateNumber(index));
+				eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
+				fireEvent("click", eventArgs);
+
+				dialog_queue__.erase(dialog_queue__.begin());
+
+				if (dialog_queue__.size() > 0) {
+					concurrency::create_task(dialog_queue__.at(0)->ShowAsync()).then(on_click__);
+				}
+			};
+		}
+
 		void AlertDialog::hide() TITANIUM_NOEXCEPT
 		{
 			// TODO Implement!
@@ -68,33 +92,11 @@ namespace TitaniumWindows
 			}
 
 			try {
-				const static std::function<void(IUICommand^)> on_click = [this](IUICommand^ command) {
-					std::int32_t index = 0;
-					if (command != nullptr) {
-						const auto casted = dynamic_cast<IPropertyValue^>(command->Id);
-						if (casted != nullptr) {
-							index = casted->GetInt32();
-						}
-					}
-					const JSContext ctx = get_context();
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("index", ctx.CreateNumber(index));
-					eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
-					fireEvent("click", eventArgs);
-
-					dialog_queue__.erase(dialog_queue__.begin());
-
-					if (dialog_queue__.size() > 0) {
-						concurrency::create_task(dialog_queue__.at(0)->ShowAsync()).then(on_click);
-					}
-
-				};
-
 				dialog_queue__.push_back(dialog);
 
 				// show first dialog and then proceed to next after finishing click event
 				if (dialog_queue__.size() == 1) {
-					concurrency::create_task(dialog_queue__.at(0)->ShowAsync()).then(on_click);
+					concurrency::create_task(dialog_queue__.at(0)->ShowAsync()).then(on_click__);
 				}
 
 			} catch (::Platform::COMException^ ce) {

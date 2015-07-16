@@ -12,6 +12,7 @@
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/AlertDialog.hpp"
 #include <ppltasks.h>
+#include <functional>
 
 namespace TitaniumWindows
 {
@@ -39,6 +40,7 @@ namespace TitaniumWindows
 #endif
 
 			static void JSExportInitialize();
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			virtual void hide() TITANIUM_NOEXCEPT override;
 			virtual void show() TITANIUM_NOEXCEPT override;
@@ -47,6 +49,7 @@ namespace TitaniumWindows
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			static std::vector<Windows::UI::Popups::MessageDialog^> dialog_queue__;
+			std::function<void(Windows::UI::Popups::IUICommand^)> on_click__;
 
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
 			static const std::uint32_t MaxButtonCount = 2;
