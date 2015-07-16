@@ -66,7 +66,7 @@ namespace Titanium
 				} else if (units == "px") {
 					return parsedValue;
 				} else if (units == "dp" || units == "dip") {
-					return parsedValue * (ppi / 96);  // 96 - http://en.wikipedia.org/wiki/Dots_per_inch
+					return parsedValue * ppi / 160;
 				}
 			}
 			return 0;
