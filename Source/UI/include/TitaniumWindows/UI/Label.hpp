@@ -11,12 +11,24 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/Label.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
 		using namespace HAL;
+
+		class TITANIUMWINDOWS_UI_EXPORT WindowsLabelLayoutDelegate : public WindowsViewLayoutDelegate {
+		public:
+			WindowsLabelLayoutDelegate() TITANIUM_NOEXCEPT;
+			virtual ~WindowsLabelLayoutDelegate() = default;
+
+			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component) override;
+			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
+		private:
+			double defaultMaxWidth__;
+		};
 
 		/*!
 		  @class
