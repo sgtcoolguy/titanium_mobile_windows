@@ -32,13 +32,14 @@ function Analytics() {
 	this.sessionId = Ti.Platform.createUUID();
 	this.eventQueue = [];
 	if (!this.analyticsFile) {
-	    this.analyticsFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + ANALYTICS_FILE);
+		this.analyticsFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + ANALYTICS_FILE);
 	}
 	this.loadEventQueue();
 	this.sequence = 0;
 	this.http = null;
 	this.timestamp = null;
 	this.lastEvent = {};
+	this.receivedResponse = false;
 }
 
 Analytics.prototype.loadEventQueue = function loadEventQueue() {
@@ -169,6 +170,7 @@ Analytics.prototype.postEvents = function postEvents() {
 					onload: function (e) {
 						_t.eventQueue = [];
 						_t.saveEventQueue();
+						_t.receivedResponse = true;
 					},
 					onerror: function (e) {
 						retry++;
@@ -184,12 +186,16 @@ Analytics.prototype.postEvents = function postEvents() {
 				});
 				_t.http.open('POST', ANALYTICS_URL);
 			}
+			_t.receivedResponse = false;
 			_t.http.setRequestHeader('Content-Type', 'application/json');
 			_t.http.send(JSON.stringify(_t.eventQueue));
 		}
 		post();
 	} else {
 		this.saveEventQueue();
+
+		// offline so dont wait for a response
+		_t.receivedResponse = true;
 	}
 };
 
@@ -236,5 +242,11 @@ this.exports = {
 	},
 	lastEvent: function () {
 		return analytics.lastEvent;
+	},
+	getReceivedResponse: function () {
+		return analytics.receivedResponse;
+	},
+	setReceivedResponse: function (value) {
+		analytics.receivedResponse = value;
 	}
 };
