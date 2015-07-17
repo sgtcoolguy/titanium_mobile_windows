@@ -474,9 +474,6 @@ namespace Titanium
 		return std::make_shared<UnimplementedTimer>(callback, interval);
 	}
 
-	// TODO: The following functions can automatically be generated from
-	// the YAML API docs.
-
 	void GlobalObject::JSExportInitialize()
 	{
 		TITANIUM_LOG_DEBUG("GlobalObject::JSExportInitialize");
@@ -498,8 +495,6 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(GlobalObject, require)
 	{
-		// TODO: Validate these precondition checks (which could be
-		// automaticaly generated) with the team.
 		ENSURE_STRING_AT_INDEX(moduleId, 0);
 
 		const auto global_object = this_object.get_context().get_global_object();
@@ -511,10 +506,8 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(GlobalObject, setTimeout)
 	{
-		// TODO: Validate these precondition checks (which could be
-		// automaticaly generated) with the team.
 		ENSURE_OBJECT_AT_INDEX(function, 0);
-		ENSURE_UINT_AT_INDEX(delay, 1);
+		ENSURE_OPTIONAL_UINT_AT_INDEX(delay, 1, 0);
 		
 		const auto chrono_delay = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(delay));
 
@@ -527,8 +520,6 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(GlobalObject, clearTimeout)
 	{
-		// TODO: Validate these precondition checks (which could be
-		// automaticaly generated) with the team.
 		ENSURE_UINT_AT_INDEX(timerId, 0);
 
 		const auto global_object = this_object.get_context().get_global_object();
@@ -542,9 +533,6 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(GlobalObject, setInterval)
 	{
-		// TODO: Validate these precondition checks (which could be
-		// automaticaly generated) with the team.
-		
 		ENSURE_OBJECT_AT_INDEX(function, 0);
 		ENSURE_UINT_AT_INDEX(delay, 1);
 
@@ -560,8 +548,6 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(GlobalObject, clearInterval)
 	{
-		// TODO: Validate these precondition checks (which could be
-		// automaticaly generated) with the team.
 		ENSURE_UINT_AT_INDEX(timerId, 0);
 
 		const auto global_object = this_object.get_context().get_global_object();
