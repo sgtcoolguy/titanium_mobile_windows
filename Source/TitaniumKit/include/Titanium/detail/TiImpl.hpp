@@ -9,21 +9,21 @@
 #ifndef _TITANIUM_DETAIL_TIIMPL_HPP_
 #define _TITANIUM_DETAIL_TIIMPL_HPP_
 
+#include "Titanium/detail/TiLogger.hpp"
+
 #ifdef NDEBUG
 #define TITANIUM_ASSERT(expr)
 #else
 #define TITANIUM_ASSERT(expr) ((expr) ? (void)0 : \
-    HAL::detail::ThrowRuntimeError("Assertion failed", #expr))
+    (Titanium::detail::TiLogger<Titanium::detail::TiLoggerPolicyConsole>::Instance()->Print<Titanium::detail::TiLoggerSeverityType::Ti_WARN>(__FILE__, ":", __LINE__, ": ", #expr)))
 #endif
 
 #ifdef NDEBUG
 #define TITANIUM_ASSERT_AND_THROW(expr, message) 
 #else
 #define TITANIUM_ASSERT_AND_THROW(expr, message) ((expr) ? (void)0 : \
-    HAL::detail::ThrowRuntimeError("Invalid argument supplied", message))
+    (Titanium::detail::TiLogger<Titanium::detail::TiLoggerPolicyConsole>::Instance()->Print<Titanium::detail::TiLoggerSeverityType::Ti_WARN>(__FILE__, ":", __LINE__, ": ", message)))
 #endif
-
-#include "Titanium/detail/TiLogger.hpp"
 
 // For implementing the bridge getter function for a function property (cpp)
 #define TITANIUM_FUNCTION(MODULE, NAME) \
