@@ -18,7 +18,7 @@ namespace TitaniumWindows
 		using namespace Windows::UI::Popups;
 		using namespace Windows::Foundation;
 
-		std::vector<Windows::UI::Popups::MessageDialog^> AlertDialog::dialog_queue__;
+		std::vector<std::shared_ptr<AlertDialog>> AlertDialog::dialog_queue__;
 
 		AlertDialog::AlertDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Titanium::UI::AlertDialog(js_context)
@@ -32,6 +32,33 @@ namespace TitaniumWindows
 			JSExport<AlertDialog>::SetParent(JSExport<Titanium::UI::AlertDialog>::Class());
 		}
 
+		void AlertDialog::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
+		{
+			dialog__ = ref new Windows::UI::Popups::MessageDialog("");
+
+			on_click__ = [this](IUICommand^ command) {
+				std::int32_t index = 0;
+				if (command != nullptr) {
+					const auto casted = dynamic_cast<IPropertyValue^>(command->Id);
+					if (casted != nullptr) {
+						index = casted->GetInt32();
+					}
+				}
+				const JSContext ctx = get_context();
+				JSObject eventArgs = ctx.CreateObject();
+				eventArgs.SetProperty("index", ctx.CreateNumber(index));
+				eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
+				fireEvent("click", eventArgs);
+
+				dialog_queue__.erase(dialog_queue__.begin());
+
+				if (dialog_queue__.size() > 0) {
+					const auto next = dialog_queue__.at(0);
+					concurrency::create_task(next->dialog__->ShowAsync()).then(next->on_click__);
+				}
+			};
+		}
+
 		void AlertDialog::hide() TITANIUM_NOEXCEPT
 		{
 			// TODO Implement!
@@ -42,12 +69,13 @@ namespace TitaniumWindows
 			const std::string title   = get_title();
 			const std::string message = get_message();
 
-			Windows::UI::Popups::MessageDialog^ dialog = ref new Windows::UI::Popups::MessageDialog(TitaniumWindows::Utility::ConvertUTF8String(message), TitaniumWindows::Utility::ConvertUTF8String(title));
-			dialog->DefaultCommandIndex = 0;
+			dialog__->Content = TitaniumWindows::Utility::ConvertUTF8String(message);
+			dialog__->Title = TitaniumWindows::Utility::ConvertUTF8String(title);
+			dialog__->DefaultCommandIndex = 0;
 
 			const auto cancelIndex = get_cancel();
 			if (cancelIndex >= 0) {
-				dialog->CancelCommandIndex = get_cancel();
+				dialog__->CancelCommandIndex = get_cancel();
 			}
 
 			auto maxButtons = buttonNames__.size();
@@ -64,37 +92,15 @@ namespace TitaniumWindows
 				maxButtons = MaxButtonCount;
 			}
 			for (size_t i = 0; i < maxButtons; i++) {
-				dialog->Commands->Append(ref new Windows::UI::Popups::UICommand(TitaniumWindows::Utility::ConvertUTF8String(buttonNames__[i]), nullptr, PropertyValue::CreateInt32(i)));
+				dialog__->Commands->Append(ref new Windows::UI::Popups::UICommand(TitaniumWindows::Utility::ConvertUTF8String(buttonNames__[i]), nullptr, PropertyValue::CreateInt32(i)));
 			}
 
 			try {
-				const static std::function<void(IUICommand^)> on_click = [this](IUICommand^ command) {
-					std::int32_t index = 0;
-					if (command != nullptr) {
-						const auto casted = dynamic_cast<IPropertyValue^>(command->Id);
-						if (casted != nullptr) {
-							index = casted->GetInt32();
-						}
-					}
-					const JSContext ctx = get_context();
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("index", ctx.CreateNumber(index));
-					eventArgs.SetProperty("cancel", ctx.CreateBoolean(index == get_cancel()));
-					fireEvent("click", eventArgs);
-
-					dialog_queue__.erase(dialog_queue__.begin());
-
-					if (dialog_queue__.size() > 0) {
-						concurrency::create_task(dialog_queue__.at(0)->ShowAsync()).then(on_click);
-					}
-
-				};
-
-				dialog_queue__.push_back(dialog);
+				dialog_queue__.push_back(get_object().GetPrivate<AlertDialog>());
 
 				// show first dialog and then proceed to next after finishing click event
 				if (dialog_queue__.size() == 1) {
-					concurrency::create_task(dialog_queue__.at(0)->ShowAsync()).then(on_click);
+					concurrency::create_task(dialog__->ShowAsync()).then(on_click__);
 				}
 
 			} catch (::Platform::COMException^ ce) {
