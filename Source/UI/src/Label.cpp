@@ -7,7 +7,6 @@
 */
 
 #include "TitaniumWindows/UI/Label.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 
@@ -15,6 +14,43 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
+
+		WindowsLabelLayoutDelegate::WindowsLabelLayoutDelegate() TITANIUM_NOEXCEPT
+			: WindowsViewLayoutDelegate()
+		{
+		}
+
+		void WindowsLabelLayoutDelegate::setComponent(Windows::UI::Xaml::FrameworkElement^ label) 
+		{
+			WindowsViewLayoutDelegate::setComponent(label);
+
+			// TIMOB-19048: max size is set to screen size by default
+			defaultMaxWidth__  = label->MaxWidth;
+			defaultMaxHeight__ = label->MaxHeight;
+			const auto current = Windows::UI::Xaml::Window::Current;
+			if (current) {
+				auto b = current->Bounds;
+				label->MaxWidth  = current->Bounds.Width;
+				label->MaxHeight = current->Bounds.Height;
+			}
+		}
+
+		void WindowsLabelLayoutDelegate::set_width(const std::string& width) TITANIUM_NOEXCEPT
+		{
+			WindowsViewLayoutDelegate::set_width(width);
+
+			// reset max width when width is set explicitly
+			getComponent()->MaxWidth = defaultMaxWidth__;
+		}
+
+		void WindowsLabelLayoutDelegate::set_height(const std::string& height) TITANIUM_NOEXCEPT
+		{
+			WindowsViewLayoutDelegate::set_height(height);
+
+			// reset max height when height is set explicitly
+			getComponent()->MaxHeight = defaultMaxHeight__;
+		}
+
 		// FIXME What file formats does windows support for fonts? We need to limit here! Most of what I read says only TTF, but I see some mentions of OpenType
 		static const std::string ti_label_js = R"TI_LABEL_JS(
 	this.exports = {};
@@ -41,14 +77,14 @@ namespace TitaniumWindows
 			Titanium::UI::Label::postCallAsConstructor(js_context, arguments);
 			
 			label__ = ref new Windows::UI::Xaml::Controls::TextBlock();
-			Titanium::UI::Label::setLayoutDelegate<WindowsViewLayoutDelegate>();
+			Titanium::UI::Label::setLayoutDelegate<WindowsLabelLayoutDelegate>();
 
 			label__->TextWrapping = Windows::UI::Xaml::TextWrapping::Wrap;
-			label__->TextTrimming = Windows::UI::Xaml::TextTrimming::Clip;
+			label__->TextTrimming = Windows::UI::Xaml::TextTrimming::None;
 			label__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Center;
 			label__->FontSize = DefaultFontSize;
 
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(label__);
+			getViewLayoutDelegate<WindowsLabelLayoutDelegate>()->setComponent(label__);
 		}
 
 		void Label::JSExportInitialize()
