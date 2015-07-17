@@ -24,11 +24,14 @@ namespace TitaniumWindows
 		{
 			WindowsViewLayoutDelegate::setComponent(label);
 
-			// TIMOB-19048: max width is set to screen width by default
-			defaultMaxWidth__ = label->MaxWidth;
+			// TIMOB-19048: max size is set to screen size by default
+			defaultMaxWidth__  = label->MaxWidth;
+			defaultMaxHeight__ = label->MaxHeight;
 			const auto current = Windows::UI::Xaml::Window::Current;
 			if (current) {
-				label->MaxWidth = current->Bounds.Width;
+				auto b = current->Bounds;
+				label->MaxWidth  = current->Bounds.Width;
+				label->MaxHeight = current->Bounds.Height;
 			}
 		}
 
@@ -36,8 +39,16 @@ namespace TitaniumWindows
 		{
 			WindowsViewLayoutDelegate::set_width(width);
 
-			// reset max width with width is set explicitly
+			// reset max width when width is set explicitly
 			getComponent()->MaxWidth = defaultMaxWidth__;
+		}
+
+		void WindowsLabelLayoutDelegate::set_height(const std::string& height) TITANIUM_NOEXCEPT
+		{
+			WindowsViewLayoutDelegate::set_height(height);
+
+			// reset max height when height is set explicitly
+			getComponent()->MaxHeight = defaultMaxHeight__;
 		}
 
 		// FIXME What file formats does windows support for fonts? We need to limit here! Most of what I read says only TTF, but I see some mentions of OpenType
@@ -69,7 +80,7 @@ namespace TitaniumWindows
 			Titanium::UI::Label::setLayoutDelegate<WindowsLabelLayoutDelegate>();
 
 			label__->TextWrapping = Windows::UI::Xaml::TextWrapping::Wrap;
-			label__->TextTrimming = Windows::UI::Xaml::TextTrimming::Clip;
+			label__->TextTrimming = Windows::UI::Xaml::TextTrimming::None;
 			label__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Center;
 			label__->FontSize = DefaultFontSize;
 

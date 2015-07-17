@@ -26,8 +26,10 @@ namespace TitaniumWindows
 
 			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component) override;
 			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
+			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override;
 		private:
 			double defaultMaxWidth__;
+			double defaultMaxHeight__;
 		};
 
 		/*!
