@@ -15,6 +15,9 @@ namespace TitaniumWindows
 	namespace UI
 	{
 
+		using namespace Windows::UI::Xaml;
+		using namespace Windows::UI::Xaml::Controls;
+
 		Tab::Tab(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::Tab(js_context)
 		{
@@ -22,12 +25,17 @@ namespace TitaniumWindows
 
 		void Tab::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			Titanium::UI::Tab::postCallAsConstructor(js_context, arguments);	
-			pivotItem__ = ref new Windows::UI::Xaml::Controls::PivotItem();
+
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			pivotItem__ = ref new PivotItem();
 
 			Titanium::UI::Tab::setLayoutDelegate<WindowsViewLayoutDelegate>();
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(pivotItem__);
+#else
+			grid__ = ref new Grid();
+			Titanium::UI::Tab::setLayoutDelegate<WindowsViewLayoutDelegate>();
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(grid__);
 #endif
 		}
 
@@ -36,17 +44,28 @@ namespace TitaniumWindows
 			Titanium::UI::Tab::set_title(title);
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			pivotItem__->Header = TitaniumWindows::Utility::ConvertUTF8String(title);
+#else
+
 #endif
 		}
 
 		void Tab::set_window(const std::shared_ptr<Titanium::UI::Window>& window) TITANIUM_NOEXCEPT
 		{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			if (window != window__) {
 				const auto windows_window = dynamic_cast<TitaniumWindows::UI::Window*>(window.get());
-				pivotItem__->Content = windows_window->getComponent();
-			}
+				const auto view = windows_window->getComponent();
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+				pivotItem__->Content = view;
+#else
+				if (grid__->Children->Size > 0) {
+					grid__->Children->RemoveAt(0);
+				}
+				grid__->Children->Append(view);
+				grid__->SetColumn(view, 0);
+				grid__->SetRow(view, 0);
 #endif
+			}
+
 			Titanium::UI::Tab::set_window(window);
 		}
 

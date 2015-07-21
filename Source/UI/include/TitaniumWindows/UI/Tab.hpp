@@ -47,6 +47,8 @@ namespace TitaniumWindows
 		private:
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 			Windows::UI::Xaml::Controls::PivotItem^ pivotItem__;
+#else
+			Windows::UI::Xaml::Controls::Grid^  grid__;
 #endif
 		};
 	}  // namespace UI
