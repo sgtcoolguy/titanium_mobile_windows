@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/TableViewRow.hpp"
+#include "Titanium/UI/Label.hpp"
 
 namespace TitaniumWindows
 {
@@ -32,7 +33,7 @@ namespace TitaniumWindows
 #pragma warning(pop)
 		public:
 			TableViewRow(const JSContext&) TITANIUM_NOEXCEPT;
-			virtual ~TableViewRow()                  = default;
+			virtual ~TableViewRow()                      = default;
 			TableViewRow(const TableViewRow&)            = default;
 			TableViewRow& operator=(const TableViewRow&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
@@ -46,12 +47,15 @@ namespace TitaniumWindows
 
 			virtual void add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT;
 			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override;
+			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT override;
 
 		private:
+
+			void ensureRowLabel();
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			Windows::UI::Xaml::Controls::Canvas^ content__ = {nullptr};
-			std::shared_ptr<Label> title__ = {nullptr};
+			Windows::UI::Xaml::Controls::Canvas^ content__ {nullptr};
+			std::shared_ptr<Label> title__ {nullptr};
 #pragma warning(pop)
 		};
 	}  // namespace UI
