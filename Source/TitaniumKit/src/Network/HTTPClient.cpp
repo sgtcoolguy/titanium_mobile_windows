@@ -370,7 +370,7 @@ namespace Titanium
 
 			try {
 				return static_cast<JSObject>(parseString)(arguments, global_object);
-			} catch (const HAL::detail::js_runtime_error& ex) {
+			} catch (const HAL::detail::js_runtime_error&) {
 				return get_context().CreateNull();
 			}
 		}
