@@ -54,6 +54,8 @@ TEST_F(TiAppTests, BasicFeatures)
 	XCTAssertTrue(App.HasProperty("getVersion"));
 	XCTAssertNoThrow(js_context.JSEvaluateScript("Ti.App.getVersion();"));
 
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti.App);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"version\":") != std::string::npos);
 }
 
 TEST_F(TiAppTests, TIMOB_19213)

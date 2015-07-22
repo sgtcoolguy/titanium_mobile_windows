@@ -71,4 +71,7 @@ TEST_F(TitaniumTests, logging)
 	XCTAssertTrue(result.IsString());
 	std::string userAgent = static_cast<std::string>(result);
 	XCTAssertEqual("__TITANIUM_USER_AGENT__", userAgent);
+
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"version\":") != std::string::npos);
 }

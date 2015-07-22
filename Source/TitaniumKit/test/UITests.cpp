@@ -215,4 +215,8 @@ TEST_F(UITests, ActivityIndicator)
 	XCTAssertNoThrow(js_context.JSEvaluateScript("var indicator = Ti.UI.createActivityIndicator();"));
 	XCTAssertTrue(static_cast<bool>(js_context.JSEvaluateScript("indicator.style == Ti.UI.ActivityIndicatorStyle.PLAIN")));
 
+	// make sure JSON.stringify returns ActivityIndicatorStyle-specific property
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(indicator);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"indicatorColor\":\"\"") != std::string::npos);
+
 }

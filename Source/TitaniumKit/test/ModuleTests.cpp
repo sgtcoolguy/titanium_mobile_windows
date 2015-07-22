@@ -103,4 +103,10 @@ TEST_F(ModuleTests, properties)
 	XCTAssertNoThrow(result = js_context.JSEvaluateScript("module.enabled;"));
 	XCTAssertTrue(result.IsBoolean());
 	XCTAssertFalse(static_cast<bool>(result));
+
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti.Module);");
+	XCTAssertEqual("{}", static_cast<std::string>(json_result));
+
+	json_result = js_context.JSEvaluateScript("JSON.stringify(module);");
+	XCTAssertEqual("{\"enabled\":false}", static_cast<std::string>(json_result));
 }

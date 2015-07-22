@@ -42,6 +42,8 @@ set(SOURCE_examples
   NativeFileExample.cpp
   NativeWebViewExample.hpp
   NativeWebViewExample.cpp
+  NativeHTTPClientExample.hpp
+  NativeHTTPClientExample.cpp
   )
 add_library(TitaniumKit_examples
   ${SOURCE_examples}

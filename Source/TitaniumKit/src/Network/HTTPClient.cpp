@@ -354,24 +354,25 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, responseXML)
 		{
-			auto text = js_get_responseText();
+			const auto text = js_get_responseText();
 			if (text.IsNull()) {
 				return text;
 			}
 
-			auto global_object = get_context().get_global_object();
+			const auto global_object = get_context().get_global_object();
 
-			auto ti = global_object.GetProperty("Titanium");
-			auto Titanium = static_cast<JSObject>(ti);
-			auto xml = Titanium.GetProperty("XML");
-			auto XML = static_cast<JSObject>(xml);
+			const auto ti = global_object.GetProperty("Titanium");
+			const auto Titanium = static_cast<JSObject>(ti);
+			const auto xml = Titanium.GetProperty("XML");
+			const auto XML = static_cast<JSObject>(xml);
+			const auto parseString = XML.GetProperty("parseString");
+			const std::vector<JSValue> arguments = { text };
 
-			auto parseString = XML.GetProperty("parseString");
-			auto parseStringObject = static_cast<JSObject>(parseString);
-			std::vector<JSValue> arguments = { text };
-			auto result = parseStringObject(arguments, global_object);
-
-			return result;
+			try {
+				return static_cast<JSObject>(parseString)(arguments, global_object);
+			} catch (const HAL::detail::js_runtime_error& ex) {
+				return get_context().CreateNull();
+			}
 		}
 
 		TITANIUM_FUNCTION(HTTPClient, getResponseXML)

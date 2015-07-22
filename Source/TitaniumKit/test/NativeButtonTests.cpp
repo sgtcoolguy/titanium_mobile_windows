@@ -76,4 +76,7 @@ TEST_F(ButtonTests, basic_functionality)
 	XCTAssertTrue(result.IsObject());
 	JSObject button = static_cast<JSObject>(result);
 	XCTAssertTrue(button.HasProperty("title"));
+
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti.UI.createButton());");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"textAlign\":") != std::string::npos);
 }

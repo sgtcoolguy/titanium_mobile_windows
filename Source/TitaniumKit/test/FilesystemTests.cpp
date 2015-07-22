@@ -54,4 +54,6 @@ TEST_F(FilesystemTests, BasicFeatures)
 	XCTAssertTrue(Filesystem.HasProperty("getLineEnding"));
 	XCTAssertNoThrow(js_context.JSEvaluateScript("Ti.Filesystem.getLineEnding();"));
 
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti.Filesystem);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"lineEnding\":") != std::string::npos);
 }

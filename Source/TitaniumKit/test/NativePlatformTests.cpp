@@ -120,4 +120,7 @@ TEST_F(PlatformTests, logging)
 	XCTAssertTrue(result.IsString());
 	std::string SIZE = static_cast<std::string>(result);
 	XCTAssertEqual("osx", SIZE);
+
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti.Platform);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"osname\":") != std::string::npos);
 }

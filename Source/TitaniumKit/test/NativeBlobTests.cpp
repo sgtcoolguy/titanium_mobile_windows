@@ -78,4 +78,9 @@ TEST_F(BlobTests, logging)
 	XCTAssertTrue(blob.HasProperty("getWidth"));
 	XCTAssertTrue(blob.HasProperty("append"));
 	XCTAssertTrue(blob.HasProperty("toString"));
+
+	global_object.SetProperty("blob", blob);
+
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(blob);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"mimeType\":") != std::string::npos);
 }

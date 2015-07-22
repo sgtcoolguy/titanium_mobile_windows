@@ -77,4 +77,7 @@ TEST_F(WindowTests, basic_functionality)
 	XCTAssertTrue(window.HasProperty("open"));
 
 	XCTAssertNoThrow(js_context.JSEvaluateScript("var window = Ti.UI.createWindow(); window.open();"));
+
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(window);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"backgroundColor\":") != std::string::npos);
 }
