@@ -67,4 +67,7 @@ TEST_F(WebViewTests, basic_functionality)
 	JSObject webview = static_cast<JSObject>(result);
 	XCTAssertTrue(webview.HasProperty("canGoBack"));
 
+	global_object.SetProperty("webview", result);
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(webview);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"url\":") != std::string::npos);
 }

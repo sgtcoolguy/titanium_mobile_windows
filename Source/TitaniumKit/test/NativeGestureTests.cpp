@@ -64,4 +64,7 @@ TEST_F(GestureTests, logging)
 	JSValue result = js_context.CreateNull();
 	XCTAssertNoThrow(result = js_context.JSEvaluateScript("Ti.Gesture.landscape"));
 	XCTAssertTrue(result.IsBoolean());
+
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti.Gesture);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"orientation\":") != std::string::npos);
 }

@@ -8,6 +8,8 @@
 #include "Titanium/NetworkModule.hpp"
 #include "Titanium/Network/Cookie.hpp"
 #include "Titanium/Network/HTTPClient.hpp"
+#include "Titanium/XML.hpp"
+#include "NativeHTTPClientExample.hpp"
 #include "gtest/gtest.h"
 
 #define XCTAssertEqual ASSERT_EQ
@@ -52,6 +54,16 @@ TEST_F(NetworkTests, BasicFeatures)
 	auto Network = js_context.CreateObject(JSExport<Titanium::NetworkModule>::Class());
 	Titanium.SetProperty("Network", Network, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(Titanium.HasProperty("Network"));
+
+	XCTAssertFalse(Titanium.HasProperty("XML"));
+	auto XML = js_context.CreateObject(JSExport<Titanium::XML>::Class());
+	Titanium.SetProperty("XML", XML, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(Titanium.HasProperty("XML"));
+
+	XCTAssertFalse(Network.HasProperty("HTTPClient"));
+	auto HTTPClient = js_context.CreateObject(JSExport<NativeHTTPClientExample>::Class());
+	Network.SetProperty("HTTPClient", HTTPClient, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(Network.HasProperty("HTTPClient"));
 
 	XCTAssertTrue(Network.HasProperty("NETWORK_LAN"));
 	XCTAssertTrue(Network.HasProperty("NETWORK_MOBILE"));
@@ -100,6 +112,9 @@ TEST_F(NetworkTests, BasicFeatures)
 	XCTAssertTrue(Network.HasProperty("getRemoteNotificationsEnabled"));
 	XCTAssertTrue(Network.HasProperty("getHttpURLFormatter"));
 	XCTAssertTrue(Network.HasProperty("setHttpURLFormatter"));
+
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti.Network.createHTTPClient());");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"connectionType\":\"\"") != std::string::npos);
 }
 
 TEST_F(NetworkTests, CookieBasicFeatures)
@@ -117,10 +132,15 @@ TEST_F(NetworkTests, CookieBasicFeatures)
 	global_object.SetProperty("Ti", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
-	XCTAssertFalse(Titanium.HasProperty("Cookie"));
+	XCTAssertFalse(Titanium.HasProperty("Network"));
+	auto Network = js_context.CreateObject(JSExport<Titanium::NetworkModule>::Class());
+	Titanium.SetProperty("Network", Network, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(Titanium.HasProperty("Network"));
+
+	XCTAssertFalse(Network.HasProperty("Cookie"));
 	auto Cookie = js_context.CreateObject(JSExport<Titanium::Network::Cookie>::Class());
-	Titanium.SetProperty("Cookie", Cookie, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-	XCTAssertTrue(Titanium.HasProperty("Cookie"));
+	Network.SetProperty("Cookie", Cookie, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(Network.HasProperty("Cookie"));
 
 	XCTAssertTrue(Cookie.HasProperty("comment"));
 	XCTAssertTrue(Cookie.HasProperty("domain"));
@@ -169,10 +189,15 @@ TEST_F(NetworkTests, HTTPClientBasicFeatures)
 	global_object.SetProperty("Ti", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 	XCTAssertTrue(global_object.HasProperty("Ti"));
 
-	XCTAssertFalse(Titanium.HasProperty("HTTPClient"));
-	auto HTTPClient = js_context.CreateObject(JSExport<Titanium::Network::HTTPClient>::Class());
-	Titanium.SetProperty("HTTPClient", HTTPClient, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-	XCTAssertTrue(Titanium.HasProperty("HTTPClient"));
+	XCTAssertFalse(Titanium.HasProperty("Network"));
+	auto Network = js_context.CreateObject(JSExport<Titanium::NetworkModule>::Class());
+	Titanium.SetProperty("Network", Network, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(Titanium.HasProperty("Network"));
+
+	XCTAssertFalse(Network.HasProperty("HTTPClient"));
+	auto HTTPClient = js_context.CreateObject(JSExport<NativeHTTPClientExample>::Class());
+	Network.SetProperty("HTTPClient", HTTPClient, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(Network.HasProperty("HTTPClient"));
 
 	XCTAssertTrue(HTTPClient.HasProperty("autoEncodeUrl"));
 	XCTAssertTrue(HTTPClient.HasProperty("autoRedirect"));

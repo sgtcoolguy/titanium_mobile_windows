@@ -55,4 +55,6 @@ TEST_F(AccelerometerTests, logging)
 
 	XCTAssertTrue(Accelerometer.HasProperty("addEventListener"));
 	ASSERT_NO_THROW(js_context.JSEvaluateScript("Ti.Accelerometer.addEventListener('update', function(){});"));
+
+	ASSERT_NO_THROW(js_context.JSEvaluateScript("JSON.stringify(Ti.Accelerometer);"));
 }

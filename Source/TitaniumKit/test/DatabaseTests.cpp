@@ -54,4 +54,6 @@ TEST_F(DatabaseTests, BasicFeatures)
 	XCTAssertTrue(Database.HasProperty("install"));
 	XCTAssertTrue(Database.HasProperty("open"));
 
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti.Database);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"FIELD_TYPE_DOUBLE\":") != std::string::npos);
 }

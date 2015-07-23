@@ -84,6 +84,9 @@ TEST_F(FileTests, logging)
 	XCTAssertTrue(Filesystem.HasProperty("getResourcesDirectory"));
 	XCTAssertTrue(Filesystem.HasProperty("getTempDirectory"));
 
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti.Filesystem);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"separator\":") != std::string::npos);
+
 	auto File_ptr = File.GetPrivate<NativeFileExample>();
 	XCTAssertNotEqual(nullptr, File_ptr);
 
@@ -133,4 +136,8 @@ TEST_F(FileTests, logging)
 	XCTAssertTrue(file.HasProperty("resolve"));
 	XCTAssertTrue(file.HasProperty("spaceAvailable"));
 	XCTAssertTrue(file.HasProperty("write"));
+
+	global_object.SetProperty("file", file);
+	json_result = js_context.JSEvaluateScript("JSON.stringify(file);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"symbolicLink\":") != std::string::npos);
 }

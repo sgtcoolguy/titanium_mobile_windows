@@ -228,6 +228,9 @@ TEST_F(MediaTests, BasicFeatures)
 	XCTAssertTrue(Media.HasProperty("getPeakMicrophonePower"));
 	XCTAssertTrue(Media.HasProperty("getSystemMusicPlayer"));
 	XCTAssertTrue(Media.HasProperty("getVolume"));
+
+	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti.Media);");
+	XCTAssertTrue(static_cast<std::string>(json_result).find("\"appMusicPlayer\":") != std::string::npos);
 }
 
 TEST_F(MediaTests, AudioPlayerBasicFeatures)
