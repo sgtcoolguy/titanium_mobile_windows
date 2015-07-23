@@ -21,8 +21,6 @@ function isiOS7Plus()
 	return false;
 }
 
-var isWindows = (Ti.Platform.osname === "windowsphone" || Ti.Platform.osname === "windowsstore");
-
 var iOS7 = isiOS7Plus();
 var theTop = iOS7 ? 20 : 0;
 
@@ -39,10 +37,10 @@ var theTop = iOS7 ? 20 : 0;
 		top: theTop
 	});
 	var textfield = Ti.UI.createTextField({
-		height: isWindows ? '22.5dp' : '40dp',
-		top: isWindows ? '2.5dp' : '5dp',
+		height: '40dp',
+		top: '5dp',
 		left: '5dp',
-		right: isWindows ? '25dp' : '50dp',
+		right: '50dp',
 		style: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
 		hintText: 'Enter an address',
 		backgroundColor: '#fff',
@@ -54,9 +52,9 @@ var theTop = iOS7 ? 20 : 0;
 			fontSize: '20dp',
 			fontWeight: 'bold'
 		},
-		top: isWindows ? '2.5dp' : '5dp',
-		height: isWindows ? '20dp' : '40dp',
-		width: isWindows ? '20dp' : '40dp',
+		top: '5dp',
+		height: '40dp',
+		width: '40dp',
 		right: '5dp'
 	});
 	var mapview;
@@ -79,7 +77,7 @@ var theTop = iOS7 ? 20 : 0;
 			animate: true,
 			regionFit: true,
 			userLocation: false,
-			top: isWindows ? '40dp' : '70dp'
+			top: '70dp'
 		});
 
 		// Add initial annotation
