@@ -26,7 +26,7 @@ exports.init = function (logger, config, cli) {
 	cli.on('build.pre.compile', {
 		priority: 10000,
 		post: function (builder, finished) {
-			if (builder.buildOnly || !/^ws-local|dist-winstore$/.test(builder.target)) {
+			if (!/^ws-local|dist-winstore$/.test(builder.target)) {
 				return finished();
 			}
 
