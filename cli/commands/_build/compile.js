@@ -81,7 +81,7 @@ function compileApp(next) {
 		p.stdout.on('data', function (data) {
 			var line = data.toString().trim();
 			if (line.indexOf('error ') >= 0) {
-				_t.logger.warn(line);
+				_t.logger.error(line);
 			}
 			else if (line.indexOf('warning ') >= 0) {
 				_t.logger.warn(line);
