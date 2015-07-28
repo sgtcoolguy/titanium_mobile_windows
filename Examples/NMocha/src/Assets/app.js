@@ -18,6 +18,7 @@ var $results = [],
 // Add the tests here using "require"
 require('./ti.accelerometer.test');
 require('./ti.app.test');
+require('./ti.app.properties.test');
 require('./ti.blob.test');
 require('./ti.builtin.test');
 require('./ti.database.test');

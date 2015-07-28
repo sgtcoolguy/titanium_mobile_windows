@@ -20,7 +20,8 @@ namespace Titanium
 
 		Properties::Properties(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Module(js_context),
-			  stringify_function__(createStringifyFunction(js_context))
+			  stringify_function__(createStringifyFunction(js_context)),
+			  app_properties__(js_context.CreateObject())
 		{
 			TITANIUM_LOG_DEBUG("Properties:: ctor ", this);
 		}
@@ -29,22 +30,50 @@ namespace Titanium
 			HAL_LOG_DEBUG("Properties:: postCallAsConstructor ", this);
 		}
 
+		void Properties::loadAppProperties() TITANIUM_NOEXCEPT
+		{
+			// Statically create loadJson javascript function
+			static JSFunction loadJson = get_context().CreateFunction(
+				"var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory+Ti.Filesystem.separator+'_app_props_.json');"
+				"if (file.exists()) return JSON.parse(file.read().text);"
+				);
+
+			// Statically create readJson javascript function
+			static JSFunction readJson = get_context().CreateFunction(
+				"if (json != undefined && property in json) return json[property];"
+				"return null;",
+				{ "json", "property" }
+			);
+
+			// Load _app_props_.json
+			const auto result = loadJson(get_context().get_global_object());
+			if (!result.IsUndefined() && result.IsObject()) {
+				app_properties__ = static_cast<JSObject>(result);
+			}
+		}
+
 		bool Properties::getBool(const std::string& property, bool defaultValue) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Properties::getBool: Unimplemented");
-			return false;
+			if (hasProperty(property)) {
+				return static_cast<bool>(app_properties__.GetProperty(property));
+			}
+			return defaultValue;
 		}
 
 		double Properties::getDouble(const std::string& property, double defaultValue) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Properties::getDouble: Unimplemented");
-			return 0;
+			if (hasProperty(property)) {
+				return static_cast<double>(app_properties__.GetProperty(property));
+			}
+			return defaultValue;
 		}
 
 		double Properties::getInt(const std::string& property, double defaultValue) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Properties::getInt: Unimplemented");
-			return 0;
+			if (hasProperty(property)) {
+				return static_cast<int32_t>(app_properties__.GetProperty(property));
+			}
+			return defaultValue;
 		}
 
 		std::vector<JSValue> Properties::getList(const std::string& property, std::vector<JSValue> defaultValue) TITANIUM_NOEXCEPT
@@ -61,30 +90,41 @@ namespace Titanium
 		JSObject Properties::getObject(const std::string& property, JSObject defaultValue) TITANIUM_NOEXCEPT
 		{
 			if (hasProperty(property)) {
-				auto value = get_context().CreateValueFromJSON(getString(property, ""));
-				if (value.IsObject()) {
-					return static_cast<JSObject>(value);
+				const auto string = getString(property, nullptr);
+				if (string) {
+					auto value = get_context().CreateValueFromJSON(*string);
+					if (value.IsObject()) {
+						return static_cast<JSObject>(value);
+					}
 				}
 			}
 			return defaultValue;
 		}
 
-		std::string Properties::getString(const std::string& property, const std::string& defaultValue) TITANIUM_NOEXCEPT
+		boost::optional<std::string> Properties::getString(const std::string& property, const boost::optional<std::string>& defaultValue) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Properties::getString: Unimplemented");
-			return "";
+			if (hasProperty(property)) {
+				return static_cast<std::string>(app_properties__.GetProperty(property));
+			}
+			if (defaultValue) {
+				return *defaultValue;
+			}
+			return nullptr;
 		}
 
 		bool Properties::hasProperty(const std::string& property) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Properties::hasProperty: Unimplemented");
-			return false;
+			return app_properties__.HasProperty(property);
 		}
 
 		std::vector<std::string> Properties::listProperties() TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Properties::listProperties: Unimplemented");
-			return std::vector <std::string>();
+			const auto names = static_cast<std::vector<JSString>>(app_properties__.GetPropertyNames());
+			std::vector<std::string> result;
+			for (size_t i = 0; i < names.size(); i++) {
+				result.push_back(static_cast<std::string>(names.at(i)));
+			}
+			return result;
 		}
 
 		void Properties::removeProperty(const std::string& property) TITANIUM_NOEXCEPT
@@ -94,17 +134,27 @@ namespace Titanium
 
 		void Properties::setBool(const std::string& property, bool value) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Properties::setBool: Unimplemented");
+			if (hasProperty(property)) {
+				get_context().JSEvaluateScript("Ti.API.warn('Cannot overwrite/delete read-only property: " + property + "');");
+				return;
+			}
 		}
 
 		void Properties::setDouble(const std::string& property, double value) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Properties::setDouble: Unimplemented");
+			if (hasProperty(property)) {
+				get_context().JSEvaluateScript("Ti.API.warn('Cannot overwrite/delete read-only property: " + property + "');");
+				return;
+			}
 		}
 
 		void Properties::setInt(const std::string& property, int value) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Properties::setInt: Unimplemented");
+			if (hasProperty(property)) {
+				get_context().JSEvaluateScript("Ti.API.warn('Cannot overwrite/delete read-only property: " + property + "');");
+				return;
+			}
+			
 		}
 
 		void Properties::setList(const std::string& property, std::vector<JSValue> value) TITANIUM_NOEXCEPT
@@ -125,12 +175,17 @@ namespace Titanium
 
 		void Properties::setString(const std::string& property, const std::string& value) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Properties::setString: Unimplemented");
+			if (hasProperty(property)) {
+				get_context().JSEvaluateScript("Ti.API.warn('Cannot overwrite/delete read-only property: " + property + "');");
+				return;
+			}
 		}
 
 		void Properties::JSExportInitialize() {
 			JSExport<Properties>::SetClassVersion(1);
 			JSExport<Properties>::SetParent(JSExport<Module>::Class());
+
+			TITANIUM_ADD_FUNCTION(Properties, _loadAppProperties);
 
 			TITANIUM_ADD_FUNCTION(Properties, getBool);
 			TITANIUM_ADD_FUNCTION(Properties, getDouble);
@@ -162,6 +217,16 @@ namespace Titanium
 			JSValue Object_property = App.GetProperty("Properties");
 			TITANIUM_ASSERT(Object_property.IsObject());  // precondition
 			return static_cast<JSObject>(Object_property);
+		}
+
+		TITANIUM_FUNCTION(Properties, _loadAppProperties)
+		{
+			const auto js_context = this_object.get_context();
+			const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
+
+			object_ptr->loadAppProperties();
+
+			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(Properties, getBool)
@@ -223,12 +288,23 @@ namespace Titanium
 		TITANIUM_FUNCTION(Properties, getString)
 		{
 			ENSURE_STRING_AT_INDEX(property, 0);
-			ENSURE_OPTIONAL_STRING_AT_INDEX(defaultValue, 1, "");
+
+			boost::optional<std::string> defaultValue = nullptr;
+			if (arguments.size() > 1) {
+				const auto _1 = arguments.at(1);
+				if (_1.IsString()) {
+					defaultValue = static_cast<std::string>(_1);
+				}
+			}
 
 			const auto js_context = this_object.get_context();
 			const auto object_ptr = GetStaticObject(js_context).GetPrivate<Properties>();
 
-			return js_context.CreateString(object_ptr->getString(property, defaultValue));
+			const auto result = object_ptr->getString(property, defaultValue);
+			if (result) {
+				return js_context.CreateString(*result);
+			}
+			return js_context.CreateNull();
 		}
 
 		TITANIUM_FUNCTION(Properties, hasProperty)

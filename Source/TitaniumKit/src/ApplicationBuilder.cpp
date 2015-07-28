@@ -255,6 +255,8 @@ namespace Titanium
 
 			  // Load _app_info_.json
 			  Ti.App._loadAppInfo();
+			  // Load _app_props_.json
+			  Ti.App.Properties._loadAppProperties();
 
 			  // Let's set up our user agent in JS, way easier this way...
 			  Ti.userAgent = 'Appcelerator Titanium/' + Ti.version + ' (' + Ti.Platform.model + '/' + Ti.Platform.version + '; ' + Ti.Platform.osname + '; ' + Ti.Platform.locale + ';)';
