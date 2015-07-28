@@ -92,7 +92,12 @@ function generateWindowsProject(next) {
 		wrench.rmdirSyncRecursive(projectDir);
 	}
 	prc = spawn('node', [titanium, 'create', '-t', 'app', '-p', 'windows', '-n', 'mocha', '--id', 'com.appcelerator.mocha.testing', '-u', 'http://www.appcelerator.com', '-d', '.', '--no-prompt']);
-
+	prc.stdout.on('data', function (data) {
+		console.log(data.toString());
+	});
+	prc.stderr.on('data', function (data) {
+		console.log(data.toString());
+	});
 	prc.on('close', function (code) {
 		var setProcess;
 		if (code != 0) {
