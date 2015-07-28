@@ -133,7 +133,9 @@ exports.init = function (logger, config, cli) {
 
 	cli.on('build.windows.copyResources', {
 		pre: function (builder, finished) {
-			if (!/^wp-emulator$/.test(builder.target)) return finished();
+			var deployType = builder.tiapp.properties['ti.deploytype'].value;
+			// disable logging on deployment for production
+			if (/^production$/.test(deployType)) return finished();
 			// write the titanium settings file
 			fs.writeFileSync(
 				path.join(builder.buildTargetAssetsDir, 'titanium_settings.ini'),
