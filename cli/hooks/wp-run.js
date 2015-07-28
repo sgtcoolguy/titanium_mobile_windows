@@ -212,7 +212,7 @@ exports.init = function (logger, config, cli) {
 					appxExtensions = ['.appx', '.appxbundle'],
 					installs = [];
 
-				function installApp(deviceId, xapFile, opts) {
+				function installApp(deviceId, xapFile, opts, next) {
 					// Now install the real app
 					windowslib.install(deviceId, xapFile, opts)
 						.on('installed', function (handle) {
@@ -241,16 +241,18 @@ exports.init = function (logger, config, cli) {
 								logger.info(__('Waiting for app to connect to log relay'));
 							} else {
 								// no reason to stick around, let the build command finish
-								finished();
+								next(null);
 							}
 						})
 						.on('timeout', function (err) {
 							logRelay && logRelay.stop();
 							logger.error(err.message);
+							next(err);
 						})
 						.on('error', function (err) {
 							logRelay && logRelay.stop();
 							logger.error(err.message);
+							next(err);
 						});
 				}
 
@@ -283,7 +285,7 @@ exports.init = function (logger, config, cli) {
 				});
         		possibleApps.forEach(function(file) {
         			installs.push(function (next) {
-						installApp(builder.deviceId, path.resolve(appxDir, file), opts);
+						installApp(builder.deviceId, path.resolve(appxDir, file), opts, next);
 					});
         		});
 
