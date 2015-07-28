@@ -4,8 +4,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUMWINDOWS_MEDIA_AUDIOPLAYER_HPP_
-#define _TITANIUMWINDOWS_MEDIA_AUDIOPLAYER_HPP_
+#ifndef _TITANIUMWINDOWS_MEDIA_VIDEOPLAYER_HPP_
+#define _TITANIUMWINDOWS_MEDIA_VIDEOPLAYER_HPP_
 
 #include "TitaniumWindows_Media_EXPORT.h"
 #include "Titanium/Media/VideoPlayer.hpp"
@@ -24,6 +24,16 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_MEDIA_EXPORT VideoPlayer final : public Titanium::Media::VideoPlayer, public JSExport<VideoPlayer>
 		{
 		public:
+
+			virtual void pause() TITANIUM_NOEXCEPT override;
+			virtual void play() TITANIUM_NOEXCEPT override;
+			virtual void stop() TITANIUM_NOEXCEPT override;
+			virtual void set_urls(const std::vector<std::string>& urls) TITANIUM_NOEXCEPT override;
+			virtual void set_volume(const double& volume) TITANIUM_NOEXCEPT override;
+			virtual void set_autoplay(const bool& autoplay) TITANIUM_NOEXCEPT override;
+			virtual std::chrono::milliseconds get_duration() const TITANIUM_NOEXCEPT override;
+			virtual Titanium::Media::VideoPlaybackState get_playbackState() const TITANIUM_NOEXCEPT override;
+
 			VideoPlayer(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~VideoPlayer();
@@ -35,14 +45,18 @@ namespace TitaniumWindows
 	#endif
 
 			static void JSExportInitialize();
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 		protected:
+			Windows::UI::Xaml::Controls::MediaElement ^ player__;
+			Windows::Foundation::EventRegistrationToken complete_event__;
+			Windows::Foundation::EventRegistrationToken failed_event__;
 		};
 
 	} // namespace Media
 } // namespace TitaniumWindows
 
-#endif  // _TITANIUMWINDOWS_MEDIA_AUDIOPLAYER_HPP_
+#endif  // _TITANIUMWINDOWS_MEDIA_VIDEOPLAYER_HPP_

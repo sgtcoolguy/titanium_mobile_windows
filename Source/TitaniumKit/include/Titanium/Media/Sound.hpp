@@ -135,20 +135,6 @@ namespace Titanium
 
 			/*!
 			  @method
-			  @abstract setLooping
-			  @discussion Sets the value of the [looping](Titanium.Media.Sound.looping) property.
-			*/
-			virtual void setLooping(const bool& looping) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-			  @abstract setPaused
-			  @discussion Sets the value of the [paused](Titanium.Media.Sound.paused) property.
-			*/
-			virtual void setPaused(const bool& paused) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
 			  @abstract stop
 			  @discussion Stops playing the audio and resets the playback position to the beginning of the clip.
 			*/

@@ -51,6 +51,12 @@
 #include "TitaniumWindows/UI/ProgressBar.hpp"
 #include "TitaniumWindows/UI/ScrollableView.hpp"
 #include "TitaniumWindows/Media.hpp"
+#include "TitaniumWindows/Media/AudioPlayer.hpp"
+#include "TitaniumWindows/Media/AudioRecorder.hpp"
+#include "TitaniumWindows/Media/MusicPlayer.hpp"
+#include "TitaniumWindows/Media/VideoPlayer.hpp"
+#include "TitaniumWindows/Media/Sound.hpp"
+#include "TitaniumWindows/Media/Item.hpp"
 #include "TitaniumWindows/GlobalObject.hpp"
 #include "TitaniumWindows/GlobalString.hpp"
 #include "TitaniumWindows/Utility.hpp"
@@ -133,6 +139,12 @@ namespace TitaniumWindows
 		                                                            .ProgressBarObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ProgressBar>::Class()))
 		                                                            .ScrollableViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ScrollableView>::Class()))
 		                                                            .MediaObject(js_context__.CreateObject(JSExport<TitaniumWindows::MediaModule>::Class()))
+		                                                            .AudioItemObject(js_context__.CreateObject(JSExport<TitaniumWindows::Media::Item>::Class()))
+		                                                            .AudioPlayerObject(js_context__.CreateObject(JSExport<TitaniumWindows::Media::AudioPlayer>::Class()))
+		                                                            .AudioRecorderObject(js_context__.CreateObject(JSExport<TitaniumWindows::Media::AudioRecorder>::Class()))
+		                                                            .SoundObject(js_context__.CreateObject(JSExport<TitaniumWindows::Media::Sound>::Class()))
+		                                                            .MusicPlayerObject(js_context__.CreateObject(JSExport<TitaniumWindows::Media::MusicPlayer>::Class()))
+		                                                            .VideoPlayerObject(js_context__.CreateObject(JSExport<TitaniumWindows::Media::VideoPlayer>::Class()))
 		                                                            .build());
 
 		const auto js_context_ref = reinterpret_cast<std::intptr_t>(static_cast<JSContextRef>(js_context__));

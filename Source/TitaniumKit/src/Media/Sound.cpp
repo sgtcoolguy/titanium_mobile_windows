@@ -82,16 +82,6 @@ namespace Titanium
 			TITANIUM_LOG_WARN("Sound::reset: Unimplemented");
 		}
 
-		void Sound::setLooping(const bool& looping) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Sound::setLooping: Unimplemented");
-		}
-
-		void Sound::setPaused(const bool& paused) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Sound::setPaused: Unimplemented");
-		}
-
 		void Sound::stop() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Sound::stop: Unimplemented");
@@ -235,14 +225,14 @@ namespace Titanium
 		TITANIUM_FUNCTION(Sound, setLooping)
 		{
 			ENSURE_BOOL_AT_INDEX(looping, 0);
-			setLooping(looping);
+			set_looping(looping);
 			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(Sound, setPaused)
 		{
 			ENSURE_BOOL_AT_INDEX(paused, 0);
-			setPaused(paused);
+			set_paused(paused);
 			return get_context().CreateUndefined();
 		}
 

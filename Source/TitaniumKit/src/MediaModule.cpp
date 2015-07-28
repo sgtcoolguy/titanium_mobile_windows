@@ -16,6 +16,21 @@
 #include "Titanium/Media/PreviewImageOptions.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 
+#define CREATE_TITANIUM_MEDIA(NAME) \
+  JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium"); \
+  TITANIUM_ASSERT(Titanium_property.IsObject()); \
+  JSObject Titanium = static_cast<JSObject>(Titanium_property); \
+  JSValue Media_property = Titanium.GetProperty("Media"); \
+  TITANIUM_ASSERT(Media_property.IsObject()); \
+  JSObject Media = static_cast<JSObject>(Media_property); \
+  JSValue NAME##_property = Media.GetProperty(#NAME); \
+  TITANIUM_ASSERT(NAME##_property.IsObject()); \
+  JSObject NAME = static_cast<JSObject>(NAME##_property); \
+  auto NAME##_obj = NAME.CallAsConstructor(parameters); \
+  Titanium::Module::applyProperties(parameters, NAME##_obj); \
+  return NAME##_obj;
+
+
 namespace Titanium
 {
 
@@ -419,6 +434,8 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(MediaModule, requestAuthorization);
 		TITANIUM_ADD_FUNCTION(MediaModule, createAudioPlayer);
 		TITANIUM_ADD_FUNCTION(MediaModule, createAudioRecorder);
+		TITANIUM_ADD_FUNCTION(MediaModule, createSound);
+		TITANIUM_ADD_FUNCTION(MediaModule, createVideoPlayer);
 		TITANIUM_ADD_FUNCTION(MediaModule, getAppMusicPlayer);
 		TITANIUM_ADD_FUNCTION(MediaModule, getAudioPlaying);
 		TITANIUM_ADD_FUNCTION(MediaModule, getAudioSessionCategory);
@@ -1273,43 +1290,25 @@ namespace Titanium
 	TITANIUM_FUNCTION(MediaModule, createAudioPlayer)
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		
-		JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
-		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = static_cast<JSObject>(Titanium_property);
-		
-		JSValue Audio_property = Titanium.GetProperty("Audio");
-		TITANIUM_ASSERT(Audio_property.IsObject());  // precondition
-		JSObject Audio = static_cast<JSObject>(Audio_property);
-		
-		JSValue Player_property = Audio.GetProperty("AudioPlayer");
-		TITANIUM_ASSERT(Player_property.IsObject());  // precondition
-		JSObject Player = static_cast<JSObject>(Player_property);
-		
-		auto player = Player.CallAsConstructor();
-		applyProperties(parameters, player);
-		return player;
+		CREATE_TITANIUM_MEDIA(AudioPlayer);
 	}
 
 	TITANIUM_FUNCTION(MediaModule, createAudioRecorder)
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
-		
-		JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
-		TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-		JSObject Titanium = static_cast<JSObject>(Titanium_property);
-		
-		JSValue Audio_property = Titanium.GetProperty("Audio");
-		TITANIUM_ASSERT(Audio_property.IsObject());  // precondition
-		JSObject Audio = static_cast<JSObject>(Audio_property);
-		
-		JSValue Recorder_property = Audio.GetProperty("AudioRecorder");
-		TITANIUM_ASSERT(Recorder_property.IsObject());  // precondition
-		JSObject Recorder = static_cast<JSObject>(Recorder_property);
-		
-		auto recorder = Recorder.CallAsConstructor();
-		applyProperties(parameters, recorder);
-		return recorder;
+		CREATE_TITANIUM_MEDIA(AudioRecorder);
+	}
+
+	TITANIUM_FUNCTION(MediaModule, createSound) 
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_MEDIA(Sound);
+	}
+
+	TITANIUM_FUNCTION(MediaModule, createVideoPlayer) 
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_MEDIA(VideoPlayer);
 	}
 
 	TITANIUM_FUNCTION_AS_GETTER(MediaModule, getAppMusicPlayer, appMusicPlayer)
