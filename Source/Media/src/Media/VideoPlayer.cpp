@@ -43,7 +43,8 @@ namespace TitaniumWindows
 			player__->AutoPlay = false;
 			player__->IsLooping = true;
 			player__->CurrentStateChanged += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
-				fireEvent("change");
+				playing__ = player__->CurrentState == MediaElementState::Playing;
+				volume__ = player__->Volume;
 			});
 
 			Titanium::Media::VideoPlayer::setLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();	
@@ -101,6 +102,27 @@ namespace TitaniumWindows
 		{
 			// convert 100 nanosecond to milliseconds
 			return std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(player__->NaturalDuration.TimeSpan.Duration / 10000));
+		}
+
+		std::chrono::milliseconds VideoPlayer::get_initialPlaybackTime() const TITANIUM_NOEXCEPT
+		{
+			return std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(0));
+		}
+
+		std::chrono::milliseconds VideoPlayer::get_endPlaybackTime() const TITANIUM_NOEXCEPT
+		{
+			return get_duration();
+		}
+
+		std::chrono::milliseconds VideoPlayer::get_playableDuration() const TITANIUM_NOEXCEPT
+		{
+			return get_duration();
+		}
+
+		std::chrono::milliseconds VideoPlayer::get_currentPlaybackTime() const TITANIUM_NOEXCEPT
+		{
+			// convert 100 nanosecond to milliseconds
+			return std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(player__->Position.Duration / 10000));
 		}
 
 		Titanium::Media::VideoPlaybackState VideoPlayer::get_playbackState() const TITANIUM_NOEXCEPT

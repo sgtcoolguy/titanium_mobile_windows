@@ -45,7 +45,7 @@ namespace TitaniumWindows
 				playing__ = isPlaying();
 				paused__ = isPaused();
 				volume__ = player__->Volume;
-				duration__ = player__->NaturalDuration.TimeSpan.Duration / 10000; // convert 100 nanosecond to milliseconds
+				duration__ = static_cast<std::uint32_t>(player__->NaturalDuration.TimeSpan.Duration / 10000); // convert 100 nanosecond to milliseconds
 
 				const auto ctx = get_context();
 				auto event_arg = ctx.CreateObject();
@@ -75,21 +75,27 @@ namespace TitaniumWindows
 			// Add "hidden" MediaElement UI onto current Window, because it doesn't work when it is not on the UI.
 			// This is little bit tricky because this proxy is not kind of View and then you can't use Titanium's layout engine. 
 			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
-			navigated_event__ = rootFrame->Navigated += ref new Navigation::NavigatedEventHandler([this](Platform::Object^ sender, Navigation::NavigationEventArgs^ e) {
-				Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler([this, sender]() {
-					const auto frame = static_cast<Windows::UI::Xaml::Controls::Frame^>(sender);
-					frame->Navigated -= navigated_event__; // unregister current event, you just need to do this only once
-					if (frame->Content) {
-						const auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(frame->Content);
-						if (page && page->Content) {
-							const auto content = static_cast<Panel^>(page->Content);
-							if (content) {
-								content->Children->Append(player__);
-							}
+			const auto registerUI = ref new Windows::UI::Core::DispatchedHandler([this, rootFrame]() {
+				if (rootFrame->Content) {
+					const auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
+					if (page && page->Content) {
+						const auto content = static_cast<Panel^>(page->Content);
+						if (content) {
+							content->Children->Append(player__);
 						}
 					}
-				}));
+				}
 			});
+			if (rootFrame->Content == nullptr) {
+				// If there's no Window (Window.open() is not called) yet, wait for the first Window opened
+				navigated_event__ = rootFrame->Navigated += ref new Navigation::NavigatedEventHandler([this, rootFrame, registerUI](Platform::Object^ sender, Navigation::NavigationEventArgs^ e) {
+					rootFrame->Navigated -= navigated_event__; // unregister current event, you just need to do this only once
+					Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, registerUI);
+				});
+			} else {
+				// If there's a Window already, just attach to it
+				Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, registerUI);
+			}
 		}
 
 		void Sound::set_volume(const double& volume) TITANIUM_NOEXCEPT
