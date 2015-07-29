@@ -91,7 +91,7 @@ function generateWindowsProject(next) {
 	if (fs.existsSync(projectDir)) {
 		wrench.rmdirSyncRecursive(projectDir);
 	}
-	prc = spawn('node', [titanium, 'create', '-t', 'app', '-p', 'windows', '-n', 'mocha', '--id', 'com.appcelerator.mocha.testing', '-u', 'http://www.appcelerator.com', '-d', '.', '--no-prompt']);
+	prc = spawn('node', [titanium, 'create', '-t', 'app', '-p', 'windows', '--name', 'mocha', '--id', 'com.appcelerator.mocha.testing', '-u', 'http://www.appcelerator.com', '-d', '.', '--no-prompt']);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 	});
