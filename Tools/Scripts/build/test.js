@@ -91,7 +91,7 @@ function generateWindowsProject(next) {
 	if (fs.existsSync(projectDir)) {
 		wrench.rmdirSyncRecursive(projectDir);
 	}
-	prc = spawn('node', [titanium, 'create', '-t', 'app', '-p', 'windows', '--name', 'mocha', '--id', 'com.appcelerator.mocha.testing', '-u', 'http://www.appcelerator.com', '-d', '.', '--no-prompt']);
+	prc = spawn('node', [titanium, 'create', '--type', 'app', '--platforms', 'windows', '--name', 'mocha', '--id', 'com.appcelerator.mocha.testing', '--url', 'http://www.appcelerator.com', '--workspace-dir', __dirname, '--no-prompt']);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 	});
@@ -121,7 +121,7 @@ function runBuild(next, count) {
 	var prc,
 		inResults = false,
 		done = false;
-	prc = spawn('node', [titanium, 'build', '-d', 'mocha', '-p', 'windows', '-T', 'wp-emulator', '--wp-publisher-guid', '00000000-0000-1000-8000-000000000000', '-C', '8-1-1', '--no-prompt', '--no-colors']);
+	prc = spawn('node', [titanium, 'build', '--project-dir', path.join(__dirname, 'mocha'), '--platform', 'windows', '--target', 'wp-emulator', '--wp-publisher-guid', '00000000-0000-1000-8000-000000000000', '--device-id', '8-1-1', '--no-prompt', '--no-colors']);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 		var lines = data.toString().trim().match(/^.*([\n\r]+|$)/gm);
