@@ -77,6 +77,9 @@ namespace Titanium
 		JSObject TextAreaObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& TextAreaObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject ClipboardObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& ClipboardObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject ViewObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -235,6 +238,7 @@ namespace Titanium
 		JSObject api__;
 		JSObject locale__;
 		JSObject view__;
+		JSObject clipboard__;
 		JSObject textarea__;
 		JSObject notification__;
 		JSObject twodmatrix__;

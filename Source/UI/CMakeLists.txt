@@ -48,6 +48,8 @@ if(NOT TARGET TitaniumWindows_Utility)
 endif()
 
 set(SOURCE_UI
+  include/TitaniumWindows/UI/Clipboard.hpp
+  src/Clipboard.cpp
   include/TitaniumWindows/UI/detail/UIBase.hpp
   include/TitaniumWindows/UI.hpp
   include/TitaniumWindows/UI/ActivityIndicator.hpp
@@ -137,6 +139,7 @@ target_include_directories(TitaniumWindows_UI PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:LayoutEngine,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
