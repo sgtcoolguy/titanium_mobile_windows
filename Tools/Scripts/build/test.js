@@ -103,6 +103,26 @@ function generateWindowsProject(next) {
 	});
 }
 
+// Add required properties for our unit tests!
+function addTiAppProperties(next) {
+	var tiapp_xml = path.join(__dirname, 'mocha', 'tiapp.xml');
+
+	// Not so smart but this should work...
+	var content = [];
+	fs.readFileSync(tiapp_xml).toString().split(/\r?\n/).forEach(function(line) {
+		content.push(line);
+		if (line.indexOf('<guid>') >= 0) {
+			content.push('\t<property name="presetString" type="string">Hello!</property>');
+			content.push('\t<property name="presetBool" type="bool">true</property>');
+			content.push('\t<property name="presetInt" type="int">1337</property>');
+			content.push('\t<property name="presetDouble" type="double">1.23456</property>');
+		}
+	});
+	fs.writeFileSync(tiapp_xml, content.join('\n'));
+
+	next();
+}
+
 function copyMochaAssets(next) {
 	var mochaAssetsDir = path.join(__dirname, '..', '..', '..', 'Examples', 'NMocha', 'src', 'Assets'),
 		dest = path.join(__dirname, 'mocha', 'Resources');
@@ -238,6 +258,11 @@ async.series([
 	function (next) {
 		console.log("Generating Windows project");
 		generateWindowsProject(next);
+
+	},
+	function (next) {
+		console.log("Adding properties for tiapp.xml");
+		addTiAppProperties(next);
 	},
 	function (next) {
 		console.log("Copying test scripts into project");
