@@ -40,11 +40,21 @@ namespace TitaniumWindows
 			player__ = ref new Windows::UI::Xaml::Controls::MediaElement();
 			player__->AreTransportControlsEnabled = true;
 			player__->Visibility = Windows::UI::Xaml::Visibility::Visible;
-			player__->AutoPlay = false;
-			player__->IsLooping = true;
+			player__->AutoPlay = autoplay__;
+			player__->IsLooping = (repeatMode__ == Titanium::Media::VideoRepeatMode::None);
 			player__->CurrentStateChanged += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
 				playing__ = player__->CurrentState == MediaElementState::Playing;
 				volume__ = player__->Volume;
+
+				// Update playbackState
+				switch (player__->CurrentState) {
+				case MediaElementState::Paused:
+					playbackState__ = Titanium::Media::VideoPlaybackState::Paused;
+				case MediaElementState::Playing:
+					playbackState__ = Titanium::Media::VideoPlaybackState::Playing;
+				case MediaElementState::Stopped:
+					playbackState__ = Titanium::Media::VideoPlaybackState::Stopped;
+				}
 			});
 
 			Titanium::Media::VideoPlayer::setLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();	
@@ -62,6 +72,7 @@ namespace TitaniumWindows
 
 		void VideoPlayer::play() TITANIUM_NOEXCEPT
 		{
+			Titanium::Media::VideoPlayer::play();
 			player__->Play();
 		}
 
@@ -80,10 +91,7 @@ namespace TitaniumWindows
 
 			// MediaElement can take only one url. Let's take the first one.
 			std::string url = urls.at(0);
-			if (url.find("://") == std::string::npos) {
-				url = "ms-appx:///" + url;
-			}
-			player__->Source = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url));
+			player__->Source = TitaniumWindows::Utility::GetUriFromPath(url);
 		}
 
 		void VideoPlayer::set_volume(const double& volume) TITANIUM_NOEXCEPT
@@ -101,12 +109,7 @@ namespace TitaniumWindows
 		std::chrono::milliseconds VideoPlayer::get_duration() const TITANIUM_NOEXCEPT
 		{
 			// convert 100 nanosecond to milliseconds
-			return std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(player__->NaturalDuration.TimeSpan.Duration / 10000));
-		}
-
-		std::chrono::milliseconds VideoPlayer::get_initialPlaybackTime() const TITANIUM_NOEXCEPT
-		{
-			return std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(0));
+			return TitaniumWindows::Utility::GetMSec(player__->NaturalDuration.TimeSpan);
 		}
 
 		std::chrono::milliseconds VideoPlayer::get_endPlaybackTime() const TITANIUM_NOEXCEPT
@@ -122,22 +125,7 @@ namespace TitaniumWindows
 		std::chrono::milliseconds VideoPlayer::get_currentPlaybackTime() const TITANIUM_NOEXCEPT
 		{
 			// convert 100 nanosecond to milliseconds
-			return std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(player__->Position.Duration / 10000));
-		}
-
-		Titanium::Media::VideoPlaybackState VideoPlayer::get_playbackState() const TITANIUM_NOEXCEPT
-		{
-			switch (player__->CurrentState) 
-			{
-			case MediaElementState::Paused:
-				return Titanium::Media::VideoPlaybackState::Paused;
-			case MediaElementState::Playing:
-				return Titanium::Media::VideoPlaybackState::Playing;
-			case MediaElementState::Stopped:
-				return Titanium::Media::VideoPlaybackState::Stopped;
-			}
-			// TODO: Do we need "Unknown" state?
-			return Titanium::Media::VideoPlaybackState::Stopped;
+			return TitaniumWindows::Utility::GetMSec(player__->Position);
 		}
 
 		void VideoPlayer::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
@@ -158,7 +146,7 @@ namespace TitaniumWindows
 					auto event_arg = ctx.CreateObject();
 					event_arg.SetProperty("message", ctx.CreateString(TitaniumWindows::Utility::ConvertString(e->ErrorMessage)));
 					event_arg.SetProperty("success", ctx.CreateBoolean(false));
-					event_arg.SetProperty("code", ctx.CreateNumber(-1));
+					event_arg.SetProperty("code", ctx.CreateNumber(TitaniumWindows::Utility::GetHResultErrorCode(e->ErrorMessage, -1)));
 					fireEvent("error", event_arg);
 				});
 			}

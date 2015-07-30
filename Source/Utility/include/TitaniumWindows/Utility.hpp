@@ -86,17 +86,39 @@ namespace TitaniumWindows
 		//
 		// Get MIME string from path
 		//
-		TITANIUMWINDOWS_UTILITY_EXPORT const std::string MimeTypeForExtension(std::string& path);
+		TITANIUMWINDOWS_UTILITY_EXPORT const std::string MimeTypeForExtension(const std::string& path);
 
 		//
 		// Get milliseconds since the epoch from DateTime
 		//
-		TITANIUMWINDOWS_UTILITY_EXPORT std::chrono::milliseconds GetMSecSinceEpoch(Windows::Foundation::DateTime d);
+		TITANIUMWINDOWS_UTILITY_EXPORT std::chrono::milliseconds GetMSecSinceEpoch(const Windows::Foundation::DateTime& d);
+
+		//
+		// Get milliseconds from TimeSpan. 
+		// The value of a TimeSpan object is the number of ticks that equal the represented time interval.
+		// A tick is equal to 100 nanoseconds, or one ten-millionth of a second
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT std::chrono::milliseconds GetMSec(const Windows::Foundation::TimeSpan& t);
+
+		//
+		// Get Uri from path
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT Windows::Foundation::Uri^ GetUriFromPath(const std::string& path);
+
+		//
+		// Get error code from HRESULT error message
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT std::uint32_t GetHResultErrorCode(::Platform::String^ errorMessage, const std::uint32_t& defaultCode);
 
 		//
 		// Get DateTime from JavaScript Date object
 		//
 		TITANIUMWINDOWS_UTILITY_EXPORT Windows::Foundation::DateTime GetDateTime(const HAL::JSValue& dateObject);
+
+		//
+		// Add hidden view onto current Window
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT void SetHiddenViewForCurrentWindow(Windows::UI::Xaml::UIElement^ view, Windows::Foundation::EventRegistrationToken& token);
 
 	}  // namespace Utility
 }  // namespace TitaniumWindows

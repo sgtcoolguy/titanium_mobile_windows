@@ -23,12 +23,13 @@ namespace Titanium
 			, autoplay__(true)
 			, contentURL__("")
 			, fullscreen__(false)
+			, initialPlaybackTime__(0)
 			, loadState__(VideoLoadState::Unknown)
 			, mediaControlStyle__(VideoControlStyle::Default)
 			, movieControlMode__(VideoControlStyle::Default)
 			, playbackState__(VideoPlaybackState::Stopped)
 			, playing__(false)
-			, repeatMode__(VideoRepeatMode::One)
+			, repeatMode__(VideoRepeatMode::None)
 			, scalingMode__(VideoScaling::None)
 			, sourceType__(VideoSourceType::Unknown)
 			, useApplicationAudioSession__(true)
@@ -72,7 +73,10 @@ namespace Titanium
 
 		void VideoPlayer::play() TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("VideoPlayer::play: Unimplemented");
+			// set initial playback time when video has been stopped
+			if (get_playbackState() == VideoPlaybackState::Stopped) {
+				set_currentPlaybackTime(get_initialPlaybackTime());
+			}
 		}
 
 		void VideoPlayer::release() TITANIUM_NOEXCEPT

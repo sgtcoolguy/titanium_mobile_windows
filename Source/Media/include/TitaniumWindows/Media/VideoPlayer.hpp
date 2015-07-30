@@ -34,9 +34,7 @@ namespace TitaniumWindows
 			virtual std::chrono::milliseconds get_duration() const TITANIUM_NOEXCEPT override;
 			virtual std::chrono::milliseconds get_endPlaybackTime() const TITANIUM_NOEXCEPT override;
 			virtual std::chrono::milliseconds get_currentPlaybackTime() const TITANIUM_NOEXCEPT override;
-			virtual std::chrono::milliseconds get_initialPlaybackTime() const TITANIUM_NOEXCEPT override;
 			virtual std::chrono::milliseconds get_playableDuration() const TITANIUM_NOEXCEPT override;
-			virtual Titanium::Media::VideoPlaybackState get_playbackState() const TITANIUM_NOEXCEPT override;
 
 			VideoPlayer(const JSContext&) TITANIUM_NOEXCEPT;
 

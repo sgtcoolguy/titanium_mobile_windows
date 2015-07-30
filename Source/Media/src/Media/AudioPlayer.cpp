@@ -44,78 +44,33 @@ namespace TitaniumWindows
 			player__->AutoPlay = false;
 			player__->IsLooping = false;
 			player__->CurrentStateChanged += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+
+				// Update state__
+				switch (player__->CurrentState) {
+				case MediaElementState::Buffering:
+					state__ = Titanium::Media::AudioState::Buffering;
+				case MediaElementState::Paused:
+					state__ = Titanium::Media::AudioState::Paused;
+				case MediaElementState::Playing:
+					state__ = Titanium::Media::AudioState::Playing;
+				case MediaElementState::Stopped:
+					state__ = Titanium::Media::AudioState::Stopped;
+				}
+
 				playing__ = isPlaying();
 				paused__ = isPaused();
 				volume__ = player__->Volume;
-				waiting__ = (player__->CurrentState == MediaElementState::Buffering);
+				waiting__ = (get_state() == Titanium::Media::AudioState::Buffering);
+
 				const auto ctx = get_context();
 				auto event_arg = ctx.CreateObject();
-
-				switch (player__->CurrentState) {
-				case MediaElementState::Buffering:
-					event_arg.SetProperty("state", state_buffering__);
-					break;
-				case MediaElementState::Paused:
-					event_arg.SetProperty("state", state_paused__);
-					break;
-				case MediaElementState::Playing:
-					event_arg.SetProperty("state", state_playing__);
-					break;
-				case MediaElementState::Stopped:
-					event_arg.SetProperty("state", state_stopped__);
-					break;
-				case MediaElementState::Opening:
-					break;
-				case MediaElementState::Closed:
-					break;
-				}
+				event_arg.SetProperty("state", js_get_state());
 				fireEvent("change", event_arg);
 			});
 
 			// Add "hidden" MediaElement UI onto current Window, because it doesn't work when it is not on the UI.
 			// This is little bit tricky because this proxy is not kind of View and then you can't use Titanium's layout engine. 
-			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
-			const auto registerUI = ref new Windows::UI::Core::DispatchedHandler([this, rootFrame]() {
-				if (rootFrame->Content) {
-					const auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
-					if (page && page->Content) {
-						const auto content = static_cast<Panel^>(page->Content);
-						if (content) {
-							content->Children->Append(player__);
-						}
-					}
-				}
-			});
-			if (rootFrame->Content == nullptr) {
-				// If there's no Window (Window.open() is not called) yet, wait for the first Window opened
-				navigated_event__ = rootFrame->Navigated += ref new Navigation::NavigatedEventHandler([this, rootFrame, registerUI](Platform::Object^ sender, Navigation::NavigationEventArgs^ e) {
-					rootFrame->Navigated -= navigated_event__; // unregister current event, you just need to do this only once
-					Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, registerUI);
-				});
-			} else {
-				// If there's a Window already, just attach to it
-				Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, registerUI);
-			}
-		}
-
-		Titanium::Media::AudioState AudioPlayer::get_state() const TITANIUM_NOEXCEPT
-		{
-			switch (player__->CurrentState) {
-			case MediaElementState::Buffering:
-				return Titanium::Media::AudioState::Buffering;
-			case MediaElementState::Paused:
-				return Titanium::Media::AudioState::Paused;
-			case MediaElementState::Playing:
-				return Titanium::Media::AudioState::Playing;
-			case MediaElementState::Stopped:
-				return Titanium::Media::AudioState::Stopped;
-			case MediaElementState::Opening:
-				break;
-			case MediaElementState::Closed:
-				break;
-			}
-			// TODO: Do we need "unknown" state?
-			return Titanium::Media::AudioState::Stopped;
+			TitaniumWindows::Utility::SetHiddenViewForCurrentWindow(player__, navigated_event__);
 		}
 
 		void AudioPlayer::set_volume(const double& volume) TITANIUM_NOEXCEPT
@@ -136,28 +91,13 @@ namespace TitaniumWindows
 
 		std::chrono::milliseconds AudioPlayer::get_time() const TITANIUM_NOEXCEPT
 		{
-			return std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(player__->Position.Duration / 10000));
+			return TitaniumWindows::Utility::GetMSec(player__->Position);
 		}
 
-		void AudioPlayer::set_url(const std::string& param) TITANIUM_NOEXCEPT
+		void AudioPlayer::set_url(const std::string& url) TITANIUM_NOEXCEPT
 		{
-			std::string url = param;
-			if (param.find("://") == std::string::npos) {
-				url = "ms-appx:///" + param;
-			}
 			Titanium::Media::AudioPlayer::set_url(url);
-			player__->Source = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url));
-		}
-
-
-		bool AudioPlayer::isPaused() TITANIUM_NOEXCEPT
-		{
-			return player__->CurrentState == MediaElementState::Paused;
-		}
-
-		bool AudioPlayer::isPlaying() TITANIUM_NOEXCEPT
-		{
-			return player__->CurrentState == MediaElementState::Playing;
+			player__->Source = TitaniumWindows::Utility::GetUriFromPath(url);
 		}
 
 		void AudioPlayer::pause() TITANIUM_NOEXCEPT
@@ -197,7 +137,7 @@ namespace TitaniumWindows
 					auto event_arg = ctx.CreateObject();
 					event_arg.SetProperty("message", ctx.CreateString(TitaniumWindows::Utility::ConvertString(e->ErrorMessage)));
 					event_arg.SetProperty("success", ctx.CreateBoolean(false));
-					event_arg.SetProperty("code", ctx.CreateNumber(-1));
+					event_arg.SetProperty("code", ctx.CreateNumber(TitaniumWindows::Utility::GetHResultErrorCode(e->ErrorMessage, -1)));
 					fireEvent("error", event_arg);
 				});
 			}

@@ -29,10 +29,7 @@ namespace TitaniumWindows
 			virtual void set_url(const std::string& url) TITANIUM_NOEXCEPT override;
 			virtual void set_volume(const double& volume) TITANIUM_NOEXCEPT override;
 			virtual std::chrono::milliseconds get_time() const TITANIUM_NOEXCEPT override;
-			virtual Titanium::Media::AudioState get_state() const TITANIUM_NOEXCEPT override;
 
-			virtual bool isPaused() TITANIUM_NOEXCEPT override;
-			virtual bool isPlaying() TITANIUM_NOEXCEPT override;
 			virtual void pause() TITANIUM_NOEXCEPT override;
 			virtual void play() TITANIUM_NOEXCEPT override;
 			virtual void start() TITANIUM_NOEXCEPT override;

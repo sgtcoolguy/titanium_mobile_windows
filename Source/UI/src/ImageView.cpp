@@ -11,8 +11,6 @@
 #include "LayoutEngine/LayoutEngine.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
-#include <algorithm>
-#include <boost/algorithm/string/predicate.hpp>
 #include <ppltasks.h>
 
 namespace TitaniumWindows
@@ -79,20 +77,7 @@ namespace TitaniumWindows
 			const bool reverse = get_reverse();
 			for (size_t i = 0; i < image_count; i++) {
 				size_t index = reverse ? (image_count - 1) - i : i;
-				auto image = images.at(index);
-
-				// TODO Extract out common code with set_image()!
-				std::string modified = image;
-				// if the path isn't an http/s URI already, fix URI to point to local files in app
-				if (!boost::starts_with(modified, "http://") && !boost::starts_with(modified, "https://")) {
-					// URIs must be absolute
-					if (!boost::starts_with(modified, "/")) {
-						modified = "/" + modified;
-					}
-					// use MS's in-app URL scheme
-					modified = "ms-appx://" + modified;
-				}
-				auto uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(modified));
+				auto uri = TitaniumWindows::Utility::GetUriFromPath(images.at(index));
 
 				auto keyFrame = ref new Windows::UI::Xaml::Media::Animation::DiscreteObjectKeyFrame();
 				Windows::Foundation::TimeSpan key_time;
@@ -157,17 +142,7 @@ namespace TitaniumWindows
 		void ImageView::set_image(const std::string& path) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ImageView::set_image(path);
-			std::string modified = path;
-			// if the path isn't an http/s URI already, fix URI to point to local files in app
-			if (!boost::starts_with(modified, "http://") && !boost::starts_with(modified, "https://")) {
-				// URIs must be absolute
-				if (!boost::starts_with(modified, "/")) {
-					modified = "/" + modified;
-				}
-				// use MS's in-app URL scheme
-				modified = "ms-appx://" + modified;
-			}
-			auto uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(modified));
+			auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
 			auto image = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(uri);
 			image__->Source = image;
 		}

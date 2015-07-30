@@ -20,12 +20,12 @@ namespace TitaniumWindows
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Media::Sound::ctor Initialize");
 		}
 
-		Sound::~Sound() 
+		Sound::~Sound()
 		{
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Media::Sound::dtor");
 		}
 
-		void Sound::JSExportInitialize() 
+		void Sound::JSExportInitialize()
 		{
 			JSExport<Sound>::SetClassVersion(1);
 			JSExport<Sound>::SetParent(JSExport<Titanium::Media::Sound>::Class());
@@ -45,7 +45,7 @@ namespace TitaniumWindows
 				playing__ = isPlaying();
 				paused__ = isPaused();
 				volume__ = player__->Volume;
-				duration__ = static_cast<std::uint32_t>(player__->NaturalDuration.TimeSpan.Duration / 10000); // convert 100 nanosecond to milliseconds
+				duration__ = TitaniumWindows::Utility::GetMSec(player__->NaturalDuration.TimeSpan).count();
 
 				const auto ctx = get_context();
 				auto event_arg = ctx.CreateObject();
@@ -74,28 +74,7 @@ namespace TitaniumWindows
 
 			// Add "hidden" MediaElement UI onto current Window, because it doesn't work when it is not on the UI.
 			// This is little bit tricky because this proxy is not kind of View and then you can't use Titanium's layout engine. 
-			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
-			const auto registerUI = ref new Windows::UI::Core::DispatchedHandler([this, rootFrame]() {
-				if (rootFrame->Content) {
-					const auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
-					if (page && page->Content) {
-						const auto content = static_cast<Panel^>(page->Content);
-						if (content) {
-							content->Children->Append(player__);
-						}
-					}
-				}
-			});
-			if (rootFrame->Content == nullptr) {
-				// If there's no Window (Window.open() is not called) yet, wait for the first Window opened
-				navigated_event__ = rootFrame->Navigated += ref new Navigation::NavigatedEventHandler([this, rootFrame, registerUI](Platform::Object^ sender, Navigation::NavigationEventArgs^ e) {
-					rootFrame->Navigated -= navigated_event__; // unregister current event, you just need to do this only once
-					Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, registerUI);
-				});
-			} else {
-				// If there's a Window already, just attach to it
-				Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, registerUI);
-			}
+			TitaniumWindows::Utility::SetHiddenViewForCurrentWindow(player__, navigated_event__);
 		}
 
 		void Sound::set_volume(const double& volume) TITANIUM_NOEXCEPT
@@ -104,29 +83,14 @@ namespace TitaniumWindows
 			player__->Volume = volume;
 		}
 
-		void Sound::set_paused(const bool& paused) TITANIUM_NOEXCEPT
-		{
-			Titanium::Media::Sound::set_paused(paused);
-			if (paused) {
-				pause();
-			} else {
-				play();
-			}
-		}
-
 		std::chrono::milliseconds Sound::get_time() const TITANIUM_NOEXCEPT
 		{
-			return std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(player__->Position.Duration / 10000));
+			return TitaniumWindows::Utility::GetMSec(player__->Position);
 		}
 
-		void Sound::set_url(const std::string& param) TITANIUM_NOEXCEPT
+		void Sound::set_url(const std::string& url) TITANIUM_NOEXCEPT
 		{
-			std::string url = param;
-			if (param.find("://") == std::string::npos) {
-				url = "ms-appx:///" + param;
-			}
-			Titanium::Media::Sound::set_url(url);
-			player__->Source = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(url));
+			player__->Source = TitaniumWindows::Utility::GetUriFromPath(url);
 		}
 
 		void Sound::set_looping(const bool& looping) TITANIUM_NOEXCEPT
@@ -160,11 +124,6 @@ namespace TitaniumWindows
 			player__->Play();
 		}
 
-		void Sound::reset() TITANIUM_NOEXCEPT
-		{
-			stop();
-		}
-
 		void Sound::stop() TITANIUM_NOEXCEPT
 		{
 			player__->Stop();
@@ -188,7 +147,7 @@ namespace TitaniumWindows
 					auto event_arg = ctx.CreateObject();
 					event_arg.SetProperty("message", ctx.CreateString(TitaniumWindows::Utility::ConvertString(e->ErrorMessage)));
 					event_arg.SetProperty("success", ctx.CreateBoolean(false));
-					event_arg.SetProperty("code", ctx.CreateNumber(-1));
+					event_arg.SetProperty("code", ctx.CreateNumber(TitaniumWindows::Utility::GetHResultErrorCode(e->ErrorMessage, -1)));
 					fireEvent("error", event_arg);
 				});
 			}

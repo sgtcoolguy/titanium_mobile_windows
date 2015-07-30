@@ -25,7 +25,6 @@ namespace TitaniumWindows
 		{
 		public:
 
-			virtual void set_paused(const bool& paused) TITANIUM_NOEXCEPT override;
 			virtual void set_looping(const bool& looping) TITANIUM_NOEXCEPT override;
 			virtual void set_url(const std::string& url) TITANIUM_NOEXCEPT override;
 			virtual void set_volume(const double& volume) TITANIUM_NOEXCEPT override;
@@ -36,7 +35,6 @@ namespace TitaniumWindows
 			virtual bool isPlaying() TITANIUM_NOEXCEPT override;
 			virtual void pause() TITANIUM_NOEXCEPT override;
 			virtual void play() TITANIUM_NOEXCEPT override;
-			virtual void reset() TITANIUM_NOEXCEPT override;
 			virtual void stop() TITANIUM_NOEXCEPT override;
 
 			Sound(const JSContext&) TITANIUM_NOEXCEPT;

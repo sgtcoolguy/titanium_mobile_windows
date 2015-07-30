@@ -9,6 +9,7 @@
 
 #include "TitaniumWindows/Utility.hpp"
 #include "HAL/HAL.hpp"
+#include <boost/algorithm/string/predicate.hpp>
 
 namespace TitaniumWindows
 {
@@ -94,7 +95,7 @@ namespace TitaniumWindows
 			return content;
 		}
 
-		const std::string MimeTypeForExtension(std::string& path) 
+		const std::string MimeTypeForExtension(const std::string& path) 
 		{
 			const static std::unordered_map<std::string, const std::string> mimeTypeFromExtensionDict = {
 				{ "css", "text/css" },
@@ -111,11 +112,45 @@ namespace TitaniumWindows
 			return "application/octet-stream";
 		}
 
-		std::chrono::milliseconds GetMSecSinceEpoch(Windows::Foundation::DateTime d) 
+		std::chrono::milliseconds GetMSecSinceEpoch(const Windows::Foundation::DateTime& d) 
 		{
 			long long intervals = d.UniversalTime - EPOCH_BIAS; // this gives us number of 100 nanosecond intervals since unix epoch
 			long long milliseconds = intervals / 10000; // convert 100 nanosecond intervals to milliseconds
 			return std::chrono::milliseconds(milliseconds); // wrap in data type
+		}
+
+		std::chrono::milliseconds GetMSec(const Windows::Foundation::TimeSpan& t) 
+		{
+			return std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(t.Duration / 10000));
+		}
+
+		Windows::Foundation::Uri^ GetUriFromPath(const std::string& path) 
+		{
+			std::string modified = path;
+			// if the path isn't an http/s URI already, fix URI to point to local files in app
+			if (!boost::starts_with(modified, "http://") && !boost::starts_with(modified, "https://")) {
+				// URIs must be absolute
+				if (!boost::starts_with(modified, "/")) {
+					modified = "/" + modified;
+				}
+				// use MS's in-app URL scheme
+				modified = "ms-appx://" + modified;
+			}
+			return ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(modified));
+		}
+
+		std::uint32_t GetHResultErrorCode(::Platform::String^ errorMessage, const std::uint32_t& defaultCode)
+		{
+			// Extract HRESULT error code from error message
+			const auto message = TitaniumWindows::Utility::ConvertString(errorMessage);
+			std::uint32_t codeAsInt = defaultCode;
+			const std::string needle = "HRESULT - ";
+			const auto codeStart = message.find(needle);
+			if (codeStart != std::string::npos) {
+				const auto code = message.substr(message.find(needle) + needle.size());
+				codeAsInt = static_cast<std::uint32_t>(std::stoul(code, nullptr, 16));
+			}
+			return codeAsInt;
 		}
 
 		Windows::Foundation::DateTime GetDateTime(const HAL::JSValue& dateObject) 
@@ -124,6 +159,34 @@ namespace TitaniumWindows
 			const auto intervals = static_cast<std::uint64_t>(static_cast<double>(dateObject)) * 10000;
 			date.UniversalTime = intervals + EPOCH_BIAS;
 			return date;
+		}
+
+		// Add hidden UI onto current Window
+		void SetHiddenViewForCurrentWindow(Windows::UI::Xaml::UIElement^ view, Windows::Foundation::EventRegistrationToken& token)
+		{
+			view->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
+			const auto registerUI = ref new Windows::UI::Core::DispatchedHandler([view, rootFrame]() {
+				if (rootFrame->Content) {
+					const auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
+					if (page && page->Content) {
+						const auto content = static_cast<Windows::UI::Xaml::Controls::Panel^>(page->Content);
+						if (content) {
+							content->Children->Append(view);
+						}
+					}
+				}
+			});
+			if (rootFrame->Content == nullptr) {
+				// If there's no Window (Window.open() is not called) yet, wait for the first Window opened
+				token = rootFrame->Navigated += ref new Windows::UI::Xaml::Navigation::NavigatedEventHandler([rootFrame, registerUI, &token](Platform::Object^ sender, Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) {
+					rootFrame->Navigated -= token; // unregister current event, you just need to do this only once
+					Windows::UI::Xaml::Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, registerUI);
+				});
+			} else {
+				// If there's a Window already, just attach to it
+				Windows::UI::Xaml::Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, registerUI);
+			}
 		}
 	}  // namespace Utility
 }  // namespace TitaniumWindows

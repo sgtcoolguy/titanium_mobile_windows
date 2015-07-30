@@ -56,12 +56,12 @@ namespace Titanium
 
 		bool AudioPlayer::isPaused() TITANIUM_NOEXCEPT
 		{
-			return (state__ == AudioState::Paused);
+			return (get_state() == AudioState::Paused);
 		}
 
 		bool AudioPlayer::isPlaying() TITANIUM_NOEXCEPT
 		{
-			return (state__ == AudioState::Playing);
+			return (get_state() == AudioState::Playing);
 		}
 
 		void AudioPlayer::pause() TITANIUM_NOEXCEPT

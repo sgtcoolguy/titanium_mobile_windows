@@ -40,7 +40,7 @@ namespace Titanium
 			  @abstract duration
 			  @discussion Duration of the audio resource.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::uint32_t, duration);
+			TITANIUM_PROPERTY_IMPL_READONLY_DEF(double, duration);
 
 			/*!
 			  @property
@@ -176,8 +176,6 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(play);
 			TITANIUM_FUNCTION_DEF(release);
 			TITANIUM_FUNCTION_DEF(reset);
-			TITANIUM_FUNCTION_DEF(setLooping);
-			TITANIUM_FUNCTION_DEF(setPaused);
 			TITANIUM_FUNCTION_DEF(stop);
 			TITANIUM_FUNCTION_DEF(getDuration);
 			TITANIUM_FUNCTION_DEF(getTime);
@@ -186,6 +184,10 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setUrl);
 			TITANIUM_FUNCTION_DEF(getVolume);
 			TITANIUM_FUNCTION_DEF(setVolume);
+			TITANIUM_FUNCTION_DEF(getLooping);
+			TITANIUM_FUNCTION_DEF(setLooping);
+			TITANIUM_FUNCTION_DEF(getPaused);
+			TITANIUM_FUNCTION_DEF(setPaused);
 
 		protected:
 #pragma warning(push)
@@ -200,7 +202,7 @@ namespace Titanium
 			JSValue state_waiting_for_data__;
 			JSValue state_waiting_for_queue__;
 			bool allowBackground__;
-			std::uint32_t duration__;
+			double duration__;
 			bool looping__;
 			bool paused__;
 			bool playing__;
