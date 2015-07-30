@@ -200,8 +200,8 @@ function includeModule(module_data) {
     				  "#include \"Titanium/"+module_data.name+".hpp\""
 
     // Titanium TitaniumWindows.cpp modifications
-    var regex_ti_tiw_1 = /UI.hpp\"/g;
-    var mod_ti_tiw_1 = "UI.hpp\"\n"+
+    var regex_ti_tiw_1 = /UIModule.hpp\"/g;
+    var mod_ti_tiw_1 = "UIModule.hpp\"\n"+
     					 "#include \"TitaniumWindows/"+module_data.module_path+".hpp\"";
 
     var regex_ti_tiw_2 = /UI::View>::Class\(\)\)\)/g;
