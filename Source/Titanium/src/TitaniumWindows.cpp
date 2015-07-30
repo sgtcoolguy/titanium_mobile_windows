@@ -11,6 +11,7 @@
 #include "Titanium/ApplicationBuilder.hpp"
 #include "TitaniumWindows/TiModule.hpp"
 #include "TitaniumWindows/UIModule.hpp"
+#include "TitaniumWindows/UI/Clipboard.hpp"
 #include "TitaniumWindows/API.hpp"
 #include "TitaniumWindows/AppModule.hpp"
 #include "TitaniumWindows/Locale.hpp"
@@ -101,6 +102,7 @@ namespace TitaniumWindows
 		                                                            .GeolocationObject(js_context__.CreateObject(JSExport<TitaniumWindows::Geolocation>::Class()))
 		                                                            .AccelerometerObject(js_context__.CreateObject(JSExport<TitaniumWindows::Accelerometer>::Class()))
 		                                                            .ViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::View>::Class()))
+		                                                            .ClipboardObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::Clipboard>::Class()))
 		                                                            .TextAreaObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TextArea>::Class()))
 		                                                            .NotificationObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::Notification>::Class()))
 		                                                            .SwitchObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::Switch>::Class()))

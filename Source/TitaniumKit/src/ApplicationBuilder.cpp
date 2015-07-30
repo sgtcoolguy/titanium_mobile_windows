@@ -13,6 +13,7 @@
 #include "Titanium/GlobalString.hpp"
 #include "Titanium/TiModule.hpp"
 #include "Titanium/UIModule.hpp"
+#include "Titanium/UI/Clipboard.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/Locale.hpp"
 #include "Titanium/UI/View.hpp"
@@ -86,6 +87,7 @@ namespace Titanium
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
 		  locale__(js_context__.CreateObject(JSExport<Titanium::Locale>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
+		  clipboard__(js_context__.CreateObject(JSExport<Titanium::UI::Clipboard>::Class())),
 		  textarea__(js_context__.CreateObject(JSExport<Titanium::UI::TextArea>::Class())),
 		  notification__(js_context__.CreateObject(JSExport<Titanium::UI::Notification>::Class())),
 		  twodmatrix__(js_context__.CreateObject(JSExport<Titanium::UI::TwoDMatrix>::Class())),
@@ -154,6 +156,7 @@ namespace Titanium
 		ui__.SetProperty("AlertDialog", alertDialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Animation", animation__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Button", button__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("Clipboard", clipboard__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		ui__.SetProperty("EmailDialog", emaildialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("ImageView", imageview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Label", label__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -470,6 +473,17 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::TextAreaObject(const JSObject& TextArea) TITANIUM_NOEXCEPT
 	{
 		textarea__ = TextArea;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::ClipboardObject() const TITANIUM_NOEXCEPT
+	{
+		return clipboard__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::ClipboardObject(const JSObject& Clipboard) TITANIUM_NOEXCEPT
+	{
+		clipboard__ = Clipboard;
 		return *this;
 	}
 
