@@ -45,7 +45,7 @@ namespace TitaniumWindows
 				playing__ = isPlaying();
 				paused__ = isPaused();
 				volume__ = player__->Volume;
-				duration__ = TitaniumWindows::Utility::GetMSec(player__->NaturalDuration.TimeSpan).count();
+				duration__ = static_cast<double>(TitaniumWindows::Utility::GetMSec(player__->NaturalDuration.TimeSpan).count());
 
 				const auto ctx = get_context();
 				auto event_arg = ctx.CreateObject();
