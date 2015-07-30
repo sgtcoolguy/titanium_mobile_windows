@@ -10,6 +10,7 @@
 #define _TITANIUM_PROPERTIES_HPP_
 
 #include "Titanium/Module.hpp"
+#include <boost/optional.hpp>
 
 namespace Titanium
 {
@@ -61,7 +62,7 @@ namespace Titanium
 			  @abstract getString
 			  @discussion Returns the value of a property as a string data type.
 			*/
-			virtual std::string getString(const std::string& property, const std::string& defaultValue) TITANIUM_NOEXCEPT;
+			virtual boost::optional<std::string> getString(const std::string& property, const boost::optional<std::string>& defaultValue) TITANIUM_NOEXCEPT;
 			/*!
 			  @method
 			  @abstract hasProperty
@@ -117,6 +118,10 @@ namespace Titanium
 			*/
 			virtual void setString(const std::string& property, const std::string& value) TITANIUM_NOEXCEPT;
 
+
+			virtual void loadAppProperties() TITANIUM_NOEXCEPT;
+			TITANIUM_FUNCTION_DEF(_loadAppProperties);
+
 			Properties(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
@@ -150,6 +155,7 @@ namespace Titanium
 		private:
 			JSFunction stringify_function__;
 			JSFunction createStringifyFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT;
+			JSObject app_properties__;
 
 		};
 	}

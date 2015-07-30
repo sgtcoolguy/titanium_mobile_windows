@@ -1,16 +1,10 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should');
-
-Array.prototype.contains = function (obj) {
-    var i = this.length;
-    while (i--) if (this[i] === obj) return true;
-    return false;
-}
 
 describe('Titanium.App', function () {
 
@@ -169,75 +163,6 @@ describe('Titanium.App', function () {
         should(Ti.App.sessionId).be.a.String;
         should(Ti.App.getSessionId).be.a.Function;
         should(Ti.App.getSessionId()).be.a.String;
-        finish();
-    });
-});
-
-describe('Titanium.App.Properties', function () {
-
-    it('Bool', function (finish) {
-        Ti.App.Properties.setBool('test_bool', true);
-        should(Ti.App.Properties.getBool('test_bool')).be.eql(true);
-        finish();
-    });
-
-    it('Double', function (finish) {
-        Ti.App.Properties.setDouble('test_double', 1.321);
-        should(Ti.App.Properties.getDouble('test_double')).be.eql(1.321);
-        finish();
-    });
-
-    it('Int', function (finish) {
-        Ti.App.Properties.setInt('test_int', 123);
-        should(Ti.App.Properties.getInt('test_int')).be.eql(123);
-        finish();
-    });
-
-    it('List', function (finish) {
-        var test_list = ['item1', 'item2', 'item3'];
-        Ti.App.Properties.setList('test_list', test_list);
-        should(Ti.App.Properties.getList('test_list')).be.eql(test_list);
-        finish();
-    });
-
-    it('Object', function (finish) {
-        var test_object = {item : 'item1'};
-        Ti.App.Properties.setObject('test_object', test_object);
-        should(Ti.App.Properties.getObject('test_object')).be.eql(test_object);
-        finish();
-    });
-
-    it('String', function (finish) {
-        var test_string = 'some test string.';
-        Ti.App.Properties.setString('test_string', test_string);
-        should(Ti.App.Properties.getString('test_string')).be.eql(test_string);
-        finish();
-    });
-
-    it('listProperties', function (finish) {
-        Ti.App.Properties.setBool('test_property', true);
-        var properties = Ti.App.Properties.listProperties();
-        should(properties).be.a.Object;
-        properties.contains('test_property');
-        finish();
-    });
-
-    it('removeProperty', function (finish) {
-        Ti.App.Properties.setBool('test_property', true);
-        var properties = Ti.App.Properties.listProperties();
-        should(properties).be.a.Object;
-        should(properties.contains('test_property')).be.eql(true);
-        Ti.App.Properties.removeProperty('test_property');
-        properties = Ti.App.Properties.listProperties();
-        should(properties.contains('test_property')).be.eql(false);
-        finish();
-    });
-
-    it('hasProperty', function (finish) {
-        Ti.App.Properties.removeProperty('test_has_property');
-        should(Ti.App.Properties.hasProperty('test_has_property')).be.eql(false);
-        Ti.App.Properties.setBool('test_has_property', true);
-        should(Ti.App.Properties.hasProperty('test_has_property')).be.eql(true);
         finish();
     });
 });

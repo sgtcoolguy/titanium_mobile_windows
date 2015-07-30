@@ -29,6 +29,10 @@ namespace TitaniumWindows
 
 		bool Properties::getBool(const std::string& property, bool default) TITANIUM_NOEXCEPT
 		{
+			if (Titanium::App::Properties::hasProperty(property)) {
+				return Titanium::App::Properties::getBool(property, default);
+			}
+
 			auto values = local_settings_->Values;
 			const auto key = Utility::ConvertString(property);
 			if (values->HasKey(key)) {
@@ -39,6 +43,10 @@ namespace TitaniumWindows
 
 		double Properties::getDouble(const std::string& property, double default) TITANIUM_NOEXCEPT
 		{
+			if (Titanium::App::Properties::hasProperty(property)) {
+				return Titanium::App::Properties::getDouble(property, default);
+			}
+
 			auto values = local_settings_->Values;
 			const auto key = Utility::ConvertString(property);
 			if (values->HasKey(key)) {
@@ -49,6 +57,10 @@ namespace TitaniumWindows
 
 		double Properties::getInt(const std::string& property, double default) TITANIUM_NOEXCEPT
 		{
+			if (Titanium::App::Properties::hasProperty(property)) {
+				return Titanium::App::Properties::getInt(property, default);
+			}
+
 			auto values = local_settings_->Values;
 			const auto key = Utility::ConvertString(property);
 			if (values->HasKey(key)) {
@@ -57,8 +69,12 @@ namespace TitaniumWindows
 			return default;
 		}
 
-		std::string Properties::getString(const std::string& property, const std::string& default = "") TITANIUM_NOEXCEPT
+		boost::optional<std::string> Properties::getString(const std::string& property, const boost::optional<std::string>& default = nullptr) TITANIUM_NOEXCEPT
 		{
+			if (Titanium::App::Properties::hasProperty(property)) {
+				return Titanium::App::Properties::getString(property, default);
+			}
+
 			auto values = local_settings_->Values;
 			const auto key = Utility::ConvertString(property);
 			if (values->HasKey(key)) {
@@ -70,14 +86,18 @@ namespace TitaniumWindows
 
 		bool Properties::hasProperty(const std::string& property) TITANIUM_NOEXCEPT
 		{
+			if (Titanium::App::Properties::hasProperty(property)) {
+				return true;
+			}
+			TITANIUM_LOG_INFO("Checking for property in local settings");
 			auto values = local_settings_->Values;
 			return values->HasKey(Utility::ConvertString(property));
 		}
 
 		std::vector<std::string> Properties::listProperties() TITANIUM_NOEXCEPT
 		{
+			auto properties = Titanium::App::Properties::listProperties();
 			auto values = local_settings_->Values;
-			std::vector<std::string> properties;
 			for (auto i = values->First(); i->HasCurrent; i->MoveNext()) {
 				properties.push_back(Utility::ConvertString(i->Current->Key));
 			}
@@ -86,6 +106,10 @@ namespace TitaniumWindows
 
 		void Properties::removeProperty(const std::string& property) TITANIUM_NOEXCEPT
 		{
+			if (Titanium::App::Properties::hasProperty(property)) {
+				return; // can't remove system prop
+			}
+
 			auto values = local_settings_->Values;
 			values->Remove(Utility::ConvertString(property));
 		}
