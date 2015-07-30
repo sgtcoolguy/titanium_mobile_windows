@@ -36,14 +36,22 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_READWRITE(Sound, bool, allowBackground)
-		TITANIUM_PROPERTY_READ(Sound, std::uint32_t, duration)
+		TITANIUM_PROPERTY_READ(Sound, double, duration)
 		TITANIUM_PROPERTY_READWRITE(Sound, bool, looping)
-		TITANIUM_PROPERTY_READWRITE(Sound, bool, paused)
 		TITANIUM_PROPERTY_READ(Sound, bool, playing)
 		TITANIUM_PROPERTY_READWRITE(Sound, std::chrono::milliseconds, time)
 		TITANIUM_PROPERTY_READWRITE(Sound, std::string, url)
 		TITANIUM_PROPERTY_READWRITE(Sound, double, volume)
 
+		TITANIUM_PROPERTY_READ(Sound, bool, paused)
+		void Sound::set_paused(const bool& paused) TITANIUM_NOEXCEPT
+		{
+			if (paused) {
+				pause();
+			} else {
+				play();
+			}
+		}
 		bool Sound::isLooping() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("Sound::isLooping: Unimplemented");
@@ -79,17 +87,7 @@ namespace Titanium
 
 		void Sound::reset() TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Sound::reset: Unimplemented");
-		}
-
-		void Sound::setLooping(const bool& looping) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Sound::setLooping: Unimplemented");
-		}
-
-		void Sound::setPaused(const bool& paused) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Sound::setPaused: Unimplemented");
+			this->set_time(std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(0)));
 		}
 
 		void Sound::stop() TITANIUM_NOEXCEPT
@@ -186,7 +184,7 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER_BOOL(Sound, allowBackground)
 		TITANIUM_PROPERTY_SETTER_BOOL(Sound, allowBackground)
-		TITANIUM_PROPERTY_GETTER_UINT(Sound, duration)
+		TITANIUM_PROPERTY_GETTER_DOUBLE(Sound, duration)
 		TITANIUM_PROPERTY_GETTER_BOOL(Sound, looping)
 		TITANIUM_PROPERTY_SETTER_BOOL(Sound, looping)
 		TITANIUM_PROPERTY_GETTER_BOOL(Sound, paused)
@@ -226,23 +224,10 @@ namespace Titanium
 			release();
 			return get_context().CreateUndefined();
 		}
+
 		TITANIUM_FUNCTION(Sound, reset)
 		{
 			reset();
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Sound, setLooping)
-		{
-			ENSURE_BOOL_AT_INDEX(looping, 0);
-			setLooping(looping);
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(Sound, setPaused)
-		{
-			ENSURE_BOOL_AT_INDEX(paused, 0);
-			setPaused(paused);
 			return get_context().CreateUndefined();
 		}
 
@@ -259,6 +244,10 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_SETTER(Sound, setUrl, url)
 		TITANIUM_FUNCTION_AS_GETTER(Sound, getVolume, volume)
 		TITANIUM_FUNCTION_AS_SETTER(Sound, setVolume, volume)
+		TITANIUM_FUNCTION_AS_GETTER(Sound, getLooping, looping)
+		TITANIUM_FUNCTION_AS_SETTER(Sound, setLooping, looping)
+		TITANIUM_FUNCTION_AS_GETTER(Sound, getPaused, paused)
+		TITANIUM_FUNCTION_AS_SETTER(Sound, setPaused, paused)
 
 	} // namespace Media
 } // namespace Titanium

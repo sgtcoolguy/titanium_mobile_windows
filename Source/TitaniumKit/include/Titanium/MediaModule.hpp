@@ -437,6 +437,8 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(requestAuthorization);
 		TITANIUM_FUNCTION_DEF(createAudioPlayer);
 		TITANIUM_FUNCTION_DEF(createAudioRecorder);
+		TITANIUM_FUNCTION_DEF(createSound);
+		TITANIUM_FUNCTION_DEF(createVideoPlayer);
 		TITANIUM_FUNCTION_DEF(getAppMusicPlayer);
 		TITANIUM_FUNCTION_DEF(getAudioPlaying);
 		TITANIUM_FUNCTION_DEF(getAudioSessionCategory);

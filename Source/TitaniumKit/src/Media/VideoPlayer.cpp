@@ -23,12 +23,13 @@ namespace Titanium
 			, autoplay__(true)
 			, contentURL__("")
 			, fullscreen__(false)
+			, initialPlaybackTime__(0)
 			, loadState__(VideoLoadState::Unknown)
 			, mediaControlStyle__(VideoControlStyle::Default)
 			, movieControlMode__(VideoControlStyle::Default)
 			, playbackState__(VideoPlaybackState::Stopped)
 			, playing__(false)
-			, repeatMode__(VideoRepeatMode::One)
+			, repeatMode__(VideoRepeatMode::None)
 			, scalingMode__(VideoScaling::None)
 			, sourceType__(VideoSourceType::Unknown)
 			, useApplicationAudioSession__(true)
@@ -72,7 +73,10 @@ namespace Titanium
 
 		void VideoPlayer::play() TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("VideoPlayer::play: Unimplemented");
+			// set initial playback time when video has been stopped
+			if (get_playbackState() == VideoPlaybackState::Stopped) {
+				set_currentPlaybackTime(get_initialPlaybackTime());
+			}
 		}
 
 		void VideoPlayer::release() TITANIUM_NOEXCEPT
@@ -230,37 +234,41 @@ namespace Titanium
 		TITANIUM_PROPERTY_GETTER(VideoPlayer, url)
 		{
 			const auto ctx = get_context();
+			const auto urls = get_urls();
 
-			if (urls__.size() == 0) {
+			if (urls.size() == 0) {
 				return ctx.CreateNull();
-			} else if (urls__.size() == 1) {
-				return ctx.CreateString(urls__.at(0));
+			} else if (urls.size() == 1) {
+				return ctx.CreateString(urls.at(0));
 			} else {
-				std::vector<JSValue> urls;
-				for (const auto v : urls__) {
-					urls.push_back(ctx.CreateString(v));
+				std::vector<JSValue> js_urls;
+				for (const auto v : urls) {
+					js_urls.push_back(ctx.CreateString(v));
 				}
-				return ctx.CreateArray(urls);
+				return ctx.CreateArray(js_urls);
 			}
 		}
 
 		TITANIUM_PROPERTY_SETTER(VideoPlayer, url)
 		{
-			urls__.clear();
+			std::vector<std::string> urls;
 
 			if (argument.IsString()) {
-				urls__.push_back(static_cast<std::string>(argument));
+				urls.push_back(static_cast<std::string>(argument));
 			} else if (argument.IsObject()) {
 				const auto js_object = static_cast<JSObject>(argument);
 				if (js_object.IsArray()) {
 					const auto js_array = static_cast<std::vector<JSValue>>(static_cast<JSArray>(js_object));
 					for (const auto v : js_array) {
-						urls__.push_back(static_cast<std::string>(v));
+						urls.push_back(static_cast<std::string>(v));
 					}
 				} else {
 					TITANIUM_LOG_WARN("Could not convert VideoPlayer.url");
 				}
 			}
+
+			set_urls(urls);
+
 			return true;
 		}
 

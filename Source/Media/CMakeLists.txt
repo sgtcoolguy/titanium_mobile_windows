@@ -45,6 +45,11 @@ if(NOT TARGET TitaniumWindows_Utility)
   add_subdirectory(${Utility_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Utility EXCLUDE_FROM_ALL)
 endif()
 
+if(NOT TARGET TitaniumWindows_UI)
+  get_filename_component(UI_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../UI ABSOLUTE)
+  add_subdirectory(${UI_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/UI EXCLUDE_FROM_ALL)
+endif()
+
 set(SOURCE_Media
   include/TitaniumWindows/Media.hpp
   include/TitaniumWindows/Media/AudioPlayer.hpp
@@ -79,11 +84,13 @@ target_include_directories(TitaniumWindows_Media PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_UI,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
 target_link_libraries(TitaniumWindows_Media
   TitaniumKit
   TitaniumWindows_Utility
+  TitaniumWindows_UI
   )
 
 set_target_properties(TitaniumWindows_Media PROPERTIES VS_WINRT_COMPONENT TRUE)
