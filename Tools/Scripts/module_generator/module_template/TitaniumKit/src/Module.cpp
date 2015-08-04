@@ -53,7 +53,7 @@ for (i in data.properties) {
 -%>
 
 <%= indent %><%= namespace %>::<%= namespace %>(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-<%= indent %>	: <%= module_classes.contains('UI') ? 'View(js_context)' : 'Module(js_context, arguments)' %><%= (valid_properties > 0 ? ',' : '') %>
+<%= indent %>	: <%= module_classes.contains('UI') ? 'View(js_context)' : 'Module(js_context)' %><%= (valid_properties > 0 ? ',' : '') %>
 <%
 for (i in data.properties) {
 	var property = data.properties[i];
@@ -281,13 +281,13 @@ for (i in data.methods) {
 			
 			if (parameter.type == 'String') {
 -%>
-			ENSURE_<%= optional %>STRING_AT_INDEX(<%= parameter.name %>, <%= x %>, "");
+			ENSURE_<%= optional %>STRING_AT_INDEX(<%= parameter.name %>, <%= x %><%- optional ? ', ""' : '' %>);
 <% 			} else if (parameter.type == 'Number') { -%>
-			ENSURE_<%= optional %>DOUBLE_AT_INDEX(<%= parameter.name %>, <%= x %>, 0);
+			ENSURE_<%= optional %>DOUBLE_AT_INDEX(<%= parameter.name %>, <%= x %><%- optional ? ', 0' : '' %>);
 <% 			} else if (parameter.type == 'Boolean') { -%>
-			ENSURE_<%= optional %>BOOL_AT_INDEX(<%= parameter.name %>, <%= x %>, false);
+			ENSURE_<%= optional %>BOOL_AT_INDEX(<%= parameter.name %>, <%= x %><%- optional ? ', false' : '' %>);
 <% 			} else { -%>
-			ENSURE_<%= optional %>OBJECT_AT_INDEX(<%= parameter.name %>, <%= x %>,);
+			ENSURE_<%= optional %>OBJECT_AT_INDEX(<%= parameter.name %>, <%= x %>);
 <%
 			}
 		}
