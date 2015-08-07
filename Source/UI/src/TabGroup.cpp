@@ -144,9 +144,27 @@ namespace TitaniumWindows
 			window__->close(nullptr);
 		}
 
+		void TabGroup::set_tabs(const std::vector<std::shared_ptr<Titanium::UI::Tab>>& tabs) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::TabGroup::set_tabs(tabs);
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			pivot__->Items->Clear();
+#else
+			sectionViewItems__->Clear();
+#endif
+			for (const auto tab : tabs) {
+				appendWindowsTabItem(tab);
+			}
+		}
+
 		void TabGroup::addTab(const std::shared_ptr<Titanium::UI::Tab>& tab) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::TabGroup::addTab(tab);
+			appendWindowsTabItem(tab);
+		}
+
+		void TabGroup::appendWindowsTabItem(const std::shared_ptr<Titanium::UI::Tab>& tab) TITANIUM_NOEXCEPT
+		{
 			const auto windows_tab = dynamic_cast<TitaniumWindows::UI::Tab*>(tab.get());
 			const auto tabview = windows_tab->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 			if (windows_tab) {
