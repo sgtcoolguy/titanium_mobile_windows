@@ -161,7 +161,7 @@ namespace Titanium
 		  @abstract isMediaTypeSupported
 		  @discussion Returns `true` if the source supports the specified media type.
 		*/
-		virtual bool isMediaTypeSupported(const std::string& source, const std::string& type) TITANIUM_NOEXCEPT;
+		virtual bool isMediaTypeSupported(const std::string& source, const Media::MediaType& type) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method

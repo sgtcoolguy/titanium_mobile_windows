@@ -10,6 +10,7 @@
 #include "TitaniumWindows_Media_EXPORT.h"
 #include "Titanium/MediaModule.hpp"
 #include <agile.h>
+#include <collection.h>
 
 namespace TitaniumWindows
 {
@@ -50,7 +51,7 @@ namespace TitaniumWindows
 		  @abstract isMediaTypeSupported
 		  @discussion Returns `true` if the source supports the specified media type.
 		*/
-		virtual bool isMediaTypeSupported(const std::string& source, const std::string& type) TITANIUM_NOEXCEPT override;
+		virtual bool isMediaTypeSupported(const std::string& source, const Titanium::Media::MediaType& type) TITANIUM_NOEXCEPT override;
 
 		/*!
 		  @method
@@ -176,15 +177,23 @@ namespace TitaniumWindows
 
 	protected:
 
-		void takeScreenshotDone();
-		void takeScreenshotToFile();
+		JSFunction createFileOpenFromPickerFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT;
+		void takeScreenshotDone(JSObject callback, const std::string& file = "", const bool& hasError = true);
+		void clearScreenshotResources();
+		void takeScreenshotToFile(JSObject callback);
 
 #pragma warning(push)
 #pragma warning(disable : 4251)
-		Windows::Foundation::EventRegistrationToken audioCaptureMonitoring_token__;
+		Windows::Foundation::EventRegistrationToken audioMonitoring_token__;
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 		bool screenCaptureStarted__ { false };
-		::Platform::Agile<Windows::Media::Capture::MediaCapture> screenMediaCapture__;
+		bool cameraPreviewStarted__ { false };
+		bool waitingToBeRestoredFromPicker { false };
+		JSObject fileOpenFromPickerCallback__;
+		::Platform::Agile<Windows::Media::Capture::MediaCapture> mediaCapture__;
+		::Platform::Collections::Vector<Windows::UI::Xaml::DispatcherTimer^>^ vibrate_timers__;
+		Windows::UI::Xaml::Controls::CaptureElement^ captureElement__;
+		Windows::Foundation::EventRegistrationToken camera_navigated_event__;
 #else
 
 #endif

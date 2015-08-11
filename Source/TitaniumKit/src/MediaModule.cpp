@@ -191,7 +191,7 @@ namespace Titanium
 		TITANIUM_LOG_WARN("MediaModule::hideMusicLibrary: Unimplemented");
 	}
 
-	bool MediaModule::isMediaTypeSupported(const std::string& source, const std::string& type) TITANIUM_NOEXCEPT
+	bool MediaModule::isMediaTypeSupported(const std::string& source, const Media::MediaType& type) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("MediaModule::isMediaTypeSupported: Unimplemented");
 		return false;
@@ -1147,10 +1147,9 @@ namespace Titanium
 	TITANIUM_FUNCTION(MediaModule, isMediaTypeSupported)
 	{
 		ENSURE_STRING_AT_INDEX(source, 0);
-		ENSURE_STRING_AT_INDEX(type, 1);
+		ENSURE_ENUM_AT_INDEX(type, 1, Media::MediaType);
 		
-		isMediaTypeSupported(source, type);
-		return get_context().CreateUndefined();
+		return get_context().CreateBoolean(isMediaTypeSupported(source, type));
 	}
 
 	TITANIUM_FUNCTION(MediaModule, openMusicLibrary)
@@ -1274,7 +1273,7 @@ namespace Titanium
 		const auto js_pattern_array = static_cast<std::vector<JSValue>>(js_pattern);
 		std::vector<std::chrono::milliseconds> patterns;
 		for (const auto v : js_pattern_array) {
-			patterns.push_back(std::chrono::seconds(static_cast<std::chrono::seconds::rep>(static_cast<std::uint32_t>(v))));
+			patterns.push_back(std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(v))));
 		}
 		vibrate(patterns);
 		return get_context().CreateUndefined();

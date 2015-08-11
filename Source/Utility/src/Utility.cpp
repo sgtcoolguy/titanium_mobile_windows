@@ -10,6 +10,7 @@
 #include "TitaniumWindows/Utility.hpp"
 #include "HAL/HAL.hpp"
 #include <boost/algorithm/string/predicate.hpp>
+#include "Titanium/detail/TiImpl.hpp"
 
 namespace TitaniumWindows
 {
@@ -161,10 +162,37 @@ namespace TitaniumWindows
 			return date;
 		}
 
-		// Add hidden UI onto current Window
-		void SetHiddenViewForCurrentWindow(Windows::UI::Xaml::UIElement^ view, Windows::Foundation::EventRegistrationToken& token)
+		void RemoveViewFromCurrentWindow(Windows::UI::Xaml::UIElement^ view) 
 		{
-			view->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
+			TITANIUM_ASSERT_AND_THROW(rootFrame->Content, "Could not get content from current Window");
+			const auto removeUI = ref new Windows::UI::Core::DispatchedHandler([view, rootFrame]() {
+				if (rootFrame->Content) {
+					const auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
+					if (page && page->Content) {
+						const auto content = static_cast<Windows::UI::Xaml::Controls::Panel^>(page->Content);
+						if (content) {
+							std::uint32_t index;
+							content->Children->IndexOf(view, &index);
+							TITANIUM_ASSERT_AND_THROW(index >= 0, "Could not find view from current Window");
+							content->Children->RemoveAt(index);
+						}
+					}
+				}
+			});
+			Windows::UI::Xaml::Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, removeUI);
+		}
+
+
+		// Add hidden UI onto current Window
+		void SetHiddenViewForCurrentWindow(Windows::UI::Xaml::UIElement^ view, Windows::Foundation::EventRegistrationToken& token) 
+		{
+			SetViewForCurrentWindow(view, token, false);
+		}
+
+		void SetViewForCurrentWindow(Windows::UI::Xaml::UIElement^ view, Windows::Foundation::EventRegistrationToken& token, const bool& visible)
+		{
+			view->Visibility = visible ? Windows::UI::Xaml::Visibility::Visible : Windows::UI::Xaml::Visibility::Collapsed;
 			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 			const auto registerUI = ref new Windows::UI::Core::DispatchedHandler([view, rootFrame]() {
 				if (rootFrame->Content) {
@@ -188,5 +216,24 @@ namespace TitaniumWindows
 				Windows::UI::Xaml::Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, registerUI);
 			}
 		}
+
+		HAL::JSValue GetTiBlobForFile(const HAL::JSContext& js_context, const std::string& path)
+		{
+			const std::string blob_read = R"(
+			function blob_read(path) {
+				var f = Ti.Filesystem.getFile(path);
+				if (f.exists()) {
+					return f.read();
+				}
+			}
+			blob_read;
+			)";
+
+			// read file and get blob.
+			auto object = js_context.CreateObject();
+			auto blob_read_func = static_cast<HAL::JSObject>(js_context.JSEvaluateScript(blob_read, object));
+			return blob_read_func({ js_context.CreateString(path) }, blob_read_func);
+		}
+
 	}  // namespace Utility
 }  // namespace TitaniumWindows

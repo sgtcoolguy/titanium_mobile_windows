@@ -40,6 +40,10 @@ namespace TitaniumWindows
 			this->requireHook__ = requireHook;
 		}
 
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
+		virtual void OnActivated(Windows::ApplicationModel::Activation::IActivatedEventArgs^ args) override;
+#endif
+
 	private:
 
 #if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
