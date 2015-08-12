@@ -54,6 +54,7 @@ namespace Titanium
 			PhotoGalleryOptionsTypeCallbacks callbacks;
 		};
 		
+		TITANIUMKIT_EXPORT PhotoGalleryOptionsType create_empty_PhotoGalleryOptionsType(const JSContext& js_context);
 		TITANIUMKIT_EXPORT PhotoGalleryOptionsType js_to_PhotoGalleryOptionsType(const JSObject& object);
 		TITANIUMKIT_EXPORT JSObject PhotoGalleryOptionsType_to_js(const JSContext& js_context, const PhotoGalleryOptionsType& config);
 		

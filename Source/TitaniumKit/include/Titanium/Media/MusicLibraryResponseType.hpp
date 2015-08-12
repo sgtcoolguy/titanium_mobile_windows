@@ -31,7 +31,7 @@ namespace Titanium
 		struct MusicLibraryResponseType
 		{
 			std::vector<std::shared_ptr<Item>> items;
-			std::vector<std::shared_ptr<Item>> representative;
+			std::shared_ptr<Item> representative;
 			std::unordered_set<MusicMediaType> types;
 		};
 		

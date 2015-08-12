@@ -107,6 +107,27 @@ namespace Titanium
 			return config;
 		};
 
+		MusicLibraryOptionsType create_empty_MusicLibraryOptionsType(const JSContext& js_context) {
+			const auto js_null = js_context.CreateNull();
+			MusicLibraryOptionsTypeCallbacks callbacks {
+				js_null,
+				js_null,
+				js_null,
+				nullptr,
+				nullptr,
+				nullptr
+			};
+			MusicLibraryOptionsType config {
+				false,
+				false,
+				false,
+				std::vector<MusicMediaType>(),
+				callbacks
+			};
+			return config;
+		}
+
+
 		JSObject MusicLibraryOptionsType_to_js(const JSContext& js_context, const MusicLibraryOptionsType& config)
 		{
 			auto object = js_context.CreateObject();

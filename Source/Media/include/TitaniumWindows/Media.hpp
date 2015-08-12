@@ -9,7 +9,10 @@
 
 #include "TitaniumWindows_Media_EXPORT.h"
 #include "Titanium/MediaModule.hpp"
+#include "Titanium/Media/PhotoGalleryOptionsType.hpp"
+#include "Titanium/Media/MusicLibraryOptionsType.hpp"
 #include <agile.h>
+#include <collection.h>
 
 namespace TitaniumWindows
 {
@@ -50,7 +53,7 @@ namespace TitaniumWindows
 		  @abstract isMediaTypeSupported
 		  @discussion Returns `true` if the source supports the specified media type.
 		*/
-		virtual bool isMediaTypeSupported(const std::string& source, const std::string& type) TITANIUM_NOEXCEPT override;
+		virtual bool isMediaTypeSupported(const std::string& source, const Titanium::Media::MediaType& type) TITANIUM_NOEXCEPT override;
 
 		/*!
 		  @method
@@ -58,6 +61,7 @@ namespace TitaniumWindows
 		  @discussion Shows the music library and allows the user to select one or more tracks.
 		*/
 		virtual void openMusicLibrary(const Titanium::Media::MusicLibraryOptionsType& options) TITANIUM_NOEXCEPT override;
+		virtual void _postOpenMusicLibrary(const std::vector<std::string>& files) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -65,6 +69,7 @@ namespace TitaniumWindows
 		  @discussion Opens the photo gallery image picker.
 		*/
 		virtual void openPhotoGallery(const Titanium::Media::PhotoGalleryOptionsType& options) TITANIUM_NOEXCEPT override;
+		virtual void _postOpenPhotoGallery(const std::vector<std::string>& files) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -174,17 +179,38 @@ namespace TitaniumWindows
 
 		void fireMediaVolumeEvent(const Windows::Media::SoundLevel& level);
 
+		TITANIUM_FUNCTION_DEF(_postOpenPhotoGallery);
+		TITANIUM_FUNCTION_DEF(_postOpenMusicLibrary);
+
 	protected:
 
-		void takeScreenshotDone();
-		void takeScreenshotToFile();
+		JSFunction createFileOpenForMusicLibraryFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT;
+		JSFunction createFileOpenForPhotoGalleryFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT;
+		JSFunction createBeepFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT;
+		void takeScreenshotDone(JSObject callback, const std::string& file = "", const bool& hasError = true);
+		void clearScreenshotResources();
+		void takeScreenshotToFile(JSObject callback);
+
+		std::vector<std::shared_ptr<Titanium::Media::Item>> getMusicProperties(const std::vector<std::string>& files);
 
 #pragma warning(push)
 #pragma warning(disable : 4251)
-		Windows::Foundation::EventRegistrationToken audioCaptureMonitoring_token__;
+		Windows::Foundation::EventRegistrationToken audioMonitoring_token__;
+		bool waitingForOpenMusicLibrary__ { false };
+		bool waitingForOpenPhotoGallery__ { false };
+		Titanium::Media::PhotoGalleryOptionsType openPhotoGalleryOptionsState__;
+		Titanium::Media::MusicLibraryOptionsType openMusicLibraryOptionsState__;
+		JSFunction js_beep__;
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 		bool screenCaptureStarted__ { false };
-		::Platform::Agile<Windows::Media::Capture::MediaCapture> screenMediaCapture__;
+		bool cameraPreviewStarted__ { false };
+		JSFunction fileOpenForMusicLibraryCallback__;
+		JSFunction fileOpenForPhotoGalleryCallback__;
+		::Platform::Agile<Windows::Media::Capture::MediaCapture> mediaCapture__;
+		::Platform::Collections::Vector<Windows::UI::Xaml::DispatcherTimer^>^ vibrate_timers__;
+		Windows::UI::Xaml::Controls::CaptureElement^ captureElement__;
+		Windows::Foundation::EventRegistrationToken camera_navigated_event__;
+
 #else
 
 #endif

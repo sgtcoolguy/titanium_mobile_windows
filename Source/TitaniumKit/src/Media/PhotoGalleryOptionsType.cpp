@@ -113,6 +113,29 @@ namespace Titanium
 			return config;
 		};
 
+		PhotoGalleryOptionsType create_empty_PhotoGalleryOptionsType(const JSContext& js_context) 
+		{
+			const auto js_null = js_context.CreateNull();
+			PhotoGalleryOptionsTypeCallbacks callbacks {
+				js_null,
+				js_null,
+				js_null,
+				nullptr,
+				nullptr,
+				nullptr
+			};
+			PhotoGalleryOptionsType config {
+				false,
+				false,
+				0,
+				false,
+				std::vector<MediaType>(),
+				nullptr,
+				callbacks
+			};
+			return config;
+		}
+
 		JSObject PhotoGalleryOptionsType_to_js(const JSContext& js_context, const PhotoGalleryOptionsType& config)
 		{
 			auto object = js_context.CreateObject();

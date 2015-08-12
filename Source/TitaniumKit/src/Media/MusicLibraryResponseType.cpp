@@ -25,8 +25,8 @@ namespace Titanium
 			config.items = items;
 			
 			const auto representative_property = object.GetProperty("representative");
-			ENSURE_OBJECT_ARRAY(representative_property, representative, Item);
-			config.representative = representative;
+			TITANIUM_ASSERT(representative_property.IsObject());
+			config.representative = static_cast<JSObject>(representative_property).GetPrivate<Item>();
 			
 			config.types = Constants::to_MusicMediaType(static_cast<std::uint32_t>(object.GetProperty("types")));
 			
@@ -43,11 +43,7 @@ namespace Titanium
 			}
 			object.SetProperty("items", js_context.CreateArray(items));
 
-			std::vector<JSValue> representative;
-			for (const auto v : config.representative) {
-				representative.push_back(v->get_object());
-			}
-			object.SetProperty("representative", js_context.CreateArray(representative));
+			object.SetProperty("representative", config.representative->get_object());
 			object.SetProperty("types", js_context.CreateNumber(Constants::to_underlying_type(config.types)));
 
 			return object;

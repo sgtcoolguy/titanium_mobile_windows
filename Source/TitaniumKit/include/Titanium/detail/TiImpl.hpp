@@ -145,6 +145,12 @@ IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
     OUT = static_cast<std::string>(_##INDEX); \
   }
 
+#define ENSURE_ENUM_AT_INDEX(OUT,INDEX,TYPE) \
+  ENSURE_ARGUMENT_BOUNDS(INDEX); \
+  const auto _##INDEX = arguments.at(INDEX); \
+  TITANIUM_ASSERT_AND_THROW(_##INDEX.IsNumber(), "Expected number"); \
+  auto OUT = static_cast<TYPE>(static_cast<std::uint32_t>(_##INDEX));
+
 #define ENSURE_VALUE_AT_INDEX(OUT,INDEX) \
   ENSURE_ARGUMENT_BOUNDS(INDEX); \
   auto OUT = arguments.at(INDEX);

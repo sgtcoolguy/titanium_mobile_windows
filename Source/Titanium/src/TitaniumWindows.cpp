@@ -65,6 +65,7 @@
 
 #include <Windows.h>
 #include <collection.h>
+#include <vector>
 
 #define GET_TITANIUM_APP(VARNAME) \
   JSValue Titanium_property = js_context__.get_global_object().GetProperty("Titanium"); \
@@ -77,6 +78,7 @@
 namespace TitaniumWindows
 {
 	using namespace HAL;
+	using namespace Windows::ApplicationModel::Activation;
 
 	Application::Application() : js_context__(js_context_group__.CreateContext(JSExport<TitaniumWindows::GlobalObject>::Class()))
 	{
@@ -94,7 +96,7 @@ namespace TitaniumWindows
 	{
 	}
 
-	void Application::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs ^ args)
+	void Application::OnLaunched(LaunchActivatedEventArgs ^ args)
 	{
 		application__ = std::make_shared<Titanium::Application>(Titanium::ApplicationBuilder(js_context__)
 		                                                            .TiObject(js_context__.CreateObject(JSExport<TitaniumWindows::TiModule>::Class()))
@@ -219,7 +221,7 @@ namespace TitaniumWindows
 			// your application.
 			rootFrame->CacheSize = 1;
 
-			if (args->PreviousExecutionState == Windows::ApplicationModel::Activation::ApplicationExecutionState::Terminated) {
+			if (args->PreviousExecutionState ==ApplicationExecutionState::Terminated) {
 				// TODO: Restore the saved session state only when appropriate,
 				// scheduling the final launch steps after the restore is
 				// complete.
@@ -250,6 +252,35 @@ namespace TitaniumWindows
 
 		rootFrame->ContentTransitions = newTransitions;
 		rootFrame->Navigated -= first_navigated_token__;
+	}
+#endif
+
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
+	void Application::OnActivated(IActivatedEventArgs^ args) 
+	{
+		Windows::UI::Xaml::Application::OnActivated(args);
+
+		//
+		// Check if app is re-activated from *AndContinue task.
+		// https://msdn.microsoft.com/en-us/library/windows/apps/xaml/dn614994.aspx
+		//
+		const auto continuationEventArgs = dynamic_cast<IContinuationActivatedEventArgs^>(args);
+		if (continuationEventArgs != nullptr) {
+			GET_TITANIUM_APP(App);
+
+			// Restored from file picker and fire "windows.fileOpenFromPicker" event
+			const auto fileOpenPickerEventArgs = dynamic_cast<FileOpenPickerContinuationEventArgs^>(continuationEventArgs);
+			if (fileOpenPickerEventArgs != nullptr) {
+				auto event_object = js_context__.CreateObject();
+				const auto files = fileOpenPickerEventArgs->Files;
+				std::vector<JSValue> js_files;
+				for (auto file : fileOpenPickerEventArgs->Files) {
+					js_files.push_back(js_context__.CreateString(TitaniumWindows::Utility::ConvertString(file->Path)));
+				}
+				event_object.SetProperty("files", js_context__.CreateArray(js_files));
+				App->fireEvent("windows.fileOpenFromPicker", event_object);
+			}
+		}
 	}
 #endif
 

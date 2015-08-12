@@ -35,133 +35,133 @@ namespace Titanium
 			  @abstract albumArtist
 			  @discussion Artist credited for the album containing this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::string, albumArtist);
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, albumArtist);
 
 			/*!
 			  @property
 			  @abstract albumTitle
 			  @discussion Title of the album containing this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::string, albumTitle);
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, albumTitle);
 
 			/*!
 			  @property
 			  @abstract albumTrackCount
 			  @discussion Number of tracks for the album containing this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::uint32_t, albumTrackCount);
+			TITANIUM_PROPERTY_IMPL_DEF(std::uint32_t, albumTrackCount);
 
 			/*!
 			  @property
 			  @abstract albumTrackNumber
 			  @discussion Track number for this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::uint32_t, albumTrackNumber);
+			TITANIUM_PROPERTY_IMPL_DEF(std::uint32_t, albumTrackNumber);
 
 			/*!
 			  @property
 			  @abstract artist
 			  @discussion Artist credited for this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::string, artist);
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, artist);
 
 			/*!
 			  @property
 			  @abstract artwork
 			  @discussion Image for the item's artwork as a `Blob` object,  or `null` if no artwork isavailable.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::shared_ptr<Titanium::Blob>, artwork);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<Titanium::Blob>, artwork);
 
 			/*!
 			  @property
 			  @abstract composer
 			  @discussion Composer of this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::string, composer);
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, composer);
 
 			/*!
 			  @property
 			  @abstract discCount
 			  @discussion Total number of discs for the album containing this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::uint32_t, discCount);
+			TITANIUM_PROPERTY_IMPL_DEF(std::uint32_t, discCount);
 
 			/*!
 			  @property
 			  @abstract discNumber
 			  @discussion Disc number for this item in the album.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::uint32_t, discNumber);
+			TITANIUM_PROPERTY_IMPL_DEF(std::uint32_t, discNumber);
 
 			/*!
 			  @property
 			  @abstract genre
 			  @discussion Genre of this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::string, genre);
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, genre);
 
 			/*!
 			  @property
 			  @abstract isCompilation
 			  @discussion True if this item is part of a compilation album.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(bool, isCompilation);
+			TITANIUM_PROPERTY_IMPL_DEF(bool, isCompilation);
 
 			/*!
 			  @property
 			  @abstract lyrics
 			  @discussion Lyrics for this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::string, lyrics);
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, lyrics);
 
 			/*!
 			  @property
 			  @abstract mediaType
 			  @discussion The type of the media. 
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(MusicMediaType, mediaType);
+			TITANIUM_PROPERTY_IMPL_DEF(MusicMediaType, mediaType);
 
 			/*!
 			  @property
 			  @abstract playCount
 			  @discussion Number of times the item has been played.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::uint32_t, playCount);
+			TITANIUM_PROPERTY_IMPL_DEF(std::uint32_t, playCount);
 
 			/*!
 			  @property
 			  @abstract playbackDuration
 			  @discussion Length (in seconds) of this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::chrono::seconds, playbackDuration);
+			TITANIUM_PROPERTY_IMPL_DEF(std::chrono::seconds, playbackDuration);
 
 			/*!
 			  @property
 			  @abstract podcastTitle
 			  @discussion Title of a podcast item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::string, podcastTitle);
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, podcastTitle);
 
 			/*!
 			  @property
 			  @abstract rating
 			  @discussion Rating for this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::uint32_t, rating);
+			TITANIUM_PROPERTY_IMPL_DEF(std::uint32_t, rating);
 
 			/*!
 			  @property
 			  @abstract skipCount
 			  @discussion Number of times this item has been skipped.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::uint32_t, skipCount);
+			TITANIUM_PROPERTY_IMPL_DEF(std::uint32_t, skipCount);
 
 			/*!
 			  @property
 			  @abstract title
 			  @discussion Title of this item.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::string, title);
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, title);
 
 			Item(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~Item()              = default;
