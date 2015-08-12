@@ -6,16 +6,18 @@
 
 #include "TitaniumWindows/Media.hpp"
 #include "Titanium/Filesystem/File.hpp"
+#include "Titanium/Media/Constants.hpp"
 #include "Titanium/Media/Item.hpp"
 #include "Titanium/Media/CameraOptionsType.hpp"
-#include "Titanium/Media/PhotoGalleryOptionsType.hpp"
+#include "Titanium/Media/MediaQueryType.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include "TitaniumWindows/AppModule.hpp"
 #include <ppltasks.h>
+#include <collection.h>
 
 #define GET_TITANIUM_APP(VARNAME) \
-	const auto ctx = get_context(); \
+  const auto ctx = get_context(); \
   JSValue Titanium_property = ctx.get_global_object().GetProperty("Titanium"); \
   TITANIUM_ASSERT(Titanium_property.IsObject()); \
   JSObject Titanium = static_cast<JSObject>(Titanium_property); \
@@ -35,19 +37,37 @@ namespace TitaniumWindows
 	using namespace Windows::UI::Xaml;
 	using namespace Windows::UI::Xaml::Controls;
 	using namespace Platform::Collections;
+	using namespace Windows::Foundation::Collections;
+	using namespace Windows::Storage::Search;
 	using namespace concurrency;
 
-	JSFunction MediaModule::createFileOpenFromPickerFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT
+	JSFunction MediaModule::createFileOpenForPhotoGalleryFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT
 	{
 		return js_context.CreateFunction(R"JS(
 			Ti.App.removeEventListener('windows.fileOpenFromPicker', this);
-			Ti.API._postOpenPhotoGallery(e.files);
+			Ti.Media._postOpenPhotoGallery(e.files);
 		)JS", { "e" });
+	}
+
+	JSFunction MediaModule::createFileOpenForMusicLibraryFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT
+	{
+		return js_context.CreateFunction(R"JS(
+			Ti.App.removeEventListener('windows.fileOpenFromPicker', this);
+			Ti.Media._postOpenMusicLibrary(e.files);
+		)JS", { "e" });
+	}
+
+	JSFunction MediaModule::createBeepFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT
+	{
+		// Play beep.wav under application directory
+		return js_context.CreateFunction(R"JS(
+			Ti.Media.createSound({url:'beep.wav'}).play();
+		)JS");
 	}
 
 	void MediaModule::beep() TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("MediaModule::beep: Unimplemented");
+		js_beep__(get_object());
 	}
 
 	void MediaModule::hideMusicLibrary() TITANIUM_NOEXCEPT
@@ -55,60 +75,19 @@ namespace TitaniumWindows
 		TITANIUM_LOG_WARN("MediaModule::hideMusicLibrary: Unimplemented");
 	}
 
-	void MediaModule::openMusicLibrary(const Titanium::Media::MusicLibraryOptionsType& options) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("MediaModule::openMusicLibrary: Unimplemented");
-	}
-
-	void MediaModule::openPhotoGallery(const Titanium::Media::PhotoGalleryOptionsType& options) TITANIUM_NOEXCEPT
-	{
-		auto picker = ref new FileOpenPicker();
-		picker->ViewMode = PickerViewMode::Thumbnail;
-		picker->SuggestedStartLocation = PickerLocationId::PicturesLibrary;
-		picker->FileTypeFilter->Append(".jpg");
-		picker->FileTypeFilter->Append(".jpeg");
-		picker->FileTypeFilter->Append(".png");
-		picker->FileTypeFilter->Append(".gif");
-
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-		// Listen to "windows.fileOpenFromPicker" event
-		GET_TITANIUM_APP(App);
-		App->addEventListener("windows.fileOpenFromPicker", fileOpenFromPickerCallback__, fileOpenFromPickerCallback__);
-		waitingToBeRestoredFromPicker = true;
-		picker->PickSingleFileAndContinue();
-#else
-		task<StorageFile^>(picker->PickSingleFileAsync()).then([this, options](task<StorageFile^> task) {
-			const auto file = task.get();
-			if (file == nullptr) {
-				Titanium::ErrorResponse error;
-				error.code = -1;
-				error.error = "File picker is cancelled";
-				error.success = false;
-				options.callbacks.oncancel(error);
-				return;
-			}
-			const auto blob = TitaniumWindows::Utility::GetTiBlobForFile(get_context(), TitaniumWindows::Utility::ConvertString(file->Path));
-			if (blob.IsObject()) {
-				Titanium::Media::CameraMediaItemType item;
-				item.code = 0;
-				item.success = true;
-				item.mediaType = Titanium::Media::MediaType::Photo;
-				item.media = static_cast<JSObject>(blob).GetPrivate<Titanium::Blob>();
-				options.callbacks.onsuccess(item);
-			} else {
-				Titanium::ErrorResponse error;
-				error.code = -1;
-				error.error = "Failed to load content from file";
-				error.success = false;
-				options.callbacks.onerror(error);
-			}
-		});
-#endif
-	}
-
 	void MediaModule::previewImage(const std::unordered_map<std::string, Titanium::Media::PreviewImageOptions>& options) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("MediaModule::previewImage: Unimplemented");
+	}
+
+	void MediaModule::setOverrideAudioRoute(const Titanium::Media::AudioSessionOverrideRoute& route) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("MediaModule::setOverrideAudioRoute: Unimplemented");
+	}
+
+	void MediaModule::switchCamera(const Titanium::Media::CameraOption& camera) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("MediaModule::switchCamera: Unimplemented");
 	}
 
 	std::vector<std::shared_ptr<Titanium::Media::Item>> MediaModule::queryMusicLibrary(const Titanium::Media::MediaQueryType& query) TITANIUM_NOEXCEPT
@@ -117,9 +96,226 @@ namespace TitaniumWindows
 		return std::vector<std::shared_ptr<Titanium::Media::Item>>();
 	}
 
-	void MediaModule::setOverrideAudioRoute(const Titanium::Media::AudioSessionOverrideRoute& route) TITANIUM_NOEXCEPT
+	void MediaModule::openMusicLibrary(const Titanium::Media::MusicLibraryOptionsType& options) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("MediaModule::setOverrideAudioRoute: Unimplemented");
+		auto picker = ref new FileOpenPicker();
+		picker->ViewMode = PickerViewMode::Thumbnail;
+		picker->SuggestedStartLocation = PickerLocationId::MusicLibrary;
+		//
+		// https://msdn.microsoft.com/en-us/library/windows/apps/xaml/dn639127.aspx
+		//
+		picker->FileTypeFilter->Append(".qcp");
+		picker->FileTypeFilter->Append(".wav");
+		picker->FileTypeFilter->Append(".mp3");
+		picker->FileTypeFilter->Append(".m4r");
+		picker->FileTypeFilter->Append(".m4a");
+		picker->FileTypeFilter->Append(".aac");
+		picker->FileTypeFilter->Append(".amr");
+		picker->FileTypeFilter->Append(".wma");
+		picker->FileTypeFilter->Append(".3g2");
+		picker->FileTypeFilter->Append(".3gp");
+		picker->FileTypeFilter->Append(".mp4");
+		picker->FileTypeFilter->Append(".wm");
+		picker->FileTypeFilter->Append(".asf");
+		picker->FileTypeFilter->Append(".3gpp");
+		picker->FileTypeFilter->Append(".3gp2");
+		picker->FileTypeFilter->Append(".mpa");
+		picker->FileTypeFilter->Append(".adt");
+		picker->FileTypeFilter->Append(".adts");
+		picker->FileTypeFilter->Append(".pya");
+
+		openMusicLibraryOptionsState__ = options;
+		waitingForOpenMusicLibrary__ = true;
+
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+		// Start listening to "windows.fileOpenFromPicker" event
+		GET_TITANIUM_APP(App);
+		App->addEventListener("windows.fileOpenFromPicker", fileOpenForMusicLibraryCallback__, fileOpenForMusicLibraryCallback__);
+		if (options.allowMultipleSelections) {
+			picker->PickMultipleFilesAndContinue();
+		} else {
+			picker->PickSingleFileAndContinue();
+		}
+#else
+		if (options.allowMultipleSelections) {
+			task<IVectorView<StorageFile^>^>(picker->PickMultipleFilesAsync()).then([this, options](task<IVectorView<StorageFile^>^> task) {
+				std::vector<std::string> files;
+				const auto storages = task.get();
+				for (const auto file : storages) {
+					files.push_back(TitaniumWindows::Utility::ConvertString(file->Path));
+				}
+				_postOpenMusicLibrary(files);
+			});
+		} else {
+			task<StorageFile^>(picker->PickSingleFileAsync()).then([this, options](task<StorageFile^> task) {
+				std::vector<std::string> files;
+				const auto file = task.get();
+				if (file != nullptr) {
+					files.push_back(TitaniumWindows::Utility::ConvertString(file->Path));
+				}
+				_postOpenMusicLibrary(files);
+			});
+		}
+
+#endif
+	}
+
+	std::shared_ptr<Titanium::Media::Item> getMediaItem(const JSContext& js_context, StorageFile^ file) 
+	{
+		std::shared_ptr<Titanium::Media::Item> item = js_context.CreateObject(JSExport<Titanium::Media::Item>::Class()).GetPrivate<Titanium::Media::Item>();
+		concurrency::event event;
+		concurrency::task<FileProperties::MusicProperties^>(file->Properties->GetMusicPropertiesAsync()).then([&js_context, &item, &event](concurrency::task<FileProperties::MusicProperties^> task) {
+			try {
+				const auto properties = task.get();
+
+				item->set_artist(TitaniumWindows::Utility::ConvertString(properties->Artist));
+				item->set_albumTitle(TitaniumWindows::Utility::ConvertString(properties->Album));
+				item->set_composer(TitaniumWindows::Utility::ConvertString(properties->Composers));
+				item->set_playbackDuration(TitaniumWindows::Utility::GetSec(properties->Duration));
+				item->set_genre(TitaniumWindows::Utility::ConvertString(properties->Genre));
+				item->set_rating(properties->Rating);
+				item->set_title(TitaniumWindows::Utility::ConvertString(properties->Title));
+				item->set_albumTrackNumber(properties->TrackNumber);
+			} catch (Platform::Exception^ e) {
+				TITANIUM_LOG_WARN("MediaModule: Failed to get music properties: ", TitaniumWindows::Utility::ConvertString(e->Message));
+			}
+			event.set();
+		});
+		event.wait();
+
+		return item;
+	}
+
+	std::vector<std::shared_ptr<Titanium::Media::Item>> MediaModule::getMusicProperties(const std::vector<std::string>& files) 
+	{
+		const auto ctx = get_context();
+		std::vector<std::shared_ptr<Titanium::Media::Item>> items;
+		for (const auto file : files) {
+			concurrency::event event;
+			task<StorageFile^>(StorageFile::GetFileFromPathAsync(TitaniumWindows::Utility::ConvertString(files.at(0)))).then([&items, &ctx, &event](task<StorageFile^> task) {
+				try {
+					items.push_back(getMediaItem(ctx, task.get()));
+				} catch (Platform::Exception^ e) {
+					TITANIUM_LOG_WARN("MediaModule: Failed to access music file: ", TitaniumWindows::Utility::ConvertString(e->Message));
+				}
+				event.set();
+			}, concurrency::task_continuation_context::use_arbitrary());
+			event.wait();
+		}
+		return items;
+	}
+
+	void MediaModule::_postOpenMusicLibrary(const std::vector<std::string>& files) TITANIUM_NOEXCEPT
+	{
+		if (!waitingForOpenMusicLibrary__) {
+			TITANIUM_LOG_WARN("MediaModule::_postOpenMusicLibrary: Invalid state");
+			return;
+		}
+
+		if (files.size() > 0) {
+				Titanium::Media::MusicLibraryResponseType item;
+				item.types = { Titanium::Media::MusicMediaType::Music };
+				item.items = getMusicProperties(files);
+
+				if (item.items.size() == 0) {
+					Titanium::ErrorResponse error;
+					error.code = -1;
+					error.error = "Failed to read music properties from file";
+					error.success = false;
+					openMusicLibraryOptionsState__.callbacks.onerror(error);
+				} else {
+					item.representative = item.items.at(0);
+					openMusicLibraryOptionsState__.callbacks.onsuccess(item);
+				}
+		} else {
+			// files.size() == 0 means FileOpenPicker is canceled
+			Titanium::ErrorResponse error;
+			error.code = -1;
+			error.error = "File picker is canceled";
+			error.success = false;
+			openMusicLibraryOptionsState__.callbacks.oncancel(error);
+		}
+
+		// reset state
+		openMusicLibraryOptionsState__ = Titanium::Media::create_empty_MusicLibraryOptionsType(get_context());
+		waitingForOpenMusicLibrary__ = false;
+	}
+
+	void MediaModule::openPhotoGallery(const Titanium::Media::PhotoGalleryOptionsType& options) TITANIUM_NOEXCEPT
+	{
+		auto picker = ref new FileOpenPicker();
+		picker->ViewMode = PickerViewMode::Thumbnail;
+		picker->SuggestedStartLocation = PickerLocationId::PicturesLibrary;
+		//
+		// https://msdn.microsoft.com/en-us/library/windows/apps/xaml/dn639127.aspx
+		//
+		picker->FileTypeFilter->Append(".jpeg");
+		picker->FileTypeFilter->Append(".jpe");
+		picker->FileTypeFilter->Append(".jpg");
+		picker->FileTypeFilter->Append(".gif");
+		picker->FileTypeFilter->Append(".tiff");
+		picker->FileTypeFilter->Append(".tif");
+		picker->FileTypeFilter->Append(".png");
+		picker->FileTypeFilter->Append(".bmp");
+		picker->FileTypeFilter->Append(".wdp");
+		picker->FileTypeFilter->Append(".jxr");
+		picker->FileTypeFilter->Append(".hdp");
+
+		openPhotoGalleryOptionsState__ = options;
+		waitingForOpenPhotoGallery__ = true;
+
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+		// Start listening to "windows.fileOpenFromPicker" event
+		GET_TITANIUM_APP(App);
+		App->addEventListener("windows.fileOpenFromPicker", fileOpenForPhotoGalleryCallback__, fileOpenForPhotoGalleryCallback__);
+		picker->PickSingleFileAndContinue();
+#else
+		task<StorageFile^>(picker->PickSingleFileAsync()).then([this](task<StorageFile^> task) {
+			std::vector<std::string> files;
+			const auto file = task.get();
+			if (file != nullptr) {
+				files.push_back(TitaniumWindows::Utility::ConvertString(file->Path));
+			}
+			_postOpenPhotoGallery(files);
+		});
+#endif
+	}
+
+	void MediaModule::_postOpenPhotoGallery(const std::vector<std::string>& files) TITANIUM_NOEXCEPT
+	{
+		if (!waitingForOpenPhotoGallery__) {
+			TITANIUM_LOG_WARN("MediaModule::_postOpenPhotoGallery: Invalid state");
+			return;
+		}
+
+		if (files.size() > 0) {
+			const auto blob = TitaniumWindows::Utility::GetTiBlobForFile(get_context(), files.at(0));
+			if (blob.IsObject()) {
+				Titanium::Media::CameraMediaItemType item;
+				item.code = 0;
+				item.success = true;
+				item.mediaType = Titanium::Media::MediaType::Photo;
+				item.media = static_cast<JSObject>(blob).GetPrivate<Titanium::Blob>();
+				openPhotoGalleryOptionsState__.callbacks.onsuccess(item);
+			} else {
+				Titanium::ErrorResponse error;
+				error.code = -1;
+				error.error = "Failed to load content from file";
+				error.success = false;
+				openPhotoGalleryOptionsState__.callbacks.onerror(error);
+			}
+		} else {
+			// files.size() == 0 means FileOpenPicker is canceled
+			Titanium::ErrorResponse error;
+			error.code = -1;
+			error.error = "File picker is canceled";
+			error.success = false;
+			openPhotoGalleryOptionsState__.callbacks.oncancel(error);
+		}
+
+		// reset state
+		openPhotoGalleryOptionsState__ = Titanium::Media::create_empty_PhotoGalleryOptionsType(get_context());
+		waitingForOpenPhotoGallery__ = false;
 	}
 
 	bool MediaModule::isMediaTypeSupported(const std::string& source, const Titanium::Media::MediaType& type) TITANIUM_NOEXCEPT
@@ -130,8 +326,8 @@ namespace TitaniumWindows
 			task<DeviceInformationCollection^>(DeviceInformation::FindAllAsync(DeviceClass::VideoCapture)).then([&videoSupported, &event](task<DeviceInformationCollection^> task) {
 				try {
 					videoSupported = task.get()->Size > 0;
-				} catch (Platform::COMException^ ex) {
-					TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+				} catch (Platform::Exception^ ex) {
+					TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(ex->Message));
 				}
 				event.set();
 			}, concurrency::task_continuation_context::use_arbitrary());
@@ -384,11 +580,6 @@ namespace TitaniumWindows
 #endif
 	}
 
-	void MediaModule::switchCamera(const Titanium::Media::CameraOption& camera) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("MediaModule::switchCamera: Unimplemented");
-	}
-
 	void MediaModule::takeScreenshotDone(JSObject callback, const std::string& file, const bool& hasError)
 	{
 		clearScreenshotResources();
@@ -546,7 +737,13 @@ namespace TitaniumWindows
 
 	MediaModule::MediaModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Titanium::MediaModule(js_context)
-		, fileOpenFromPickerCallback__(createFileOpenFromPickerFunction(js_context))
+		, js_beep__(createBeepFunction(js_context))
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+		, fileOpenForMusicLibraryCallback__(createFileOpenForMusicLibraryFunction(js_context))
+		, fileOpenForPhotoGalleryCallback__(createFileOpenForPhotoGalleryFunction(js_context))
+#endif
+		, openPhotoGalleryOptionsState__(Titanium::Media::create_empty_PhotoGalleryOptionsType(js_context))
+		, openMusicLibraryOptionsState__(Titanium::Media::create_empty_MusicLibraryOptionsType(js_context))
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::MediaModule::ctor Initialize");
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
@@ -564,6 +761,30 @@ namespace TitaniumWindows
 	{
 		JSExport<MediaModule>::SetClassVersion(1);
 		JSExport<MediaModule>::SetParent(JSExport<Titanium::MediaModule>::Class());
+		TITANIUM_ADD_FUNCTION(MediaModule, _postOpenPhotoGallery);
+		TITANIUM_ADD_FUNCTION(MediaModule, _postOpenMusicLibrary);
+	}
+
+	TITANIUM_FUNCTION(MediaModule, _postOpenPhotoGallery)
+	{
+		ENSURE_ARGUMENT_BOUNDS(0);
+		const auto argument = arguments.at(0);
+		ENSURE_STRING_ARRAY(argument, files);
+
+		_postOpenPhotoGallery(files);
+
+		return get_context().CreateUndefined();
+	}
+
+	TITANIUM_FUNCTION(MediaModule, _postOpenMusicLibrary) 
+	{
+		ENSURE_ARGUMENT_BOUNDS(0);
+		const auto argument = arguments.at(0);
+		ENSURE_STRING_ARRAY(argument, files);
+
+		_postOpenMusicLibrary(files);
+
+		return get_context().CreateUndefined();
 	}
 
 	void MediaModule::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT

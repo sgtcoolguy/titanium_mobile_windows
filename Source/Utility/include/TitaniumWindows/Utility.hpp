@@ -70,6 +70,11 @@ namespace TitaniumWindows
 		TITANIUMWINDOWS_UTILITY_EXPORT std::string ConvertUTF8String(::Platform::String^ str);
 
 		//
+		// Convert IVector<Platform::String^> into std::string, concatenated by ","
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT std::string ConvertString(Windows::Foundation::Collections::IVector<::Platform::String^>^ strs);
+
+		//
 		// Convert unsigned char array into plain-text hex std::string
 		//
 		TITANIUMWINDOWS_UTILITY_EXPORT std::string HexString(unsigned char* data, size_t length);
@@ -100,6 +105,7 @@ namespace TitaniumWindows
 		// A tick is equal to 100 nanoseconds, or one ten-millionth of a second
 		//
 		TITANIUMWINDOWS_UTILITY_EXPORT std::chrono::milliseconds GetMSec(const Windows::Foundation::TimeSpan& t);
+		TITANIUMWINDOWS_UTILITY_EXPORT std::chrono::seconds GetSec(const Windows::Foundation::TimeSpan& t);
 
 		//
 		// Get Uri from path

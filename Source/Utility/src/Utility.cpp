@@ -51,6 +51,18 @@ namespace TitaniumWindows
 			return std::string(converter.to_bytes(str->Data()));
 		}
 
+		std::string ConvertString(Windows::Foundation::Collections::IVector<::Platform::String^>^ strs) 
+		{
+			std::stringstream ss;
+			for (std::size_t i = 0; i < strs->Size; i++) {
+				ss << ConvertString(strs->GetAt(i));
+				if (i < strs->Size - 1) {
+					ss << ",";
+				}
+			}
+			return ss.str();
+		}
+
 		//
 		// Convert unsigned char array into plain-text hex std::string
 		//
@@ -123,6 +135,11 @@ namespace TitaniumWindows
 		std::chrono::milliseconds GetMSec(const Windows::Foundation::TimeSpan& t) 
 		{
 			return std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(t.Duration / 10000));
+		}
+
+		std::chrono::seconds GetSec(const Windows::Foundation::TimeSpan& t) 
+		{
+			return std::chrono::duration_cast<std::chrono::seconds>(GetMSec(t));
 		}
 
 		Windows::Foundation::Uri^ GetUriFromPath(const std::string& path) 

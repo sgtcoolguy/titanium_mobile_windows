@@ -255,6 +255,7 @@ namespace TitaniumWindows
 	}
 #endif
 
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
 	void Application::OnActivated(IActivatedEventArgs^ args) 
 	{
 		Windows::UI::Xaml::Application::OnActivated(args);
@@ -280,8 +281,8 @@ namespace TitaniumWindows
 				App->fireEvent("windows.fileOpenFromPicker", event_object);
 			}
 		}
-
 	}
+#endif
 
 	void Application::OnResuming(Object ^sender, Object ^args) 
 	{
