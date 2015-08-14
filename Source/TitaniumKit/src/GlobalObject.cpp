@@ -286,14 +286,20 @@ namespace Titanium
 		if (module_js.empty()) {
 			detail::ThrowRuntimeError("require", "Could not load module " + moduleId);
 		}
-
 		try {
 			JSValue result = js_context.CreateUndefined();
 			if (boost::ends_with(module_path, ".json")){
 				result = js_context.CreateValueFromJSON(module_js);
 			} else if (js_context.JSCheckScriptSyntax(module_js, moduleId)) {
-				const std::vector<JSValue> args = { js_context.CreateString(moduleId), js_context.CreateString(module_js) };
-				result = require_function__(args, js_context.get_global_object());
+				//
+				// app entry point should not be treat as "commonJS module". It exposes every variables to child.
+				//
+				if (moduleId == "/app") {
+					result = js_context.JSEvaluateScript(module_js, js_context.get_global_object());
+				} else {
+					const std::vector<JSValue> args = { js_context.CreateString(moduleId), js_context.CreateString(module_js) };
+					result = require_function__(args, parent);
+				}
 			} else {
 				detail::ThrowRuntimeError("require", "Could not load module "+moduleId);
 			}
