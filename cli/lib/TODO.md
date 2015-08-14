@@ -1,12 +1,10 @@
 = TODO =
-- Generate the types inside the user's app, not in TitaniumWindows module?
-- Walk the user's app.js to record the types needed and use that to determine what to include and register off global?
-	- We'd need a way for the user's app code to be able to register the stuff on the global namespace...
-	- We could also enforce use of "require" and hack require to on-demand register the type on global? Or maybe just have it return a reference to the type?
-- Events
-	- I'm not exposing events/handlers at all - or maybe I am but haven't really hooked them up properly...
-	- We'll likely want to allow users to register a function callback as a handler and do the magic work behind the scenes for them.
-
+- Async methods
+	- We skip them entirely. We need to convert to a Promise like object like WInJS does
+- Avoid recompiling everything on every rebuild
+	- Shouldn't need to recompile anything if no new native types are added
+	- Only compile new types and RequireHook/WindowsNativeModuleLoader if new types/modules added!
+	
 == Improvements to Metadata ==
 - Consistently use "class Name.Of.Class" or "Name.Of.Class" for types. Probably the former.
 - Mark API support for each type. There are types documented that work on windows Phone 10 tehcnical preview, but not 8 or 8.1.

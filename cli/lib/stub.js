@@ -196,12 +196,12 @@ function addEventPropertyTypes(addEventMethod, existingTypes) {
 		event_type_name = normalizeType(invoke_method.args[invoke_method.args.length - 1].type);
 	}
 
-	console.log("Determined event type to be: " + event_type_name);
+	logger.trace("Determined event type to be: " + event_type_name);
 	// Pull the metadata for the actual event object
 	event_type = all_classes[event_type_name];
 	if (!event_type) {
 		// Make this an error?
-		console.log("Unable to find metadata for: " + event_type_name);
+		logger.warn("Unable to find metadata for: " + event_type_name);
 		return;
 	}
 
@@ -423,7 +423,7 @@ function generateWrappers(dest, seeds, next) {
 	// Now that we have the full list of types, let's stub them
 	async.eachLimit(seeds, 25, function(classname, callback) {
 		var classDefinition = all_classes[classname];
-		logger.info('Generating stubs for: ' + classname);
+		logger.debug('Generating stubs for: ' + classname);
 
 		// Skip blacklisted types
 		if (blacklist.indexOf(classname) != -1) {
@@ -445,34 +445,43 @@ function generateWrappers(dest, seeds, next) {
 		}
 
 		// Stub the header
-		//logger.trace("Stubbing header for " + classname);
 		var hpp_file = path.join(__dirname, 'templates', 'Proxy.hpp');
 		fs.readFile(hpp_file, 'utf8', function (err, data) {
 			if (err) callback(err);
 
-			var generated_proxy_header = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends']}, {filename: hpp_file});
-			// TODO Only write new contents if they differ from existing!
-			fs.writeFile(path.join(dest, 'include', classname + '.hpp'), generated_proxy_header, {flags : 'w'}, function(err) {
-				if (err) callback(err);
-			});
+			var destFile = path.join(dest, 'include', classname + '.hpp'),
+				rewrite = true,
+			    generated_proxy_header = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends']}, {filename: hpp_file});
+			// Only write new contents if they differ from existing!
+			if (fs.existsSync(destFile) && fs.readFileSync(destFile).toString() == generated_proxy_header) {
+				logger.debug("Native wrapper header for " + classname + " unchanged, retaining existing file.");
+				rewrite = false;
+			}
+			if (rewrite) {
+				fs.writeFile(destFile, generated_proxy_header, {flags : 'w'}, function(err) {
+					if (err) callback(err);
+				});
+			}
 		});
 
 		// Stub the implementation
-		//logger.trace("Stubbing implementation for " + classname);
 		var cpp_file = path.join(__dirname, 'templates', 'Proxy.cpp');
 		fs.readFile(cpp_file, 'utf8', function (err, data) {
 			if (err) callback(err);
 
 			var destFile = path.join(dest, 'src', classname + '.cpp'),
 				generated_proxy_impl = ejs.render(data, {properties: classDefinition.properties, methods: classDefinition.methods, name: classDefinition.name, metadata: all_classes, parent: classDefinition['extends'], dependencies: classDefinition.dependencies}, {filename: cpp_file});
-			if (fs.existsSync(destFile)) {
-				if (fs.readFileSync(destFile).toString() == generated_proxy_impl) {
-					console.log("Natiev wrapper for " + classname + " unchanged, retaining existing file.");
-					callback();
-					return;
-				}
+			
+			if (classname == 'Platform.Object') {
+				// Treat specially, by hacking in the cast method
+				generated_proxy_impl = generateCasting(generated_proxy_impl, seeds);
 			}
-			// TODO Only write new contents if they differ from existing!
+
+			if (fs.existsSync(destFile) && fs.readFileSync(destFile).toString() == generated_proxy_impl) {
+				logger.debug("Native wrapper implementation for " + classname + " unchanged, retaining existing file.");
+				callback();
+				return;
+			}
 			fs.writeFile(destFile, generated_proxy_impl, {flags : 'w'}, function(err) {
 				if (err) {
 					callback(err);
@@ -517,7 +526,7 @@ function generateCmakeList(dest, seeds, modules, next) {
 		if (fs.existsSync(cmakelist)) {
 			contents = fs.readFileSync(cmakelist).toString();
 			if (contents == data) {
-				console.log("CMakeLists.txt contents unchanged, retaining existing file.");
+				logger.debug("CMakeLists.txt contents unchanged, retaining existing file.");
 				next();
 				return;
 			}
@@ -540,20 +549,17 @@ function generateCmakeList(dest, seeds, modules, next) {
  * @param {Function} next - 
  */
 function generateWindowsNativeModuleLoader(dest, seeds, next) {
-	var native_loader = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp');
+	var native_loader = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp'),
+		template = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp.ejs');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
 	logger.trace("Adding require hook implementation in WindowsNativeModuleLoader.cpp...");
-	fs.readFile(native_loader, 'utf8', function (err, data) {
+	fs.readFile(template, 'utf8', function (err, data) {
 		if (err) throw err;
 
-		var classes = "", // built up includes
-			loader_switch = "", // built up type instantiation/loading code
-			enum_loader = "", // built up block for loading enum dependencies of a type
+		var class_descriptions = {}, // the thing we're building up
 			classname = "", // name of current type in outer loop
-			classDefinition, // definition of current type in outer loop
-			dependency, // current enum dependency
-			enum_dependencies = []; // list of all enum dependencies for this type
+			classDefinition; // definition of current type in outer loop
 
 		// Add our includes
 		for (var i = 0; i < seeds.length; i++) {
@@ -574,43 +580,26 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
 				continue;	
 			}
 
-			classes += "#include \"" + classname + ".hpp\"\r\n";
-			loader_switch += "\t\telse if (path == \"" + classname + "\") {\r\n\t\t\tinstantiated = context.CreateObject(JSExport<::Titanium::" + classname.replace(/\./g, '::') + ">::Class());\r\n";
+			class_descriptions[classname] = {};
 
 			// Load up enum dependencies!
 			// Add dependencies of current type
-			enum_dependencies = getEnumDependencies(classname, all_classes) || [];
-			enum_loader += "\t\telse if (type_name == \"" + classname + "\") {\r\n";
-			// Call registerEnums for parent type too
-			if (classDefinition['extends'] &&
-				classDefinition['extends'].indexOf('[mscorlib]') == -1) {
-				enum_loader += "\t\t\tregisterEnums(context, \"" + classDefinition['extends'] + "\");\r\n";
-			}
-			for (var j = 0; j < enum_dependencies.length; j++) {
-				dependency = enum_dependencies[j];
-			
-				// hook the value up
-				if (store_only_enums.indexOf(dependency) != -1) {
-					enum_loader += "#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP\r\n";
-				}
-				// TODO make use of native_to_js.cpp ejs template for this?
-				enum_loader += "\t\t\tregisterValue(context, \"" + dependency + "\", context.CreateNumber(static_cast<int32_t>(static_cast<int>(::" + dependency.replace(/\./g, '::') + "))));\r\n";		
-				if (store_only_enums.indexOf(dependency) != -1) {
-					enum_loader += "#endif\r\n";
-				}
-			}
-			enum_loader += "\t\t}\r\n";
-			loader_switch += "\t\t\tregisterEnums(context, path);\r\n";
-			loader_switch += "\t\t}\r\n";
-		}
-		loader_switch += "\t\telse {\r\n\t\t\treturn context.CreateUndefined();\r\n\t\t}\r\n\t\t// END_SWITCH";
-		loader_switch = "// INSERT_SWITCH\r\n\t\t" + loader_switch.substring(7); // drop first "\t\telse "
-		enum_loader = "// INSERT_ENUMS\r\n\t\t" + enum_loader.substring(7) + "\t\t// END_ENUMS"; // drop first "\t\telse "
-		classes = "// INSERT_INCLUDES\r\n" + classes + "// END_INCLUDES";
+			class_descriptions[classname].enums = getEnumDependencies(classname, all_classes) || [];
 
-		data = data.substring(0, data.indexOf('// INSERT_INCLUDES')) + classes + data.substring(data.indexOf('// END_INCLUDES') + 15);
-		data = data.substring(0, data.indexOf('// INSERT_SWITCH')) + loader_switch + data.substring(data.indexOf('// END_SWITCH') + 13);
-		data = data.substring(0, data.indexOf('// INSERT_ENUMS')) + enum_loader + data.substring(data.indexOf('// END_ENUMS') + 12);
+			// Call registerEnums for parent type too
+			if (classDefinition['extends'] && classDefinition['extends'].indexOf('[mscorlib]') == -1) {
+				class_descriptions[classname].parent = classDefinition['extends'];
+			}
+		}
+
+		data = ejs.render(data, { classes: class_descriptions, store_only_enums: store_only_enums }, {});
+
+		// if contents haven't changed, don't overwrite so we don't recompile the file
+		if (fs.existsSync(native_loader) && fs.readFileSync(native_loader).toString() == data) {
+			logger.debug("WindowsNativeModuleLoader contents unchanged, retaining existing file.");
+			next();
+			return;
+		}
 
 		fs.writeFile(native_loader, data, function(err) {
 			next(err);
@@ -638,11 +627,12 @@ function getCppClassForModule(moduleId) {
  * @param {Function} next - 
  */
 function generateRequireHook(dest, seeds, modules, next) {
-	var require_hook = path.join(dest, 'src', 'RequireHook.cpp');
+	var require_hook = path.join(dest, 'src', 'RequireHook.cpp'),
+		template = path.join(dest, 'src', 'RequireHook.cpp.ejs');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
 	logger.trace("Adding native API type listing to RequireHook.cpp...");
-	fs.readFile(require_hook, 'utf8', function (err, data) {
+	fs.readFile(template, 'utf8', function (err, data) {
 		if (err) throw err;
 
 		var native_module_includes = [], // built up includes
@@ -691,6 +681,14 @@ function generateRequireHook(dest, seeds, modules, next) {
 			native_modules:native_modules 
 			}, {});
 
+
+		// if contents haven't changed, don't overwrite so we don't recompile the file
+		if (fs.existsSync(require_hook) && fs.readFileSync(require_hook).toString() == data) {
+			logger.debug("RequireHook contents unchanged, retaining existing file.");
+			next();
+			return;
+		}
+
 		fs.writeFile(require_hook, data, function(err) {
 			next(err);
 		});
@@ -700,68 +698,63 @@ function generateRequireHook(dest, seeds, modules, next) {
 /*
  * This adds the real cast implementation to Platform::Object native wrapper allowing us to unwrap,
  * wrap the object in the more specific type wrapper and return that new wrapper.
- * @param {String} dest - 
+ * @param {String} contents - Original contents before adding casting 
  * @param {Array[string]} seeds -
- * @param {Function} callback -  
+ * @return {String} - the new contents with the casting method added 
  */
-function generateCasting(dest, seeds, next) {
+function generateCasting(contents, seeds) {
 	// where do we stick our wrappers?
-	var platform_object_cpp = path.join(dest, 'src', 'Platform.Object.cpp');
 	logger.trace("Adding casting method to Platform.Object implementation...");
-	fs.readFile(platform_object_cpp, 'utf8', function (err, data) {
-		if (err) throw err;
 
-		var classes = "", // built up #includes
-			cast_block = "",
-			classname = "", // name of current type in outer loop
-			classDefinition; // definition of current type in outer loop
+	var data = contents,
+		classes = "", // built up #includes
+		cast_block = "",
+		classname = "", // name of current type in outer loop
+		classDefinition; // definition of current type in outer loop
 
-		// Add our includes
-		for (var i = 0; i < seeds.length; i++) {
-			classname = seeds[i];
-			// Skip blacklisted types
-			if (blacklist.indexOf(classname) != -1) {
-				continue;
-			}
-			classDefinition = all_classes[classname];
-			if (!classDefinition) {
-				logger.warn("Unable to find metadata for: " + classname);
-				continue;
-			}
-			// skip enums and structs
-			if (classDefinition['extends'] && 
-				(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
-				classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
-				continue;	
-			}
-			classes += "#include \"" + classname + ".hpp\"\r\n";
-			cast_block += "\t\t\t\telse if (to_cast == \"" + classname + "\") {\r\n" +
-				"\t\t\t\t\tauto result = context.CreateObject(JSExport<Titanium::" + classname.replace(/\./g, '::') + ">::Class());\r\n" + 
-				"\t\t\t\t\tauto result_wrapper = result.GetPrivate<Titanium::" + classname.replace(/\./g, '::') + ">();\r\n" +
-				"\t\t\t\t\tresult_wrapper->wrap(dynamic_cast<::" + classname.replace(/\./g, '::') + "^>(unwrap()));\r\n" +
-				"\t\t\t\t\treturn result;\r\n" +
-				"\t\t\t\t}\r\n";
+	// Add our includes
+	for (var i = 0; i < seeds.length; i++) {
+		classname = seeds[i];
+		// Skip blacklisted types
+		if (blacklist.indexOf(classname) != -1) {
+			continue;
 		}
-		cast_block = "auto to_cast = static_cast<std::string>(_0);\r\n\t\t\t\t" + cast_block.substring(9); // drop first "\t\telse "
-		classes = "// INSERT_INCLUDES\r\n" + classes + "// END_INCLUDES";
+		classDefinition = all_classes[classname];
+		if (!classDefinition) {
+			logger.warn("Unable to find metadata for: " + classname);
+			continue;
+		}
+		// skip enums and structs
+		if (classDefinition['extends'] && 
+			(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
+			classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
+			continue;	
+		}
+		classes += "#include \"" + classname + ".hpp\"\r\n";
+		cast_block += "\t\t\t\telse if (to_cast == \"" + classname + "\") {\r\n" +
+			"\t\t\t\t\tauto result = context.CreateObject(JSExport<Titanium::" + classname.replace(/\./g, '::') + ">::Class());\r\n" + 
+			"\t\t\t\t\tauto result_wrapper = result.GetPrivate<Titanium::" + classname.replace(/\./g, '::') + ">();\r\n" +
+			"\t\t\t\t\tresult_wrapper->wrap(dynamic_cast<::" + classname.replace(/\./g, '::') + "^>(unwrap()));\r\n" +
+			"\t\t\t\t\treturn result;\r\n" +
+			"\t\t\t\t}\r\n";
+	}
+	cast_block = "auto to_cast = static_cast<std::string>(_0);\r\n\t\t\t\t" + cast_block.substring(9); // drop first "\t\telse "
+	classes = "// INSERT_INCLUDES\r\n" + classes + "// END_INCLUDES";
 
-		var include_index = data.indexOf('#include "Platform.Object.hpp"');
-		data = data.substring(0, include_index) + classes + data.substring(include_index + 31);
+	var include_index = data.indexOf('#include "Platform.Object.hpp"');
+	data = data.substring(0, include_index) + classes + data.substring(include_index + 31);
 
-		// Insert cast block
-		data = data.substring(0, data.indexOf('auto to_cast =')) + cast_block + data.substring(data.indexOf('return result;') + 14);
-		// Replace #include "Platform.Object.hpp" with same includes as native module loader!
+	// Insert cast block
+	data = data.substring(0, data.indexOf('auto to_cast =')) + cast_block + data.substring(data.indexOf('return result;') + 14);
+	// Replace #include "Platform.Object.hpp" with same includes as native module loader!
 
-		// FIXME We need to hack Platform.Object even more! We need to add a callback_map__ as a JSObject protected field
-		// We stick the callback functions from JS into the map by their id returned by hanging the listener?
-		// See GlobalObject.cpp/hpp in TitaniumKit for how.
-		// We could remove usage of add_* methods and force use of add/removeEventListener method from Titanium::Module. We'd have to change how we generate
-		// the wrappers for event handling
-		
-		fs.writeFile(platform_object_cpp, data, function(err) {
-			next(err);
-		});
-	});
+	// FIXME We need to hack Platform.Object even more! We need to add a callback_map__ as a JSObject protected field
+	// We stick the callback functions from JS into the map by their id returned by hanging the listener?
+	// See GlobalObject.cpp/hpp in TitaniumKit for how.
+	// We could remove usage of add_* methods and force use of add/removeEventListener method from Titanium::Module. We'd have to change how we generate
+	// the wrappers for event handling
+
+	return data;
 }
 
 /**
@@ -790,9 +783,6 @@ exports.generate = function generate(dest, seeds, modules, finished) {
 				    },
 				    function(callback) {
 				        generateRequireHook(dest, all_types, modules, callback);
-				    },
-				    function(callback) {
-				        generateCasting(dest, all_types, callback);
 				    }
 				], callback);
 			}

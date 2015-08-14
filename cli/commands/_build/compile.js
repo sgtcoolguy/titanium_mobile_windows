@@ -76,7 +76,7 @@ function compileApp(next) {
 
 		// Use spawn directly so we can pipe output as we go
 		p = spawn(vsInfo.vcvarsall, [
-			'&&', 'MSBuild', '/m', '/t:rebuild', '/p:Platform=' + _t.cmakeArch, '/p:Configuration=' + _t.buildConfiguration, slnFile
+			'&&', 'MSBuild', '/m', '/p:Platform=' + _t.cmakeArch, '/p:Configuration=' + _t.buildConfiguration, slnFile
 		]);
 		p.stdout.on('data', function (data) {
 			var line = data.toString().trim();
