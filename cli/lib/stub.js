@@ -549,20 +549,17 @@ function generateCmakeList(dest, seeds, modules, next) {
  * @param {Function} next - 
  */
 function generateWindowsNativeModuleLoader(dest, seeds, next) {
-	var native_loader = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp');
+	var native_loader = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp'),
+		template = path.join(dest, 'src', 'WindowsNativeModuleLoader.cpp.ejs');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
 	logger.trace("Adding require hook implementation in WindowsNativeModuleLoader.cpp...");
-	fs.readFile(native_loader, 'utf8', function (err, data) {
+	fs.readFile(template, 'utf8', function (err, data) {
 		if (err) throw err;
 
-		var classes = "", // built up includes
-			loader_switch = "", // built up type instantiation/loading code
-			enum_loader = "", // built up block for loading enum dependencies of a type
+		var class_descriptions = {}, // the thing we're building up
 			classname = "", // name of current type in outer loop
-			classDefinition, // definition of current type in outer loop
-			dependency, // current enum dependency
-			enum_dependencies = []; // list of all enum dependencies for this type
+			classDefinition; // definition of current type in outer loop
 
 		// Add our includes
 		for (var i = 0; i < seeds.length; i++) {
@@ -583,43 +580,19 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
 				continue;	
 			}
 
-			classes += "#include \"" + classname + ".hpp\"\r\n";
-			loader_switch += "\t\telse if (path == \"" + classname + "\") {\r\n\t\t\tinstantiated = context.CreateObject(JSExport<::Titanium::" + classname.replace(/\./g, '::') + ">::Class());\r\n";
+			class_descriptions[classname] = {};
 
 			// Load up enum dependencies!
 			// Add dependencies of current type
-			enum_dependencies = getEnumDependencies(classname, all_classes) || [];
-			enum_loader += "\t\telse if (type_name == \"" + classname + "\") {\r\n";
-			// Call registerEnums for parent type too
-			if (classDefinition['extends'] &&
-				classDefinition['extends'].indexOf('[mscorlib]') == -1) {
-				enum_loader += "\t\t\tregisterEnums(context, \"" + classDefinition['extends'] + "\");\r\n";
-			}
-			for (var j = 0; j < enum_dependencies.length; j++) {
-				dependency = enum_dependencies[j];
-			
-				// hook the value up
-				if (store_only_enums.indexOf(dependency) != -1) {
-					enum_loader += "#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP\r\n";
-				}
-				// TODO make use of native_to_js.cpp ejs template for this?
-				enum_loader += "\t\t\tregisterValue(context, \"" + dependency + "\", context.CreateNumber(static_cast<int32_t>(static_cast<int>(::" + dependency.replace(/\./g, '::') + "))));\r\n";		
-				if (store_only_enums.indexOf(dependency) != -1) {
-					enum_loader += "#endif\r\n";
-				}
-			}
-			enum_loader += "\t\t}\r\n";
-			loader_switch += "\t\t\tregisterEnums(context, path);\r\n";
-			loader_switch += "\t\t}\r\n";
-		}
-		loader_switch += "\t\telse {\r\n\t\t\treturn context.CreateUndefined();\r\n\t\t}\r\n\t\t// END_SWITCH";
-		loader_switch = "// INSERT_SWITCH\r\n\t\t" + loader_switch.substring(7); // drop first "\t\telse "
-		enum_loader = "// INSERT_ENUMS\r\n\t\t" + enum_loader.substring(7) + "\t\t// END_ENUMS"; // drop first "\t\telse "
-		classes = "// INSERT_INCLUDES\r\n" + classes + "// END_INCLUDES";
+			class_descriptions[classname].enums = getEnumDependencies(classname, all_classes) || [];
 
-		data = data.substring(0, data.indexOf('// INSERT_INCLUDES')) + classes + data.substring(data.indexOf('// END_INCLUDES') + 15);
-		data = data.substring(0, data.indexOf('// INSERT_SWITCH')) + loader_switch + data.substring(data.indexOf('// END_SWITCH') + 13);
-		data = data.substring(0, data.indexOf('// INSERT_ENUMS')) + enum_loader + data.substring(data.indexOf('// END_ENUMS') + 12);
+			// Call registerEnums for parent type too
+			if (classDefinition['extends'] && classDefinition['extends'].indexOf('[mscorlib]') == -1) {
+				class_descriptions[classname].parent = classDefinition['extends'];
+			}
+		}
+
+		data = ejs.render(data, { classes: class_descriptions, store_only_enums: store_only_enums }, {});
 
 		// if contents haven't changed, don't overwrite so we don't recompile the file
 		if (fs.existsSync(native_loader) && fs.readFileSync(native_loader).toString() == data) {
@@ -654,11 +627,12 @@ function getCppClassForModule(moduleId) {
  * @param {Function} next - 
  */
 function generateRequireHook(dest, seeds, modules, next) {
-	var require_hook = path.join(dest, 'src', 'RequireHook.cpp');
+	var require_hook = path.join(dest, 'src', 'RequireHook.cpp'),
+		template = path.join(dest, 'src', 'RequireHook.cpp.ejs');
 	// Now we'll add all the types we know about as includes into our require hook class
 	// This let's us load these types by name using require!
 	logger.trace("Adding native API type listing to RequireHook.cpp...");
-	fs.readFile(require_hook, 'utf8', function (err, data) {
+	fs.readFile(template, 'utf8', function (err, data) {
 		if (err) throw err;
 
 		var native_module_includes = [], // built up includes
