@@ -14,6 +14,7 @@
 #include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/Point.hpp"
 #include "Titanium/UI/Dimension.hpp"
+#include "Titanium/UI/ViewInsertOrReplaceParams.hpp"
 
 namespace Titanium
 {
@@ -56,6 +57,9 @@ namespace Titanium
 			*/
 			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
 			virtual void remove(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
+
+			virtual void insertAt(const ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT;
+			virtual void replaceAt(const ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT;
 
 			virtual void animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT;
 

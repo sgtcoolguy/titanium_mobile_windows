@@ -75,6 +75,12 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutDelegate::add(view);
 
+			const Titanium::UI::ViewInsertOrReplaceParams defaultParams;
+			add(view, defaultParams);
+		}
+
+		void WindowsViewLayoutDelegate::add(const std::shared_ptr<Titanium::UI::View>& view, const Titanium::UI::ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT
+		{
 			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
 
 			if (nativeView == nullptr) {
@@ -90,13 +96,29 @@ namespace TitaniumWindows
 					requestLayout();
 				}
 				try {
-					nativeView->Children->Append(nativeChildView);
+					if (params.view != nullptr) {
+						nativeView->Children->InsertAt(params.position, nativeChildView);
+					} else {
+						nativeView->Children->Append(nativeChildView);
+					}
 				} catch(Platform::Exception^ e) {
 					detail::ThrowRuntimeError("add", Utility::ConvertString(e->Message));
 				}
 			} else {
 				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::add: Unknown child component");
 			}
+		}
+
+		void WindowsViewLayoutDelegate::insertAt(const Titanium::UI::ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::insertAt(params);
+			add(params.view, params);
+		}
+
+		void WindowsViewLayoutDelegate::replaceAt(const Titanium::UI::ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT
+		{
+			remove(get_children().at(params.position));
+			insertAt(params);
 		}
 
 		bool WindowsViewLayoutDelegate::get_visible() const TITANIUM_NOEXCEPT

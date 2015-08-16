@@ -295,6 +295,8 @@ set(SOURCE_UI
   src/UI/WebView.cpp
   include/Titanium/UI/Window.hpp
   src/UI/Window.cpp
+  include/Titanium/UI/ViewInsertOrReplaceParams.hpp
+  src/UI/ViewInsertOrReplaceParams.cpp
   )
 
 set(SOURCE_TiLogger_detail

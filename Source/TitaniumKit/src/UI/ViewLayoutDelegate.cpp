@@ -46,6 +46,17 @@ namespace Titanium
 			}
 		}
 
+		void ViewLayoutDelegate::insertAt(const ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT
+		{
+			children__.insert(children__.begin() + params.position, params.view);
+		}
+
+		void ViewLayoutDelegate::replaceAt(const ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT
+		{
+			children__.erase(children__.begin() + params.position);
+			children__.insert(children__.begin() + params.position, params.view);
+		}
+
 		void ViewLayoutDelegate::animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ViewLayoutDelegate::animate: Unimplemented");
