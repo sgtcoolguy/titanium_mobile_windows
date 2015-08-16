@@ -302,6 +302,17 @@ namespace TitaniumWindows
 			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
 
 			/*!
+			@method
+
+			@abstract zIndex : Number
+
+			@discussion Z-index stack order position, relative to other sibling views.
+			A view does not have a default z-index value, meaning that it is undefined by default. When this property is explicitly set,
+			regardless of its value, it causes the view to be positioned in front of any sibling that has an undefined z-index.
+			*/
+			virtual void set_zIndex(const double& zIndex) TITANIUM_NOEXCEPT override;
+
+			/*!
 			  @method
 
 			  @abstract visible : Boolean

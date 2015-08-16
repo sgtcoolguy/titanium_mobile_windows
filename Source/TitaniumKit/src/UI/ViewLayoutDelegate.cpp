@@ -300,6 +300,16 @@ namespace Titanium
 			autoLayoutForHeight__ = value;
 		}
 
+		double ViewLayoutDelegate::get_zIndex() const TITANIUM_NOEXCEPT
+		{
+			return zIndex__;
+		}
+
+		void ViewLayoutDelegate::set_zIndex(const double& zIndex) TITANIUM_NOEXCEPT
+		{
+			zIndex__ = zIndex;
+		}
+
 		void ViewLayoutDelegate::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ViewLayoutDelegate::disableEvent: Unimplemented");

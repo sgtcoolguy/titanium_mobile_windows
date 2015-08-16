@@ -397,6 +397,18 @@ namespace Titanium
 			virtual void set_autoLayoutForHeight(const Titanium::UI::LAYOUT&) TITANIUM_NOEXCEPT;
 			virtual void set_autoLayoutForWidth(const Titanium::UI::LAYOUT&) TITANIUM_NOEXCEPT;
 
+			/*!
+			@method
+
+			@abstract zIndex : Number
+
+			@discussion Z-index stack order position, relative to other sibling views.
+			A view does not have a default z-index value, meaning that it is undefined by default. When this property is explicitly set,
+			regardless of its value, it causes the view to be positioned in front of any sibling that has an undefined z-index.
+			*/
+			virtual double get_zIndex() const TITANIUM_NOEXCEPT;
+			virtual void set_zIndex(const double& zIndex) TITANIUM_NOEXCEPT;
+
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
 
@@ -435,6 +447,7 @@ namespace Titanium
 			std::string tintColor__;
 			bool touchEnabled__;
 			bool visible__;
+			double zIndex__;
 
 			Titanium::UI::LAYOUT defaultWidth__;
 			Titanium::UI::LAYOUT defaultHeight__;
