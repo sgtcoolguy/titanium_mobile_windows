@@ -75,12 +75,6 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutDelegate::add(view);
 
-			const Titanium::UI::ViewInsertOrReplaceParams defaultParams;
-			add(view, defaultParams);
-		}
-
-		void WindowsViewLayoutDelegate::add(const std::shared_ptr<Titanium::UI::View>& view, const Titanium::UI::ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT
-		{
 			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
 
 			if (nativeView == nullptr) {
@@ -96,12 +90,8 @@ namespace TitaniumWindows
 					requestLayout();
 				}
 				try {
-					if (params.view != nullptr) {
-						nativeView->Children->InsertAt(params.position, nativeChildView);
-					} else {
-						nativeView->Children->Append(nativeChildView);
-					}
-				} catch(Platform::Exception^ e) {
+					nativeView->Children->Append(nativeChildView);
+				} catch (Platform::Exception^ e) {
 					detail::ThrowRuntimeError("add", Utility::ConvertString(e->Message));
 				}
 			} else {
@@ -112,7 +102,29 @@ namespace TitaniumWindows
 		void WindowsViewLayoutDelegate::insertAt(const Titanium::UI::ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::insertAt(params);
-			add(params.view, params);
+
+			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
+
+			if (nativeView == nullptr) {
+				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::insertAt: Unknown component");
+				return;
+			}
+
+			auto newView = params.view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
+			auto nativeChildView = newView->getComponent();
+			if (nativeChildView != nullptr) {
+				Titanium::LayoutEngine::nodeInsertChildAt(layout_node__, newView->getLayoutNode(), params.position);
+				if (isLoaded()) {
+					requestLayout();
+				}
+				try {
+					nativeView->Children->InsertAt(params.position, nativeChildView);
+				} catch (Platform::Exception^ e) {
+					detail::ThrowRuntimeError("insertAt", Utility::ConvertString(e->Message));
+				}
+			} else {
+				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::insertAt: Unknown child component");
+			}
 		}
 
 		void WindowsViewLayoutDelegate::replaceAt(const Titanium::UI::ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT

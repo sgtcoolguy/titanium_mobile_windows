@@ -36,7 +36,6 @@ namespace TitaniumWindows
 			  @result void
 			*/
 			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT override;
-			virtual void add(const std::shared_ptr<Titanium::UI::View>& view, const Titanium::UI::ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT;
 			virtual void remove(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT override;
 			virtual void insertAt(const Titanium::UI::ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT;
 			virtual void replaceAt(const Titanium::UI::ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT;

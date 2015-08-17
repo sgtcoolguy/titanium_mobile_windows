@@ -63,5 +63,10 @@ namespace Titanium
 				parent->children.erase(i);
 			}
 		}
+
+		void insertChildElementAt(Element* parent, Element* child, unsigned int index) 
+		{
+			parent->children.insert(parent->children.begin() + index, child);
+		}
 	} // namespace LayoutEngine
 } // namespace Titanium
