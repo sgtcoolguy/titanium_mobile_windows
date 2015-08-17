@@ -666,10 +666,10 @@ namespace TitaniumWindows
 		{
 			using namespace Windows::UI::Xaml::Controls;
 			using namespace Windows::UI::Xaml;
-			if (is_height_size__ && rect.height == 0)
-				return;
-			if (is_width_size__ && rect.width == 0)
-				return;
+			
+			auto skipHeight = (is_height_size__ && rect.height == 0);
+			auto skipWidth  = (is_width_size__  && rect.width  == 0);
+
 			if (rect.width < 0 || rect.height < 0)
 				return;
 			if (Titanium::LayoutEngine::RectIsEmpty(rect))
@@ -705,10 +705,10 @@ namespace TitaniumWindows
 			}
 
 			// Use actual size when LayoutEngine does nothing against the component size
-			if (rect.height <= 0) {
+			if (!skipHeight && rect.height <= 0) {
 				rect.height = component->ActualHeight;
 			}
-			if (rect.width <= 0) {
+			if (!skipWidth && rect.width <= 0) {
 				rect.width = component->ActualWidth;
 			}
 
@@ -721,7 +721,7 @@ namespace TitaniumWindows
 				setHeight = true;
 			}
 
-			if ((!is_panel__ && setWidthOnWidget) || setWidth) {
+			if (!skipWidth && ((!is_panel__ && setWidthOnWidget) || setWidth)) {
 				if (layout_node__->properties.left.valueType != Titanium::LayoutEngine::None &&
 					layout_node__->properties.right.valueType != Titanium::LayoutEngine::None &&
 					component->ActualWidth == rect.width) {
@@ -730,7 +730,7 @@ namespace TitaniumWindows
 				component->Width = rect.width;
 			}
 
-			if ((!is_panel__ && setHeightOnWidget) || setHeight) {
+			if (!skipHeight && ((!is_panel__ && setHeightOnWidget) || setHeight)) {
 				if (layout_node__->properties.top.valueType != Titanium::LayoutEngine::None &&
 					layout_node__->properties.bottom.valueType != Titanium::LayoutEngine::None &&
 					component->ActualHeight == rect.height) {
