@@ -577,7 +577,7 @@ namespace TitaniumWindows
 
 			auto element = dynamic_cast<Windows::UI::Xaml::UIElement^>(component__);
 			if (element != nullptr) {
-				Windows::UI::Xaml::Controls::Canvas::SetZIndex(element, zIndex);
+				Windows::UI::Xaml::Controls::Canvas::SetZIndex(element, static_cast<int>(zIndex));
 			} else {
 				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_zIndex is not supported for this component");
 			}
