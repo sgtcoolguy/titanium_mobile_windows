@@ -16,17 +16,32 @@ if (type.indexOf('class ') == 0) {
 if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 	// Strip off the [], then proceed knowing it's an array...
 	type = type.substring(0, type.length - 2);
+	// FIXME What if the type is a primitive like uint8? We need to assume an array, but convert each elememt like primitive
 -%>
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");
 			auto object_<%= argument_name %> = static_cast<JSObject>(<%= argument_name %>);
 			TITANIUM_ASSERT(object_<%= argument_name %>.IsArray());
 			const auto array_<%= argument_name %> = static_cast<JSArray>(object_<%= argument_name %>);
+<%
+	if (type == 'uint8') {
+		// array of primitives
+-%>
+			auto <%= to_assign %> = ref new ::Platform::Array<<%= type %>>(array_<%= argument_name %>.GetLength());
+			for (size_t i = 0; i < array_<%= argument_name %>.GetLength(); ++i) {
+				<%- include('js_to_native_primitive.cpp', {to_assign: 'tmp', argument_name: 'array_' + argument_name + '.GetProperty(i)'}) -%>
+				<%= to_assign %>[i] = tmp;
+			}
+<%
+	} else {
+		// assume array of normal classes
+-%>
 			auto items_<%= argument_name %> = array_<%= argument_name %>.GetPrivateItems<<%= type.replace(/\./g, '::') %>>(); // std::vector<std::shared_ptr<<%= type.replace(/\./g, '::') %>>
 			auto <%= to_assign %> = ref new ::Platform::Array<::<%= type.replace(/\./g, '::') %>^>(items_<%= argument_name %>.size());
 			for (size_t i = 0; i < items_<%= argument_name %>.size(); ++i) {
-				items[i] = items_<%= argument_name %>.at(i)->unwrap<%= type.replace(/\./g, '_') %>();
+				<%= to_assign %>[i] = items_<%= argument_name %>.at(i)->unwrap<%= type.replace(/\./g, '_') %>();
 			}
 <%
+	}
 } else  if (type.indexOf('.IIterator') != -1) { // IIterator
 	// Pull out the internal type!
 	type = type.substring(type.indexOf('`1<') + 3, type.length - 1);
@@ -47,12 +62,22 @@ if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 } else if (type.indexOf('.IVector') != -1 || type.indexOf('.IIterable') != -1) { // IVector/IIterable
 	// Pull out the internal type!
 	type = type.substring(type.indexOf('`1<') + 3, type.length - 1);
-	if (type == 'object') {
-		type = 'Platform.Object';
+	// If the inner type is an IKeyValuePair, we should treat as an IMap
+	if (type.indexOf('class Windows.Foundation.Collections.IKeyValuePair`2<') == 0) {
+		type = type.substring(type.indexOf('`2<') + 3, type.length - 1);
+		// Treat as a map
+		type = 'Windows.Foundation.Collections.IMap`2<' + type + '>';
+-%>
+			<%- include('js_to_native_class.cpp', {type: type, metadata: metadata, to_assign: to_assign, argument_name: argument_name }) -%>
+<%
 	}
-	if (type.indexOf('class ') == 0) {
-		type = type.substring(6);
-	}
+	else {
+		if (type == 'object') {
+			type = 'Platform.Object';
+		}
+		if (type.indexOf('class ') == 0) {
+			type = type.substring(6);
+		}
 -%>
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");
 			auto object_<%= argument_name %> = static_cast<JSObject>(<%= argument_name %>);
@@ -60,9 +85,9 @@ if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 			const auto array_<%= argument_name %> = static_cast<JSArray>(object_<%= argument_name %>);
 <%
 
-	if (type == 'string') {
-		type = 'Platform.String'; // FIXME When it's strings, we need to handle them totally differently! We can't do GetPrivateItems
-		// we cast to a vectore of std::string, then convert thos to platform strings
+		if (type == 'string') {
+			type = 'Platform.String'; // FIXME When it's strings, we need to handle them totally differently! We can't do GetPrivateItems
+			// we cast to a vector of std::string, then convert those to platform strings
 -%>
 			auto items_<%= argument_name %> = static_cast<std::vector<std::string>>(array_<%= argument_name %>);
 			auto <%= to_assign %> = ref new ::Platform::Collections::Vector<::<%- type.replace(/\./g, '::') %>^>();
@@ -71,7 +96,7 @@ if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 				 <%= to_assign %>->Append(TitaniumWindows::Utility::ConvertUTF8String(items_<%= argument_name %>[i]));
 			}
 <%
-	} else { // Assume typical classes
+		} else { // Assume typical classes
 -%>
 			auto items_<%= argument_name %> = array_<%= argument_name %>.GetPrivateItems<<%= type.replace(/\./g, '::') %>>(); // std::vector<std::shared_ptr<<%= type.replace(/\./g, '::') %>>
 			auto <%= to_assign %> = ref new ::Platform::Collections::Vector<::<%- type.replace(/\./g, '::') %>^>();
@@ -79,6 +104,7 @@ if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 				 <%= to_assign %>->Append(items_<%= argument_name %>[i]->unwrap<%= type.replace(/\./g, '_') %>());
 			}
 <%
+		}
 	}
 } else if (type.indexOf('.IMapView') != -1) { // IMapView
 	// Pull out the internal types for key and value!
@@ -108,6 +134,7 @@ if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 	if (value_type_name == 'object') {
 		value_type_name = 'Platform.Object';
 	}
+	// TODO if it's IKeyValuePair/IMap<string, object>, we should treat as JSObject?
 	// TODO normalize the key/value type names!
 	// could be 'string' or 'object'!
 -%>

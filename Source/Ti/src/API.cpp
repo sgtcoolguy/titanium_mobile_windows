@@ -50,7 +50,13 @@ namespace TitaniumWindows
 
 				// Parse stream with INI parser
 				boost::property_tree::ptree pt;
-				boost::property_tree::ini_parser::read_ini(ss, pt);
+				try {
+					boost::property_tree::ini_parser::read_ini(ss, pt);
+				}
+				catch (...) {
+					read_event.set();
+					return; // file wasn't expected format
+				}
 
 				// Now pull out the ips/secret/port from the map
 				auto port = std::make_shared<Platform::String^>(TitaniumWindows::Utility::ConvertString(pt.get<std::string>("tcpPort", "8666")));

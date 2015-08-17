@@ -100,7 +100,7 @@ if (event_type) {
 		if (event_type.properties[property_name]['setter']) {
 -%>	
 					auto <%= property_name %>_orig = e-><%= property_name %>;
-					<%- include('native_to_js.cpp', {type: event_type.properties[property_name].returnType, metadata: metadata, to_assign: property_name + '_', argument_name: property_name + '_orig' }) -%>
+					<%- include('native_to_js.cpp', {type: event_type.properties[property_name].returnType, metadata: metadata, to_assign: property_name + '_', argument_name: property_name + '_orig', context_name: 'context' }) -%>
 					eventArgs.SetProperty("<%= property_name %>", <%= property_name %>_);
 <%
 		}
