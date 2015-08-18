@@ -989,31 +989,51 @@ describe("Titanium.UI.Layout", function () {
         
     });
     */
+
+    it("twoPins", function (finish) {
+        var win = createWindow({}, finish);
+        var view = Ti.UI.createView({
+            width: 100,
+            height: 100
+        });
+        var inner_view = Ti.UI.createView({
+            left: 10,
+            right: 10
+        });
+        view.add(inner_view);
+        win.add(view);
+        win.addEventListener("postlayout", function (e) {
+            should(inner_view.size.width).eql(80);
+            should(inner_view.rect.width).eql(80);
+        });
+        win.open();
+    });
+
     it("fourPins", function (finish) {
         var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             width: 100,
             height: 100
         });
-        var label = Ti.UI.createLabel({
+        var inner_view = Ti.UI.createView({
             left: 10,
             right: 10,
             top: 10,
             bottom: 10
         });
-        view.add(label);
+        view.add(inner_view);
         win.add(view);
         win.addEventListener("postlayout", function (e) {
-            should(label.size.width).eql(80);
-            should(label.size.height).eql(80);
-            should(label.left).eql(10);
-            should(label.right).eql(10);
-            should(label.top).eql(10);
-            should(label.bottom).eql(10);
-            should(label.rect.x).eql(10);
-            should(label.rect.width).eql(80);
-            should(label.rect.y).eql(10);
-            should(label.rect.height).eql(80);
+            should(inner_view.size.width).eql(80);
+            should(inner_view.size.height).eql(80);
+            should(inner_view.left).eql(10);
+            should(inner_view.right).eql(10);
+            should(inner_view.top).eql(10);
+            should(inner_view.bottom).eql(10);
+            should(inner_view.rect.x).eql(10);
+            should(inner_view.rect.width).eql(80);
+            should(inner_view.rect.y).eql(10);
+            should(inner_view.rect.height).eql(80);
         });
         win.open();
     });
