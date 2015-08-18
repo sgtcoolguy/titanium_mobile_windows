@@ -61,6 +61,8 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(View, hide);
 			TITANIUM_ADD_FUNCTION(View, remove);
 			TITANIUM_ADD_FUNCTION(View, show);
+			TITANIUM_ADD_FUNCTION(View, insertAt);
+			TITANIUM_ADD_FUNCTION(View, replaceAt);
 
 			// properties
 			TITANIUM_ADD_PROPERTY(View, backgroundColor);
@@ -140,6 +142,22 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(arguments.size() == 0);
 			layoutDelegate__->show();
+			return get_context().CreateUndefined();
+		}
+
+		TITANIUM_FUNCTION(View, insertAt)
+		{
+			ENSURE_OBJECT_AT_INDEX(params, 0);
+
+			layoutDelegate__->insertAt(js_to_ViewInsertOrReplaceParams(params));
+			return get_context().CreateUndefined();
+		}
+
+		TITANIUM_FUNCTION(View, replaceAt)
+		{
+			ENSURE_OBJECT_AT_INDEX(params, 0);
+
+			layoutDelegate__->replaceAt(js_to_ViewInsertOrReplaceParams(params));
 			return get_context().CreateUndefined();
 		}
 

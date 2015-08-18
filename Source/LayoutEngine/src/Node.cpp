@@ -46,6 +46,38 @@ namespace Titanium
 			removeChildElement(&parent->element, &child->element);
 		}
 
+		void nodeInsertChildAt(struct Node* parent, struct Node* child, unsigned int index) 
+		{
+			child->parent = parent;
+
+			// find target node
+			unsigned int node_index = 0;
+			auto node = parent->firstChild;
+			while (node) {
+				if (node_index == index) {
+					break;
+				}
+				node = node->next;
+				node_index++;
+			}
+
+			if (node_index == index) {
+				// reset node link
+				child->prev = node->prev;
+				child->next = node;
+				child->next->prev = child;
+				if (child->prev) {
+					child->prev->next = child;
+				}
+				if (index == 0) {
+					parent->firstChild = child;
+				}
+				insertChildElementAt(&parent->element, &child->element, index);
+			} else {
+				nodeAddChild(parent, child);
+			}
+		}
+
 		struct Node* nodeRequestLayout(struct Node* node)
 		{
 			while (node->parent != nullptr) {

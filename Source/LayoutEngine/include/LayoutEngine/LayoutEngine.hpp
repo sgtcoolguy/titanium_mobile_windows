@@ -185,8 +185,10 @@ namespace Titanium
 		//void nodeSetLayoutType(struct Node* node, const char* type);
 		void addChildElement(Element* parent, Element* child);
 		void removeChildElement(struct Element* parent, struct Element* child);
+		void insertChildElementAt(Element* parent, Element* child, unsigned int index);
 		void nodeAddChild(struct Node* parent, struct Node* child);
 		void nodeRemoveChild(struct Node* parent, struct Node* child);
+		void nodeInsertChildAt(struct Node* parent, struct Node* child, unsigned int index);
 		struct Node* nodeRequestLayout(struct Node* node);
 		void nodeLayout(struct Node* root);
 

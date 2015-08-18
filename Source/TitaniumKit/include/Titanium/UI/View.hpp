@@ -76,6 +76,8 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(hide);
 			TITANIUM_FUNCTION_DEF(remove);
 			TITANIUM_FUNCTION_DEF(show);
+			TITANIUM_FUNCTION_DEF(insertAt);
+			TITANIUM_FUNCTION_DEF(replaceAt);
 			
 			TITANIUM_PROPERTY_DEF(backgroundColor);
 			TITANIUM_PROPERTY_DEF(borderColor);
