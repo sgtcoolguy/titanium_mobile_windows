@@ -175,6 +175,24 @@ describe("Titanium.Network.HTTPClient", function () {
         xhr.send();
     });
 
+    it("sendData", function (finish) {
+        this.timeout(3e4);
+        var xhr = Ti.Network.createHTTPClient();
+        xhr.setTimeout(3e4);
+        xhr.onload = function (e) {
+            finish();
+        };
+        xhr.onerror = function (e) {
+            Ti.API.debug(e);
+            finish(new Error('failed to send data: ' + e));
+        };
+        xhr.open("POST", "http://www.ambientreality.com/ingot/post_test.php");
+        xhr.send({
+            message: "check me out",
+            numericid: 1234
+        });
+    });
+
     // Confirms that only the selected cookie is deleted
     it.skip("clearCookiePositiveTest", function (finish) {
         this.timeout(3e4);
