@@ -298,14 +298,18 @@ namespace Titanium
 					for (const auto& property_name : static_cast<std::vector<JSString>>(sendArgs.GetPropertyNames())) {
 						TITANIUM_ASSERT(sendArgs.GetProperty(property_name).IsObject() || sendArgs.GetProperty(property_name).IsString());
 						JSValue prop = sendArgs.GetProperty(property_name);
-						if (prop.IsString()) {
-							std::string str = static_cast<std::string>(prop);
-							std::vector<std::uint8_t> data(str.begin(), str.end());
-							map.insert(std::make_pair(property_name, data));
-						} else {
+						if (prop.IsObject()) {
 							useMultipartForm = true;
 							auto blob_ptr = static_cast<JSObject>(prop).GetPrivate<Titanium::Blob>();
-							map.insert(std::make_pair(property_name, blob_ptr->getData()));
+							if (blob_ptr != nullptr) {
+								map.insert(std::make_pair(property_name, blob_ptr->getData()));
+							} else {
+								std::string str = static_cast<std::string>(prop);
+								map.insert(std::make_pair(property_name, std::vector<std::uint8_t>(str.begin(), str.end())));
+							}
+						} else {
+							std::string str = static_cast<std::string>(prop);
+							map.insert(std::make_pair(property_name, std::vector<std::uint8_t>(str.begin(), str.end())));
 						}
 					}
 					send(map, useMultipartForm);
