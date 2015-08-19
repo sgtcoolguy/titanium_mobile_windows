@@ -98,6 +98,7 @@ namespace Titanium
 			TITANIUM_PROPERTY_DEF(visible);
 			TITANIUM_PROPERTY_DEF(top);
 			TITANIUM_PROPERTY_DEF(width);
+			TITANIUM_PROPERTY_DEF(zIndex);
 
 			virtual void postInitialize(JSObject& this_object) override;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;

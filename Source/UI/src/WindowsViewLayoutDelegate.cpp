@@ -605,6 +605,19 @@ namespace TitaniumWindows
 			}
 		}
 
+		void WindowsViewLayoutDelegate::set_zIndex(const int32_t& zIndex) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_zIndex(zIndex);
+
+			auto element = dynamic_cast<Windows::UI::Xaml::UIElement^>(component__);
+			if (element != nullptr) {
+				Windows::UI::Xaml::Controls::Canvas::SetZIndex(element, zIndex);
+			} else {
+				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_zIndex is not supported for this component");
+			}
+		}
+
+
 		void WindowsViewLayoutDelegate::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
 			if (event_name == "focus") {

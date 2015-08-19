@@ -84,6 +84,7 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(View, touchEnabled);
 			TITANIUM_ADD_PROPERTY(View, visible);
 			TITANIUM_ADD_PROPERTY(View, width);
+			TITANIUM_ADD_PROPERTY(View, zIndex);
 		}
 
 		TITANIUM_FUNCTION(View, add)
@@ -375,6 +376,18 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
 			layoutDelegate__->set_width(static_cast<std::string>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, zIndex) 
+		{
+			return get_context().CreateNumber(layoutDelegate__->get_zIndex());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, zIndex) 
+		{
+			TITANIUM_ASSERT(argument.IsNumber());
+			layoutDelegate__->set_zIndex(static_cast<std::int32_t>(argument));
 			return true;
 		}
 
