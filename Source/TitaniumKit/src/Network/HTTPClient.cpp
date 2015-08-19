@@ -597,100 +597,125 @@ namespace Titanium
 		////// slots
 		void HTTPClient::onload(const std::uint32_t code, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
-			if (onload__.IsObject()) {
-				auto onload = static_cast<JSObject>(onload__);
-				if (onload.IsFunction()) {
-					const JSContext ctx = get_context();
+			try {
+				if (onload__.IsObject()) {
+					auto onload = static_cast<JSObject>(onload__);
+					if (onload.IsFunction()) {
+						const JSContext ctx = get_context();
 
-					JSObject this_object = get_object();
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("code", ctx.CreateNumber(code));
-					eventArgs.SetProperty("error", ctx.CreateString(error));
-					eventArgs.SetProperty("success", ctx.CreateBoolean(success));
+						JSObject this_object = get_object();
+						JSObject eventArgs = ctx.CreateObject();
+						eventArgs.SetProperty("code", ctx.CreateNumber(code));
+						eventArgs.SetProperty("error", ctx.CreateString(error));
+						eventArgs.SetProperty("success", ctx.CreateBoolean(success));
 
-					std::vector<JSValue> arguments;
-					arguments.push_back(eventArgs);
+						std::vector<JSValue> arguments;
+						arguments.push_back(eventArgs);
 
-					onload(arguments, this_object);
+						onload(arguments, this_object);
+					}
 				}
+			} catch (...) {
+				// TODO: Need to revisit - HTTPClient basically lacks exception handling during callback
+				TITANIUM_LOG_WARN("Error during HttpClient:onload");
 			}
 		}
 
 		void HTTPClient::onerror(const std::uint32_t code, const std::string error, const bool success) TITANIUM_NOEXCEPT
 		{
-			if (onerror__.IsObject()) {
-				auto onerror = static_cast<JSObject>(onerror__);
-				if (onerror.IsFunction()) {
-					const JSContext ctx = get_context();
+			try {
+				if (onerror__.IsObject()) {
+					auto onerror = static_cast<JSObject>(onerror__);
+					if (onerror.IsFunction()) {
+						const JSContext ctx = get_context();
 
-					JSObject this_object = get_object();
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("code", ctx.CreateNumber(code));
-					eventArgs.SetProperty("error", ctx.CreateString(error));
-					eventArgs.SetProperty("success", ctx.CreateBoolean(success));
+						JSObject this_object = get_object();
+						JSObject eventArgs = ctx.CreateObject();
+						eventArgs.SetProperty("code", ctx.CreateNumber(code));
+						eventArgs.SetProperty("error", ctx.CreateString(error));
+						eventArgs.SetProperty("success", ctx.CreateBoolean(success));
 
-					std::vector<JSValue> arguments;
-					arguments.push_back(eventArgs);
+						std::vector<JSValue> arguments;
+						arguments.push_back(eventArgs);
 
-					onerror(arguments, this_object);
+						onerror(arguments, this_object);
+					}
 				}
+			} catch (...) {
+				// TODO: Need to revisit - HTTPClient basically lacks exception handling during callback
+				TITANIUM_LOG_WARN("Error during HttpClient:onerror");
 			}
 		}
 
 		void HTTPClient::ondatastream(const double progress) TITANIUM_NOEXCEPT
 		{
-			if (ondatastream__.IsObject()) {
-				auto ondatastream = static_cast<JSObject>(ondatastream__);
-				if (ondatastream.IsFunction()) {
-					const JSContext ctx = get_context();
+			try {
+				if (ondatastream__.IsObject()) {
+					auto ondatastream = static_cast<JSObject>(ondatastream__);
+					if (ondatastream.IsFunction()) {
+						const JSContext ctx = get_context();
 
-					JSObject this_object = get_object();
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
+						JSObject this_object = get_object();
+						JSObject eventArgs = ctx.CreateObject();
+						eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
 
-					std::vector<JSValue> arguments;
-					arguments.push_back(eventArgs);
+						std::vector<JSValue> arguments;
+						arguments.push_back(eventArgs);
 
-					ondatastream(arguments, this_object);
+						ondatastream(arguments, this_object);
+					}
 				}
+			} catch (...) {
+				// TODO: Need to revisit - HTTPClient basically lacks exception handling during callback
+				TITANIUM_LOG_WARN("Error during HttpClient:ondatastream");
 			}
 		}
 
 		void HTTPClient::onsendstream(const double progress) TITANIUM_NOEXCEPT
 		{
-			if (onsendstream__.IsObject()) {
-				auto onsendstream = static_cast<JSObject>(onsendstream__);
-				if (onsendstream.IsFunction()) {
-					const JSContext ctx = get_context();
+			try {
+				if (onsendstream__.IsObject()) {
+					auto onsendstream = static_cast<JSObject>(onsendstream__);
+					if (onsendstream.IsFunction()) {
+						const JSContext ctx = get_context();
 
-					JSObject this_object = get_object();
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
+						JSObject this_object = get_object();
+						JSObject eventArgs = ctx.CreateObject();
+						eventArgs.SetProperty("progress", ctx.CreateNumber(progress));
 
-					std::vector<JSValue> arguments;
-					arguments.push_back(eventArgs);
+						std::vector<JSValue> arguments;
+						arguments.push_back(eventArgs);
 
-					onsendstream(arguments, this_object);
+						onsendstream(arguments, this_object);
+					}
 				}
+			} catch (...) {
+				// TODO: Need to revisit - HTTPClient basically lacks exception handling during callback
+				TITANIUM_LOG_WARN("Error during HttpClient:onsendstream");
 			}
 		}
 
 		void HTTPClient::onreadystatechange(const RequestState& state) TITANIUM_NOEXCEPT
 		{
-			if (onreadystatechange__.IsObject()) {
-				auto onreadystatechange = static_cast<JSObject>(onreadystatechange__);
-				if (onreadystatechange.IsFunction()) {
-					const JSContext ctx = get_context();
+			try {
+				if (onreadystatechange__.IsObject()) {
+					auto onreadystatechange = static_cast<JSObject>(onreadystatechange__);
+					if (onreadystatechange.IsFunction()) {
+						const JSContext ctx = get_context();
 
-					JSObject this_object = get_object();
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("readyState", ctx.CreateNumber(static_cast<std::uint32_t>(state)));
+						JSObject this_object = get_object();
+						JSObject eventArgs = ctx.CreateObject();
+						eventArgs.SetProperty("readyState", ctx.CreateNumber(static_cast<std::uint32_t>(state)));
 
-					std::vector<JSValue> arguments;
-					arguments.push_back(eventArgs);
+						std::vector<JSValue> arguments;
+						arguments.push_back(eventArgs);
 
-					onreadystatechange(arguments, this_object);
+						onreadystatechange(arguments, this_object);
+					}
 				}
+			} catch (...) {
+				// TODO: Need to revisit - HTTPClient basically lacks exception handling during callback
+				TITANIUM_LOG_WARN("Error during HttpClient:onreadystatechange");
 			}
 		}
 

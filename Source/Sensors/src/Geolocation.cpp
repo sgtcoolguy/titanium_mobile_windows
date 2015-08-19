@@ -185,34 +185,40 @@ namespace TitaniumWindows
 
 			const auto httpClient = ref new HttpClient();
 			concurrency::create_task(httpClient->GetAsync(requestUri)).then([this, address, callback](HttpResponseMessage^ response) {
-				std::vector<std::string> split_response;
-				boost::split(split_response, Utility::ConvertString(response->Content->ToString()), boost::is_any_of(","));
+				try {
+					std::vector<std::string> split_response;
+					boost::split(split_response, Utility::ConvertString(response->Content->ToString()), boost::is_any_of(","));
 
-				JSObject forwardGeocodeResponse = get_context().CreateObject();
+					JSObject forwardGeocodeResponse = get_context().CreateObject();
 
-				if (split_response.size() > 0 && split_response.at(0) == "200") {
-					const double accuracy = atof(split_response.at(1).c_str());
-					const double latitude = atof(split_response.at(2).c_str());
-					const double longitude = atof(split_response.at(3).c_str());
+					if (split_response.size() > 0 && split_response.at(0) == "200") {
+						const double accuracy = atof(split_response.at(1).c_str());
+						const double latitude = atof(split_response.at(2).c_str());
+						const double longitude = atof(split_response.at(3).c_str());
 
-					forwardGeocodeResponse.SetProperty("accuracy", get_context().CreateNumber(accuracy));
-					forwardGeocodeResponse.SetProperty("address", get_context().CreateString(address));
-					forwardGeocodeResponse.SetProperty("latitude", get_context().CreateNumber(latitude));
-					forwardGeocodeResponse.SetProperty("longitude", get_context().CreateNumber(longitude));
-					forwardGeocodeResponse.SetProperty("success", get_context().CreateBoolean(true));
-					forwardGeocodeResponse.SetProperty("error", get_context().CreateString(""));
-					forwardGeocodeResponse.SetProperty("code", get_context().CreateNumber(0.0));
-				} else {
-					forwardGeocodeResponse.SetProperty("success", get_context().CreateBoolean(false));
-					forwardGeocodeResponse.SetProperty("error", get_context().CreateString("no results"));
-					forwardGeocodeResponse.SetProperty("code", get_context().CreateNumber(static_cast<double>(-1)));
+						forwardGeocodeResponse.SetProperty("accuracy", get_context().CreateNumber(accuracy));
+						forwardGeocodeResponse.SetProperty("address", get_context().CreateString(address));
+						forwardGeocodeResponse.SetProperty("latitude", get_context().CreateNumber(latitude));
+						forwardGeocodeResponse.SetProperty("longitude", get_context().CreateNumber(longitude));
+						forwardGeocodeResponse.SetProperty("success", get_context().CreateBoolean(true));
+						forwardGeocodeResponse.SetProperty("error", get_context().CreateString(""));
+						forwardGeocodeResponse.SetProperty("code", get_context().CreateNumber(0.0));
+					}
+					else {
+						forwardGeocodeResponse.SetProperty("success", get_context().CreateBoolean(false));
+						forwardGeocodeResponse.SetProperty("error", get_context().CreateString("no results"));
+						forwardGeocodeResponse.SetProperty("code", get_context().CreateNumber(static_cast<double>(-1)));
+					}
+
+					// Cast callback as non-const JSObject
+					// TODO : More elegant way of doing this
+					auto cb = static_cast<JSObject>(callback);
+					TITANIUM_ASSERT(cb.IsFunction());
+					cb({ forwardGeocodeResponse }, get_context().get_global_object());
+				} catch (...) {
+					// TODO: Need to revisit - Geolocation module basically lacks exception handling during callback
+					TITANIUM_LOG_WARN("Error duging Geolocation::forwardGeocoder");
 				}
-
-				// Cast callback as non-const JSObject
-				// TODO : More elegant way of doing this
-				auto cb = static_cast<JSObject>(callback);
-				TITANIUM_ASSERT(cb.IsFunction());
-				cb({forwardGeocodeResponse}, get_context().get_global_object());
 			});
 	}
 
