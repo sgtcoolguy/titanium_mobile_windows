@@ -22,23 +22,9 @@ namespace Titanium
 	const std::string GlobalObject::COMMONJS_SEPARATOR__{"/"};
 	std::atomic<std::uint32_t> GlobalObject::timer_id_generator__;
 
-	JSFunction GlobalObject::createRequireFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT
-	{
-		return js_context.CreateFunction(R"JS(
-      var exports={},__OXP=exports,module={'exports':exports};
-      eval(module_js);
-      if(module.exports !== __OXP){
-          return module.exports;
-      }
-      return exports;
-      )JS",
-		  {"__filename", "module_js"});
-	}
-
 	GlobalObject::GlobalObject(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : JSExportObject(js_context),
-	      require_function__(createRequireFunction(js_context)),
-	      callback_map__(js_context.CreateObject())
+	    : JSExportObject(js_context)
+	    , callback_map__(js_context.CreateObject())
 	{
 		TITANIUM_LOG_DEBUG("GlobalObject:: ctor ", this);
 	}
@@ -292,13 +278,20 @@ namespace Titanium
 				result = js_context.CreateValueFromJSON(module_js);
 			} else if (js_context.JSCheckScriptSyntax(module_js, moduleId)) {
 				//
-				// app entry point should not be treat as "commonJS module". It exposes every variables to child.
+				// app entry point should not be treated as "CommonJS module". It should expose every variables to children.
 				//
 				if (moduleId == "/app") {
 					result = js_context.JSEvaluateScript(module_js, js_context.get_global_object());
 				} else {
-					const std::vector<JSValue> args = { js_context.CreateString(moduleId), js_context.CreateString(module_js) };
-					result = require_function__(args, parent);
+					const std::string require_module_js = "var exports={},__OXP=exports,module={'exports':exports},__filename='"
+						+ moduleId + "';" + module_js + R"JS(
+						if(module.exports !== __OXP){
+							module.exports;
+						} else {
+							exports;
+						}
+					)JS";
+					result = js_context.JSEvaluateScript(require_module_js, js_context.get_global_object());
 				}
 			} else {
 				detail::ThrowRuntimeError("require", "Could not load module "+moduleId);
