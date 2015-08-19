@@ -63,9 +63,16 @@ function lookupCreateFunction(template) {
 //I.e: lookup("Titanium.UI.Label") returns Titanium.UI.createLabel function
 function lookup(name) {
 	var lastDotIndex = name.lastIndexOf('.');
-	var proxy = eval(name.substring(0, lastDotIndex));
-	if (typeof (proxy) === undefined) return;
-
+	var proxy = global;
+	var names = name.substring(0, lastDotIndex).split('.');
+	for (var i = 0; i < names.length; i++) {
+		var property = names[i];
+		if (property in proxy) {
+			proxy = proxy[property];
+		} else {
+			return;
+		}
+	}
 	var proxyName = name.slice(lastDotIndex + 1);
 	return proxy['create' + proxyName];
 }

@@ -304,7 +304,6 @@ namespace Titanium
 		virtual std::shared_ptr<Timer> CreateTimer(Callback_t callback, const std::chrono::milliseconds& interval) const TITANIUM_NOEXCEPT;
 
 	private:
-		JSFunction createRequireFunction(const JSContext& js_context) const TITANIUM_NOEXCEPT;
 
 		void RegisterCallback(JSObject&& function, const unsigned& timerId) TITANIUM_NOEXCEPT;
 		void UnregisterCallback(const unsigned& timerId) TITANIUM_NOEXCEPT;
@@ -312,7 +311,6 @@ namespace Titanium
 		void StartTimer(Callback_t&& callback, const unsigned& timerId, const std::chrono::milliseconds& delay) TITANIUM_NOEXCEPT;
 		void StopTimer(const unsigned& timerId) TITANIUM_NOEXCEPT;
 
-		JSFunction require_function__;
 		JSObject callback_map__;
 
 // Silence 4251 on Windows since private member variables do not
