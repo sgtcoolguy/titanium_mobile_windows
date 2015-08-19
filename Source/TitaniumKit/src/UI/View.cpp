@@ -369,7 +369,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_SETTER(View, zIndex) 
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			layoutDelegate__->set_zIndex(static_cast<double>(argument));
+			layoutDelegate__->set_zIndex(static_cast<std::int32_t>(argument));
 			return true;
 		}
 

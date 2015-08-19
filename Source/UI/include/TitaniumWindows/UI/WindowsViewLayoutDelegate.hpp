@@ -310,7 +310,7 @@ namespace TitaniumWindows
 			A view does not have a default z-index value, meaning that it is undefined by default. When this property is explicitly set,
 			regardless of its value, it causes the view to be positioned in front of any sibling that has an undefined z-index.
 			*/
-			virtual void set_zIndex(const double& zIndex) TITANIUM_NOEXCEPT override;
+			virtual void set_zIndex(const int32_t& zIndex) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
