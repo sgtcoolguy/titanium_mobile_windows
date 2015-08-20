@@ -8,6 +8,7 @@
 
 #include "TitaniumWindows/UI/Switch.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
+#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
 {
@@ -39,9 +40,39 @@ namespace TitaniumWindows
 			JSExport<Switch>::SetParent(JSExport<Titanium::UI::Switch>::Class());
 		}
 
+		void Switch::set_color(const std::string& colorName) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Switch::set_color(colorName);
+			const auto color_obj = WindowsViewLayoutDelegate::ColorForName(colorName);
+			switch__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(color_obj);
+		}
+
+		void Switch::set_enabled(const bool& enabled) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Switch::set_enabled(enabled);
+			switch__->IsEnabled = enabled;
+		}
+
+		void Switch::set_titleOff(const std::string& titleOff) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Switch::set_titleOff(titleOff);
+			switch__->OffContent = TitaniumWindows::Utility::ConvertUTF8String(titleOff);
+		}
+
+		void Switch::set_titleOn(const std::string& titleOn) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Switch::set_titleOn(titleOn);
+			switch__->OnContent = TitaniumWindows::Utility::ConvertUTF8String(titleOn);
+		}
+
+		bool Switch::get_value() const TITANIUM_NOEXCEPT
+		{
+			return switch__->IsOn;
+		}
+
 		void Switch::set_value(const bool& value) TITANIUM_NOEXCEPT
 		{
-			//Titanium::UI::Switch::set_value(value);
+			Titanium::UI::Switch::set_value(value);
 			switch__->IsOn = value;
 		}
 

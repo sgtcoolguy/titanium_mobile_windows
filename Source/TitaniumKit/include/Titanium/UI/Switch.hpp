@@ -29,6 +29,50 @@ namespace Titanium
 
 			/*!
 			  @property
+			  @abstract color
+			  @discussion Color to use for switch text, as a color name or hex triplet.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, color);
+
+			/*!
+			  @property
+			  @abstract enabled
+			  @discussion Determines whether the switch is enabled.
+
+			  Be careful not to confused this with the value property, which is used to turn the switch on and off.
+
+			  Set to true to enable or false to disable the switch.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, enabled);
+
+			/*!
+			  @property
+			  @abstract titleOff
+			  @discussion Text to display on the switch in its "off" state, when the toggle button style is in use.
+
+			  Set to an empty string to remove title text.
+
+			  It is typically useful to set the width and/or height properties, to prevent the switch changing size between its on/off state.
+
+			  Default: Off
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, titleOff);
+
+			/*!
+			  @property
+			  @abstract titleOn
+			  @discussion Text to display on the switch in its "on" state, when the toggle button style is in use.
+
+			  Set to an empty string to remove title text.
+
+			  It is typically useful to set the width and/or height properties, to prevent the switch changing size between its on/off state.
+
+			  Default: On
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, titleOn);
+
+			/*!
+			  @property
 			  @abstract value
 			  @discussion Indicates whether the switch has been turned on or off by the user. May also be set programmatically.
 			*/
@@ -46,12 +90,35 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
+			TITANIUM_PROPERTY_DEF(color);
+			TITANIUM_FUNCTION_DEF(getColor);
+			TITANIUM_FUNCTION_DEF(setColor);
+
+			TITANIUM_PROPERTY_DEF(enabled);
+			TITANIUM_FUNCTION_DEF(getEnabled);
+			TITANIUM_FUNCTION_DEF(setEnabled);
+
+			TITANIUM_PROPERTY_DEF(titleOff);
+			TITANIUM_FUNCTION_DEF(getTitleOff);
+			TITANIUM_FUNCTION_DEF(setTitleOff);
+
+			TITANIUM_PROPERTY_DEF(titleOn);
+			TITANIUM_FUNCTION_DEF(getTitleOn);
+			TITANIUM_FUNCTION_DEF(setTitleOn);
+
 			TITANIUM_PROPERTY_DEF(value);
 			TITANIUM_FUNCTION_DEF(getValue);
 			TITANIUM_FUNCTION_DEF(setValue);
 
 			private:
+#pragma warning(push)
+#pragma warning(disable : 4251)
+				std::string color__;
+				bool enabled__;
+				std::string titleOff__;
+				std::string titleOn__;
 				bool value__;
+#pragma warning(pop)
 		};
 
 	} // namespace UI
