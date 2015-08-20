@@ -35,8 +35,9 @@ if (methods) {
 		if (method.api && method.api == 'store') {
 			continue;
 		}
+
 		// skip methods return async ops until we implement a Promise equivalent wrapper
-		if (method.returnType.indexOf('.IAsync') != -1) {
+		if (method.returnType.indexOf('.IAsync') != -1 && method.returnType.indexOf('Progress') != -1) {
 			continue;
 		}
 
@@ -79,7 +80,8 @@ for (var i = 0; i < types_to_include.length; i++) {
 		type_name == 'Windows.Foundation.Collections.IVectorView' ||
 		type_name == 'Windows.Foundation.Collections.IMap' ||
 		type_name == 'Windows.Foundation.Collections.IMapView' ||
-		type_name == 'Windows.Foundation.Collections.IKeyValuePair') {
+		type_name == 'Windows.Foundation.Collections.IKeyValuePair' ||
+		type_name.indexOf('.IAsync') != -1) {
 		continue;
 	}
 	// Skip enums and structs

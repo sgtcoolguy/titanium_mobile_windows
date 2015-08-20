@@ -315,7 +315,14 @@ namespace TitaniumWindows
 			::Platform::String^ name;
 			concurrency::event event;
 			concurrency::task<::Platform::String^>(UserInformation::GetDisplayNameAsync()).then([&name, &event](concurrency::task<::Platform::String^> task) {
-					name = task.get();
+					try {
+						name = task.get();
+					}
+					catch (::Platform::COMException^ ce) {
+						//TITANIUM_LOG_ERROR(ce->Message);
+						name = "";
+					}
+					catch (...) {}
 					event.set();
 				},
 				concurrency::task_continuation_context::use_arbitrary());
@@ -335,21 +342,26 @@ namespace TitaniumWindows
 
 		std::string os_version = "6.3.9600"; // Win 8.1 base value
 		concurrency::event event;
-		concurrency::create_task(PnpObject::FindAllAsync(PnpObjectType::Device, requestedProperties)).then([&event, &os_version](PnpObjectCollection^ collection) {
-			auto found = false;
-			for (auto object : collection) {
-				auto provider = object->Properties->Lookup("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},9")->ToString();
-				if (provider == "Microsoft") {
-					auto version = object->Properties->Lookup("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},3")->ToString();
-					os_version = Utility::ConvertUTF8String(version);
-					found = true;
-					break;
+		concurrency::create_task(PnpObject::FindAllAsync(PnpObjectType::Device, requestedProperties)).then([&event, &os_version](concurrency::task<PnpObjectCollection^> t) {
+			try {
+				auto found = false;
+				auto collection = t.get();
+				for (auto object : collection) {
+					auto provider = object->Properties->Lookup("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},9")->ToString();
+					if (provider == "Microsoft") {
+						auto version = object->Properties->Lookup("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},3")->ToString();
+						os_version = Utility::ConvertUTF8String(version);
+						found = true;
+						break;
+					}
+					if (found) break;
 				}
-				if (found) break;
 			}
+			catch (::Platform::COMException^ ce) {
+			}
+			catch (...) {}
 			event.set();
-		},
-		concurrency::task_continuation_context::use_arbitrary());
+		}, concurrency::task_continuation_context::use_arbitrary());
 		event.wait();
 		return os_version;
 	}
@@ -367,7 +379,13 @@ namespace TitaniumWindows
 		bool result = false;
 		concurrency::event event;
 		concurrency::task<bool>(Windows::System::Launcher::LaunchUriAsync(uri)).then([&result, &event](concurrency::task<bool> task) {
-				result = task.get();
+				try {
+					result = task.get();
+				}
+				catch (::Platform::COMException^ ce) {
+
+				}
+				catch (...) {}
 				event.set();
 			},
 			concurrency::task_continuation_context::use_arbitrary());

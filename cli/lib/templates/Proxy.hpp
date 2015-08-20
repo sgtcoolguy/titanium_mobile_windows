@@ -89,8 +89,8 @@ if (methods) {
 		if (method.attributes.indexOf("public") == -1) {
 			continue;
 		}
-		// FIXME skip methods return async ops until we implement a Promise equivalent wrapper
-		if (method.returnType.indexOf('.IAsync') != -1) {
+		// FIXME Handle Async with Progress types!
+		if (method.returnType.indexOf('.IAsync') != -1 && method.returnType.indexOf('Progress') != -1) {
 			continue;
 		}
 		// FIXME What if there are multiple overloads but only _some_ of them are specific to one platform?

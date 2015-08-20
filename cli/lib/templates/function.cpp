@@ -63,9 +63,14 @@ for (var i = 0; i < methods.length; i++) {
 				<%- receiver %><%= method.name %>(<%- arguments %>);
 				return context.CreateUndefined(); 
 <%
+	} else if (method.returnType.indexOf('.IAsync') != -1) {
+-%>
+				<%- include('native_async_to_js.cpp', {type: method.returnType, metadata: metadata, to_assign: 'result', argument_name: 'method_result', arguments: arguments, receiver: receiver, method_name: method.name, method: method}) -%>
+				return result;
+<%
 	} else {
 -%>
-				auto method_result = <%- receiver %><%= method.name %>(<%- arguments %>);<%- include('native_to_js.cpp', {type: method.returnType, metadata: metadata, to_assign: 'result', argument_name: 'method_result'}) -%>
+				auto method_result = <%- receiver %><%= method.name %>(<%- arguments %>);<%- include('native_to_js.cpp', {type: method.returnType, metadata: metadata, to_assign: 'result', argument_name: 'method_result', context_name: 'context'}) -%>
 <%
 		// If we had "out" parameters, we now need to assign the values back to the JS Objects before returning result!
 
@@ -79,7 +84,7 @@ for (var i = 0; i < methods.length; i++) {
 				// FIXME This assumes int32, uint32, double. We need to handle other types!
 				// I've seen string, Point struct, float32, IMapView<K,V>, Rect struct, TabAlignment, TabLeader, JsonArray
 -%>
-<%- include('native_to_js.cpp', {type: type, metadata: metadata, to_assign: 'out_' + x, argument_name: arg.name}) %>
+<%- include('native_to_js.cpp', {type: type, metadata: metadata, to_assign: 'out_' + x, argument_name: arg.name, context_name: 'context'}) %>
 				_<%= x %> = out_<%= x %>;
 <%
 			}

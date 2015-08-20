@@ -9,7 +9,9 @@
 // Is it a primitive? enum? struct? guid? class of some sort?
 
 type = type.trim(); // strip off extra space
-
+if (type == 'Platform.String') {
+	type = 'string';
+}
 if (type == '' || type == 'object') {
 	type = 'Platform.Object';
 -%>
