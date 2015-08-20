@@ -40,6 +40,11 @@ namespace TitaniumWindows
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
+			virtual void set_color(const std::string&) TITANIUM_NOEXCEPT override final;
+			virtual void set_enabled(const bool&) TITANIUM_NOEXCEPT override final;
+			virtual void set_titleOff(const std::string&) TITANIUM_NOEXCEPT override final;
+			virtual void set_titleOn(const std::string&) TITANIUM_NOEXCEPT override final;
+			virtual bool get_value() const TITANIUM_NOEXCEPT override final;
 			virtual void set_value(const bool&) TITANIUM_NOEXCEPT;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
