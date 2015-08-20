@@ -283,13 +283,14 @@ namespace Titanium
 				if (moduleId == "/app") {
 					result = js_context.JSEvaluateScript(module_js, js_context.get_global_object());
 				} else {
-					const std::string require_module_js = "var exports={},__OXP=exports,module={'exports':exports},__filename='"
+					const std::string require_module_js = "(function(global) { var exports={},__OXP=exports,module={'exports':exports},__filename='"
 						+ moduleId + "';" + module_js + R"JS(
 						if(module.exports !== __OXP){
-							module.exports;
+							return module.exports;
 						} else {
-							exports;
+							return exports;
 						}
+					})(this);
 					)JS";
 					result = js_context.JSEvaluateScript(require_module_js, js_context.get_global_object());
 				}
