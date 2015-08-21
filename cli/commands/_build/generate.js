@@ -240,7 +240,7 @@ function generateCmakeList(next) {
 			assets: assetList.join('\n'),
 			publisherDisplayName: this.cli.tiapp.publisher,
 			publisherName: this.publisherName,
-			appId: this.cli.tiapp.id,
+			appId: this.cli.tiapp.windows.id || this.cli.tiapp.id,
 			sourceGroups: sourceGroups,
 			native_modules: native_modules
 		}
