@@ -58,7 +58,7 @@ exports.init = function (logger, config, cli) {
 					logger.info('');
 					logger.info(__('Creating a certificate'));
 					logger.info(__('Please follow the prompts'));
-					windowslib.certs.generate(builder.publisherName, cer, builder.windowslibOptions, function(err, privateKey, certFile) {
+					windowslib.certs.generate(builder.publisherId, cer, builder.windowslibOptions, function(err, privateKey, certFile) {
 						return !err ? next() : next(err || new Error('Certificate generation failed'));
 					});
 				},
