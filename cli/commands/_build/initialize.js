@@ -54,8 +54,10 @@ function initialize(next) {
 	this.wsCert = argv['ws-cert'] ? argv['ws-cert'] : null;
 	this.pfxPassword = argv['pfx-password'] ? argv['pfx-password'] : null;
 
+	// Publisher id may be a GUID, or they may have copied it verbatim from dev account with CN= prefix
 	this.publisherId = argv['win-publisher-id'];
 	if (this.publisherId.indexOf('CN=') != 0) {
+		// We need to prepend CN= prefix for appxmanifest and cert generation
 		this.publisherId = "CN=" + this.publisherId;
 	}
 	this.phonePublisherId = argv['wp-publisher-guid'] ? argv['wp-publisher-guid'] : "00000000-0000-0000-0000-000000000000";

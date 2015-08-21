@@ -19,7 +19,7 @@ module.exports = function configOptionWPProductID(order) {
 	}
 
 	return {
-		abbr: 'G',
+		abbr: 'H',
 		default: this.config.get('windows.phone.productId'),
 		desc: __('The Windows 8 product ID, used for upgrading Win 8 apps to Win 8.1. Discuessed at %s; only applicable when target is %s, %s, or %s', 'https://msdn.microsoft.com/en-us/library/windows/apps/Dn642081(v=VS.105).aspx'.cyan, 'wp-emulator'.cyan, 'wp-device'.cyan, 'dist-phonestore'.cyan),
 		hint: __('productid'),

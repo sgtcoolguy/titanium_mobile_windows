@@ -141,7 +141,7 @@ function runBuild(next, count) {
 	var prc,
 		inResults = false,
 		done = false;
-	prc = spawn('node', [titanium, 'build', '--project-dir', path.join(__dirname, 'mocha'), '--platform', 'windows', '--target', 'wp-emulator', '--win-publisher-id', '13AFB724-65F2-4F30-8994-C79399EDBD80', '--wp-publisher-guid', '00000000-0000-1000-8000-000000000000', '--device-id', '8-1-1', '--no-prompt', '--no-colors']);
+	prc = spawn('node', [titanium, 'build', '--project-dir', path.join(__dirname, 'mocha'), '--platform', 'windows', '--target', 'wp-emulator', '--win-publisher-id', '13AFB724-65F2-4F30-8994-C79399EDBD80', '--device-id', '8-1-1', '--no-prompt', '--no-colors']);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 		var lines = data.toString().trim().match(/^.*([\n\r]+|$)/gm);

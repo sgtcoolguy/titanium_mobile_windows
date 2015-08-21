@@ -19,7 +19,7 @@ module.exports = function configOptionWindowsPublisherID(order) {
 	}
 
 	return {
-		abbr: '',
+		abbr: 'I',
 		default: this.config.get('windows.publisherId'),
 		desc: __('your Windows publisher ID, obtained from %s', 'https://dev.windows.com/en-us/Account/Management'.cyan),
 		hint: __('id'),
