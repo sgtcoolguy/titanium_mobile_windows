@@ -18,6 +18,12 @@ namespace TitaniumWindows
 		WindowsLabelLayoutDelegate::WindowsLabelLayoutDelegate() TITANIUM_NOEXCEPT
 			: WindowsViewLayoutDelegate()
 		{
+			TITANIUM_LOG_DEBUG("WindowsLabelLayoutDelegate::ctor ", this);
+		}
+
+		WindowsLabelLayoutDelegate::~WindowsLabelLayoutDelegate() 
+		{
+			TITANIUM_LOG_DEBUG("WindowsLabelLayoutDelegate::dtor ", this);
 		}
 
 		void WindowsLabelLayoutDelegate::setComponent(Windows::UI::Xaml::FrameworkElement^ label) 
@@ -70,6 +76,12 @@ namespace TitaniumWindows
 		Label::Label(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::Label(js_context)
 		{
+			TITANIUM_LOG_DEBUG("Label::ctor ", this);
+		}
+
+		Label::~Label() 
+		{
+			TITANIUM_LOG_DEBUG("Label::dtor ", this);
 		}
 
 		void Label::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)

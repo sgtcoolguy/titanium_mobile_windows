@@ -177,8 +177,8 @@ namespace Titanium
 			struct LayoutProperties properties;
 			//int flags = FLAG_INVALID;
 			std::string name;
-			void (*onLayout)(struct Node*);
-			void* data;
+			void (*onLayout)(struct Node*) = nullptr;
+			void* data = nullptr;
 		};
 
 		//void nodeInitialize(struct Node* node);

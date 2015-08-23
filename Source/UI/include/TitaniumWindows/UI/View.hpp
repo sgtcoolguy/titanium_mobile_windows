@@ -30,7 +30,7 @@ namespace TitaniumWindows
 		public:
 			View(const JSContext&) TITANIUM_NOEXCEPT;
 
-			virtual ~View() = default;
+			virtual ~View();
 			View(const View&) = default;
 			View& operator=(const View&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

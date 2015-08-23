@@ -28,17 +28,24 @@ namespace TitaniumWindows
 		WindowsViewLayoutDelegate::WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
 			: ViewLayoutDelegate()
 		{
-			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::ctor");
+			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::ctor ", this);
 		}
 
 		void WindowsViewLayoutDelegate::postInitialize() TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::ViewLayoutDelegate::postInitialize();
+			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::postInitialize ", this);
+		}
+
+		WindowsViewLayoutDelegate::~WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::dtor ", this);
 		}
 
 		void WindowsViewLayoutDelegate::remove(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::remove(view);
+
+			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::remove ", view.get(), " for ", this);
 
 			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
 
@@ -74,6 +81,8 @@ namespace TitaniumWindows
 		void WindowsViewLayoutDelegate::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::add(view);
+
+			TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::add ", view.get(), " for ", this);
 
 			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
 

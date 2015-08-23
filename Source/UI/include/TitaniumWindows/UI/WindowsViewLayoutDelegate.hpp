@@ -325,7 +325,7 @@ namespace TitaniumWindows
 			virtual void set_visible(const bool& visible) TITANIUM_NOEXCEPT override;
 
 			WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT;
-			virtual ~WindowsViewLayoutDelegate() = default;
+			virtual ~WindowsViewLayoutDelegate();
 
 			virtual void postInitialize() TITANIUM_NOEXCEPT override;
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;

@@ -16,6 +16,12 @@ namespace TitaniumWindows
 		View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::View(js_context)
 		{
+			TITANIUM_LOG_DEBUG("TitaniumWindows::UI::View::ctor ", this);
+		}
+
+		View::~View() 
+		{
+			TITANIUM_LOG_DEBUG("TitaniumWindows::UI::View::dtor ", this);
 		}
 
 		void View::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
