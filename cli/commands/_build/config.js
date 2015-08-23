@@ -103,7 +103,9 @@ function config(logger, config, cli) {
 							hidden: true
 						},
 						'target': this.configOptionTarget(110),
-						'wp-publisher-guid': this.configOptionWPPublisherGUID(210),
+						'win-publisher-id': this.configOptionWindowsPublisherID(210),
+						'wp-publisher-guid': this.configOptionWPPublisherGUID(220),
+						'wp-product-guid': this.configOptionWPProductID(230),
 						'wp-sdk': this.configOptionWPSDK(200),
 						'ws-cert': this.configOptionWSCert(300)
 					}

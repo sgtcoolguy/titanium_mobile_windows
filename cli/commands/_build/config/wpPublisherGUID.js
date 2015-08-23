@@ -21,12 +21,12 @@ module.exports = function configOptionWPPublisherGUID(order) {
 	return {
 		abbr: 'G',
 		default: this.config.get('windows.phone.publisherGuid'),
-		desc: __('your publisher GUID, obtained from %s; only applicable when target is %s, %s, or %s', 'http://appcelerator.com/windowsphone'.cyan, 'wp-emulator'.cyan, 'wp-device'.cyan, 'dist-phonestore'.cyan),
+		desc: __('Your Windows Phone publisher ID, obtained from %s; only applicable when target is %s, %s, or %s', 'https://dev.windows.com/en-us/Account/Management'.cyan, 'wp-emulator'.cyan, 'wp-device'.cyan, 'dist-phonestore'.cyan),
 		hint: __('guid'),
 		order: order,
 		prompt: function (callback) {
 			callback(fields.text({
-				promptLabel: __('What is your __Windows Phone Publisher GUID__?'),
+				promptLabel: __('What is your __Windows Phone Publisher ID__?'),
 				validate: validate
 			}));
 		},

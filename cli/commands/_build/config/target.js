@@ -20,7 +20,6 @@ module.exports = function configOptionTarget(order) {
 			}
 
 			if (value === 'wp-emulator' || value === 'wp-device' || value === 'dist-phonestore') {
-				this.conf.options['wp-publisher-guid'].required = true;
 				this.conf.options['wp-sdk'].required = true;
 			}
 

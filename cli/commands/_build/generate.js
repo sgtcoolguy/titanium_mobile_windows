@@ -239,8 +239,10 @@ function generateCmakeList(next) {
 			version: appc.version.format(this.tiapp.version, 4, 4, true),
 			assets: assetList.join('\n'),
 			publisherDisplayName: this.cli.tiapp.publisher,
-			publisherName: this.publisherName,
-			appId: this.cli.tiapp.id,
+			publisherId: this.publisherId,
+			appId: this.cli.tiapp.windows.id || this.cli.tiapp.id,
+			phonePublisherId: this.phonePublisherId,
+			phoneProductId: this.phoneProductId,
 			sourceGroups: sourceGroups,
 			native_modules: native_modules
 		}
