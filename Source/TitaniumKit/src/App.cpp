@@ -8,6 +8,7 @@
 
 #include "Titanium/detail/TiImpl.hpp"
 #include "Titanium/App.hpp"
+#include "Titanium/App/Properties.hpp"
 
 namespace Titanium
 {
@@ -59,6 +60,7 @@ namespace Titanium
 		accessibilityEnabled__(false),
 		analytics__(false),
 		copyright__("__COPYRIGHT__"),
+		defaultUnit__(""),
 		deployType__("__DEPLOY_TYPE__"),
 		description__("__DESCRIPTION__"),
 		disableNetworkActivityIndicator__(false),
@@ -126,6 +128,36 @@ namespace Titanium
 	std::string AppModule::copyright() const TITANIUM_NOEXCEPT
 	{
 		return copyright__;
+	}
+
+	std::string AppModule::defaultUnit() TITANIUM_NOEXCEPT
+	{
+		if (defaultUnit__.empty()) {
+			JSObject App = GetStaticObject(get_context());
+
+			JSValue Properties_property = App.GetProperty("Properties");
+			TITANIUM_ASSERT(Properties_property.IsObject());  // precondition
+			JSObject Properties = static_cast<JSObject>(Properties_property);
+
+			auto props = Properties.GetPrivate<::Titanium::App::Properties>();
+			auto defaultUnit = props->getString("ti.ui.defaultunit", boost::optional<std::string>("px"));
+
+			if (!defaultUnit || *defaultUnit == "system")
+			{
+				defaultUnit__ = "px";
+			}
+			// Validate that unit is one of our set of known units!
+			// FIXME Some platforms allow other units. See "sp" and "sip" for Android
+			if (defaultUnit__ != "mm" && defaultUnit__ != "cm" && 
+				defaultUnit__ != "em" && defaultUnit__ != "pt" &&
+				defaultUnit__ != "pc" && defaultUnit__ != "in" &&
+				defaultUnit__ != "px" && defaultUnit__ != "dp" &&
+				defaultUnit__ != "dip")
+			{
+				defaultUnit__ = "px";
+			}
+		}
+		return defaultUnit__;
 	}
 
 	std::string AppModule::deployType() const TITANIUM_NOEXCEPT

@@ -55,6 +55,9 @@ namespace Titanium
 		  @discussion Application copyright statement, determined by `tiapp.xml`.
 		*/
 		virtual std::string copyright() const TITANIUM_NOEXCEPT;
+
+		std::string defaultUnit() TITANIUM_NOEXCEPT;
+
 		/*!
 		  @property
 		  @abstract deployType
@@ -232,6 +235,7 @@ namespace Titanium
 		bool accessibilityEnabled__;
 		bool analytics__;
 		std::string copyright__;
+		std::string defaultUnit__;
 		std::string deployType__;
 		std::string description__;
 		bool disableNetworkActivityIndicator__;

@@ -26,6 +26,6 @@ TEST(ParserProperties, populate_layout)
 	inputProperty.name = Titanium::LayoutEngine::Top;
 	inputProperty.value = "99px";
 	// 96 is the ppi
-	Titanium::LayoutEngine::populateLayoutPoperties(inputProperty, &layoutProperties, 96);
+	Titanium::LayoutEngine::populateLayoutProperties(inputProperty, &layoutProperties, 96, "px");
 	EXPECT_EQ(layoutProperties.top.value, (float)99.0);
 }

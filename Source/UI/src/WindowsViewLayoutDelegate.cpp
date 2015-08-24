@@ -11,6 +11,7 @@
 #include "Titanium/UI/Animation.hpp"
 #include "Titanium/UI/2DMatrix.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/App.hpp"
 #include <string>
 #include <algorithm>
 #include <cctype>
@@ -897,7 +898,24 @@ namespace TitaniumWindows
 					break;
 			}
 #endif
-			Titanium::LayoutEngine::populateLayoutPoperties(prop, &layout_node__->properties, ppi);
+			// Get the defaultUnits from ti.ui.defaultUnit!
+			std::string defaultUnits = "px";
+			auto event_delegate = event_delegate__.lock();
+		 	if (event_delegate != nullptr) {
+			 	JSContext js_context = event_delegate->get_context();
+
+			 	JSValue Titanium_property = js_context.get_global_object().GetProperty("Titanium");
+				TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+				JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+				JSValue App_property = Titanium.GetProperty("App");
+				TITANIUM_ASSERT(App_property.IsObject());  // precondition
+				JSObject App = static_cast<JSObject>(App_property);
+
+				const auto object_ptr = App.GetPrivate<Titanium::AppModule>();
+				defaultUnits = object_ptr->defaultUnit();
+		 	}
+			Titanium::LayoutEngine::populateLayoutProperties(prop, &layout_node__->properties, ppi, defaultUnits);
 
 			if (isLoaded()) {
 				requestLayout();
