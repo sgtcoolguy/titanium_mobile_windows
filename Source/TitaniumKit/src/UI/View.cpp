@@ -67,6 +67,7 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(View, replaceAt);
 
 			// properties
+			TITANIUM_ADD_PROPERTY(View, backgroundImage);
 			TITANIUM_ADD_PROPERTY(View, backgroundColor);
 			TITANIUM_ADD_PROPERTY(View, borderColor);
 			TITANIUM_ADD_PROPERTY(View, borderRadius);
@@ -162,6 +163,18 @@ namespace Titanium
 
 			layoutDelegate__->replaceAt(js_to_ViewInsertOrReplaceParams(params));
 			return get_context().CreateUndefined();
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, backgroundImage) 
+		{
+			return get_context().CreateString(layoutDelegate__->get_backgroundImage());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, backgroundImage) 
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			layoutDelegate__->set_backgroundImage(static_cast<std::string>(argument));
+			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(View, backgroundColor)

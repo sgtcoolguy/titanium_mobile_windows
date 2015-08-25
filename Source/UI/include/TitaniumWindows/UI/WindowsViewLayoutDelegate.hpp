@@ -43,6 +43,19 @@ namespace TitaniumWindows
 			virtual void animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT override;
 
 			/*!
+			@method
+
+			@abstract backgroundImage : String
+
+			@discussion Background image for the view, specified as a local file path or URL.
+
+			Default: Default behavior when `backgroundImage` is unspecified depends on the type of view and the platform.
+
+			For generic views, no image is used. For most controls (buttons, text fields, and so on), platform-specific default images are used.
+			*/
+			virtual void set_backgroundImage(const std::string& backgroundImage) TITANIUM_NOEXCEPT override;
+
+			/*!
 			  @method
 
 			  @abstract backgroundColor : String
@@ -363,10 +376,13 @@ namespace TitaniumWindows
 			static Windows::UI::Color ColorForName(const std::string& colorName);
 			static Windows::UI::Color ColorForHexCode(const std::string& hexCode);
 
+			void updateBackgroundImageSize() TITANIUM_NOEXCEPT;
+
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			Windows::UI::Xaml::FrameworkElement^ component__ { nullptr };
+			Windows::UI::Xaml::Controls::Image^ backgroundImageControl__ { nullptr };
 
 			Titanium::LayoutEngine::Node* layout_node__ { nullptr };
 

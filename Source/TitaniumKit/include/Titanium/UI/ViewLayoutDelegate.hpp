@@ -102,6 +102,20 @@ namespace Titanium
 			virtual void set_visible(const bool& visible) TITANIUM_NOEXCEPT;
 
 			/*!
+			@method
+
+			@abstract backgroundImage : String
+
+			@discussion Background image for the view, specified as a local file path or URL.
+
+			Default: Default behavior when `backgroundImage` is unspecified depends on the type of view and the platform. 
+			
+			For generic views, no image is used. For most controls (buttons, text fields, and so on), platform-specific default images are used. 
+			*/
+			virtual std::string get_backgroundImage() const TITANIUM_NOEXCEPT;
+			virtual void set_backgroundImage(const std::string& backgroundImage) TITANIUM_NOEXCEPT;
+
+			/*!
 			  @method
 
 			  @abstract backgroundColor : String
@@ -433,6 +447,7 @@ namespace Titanium
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			std::vector<std::shared_ptr<Titanium::UI::View>> children__;
+			std::string backgroundImage__;
 			std::string backgroundColor__;
 			std::string borderColor__;
 			uint32_t borderRadius__;
