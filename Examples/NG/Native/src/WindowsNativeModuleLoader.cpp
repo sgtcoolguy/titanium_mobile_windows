@@ -7,6 +7,7 @@
 #include "WindowsNativeModuleLoader.hpp"
 #include "Titanium/detail/TiBase.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "TitaniumWindows/UI/UIElement.hpp"
 
 // INSERT_INCLUDES
 #include "Platform.Object.hpp"
@@ -697,6 +698,18 @@ namespace TitaniumWindows
 		registerValue(context, path, instantiated);
 
 		return static_cast<JSValue>(instantiated);
+	}
+
+	JSObject WindowsNativeModuleLoader::wrapNativeUI(const JSContext& context, const JSObject& object)
+	{
+		auto ui_element_wrapper = object.GetPrivate<::Titanium::Windows::UI::Xaml::UIElement>();
+		auto element = ui_element_wrapper->unwrapWindows_UI_Xaml_UIElement();
+		auto wrapped = context.CreateObject(JSExport<::TitaniumWindows::UI::UIElement>::Class());
+		// ok we have a wrapper View subclass, but we need to instantiate an instance as constructor!
+		auto constructed = wrapped.CallAsConstructor();
+		auto blah = constructed.GetPrivate<::TitaniumWindows::UI::UIElement>();
+		blah->setComponent(dynamic_cast<Windows::UI::Xaml::FrameworkElement^>(element));
+		return constructed;
 	}
 
 }  // namespace TitaniumWindows

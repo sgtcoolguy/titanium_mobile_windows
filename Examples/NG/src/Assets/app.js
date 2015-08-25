@@ -1,6 +1,5 @@
-var Window = require('Windows.UI.Xaml.Window'),
+var win,
     TextBlock = require('Windows.UI.Xaml.Controls.TextBlock'),
-    window = Window.Current,
 	text = new TextBlock();
 
 text.Text = "Hello, world!";
@@ -9,5 +8,6 @@ text.Text = "Hello, world!";
 //text.HorizontalAlignment = HorizontalAlignment.Center;
 text.FontSize = 60;
 
-window.Content = text;
-window.Activate();
+win = Ti.UI.createWindow({});
+win.add(text);
+win.open();

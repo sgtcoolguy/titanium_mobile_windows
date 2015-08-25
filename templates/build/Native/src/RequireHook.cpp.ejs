@@ -31,6 +31,7 @@ namespace TitaniumWindows_Native
 		app__->TitaniumModulePreload -= preload__;
 		app__->TitaniumModuleRequire -= require__;
 		app__->TitaniumModuleNames   -= names__;
+		app__->UnwrapNativeUIElement -= ui_cast__;
 	}
 
 	void RequireHook::Register(TitaniumWindows::Application^ app)
@@ -39,6 +40,7 @@ namespace TitaniumWindows_Native
 		preload__ = app__->TitaniumModulePreload += ref new TitaniumWindows::TitaniumModulePreloadHandler(this, &TitaniumWindows_Native::RequireHook::OnTitaniumModulePreload);
 		require__ = app__->TitaniumModuleRequire += ref new TitaniumWindows::TitaniumModuleRequireHandler(this, &TitaniumWindows_Native::RequireHook::OnTitaniumModuleRequire);
 		names__   = app__->TitaniumModuleNames   += ref new TitaniumWindows::TitaniumModuleNamesHandler(this, &TitaniumWindows_Native::RequireHook::OnTitaniumModuleNames);
+		ui_cast__ = app__->UnwrapNativeUIElement += ref new TitaniumWindows::NativeUIElementUnwrapHandler(this, &TitaniumWindows_Native::RequireHook::OnNativeUIWrap);
 
 		app__->SaveRequireHook(this);
 	}
@@ -91,6 +93,16 @@ namespace TitaniumWindows_Native
 		//// INSERT SUPPORTED NATIVE MODULE NAMES END
 
 		return names;
+	}
+
+	std::intptr_t RequireHook::OnNativeUIWrap(std::intptr_t js_context_ref, std::intptr_t js_object_ref)
+	{
+		const auto js_context = JSContext(reinterpret_cast<JSContextRef>(js_context_ref));
+		const auto js_object = JSObject(js_context, reinterpret_cast<JSObjectRef>(js_object_ref));
+
+		auto value = native_module_loader__->wrapNativeUI(js_context, js_object);
+
+		return reinterpret_cast<std::intptr_t>(static_cast<JSObjectRef>(value));
 	}
 
 } // namespace TitaniumWindows

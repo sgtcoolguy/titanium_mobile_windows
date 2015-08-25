@@ -50,8 +50,6 @@ endif()
 set(SOURCE_UI
   include/TitaniumWindows/UI/Clipboard.hpp
   src/Clipboard.cpp
-  include/TitaniumWindows/UI/detail/UIBase.hpp
-  include/TitaniumWindows/UI.hpp
   include/TitaniumWindows/UI/ActivityIndicator.hpp
   src/ActivityIndicator.cpp
   include/TitaniumWindows/UI/AlertDialog.hpp
@@ -102,6 +100,8 @@ set(SOURCE_UI
   src/Window.cpp
   include/TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp
   src/WindowsViewLayoutDelegate.cpp
+  include/TitaniumWindows/UI/UIElement.hpp
+  src/UIElement.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})

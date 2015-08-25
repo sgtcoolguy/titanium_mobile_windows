@@ -5,10 +5,13 @@
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
+#include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/UI/View.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 #include "Windows.UI.Xaml.Controls.UIElementCollection.hpp"
 #include "Windows.UI.Xaml.UIElement.hpp"
-#include "Titanium/detail/TiImpl.hpp"
+
 
 namespace Titanium
 {
@@ -237,16 +240,22 @@ namespace Titanium
 			auto context = get_context();
 			if (arguments.size() == 1) {
 				auto _0 = arguments.at(0);
-			TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
-			auto object_value = static_cast<JSObject>(_0);
- 
-			auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::UIElement>();
-			// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
-			// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
-			auto value = wrapper_value->unwrapWindows_UI_Xaml_UIElement();
+				TITANIUM_ASSERT_AND_THROW(_0.IsObject(), "Expected Object");
+				auto object_value = static_cast<JSObject>(_0);
 
-				unwrap()->Append(value);
-				return context.CreateUndefined(); 
+				auto wrapper_value = object_value.GetPrivate<Windows::UI::Xaml::UIElement>();
+				if (wrapper_value) {
+					auto value = wrapper_value->unwrapWindows_UI_Xaml_UIElement();
+					unwrap()->Append(value);
+					return context.CreateUndefined();
+				} else {
+					auto view = object_value.GetPrivate<::Titanium::UI::View>();
+					if (view) {
+						auto component = view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getComponent();
+						unwrap()->Append(component);
+						return context.CreateUndefined();
+					}
+				}
 			}
 
 			// Catch-all if no arg count matches!

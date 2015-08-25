@@ -20,6 +20,7 @@ namespace TitaniumWindows
 		~WindowsNativeModuleLoader();
 
 		JSValue registerNativeModule(const JSContext& context, const std::string& path) const;
+		JSObject wrapNativeUI(const JSContext& context, const JSObject& object);
 
 	private:
 		void registerValue(const JSContext& context, const std::string& name, const JSValue& value) const;
