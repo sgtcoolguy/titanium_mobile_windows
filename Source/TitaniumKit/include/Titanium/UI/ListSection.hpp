@@ -140,7 +140,7 @@ namespace Titanium
 			ListSection(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
-			virtual ~ListSection() = default;
+			virtual ~ListSection();
 			ListSection(const ListSection&) = default;
 			ListSection& operator=(const ListSection&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

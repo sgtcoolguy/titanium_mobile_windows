@@ -39,7 +39,7 @@ namespace TitaniumWindows
 
 			ListView(const JSContext&) TITANIUM_NOEXCEPT;
 
-			virtual ~ListView()                  = default;
+			virtual ~ListView();
 			ListView(const ListView&)            = default;
 			ListView& operator=(const ListView&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

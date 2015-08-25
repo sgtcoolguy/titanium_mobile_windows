@@ -25,6 +25,11 @@ namespace TitaniumWindows
 		{
 		}
 
+		ListView::~ListView() 
+		{
+			clearListViewData();
+		}
+
 		void ListView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
 			Titanium::UI::ListView::postCallAsConstructor(js_context, arguments);	
@@ -55,6 +60,15 @@ namespace TitaniumWindows
 
 		void ListView::clearListViewData() 
 		{
+			for (const auto section : sections__) {
+				unregisterListViewItemAsLayoutNode(section->get_headerView());
+				unregisterListViewItemAsLayoutNode(section->get_footerView());
+				const auto items = section->get_items();
+				for (const auto item : items) {
+					unregisterListViewItemAsLayoutNode(item.view);
+				}
+			}
+
 			resetListViewDataBinding();
 			collectionViewItems__->Clear();
 			unfiltered_headers__.clear();
@@ -336,7 +350,7 @@ namespace TitaniumWindows
 				for (std::uint32_t i = itemIndex; i < itemIndex + itemCount; i++) {
 					const auto view = createSectionItemViewAt<TitaniumWindows::UI::View>(sectionIndex, i);
 					appendListViewItemForSection(view, views);
-					section->setViewForSectionItem(itemIndex, view);
+					section->setViewForSectionItem(i, view);
 				}
 			} else if (name == "update" || name == "replace") {
 				// "update" and "replace" are basically same, it removes existing content and insert new one
@@ -349,7 +363,7 @@ namespace TitaniumWindows
 				for (std::uint32_t i = itemIndex; i < itemIndex + itemCount; i++) {
 					const auto view = createSectionItemViewAt<TitaniumWindows::UI::View>(sectionIndex, i);
 					insertListViewItemForSection(view, views, index++);
-					section->setViewForSectionItem(itemIndex, view);
+					section->setViewForSectionItem(i, view);
 				}
 			} else if (name == "delete") {
 				const std::uint32_t index = itemIndex + 1; // +1 because index=0 is header
@@ -379,8 +393,11 @@ namespace TitaniumWindows
 		Vector<UIElement^>^ ListView::createUIElementsForSection(const std::uint32_t& sectionIndex) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_ASSERT(sections__.size() > sectionIndex);
-			const auto views = createSectionViewAt<TitaniumWindows::UI::View>(sectionIndex);
 			auto group = ref new Vector<UIElement^>();
+
+			const auto itemsCountToBeCreated = sections__.at(sectionIndex)->get_items().size();
+			const auto views = createSectionViewAt<TitaniumWindows::UI::View>(sectionIndex);
+			TITANIUM_ASSERT(views.size() == itemsCountToBeCreated);
 
 			// Set section header
 			const auto section = sections__.at(sectionIndex);
@@ -403,8 +420,9 @@ namespace TitaniumWindows
 			}
 
 			for (uint32_t itemIndex = 0; itemIndex < views.size(); itemIndex++) {
-				appendListViewItemForSection(views.at(itemIndex), group);
-				section->setViewForSectionItem(itemIndex, views.at(itemIndex));
+				auto view = views.at(itemIndex);
+				appendListViewItemForSection(view, group);
+				section->setViewForSectionItem(itemIndex, view);
 			}
 			return group;
 		}
@@ -423,6 +441,7 @@ namespace TitaniumWindows
 			if (view == nullptr) {
 				return;
 			}
+			TITANIUM_LOG_DEBUG("ListView::unregisterListViewItemAsLayoutNode ", view.get(), " for ", this);
 			auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
 			Titanium::LayoutEngine::nodeRemoveChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
 		}

@@ -73,6 +73,11 @@ namespace Titanium
 			HAL_LOG_DEBUG("ListSection:: postCallAsConstructor ", this);
 		}
 
+		ListSection::~ListSection() 
+		{
+			TITANIUM_LOG_DEBUG("ListSection:: dtor ", this);
+		}
+
 		TITANIUM_PROPERTY_READWRITE(ListSection, std::string, footerTitle)
 		TITANIUM_PROPERTY_READWRITE(ListSection, std::string, headerTitle)
 		TITANIUM_PROPERTY_READWRITE(ListSection, std::shared_ptr<View>, footerView)
@@ -148,6 +153,9 @@ namespace Titanium
 		void ListSection::setViewForSectionItem(const std::uint32_t& itemIndex, const std::shared_ptr<View>& view) 
 		{
 			TITANIUM_ASSERT(items__.size() > itemIndex);
+
+			TITANIUM_LOG_DEBUG("ListSectin::setViewForSectionItem at ", itemIndex, " ", view.get(), " for ", this);
+
 			auto item = items__.at(itemIndex);
 			item.view = view;
 			items__.at(itemIndex) = item;
@@ -155,8 +163,11 @@ namespace Titanium
 
 		std::shared_ptr<View> ListSection::getViewForSectionItem(const std::uint32_t& itemIndex) 
 		{
-			TITANIUM_ASSERT(items__.size() > itemIndex);
-			return items__.at(itemIndex).view;
+			if (items__.size() > itemIndex) {
+				return items__.at(itemIndex).view;
+			} else {
+				return nullptr;
+			}
 		}
 
 		void ListSection::JSExportInitialize() 

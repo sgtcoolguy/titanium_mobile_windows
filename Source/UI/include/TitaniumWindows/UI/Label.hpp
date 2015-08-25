@@ -22,7 +22,7 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT WindowsLabelLayoutDelegate : public WindowsViewLayoutDelegate {
 		public:
 			WindowsLabelLayoutDelegate() TITANIUM_NOEXCEPT;
-			virtual ~WindowsLabelLayoutDelegate() = default;
+			virtual ~WindowsLabelLayoutDelegate();
 
 			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component) override;
 			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
@@ -43,7 +43,7 @@ namespace TitaniumWindows
 		public:
 			Label(const JSContext&) TITANIUM_NOEXCEPT;
 
-			virtual ~Label() = default;
+			virtual ~Label();
 			Label(const Label&) = default;
 			Label& operator=(const Label&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE

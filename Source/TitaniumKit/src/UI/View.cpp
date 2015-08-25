@@ -18,10 +18,12 @@ namespace Titanium
 		View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Module(js_context)
 		{
+			TITANIUM_LOG_DEBUG("View::ctor ", this);
 		}
 
 		View::~View() TITANIUM_NOEXCEPT
 		{
+			TITANIUM_LOG_DEBUG("View::dtor ", this);
 		}
 
 		void View::postInitialize(JSObject& this_object)

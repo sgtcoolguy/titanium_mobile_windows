@@ -25,12 +25,12 @@ namespace Titanium
 			autoLayoutForHeight__(defaultHeight__),
 			autoLayoutForWidth__(defaultWidth__)
 		{
-
+			TITANIUM_LOG_DEBUG("ViewLayoutDelegate::ctor ", this);
 		}
 
 		ViewLayoutDelegate::~ViewLayoutDelegate() 
 		{
-
+			TITANIUM_LOG_DEBUG("ViewLayoutDelegate::dtor ", this, " with ", children__.size(), " children");
 		}
 
 		void ViewLayoutDelegate::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT

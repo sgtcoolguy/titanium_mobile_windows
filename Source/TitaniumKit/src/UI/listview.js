@@ -98,11 +98,11 @@ function createSectionView(listview, section) {
 
 	ensureLoadTemplates(listview);
 
-	section.views = []; // store views to protect from gc
+	var views = [];
 	for (var i = 0; i < section.items.length; i++) {
-		section.views.push(createSectionItemAt(listview, section, i));
+		views.push(createSectionItemAt(listview, section, i));
 	}
-	return section.views;
+	return views;
 }
 
 function createSectionItemView(item, template, parent) {
