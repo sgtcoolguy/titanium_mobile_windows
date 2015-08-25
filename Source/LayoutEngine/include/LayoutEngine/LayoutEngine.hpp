@@ -164,7 +164,7 @@ namespace Titanium
 		struct ComputedSize doHorizontalLayout(std::vector<struct Element*>, double, double, bool, bool);
 		void measureNodeForHorizontalLayout(struct LayoutProperties, struct Element*);
 		void layoutPropertiesInitialize(struct LayoutProperties*);
-		void populateLayoutPoperties(struct InputProperty, struct LayoutProperties*, double);
+		void populateLayoutProperties(struct InputProperty, struct LayoutProperties*, double, const std::string&);
 		struct ComputedSize doVerticalLayout(std::vector<struct Element*>, double, double, bool, bool);
 		void measureNodeForVerticalLayout(struct LayoutProperties, struct Element*);
 
