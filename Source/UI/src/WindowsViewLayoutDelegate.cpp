@@ -805,21 +805,6 @@ namespace TitaniumWindows
 				}
 			}
 
-			if (parentLayout != nullptr) {
-				const auto clipX = static_cast<float>(-Canvas::GetLeft(component));
-				const auto clipY = static_cast<float>(-Canvas::GetTop(component));
-				const auto clipW = static_cast<float>(parentLayout->element.measuredWidth);
-				const auto clipH = static_cast<float>(parentLayout->element.measuredHeight);
-
-				// FIXME: UIElement.Clip clips visible area only, so it can't capture areas outside of screen
-				// which means it usually doesn't work well with ScrollView
-				if ((clipW < component->Width) || (clipH < component->Height)) {
-					auto clipRect = ref new Windows::UI::Xaml::Media::RectangleGeometry();
-					clipRect->Rect = Windows::Foundation::Rect(clipX, clipY, clipW, clipH);
-					component->Clip = clipRect;
-				}
-			}
-
 			oldRect__ = Titanium::LayoutEngine::RectMake(rect.x, rect.y, rect.width, rect.height);
 		}
 
