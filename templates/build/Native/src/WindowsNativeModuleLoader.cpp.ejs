@@ -131,6 +131,9 @@ for (class_name in classes) {
 
 	JSObject WindowsNativeModuleLoader::wrapNativeUI(const JSContext& context, const JSObject& object)
 	{
+<%
+if (classes['Windows.Ui.Xaml.UIElement']) {
+-%>
 		auto ui_element_wrapper = object.GetPrivate<::Titanium::Windows::UI::Xaml::UIElement>();
 		auto element = ui_element_wrapper->unwrapWindows_UI_Xaml_UIElement();
 		auto wrapped = context.CreateObject(JSExport<::TitaniumWindows::UI::UIElement>::Class());
@@ -139,6 +142,13 @@ for (class_name in classes) {
 		auto blah = constructed.GetPrivate<::TitaniumWindows::UI::UIElement>();
 		blah->setComponent(dynamic_cast<Windows::UI::Xaml::FrameworkElement^>(element));
 		return constructed;
+<%
+} else {
+-%>
+		return context.CreateObject();
+<%
+}
+-%>
 	}
 
 }  // namespace TitaniumWindows
