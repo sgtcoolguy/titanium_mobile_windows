@@ -11,12 +11,25 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/ImageView.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
 		using namespace HAL;
+
+		class TITANIUMWINDOWS_UI_EXPORT WindowsImageViewLayoutDelegate : public WindowsViewLayoutDelegate {
+		public:
+			WindowsImageViewLayoutDelegate() TITANIUM_NOEXCEPT;
+			virtual ~WindowsImageViewLayoutDelegate();
+
+			void stretchImageView() TITANIUM_NOEXCEPT;
+
+			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
+			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override;
+		private:
+		};
 
 		/*!
 		  @class
