@@ -26,6 +26,8 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
+		using namespace Windows::UI::Xaml;
+
 		WindowsViewLayoutDelegate::WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
 			: ViewLayoutDelegate()
 		{
@@ -63,9 +65,9 @@ namespace TitaniumWindows
 					requestLayout();
 				}
 				try {
-					uint32_t index = -1;
-					auto result = nativeView->Children->IndexOf(nativeChildView, &index);
-					if (result) {
+					uint32_t index = 0;
+					auto found = nativeView->Children->IndexOf(nativeChildView, &index);
+					if (found) {
 						nativeView->Children->RemoveAt(index);
 					} else {
 						TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::remove: Component not in list of children");
@@ -464,6 +466,56 @@ namespace TitaniumWindows
 			storyboard->Begin();
 		}
 
+		void WindowsViewLayoutDelegate::updateBackgroundImageSize() TITANIUM_NOEXCEPT
+		{
+			if (backgroundImageControl__ != nullptr) {
+				const auto component = getComponent();
+				backgroundImageControl__->Width  = component->Width;
+				backgroundImageControl__->Height = component->Height;
+			}
+		}
+
+		void WindowsViewLayoutDelegate::set_backgroundImage(const std::string& backgroundImage) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_backgroundImage(backgroundImage);
+
+			const auto component = dynamic_cast<Controls::Panel^>(component__);
+			if (component != nullptr) {
+				// Hide image when url is empty
+				if (backgroundImage.empty() && backgroundImageControl__ != nullptr) {
+					backgroundImageControl__->Visibility = Visibility::Collapsed;
+					return;
+				}
+
+				// Lazy initialization
+				if (backgroundImageControl__ == nullptr) {
+					backgroundImageControl__ = ref new Controls::Image();
+					backgroundImageControl__->Stretch = Media::Stretch::Fill;
+					Windows::UI::Xaml::Controls::Canvas::SetZIndex(backgroundImageControl__, -1);
+				}
+
+				// Append image if not there
+				auto views = component->Children;
+				uint32_t index = 0;
+				const auto found = views->IndexOf(backgroundImageControl__, &index);
+				if (!found) {
+					views->Append(backgroundImageControl__);
+				}
+
+				// Fill this view
+				updateBackgroundImageSize();
+
+				// Update image source
+				const auto uri = TitaniumWindows::Utility::GetUriFromPath(backgroundImage);
+				const auto image = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(uri);
+				backgroundImageControl__->Source = image;
+
+			} else {
+				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_backgroundImage: Unable to set background image for this component");
+			}
+
+		}
+
 		void WindowsViewLayoutDelegate::set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_backgroundColor(backgroundColor);
@@ -663,6 +715,7 @@ namespace TitaniumWindows
 			const auto view = static_cast<WindowsViewLayoutDelegate*>(node->data);
 			auto rect = Titanium::LayoutEngine::RectMake(node->element.measuredLeft, node->element.measuredTop, node->element.measuredWidth, node->element.measuredHeight);
 			view->onLayoutEngineCallback(rect, node->name);
+			view->updateBackgroundImageSize();
 		}
 
 		void WindowsViewLayoutDelegate::setComponent(Windows::UI::Xaml::FrameworkElement^ component)
