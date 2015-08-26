@@ -806,10 +806,10 @@ namespace TitaniumWindows
 			}
 
 			if (parentLayout != nullptr) {
-				const auto clipX = -Canvas::GetLeft(component);
-				const auto clipY = -Canvas::GetTop(component);
-				const auto clipW = parentLayout->element.measuredWidth;
-				const auto clipH = parentLayout->element.measuredHeight;
+				const auto clipX = static_cast<float>(-Canvas::GetLeft(component));
+				const auto clipY = static_cast<float>(-Canvas::GetTop(component));
+				const auto clipW = static_cast<float>(parentLayout->element.measuredWidth);
+				const auto clipH = static_cast<float>(parentLayout->element.measuredHeight);
 
 				// FIXME: UIElement.Clip clips visible area only, so it can't capture areas outside of screen
 				// which means it usually doesn't work well with ScrollView
