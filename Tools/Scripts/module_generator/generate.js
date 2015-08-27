@@ -118,7 +118,6 @@ function includeModule(module_data) {
 		path_tik_module_hpp = SOURCE_FOLDER + 'TitaniumKit/include/Titanium/' + module_data.module_parent + 'Module.hpp';
 		path_tik_module_cpp = SOURCE_FOLDER + 'TitaniumKit/src/' + module_data.module_parent + 'Module.cpp';
 	}
-	var path_tiw_ui = SOURCE_FOLDER + 'UI/include/TitaniumWindows/UI.hpp';
 	var path_module_cmake = SOURCE_FOLDER + module_data.module_parent + '/CMakeLists.txt';
 
 	// TitaniumKit CMakeLists.txt modifications
@@ -248,9 +247,6 @@ function includeModule(module_data) {
 		asyncTasks.push(asyncRenameFile(path_tik_module_hpp, path_tik_module_hpp + ".bak"));
 		asyncTasks.push(asyncRenameFile(path_tik_module_cpp, path_tik_module_cpp + ".bak"));
 		asyncTasks.push(asyncRenameFile(path_module_cmake, path_module_cmake + ".bak"));
-		if (isUI) {
-			asyncTasks.push(asyncRenameFile(path_tiw_ui, path_tiw_ui + ".bak"));
-		}
 	} else {
 		asyncTasks.push(asyncRenameFile(path_ti_cmake, path_ti_cmake + ".bak"));
 		asyncTasks.push(asyncRenameFile(path_ti_bt, path_ti_bt + ".bak"));
@@ -409,22 +405,6 @@ function includeModule(module_data) {
 						writeFile(path_module_cmake, data);
 					}
 				);
-
-				if (isUI) {
-
-					// Modify TitaniumWindows UI.hpp
-					fs.readFile(path_tiw_ui + ".bak", 'utf8',
-						function(error, data) {
-							if (error) throw error;
-
-							data = [data];
-							modify(data, regex_tiw_ui, mod_tiw_ui);
-							data = data[0];
-
-							writeFile(path_tiw_ui, data);
-						}
-					);
-				}
 			}
 		}
 	);

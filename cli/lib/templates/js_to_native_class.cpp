@@ -151,6 +151,19 @@ if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 				<%= to_assign %>->Insert(key, value);
 			}
 <%
+} else if (type == 'Windows.UI.Xaml.UIElement') { // UIElement
+-%>
+			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");
+			auto object_<%= argument_name %> = static_cast<JSObject>(<%= argument_name %>);
+			auto wrapper_<%= to_assign %> = object_<%= argument_name %>.GetPrivate<<%= type.replace(/\./g, '::') %>>();
+			::<%= type.replace(/\./g, '::') %>^ <%= to_assign %>;
+			if (wrapper_<%= to_assign %>) {
+				<%= to_assign %> = wrapper_<%= to_assign %>->unwrap<%= type.replace(/\./g, '_') %>();
+			} else {
+				auto ti_view = object_<%= argument_name %>.GetPrivate<::Titanium::UI::View>();
+				<%= to_assign %> = ti_view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getComponent();
+			}
+<%
 } else { // normal class
 -%>
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");

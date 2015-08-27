@@ -44,7 +44,15 @@ namespace TitaniumWindows
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
+			virtual JSValue js_add(const std::vector<JSValue>& arguments, JSObject& this_object) override final;
+			virtual void registerNativeUIWrapHook(std::function<JSObject(const JSContext&, const JSObject&)> requireCallback);
+
 			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() TITANIUM_NOEXCEPT;
+
+#pragma warning(push)
+#pragma warning(disable : 4251)
+			std::function<JSObject(const JSContext&, const JSObject&)> native_wrapper_hook__;
+#pragma warning(pop)
 
 		private:
 
