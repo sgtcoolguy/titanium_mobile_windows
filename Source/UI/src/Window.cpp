@@ -215,7 +215,32 @@ namespace TitaniumWindows
 			const auto commandBar = viewObj.GetPrivate<TitaniumWindows::UI::WindowsXaml::CommandBar>();
 			if (commandBar == nullptr) {
 				// delegate to parent
-				return Titanium::UI::Window::js_add(arguments, this_object);
+				auto ui_view = viewObj.GetPrivate<::Titanium::UI::View>();
+				if (ui_view) {
+					layoutDelegate__->add(ui_view);
+				} else {
+					// If this is a native wrapper, we need to jump thorugh a lot of hoops to basically unwrap and rewrap as a Ti.UI.View
+					auto context = get_context();
+
+					JSValue Titanium_property = context.get_global_object().GetProperty("Titanium");
+					TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+					JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+					JSValue UI_property = Titanium.GetProperty("UI");
+					TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+					JSObject UI = static_cast<JSObject>(UI_property);
+
+					JSValue View_property = UI.GetProperty("View");
+					TITANIUM_ASSERT(View_property.IsObject());  // precondition
+					JSObject View = static_cast<JSObject>(View_property);
+
+					auto windows_view = View.GetPrivate<::TitaniumWindows::UI::View>();
+
+					auto rewrapped = windows_view->native_wrapper_hook__(context, viewObj);
+					ui_view = rewrapped.GetPrivate<::Titanium::UI::View>();
+					layoutDelegate__->add(ui_view);
+				}
+				return get_context().CreateUndefined();
 			}
 
 			// TODO: assuming bottom bar here...but Windows app accepts both top and bottom.

@@ -11,78 +11,6 @@
 #include "HAL/HAL.hpp"
 #include <collection.h>
 
-//// NATIVE_MODULE_INCLUDES START
-#include "Platform.Object.hpp"
-#include "Windows.Foundation.AsyncActionCompletedHandler.hpp"
-#include "Windows.Foundation.Collections.IPropertySet.hpp"
-#include "Windows.Foundation.IAsyncAction.hpp"
-#include "Windows.Foundation.IWwwFormUrlDecoderEntry.hpp"
-#include "Windows.Foundation.Uri.hpp"
-#include "Windows.Foundation.WwwFormUrlDecoder.hpp"
-#include "Windows.UI.Colors.hpp"
-#include "Windows.UI.Core.CoreCursor.hpp"
-#include "Windows.UI.Core.CoreDispatcher.hpp"
-#include "Windows.UI.Core.CoreWindow.hpp"
-#include "Windows.UI.Core.DispatchedHandler.hpp"
-#include "Windows.UI.Core.IdleDispatchedHandler.hpp"
-#include "Windows.UI.Core.IdleDispatchedHandlerArgs.hpp"
-#include "Windows.UI.Xaml.Controls.AppBar.hpp"
-#include "Windows.UI.Xaml.Controls.Canvas.hpp"
-#include "Windows.UI.Xaml.Controls.ContentControl.hpp"
-#include "Windows.UI.Xaml.Controls.Control.hpp"
-#include "Windows.UI.Xaml.Controls.ControlTemplate.hpp"
-#include "Windows.UI.Xaml.Controls.DataTemplateSelector.hpp"
-#include "Windows.UI.Xaml.Controls.Frame.hpp"
-#include "Windows.UI.Xaml.Controls.Page.hpp"
-#include "Windows.UI.Xaml.Controls.Panel.hpp"
-#include "Windows.UI.Xaml.Controls.TextBlock.hpp"
-#include "Windows.UI.Xaml.Controls.UIElementCollection.hpp"
-#include "Windows.UI.Xaml.Controls.UserControl.hpp"
-#include "Windows.UI.Xaml.CreateDefaultValueCallback.hpp"
-#include "Windows.UI.Xaml.Data.Binding.hpp"
-#include "Windows.UI.Xaml.Data.BindingBase.hpp"
-#include "Windows.UI.Xaml.Data.BindingExpression.hpp"
-#include "Windows.UI.Xaml.Data.BindingExpressionBase.hpp"
-#include "Windows.UI.Xaml.Data.IValueConverter.hpp"
-#include "Windows.UI.Xaml.Data.RelativeSource.hpp"
-#include "Windows.UI.Xaml.DataTemplate.hpp"
-#include "Windows.UI.Xaml.DependencyObject.hpp"
-#include "Windows.UI.Xaml.DependencyProperty.hpp"
-#include "Windows.UI.Xaml.DependencyPropertyChangedEventArgs.hpp"
-#include "Windows.UI.Xaml.Documents.Inline.hpp"
-#include "Windows.UI.Xaml.Documents.InlineCollection.hpp"
-#include "Windows.UI.Xaml.Documents.TextElement.hpp"
-#include "Windows.UI.Xaml.Documents.TextPointer.hpp"
-#include "Windows.UI.Xaml.FrameworkElement.hpp"
-#include "Windows.UI.Xaml.FrameworkTemplate.hpp"
-#include "Windows.UI.Xaml.Input.Pointer.hpp"
-#include "Windows.UI.Xaml.Media.Animation.NavigationTransitionInfo.hpp"
-#include "Windows.UI.Xaml.Media.Animation.Transition.hpp"
-#include "Windows.UI.Xaml.Media.Animation.TransitionCollection.hpp"
-#include "Windows.UI.Xaml.Media.Brush.hpp"
-#include "Windows.UI.Xaml.Media.CacheMode.hpp"
-#include "Windows.UI.Xaml.Media.FontFamily.hpp"
-#include "Windows.UI.Xaml.Media.GeneralTransform.hpp"
-#include "Windows.UI.Xaml.Media.Geometry.hpp"
-#include "Windows.UI.Xaml.Media.Projection.hpp"
-#include "Windows.UI.Xaml.Media.RectangleGeometry.hpp"
-#include "Windows.UI.Xaml.Media.SolidColorBrush.hpp"
-#include "Windows.UI.Xaml.Media.Transform.hpp"
-#include "Windows.UI.Xaml.Navigation.PageStackEntry.hpp"
-#include "Windows.UI.Xaml.PropertyChangedCallback.hpp"
-#include "Windows.UI.Xaml.PropertyMetadata.hpp"
-#include "Windows.UI.Xaml.PropertyPath.hpp"
-#include "Windows.UI.Xaml.ResourceDictionary.hpp"
-#include "Windows.UI.Xaml.RoutedEvent.hpp"
-#include "Windows.UI.Xaml.SetterBase.hpp"
-#include "Windows.UI.Xaml.SetterBaseCollection.hpp"
-#include "Windows.UI.Xaml.Style.hpp"
-#include "Windows.UI.Xaml.TriggerBase.hpp"
-#include "Windows.UI.Xaml.TriggerCollection.hpp"
-#include "Windows.UI.Xaml.UIElement.hpp"
-#include "Windows.UI.Xaml.Window.hpp"
-//// NATIVE_MODULE_INCLUDES END
-
 namespace TitaniumWindows_Native
 {
 
@@ -98,6 +26,7 @@ namespace TitaniumWindows_Native
 		app__->TitaniumModulePreload -= preload__;
 		app__->TitaniumModuleRequire -= require__;
 		app__->TitaniumModuleNames   -= names__;
+		app__->UnwrapNativeUIElement -= ui_cast__;
 	}
 
 	void RequireHook::Register(TitaniumWindows::Application^ app)
@@ -106,6 +35,7 @@ namespace TitaniumWindows_Native
 		preload__ = app__->TitaniumModulePreload += ref new TitaniumWindows::TitaniumModulePreloadHandler(this, &TitaniumWindows_Native::RequireHook::OnTitaniumModulePreload);
 		require__ = app__->TitaniumModuleRequire += ref new TitaniumWindows::TitaniumModuleRequireHandler(this, &TitaniumWindows_Native::RequireHook::OnTitaniumModuleRequire);
 		names__   = app__->TitaniumModuleNames   += ref new TitaniumWindows::TitaniumModuleNamesHandler(this, &TitaniumWindows_Native::RequireHook::OnTitaniumModuleNames);
+		ui_cast__ = app__->UnwrapNativeUIElement += ref new TitaniumWindows::NativeUIElementUnwrapHandler(this, &TitaniumWindows_Native::RequireHook::OnNativeUIWrap);
 
 		app__->SaveRequireHook(this);
 	}
@@ -221,6 +151,16 @@ namespace TitaniumWindows_Native
 		//// INSERT SUPPORTED NATIVE MODULE NAMES END
 
 		return names;
+	}
+
+	std::intptr_t RequireHook::OnNativeUIWrap(std::intptr_t js_context_ref, std::intptr_t js_object_ref)
+	{
+		const auto js_context = JSContext(reinterpret_cast<JSContextRef>(js_context_ref));
+		const auto js_object = JSObject(js_context, reinterpret_cast<JSObjectRef>(js_object_ref));
+
+		auto value = native_module_loader__->wrapNativeUI(js_context, js_object);
+
+		return reinterpret_cast<std::intptr_t>(static_cast<JSObjectRef>(value));
 	}
 
 } // namespace TitaniumWindows

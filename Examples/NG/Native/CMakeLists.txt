@@ -39,6 +39,11 @@ if(NOT TARGET TitaniumWindows)
   add_subdirectory(${Utility_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Titanium EXCLUDE_FROM_ALL)
 endif()
 
+if(NOT TARGET TitaniumWindows_UI)
+  get_filename_component(Utility_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../../../Source/UI ABSOLUTE)
+  add_subdirectory(${Utility_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/UI EXCLUDE_FROM_ALL)
+endif()
+
 file(GLOB_RECURSE WINDOWS_WRAPPERS "src/*.cpp")
 file(GLOB_RECURSE WINDOWS_HEADERS "include/*.hpp")
 
@@ -63,10 +68,12 @@ target_compile_definitions(TitaniumWindows_Native PRIVATE TitaniumWindows_Native
 target_include_directories(TitaniumWindows_Native PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   $<TARGET_PROPERTY:TitaniumWindows,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_UI,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
 target_link_libraries(TitaniumWindows_Native
   TitaniumWindows
+  TitaniumWindows_UI
   )
 
 set_target_properties(TitaniumWindows_Native PROPERTIES VS_WINRT_COMPONENT TRUE)

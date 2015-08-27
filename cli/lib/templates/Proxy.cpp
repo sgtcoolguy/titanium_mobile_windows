@@ -64,15 +64,20 @@ types_to_include = types_to_include.filter(function(elem, pos) {
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
-
 <%
+if (types_to_include.indexOf('Windows.UI.Xaml.UIElement') != -1) {
+-%>
+#include "Titanium/UI/View.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
+<%
+}
 for (var i = 0; i < types_to_include.length; i++) {
 	var type_name = types_to_include[i],
 		index = type_name.indexOf('`');
 	if (index != -1) { // strip off templated portion of name!
 		type_name = type_name.substring(0, index);
 	}
-	// FIXME Skip duplicates!
+
 	// HACK, skip the types we auto-convert to JSArrays/JSObjects...
 	if (type_name == 'Windows.Foundation.Collections.IIterator' ||
 		type_name == 'Windows.Foundation.Collections.IIterable' ||
@@ -262,6 +267,7 @@ if (methods) {
 		if (method.name == '.ctor' || method.name.indexOf('add_') == 0 || method.name.indexOf('remove_') == 0) {
 			continue;
 		}
+
 -%>
 <%- include('function.cpp', {full_name: full_name, base_name: base_name, methods: methods}) %>
 <%
