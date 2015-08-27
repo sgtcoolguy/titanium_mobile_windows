@@ -28,7 +28,7 @@ Table of Contents
 
 ### Windows
 
-Step 1. Install [Visual Studio 2013 Update 4 (or higher)](https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx) - Community, Professional, Premium or Ultimate. *Not* Express.
+Step 1. Install [Visual Studio 2013 Update 4 (or higher)](https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx) - Community, Professional, Premium or Ultimate. *Not* Express. Currently Visual Studio 2015 is not supported [[AC-290]](https://jira.appcelerator.org/browse/AC-290).
 
 Step 2. Install the [Windows Phone 8.1 emulators](https://dev.windows.com/en-us/develop/download-phone-sdk). Note that this can be done through Visual Studio 2013 as well.
 
@@ -181,5 +181,3 @@ longer need to send one for subsequent submissions.
 ## Legal
 
 Appcelerator is a registered trademark of Appcelerator, Inc. Titanium is a registered trademark of Appcelerator, Inc.  Please see the LEGAL information about using our trademarks, privacy policy, terms of usage and other legal information at [http://www.appcelerator.com/legal](http://www.appcelerator.com/legal).
-
-
