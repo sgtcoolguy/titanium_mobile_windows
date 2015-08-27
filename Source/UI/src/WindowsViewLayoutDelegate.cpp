@@ -726,6 +726,7 @@ namespace TitaniumWindows
 			component__  = component;
 			is_panel__   = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(component__) != nullptr;
 			is_control__ = dynamic_cast<Windows::UI::Xaml::Controls::Control^>(component__) != nullptr;
+			is_scrollview__ = dynamic_cast<Windows::UI::Xaml::Controls::ScrollViewer^>(component__) != nullptr;
 
 			loaded_event__ = component__->Loaded += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
 				auto component = getComponent();
@@ -853,6 +854,16 @@ namespace TitaniumWindows
 				}
 			}
 
+			if (!is_scrollview__ && !std::isnan(component->Width) && !std::isnan(component->Height)) {
+				auto clipRect = ref new Media::RectangleGeometry();
+				clipRect->Rect = Windows::Foundation::Rect(
+					static_cast<float>(0),
+					static_cast<float>(0),
+					static_cast<float>(rect.width),
+					static_cast<float>(rect.height));
+				component->Clip = clipRect;
+			}
+
 			oldRect__ = Titanium::LayoutEngine::RectMake(rect.x, rect.y, rect.width, rect.height);
 		}
 
@@ -875,13 +886,12 @@ namespace TitaniumWindows
 						if (std::isnan(panel->Width) || std::isnan(panel->Height)) {
 							continue;
 						}
-						const auto clipX = static_cast<float>(-Canvas::GetLeft(child));
-						const auto clipY = static_cast<float>(-Canvas::GetTop(child));
-						const auto clipW = static_cast<float>(panel->Width);
-						const auto clipH = static_cast<float>(panel->Height);
-
 						auto clipRect = ref new Media::RectangleGeometry();
-						clipRect->Rect = Windows::Foundation::Rect(clipX, clipY, clipW, clipH);
+						clipRect->Rect = Windows::Foundation::Rect(
+							static_cast<float>(-Canvas::GetLeft(child)),
+							static_cast<float>(-Canvas::GetTop(child)),
+							static_cast<float>(panel->Width),
+							static_cast<float>(panel->Height));
 						child->Clip = clipRect;
 					}
 				}
