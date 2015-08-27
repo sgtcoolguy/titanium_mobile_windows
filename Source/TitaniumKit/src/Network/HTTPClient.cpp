@@ -391,8 +391,7 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_SETTER(HTTPClient, securityManager)
 		{
-			TITANIUM_ASSERT(argument.IsObject());
-			securityManager__ = static_cast<JSObject>(argument);
+			securityManager__ = argument;
 			return true;
 		}
 
