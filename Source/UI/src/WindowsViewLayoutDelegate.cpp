@@ -27,6 +27,7 @@ namespace TitaniumWindows
 	namespace UI
 	{
 		using namespace Windows::UI::Xaml;
+		using namespace Windows::UI::Xaml::Controls;
 
 		WindowsViewLayoutDelegate::WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
 			: ViewLayoutDelegate()
@@ -720,9 +721,6 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::setComponent(Windows::UI::Xaml::FrameworkElement^ component)
 		{
-			using namespace Windows::UI::Xaml;
-			using namespace Windows::UI::Xaml::Controls;
-
 			TITANIUM_ASSERT(component__ == nullptr);
 
 			component__  = component;
@@ -774,9 +772,6 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name)
 		{
-			using namespace Windows::UI::Xaml::Controls;
-			using namespace Windows::UI::Xaml;
-			
 			auto skipHeight = (is_height_size__ && rect.height == 0);
 			auto skipWidth  = (is_width_size__  && rect.width  == 0);
 
@@ -863,9 +858,34 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::requestLayout(const bool& fire_event)
 		{
-			auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node__);
+			const auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node__);
 			if (root) {
 				Titanium::LayoutEngine::nodeLayout(root);
+
+				const auto component = getComponent();
+				const auto panel = dynamic_cast<Panel^>(component);
+
+				if (panel != nullptr) {
+					for (auto child : panel->Children) {
+						// ScrollViewer should not be clipped
+						if (dynamic_cast<ScrollViewer^>(static_cast<UIElement^>(child)) != nullptr) {
+							continue;
+						}
+						// ignore when width and/or height is NaN
+						if (std::isnan(panel->Width) || std::isnan(panel->Height)) {
+							continue;
+						}
+						const auto clipX = static_cast<float>(-Canvas::GetLeft(child));
+						const auto clipY = static_cast<float>(-Canvas::GetTop(child));
+						const auto clipW = static_cast<float>(panel->Width);
+						const auto clipH = static_cast<float>(panel->Height);
+
+						auto clipRect = ref new Media::RectangleGeometry();
+						clipRect->Rect = Windows::Foundation::Rect(clipX, clipY, clipW, clipH);
+						child->Clip = clipRect;
+					}
+				}
+
 				if (fire_event && postlayout_listening__) {
 				 	auto event_delegate = event_delegate__.lock();
 				 	if (event_delegate != nullptr) {
