@@ -77,6 +77,16 @@ namespace Titanium
 			return children__;
 		}
 
+		std::string ViewLayoutDelegate::get_backgroundImage() const TITANIUM_NOEXCEPT
+		{
+			return backgroundImage__;
+		}
+
+		void ViewLayoutDelegate::set_backgroundImage(const std::string& backgroundImage) TITANIUM_NOEXCEPT
+		{
+			backgroundImage__ = backgroundImage;
+		}
+
 		std::string ViewLayoutDelegate::get_backgroundColor() const TITANIUM_NOEXCEPT
 		{
 			return backgroundColor__;

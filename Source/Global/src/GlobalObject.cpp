@@ -67,7 +67,7 @@ namespace TitaniumWindows
 
 	static Platform::String^ resolve(const std::string& path) 
 	{
-		const auto newpath = TitaniumWindows::Utility::ConvertUTF8String(boost::algorithm::replace_all_copy(path, "/", "\\"));
+		const auto newpath = TitaniumWindows::Utility::ConvertUTF8String(boost::algorithm::replace_all_copy(boost::algorithm::replace_all_copy(path, "/", "\\"), "\\\\", "\\"));
 
 		if (!boost::contains(path, ":")) {
 			Windows::ApplicationModel::Package^ package = Windows::ApplicationModel::Package::Current;

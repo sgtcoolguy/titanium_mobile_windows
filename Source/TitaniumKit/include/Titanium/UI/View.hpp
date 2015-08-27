@@ -79,6 +79,7 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(insertAt);
 			TITANIUM_FUNCTION_DEF(replaceAt);
 			
+			TITANIUM_PROPERTY_DEF(backgroundImage);
 			TITANIUM_PROPERTY_DEF(backgroundColor);
 			TITANIUM_PROPERTY_DEF(borderColor);
 			TITANIUM_PROPERTY_DEF(borderRadius);
