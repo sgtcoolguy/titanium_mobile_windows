@@ -9,7 +9,6 @@
 #include "TitaniumWindows/UI/ImageView.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "LayoutEngine/LayoutEngine.hpp"
-#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 #include <ppltasks.h>
 
@@ -17,6 +16,44 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
+		using namespace Windows::UI::Xaml;
+		using namespace Windows::UI::Xaml::Controls;
+
+		WindowsImageViewLayoutDelegate::WindowsImageViewLayoutDelegate() TITANIUM_NOEXCEPT
+			: WindowsViewLayoutDelegate()
+		{
+			TITANIUM_LOG_DEBUG("WindowsImageViewLayoutDelegate::ctor ", this);
+		}
+
+		WindowsImageViewLayoutDelegate::~WindowsImageViewLayoutDelegate() TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_DEBUG("WindowsImageViewLayoutDelegate::dtor ", this);
+		}
+
+		void WindowsImageViewLayoutDelegate::stretchImageView() TITANIUM_NOEXCEPT
+		{
+			const auto imageview = dynamic_cast<Image^>(component__);
+			TITANIUM_ASSERT(imageview != nullptr);
+			const auto fillstr = Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL);
+			if (width__ == fillstr && height__ == fillstr) {
+				imageview->Stretch = Media::Stretch::Fill;
+			} else {
+				imageview->Stretch = Media::Stretch::Uniform;
+			}
+		}
+
+		void WindowsImageViewLayoutDelegate::set_width(const std::string& width) TITANIUM_NOEXCEPT
+		{
+			WindowsViewLayoutDelegate::set_width(width);
+			stretchImageView();
+		}
+
+		void WindowsImageViewLayoutDelegate::set_height(const std::string& height) TITANIUM_NOEXCEPT
+		{
+			WindowsViewLayoutDelegate::set_height(height);
+			stretchImageView();
+		}
+
 		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::ImageView(js_context)
 		{
@@ -32,7 +69,7 @@ namespace TitaniumWindows
 			image__ = ref new Windows::UI::Xaml::Controls::Image();
 
 			internal_load_event_ = image__->ImageOpened += ref new RoutedEventHandler([this](::Platform::Object^ sender, RoutedEventArgs^ e) {
-				const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
 				auto rect = layout->computeRelativeSize(
 					Canvas::GetLeft(this->image__),
 					Canvas::GetTop(this->image__),
@@ -44,9 +81,14 @@ namespace TitaniumWindows
 				this->fireEvent("load", this->get_context().CreateObject());
 			});
 
-			Titanium::UI::ImageView::setLayoutDelegate<WindowsViewLayoutDelegate>();
+			Titanium::UI::ImageView::setLayoutDelegate<WindowsImageViewLayoutDelegate>();
 
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(image__);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::FILL);
+
+			getViewLayoutDelegate<WindowsImageViewLayoutDelegate>()->setComponent(image__);
 		}
 
 		void ImageView::JSExportInitialize()
@@ -168,7 +210,7 @@ namespace TitaniumWindows
 			using namespace Windows::UI::Xaml::Input;
 			using namespace Windows::UI::Xaml;
 
-			auto component = getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
+			auto component = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>()->getComponent();
 			// TODO Handle change/error/load/pause/start/stop!
 			if (event_name == "click") { // TODO Can't superclass handle common events like click?
 				click_event_ = component->Tapped += ref new TappedEventHandler([this, ctx](::Platform::Object^ sender, TappedRoutedEventArgs^ e) {

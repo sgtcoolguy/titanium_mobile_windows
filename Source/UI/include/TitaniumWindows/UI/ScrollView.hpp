@@ -53,14 +53,14 @@ namespace TitaniumWindows
 			ScrollView& operator=(ScrollView&&) = default;
 #endif
 
-			virtual void scrollTo(double x, double y) TITANIUM_NOEXCEPT override;
+			virtual void scrollTo(const double& x, const double& y) TITANIUM_NOEXCEPT override;
 			virtual void scrollToBottom() TITANIUM_NOEXCEPT override;
 
 			virtual std::string get_contentWidth() const TITANIUM_NOEXCEPT override;
 			virtual std::string get_contentHeight() const TITANIUM_NOEXCEPT override;
 
-			virtual void set_contentWidth(const double& width) TITANIUM_NOEXCEPT override;
-			virtual void set_contentHeight(const double& height) TITANIUM_NOEXCEPT override;
+			virtual void set_contentWidth(const std::string& width) TITANIUM_NOEXCEPT override;
+			virtual void set_contentHeight(const std::string& height) TITANIUM_NOEXCEPT override;
 
 			virtual bool get_scrollingEnabled() const TITANIUM_NOEXCEPT override;
 			virtual void set_scrollingEnabled(const bool& enabled) TITANIUM_NOEXCEPT override;

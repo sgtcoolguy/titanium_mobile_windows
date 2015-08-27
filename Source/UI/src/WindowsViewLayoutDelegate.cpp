@@ -27,6 +27,7 @@ namespace TitaniumWindows
 	namespace UI
 	{
 		using namespace Windows::UI::Xaml;
+		using namespace Windows::UI::Xaml::Controls;
 
 		WindowsViewLayoutDelegate::WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
 			: ViewLayoutDelegate()
@@ -720,14 +721,12 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::setComponent(Windows::UI::Xaml::FrameworkElement^ component)
 		{
-			using namespace Windows::UI::Xaml;
-			using namespace Windows::UI::Xaml::Controls;
-
 			TITANIUM_ASSERT(component__ == nullptr);
 
 			component__  = component;
 			is_panel__   = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(component__) != nullptr;
 			is_control__ = dynamic_cast<Windows::UI::Xaml::Controls::Control^>(component__) != nullptr;
+			is_scrollview__ = dynamic_cast<Windows::UI::Xaml::Controls::ScrollViewer^>(component__) != nullptr;
 
 			loaded_event__ = component__->Loaded += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
 				auto component = getComponent();
@@ -774,9 +773,6 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name)
 		{
-			using namespace Windows::UI::Xaml::Controls;
-			using namespace Windows::UI::Xaml;
-			
 			auto skipHeight = (is_height_size__ && rect.height == 0);
 			auto skipWidth  = (is_width_size__  && rect.width  == 0);
 
@@ -858,14 +854,48 @@ namespace TitaniumWindows
 				}
 			}
 
+			if (!is_scrollview__ && !std::isnan(component->Width) && !std::isnan(component->Height)) {
+				auto clipRect = ref new Media::RectangleGeometry();
+				clipRect->Rect = Windows::Foundation::Rect(
+					static_cast<float>(0),
+					static_cast<float>(0),
+					static_cast<float>(rect.width),
+					static_cast<float>(rect.height));
+				component->Clip = clipRect;
+			}
+
 			oldRect__ = Titanium::LayoutEngine::RectMake(rect.x, rect.y, rect.width, rect.height);
 		}
 
 		void WindowsViewLayoutDelegate::requestLayout(const bool& fire_event)
 		{
-			auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node__);
+			const auto root = Titanium::LayoutEngine::nodeRequestLayout(layout_node__);
 			if (root) {
 				Titanium::LayoutEngine::nodeLayout(root);
+
+				const auto component = getComponent();
+				const auto panel = dynamic_cast<Panel^>(component);
+
+				if (panel != nullptr) {
+					for (auto child : panel->Children) {
+						// ScrollViewer should not be clipped
+						if (dynamic_cast<ScrollViewer^>(static_cast<UIElement^>(child)) != nullptr) {
+							continue;
+						}
+						// ignore when width and/or height is NaN
+						if (std::isnan(panel->Width) || std::isnan(panel->Height)) {
+							continue;
+						}
+						auto clipRect = ref new Media::RectangleGeometry();
+						clipRect->Rect = Windows::Foundation::Rect(
+							static_cast<float>(-Canvas::GetLeft(child)),
+							static_cast<float>(-Canvas::GetTop(child)),
+							static_cast<float>(panel->Width),
+							static_cast<float>(panel->Height));
+						child->Clip = clipRect;
+					}
+				}
+
 				if (fire_event && postlayout_listening__) {
 				 	auto event_delegate = event_delegate__.lock();
 				 	if (event_delegate != nullptr) {

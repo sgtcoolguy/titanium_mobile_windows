@@ -18,7 +18,7 @@ namespace Titanium
 		{
 		}
 
-		void ScrollView::scrollTo(double x, double y) TITANIUM_NOEXCEPT
+		void ScrollView::scrollTo(const double& x, const double& y) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("ScrollView::scrollTo: Unimplemented");
 		}
@@ -28,110 +28,95 @@ namespace Titanium
 			TITANIUM_LOG_WARN("ScrollView::scrollToBottom: Unimplemented");
 		}
 
-		std::string ScrollView::get_contentWidth() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::get_contentWidth: Unimplemented");
-			return "";
-		}
+		TITANIUM_PROPERTY_READWRITE(ScrollView, std::int32_t, decelerationRate)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, std::int32_t, overScrollMode)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, std::int32_t, scrollIndicatorStyle)
 
-		std::string ScrollView::get_contentHeight() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::get_contentHeight: Unimplemented");
-			return "";
-		}
-
-		void ScrollView::set_contentWidth(const std::string& width) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::set_contentWidth(std::string): Unimplemented");
-		}
-
-		void ScrollView::set_contentHeight(const std::string& height) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::set_contentHeight(std::string): Unimplemented");
-		}
-
-		void ScrollView::set_contentWidth(const double& width) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::set_contentWidth(double): Unimplemented");
-		}
-
-		void ScrollView::set_contentHeight(const double& height) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::set_contentHeight(double): Unimplemented");
-		}
-
-		bool ScrollView::get_scrollingEnabled() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::get_scrollingEnabled: Unimplemented");
-			return false;
-		}
-
-		void ScrollView::set_scrollingEnabled(const bool& enabled) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::set_scrollingEnabled: Unimplemented");
-		}
-
-		bool ScrollView::get_showHorizontalScrollIndicator() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::get_showHorizontalScrollIndicator: Unimplemented");
-			return false;
-		}
-
-		void ScrollView::set_showHorizontalScrollIndicator(const bool& enabled) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::set_showHorizontalScrollIndicator: Unimplemented");
-		}
-
-		bool ScrollView::get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::get_showVerticalScrollIndicator: Unimplemented");
-			return false;
-		}
-
-		void ScrollView::set_showVerticalScrollIndicator(const bool& enabled) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("ScrollView::set_showVerticalScrollIndicator: Unimplemented");
-		}
+		TITANIUM_PROPERTY_READWRITE(ScrollView, bool, canCancelEvents)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, Point, contentOffset)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, bool, disableBounce)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, bool, horizontalBounce)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, double, maxZoomScale)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, double, minZoomScale)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, bool, scrollsToTop)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, std::string, scrollType)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, bool, verticalBounce)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, double, zoomScale)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, std::string, contentWidth)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, std::string, contentHeight)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, bool, scrollingEnabled)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, bool, showHorizontalScrollIndicator)
+		TITANIUM_PROPERTY_READWRITE(ScrollView, bool, showVerticalScrollIndicator)
 
 		void ScrollView::JSExportInitialize()
 		{
 			JSExport<ScrollView>::SetClassVersion(1);
 			JSExport<ScrollView>::SetParent(JSExport<View>::Class());
-			// methods
-			TITANIUM_ADD_FUNCTION(ScrollView, scrollTo);
-			TITANIUM_ADD_FUNCTION(ScrollView, scrollToBottom);
 
-			// properties
+			TITANIUM_ADD_PROPERTY(ScrollView, canCancelEvents);
+			TITANIUM_ADD_PROPERTY(ScrollView, contentOffset);
+			TITANIUM_ADD_PROPERTY(ScrollView, disableBounce);
+			TITANIUM_ADD_PROPERTY(ScrollView, horizontalBounce);
+			TITANIUM_ADD_PROPERTY(ScrollView, maxZoomScale);
+			TITANIUM_ADD_PROPERTY(ScrollView, minZoomScale);
+			TITANIUM_ADD_PROPERTY(ScrollView, scrollsToTop);
+			TITANIUM_ADD_PROPERTY(ScrollView, scrollType);
+			TITANIUM_ADD_PROPERTY(ScrollView, verticalBounce);
+			TITANIUM_ADD_PROPERTY(ScrollView, zoomScale);
 			TITANIUM_ADD_PROPERTY(ScrollView, contentWidth);
 			TITANIUM_ADD_PROPERTY(ScrollView, contentHeight);
-			TITANIUM_ADD_FUNCTION(ScrollView, setContentWidth);
-			TITANIUM_ADD_FUNCTION(ScrollView, setContentHeight);
-			TITANIUM_ADD_FUNCTION(ScrollView, getContentWidth);
-			TITANIUM_ADD_FUNCTION(ScrollView, getContentHeight);
-
 			TITANIUM_ADD_PROPERTY(ScrollView, scrollingEnabled);
-			TITANIUM_ADD_FUNCTION(ScrollView, setScrollingEnabled);
-			TITANIUM_ADD_FUNCTION(ScrollView, getScrollingEnabled);
-
 			TITANIUM_ADD_PROPERTY(ScrollView, showHorizontalScrollIndicator);
-			TITANIUM_ADD_FUNCTION(ScrollView, setShowHorizontalScrollIndicator);
-			TITANIUM_ADD_FUNCTION(ScrollView, getShowHorizontalScrollIndicator);
-
 			TITANIUM_ADD_PROPERTY(ScrollView, showVerticalScrollIndicator);
-			TITANIUM_ADD_FUNCTION(ScrollView, setShowVerticalScrollIndicator);
+			TITANIUM_ADD_PROPERTY(ScrollView, decelerationRate);
+			TITANIUM_ADD_PROPERTY(ScrollView, overScrollMode);
+			TITANIUM_ADD_PROPERTY(ScrollView, scrollIndicatorStyle);
+
+			TITANIUM_ADD_FUNCTION(ScrollView, scrollTo);
+			TITANIUM_ADD_FUNCTION(ScrollView, scrollToBottom);
+			TITANIUM_ADD_FUNCTION(ScrollView, getCanCancelEvents);
+			TITANIUM_ADD_FUNCTION(ScrollView, setCanCancelEvents);
+			TITANIUM_ADD_FUNCTION(ScrollView, getContentOffset);
+			TITANIUM_ADD_FUNCTION(ScrollView, setContentOffset);
+			TITANIUM_ADD_FUNCTION(ScrollView, getDisableBounce);
+			TITANIUM_ADD_FUNCTION(ScrollView, setDisableBounce);
+			TITANIUM_ADD_FUNCTION(ScrollView, getHorizontalBounce);
+			TITANIUM_ADD_FUNCTION(ScrollView, setHorizontalBounce);
+			TITANIUM_ADD_FUNCTION(ScrollView, getMaxZoomScale);
+			TITANIUM_ADD_FUNCTION(ScrollView, setMaxZoomScale);
+			TITANIUM_ADD_FUNCTION(ScrollView, getMinZoomScale);
+			TITANIUM_ADD_FUNCTION(ScrollView, setMinZoomScale);
+			TITANIUM_ADD_FUNCTION(ScrollView, getScrollsToTop);
+			TITANIUM_ADD_FUNCTION(ScrollView, setScrollsToTop);
+			TITANIUM_ADD_FUNCTION(ScrollView, getScrollType);
+			TITANIUM_ADD_FUNCTION(ScrollView, setScrollType);
+			TITANIUM_ADD_FUNCTION(ScrollView, getVerticalBounce);
+			TITANIUM_ADD_FUNCTION(ScrollView, setVerticalBounce);
+			TITANIUM_ADD_FUNCTION(ScrollView, getZoomScale);
+			TITANIUM_ADD_FUNCTION(ScrollView, setZoomScale);
+			TITANIUM_ADD_FUNCTION(ScrollView, getContentWidth);
+			TITANIUM_ADD_FUNCTION(ScrollView, setContentWidth);
+			TITANIUM_ADD_FUNCTION(ScrollView, getContentHeight);
+			TITANIUM_ADD_FUNCTION(ScrollView, setContentHeight);
+			TITANIUM_ADD_FUNCTION(ScrollView, getScrollingEnabled);
+			TITANIUM_ADD_FUNCTION(ScrollView, setScrollingEnabled);
+			TITANIUM_ADD_FUNCTION(ScrollView, getShowHorizontalScrollIndicator);
+			TITANIUM_ADD_FUNCTION(ScrollView, setShowHorizontalScrollIndicator);
 			TITANIUM_ADD_FUNCTION(ScrollView, getShowVerticalScrollIndicator);
+			TITANIUM_ADD_FUNCTION(ScrollView, setShowVerticalScrollIndicator);
+			TITANIUM_ADD_FUNCTION(ScrollView, getDecelerationRate);
+			TITANIUM_ADD_FUNCTION(ScrollView, setDecelerationRate);
+			TITANIUM_ADD_FUNCTION(ScrollView, getOverScrollMode);
+			TITANIUM_ADD_FUNCTION(ScrollView, setOverScrollMode);
+			TITANIUM_ADD_FUNCTION(ScrollView, getScrollIndicatorStyle);
+			TITANIUM_ADD_FUNCTION(ScrollView, setScrollIndicatorStyle);
 		}
 
 		TITANIUM_FUNCTION(ScrollView, scrollTo)
 		{
-			if (arguments.size() < 2) {
-				return get_context().CreateUndefined();
-			}
-			const auto _0 = arguments.at(0);
-			const auto _1 = arguments.at(1);
-			TITANIUM_ASSERT(_0.IsNumber());
-			TITANIUM_ASSERT(_1.IsNumber());
-			scrollTo(static_cast<double>(_0), static_cast<double>(_1));
+			ENSURE_DOUBLE_AT_INDEX(x, 0);
+			ENSURE_DOUBLE_AT_INDEX(y, 1);
+			scrollTo(x, y);
 			return get_context().CreateUndefined();
 		}
 
@@ -141,88 +126,80 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		TITANIUM_PROPERTY_GETTER(ScrollView, contentWidth)
-		{
-			return get_context().CreateString(get_contentWidth());
-		}
+		TITANIUM_PROPERTY_GETTER_INT(ScrollView, decelerationRate)
+		TITANIUM_PROPERTY_SETTER_INT(ScrollView, decelerationRate)
+		TITANIUM_PROPERTY_GETTER_INT(ScrollView, overScrollMode)
+		TITANIUM_PROPERTY_SETTER_INT(ScrollView, overScrollMode)
+		TITANIUM_PROPERTY_GETTER_INT(ScrollView, scrollIndicatorStyle)
+		TITANIUM_PROPERTY_SETTER_INT(ScrollView, scrollIndicatorStyle)
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollView, canCancelEvents)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollView, canCancelEvents)
+		TITANIUM_PROPERTY_GETTER_STRUCT(ScrollView, contentOffset, Point)
+		TITANIUM_PROPERTY_SETTER_STRUCT(ScrollView, contentOffset, Point)
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollView, disableBounce)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollView, disableBounce)
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollView, horizontalBounce)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollView, horizontalBounce)
+		TITANIUM_PROPERTY_GETTER_DOUBLE(ScrollView, maxZoomScale)
+		TITANIUM_PROPERTY_SETTER_DOUBLE(ScrollView, maxZoomScale)
+		TITANIUM_PROPERTY_GETTER_DOUBLE(ScrollView, minZoomScale)
+		TITANIUM_PROPERTY_SETTER_DOUBLE(ScrollView, minZoomScale)
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollView, scrollsToTop)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollView, scrollsToTop)
+		TITANIUM_PROPERTY_GETTER_STRING(ScrollView, scrollType)
+		TITANIUM_PROPERTY_SETTER_STRING(ScrollView, scrollType)
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollView, verticalBounce)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollView, verticalBounce)
+		TITANIUM_PROPERTY_GETTER_DOUBLE(ScrollView, zoomScale)
+		TITANIUM_PROPERTY_SETTER_DOUBLE(ScrollView, zoomScale)
+		TITANIUM_PROPERTY_GETTER_STRING(ScrollView, contentWidth)
+		TITANIUM_PROPERTY_SETTER_STRING(ScrollView, contentWidth)
+		TITANIUM_PROPERTY_GETTER_STRING(ScrollView, contentHeight)
+		TITANIUM_PROPERTY_SETTER_STRING(ScrollView, contentHeight)
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollView, scrollingEnabled)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollView, scrollingEnabled)
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollView, showHorizontalScrollIndicator)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollView, showHorizontalScrollIndicator)
+		TITANIUM_PROPERTY_GETTER_BOOL(ScrollView, showVerticalScrollIndicator)
+		TITANIUM_PROPERTY_SETTER_BOOL(ScrollView, showVerticalScrollIndicator)
 
-		TITANIUM_PROPERTY_SETTER(ScrollView, contentWidth)
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			if (argument.IsNumber()) {
-				set_contentWidth(static_cast<double>(argument));
-			} else {
-				set_contentWidth(static_cast<std::string>(argument));
-			}
-			return true;
-		}
-
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getDecelerationRate, decelerationRate)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setDecelerationRate, decelerationRate)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getOverScrollMode, overScrollMode)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setOverScrollMode, overScrollMode)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getScrollIndicatorStyle, scrollIndicatorStyle)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setScrollIndicatorStyle, scrollIndicatorStyle)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getCanCancelEvents, canCancelEvents)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setCanCancelEvents, canCancelEvents)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getContentOffset, contentOffset)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setContentOffset, contentOffset)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getDisableBounce, disableBounce)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setDisableBounce, disableBounce)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getHorizontalBounce, horizontalBounce)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setHorizontalBounce, horizontalBounce)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getMaxZoomScale, maxZoomScale)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setMaxZoomScale, maxZoomScale)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getMinZoomScale, minZoomScale)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setMinZoomScale, minZoomScale)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getScrollsToTop, scrollsToTop)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setScrollsToTop, scrollsToTop)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getScrollType, scrollType)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setScrollType, scrollType)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getVerticalBounce, verticalBounce)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setVerticalBounce, verticalBounce)
+		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getZoomScale, zoomScale)
+		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setZoomScale, zoomScale)
 		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getContentWidth, contentWidth)
 		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setContentWidth, contentWidth)
-
-		TITANIUM_PROPERTY_GETTER(ScrollView, contentHeight)
-		{
-			return get_context().CreateString(get_contentHeight());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollView, contentHeight)
-		{
-			TITANIUM_ASSERT(argument.IsString() || argument.IsNumber());
-			if (argument.IsNumber()) {
-				set_contentHeight(static_cast<double>(argument));
-			} else {
-				set_contentHeight(static_cast<std::string>(argument));
-			}
-			return true;
-		}
-
 		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getContentHeight, contentHeight)
 		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setContentHeight, contentHeight)
-
-		TITANIUM_PROPERTY_GETTER(ScrollView, scrollingEnabled)
-		{
-			return get_context().CreateBoolean(get_scrollingEnabled());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollView, scrollingEnabled)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_scrollingEnabled(static_cast<bool>(argument));
-			return true;
-		}
-
 		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getScrollingEnabled, scrollingEnabled)
 		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setScrollingEnabled, scrollingEnabled)
-
-		TITANIUM_PROPERTY_GETTER(ScrollView, showHorizontalScrollIndicator)
-		{
-			return get_context().CreateBoolean(get_showHorizontalScrollIndicator());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollView, showHorizontalScrollIndicator)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_showHorizontalScrollIndicator(static_cast<bool>(argument));
-			return true;
-		}
-
 		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getShowHorizontalScrollIndicator, showHorizontalScrollIndicator)
 		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setShowHorizontalScrollIndicator, showHorizontalScrollIndicator)
-
-		TITANIUM_PROPERTY_GETTER(ScrollView, showVerticalScrollIndicator)
-		{
-			return get_context().CreateBoolean(get_showVerticalScrollIndicator());
-		}
-
-		TITANIUM_PROPERTY_SETTER(ScrollView, showVerticalScrollIndicator)
-		{
-			TITANIUM_ASSERT(argument.IsBoolean());
-			set_showVerticalScrollIndicator(static_cast<bool>(argument));
-			return true;
-		}
-
 		TITANIUM_FUNCTION_AS_GETTER(ScrollView, getShowVerticalScrollIndicator, showVerticalScrollIndicator)
 		TITANIUM_FUNCTION_AS_SETTER(ScrollView, setShowVerticalScrollIndicator, showVerticalScrollIndicator)
+
 
 	} // namespace UI
 }  // namespace Titanium

@@ -42,6 +42,7 @@ namespace TitaniumWindows
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 			virtual JSValue js_add(const std::vector<JSValue>& arguments, JSObject& this_object) override final;
 			virtual void registerNativeUIWrapHook(std::function<JSObject(const JSContext&, const JSObject&)> requireCallback);
@@ -54,15 +55,21 @@ namespace TitaniumWindows
 #pragma warning(pop)
 
 		private:
+
+			void firePositionEvent(const std::string& event_name, Windows::UI::Xaml::FrameworkElement^ sender, Windows::Foundation::Point position);
+
 			Windows::UI::Xaml::Controls::Canvas^ canvas__;
 
 			// Event handlers
-			Windows::Foundation::EventRegistrationToken click_event_;
-			Windows::Foundation::EventRegistrationToken focus_event_;
-			Windows::Foundation::EventRegistrationToken touch_start_event_;
-			Windows::Foundation::EventRegistrationToken touch_end_event_;
-			Windows::Foundation::EventRegistrationToken touch_move_event_;
-			Windows::Foundation::EventRegistrationToken touch_cancel_event_;
+			Windows::Foundation::EventRegistrationToken click_event__;
+			Windows::Foundation::EventRegistrationToken doubleclick_event__;
+			Windows::Foundation::EventRegistrationToken focus_event__;
+			Windows::Foundation::EventRegistrationToken touchstart_event__;
+			Windows::Foundation::EventRegistrationToken touchend_event__;
+			Windows::Foundation::EventRegistrationToken touchmove_event__;
+			Windows::Foundation::EventRegistrationToken singletap_event__;
+			Windows::Foundation::EventRegistrationToken doubletap_event__;
+			Windows::Foundation::EventRegistrationToken longpress_event__;
 		};
 	} // namespace UI
 } // namespace TitaniumWindows
