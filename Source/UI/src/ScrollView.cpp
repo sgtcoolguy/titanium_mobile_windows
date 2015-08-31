@@ -97,13 +97,20 @@ namespace TitaniumWindows
 
 		void ScrollView::scrollTo(const double& x, const double& y)
 		{
-			scroll_viewer__->ScrollToHorizontalOffset(x);
-			scroll_viewer__->ScrollToVerticalOffset(y);
+			scroll_viewer__->ChangeView(
+				ref new Platform::Box<double>(x),
+				ref new Platform::Box<double>(y),
+				nullptr,
+				true);
 		}
 
 		void ScrollView::scrollToBottom()
 		{
-			scroll_viewer__->ScrollToVerticalOffset(scroll_viewer__->ScrollableHeight);
+			scroll_viewer__->ChangeView(
+				ref new Platform::Box<double>(0),
+				ref new Platform::Box<double>(scroll_viewer__->ScrollableHeight),
+				nullptr,
+				true);
 		}
 
 		std::string ScrollView::get_contentWidth() const
