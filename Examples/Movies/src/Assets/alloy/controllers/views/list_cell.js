@@ -128,6 +128,10 @@ function Controller() {
         $[nextImageView].opacity = 0;
         $[nextImageView].zIndex = 1;
         $[nextImageView].image = _images[nextImageIndex];
+        $[nextImageView].animate({
+            opacity: 1,
+            duration: 1e3
+        });
         _currentImageIndex = nextImageIndex;
         _currentImageView = nextImageView;
     };

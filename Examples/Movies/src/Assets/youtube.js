@@ -63,6 +63,10 @@ function getVideo(id) {
 }
 
 function playVideo(url) {
+    win = Ti.UI.createWindow({
+        title: "View Training Video",
+        backgroundColor: "#000"
+    });
     videoPlayer = Ti.Media.createVideoPlayer({
         backgroundColor: "#000",
         url: url,
@@ -81,6 +85,8 @@ function playVideo(url) {
             exports.close();
         }
     });
+    win.add(videoPlayer);
+    win.open();
 }
 
 var lib = Alloy.Globals;
@@ -100,10 +106,7 @@ exports.play = function(id) {
 
 exports.close = function() {
     Ti.API.info("closing video player");
-    if (videoPlayer) {
-        videoPlayer.hide();
-        videoPlayer.release();
-        videoPlayer = null;
-    }
+    win.close();
+    win = null;
     exports.isPlaying = false;
 };

@@ -14,11 +14,21 @@ namespace TitaniumWindows
 	namespace UI
 	{
 
-		ScrollViewLayoutDelegate::ScrollViewLayoutDelegate(const std::shared_ptr<WindowsViewLayoutDelegate>& contentView) TITANIUM_NOEXCEPT
+		ScrollViewLayoutDelegate::ScrollViewLayoutDelegate(ScrollView* scrollview, const std::shared_ptr<WindowsViewLayoutDelegate>& contentView) TITANIUM_NOEXCEPT
 			: WindowsViewLayoutDelegate()
 			, contentView__(contentView)
+			, scrollview__(scrollview)
 		{
 		}
+
+		void ScrollViewLayoutDelegate::requestLayout(const bool& fire_event)
+		{
+			WindowsViewLayoutDelegate::requestLayout(fire_event);
+
+			// contentOffset should be updated *after* LayoutEngine did the layout.
+			scrollview__->set_contentOffset(scrollview__->get_contentOffset());
+		}
+
 		
 		void ScrollViewLayoutDelegate::add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
 		{
@@ -52,7 +62,7 @@ namespace TitaniumWindows
 			auto content = contentView__.GetPrivate<TitaniumWindows::UI::View>();
 			scroll_viewer__->Content = content->getComponent();
 
-			Titanium::UI::ScrollView::setLayoutDelegate<ScrollViewLayoutDelegate>(content->getViewLayoutDelegate<WindowsViewLayoutDelegate>());
+			Titanium::UI::ScrollView::setLayoutDelegate<ScrollViewLayoutDelegate>(this, content->getViewLayoutDelegate<WindowsViewLayoutDelegate>());
 
 			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
@@ -87,16 +97,13 @@ namespace TitaniumWindows
 
 		void ScrollView::scrollTo(const double& x, const double& y)
 		{
-			scroll_viewer__->ChangeView(
-			    ref new Platform::Box<double>(x),
-			    ref new Platform::Box<double>(y),
-			    nullptr,
-			    true /* disableAnimation: should we support scroll animation? */);
+			scroll_viewer__->ScrollToHorizontalOffset(x);
+			scroll_viewer__->ScrollToVerticalOffset(y);
 		}
 
 		void ScrollView::scrollToBottom()
 		{
-			scroll_viewer__->ChangeView(nullptr, ref new Platform::Box<double>(scroll_viewer__->ScrollableHeight), nullptr);
+			scroll_viewer__->ScrollToVerticalOffset(scroll_viewer__->ScrollableHeight);
 		}
 
 		std::string ScrollView::get_contentWidth() const
@@ -128,6 +135,7 @@ namespace TitaniumWindows
 
 		void ScrollView::set_scrollingEnabled(const bool& enabled) TITANIUM_NOEXCEPT
 		{
+			Titanium::UI::ScrollView::set_scrollingEnabled(enabled);
 			if (enabled) {
 				scroll_viewer__->HorizontalScrollMode = Windows::UI::Xaml::Controls::ScrollMode::Auto;
 			} else {
@@ -142,6 +150,7 @@ namespace TitaniumWindows
 
 		void ScrollView::set_showHorizontalScrollIndicator(const bool& enabled) TITANIUM_NOEXCEPT
 		{
+			Titanium::UI::ScrollView::set_showHorizontalScrollIndicator(enabled);
 			if (enabled) {
 				scroll_viewer__->HorizontalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Auto;
 			} else {
@@ -156,11 +165,18 @@ namespace TitaniumWindows
 
 		void ScrollView::set_showVerticalScrollIndicator(const bool& enabled) TITANIUM_NOEXCEPT
 		{
+			Titanium::UI::ScrollView::set_showVerticalScrollIndicator(enabled);
 			if (enabled) {
 				scroll_viewer__->VerticalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Auto;
 			} else {
 				scroll_viewer__->VerticalScrollBarVisibility = Windows::UI::Xaml::Controls::ScrollBarVisibility::Hidden;
 			}
+		}
+
+		void ScrollView::set_contentOffset(const Titanium::UI::Point& offset) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ScrollView::set_contentOffset(offset);
+			scrollTo(offset.x, offset.y);
 		}
 	} // namespace UI
 } // namespace TitaniumWindows

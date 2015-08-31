@@ -19,17 +19,23 @@ namespace TitaniumWindows
 	{
 		using namespace HAL;
 
+		class ScrollView;
+
 		class TITANIUMWINDOWS_UI_EXPORT ScrollViewLayoutDelegate : public WindowsViewLayoutDelegate
 		{
 		public:
-			ScrollViewLayoutDelegate(const std::shared_ptr<WindowsViewLayoutDelegate>&) TITANIUM_NOEXCEPT;
+			ScrollViewLayoutDelegate(ScrollView*, const std::shared_ptr<WindowsViewLayoutDelegate>&) TITANIUM_NOEXCEPT;
 			virtual ~ScrollViewLayoutDelegate() = default;
 
 			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT override;
 			virtual void set_layout(const std::string& layout) TITANIUM_NOEXCEPT override;
+
+			virtual void requestLayout(const bool& fire_event = false) override;
+
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+			ScrollView* scrollview__;
 			std::shared_ptr<WindowsViewLayoutDelegate> contentView__;
 #pragma warning(pop)
 		};
@@ -70,6 +76,8 @@ namespace TitaniumWindows
 
 			virtual bool get_showVerticalScrollIndicator() const TITANIUM_NOEXCEPT override;
 			virtual void set_showVerticalScrollIndicator(const bool& enabled) TITANIUM_NOEXCEPT override;
+
+			virtual void set_contentOffset(const Titanium::UI::Point& offset) TITANIUM_NOEXCEPT override;
 
 			static void JSExportInitialize();
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
