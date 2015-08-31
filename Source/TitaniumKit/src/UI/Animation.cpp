@@ -34,8 +34,9 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("Animation:: ctor ", this);
 		}
 
-		void Animation::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
-			HAL_LOG_DEBUG("Animation:: postCallAsConstructor ", this);
+		void Animation::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
+		{
+			TITANIUM_LOG_DEBUG("Animation:: postCallAsConstructor ", this);
 		}
 
 		TITANIUM_PROPERTY_READWRITE(Animation, Point, anchorPoint)

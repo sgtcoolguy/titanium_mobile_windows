@@ -164,14 +164,14 @@ namespace TitaniumWindows
 
 			// delay
 			const std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> delay_ticks = animation->get_delay();
-			Windows::Foundation::TimeSpan delay;
+			Windows::Foundation::TimeSpan delay = Windows::Foundation::TimeSpan();
 			delay.Duration = delay_ticks.count();
 			storyboard->BeginTime = delay; // FIXME This seems to apply to every iteration of repeat, but we probably only want it to happen the first time?
 
 			// duration
 			const std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = animation->get_duration();
-			Windows::Foundation::TimeSpan duration;
-			duration.Duration = timer_interval_ticks.count() + delay.Duration;
+			Windows::Foundation::TimeSpan duration = Windows::Foundation::TimeSpan();
+			duration.Duration = timer_interval_ticks.count();
 			storyboard->Duration = duration;
 			
 			// autoreverse
@@ -270,6 +270,7 @@ namespace TitaniumWindows
 				const auto rotation_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				rotation_anim->To = rotation;
 				rotation_anim->EasingFunction = ease;
+				rotation_anim->Duration = duration;
 				storyboard->SetTargetProperty(rotation_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)");
 				storyboard->SetTarget(rotation_anim, component);
 				storyboard->Children->Append(rotation_anim);
@@ -277,6 +278,7 @@ namespace TitaniumWindows
 				const auto scale_x_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				scale_x_anim->To = a;
 				scale_x_anim->EasingFunction = ease;
+				scale_x_anim->Duration = duration;
 				storyboard->SetTargetProperty(scale_x_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleX)");
 				storyboard->SetTarget(scale_x_anim, component);
 				storyboard->Children->Append(scale_x_anim);
@@ -284,6 +286,7 @@ namespace TitaniumWindows
 				const auto scale_y_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				scale_y_anim->To = d;
 				scale_y_anim->EasingFunction = ease;
+				scale_y_anim->Duration = duration;
 				storyboard->SetTargetProperty(scale_y_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleY)");
 				storyboard->SetTarget(scale_y_anim, component);
 				storyboard->Children->Append(scale_y_anim);
@@ -291,6 +294,7 @@ namespace TitaniumWindows
 				const auto tx_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				tx_anim->To = animation->get_transform()->get_tx();
 				tx_anim->EasingFunction = ease;
+				tx_anim->Duration = duration;
 				storyboard->SetTargetProperty(tx_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateX)");
 				storyboard->SetTarget(tx_anim, component);
 				storyboard->Children->Append(tx_anim);
@@ -298,6 +302,7 @@ namespace TitaniumWindows
 				const auto ty_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				ty_anim->To = animation->get_transform()->get_ty();
 				ty_anim->EasingFunction = ease;
+				ty_anim->Duration = duration;
 				storyboard->SetTargetProperty(ty_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateY)");
 				storyboard->SetTarget(ty_anim, component);
 				storyboard->Children->Append(ty_anim);
@@ -335,6 +340,7 @@ namespace TitaniumWindows
 					const auto top_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 					top_anim->To = diff;
 					top_anim->EasingFunction = ease;
+					top_anim->Duration = duration;
 					storyboard->SetTargetProperty(top_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateY)");
 					storyboard->SetTarget(top_anim, component);
 					storyboard->Children->Append(top_anim);
@@ -353,6 +359,7 @@ namespace TitaniumWindows
 					const auto left_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 					left_anim->To = diff;
 					left_anim->EasingFunction = ease;
+					left_anim->Duration = duration;
 					storyboard->SetTargetProperty(left_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(TranslateTransform.TranslateX)");
 					storyboard->SetTarget(left_anim, component);
 					storyboard->Children->Append(left_anim);
@@ -367,6 +374,7 @@ namespace TitaniumWindows
 					const auto scaleY = *height / current_height;
 					height_anim->To = scaleY;  // TODO Need to determine scale to use to achieve the desired height!
 					height_anim->EasingFunction = ease;
+					height_anim->Duration = duration;
 					storyboard->SetTargetProperty(height_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleY)");
 					storyboard->SetTarget(height_anim, component);
 					storyboard->Children->Append(height_anim);
@@ -379,6 +387,7 @@ namespace TitaniumWindows
 					const auto scaleX = *width / current_width;
 					width_anim->To = scaleX;
 					width_anim->EasingFunction = ease;
+					width_anim->Duration = duration;
 					storyboard->SetTargetProperty(width_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleX)");
 					storyboard->SetTarget(width_anim, component);
 					storyboard->Children->Append(width_anim);
@@ -392,6 +401,7 @@ namespace TitaniumWindows
 				const auto color = ColorForName(bg_color);
 				color_anim->To = color;
 				color_anim->EasingFunction = ease;
+				color_anim->Duration = duration;
 
 				if (is_panel__) {
 					storyboard->SetTargetProperty(color_anim, "(Panel.Background).(SolidColorBrush.Color)");
@@ -409,6 +419,7 @@ namespace TitaniumWindows
 				const auto color = ColorForName(fg_color);
 				color_anim->To = color;
 				color_anim->EasingFunction = ease;
+				color_anim->Duration = duration;
 
 				if (is_panel__) {
 					storyboard->SetTargetProperty(color_anim, "(Panel.Background).(SolidColorBrush.Color)");
@@ -425,6 +436,7 @@ namespace TitaniumWindows
 				const auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
 				double_anim->To = *opacity;
 				double_anim->EasingFunction = ease;
+				double_anim->Duration = duration;
 
 				storyboard->SetTargetProperty(double_anim, "Opacity");
 				storyboard->SetTarget(double_anim, component);
@@ -435,6 +447,7 @@ namespace TitaniumWindows
 			const auto zIndex = animation->get_zIndex();
 			if (zIndex) {
 				const auto zIndex_anim = ref new Windows::UI::Xaml::Media::Animation::ObjectAnimationUsingKeyFrames();
+				zIndex_anim->Duration = duration;
 			
 				const auto current_zIndex = Windows::UI::Xaml::Controls::Canvas::GetZIndex(component);
 				// FIXME This just transitions from current zIndex to new all at once at end of animation. We need to do our own interpolation based on the curve!
