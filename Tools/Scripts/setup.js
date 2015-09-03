@@ -240,7 +240,7 @@ async.series([
 	function (next) {
 		if (os.platform() === 'win32') {
 			console.log("\nSetting up JavaScriptCore pre-built libraries...");
-			var jscHome = path.join(home, "JavaScriptCore-Windows-1430359270");
+			var jscHome = path.join(home, "JavaScriptCore");
 			if (typeof process.env.JavaScriptCore_HOME !== 'undefined') {
 				var existing = path.normalize(process.env.JavaScriptCore_HOME);
 				// What if location it points to doesn't exist. We should download there!
