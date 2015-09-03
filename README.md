@@ -90,7 +90,7 @@ Please note that while you may do HAL and TitaniumKit builds and development wor
 cd YOUR_WORKSPACE
 ti create -p windows -t app
 cd YOUR_APP_DIRECTORY
-ti build -p windows -C 8-1-1 -G 00000000-0000-1000-8000-000000000000
+ti build --platform windows --target wp-emulator --device-id 8-1-1 --win-publisher-id XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 ```
 
 ## Module Development
@@ -99,7 +99,7 @@ ti build -p windows -C 8-1-1 -G 00000000-0000-1000-8000-000000000000
 cd YOUR_WORKSPACE
 ti create -p windows -t module
 cd YOUR_MODULE_NAME/windows
-ti build -p windows -C 8-1-1 -G 00000000-0000-1000-8000-000000000000
+ti build --platform windows --target wp-emulator --device-id 8-1-1 --win-publisher-id XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 ```
 
 ## TitaniumKit Development
