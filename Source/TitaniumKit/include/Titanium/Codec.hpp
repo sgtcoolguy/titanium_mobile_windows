@@ -91,7 +91,7 @@ namespace Titanium
 			ByteOrder byteOrder { ByteOrder::LittleEndian };
 			std::shared_ptr<Buffer> dest { nullptr };
 			std::uint32_t position { 0 };
-			std::uint32_t source { 0 };
+			double source { 0 };
 			Type type { Type::Int };
 		};
 		
@@ -108,6 +108,7 @@ namespace Titanium
 		{
 			CharSet charset { CharSet::UTF8 };
 			std::shared_ptr<Buffer> dest { nullptr };
+			std::uint32_t destPosition { 0 };
 			std::string source;
 			std::uint32_t sourceLength { 0 };
 			std::uint32_t sourcePosition { 0 };
@@ -138,28 +139,28 @@ namespace Titanium
 			  @abstract encodeNumber
 			  @discussion Encodes a number and writes it to a buffer.
 			*/
-			virtual std::uint32_t encodeNumber(EncodeNumberDict options) TITANIUM_NOEXCEPT;
+			virtual std::uint32_t encodeNumber(const EncodeNumberDict& options) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract decodeNumber
 			  @discussion Decodes a number from the `source` buffer using the specified data type.
 			*/
-			virtual std::uint32_t decodeNumber(DecodeNumberDict options) TITANIUM_NOEXCEPT;
+			virtual double decodeNumber(const DecodeNumberDict& options) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract encodeString
 			  @discussion Encodes a string into a series of bytes in a buffer using the specified character set.
 			*/
-			virtual std::uint32_t encodeString(EncodeStringDict options) TITANIUM_NOEXCEPT;
+			virtual std::uint32_t encodeString(const EncodeStringDict& options) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract decodeString
 			  @discussion Decodes the source buffer into a String using the supplied character set.
 			*/
-			virtual std::string decodeString(DecodeStringDict options) TITANIUM_NOEXCEPT;
+			virtual std::string decodeString(const DecodeStringDict& options) TITANIUM_NOEXCEPT;
 
 			CodecModule(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~CodecModule()               = default;

@@ -57,7 +57,19 @@ namespace Titanium
 		*/
 		TITANIUM_PROPERTY_IMPL_DEF(Titanium::Codec::CharSet, charset);
 
-		virtual std::vector<std::uint8_t> data() const TITANIUM_NOEXCEPT;
+		/*!
+		@property
+		@abstract value
+		@discussion value of this buffer.
+		*/
+		TITANIUM_PROPERTY_IMPL_DEF(JSValue, value);
+
+		/*!
+		@property
+		@abstract data
+		@discussion internal data representation of this buffer.
+		*/
+		TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::uint8_t>, data);
 
 		/*!
 		  @method
@@ -122,12 +134,7 @@ namespace Titanium
 		*/
 		virtual std::shared_ptr<Blob> toBlob() TITANIUM_NOEXCEPT;
 
-		/*
-		  @method
-		  @abstract postConstructParams
-		  @discussion Called after all properties are set at constructor
-		 */
-		virtual void postConstructParams() TITANIUM_NOEXCEPT;
+		virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 		Buffer(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~Buffer()                      = default;

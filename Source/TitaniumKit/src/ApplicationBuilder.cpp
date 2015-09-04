@@ -540,9 +540,9 @@ namespace Titanium
 		return codec__;
 	}
 
-	ApplicationBuilder& ApplicationBuilder::CodecObject(const JSObject& Codec) TITANIUM_NOEXCEPT
+	ApplicationBuilder& ApplicationBuilder::CodecObject(const JSObject& codec) TITANIUM_NOEXCEPT
 	{
-		codec__ = Codec;
+		codec__ = codec;
 		return *this;
 	}
 

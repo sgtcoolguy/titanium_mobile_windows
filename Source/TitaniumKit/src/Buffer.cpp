@@ -8,8 +8,17 @@
 
 #include "Titanium/Buffer.hpp"
 #include "Titanium/Blob.hpp"
+#include "Titanium/Codec.hpp"
 #include "Titanium/TiModule.hpp"
 #include <algorithm>
+
+#define GET_TITANIUM_MODULE(NAME,VARNAME) \
+  const auto Titanium_property = get_context().get_global_object().GetProperty("Titanium"); \
+  TITANIUM_ASSERT(Titanium_property.IsObject()); \
+  const auto Titanium = static_cast<JSObject>(Titanium_property); \
+  const auto NAME##_poperty = Titanium.GetProperty(#NAME); \
+  TITANIUM_ASSERT(NAME##_poperty.IsObject()); \
+  auto VARNAME = static_cast<JSObject>(NAME##_poperty);
 
 namespace Titanium
 {
@@ -17,49 +26,29 @@ namespace Titanium
 	Buffer::Buffer(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Module(js_context)
 		, type__(Titanium::Codec::Type::Int)
-		, byteOrder__(Titanium::Codec::ByteOrder::LittleEndian)
 		, charset__(Titanium::Codec::CharSet::UTF8)
 		, value__(js_context.CreateNull())
+		, byteOrder__(Titanium::Codec::ByteOrder::Unknown)
 	{
 		TITANIUM_LOG_DEBUG("Titanium::Buffer ctor ", this);
-	}
-
-	//
-	// Called after all properties are set at constructor
-	//
-	void Buffer::postConstructParams() TITANIUM_NOEXCEPT
-	{
-	
-		if (value__.IsString()) {
-			/*
-			 * TODO: Support UTF16LE and UTF16BE
-			 */
-			if (charset__ == Codec::CharSet::UTF16BE || charset__ == Codec::CharSet::UTF16LE) {
-				TITANIUM_LOG_WARN("Titanium::Buffer: UTF16BE/UTF16LE is not supported yet");
-			}
-
-			data__.clear();
-
-			const auto utf8_string = static_cast<std::string>(value__);
-			if (charset__ == Codec::CharSet::UTF16) {
-				std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> utf16conv;
-				std::u16string utf16_string = utf16conv.from_bytes(utf8_string);
-				const uint8_t *utf16_begin = reinterpret_cast<uint8_t const*>(utf16_string.data());
-				const uint8_t *utf16_end   = reinterpret_cast<uint8_t const*>(utf16_string.data() + utf16_string.size());
-				std::copy(utf16_begin, utf16_end, back_inserter(data__));
-			} else {
-				std::copy(utf8_string.begin(), utf8_string.end(), back_inserter(data__));
-			}
-		}
 	}
 
 	TITANIUM_PROPERTY_READWRITE(Buffer, Titanium::Codec::Type, type)
 	TITANIUM_PROPERTY_READWRITE(Buffer, Titanium::Codec::ByteOrder, byteOrder)
 	TITANIUM_PROPERTY_READWRITE(Buffer, Titanium::Codec::CharSet, charset)
+	TITANIUM_PROPERTY_READWRITE(Buffer, JSValue, value)
+	TITANIUM_PROPERTY_READWRITE(Buffer, std::vector<std::uint8_t>, data)
 
-	std::vector<std::uint8_t> Buffer::data() const TITANIUM_NOEXCEPT
+	void Buffer::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
 	{
-		return data__;
+		Titanium::Module::postCallAsConstructor(js_context, arguments);
+
+		if (byteOrder__ == Titanium::Codec::ByteOrder::Unknown) {
+			GET_TITANIUM_MODULE(Codec, CodecObj);
+			const auto codec_ptr = CodecObj.GetPrivate<Titanium::Codec::CodecModule>();
+			TITANIUM_ASSERT(codec_ptr);
+			byteOrder__ = codec_ptr->getNativeByteOrder();
+		}
 	}
 
 	std::uint32_t Buffer::get_length() const TITANIUM_NOEXCEPT
@@ -74,7 +63,7 @@ namespace Titanium
 
 	std::uint32_t Buffer::append(const std::shared_ptr<Buffer>& sourceBuffer, const std::uint32_t& sourceOffset, const std::uint32_t& sourceLength) TITANIUM_NOEXCEPT
 	{
-		const auto source = sourceBuffer->data();
+		const auto source = sourceBuffer->get_data();
 		data__.reserve(data__.size() + sourceLength);
 		data__.insert(data__.end(), source.begin() + sourceOffset, source.begin() + sourceOffset + sourceLength);
 		return sourceLength;
@@ -82,7 +71,7 @@ namespace Titanium
 
 	std::uint32_t Buffer::insert(const std::shared_ptr<Buffer>& sourceBuffer, const std::uint32_t& offset, const std::uint32_t& sourceOffset, const std::uint32_t& sourceLength) TITANIUM_NOEXCEPT
 	{
-		const auto source = sourceBuffer->data();
+		const auto source = sourceBuffer->get_data();
 		data__.reserve(data__.size() + sourceLength);
 		data__.insert(data__.begin() + offset, source.begin() + sourceOffset, source.begin() + sourceOffset + sourceLength);
 		return sourceLength;
@@ -90,7 +79,7 @@ namespace Titanium
 
 	std::uint32_t Buffer::copy(const std::shared_ptr<Buffer>& sourceBuffer, const std::uint32_t& offset, const std::uint32_t& sourceOffset, const std::uint32_t& sourceLength) TITANIUM_NOEXCEPT
 	{
-		const auto source = sourceBuffer->data();
+		const auto source = sourceBuffer->get_data();
 		const auto actualLength = offset + sourceLength > data__.size() ? data__.size() - offset : sourceLength;
 		std::copy(source.begin() + sourceOffset, source.begin() + sourceOffset + actualLength, data__.begin() + offset);
 		return 0;
@@ -128,21 +117,25 @@ namespace Titanium
 
 	std::string Buffer::toString() TITANIUM_NOEXCEPT
 	{
-		if (value__.IsString()) {
-			return static_cast<std::string>(value__);
-		} else {
-			return std::string(data__.begin(), data__.end());
-		}
+		//
+		// Just call Ti.Codec.encodeString(buffer);
+		//
+		GET_TITANIUM_MODULE(Codec, CodecObj);
+		const auto codec_ptr = CodecObj.GetPrivate<Titanium::Codec::CodecModule>();
+		TITANIUM_ASSERT(codec_ptr);
+
+		Titanium::Codec::DecodeStringDict param;
+		param.charset = charset__;
+		param.length = static_cast<std::uint32_t>(data__.size());
+		param.position = 0;
+		param.source = get_object().GetPrivate<Buffer>();
+
+		return codec_ptr->decodeString(param);
 	}
 
 	std::shared_ptr<Blob> Buffer::toBlob() TITANIUM_NOEXCEPT
 	{
-		const auto Titanium_property = get_context().get_global_object().GetProperty("Titanium");
-		TITANIUM_ASSERT(Titanium_property.IsObject());
-		const auto Titanium = static_cast<JSObject>(Titanium_property);
-		const auto Blob_poperty = Titanium.GetProperty("Blob");
-		TITANIUM_ASSERT(Blob_poperty.IsObject());
-		auto BlobObj = static_cast<JSObject>(Blob_poperty);
+		GET_TITANIUM_MODULE(Blob, BlobObj);
 		const auto blob = BlobObj.CallAsConstructor();
 		const auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
 		TITANIUM_ASSERT(blob_ptr);
@@ -184,12 +177,12 @@ namespace Titanium
 
 	TITANIUM_PROPERTY_GETTER(Buffer, value)
 	{
-		return value__;
+		return get_value();
 	}
 
 	TITANIUM_PROPERTY_SETTER(Buffer, value)
 	{
-		value__ = argument;
+		set_value(argument);
 		return true;
 	}
 
@@ -224,7 +217,7 @@ namespace Titanium
 
 		const auto buffer = sourceBuffer.GetPrivate<Buffer>();
 		if (buffer) {
-			sourceLength = static_cast<std::uint32_t>(buffer->data().size());
+			sourceLength = static_cast<std::uint32_t>(buffer->get_data().size());
 		} else {
 			TITANIUM_LOG_WARN("Buffer::append: Unable to get Buffer");
 			return get_context().CreateUndefined();
@@ -242,7 +235,7 @@ namespace Titanium
 
 		const auto buffer = sourceBuffer.GetPrivate<Buffer>();
 		if (buffer) {
-			sourceLength = static_cast<std::uint32_t>(buffer->data().size());
+			sourceLength = static_cast<std::uint32_t>(buffer->get_data().size());
 		} else {
 			TITANIUM_LOG_WARN("Buffer::insert: Unable to get Buffer");
 			return get_context().CreateUndefined();
@@ -260,7 +253,7 @@ namespace Titanium
 
 		const auto buffer = sourceBuffer.GetPrivate<Buffer>();
 		if (buffer) {
-			sourceLength = static_cast<std::uint32_t>(buffer->data().size());
+			sourceLength = static_cast<std::uint32_t>(buffer->get_data().size());
 		} else {
 			TITANIUM_LOG_WARN("Buffer::copy: Unable to get Buffer");
 			return get_context().CreateUndefined();

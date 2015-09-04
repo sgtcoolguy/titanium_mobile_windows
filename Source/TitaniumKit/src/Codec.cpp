@@ -256,7 +256,7 @@ namespace Titanium
 		{
 			auto object = js_context.CreateObject();
 			object.SetProperty("byteOrder", js_context.CreateNumber(static_cast<std::uint32_t>(value.byteOrder)));
-			object.SetProperty("position", js_context.CreateNumber(static_cast<std::uint32_t>(value.position)));
+			object.SetProperty("position", js_context.CreateNumber(value.position));
 			if (value.source) {
 				object.SetProperty("source", value.source->get_object());
 			} else {
@@ -291,8 +291,8 @@ namespace Titanium
 		{
 			auto object = js_context.CreateObject();
 			object.SetProperty("charset",  js_context.CreateString(Constants::to_string(value.charset)));
-			object.SetProperty("length",   js_context.CreateNumber(static_cast<std::uint32_t>(value.length)));
-			object.SetProperty("position", js_context.CreateNumber(static_cast<std::uint32_t>(value.position)));
+			object.SetProperty("length",   js_context.CreateNumber(value.length));
+			object.SetProperty("position", js_context.CreateNumber(value.position));
 			if (value.source) {
 				object.SetProperty("source", value.source->get_object());
 			} else {
@@ -311,7 +311,7 @@ namespace Titanium
 				dict.position = static_cast<std::uint32_t>(object.GetProperty("position"));
 			}
 			if (object.HasProperty("source")) {
-				dict.source = static_cast<std::uint32_t>(object.GetProperty("source"));
+				dict.source = static_cast<double>(object.GetProperty("source"));
 			}
 			if (object.HasProperty("dest")) {
 				const auto dest = object.GetProperty("dest");
@@ -329,8 +329,8 @@ namespace Titanium
 		{
 			auto object = js_context.CreateObject();
 			object.SetProperty("byteOrder", js_context.CreateNumber(static_cast<std::uint32_t>(value.byteOrder)));
-			object.SetProperty("position", js_context.CreateNumber(static_cast<std::uint32_t>(value.position)));
-			object.SetProperty("source", js_context.CreateNumber(static_cast<std::uint32_t>(value.source)));
+			object.SetProperty("position", js_context.CreateNumber(value.position));
+			object.SetProperty("source", js_context.CreateNumber(value.source));
 			if (value.dest) {
 				object.SetProperty("dest", value.dest->get_object());
 			} else {
@@ -361,6 +361,9 @@ namespace Titanium
 					dict.dest = static_cast<JSObject>(dest).GetPrivate<Titanium::Buffer>();
 				}
 			}
+			if (object.HasProperty("destPosition")) {
+				dict.destPosition = static_cast<std::uint32_t>(object.GetProperty("destPosition"));
+			}
 			return dict;
 		}
 
@@ -369,8 +372,9 @@ namespace Titanium
 			auto object = js_context.CreateObject();
 			object.SetProperty("charset",  js_context.CreateString(Constants::to_string(value.charset)));
 			object.SetProperty("source",   js_context.CreateString(value.source));
-			object.SetProperty("sourceLength",   js_context.CreateNumber(static_cast<std::uint32_t>(value.sourceLength)));
-			object.SetProperty("sourcePosition", js_context.CreateNumber(static_cast<std::uint32_t>(value.sourcePosition)));
+			object.SetProperty("sourceLength",   js_context.CreateNumber(value.sourceLength));
+			object.SetProperty("sourcePosition", js_context.CreateNumber(value.sourcePosition));
+			object.SetProperty("destPosition", js_context.CreateNumber(value.destPosition));
 			if (value.dest) {
 				object.SetProperty("dest", value.dest->get_object());
 			} else {
@@ -405,25 +409,25 @@ namespace Titanium
 			return ByteOrder::Unknown;
 		}
 
-		std::uint32_t CodecModule::encodeNumber(EncodeNumberDict options) TITANIUM_NOEXCEPT
+		std::uint32_t CodecModule::encodeNumber(const EncodeNumberDict& options) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("CodecModule::encodeNumber: Unimplemented");
 			return 0;
 		}
 
-		std::uint32_t CodecModule::decodeNumber(DecodeNumberDict options) TITANIUM_NOEXCEPT
+		double CodecModule::decodeNumber(const DecodeNumberDict& options) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("CodecModule::decodeNumber: Unimplemented");
 			return 0;
 		}
 
-		std::uint32_t CodecModule::encodeString(EncodeStringDict options) TITANIUM_NOEXCEPT
+		std::uint32_t CodecModule::encodeString(const EncodeStringDict& options) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("CodecModule::encodeString: Unimplemented");
 			return 0;
 		}
 
-		std::string CodecModule::decodeString(DecodeStringDict options) TITANIUM_NOEXCEPT
+		std::string CodecModule::decodeString(const DecodeStringDict& options) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("CodecModule::decodeString: Unimplemented");
 			return "";

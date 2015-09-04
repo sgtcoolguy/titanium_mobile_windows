@@ -14,6 +14,7 @@
 #include "TitaniumWindows/UI/Clipboard.hpp"
 #include "TitaniumWindows/API.hpp"
 #include "TitaniumWindows/AppModule.hpp"
+#include "TitaniumWindows/Codec.hpp"
 #include "TitaniumWindows/Locale.hpp"
 #include "TitaniumWindows/Platform.hpp"
 #include "TitaniumWindows/Gesture.hpp"
@@ -104,6 +105,7 @@ namespace TitaniumWindows
 		                                                            .UIObject(js_context__.CreateObject(JSExport<TitaniumWindows::UIModule>::Class()))
 		                                                            .APIObject(js_context__.CreateObject(JSExport<TitaniumWindows::API>::Class()))
 		                                                            .AppObject(js_context__.CreateObject(JSExport<TitaniumWindows::AppModule>::Class()))
+		                                                            .CodecObject(js_context__.CreateObject(JSExport<TitaniumWindows::Codec>::Class()))
 		                                                            .LocaleObject(js_context__.CreateObject(JSExport<TitaniumWindows::Locale>::Class()))
 		                                                            .PlatformObject(js_context__.CreateObject(JSExport<TitaniumWindows::Platform>::Class()))
 		                                                            .GestureObject(js_context__.CreateObject(JSExport<TitaniumWindows::Gesture>::Class()))
