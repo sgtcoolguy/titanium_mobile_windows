@@ -6,6 +6,7 @@
 
 #include "Titanium/TiModule.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/Buffer.hpp"
 #include <unordered_map>
 #include <sstream>
 
@@ -18,7 +19,8 @@ namespace Titanium
 		TITANIUM_LOG_DEBUG("TiModule:: ctor ", this);
 	}
 
-	void TiModule::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
+	void TiModule::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
+	{
 		HAL_LOG_DEBUG("TiModule:: postCallAsConstructor ", this);
 	}
 
@@ -134,8 +136,21 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(TiModule, createBuffer)
 	{
-		TITANIUM_LOG_WARN("TiModule::js_createBuffer: Unimplemented");
-		return get_context().CreateNull();
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+
+		JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium");
+		TITANIUM_ASSERT(Titanium_property.IsObject());
+		JSObject Titanium = static_cast<JSObject>(Titanium_property);
+		JSValue Buffer_property = Titanium.GetProperty("Buffer");
+		TITANIUM_ASSERT(Buffer_property.IsObject());
+		JSObject Buffer = static_cast<JSObject>(Buffer_property);
+		auto Buffer_obj = Buffer.CallAsConstructor(parameters);
+		Titanium::Module::applyProperties(parameters, Buffer_obj); \
+
+		const auto buffer_ptr = Buffer_obj.GetPrivate<Titanium::Buffer>();
+		buffer_ptr->postConstructParams();
+
+		return Buffer_obj;
 	}
 
 }  // namespace Titanium

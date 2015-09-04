@@ -13,6 +13,7 @@
 #include "Titanium/GlobalString.hpp"
 #include "Titanium/TiModule.hpp"
 #include "Titanium/UIModule.hpp"
+#include "Titanium/Codec.hpp"
 #include "Titanium/UI/Clipboard.hpp"
 #include "Titanium/API.hpp"
 #include "Titanium/Locale.hpp"
@@ -30,6 +31,9 @@
 #include "Titanium/App/Properties.hpp"
 #include "Titanium/App.hpp"
 #include "Titanium/Analytics.hpp"
+#include "Titanium/IOStream.hpp"
+#include "Titanium/Buffer.hpp"
+#include "Titanium/BufferStream.hpp"
 #include "Titanium/UI/Window.hpp"
 #include "Titanium/UI/Button.hpp"
 #include "Titanium/UI/AlertDialog.hpp"
@@ -45,6 +49,7 @@
 #include "Titanium/Gesture.hpp"
 #include "Titanium/Blob.hpp"
 #include "Titanium/Filesystem/File.hpp"
+#include "Titanium/Filesystem/FileStream.hpp"
 #include "Titanium/FilesystemModule.hpp"
 #include "Titanium/DatabaseModule.hpp"
 #include "Titanium/UI/WebView.hpp"
@@ -85,8 +90,12 @@ namespace Titanium
 		  ti__(js_context__.CreateObject(JSExport<Titanium::TiModule>::Class())),
 		  ui__(js_context__.CreateObject(JSExport<Titanium::UIModule>::Class())),
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
+		  buffer__(js_context__.CreateObject(JSExport<Titanium::Buffer>::Class())),
+		  bufferstream__(js_context__.CreateObject(JSExport<Titanium::BufferStream>::Class())),
+		  iostream__(js_context__.CreateObject(JSExport<Titanium::IOStream>::Class())),
 		  locale__(js_context__.CreateObject(JSExport<Titanium::Locale>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
+		  codec__(js_context__.CreateObject(JSExport<Titanium::Codec::CodecModule>::Class())),
 		  clipboard__(js_context__.CreateObject(JSExport<Titanium::UI::Clipboard>::Class())),
 		  textarea__(js_context__.CreateObject(JSExport<Titanium::UI::TextArea>::Class())),
 		  notification__(js_context__.CreateObject(JSExport<Titanium::UI::Notification>::Class())),
@@ -115,6 +124,7 @@ namespace Titanium
 		  blob__(js_context__.CreateObject(JSExport<Titanium::Blob>::Class())),
 		  file__(js_context__.CreateObject(JSExport<Titanium::Filesystem::File>::Class())),
 		  filesystem__(js_context__.CreateObject(JSExport<Titanium::FilesystemModule>::Class())),
+		  filestream__(js_context__.CreateObject(JSExport<Titanium::Filesystem::FileStream>::Class())),
 		  database__(js_context__.CreateObject(JSExport<Titanium::DatabaseModule>::Class())),
 		  webview__(js_context__.CreateObject(JSExport<Titanium::UI::WebView>::Class())),
 		  httpclient__(js_context__.CreateObject(JSExport<Titanium::Network::HTTPClient>::Class())),
@@ -181,6 +191,7 @@ namespace Titanium
 		ui__.SetProperty("Window", window__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		
 		filesystem__.SetProperty("File", file__);
+		filesystem__.SetProperty("FileStream", filestream__);
 
 		JSObject socket__ = js_context__.CreateObject(JSExport<Titanium::Network::SocketModule>::Class());
 		socket__.SetProperty("TCP", tcp__);
@@ -206,6 +217,10 @@ namespace Titanium
 		titanium.SetProperty("Accelerometer", accelerometer__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Gesture", gesture__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Blob", blob__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("Buffer", buffer__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("BufferStream", bufferstream__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("Codec", codec__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("IOStream", iostream__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Filesystem", filesystem__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Database", database__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Utils", utils__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -319,6 +334,39 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::APIObject(const JSObject& api) TITANIUM_NOEXCEPT
 	{
 		api__ = api;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::BufferObject() const TITANIUM_NOEXCEPT
+	{
+		return buffer__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::BufferObject(const JSObject& buffer) TITANIUM_NOEXCEPT
+	{
+		buffer__ = buffer;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::BufferStreamObject() const TITANIUM_NOEXCEPT
+	{
+		return bufferstream__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::BufferStreamObject(const JSObject& bufferstream) TITANIUM_NOEXCEPT
+	{
+		bufferstream__ = bufferstream;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::IOStreamObject() const TITANIUM_NOEXCEPT
+	{
+		return iostream__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::IOStreamObject(const JSObject& iostream) TITANIUM_NOEXCEPT
+	{
+		iostream__ = iostream;
 		return *this;
 	}
 
@@ -487,6 +535,17 @@ namespace Titanium
 		return *this;
 	}
 
+	JSObject ApplicationBuilder::CodecObject() const TITANIUM_NOEXCEPT
+	{
+		return codec__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::CodecObject(const JSObject& Codec) TITANIUM_NOEXCEPT
+	{
+		codec__ = Codec;
+		return *this;
+	}
+
 	JSObject ApplicationBuilder::ViewObject() const TITANIUM_NOEXCEPT
 	{
 		return view__;
@@ -638,6 +697,17 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::FileObject(const JSObject& file) TITANIUM_NOEXCEPT
 	{
 		file__ = file;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::FileStreamObject() const TITANIUM_NOEXCEPT
+	{
+		return filestream__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::FileStreamObject(const JSObject& filestream) TITANIUM_NOEXCEPT
+	{
+		filestream__ = filestream;
 		return *this;
 	}
 

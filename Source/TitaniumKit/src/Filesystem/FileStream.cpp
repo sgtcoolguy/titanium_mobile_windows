@@ -1,5 +1,7 @@
 /**
- * Copyright (c) 2014-2015 by Appcelerator, Inc. All Rights Reserved.
+ * TitaniumKit Titanium.Filesystem.FileStream
+ *
+ * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -10,16 +12,16 @@ namespace Titanium
 {
 	namespace Filesystem
 	{
+
 		FileStream::FileStream(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : Module(js_context)
+			: IOStream(js_context)
 		{
 		}
 
-		void FileStream::JSExportInitialize()
+		void FileStream::JSExportInitialize() 
 		{
 			JSExport<FileStream>::SetClassVersion(1);
-			JSExport<FileStream>::SetParent(JSExport<Module>::Class());
+			JSExport<FileStream>::SetParent(JSExport<IOStream>::Class());
 		}
-
 	} // namespace Filesystem
-}  // namespace Titanium
+} // namespace Titanium
