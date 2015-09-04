@@ -108,7 +108,7 @@ namespace Titanium
 		{
 			CharSet charset { CharSet::UTF8 };
 			std::shared_ptr<Buffer> dest { nullptr };
-			std::string source { "" };
+			std::string source;
 			std::uint32_t sourceLength { 0 };
 			std::uint32_t sourcePosition { 0 };
 		};
