@@ -71,6 +71,10 @@ namespace TitaniumWindows
 		static void JSExportInitialize();
 
 	protected:
+
+		const std::uint8_t SHORT_DOWNCAST_BITS = 6;
+		const std::uint8_t INT_DOWNCAST_BITS   = 4;
+
 		// Get BinaryStringEncoding from Titanium::Codec::CharSet
 		static Windows::Security::Cryptography::BinaryStringEncoding GetWindowsEncoding(const Titanium::Codec::CharSet&, const Titanium::Codec::ByteOrder&);
 		static Windows::Storage::Streams::ByteOrder GetWindowsByteOrder(const Titanium::Codec::ByteOrder&);

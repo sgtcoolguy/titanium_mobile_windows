@@ -56,14 +56,12 @@ namespace TitaniumWindows
 		switch (options.type) {
 		case Type::Byte:
 			writer->WriteByte(static_cast<unsigned char>(options.source)); break;
-		case Type::Double:
-			writer->WriteDouble(options.source); break;
 		case Type::Float:
 			writer->WriteSingle(static_cast<float>(options.source)); break;
+		case Type::Double:
+			writer->WriteDouble(options.source); break;
 		case Type::Short:
-			writer->WriteInt16(static_cast<short>(options.source)); break;
 		case Type::Int:
-			writer->WriteInt32(static_cast<std::int32_t>(options.source)); break;
 		case Type::Long:
 			writer->WriteInt64(static_cast<std::int64_t>(options.source)); break;
 		}
@@ -80,8 +78,25 @@ namespace TitaniumWindows
 		}, concurrency::task_continuation_context::use_arbitrary());
 		event.wait();
 
-		const auto source_data = TitaniumWindows::Utility::GetContentFromBuffer(reader->ReadBuffer(bytesLoaded));
+		auto source_data = TitaniumWindows::Utility::GetContentFromBuffer(reader->ReadBuffer(bytesLoaded));
+
+		// down casting discards high bits (big endian) / low bits (little endian)
+		if (options.type == Type::Short) {
+			if (options.byteOrder == Titanium::Codec::ByteOrder::BigEndian) {
+				source_data.erase(source_data.begin(), source_data.begin() + SHORT_DOWNCAST_BITS);
+			} else {
+				source_data.erase(source_data.end() - SHORT_DOWNCAST_BITS, source_data.end());
+			}
+		} if (options.type == Type::Int) {
+			if (options.byteOrder == Titanium::Codec::ByteOrder::BigEndian) {
+				source_data.erase(source_data.begin(), source_data.begin() + INT_DOWNCAST_BITS);
+			} else {
+				source_data.erase(source_data.end() - INT_DOWNCAST_BITS, source_data.end());
+			}
+		}
+
 		std::copy(source_data.begin(), source_data.end(), dest_data.begin() + options.position);
+		options.dest->set_data(dest_data);
 
 		return options.position + source_data.size();
 	}
@@ -123,12 +138,29 @@ namespace TitaniumWindows
 			return 0;
 		}
 
-		const auto charset = GetWindowsEncoding(options.charset, getNativeByteOrder());
-		const auto source = options.source.substr(options.sourcePosition, options.sourceLength);
-		const auto buffer = CryptographicBuffer::ConvertStringToBinary(TitaniumWindows::Utility::ConvertUTF8String(source), charset);
+		const auto byteOrder = options.dest->get_byteOrder();
+		const auto charset = GetWindowsEncoding(options.charset, byteOrder);
+		const auto source = options.source.substr(options.sourcePosition, options.sourceLength == 0 ? options.source.length() : options.sourceLength);
+		const auto sourceStr = TitaniumWindows::Utility::ConvertUTF8String(source);
+		const auto buffer = CryptographicBuffer::ConvertStringToBinary(sourceStr, charset);
 
-		const auto source_data = TitaniumWindows::Utility::GetContentFromBuffer(buffer);
-		std::copy(source_data.begin(), source_data.end(), options.dest->get_data().begin() + options.destPosition);
+		auto source_data = TitaniumWindows::Utility::GetContentFromBuffer(buffer);
+
+		// Ti.Codec.CHARSET_UTF16 assumes BOM according to Titanium API document
+		// Ti.Codec.CHARSET_UTF8 doesn't require BOM on the other hand.
+		if (options.charset == CharSet::UTF16) {
+			if (byteOrder == ByteOrder::BigEndian) {
+				source_data.insert(source_data.begin(),     0xFE);
+				source_data.insert(source_data.begin() + 1, 0xFF);
+			} else {
+				source_data.insert(source_data.begin(),     0xFF);
+				source_data.insert(source_data.begin() + 1, 0xFE);
+			}
+		}
+
+		auto dest_data = options.dest->get_data();
+		std::copy(source_data.begin(), source_data.end(), dest_data.begin() + options.destPosition);
+		options.dest->set_data(dest_data);
 
 		return source_data.size();
 	}
@@ -140,12 +172,26 @@ namespace TitaniumWindows
 			return "";
 		}
 
-		const auto charset = GetWindowsEncoding(options.source->get_charset(), options.source->get_byteOrder());
-		auto data = options.source->get_data();
-		Platform::ArrayReference<std::uint8_t> data_ref(&data[0], data.size());
-		const auto buffer = CryptographicBuffer::CreateFromByteArray(data_ref);
+		auto source_data = options.source->get_data();
 
-		return TitaniumWindows::Utility::ConvertUTF8String(CryptographicBuffer::ConvertBinaryToString(charset, buffer));
+		// Auto-detect byte order according to BOM if charset is UTF-16.
+		auto byteOrder = options.source->get_byteOrder();
+		if (options.charset == CharSet::UTF16 && source_data.size() >= 2) {
+			if (source_data.at(0) == 0xFE && source_data.at(1) == 0xFF) {
+				byteOrder = ByteOrder::BigEndian;
+			} else if (source_data.at(0) == 0xFF && source_data.at(1) == 0xFE) {
+				byteOrder = ByteOrder::LittleEndian;
+			}
+		}
+
+		const auto charset = GetWindowsEncoding(options.charset, byteOrder);
+		const auto offset = GetBOMOffsetForUnicode(source_data, options.position, options.charset, byteOrder);
+
+		Platform::ArrayReference<std::uint8_t> data_ref(&source_data[offset], source_data.size() - offset);
+		const auto buffer = CryptographicBuffer::CreateFromByteArray(data_ref);
+		const auto decoded = CryptographicBuffer::ConvertBinaryToString(charset, buffer);
+
+		return TitaniumWindows::Utility::ConvertUTF8String(decoded);
 	}
 
 	BinaryStringEncoding Codec::GetWindowsEncoding(const Titanium::Codec::CharSet& charset, const ByteOrder& byteOrder) 

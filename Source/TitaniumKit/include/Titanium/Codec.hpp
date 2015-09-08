@@ -54,7 +54,7 @@ namespace Titanium
 		*/
 		struct DecodeNumberDict 
 		{
-			ByteOrder byteOrder { ByteOrder::LittleEndian };
+			ByteOrder byteOrder { ByteOrder::Unknown };
 			std::uint32_t position { 0 };
 			std::shared_ptr<Buffer> source { nullptr };
 			Type type { Type::Int };
@@ -88,7 +88,7 @@ namespace Titanium
 		*/
 		struct EncodeNumberDict 
 		{
-			ByteOrder byteOrder { ByteOrder::LittleEndian };
+			ByteOrder byteOrder { ByteOrder::Unknown };
 			std::shared_ptr<Buffer> dest { nullptr };
 			std::uint32_t position { 0 };
 			double source { 0 };
@@ -195,6 +195,7 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(decodeString);
 
 		protected:
+			static std::uint32_t GetBOMOffsetForUnicode(const std::vector<std::uint8_t>& data, const std::uint32_t& offset, const CharSet& charset, const ByteOrder& byteOrder);
 	#pragma warning(push)
 	#pragma warning(disable : 4251)
 			JSValue CHARSET_ASCII__;

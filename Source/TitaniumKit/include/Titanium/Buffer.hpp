@@ -51,13 +51,6 @@ namespace Titanium
 		TITANIUM_PROPERTY_IMPL_DEF(Titanium::Codec::ByteOrder, byteOrder);
 
 		/*!
-		  @property
-		  @abstract charset
-		  @discussion Byte order of this buffer.
-		*/
-		TITANIUM_PROPERTY_IMPL_DEF(Titanium::Codec::CharSet, charset);
-
-		/*!
 		@property
 		@abstract value
 		@discussion value of this buffer.
@@ -136,6 +129,9 @@ namespace Titanium
 
 		virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
+		// Called after all properties are set at Ti.createBuffer
+		virtual void postConstructProperties();
+
 		Buffer(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~Buffer()                      = default;
 		Buffer(const Buffer&)            = default;
@@ -170,13 +166,18 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(getByteOrder);
 		TITANIUM_FUNCTION_DEF(setByteOrder);
 
+		bool js_hasProperty(const JSString& property_name) const;
+		JSValue js_getProperty(const JSString& property_name) const;
+		bool js_setProperty(const JSString& property_name, const JSValue& value);
+
 	protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+		bool isDataIndexProperty(const std::string& property_name) const;
+
 		JSValue value__;
 		std::vector<std::uint8_t>  data__;
 		Titanium::Codec::Type      type__;
-		Titanium::Codec::CharSet   charset__;
 		Titanium::Codec::ByteOrder byteOrder__;
 #pragma warning(pop)
 	};

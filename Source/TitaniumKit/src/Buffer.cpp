@@ -26,7 +26,6 @@ namespace Titanium
 	Buffer::Buffer(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Module(js_context)
 		, type__(Titanium::Codec::Type::Int)
-		, charset__(Titanium::Codec::CharSet::UTF8)
 		, value__(js_context.CreateNull())
 		, byteOrder__(Titanium::Codec::ByteOrder::Unknown)
 	{
@@ -35,7 +34,6 @@ namespace Titanium
 
 	TITANIUM_PROPERTY_READWRITE(Buffer, Titanium::Codec::Type, type)
 	TITANIUM_PROPERTY_READWRITE(Buffer, Titanium::Codec::ByteOrder, byteOrder)
-	TITANIUM_PROPERTY_READWRITE(Buffer, Titanium::Codec::CharSet, charset)
 	TITANIUM_PROPERTY_READWRITE(Buffer, JSValue, value)
 	TITANIUM_PROPERTY_READWRITE(Buffer, std::vector<std::uint8_t>, data)
 
@@ -48,6 +46,40 @@ namespace Titanium
 			const auto codec_ptr = CodecObj.GetPrivate<Titanium::Codec::CodecModule>();
 			TITANIUM_ASSERT(codec_ptr);
 			byteOrder__ = codec_ptr->getNativeByteOrder();
+		}
+	}
+
+	void Buffer::postConstructProperties() 
+	{
+		GET_TITANIUM_MODULE(Codec, CodecObj);
+		const auto codec_ptr = CodecObj.GetPrivate<Titanium::Codec::CodecModule>();
+
+		if (value__.IsString()) {
+			const auto source = static_cast<std::string>(value__);
+			if (get_length() == 0) {
+				set_length(source.length());
+			}
+			Titanium::Codec::EncodeStringDict param;
+			param.source = source;
+			param.dest = get_object().GetPrivate<Buffer>();
+			codec_ptr->encodeString(param);
+		} else if (value__.IsNumber()) {
+			if (data__.size() == 0) {
+				switch (type__) {
+				case Codec::Type::Byte:   set_length(1); break;
+				case Codec::Type::Short:  set_length(2); break;
+				case Codec::Type::Int:    set_length(4); break;
+				case Codec::Type::Long:   set_length(8); break;
+				case Codec::Type::Float:  set_length(4); break;
+				case Codec::Type::Double: set_length(8); break;
+				}
+			}
+			Titanium::Codec::EncodeNumberDict param;
+			param.byteOrder = byteOrder__;
+			param.type = type__;
+			param.source = static_cast<double>(value__);
+			param.dest = get_object().GetPrivate<Buffer>();
+			codec_ptr->encodeNumber(param);
 		}
 	}
 
@@ -102,17 +134,18 @@ namespace Titanium
 
 	void Buffer::fill(const std::uint8_t& fillByte, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
 	{
-		std::fill(data__.begin() + offset, data__.begin() + length, fillByte);
+		std::fill(data__.begin() + offset, data__.begin() + offset + length, fillByte);
 	}
 
 	void Buffer::clear() TITANIUM_NOEXCEPT
 	{
-		data__.clear();
+		// Clears this buffer's contents but does not change the size of the buffer.
+		fill(0, 0, data__.size());
 	}
 
 	void Buffer::release() TITANIUM_NOEXCEPT
 	{
-		clear();
+		data__.clear();
 	}
 
 	std::string Buffer::toString() TITANIUM_NOEXCEPT
@@ -125,7 +158,6 @@ namespace Titanium
 		TITANIUM_ASSERT(codec_ptr);
 
 		Titanium::Codec::DecodeStringDict param;
-		param.charset = charset__;
 		param.length = static_cast<std::uint32_t>(data__.size());
 		param.position = 0;
 		param.source = get_object().GetPrivate<Buffer>();
@@ -141,6 +173,45 @@ namespace Titanium
 		TITANIUM_ASSERT(blob_ptr);
 		blob_ptr->construct(data__);
 		return blob_ptr;
+	}
+
+	bool Buffer::isDataIndexProperty(const std::string& property_name) const
+	{
+		if (std::all_of(property_name.begin(), property_name.end(), ::isdigit)) {
+			return data__.size() > static_cast<std::size_t>(std::stoi(property_name));
+		}
+		return false;
+	}
+
+	//
+	// Buffer provides accessor for the data which acts like an array.
+	//
+	bool Buffer::js_hasProperty(const JSString& name) const
+	{
+		const auto property_name = static_cast<std::string>(name);
+		if (isDataIndexProperty(property_name)) {
+			return true;
+		}
+		return false;
+	}
+
+	JSValue Buffer::js_getProperty(const JSString& name) const
+	{
+		const auto property_name = static_cast<std::string>(name);
+		if (isDataIndexProperty(property_name)) {
+			return get_context().CreateNumber(data__.at(std::stoi(property_name)));
+		}
+		return get_context().CreateUndefined();
+	}
+
+	bool Buffer::js_setProperty(const JSString& name, const JSValue& value)
+	{
+		const auto property_name = static_cast<std::string>(name);
+		if (value.IsNumber() && isDataIndexProperty(property_name)) {
+			data__.at(std::stoi(property_name)) = static_cast<std::uint8_t>(static_cast<std::uint32_t>(value));
+			return true;
+		}
+		return false;
 	}
 
 	void Buffer::JSExportInitialize() 
@@ -170,6 +241,9 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(Buffer, setType);
 		TITANIUM_ADD_FUNCTION(Buffer, getByteOrder);
 		TITANIUM_ADD_FUNCTION(Buffer, setByteOrder);
+		JSExport<Buffer>::AddHasPropertyCallback(std::mem_fn(&Buffer::js_hasProperty));
+		JSExport<Buffer>::AddGetPropertyCallback(std::mem_fn(&Buffer::js_getProperty));
+		JSExport<Buffer>::AddSetPropertyCallback(std::mem_fn(&Buffer::js_setProperty));
 	}
 
 	TITANIUM_PROPERTY_GETTER_UINT(Buffer, length);

@@ -348,6 +348,7 @@ namespace Titanium
 			}
 			if (object.HasProperty("source")) {
 				dict.source = static_cast<std::string>(object.GetProperty("source"));
+				dict.sourceLength = dict.source.length();
 			}
 			if (object.HasProperty("sourceLength")) {
 				dict.sourceLength = static_cast<std::uint32_t>(object.GetProperty("sourceLength"));
@@ -433,6 +434,22 @@ namespace Titanium
 			return "";
 		}
 
+		std::uint32_t CodecModule::GetBOMOffsetForUnicode(const std::vector<std::uint8_t>& data, const std::uint32_t& offset, const CharSet& charset, const ByteOrder& byteOrder) 
+		{
+			if (charset == CharSet::UTF8 && (data.size() >= 3 && data[offset] == 0xEF && data[offset + 1] == 0xBB && data[offset + 2] == 0xBF)) {
+				// UTF-8 with BOM
+				return offset + 3;
+			} else if ((charset == CharSet::UTF16 || charset == CharSet::UTF16BE || charset == CharSet::UTF16LE) && data.size() >= 2) {
+				// UTF-16 with BOM
+				if (byteOrder == ByteOrder::BigEndian && (data[offset] == 0xFE && data[offset + 1] == 0xFF)) {
+					return offset + 2;
+				} else if (byteOrder == ByteOrder::LittleEndian && (data[offset] == 0xFF && data[offset + 1] == 0xFE)) {
+					return offset + 2;
+				}
+			}
+			return offset;
+		}
+
 		void CodecModule::JSExportInitialize() 
 		{
 			JSExport<CodecModule>::SetClassVersion(1);
@@ -464,7 +481,6 @@ namespace Titanium
 		{
 			return BIG_ENDIAN__;
 		}
-
 
 		TITANIUM_PROPERTY_GETTER(CodecModule, LITTLE_ENDIAN)
 		{

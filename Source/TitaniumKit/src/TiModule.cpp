@@ -145,7 +145,11 @@ namespace Titanium
 		TITANIUM_ASSERT(Buffer_property.IsObject());
 		JSObject Buffer = static_cast<JSObject>(Buffer_property);
 		auto Buffer_obj = Buffer.CallAsConstructor(parameters);
-		Titanium::Module::applyProperties(parameters, Buffer_obj); \
+		Titanium::Module::applyProperties(parameters, Buffer_obj);
+
+		auto buffer_ptr = Buffer_obj.GetPrivate<Titanium::Buffer>();
+		TITANIUM_ASSERT(buffer_ptr);
+		buffer_ptr->postConstructProperties();
 
 		return Buffer_obj;
 	}
