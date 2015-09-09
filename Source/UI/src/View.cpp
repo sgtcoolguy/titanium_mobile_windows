@@ -52,28 +52,30 @@ namespace TitaniumWindows
 		void View::add(const JSObject& view) TITANIUM_NOEXCEPT
 		{
 			auto ui_view = view.GetPrivate<::Titanium::UI::View>();
-			if (!ui_view) {
-				// If this is a native wrapper, we need to jump through a lot of hoops to basically unwrap and rewrap as a Ti.UI.View
-				auto context = get_context();
-
-				JSValue Titanium_property = context.get_global_object().GetProperty("Titanium");
-				TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
-				JSObject Titanium = static_cast<JSObject>(Titanium_property);
-
-				JSValue UI_property = Titanium.GetProperty("UI");
-				TITANIUM_ASSERT(UI_property.IsObject());  // precondition
-				JSObject UI = static_cast<JSObject>(UI_property);
-
-				JSValue View_property = UI.GetProperty("View");
-				TITANIUM_ASSERT(View_property.IsObject());  // precondition
-				JSObject View = static_cast<JSObject>(View_property);
-
-				auto windows_view = View.GetPrivate<::TitaniumWindows::UI::View>();
-
-				auto rewrapped = windows_view->native_wrapper_hook__(context, view);
-				ui_view = rewrapped.GetPrivate<::Titanium::UI::View>();
+			if (ui_view) {
+				Titanium::UI::View::add(view);
+				return;
 			}
-			Titanium::UI::View::add(ui_view);
+			
+			// If this is a native wrapper, we need to jump through a lot of hoops to basically unwrap and rewrap as a Ti.UI.View
+			auto context = get_context();
+
+			JSValue Titanium_property = context.get_global_object().GetProperty("Titanium");
+			TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+			JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+			JSValue UI_property = Titanium.GetProperty("UI");
+			TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+			JSObject UI = static_cast<JSObject>(UI_property);
+
+			JSValue View_property = UI.GetProperty("View");
+			TITANIUM_ASSERT(View_property.IsObject());  // precondition
+			JSObject View = static_cast<JSObject>(View_property);
+
+			auto windows_view = View.GetPrivate<::TitaniumWindows::UI::View>();
+
+			auto rewrapped = windows_view->native_wrapper_hook__(context, view);
+			Titanium::UI::View::add(rewrapped);
 		}
 
 		void View::registerNativeUIWrapHook(std::function<JSObject(const JSContext&, const JSObject&)> requireHook)
