@@ -159,6 +159,14 @@ namespace TitaniumWindows
 		}
 
 		auto dest_data = options.dest->get_data();
+		if (source_data.size() > dest_data.size()) {
+			if (options.expand_buffer_if_needed) {
+				dest_data.resize(source_data.size(), 0);
+			} else {
+				source_data.resize(dest_data.size(), 0);
+			}
+		}
+
 		std::copy(source_data.begin(), source_data.end(), dest_data.begin() + options.destPosition);
 		options.dest->set_data(dest_data);
 

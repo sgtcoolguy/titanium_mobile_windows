@@ -21,6 +21,7 @@ require('./ti.app.test');
 require('./ti.app.properties.test');
 require('./ti.blob.test');
 require('./ti.builtin.test');
+require('./ti.buffer.test');
 require('./ti.codec.test');
 require('./ti.database.test');
 require('./ti.filesystem.test');

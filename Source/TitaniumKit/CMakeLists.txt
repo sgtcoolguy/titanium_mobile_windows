@@ -131,6 +131,8 @@ set(SOURCE_Blob
   )
 
 set(SOURCE_Buffer
+  include/Titanium/Codec/Constants.hpp
+  src/Codec/Constants.cpp
   include/Titanium/Codec.hpp
   src/Codec.cpp
   include/Titanium/IOStream.hpp

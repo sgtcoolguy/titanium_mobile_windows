@@ -7,9 +7,9 @@
  */
 
 #include "Titanium/Buffer.hpp"
-#include "Titanium/Blob.hpp"
 #include "Titanium/Codec.hpp"
-#include "Titanium/TiModule.hpp"
+#include "Titanium/Blob.hpp"
+#include "Titanium/Codec/Constants.hpp"
 #include <algorithm>
 
 #define GET_TITANIUM_MODULE(NAME,VARNAME) \
@@ -36,6 +36,7 @@ namespace Titanium
 	TITANIUM_PROPERTY_READWRITE(Buffer, Titanium::Codec::ByteOrder, byteOrder)
 	TITANIUM_PROPERTY_READWRITE(Buffer, JSValue, value)
 	TITANIUM_PROPERTY_READWRITE(Buffer, std::vector<std::uint8_t>, data)
+	TITANIUM_PROPERTY_READWRITE(Buffer, Titanium::Codec::CharSet, charset)
 
 	void Buffer::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
 	{
@@ -56,12 +57,11 @@ namespace Titanium
 
 		if (value__.IsString()) {
 			const auto source = static_cast<std::string>(value__);
-			if (get_length() == 0) {
-				set_length(source.length());
-			}
 			Titanium::Codec::EncodeStringDict param;
 			param.source = source;
+			param.charset = charset__;
 			param.dest = get_object().GetPrivate<Buffer>();
+			param.expand_buffer_if_needed = true;
 			codec_ptr->encodeString(param);
 		} else if (value__.IsNumber()) {
 			if (data__.size() == 0) {
@@ -114,17 +114,12 @@ namespace Titanium
 		const auto source = sourceBuffer->get_data();
 		const auto actualLength = offset + sourceLength > data__.size() ? data__.size() - offset : sourceLength;
 		std::copy(source.begin() + sourceOffset, source.begin() + sourceOffset + actualLength, data__.begin() + offset);
-		return 0;
+		return actualLength;
 	}
 
 	std::shared_ptr<Buffer> Buffer::clone(const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
 	{
-		const auto Titanium_property = get_context().get_global_object().GetProperty("Titanium");
-		TITANIUM_ASSERT(Titanium_property.IsObject());
-		auto Titanium = static_cast<JSObject>(Titanium_property);
-		const auto tiModule = Titanium.GetPrivate<Titanium::TiModule>();
-		TITANIUM_ASSERT(tiModule);
-		const auto js_buffer = tiModule->js_createBuffer({}, Titanium);
+		const auto js_buffer = get_context().JSEvaluateScript("Ti.createBuffer();");
 		TITANIUM_ASSERT(js_buffer.IsObject());
 		const auto buffer = static_cast<JSObject>(js_buffer).GetPrivate<Buffer>();
 		TITANIUM_ASSERT(buffer);
@@ -262,12 +257,22 @@ namespace Titanium
 
 	TITANIUM_PROPERTY_GETTER(Buffer, type)
 	{
-		return get_context().CreateString(Titanium::Codec::Constants::to_string(get_type()));
+		if (value__.IsString()) {
+			return get_context().CreateString(Titanium::Codec::Constants::to_string(get_charset()));
+		} else {
+			return get_context().CreateString(Titanium::Codec::Constants::to_string(get_type()));
+		}
 	}
 
 	TITANIUM_PROPERTY_SETTER(Buffer, type)
 	{
-		set_type(Titanium::Codec::Constants::to_Type(static_cast<std::string>(argument)));
+		// type property may be Type or CharSet, so we need to check both.
+		const auto type = Titanium::Codec::Constants::to_Type(static_cast<std::string>(argument));
+		if (type != Titanium::Codec::Type::Unknown) {
+			set_type(Titanium::Codec::Constants::to_Type(static_cast<std::string>(argument)));
+		} else {
+			set_charset(Titanium::Codec::Constants::to_CharSet(static_cast<std::string>(argument)));
+		}
 		return true;
 	}
 
@@ -285,16 +290,25 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Buffer, append)
 	{
+		if (arguments.size() == 0) {
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::append", "Buffer::append: Too few argument");
+		}
+
 		ENSURE_OBJECT_AT_INDEX(sourceBuffer, 0);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(sourceOffset, 1, 0);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(sourceLength, 2, 0);
 
 		const auto buffer = sourceBuffer.GetPrivate<Buffer>();
 		if (buffer) {
-			sourceLength = static_cast<std::uint32_t>(buffer->get_data().size());
+			if (sourceLength == 0) {
+				sourceLength = static_cast<std::uint32_t>(buffer->get_length());
+			}
 		} else {
-			TITANIUM_LOG_WARN("Buffer::append: Unable to get Buffer");
-			return get_context().CreateUndefined();
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::append", "Buffer::append: Unable to get Buffer");
+		}
+
+		if (buffer->get_length() < sourceOffset + sourceLength) {
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::append", "Buffer::append: Invalid argument");
 		}
 
 		return get_context().CreateNumber(append(buffer, sourceOffset, sourceLength));
@@ -302,6 +316,10 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Buffer, insert)
 	{
+		if (arguments.size() < 2) {
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::insert", "Buffer::insert: Too few argument");
+		}
+
 		ENSURE_OBJECT_AT_INDEX(sourceBuffer, 0);
 		ENSURE_UINT_AT_INDEX(offset, 1);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(sourceOffset, 2, 0);
@@ -309,10 +327,15 @@ namespace Titanium
 
 		const auto buffer = sourceBuffer.GetPrivate<Buffer>();
 		if (buffer) {
-			sourceLength = static_cast<std::uint32_t>(buffer->get_data().size());
+			if (sourceLength == 0) {
+				sourceLength = static_cast<std::uint32_t>(buffer->get_data().size());
+			}
 		} else {
-			TITANIUM_LOG_WARN("Buffer::insert: Unable to get Buffer");
-			return get_context().CreateUndefined();
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::insert", "Buffer::insert: Unable to get Buffer");
+		}
+
+		if (get_length() <= offset || buffer->get_length() < sourceOffset + sourceLength) {
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::insert", "Buffer::insert: Invalid argument");
 		}
 
 		return get_context().CreateNumber(insert(buffer, offset, sourceOffset, sourceLength));
@@ -320,6 +343,10 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Buffer, copy)
 	{
+		if (arguments.size() < 2) {
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::copy", "Buffer::copy: Too few argument");
+		}
+
 		ENSURE_OBJECT_AT_INDEX(sourceBuffer, 0);
 		ENSURE_UINT_AT_INDEX(offset, 1);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(sourceOffset, 2, 0);
@@ -327,10 +354,15 @@ namespace Titanium
 
 		const auto buffer = sourceBuffer.GetPrivate<Buffer>();
 		if (buffer) {
-			sourceLength = static_cast<std::uint32_t>(buffer->get_data().size());
+			if (sourceLength == 0) {
+				sourceLength = static_cast<std::uint32_t>(buffer->get_data().size());
+			}
 		} else {
-			TITANIUM_LOG_WARN("Buffer::copy: Unable to get Buffer");
-			return get_context().CreateUndefined();
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::copy", "Buffer::copy: Unable to get Buffer");
+		}
+
+		if (get_length() <= offset || buffer->get_length() < sourceOffset + sourceLength) {
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::insert", "Buffer::insert: Invalid argument");
 		}
 
 		return get_context().CreateNumber(copy(buffer, offset, sourceOffset, sourceLength));
@@ -339,7 +371,12 @@ namespace Titanium
 	TITANIUM_FUNCTION(Buffer, clone)
 	{
 		ENSURE_OPTIONAL_UINT_AT_INDEX(offset, 0, 0);
-		ENSURE_OPTIONAL_UINT_AT_INDEX(length, 1, 0);
+		ENSURE_OPTIONAL_UINT_AT_INDEX(length, 1, get_length());
+
+		if (get_length() < offset + length) {
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::clone", "Buffer::clone: Invalid argument");
+		}
+
 		const auto buffer = clone(offset, length);
 		
 		if (buffer) {
@@ -351,9 +388,18 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Buffer, fill)
 	{
+		if (arguments.size() < 1) {
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::fill", "Buffer::fill: Too few argument");
+		}
+
 		ENSURE_UINT_AT_INDEX(fillByte, 0);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(offset, 1, 0);
-		ENSURE_OPTIONAL_UINT_AT_INDEX(length, 2, 0);
+		ENSURE_OPTIONAL_UINT_AT_INDEX(length, 2, get_length());
+
+		if (get_length() < offset + length) {
+			HAL::detail::ThrowRuntimeError("Titanium::Buffer::fill", "Buffer::fill: Invalid argument");
+		}
+
 		fill(fillByte, offset, length);
 		return get_context().CreateUndefined();
 	}

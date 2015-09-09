@@ -10,7 +10,7 @@
 #define _TITANIUM_BUFFER_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/Codec.hpp"
+#include "Titanium/Codec/Constants.hpp"
 #include <vector>
 
 namespace Titanium
@@ -42,6 +42,13 @@ namespace Titanium
 		  @discussion The type of data encoding to use with `value`.
 		*/
 		TITANIUM_PROPERTY_IMPL_DEF(Titanium::Codec::Type, type);
+
+		/*!
+		@property
+		@abstract charset
+		@discussion The charset of data encoding to use with `value`.
+		*/
+		TITANIUM_PROPERTY_IMPL_DEF(Titanium::Codec::CharSet, charset);
 
 		/*!
 		  @property
@@ -179,6 +186,7 @@ namespace Titanium
 		std::vector<std::uint8_t>  data__;
 		Titanium::Codec::Type      type__;
 		Titanium::Codec::ByteOrder byteOrder__;
+		Titanium::Codec::CharSet   charset__;
 #pragma warning(pop)
 	};
 
