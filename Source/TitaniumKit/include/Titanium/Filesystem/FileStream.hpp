@@ -9,7 +9,6 @@
 #ifndef _TITANIUM_FILESYSTEM_FILESTREAM_HPP_
 #define _TITANIUM_FILESYSTEM_FILESTREAM_HPP_
 
-#include "Titanium/Module.hpp"
 #include "Titanium/IOStream.hpp"
 
 namespace Titanium
@@ -27,6 +26,41 @@ namespace Titanium
 		{
 
 		public:
+
+			/*!
+			  @method
+			  @abstract read
+			  @discussion Reads data from this stream into a buffer.
+			*/
+			virtual std::int32_t read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT override;
+
+			/*!
+			  @method
+			  @abstract write
+			  @discussion Writes data from a buffer to this stream.
+			*/
+			virtual std::uint32_t write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT override;
+
+			/*!
+			  @method
+			  @abstract isWriteable
+			  @discussion Indicates whether this stream is writeable.
+			*/
+			virtual bool isWriteable() TITANIUM_NOEXCEPT override;
+
+			/*!
+			  @method
+			  @abstract isReadable
+			  @discussion Indicates whether this stream is readable.
+			*/
+			virtual bool isReadable() TITANIUM_NOEXCEPT override;
+
+			/*!
+			  @method
+			  @abstract close
+			  @discussion Closes this stream.
+			*/
+			virtual void close() TITANIUM_NOEXCEPT override;
 
 			FileStream(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~FileStream()                    = default;

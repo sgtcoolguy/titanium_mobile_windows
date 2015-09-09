@@ -128,6 +128,8 @@ set(SOURCE_Gesture
 set(SOURCE_Blob
   include/Titanium/Blob.hpp
   src/Blob.cpp
+  include/Titanium/BlobStream.hpp
+  src/BlobStream.cpp
   )
 
 set(SOURCE_Buffer

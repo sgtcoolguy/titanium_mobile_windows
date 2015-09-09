@@ -18,6 +18,36 @@ namespace Titanium
 		{
 		}
 
+
+		std::int32_t FileStream::read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("FileStream::read: Unimplemented");
+			return -1;
+		}
+
+		std::uint32_t FileStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("FileStream::write: Unimplemented");
+			return 0;
+		}
+
+		bool FileStream::isWriteable() TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("FileStream::isWriteable: Unimplemented");
+			return false;
+		}
+
+		bool FileStream::isReadable() TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("FileStream::isReadable: Unimplemented");
+			return false;
+		}
+
+		void FileStream::close() TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("FileStream::close: Unimplemented");
+		}
+		
 		void FileStream::JSExportInitialize() 
 		{
 			JSExport<FileStream>::SetClassVersion(1);

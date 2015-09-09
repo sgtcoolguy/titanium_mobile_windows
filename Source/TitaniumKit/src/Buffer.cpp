@@ -72,6 +72,7 @@ namespace Titanium
 				case Codec::Type::Long:   set_length(8); break;
 				case Codec::Type::Float:  set_length(4); break;
 				case Codec::Type::Double: set_length(8); break;
+				case Codec::Type::Unknown: HAL::detail::ThrowRuntimeError("Buffer::postConstructProperties", "Titanium::Buffer: Invalid data type");
 				}
 			}
 			Titanium::Codec::EncodeNumberDict param;

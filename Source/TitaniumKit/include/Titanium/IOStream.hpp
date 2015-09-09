@@ -32,7 +32,7 @@ namespace Titanium
 		  @abstract read
 		  @discussion Reads data from this stream into a buffer.
 		*/
-		virtual std::uint32_t read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT;
+		virtual std::int32_t read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method

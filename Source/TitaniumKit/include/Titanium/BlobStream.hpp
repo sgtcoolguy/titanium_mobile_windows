@@ -1,13 +1,13 @@
 /**
- * TitaniumKit Titanium.BufferStream
+ * TitaniumKit Titanium.BlobStream
  *
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUM_BUFFERSTREAM_HPP_
-#define _TITANIUM_BUFFERSTREAM_HPP_
+#ifndef _TITANIUM_BLOBSTREAM_HPP_
+#define _TITANIUM_BLOBSTREAM_HPP_
 
 #include "Titanium/IOStream.hpp"
 
@@ -17,10 +17,10 @@ namespace Titanium
 
 	/*!
 	  @class
-	  @discussion This is the Titanium BufferStream Module.
-	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.BufferStream
+	  @discussion This is the Titanium BlobStream Module.
+	  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.BlobStream
 	*/
-	class TITANIUMKIT_EXPORT BufferStream : public IOStream, public JSExport<BufferStream>
+	class TITANIUMKIT_EXPORT BlobStream : public IOStream, public JSExport<BlobStream>
 	{
 
 	public:
@@ -60,13 +60,13 @@ namespace Titanium
 		*/
 		virtual void close() TITANIUM_NOEXCEPT override;
 
-		BufferStream(const JSContext&) TITANIUM_NOEXCEPT;
-		virtual ~BufferStream()                      = default;
-		BufferStream(const BufferStream&)            = default;
-		BufferStream& operator=(const BufferStream&) = default;
+		BlobStream(const JSContext&) TITANIUM_NOEXCEPT;
+		virtual ~BlobStream()                    = default;
+		BlobStream(const BlobStream&)            = default;
+		BlobStream& operator=(const BlobStream&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
-		BufferStream(BufferStream&&)                 = default;
-		BufferStream& operator=(BufferStream&&)      = default;
+		BlobStream(BlobStream&&)                 = default;
+		BlobStream& operator=(BlobStream&&)      = default;
 #endif
 
 		static void JSExportInitialize();
@@ -78,4 +78,4 @@ namespace Titanium
 	};
 
 } // namespace Titanium
-#endif // _TITANIUM_BUFFERSTREAM_HPP_
+#endif // _TITANIUM_BLOBSTREAM_HPP_
