@@ -52,6 +52,11 @@ namespace Titanium
 			fireEvent("focus");
 		}
 
+		void View::add(const JSObject& view) TITANIUM_NOEXCEPT
+		{
+			layoutDelegate__->add(view.GetPrivate<View>());
+		}
+
 		void View::JSExportInitialize()
 		{
 			JSExport<View>::SetClassVersion(1);
@@ -93,7 +98,21 @@ namespace Titanium
 		TITANIUM_FUNCTION(View, add)
 		{
 			ENSURE_OBJECT_AT_INDEX(view, 0);
-			layoutDelegate__->add(view.GetPrivate<View>());
+
+			// Support single view, or an array of views
+			std::vector<JSObject> views;
+			if (view.IsArray()) {
+				auto js_array = static_cast<std::vector<JSValue>>(static_cast<JSArray>(view));
+				for (auto v : js_array) {
+					views.push_back(static_cast<JSObject>(v));
+				}
+			} else {
+				views.push_back(view);
+			}
+
+			for (auto v : views) {
+				add(v);
+			}
 			return get_context().CreateUndefined();
 		}
 

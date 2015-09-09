@@ -71,20 +71,6 @@ namespace Titanium
 			*/
 			TITANIUM_PROPERTY_IMPL_DEF(double, value);
 
-			/*!
-			  @method
-			  @abstract remove
-			  @discussion Removes a child view from this view's hierarchy.
-			*/
-			virtual void remove(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
-			  @abstract add
-			  @discussion Adds a child to this view's hierarchy.
-			*/
-			virtual void add(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT;
-
 			ProgressBar(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ProgressBar() = default;

@@ -32,16 +32,6 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(ProgressBar, double, min)
 		TITANIUM_PROPERTY_READWRITE(ProgressBar, double, value)
 
-		void ProgressBar::remove(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_DEBUG("ProgressBar::add");
-		}
-
-		void ProgressBar::add(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_DEBUG("ProgressBar::remove");
-		}
-
 		void ProgressBar::JSExportInitialize() 
 		{
 			JSExport<ProgressBar>::SetClassVersion(1);
@@ -55,8 +45,6 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(ProgressBar, style);
 			TITANIUM_ADD_PROPERTY(ProgressBar, value);
 
-			TITANIUM_ADD_FUNCTION(ProgressBar, remove);
-			TITANIUM_ADD_FUNCTION(ProgressBar, add);
 			TITANIUM_ADD_FUNCTION(ProgressBar, getColor);
 			TITANIUM_ADD_FUNCTION(ProgressBar, setColor);
 			TITANIUM_ADD_FUNCTION(ProgressBar, getFont);
@@ -93,20 +81,6 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER_UNIMPLEMENTED(ProgressBar, style)
 		TITANIUM_PROPERTY_SETTER_UNIMPLEMENTED(ProgressBar, style)
-
-		TITANIUM_FUNCTION(ProgressBar, remove)
-		{
-			ENSURE_OBJECT_AT_INDEX(view, 0);
-			remove(view.GetPrivate<View>());
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(ProgressBar, add)
-		{
-			ENSURE_OBJECT_AT_INDEX(view, 0);
-			add(view.GetPrivate<View>());
-			return get_context().CreateUndefined();
-		}
 
 		TITANIUM_FUNCTION_AS_GETTER(ProgressBar, getColor, color)
 		TITANIUM_FUNCTION_AS_SETTER(ProgressBar, setColor, color)
