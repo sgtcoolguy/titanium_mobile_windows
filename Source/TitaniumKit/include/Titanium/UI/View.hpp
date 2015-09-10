@@ -59,6 +59,12 @@ namespace Titanium
 			virtual void blur();
 			virtual void focus();
 
+			/*!
+				This delegates to the layout_delegate__ to add the view, but allows for platform-specific overrides of handling the wrapped view.
+				This is important so the underlying platform can handle automatically wrapping/unwrapping native UI widgets mixed with Titanium UI.
+			*/
+			virtual void add(const JSObject&) TITANIUM_NOEXCEPT;
+
 			View(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~View() TITANIUM_NOEXCEPT;  //= default;
@@ -71,7 +77,7 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			virtual TITANIUM_FUNCTION_DEF(add);
+			TITANIUM_FUNCTION_DEF(add);
 			TITANIUM_FUNCTION_DEF(animate);
 			TITANIUM_FUNCTION_DEF(hide);
 			TITANIUM_FUNCTION_DEF(remove);
