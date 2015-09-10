@@ -50,6 +50,11 @@ set(SOURCE_Ti
   src/TiModule.cpp
   )
 
+set(SOURCE_Codec
+  include/TitaniumWindows/Codec.hpp
+  src/Codec.cpp
+  )
+
 set(SOURCE_API
   include/TitaniumWindows/API.hpp
   src/API.cpp
@@ -81,6 +86,7 @@ set(SOURCE_Utils
   )
 
 source_group(Titanium\\Ti FILES ${SOURCE_Ti})
+source_group(Titanium\\Codec FILES ${SOURCE_Codec})
 source_group(Titanium\\API FILES ${SOURCE_API})
 source_group(Titanium\\App FILES ${SOURCE_App})
 source_group(Titanium\\Locale FILES ${SOURCE_Locale})
@@ -92,6 +98,7 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
 add_library(TitaniumWindows_Ti SHARED
   ${SOURCE_Ti}
+  ${SOURCE_Codec}
   ${SOURCE_API}
   ${SOURCE_App}
   ${SOURCE_Locale}

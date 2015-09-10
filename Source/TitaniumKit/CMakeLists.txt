@@ -128,6 +128,23 @@ set(SOURCE_Gesture
 set(SOURCE_Blob
   include/Titanium/Blob.hpp
   src/Blob.cpp
+  include/Titanium/BlobStream.hpp
+  src/BlobStream.cpp
+  )
+
+set(SOURCE_Buffer
+  include/Titanium/Codec/Constants.hpp
+  src/Codec/Constants.cpp
+  include/Titanium/Codec.hpp
+  src/Codec.cpp
+  include/Titanium/Stream.hpp
+  src/Stream.cpp
+  include/Titanium/IOStream.hpp
+  src/IOStream.cpp
+  include/Titanium/Buffer.hpp
+  src/Buffer.cpp
+  include/Titanium/BufferStream.hpp
+  src/BufferStream.cpp
   )
 
 set(SOURCE_Filesystem
@@ -376,6 +393,7 @@ source_group(TitaniumKit\\Platform         FILES ${SOURCE_Platform})
 source_group(TitaniumKit\\Accelerometer    FILES ${SOURCE_Accelerometer})
 source_group(TitaniumKit\\Gesture          FILES ${SOURCE_Gesture})
 source_group(TitaniumKit\\Blob             FILES ${SOURCE_Blob})
+source_group(TitaniumKit\\Buffer           FILES ${SOURCE_Buffer})
 source_group(TitaniumKit\\Filesystem       FILES ${SOURCE_Filesystem})
 source_group(TitaniumKit\\App              FILES ${SOURCE_App})
 source_group(TitaniumKit\\App\\Properties  FILES ${SOURCE_Properties})
@@ -403,6 +421,7 @@ set(SOURCE_ALL_EXCEPT_DATABASE
   ${SOURCE_Accelerometer}
   ${SOURCE_Gesture}
   ${SOURCE_Blob}
+  ${SOURCE_Buffer}
   ${SOURCE_Filesystem}
   ${SOURCE_App}
   ${SOURCE_Properties}
