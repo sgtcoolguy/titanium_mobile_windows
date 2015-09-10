@@ -15,6 +15,8 @@ namespace Titanium
 {
 	using namespace HAL;
 
+	class Buffer;
+
 	/*!
 	  @class
 	  @discussion This is the Titanium BufferStream Module.
@@ -60,6 +62,10 @@ namespace Titanium
 		*/
 		virtual void close() TITANIUM_NOEXCEPT override;
 
+		virtual void construct(const std::shared_ptr<Buffer>& buffer) {
+			buffer__ = buffer;
+		}
+
 		BufferStream(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~BufferStream()                      = default;
 		BufferStream(const BufferStream&)            = default;
@@ -74,6 +80,7 @@ namespace Titanium
 	protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+		std::shared_ptr<Buffer> buffer__;
 #pragma warning(pop)
 	};
 

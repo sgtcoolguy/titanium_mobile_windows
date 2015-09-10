@@ -17,17 +17,26 @@ namespace Titanium
 	{
 	}
 
-
 	std::int32_t IOStream::read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("IOStream::read: Unimplemented");
 		return -1;
 	}
 
+	void IOStream::readAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>& callback) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("IOStream::readAsync: Unimplemented");
+	}
+
 	std::uint32_t IOStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("IOStream::write: Unimplemented");
 		return 0;
+	}
+
+	void IOStream::writeAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>& callback) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("IOStream::writeAsync: Unimplemented");
 	}
 
 	bool IOStream::isWriteable() TITANIUM_NOEXCEPT

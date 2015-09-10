@@ -33,6 +33,7 @@ namespace Titanium
 		  @discussion Reads data from this stream into a buffer.
 		*/
 		virtual std::int32_t read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT;
+		virtual void readAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>&) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -40,6 +41,7 @@ namespace Titanium
 		  @discussion Writes data from a buffer to this stream.
 		*/
 		virtual std::uint32_t write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT;
+		virtual void writeAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>&) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method

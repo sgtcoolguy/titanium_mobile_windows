@@ -15,6 +15,8 @@ namespace Titanium
 {
 	using namespace HAL;
 
+	class Blob;
+
 	/*!
 	  @class
 	  @discussion This is the Titanium BlobStream Module.
@@ -60,6 +62,11 @@ namespace Titanium
 		*/
 		virtual void close() TITANIUM_NOEXCEPT override;
 
+		virtual void construct(const std::shared_ptr<Blob>& blob) 
+		{
+			blob__ = blob;
+		}
+
 		BlobStream(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~BlobStream()                    = default;
 		BlobStream(const BlobStream&)            = default;
@@ -74,6 +81,7 @@ namespace Titanium
 	protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+		std::shared_ptr<Blob> blob__;
 #pragma warning(pop)
 	};
 
