@@ -467,6 +467,7 @@ function generateWrappers(dest, seeds, next) {
 		});
 
 		// Stub the implementation
+		// TODO Trim the includes to avoid including parents of types we've already included! See trimTypes
 		var cpp_file = path.join(__dirname, 'templates', 'Proxy.cpp');
 		fs.readFile(cpp_file, 'utf8', function (err, data) {
 			if (err) callback(err);
@@ -540,6 +541,63 @@ function generateCmakeList(dest, seeds, modules, next) {
 	});
 }
 
+/**
+ * When we include types in WindowsNativeModuleLoader, we used to include _every_ type.
+ * But we know a type will include it's parent in it's own header
+ * so we can eliminate including the parent if we include the child.
+ * This method filters down to the Array of unique types we'll need to include.
+ *
+ * @param {Array[string]} seeds - The full set of seeds, including enums/structs and blacklisted types 
+ * @return {Array[string]} - the filtered set of types to include - excludes blacklisted, structs, enums, and transitive types (parents of types already included here)
+ */
+ // TODO We should do the same sort of trimming for includes in the Proxy.cpp (line 470)!
+function trimTypes(seeds) {
+	var unique_classes = {},
+		classname = '',
+		classDefinition = {},
+		filtered_classes = [];
+
+	// Go through the list of seeds and copy them.
+	// Skip all the blacklisted types, any types we have no metadata for, and any that are enums/structs
+	for (var i = 0; i < seeds.length; i++) {
+		classname = seeds[i];
+		// Skip blacklisted types
+		if (blacklist.indexOf(classname) != -1) {
+			continue;
+		}
+
+		classDefinition = all_classes[classname];
+		if (!classDefinition) {
+			continue;
+		}
+		// skip enums and structs
+		if (classDefinition['extends'] && 
+			(classDefinition['extends'].indexOf("[mscorlib]System.Enum") == 0 ||
+			classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
+			continue;
+		}
+
+		// OK it's not blacklisted, we have metadata, and it's not a struct/enum
+		filtered_classes.unshift(classname);
+		unique_classes[classname] = 1;
+	}
+
+	// Now we need to go through the list of classes and recursively remove parents
+	for (var i = 0; i < filtered_classes.length; i++) {
+		classname = filtered_classes[i];
+		classDefinition = all_classes[classname];
+
+		// if it has a parent and it's parent isn't a struct or enum, remove the parent
+		if (classDefinition['extends'] && classDefinition['extends'].indexOf('[mscorlib]') == -1) {
+			// Remove the parent from our listing
+			// We also need to remove the parent's parent. But I think that should already happen since parent will still be in filtered_classes array
+			logger.debug("Trimming include of parent: " + classDefinition['extends']);
+			delete unique_classes[classDefinition['extends']];
+		}
+	}
+
+	return Object.keys(unique_classes);
+}
 
 
 /**
@@ -570,6 +628,7 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
 			if (blacklist.indexOf(classname) != -1) {
 				continue;
 			}
+
 			classDefinition = all_classes[classname];
 			if (!classDefinition) {
 				logger.warn("Unable to find metadata for: " + classname);
@@ -594,7 +653,7 @@ function generateWindowsNativeModuleLoader(dest, seeds, next) {
 			}
 		}
 
-		data = ejs.render(data, { classes: class_descriptions, store_only_enums: store_only_enums }, {});
+		data = ejs.render(data, { classes: class_descriptions, store_only_enums: store_only_enums, unique_classes: trimTypes(seeds) }, {});
 
 		// if contents haven't changed, don't overwrite so we don't recompile the file
 		if (fs.existsSync(native_loader) && fs.readFileSync(native_loader).toString() == data) {
@@ -709,12 +768,13 @@ function generateCasting(contents, seeds) {
 	logger.trace("Adding casting method to Platform.Object implementation...");
 
 	var data = contents,
-		classes = "", // built up #includes
+		includes = [],
+		classes = "", // built up includes source
 		cast_block = "",
 		classname = "", // name of current type in outer loop
 		classDefinition; // definition of current type in outer loop
 
-	// Add our includes
+	// Build up the block of casting
 	for (var i = 0; i < seeds.length; i++) {
 		classname = seeds[i];
 		// Skip blacklisted types
@@ -732,7 +792,7 @@ function generateCasting(contents, seeds) {
 			classDefinition['extends'].indexOf("[mscorlib]System.ValueType") == 0)) {
 			continue;	
 		}
-		classes += "#include \"" + classname + ".hpp\"\r\n";
+		
 		cast_block += "\t\t\t\telse if (to_cast == \"" + classname + "\") {\r\n" +
 			"\t\t\t\t\tauto result = context.CreateObject(JSExport<Titanium::" + classname.replace(/\./g, '::') + ">::Class());\r\n" + 
 			"\t\t\t\t\tauto result_wrapper = result.GetPrivate<Titanium::" + classname.replace(/\./g, '::') + ">();\r\n" +
@@ -741,6 +801,14 @@ function generateCasting(contents, seeds) {
 			"\t\t\t\t}\r\n";
 	}
 	cast_block = "auto to_cast = static_cast<std::string>(_0);\r\n\t\t\t\t" + cast_block.substring(9); // drop first "\t\telse "
+
+	// Get the filtered list of types to include
+	includes = trimTypes(seeds);
+	// Then build up the #includes source
+	for (var i = 0; i < includes.length; i++) {
+		classname = includes[i];
+		classes += "#include \"" + classname + ".hpp\"\r\n";
+	}
 	classes = "// INSERT_INCLUDES\r\n" + classes + "// END_INCLUDES";
 
 	var include_index = data.indexOf('#include "Platform.Object.hpp"');
@@ -748,14 +816,6 @@ function generateCasting(contents, seeds) {
 
 	// Insert cast block
 	data = data.substring(0, data.indexOf('auto to_cast =')) + cast_block + data.substring(data.indexOf('return result;') + 14);
-	// Replace #include "Platform.Object.hpp" with same includes as native module loader!
-
-	// FIXME We need to hack Platform.Object even more! We need to add a callback_map__ as a JSObject protected field
-	// We stick the callback functions from JS into the map by their id returned by hanging the listener?
-	// See GlobalObject.cpp/hpp in TitaniumKit for how.
-	// We could remove usage of add_* methods and force use of add/removeEventListener method from Titanium::Module. We'd have to change how we generate
-	// the wrappers for event handling
-
 	return data;
 }
 

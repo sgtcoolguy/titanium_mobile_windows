@@ -1,9 +1,6 @@
 = TODO =
-- Async methods
-	- We skip them entirely. We need to convert to a Promise like object like WInJS does
-- Avoid recompiling everything on every rebuild
-	- Shouldn't need to recompile anything if no new native types are added
-	- Only compile new types and RequireHook/WindowsNativeModuleLoader if new types/modules added!
+- Filter down list of includes in cpp files and WindowsNativeModuleLoader.cpp
+	- We have the type dependency tree, we can likely eliminate many includes knowing that Type X includes Type Y, which includes Type Z, etc.
 	
 == Improvements to Metadata ==
 - Consistently use "class Name.Of.Class" or "Name.Of.Class" for types. Probably the former.
