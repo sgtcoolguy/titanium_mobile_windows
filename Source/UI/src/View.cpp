@@ -123,16 +123,16 @@ namespace TitaniumWindows
 					this->fireEvent("touchmove", eventArgs);
 				});
 			} else if (event_name == "touchstart") {
-				component->ManipulationMode = ManipulationModes::All;
-				component->ManipulationStarted += ref new ManipulationStartedEventHandler([ctx, this](Platform::Object^ sender, ManipulationStartedRoutedEventArgs^ e) {
+				component->PointerPressed += ref new PointerEventHandler([ctx, this](Platform::Object^ sender, PointerRoutedEventArgs^ e) {
 					const auto component = safe_cast<FrameworkElement^>(sender);
-					firePositionEvent("touchstart", component, e->Position);
+					const auto point = Windows::UI::Input::PointerPoint::GetCurrentPoint(e->Pointer->PointerId);
+					firePositionEvent("touchstart", component, point->Position);
 				});
 			} else if (event_name == "touchend") {
-				component->ManipulationMode = ManipulationModes::All;
-				component->ManipulationCompleted += ref new ManipulationCompletedEventHandler([ctx, this](Platform::Object^ sender, ManipulationCompletedRoutedEventArgs^ e) {
+				component->PointerReleased += ref new PointerEventHandler([ctx, this](Platform::Object^ sender, PointerRoutedEventArgs^ e) {
 					const auto component = safe_cast<FrameworkElement^>(sender);
-					firePositionEvent("touchend", component, e->Position);
+					const auto point = Windows::UI::Input::PointerPoint::GetCurrentPoint(e->Pointer->PointerId);
+					firePositionEvent("touchend", component, point->Position);
 				});
 			} else if (event_name == "click") {
 				click_event__ = component->Tapped += ref new TappedEventHandler([this, ctx](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
@@ -156,8 +156,11 @@ namespace TitaniumWindows
 				});
 			} else if (event_name == "longpress") {
 				longpress_event__ = component->Holding += ref new HoldingEventHandler([this, ctx](Platform::Object^ sender, HoldingRoutedEventArgs^ e) {
-					const auto component = safe_cast<FrameworkElement^>(sender);
-					firePositionEvent("longpress", component, e->GetPosition(component));
+					// fires event only when it started
+					if (e->HoldingState == Windows::UI::Input::HoldingState::Started) {
+						const auto component = safe_cast<FrameworkElement^>(sender);
+						firePositionEvent("longpress", component, e->GetPosition(component));
+					}
 				});
 			} else if (event_name == "focus") {
 				focus_event__ = component->GotFocus += ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e) {
