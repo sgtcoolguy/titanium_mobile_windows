@@ -9,8 +9,8 @@
 #include "TitaniumWindows/UI/UIElement.hpp"
 
 // INSERT_INCLUDES
-<% for (class_name in classes) { -%>
-#include "<%= class_name %>.hpp"
+<% for (var x = 0; x < unique_classes.length; x++) { -%>
+#include "<%= unique_classes[x] %>.hpp"
 <% } -%>
 // END_INCLUDES
 
