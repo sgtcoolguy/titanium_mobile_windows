@@ -20,6 +20,8 @@
 
 namespace Titanium
 {
+	const std::uint32_t Stream::DEFAULT_CHUNK_SIZE(1024);
+
 	CreateStreamArgs js_to_CreateStreamArgs(const JSObject& object)
 	{
 		CreateStreamArgs args;

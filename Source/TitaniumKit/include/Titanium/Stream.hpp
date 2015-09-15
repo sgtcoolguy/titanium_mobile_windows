@@ -112,7 +112,7 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(writeStream);
 		TITANIUM_FUNCTION_DEF(pump);
 
-		const static std::uint32_t DEFAULT_CHUNK_SIZE = 1024;
+		const static std::uint32_t DEFAULT_CHUNK_SIZE;
 
 	protected:
 #pragma warning(push)
