@@ -83,8 +83,14 @@ namespace Titanium
 		JSObject BufferObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& BufferObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject StreamObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& StreamObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject BufferStreamObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& BufferStreamObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject BlobStreamObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& BlobStreamObject(const JSObject&) TITANIUM_NOEXCEPT;
 
 		JSObject IOStreamObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& IOStreamObject(const JSObject&) TITANIUM_NOEXCEPT;
@@ -254,9 +260,11 @@ namespace Titanium
 		JSObject locale__;
 		JSObject view__;
 		JSObject codec__;
+		JSObject stream__;
 		JSObject filestream__;
 		JSObject iostream__;
 		JSObject bufferstream__;
+		JSObject blobstream__;
 		JSObject buffer__;
 		JSObject clipboard__;
 		JSObject textarea__;

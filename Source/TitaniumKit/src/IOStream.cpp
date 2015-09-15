@@ -25,7 +25,7 @@ namespace Titanium
 
 	void IOStream::readAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>& callback) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("IOStream::readAsync: Unimplemented");
+		callback(read(buffer, offset, length));
 	}
 
 	std::uint32_t IOStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
@@ -36,19 +36,17 @@ namespace Titanium
 
 	void IOStream::writeAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>& callback) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("IOStream::writeAsync: Unimplemented");
+		callback(write(buffer, offset, length));
 	}
 
-	bool IOStream::isWriteable() TITANIUM_NOEXCEPT
+	bool IOStream::isWritable() TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("IOStream::isWriteable: Unimplemented");
-		return false;
+		return modes__.find(Filesystem::MODE::READ) == modes__.end();
 	}
 
 	bool IOStream::isReadable() TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("IOStream::isReadable: Unimplemented");
-		return false;
+		return modes__.find(Filesystem::MODE::READ) != modes__.end();
 	}
 
 	void IOStream::close() TITANIUM_NOEXCEPT
@@ -63,32 +61,38 @@ namespace Titanium
 
 		TITANIUM_ADD_FUNCTION(IOStream, read);
 		TITANIUM_ADD_FUNCTION(IOStream, write);
-		TITANIUM_ADD_FUNCTION(IOStream, isWriteable);
+		TITANIUM_ADD_FUNCTION(IOStream, isWritable);
 		TITANIUM_ADD_FUNCTION(IOStream, isReadable);
 		TITANIUM_ADD_FUNCTION(IOStream, close);
 	}
 
 	TITANIUM_FUNCTION(IOStream, read)
 	{
-		ENSURE_OBJECT_AT_INDEX(buffer, 0);
+		ENSURE_OBJECT_AT_INDEX(buffer_object, 0);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(offset, 1, 0);
-		ENSURE_OPTIONAL_UINT_AT_INDEX(length, 2, 0);
-		read(buffer.GetPrivate<Buffer>(), offset, length);
-		return get_context().CreateUndefined();
+		const auto buffer = buffer_object.GetPrivate<Buffer>();
+		if (buffer == nullptr) {
+			HAL::detail::ThrowRuntimeError("Titanium::IOStream::read", "Titanium::IOStream::read: Invalid arguments");
+		}
+		ENSURE_OPTIONAL_UINT_AT_INDEX(length, 2, buffer->get_length());
+		return get_context().CreateNumber(read(buffer, offset, length));
 	}
 
 	TITANIUM_FUNCTION(IOStream, write)
 	{
-		ENSURE_OBJECT_AT_INDEX(buffer, 0);
+		ENSURE_OBJECT_AT_INDEX(buffer_object, 0);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(offset, 1, 0);
-		ENSURE_OPTIONAL_UINT_AT_INDEX(length, 2, 0);
-		write(buffer.GetPrivate<Buffer>(), offset, length);
-		return get_context().CreateUndefined();
+		const auto buffer = buffer_object.GetPrivate<Buffer>();
+		if (buffer == nullptr) {
+			HAL::detail::ThrowRuntimeError("Titanium::IOStream::read", "Titanium::IOStream::read: Invalid arguments");
+		}
+		ENSURE_OPTIONAL_UINT_AT_INDEX(length, 2, buffer->get_length());
+		return get_context().CreateNumber(write(buffer, offset, length));
 	}
 
-	TITANIUM_FUNCTION(IOStream, isWriteable)
+	TITANIUM_FUNCTION(IOStream, isWritable)
 	{
-		return get_context().CreateBoolean(isWriteable());
+		return get_context().CreateBoolean(isWritable());
 	}
 
 	TITANIUM_FUNCTION(IOStream, isReadable)

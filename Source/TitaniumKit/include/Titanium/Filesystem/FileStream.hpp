@@ -46,7 +46,7 @@ namespace Titanium
 			  @abstract isWriteable
 			  @discussion Indicates whether this stream is writeable.
 			*/
-			virtual bool isWriteable() TITANIUM_NOEXCEPT override;
+			virtual bool isWritable() TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method

@@ -7,6 +7,8 @@
  */
 
 #include "Titanium/BlobStream.hpp"
+#include "Titanium/Blob.hpp"
+#include "Titanium/Buffer.hpp"
 
 namespace Titanium
 {
@@ -17,33 +19,44 @@ namespace Titanium
 
 	}
 
-	std::int32_t BlobStream::read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+	void BlobStream::construct(const std::shared_ptr<Blob>& blob) 
 	{
-		TITANIUM_LOG_WARN("BlobStream::read: Unimplemented");
-		return -1;
+		TITANIUM_ASSERT(blob != nullptr);
+		blob__ = blob;
+	}
+
+	std::int32_t BlobStream::read(const std::shared_ptr<Buffer>& write_buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+	{
+		const auto buffer_ctor = get_context().JSEvaluateScript("Ti.Buffer"); \
+		const auto buffer_object = static_cast<JSObject>(buffer_ctor).CallAsConstructor();
+		auto source_buffer = buffer_object.GetPrivate<Buffer>();
+		source_buffer->construct(blob__->getData());
+
+		const auto read_buffer_length  = source_buffer->get_length();
+		const auto write_buffer_length = write_buffer->get_length();
+		if (totalBytesProcessed__ >= read_buffer_length || offset >= write_buffer_length) {
+			return -1;
+		}
+
+		auto bytesToRead = length;
+		if (totalBytesProcessed__ + bytesToRead > read_buffer_length) {
+			bytesToRead = read_buffer_length - totalBytesProcessed__;
+		}
+		bytesToRead = write_buffer->copy(source_buffer, offset, totalBytesProcessed__, bytesToRead);
+
+		totalBytesProcessed__ += bytesToRead;
+		return bytesToRead;
 	}
 
 	std::uint32_t BlobStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("BlobStream::write: Unimplemented");
+		HAL::detail::ThrowRuntimeError("Titanium::BlobStream", "Invalid operation: BlobStream is read-only");
 		return 0;
-	}
-
-	bool BlobStream::isWriteable() TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("BlobStream::isWriteable: Unimplemented");
-		return false;
-	}
-
-	bool BlobStream::isReadable() TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("BlobStream::isReadable: Unimplemented");
-		return false;
 	}
 
 	void BlobStream::close() TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("BlobStream::close: Unimplemented");
+
 	}
 
 	void BlobStream::JSExportInitialize() 

@@ -10,6 +10,8 @@
 #define _TITANIUM_STREAM_HPP_
 
 #include "Titanium/Module.hpp"
+#include "Titanium/Filesystem/Constants.hpp"
+#include <unordered_set>
 
 namespace Titanium
 {
@@ -19,12 +21,6 @@ namespace Titanium
 	class Buffer;
 	class Blob;
 
-	enum class STREAM_MODE {
-		APPEND = 0,
-		READ   = 1,
-		WRITE  = 2
-	};
-
 	/*!
 	  @struct
 	  @discussion Argument passed to Titanium.Stream.createStream.
@@ -33,7 +29,7 @@ namespace Titanium
 	*/
 	struct CreateStreamArgs
 	{
-		STREAM_MODE mode { STREAM_MODE::READ };
+		std::unordered_set<Filesystem::MODE> modes;
 		// source can be Buffer or Blob
 		std::shared_ptr<Buffer> buffer_source { nullptr };
 		std::shared_ptr<Blob>   blob_source { nullptr };
@@ -86,7 +82,7 @@ namespace Titanium
 		  @abstract writeStream
 		  @discussion Writes all data from an input stream to an output stream.
 		*/
-		virtual void writeStream(const std::shared_ptr<IOStream>& inputStream, const std::shared_ptr<IOStream>& outputStream, const uint32_t& maxChunkSize, JSObject resultsCallback) TITANIUM_NOEXCEPT;
+		virtual std::uint32_t writeStream(const std::shared_ptr<IOStream>& inputStream, const std::shared_ptr<IOStream>& outputStream, const uint32_t& maxChunkSize, JSObject resultsCallback) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -116,13 +112,14 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(writeStream);
 		TITANIUM_FUNCTION_DEF(pump);
 
+		const static std::uint32_t DEFAULT_CHUNK_SIZE = 1024;
+
 	protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 		JSValue MODE_APPEND__;
 		JSValue MODE_READ__;
 		JSValue MODE_WRITE__;
-		std::uint32_t totalBytesProcessed__ { 0 };
 #pragma warning(pop)
 	};
 

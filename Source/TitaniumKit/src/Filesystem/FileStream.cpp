@@ -31,7 +31,7 @@ namespace Titanium
 			return 0;
 		}
 
-		bool FileStream::isWriteable() TITANIUM_NOEXCEPT
+		bool FileStream::isWritable() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("FileStream::isWriteable: Unimplemented");
 			return false;

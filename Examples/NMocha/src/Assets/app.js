@@ -33,6 +33,7 @@ require('./ti.network.test');
 require('./ti.network.httpclient.test');
 require('./ti.platform.test');
 require('./ti.require.test');
+require('./ti.stream.test');
 require('./ti.test');
 require('./ti.ui.activityindicator.test');
 require('./ti.ui.windows.commandbar.test');

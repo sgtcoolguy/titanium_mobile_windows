@@ -43,28 +43,17 @@ namespace Titanium
 
 		/*!
 		  @method
-		  @abstract isWriteable
-		  @discussion Indicates whether this stream is writeable.
-		*/
-		virtual bool isWriteable() TITANIUM_NOEXCEPT override;
-
-		/*!
-		  @method
-		  @abstract isReadable
-		  @discussion Indicates whether this stream is readable.
-		*/
-		virtual bool isReadable() TITANIUM_NOEXCEPT override;
-
-		/*!
-		  @method
 		  @abstract close
 		  @discussion Closes this stream.
 		*/
 		virtual void close() TITANIUM_NOEXCEPT override;
 
-		virtual void construct(const std::shared_ptr<Buffer>& buffer) {
-			buffer__ = buffer;
-		}
+		/*!
+		  @method
+		  @abstract construct
+		  @discussion Set Buffer for this stream
+		*/
+		virtual void construct(const std::shared_ptr<Buffer>& buffer);
 
 		BufferStream(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~BufferStream()                      = default;

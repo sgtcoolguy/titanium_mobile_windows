@@ -10,6 +10,7 @@
 #define _TITANIUM_IOSTREAM_HPP_
 
 #include "Titanium/Module.hpp"
+#include "Titanium/Filesystem/Constants.hpp"
 
 namespace Titanium
 {
@@ -33,6 +34,12 @@ namespace Titanium
 		  @discussion Reads data from this stream into a buffer.
 		*/
 		virtual std::int32_t read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract readAsync
+		  @discussion Override this if subclass supports async operation
+		*/
 		virtual void readAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>&) TITANIUM_NOEXCEPT;
 
 		/*!
@@ -41,14 +48,20 @@ namespace Titanium
 		  @discussion Writes data from a buffer to this stream.
 		*/
 		virtual std::uint32_t write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract writeAsync
+		  @discussion Override this if subclass supports async operation
+		*/
 		virtual void writeAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>&) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
-		  @abstract isWriteable
+		  @abstract isWritable
 		  @discussion Indicates whether this stream is writeable.
 		*/
-		virtual bool isWriteable() TITANIUM_NOEXCEPT;
+		virtual bool isWritable() TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -64,6 +77,26 @@ namespace Titanium
 		*/
 		virtual void close() TITANIUM_NOEXCEPT;
 
+		/*!
+		  @method
+		  @abstract set_mode
+		  @discussion Set mode to open the stream in.
+		*/
+		virtual void set_modes(const std::unordered_set<Filesystem::MODE>& mode)
+		{
+			modes__ = mode;
+		}
+
+		/*!
+		  @method
+		  @abstract get_totalBytesProcessed
+		  @discussion Get total bytes processed
+		*/
+		virtual std::uint32_t get_totalBytesProcessed() const 
+		{
+			return totalBytesProcessed__;
+		}
+
 		IOStream(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~IOStream()                  = default;
 		IOStream(const IOStream&)            = default;
@@ -77,13 +110,15 @@ namespace Titanium
 
 		TITANIUM_FUNCTION_DEF(read);
 		TITANIUM_FUNCTION_DEF(write);
-		TITANIUM_FUNCTION_DEF(isWriteable);
+		TITANIUM_FUNCTION_DEF(isWritable);
 		TITANIUM_FUNCTION_DEF(isReadable);
 		TITANIUM_FUNCTION_DEF(close);
 
 	protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+		std::unordered_set<Filesystem::MODE> modes__;
+		std::uint32_t totalBytesProcessed__ { 0 };
 #pragma warning(pop)
 	};
 

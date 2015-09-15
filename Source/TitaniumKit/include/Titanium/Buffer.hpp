@@ -139,6 +139,9 @@ namespace Titanium
 		// Called after all properties are set at Ti.createBuffer
 		virtual void postConstructProperties();
 
+		// Construct internal data
+		virtual void construct(const std::vector<std::uint8_t>& data) TITANIUM_NOEXCEPT;
+
 		Buffer(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~Buffer()                      = default;
 		Buffer(const Buffer&)            = default;
