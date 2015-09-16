@@ -41,7 +41,7 @@ namespace Titanium
 
 	bool IOStream::isWritable() TITANIUM_NOEXCEPT
 	{
-		return modes__.find(Filesystem::MODE::READ) == modes__.end();
+		return (modes__.find(Filesystem::MODE::WRITE) != modes__.end() || modes__.find(Filesystem::MODE::APPEND) != modes__.end());
 	}
 
 	bool IOStream::isReadable() TITANIUM_NOEXCEPT

@@ -132,7 +132,9 @@ namespace Titanium
 
 	void Blob::release() TITANIUM_NOEXCEPT
 	{
-		data_.clear();
+		data_ = std::vector<std::uint8_t>();
+		path_ = "";
+		mimetype_ = "";
 	}
 
 	TITANIUM_PROPERTY_GETTER(Blob, length)	
