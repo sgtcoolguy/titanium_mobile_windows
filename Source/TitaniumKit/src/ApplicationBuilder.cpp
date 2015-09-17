@@ -34,6 +34,8 @@
 #include "Titanium/IOStream.hpp"
 #include "Titanium/Buffer.hpp"
 #include "Titanium/BufferStream.hpp"
+#include "Titanium/BlobStream.hpp"
+#include "Titanium/Stream.hpp"
 #include "Titanium/UI/Window.hpp"
 #include "Titanium/UI/Button.hpp"
 #include "Titanium/UI/AlertDialog.hpp"
@@ -92,7 +94,9 @@ namespace Titanium
 		  api__(js_context__.CreateObject(JSExport<Titanium::API>::Class())),
 		  buffer__(js_context__.CreateObject(JSExport<Titanium::Buffer>::Class())),
 		  bufferstream__(js_context__.CreateObject(JSExport<Titanium::BufferStream>::Class())),
+		  blobstream__(js_context__.CreateObject(JSExport<Titanium::BlobStream>::Class())),
 		  iostream__(js_context__.CreateObject(JSExport<Titanium::IOStream>::Class())),
+		  stream__(js_context__.CreateObject(JSExport<Titanium::Stream>::Class())),
 		  locale__(js_context__.CreateObject(JSExport<Titanium::Locale>::Class())),
 		  view__(js_context__.CreateObject(JSExport<Titanium::UI::View>::Class())),
 		  codec__(js_context__.CreateObject(JSExport<Titanium::Codec::CodecModule>::Class())),
@@ -219,9 +223,11 @@ namespace Titanium
 		titanium.SetProperty("Blob", blob__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Buffer", buffer__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("BufferStream", bufferstream__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("BlobStream", blobstream__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Codec", codec__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("IOStream", iostream__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
-		titanium.SetProperty("Filesystem", filesystem__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		titanium.SetProperty("Stream", stream__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		titanium.SetProperty("Filesystem", filesystem__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		titanium.SetProperty("Database", database__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Utils", utils__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		titanium.SetProperty("Geolocation", geolocation__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -359,6 +365,17 @@ namespace Titanium
 		return *this;
 	}
 
+	JSObject ApplicationBuilder::BlobStreamObject() const TITANIUM_NOEXCEPT
+	{
+		return blobstream__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::BlobStreamObject(const JSObject& blobstream) TITANIUM_NOEXCEPT
+	{
+		blobstream__ = blobstream;
+		return *this;
+	}
+	
 	JSObject ApplicationBuilder::IOStreamObject() const TITANIUM_NOEXCEPT
 	{
 		return iostream__;

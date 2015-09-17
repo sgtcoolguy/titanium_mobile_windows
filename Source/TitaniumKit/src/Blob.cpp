@@ -16,7 +16,7 @@ namespace Titanium
 	{
 	}
 
-	void Blob::construct(const std::vector<std::uint8_t> data) TITANIUM_NOEXCEPT
+	void Blob::construct(const std::vector<std::uint8_t>& data) TITANIUM_NOEXCEPT
 	{
 		height_ = 0;
 		width_ = 0;
@@ -128,6 +128,13 @@ namespace Titanium
 		const auto b = blob->getData();
 		data_.reserve(data_.size() + b.size());
 		data_.insert(data_.end(), b.begin(), b.end());
+	}
+
+	void Blob::release() TITANIUM_NOEXCEPT
+	{
+		data_ = std::vector<std::uint8_t>();
+		path_ = "";
+		mimetype_ = "";
 	}
 
 	TITANIUM_PROPERTY_GETTER(Blob, length)	

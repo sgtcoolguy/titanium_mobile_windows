@@ -84,6 +84,12 @@ namespace Titanium
 		}
 	}
 
+	void Buffer::construct(const std::vector<std::uint8_t>& data) TITANIUM_NOEXCEPT
+	{
+		data__ = data;
+	}
+
+
 	std::uint32_t Buffer::get_length() const TITANIUM_NOEXCEPT
 	{
 		return static_cast<std::uint32_t>(data__.size());
@@ -112,6 +118,7 @@ namespace Titanium
 
 	std::uint32_t Buffer::copy(const std::shared_ptr<Buffer>& sourceBuffer, const std::uint32_t& offset, const std::uint32_t& sourceOffset, const std::uint32_t& sourceLength) TITANIUM_NOEXCEPT
 	{
+		TITANIUM_ASSERT(offset < data__.size());
 		const auto source = sourceBuffer->get_data();
 		const auto actualLength = offset + sourceLength > data__.size() ? data__.size() - offset : sourceLength;
 		std::copy(source.begin() + sourceOffset, source.begin() + sourceOffset + actualLength, data__.begin() + offset);
