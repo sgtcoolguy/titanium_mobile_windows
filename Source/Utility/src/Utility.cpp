@@ -252,5 +252,14 @@ namespace TitaniumWindows
 			return blob_read_func({ js_context.CreateString(path) }, blob_read_func);
 		}
 
+		Titanium::ErrorResponse GetTiErrorResponse(::Platform::COMException^ e) 
+		{
+			Titanium::ErrorResponse response;
+			response.success = false;
+			response.code  = -1; // default failure code
+			response.error = TitaniumWindows::Utility::ConvertString(e->Message);
+			return response;
+		}
+
 	}  // namespace Utility
 }  // namespace TitaniumWindows

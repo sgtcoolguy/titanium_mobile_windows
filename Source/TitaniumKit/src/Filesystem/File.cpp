@@ -224,10 +224,15 @@ namespace Titanium
 			return false;
 		}
 
-		std::shared_ptr<FileStream> File::open(const std::unordered_set<MODE>&) TITANIUM_NOEXCEPT
+		std::shared_ptr<FileStream> File::open(const std::unordered_set<MODE>& modes) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("File::open: Unimplemented");
-			return nullptr;
+			const auto fileStream_ctor = get_context().JSEvaluateScript("Ti.Filesystem.FileStream");
+			TITANIUM_ASSERT(fileStream_ctor.IsObject());
+			const auto fileStream = static_cast<JSObject>(fileStream_ctor).CallAsConstructor();
+			const auto fileStream_ptr = fileStream.GetPrivate<FileStream>();
+			fileStream_ptr->set_modes(modes);
+			fileStream_ptr->construct(get_object().GetPrivate<File>());
+			return fileStream_ptr;
 		}
 
 		std::shared_ptr<Titanium::Blob> File::read() TITANIUM_NOEXCEPT
@@ -254,6 +259,17 @@ namespace Titanium
 			return false;
 		}
 
+		bool File::write(const std::vector<std::uint8_t>& data, const std::uint32_t& offset, const std::uint32_t& length, const bool& append)
+		{
+			TITANIUM_LOG_WARN("File::write(vector<uint8_t>): Unimplemented");
+			return false;
+		}
+
+		void File::writeAsync(const std::vector<std::uint8_t>& data, const std::uint32_t& offset, const std::uint32_t& length, const bool& append, const std::function<void(const ErrorResponse&, const uint32_t&)>&)
+		{
+			TITANIUM_LOG_WARN("File::writeAsync(vector<uint8_t>): Unimplemented");
+		}
+
 		bool File::write(const std::string& data, const bool& append) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::write(string): Unimplemented");
@@ -275,8 +291,27 @@ namespace Titanium
 		std::vector<std::uint8_t> File::getContent() const TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("File::getContent(): Unimplemented");
-			std::vector<std::uint8_t> content;
-			return content;
+			return std::vector<std::uint8_t>();
+		}
+
+		std::vector<std::uint8_t> File::readBytes(const std::uint32_t& offset, const std::uint32_t& length) const
+		{
+			TITANIUM_LOG_WARN("File::readBytes(): Unimplemented");
+			return std::vector<std::uint8_t>();
+		}
+
+		void File::readBytesAsync(const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const ErrorResponse&, const std::vector<std::uint8_t>&)>&) const
+		{
+			TITANIUM_LOG_WARN("File::readBytesAsync(): Unimplemented");
+		}
+
+		void File::readAllBytesAsync(const std::function<void(const ErrorResponse&, const std::vector<std::uint8_t>&)>& callback) const
+		{
+			ErrorResponse error;
+			error.code = -1;
+			error.success = false;			
+			error.error = "File::readAllBytesAsync(): Unimplemented";
+			callback(error, std::vector<std::uint8_t>());
 		}
 
 		TITANIUM_PROPERTY_GETTER(File, executable)

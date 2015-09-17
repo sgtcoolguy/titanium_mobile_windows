@@ -7,6 +7,8 @@
  */
 
 #include "Titanium/Filesystem/FileStream.hpp"
+#include "Titanium/Filesystem/File.hpp"
+#include "Titanium/Buffer.hpp"
 
 namespace Titanium
 {
@@ -19,33 +21,87 @@ namespace Titanium
 		}
 
 
-		std::int32_t FileStream::read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+		void FileStream::construct(const std::shared_ptr<File>& file)
 		{
-			TITANIUM_LOG_WARN("FileStream::read: Unimplemented");
-			return -1;
+			file__ = file;
 		}
 
-		std::uint32_t FileStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+		std::int32_t FileStream::read(const std::shared_ptr<Buffer>& write_buffer, const std::uint32_t& write_offset, const std::uint32_t& length)
 		{
-			TITANIUM_LOG_WARN("FileStream::write: Unimplemented");
-			return 0;
+			const auto data = file__->readBytes(totalBytesProcessed__, length);
+			if (data.size() == 0) {
+				return -1;
+			}
+
+			const auto buffer_ctor = get_context().JSEvaluateScript("Ti.Buffer"); \
+			const auto buffer_object = static_cast<JSObject>(buffer_ctor).CallAsConstructor();
+			auto source_buffer = buffer_object.GetPrivate<Buffer>();
+			source_buffer->construct(data);
+
+			const auto bytesToRead = getAvailableBytesToRead(source_buffer, write_buffer, 0, write_offset, length);
+			if (bytesToRead == 0) {
+				return -1;
+			}
+			write_buffer->copy(source_buffer, write_offset, 0, bytesToRead);
+
+			totalBytesProcessed__ += bytesToRead;
+			return bytesToRead;
 		}
 
-		bool FileStream::isWritable() TITANIUM_NOEXCEPT
+		void FileStream::readAsync(const std::shared_ptr<Buffer>& write_buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const ErrorResponse&, const std::int32_t&)>& callback)
 		{
-			TITANIUM_LOG_WARN("FileStream::isWriteable: Unimplemented");
-			return false;
+			file__->readBytesAsync(totalBytesProcessed__, length, [this, callback](const Titanium::ErrorResponse& error, const std::vector<std::uint8_t>& data){
+				const auto bytesToRead = data.size();
+				totalBytesProcessed__ += bytesToRead;
+				if (bytesToRead == 0) {
+					callback(error, -1);
+				} else {
+					callback(error, bytesToRead);
+				}
+			});
 		}
 
-		bool FileStream::isReadable() TITANIUM_NOEXCEPT
+		void FileStream::readAllAsync(const std::shared_ptr<Buffer>& buffer, const std::function<void(const ErrorResponse&, const std::shared_ptr<IOStream>& source)>& callback)
 		{
-			TITANIUM_LOG_WARN("FileStream::isReadable: Unimplemented");
-			return false;
+			file__->readAllBytesAsync([this, buffer, callback](const Titanium::ErrorResponse& error, const std::vector<std::uint8_t>& data) {
+				buffer->construct(data);
+				totalBytesProcessed__ = data.size();
+				callback(error, get_object().GetPrivate<IOStream>());
+			});
 		}
 
-		void FileStream::close() TITANIUM_NOEXCEPT
+		std::uint32_t FileStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length)
 		{
-			TITANIUM_LOG_WARN("FileStream::close: Unimplemented");
+			if (!isWritable()) {
+				HAL::detail::ThrowRuntimeError("Titanium::FileStream::write", "Unable to write to a Stream which is read-only.");
+			}
+
+			file__->write(buffer->get_data(), offset, length, true);
+
+			totalBytesProcessed__ += length;
+			return length;
+		}
+
+		void FileStream::writeAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const ErrorResponse&, const std::int32_t&)>& callback)
+		{
+			if (!isWritable()) {
+				HAL::detail::ThrowRuntimeError("Titanium::FileStream::write", "Unable to write to a Stream which is read-only.");
+			}
+
+			file__->writeAsync(buffer->get_data(), offset, length, true, [this, callback](const ErrorResponse& error, const uint32_t& bytes) {
+				totalBytesProcessed__ += bytes;
+				if (error.success) {
+					callback(error, bytes);
+				} else {
+					callback(error, -1);
+				}
+			});
+
+		}
+
+		void FileStream::close()
+		{
+
 		}
 		
 		void FileStream::JSExportInitialize() 

@@ -559,12 +559,6 @@ namespace TitaniumWindows
 			return result;
 		}
 
-		std::shared_ptr<Titanium::Filesystem::FileStream> File::open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("File::open: Unimplemented");
-			return nullptr;
-		}
-
 		std::shared_ptr<Titanium::Blob> File::read() TITANIUM_NOEXCEPT
 		{
 			if (file_ == nullptr) {
@@ -716,6 +710,116 @@ namespace TitaniumWindows
 			return TitaniumWindows::Utility::GetContentFromFile(file_);
 		}
 
+		std::vector<std::uint8_t> File::readBytes(const std::uint32_t& offset, const std::uint32_t& length) const 
+		{
+			using namespace Windows::Storage::Streams;
+
+			std::vector<std::uint8_t> data;
+
+			try {
+				concurrency::event evt;
+				task<IRandomAccessStreamWithContentType^>(file_->OpenReadAsync()).then([offset, length, &data, &evt](task<IRandomAccessStreamWithContentType ^> task) {
+					try {
+						const auto stream = task.get();
+						const auto buffer = ref new Buffer(length);
+						stream->Seek(offset);
+						concurrency::task<IBuffer^>(stream->ReadAsync(buffer, buffer->Capacity, InputStreamOptions::Partial)).then([&data, &evt](concurrency::task<IBuffer^> task) {
+							try {
+								const auto buffer = task.get();
+								data = TitaniumWindows::Utility::GetContentFromBuffer(buffer);
+							} catch (Platform::COMException^ ex) {
+								TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(ex->Message));
+							}
+							evt.set();
+						}, concurrency::task_continuation_context::use_arbitrary());
+					} catch (Platform::COMException^ ex) {
+						TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(ex->Message));
+						evt.set();
+					}
+				}, concurrency::task_continuation_context::use_arbitrary());
+				evt.wait();
+			} catch (Platform::COMException^ ex) {
+				TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(ex->Message));
+			}
+
+			return data;
+		}
+
+		void File::readBytesAsync(const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const Titanium::ErrorResponse&, const std::vector<std::uint8_t>&)>& callback) const
+		{
+			using namespace Windows::Storage::Streams;
+
+			try {
+				task<IRandomAccessStreamWithContentType^>(file_->OpenReadAsync()).then([offset, length, callback](task<IRandomAccessStreamWithContentType ^> task) {
+					try {
+						const auto stream = task.get();
+						const auto buffer = ref new Buffer(length);
+						stream->Seek(offset);
+						concurrency::task<IBuffer^>(stream->ReadAsync(buffer, buffer->Capacity, InputStreamOptions::Partial)).then([callback](concurrency::task<IBuffer^> task) {
+							try {
+								const Titanium::ErrorResponse errorResponse;
+								const auto buffer = task.get();
+								callback(errorResponse, TitaniumWindows::Utility::GetContentFromBuffer(buffer));
+							} catch (Platform::COMException^ ex) {
+								callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+							}
+						});
+					} catch (Platform::COMException^ ex) {
+						callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+					}
+				});
+			} catch (Platform::COMException^ ex) {
+				callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+			}
+		}
+
+		void File::readAllBytesAsync(const std::function<void(const Titanium::ErrorResponse&, const std::vector<std::uint8_t>&)>& callback) const 
+		{
+			using namespace Windows::Storage::Streams;
+
+			concurrency::task<IBuffer^>(FileIO::ReadBufferAsync(file_)).then([callback](concurrency::task<IBuffer ^ > task) {
+				try {
+					const Titanium::ErrorResponse errorResponse;
+					const auto buffer = task.get();
+					callback(errorResponse, TitaniumWindows::Utility::GetContentFromBuffer(buffer));
+				} catch (::Platform::COMException^ ex) {
+					callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+				}
+			});
+		}
+
+		bool File::write(const std::vector<std::uint8_t>& data, const std::uint32_t& offset, const std::uint32_t& length, const bool& append)
+		{
+			if (!prepareWrite()) {
+				return false;
+			}
+			auto read_data = const_cast<std::vector<std::uint8_t>&>(data);
+			return write(getBufferFromBytes(&read_data[offset], length, append, file_));
+		}
+
+		void File::writeAsync(const std::vector<std::uint8_t>& data, const std::uint32_t& offset, const std::uint32_t& length, const bool& append, const std::function<void(const Titanium::ErrorResponse&, const uint32_t&)>& callback)
+		{
+			if (!prepareWrite()) {
+				Titanium::ErrorResponse error;
+				error.code    = -1;
+				error.success = false;
+				error.error = "File::writeAsync: Failed to get file instance";
+				callback(error, 0);
+				return;
+			}
+			auto read_data = const_cast<std::vector<std::uint8_t>&>(data);
+			const auto buffer = getBufferFromBytes(&read_data[offset], length, append, file_);
+			task<void>(FileIO::WriteBufferAsync(file_, buffer)).then([length, callback](task<void> task) {
+				try {
+					const Titanium::ErrorResponse error;
+					task.get();
+					callback(error, length);
+				} catch (Platform::COMException^ ex) {
+					callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), 0);
+				}
+			});
+
+		}
 
 	} // namespace Filesystem
 } // namespace TitaniumWindows

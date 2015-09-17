@@ -9,8 +9,10 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Filesystem/Constants.hpp"
+#include "Titanium/ErrorResponse.hpp"
 #include <chrono>
 #include <vector>
+#include <functional>
 
 namespace Titanium
 {
@@ -218,6 +220,12 @@ namespace Titanium
 			virtual bool write(const std::string& data, const bool& append) TITANIUM_NOEXCEPT;
 			virtual bool write(const std::shared_ptr<Titanium::Blob>& data, const bool& append) TITANIUM_NOEXCEPT;
 			virtual bool write(const std::shared_ptr<File>& data, const bool& append) TITANIUM_NOEXCEPT;
+			virtual bool write(const std::vector<std::uint8_t>& data, const std::uint32_t& offset, const std::uint32_t& length, const bool& append);
+			virtual void writeAsync(const std::vector<std::uint8_t>& data, const std::uint32_t& offset, const std::uint32_t& length, const bool& append, const std::function<void(const ErrorResponse&, const uint32_t&)>&);
+
+			virtual std::vector<std::uint8_t> readBytes(const std::uint32_t& offset, const std::uint32_t& length) const;
+			virtual void readBytesAsync(const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const ErrorResponse&, const std::vector<std::uint8_t>&)>&) const;
+			virtual void readAllBytesAsync(const std::function<void(const ErrorResponse&, const std::vector<std::uint8_t>&)>&) const;
 
 			virtual std::vector<std::uint8_t> getContent() const TITANIUM_NOEXCEPT;
 
