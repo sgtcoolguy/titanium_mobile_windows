@@ -62,8 +62,19 @@ namespace Titanium
 		return object;
 	}
 
+	JSFunction Stream::createPromisifyFunction(const JSContext& js_context) TITANIUM_NOEXCEPT
+	{
+		const std::string script = R"JS(
+			return function(value) {
+				new Promise(function(resolve){ resolve(value); }).then(callback);
+			};
+		)JS";
+		return js_context.CreateFunction(script, { "callback" });
+	}
+
 	Stream::Stream(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Module(js_context)
+		, promisifyFunc__(createPromisifyFunction(js_context))
 		, MODE_READ__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::READ)))
 		, MODE_WRITE__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::WRITE)))
 		, MODE_APPEND__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::APPEND))) 
@@ -291,11 +302,17 @@ namespace Titanium
 
 		if (arguments.at(2).IsObject()) {
 			ENSURE_OBJECT_AT_INDEX(resultsCallback, 2);
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			read(source_stream, write_buffer, 0, write_buffer->get_length(), resultsCallback);
 		} else {
 			ENSURE_UINT_AT_INDEX(offset, 2);
 			ENSURE_UINT_AT_INDEX(length, 3);
 			ENSURE_OBJECT_AT_INDEX(resultsCallback, 4);
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			read(source_stream, write_buffer, offset, length, resultsCallback);
 		}
 		return get_context().CreateUndefined();
@@ -313,6 +330,12 @@ namespace Titanium
 			HAL::detail::ThrowRuntimeError("Titanium::Stream::readAll", "Titanium::Stream::readAll: Invalid source specified");
 		} else if (!source_stream->isReadable()) {
 			HAL::detail::ThrowRuntimeError("Titanium::Stream::readAll", "Titanium::Stream::readAll: Cannot read from source");
+		}
+
+		if (resultsCallback.IsFunction()) {
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 		}
 
 		const auto result = readAll(source_stream, buffer_object.GetPrivate<Buffer>(), resultsCallback);
@@ -345,11 +368,17 @@ namespace Titanium
 
 		if (arguments.at(2).IsObject()) {
 			ENSURE_OBJECT_AT_INDEX(resultsCallback, 2);
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			write(output_stream, read_buffer, 0, read_buffer->get_length(), resultsCallback);
 		} else {
 			ENSURE_UINT_AT_INDEX(offset, 2);
 			ENSURE_UINT_AT_INDEX(length, 3);
 			ENSURE_OBJECT_AT_INDEX(resultsCallback, 4);
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			write(output_stream, read_buffer, offset, length, resultsCallback);
 		}
 
@@ -374,6 +403,12 @@ namespace Titanium
 			HAL::detail::ThrowRuntimeError("Titanium::Stream:writeStream", "Stream::writeStream: Cannot write to the stream"); 
 		}
 
+		if (resultsCallback.IsFunction()) {
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
+		}
+
 		const auto result = writeStream(input_stream, output_stream, maxChunkSize, resultsCallback);
 
 		if (resultsCallback.IsFunction()) {
@@ -392,6 +427,9 @@ namespace Titanium
 
 		const auto inputStream_ptr = inputStream.GetPrivate<IOStream>();
 		if (inputStream_ptr != nullptr && inputStream_ptr->isReadable() && handler.IsFunction()) {
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { handler };
+			handler = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			pump(inputStream_ptr, handler, maxChunkSize, isAsync);
 		} else {
 			HAL::detail::ThrowRuntimeError("Titanium::Stream:pump", "Stream::pump: Invalid arguments");
