@@ -440,6 +440,14 @@ namespace Titanium
 				event_delegate__ = event_delegate;
 			}
 
+			/*
+			 * For mixing Ti.Ui.View and native view
+			 */
+			virtual std::shared_ptr<View> rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT
+			{
+				return nullptr;
+			}
+
 			ViewLayoutDelegate() TITANIUM_NOEXCEPT;
 			virtual ~ViewLayoutDelegate();
 
