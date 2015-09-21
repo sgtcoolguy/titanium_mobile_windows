@@ -17,6 +17,7 @@
 #include <cctype>
 #include <collection.h>
 
+#include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
 #define _USE_MATH_DEFINES
@@ -43,6 +44,34 @@ namespace TitaniumWindows
 		WindowsViewLayoutDelegate::~WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::dtor ", this);
+		}
+
+		std::shared_ptr<Titanium::UI::View> WindowsViewLayoutDelegate::rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT
+		{
+			// If this is a native wrapper, we need to jump through a lot of hoops to basically unwrap and rewrap as a Ti.UI.View
+			auto context = view.get_context();
+
+			JSValue Titanium_property = context.get_global_object().GetProperty("Titanium");
+			TITANIUM_ASSERT(Titanium_property.IsObject());  // precondition
+			JSObject Titanium = static_cast<JSObject>(Titanium_property);
+
+			JSValue UI_property = Titanium.GetProperty("UI");
+			TITANIUM_ASSERT(UI_property.IsObject());  // precondition
+			JSObject UI = static_cast<JSObject>(UI_property);
+
+			JSValue View_property = UI.GetProperty("View");
+			TITANIUM_ASSERT(View_property.IsObject());  // precondition
+			JSObject View = static_cast<JSObject>(View_property);
+
+			const auto windows_view = View.GetPrivate<TitaniumWindows::UI::View>();
+			const auto rewrapped = windows_view->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->native_wrapper_hook__(context, view);
+
+			return rewrapped.GetPrivate<Titanium::UI::View>();
+		}
+
+		void WindowsViewLayoutDelegate::registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireHook)
+		{
+			native_wrapper_hook__ = requireHook;
 		}
 
 		void WindowsViewLayoutDelegate::remove(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT

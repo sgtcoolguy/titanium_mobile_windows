@@ -54,7 +54,14 @@ namespace Titanium
 
 		void View::add(const JSObject& view) TITANIUM_NOEXCEPT
 		{
-			layoutDelegate__->add(view.GetPrivate<View>());
+			auto view_ptr = view.GetPrivate<View>();
+			
+			// For mixing Ti.Ui.View and native view.
+			if (view_ptr == nullptr) {
+				view_ptr = layoutDelegate__->rescueGetView(view);
+			}
+
+			layoutDelegate__->add(view_ptr);
 		}
 
 		void View::JSExportInitialize()

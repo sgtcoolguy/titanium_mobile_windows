@@ -378,9 +378,18 @@ namespace TitaniumWindows
 
 			void updateBackgroundImageSize() TITANIUM_NOEXCEPT;
 
+			virtual std::shared_ptr<Titanium::UI::View> rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT override;
+			virtual void registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireCallback);
+
+#pragma warning(push)
+#pragma warning(disable : 4251)
+			std::function<JSObject(const JSContext&, const JSObject&)> native_wrapper_hook__;
+#pragma warning(pop)
+
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+
 			Windows::UI::Xaml::FrameworkElement^ component__ { nullptr };
 			Windows::UI::Xaml::Controls::Image^ backgroundImageControl__ { nullptr };
 

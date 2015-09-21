@@ -30,8 +30,6 @@ namespace TitaniumWindows
 		public:
 			View(const JSContext&) TITANIUM_NOEXCEPT;
 
-			virtual void add(const JSObject&) TITANIUM_NOEXCEPT override final;
-
 			virtual ~View();
 			View(const View&) = default;
 			View& operator=(const View&) = default;
@@ -46,14 +44,9 @@ namespace TitaniumWindows
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
-			virtual void registerNativeUIWrapHook(std::function<JSObject(const JSContext&, const JSObject&)> requireCallback);
+			virtual void registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireCallback);
 
 			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() TITANIUM_NOEXCEPT;
-
-#pragma warning(push)
-#pragma warning(disable : 4251)
-			std::function<JSObject(const JSContext&, const JSObject&)> native_wrapper_hook__;
-#pragma warning(pop)
 
 		private:
 
