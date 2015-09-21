@@ -17,26 +17,52 @@ namespace Titanium
 	{
 	}
 
-	std::int32_t IOStream::read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+	std::uint32_t IOStream::getAvailableBytesToRead(const std::shared_ptr<Buffer>& read_buffer, const std::shared_ptr<Buffer>& write_buffer, const std::uint32_t& read_offset, const std::uint32_t& write_offset, const std::uint32_t& length)
+	{
+		const auto read_limit  = read_buffer->get_length();
+		const auto write_limit = write_buffer->get_length();
+		if (read_offset >= read_limit || write_offset >= write_limit) {
+			return 0;
+		}
+		auto bytesToRead = write_offset + length > write_limit ? write_limit - write_offset : length;
+		if (read_offset + bytesToRead > read_limit) {
+			bytesToRead = read_limit - read_offset;
+		}
+
+		return bytesToRead;
+	}
+
+	std::int32_t IOStream::read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length)
 	{
 		TITANIUM_LOG_WARN("IOStream::read: Unimplemented");
 		return -1;
 	}
 
-	void IOStream::readAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>& callback) TITANIUM_NOEXCEPT
+	void IOStream::readAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const ErrorResponse&, const std::int32_t&)>& callback)
 	{
-		callback(read(buffer, offset, length));
+		ErrorResponse error;
+		callback(error, read(buffer, offset, length));
 	}
 
-	std::uint32_t IOStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+	void IOStream::readAllAsync(const std::shared_ptr<Buffer>& buffer, const std::function<void(const ErrorResponse&, const std::shared_ptr<IOStream>& source)>& callback)
+	{
+		ErrorResponse error;
+		error.code = -1;
+		error.success = false;
+		error.error = "IOStream::readAllAsync: Unimplemented";
+		callback(error, get_object().GetPrivate<IOStream>());
+	}
+
+	std::uint32_t IOStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length)
 	{
 		TITANIUM_LOG_WARN("IOStream::write: Unimplemented");
 		return 0;
 	}
 
-	void IOStream::writeAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>& callback) TITANIUM_NOEXCEPT
+	void IOStream::writeAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const ErrorResponse&, const std::int32_t&)>& callback)
 	{
-		callback(write(buffer, offset, length));
+		ErrorResponse error;
+		callback(error, write(buffer, offset, length));
 	}
 
 	bool IOStream::isWritable() TITANIUM_NOEXCEPT
@@ -49,7 +75,7 @@ namespace Titanium
 		return modes__.find(Filesystem::MODE::READ) != modes__.end();
 	}
 
-	void IOStream::close() TITANIUM_NOEXCEPT
+	void IOStream::close()
 	{
 		TITANIUM_LOG_WARN("IOStream::close: Unimplemented");
 	}

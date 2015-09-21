@@ -24,26 +24,28 @@ namespace Titanium
 		buffer__ = buffer;
 	}
 
-	std::int32_t BufferStream::read(const std::shared_ptr<Buffer>& write_buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+	std::int32_t BufferStream::read(const std::shared_ptr<Buffer>& write_buffer, const std::uint32_t& offset, const std::uint32_t& length)
 	{
-		const auto read_buffer_length = buffer__->get_length();
-		const auto write_buffer_length = write_buffer->get_length();
-		if (totalBytesProcessed__ >= read_buffer_length || offset >= write_buffer_length) {
+		const auto bytesToRead = getAvailableBytesToRead(buffer__, write_buffer, totalBytesProcessed__, offset, length);
+		if (bytesToRead == 0) {
 			return -1;
 		}
 
-		std::uint32_t  bytesToRead = length;
-		if (totalBytesProcessed__ + bytesToRead > read_buffer_length) {
-			bytesToRead = read_buffer_length - totalBytesProcessed__;
-		}
-
-		bytesToRead = write_buffer->copy(buffer__, offset, totalBytesProcessed__, bytesToRead);
+		write_buffer->copy(buffer__, offset, totalBytesProcessed__, bytesToRead);
 
 		totalBytesProcessed__ += bytesToRead;
 		return bytesToRead;
 	}
 
-	std::uint32_t BufferStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+	void BufferStream::readAllAsync(const std::shared_ptr<Buffer>& buffer, const std::function<void(const ErrorResponse&, const std::shared_ptr<IOStream>& source)>& callback)
+	{
+		ErrorResponse error;
+		buffer->construct(buffer__->get_data());
+		totalBytesProcessed__ = buffer->get_length();
+		callback(error, get_object().GetPrivate<IOStream>());
+	}
+
+	std::uint32_t BufferStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length)
 	{
 		if (!isWritable()) {
 			HAL::detail::ThrowRuntimeError("Titanium::BufferStream::write", "Unable to write to a Stream which is read-only.");
@@ -60,7 +62,7 @@ namespace Titanium
 		return length;
 	}
 
-	void BufferStream::close() TITANIUM_NOEXCEPT
+	void BufferStream::close()
 	{
 
 	}

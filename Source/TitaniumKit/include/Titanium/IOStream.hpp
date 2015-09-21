@@ -11,6 +11,7 @@
 
 #include "Titanium/Module.hpp"
 #include "Titanium/Filesystem/Constants.hpp"
+#include "Titanium/ErrorResponse.hpp"
 
 namespace Titanium
 {
@@ -33,28 +34,35 @@ namespace Titanium
 		  @abstract read
 		  @discussion Reads data from this stream into a buffer.
 		*/
-		virtual std::int32_t read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT;
+		virtual std::int32_t read(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length);
 
 		/*!
 		  @method
 		  @abstract readAsync
 		  @discussion Override this if subclass supports async operation
 		*/
-		virtual void readAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>&) TITANIUM_NOEXCEPT;
+		virtual void readAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const ErrorResponse&, const std::int32_t&)>&);
+
+		/*!
+		  @method
+		  @abstract readAllAsync
+		  @discussion Override this if subclass supports async operation
+		*/
+		virtual void readAllAsync(const std::shared_ptr<Buffer>& buffer, const std::function<void(const ErrorResponse&, const std::shared_ptr<IOStream>& source)>&);
 
 		/*!
 		  @method
 		  @abstract write
 		  @discussion Writes data from a buffer to this stream.
 		*/
-		virtual std::uint32_t write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT;
+		virtual std::uint32_t write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length);
 
 		/*!
 		  @method
 		  @abstract writeAsync
 		  @discussion Override this if subclass supports async operation
 		*/
-		virtual void writeAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const std::int32_t&)>&) TITANIUM_NOEXCEPT;
+		virtual void writeAsync(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const ErrorResponse&, const std::int32_t&)>&);
 
 		/*!
 		  @method
@@ -75,7 +83,7 @@ namespace Titanium
 		  @abstract close
 		  @discussion Closes this stream.
 		*/
-		virtual void close() TITANIUM_NOEXCEPT;
+		virtual void close();
 
 		/*!
 		  @method
@@ -96,6 +104,8 @@ namespace Titanium
 		{
 			return totalBytesProcessed__;
 		}
+
+		virtual std::uint32_t getAvailableBytesToRead(const std::shared_ptr<Buffer>& read_buffer, const std::shared_ptr<Buffer>& write_buffer, const std::uint32_t& read_offset, const std::uint32_t& write_offset, const std::uint32_t& length);
 
 		IOStream(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~IOStream()                  = default;

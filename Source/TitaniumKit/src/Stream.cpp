@@ -62,8 +62,19 @@ namespace Titanium
 		return object;
 	}
 
+	JSFunction Stream::createPromisifyFunction(const JSContext& js_context) TITANIUM_NOEXCEPT
+	{
+		const std::string script = R"JS(
+			return function(value) {
+				new Promise(function(resolve){ resolve(value); }).then(callback);
+			};
+		)JS";
+		return js_context.CreateFunction(script, { "callback" });
+	}
+
 	Stream::Stream(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Module(js_context)
+		, promisifyFunc__(createPromisifyFunction(js_context))
 		, MODE_READ__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::READ)))
 		, MODE_WRITE__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::WRITE)))
 		, MODE_APPEND__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::APPEND))) 
@@ -113,11 +124,12 @@ namespace Titanium
 			static_cast<JSObject>(resultsCallback)(args, get_object());
 			return;
 		}
-		sourceStream->readAsync(buffer, offset, length, [this, sourceStream, resultsCallback](const std::int32_t& bytesRead) {
+		sourceStream->readAsync(buffer, offset, length, [this, sourceStream, resultsCallback](const ErrorResponse& error, const std::int32_t& bytesRead) {
 			JSObject e = get_context().CreateObject();
 			e.SetProperty("bytesProcessed", get_context().CreateNumber(bytesRead));
-			e.SetProperty("success", get_context().CreateBoolean(true));
-			e.SetProperty("code", get_context().CreateNumber(0));
+			e.SetProperty("success", get_context().CreateBoolean(error.success));
+			e.SetProperty("code", get_context().CreateNumber(error.code));
+			e.SetProperty("error", get_context().CreateString(error.error));
 			e.SetProperty("source", sourceStream->get_object());
 
 			const std::vector<JSValue> args { e };
@@ -135,26 +147,20 @@ namespace Titanium
 			//
 			// read operation takes place asynchronously, and results are passed to callback.
 			//
-			const std::function<void(const std::int32_t&)> callback = [this, &callback, sourceStream, write_buffer, read_buffer, resultsCallback](const std::int32_t& bytesRead) {
-				if (bytesRead < 0) {
-					JSObject e = get_context().CreateObject();
-					e.SetProperty("source", sourceStream->get_object());
-					e.SetProperty("bytesProcessed", get_context().CreateNumber(sourceStream->get_totalBytesProcessed()));
-					e.SetProperty("success", get_context().CreateBoolean(true));
-					e.SetProperty("code", get_context().CreateNumber(0));
+			const auto callback = [this, resultsCallback](const ErrorResponse& error, const std::shared_ptr<IOStream>& sourceStream) {
+				JSObject e = get_context().CreateObject();
+				e.SetProperty("source", sourceStream->get_object());
+				e.SetProperty("bytesProcessed", get_context().CreateNumber(sourceStream->get_totalBytesProcessed()));
+				e.SetProperty("success", get_context().CreateBoolean(error.success));
+				e.SetProperty("code", get_context().CreateNumber(error.code));
+				e.SetProperty("error", get_context().CreateString(error.error));
 
-					const std::vector<JSValue> args { e };
-					static_cast<JSObject>(resultsCallback)(args, get_object());
-				} else {
-					const auto totalBytesProcessed = sourceStream->get_totalBytesProcessed();
-					write_buffer->copy(read_buffer, totalBytesProcessed - bytesRead, 0, bytesRead);
-					read_buffer->clear();
-					sourceStream->readAsync(read_buffer, totalBytesProcessed, read_buffer->get_length(), callback);
-				}
+				const std::vector<JSValue> args { e };
+				static_cast<JSObject>(resultsCallback)(args, get_object());
 			};
 
 			// Start reading
-			sourceStream->readAsync(read_buffer, 0, read_buffer->get_length(), callback);
+			sourceStream->readAllAsync(write_buffer, callback);
 
 			return nullptr;
 		} else {
@@ -174,11 +180,12 @@ namespace Titanium
 
 	void Stream::write(const std::shared_ptr<IOStream>& outputStream, const std::shared_ptr<Buffer>& buffer, const uint32_t& offset, const uint32_t& length, JSObject resultsCallback) TITANIUM_NOEXCEPT
 	{
-		outputStream->writeAsync(buffer, offset, length, [this, resultsCallback](const std::int32_t& bytesWritten) {
+		outputStream->writeAsync(buffer, offset, length, [this, resultsCallback](const ErrorResponse& error, const std::int32_t& bytesWritten) {
 			JSObject e = get_context().CreateObject();
 			e.SetProperty("bytesProcessed", get_context().CreateNumber(bytesWritten));
-			e.SetProperty("success", get_context().CreateBoolean(true));
-			e.SetProperty("code", get_context().CreateNumber(0));
+			e.SetProperty("success", get_context().CreateBoolean(error.success));
+			e.SetProperty("code", get_context().CreateNumber(error.code));
+			e.SetProperty("error", get_context().CreateString(error.error));
 
 			const std::vector<JSValue> args { e };
 			static_cast<JSObject>(resultsCallback)(args, get_object());
@@ -191,14 +198,15 @@ namespace Titanium
 		const auto read_buffer = buffer_object.GetPrivate<Buffer>();
 		read_buffer->set_length(maxChunkSize);
 
-		const std::function<void(const std::int32_t&)> callback = [this, &callback, inputStream, outputStream, read_buffer, maxChunkSize, resultsCallback](const std::int32_t& bytesRead) {
+		const std::function<void(const ErrorResponse&, const std::int32_t&)> callback = [this, &callback, inputStream, outputStream, read_buffer, maxChunkSize, resultsCallback](const ErrorResponse& error, const std::int32_t& bytesRead) {
 			if (bytesRead < 0) {
 				JSObject e = get_context().CreateObject();
 				e.SetProperty("fromStream", inputStream->get_object());
 				e.SetProperty("toStream",   outputStream->get_object());
 				e.SetProperty("bytesProcessed", get_context().CreateNumber(outputStream->get_totalBytesProcessed()));
-				e.SetProperty("success", get_context().CreateBoolean(true));
-				e.SetProperty("code", get_context().CreateNumber(0));
+				e.SetProperty("success", get_context().CreateBoolean(error.success));
+				e.SetProperty("code", get_context().CreateNumber(error.code));
+				e.SetProperty("error", get_context().CreateString(error.error));
 
 				const std::vector<JSValue> args { e };
 				static_cast<JSObject>(resultsCallback)(args, get_object());
@@ -231,7 +239,7 @@ namespace Titanium
 		const auto read_buffer = buffer_object.GetPrivate<Buffer>();
 		read_buffer->set_length(maxChunkSize);
 
-		const auto callback = [this, read_buffer, handler, inputStream](const std::int32_t& bytesRead) {
+		const auto callback = [this, read_buffer, handler, inputStream](const ErrorResponse& error, const std::int32_t& bytesRead) {
 			if (bytesRead > 0) {
 				// callback
 				JSObject e = get_context().CreateObject();
@@ -239,8 +247,9 @@ namespace Titanium
 				e.SetProperty("source", inputStream->get_object());
 				e.SetProperty("bytesProcessed", get_context().CreateNumber(bytesRead));
 				e.SetProperty("totalBytesProcessed", get_context().CreateNumber(inputStream->get_totalBytesProcessed()));
-				e.SetProperty("success", get_context().CreateBoolean(true));
-				e.SetProperty("code", get_context().CreateNumber(0));
+				e.SetProperty("success", get_context().CreateBoolean(error.success));
+				e.SetProperty("code", get_context().CreateNumber(error.code));
+				e.SetProperty("error", get_context().CreateString(error.error));
 
 				const std::vector<JSValue> args { e };
 				static_cast<JSObject>(handler)(args, get_object());
@@ -250,7 +259,8 @@ namespace Titanium
 		if (isAsync) {
 			inputStream->readAsync(read_buffer, 0, maxChunkSize, callback);
 		} else {
-			callback(inputStream->read(read_buffer, 0, maxChunkSize));
+			ErrorResponse error;
+			callback(error, inputStream->read(read_buffer, 0, maxChunkSize));
 		}
 	}
 
@@ -292,11 +302,17 @@ namespace Titanium
 
 		if (arguments.at(2).IsObject()) {
 			ENSURE_OBJECT_AT_INDEX(resultsCallback, 2);
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			read(source_stream, write_buffer, 0, write_buffer->get_length(), resultsCallback);
 		} else {
 			ENSURE_UINT_AT_INDEX(offset, 2);
 			ENSURE_UINT_AT_INDEX(length, 3);
 			ENSURE_OBJECT_AT_INDEX(resultsCallback, 4);
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			read(source_stream, write_buffer, offset, length, resultsCallback);
 		}
 		return get_context().CreateUndefined();
@@ -314,6 +330,12 @@ namespace Titanium
 			HAL::detail::ThrowRuntimeError("Titanium::Stream::readAll", "Titanium::Stream::readAll: Invalid source specified");
 		} else if (!source_stream->isReadable()) {
 			HAL::detail::ThrowRuntimeError("Titanium::Stream::readAll", "Titanium::Stream::readAll: Cannot read from source");
+		}
+
+		if (resultsCallback.IsFunction()) {
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 		}
 
 		const auto result = readAll(source_stream, buffer_object.GetPrivate<Buffer>(), resultsCallback);
@@ -346,11 +368,17 @@ namespace Titanium
 
 		if (arguments.at(2).IsObject()) {
 			ENSURE_OBJECT_AT_INDEX(resultsCallback, 2);
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			write(output_stream, read_buffer, 0, read_buffer->get_length(), resultsCallback);
 		} else {
 			ENSURE_UINT_AT_INDEX(offset, 2);
 			ENSURE_UINT_AT_INDEX(length, 3);
 			ENSURE_OBJECT_AT_INDEX(resultsCallback, 4);
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			write(output_stream, read_buffer, offset, length, resultsCallback);
 		}
 
@@ -375,6 +403,12 @@ namespace Titanium
 			HAL::detail::ThrowRuntimeError("Titanium::Stream:writeStream", "Stream::writeStream: Cannot write to the stream"); 
 		}
 
+		if (resultsCallback.IsFunction()) {
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { resultsCallback };
+			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
+		}
+
 		const auto result = writeStream(input_stream, output_stream, maxChunkSize, resultsCallback);
 
 		if (resultsCallback.IsFunction()) {
@@ -393,6 +427,9 @@ namespace Titanium
 
 		const auto inputStream_ptr = inputStream.GetPrivate<IOStream>();
 		if (inputStream_ptr != nullptr && inputStream_ptr->isReadable() && handler.IsFunction()) {
+			// Ensure callback is always done with Promise-like async manner
+			const std::vector<JSValue> pargs = { handler };
+			handler = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			pump(inputStream_ptr, handler, maxChunkSize, isAsync);
 		} else {
 			HAL::detail::ThrowRuntimeError("Titanium::Stream:pump", "Stream::pump: Invalid arguments");

@@ -53,7 +53,6 @@ namespace TitaniumWindows
 			virtual bool isFile() TITANIUM_NOEXCEPT override;
 			virtual std::chrono::milliseconds modificationTimestamp() TITANIUM_NOEXCEPT override;
 			virtual bool move(const std::string& newpath) TITANIUM_NOEXCEPT override;
-			virtual std::shared_ptr<Titanium::Filesystem::FileStream> open(const std::unordered_set<Titanium::Filesystem::MODE>&) TITANIUM_NOEXCEPT override;
 			virtual std::shared_ptr<Titanium::Blob> read() TITANIUM_NOEXCEPT override;
 			virtual bool rename(const std::string& newname) TITANIUM_NOEXCEPT override;
 			virtual std::string resolve() TITANIUM_NOEXCEPT override;
@@ -61,6 +60,11 @@ namespace TitaniumWindows
 			virtual bool write(const std::string& data, const bool& append) TITANIUM_NOEXCEPT override;
 			virtual bool write(const std::shared_ptr<Titanium::Blob>& data, const bool& append) TITANIUM_NOEXCEPT override;
 			virtual bool write(const std::shared_ptr<Titanium::Filesystem::File>& data, const bool& append) TITANIUM_NOEXCEPT override;
+			virtual bool write(const std::vector<std::uint8_t>& data, const std::uint32_t& offset, const std::uint32_t& length, const bool& append) override;
+			virtual void writeAsync(const std::vector<std::uint8_t>& data, const std::uint32_t& offset, const std::uint32_t& length, const bool& append, const std::function<void(const Titanium::ErrorResponse&, const uint32_t&)>&) override;
+			virtual std::vector<std::uint8_t> readBytes(const std::uint32_t& offset, const std::uint32_t& length) const override;
+			virtual void readBytesAsync(const std::uint32_t& offset, const std::uint32_t& length, const std::function<void(const Titanium::ErrorResponse&, const std::vector<std::uint8_t>&)>&) const override;
+			virtual void readAllBytesAsync(const std::function<void(const Titanium::ErrorResponse&, const std::vector<std::uint8_t>&)>&) const override;
 
 			File(const JSContext&) TITANIUM_NOEXCEPT;
 

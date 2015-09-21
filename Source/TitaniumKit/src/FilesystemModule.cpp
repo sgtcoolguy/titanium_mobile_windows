@@ -12,11 +12,34 @@
 
 namespace Titanium
 {
+	JSFunction FilesystemModule::createOpenStreamFunction(const JSContext& js_context) TITANIUM_NOEXCEPT
+	{
+		const std::string script = R"JS(
+			var path = Array.prototype.slice.call(arguments, 1).join(Ti.Filesystem.separator);
+			var file = Ti.Filesystem.getFile(path);
+			if (file.exists()) {
+				if (mode == Ti.Filesystem.MODE_WRITE) {
+					file.deleteFile();
+					file.createFile();
+				}
+				return file.open(mode);
+			} else {
+				if (mode == Ti.Filesystem.MODE_WRITE || mode == Ti.Filesystem.MODE_APPEND) {
+					file.createFile();
+					return file.open(mode);
+				}
+				throw new Error('Unable to open stream for MODE_READ');
+			}
+		)JS";
+		return js_context.CreateFunction(script, { "mode" });
+	}
+
 	FilesystemModule::FilesystemModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Module(js_context),
-	      mode_read__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::READ))),
-	      mode_write__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::WRITE))),
-	      mode_append__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::APPEND)))
+	    : Module(js_context)
+	    , openStreamFunc__(createOpenStreamFunction(js_context))
+	    , mode_read__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::READ)))
+	    , mode_write__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::WRITE)))
+	    , mode_append__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::APPEND)))
 	{
 	}
 
@@ -80,11 +103,6 @@ namespace Titanium
 	{
 		TITANIUM_LOG_WARN("File::isExternalStoragePresent: Unimplemented");
 		return false;
-	}
-	FileStream_shared_ptr_t FilesystemModule::openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("File::openStream: Unimplemented");
-		return nullptr;
 	}
 	std::string FilesystemModule::applicationCacheDirectory() const TITANIUM_NOEXCEPT
 	{
@@ -221,25 +239,7 @@ namespace Titanium
 	}
 	TITANIUM_FUNCTION(FilesystemModule, openStream)
 	{
-		if (arguments.size() < 2) {
-			return this_object.get_context().CreateUndefined();
-		}
-		const auto _0 = arguments.at(0);
-		const auto _1 = arguments.at(1);
-
-		TITANIUM_ASSERT(_0.IsNumber());
-		TITANIUM_ASSERT(_1.IsString());
-
-		const auto js_context = this_object.get_context();
-		const auto filesystem_ptr = GetStaticObject(js_context).GetPrivate<FilesystemModule>();
-
-		const auto modes = Titanium::Filesystem::Constants::to_MODE(static_cast<std::underlying_type<Titanium::Filesystem::MODE>::type>(_0));
-		const std::string path = static_cast<std::string>(_1);
-		const auto object_ptr = filesystem_ptr->openStream(modes, path);
-		if (object_ptr != nullptr) {
-			return object_ptr->get_object();
-		}
-		return this_object.get_context().CreateUndefined();
+		return openStreamFunc__(arguments, get_object());
 	}
 
 	TITANIUM_FUNCTION(FilesystemModule, getSeparator)

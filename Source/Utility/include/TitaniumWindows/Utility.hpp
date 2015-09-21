@@ -21,6 +21,7 @@
 #include <cstdint>
 
 #include "TitaniumWindows_Utility_EXPORT.h"
+#include "Titanium/ErrorResponse.hpp"
 
 #define EPOCH_BIAS 116444736000000000 // Number of 100 nanosecond units from 1/1/1601 (windows epoch) to 1/1/1970 (unix epoch)
 
@@ -141,6 +142,11 @@ namespace TitaniumWindows
 		// Construct Ti.Blob from given path
 		//
 		TITANIUMWINDOWS_UTILITY_EXPORT HAL::JSValue GetTiBlobForFile(const HAL::JSContext& js_context, const std::string& path);
+
+		//
+		// Create ErrorResponse from COMException
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT Titanium::ErrorResponse GetTiErrorResponse(::Platform::COMException^ e);
 
 	}  // namespace Utility
 }  // namespace TitaniumWindows

@@ -153,6 +153,10 @@ namespace Titanium
 
 	std::string Buffer::toString() TITANIUM_NOEXCEPT
 	{
+		if (data__.size() == 0) {
+			return "";
+		}
+
 		//
 		// Just call Ti.Codec.encodeString(buffer);
 		//

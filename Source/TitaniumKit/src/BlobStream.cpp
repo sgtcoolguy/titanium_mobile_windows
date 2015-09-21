@@ -25,36 +25,38 @@ namespace Titanium
 		blob__ = blob;
 	}
 
-	std::int32_t BlobStream::read(const std::shared_ptr<Buffer>& write_buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+	std::int32_t BlobStream::read(const std::shared_ptr<Buffer>& write_buffer, const std::uint32_t& offset, const std::uint32_t& length)
 	{
 		const auto buffer_ctor = get_context().JSEvaluateScript("Ti.Buffer"); \
 		const auto buffer_object = static_cast<JSObject>(buffer_ctor).CallAsConstructor();
 		auto source_buffer = buffer_object.GetPrivate<Buffer>();
 		source_buffer->construct(blob__->getData());
 
-		const auto read_buffer_length  = source_buffer->get_length();
-		const auto write_buffer_length = write_buffer->get_length();
-		if (totalBytesProcessed__ >= read_buffer_length || offset >= write_buffer_length) {
+		const auto bytesToRead = getAvailableBytesToRead(source_buffer, write_buffer, totalBytesProcessed__, offset, length);
+		if (bytesToRead == 0) {
 			return -1;
 		}
-
-		auto bytesToRead = length;
-		if (totalBytesProcessed__ + bytesToRead > read_buffer_length) {
-			bytesToRead = read_buffer_length - totalBytesProcessed__;
-		}
-		bytesToRead = write_buffer->copy(source_buffer, offset, totalBytesProcessed__, bytesToRead);
+		write_buffer->copy(source_buffer, offset, totalBytesProcessed__, bytesToRead);
 
 		totalBytesProcessed__ += bytesToRead;
 		return bytesToRead;
 	}
 
-	std::uint32_t BlobStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
+	void BlobStream::readAllAsync(const std::shared_ptr<Buffer>& buffer, const std::function<void(const ErrorResponse&, const std::shared_ptr<IOStream>& source)>& callback)
+	{
+		ErrorResponse error;
+		buffer->construct(blob__->getData());
+		totalBytesProcessed__ = buffer->get_length();
+		callback(error, get_object().GetPrivate<IOStream>());
+	}
+
+	std::uint32_t BlobStream::write(const std::shared_ptr<Buffer>& buffer, const std::uint32_t& offset, const std::uint32_t& length)
 	{
 		HAL::detail::ThrowRuntimeError("Titanium::BlobStream", "Invalid operation: BlobStream is read-only");
 		return 0;
 	}
 
-	void BlobStream::close() TITANIUM_NOEXCEPT
+	void BlobStream::close()
 	{
 
 	}

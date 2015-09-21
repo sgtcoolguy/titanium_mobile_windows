@@ -57,12 +57,6 @@ namespace Titanium
 		virtual bool isExternalStoragePresent() TITANIUM_NOEXCEPT;
 		/*!
 		  @method
-		  @abstract openStream
-		  @discussion Opens file using the Ti.IOStream interface.
-		*/
-		virtual FileStream_shared_ptr_t openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT;
-		/*!
-		  @method
 		  @abstract get_MODE_READ
 		  @discussion Constant for read mode for file operations.
 		*/
@@ -173,10 +167,13 @@ namespace Titanium
 		TITANIUM_PROPERTY_READONLY_DEF(resourcesDirectory);
 		TITANIUM_PROPERTY_READONLY_DEF(tempDirectory);
 
-	private:
+	protected:
 		JSValue mode_read__;
 		JSValue mode_write__;
 		JSValue mode_append__;
+		JSFunction openStreamFunc__;
+		JSFunction createOpenStreamFunction(const JSContext& js_context) TITANIUM_NOEXCEPT;
+
 	};
 
 }  // namespace Titanium

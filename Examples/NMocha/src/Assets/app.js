@@ -24,6 +24,7 @@ require('./ti.builtin.test');
 require('./ti.buffer.test');
 require('./ti.codec.test');
 require('./ti.database.test');
+require('./ti.filestream.test');
 require('./ti.filesystem.test');
 require('./ti.geolocation.test');
 require('./ti.gesture.test');
