@@ -125,6 +125,7 @@ namespace TitaniumWindows
 			}
 
 			auto newView = view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
+			TITANIUM_ASSERT(newView != nullptr);
 			auto nativeChildView = newView->getComponent();
 			if (nativeChildView != nullptr) {
 				Titanium::LayoutEngine::nodeAddChild(layout_node__, newView->getLayoutNode());

@@ -41,6 +41,9 @@
 #include "Titanium/UI/AlertDialog.hpp"
 #include "Titanium/UI/ImageView.hpp"
 #include "Titanium/UI/Label.hpp"
+#include "Titanium/UI/Picker.hpp"
+#include "Titanium/UI/PickerRow.hpp"
+#include "Titanium/UI/PickerColumn.hpp"
 #include "Titanium/UI/Slider.hpp"
 #include "Titanium/UI/ScrollView.hpp"
 #include "Titanium/UI/Tab.hpp"
@@ -158,6 +161,9 @@ namespace Titanium
 		  activityIndicatorStyle__(js_context__.CreateObject(JSExport<Titanium::UI::ActivityIndicatorStyle>::Class())),
 		  optionDialog__(js_context__.CreateObject(JSExport<Titanium::UI::OptionDialog>::Class())),
 		  progressBar__(js_context__.CreateObject(JSExport<Titanium::UI::ProgressBar>::Class())),
+		  picker__(js_context__.CreateObject(JSExport<Titanium::UI::Picker>::Class())),
+		  pickerrow__(js_context__.CreateObject(JSExport<Titanium::UI::PickerRow>::Class())),
+		  pickercolumn__(js_context__.CreateObject(JSExport<Titanium::UI::PickerColumn>::Class())),
 		  scrollableView__(js_context__.CreateObject(JSExport<Titanium::UI::ScrollableView>::Class()))
 	{
 	}
@@ -179,6 +185,9 @@ namespace Titanium
 		ui__.SetProperty("Notification", notification__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		ui__.SetProperty("OptionDialog", optionDialog__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		ui__.SetProperty("ProgressBar", progressBar__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		ui__.SetProperty("Picker", picker__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		ui__.SetProperty("PickerRow", pickerrow__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
+		ui__.SetProperty("PickerColumn", pickercolumn__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		ui__.SetProperty("ScrollableView", scrollableView__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		ui__.SetProperty("ScrollView", scrollview__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Slider", slider__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -1055,6 +1064,39 @@ namespace Titanium
 	ApplicationBuilder& ApplicationBuilder::ProgressBarObject(const JSObject& value) TITANIUM_NOEXCEPT
 	{
 		progressBar__ = value;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::PickerObject() const TITANIUM_NOEXCEPT
+	{
+		return picker__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::PickerObject(const JSObject& value) TITANIUM_NOEXCEPT
+	{
+		picker__ = value;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::PickerRowObject() const TITANIUM_NOEXCEPT
+	{
+		return pickerrow__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::PickerRowObject(const JSObject& value) TITANIUM_NOEXCEPT
+	{
+		pickerrow__ = value;
+		return *this;
+	}
+
+	JSObject ApplicationBuilder::PickerColumnObject() const TITANIUM_NOEXCEPT
+	{
+		return pickercolumn__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::PickerColumnObject(const JSObject& value) TITANIUM_NOEXCEPT
+	{
+		pickercolumn__ = value;
 		return *this;
 	}
 

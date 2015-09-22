@@ -50,6 +50,9 @@
 #include "TitaniumWindows/UI/TableViewRow.hpp"
 #include "TitaniumWindows/UI/ActivityIndicator.hpp"
 #include "TitaniumWindows/UI/OptionDialog.hpp"
+#include "TitaniumWindows/UI/Picker.hpp"
+#include "TitaniumWindows/UI/PickerRow.hpp"
+#include "TitaniumWindows/UI/PickerColumn.hpp"
 #include "TitaniumWindows/UI/ProgressBar.hpp"
 #include "TitaniumWindows/UI/ScrollableView.hpp"
 #include "TitaniumWindows/Media.hpp"
@@ -142,6 +145,9 @@ namespace TitaniumWindows
 		                                                            .TableViewRowObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::TableViewRow>::Class()))
 		                                                            .ActivityIndicatorObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ActivityIndicator>::Class()))
 		                                                            .OptionDialogObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::OptionDialog>::Class()))
+		                                                            .PickerObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::Picker>::Class()))
+		                                                            .PickerRowObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::PickerRow>::Class()))
+		                                                            .PickerColumnObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::PickerColumn>::Class()))
 		                                                            .ProgressBarObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ProgressBar>::Class()))
 		                                                            .ScrollableViewObject(js_context__.CreateObject(JSExport<TitaniumWindows::UI::ScrollableView>::Class()))
 		                                                            .MediaObject(js_context__.CreateObject(JSExport<TitaniumWindows::MediaModule>::Class()))

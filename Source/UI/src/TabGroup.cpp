@@ -39,7 +39,7 @@ namespace TitaniumWindows
 			pivot__ = ref new Pivot();
 
 			pivot__->SelectionChanged += ref new SelectionChangedEventHandler([this](Platform::Object^ sender, SelectionChangedEventArgs^ e) {
-				TITANIUM_ASSERT(tabs__.size() > pivot__->SelectedIndex);
+				TITANIUM_ASSERT(tabs__.size() > static_cast<std::size_t>(pivot__->SelectedIndex));
 				set_activeTab(tabs__.at(pivot__->SelectedIndex), false);
 			});
 

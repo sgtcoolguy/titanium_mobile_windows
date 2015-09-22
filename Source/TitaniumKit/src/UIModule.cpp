@@ -588,6 +588,9 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(UIModule, createListView);
 		TITANIUM_ADD_FUNCTION(UIModule, createNotification);
 		TITANIUM_ADD_FUNCTION(UIModule, createOptionDialog);
+		TITANIUM_ADD_FUNCTION(UIModule, createPicker);
+		TITANIUM_ADD_FUNCTION(UIModule, createPickerRow);
+		TITANIUM_ADD_FUNCTION(UIModule, createPickerColumn);
 		TITANIUM_ADD_FUNCTION(UIModule, createProgressBar);
 		TITANIUM_ADD_FUNCTION(UIModule, createScrollableView);
 		TITANIUM_ADD_FUNCTION(UIModule, createScrollView);
@@ -809,6 +812,24 @@ namespace Titanium
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(OptionDialog);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createPicker)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(Picker);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createPickerRow)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(PickerRow);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createPickerColumn)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(PickerColumn);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createProgressBar)

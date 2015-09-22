@@ -101,6 +101,15 @@ namespace Titanium
 		JSObject CodecObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& CodecObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject PickerObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& PickerObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject PickerColumnObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& PickerColumnObject(const JSObject&) TITANIUM_NOEXCEPT;
+
+		JSObject PickerRowObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& PickerRowObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		JSObject ViewObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
@@ -259,6 +268,9 @@ namespace Titanium
 		JSObject api__;
 		JSObject locale__;
 		JSObject view__;
+		JSObject pickerrow__;
+		JSObject pickercolumn__;
+		JSObject picker__;
 		JSObject codec__;
 		JSObject stream__;
 		JSObject filestream__;

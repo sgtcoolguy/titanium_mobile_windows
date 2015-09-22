@@ -273,6 +273,11 @@ set(SOURCE_UI
   src/UI/OptionDialogShowParams.cpp
   include/Titanium/UI/Picker.hpp
   src/UI/Picker.cpp
+  include/Titanium/UI/PickerRow.hpp
+  src/UI/PickerRow.cpp
+  include/Titanium/UI/PickerColumn.hpp
+  src/UI/PickerColumn.cpp
+  include/Titanium/UI/Point.hpp
   include/Titanium/UI/Point.hpp
   src/UI/Point.cpp
   include/Titanium/UI/ProgressBar.hpp
@@ -530,6 +535,9 @@ else()
   # exclude unused variables because most TitaniumKit methods are meant to be virtual and overridden
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-parameter")
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-variable")
+
+  # exclude concept-check warning from boost
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-local-typedef")
 
   # ignore reorder warning
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-reorder")

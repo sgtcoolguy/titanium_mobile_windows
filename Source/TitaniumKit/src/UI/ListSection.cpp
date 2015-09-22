@@ -90,9 +90,9 @@ namespace Titanium
 
 		void ListSection::set_items(const std::vector<ListDataItem>& values) TITANIUM_NOEXCEPT
 		{
-			fireListSectionEvent("clear", 0, items__.size());
+			fireListSectionEvent("clear", 0, static_cast<std::uint32_t>(items__.size()));
 			items__ = values;
-			fireListSectionEvent("append", 0, values.size());
+			fireListSectionEvent("append", 0, static_cast<std::uint32_t>(values.size()));
 		}
 
 		void ListSection::setItems(const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
@@ -102,15 +102,15 @@ namespace Titanium
 
 		void ListSection::appendItems(const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			const auto index = items__.size();
+			const auto index = static_cast<std::uint32_t>(items__.size());
 			items__.insert(items__.end(), dataItems.begin(), dataItems.end());
-			fireListSectionEvent("append", index, dataItems.size());
+			fireListSectionEvent("append", index, static_cast<std::uint32_t>(dataItems.size()));
 		}
 
 		void ListSection::insertItemsAt(const std::uint32_t& index, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			items__.insert(items__.begin() + index, dataItems.begin(), dataItems.end());
-			fireListSectionEvent("append", index, dataItems.size());
+			fireListSectionEvent("append", index, static_cast<std::uint32_t>(dataItems.size()));
 		}
 
 		void ListSection::replaceItemsAt(const std::uint32_t& index, const std::uint32_t& count, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
@@ -118,7 +118,7 @@ namespace Titanium
 			TITANIUM_ASSERT(items__.size() >= index + count);
 			items__.erase(items__.begin() + index, items__.begin() + index + count);
 			items__.insert(items__.begin() + index, dataItems.begin(), dataItems.end());
-			fireListSectionEvent("replace", index, /* item count */ dataItems.size(), /* affected rows */ count);
+			fireListSectionEvent("replace", index, /* item count */ static_cast<std::uint32_t>(dataItems.size()), /* affected rows */ count);
 		}
 
 		void ListSection::deleteItemsAt(const std::uint32_t& index, const std::uint32_t& count, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT

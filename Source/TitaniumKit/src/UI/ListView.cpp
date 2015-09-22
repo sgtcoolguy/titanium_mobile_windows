@@ -114,8 +114,8 @@ namespace Titanium
 			event_args.SetProperty("section", get_object());
 			event_args.SetProperty("itemIndex", ctx.CreateNumber(itemIndex));
 			event_args.SetProperty("itemCount", ctx.CreateNumber(itemCount));
-			const std::uint32_t sectionIndex = std::distance(sections__.begin(), std::find(sections__.begin(), sections__.end(), section));
-			event_args.SetProperty("sectionIndex", get_context().CreateNumber(sectionIndex));
+			const auto sectionIndex = std::distance(sections__.begin(), std::find(sections__.begin(), sections__.end(), section));
+			event_args.SetProperty("sectionIndex", get_context().CreateNumber(static_cast<std::uint32_t>(sectionIndex)));
 
 			fireEvent(name, event_args);
 		}

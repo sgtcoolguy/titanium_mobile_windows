@@ -195,6 +195,9 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(createListView);
 		TITANIUM_FUNCTION_DEF(createNotification);
 		TITANIUM_FUNCTION_DEF(createOptionDialog);
+		TITANIUM_FUNCTION_DEF(createPicker);
+		TITANIUM_FUNCTION_DEF(createPickerRow);
+		TITANIUM_FUNCTION_DEF(createPickerColumn);
 		TITANIUM_FUNCTION_DEF(createProgressBar);
 		TITANIUM_FUNCTION_DEF(createScrollableView);
 		TITANIUM_FUNCTION_DEF(createScrollView);
