@@ -536,7 +536,9 @@ else()
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-parameter")
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-variable")
 
-  # exclude concept-check warning from boost
+  # Xcode 7.0 (Apple LLVM version 7.0.0 (clang-700.0.72)) introduces new check warning
+  # exclude unused-local-typedef warning, add no-unknown-warning guard for old compiler
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unknown-warning-option")
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-local-typedef")
 
   # ignore reorder warning
