@@ -8,6 +8,7 @@
 
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
+#include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
 {
@@ -15,6 +16,8 @@ namespace TitaniumWindows
 	{
 		using namespace Windows::UI::Xaml::Input;
 		using namespace Windows::UI::Xaml;
+
+		std::unordered_map<std::string, std::string> View::CustomFonts__;
 
 		View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::View(js_context)
@@ -47,6 +50,51 @@ namespace TitaniumWindows
 		{
 			JSExport<View>::SetClassVersion(1);
 			JSExport<View>::SetParent(JSExport<Titanium::UI::View>::Class());
+		}
+
+		// FIXME What file formats does windows support for fonts? We need to limit here! Most of what I read says only TTF, but I see some mentions of OpenType
+		static const std::string ti_label_js = R"JS(
+	this.exports = {};
+	this.exports.getFontFilePath = function(fontFamily) {
+		var iconsFolder = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'fonts');
+		var files = iconsFolder.getDirectoryListing();
+		for (var i = 0; i < files.length; i++) {
+			var name = files[i];
+			if (name.toLowerCase() == fontFamily.toLowerCase() || name.toLowerCase().indexOf(fontFamily.toLowerCase() + '.') == 0) {
+				return name;
+			}
+		}
+		return null;
+	};
+	)JS";
+
+		Windows::UI::Xaml::Media::FontFamily^ View::LookupFont(const JSContext& js_context, const std::string& family)
+		{
+			auto path = family;
+			if (CustomFonts__.find(family) == CustomFonts__.end()) {
+				// Look up to see if this is a custom font!
+				auto export_object = js_context.CreateObject();
+				js_context.JSEvaluateScript(ti_label_js, export_object);
+				TITANIUM_ASSERT(export_object.HasProperty("exports"));
+				auto exports = export_object.GetProperty("exports");
+				TITANIUM_ASSERT(exports.IsObject());
+				auto exports_object = static_cast<JSObject>(exports);
+				auto eval_result = exports_object.GetProperty("getFontFilePath");
+				TITANIUM_ASSERT(eval_result.IsObject());
+				auto func = static_cast<JSObject>(eval_result);
+				TITANIUM_ASSERT(func.IsFunction());
+				auto result = func(family, js_context.get_global_object());
+				if (result.IsNull()) { // we have no custom font by this name, assume it's a built-in font
+					path = family;
+				} else {
+					TITANIUM_ASSERT(result.IsString()); // custom font file
+					const auto file_name = static_cast<std::string>(result);
+					path = "/fonts/" + file_name + "#" + family;
+				}
+			}
+
+			CustomFonts__.emplace(family, path);
+			return ref new Windows::UI::Xaml::Media::FontFamily(Utility::ConvertUTF8String(path));
 		}
 
 		void View::registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireHook)

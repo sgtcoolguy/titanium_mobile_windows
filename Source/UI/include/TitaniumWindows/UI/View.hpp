@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/View.hpp"
+#include <unordered_map>
 
 namespace TitaniumWindows
 {
@@ -39,6 +40,7 @@ namespace TitaniumWindows
 #endif
 
 			static void JSExportInitialize();
+			static Windows::UI::Xaml::Media::FontFamily^ LookupFont(const JSContext& js_context, const std::string& family);
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
@@ -53,6 +55,11 @@ namespace TitaniumWindows
 			void firePositionEvent(const std::string& event_name, Windows::UI::Xaml::FrameworkElement^ sender, Windows::Foundation::Point position);
 
 			Windows::UI::Xaml::Controls::Canvas^ canvas__;
+
+#pragma warning(push)
+#pragma warning(disable : 4251)
+			static std::unordered_map<std::string, std::string> CustomFonts__;
+#pragma warning(pop)
 
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken click_event__;

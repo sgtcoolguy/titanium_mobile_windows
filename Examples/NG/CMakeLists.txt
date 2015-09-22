@@ -119,10 +119,22 @@ set(SOURCE_Assets
 
 set_property(SOURCE ${SOURCE_Assets} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 
+set(SOURCE_fonts
+      "src/Assets/fonts/icomoon.ttf"
+      "src/Assets/fonts/icomoon.woff"
+  )
+source_group("fonts" FILES 
+      "src/Assets/fonts/icomoon.ttf"
+      "src/Assets/fonts/icomoon.woff"
+  )
+set_property(SOURCE ${SOURCE_fonts} PROPERTY VS_DEPLOYMENT_LOCATION "fonts")
+set_property(SOURCE ${SOURCE_fonts} PROPERTY VS_DEPLOYMENT_CONTENT 1)
+
 add_executable(${EXE_NAME} WIN32
   src/main.cpp
   src/OutputDebugStringBuf.hpp
   ${SOURCE_Assets}
+  ${SOURCE_fonts}
 )
 
 set_target_properties(${EXE_NAME} PROPERTIES VS_WINRT_COMPONENT TRUE)
