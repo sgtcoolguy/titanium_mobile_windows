@@ -7,6 +7,7 @@
 */
 
 #include "TitaniumWindows/UI/Label.hpp"
+#include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 
@@ -56,22 +57,6 @@ namespace TitaniumWindows
 			// reset max height when height is set explicitly
 			getComponent()->MaxHeight = defaultMaxHeight__;
 		}
-
-		// FIXME What file formats does windows support for fonts? We need to limit here! Most of what I read says only TTF, but I see some mentions of OpenType
-		static const std::string ti_label_js = R"TI_LABEL_JS(
-	this.exports = {};
-	this.exports.getFontFilePath = function(fontFamily) {
-		var iconsFolder = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'fonts');
-		var files = iconsFolder.getDirectoryListing();
-		for (var i = 0; i < files.length; i++) {
-			var name = files[i];
-			if (name.toLowerCase() == fontFamily.toLowerCase() || name.toLowerCase().indexOf(fontFamily.toLowerCase() + '.') == 0) {
-				return name;
-			}
-		}
-		return null;
-	};
-	)TI_LABEL_JS";
 
 		Label::Label(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::Label(js_context)
@@ -153,35 +138,12 @@ namespace TitaniumWindows
 		void Label::set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_font(font);
-			// TODO This lookup map should be global, not per-instance of a Label!
-			// Did we already look up this font?
-			auto family = font.fontFamily;
-			if (family.length() > 0) {
-				auto path = family;
-				if (custom_fonts__.find(family) == custom_fonts__.end()) {
-					// Look up to see if this is a custom font!
-					auto export_object = get_context().CreateObject();
-					get_context().JSEvaluateScript(ti_label_js, export_object);
-					TITANIUM_ASSERT(export_object.HasProperty("exports"));
-					auto exports = export_object.GetProperty("exports");
-					TITANIUM_ASSERT(exports.IsObject());
-					auto exports_object = static_cast<JSObject>(exports);
-					auto eval_result = exports_object.GetProperty("getFontFilePath");
-					TITANIUM_ASSERT(eval_result.IsObject());
-					auto func = static_cast<JSObject>(eval_result);
-					TITANIUM_ASSERT(func.IsFunction());
-					auto result = func(family, get_context().get_global_object());
-					if (result.IsNull()) { // we have no custom font by this name, assume it's a built-in font
-						path = family;
-					} else {
-						TITANIUM_ASSERT(result.IsString()); // custom font file
-						const auto file_name = static_cast<std::string>(result);
-						path = "/fonts/" + file_name + "#" + family;
-					}
+
+			if (font.fontFamily.length() > 0) {
+				const auto fontFamily = TitaniumWindows::UI::View::LookupFont(get_context(), font.fontFamily);
+				if (fontFamily != nullptr) {
+					label__->FontFamily = fontFamily;
 				}
-				
-				custom_fonts__.emplace(family, path);
-				label__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(Utility::ConvertUTF8String(path));
 			}
 			if (font.fontSize.length() > 0) {
 				label__->FontSize = std::stod(font.fontSize);

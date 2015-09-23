@@ -65,10 +65,6 @@ namespace TitaniumWindows
 			static const std::uint32_t DefaultFontSize = 20;
 
 		private:
-#pragma warning(push)
-#pragma warning(disable : 4251)
-			std::unordered_map<std::string, std::string> custom_fonts__;
-#pragma warning(pop)
 			Windows::UI::Xaml::Controls::TextBlock^ label__;
 
 			// Event handlers
