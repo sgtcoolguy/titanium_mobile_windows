@@ -31,7 +31,9 @@ namespace Titanium
 			Put,
 			Post,
 			Delete,
-			Head
+			Head,
+			Patch,
+			Options
 		};
 
 		using namespace HAL;
