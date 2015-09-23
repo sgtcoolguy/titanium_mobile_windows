@@ -195,7 +195,7 @@ Analytics.prototype.postEvents = function postEvents() {
 		this.saveEventQueue();
 
 		// offline so dont wait for a response
-		_t.receivedResponse = true;
+		this.receivedResponse = true;
 	}
 };
 
