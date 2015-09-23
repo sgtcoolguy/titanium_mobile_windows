@@ -255,6 +255,11 @@ namespace Titanium
 		TITANIUM_LOG_WARN("AppModule::fireSystemEvent: Unimplemented");
 	}
 
+	void AppModule::_restart() TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("AppModule::_restart: Unimplemented");
+	}
+
 	void AppModule::JSExportInitialize() {
 		JSExport<AppModule>::SetClassVersion(1);
 		JSExport<AppModule>::SetParent(JSExport<Module>::Class());
@@ -306,6 +311,7 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(AppModule, getSessionId);
 		TITANIUM_ADD_FUNCTION(AppModule, getUrl);
 		TITANIUM_ADD_FUNCTION(AppModule, getVersion);
+		TITANIUM_ADD_FUNCTION(AppModule, _restart);
 	}
 
 	JSObject AppModule::GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT
@@ -317,6 +323,16 @@ namespace Titanium
 		JSValue Object_property = Titanium.GetProperty("App");
 		TITANIUM_ASSERT(Object_property.IsObject());  // precondition
 		return static_cast<JSObject>(Object_property);
+	}
+
+	TITANIUM_FUNCTION(AppModule, _restart)
+	{
+		const auto js_context = this_object.get_context();
+		const auto object_ptr = GetStaticObject(js_context).GetPrivate<AppModule>();
+
+		object_ptr->_restart();
+
+		return get_context().CreateUndefined();
 	}
 
 	TITANIUM_FUNCTION(AppModule, _loadAppInfo)

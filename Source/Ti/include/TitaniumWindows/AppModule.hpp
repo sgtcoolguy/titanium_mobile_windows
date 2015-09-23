@@ -41,6 +41,9 @@ namespace TitaniumWindows
 
 		virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 		virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+
+		virtual void _restart() TITANIUM_NOEXCEPT override;
+
 	private:
 
 		static JSObject RectToJS(const JSContext& js_context, const Windows::Foundation::Rect& rect);

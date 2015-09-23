@@ -70,4 +70,9 @@ namespace TitaniumWindows
 		return keyboardVisible__;
 	}
 
+	void AppModule::_restart() TITANIUM_NOEXCEPT
+	{
+		Windows::ApplicationModel::Core::CoreApplication::Exit();
+	}
+
 }  // namespace TitaniumWindows
