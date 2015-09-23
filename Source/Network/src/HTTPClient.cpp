@@ -80,6 +80,12 @@ namespace TitaniumWindows
 				method__ = Titanium::Network::RequestMethod::Post;
 			} else if (method == "PUT") {
 				method__ = Titanium::Network::RequestMethod::Put;
+			} else if (method == "HEAD") {
+				method__ = Titanium::Network::RequestMethod::Head;
+			} else if (method == "PATCH") {
+				method__ = Titanium::Network::RequestMethod::Patch;
+			} else if (method == "OPTIONS") {
+				method__ = Titanium::Network::RequestMethod::Options;
 			}
 
 			location__ = location;
@@ -155,6 +161,13 @@ namespace TitaniumWindows
 				request->Content = content;
 			} else if (method__ == Titanium::Network::RequestMethod::Delete) {
 				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Delete, uri);
+			} else if (method__ == Titanium::Network::RequestMethod::Patch) {
+				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Patch, uri);
+				request->Content = content;
+			} else if (method__ == Titanium::Network::RequestMethod::Options) {
+				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Options, uri);
+			} else if (method__ == Titanium::Network::RequestMethod::Head) {
+				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Head, uri);
 			} else {
 				request = ref new Windows::Web::Http::HttpRequestMessage(Windows::Web::Http::HttpMethod::Get, uri);
 			}
