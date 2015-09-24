@@ -167,6 +167,13 @@ namespace Titanium
 		*/
 		virtual void fireSystemEvent(const std::string& eventName, const JSObject& param) TITANIUM_NOEXCEPT;
 
+		/*!
+		  @method
+		  @abstract _restart
+		  @discussion Terminates the application
+		*/
+		virtual void _restart() TITANIUM_NOEXCEPT;
+
 		template<typename _T> _T getAppInfo(std::string property, _T defaultValue);
 		virtual void loadAppInfo() TITANIUM_NOEXCEPT;
 		TITANIUM_FUNCTION_DEF(_loadAppInfo);
@@ -227,6 +234,7 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(getSessionId);
 		TITANIUM_FUNCTION_DEF(getUrl);
 		TITANIUM_FUNCTION_DEF(getVersion);
+		TITANIUM_FUNCTION_DEF(_restart);
 
 	protected:
 #pragma warning(push)
