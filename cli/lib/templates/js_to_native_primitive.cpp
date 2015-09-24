@@ -3,13 +3,12 @@
 // to_assign: the name of the native variable to assign the resulting value to
 // argument_name: the name of the JS variable we're converting from
 
-// TODO single, char16
 if (type == 'bool') {
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsBoolean(), "Expected boolean");
 			auto <%= to_assign %> = static_cast<bool>(<%= argument_name %>);
 <%
-} else if (type == 'int32' || type == 'int16' || type == 'int') {
+} else if (type == 'int32' || type == 'int16' || type == 'int' || type == 'char') {
 -%> 
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsNumber(), "Expected Number");
 			auto <%= to_assign %> = static_cast<int32_t>(<%= argument_name %>);

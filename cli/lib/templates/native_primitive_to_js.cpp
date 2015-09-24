@@ -4,7 +4,6 @@
 // argument_name: the name of the native variable we're converting from
 // context_name: name of the JSContext var to use. typically 'context'
 
-// TODO single, char16
 if (type == 'bool') {
 -%> 
 			auto <%= to_assign %> = <%- context_name %>.CreateBoolean(<%- argument_name %>); 
@@ -17,7 +16,7 @@ if (type == 'bool') {
 -%>
 			auto <%= to_assign %> = <%- context_name %>.CreateNumber(static_cast<uint32_t>(<%- argument_name %>));
 <%
-} else if (type == 'int16' || type == 'int') {
+} else if (type == 'int16' || type == 'int' || type == 'char') {
 -%>
 			auto <%= to_assign %> = <%- context_name %>.CreateNumber(static_cast<int32_t>(<%- argument_name %>));
 <%

@@ -150,8 +150,22 @@ function addNewTypes(rawTypeName, existingTypes) {
 		types = expandTypes(rawTypeName);
 		for (var i = 0; i < types.length; i++) {
 			// skip template names, primitives
-			if (types[i].indexOf("!") == 0 || types[i] == 'bool' ||
-				types[i] == 'uint32' || types[i] == 'float64' || types[i] == 'string' ||
+			if (types[i].indexOf("!") == 0 ||
+				// primitives
+				types[i] == 'bool' ||
+				types[i] == 'char' ||
+				types[i] == 'int64' ||
+				types[i] == 'int32' ||
+				types[i] == 'int16' ||
+				types[i] == 'int' ||
+				types[i] == 'uint64' ||
+				types[i] == 'uint32' ||
+				types[i] == 'uint16' ||
+				types[i] == 'uint8' ||
+				types[i] == 'float64' ||
+				types[i] == 'float32' ||
+				types[i] == 'double' ||
+				types[i] == 'string' ||
 				types[i] == 'Windows.Storage.StorageProvider') { // FIXME A Windows Store-only API!
 				continue;
 			}
