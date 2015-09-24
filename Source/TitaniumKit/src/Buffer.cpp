@@ -50,7 +50,7 @@ namespace Titanium
 		}
 	}
 
-	void Buffer::postConstructProperties() 
+	void Buffer::afterPropertiesSet() 
 	{
 		GET_TITANIUM_MODULE(Codec, CodecObj);
 		const auto codec_ptr = CodecObj.GetPrivate<Titanium::Codec::CodecModule>();

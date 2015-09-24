@@ -48,6 +48,7 @@ namespace TitaniumWindows
 
 			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT override;
 			virtual void set_title(const std::string& text) TITANIUM_NOEXCEPT override;
+			virtual void set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT override;
 
 		private:
 #pragma warning(push)

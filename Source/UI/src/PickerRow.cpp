@@ -8,6 +8,8 @@
 
 #include "TitaniumWindows/UI/PickerRow.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "TitaniumWindows/UI/View.hpp"
+#include "TitaniumWindows/UI/Windows/ViewHelper.hpp"
 #include "TitaniumWindows/Utility.hpp"
 
 namespace TitaniumWindows
@@ -45,6 +47,12 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::PickerRow::set_title(text);
 			label__->Text = TitaniumWindows::Utility::ConvertUTF8String(text);
+		}
+
+		void PickerRow::set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::PickerRow::set_font(font);
+			TitaniumWindows::UI::ViewHelper::SetFont(get_context(), label__, font);
 		}
 
 		void PickerRow::JSExportInitialize()

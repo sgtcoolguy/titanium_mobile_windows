@@ -29,27 +29,21 @@ namespace TitaniumWindows
 		{
 		public:
 
-			/*!
-			@method
-			@abstract add
-			@discussion Adds rows or columns to the picker.
-			*/
 			virtual void add_rows(const std::vector<std::shared_ptr<Titanium::UI::PickerRow>>& rows) TITANIUM_NOEXCEPT override;
 			virtual void add_columns(const std::vector<std::shared_ptr<Titanium::UI::PickerColumn>>& columns) TITANIUM_NOEXCEPT override;
-
-			/*!
-			@property
-			@abstract type
-			@discussion Determines the type of picker displayed
-			*/
 			virtual void set_type(const Titanium::UI::PICKER_TYPE& type) TITANIUM_NOEXCEPT override;
-
-			/*!
-			@property
-			@abstract columns
-			@discussion Columns used for this picker, as an array of <Titanium.UI.PickerColumn> objects.
-			*/
 			virtual void set_columns(const std::vector<std::shared_ptr<Titanium::UI::PickerColumn>>& columns) TITANIUM_NOEXCEPT override;
+			virtual void set_value(const boost::optional<std::chrono::system_clock::time_point>& value) TITANIUM_NOEXCEPT override;
+			virtual void set_maxDate(const boost::optional<std::chrono::system_clock::time_point>& value) TITANIUM_NOEXCEPT override;
+			virtual void set_minDate(const boost::optional<std::chrono::system_clock::time_point>& value) TITANIUM_NOEXCEPT override;
+
+			virtual void showDatePickerDialog(const Titanium::UI::PickerDialogOption& option) override;
+			virtual void showTimePickerDialog(const Titanium::UI::PickerDialogOption& option) override;
+
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+
+			virtual void afterPropertiesSet() TITANIUM_NOEXCEPT override;
 
 			Picker(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -65,14 +59,21 @@ namespace TitaniumWindows
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 		protected:
+			
 #pragma warning(push)
 #pragma warning(disable : 4251)
+
 			Windows::UI::Xaml::Controls::Grid^       parent__;      // Parent view
 			Windows::UI::Xaml::Controls::Grid^       plainPicker__; // For PICKER_TYPE_PLAIN
 			Windows::UI::Xaml::Controls::DatePicker^ datePicker__;  // For PICKER_TYPE_DATE
 			Windows::UI::Xaml::Controls::TimePicker^ timePicker__;  // For PICKER_TYPE_TIME
 
+			Windows::Foundation::EventRegistrationToken change_event__;
+			std::vector<Windows::Foundation::EventRegistrationToken> change_events__;
+
 			void createColumns(const std::vector<std::shared_ptr<Titanium::UI::PickerColumn>>& columns);
+			std::vector<JSValue> getSelectedJSValues();
+
 #pragma warning(pop)
 		};
 	} // namespace UI

@@ -28,6 +28,10 @@ namespace Titanium
 			if (object.HasProperty("okButtonTitle")) {
 				okButtonTitle = static_cast<std::string>(object.GetProperty("okButtonTitle"));
 			}
+			bool format24 { false };
+			if (object.HasProperty("format24")) {
+				format24 = static_cast<bool>(object.GetProperty("format24"));
+			}
 			std::chrono::system_clock::time_point value;
 			if (object.HasProperty("value")) {
 				const std::time_t tt = static_cast<std::uint32_t>(object.GetProperty("value"));
@@ -53,7 +57,7 @@ namespace Titanium
 			};
 
 			PickerDialogOption options {
-				title, okButtonTitle, value, callback_property, oncallback
+				title, okButtonTitle, format24, value, callback_property, oncallback
 			};
 
 			return options;
@@ -65,6 +69,7 @@ namespace Titanium
 			, format24__(false)
 			, minuteInterval__(1)
 			, selectionIndicator__(false)
+			, selectionOpens__(false)
 			, useSpinner__(false)
 			, visibleItems__(5)
 			, calendarViewShown__(false)
@@ -76,12 +81,13 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(Picker, std::chrono::milliseconds, countDownDuration)
 		TITANIUM_PROPERTY_READWRITE(Picker, bool, format24)
 		TITANIUM_PROPERTY_READWRITE(Picker, std::string, locale)
-		TITANIUM_PROPERTY_READWRITE(Picker, std::chrono::system_clock::time_point, maxDate)
-		TITANIUM_PROPERTY_READWRITE(Picker, std::chrono::system_clock::time_point, minDate)
+		TITANIUM_PROPERTY_READWRITE(Picker, boost::optional<std::chrono::system_clock::time_point>, maxDate)
+		TITANIUM_PROPERTY_READWRITE(Picker, boost::optional<std::chrono::system_clock::time_point>, minDate)
 		TITANIUM_PROPERTY_READWRITE(Picker, std::chrono::minutes, minuteInterval)
 		TITANIUM_PROPERTY_READWRITE(Picker, bool, selectionIndicator)
+		TITANIUM_PROPERTY_READWRITE(Picker, bool, selectionOpens)
 		TITANIUM_PROPERTY_READWRITE(Picker, bool, useSpinner)
-		TITANIUM_PROPERTY_READWRITE(Picker, std::chrono::system_clock::time_point, value)
+		TITANIUM_PROPERTY_READWRITE(Picker, boost::optional<std::chrono::system_clock::time_point>, value)
 		TITANIUM_PROPERTY_READWRITE(Picker, std::uint32_t, visibleItems)
 		TITANIUM_PROPERTY_READWRITE(Picker, bool, calendarViewShown)
 		TITANIUM_PROPERTY_READWRITE(Picker, Font, font)
@@ -99,30 +105,35 @@ namespace Titanium
 
 		void Picker::reloadColumn(const std::shared_ptr<PickerColumn>& column) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Picker::reloadColumn: Unimplemented");
+			set_columns({ column });
 		}
 
-		std::shared_ptr<PickerRow> Picker::getSelectedRow(const std::uint32_t& index) TITANIUM_NOEXCEPT
+		std::shared_ptr<PickerRow> Picker::getSelectedRow(const std::uint32_t& columnIndex) TITANIUM_NOEXCEPT
 		{
-			return nullptr;
+			if (columns__.size() <= columnIndex) {
+				return nullptr;
+			}
+			return columns__.at(columnIndex)->get_selectedRow();
 		}
 
-		void Picker::setSelectedRow(const std::uint32_t& column, const std::uint32_t& row, const bool& animated) TITANIUM_NOEXCEPT
+		void Picker::setSelectedRow(const std::uint32_t& columnIndex, const std::uint32_t& rowIndex, const bool& animated) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("Picker::setSelectedRow: Unimplemented");
+			if (columns__.size() <= columnIndex) {
+				return;
+			}
+			const auto column = columns__.at(columnIndex);
+			if (column->get_rows().size() <= rowIndex) {
+				return;
+			}
+			column->set_selectedRow(column->get_rows().at(rowIndex));
 		}
 
-		void Picker::setValue(std::chrono::system_clock::time_point date, const bool& suppressEvent) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("Picker::setValue: Unimplemented");
-		}
-
-		void Picker::showDatePickerDialog(const PickerDialogOption& option) TITANIUM_NOEXCEPT
+		void Picker::showDatePickerDialog(const PickerDialogOption& option)
 		{
 			TITANIUM_LOG_WARN("Picker::showDatePickerDialog: Unimplemented");
 		}
 
-		void Picker::showTimePickerDialog(const PickerDialogOption& option) TITANIUM_NOEXCEPT
+		void Picker::showTimePickerDialog(const PickerDialogOption& option)
 		{
 			TITANIUM_LOG_WARN("Picker::showTimePickerDialog: Unimplemented");
 		}
@@ -140,6 +151,7 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(Picker, minDate);
 			TITANIUM_ADD_PROPERTY(Picker, minuteInterval);
 			TITANIUM_ADD_PROPERTY(Picker, selectionIndicator);
+			TITANIUM_ADD_PROPERTY(Picker, selectionOpens);
 			TITANIUM_ADD_PROPERTY(Picker, useSpinner);
 			TITANIUM_ADD_PROPERTY(Picker, value);
 			TITANIUM_ADD_PROPERTY(Picker, visibleItems);
@@ -169,6 +181,8 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(Picker, setMinuteInterval);
 			TITANIUM_ADD_FUNCTION(Picker, getSelectionIndicator);
 			TITANIUM_ADD_FUNCTION(Picker, setSelectionIndicator);
+			TITANIUM_ADD_FUNCTION(Picker, getSelectionOpens);
+			TITANIUM_ADD_FUNCTION(Picker, setSelectionOpens);
 			TITANIUM_ADD_FUNCTION(Picker, getUseSpinner);
 			TITANIUM_ADD_FUNCTION(Picker, setUseSpinner);
 			TITANIUM_ADD_FUNCTION(Picker, getValue);
@@ -200,6 +214,8 @@ namespace Titanium
 		TITANIUM_PROPERTY_SETTER_TIME_MINUTES(Picker, minuteInterval)
 		TITANIUM_PROPERTY_GETTER_BOOL(Picker, selectionIndicator)
 		TITANIUM_PROPERTY_SETTER_BOOL(Picker, selectionIndicator)
+		TITANIUM_PROPERTY_GETTER_BOOL(Picker, selectionOpens)
+		TITANIUM_PROPERTY_SETTER_BOOL(Picker, selectionOpens)
 		TITANIUM_PROPERTY_GETTER_BOOL(Picker, useSpinner)
 		TITANIUM_PROPERTY_SETTER_BOOL(Picker, useSpinner)
 		TITANIUM_PROPERTY_GETTER_DATE(Picker, value)
@@ -309,6 +325,8 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_SETTER(Picker, setMinuteInterval, minuteInterval)
 		TITANIUM_FUNCTION_AS_GETTER(Picker, getSelectionIndicator, selectionIndicator)
 		TITANIUM_FUNCTION_AS_SETTER(Picker, setSelectionIndicator, selectionIndicator)
+		TITANIUM_FUNCTION_AS_GETTER(Picker, getSelectionOpens, selectionOpens)
+		TITANIUM_FUNCTION_AS_SETTER(Picker, setSelectionOpens, selectionOpens)
 		TITANIUM_FUNCTION_AS_GETTER(Picker, getUseSpinner, useSpinner)
 		TITANIUM_FUNCTION_AS_SETTER(Picker, setUseSpinner, useSpinner)
 		TITANIUM_FUNCTION_AS_GETTER(Picker, getValue, value)

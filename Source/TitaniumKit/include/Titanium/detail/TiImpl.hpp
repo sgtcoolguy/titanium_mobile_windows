@@ -294,9 +294,14 @@ TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
 
 #define TITANIUM_PROPERTY_GETTER_DATE(MODULE, NAME) \
 TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
-  const auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(get_##NAME().time_since_epoch()).count(); \
-  const std::vector<JSValue> args = { get_context().CreateNumber(static_cast<double>(msec)) }; \
-  return get_context().CreateDate(args); \
+	const auto date_optional = get_##NAME(); \
+	if (date_optional) { \
+		const auto msec = std::chrono::duration_cast<std::chrono::milliseconds>((*date_optional).time_since_epoch()).count(); \
+		const std::vector<JSValue> args = { get_context().CreateNumber(static_cast<double>(msec)) }; \
+		return get_context().CreateDate(args); \
+	} else { \
+		return get_context().CreateUndefined(); \
+	} \
 }
 
 #define TITANIUM_PROPERTY_SETTER_DATE(MODULE, NAME) \

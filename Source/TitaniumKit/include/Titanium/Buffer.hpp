@@ -137,7 +137,7 @@ namespace Titanium
 		virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 		// Called after all properties are set at Ti.createBuffer
-		virtual void postConstructProperties();
+		virtual void afterPropertiesSet() TITANIUM_NOEXCEPT override;
 
 		// Construct internal data
 		virtual void construct(const std::vector<std::uint8_t>& data) TITANIUM_NOEXCEPT;

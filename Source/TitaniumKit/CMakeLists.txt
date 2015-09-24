@@ -278,7 +278,6 @@ set(SOURCE_UI
   include/Titanium/UI/PickerColumn.hpp
   src/UI/PickerColumn.cpp
   include/Titanium/UI/Point.hpp
-  include/Titanium/UI/Point.hpp
   src/UI/Point.cpp
   include/Titanium/UI/ProgressBar.hpp
   src/UI/ProgressBar.cpp

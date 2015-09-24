@@ -115,6 +115,15 @@ namespace Titanium
 				this_object.SetProperty(property_name, props.GetProperty(property_name));
 			}
 		}
+		const auto module = this_object.GetPrivate<Titanium::Module>();
+		if (module) {
+			module->afterPropertiesSet();
+		}
+	}
+
+	void Module::afterPropertiesSet() TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_DEBUG("Module::afterPropertiesSet for ", this);
 	}
 
 	void Module::showRedScreenOfDeath(const std::string& message) TITANIUM_NOEXCEPT {

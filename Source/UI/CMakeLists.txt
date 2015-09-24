@@ -125,6 +125,8 @@ set(SOURCE_UI_Windows
   src/Windows/AppBarSeparator.cpp
   include/TitaniumWindows/UI/Windows/SystemIcon.hpp
   src/Windows/SystemIcon.cpp
+  include/TitaniumWindows/UI/Windows/ViewHelper.hpp
+  src/Windows/ViewHelper.cpp
   )
 
 source_group(Titanium\\UI\\Windows FILES ${SOURCE_UI_Windows})

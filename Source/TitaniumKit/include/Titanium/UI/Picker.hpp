@@ -14,6 +14,7 @@
 #include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/Font.hpp"
 #include <chrono>
+#include <boost/optional.hpp>
 
 namespace Titanium
 {
@@ -34,6 +35,7 @@ namespace Titanium
 		{
 			std::string title;
 			std::string okButtonTitle;
+			bool format24;
 			std::chrono::system_clock::time_point value;
 			JSValue callback; // need to keep these references to prevent from GC
 			std::function<void(const bool& cancel, const std::chrono::system_clock::time_point& value)> oncallback;
@@ -84,14 +86,14 @@ namespace Titanium
 			  @abstract maxDate
 			  @discussion Maximum date displayed when a Date picker is in use.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(std::chrono::system_clock::time_point, maxDate);
+			TITANIUM_PROPERTY_IMPL_DEF(boost::optional<std::chrono::system_clock::time_point>, maxDate);
 
 			/*!
 			  @property
 			  @abstract minDate
 			  @discussion Minimum date displayed when a Date picker is in use.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(std::chrono::system_clock::time_point, minDate);
+			TITANIUM_PROPERTY_IMPL_DEF(boost::optional<std::chrono::system_clock::time_point>, minDate);
 
 			/*!
 			  @property
@@ -109,6 +111,13 @@ namespace Titanium
 
 			/*!
 			  @property
+			  @abstract selectionOpens
+			  @discussion Determines whether calling the method setSelectedRow opens when called.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, selectionOpens);
+
+			/*!
+			  @property
 			  @abstract useSpinner
 			  @discussion Determines whether the non-native Android control, with a spinning wheel that looks and behaves like the iOS picker, is invoked rather than the default native "dropdown" style.
 			*/
@@ -119,7 +128,7 @@ namespace Titanium
 			  @abstract value
 			  @discussion Date and time value for Date and Time pickers.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(std::chrono::system_clock::time_point, value);
+			TITANIUM_PROPERTY_IMPL_DEF(boost::optional<std::chrono::system_clock::time_point>, value);
 
 			/*!
 			  @property
@@ -169,7 +178,7 @@ namespace Titanium
 			  @abstract getSelectedRow
 			  @discussion Gets the selected row for a column, or `null` if none exists.
 			*/
-			virtual std::shared_ptr<PickerRow> getSelectedRow(const std::uint32_t& index) TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<PickerRow> getSelectedRow(const std::uint32_t& columnIndex) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -180,24 +189,17 @@ namespace Titanium
 
 			/*!
 			  @method
-			  @abstract setValue
-			  @discussion Sets the date and time value property for Date pickers.
-			*/
-			virtual void setValue(std::chrono::system_clock::time_point date, const bool& suppressEvent) TITANIUM_NOEXCEPT;
-
-			/*!
-			  @method
 			  @abstract showDatePickerDialog
 			  @discussion Shows Date picker as a modal dialog.
 			*/
-			virtual void showDatePickerDialog(const PickerDialogOption& option) TITANIUM_NOEXCEPT;
+			virtual void showDatePickerDialog(const PickerDialogOption& option);
 
 			/*!
 			  @method
 			  @abstract showTimePickerDialog
 			  @discussion Shows Time picker as a modal dialog.
 			*/
-			virtual void showTimePickerDialog(const PickerDialogOption& option) TITANIUM_NOEXCEPT;
+			virtual void showTimePickerDialog(const PickerDialogOption& option);
 
 			Picker(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~Picker()                = default;
@@ -218,6 +220,7 @@ namespace Titanium
 			TITANIUM_PROPERTY_DEF(minDate);
 			TITANIUM_PROPERTY_DEF(minuteInterval);
 			TITANIUM_PROPERTY_DEF(selectionIndicator);
+			TITANIUM_PROPERTY_DEF(selectionOpens);
 			TITANIUM_PROPERTY_DEF(useSpinner);
 			TITANIUM_PROPERTY_DEF(value);
 			TITANIUM_PROPERTY_DEF(visibleItems);
@@ -247,6 +250,8 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setMinuteInterval);
 			TITANIUM_FUNCTION_DEF(getSelectionIndicator);
 			TITANIUM_FUNCTION_DEF(setSelectionIndicator);
+			TITANIUM_FUNCTION_DEF(getSelectionOpens);
+			TITANIUM_FUNCTION_DEF(setSelectionOpens);
 			TITANIUM_FUNCTION_DEF(getUseSpinner);
 			TITANIUM_FUNCTION_DEF(setUseSpinner);
 			TITANIUM_FUNCTION_DEF(getValue);
@@ -267,12 +272,13 @@ namespace Titanium
 			std::chrono::milliseconds countDownDuration__;
 			bool format24__;
 			std::string locale__;
-			std::chrono::system_clock::time_point maxDate__;
-			std::chrono::system_clock::time_point minDate__;
+			boost::optional<std::chrono::system_clock::time_point> maxDate__;
+			boost::optional<std::chrono::system_clock::time_point> minDate__;
+			boost::optional<std::chrono::system_clock::time_point> value__;
 			std::chrono::minutes minuteInterval__;
 			bool selectionIndicator__;
+			bool selectionOpens__;
 			bool useSpinner__;
-			std::chrono::system_clock::time_point value__;
 			std::uint32_t visibleItems__;
 			bool calendarViewShown__;
 			Font font__;

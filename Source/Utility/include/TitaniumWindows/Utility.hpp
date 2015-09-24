@@ -124,6 +124,22 @@ namespace TitaniumWindows
 		TITANIUMWINDOWS_UTILITY_EXPORT Windows::Foundation::DateTime GetDateTime(const HAL::JSValue& dateObject);
 
 		//
+		// Get DateTime from std::chrono::system_clock::time_point
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT Windows::Foundation::DateTime GetDateTime(const std::chrono::system_clock::time_point& time);
+
+		//
+		// Get std::chrono::system_clock::time_point from DateTime
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT std::chrono::system_clock::time_point GetDateTime(const  Windows::Foundation::DateTime& time);
+
+		//
+		// Extract hours, minutes and seconds from time_point
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT Windows::Foundation::TimeSpan ExtractTime(const std::chrono::system_clock::time_point& time);
+		TITANIUMWINDOWS_UTILITY_EXPORT std::chrono::system_clock::time_point ExtractTime(const std::chrono::system_clock::time_point& baset_date, const Windows::Foundation::TimeSpan& base_time);
+
+		//
 		// Add view onto current Window
 		//
 		TITANIUMWINDOWS_UTILITY_EXPORT void SetViewForCurrentWindow(Windows::UI::Xaml::UIElement^ view, Windows::Foundation::EventRegistrationToken& token, const bool& visible = true);
