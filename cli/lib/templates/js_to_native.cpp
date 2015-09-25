@@ -24,13 +24,22 @@ else if (type.indexOf('class ') == 0) {
 <%- include('js_to_native_class.cpp', {type: type, metadata: metadata, to_assign: to_assign, argument_name: argument_name}) -%>
 <%
 }
-// TODO Any other primitive types?
-else if (type == 'bool' || type == 'int32' || type == 'uint32' || 
-		type == 'double' || type == 'uint16' || type == 'uint8' ||
-		type == 'int16' || type == 'int' || type == 'string' ||
-		type == 'float32' || type == 'float64' || type == 'int64' ||
-		type == 'int64' || type == 'uint64' || type == 'single' ||
-		type == 'char16' || type == 'Platform.String') {
+// primitives
+else if (type == 'bool' ||
+		type == 'char' ||
+		type == 'int64' ||
+		type == 'int32' ||
+		type == 'int16' ||
+		type == 'int' ||
+		type == 'uint64' ||
+		type == 'uint32' ||
+		type == 'uint16' ||
+		type == 'uint8' ||
+		type == 'float64' ||
+		type == 'float32' ||
+		type == 'double' ||
+		type == 'string' ||
+		type == 'Platform.String') {
 -%>
 <%- include('js_to_native_primitive.cpp', {to_assign: to_assign, argument_name: argument_name}) -%>
 <%
