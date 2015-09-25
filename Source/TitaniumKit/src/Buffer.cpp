@@ -50,7 +50,7 @@ namespace Titanium
 		}
 	}
 
-	void Buffer::postConstructProperties() 
+	void Buffer::afterPropertiesSet() TITANIUM_NOEXCEPT
 	{
 		GET_TITANIUM_MODULE(Codec, CodecObj);
 		const auto codec_ptr = CodecObj.GetPrivate<Titanium::Codec::CodecModule>();
@@ -122,7 +122,7 @@ namespace Titanium
 		const auto source = sourceBuffer->get_data();
 		const auto actualLength = offset + sourceLength > data__.size() ? data__.size() - offset : sourceLength;
 		std::copy(source.begin() + sourceOffset, source.begin() + sourceOffset + actualLength, data__.begin() + offset);
-		return actualLength;
+		return static_cast<std::uint32_t>(actualLength);
 	}
 
 	std::shared_ptr<Buffer> Buffer::clone(const std::uint32_t& offset, const std::uint32_t& length) TITANIUM_NOEXCEPT
@@ -143,7 +143,7 @@ namespace Titanium
 	void Buffer::clear() TITANIUM_NOEXCEPT
 	{
 		// Clears this buffer's contents but does not change the size of the buffer.
-		fill(0, 0, data__.size());
+		fill(0, 0, static_cast<std::uint32_t>(data__.size()));
 	}
 
 	void Buffer::release() TITANIUM_NOEXCEPT

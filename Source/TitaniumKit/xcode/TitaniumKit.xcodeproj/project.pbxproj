@@ -155,6 +155,10 @@
 		F96BCAC01A25CE6100745C3B /* PlatformModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96BCABF1A25CE6100745C3B /* PlatformModule.cpp */; };
 		F96BCAC31A25CEB000745C3B /* NativePlatformExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96BCAC11A25CEB000745C3B /* NativePlatformExample.cpp */; };
 		F96BCAC41A25CEB000745C3B /* NativePlatformExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96BCAC21A25CEB000745C3B /* NativePlatformExample.hpp */; };
+		F96FD77E1BABD698009A94EA /* PickerColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96FD77C1BABD698009A94EA /* PickerColumn.cpp */; settings = {ASSET_TAGS = (); }; };
+		F96FD77F1BABD698009A94EA /* PickerRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96FD77D1BABD698009A94EA /* PickerRow.cpp */; settings = {ASSET_TAGS = (); }; };
+		F96FD7821BABD6AA009A94EA /* PickerColumn.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96FD7801BABD6AA009A94EA /* PickerColumn.hpp */; settings = {ASSET_TAGS = (); }; };
+		F96FD7831BABD6AA009A94EA /* PickerRow.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96FD7811BABD6AA009A94EA /* PickerRow.hpp */; settings = {ASSET_TAGS = (); }; };
 		F97467EC1B043D9000E96892 /* CameraOptionsType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467E61B043D9000E96892 /* CameraOptionsType.cpp */; };
 		F97467ED1B043D9000E96892 /* MediaQueryType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467E71B043D9000E96892 /* MediaQueryType.cpp */; };
 		F97467EE1B043D9000E96892 /* MusicLibraryOptionsType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467E81B043D9000E96892 /* MusicLibraryOptionsType.cpp */; };
@@ -424,6 +428,10 @@
 		F96BCABF1A25CE6100745C3B /* PlatformModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlatformModule.cpp; path = src/PlatformModule.cpp; sourceTree = "<group>"; };
 		F96BCAC11A25CEB000745C3B /* NativePlatformExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativePlatformExample.cpp; sourceTree = "<group>"; };
 		F96BCAC21A25CEB000745C3B /* NativePlatformExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativePlatformExample.hpp; sourceTree = "<group>"; };
+		F96FD77C1BABD698009A94EA /* PickerColumn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PickerColumn.cpp; path = src/UI/PickerColumn.cpp; sourceTree = "<group>"; };
+		F96FD77D1BABD698009A94EA /* PickerRow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PickerRow.cpp; path = src/UI/PickerRow.cpp; sourceTree = "<group>"; };
+		F96FD7801BABD6AA009A94EA /* PickerColumn.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PickerColumn.hpp; path = include/Titanium/UI/PickerColumn.hpp; sourceTree = "<group>"; };
+		F96FD7811BABD6AA009A94EA /* PickerRow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PickerRow.hpp; path = include/Titanium/UI/PickerRow.hpp; sourceTree = "<group>"; };
 		F97467E61B043D9000E96892 /* CameraOptionsType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CameraOptionsType.cpp; path = src/Media/CameraOptionsType.cpp; sourceTree = "<group>"; };
 		F97467E71B043D9000E96892 /* MediaQueryType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MediaQueryType.cpp; path = src/Media/MediaQueryType.cpp; sourceTree = "<group>"; };
 		F97467E81B043D9000E96892 /* MusicLibraryOptionsType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MusicLibraryOptionsType.cpp; path = src/Media/MusicLibraryOptionsType.cpp; sourceTree = "<group>"; };
@@ -551,6 +559,12 @@
 		C90B8F8B1A16D32C005F3210 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C90950A01A296802002133E1 /* Picker.hpp */,
+				C90950A11A296802002133E1 /* Picker.cpp */,
+				F96FD7801BABD6AA009A94EA /* PickerColumn.hpp */,
+				F96FD77C1BABD698009A94EA /* PickerColumn.cpp */,
+				F96FD7811BABD6AA009A94EA /* PickerRow.hpp */,
+				F96FD77D1BABD698009A94EA /* PickerRow.cpp */,
 				F9ACB7CC1AF9CE01008C2F3C /* 2DMatrix.hpp */,
 				F9ACB7CD1AF9CE01008C2F3C /* CloseWindowParams.hpp */,
 				F9ACB7CE1AF9CE01008C2F3C /* EmailDialog.hpp */,
@@ -631,8 +645,6 @@
 				C909509D1A2963F3002133E1 /* ListView.cpp */,
 				F9B1AF5E1A8DB4EF00DEF4D6 /* ListSection.hpp */,
 				F9B1AF5C1A8DB4E100DEF4D6 /* ListSection.cpp */,
-				C90950A01A296802002133E1 /* Picker.hpp */,
-				C90950A11A296802002133E1 /* Picker.cpp */,
 				C97E14841A4CB0E200C15EDC /* ScrollView.hpp */,
 				C97E14851A4CB0E200C15EDC /* ScrollView.cpp */,
 				C90950A41A297E03002133E1 /* WebView.hpp */,
@@ -1015,6 +1027,7 @@
 				F9B47E811A2EF93E0052879A /* Constants.hpp in Headers */,
 				F95C3E271AA59C6A006AB8C7 /* Camera.hpp in Headers */,
 				F9ACB7E11AF9CE01008C2F3C /* OptionDialogHideParams.hpp in Headers */,
+				F96FD7821BABD6AA009A94EA /* PickerColumn.hpp in Headers */,
 				F97467F31B04626C00E96892 /* MediaQueryInfoType.hpp in Headers */,
 				F9ACB7DF1AF9CE01008C2F3C /* OpenWindowParams.hpp in Headers */,
 				F9637C851B955EA0006277C6 /* BufferStream.hpp in Headers */,
@@ -1044,6 +1057,7 @@
 				F96BCAC41A25CEB000745C3B /* NativePlatformExample.hpp in Headers */,
 				C9E6AFEE1A13F95900FED053 /* TiLoggerPolicyConsole.hpp in Headers */,
 				C90B90131A1ADC7D005F3210 /* NativeViewExample.hpp in Headers */,
+				F96FD7831BABD6AA009A94EA /* PickerRow.hpp in Headers */,
 				F9991D551AFF5A9200C7DDF2 /* Constants.hpp in Headers */,
 				F9E391A51B0318640096BA2D /* MusicLibraryOptionsType.hpp in Headers */,
 				F965FF241AA588010092ABBA /* Annotation.hpp in Headers */,
@@ -1223,6 +1237,7 @@
 				F965FF2E1AA588230092ABBA /* View.cpp in Sources */,
 				F96A53D61AA5B64300AD4011 /* MapLocationTypev2.cpp in Sources */,
 				F9B1AF811A8E2F2B00DEF4D6 /* HTTPClient.cpp in Sources */,
+				F96FD77F1BABD698009A94EA /* PickerRow.cpp in Sources */,
 				F9E391AE1B032A160096BA2D /* MediaModule.cpp in Sources */,
 				F96BCAC31A25CEB000745C3B /* NativePlatformExample.cpp in Sources */,
 				C90B8F8F1A16D346005F3210 /* View.cpp in Sources */,
@@ -1287,6 +1302,7 @@
 				F991B64D1B0A1B680058FA3A /* MusicLibraryResponseType.cpp in Sources */,
 				F9B1AF6D1A8E2EA300DEF4D6 /* NetworkModule.cpp in Sources */,
 				F93CDC491A96D25E00C42D8C /* Font.cpp in Sources */,
+				F96FD77E1BABD698009A94EA /* PickerColumn.cpp in Sources */,
 				F9B47E761A2EF1500052879A /* FilesystemModule.cpp in Sources */,
 				F97467EC1B043D9000E96892 /* CameraOptionsType.cpp in Sources */,
 				F9ACB7C31AF9CDCD008C2F3C /* 2DMatrix.cpp in Sources */,

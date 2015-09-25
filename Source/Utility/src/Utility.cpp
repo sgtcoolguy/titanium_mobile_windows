@@ -11,6 +11,7 @@
 #include "HAL/HAL.hpp"
 #include <boost/algorithm/string/predicate.hpp>
 #include "Titanium/detail/TiImpl.hpp"
+#include <ctime>
 
 namespace TitaniumWindows
 {
@@ -177,6 +178,45 @@ namespace TitaniumWindows
 			const auto intervals = static_cast<std::uint64_t>(static_cast<double>(dateObject)) * 10000;
 			date.UniversalTime = intervals + EPOCH_BIAS;
 			return date;
+		}
+
+		Windows::Foundation::DateTime GetDateTime(const std::chrono::system_clock::time_point& time)
+		{
+			Windows::Foundation::DateTime date;
+			const auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(time.time_since_epoch()).count();
+			const auto intervals = msec * 10000;
+			date.UniversalTime = intervals + EPOCH_BIAS;
+			return date;
+		}
+
+		std::chrono::system_clock::time_point GetDateTime(const Windows::Foundation::DateTime& date)
+		{
+			const auto msec = GetMSecSinceEpoch(date);
+			return std::chrono::time_point<std::chrono::system_clock>(msec);
+		}
+
+		Windows::Foundation::TimeSpan ExtractTime(const std::chrono::system_clock::time_point& time)
+		{
+			Windows::Foundation::TimeSpan timeSpan;
+
+			const auto tt = std::chrono::system_clock::to_time_t(time);
+			tm local_tm;
+			localtime_s(&local_tm, &tt);
+
+			const std::uint64_t msec = ((local_tm.tm_hour * 60 * 60) + (local_tm.tm_min * 60) + local_tm.tm_sec) * 1000;
+			timeSpan.Duration = msec * 10000; // 100-nanoseconds
+
+			return timeSpan;
+		}
+
+		std::chrono::system_clock::time_point ExtractTime(const std::chrono::system_clock::time_point& base_date, const Windows::Foundation::TimeSpan& base_time)
+		{
+			const auto base_msec = std::chrono::duration_cast<std::chrono::milliseconds>(base_date.time_since_epoch()).count();
+			const std::uint64_t base_date_msec = base_msec - GetMSec(ExtractTime(base_date)).count(); // base msec without time
+
+			// new time by msec
+			const auto time_msec = GetMSec(base_time).count();
+			return std::chrono::time_point<std::chrono::system_clock>(std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(base_date_msec + time_msec)));
 		}
 
 		void RemoveViewFromCurrentWindow(Windows::UI::Xaml::UIElement^ view) 

@@ -124,7 +124,7 @@ namespace Titanium
 				createEmptyTableViewSection();
 			}
 
-			appendRowAtSection(sections__.size() - 1, rows);
+			appendRowAtSection(static_cast<std::uint32_t>(sections__.size() - 1), rows);
 		}
 
 		void TableView::appendRowAtSection(const std::uint32_t& sectionIndex, const std::vector<std::shared_ptr<TableViewRow>>& rows) TITANIUM_NOEXCEPT

@@ -147,10 +147,6 @@ namespace Titanium
 		auto Buffer_obj = Buffer.CallAsConstructor(parameters);
 		Titanium::Module::applyProperties(parameters, Buffer_obj);
 
-		auto buffer_ptr = Buffer_obj.GetPrivate<Titanium::Buffer>();
-		TITANIUM_ASSERT(buffer_ptr);
-		buffer_ptr->postConstructProperties();
-
 		return Buffer_obj;
 	}
 

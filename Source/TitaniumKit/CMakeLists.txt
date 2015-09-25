@@ -273,6 +273,10 @@ set(SOURCE_UI
   src/UI/OptionDialogShowParams.cpp
   include/Titanium/UI/Picker.hpp
   src/UI/Picker.cpp
+  include/Titanium/UI/PickerRow.hpp
+  src/UI/PickerRow.cpp
+  include/Titanium/UI/PickerColumn.hpp
+  src/UI/PickerColumn.cpp
   include/Titanium/UI/Point.hpp
   src/UI/Point.cpp
   include/Titanium/UI/ProgressBar.hpp
@@ -561,6 +565,11 @@ else()
   # exclude unused variables because most TitaniumKit methods are meant to be virtual and overridden
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-parameter")
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-variable")
+
+  # Xcode 7.0 (Apple LLVM version 7.0.0 (clang-700.0.72)) introduces new check warning
+  # exclude unused-local-typedef warning, add no-unknown-warning guard for old compiler
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unknown-warning-option")
+  set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-unused-local-typedef")
 
   # ignore reorder warning
   set_property(TARGET TitaniumKit APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-reorder")

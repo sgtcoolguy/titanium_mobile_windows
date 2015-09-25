@@ -83,6 +83,18 @@ namespace Titanium
 		static void applyProperties(const JSObject& props, JSObject& this_object) TITANIUM_NOEXCEPT;
 
 		/*!
+		@method
+
+		@abstract afterPropertiesSet() : void
+
+		@discussion Invoked after all properties are supplied at constructor. 
+		This method allows instance to perform initialization when all properties have been set.
+
+		@result void
+		*/
+		virtual void afterPropertiesSet() TITANIUM_NOEXCEPT;
+
+		/*!
 		  @method
 
 		  @abstract fireEvent( name, event ) : void

@@ -38,15 +38,15 @@ namespace Titanium
 		void TableViewSection::add(const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT
 		{
 			rows__.push_back(row);
-			fireTableViewSectionEvent("append", rows__.size() - 1);
+			fireTableViewSectionEvent("append", static_cast<std::uint32_t>(rows__.size() - 1));
 		}
 
 		void TableViewSection::remove(const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT
 		{
 			const auto it = find(rows__.begin(), rows__.end(), row);
-			const std::uint32_t index= std::distance(rows__.begin(), it);
+			const auto index= std::distance(rows__.begin(), it);
 			rows__.erase(it);
-			fireTableViewSectionEvent("remove", index);
+			fireTableViewSectionEvent("remove", static_cast<std::uint32_t>(index));
 		}
 
 		std::shared_ptr<TableViewRow> TableViewSection::rowAtIndex(const uint32_t& index) TITANIUM_NOEXCEPT

@@ -68,6 +68,12 @@ set(SOURCE_UI
   src/Notification.cpp
   include/TitaniumWindows/UI/OptionDialog.hpp
   src/OptionDialog.cpp
+  include/TitaniumWindows/UI/Picker.hpp
+  src/Picker.cpp
+  include/TitaniumWindows/UI/PickerColumn.hpp
+  src/PickerColumn.cpp
+  include/TitaniumWindows/UI/PickerRow.hpp
+  src/PickerRow.cpp
   include/TitaniumWindows/UI/ProgressBar.hpp
   src/ProgressBar.cpp
   include/TitaniumWindows/UI/ScrollableView.hpp
@@ -119,6 +125,8 @@ set(SOURCE_UI_Windows
   src/Windows/AppBarSeparator.cpp
   include/TitaniumWindows/UI/Windows/SystemIcon.hpp
   src/Windows/SystemIcon.cpp
+  include/TitaniumWindows/UI/Windows/ViewHelper.hpp
+  src/Windows/ViewHelper.cpp
   )
 
 source_group(Titanium\\UI\\Windows FILES ${SOURCE_UI_Windows})

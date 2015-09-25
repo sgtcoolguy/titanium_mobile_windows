@@ -274,14 +274,41 @@ TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
 #define TITANIUM_PROPERTY_SETTER_TIME(MODULE, NAME) \
 TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
 	TITANIUM_ASSERT(argument.IsNumber()); \
-	set_##NAME(std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<std::uint32_t>(argument)))); \
+	set_##NAME(std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<double>(argument)))); \
 	return true; \
 }
 
 #define TITANIUM_PROPERTY_SETTER_TIME_SECONDS(MODULE, NAME) \
 TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
   TITANIUM_ASSERT(argument.IsNumber()); \
-  set_##NAME(std::chrono::seconds(static_cast<std::chrono::seconds::rep>(static_cast<std::uint32_t>(argument)))); \
+  set_##NAME(std::chrono::seconds(static_cast<std::chrono::seconds::rep>(static_cast<double>(argument)))); \
+  return true; \
+}
+
+#define TITANIUM_PROPERTY_SETTER_TIME_MINUTES(MODULE, NAME) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+  TITANIUM_ASSERT(argument.IsNumber()); \
+  set_##NAME(std::chrono::minutes(static_cast<std::chrono::minutes::rep>(static_cast<double>(argument)))); \
+  return true; \
+}
+
+#define TITANIUM_PROPERTY_GETTER_DATE(MODULE, NAME) \
+TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
+	const auto date_optional = get_##NAME(); \
+	if (date_optional) { \
+		const auto msec = std::chrono::duration_cast<std::chrono::milliseconds>((*date_optional).time_since_epoch()).count(); \
+		const std::vector<JSValue> args = { get_context().CreateNumber(static_cast<double>(msec)) }; \
+		return get_context().CreateDate(args); \
+	} else { \
+		return get_context().CreateUndefined(); \
+	} \
+}
+
+#define TITANIUM_PROPERTY_SETTER_DATE(MODULE, NAME) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+  const auto msec = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<double>(argument))); \
+  const auto msec_tt = std::chrono::time_point<std::chrono::system_clock>(msec); \
+  set_##NAME(msec_tt); \
   return true; \
 }
 

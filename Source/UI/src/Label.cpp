@@ -9,6 +9,7 @@
 #include "TitaniumWindows/UI/Label.hpp"
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "TitaniumWindows/UI/Windows/ViewHelper.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 
 namespace TitaniumWindows
@@ -138,32 +139,7 @@ namespace TitaniumWindows
 		void Label::set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_font(font);
-
-			if (font.fontFamily.length() > 0) {
-				const auto fontFamily = TitaniumWindows::UI::View::LookupFont(get_context(), font.fontFamily);
-				if (fontFamily != nullptr) {
-					label__->FontFamily = fontFamily;
-				}
-			}
-			if (font.fontSize.length() > 0) {
-				label__->FontSize = std::stod(font.fontSize);
-			}
-
-			if (font.fontStyle == Titanium::UI::FONT_STYLE::ITALIC) {
-				label__->FontStyle = Windows::UI::Text::FontStyle::Italic;
-			} else if (font.fontStyle == Titanium::UI::FONT_STYLE::NORMAL) {
-				label__->FontStyle = Windows::UI::Text::FontStyle::Normal;
-			}
-			// TODO Windows supports Oblique: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontstyle.aspx
-
-			if (font.fontWeight == Titanium::UI::FONT_WEIGHT::BOLD) {
-				label__->FontWeight = Windows::UI::Text::FontWeights::Bold;
-			} else if (font.fontWeight == Titanium::UI::FONT_WEIGHT::NORMAL) {
-				label__->FontWeight = Windows::UI::Text::FontWeights::Normal;
-			} else if (font.fontWeight == Titanium::UI::FONT_WEIGHT::SEMIBOLD) {
-				label__->FontWeight = Windows::UI::Text::FontWeights::SemiBold;
-			}
-			// TODO Windows supports a large number of other weights: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontweights
+			TitaniumWindows::UI::ViewHelper::SetFont(get_context(), label__, font);
 		}
 
 		void Label::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
