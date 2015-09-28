@@ -58,6 +58,12 @@ module.exports = function configOptionDeviceID(order) {
 				}.bind(this));
 		} else {
 			// must be emulator then
+
+			// Windows 10 mobile emulator is not supported yet
+			if (/Mobile\ Emulator\ 10\./.test(dev.name)) {
+				return callback(new Error(__('Invalid device id "%s": Windows 10 Mobile Emulator is not supported', value)));
+			}
+			
 			callback(null, value);
 		}
 	}
