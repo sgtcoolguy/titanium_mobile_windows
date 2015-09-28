@@ -16,15 +16,27 @@ if (type.indexOf('class ') == 0) {
 if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 	// Strip off the [], then proceed knowing it's an array...
 	type = type.substring(0, type.length - 2);
-	// FIXME What if the type is a primitive like uint8? We need to assume an array, but convert each elememt like primitive
 -%>
 			TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");
 			auto object_<%= argument_name %> = static_cast<JSObject>(<%= argument_name %>);
 			TITANIUM_ASSERT(object_<%= argument_name %>.IsArray());
 			const auto array_<%= argument_name %> = static_cast<JSArray>(object_<%= argument_name %>);
 <%
-	if (type == 'uint8') {
-		// array of primitives
+	// array of primitives
+	if (type == 'bool' ||
+		type == 'char' ||
+		type == 'int64' ||
+		type == 'int32' ||
+		type == 'int16' ||
+		type == 'int' ||
+		type == 'uint64' ||
+		type == 'uint32' ||
+		type == 'uint16' ||
+		type == 'uint8' ||
+		type == 'float64' ||
+		type == 'float32' ||
+		type == 'double') {
+		// if the type is a primitive like uint8, We need to assume an array but convert each elememt like primitive
 -%>
 			auto <%= to_assign %> = ref new ::Platform::Array<<%= type %>>(array_<%= argument_name %>.GetLength());
 			for (size_t i = 0; i < array_<%= argument_name %>.GetLength(); ++i) {
@@ -86,7 +98,7 @@ if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 <%
 
 		if (type == 'string') {
-			type = 'Platform.String'; // FIXME When it's strings, we need to handle them totally differently! We can't do GetPrivateItems
+			type = 'Platform.String'; // When it's strings, we need to handle them totally differently! We can't do GetPrivateItems
 			// we cast to a vector of std::string, then convert those to platform strings
 -%>
 			auto items_<%= argument_name %> = static_cast<std::vector<std::string>>(array_<%= argument_name %>);
@@ -162,6 +174,25 @@ if (type.indexOf('[]') == type.length - 2) { // 'primitive' array
 			} else {
 				auto ti_view = object_<%= argument_name %>.GetPrivate<::Titanium::UI::View>();
 				<%= to_assign %> = ti_view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getComponent();
+			}
+<%
+} else if (type == 'Platform.Object') {
+	// If the type is just Platform.Object we should be smarter than trying to just cast down to Object wrapper type.
+	// It means the input could still be a String/Number/struct/enum. We had to special case this above for arrays of strings.
+	// I think we still don't handle Numbers/Dates in this case or array case...
+	// TODO Handle converting a JS date into a boxed DateTime?
+	// TODO handle converting a JSNumber into a boxed integer/double?
+-%>
+			::<%= type.replace(/\./g, '::') %>^ <%= to_assign %>;
+			if (<%= argument_name %>.IsString()) {
+				<%= to_assign %> = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(<%= argument_name %>));
+			} else {
+				TITANIUM_ASSERT_AND_THROW(<%= argument_name %>.IsObject(), "Expected Object");
+				auto object_<%= argument_name %> = static_cast<JSObject>(<%= argument_name %>);
+				auto wrapper_<%= to_assign %> = object_<%= argument_name %>.GetPrivate<<%= type.replace(/\./g, '::') %>>();
+				// FIXME What if the type we want here is some parent class of the actual wrapper's class? I think we'll get nullptr here.
+				// We need some way to know the underlying type the JSObject maps to, get that, then cast to the type we want...
+				<%= to_assign %> = wrapper_<%= to_assign %>->unwrap<%= type.replace(/\./g, '_') %>();
 			}
 <%
 } else { // normal class
