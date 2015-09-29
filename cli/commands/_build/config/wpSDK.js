@@ -16,6 +16,6 @@ module.exports = function configOptionWPSDK(order) {
 		desc: __('the Windows Phone SDK version; only used when target is %s, %s, or %s', 'wp-emulator'.cyan, 'wp-device'.cyan, 'dist-phonestore'.cyan),
 		hint: __('version'),
 		order: order,
-		values: ['8.1']
+		values: ['8.1', '10']
 	};
 };

@@ -82,7 +82,7 @@ function run(logger, config, cli, finished) {
 function runCmake(next) {
 	this.logger.info(__('Running cmake at %s in directory %s', this.cmake.cyan, this.cmakeTargetDir.cyan));
 	var _t = this,
-		generatorName = 'Visual Studio 12 2013',
+		generatorName = this.cmakeGeneratorName,
 		p;
 
 	if (this.cmakeArch == 'ARM') {

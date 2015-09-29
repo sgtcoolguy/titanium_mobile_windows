@@ -34,7 +34,9 @@ program
 	.usage('COMMAND [ARGS] [OPTIONS]')
 	.option('-a, --arch <arch>', '"ARM" (device) or "Win32" (emulator)')
 	.option('-o, --outputPath <outputPath>', 'Output path for generated code')
-	.option('-p, --platform <platform>', '"WindowsPhone" or "WindowsStore"');
+	.option('-p, --platform <platform>', '"WindowsPhone" or "WindowsStore"')
+	.option('-t, --target <platform target>', '"8.1" or "10"')
+	.option('-m, --msdev <msbuild version>', '"12" (VS 2013) or "14" (VS 2015)');
 
 program.command('new'.blue+' <example_name>'.white)
 		.description('    create a new project from the packaged examples'.grey);
@@ -79,7 +81,9 @@ if (!fs.existsSync(dest)) {
 	// Make the directory structure!
 	wrench.mkdirSyncRecursive(dest);
 }
-var generator = 'Visual Studio 12 2013';
+var generator = program.msdev == '14' ? 'Visual Studio 14 2015' : 'Visual Studio 12 2013';
+var generator_target = program.target || '8.1';
+
 if (arch == 'ARM') {
 	generator += ' ARM';
 }
@@ -88,7 +92,7 @@ var example_folder = path.join(__dirname, '..', '..', 'Examples', example_name);
 // Now let's generate the solution
 var prc = spawn('cmake', ['-G', generator,
 	'-DCMAKE_SYSTEM_NAME=' + platform, 
-	'-DCMAKE_SYSTEM_VERSION=8.1',
+	'-DCMAKE_SYSTEM_VERSION=' + generator_target,
     '-DTitaniumWindows_DISABLE_TESTS=ON',
     '-DTitaniumWindows_Global_DISABLE_TESTS=ON',
     '-DTitaniumWindows_Ti_DISABLE_TESTS=ON',
