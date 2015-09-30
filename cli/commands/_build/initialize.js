@@ -49,11 +49,13 @@ function initialize(next) {
 	this.arch = this.cmakeArch == 'Win32' ? 'x86' : this.cmakeArch;
 	this.cmakeTarget = this.cmakePlatformAbbrev + '.' + this.arch;
 
-	if (argv['vs-target']) {
-		this.cmakeGeneratorName = argv['vs-target'] == '14' ? 'Visual Studio 14 2015' : 'Visual Studio 12 2013';
-	} else {
-		this.cmakeGeneratorName = 'Visual Studio 12 2013';
-	}
+	// Detect CMake generator name: e.g. 12.0 -> Visual Studio 12 2013
+	// because there's no specific way to auto-detect "year" component
+	var supportedCMakeGenerators = {
+		'12.0': 'Visual Studio 12 2013',
+		'14.0': 'Visual Studio 14 2015',
+	};
+	this.cmakeGeneratorName = supportedCMakeGenerators[argv['vs-target']];
 
 	// directories
 	this.outputDir = argv['output-dir'] ? appc.fs.resolvePath(argv['output-dir']) : null;
