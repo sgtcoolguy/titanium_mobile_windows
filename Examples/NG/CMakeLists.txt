@@ -113,7 +113,11 @@ set(SOURCE_Assets
   src/Assets/Logo.png
   src/Assets/SmallLogo.png
   src/Assets/SplashScreen.png
+  src/Assets/SplashScreen480x800.png
   src/Assets/StoreLogo.png
+  src/Assets/Square150x150Logo.png
+  src/Assets/Square71x71Logo.png
+  src/Assets/Square44x44Logo.png
   src/Assets/cricket.wav
   )
 
