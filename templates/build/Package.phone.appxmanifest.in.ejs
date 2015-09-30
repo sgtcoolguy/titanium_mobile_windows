@@ -39,21 +39,21 @@
     <Application Id="App"
 		 Executable="$targetnametoken$.exe"
 		 EntryPoint="@SHORT_NAME@.App">
-      <m2:VisualElements
+      <m3:VisualElements
           DisplayName="@SHORT_NAME@"
           Description="@SHORT_NAME@"
           BackgroundColor="#171717"
           ForegroundText="light"
-          Square150x150Logo="Logo.png"
-          Square30x30Logo="SmallLogo.png"
+          Square150x150Logo="Square150x150Logo.png" 
+          Square44x44Logo="Square44x44Logo.png" 
           ToastCapable="true">
-        <m2:DefaultTile ShortName="@SHORT_NAME@">
-          <m2:ShowNameOnTiles>
-            <m2:ShowOn Tile="square150x150Logo" />
-          </m2:ShowNameOnTiles>
-        </m2:DefaultTile>
-        <m2:SplashScreen BackgroundColor="#b41100" Image="SplashScreen.png" />
-      </m2:VisualElements>
+        <m3:DefaultTile ShortName="@SHORT_NAME@" Square71x71Logo="Square71x71Logo.png">
+          <m3:ShowNameOnTiles>
+            <m3:ShowOn Tile="square150x150Logo" />
+          </m3:ShowNameOnTiles>
+        </m3:DefaultTile>
+        <m3:SplashScreen BackgroundColor="#b41100" Image="SplashScreen480x800.png" />
+      </m3:VisualElements>
     </Application>
   </Applications>
   
