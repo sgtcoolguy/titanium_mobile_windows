@@ -259,6 +259,42 @@ function copyResources(next) {
 		);
 	}
 
+	function createAppIconSet(next) {
+		var appIconSetDir = path.join(this.buildDir, 'Assets'),
+			missingIcons = [
+
+			// Square44x44Logo
+			{
+				description: 'Square44x44Logo.png - Used for logo',
+				file: path.join(appIconSetDir, 'Square44x44Logo.png'),
+				width: 44,
+				height: 44,
+				required: true
+			},
+
+			// Square71x71Logo
+			{
+				description: 'Square71x71Logo.png - Used for logo',
+				file: path.join(appIconSetDir, 'Square71x71Logo.png'),
+				width: 71,
+				height: 71,
+				required: true
+			},
+
+			// Square150x150Logo
+			{
+				description: 'Square150x150Logo.png - Used for logo',
+				file: path.join(appIconSetDir, 'Square150x150Logo.png'),
+				width: 150,
+				height: 150,
+				required: true
+			}
+
+			// TODO: Generate SplashScreen.scale-100.png?
+		];
+		this.generateAppIcons(missingIcons, next);
+	}
+
 	var tasks = [
 		// First, copy template files for CMake/MSBuild FIXME Move these into subdir so we copy only ones we need!
 		function (cb) {
@@ -313,7 +349,9 @@ function copyResources(next) {
 				src,
 				path.join(this.buildDir, 'lib', 'HAL.dll'),
 				cb);
-		}
+		},
+
+		createAppIconSet
 	];
 
 	// copy all commonjs modules
