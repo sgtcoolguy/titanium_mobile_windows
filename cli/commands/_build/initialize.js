@@ -49,6 +49,14 @@ function initialize(next) {
 	this.arch = this.cmakeArch == 'Win32' ? 'x86' : this.cmakeArch;
 	this.cmakeTarget = this.cmakePlatformAbbrev + '.' + this.arch;
 
+	// Detect CMake generator name: e.g. 12.0 -> Visual Studio 12 2013
+	// because there's no specific way to auto-detect "year" component
+	var supportedCMakeGenerators = {
+		'12.0': 'Visual Studio 12 2013',
+		'14.0': 'Visual Studio 14 2015',
+	};
+	this.cmakeGeneratorName = supportedCMakeGenerators[argv['vs-target']];
+
 	// directories
 	this.outputDir = argv['output-dir'] ? appc.fs.resolvePath(argv['output-dir']) : null;
 	this.wsCert = argv['ws-cert'] ? argv['ws-cert'] : null;

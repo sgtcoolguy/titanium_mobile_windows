@@ -59,6 +59,10 @@ function loginfo(next) {
 		this.logger.info(__('Performing build only'));
 	}
 
+	this.logger.debug(__('CMake generator name: %s', this.cmakeGeneratorName.cyan));
+	this.logger.debug(__('CMAKE_SYSTEM_NAME: %s', this.cmakePlatform.cyan));
+	this.logger.debug(__('CMAKE_SYSTEM_VERSION: %s', this.wpsdk.cyan));
+
 	this.logger.debug(__('Titanium SDK Windows directory: %s', this.platformPath.cyan));
 	this.logger.info(__('Deploy type: %s', this.deployType.cyan));
 

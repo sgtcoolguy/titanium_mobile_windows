@@ -8,3 +8,4 @@ exports.configOptionWPPublisherGUID = require('./wpPublisherGUID');
 exports.configOptionWPProductID = require('./wpProductId');
 exports.configOptionWPSDK = require('./wpSDK');
 exports.configOptionWSCert = require('./wsCert');
+exports.configOptionVisualStudioTarget = require('./vstarget');

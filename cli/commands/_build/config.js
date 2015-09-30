@@ -103,6 +103,7 @@ function config(logger, config, cli) {
 							hidden: true
 						},
 						'target': this.configOptionTarget(110),
+						'vs-target': this.configOptionVisualStudioTarget(120),
 						'win-publisher-id': this.configOptionWindowsPublisherID(210),
 						'wp-publisher-guid': this.configOptionWPPublisherGUID(220),
 						'wp-product-guid': this.configOptionWPProductID(230),
