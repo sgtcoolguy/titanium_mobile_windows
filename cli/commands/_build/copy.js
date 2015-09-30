@@ -408,6 +408,11 @@ function copyResources(next) {
 	}.bind(this));
 
 	appc.async.series(this, tasks, function (err, results) {
+
+		if (err) {
+			return next(err);
+		}
+
 		var templateDir = path.join(this.platformPath, 'templates', 'app', 'default', 'template', 'Resources', 'windows');
 
 		// if an app icon hasn't been copied, copy the default one
