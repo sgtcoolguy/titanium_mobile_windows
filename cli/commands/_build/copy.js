@@ -292,6 +292,16 @@ function copyResources(next) {
 
 			// TODO: Generate SplashScreen.scale-100.png?
 		];
+
+		// do not generate existing icons
+		for (i in missingIcons) {
+			var icon = missingIcons[i];
+			if (fs.existsSync(icon.file)) {
+				_t.logger.debug(__('%s already exists, skipping...', icon.file));
+				missingIcons.splice(i, 1);
+			}
+		}
+
 		this.generateAppIcons(missingIcons, next);
 	}
 
