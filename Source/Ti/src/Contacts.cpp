@@ -15,6 +15,7 @@
 #include "TitaniumWindows/Utility.hpp"
 #include <ppltasks.h>
 #include <collection.h>
+#include <concrt.h>
 
 namespace TitaniumWindows
 {
@@ -64,14 +65,14 @@ namespace TitaniumWindows
 		std::vector<std::shared_ptr<Titanium::Contacts::Group>> result;
 		// FIXME Should we grab the contact store during requestAuthorization?
 		concurrency::event event;
-		create_task(ContactManager::RequestStoreAsync()).then([](ContactStore^ store) {
-			return store->FindContactListsAsync(id);
+		concurrency::create_task(ContactManager::RequestStoreAsync()).then([](ContactStore^ store) {
+			return store->FindContactListsAsync();
 		}, concurrency::task_continuation_context::use_arbitrary())
-		.then([&result, &event] (task<IVectorView<ContactList^>^> task) {
+		.then([this, &result, &event] (concurrency::task<IVectorView<ContactList^>^> task) {
 			try {
 				const auto lists = task.get();
 				for (const auto list : lists) {
-					result.push_back(listToGroup(list));
+					result.push_back(listToGroup(get_context(), list));
 				}
 			}
 			catch (...) {
@@ -144,7 +145,7 @@ namespace TitaniumWindows
 		// Windows 10+ API!
 		TITANIUM_ASSERT(id.IsString());
 		const auto identifier = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(id));
-		const autp ctx = get_context();
+		const auto ctx = get_context();
 		std::shared_ptr<Titanium::Contacts::Group> result = nullptr;
 		// FIXME Should we grab the contact store during requestAuthorization?
 

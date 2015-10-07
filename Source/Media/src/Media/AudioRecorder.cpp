@@ -8,6 +8,7 @@
 #include "TitaniumWindows/Utility.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include <ppltasks.h>
+#include <concrt.h>
 
 namespace TitaniumWindows
 {

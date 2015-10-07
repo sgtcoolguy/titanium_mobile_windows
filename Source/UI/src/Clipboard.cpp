@@ -11,6 +11,7 @@
 #include "TitaniumWindows/Utility.hpp"
 
 #include <boost/algorithm/string.hpp>
+#include <concrt.h>
 
 #if WINAPI_FAMILY == WINAPI_FAMILY_PC_APP
 using Windows::ApplicationModel::DataTransfer::Clipboard;

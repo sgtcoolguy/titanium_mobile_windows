@@ -11,6 +11,7 @@
 #include "Titanium/detail/TiBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include <memory>
+#include <concrt.h>
 
 namespace TitaniumWindows
 {
@@ -57,14 +58,14 @@ namespace TitaniumWindows
 			std::vector<std::shared_ptr<Titanium::Contacts::Person>> people;
 			auto reader = contact_list__->GetContactReader(); // is this available?
 			concurrency::event event;
-			create_task(reader->ReadBatchAsync()).then([&people, &event] (task<ContactBatch^> task) {
+			concurrency::create_task(reader->ReadBatchAsync()).then([&people, &event] (concurrency::task<Windows::ApplicationModel::Contacts::ContactBatch^> task) {
 				try {
 					const auto batch = task.get();
-					const auto view = batch.Contacts;
-					for (const auto contact : view) {
+					const auto view = batch->Contacts;
+					//for (const auto contact : view) {
 						// TODO Turn the contact into a Person like we do in Contacts.cpp!
 						//people.push_back();
-					}
+					//}
 				}
 				catch (...) {
 					// TODO Log something here?

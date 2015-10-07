@@ -29,7 +29,7 @@ namespace TitaniumWindows
 
 		// should be close to 1 when there's no force
 		if (sqrt(x * x + y * y + z * z) > 1.2) {
-			const auto now = high_resolution_clock::now();
+			const auto now = system_clock::now();
 			const auto duration = duration_cast<milliseconds>(now - shakeStart_);
 			// set shake resolution time
 			if (duration.count() > 500) {

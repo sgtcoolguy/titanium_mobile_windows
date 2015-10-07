@@ -10,6 +10,7 @@
 #include "Titanium/detail/TiImpl.hpp"
 #include <ratio>
 #include <sstream>
+#include <concrt.h>
 #include <boost/algorithm/string.hpp>
 #include "TitaniumWindows/Utility.hpp"
 

@@ -101,10 +101,17 @@ set(SHORT_NAME ${EXE_NAME})
 set(PACKAGE_GUID "f0473be1-c557-4f98-a103-4ba9f453b5b0")
 
 # Generate the app manifest.
+if(${CMAKE_SYSTEM_VERSION} STREQUAL "10.0")
+configure_file(
+  src/Package.win10.appxmanifest.in
+  ${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}
+  @ONLY)
+else()
 configure_file(
   src/Package.${PLATFORM}.appxmanifest.in
   ${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}
   @ONLY)
+endif()
 
 set(SOURCE_Assets
   ${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}

@@ -8,6 +8,7 @@
 #include "TitaniumWindows/Blob.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include <ppltasks.h>
+#include <concrt.h>
 #include <collection.h>
 #include <boost/algorithm/string/replace.hpp>
 

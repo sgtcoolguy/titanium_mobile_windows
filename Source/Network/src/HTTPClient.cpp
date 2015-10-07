@@ -9,6 +9,7 @@
 #include "TitaniumWindows/Utility.hpp"
 
 #include <collection.h>
+#include <ppl.h>
 
 using namespace concurrency;
 

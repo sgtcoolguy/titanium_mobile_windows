@@ -9,6 +9,7 @@
 #include "Titanium/Buffer.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include <ppltasks.h>
+#include <concrt.h>
 
 namespace TitaniumWindows
 {
