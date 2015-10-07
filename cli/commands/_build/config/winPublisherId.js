@@ -20,7 +20,7 @@ module.exports = function configOptionWindowsPublisherID(order) {
 
 	return {
 		abbr: 'I',
-		default: this.config.get('windows.publisherId'),
+		default: this.cli.argv['deploy-type'] !== 'production' ? '00000000-0000-1000-8000-000000000000' : this.config.get('windows.publisherId'),
 		desc: __('your Windows publisher ID, obtained from %s', 'https://dev.windows.com/en-us/Account/Management'.cyan),
 		hint: __('id'),
 		order: order,
@@ -29,8 +29,7 @@ module.exports = function configOptionWindowsPublisherID(order) {
 				promptLabel: __('What is your __Windows Publisher ID__?'),
 				validate: validate
 			}));
-		},
-		required: true,
+		}.bind(this),
 		validate: validate
 	};
 };
