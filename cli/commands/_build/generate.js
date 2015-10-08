@@ -306,6 +306,7 @@ function generateAppxManifest(next) {
 	if (!this.tiapp.windows.manifests) {
 		this.generateAppxManifestForPlatform("store", xprops.store);
 		this.generateAppxManifestForPlatform("phone", xprops.phone);
+		this.generateAppxManifestForPlatform("win10", xprops.store);
 		next();
 		return;
 	}
