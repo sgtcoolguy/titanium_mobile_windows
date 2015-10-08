@@ -18,14 +18,14 @@ namespace TitaniumWindows
 		using namespace Windows::UI::Xaml;
 		using namespace Windows::UI::Xaml::Controls;
 
-		ActivityIndicatorLayoutDelegate::ActivityIndicatorLayoutDelegate(Windows::UI::Xaml::Controls::ProgressRing^ ring)
+		ActivityIndicatorLayoutDelegate::ActivityIndicatorLayoutDelegate(Windows::UI::Xaml::Controls::ProgressRing^ ring) TITANIUM_NOEXCEPT
 			: WindowsViewLayoutDelegate()
 			, ring__(ring)
 		{
 			TITANIUM_LOG_DEBUG("ActivityIndicatorLayoutDelegate::ctor");
 		}
 
-		void ActivityIndicatorLayoutDelegate::postInitialize()
+		void ActivityIndicatorLayoutDelegate::postInitialize() TITANIUM_NOEXCEPT
 		{
 		}
 

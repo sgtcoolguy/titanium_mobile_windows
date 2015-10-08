@@ -35,7 +35,7 @@ program
 	.option('-a, --arch <arch>', '"ARM" (device) or "Win32" (emulator)')
 	.option('-o, --outputPath <outputPath>', 'Output path for generated code')
 	.option('-p, --platform <platform>', '"WindowsPhone" or "WindowsStore"')
-	.option('-t, --target <platform target>', '"8.1" or "10"')
+	.option('-t, --target <platform target>', '"8.1" or "10.0"')
 	.option('-m, --msdev <msbuild version>', '"12" (VS 2013) or "14" (VS 2015)');
 
 program.command('new'.blue+' <example_name>'.white)
