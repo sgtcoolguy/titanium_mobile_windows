@@ -14,6 +14,7 @@
 #include <collection.h>
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
+#include <concrt.h>
 
 #include "TitaniumWindows/Utility.hpp"
 

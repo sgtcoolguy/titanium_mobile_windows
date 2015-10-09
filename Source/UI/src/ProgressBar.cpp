@@ -16,7 +16,7 @@ namespace TitaniumWindows
 	{
 		using namespace Windows::UI::Xaml;
 
-		ProgressBarLayoutDelegate::ProgressBarLayoutDelegate(Windows::UI::Xaml::Controls::ProgressBar^ bar)
+		ProgressBarLayoutDelegate::ProgressBarLayoutDelegate(Windows::UI::Xaml::Controls::ProgressBar^ bar) TITANIUM_NOEXCEPT
 			: WindowsViewLayoutDelegate()
 			, bar__(bar) 
 			, isIndeterminate__(bar->IsIndeterminate)

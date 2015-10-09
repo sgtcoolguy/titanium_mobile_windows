@@ -95,7 +95,7 @@ namespace TitaniumWindows
 			JSExport<ScrollView>::SetParent(JSExport<Titanium::UI::ScrollView>::Class());
 		}
 
-		void ScrollView::scrollTo(const double& x, const double& y)
+		void ScrollView::scrollTo(const double& x, const double& y) TITANIUM_NOEXCEPT
 		{
 			scroll_viewer__->ChangeView(
 				ref new Platform::Box<double>(x),
@@ -104,7 +104,7 @@ namespace TitaniumWindows
 				true);
 		}
 
-		void ScrollView::scrollToBottom()
+		void ScrollView::scrollToBottom() TITANIUM_NOEXCEPT
 		{
 			scroll_viewer__->ChangeView(
 				ref new Platform::Box<double>(0),
@@ -113,23 +113,23 @@ namespace TitaniumWindows
 				true);
 		}
 
-		std::string ScrollView::get_contentWidth() const
+		std::string ScrollView::get_contentWidth() const TITANIUM_NOEXCEPT
 		{
 			return static_cast<std::string>(contentView__.GetProperty("width"));
 		}
 
-		std::string ScrollView::get_contentHeight() const
+		std::string ScrollView::get_contentHeight() const TITANIUM_NOEXCEPT
 		{
 			return static_cast<std::string>(contentView__.GetProperty("height"));
 		}
 
-		void ScrollView::set_contentWidth(const std::string& width)
+		void ScrollView::set_contentWidth(const std::string& width) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ScrollView::set_contentWidth(width);
 			contentView__.SetProperty("width", get_context().CreateString(width));
 		}
 
-		void ScrollView::set_contentHeight(const std::string& height)
+		void ScrollView::set_contentHeight(const std::string& height) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ScrollView::set_contentHeight(height);
 			contentView__.SetProperty("height", get_context().CreateString(height));

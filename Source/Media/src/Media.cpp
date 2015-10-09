@@ -15,6 +15,7 @@
 #include "TitaniumWindows/AppModule.hpp"
 #include <ppltasks.h>
 #include <collection.h>
+#include <concrt.h>
 
 #define GET_TITANIUM_APP(VARNAME) \
   const auto ctx = get_context(); \

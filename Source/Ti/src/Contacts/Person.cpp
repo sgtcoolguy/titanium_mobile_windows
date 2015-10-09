@@ -11,6 +11,7 @@
 #include "TitaniumWindows/Contacts/Person.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include <ppltasks.h>
+#include <concrt.h>
 
 namespace TitaniumWindows
 {
@@ -340,12 +341,7 @@ namespace TitaniumWindows
 		void Person::set_fullName(const std::string& fullName) TITANIUM_NOEXCEPT
 		{
 			Titanium::Contacts::Person::set_fullName(fullName);
-#if (WINVER >= 0x0A00) 
-			// Windows 10+
-			contact__->FullName = TitaniumWindows::Utility::ConvertUTF8String(fullName);
-#else
-			TITANIUM_LOG_WARN("Person::set_fullName: Read-only on Windows 8.1");
-#endif
+			TITANIUM_LOG_WARN("Person::set_fullName: Read-only on Windows 8.1 and Windows 10");
 		}
 
 		JSValue Person::get_id() const TITANIUM_NOEXCEPT
@@ -577,7 +573,7 @@ namespace TitaniumWindows
 #if (WINVER >= 0x0A00) 
 					// Windows 10+ enum values
 					case ContactPhoneKind::Pager:
-						phones.page.push_back(number);
+						phones.pager.push_back(number);
 						break;
 					case ContactPhoneKind::BusinessFax:
 						phones.workFax.push_back(number);
@@ -944,6 +940,14 @@ namespace TitaniumWindows
 			return website;
 		}
 
+#if (WINVER >= 0x0A00) 
+		Windows::ApplicationModel::Contacts::Contact^ Person::GetContact()
+		{
+			TITANIUM_LOG_WARN("Person::GetContact: Unimplemented");
+			return nullptr;
+		}
+#endif
+
 		void Person::remove()
 		{
 #if (WINVER >= 0x0A00) 
@@ -954,7 +958,7 @@ namespace TitaniumWindows
 			concurrency::create_task(ContactManager::RequestStoreAsync()).then([&list_id](ContactStore^ store) {
 				return store->GetContactListAsync(list_id);
 			}, concurrency::task_continuation_context::use_arbitrary())
-			.then([&result, &event] (concurrency::task<ContactList^> task) {
+			.then([this, &result] (concurrency::task<ContactList^> task) {
 				try {
 					removeFromList(task.get());
 				}

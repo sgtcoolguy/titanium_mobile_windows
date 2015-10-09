@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows_Ti_EXPORT.h"
 #include "Titanium/Contacts/Group.hpp"
+#include <sdkddkver.h>
 
 namespace TitaniumWindows
 {

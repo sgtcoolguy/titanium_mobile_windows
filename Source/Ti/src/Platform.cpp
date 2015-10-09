@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <collection.h>
 #include <regex>
+#include <concrt.h>
 
 namespace TitaniumWindows
 {
@@ -311,6 +312,10 @@ namespace TitaniumWindows
 	std::string Platform::username() const TITANIUM_NOEXCEPT
 	{
 		using namespace Windows::System::UserProfile;
+#if (WINVER >= 0x0A00)
+		TITANIUM_LOG_ERROR("Platform::username are not supported on Windows 10");
+		return "";
+#else
 		if (UserInformation::NameAccessAllowed) {
 			::Platform::String^ name;
 			concurrency::event event;
@@ -332,6 +337,7 @@ namespace TitaniumWindows
 			TITANIUM_LOG_ERROR("Access to account name disabled by Privacy Setting or Group Policy");
 			return "";
 		}
+#endif
 	}
 	std::string Platform::version() const TITANIUM_NOEXCEPT
 	{

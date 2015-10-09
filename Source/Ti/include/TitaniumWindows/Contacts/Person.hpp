@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows_Ti_EXPORT.h"
 #include "Titanium/Contacts/Person.hpp"
+#include <sdkddkver.h>
 
 namespace TitaniumWindows
 {
@@ -42,7 +43,6 @@ namespace TitaniumWindows
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			void construct(Windows::ApplicationModel::Contacts::Contact^ contact);
-			Windows::ApplicationModel::Contacts::Contact^ GetContact();
 
 			virtual Titanium::Contacts::Addresses get_address() const TITANIUM_NOEXCEPT override final;
 			virtual void set_address(const Titanium::Contacts::Addresses&) TITANIUM_NOEXCEPT override final;
@@ -97,6 +97,7 @@ namespace TitaniumWindows
 			void remove();
 #if (WINVER >= 0x0A00)
 // Windows 10+ API
+			Windows::ApplicationModel::Contacts::Contact^ GetContact();
 			void removeFromList(Windows::ApplicationModel::Contacts::ContactList^ list);
 #endif
 		private:

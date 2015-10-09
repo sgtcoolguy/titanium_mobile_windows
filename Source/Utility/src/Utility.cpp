@@ -12,6 +12,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include "Titanium/detail/TiImpl.hpp"
 #include <ctime>
+#include <concrt.h>
 
 namespace TitaniumWindows
 {

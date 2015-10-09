@@ -10,6 +10,7 @@
 #include "Titanium/detail/TiImpl.hpp"
 #include <ratio>
 #include <sstream>
+#include <concrt.h>
 #include <boost/algorithm/string.hpp>
 #include "TitaniumWindows/Utility.hpp"
 
@@ -52,7 +53,7 @@ namespace TitaniumWindows
 		return native_module_names__.find(moduleId) != native_module_names__.end();
 	}
 
-	JSValue GlobalObject::requireNativeModule(const JSContext& js_context, const std::string& moduleId)
+	JSValue GlobalObject::requireNativeModule(const JSContext& js_context, const std::string& moduleId) TITANIUM_NOEXCEPT
 	{
 		// if we already cached the module, just return the instance
 		if (native_module_cache__.find(moduleId) != native_module_cache__.end()) {

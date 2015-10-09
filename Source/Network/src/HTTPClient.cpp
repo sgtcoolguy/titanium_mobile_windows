@@ -9,6 +9,7 @@
 #include "TitaniumWindows/Utility.hpp"
 
 #include <collection.h>
+#include <ppl.h>
 
 using namespace concurrency;
 
@@ -270,7 +271,7 @@ namespace TitaniumWindows
 		}
 
 		// Native
-		void HTTPClient::setRequestHeaders(Windows::Web::Http::HttpRequestMessage^ request) TITANIUM_NOEXCEPT
+		void HTTPClient::setRequestHeaders(Windows::Web::Http::HttpRequestMessage^ request)
 		{
 			// Set the default headers:
 			// X-Titanium-Id
