@@ -30,7 +30,7 @@ var async = require('async'),
 	  err: '✖',
 	  dot: '․'
 	},
-	JSC_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1433795599.zip",
+	JSC_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1439837221.zip",
 	GTEST_URL = (os.platform() === 'win32') ? "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-windows.zip" : "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-osx.zip",
 	BOOST_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/boost_1_57_0.zip";
 
