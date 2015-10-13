@@ -192,9 +192,16 @@ function generateCmakeList(next) {
 		return 'Assets/' + filename;  // cmake likes unix separators
 	});
 
+	var isBuildForWindowsStore = (this.cmakePlatform == 'WindowsStore');
+
 	// Generate source groups!
 	// go through the asset list, and basically generate a group for each folder
 	assetList.forEach(function (filepath) {
+		// Skip scale-xx.png assets because WindowsStore doesn't need it
+		// TODO: we don't even need to copy these resources for WindowsStore
+		if (isBuildForWindowsStore && /.scale-\d+.png$/.test(filepath)) {
+			return;
+		}
 		// lop off Assets/
 		var truncatedPath = filepath.substring(7);
 		// drop the file basename?
