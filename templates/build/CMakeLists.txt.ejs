@@ -75,7 +75,7 @@ set(PHONE_PUBLISHER_ID "<%= phonePublisherId %>")
 # Generate the app manifest.
 if(${CMAKE_SYSTEM_VERSION} STREQUAL "10.0")
 configure_file(
-  src/Package.win10.appxmanifest.in
+  Package.win10.appxmanifest.in
   ${CMAKE_CURRENT_BINARY_DIR}/${APP_MANIFEST_NAME}
   @ONLY)
 else()
