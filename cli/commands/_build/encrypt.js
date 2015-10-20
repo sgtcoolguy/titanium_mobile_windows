@@ -37,10 +37,10 @@ function processEncryption(next) {
 	// encrypt the javascript
 	var args = [this.tiapp.guid, this.tiapp.id, this.buildTargetAssetsDir].concat(this.jsFilesToEncrypt),
 		opts = {
-			env: appc.util.mix({}, process.env, {
+			env: appc.util.mix({}, process.env, this.jdkInfo ? {
 				// we force the JAVA_HOME so that titanium_prep doesn't complain
 				'JAVA_HOME': this.jdkInfo.home
-			})
+			} : {})
 		},
 		fatal = function fatal(err) {
 			this.logger.error(__('Failed to encrypt JavaScript files'));
