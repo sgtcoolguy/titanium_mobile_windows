@@ -173,7 +173,7 @@ WindowsModuleBuilder.prototype.compileModule = function compileModule(next) {
 		}
 
 		var p = spawn(_t.windowsInfo.selectedVisualStudio.vcvarsall, [
-			'&&', 'MSBuild', '/m', '/p:Platform=' + arch, '/p:Configuration=' + config, sln
+			'&&', 'MSBuild', '/p:Platform=' + arch, '/p:Configuration=' + config, sln
 		]);
 		p.stdout.on('data', function (data) {
 			var line = data.toString().trim();
