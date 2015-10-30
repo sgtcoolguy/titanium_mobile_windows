@@ -151,11 +151,12 @@ namespace Titanium
 				return nullptr;
 			}
 
-			if (index <= (size_t) sqlite3_column_count(statement__) && strlen(reinterpret_cast<const char*>(sqlite3_column_text(statement__, index))) > 0) {
-				std::string text(reinterpret_cast<const char*>(sqlite3_column_name(statement__, index)));
+			auto _text = reinterpret_cast<const char*>(sqlite3_column_text(statement__, index));
+			if (_text != nullptr && index <= static_cast<size_t>(sqlite3_column_count(statement__)) && strlen(_text) > 0) {
+				std::string text(_text);
 				return text;
 			}
-			return nullptr;
+			return std::string();
 		}
 
 		std::string ResultSet::getFieldName(const uint32_t& index) TITANIUM_NOEXCEPT
@@ -248,7 +249,7 @@ namespace Titanium
 			ENSURE_UINT_AT_INDEX(index, 0);
 
 			const std::string result = fieldName(index);
-			if (result == nullptr) {
+			if (result.empty()) {
 				return get_context().CreateNull();
 			}
 			return get_context().CreateString(result);
