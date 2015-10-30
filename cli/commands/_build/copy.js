@@ -446,7 +446,7 @@ function copyResources(next) {
 					var toplevel = UglifyJS.parse(fromContent);
 				} catch (E) {
 					t_.logger.error(reportJSErrors(from, fromContent, E));
-					return;
+					return next('Failed to parse JavaScript files.');
 				}
 
 				var walker = new UglifyJS.TreeWalker(function (node) {
