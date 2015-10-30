@@ -37,7 +37,6 @@ namespace TitaniumWindows
 			defaultMaxHeight__ = label->MaxHeight;
 			const auto current = Windows::UI::Xaml::Window::Current;
 			if (current) {
-				auto b = current->Bounds;
 				label->MaxWidth  = current->Bounds.Width;
 				label->MaxHeight = current->Bounds.Height;
 			}
