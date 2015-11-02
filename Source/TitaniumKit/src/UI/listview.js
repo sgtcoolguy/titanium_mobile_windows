@@ -24,7 +24,7 @@ var LISTVIEW_LIST_ITEM_TEMPLATE_DEFAULT = {
 			type: 'Ti.UI.Label', 
 			bindId: 'text',
 			properties: {
-				color: 'black',
+				color: 'white',
 				left: 0, top: 0,
 			}
 		}
@@ -107,31 +107,35 @@ function createSectionView(listview, section) {
 
 function createSectionItemView(item, template, parent) {
 	var options = template.properties;
-	if (!options) {
+	if (options === void 0) {
 		options = {top:0, left:0, width:Ti.UI.SIZE, height:Ti.UI.SIZE};
 	}
 
-	if (!template.createView) {
+	if (template.createView === void 0) {
 		processTemplates(template);
 	}
 
 	var view = template.createView(options);
-	if (template.bindId && item[template.bindId]) {
+	if (template.bindId !== void 0 && item[template.bindId] !== void 0) {
 		view.applyProperties(item[template.bindId]);
-	} else if (item.properties) {
+	} else if (item.properties !== void 0) {
+		if (options.height === void 0 && item.properties.height === void 0) {
+			item.properties.height = Ti.UI.SIZE;
+		}
 		// builtin template has different format
-		if (template.type == 'Ti.UI.Label' && item.properties.title) {
-			view.applyProperties({text:item.properties.title});
-		} else if (template.type == 'Ti.UI.ImageView' && item.properties.image) {
-			view.applyProperties({image:item.properties.image});
+		if (template.type == 'Ti.UI.Label') {
+			item.properties.text = item.properties.title;
+			view.applyProperties(item.properties);
+		} else {
+			view.applyProperties(item.properties);
 		}
 	}
-	if (template.childTemplates && Array.isArray(template.childTemplates)) {
+	if (template.childTemplates !== void 0 && Array.isArray(template.childTemplates)) {
 		for (var i = 0; i < template.childTemplates.length; i++) {
 			createSectionItemView(item, template.childTemplates[i], view);
 		}
 	}
-	if (parent) {
+	if (parent !== void 0) {
 		parent.add(view);
 	}
 	return view;
@@ -141,7 +145,9 @@ function createSectionItemView(item, template, parent) {
 function createSectionItemAt(listview, section, index) {
 	var item = section.items[index];
 	var template = listview.templates[listview.defaultItemTemplate];
-
+	if (item.template !== void 0 && listview.templates[item.template] !== void 0 ) {
+		template = listview.templates[item.template];
+	}
 	return createSectionItemView(item, template);
 }
 
