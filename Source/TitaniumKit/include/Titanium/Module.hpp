@@ -17,6 +17,12 @@ namespace Titanium
 {
 	using namespace HAL;
 
+	namespace UI
+	{
+		class Window;
+		class TabGroup;
+	}
+
 	/*!
 	  @class
 
@@ -27,6 +33,21 @@ namespace Titanium
 	class TITANIUMKIT_EXPORT Module : public JSExportObject, public JSExport<Module>
 	{
 	public:
+
+		/*!
+		  @property
+		  @abstract bubbleParent
+		  @discussion Indicates if the proxy will bubble an event to its parent.
+		*/
+		TITANIUM_PROPERTY_IMPL_DEF(bool, bubbleParent);
+
+		/*!
+		  @property
+		  @abstract apiName
+		  @discussion The name of the API that this proxy corresponds to.
+		*/
+		TITANIUM_PROPERTY_IMPL_DEF(std::string, apiName);
+
 		/*!
 		  @method
 
@@ -129,6 +150,16 @@ namespace Titanium
 		// the YAML API docs.
 		static void JSExportInitialize();
 
+		TITANIUM_PROPERTY_DEF(bubbleParent);
+		TITANIUM_PROPERTY_READONLY_DEF(apiName);
+		TITANIUM_PROPERTY_DEF(lifecycleContainer);
+
+		TITANIUM_FUNCTION_DEF(getBubbleParent);
+		TITANIUM_FUNCTION_DEF(setBubbleParent);
+		TITANIUM_FUNCTION_DEF(getApiName);
+		TITANIUM_FUNCTION_DEF(getLifecycleContainer);
+		TITANIUM_FUNCTION_DEF(setLifecycleContainer);
+
 		TITANIUM_FUNCTION_DEF(addEventListener);
 		TITANIUM_FUNCTION_DEF(removeEventListener);
 		TITANIUM_FUNCTION_DEF(applyProperties);
@@ -187,13 +218,19 @@ namespace Titanium
 		{
 			return get_shared_ptr_for_module<T>();
 		}
-	private:
-		static unsigned eventListenerIndex(const std::vector<JSObject>& event_listener_list, const std::string& name, JSObject& callback) TITANIUM_NOEXCEPT;
+
 #pragma warning(push)
 #pragma warning(disable : 4251)
+		bool bubbleParent__ { true };
+		std::string apiName__;
+		std::shared_ptr<Titanium::UI::Window> lifecycleContainerWindow__;
+		std::shared_ptr<Titanium::UI::TabGroup> lifecycleContainerTabGroup__;
+
 		std::unordered_map<std::string, std::vector<JSObject>> event_listener_map__;
 		bool enableEvents__ { true };
 #pragma warning(pop)
+	private:
+		static unsigned eventListenerIndex(const std::vector<JSObject>& event_listener_list, const std::string& name, JSObject& callback) TITANIUM_NOEXCEPT;
 	};
 }  // namespace Titanium
 

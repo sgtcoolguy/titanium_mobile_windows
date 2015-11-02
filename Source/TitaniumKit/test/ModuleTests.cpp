@@ -57,6 +57,9 @@ TEST_F(ModuleTests, properties)
 	XCTAssertTrue(Module.HasProperty("addEventListener"));
 	XCTAssertTrue(Module.HasProperty("applyProperties"));
 	XCTAssertTrue(Module.HasProperty("fireEvent"));
+	XCTAssertTrue(Module.HasProperty("apiName"));
+	XCTAssertTrue(Module.HasProperty("bubbleParent"));
+	XCTAssertTrue(Module.HasProperty("lifecycleContainer"));
 
 	auto nativeModuleExample = js_context.CreateObject(JSExport<NativeModuleExample>::Class());
 	global_object.SetProperty("NativeModuleExample", nativeModuleExample, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -104,9 +107,13 @@ TEST_F(ModuleTests, properties)
 	XCTAssertTrue(result.IsBoolean());
 	XCTAssertFalse(static_cast<bool>(result));
 
-	auto json_result = js_context.JSEvaluateScript("JSON.stringify(Ti.Module);");
-	XCTAssertEqual("{}", static_cast<std::string>(json_result));
+	result = js_context.JSEvaluateScript("module.apiName;");
+	XCTAssertEqual("NativeModuleExample", static_cast<std::string>(result));
 
-	json_result = js_context.JSEvaluateScript("JSON.stringify(module);");
-	XCTAssertEqual("{\"enabled\":false}", static_cast<std::string>(json_result));
+	result = js_context.JSEvaluateScript("module.bubbleParent;");
+	XCTAssertTrue(result.IsBoolean());
+	XCTAssertTrue(static_cast<bool>(result));
+
+	result = js_context.JSEvaluateScript("module.lifecycleContainer;");
+	XCTAssertTrue(result.IsNull());
 }

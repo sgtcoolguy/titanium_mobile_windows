@@ -9,11 +9,14 @@
 #include "Titanium/Module.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include <cstdint>
+#include "Titanium/UI/Window.hpp"
+#include "Titanium/UI/TabGroup.hpp"
 
 namespace Titanium
 {
 	Module::Module(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : JSExportObject(js_context)
+	    , apiName__("Titanium.Proxy")
 	{
 	}
 
@@ -30,6 +33,9 @@ namespace Titanium
 	Module::~Module() TITANIUM_NOEXCEPT
 	{
 	}
+
+	TITANIUM_PROPERTY_READWRITE(Module, bool, bubbleParent)
+	TITANIUM_PROPERTY_READWRITE(Module, std::string, apiName)
 
 	void Module::addEventListener(const std::string& name, JSObject& callback, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
@@ -235,10 +241,46 @@ namespace Titanium
 	{
 		JSExport<Module>::SetClassVersion(1);
 		JSExport<Module>::SetParent(JSExport<JSExportObject>::Class());
+		TITANIUM_ADD_PROPERTY(Module, bubbleParent);
+		TITANIUM_ADD_PROPERTY_READONLY(Module, apiName);
+		TITANIUM_ADD_PROPERTY(Module, lifecycleContainer);
+
 		TITANIUM_ADD_FUNCTION(Module, addEventListener);
 		TITANIUM_ADD_FUNCTION(Module, removeEventListener);
 		TITANIUM_ADD_FUNCTION(Module, applyProperties);
 		TITANIUM_ADD_FUNCTION(Module, fireEvent);
+		TITANIUM_ADD_FUNCTION(Module, getBubbleParent);
+		TITANIUM_ADD_FUNCTION(Module, setBubbleParent);
+		TITANIUM_ADD_FUNCTION(Module, getApiName);
+		TITANIUM_ADD_FUNCTION(Module, getLifecycleContainer);
+	}
+
+	TITANIUM_PROPERTY_GETTER_BOOL(Module, bubbleParent)
+	TITANIUM_PROPERTY_SETTER_BOOL(Module, bubbleParent)
+	TITANIUM_PROPERTY_GETTER_STRING(Module, apiName)
+
+	TITANIUM_PROPERTY_GETTER(Module, lifecycleContainer)
+	{
+		if (lifecycleContainerWindow__) {
+			return lifecycleContainerWindow__->get_object();
+		} else if (lifecycleContainerTabGroup__) {
+			return lifecycleContainerTabGroup__->get_object();
+		} else {
+			return get_context().CreateNull();
+		}
+	}
+
+	TITANIUM_PROPERTY_SETTER(Module, lifecycleContainer)
+	{
+		if (argument.IsObject()) {
+			const auto object = static_cast<JSObject>(argument);
+			lifecycleContainerWindow__   = object.GetPrivate<Titanium::UI::Window>();
+			lifecycleContainerTabGroup__ = object.GetPrivate<Titanium::UI::TabGroup>();
+		} else {
+			lifecycleContainerWindow__   = nullptr;
+			lifecycleContainerTabGroup__ = nullptr;
+		}
+		return true;
 	}
 
 	TITANIUM_FUNCTION(Module, addEventListener)
@@ -277,5 +319,11 @@ namespace Titanium
 		fireEvent(name, param);
 		return get_context().CreateUndefined();
 	}
+
+	TITANIUM_FUNCTION_AS_GETTER(Module, getBubbleParent, bubbleParent)
+	TITANIUM_FUNCTION_AS_SETTER(Module, setBubbleParent, bubbleParent)
+	TITANIUM_FUNCTION_AS_GETTER(Module, getApiName, apiName)
+	TITANIUM_FUNCTION_AS_GETTER(Module, getLifecycleContainer, lifecycleContainer)
+	TITANIUM_FUNCTION_AS_SETTER(Module, setLifecycleContainer, lifecycleContainer)
 
 }  // namespace Titanium {

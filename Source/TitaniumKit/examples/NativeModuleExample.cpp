@@ -14,6 +14,7 @@ NativeModuleExample::NativeModuleExample(const JSContext& js_context) TITANIUM_N
       event_name__("foo"),
       enabled__(js_context.CreateBoolean(false))
 {
+    set_apiName("NativeModuleExample");
 }
 
 JSValue NativeModuleExample::get_enabled() const
