@@ -224,6 +224,8 @@ set(SOURCE_UI
   src/UI/Clipboard.cpp
   include/Titanium/UI/2DMatrix.hpp
   src/UI/2DMatrix.cpp
+  include/Titanium/UI/3DMatrix.hpp
+  src/UI/3DMatrix.cpp
   include/Titanium/UI/ActivityIndicator.hpp
   src/UI/ActivityIndicator.cpp
   include/Titanium/UI/ActivityIndicatorStyle.hpp

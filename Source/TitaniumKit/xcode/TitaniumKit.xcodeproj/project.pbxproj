@@ -83,6 +83,8 @@
 		F90831121A2EA3B500CB810B /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F90831111A2EA3B500CB810B /* Blob.cpp */; };
 		F90831151A2EA3FA00CB810B /* NativeBlobExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F90831131A2EA3FA00CB810B /* NativeBlobExample.cpp */; };
 		F90831161A2EA3FA00CB810B /* NativeBlobExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F90831141A2EA3FA00CB810B /* NativeBlobExample.hpp */; };
+		F90E35ED1BE8A03A008FAD33 /* 3DMatrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F90E35EC1BE8A03A008FAD33 /* 3DMatrix.hpp */; };
+		F90E35EF1BE8A046008FAD33 /* 3DMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F90E35EE1BE8A046008FAD33 /* 3DMatrix.cpp */; };
 		F91035DB1B958AAB004FCCDF /* Codec.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F91035DA1B958AAB004FCCDF /* Codec.hpp */; };
 		F91035DD1B958AB5004FCCDF /* Codec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F91035DC1B958AB5004FCCDF /* Codec.cpp */; };
 		F913EFBC1A835FE4009080D1 /* AlertDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F913EFBA1A835FE4009080D1 /* AlertDialog.cpp */; };
@@ -155,10 +157,10 @@
 		F96BCAC01A25CE6100745C3B /* PlatformModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96BCABF1A25CE6100745C3B /* PlatformModule.cpp */; };
 		F96BCAC31A25CEB000745C3B /* NativePlatformExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96BCAC11A25CEB000745C3B /* NativePlatformExample.cpp */; };
 		F96BCAC41A25CEB000745C3B /* NativePlatformExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96BCAC21A25CEB000745C3B /* NativePlatformExample.hpp */; };
-		F96FD77E1BABD698009A94EA /* PickerColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96FD77C1BABD698009A94EA /* PickerColumn.cpp */; settings = {ASSET_TAGS = (); }; };
-		F96FD77F1BABD698009A94EA /* PickerRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96FD77D1BABD698009A94EA /* PickerRow.cpp */; settings = {ASSET_TAGS = (); }; };
-		F96FD7821BABD6AA009A94EA /* PickerColumn.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96FD7801BABD6AA009A94EA /* PickerColumn.hpp */; settings = {ASSET_TAGS = (); }; };
-		F96FD7831BABD6AA009A94EA /* PickerRow.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96FD7811BABD6AA009A94EA /* PickerRow.hpp */; settings = {ASSET_TAGS = (); }; };
+		F96FD77E1BABD698009A94EA /* PickerColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96FD77C1BABD698009A94EA /* PickerColumn.cpp */; };
+		F96FD77F1BABD698009A94EA /* PickerRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F96FD77D1BABD698009A94EA /* PickerRow.cpp */; };
+		F96FD7821BABD6AA009A94EA /* PickerColumn.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96FD7801BABD6AA009A94EA /* PickerColumn.hpp */; };
+		F96FD7831BABD6AA009A94EA /* PickerRow.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F96FD7811BABD6AA009A94EA /* PickerRow.hpp */; };
 		F97467EC1B043D9000E96892 /* CameraOptionsType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467E61B043D9000E96892 /* CameraOptionsType.cpp */; };
 		F97467ED1B043D9000E96892 /* MediaQueryType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467E71B043D9000E96892 /* MediaQueryType.cpp */; };
 		F97467EE1B043D9000E96892 /* MusicLibraryOptionsType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97467E81B043D9000E96892 /* MusicLibraryOptionsType.cpp */; };
@@ -356,6 +358,8 @@
 		F90831111A2EA3B500CB810B /* Blob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Blob.cpp; path = src/Blob.cpp; sourceTree = "<group>"; };
 		F90831131A2EA3FA00CB810B /* NativeBlobExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeBlobExample.cpp; sourceTree = "<group>"; };
 		F90831141A2EA3FA00CB810B /* NativeBlobExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeBlobExample.hpp; sourceTree = "<group>"; };
+		F90E35EC1BE8A03A008FAD33 /* 3DMatrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = 3DMatrix.hpp; path = include/Titanium/UI/3DMatrix.hpp; sourceTree = "<group>"; };
+		F90E35EE1BE8A046008FAD33 /* 3DMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = 3DMatrix.cpp; path = src/UI/3DMatrix.cpp; sourceTree = "<group>"; };
 		F91035DA1B958AAB004FCCDF /* Codec.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Codec.hpp; path = include/Titanium/Codec.hpp; sourceTree = "<group>"; };
 		F91035DC1B958AB5004FCCDF /* Codec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Codec.cpp; path = src/Codec.cpp; sourceTree = "<group>"; };
 		F913EFBA1A835FE4009080D1 /* AlertDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AlertDialog.cpp; path = src/UI/AlertDialog.cpp; sourceTree = "<group>"; };
@@ -559,13 +563,16 @@
 		C90B8F8B1A16D32C005F3210 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F90E35EE1BE8A046008FAD33 /* 3DMatrix.cpp */,
+				F90E35EC1BE8A03A008FAD33 /* 3DMatrix.hpp */,
+				F9ACB7CC1AF9CE01008C2F3C /* 2DMatrix.hpp */,
+				F9ACB7BA1AF9CDCD008C2F3C /* 2DMatrix.cpp */,
 				C90950A01A296802002133E1 /* Picker.hpp */,
 				C90950A11A296802002133E1 /* Picker.cpp */,
 				F96FD7801BABD6AA009A94EA /* PickerColumn.hpp */,
 				F96FD77C1BABD698009A94EA /* PickerColumn.cpp */,
 				F96FD7811BABD6AA009A94EA /* PickerRow.hpp */,
 				F96FD77D1BABD698009A94EA /* PickerRow.cpp */,
-				F9ACB7CC1AF9CE01008C2F3C /* 2DMatrix.hpp */,
 				F9ACB7CD1AF9CE01008C2F3C /* CloseWindowParams.hpp */,
 				F9ACB7CE1AF9CE01008C2F3C /* EmailDialog.hpp */,
 				F9ACB7CF1AF9CE01008C2F3C /* MatrixCreationDict.hpp */,
@@ -580,7 +587,6 @@
 				F9ACB7D81AF9CE01008C2F3C /* TableViewAnimationProperties.hpp */,
 				F9ACB7D91AF9CE01008C2F3C /* TableViewRow.hpp */,
 				F9ACB7DA1AF9CE01008C2F3C /* TableViewSection.hpp */,
-				F9ACB7BA1AF9CDCD008C2F3C /* 2DMatrix.cpp */,
 				F9ACB7BB1AF9CDCD008C2F3C /* MatrixCreationDict.cpp */,
 				F9ACB7BC1AF9CDCD008C2F3C /* OptionDialog.cpp */,
 				F9ACB7BD1AF9CDCD008C2F3C /* OptionDialogHideParams.cpp */,
@@ -1088,6 +1094,7 @@
 				F93CDC411A96D24C00C42D8C /* Font.hpp in Headers */,
 				C90950961A2954B3002133E1 /* TextField.hpp in Headers */,
 				F991B6451B0A08EC0058FA3A /* CameraMediaItemType.hpp in Headers */,
+				F90E35ED1BE8A03A008FAD33 /* 3DMatrix.hpp in Headers */,
 				F9901B091AA5A355003FFD52 /* MapRegionTypev2.hpp in Headers */,
 				C90950A21A296802002133E1 /* Picker.hpp in Headers */,
 				F9ACB7E51AF9CE01008C2F3C /* Switch.hpp in Headers */,
@@ -1269,6 +1276,7 @@
 				F93CDC4B1A96D25E00C42D8C /* Point.cpp in Sources */,
 				F93104281ABBDDAB0067470D /* TitleAttributesParams.cpp in Sources */,
 				C90B90081A19804D005F3210 /* Application.cpp in Sources */,
+				F90E35EF1BE8A046008FAD33 /* 3DMatrix.cpp in Sources */,
 				F965FF2C1AA588230092ABBA /* Annotation.cpp in Sources */,
 				F99AE3B91ADFA30300D0F91E /* ActivityIndicatorStyle.cpp in Sources */,
 				C90B8FD31A17CB1C005F3210 /* API.cpp in Sources */,
