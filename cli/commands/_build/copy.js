@@ -288,16 +288,44 @@ function copyResources(next) {
 				width: 150,
 				height: 150,
 				required: true
+			},
+
+			// Logo.png
+			{
+				description: 'Logo.png - Used for logo',
+				file: path.join(appIconSetDir, 'Logo.png'),
+				width: 150,
+				height: 150,
+				required: true
+			},
+
+			// StoreLogo.png
+			{
+				description: 'StoreLogo.png - Used for logo',
+				file: path.join(appIconSetDir, 'StoreLogo.png'),
+				width: 50,
+				height: 50,
+				required: true
+			},
+
+			// SmallLogo.png
+			{
+				description: 'SmallLogo.png - Used for logo',
+				file: path.join(appIconSetDir, 'SmallLogo.png'),
+				width: 30,
+				height: 30,
+				required: true
 			}
 
 			// TODO: Generate SplashScreen.scale-100.png?
 		];
 
-		// do not generate existing icons
+		// if app icon exists under project directory, just use it and do not generate new one
 		for (i in missingIcons) {
 			var icon = missingIcons[i];
-			if (fs.existsSync(icon.file)) {
-				_t.logger.debug(__('%s already exists, skipping...', icon.file));
+			var iconInProject = path.join(this.projectDir, path.basename(icon.file));
+			if (fs.existsSync(iconInProject)) {
+				copyFile.call(_t, iconInProject, icon.file);
 				missingIcons.splice(i, 1);
 			}
 		}
