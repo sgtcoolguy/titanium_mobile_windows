@@ -15,8 +15,8 @@ namespace Titanium
 {
 	namespace UI
 	{
-		View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : Module(js_context)
+		View::View(const JSContext& js_context, const std::string& apiName) TITANIUM_NOEXCEPT
+		    : Module(js_context, apiName)
 		{
 			TITANIUM_LOG_DEBUG("View::ctor ", this);
 		}

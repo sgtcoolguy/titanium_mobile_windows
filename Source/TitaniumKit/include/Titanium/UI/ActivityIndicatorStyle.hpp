@@ -40,7 +40,7 @@ namespace Titanium
 		  @discussion This is the Titanium ActivityIndicatorStyle Module.
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.ActivityIndicatorStyle
 		*/
-		class TITANIUMKIT_EXPORT ActivityIndicatorStyle : public JSExportObject, public JSExport<ActivityIndicatorStyle>
+		class TITANIUMKIT_EXPORT ActivityIndicatorStyle : public Module, public JSExport<ActivityIndicatorStyle>
 		{
 
 		public:

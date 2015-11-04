@@ -17,7 +17,7 @@ namespace Titanium
 	namespace UI
 	{
 		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : View(js_context),
+		    : View(js_context, "Titanium.UI.ImageView"),
 			  autorotate__(false),
 			  decodeRetries__(5),
 			  defaultImage__(""),

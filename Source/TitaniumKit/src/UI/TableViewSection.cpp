@@ -17,7 +17,7 @@ namespace Titanium
 	namespace UI
 	{
 		TableViewSection::TableViewSection(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context),
+			: Module(js_context, "Titanium.UI.TableViewSection"),
 			footerTitle__(""),
 			headerTitle__("")
 		{

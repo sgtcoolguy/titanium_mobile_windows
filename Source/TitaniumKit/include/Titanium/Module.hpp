@@ -135,7 +135,7 @@ namespace Titanium
 
 		virtual void showRedScreenOfDeath(const std::string& message) TITANIUM_NOEXCEPT final;
 
-		Module(const JSContext&) TITANIUM_NOEXCEPT;
+		Module(const JSContext&, const std::string& apiName = "Titanium.Proxy") TITANIUM_NOEXCEPT;
 		virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 		virtual ~Module() TITANIUM_NOEXCEPT;  //= default;

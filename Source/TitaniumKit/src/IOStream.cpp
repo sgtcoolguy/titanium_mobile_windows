@@ -12,8 +12,8 @@
 namespace Titanium
 {
 
-	IOStream::IOStream(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: Module(js_context)
+	IOStream::IOStream(const JSContext& js_context, const std::string& apiName) TITANIUM_NOEXCEPT
+		: Module(js_context, apiName)
 	{
 	}
 

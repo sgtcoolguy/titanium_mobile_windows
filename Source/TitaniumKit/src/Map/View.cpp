@@ -17,7 +17,7 @@ namespace Titanium
 	namespace Map
 	{
 		View::View(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Titanium::UI::View(js_context),
+			: Titanium::UI::View(js_context, "Titanium.Map.View"),
 			animate__(false),
 			compassEnabled__(false),
 			enableZoomControls__(false),

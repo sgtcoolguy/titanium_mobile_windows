@@ -12,7 +12,7 @@
 namespace Titanium
 {
 	GeolocationModule::GeolocationModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: Module(js_context),
+		: Module(js_context, "Titanium.Geolocation"),
 		accuracy_best__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::BEST))),
 		accuracy_best_for_navigation__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::BEST_FOR_NAVIGATION))),
 		accuracy_high__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::HIGH))),

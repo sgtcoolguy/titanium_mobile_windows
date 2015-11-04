@@ -12,7 +12,7 @@
 namespace Titanium
 {
     MapModule::MapModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-        : Module(js_context),
+        : Module(js_context, "Titanium.Map"),
 		hybrid_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::MAP_TYPE::HYBRID))),
 		satellite_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::MAP_TYPE::SATELLITE))),
 		normal_type__(js_context.CreateNumber(Titanium::Map::Constants::to_underlying_type(Titanium::Map::MAP_TYPE::NORMAL))),

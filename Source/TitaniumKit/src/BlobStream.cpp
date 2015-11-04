@@ -14,7 +14,7 @@ namespace Titanium
 {
 
 	BlobStream::BlobStream(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: IOStream(js_context)
+		: IOStream(js_context, "Titanium.BlobStream")
 	{
 
 	}

@@ -55,7 +55,7 @@ namespace Titanium
 	}
 
 	AppModule::AppModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: Module(js_context),
+		: Module(js_context, "Titanium.App"),
 		app_info__(get_context().CreateUndefined()),
 		accessibilityEnabled__(false),
 		analytics__(false),

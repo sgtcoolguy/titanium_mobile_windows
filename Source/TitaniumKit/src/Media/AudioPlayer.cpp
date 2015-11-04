@@ -15,7 +15,7 @@ namespace Titanium
 	{
 
 		AudioPlayer::AudioPlayer(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context)
+			: Module(js_context, "Titanium.Media.AudioPlayer")
 			, state_buffering__(js_context.CreateNumber(static_cast<std::uint32_t>(AudioState::Buffering)))
 			, state_initialized__(js_context.CreateNumber(static_cast<std::uint32_t>(AudioState::Initialized)))
 			, state_paused__(js_context.CreateNumber(static_cast<std::uint32_t>(AudioState::Paused)))

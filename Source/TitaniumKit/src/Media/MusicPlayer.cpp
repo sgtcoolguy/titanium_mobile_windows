@@ -16,7 +16,7 @@ namespace Titanium
 	{
 
 		MusicPlayer::MusicPlayer(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context)
+			: Module(js_context, "Titanium.Media.MusicPlayer")
 			, playbackState__(MusicPlayerState::Stopped)
 			, repeatMode__(MusicPlayerRepeat::None)
 			, shuffleMode__(MusicPlayerShuffle::None)

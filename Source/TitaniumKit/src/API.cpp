@@ -14,7 +14,7 @@
 namespace Titanium
 {
 	API::API(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Module(js_context)
+	    : Module(js_context, "Titanium.API")
 	{
 		TITANIUM_LOG_DEBUG("API:: ctor ", this);
 	}

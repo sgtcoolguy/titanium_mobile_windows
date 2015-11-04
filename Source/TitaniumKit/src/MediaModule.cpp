@@ -35,7 +35,7 @@ namespace Titanium
 {
 
 	MediaModule::MediaModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: Module(js_context)
+		: Module(js_context, "Titanium.Media")
 		, audio_fileformat_3gp2__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::AudioFileFormat::ThreeGP2)))
 		, audio_fileformat_3gpp__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::AudioFileFormat::ThreeGPP)))
 		, audio_fileformat_aiff__(js_context.CreateNumber(static_cast<std::uint32_t>(Media::AudioFileFormat::Aiff)))

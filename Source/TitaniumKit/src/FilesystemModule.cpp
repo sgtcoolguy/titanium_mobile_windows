@@ -35,7 +35,7 @@ namespace Titanium
 	}
 
 	FilesystemModule::FilesystemModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Module(js_context)
+	    : Module(js_context, "Titanium.Filesystem")
 	    , openStreamFunc__(createOpenStreamFunction(js_context))
 	    , mode_read__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::READ)))
 	    , mode_write__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::WRITE)))

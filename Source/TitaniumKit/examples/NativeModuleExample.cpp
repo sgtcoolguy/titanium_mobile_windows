@@ -10,11 +10,10 @@
 #include "Titanium/detail/TiLogger.hpp"
 
 NativeModuleExample::NativeModuleExample(const JSContext& js_context) TITANIUM_NOEXCEPT
-    : Titanium::Module(js_context),
+    : Titanium::Module(js_context, "NativeModuleExample"),
       event_name__("foo"),
       enabled__(js_context.CreateBoolean(false))
 {
-    set_apiName("NativeModuleExample");
 }
 
 JSValue NativeModuleExample::get_enabled() const

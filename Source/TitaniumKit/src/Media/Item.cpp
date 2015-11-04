@@ -15,7 +15,7 @@ namespace Titanium
 	{
 
 		Item::Item(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context)
+			: Module(js_context, "Titanium.Media.Item")
 			, albumArtist__("")
 			, albumTitle__("")
 			, albumTrackCount__(0)

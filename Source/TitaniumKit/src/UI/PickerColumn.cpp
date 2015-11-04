@@ -15,7 +15,7 @@ namespace Titanium
 	{
 
 		PickerColumn::PickerColumn(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: View(js_context)
+			: View(js_context, "Titanium.UI.PickerColumn")
 			, selectedRow__(nullptr)
 		{
 		}

@@ -14,7 +14,7 @@ namespace Titanium
 	namespace UI
 	{
 		Button::Button(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : View(js_context),
+		    : View(js_context, "Titanium.UI.Button"),
 			  color__(js_context.CreateString()),
 			  image__(js_context.CreateString()),
 			  textAlign__(TEXT_ALIGNMENT::LEFT),

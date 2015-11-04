@@ -15,7 +15,7 @@ namespace Titanium
 	namespace UI
 	{
 		TabGroup::TabGroup(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: View(js_context)
+			: View(js_context, "Titanium.UI.TabGroup")
 			, activity__(js_context.CreateUndefined())
 		{
 		}

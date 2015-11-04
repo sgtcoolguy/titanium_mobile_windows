@@ -13,7 +13,7 @@
 namespace Titanium
 {
 	Gesture::Gesture(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Module(js_context)
+	    : Module(js_context, "Titanium.Gesture")
 	{
 	}
 

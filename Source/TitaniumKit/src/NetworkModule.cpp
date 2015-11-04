@@ -10,7 +10,7 @@
 namespace Titanium
 {
 	NetworkModule::NetworkModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Module(js_context)
+	    : Module(js_context, "Titanium.Network")
 		, network_lan__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TYPE::LAN)))
 		, network_mobile__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TYPE::MOBILE)))
 		, network_none__(js_context.CreateNumber(Titanium::Network::Constants::to_underlying_type(Titanium::Network::TYPE::NONE)))

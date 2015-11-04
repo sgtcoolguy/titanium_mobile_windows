@@ -13,7 +13,7 @@ namespace Titanium
 	namespace Codec
 	{
 		CodecModule::CodecModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context)
+			: Module(js_context, "Titanium.Codec")
 			, CHARSET_ASCII__(js_context.CreateString(Constants::to_string(CharSet::ASCII)))
 			, CHARSET_ISO_LATIN_1__(js_context.CreateString(Constants::to_string(CharSet::ISO_LATIN_1)))
 			, CHARSET_UTF8__(js_context.CreateString(Constants::to_string(CharSet::UTF8)))

@@ -32,7 +32,7 @@ this.exports.serializeToString = function(_xml) {
 
 
 	XML::XML(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Module(js_context),
+	    : Module(js_context, "Titanium.XML"),
 		  ti_xml__(js_context.CreateObject()),
 	      func_parseString__(js_context.CreateObject()),
 	      func_serializeToString__(js_context.CreateObject())

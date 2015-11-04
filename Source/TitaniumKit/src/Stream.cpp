@@ -73,7 +73,7 @@ namespace Titanium
 	}
 
 	Stream::Stream(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: Module(js_context)
+		: Module(js_context, "Titanium.Stream")
 		, promisifyFunc__(createPromisifyFunction(js_context))
 		, MODE_READ__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::READ)))
 		, MODE_WRITE__(js_context.CreateNumber(Titanium::Filesystem::Constants::to_underlying_type(Titanium::Filesystem::MODE::WRITE)))

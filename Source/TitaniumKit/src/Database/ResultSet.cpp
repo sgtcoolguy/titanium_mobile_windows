@@ -15,7 +15,7 @@ namespace Titanium
 	namespace Database
 	{
 		ResultSet::ResultSet(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : Module(js_context)
+		    : Module(js_context, "Titanium.Database.ResultSet")
 		{
 			TITANIUM_LOG_DEBUG("ResultSet:: ctor ", this);
 		}

@@ -47,7 +47,7 @@ namespace Titanium
 	)TI_DB_JS";
 
 	DatabaseModule::DatabaseModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Module(js_context),
+	    : Module(js_context, "Titanium.Database"),
 	      field_type_double__(js_context.CreateNumber(Titanium::Database::Constants::to_underlying_type(Titanium::Database::FIELD_TYPE::DOUBLE))),
 	      field_type_float__(js_context.CreateNumber(Titanium::Database::Constants::to_underlying_type(Titanium::Database::FIELD_TYPE::FLOAT))),
 	      field_type_int__(js_context.CreateNumber(Titanium::Database::Constants::to_underlying_type(Titanium::Database::FIELD_TYPE::INT))),

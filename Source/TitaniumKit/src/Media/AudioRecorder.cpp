@@ -15,7 +15,7 @@ namespace Titanium
 	{
 
 		AudioRecorder::AudioRecorder(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context)
+			: Module(js_context, "Titanium.Media.AudioRecorder")
 			, compression__(AudioFormat::LinearPCM)
 			, format__(AudioFileFormat::Caf)
 			, state__(RecordingState::Stopped)

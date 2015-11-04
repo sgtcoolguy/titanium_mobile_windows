@@ -19,7 +19,7 @@ namespace Titanium
 		}
 
 		Properties::Properties(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context),
+			: Module(js_context, "Titanium.App.Properties"),
 			  stringify_function__(createStringifyFunction(js_context)),
 			  app_properties__(js_context.CreateObject())
 		{

@@ -16,7 +16,7 @@ namespace Titanium
 		using namespace HAL;
 
 		TableViewAnimationProperties::TableViewAnimationProperties(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context)
+			: Module(js_context, "Titanium.UI.TableViewAnimationProperties")
 		{
 		}
 

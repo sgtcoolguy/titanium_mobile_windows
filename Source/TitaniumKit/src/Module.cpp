@@ -14,9 +14,9 @@
 
 namespace Titanium
 {
-	Module::Module(const JSContext& js_context) TITANIUM_NOEXCEPT
+	Module::Module(const JSContext& js_context, const std::string& apiName) TITANIUM_NOEXCEPT
 	    : JSExportObject(js_context)
-	    , apiName__("Titanium.Proxy")
+	    , apiName__(apiName)
 	{
 	}
 

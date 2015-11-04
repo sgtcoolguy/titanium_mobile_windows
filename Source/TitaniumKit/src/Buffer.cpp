@@ -24,7 +24,7 @@ namespace Titanium
 {
 
 	Buffer::Buffer(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: Module(js_context)
+		: Module(js_context, "Titanium.Buffer")
 		, type__(Titanium::Codec::Type::Int)
 		, value__(js_context.CreateNull())
 		, byteOrder__(Titanium::Codec::ByteOrder::Unknown)
