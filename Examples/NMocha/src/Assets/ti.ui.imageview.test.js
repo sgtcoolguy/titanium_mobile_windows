@@ -8,6 +8,17 @@ var should = require('./should');
 
 describe("Titanium.UI.ImageView", function () {
     this.timeout(5000);
+
+    it("apiName", function (finish) {
+        var label = Ti.UI.createImageView({
+            image: "https://www.google.com/images/srpr/logo11w.png"
+        });
+        should(label.apiName).be.a.String;
+        should(label.apiName).be.eql("Titanium.UI.ImageView");
+        finish();
+    });
+
+
     it("image", function (finish) {
         var label = Ti.UI.createImageView({
             image: "https://www.google.com/images/srpr/logo11w.png"

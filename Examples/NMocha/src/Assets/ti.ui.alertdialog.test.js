@@ -8,6 +8,14 @@
 var should = require('./should');
 
 describe("Titanium.UI.AlertDialog", function () {
+
+    it("apiName", function (finish) {
+        var bar = Ti.UI.createAlertDialog();
+        should(bar.apiName).be.a.String;
+        should(bar.apiName).be.eql("Titanium.UI.AlertDialog");
+        finish();
+    });
+
     it("title", function (finish) {
         var bar = Ti.UI.createAlertDialog({
             title: "this is some text"

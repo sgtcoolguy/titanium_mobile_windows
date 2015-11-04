@@ -19,6 +19,8 @@ describe('Titanium.UI.Switch', function () {
         // Create switch
         var switch_ctrl = Ti.UI.createSwitch({value : true});
         should(switch_ctrl).be.a.Object;
+        should(switch_ctrl.apiName).be.a.String;
+        should(switch_ctrl.apiName).be.eql("Titanium.UI.Switch");
 
         // Validate switch value
         Ti.API.info('Switch value : '+switch_ctrl.value);

@@ -17,7 +17,7 @@ namespace TitaniumWindows
 			using namespace ::Windows::UI::Xaml;
 
 			AppBarToggleButton::AppBarToggleButton(const JSContext& js_context) TITANIUM_NOEXCEPT
-				: Titanium::Module(js_context)
+				: Titanium::Module(js_context, "Titanium.UI.Windows.AppBarToggleButton")
 				, icon__(js_context.CreateNull())
 			{
 				TITANIUM_LOG_DEBUG("AppBarToggleButton::ctor Initialize");

@@ -8,6 +8,12 @@
 var should = require('./should');
 
 describe('Titanium.Filesystem', function () {
+     it('apiName', function (finish) {
+        should(function () {
+            should(Ti.Filesystem.apiName).be.eql("Titanium.Filesystem");
+        }).not.throw();
+        finish();
+    });   
     // Check if applicationDirectory exists and make sure it does not throw exception
     it('applicationDirectory', function (finish) {
         should(function () {

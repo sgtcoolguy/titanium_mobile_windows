@@ -8,6 +8,12 @@
 var should = require('./should');
 
 describe('Titanium', function () {
+
+    it('apiName', function (finish) {
+        should(Ti.apiName).be.a.String;
+        should(Ti.apiName).be.eql("Titanium");
+        finish();
+    });
     it('version', function (finish) {
         should(Ti.version).be.a.String;
         should(Ti.getVersion).be.a.Function;

@@ -8,6 +8,14 @@
 var should = require('./should');
 
 describe("Titanium.UI.EmailDialog", function () {
+     it('apiName', function (finish) {
+        should(function () {
+            var email = Ti.UI.createEmailDialog();
+            should(email.apiName).be.a.String;
+            should(email.apiName).be.eql("Titanium.UI.EmailDialog");
+        }).not.throw();
+        finish();
+    });   
 	// Check if FAILED exists and make sure it does not throw exception
     it('FAILED', function (finish) {
         should(function () {

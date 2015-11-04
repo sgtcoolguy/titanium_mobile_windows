@@ -8,6 +8,15 @@
 var should = require('./should');
 
 describe("Titanium.UI.OptionDialog", function () {
+     it("apiName", function (finish) {
+        var bar = Ti.UI.createOptionDialog({
+            title: "this is some text"
+        });
+        should(bar.apiName).be.a.String;
+        should(bar.apiName).be.eql("Titanium.UI.OptionDialog");
+        finish();
+    });
+     
     it("title", function (finish) {
         var bar = Ti.UI.createOptionDialog({
             title: "this is some text"

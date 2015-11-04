@@ -20,7 +20,7 @@ namespace TitaniumWindows
 			using namespace ::Windows::UI::Xaml;
 
 			CommandBar::CommandBar(const JSContext& js_context) TITANIUM_NOEXCEPT
-				: Titanium::Module(js_context)
+				: Titanium::Module(js_context, "Titanium.UI.Windows.CommandBar")
 				, items__(js_context.CreateArray())
 			{
 				TITANIUM_LOG_DEBUG("CommandBar::ctor Initialize");

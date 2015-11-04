@@ -7,6 +7,12 @@
 var should = require('./should');
 
 describe("Titanium.Network", function () {
+
+    it("apiName", function (finish) {
+        should(Ti.Network.apiName).be.eql("Titanium.Network")
+        finish();
+    });
+
 	it("encodeURIComponent", function (finish) {
         should(Ti.Network.encodeURIComponent).not.be.null;
         should(Ti.Network.encodeURIComponent).be.a.Function;

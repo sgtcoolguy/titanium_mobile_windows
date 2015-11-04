@@ -17,7 +17,7 @@ namespace TitaniumWindows
 			using namespace ::Windows::UI::Xaml;
 
 			AppBarSeparator::AppBarSeparator(const JSContext& js_context) TITANIUM_NOEXCEPT
-				: Titanium::Module(js_context)
+				: Titanium::Module(js_context, "Titanium.UI.Windows.AppBarSeparator")
 			{
 				TITANIUM_LOG_DEBUG("AppBarSeparator::ctor Initialize");
 			}

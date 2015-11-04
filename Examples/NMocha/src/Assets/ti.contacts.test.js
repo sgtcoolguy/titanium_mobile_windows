@@ -7,6 +7,13 @@
 var should = require('./should');
 
 describe("Titanium.Contacts", function() {
+    it('apiName', function (finish) {
+        should(function () {
+            should(Ti.Contacts.apiName).be.eql("Titanium.Contacts");
+        }).not.throw();
+        finish();
+    });
+
 	it('AUTHORIZATION_AUTHORIZED', function (finish) {
         should(function () {
             should(Ti.Contacts.AUTHORIZATION_AUTHORIZED).not.be.undefined;

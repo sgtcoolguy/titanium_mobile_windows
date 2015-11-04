@@ -18,7 +18,7 @@ namespace TitaniumWindows
 			using namespace ::Windows::UI::Xaml::Input;
 
 			AppBarButton::AppBarButton(const JSContext& js_context) TITANIUM_NOEXCEPT
-				: Titanium::Module(js_context)
+				: Titanium::Module(js_context, "Titanium.UI.Windows.AppBarButton")
 				, icon__(js_context.CreateNull())
 			{
 				TITANIUM_LOG_DEBUG("AppBarButton::ctor Initialize");

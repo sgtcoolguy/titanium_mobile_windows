@@ -9,6 +9,8 @@ var should = require('./should');
 
 describe('Titanium.Accelerometer', function () {
     it('exists', function (finish) {
+        should(Ti.Accelerometer.apiName).be.a.String;
+        should(Ti.Accelerometer.apiName).be.eql("Titanium.Accelerometer");
         should(Ti.Accelerometer).not.be.undefined;
         should(Ti.Accelerometer).not.be.null;
         should(Ti.Accelerometer.addEventListener).be.a.Function;

@@ -30,7 +30,7 @@ namespace Titanium
 {
 
 	ContactsModule::ContactsModule(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-		: Module(js_context),
+		: Module(js_context, "Titanium.Contacts"),
 		CONTACTS_KIND_ORGANIZATION__(js_context.CreateNumber(Titanium::Contacts::Constants::to_underlying_type(Titanium::Contacts::KIND::ORGANIZATION))),
 		CONTACTS_KIND_PERSON__(js_context.CreateNumber(Titanium::Contacts::Constants::to_underlying_type(Titanium::Contacts::KIND::PERSON))),
 		CONTACTS_SORT_FIRST_NAME__(js_context.CreateNumber(Titanium::Contacts::Constants::to_underlying_type(Titanium::Contacts::SORT::FIRST_NAME))),

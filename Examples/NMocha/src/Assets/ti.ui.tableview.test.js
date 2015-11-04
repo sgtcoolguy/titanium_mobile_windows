@@ -29,6 +29,8 @@ describe('Titanium.UI.TableView', function () {
         // Create TableView section
         var section_0 = Ti.UI.createTableViewSection({ headerTitle: 'Zero' });
         should(section_0).be.a.Object;
+        should(section_0.apiName).be.a.String;
+        should(section_0.apiName).be.eql("Titanium.UI.TableViewSection");
 
         // Create and add two rows to the section
         section_0.add(Ti.UI.createTableViewRow({ title: 'Red' }));
@@ -55,12 +57,16 @@ describe('Titanium.UI.TableView', function () {
 
         // Validate a section row title
         should(section_1.rows[2].title).be.eql('Blue');
+        should(section_1.rows[2].apiName).be.a.String;
+        should(section_1.rows[2].apiName).be.eql("Titanium.UI.TableViewRow");
 
         // Create TableView, set data property
         var tableView = Ti.UI.createTableView({
           data: [section_0]
         });
         should(tableView).be.a.Object;
+        should(tableView.apiName).be.a.String;
+        should(tableView.apiName).be.eql("Titanium.UI.TableView");
 
         // Validate tableView section count
         should(tableView.sectionCount).be.eql(1);

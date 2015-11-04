@@ -36,6 +36,7 @@ describe('Titanium.FileStream', function () {
 		should(resourceFileStream).be.an.Object;
 		should(resourceFileStream.read).be.a.Function;
 		should(resourceFileStream.write).be.a.Function;
+		should(resourceFileStream.apiName).be.eql("Titanium.Filesystem.FileStream");
 		var inBuffer = Ti.createBuffer();
 		should(inBuffer).be.an.Object;
 		var tempBufferLength = 50;
