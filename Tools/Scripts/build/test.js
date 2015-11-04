@@ -9,11 +9,13 @@ var path = require('path'),
 	colors = require('colors'),
 	wrench = require('wrench'),
 	ejs = require('ejs'),
+	windowslib = require('windowslib'),
 	spawn = require('child_process').spawn,
 	exec = require('child_process').exec,
 	titanium = path.join(__dirname, 'node_modules', 'titanium', 'bin', 'titanium'),
 	sdkPath,
 	hadWindowsSDK = false,
+	deviceId,
 	testResults,
 	jsonResults;
 
@@ -137,11 +139,26 @@ function copyMochaAssets(next) {
 	next();
 }
 
+function getDeviceId(next) {
+	windowslib.detect(function (err, results) {
+		if (err) {
+			console.error(err.message || err.toString());
+			next();
+			return;
+		}
+		var devices = results.emulators['8.1'].filter(function(e) {
+			return /Emulator\ 8.1/.test(e.name);
+		});
+		deviceId = devices[0].udid;
+		next();
+	});
+}
+
 function runBuild(next, count) {
 	var prc,
 		inResults = false,
 		done = false;
-	prc = spawn('node', [titanium, 'build', '--project-dir', path.join(__dirname, 'mocha'), '--platform', 'windows', '--target', 'wp-emulator', '--win-publisher-id', '13AFB724-65F2-4F30-8994-C79399EDBD80', '--device-id', '8-1-1', '--no-prompt', '--no-colors']);
+	prc = spawn('node', [titanium, 'build', '--project-dir', path.join(__dirname, 'mocha'), '--platform', 'windows', '--target', 'wp-emulator', '--win-publisher-id', '13AFB724-65F2-4F30-8994-C79399EDBD80', '--device-id', (deviceId ? deviceId : '8-1-1'), '--no-prompt', '--no-colors']);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 		var lines = data.toString().trim().match(/^.*([\n\r]+|$)/gm);
@@ -279,6 +296,10 @@ function test(callback) {
 		function (next) {
 			console.log("Copying test scripts into project");
 			copyMochaAssets(next);
+		},
+		function (next) {
+			console.log('Detecting simulator');
+			getDeviceId(next);
 		},
 		function (next) {
 			console.log("Launching test project in simulator");

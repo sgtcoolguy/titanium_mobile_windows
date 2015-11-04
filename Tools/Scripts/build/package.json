@@ -23,7 +23,8 @@
     "colors": "~0.6.2",
     "ejs": "~2.2.4",
   	"wrench": "~1.5.4",
-    "titanium": "git://github.com/appcelerator/titanium.git#master"
+    "titanium": "git://github.com/appcelerator/titanium.git#master",
+    "windowslib": "0.1.21"
   },
   "engines": {
     "node": ">=0.8"
