@@ -33,8 +33,12 @@ function getTargetDevices() {
 		wpsdk = this.cli.argv['wp-sdk'];
 
 	if (target === 'wp-emulator' && this.windowsInfo.emulators && Array.isArray(this.windowsInfo.emulators[wpsdk])) {
-		return this.deviceCache = this.windowsInfo.emulators[wpsdk];
+		// Windows 10 mobile emulator is not supported
+		var emulators = this.windowsInfo.emulators[wpsdk].filter(function(emu) {
+			return !(/Mobile\ Emulator\ 10\./.test(emu.name));
+		});
 
+		return this.deviceCache = emulators;
 	} else if (target === 'wp-device' && Array.isArray(this.windowsInfo.devices)) {
 		return this.deviceCache = this.windowsInfo.devices;
 	}
