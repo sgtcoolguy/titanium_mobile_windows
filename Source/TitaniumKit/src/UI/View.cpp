@@ -7,9 +7,11 @@
  */
 
 #include "Titanium/UI/View.hpp"
-#include "Titanium/UI/Point.hpp"
 #include "Titanium/UI/Animation.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/Blob.hpp"
+#include "Titanium/UI/2DMatrix.hpp"
+#include "Titanium/UI/3DMatrix.hpp"
 
 namespace Titanium
 {
@@ -35,6 +37,30 @@ namespace Titanium
 		{
 			Titanium::Module::postCallAsConstructor(js_context, arguments);	
 			setLayoutDelegate();
+		}
+
+		TITANIUM_PROPERTY_READWRITE(View, bool, accessibilityHidden)
+		TITANIUM_PROPERTY_READWRITE(View, std::string, accessibilityHint)
+		TITANIUM_PROPERTY_READWRITE(View, std::string, accessibilityLabel)
+		TITANIUM_PROPERTY_READWRITE(View, std::string, accessibilityValue)
+		TITANIUM_PROPERTY_READWRITE(View, std::uint32_t, clipMode)
+		TITANIUM_PROPERTY_READWRITE(View, std::uint32_t, softKeyboardOnFocus)
+		TITANIUM_PROPERTY_READWRITE(View, bool, enabled)
+		TITANIUM_PROPERTY_READWRITE(View, bool, focusable)
+		TITANIUM_PROPERTY_READWRITE(View, bool, keepScreenOn)
+
+		std::shared_ptr<Titanium::Blob> View::toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT
+		{
+			// TODO IMPLEMENT
+			return nullptr;
+		}
+
+		Point View::convertPointToView(Point point, std::shared_ptr<View> destinationView) TITANIUM_NOEXCEPT
+		{
+			// TODO IMPLEMENT
+			Point viewPoint;
+
+			return viewPoint;
 		}
 
 		void View::animate(const std::shared_ptr<Animation>& animation, JSObject& callback) TITANIUM_NOEXCEPT
@@ -68,38 +94,405 @@ namespace Titanium
 		{
 			JSExport<View>::SetClassVersion(1);
 			JSExport<View>::SetParent(JSExport<Module>::Class());
-			// methods
 
-			TITANIUM_ADD_FUNCTION(View, add);
-			TITANIUM_ADD_FUNCTION(View, animate);
-			TITANIUM_ADD_FUNCTION(View, hide);
-			TITANIUM_ADD_FUNCTION(View, remove);
-			TITANIUM_ADD_FUNCTION(View, show);
-			TITANIUM_ADD_FUNCTION(View, insertAt);
-			TITANIUM_ADD_FUNCTION(View, replaceAt);
-
-			// properties
+			TITANIUM_ADD_PROPERTY(View, accessibilityHidden);
+			TITANIUM_ADD_PROPERTY(View, accessibilityHint);
+			TITANIUM_ADD_PROPERTY(View, accessibilityLabel);
+			TITANIUM_ADD_PROPERTY(View, accessibilityValue);
+			TITANIUM_ADD_PROPERTY(View, anchorPoint);
+			TITANIUM_ADD_PROPERTY_READONLY(View, animatedCenter);
+			TITANIUM_ADD_PROPERTY(View, backgroundDisabledColor);
+			TITANIUM_ADD_PROPERTY(View, backgroundDisabledImage);
+			TITANIUM_ADD_PROPERTY(View, backgroundFocusedColor);
+			TITANIUM_ADD_PROPERTY(View, backgroundFocusedImage);
+			TITANIUM_ADD_PROPERTY(View, backgroundGradient);
 			TITANIUM_ADD_PROPERTY(View, backgroundImage);
-			TITANIUM_ADD_PROPERTY(View, backgroundColor);
+			TITANIUM_ADD_PROPERTY(View, backgroundRepeat);
+			TITANIUM_ADD_PROPERTY(View, backgroundLeftCap);
+			TITANIUM_ADD_PROPERTY(View, backgroundSelectedColor);
+			TITANIUM_ADD_PROPERTY(View, backgroundSelectedImage);
+			TITANIUM_ADD_PROPERTY(View, backgroundTopCap);
 			TITANIUM_ADD_PROPERTY(View, borderColor);
 			TITANIUM_ADD_PROPERTY(View, borderRadius);
 			TITANIUM_ADD_PROPERTY(View, borderWidth);
+			TITANIUM_ADD_PROPERTY(View, clipMode);
+			TITANIUM_ADD_PROPERTY(View, enabled);
+			TITANIUM_ADD_PROPERTY(View, focusable);
+			TITANIUM_ADD_PROPERTY(View, opacity);
+			TITANIUM_ADD_PROPERTY(View, overrideCurrentAnimation);
+			TITANIUM_ADD_PROPERTY(View, pullBackgroundColor);
+			TITANIUM_ADD_PROPERTY_READONLY(View, rect);
+			TITANIUM_ADD_PROPERTY_READONLY(View, size);
+			TITANIUM_ADD_PROPERTY(View, softKeyboardOnFocus);
+			TITANIUM_ADD_PROPERTY(View, tintColor);
+			TITANIUM_ADD_PROPERTY(View, touchEnabled);
+			TITANIUM_ADD_PROPERTY(View, transform);
+			TITANIUM_ADD_PROPERTY(View, viewShadowRadius);
+			TITANIUM_ADD_PROPERTY(View, viewShadowColor);
+			TITANIUM_ADD_PROPERTY(View, viewShadowOffset);
+			TITANIUM_ADD_PROPERTY(View, visible);
+			TITANIUM_ADD_PROPERTY(View, horizontalWrap);
+			TITANIUM_ADD_PROPERTY(View, zIndex);
+			TITANIUM_ADD_PROPERTY(View, keepScreenOn);
+			TITANIUM_ADD_PROPERTY_READONLY(View, children);
+			TITANIUM_ADD_PROPERTY(View, backgroundColor);
+			TITANIUM_ADD_PROPERTY(View, top);
+			TITANIUM_ADD_PROPERTY(View, left);
 			TITANIUM_ADD_PROPERTY(View, bottom);
 			TITANIUM_ADD_PROPERTY(View, center);
-			TITANIUM_ADD_PROPERTY_READONLY(View, children);
+			TITANIUM_ADD_PROPERTY(View, right);
+			TITANIUM_ADD_PROPERTY(View, width);
 			TITANIUM_ADD_PROPERTY(View, height);
 			TITANIUM_ADD_PROPERTY(View, layout);
-			TITANIUM_ADD_PROPERTY(View, left);
-			TITANIUM_ADD_PROPERTY(View, opacity);
-			TITANIUM_ADD_PROPERTY_READONLY(View, rect);
-			TITANIUM_ADD_PROPERTY(View, right);
-			TITANIUM_ADD_PROPERTY_READONLY(View, size);
-			TITANIUM_ADD_PROPERTY(View, tintColor);
-			TITANIUM_ADD_PROPERTY(View, top);
-			TITANIUM_ADD_PROPERTY(View, touchEnabled);
-			TITANIUM_ADD_PROPERTY(View, visible);
-			TITANIUM_ADD_PROPERTY(View, width);
-			TITANIUM_ADD_PROPERTY(View, zIndex);
+
+			TITANIUM_ADD_FUNCTION(View, animate);
+			TITANIUM_ADD_FUNCTION(View, remove);
+			TITANIUM_ADD_FUNCTION(View, removeAllChildren);
+			TITANIUM_ADD_FUNCTION(View, toImage);
+			TITANIUM_ADD_FUNCTION(View, convertPointToView);
+			TITANIUM_ADD_FUNCTION(View, add);
+			TITANIUM_ADD_FUNCTION(View, hide);
+			TITANIUM_ADD_FUNCTION(View, show);
+			TITANIUM_ADD_FUNCTION(View, getAccessibilityHidden);
+			TITANIUM_ADD_FUNCTION(View, setAccessibilityHidden);
+			TITANIUM_ADD_FUNCTION(View, getAccessibilityHint);
+			TITANIUM_ADD_FUNCTION(View, setAccessibilityHint);
+			TITANIUM_ADD_FUNCTION(View, getAccessibilityLabel);
+			TITANIUM_ADD_FUNCTION(View, setAccessibilityLabel);
+			TITANIUM_ADD_FUNCTION(View, getAccessibilityValue);
+			TITANIUM_ADD_FUNCTION(View, setAccessibilityValue);
+			TITANIUM_ADD_FUNCTION(View, getAnchorPoint);
+			TITANIUM_ADD_FUNCTION(View, setAnchorPoint);
+			TITANIUM_ADD_FUNCTION(View, getAnimatedCenter);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundDisabledColor);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundDisabledColor);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundDisabledImage);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundDisabledImage);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundFocusedColor);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundFocusedColor);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundFocusedImage);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundFocusedImage);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundGradient);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundGradient);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundImage);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundImage);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundRepeat);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundRepeat);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundLeftCap);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundLeftCap);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundSelectedColor);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundSelectedColor);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundSelectedImage);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundSelectedImage);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundTopCap);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundTopCap);
+			TITANIUM_ADD_FUNCTION(View, getBorderColor);
+			TITANIUM_ADD_FUNCTION(View, setBorderColor);
+			TITANIUM_ADD_FUNCTION(View, getBorderRadius);
+			TITANIUM_ADD_FUNCTION(View, setBorderRadius);
+			TITANIUM_ADD_FUNCTION(View, getBorderWidth);
+			TITANIUM_ADD_FUNCTION(View, setBorderWidth);
+			TITANIUM_ADD_FUNCTION(View, getClipMode);
+			TITANIUM_ADD_FUNCTION(View, setClipMode);
+			TITANIUM_ADD_FUNCTION(View, getEnabled);
+			TITANIUM_ADD_FUNCTION(View, setEnabled);
+			TITANIUM_ADD_FUNCTION(View, getFocusable);
+			TITANIUM_ADD_FUNCTION(View, setFocusable);
+			TITANIUM_ADD_FUNCTION(View, getOpacity);
+			TITANIUM_ADD_FUNCTION(View, setOpacity);
+			TITANIUM_ADD_FUNCTION(View, getOverrideCurrentAnimation);
+			TITANIUM_ADD_FUNCTION(View, setOverrideCurrentAnimation);
+			TITANIUM_ADD_FUNCTION(View, getPullBackgroundColor);
+			TITANIUM_ADD_FUNCTION(View, setPullBackgroundColor);
+			TITANIUM_ADD_FUNCTION(View, getRect);
+			TITANIUM_ADD_FUNCTION(View, getSize);
+			TITANIUM_ADD_FUNCTION(View, getSoftKeyboardOnFocus);
+			TITANIUM_ADD_FUNCTION(View, setSoftKeyboardOnFocus);
+			TITANIUM_ADD_FUNCTION(View, getTintColor);
+			TITANIUM_ADD_FUNCTION(View, setTintColor);
+			TITANIUM_ADD_FUNCTION(View, getTouchEnabled);
+			TITANIUM_ADD_FUNCTION(View, setTouchEnabled);
+			TITANIUM_ADD_FUNCTION(View, getTransform);
+			TITANIUM_ADD_FUNCTION(View, setTransform);
+			TITANIUM_ADD_FUNCTION(View, getViewShadowRadius);
+			TITANIUM_ADD_FUNCTION(View, setViewShadowRadius);
+			TITANIUM_ADD_FUNCTION(View, getViewShadowColor);
+			TITANIUM_ADD_FUNCTION(View, setViewShadowColor);
+			TITANIUM_ADD_FUNCTION(View, getViewShadowOffset);
+			TITANIUM_ADD_FUNCTION(View, setViewShadowOffset);
+			TITANIUM_ADD_FUNCTION(View, getVisible);
+			TITANIUM_ADD_FUNCTION(View, setVisible);
+			TITANIUM_ADD_FUNCTION(View, getHorizontalWrap);
+			TITANIUM_ADD_FUNCTION(View, setHorizontalWrap);
+			TITANIUM_ADD_FUNCTION(View, getZIndex);
+			TITANIUM_ADD_FUNCTION(View, setZIndex);
+			TITANIUM_ADD_FUNCTION(View, getKeepScreenOn);
+			TITANIUM_ADD_FUNCTION(View, setKeepScreenOn);
+			TITANIUM_ADD_FUNCTION(View, getChildren);
+			TITANIUM_ADD_FUNCTION(View, getBackgroundColor);
+			TITANIUM_ADD_FUNCTION(View, setBackgroundColor);
+			TITANIUM_ADD_FUNCTION(View, getTop);
+			TITANIUM_ADD_FUNCTION(View, setTop);
+			TITANIUM_ADD_FUNCTION(View, getLeft);
+			TITANIUM_ADD_FUNCTION(View, setLeft);
+			TITANIUM_ADD_FUNCTION(View, getBottom);
+			TITANIUM_ADD_FUNCTION(View, setBottom);
+			TITANIUM_ADD_FUNCTION(View, getCenter);
+			TITANIUM_ADD_FUNCTION(View, setCenter);
+			TITANIUM_ADD_FUNCTION(View, getRight);
+			TITANIUM_ADD_FUNCTION(View, setRight);
+			TITANIUM_ADD_FUNCTION(View, getWidth);
+			TITANIUM_ADD_FUNCTION(View, setWidth);
+			TITANIUM_ADD_FUNCTION(View, getHeight);
+			TITANIUM_ADD_FUNCTION(View, setHeight);
+			TITANIUM_ADD_FUNCTION(View, getLayout);
+			TITANIUM_ADD_FUNCTION(View, setLayout);
+
+			TITANIUM_ADD_FUNCTION(View, insertAt);
+			TITANIUM_ADD_FUNCTION(View, replaceAt);
+
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, anchorPoint)
+		{
+			return Point_to_js(get_context(), layoutDelegate__->get_anchorPoint());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, anchorPoint)
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+			layoutDelegate__->set_anchorPoint(js_to_Point(static_cast<JSObject>(argument)));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, animatedCenter)
+		{
+			return Point_to_js(get_context(), layoutDelegate__->get_animatedCenter());
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, backgroundDisabledColor)
+		{
+			return get_context().CreateString(layoutDelegate__->get_backgroundDisabledColor());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, backgroundDisabledColor)
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			layoutDelegate__->set_backgroundDisabledColor(static_cast<std::string>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, backgroundDisabledImage)
+		{
+			return get_context().CreateString(layoutDelegate__->get_backgroundDisabledImage());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, backgroundDisabledImage)
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			layoutDelegate__->set_backgroundDisabledImage(static_cast<std::string>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, backgroundFocusedColor)
+		{
+			return get_context().CreateString(layoutDelegate__->get_backgroundFocusedColor());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, backgroundFocusedColor)
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			layoutDelegate__->set_backgroundFocusedColor(static_cast<std::string>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, backgroundFocusedImage)
+		{
+			return get_context().CreateString(layoutDelegate__->get_backgroundFocusedImage());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, backgroundFocusedImage)
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			layoutDelegate__->set_backgroundFocusedImage(static_cast<std::string>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, backgroundGradient)
+		{
+			return Gradient_to_js(get_context(), layoutDelegate__->get_backgroundGradient());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, backgroundGradient)
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+			layoutDelegate__->set_backgroundGradient(js_to_Gradient(static_cast<JSObject>(argument)));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, backgroundRepeat)
+		{
+			return get_context().CreateBoolean(layoutDelegate__->get_backgroundRepeat());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, backgroundRepeat)
+		{
+			TITANIUM_ASSERT(argument.IsBoolean());
+			layoutDelegate__->set_backgroundRepeat(static_cast<bool>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, backgroundLeftCap)
+		{
+			return get_context().CreateNumber(layoutDelegate__->get_backgroundLeftCap());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, backgroundLeftCap)
+		{
+			TITANIUM_ASSERT(argument.IsNumber());
+			layoutDelegate__->set_backgroundLeftCap(static_cast<std::uint32_t>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, backgroundSelectedColor)
+		{
+			return get_context().CreateString(layoutDelegate__->get_backgroundSelectedColor());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, backgroundSelectedColor)
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			layoutDelegate__->set_backgroundSelectedColor(static_cast<std::string>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, backgroundSelectedImage)
+		{
+			return get_context().CreateString(layoutDelegate__->get_backgroundSelectedImage());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, backgroundSelectedImage)
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			layoutDelegate__->set_backgroundSelectedImage(static_cast<std::string>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, backgroundTopCap)
+		{
+			return get_context().CreateNumber(layoutDelegate__->get_backgroundTopCap());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, backgroundTopCap)
+		{
+			TITANIUM_ASSERT(argument.IsNumber());
+			layoutDelegate__->set_backgroundTopCap(static_cast<std::uint32_t>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, overrideCurrentAnimation)
+		{
+			return get_context().CreateBoolean(layoutDelegate__->get_overrideCurrentAnimation());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, overrideCurrentAnimation)
+		{
+			TITANIUM_ASSERT(argument.IsBoolean());
+			layoutDelegate__->set_overrideCurrentAnimation(static_cast<bool>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, pullBackgroundColor)
+		{
+			return get_context().CreateString(layoutDelegate__->get_pullBackgroundColor());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, pullBackgroundColor)
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			layoutDelegate__->set_pullBackgroundColor(static_cast<std::string>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, transform)
+		{
+			const auto t2d = layoutDelegate__->get_transform2D();
+			if (t2d) {
+				return t2d->get_object();
+			}
+			const auto t3d = layoutDelegate__->get_transform3D();
+			if (t3d) {
+				return t3d->get_object();
+			}
+			return get_context().CreateNull();
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, transform)
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+			const auto object = static_cast<JSObject>(argument);
+			const auto matrix2d = object.GetPrivate<TwoDMatrix>();
+			const auto matrix3d = object.GetPrivate<ThreeDMatrix>();
+			if (matrix2d) {
+				layoutDelegate__->set_transform2D(matrix2d);
+			} else if (matrix3d) {
+				layoutDelegate__->set_transform3D(matrix3d);
+			}
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, viewShadowRadius)
+		{
+			return get_context().CreateNumber(layoutDelegate__->get_viewShadowRadius());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, viewShadowRadius)
+		{
+			TITANIUM_ASSERT(argument.IsNumber());
+			layoutDelegate__->set_viewShadowRadius(static_cast<uint32_t>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, viewShadowColor)
+		{
+			return get_context().CreateString(layoutDelegate__->get_viewShadowColor());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, viewShadowColor)
+		{
+			TITANIUM_ASSERT(argument.IsString());
+			layoutDelegate__->set_viewShadowColor(static_cast<std::string>(argument));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, viewShadowOffset)
+		{
+			return Point_to_js(get_context(), layoutDelegate__->get_viewShadowOffset());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, viewShadowOffset)
+		{
+			TITANIUM_ASSERT(argument.IsObject());
+			layoutDelegate__->set_viewShadowOffset(js_to_Point(static_cast<JSObject>(argument)));
+			return true;
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, horizontalWrap)
+		{
+			return get_context().CreateBoolean(layoutDelegate__->get_horizontalWrap());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, horizontalWrap)
+		{
+			TITANIUM_ASSERT(argument.IsBoolean());
+			layoutDelegate__->set_horizontalWrap(static_cast<bool>(argument));
+			return true;
+		}
+
+		TITANIUM_FUNCTION(View, removeAllChildren)
+		{
+			layoutDelegate__->removeAllChildren();
+			return get_context().CreateUndefined();
 		}
 
 		TITANIUM_FUNCTION(View, add)
@@ -441,6 +834,139 @@ namespace Titanium
 		{
 			layoutDelegate__->enableEvent(event_name);
 		}
+
+		TITANIUM_FUNCTION(View, toImage)
+		{
+			ENSURE_OPTIONAL_OBJECT_AT_INDEX(callback, 0);
+			ENSURE_OPTIONAL_BOOL_AT_INDEX(honorScaleFactor, 1, true);
+			const auto image = toImage(callback, honorScaleFactor);
+			if (image) {
+				return image->get_object();
+			} else {
+				return get_context().CreateNull();
+			}
+		}
+
+		TITANIUM_FUNCTION(View, convertPointToView)
+		{
+			ENSURE_OBJECT_AT_INDEX(point, 0);
+			ENSURE_OBJECT_AT_INDEX(destinationView, 1);
+			return Point_to_js(get_context(), convertPointToView(js_to_Point(point), destinationView.GetPrivate<View>()));
+		}
+
+		TITANIUM_PROPERTY_GETTER_BOOL(View, accessibilityHidden)
+		TITANIUM_PROPERTY_SETTER_BOOL(View, accessibilityHidden)
+		TITANIUM_PROPERTY_GETTER_STRING(View, accessibilityHint)
+		TITANIUM_PROPERTY_SETTER_STRING(View, accessibilityHint)
+		TITANIUM_PROPERTY_GETTER_STRING(View, accessibilityLabel)
+		TITANIUM_PROPERTY_SETTER_STRING(View, accessibilityLabel)
+		TITANIUM_PROPERTY_GETTER_STRING(View, accessibilityValue)
+		TITANIUM_PROPERTY_SETTER_STRING(View, accessibilityValue)
+		TITANIUM_PROPERTY_GETTER_UINT(View, clipMode)
+		TITANIUM_PROPERTY_SETTER_UINT(View, clipMode)
+		TITANIUM_PROPERTY_GETTER_BOOL(View, enabled)
+		TITANIUM_PROPERTY_SETTER_BOOL(View, enabled)
+		TITANIUM_PROPERTY_GETTER_BOOL(View, focusable)
+		TITANIUM_PROPERTY_SETTER_BOOL(View, focusable)
+		TITANIUM_PROPERTY_GETTER_UINT(View, softKeyboardOnFocus)
+		TITANIUM_PROPERTY_SETTER_UINT(View, softKeyboardOnFocus)
+		TITANIUM_PROPERTY_GETTER_BOOL(View, keepScreenOn)
+		TITANIUM_PROPERTY_SETTER_BOOL(View, keepScreenOn)
+
+		TITANIUM_FUNCTION_AS_GETTER(View, getAccessibilityHidden, accessibilityHidden)
+		TITANIUM_FUNCTION_AS_SETTER(View, setAccessibilityHidden, accessibilityHidden)
+		TITANIUM_FUNCTION_AS_GETTER(View, getAccessibilityHint, accessibilityHint)
+		TITANIUM_FUNCTION_AS_SETTER(View, setAccessibilityHint, accessibilityHint)
+		TITANIUM_FUNCTION_AS_GETTER(View, getAccessibilityLabel, accessibilityLabel)
+		TITANIUM_FUNCTION_AS_SETTER(View, setAccessibilityLabel, accessibilityLabel)
+		TITANIUM_FUNCTION_AS_GETTER(View, getAccessibilityValue, accessibilityValue)
+		TITANIUM_FUNCTION_AS_SETTER(View, setAccessibilityValue, accessibilityValue)
+		TITANIUM_FUNCTION_AS_GETTER(View, getAnchorPoint, anchorPoint)
+		TITANIUM_FUNCTION_AS_SETTER(View, setAnchorPoint, anchorPoint)
+		TITANIUM_FUNCTION_AS_GETTER(View, getAnimatedCenter, animatedCenter)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundDisabledColor, backgroundDisabledColor)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundDisabledColor, backgroundDisabledColor)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundDisabledImage, backgroundDisabledImage)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundDisabledImage, backgroundDisabledImage)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundFocusedColor, backgroundFocusedColor)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundFocusedColor, backgroundFocusedColor)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundFocusedImage, backgroundFocusedImage)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundFocusedImage, backgroundFocusedImage)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundGradient, backgroundGradient)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundGradient, backgroundGradient)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundImage, backgroundImage)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundImage, backgroundImage)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundRepeat, backgroundRepeat)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundRepeat, backgroundRepeat)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundLeftCap, backgroundLeftCap)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundLeftCap, backgroundLeftCap)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundSelectedColor, backgroundSelectedColor)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundSelectedColor, backgroundSelectedColor)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundSelectedImage, backgroundSelectedImage)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundSelectedImage, backgroundSelectedImage)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundTopCap, backgroundTopCap)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundTopCap, backgroundTopCap)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBorderColor, borderColor)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBorderColor, borderColor)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBorderRadius, borderRadius)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBorderRadius, borderRadius)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBorderWidth, borderWidth)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBorderWidth, borderWidth)
+		TITANIUM_FUNCTION_AS_GETTER(View, getClipMode, clipMode)
+		TITANIUM_FUNCTION_AS_SETTER(View, setClipMode, clipMode)
+		TITANIUM_FUNCTION_AS_GETTER(View, getEnabled, enabled)
+		TITANIUM_FUNCTION_AS_SETTER(View, setEnabled, enabled)
+		TITANIUM_FUNCTION_AS_GETTER(View, getFocusable, focusable)
+		TITANIUM_FUNCTION_AS_SETTER(View, setFocusable, focusable)
+		TITANIUM_FUNCTION_AS_GETTER(View, getOpacity, opacity)
+		TITANIUM_FUNCTION_AS_SETTER(View, setOpacity, opacity)
+		TITANIUM_FUNCTION_AS_GETTER(View, getOverrideCurrentAnimation, overrideCurrentAnimation)
+		TITANIUM_FUNCTION_AS_SETTER(View, setOverrideCurrentAnimation, overrideCurrentAnimation)
+		TITANIUM_FUNCTION_AS_GETTER(View, getPullBackgroundColor, pullBackgroundColor)
+		TITANIUM_FUNCTION_AS_SETTER(View, setPullBackgroundColor, pullBackgroundColor)
+		TITANIUM_FUNCTION_AS_GETTER(View, getRect, rect)
+		TITANIUM_FUNCTION_AS_GETTER(View, getSize, size)
+		TITANIUM_FUNCTION_AS_GETTER(View, getSoftKeyboardOnFocus, softKeyboardOnFocus)
+		TITANIUM_FUNCTION_AS_SETTER(View, setSoftKeyboardOnFocus, softKeyboardOnFocus)
+		TITANIUM_FUNCTION_AS_GETTER(View, getTintColor, tintColor)
+		TITANIUM_FUNCTION_AS_SETTER(View, setTintColor, tintColor)
+		TITANIUM_FUNCTION_AS_GETTER(View, getTouchEnabled, touchEnabled)
+		TITANIUM_FUNCTION_AS_SETTER(View, setTouchEnabled, touchEnabled)
+		TITANIUM_FUNCTION_AS_GETTER(View, getTransform, transform)
+		TITANIUM_FUNCTION_AS_SETTER(View, setTransform, transform)
+		TITANIUM_FUNCTION_AS_GETTER(View, getViewShadowRadius, viewShadowRadius)
+		TITANIUM_FUNCTION_AS_SETTER(View, setViewShadowRadius, viewShadowRadius)
+		TITANIUM_FUNCTION_AS_GETTER(View, getViewShadowColor, viewShadowColor)
+		TITANIUM_FUNCTION_AS_SETTER(View, setViewShadowColor, viewShadowColor)
+		TITANIUM_FUNCTION_AS_GETTER(View, getViewShadowOffset, viewShadowOffset)
+		TITANIUM_FUNCTION_AS_SETTER(View, setViewShadowOffset, viewShadowOffset)
+		TITANIUM_FUNCTION_AS_GETTER(View, getVisible, visible)
+		TITANIUM_FUNCTION_AS_SETTER(View, setVisible, visible)
+		TITANIUM_FUNCTION_AS_GETTER(View, getHorizontalWrap, horizontalWrap)
+		TITANIUM_FUNCTION_AS_SETTER(View, setHorizontalWrap, horizontalWrap)
+		TITANIUM_FUNCTION_AS_GETTER(View, getZIndex, zIndex)
+		TITANIUM_FUNCTION_AS_SETTER(View, setZIndex, zIndex)
+		TITANIUM_FUNCTION_AS_GETTER(View, getKeepScreenOn, keepScreenOn)
+		TITANIUM_FUNCTION_AS_SETTER(View, setKeepScreenOn, keepScreenOn)
+		TITANIUM_FUNCTION_AS_GETTER(View, getChildren, children)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBackgroundColor, backgroundColor)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBackgroundColor, backgroundColor)
+		TITANIUM_FUNCTION_AS_GETTER(View, getTop, top)
+		TITANIUM_FUNCTION_AS_SETTER(View, setTop, top)
+		TITANIUM_FUNCTION_AS_GETTER(View, getLeft, left)
+		TITANIUM_FUNCTION_AS_SETTER(View, setLeft, left)
+		TITANIUM_FUNCTION_AS_GETTER(View, getBottom, bottom)
+		TITANIUM_FUNCTION_AS_SETTER(View, setBottom, bottom)
+		TITANIUM_FUNCTION_AS_GETTER(View, getCenter, center)
+		TITANIUM_FUNCTION_AS_SETTER(View, setCenter, center)
+		TITANIUM_FUNCTION_AS_GETTER(View, getRight, right)
+		TITANIUM_FUNCTION_AS_SETTER(View, setRight, right)
+		TITANIUM_FUNCTION_AS_GETTER(View, getWidth, width)
+		TITANIUM_FUNCTION_AS_SETTER(View, setWidth, width)
+		TITANIUM_FUNCTION_AS_GETTER(View, getHeight, height)
+		TITANIUM_FUNCTION_AS_SETTER(View, setHeight, height)
+		TITANIUM_FUNCTION_AS_GETTER(View, getLayout, layout)
+		TITANIUM_FUNCTION_AS_SETTER(View, setLayout, layout)
 
 	} // namespace UI
 }  // namespace Titanium

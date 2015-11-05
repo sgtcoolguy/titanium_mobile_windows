@@ -14,6 +14,9 @@
 #include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/Point.hpp"
 #include "Titanium/UI/Dimension.hpp"
+#include "Titanium/UI/Gradient.hpp"
+#include "Titanium/UI/2DMatrix.hpp"
+#include "Titanium/UI/3DMatrix.hpp"
 #include "Titanium/UI/ViewInsertOrReplaceParams.hpp"
 
 namespace Titanium
@@ -57,6 +60,7 @@ namespace Titanium
 			*/
 			virtual void add(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
 			virtual void remove(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT;
+			virtual void removeAllChildren() TITANIUM_NOEXCEPT;
 
 			virtual void insertAt(const ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT;
 			virtual void replaceAt(const ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT;
@@ -430,6 +434,140 @@ namespace Titanium
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
 
+			/*!
+			  @property
+			  @abstract anchorPoint
+			  @discussion Coordinate of the view about which to pivot an animation.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(Point, anchorPoint);
+
+			/*!
+			  @property
+			  @abstract animatedCenter
+			  @discussion Current position of the view during an animation.
+			*/
+			TITANIUM_PROPERTY_IMPL_READONLY_DEF(Point, animatedCenter);
+
+			/*!
+			  @property
+			  @abstract backgroundDisabledColor
+			  @discussion Disabled background color of the view, as a color name or hex triplet.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, backgroundDisabledColor);
+
+			/*!
+			  @property
+			  @abstract backgroundDisabledImage
+			  @discussion Disabled background image for the view, specified as a local file path or URL.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, backgroundDisabledImage);
+
+			/*!
+			  @property
+			  @abstract backgroundFocusedColor
+			  @discussion Focused background color of the view, as a color name or hex triplet.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, backgroundFocusedColor);
+
+			/*!
+			  @property
+			  @abstract backgroundFocusedImage
+			  @discussion Focused background image for the view, specified as a local file path or URL.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, backgroundFocusedImage);
+
+			/*!
+			  @property
+			  @abstract backgroundGradient
+			  @discussion A background gradient for the view.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(Gradient, backgroundGradient);
+
+			/*!
+			  @property
+			  @abstract backgroundRepeat
+			  @discussion Determines whether to tile a background across a view.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, backgroundRepeat);
+
+			/*!
+			  @property
+			  @abstract backgroundLeftCap
+			  @discussion Size of the left end cap.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(double, backgroundLeftCap);
+
+			/*!
+			  @property
+			  @abstract backgroundSelectedColor
+			  @discussion Selected background color of the view, as a color name or hex triplet.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, backgroundSelectedColor);
+
+			/*!
+			  @property
+			  @abstract backgroundSelectedImage
+			  @discussion Selected background image url for the view, specified as a local file path or URL.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, backgroundSelectedImage);
+
+			/*!
+			  @property
+			  @abstract backgroundTopCap
+			  @discussion Size of the top end cap.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(double, backgroundTopCap);
+
+			/*!
+			  @property
+			  @abstract overrideCurrentAnimation
+			  @discussion When on, animate call overrides current animation if applicable.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, overrideCurrentAnimation);
+
+			/*!
+			  @property
+			  @abstract pullBackgroundColor
+			  @discussion Background color of the wrapper view when this view is used as either <Titanium.UI.ListView.pullView> or <Titanium.UI.TableView.headerPullView>.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, pullBackgroundColor);
+
+			/*!
+			  @property
+			  @abstract transform
+			  @discussion Transformation matrix to apply to the view.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<TwoDMatrix>, transform2D);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<ThreeDMatrix>, transform3D);
+
+			/*!
+			  @property
+			  @abstract viewShadowRadius
+			  @discussion Determines the blur radius used to create the shadow.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(uint32_t, viewShadowRadius);
+
+			/*!
+			  @property
+			  @abstract viewShadowColor
+			  @discussion Determines the color of the shadow.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, viewShadowColor);
+
+			/*!
+			  @property
+			  @abstract viewShadowOffset
+			  @discussion Determines the offset for the shadow of the view.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(Point, viewShadowOffset);
+
+			/*!
+			  @property
+			  @abstract horizontalWrap
+			  @discussion Determines whether the layout has wrapping behavior.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, horizontalWrap);
+
 			virtual void postInitialize() TITANIUM_NOEXCEPT
 			{
 				TITANIUM_LOG_DEBUG("ViewLayoutDelegate::postInitialize ", this);
@@ -475,6 +613,28 @@ namespace Titanium
 			bool touchEnabled__;
 			bool visible__;
 			int32_t zIndex__;
+
+			std::string backgroundDisabledColor__;
+			std::string backgroundDisabledImage__;
+			std::string backgroundFocusedColor__;
+			std::string backgroundFocusedImage__;
+			Gradient backgroundGradient__;
+			bool backgroundRepeat__;
+			double backgroundLeftCap__;
+			std::string backgroundSelectedColor__;
+			std::string backgroundSelectedImage__;
+			double backgroundTopCap__;
+			bool overrideCurrentAnimation__;
+			std::string pullBackgroundColor__;
+			std::shared_ptr<TwoDMatrix> transform2D__;
+			std::shared_ptr<ThreeDMatrix> transform3D__;
+			uint32_t viewShadowRadius__;
+			std::string viewShadowColor__;
+			Point viewShadowOffset__;
+			bool horizontalWrap__;
+			
+			Point anchorPoint__;
+			Point animatedCenter__;
 
 			Titanium::UI::LAYOUT defaultWidth__;
 			Titanium::UI::LAYOUT defaultHeight__;

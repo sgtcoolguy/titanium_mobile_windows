@@ -13,9 +13,13 @@
 #include <vector>
 #include <memory>
 #include "Titanium/UI/ViewLayoutDelegate.hpp"
+#include "Titanium/UI/Point.hpp"
+#include "Titanium/UI/Gradient.hpp"
 
 namespace Titanium
 {
+	class Blob;
+	
 	namespace UI
 	{
 		using namespace HAL;
@@ -33,6 +37,85 @@ namespace Titanium
 		class TITANIUMKIT_EXPORT View : public Module, public JSExport<View>
 		{
 		public:
+
+			/*!
+			  @property
+			  @abstract accessibilityHidden
+			  @discussion Whether the view should be "hidden" from (i.e., ignored by) the accessibility service.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, accessibilityHidden);
+
+			/*!
+			  @property
+			  @abstract accessibilityHint
+			  @discussion Briefly describes what performing an action (such as a click) on the view will do.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, accessibilityHint);
+
+			/*!
+			  @property
+			  @abstract accessibilityLabel
+			  @discussion A succint label identifying the view for the device's accessibility service.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, accessibilityLabel);
+
+			/*!
+			  @property
+			  @abstract accessibilityValue
+			  @discussion A string describing the value (if any) of the view for the device's accessibility service.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, accessibilityValue);
+
+			/*!
+			  @property
+			  @abstract clipMode
+			  @discussion View's clipping behavior.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::uint32_t, clipMode);
+
+			/*!
+			  @property
+			  @abstract enabled
+			  @discussion Determines if the view is enabled or disabled.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, enabled);
+
+			/*!
+			  @property
+			  @abstract focusable
+			  @discussion Whether view should be focusable while navigating with the trackball.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, focusable);
+
+			/*!
+			  @property
+			  @abstract softKeyboardOnFocus
+			  @discussion Determines keyboard behavior when this view is focused.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::uint32_t, softKeyboardOnFocus);
+
+			/*!
+			  @property
+			  @abstract keepScreenOn
+			  @discussion Determines whether to keep the device screen on.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, keepScreenOn);
+
+			/*!
+			  @method
+			  @abstract toImage
+			  @discussion Returns an image of the rendered view, as a Blob.
+			*/
+			virtual std::shared_ptr<Titanium::Blob> toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+			  @abstract convertPointToView
+			  @discussion Translates a point from this view's coordinate system to another view's coordinate system.
+			*/
+			virtual Point convertPointToView(Point point, std::shared_ptr<View> destinationView) TITANIUM_NOEXCEPT;
+
+
 			/*!
 			  @method
 
@@ -77,36 +160,162 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
-			TITANIUM_FUNCTION_DEF(add);
-			TITANIUM_FUNCTION_DEF(animate);
-			TITANIUM_FUNCTION_DEF(hide);
-			TITANIUM_FUNCTION_DEF(remove);
-			TITANIUM_FUNCTION_DEF(show);
-			TITANIUM_FUNCTION_DEF(insertAt);
-			TITANIUM_FUNCTION_DEF(replaceAt);
-			
+			TITANIUM_PROPERTY_DEF(accessibilityHidden);
+			TITANIUM_PROPERTY_DEF(accessibilityHint);
+			TITANIUM_PROPERTY_DEF(accessibilityLabel);
+			TITANIUM_PROPERTY_DEF(accessibilityValue);
+			TITANIUM_PROPERTY_DEF(anchorPoint);
+			TITANIUM_PROPERTY_READONLY_DEF(animatedCenter);
+			TITANIUM_PROPERTY_DEF(backgroundDisabledColor);
+			TITANIUM_PROPERTY_DEF(backgroundDisabledImage);
+			TITANIUM_PROPERTY_DEF(backgroundFocusedColor);
+			TITANIUM_PROPERTY_DEF(backgroundFocusedImage);
+			TITANIUM_PROPERTY_DEF(backgroundGradient);
 			TITANIUM_PROPERTY_DEF(backgroundImage);
-			TITANIUM_PROPERTY_DEF(backgroundColor);
+			TITANIUM_PROPERTY_DEF(backgroundRepeat);
+			TITANIUM_PROPERTY_DEF(backgroundLeftCap);
+			TITANIUM_PROPERTY_DEF(backgroundSelectedColor);
+			TITANIUM_PROPERTY_DEF(backgroundSelectedImage);
+			TITANIUM_PROPERTY_DEF(backgroundTopCap);
 			TITANIUM_PROPERTY_DEF(borderColor);
 			TITANIUM_PROPERTY_DEF(borderRadius);
 			TITANIUM_PROPERTY_DEF(borderWidth);
-			TITANIUM_PROPERTY_DEF(bottom);
-			TITANIUM_PROPERTY_DEF(center);
-			TITANIUM_PROPERTY_READONLY_DEF(children);
-			TITANIUM_PROPERTY_DEF(height);
-			TITANIUM_PROPERTY_DEF(layout);
-			TITANIUM_PROPERTY_DEF(left);
+			TITANIUM_PROPERTY_DEF(clipMode);
+			TITANIUM_PROPERTY_DEF(enabled);
+			TITANIUM_PROPERTY_DEF(focusable);
 			TITANIUM_PROPERTY_DEF(opacity);
+			TITANIUM_PROPERTY_DEF(overrideCurrentAnimation);
+			TITANIUM_PROPERTY_DEF(pullBackgroundColor);
 			TITANIUM_PROPERTY_READONLY_DEF(rect);
-			TITANIUM_PROPERTY_DEF(right);
 			TITANIUM_PROPERTY_READONLY_DEF(size);
+			TITANIUM_PROPERTY_DEF(softKeyboardOnFocus);
 			TITANIUM_PROPERTY_DEF(tintColor);
 			TITANIUM_PROPERTY_DEF(touchEnabled);
+			TITANIUM_PROPERTY_DEF(transform);
+			TITANIUM_PROPERTY_DEF(viewShadowRadius);
+			TITANIUM_PROPERTY_DEF(viewShadowColor);
+			TITANIUM_PROPERTY_DEF(viewShadowOffset);
 			TITANIUM_PROPERTY_DEF(visible);
-			TITANIUM_PROPERTY_DEF(top);
-			TITANIUM_PROPERTY_DEF(width);
+			TITANIUM_PROPERTY_DEF(horizontalWrap);
 			TITANIUM_PROPERTY_DEF(zIndex);
+			TITANIUM_PROPERTY_DEF(keepScreenOn);
+			TITANIUM_PROPERTY_READONLY_DEF(children);
+			TITANIUM_PROPERTY_DEF(backgroundColor);
+			TITANIUM_PROPERTY_DEF(top);
+			TITANIUM_PROPERTY_DEF(left);
+			TITANIUM_PROPERTY_DEF(bottom);
+			TITANIUM_PROPERTY_DEF(center);
+			TITANIUM_PROPERTY_DEF(right);
+			TITANIUM_PROPERTY_DEF(width);
+			TITANIUM_PROPERTY_DEF(height);
+			TITANIUM_PROPERTY_DEF(layout);
 
+			TITANIUM_FUNCTION_DEF(animate);
+			TITANIUM_FUNCTION_DEF(remove);
+			TITANIUM_FUNCTION_DEF(removeAllChildren);
+			TITANIUM_FUNCTION_DEF(toImage);
+			TITANIUM_FUNCTION_DEF(convertPointToView);
+			TITANIUM_FUNCTION_DEF(add);
+			TITANIUM_FUNCTION_DEF(hide);
+			TITANIUM_FUNCTION_DEF(show);
+			TITANIUM_FUNCTION_DEF(getAccessibilityHidden);
+			TITANIUM_FUNCTION_DEF(setAccessibilityHidden);
+			TITANIUM_FUNCTION_DEF(getAccessibilityHint);
+			TITANIUM_FUNCTION_DEF(setAccessibilityHint);
+			TITANIUM_FUNCTION_DEF(getAccessibilityLabel);
+			TITANIUM_FUNCTION_DEF(setAccessibilityLabel);
+			TITANIUM_FUNCTION_DEF(getAccessibilityValue);
+			TITANIUM_FUNCTION_DEF(setAccessibilityValue);
+			TITANIUM_FUNCTION_DEF(getAnchorPoint);
+			TITANIUM_FUNCTION_DEF(setAnchorPoint);
+			TITANIUM_FUNCTION_DEF(getAnimatedCenter);
+			TITANIUM_FUNCTION_DEF(getBackgroundDisabledColor);
+			TITANIUM_FUNCTION_DEF(setBackgroundDisabledColor);
+			TITANIUM_FUNCTION_DEF(getBackgroundDisabledImage);
+			TITANIUM_FUNCTION_DEF(setBackgroundDisabledImage);
+			TITANIUM_FUNCTION_DEF(getBackgroundFocusedColor);
+			TITANIUM_FUNCTION_DEF(setBackgroundFocusedColor);
+			TITANIUM_FUNCTION_DEF(getBackgroundFocusedImage);
+			TITANIUM_FUNCTION_DEF(setBackgroundFocusedImage);
+			TITANIUM_FUNCTION_DEF(getBackgroundGradient);
+			TITANIUM_FUNCTION_DEF(setBackgroundGradient);
+			TITANIUM_FUNCTION_DEF(getBackgroundImage);
+			TITANIUM_FUNCTION_DEF(setBackgroundImage);
+			TITANIUM_FUNCTION_DEF(getBackgroundRepeat);
+			TITANIUM_FUNCTION_DEF(setBackgroundRepeat);
+			TITANIUM_FUNCTION_DEF(getBackgroundLeftCap);
+			TITANIUM_FUNCTION_DEF(setBackgroundLeftCap);
+			TITANIUM_FUNCTION_DEF(getBackgroundSelectedColor);
+			TITANIUM_FUNCTION_DEF(setBackgroundSelectedColor);
+			TITANIUM_FUNCTION_DEF(getBackgroundSelectedImage);
+			TITANIUM_FUNCTION_DEF(setBackgroundSelectedImage);
+			TITANIUM_FUNCTION_DEF(getBackgroundTopCap);
+			TITANIUM_FUNCTION_DEF(setBackgroundTopCap);
+			TITANIUM_FUNCTION_DEF(getBorderColor);
+			TITANIUM_FUNCTION_DEF(setBorderColor);
+			TITANIUM_FUNCTION_DEF(getBorderRadius);
+			TITANIUM_FUNCTION_DEF(setBorderRadius);
+			TITANIUM_FUNCTION_DEF(getBorderWidth);
+			TITANIUM_FUNCTION_DEF(setBorderWidth);
+			TITANIUM_FUNCTION_DEF(getClipMode);
+			TITANIUM_FUNCTION_DEF(setClipMode);
+			TITANIUM_FUNCTION_DEF(getEnabled);
+			TITANIUM_FUNCTION_DEF(setEnabled);
+			TITANIUM_FUNCTION_DEF(getFocusable);
+			TITANIUM_FUNCTION_DEF(setFocusable);
+			TITANIUM_FUNCTION_DEF(getOpacity);
+			TITANIUM_FUNCTION_DEF(setOpacity);
+			TITANIUM_FUNCTION_DEF(getOverrideCurrentAnimation);
+			TITANIUM_FUNCTION_DEF(setOverrideCurrentAnimation);
+			TITANIUM_FUNCTION_DEF(getPullBackgroundColor);
+			TITANIUM_FUNCTION_DEF(setPullBackgroundColor);
+			TITANIUM_FUNCTION_DEF(getRect);
+			TITANIUM_FUNCTION_DEF(getSize);
+			TITANIUM_FUNCTION_DEF(getSoftKeyboardOnFocus);
+			TITANIUM_FUNCTION_DEF(setSoftKeyboardOnFocus);
+			TITANIUM_FUNCTION_DEF(getTintColor);
+			TITANIUM_FUNCTION_DEF(setTintColor);
+			TITANIUM_FUNCTION_DEF(getTouchEnabled);
+			TITANIUM_FUNCTION_DEF(setTouchEnabled);
+			TITANIUM_FUNCTION_DEF(getTransform);
+			TITANIUM_FUNCTION_DEF(setTransform);
+			TITANIUM_FUNCTION_DEF(getViewShadowRadius);
+			TITANIUM_FUNCTION_DEF(setViewShadowRadius);
+			TITANIUM_FUNCTION_DEF(getViewShadowColor);
+			TITANIUM_FUNCTION_DEF(setViewShadowColor);
+			TITANIUM_FUNCTION_DEF(getViewShadowOffset);
+			TITANIUM_FUNCTION_DEF(setViewShadowOffset);
+			TITANIUM_FUNCTION_DEF(getVisible);
+			TITANIUM_FUNCTION_DEF(setVisible);
+			TITANIUM_FUNCTION_DEF(getHorizontalWrap);
+			TITANIUM_FUNCTION_DEF(setHorizontalWrap);
+			TITANIUM_FUNCTION_DEF(getZIndex);
+			TITANIUM_FUNCTION_DEF(setZIndex);
+			TITANIUM_FUNCTION_DEF(getKeepScreenOn);
+			TITANIUM_FUNCTION_DEF(setKeepScreenOn);
+			TITANIUM_FUNCTION_DEF(getChildren);
+			TITANIUM_FUNCTION_DEF(getBackgroundColor);
+			TITANIUM_FUNCTION_DEF(setBackgroundColor);
+			TITANIUM_FUNCTION_DEF(getTop);
+			TITANIUM_FUNCTION_DEF(setTop);
+			TITANIUM_FUNCTION_DEF(getLeft);
+			TITANIUM_FUNCTION_DEF(setLeft);
+			TITANIUM_FUNCTION_DEF(getBottom);
+			TITANIUM_FUNCTION_DEF(setBottom);
+			TITANIUM_FUNCTION_DEF(getCenter);
+			TITANIUM_FUNCTION_DEF(setCenter);
+			TITANIUM_FUNCTION_DEF(getRight);
+			TITANIUM_FUNCTION_DEF(setRight);
+			TITANIUM_FUNCTION_DEF(getWidth);
+			TITANIUM_FUNCTION_DEF(setWidth);
+			TITANIUM_FUNCTION_DEF(getHeight);
+			TITANIUM_FUNCTION_DEF(setHeight);
+			TITANIUM_FUNCTION_DEF(getLayout);
+			TITANIUM_FUNCTION_DEF(setLayout);
+
+			TITANIUM_FUNCTION_DEF(insertAt);
+			TITANIUM_FUNCTION_DEF(replaceAt);
+			
 			virtual void postInitialize(JSObject& this_object) override;
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
@@ -141,6 +350,17 @@ namespace Titanium
 #pragma warning(disable : 4251)
 			std::shared_ptr<ViewLayoutEventDelegate> layoutEventDelegate__;
 			std::shared_ptr<ViewLayoutDelegate> layoutDelegate__;
+
+			bool accessibilityHidden__ { false };
+			std::string accessibilityHint__;
+			std::string accessibilityLabel__;
+			std::string accessibilityValue__;
+
+			std::uint32_t clipMode__; // iOS specific
+			std::uint32_t softKeyboardOnFocus__; // Android specific
+			bool enabled__ { true };
+			bool focusable__ { true };
+			bool keepScreenOn__ { false };
 #pragma warning(pop)
 		};
 	} // namespace UI
