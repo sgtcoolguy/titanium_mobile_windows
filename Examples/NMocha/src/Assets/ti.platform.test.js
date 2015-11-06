@@ -50,7 +50,7 @@ describe("Titanium.Platform", function () {
         should(Ti.Platform.architecture).be.a.String;
         finish();
     });
-    it.skip("availableMemory", function (finish) {
+    it("availableMemory", function (finish) {
         should(Ti.Platform.availableMemory).be.a.Number;
         finish();
     });
@@ -79,11 +79,11 @@ describe("Titanium.Platform", function () {
         should(Ti.Platform.id).be.a.String;
         finish();
     });
-    it.skip("locale", function (finish) {
+    it("locale", function (finish) {
         should(Ti.Platform.locale).be.a.String;
         finish();
     });
-    it.skip("macaddress", function (finish) {
+    it("macaddress", function (finish) {
         should(Ti.Platform.macaddress).be.a.String;
         finish();
     });
@@ -95,7 +95,7 @@ describe("Titanium.Platform", function () {
         should(Ti.Platform.name).be.a.String;
         finish();
     });
-    it.skip("netmask", function (finish) {
+    it("netmask", function (finish) {
         should(Ti.Platform.netmask).be.a.String;
         finish();
     });
@@ -103,11 +103,11 @@ describe("Titanium.Platform", function () {
         should(Ti.Platform.osname).be.a.String;
         finish();
     });
-    it.skip("ostype", function (finish) {
+    it("ostype", function (finish) {
         should(Ti.Platform.ostype).be.a.String;
         finish();
     });
-    it.skip("processorCount", function (finish) {
+    it("processorCount", function (finish) {
         should(Ti.Platform.processorCount).be.a.Number;
         finish();
     });
@@ -128,7 +128,7 @@ describe("Titanium.Platform", function () {
         }
         finish();
     });
-    it.skip("displayCaps", function (finish) {
+    it("displayCaps", function (finish) {
         should(Ti.Platform.displayCaps).be.an.Object;
         should(Ti.Platform.displayCaps).not.be.null;
         finish();

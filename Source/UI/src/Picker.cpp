@@ -90,6 +90,9 @@ namespace TitaniumWindows
 		void Picker::set_value(const boost::optional<std::chrono::system_clock::time_point>& value) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Picker::set_value(value);
+			if (!value) {
+				return;
+			}
 			if (datePicker__) {
 				datePicker__->Date = TitaniumWindows::Utility::GetDateTime(*value__);
 			} else if (timePicker__) {
@@ -100,6 +103,9 @@ namespace TitaniumWindows
 		void Picker::set_maxDate(const boost::optional<std::chrono::system_clock::time_point>& maxDate) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Picker::set_maxDate(maxDate);
+			if (!maxDate) {
+				return;
+			}
 			if (datePicker__) {
 				datePicker__->MaxYear = TitaniumWindows::Utility::GetDateTime(*maxDate__);
 			}
@@ -108,6 +114,9 @@ namespace TitaniumWindows
 		void Picker::set_minDate(const boost::optional<std::chrono::system_clock::time_point>& minDate) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Picker::set_minDate(minDate);
+			if (!minDate) {
+				return;
+			}
 			if (datePicker__) {
 				datePicker__->MinYear = TitaniumWindows::Utility::GetDateTime(*minDate__);
 			}

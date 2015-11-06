@@ -58,8 +58,8 @@ describe('Titanium', function () {
         Ti.mocha_test = undefined;
         finish();
     });
-    it.skip('createBuffer', function (finish) {
-        should(Ti.applyProperties).be.a.Function;
+    it('createBuffer', function (finish) {
+        should(Ti.createBuffer).be.a.Function;
         finish();
     });
     it('fireEvent', function (finish) {

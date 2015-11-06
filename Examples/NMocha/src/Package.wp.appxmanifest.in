@@ -50,7 +50,6 @@
   
   <Capabilities>
     <Capability Name="internetClient" />
-    <m3:Capability Name="contacts" />
   </Capabilities>
   
 </Package>

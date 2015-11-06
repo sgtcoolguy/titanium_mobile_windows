@@ -84,8 +84,8 @@ describe("Titanium.UI.Label", function () {
         finish();
     });
 
-    it.skip("width", function (finish) {
-        this.timeout(1000);
+    it("width", function (finish) {
+        this.timeout(5000);
         var label = Ti.UI.createLabel({
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
             width: Ti.UI.SIZE
@@ -94,16 +94,19 @@ describe("Titanium.UI.Label", function () {
             backgroundColor: '#ddd'
         });
         win.add(label);
-        win.open();
-        setTimeout(function () {
-            should(win.size.width).be.greaterThan(100);
+        win.addEventListener('postlayout', function () {
             should(label.size.width).not.be.greaterThan(win.size.width);
-            win.close();
-            finish();
-        }, 100);
+        });
+        win.addEventListener('focus', function() {
+            setTimeout(function() {
+                win.close();
+                finish();
+            }, 3000);
+        });
+        win.open();
     });
-    it.skip("height", function (finish) {
-        this.timeout(1000);
+    it("height", function (finish) {
+        this.timeout(5000);
         var label = Ti.UI.createLabel({
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
             width: Ti.UI.SIZE,
@@ -117,15 +120,19 @@ describe("Titanium.UI.Label", function () {
         var win = Ti.UI.createWindow({
             backgroundColor: '#eee'
         });
-        bgView.add(label)
+        bgView.add(label);
         win.add(bgView);
 
-        setTimeout(function () {
+        win.addEventListener('postlayout', function () {
             should(bgView.size.height).be.eql(100);
             should(label.size.height).not.be.greaterThan(100);
-            win.close();
-            finish();
-        },100);
+        });
+        win.addEventListener('focus', function() {
+            setTimeout(function() {
+                win.close();
+                finish();
+            }, 3000);
+        });
         win.open();
     });
 
