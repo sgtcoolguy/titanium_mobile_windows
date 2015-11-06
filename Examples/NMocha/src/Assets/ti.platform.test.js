@@ -55,10 +55,10 @@ describe("Titanium.Platform", function () {
         finish();
     });
     it("batteryLevel", function (finish) {
+        // batteryLevel should be a number and only accessible from phone
+        should(Ti.Platform.batteryLevel).be.a.Number;
         if (Ti.Platform.osname == 'windowsphone') {
             should(Ti.Platform.batteryLevel).be.a.Number;
-        } else {
-            should(Ti.Platform.batteryLevel === undefined).be.eql(true);
         }
         finish();
     });

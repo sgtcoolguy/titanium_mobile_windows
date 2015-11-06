@@ -50,7 +50,7 @@ namespace TitaniumWindows
 		}
 
 		mimetype_ = TitaniumWindows::Utility::ConvertString(file->ContentType);
-		if (mimetype_ == "application/x-javascript") { // handle special cases to match other platforms
+		if (mimetype_ == "application/x-javascript" || mimetype_ == "application/javascript") { // handle special cases to match other platforms
 			mimetype_ = "text/javascript";
 		}
 		if (boost::starts_with(mimetype_, "image/")) {
