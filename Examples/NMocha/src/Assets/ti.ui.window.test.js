@@ -63,22 +63,22 @@ describe("Titanium.UI.Window", function () {
         win.open();
     });
 
-    it.skip("remove_children", function (finish) {
+    it("remove_children", function (finish) {
         this.timeout(5000);
         var win = Ti.UI.createWindow({
             backgroundColor: 'gray'
         });
         var view = Ti.UI.createView();
-        win.add(view);
-        win.addEventListener("focus", function () {
+        win.addEventListener('focus', function() {
             should(win.children.length).be.eql(1);
             win.remove(win.children[0]);
             should(win.children.length).be.eql(0);
             setTimeout(function () {
-                w.close();
+                win.close();
                 finish();
-            }, 1000);
+            }, 3000);
         });
+        win.add(view);
         win.open();
     });
 

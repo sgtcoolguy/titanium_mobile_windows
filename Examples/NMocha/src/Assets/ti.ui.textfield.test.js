@@ -68,7 +68,7 @@ describe("Titanium.UI.TextField", function () {
     // suppressReturn
 
     it.skip("width", function (finish) {
-        this.timeout(1000);
+        this.timeout(5000);
         var textfield = Ti.UI.createTextField({
             value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
             width: Ti.UI.SIZE
@@ -77,16 +77,19 @@ describe("Titanium.UI.TextField", function () {
             backgroundColor: '#ddd'
         });
         win.add(textfield);
-        win.addEventListener('postlayout', function () {
+        win.addEventListener('focus', function () {
             should(win.width).be.greaterThan(100);
             should(textfield.width).not.be.greaterThan(win.width);
-            finish();
+            setTimeout(function() {
+                win.close();
+                finish();
+            }, 3000);
         });
         win.open();
     });
 
-    it.skip("height", function (finish) {
-        this.timeout(1000);
+    it("height", function (finish) {
+        this.timeout(5000);
         var textfield = Ti.UI.createTextField({
             value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
             width: Ti.UI.SIZE,
@@ -100,13 +103,16 @@ describe("Titanium.UI.TextField", function () {
         var win = Ti.UI.createWindow({
             backgroundColor: '#eee'
         });
-        bgView.add(textfield)
+        bgView.add(textfield);
         win.add(bgView);
 
-        win.addEventListener('postlayout', function () {
+        win.addEventListener('focus', function () {
             should(bgView.height).be.eql(100);
             should(textfield.height).not.be.greaterThan(100);
-            finish();
+            setTimeout(function() {
+                win.close();
+                finish();
+            }, 3000);
         });
         win.open();
     });

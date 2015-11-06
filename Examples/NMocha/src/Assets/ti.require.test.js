@@ -30,7 +30,7 @@ describe('requireJS', function () {
     });
 
     // require should cache object
-    it.skip('requireJS.ObjectCache', function (finish) {
+    it('requireJS.ObjectCache', function (finish) {
         var object1 = require('ti.require.test_test');
         var object2 = require('ti.require.test_test');
         should(object1).be.an.Object;
