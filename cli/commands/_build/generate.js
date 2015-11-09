@@ -111,7 +111,11 @@ function addI18nVSResources(next) {
 
 	// add it after the first occurrence of </ItemGroup>
 	modified = modified.replace(/<\/ItemGroup>/, itemGroupContent.join('\r\n  '));
-	fs.writeFileSync(vcxproj, modified)
+
+	// DefaultLanguage (forcing to "en" for now)
+	modified = modified.replace(/<DefaultLanguage>[a-zA-Z]{2}(-[a-zA-Z]{2})*<\/DefaultLanguage>/, '<DefaultLanguage>en</DefaultLanguage>');
+
+	fs.writeFileSync(vcxproj, modified);
 
 	next();
 }
