@@ -37,6 +37,9 @@ namespace TitaniumWindows
 
 	void Geolocation::ensureLoadGeolocator() 
 	{
+		if (!get_locationServicesEnabled()) {
+			return;
+		}
 		if (geolocator_ == nullptr) {
 			geolocator_ = ref new Geolocator();
 			geolocator_->MovementThreshold = 1;
@@ -47,6 +50,12 @@ namespace TitaniumWindows
 
 	void Geolocation::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 	{
+		Titanium::GeolocationModule::enableEvent(event_name);
+
+		if (!get_locationServicesEnabled()) {
+			return;
+		}
+
 		ensureLoadGeolocator();
 
 		// Location event
@@ -90,6 +99,12 @@ namespace TitaniumWindows
 	{
 		using namespace Titanium::Geolocation;
 
+		Titanium::GeolocationModule::set_accuracy(accuracy);
+
+		if (!get_locationServicesEnabled()) {
+			return;
+		}
+
 		ensureLoadGeolocator();
 
 		switch (accuracy) {
@@ -127,15 +142,19 @@ namespace TitaniumWindows
 			}
 			break;
 		}
-		Titanium::GeolocationModule::set_accuracy(accuracy);
 	}
 
 	void Geolocation::set_distanceFilter(const double& distance) TITANIUM_NOEXCEPT
 	{
+		Titanium::GeolocationModule::set_distanceFilter(distance);
+
+		if (!get_locationServicesEnabled()) {
+			return;
+		}
+
 		ensureLoadGeolocator();
 
 		geolocator_->MovementThreshold = distance;
-		Titanium::GeolocationModule::set_distanceFilter(distance);
 	}
 
 	void Geolocation::loadAppxManifest()
@@ -173,6 +192,10 @@ namespace TitaniumWindows
 
 	void Geolocation::forwardGeocoder(const std::string& address, JSObject callback) TITANIUM_NOEXCEPT
 	{
+		if (!get_locationServicesEnabled()) {
+			return;
+		}
+
 		auto requestString = std::string("http://api.appcelerator.net/p/v1/geo?d=f");
 
 			//TODO : Use real GUID, MID, SID
@@ -225,6 +248,10 @@ namespace TitaniumWindows
 
 	void Geolocation::getCurrentHeading(JSObject callback) TITANIUM_NOEXCEPT
 	{
+		if (!get_locationServicesEnabled()) {
+			return;
+		}
+
 		ensureLoadGeolocator();
 
 		concurrency::create_task(geolocator_->GetGeopositionAsync()).then([this, callback](Geoposition^ position) {
@@ -259,6 +286,10 @@ namespace TitaniumWindows
 
 	void Geolocation::getCurrentPosition(JSObject callback) TITANIUM_NOEXCEPT
 	{
+		if (!get_locationServicesEnabled()) {
+			return;
+		}
+
 		ensureLoadGeolocator();
 
 		concurrency::create_task(geolocator_->GetGeopositionAsync()).then([this, callback](Geoposition^ position) {
@@ -299,6 +330,10 @@ namespace TitaniumWindows
 
 	void Geolocation::reverseGeocoder(const double& latitude, const double& longitude, JSObject callback) TITANIUM_NOEXCEPT
 	{
+		if (!get_locationServicesEnabled()) {
+			return;
+		}
+
 		ensureLoadGeolocator();
 
 		auto requestString = std::string("http://api.appcelerator.net/p/v1/geo?d=r");

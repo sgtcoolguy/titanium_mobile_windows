@@ -202,7 +202,7 @@ describe('Titanium.Filesystem', function () {
         finish();
     });
     // Check if openStream exists
-    it.skip('openStream', function (finish) {
+    it('openStream', function (finish) {
         should(Ti.Filesystem.openStream).not.be.undefined;
         should(Ti.Filesystem.openStream).be.a.Function;
         var stream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_READ, 'app.js');
@@ -606,17 +606,17 @@ describe('Titanium.Filesystem.File', function () {
     });
 
     // File.open
-    it.skip('open', function (finish) {
+    it('open', function (finish) {
         var newFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
         should(newFile.exists()).be.true;
-        var stream = newFile.open();
+        var stream = newFile.open(Ti.Filesystem.MODE_READ);
         should(stream).be.ok; // not null or undefined.
         stream.close();
         finish();
     });
 
     // File.spaceAvailable
-    it.skip('spaceAvailable', function (finish) {
+    it('spaceAvailable', function (finish) {
         var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
         should(file.exists()).be.true;
         var space = file.spaceAvailable();
