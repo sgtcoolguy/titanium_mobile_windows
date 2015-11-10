@@ -52,7 +52,7 @@ namespace TitaniumWindows
 			virtual void set_keyboardType(const Titanium::UI::KEYBOARD& keyboardType) TITANIUM_NOEXCEPT override final;
 //			virtual void set_leftButtonMode(const Titanium::UI::INPUT_BUTTONMODE& leftButtonMode) TITANIUM_NOEXCEPT override final;
 			virtual void set_maxLength(const int32_t& maxLength) TITANIUM_NOEXCEPT override final;
-//			virtual void set_passwordMask(const bool& passwordMask) TITANIUM_NOEXCEPT override final;
+			virtual void set_passwordMask(const bool& passwordMask) TITANIUM_NOEXCEPT override final;
 //			virtual void set_returnKeyType(const Titanium::UI::RETURNKEY& returnKeyType) TITANIUM_NOEXCEPT override final;
 //			virtual void set_rightButtonMode(const Titanium::UI::INPUT_BUTTONMODE& rightButtonMode) TITANIUM_NOEXCEPT override final;
 //			virtual void set_suppressReturn(const bool& suppressReturn) TITANIUM_NOEXCEPT override final;
@@ -70,7 +70,11 @@ namespace TitaniumWindows
 			virtual bool js_set_width_min(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
 		private:
-			Windows::UI::Xaml::Controls::TextBox^ text_box__;
+			void initTextComponent();
+
+			Windows::UI::Xaml::Controls::Grid^ parent__{ nullptr };
+			Windows::UI::Xaml::Controls::TextBox^ text_box__{ nullptr };
+			Windows::UI::Xaml::Controls::PasswordBox^ password_box__{ nullptr };
 
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken blur_event_;
