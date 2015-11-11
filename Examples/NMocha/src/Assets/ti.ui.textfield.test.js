@@ -60,6 +60,22 @@ describe("Titanium.UI.TextField", function () {
         finish();
     });
 
+    it("passwordMask", function (finish) {
+        var text = 'this is some text';
+        var textfield = Ti.UI.createTextField({
+            value: text
+        });
+        should(function () {
+            // passwordMask should default to false
+            should(textfield.passwordMask).be.false;
+            textfield.passwordMask = true;
+            should(textfield.passwordMask).be.true;
+            // it should have same text before
+            should(textfield.value).be.eql(text);
+        }).not.throw();
+        finish();
+    });
+
     // TODO Add tests for:
     // autocapitalize
     // autocorrect
@@ -72,7 +88,6 @@ describe("Titanium.UI.TextField", function () {
     // hintText
     // keyboardType
     // maxLength
-    // passwordMask
     // returnKeyType
     // selection
     // suppressReturn
