@@ -103,8 +103,17 @@ function validate(logger, config, cli) {
 
 	// check that the build directory is writeable
 	// try to build under temp if the path is shorter and we have write access
-	var tempBuildDir = path.join(os.tmpdir());
-	logger.log(tempBuildDir);
+	var home = process.env.HOME || process.env.USERPROFILE || process.env.APPDATA;
+	var ti_home = path.join(home, '.titanium');
+	var tempBuildDir = path.join(ti_home, 'vsbuild');
+	if (appc.fs.isDirWritable(home)) {
+		if (!fs.existsSync(ti_home)) {
+			fs.mkdirSync(ti_home);
+		}
+		if (!fs.existsSync(tempBuildDir)) {
+			fs.mkdirSync(tempBuildDir);
+		}
+	}
 	if ((tempBuildDir.length < this.buildDir.length) && appc.fs.isDirWritable(tempBuildDir)) {
 		this.originalBuildDir = this.buildDir;
 		this.buildDir = path.join(tempBuildDir, path.basename(this.projectDir)); // build under temp!
