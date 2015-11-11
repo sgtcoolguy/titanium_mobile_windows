@@ -18,6 +18,7 @@ namespace TitaniumWindows
 
 namespace TitaniumWindows_Native
 {
+	[Windows::Foundation::Metadata::WebHostHidden] // disable C4453 warning
 	public ref class RequireHook sealed
 	{
 	public:
