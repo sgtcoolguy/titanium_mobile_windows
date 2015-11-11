@@ -97,7 +97,6 @@ function runCmake(next) {
 			'-G', generatorName,
 			'-DCMAKE_SYSTEM_NAME=' + this.cmakePlatform,
 			'-DCMAKE_SYSTEM_VERSION=' + this.wpsdk,
-			'-DCMAKE_BUILD_TYPE=' + this.buildConfiguration,
 			this.buildDir
 		],
 		{
