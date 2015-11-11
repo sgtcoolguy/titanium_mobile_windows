@@ -8,6 +8,16 @@
 var should = require('./should');
 
 describe("Titanium.UI.Label", function () {
+
+    it("apiName", function (finish) {
+        var label = Ti.UI.createLabel({
+            text: "this is some text"
+        });
+        should(label.apiName).be.a.String;
+        should(label.apiName).be.eql("Titanium.UI.Label");
+        finish();
+    });
+
     it("text", function (finish) {
         var label = Ti.UI.createLabel({
             text: "this is some text"

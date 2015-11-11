@@ -15,7 +15,7 @@ namespace Titanium
 	{
 
 		TextArea::TextArea(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
-			: View(js_context),
+			: View(js_context, "Titanium.UI.TextArea"),
 			appearance__(KEYBOARD_APPEARANCE::DEFAULT),
 			attributedString__(js_context.CreateUndefined()),
 			autocapitalization__(TEXT_AUTOCAPITALIZATION::NONE),

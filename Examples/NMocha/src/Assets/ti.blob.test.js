@@ -7,10 +7,12 @@
 var should = require('./should');
 
 describe("Titanium.Blob", function () {
+
     it.skip("constructed from File.read()", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
         should(blob).be.an.Object;
         should(blob).be.an.instanceof(Ti.Blob);
+        should(blob.apiName).be.eql("Titanium.Blob");
         finish();
     });
     it.skip("constructed from image", function (finish) {

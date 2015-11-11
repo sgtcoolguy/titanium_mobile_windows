@@ -10,6 +10,8 @@ var should = require('./should');
 describe('Titanium.Utils', function () {
     it('Ti.Utils', function (finish) {
         should(Ti.Utils).not.be.undefined;
+        should(Ti.Utils.apiName).be.a.String;
+        should(Ti.Utils.apiName).be.eql("Titanium.Utils");
         finish();
     });
     it('base64decode', function (finish) {

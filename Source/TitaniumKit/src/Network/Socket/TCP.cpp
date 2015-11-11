@@ -17,7 +17,7 @@ namespace Titanium
 		namespace Socket
 		{
 			TCP::TCP(const JSContext& js_context) TITANIUM_NOEXCEPT
-				: Module(js_context)
+				: Module(js_context, "Titanium.Network.Socket.TCP")
 				, host__("")
 				, port__(0)
 				, listenQueueSize__(0)

@@ -22,7 +22,7 @@
 namespace Titanium
 {
 	Utils::Utils(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: Module(js_context)
+		: Module(js_context, "Titanium.Utils")
 	{
 	}
 

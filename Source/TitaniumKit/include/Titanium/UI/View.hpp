@@ -148,7 +148,7 @@ namespace Titanium
 			*/
 			virtual void add(const JSObject&) TITANIUM_NOEXCEPT;
 
-			View(const JSContext&) TITANIUM_NOEXCEPT;
+			View(const JSContext&, const std::string& apiName = "Titanium.UI.View") TITANIUM_NOEXCEPT;
 
 			virtual ~View() TITANIUM_NOEXCEPT;  //= default;
 			View(const View&) = default;

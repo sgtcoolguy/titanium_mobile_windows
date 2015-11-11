@@ -14,6 +14,11 @@ Array.prototype.contains = function (obj) {
 
 describe('Titanium.App.Properties', function () {
 
+    it('apiName', function (finish) {
+        should(Ti.App.Properties.apiName).be.eql("Titanium.App.Properties");
+        finish();
+    });
+
     it('getBool default', function (finish) {
         Ti.App.Properties.removeProperty('test_bool');
         should(Ti.App.Properties.getBool('test_bool')).be.eql(false); // iOS returns null, Android returns false

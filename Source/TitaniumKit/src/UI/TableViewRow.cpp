@@ -14,7 +14,7 @@ namespace Titanium
 	namespace UI
 	{
     	TableViewRow::TableViewRow(const JSContext& js_context) TITANIUM_NOEXCEPT
-        	: View(js_context),
+        	: View(js_context, "Titanium.UI.TableViewRow"),
         	color__(""),
         	hasCheck__(false),
         	hasChild__(false),

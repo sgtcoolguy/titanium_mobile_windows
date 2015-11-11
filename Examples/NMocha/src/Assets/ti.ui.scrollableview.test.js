@@ -8,6 +8,15 @@
 var should = require('./should');
 
 describe("Titanium.UI.ScrollableView", function () {
+    it("apiName", function (finish) {
+        var bar = Ti.UI.createScrollableView({
+            
+        });
+        should(bar.apiName).be.a.String;
+        should(bar.apiName).be.eql("Titanium.UI.ScrollableView");
+        finish();
+    });
+
     it("views", function (finish) {
         var bar = Ti.UI.createScrollableView({
             

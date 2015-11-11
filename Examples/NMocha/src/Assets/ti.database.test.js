@@ -7,7 +7,12 @@
 var should = require('./should');
 
 describe('Titanium.Database', function () {
-
+    it('apiName', function (finish) {
+        should(function () {
+            should(Ti.Database.apiName).be.eql("Titanium.Database");
+        }).not.throw();
+        finish();
+    });
     // Check if FIELD_TYPE_DOUBLE exists and make sure it does not throw exception
     it('FIELD_TYPE_DOUBLE', function (finish) {
         should(function () {

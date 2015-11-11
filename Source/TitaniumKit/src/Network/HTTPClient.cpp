@@ -13,7 +13,7 @@ namespace Titanium
 	namespace Network
 	{
 		HTTPClient::HTTPClient(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context)
+			: Module(js_context, "Titanium.Network.HTTPClient")
 			, onload__(js_context.CreateNull())
 			, onerror__(js_context.CreateNull())
 			, ondatastream__(js_context.CreateNull())

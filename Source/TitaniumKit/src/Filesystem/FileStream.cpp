@@ -16,7 +16,7 @@ namespace Titanium
 	{
 
 		FileStream::FileStream(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: IOStream(js_context)
+			: IOStream(js_context, "Titanium.Filesystem.FileStream")
 		{
 		}
 

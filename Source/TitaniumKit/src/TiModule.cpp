@@ -13,7 +13,7 @@
 namespace Titanium
 {
 	TiModule::TiModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Module(js_context),
+	    : Module(js_context, "Titanium"),
 	      userAgent__(js_context.CreateString())
 	{
 		TITANIUM_LOG_DEBUG("TiModule:: ctor ", this);

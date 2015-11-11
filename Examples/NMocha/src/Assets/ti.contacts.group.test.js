@@ -10,6 +10,7 @@ describe("Titanium.Contacts.Group", function() {
 	it('identifier', function (finish) {
         should(function () {
             var group = Ti.Contacts.createGroup();
+            should(group.apiName).be.eql("Titanium.Contacts.Group");
             // must call Ti.Contacts.save to write group!
             should(group.identifier).not.be.undefined;
             //should(group.identifier).be.a.String; // null until saved?

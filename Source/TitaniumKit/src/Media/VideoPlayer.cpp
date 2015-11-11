@@ -18,7 +18,7 @@ namespace Titanium
 		using namespace Titanium::UI;
 		
 		VideoPlayer::VideoPlayer(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: View(js_context)
+			: View(js_context, "Titanium.Media.VideoPlayer")
 			, allowsAirPlay__(false)
 			, autoplay__(true)
 			, contentURL__("")

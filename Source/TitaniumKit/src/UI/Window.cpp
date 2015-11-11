@@ -25,7 +25,7 @@ namespace Titanium
 	namespace UI
 	{
 		Window::Window(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : View(js_context),
+		    : View(js_context, "Titanium.UI.Window"),
 		      openWindowParams_ctor__(js_context.CreateObject(JSExport<Titanium::UI::OpenWindowParams>::Class())),
 		      closeWindowParams_ctor__(js_context.CreateObject(JSExport<Titanium::UI::CloseWindowParams>::Class())),
 		      barColor__(""),

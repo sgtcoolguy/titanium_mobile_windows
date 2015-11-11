@@ -8,6 +8,13 @@ var should = require('./should');
 
 describe('Ti.Geolocation', function () {
 
+    it('apiName', function (finish) {
+        should(function () {
+            should(Ti.Geolocation.apiName).be.eql("Titanium.Geolocation");
+        }).not.throw();
+        finish();
+    });
+
     // Check if ACCURACY_BEST exists and make sure it does not throw exception
     it('ACCURACY_BEST', function (finish) {
         should(function () {

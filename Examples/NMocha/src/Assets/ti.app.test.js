@@ -33,6 +33,12 @@ describe('Titanium.App', function () {
         finish();
     });
 
+    it('apiName', function (finish) {
+        should(Ti.App.apiName).be.a.String;
+        should(Ti.App.apiName).be.eql("Titanium.App");
+        finish();
+    });
+
     it('deployType', function (finish) {
         should(Ti.App.deployType).be.a.String;
         should(Ti.App.getDeployType).be.a.Function;

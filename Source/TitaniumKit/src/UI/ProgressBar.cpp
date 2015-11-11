@@ -16,7 +16,7 @@ namespace Titanium
 
 
 		ProgressBar::ProgressBar(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: View(js_context),
+			: View(js_context, "Titanium.UI.ProgressBar"),
 			color__(""),
 			max__(1.0),
 			message__(""),

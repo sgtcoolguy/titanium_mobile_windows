@@ -30,7 +30,7 @@ namespace Titanium
 	namespace UI
 	{
 		TableView::TableView(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: View(js_context),
+			: View(js_context, "Titanium.UI.TableView"),
 			search__(get_context().CreateUndefined()),
 			tableviewAnimationProperties_ctor__(js_context.CreateObject(JSExport<Titanium::UI::TableViewAnimationProperties>::Class())),
 			filterAttribute__(""),

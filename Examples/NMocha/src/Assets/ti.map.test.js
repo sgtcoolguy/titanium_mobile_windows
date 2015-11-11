@@ -7,6 +7,12 @@
 var should = require('./should');
 
 describe('Titanium.Map', function () {
+     it('apiName', function (finish) {
+        should(function () {
+            should(Ti.Map.apiName).be.eql("Titanium.Map");
+        }).not.throw();
+        finish();
+    });   
     it('ANNOTATION_AZURE', function (finish) {
         should(function () {
             should(Ti.Map.ANNOTATION_AZURE).not.be.undefined;

@@ -10,7 +10,7 @@
 namespace Titanium
 {
 	Locale::Locale(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: Module(js_context)
+		: Module(js_context, "Titanium.Locale")
 		, currentLanguage__("en")
 		, currentCountry__("US")
 		, currentLocale__("en-US")

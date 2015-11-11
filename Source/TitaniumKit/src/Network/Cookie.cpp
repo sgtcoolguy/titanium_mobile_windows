@@ -16,7 +16,7 @@ namespace Titanium
 
 
 		Cookie::Cookie(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context)
+			: Module(js_context, "Titanium.Network.Cookie")
 			, comment__("")
 			, domain__("")
 			, expiryDate__("")

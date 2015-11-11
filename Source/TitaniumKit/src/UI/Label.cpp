@@ -14,7 +14,7 @@ namespace Titanium
 	namespace UI
 	{
 		Label::Label(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : View(js_context),
+		    : View(js_context, "Titanium.UI.Label"),
 		      color__(js_context.CreateString()),
 		      ellipsize__(false),
 		      text__(js_context.CreateString()),

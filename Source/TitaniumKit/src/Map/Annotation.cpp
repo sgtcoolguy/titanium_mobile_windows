@@ -16,7 +16,7 @@ namespace Titanium
 	{
 
 		Annotation::Annotation(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context),
+			: Module(js_context, "Titanium.Map.Annotation"),
 			canShowCallout__(true),
 			draggable__(false),
 			latitude__(0),

@@ -13,6 +13,8 @@ describe("Titanium.Network.HTTPClient", function () {
         var xhr = Ti.Network.createHTTPClient();
         xhr.setTimeout(6e4);
 
+        should(xhr.apiName).be.eql("Titanium.Network.HTTPClient");
+
         xhr.onload = function (e) {
             should(xhr.responseXML === null).be.false;
             should(xhr.responseXML.nodeType).eql(9); // DOCUMENT_NODE

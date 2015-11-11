@@ -8,6 +8,11 @@
 var should = require('./should');
 
 describe("Titanium.Platform", function () {
+
+    it("apiName", function (finish) {
+        should(Ti.Platform.apiName).be.eql("Titanium.Platform");
+        finish();
+    });
     it("createUUID", function (finish) {
         var result;
         should(Ti.Platform.createUUID).be.a.Function;

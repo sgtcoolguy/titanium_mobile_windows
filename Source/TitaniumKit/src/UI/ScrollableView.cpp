@@ -16,7 +16,7 @@ namespace Titanium
 
 
 		ScrollableView::ScrollableView(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: View(js_context),
+			: View(js_context, "Titanium.UI.ScrollableView"),
 			cacheSize__(0),
 			currentPage__(0),
 			disableBounce__(false),

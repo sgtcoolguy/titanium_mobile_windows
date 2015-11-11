@@ -107,7 +107,7 @@ namespace Titanium
 
 		virtual std::uint32_t getAvailableBytesToRead(const std::shared_ptr<Buffer>& read_buffer, const std::shared_ptr<Buffer>& write_buffer, const std::uint32_t& read_offset, const std::uint32_t& write_offset, const std::uint32_t& length);
 
-		IOStream(const JSContext&) TITANIUM_NOEXCEPT;
+		IOStream(const JSContext&, const std::string& = "Titanium.IOStream") TITANIUM_NOEXCEPT;
 		virtual ~IOStream()                  = default;
 		IOStream(const IOStream&)            = default;
 		IOStream& operator=(const IOStream&) = default;

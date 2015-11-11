@@ -15,7 +15,7 @@ namespace Titanium
 	{
 
 		ActivityIndicator::ActivityIndicator(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: View(js_context)
+			: View(js_context, "Titanium.UI.ActivityIndicator")
 			, color__("")
 			, message__("")
 			, messageid__("")

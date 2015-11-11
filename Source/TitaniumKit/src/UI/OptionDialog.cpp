@@ -17,7 +17,7 @@ namespace Titanium
 
 
 		OptionDialog::OptionDialog(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context),
+			: Module(js_context, "Titanium.UI.OptionDialog"),
 			cancel__(-1),
 			destructive__(-1),
 			opaquebackground__(false),

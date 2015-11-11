@@ -21,6 +21,8 @@ describe('Titanium.UI.ListView', function () {
         // Create ListView
         var listView = Ti.UI.createListView();
         should(listView).be.a.Object;
+        should(listView.apiName).be.a.String;
+        should(listView.apiName).be.eql("Titanium.UI.ListView");
 
         // Create list section
         var section_0 = Ti.UI.createListSection({ headerTitle: 'Zero'});

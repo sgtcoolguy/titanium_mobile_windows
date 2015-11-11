@@ -8,6 +8,16 @@
 var should = require('./should');
 
 describe("Titanium.UI.ProgressBar", function () {
+
+    it("apiName", function (finish) {
+        var bar = Ti.UI.createProgressBar({
+            message: "this is some text"
+        });
+        should(bar.apiName).be.a.String;
+        should(bar.apiName).be.eql("Titanium.UI.ProgressBar");
+        finish();
+    });
+
     it("message", function (finish) {
         var bar = Ti.UI.createProgressBar({
             message: "this is some text"

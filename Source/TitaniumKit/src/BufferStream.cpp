@@ -13,7 +13,7 @@ namespace Titanium
 {
 
 	BufferStream::BufferStream(const JSContext& js_context) TITANIUM_NOEXCEPT
-		: IOStream(js_context)
+		: IOStream(js_context, "Titanium.BufferStream")
 	{
 
 	}

@@ -16,7 +16,7 @@ namespace Titanium
 
 
 		SocketModule::SocketModule(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context)
+			: Module(js_context, "Titanium.Network.Socket")
 			, initialized__(js_context.CreateNumber(static_cast<std::uint32_t>(Socket::State::Initialized)))
 			, connected__(js_context.CreateNumber(static_cast<std::uint32_t>(Socket::State::Connected)))
 			, listening__(js_context.CreateNumber(static_cast<std::uint32_t>(Socket::State::Listening)))

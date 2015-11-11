@@ -15,7 +15,7 @@ namespace Titanium
 	namespace UI
 	{
 		TextField::TextField(const JSContext& js_context) TITANIUM_NOEXCEPT
-		    : View(js_context),
+		    : View(js_context, "Titanium.UI.TextField"),
 		      autocapitalization__(TEXT_AUTOCAPITALIZATION::NONE),
 		      borderStyle__(INPUT_BORDERSTYLE::NONE),
 		      clearButtonMode__(INPUT_BUTTONMODE::NEVER),

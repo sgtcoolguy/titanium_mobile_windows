@@ -7,6 +7,16 @@
 var should = require('./should');
 
 describe("Titanium.UI.TextField", function () {
+
+    it("apiName", function (finish) {
+        var textfield = Ti.UI.createTextField({
+            value: "this is some text"
+        });
+        should(textfield.apiName).be.a.String;
+        should(textfield.apiName).be.eql("Titanium.UI.TextField");
+        finish();
+    });
+
     it("value", function (finish) {
         var textfield = Ti.UI.createTextField({
             value: "this is some text"

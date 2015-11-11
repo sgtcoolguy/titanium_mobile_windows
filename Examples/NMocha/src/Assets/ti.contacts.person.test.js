@@ -7,6 +7,15 @@
 var should = require('./should');
 
 describe("Titanium.Contacts.Person", function() {
+
+    it('apiName', function (finish) {
+        should(function () {
+            var person = Ti.Contacts.createPerson();
+            should(person.apiName).be.eql("Titanium.Contacts.Person");
+        }).not.throw();
+        finish();
+    });
+
 	it('address', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();

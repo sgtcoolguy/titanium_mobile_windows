@@ -16,7 +16,7 @@ namespace Titanium
 		using namespace HAL;
 
 		ListViewAnimationProperties::ListViewAnimationProperties(const JSContext& js_context) TITANIUM_NOEXCEPT
-			: Module(js_context)
+			: Module(js_context, "Titanium.UI.ListViewAnimationProperties")
 		{
 		}
 
