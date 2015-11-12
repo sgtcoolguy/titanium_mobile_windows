@@ -211,6 +211,17 @@ namespace TitaniumWindows
 		{
 			ENSURE_OBJECT_AT_INDEX(viewObj, 0);
 
+			// handle view array
+			if (viewObj.IsArray()) {
+				auto js_views = static_cast<JSArray>(viewObj);
+				auto views = static_cast<std::vector<JSValue>>(js_views);
+				for (size_t i = 0; i < views.size(); i++) {
+					auto view_obj = static_cast<JSObject>(views.at(i));
+					add(view_obj);
+				}
+				return get_context().CreateUndefined();
+			}
+
 			// check if it's command bar
 			const auto commandBar = viewObj.GetPrivate<TitaniumWindows::UI::WindowsXaml::CommandBar>();
 			if (commandBar == nullptr) {
