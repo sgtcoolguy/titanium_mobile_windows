@@ -2,6 +2,7 @@ var appc = require('node-appc'),
 	async = require('async'),
 	cleanCSS = require('clean-css'),
 	fs = require('fs'),
+	crypto = require('crypto'),
 	jsanalyze = require('titanium-sdk/lib/jsanalyze'),
 	os = require('os'),
 	path = require('path'),
@@ -318,15 +319,38 @@ function copyResources(next) {
 			}
 
 			// TODO: Generate SplashScreen.scale-100.png?
-		];
+		],
+		md5 = function (file) {
+		    return crypto
+		        .createHash('md5')
+		        .update(fs.readFileSync(file), 'binary')
+		        .digest('hex')
+		};
 
-		// if app icon exists under project directory, just use it and do not generate new one
-		for (i in missingIcons) {
-			var icon = missingIcons[i];
-			var iconInProject = path.join(this.projectDir, path.basename(icon.file));
-			if (fs.existsSync(iconInProject)) {
-				copyFile.call(_t, iconInProject, icon.file);
+		// if the app icon does not exist then check if it exists in the project root
+		// if it does not exist in project root then generate the missing icon
+		for (var i = missingIcons.length - 1; i >= 0; i--) {
+			var icon = missingIcons[i],
+				assetIcon = path.join(this.projectDir, 'app', 'assets', 'windows', path.basename(icon.file)),
+				rootIcon = path.join(this.projectDir, path.basename(icon.file));
+			if (fs.existsSync(assetIcon)) {
+				if (fs.existsSync(icon.file) && md5(icon.file) === md5(assetIcon)) {
+					this.logger.debug(__('%s already exists, skipping...', icon.file));
+				} else {
+					copyFile.call(this, assetIcon, icon.file);
+				}
 				missingIcons.splice(i, 1);
+			} else {
+				if (fs.existsSync(rootIcon)) {
+					if (fs.existsSync(icon.file) && md5(icon.file) === md5(rootIcon)) {
+						this.logger.debug(__('%s already exists, skipping...', icon.file));
+					} else {
+						copyFile.call(this, rootIcon, icon.file);
+					}
+					missingIcons.splice(i, 1);
+				} else {
+					this.logger.debug(__('%s missing, generating...', icon.file));
+				}
 			}
 		}
 
