@@ -559,8 +559,8 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutDelegate::set_backgroundGradient(backgroundGradient);
 			if (backgroundGradient__.type == Titanium::UI::GRADIENT_TYPE::LINEAR) {
-				const auto startPoint = Windows::Foundation::Point(backgroundGradient__.startPoint.x, backgroundGradient__.startPoint.y);
-				const auto endPoint = Windows::Foundation::Point(backgroundGradient__.endPoint.x, backgroundGradient__.endPoint.y);
+				const auto startPoint = Windows::Foundation::Point(static_cast<float>(backgroundGradient__.startPoint.x), static_cast<float>(backgroundGradient__.startPoint.y));
+				const auto endPoint = Windows::Foundation::Point(static_cast<float>(backgroundGradient__.endPoint.x), static_cast<float>(backgroundGradient__.endPoint.y));
 				backgroundLinearGradientBrush__ = ref new LinearGradientBrush();
 				backgroundLinearGradientBrush__->StartPoint = startPoint;
 				backgroundLinearGradientBrush__->EndPoint = endPoint;
