@@ -13,31 +13,39 @@ namespace TitaniumWindows
 	{
 		namespace ViewHelper 
 		{
-			void SetFont(const JSContext& js_context, Windows::UI::Xaml::Controls::TextBlock^ textBlock, const Titanium::UI::Font& font)
+
+			using namespace Windows::UI::Xaml::Controls;
+
+			template void SetFont<TextBlock^>(const JSContext& js_context, TextBlock^, const Titanium::UI::Font&);
+			template void SetFont<TextBox^>(const JSContext& js_context, TextBox^, const Titanium::UI::Font&);
+			template void SetFont<Button^>(const JSContext& js_context, Button^, const Titanium::UI::Font&);
+
+			template <typename T>
+			void SetFont(const JSContext& js_context, T component, const Titanium::UI::Font& font)
 			{
 				if (font.fontFamily.length() > 0) {
 					const auto fontFamily = TitaniumWindows::UI::View::LookupFont(js_context, font.fontFamily);
 					if (fontFamily != nullptr) {
-						textBlock->FontFamily = fontFamily;
+						component->FontFamily = fontFamily;
 					}
 				}
 				if (font.fontSize.length() > 0) {
-					textBlock->FontSize = std::stod(font.fontSize);
+					component->FontSize = std::stod(font.fontSize);
 				}
 
 				if (font.fontStyle == Titanium::UI::FONT_STYLE::ITALIC) {
-					textBlock->FontStyle = Windows::UI::Text::FontStyle::Italic;
+					component->FontStyle = Windows::UI::Text::FontStyle::Italic;
 				} else if (font.fontStyle == Titanium::UI::FONT_STYLE::NORMAL) {
-					textBlock->FontStyle = Windows::UI::Text::FontStyle::Normal;
+					component->FontStyle = Windows::UI::Text::FontStyle::Normal;
 				}
 				// TODO Windows supports Oblique: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontstyle.aspx
 
 				if (font.fontWeight == Titanium::UI::FONT_WEIGHT::BOLD) {
-					textBlock->FontWeight = Windows::UI::Text::FontWeights::Bold;
+					component->FontWeight = Windows::UI::Text::FontWeights::Bold;
 				} else if (font.fontWeight == Titanium::UI::FONT_WEIGHT::NORMAL) {
-					textBlock->FontWeight = Windows::UI::Text::FontWeights::Normal;
+					component->FontWeight = Windows::UI::Text::FontWeights::Normal;
 				} else if (font.fontWeight == Titanium::UI::FONT_WEIGHT::SEMIBOLD) {
-					textBlock->FontWeight = Windows::UI::Text::FontWeights::SemiBold;
+					component->FontWeight = Windows::UI::Text::FontWeights::SemiBold;
 				}
 				// TODO Windows supports a large number of other weights: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontweights
 			}

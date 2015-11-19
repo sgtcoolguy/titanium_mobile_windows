@@ -25,11 +25,6 @@ namespace TitaniumWindows
 			TITANIUM_LOG_DEBUG("ActivityIndicatorLayoutDelegate::ctor");
 		}
 
-		void ActivityIndicatorLayoutDelegate::postInitialize() TITANIUM_NOEXCEPT
-		{
-		}
-
-
 		void ActivityIndicatorLayoutDelegate::show() TITANIUM_NOEXCEPT
 		{
 			ring__->IsActive = true;

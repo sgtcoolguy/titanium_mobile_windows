@@ -20,9 +20,10 @@ namespace TitaniumWindows
 			using namespace HAL;
 
 			//
-			// Setup TextBlock font from Titanium::UI::Font
+			// Setup font from Titanium::UI::Font
 			//
-			TITANIUMWINDOWS_UI_EXPORT void SetFont(const JSContext& js_context, Windows::UI::Xaml::Controls::TextBlock^ textBlock, const Titanium::UI::Font& font);
+			template <typename T>
+			void SetFont(const JSContext& js_context, T component, const Titanium::UI::Font& font);
 
 		} // namespace ViewHelper
 	}  // namespace UI

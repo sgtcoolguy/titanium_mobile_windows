@@ -54,7 +54,6 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::ToggleSwitch^ switch__ = { nullptr };
 
 			Windows::Foundation::EventRegistrationToken change_event_;
-			Windows::Foundation::EventRegistrationToken click_event_;
 		};
 	}  // namespace UI
 }  // namespace TitaniumWindows

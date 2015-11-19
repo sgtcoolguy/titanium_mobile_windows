@@ -257,17 +257,6 @@ namespace TitaniumWindows
 			/*!
 			  @method
 
-			  @abstract tintColor : String
-
-			  @discussion The view's tintColor. This property is applicable on iOS 7 and greater.
-
-			  This property is a direct correspondant of the tintColor property of UIView on iOS. If no value is specified, the tintColor of the View is inherited from its superview.
-			*/
-			virtual void set_tintColor(const std::string& tintColor) TITANIUM_NOEXCEPT override;
-
-			/*!
-			  @method
-
 			  @abstract top : Number/String
 
 			  @discussion The view's top position.
@@ -278,19 +267,6 @@ namespace TitaniumWindows
 			*/
 			virtual void set_top(const std::string& top) TITANIUM_NOEXCEPT override;
 			
-			/*!
-			  @method
-
-			  @abstract touchEnabled : Boolean
-
-			  @discussion Determines whether view should receive touch events.
-
-			  If false, will forward the events to peers.
-
-			  Default: true
-			*/
-			virtual void set_touchEnabled(const bool& touchEnabled) TITANIUM_NOEXCEPT override;
-
 			/*!
 			  @method
 
@@ -337,12 +313,69 @@ namespace TitaniumWindows
 			virtual bool get_visible() const TITANIUM_NOEXCEPT override;
 			virtual void set_visible(const bool& visible) TITANIUM_NOEXCEPT override;
 
+			/*!
+			  @property
+			  @abstract backgroundDisabledImage
+			  @discussion Disabled background image for the view, specified as a local file path or URL.
+			*/
+			virtual void set_backgroundDisabledImage(const std::string& backgroundDisabledImage) TITANIUM_NOEXCEPT override;
+
+			/*!
+			@property
+			@abstract backgroundDisabledColor
+			@discussion Disabled background color of the view, as a color name or hex triplet.
+			*/
+			virtual void set_backgroundDisabledColor(const std::string& backgroundDisabledColor) TITANIUM_NOEXCEPT override;
+
+			/*!
+			  @property
+			  @abstract backgroundFocusedColor
+			  @discussion Focused background color of the view, as a color name or hex triplet.
+			*/
+			virtual void set_backgroundFocusedColor(const std::string& backgroundFocusedColor) TITANIUM_NOEXCEPT override;
+
+			/*!
+			  @property
+			  @abstract backgroundFocusedImage
+			  @discussion Focused background image for the view, specified as a local file path or URL.
+			*/
+			virtual void set_backgroundFocusedImage(const std::string& backgroundFocusedImage) TITANIUM_NOEXCEPT override;
+
+			/*!
+			@property
+			@abstract backgroundSelectedColor
+			@discussion Selected background color of the view, as a color name or hex triplet.
+			*/
+			virtual void set_backgroundSelectedColor(const std::string& backgroundSelectedColor) TITANIUM_NOEXCEPT override;
+
+			/*!
+			@property
+			@abstract backgroundSelectedImage
+			@discussion Selected background image url for the view, specified as a local file path or URL.
+			*/
+			virtual void set_backgroundSelectedImage(const std::string& backgroundSelectedImage) TITANIUM_NOEXCEPT override;
+
+			/*!
+			  @property
+			  @abstract backgroundGradient
+			  @discussion A background gradient for the view.
+			*/
+			virtual void set_backgroundGradient(const Titanium::UI::Gradient& backgroundGradient) TITANIUM_NOEXCEPT override;
+
 			WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT;
 			virtual ~WindowsViewLayoutDelegate();
 
-			virtual void postInitialize() TITANIUM_NOEXCEPT override;
-			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
-			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
+			virtual void blur()  override;
+			virtual void focus() override;
+
+			// This filter out parent events which is going to be handled by children.
+			// When you override enableEvent, make sure to call this before parent::enableEvent
+			virtual void filterEvents(const std::vector<std::string>& events) TITANIUM_NOEXCEPT
+			{
+				filtered_events__.insert(filtered_events__.end(), events.begin(), events.end());
+			}
 
 			//
 			// Windows-specific layout functions
@@ -350,6 +383,7 @@ namespace TitaniumWindows
 			virtual void onComponentLoaded(const Titanium::LayoutEngine::Rect&);
 			virtual void onComponentSizeChange(const Titanium::LayoutEngine::Rect&);
 			virtual void onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name);
+			virtual void updateBackgroundGradient();
 
 			virtual void setLayoutProperty(const Titanium::LayoutEngine::ValueName&, const std::string&);
 			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component);
@@ -376,14 +410,17 @@ namespace TitaniumWindows
 			static Windows::UI::Color ColorForName(const std::string& colorName);
 			static Windows::UI::Color ColorForHexCode(const std::string& hexCode);
 
-			void updateBackgroundImageSize() TITANIUM_NOEXCEPT;
+			void setDefaultBackground();
+			void updateBackground(Windows::UI::Xaml::Media::Brush^);
 
 			virtual std::shared_ptr<Titanium::UI::View> rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT override;
 			virtual void registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireCallback);
+			virtual void fireSimplePositionEvent(const std::string& event_name, Windows::UI::Xaml::FrameworkElement^ sender, Windows::Foundation::Point position);
 
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			std::function<JSObject(const JSContext&, const JSObject&)> native_wrapper_hook__;
+			std::vector<std::string> filtered_events__;
 #pragma warning(pop)
 
 		protected:
@@ -391,14 +428,28 @@ namespace TitaniumWindows
 #pragma warning(disable : 4251)
 
 			Windows::UI::Xaml::FrameworkElement^ component__ { nullptr };
-			Windows::UI::Xaml::Controls::Image^ backgroundImageControl__ { nullptr };
 
 			Titanium::LayoutEngine::Node* layout_node__ { nullptr };
 
 			bool postlayout_listening__{ false };
 			Windows::Foundation::EventRegistrationToken size_change_event__;
 			Windows::Foundation::EventRegistrationToken loaded_event__;
+			Windows::Foundation::EventRegistrationToken update_background_event__;
+			Windows::Foundation::EventRegistrationToken reset_background_event__;
+			Windows::Foundation::EventRegistrationToken enabled_changed_event__;
+			Windows::Foundation::EventRegistrationToken selected_event__;
+
+			// Titanium event handlers
+			Windows::Foundation::EventRegistrationToken click_event__;
+			Windows::Foundation::EventRegistrationToken doubleclick_event__;
+			Windows::Foundation::EventRegistrationToken blur_event__;
 			Windows::Foundation::EventRegistrationToken focus_event__;
+			Windows::Foundation::EventRegistrationToken touchstart_event__;
+			Windows::Foundation::EventRegistrationToken touchend_event__;
+			Windows::Foundation::EventRegistrationToken touchmove_event__;
+			Windows::Foundation::EventRegistrationToken singletap_event__;
+			Windows::Foundation::EventRegistrationToken doubletap_event__;
+			Windows::Foundation::EventRegistrationToken longpress_event__;
 
 			bool is_width_size__{false};
 			bool is_height_size__{false};
@@ -408,6 +459,21 @@ namespace TitaniumWindows
 			bool is_loaded__{false};
 
 			Titanium::LayoutEngine::Rect oldRect__;
+
+			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromPath(const std::string& path);
+
+			Windows::UI::Xaml::Media::ImageBrush^ backgroundImageBrush__{ nullptr };
+			Windows::UI::Xaml::Media::ImageBrush^ backgroundDisabledImageBrush__{ nullptr };
+			Windows::UI::Xaml::Media::ImageBrush^ backgroundFocusedImageBrush__{ nullptr };
+			Windows::UI::Xaml::Media::ImageBrush^ backgroundSelectedImageBrush__{ nullptr };
+
+			Windows::UI::Xaml::Media::SolidColorBrush^ backgroundColorBrush__{ nullptr };
+			Windows::UI::Xaml::Media::SolidColorBrush^ backgroundDisabledColorBrush__{ nullptr };
+			Windows::UI::Xaml::Media::SolidColorBrush^ backgroundFocusedColorBrush__{ nullptr };
+			Windows::UI::Xaml::Media::SolidColorBrush^ backgroundSelectedColorBrush__{ nullptr };
+			Windows::UI::Xaml::Media::SolidColorBrush^ borderColorBrush__{ nullptr };
+
+			Windows::UI::Xaml::Media::LinearGradientBrush^ backgroundLinearGradientBrush__{ nullptr };
 #pragma warning(pop)
 
 		};

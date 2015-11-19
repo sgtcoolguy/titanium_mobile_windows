@@ -10,27 +10,12 @@
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "TitaniumWindows/UI/Windows/ViewHelper.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
-		// FIXME What file formats does windows support for fonts? We need to limit here! Most of what I read says only TTF, but I see some mentions of OpenType
-		static const std::string ti_textarea_js = R"TI_LABEL_JS(
-	this.exports = {};
-	this.exports.getFontFilePath = function(fontFamily) {
-		var iconsFolder = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'fonts');
-		var files = iconsFolder.getDirectoryListing();
-		for (var i = 0; i < files.length; i++) {
-			var name = files[i];
-			if (name.toLowerCase() == fontFamily.toLowerCase() || name.toLowerCase().indexOf(fontFamily.toLowerCase() + '.') == 0) {
-				return name;
-			}
-		}
-		return null;
-	};
-	)TI_LABEL_JS";
-
 		TextArea::TextArea(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::TextArea(js_context)
 		{
@@ -74,55 +59,7 @@ namespace TitaniumWindows
 		void TextArea::set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::TextArea::set_font(font);
-			// TODO This lookup map should be global, not per-instance of a TextArea!
-			// Did we already look up this font?
-			auto family = font.fontFamily;
-			if (family.length() > 0) {
-				auto path = family;
-				if (custom_fonts__.find(family) == custom_fonts__.end()) {
-					// Look up to see if this is a custom font!
-					auto export_object = get_context().CreateObject();
-					get_context().JSEvaluateScript(ti_textarea_js, export_object);
-					TITANIUM_ASSERT(export_object.HasProperty("exports"));
-					auto exports = export_object.GetProperty("exports");
-					TITANIUM_ASSERT(exports.IsObject());
-					auto exports_object = static_cast<JSObject>(exports);
-					auto eval_result = exports_object.GetProperty("getFontFilePath");
-					TITANIUM_ASSERT(eval_result.IsObject());
-					auto func = static_cast<JSObject>(eval_result);
-					TITANIUM_ASSERT(func.IsFunction());
-					auto result = func(family, get_context().get_global_object());
-					if (result.IsNull()) { // we have no custom font by this name, assume it's a built-in font
-						path = family;
-					} else {
-						TITANIUM_ASSERT(result.IsString()); // custom font file
-						const auto file_name = static_cast<std::string>(result);
-						path = "/fonts/" + file_name + "#" + family;
-					}
-				}
-				
-				custom_fonts__.emplace(family, path);
-				text_box__->FontFamily = ref new Windows::UI::Xaml::Media::FontFamily(Utility::ConvertUTF8String(path));
-			}
-			if (font.fontSize.length() > 0) {
-				text_box__->FontSize = std::stod(font.fontSize);
-			}
-
-			if (font.fontStyle == Titanium::UI::FONT_STYLE::ITALIC) {
-				text_box__->FontStyle = Windows::UI::Text::FontStyle::Italic;
-			} else if (font.fontStyle == Titanium::UI::FONT_STYLE::NORMAL) {
-				text_box__->FontStyle = Windows::UI::Text::FontStyle::Normal;
-			}
-			// TODO Windows supports Oblique: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontstyle.aspx
-
-			if (font.fontWeight == Titanium::UI::FONT_WEIGHT::BOLD) {
-				text_box__->FontWeight = Windows::UI::Text::FontWeights::Bold;
-			} else if (font.fontWeight == Titanium::UI::FONT_WEIGHT::NORMAL) {
-				text_box__->FontWeight = Windows::UI::Text::FontWeights::Normal;
-			} else if (font.fontWeight == Titanium::UI::FONT_WEIGHT::SEMIBOLD) {
-				text_box__->FontWeight = Windows::UI::Text::FontWeights::SemiBold;
-			}
-			// TODO Windows supports a large number of other weights: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.text.fontweights
+			TitaniumWindows::UI::ViewHelper::SetFont<Windows::UI::Xaml::Controls::TextBox^>(get_context(), text_box__, font);
 		}
 
 		void TextArea::set_hintText(const std::string& hintText) TITANIUM_NOEXCEPT

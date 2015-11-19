@@ -48,8 +48,6 @@ namespace TitaniumWindows
 			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override final;
 			virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
 
-			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
-
 			static const std::uint32_t DefaultFontSize = 20;
 
 		private:
@@ -58,19 +56,6 @@ namespace TitaniumWindows
 			std::unordered_map<std::string, std::string> custom_fonts__;
 #pragma warning(pop)
 			Windows::UI::Xaml::Controls::Button^ button__;
-
-			// Event handlers
-			Windows::Foundation::EventRegistrationToken click_event_;
-			unsigned int click_event_count_{0};
-			Windows::Foundation::EventRegistrationToken touch_start_event_;
-			unsigned int touch_start_event_count_{0};
-			Windows::Foundation::EventRegistrationToken touch_end_event_;
-			unsigned int touch_end_event_count_{0};
-			Windows::Foundation::EventRegistrationToken touch_move_event_;
-			unsigned int touch_move_event_count_{0};
-			Windows::Foundation::EventRegistrationToken touch_cancel_event_;
-			unsigned int touch_cancel_event_count_{0};
-			unsigned int post_layout_event_count_{0};
 		};
 	} // namespace UI
 } // namespace TitaniumWindows

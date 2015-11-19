@@ -6,6 +6,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 #include "Titanium/UI/Point.hpp"
+#include <boost/algorithm/string/predicate.hpp>
 
 namespace Titanium
 {
@@ -17,10 +18,34 @@ namespace Titanium
 		{
 			Point point;
 			if (object.HasProperty("x")) {
-				point.x = static_cast<double>(object.GetProperty("x"));
+				const auto xobj = object.GetProperty("x");
+				if (xobj.IsString()) {
+					const auto xstr = static_cast<std::string>(xobj);
+					if (boost::ends_with(xstr, "%")) {
+						// Point accepts '%'. 
+						point.x_percent = static_cast<std::string>(xobj);
+					} else {
+						// not a percent? Force double anyway
+						point.x = static_cast<double>(xobj);
+					}
+				} else {
+					point.x = static_cast<double>(xobj);
+				}
 			}
 			if (object.HasProperty("y")) {
-				point.y = static_cast<double>(object.GetProperty("y"));
+				const auto yobj = object.GetProperty("y");
+				if (yobj.IsString()) {
+					const auto ystr = static_cast<std::string>(yobj);
+					if (boost::ends_with(ystr, "%")) {
+						// Point accepts '%'
+						point.y_percent = static_cast<std::string>(yobj);
+					} else {
+						// not a percent? Force double anyway
+						point.y = static_cast<double>(yobj);
+					}
+				} else {
+					point.y = static_cast<double>(yobj);
+				}
 			}
 			return point;
 		};

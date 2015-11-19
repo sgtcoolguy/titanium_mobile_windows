@@ -171,8 +171,8 @@ namespace TitaniumWindows
 		// Add as child view to make layout engine work
 		void TableView::registerTableViewRowAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view)
 		{
-			auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
-			Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
+			auto layoutDelegate = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+			Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getLayoutNode());
 		}
 
 		/*
@@ -216,6 +216,8 @@ namespace TitaniumWindows
 
 		void TableView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->filterEvents({ "click" });
+
 			Titanium::UI::TableView::enableEvent(event_name);
 
 			const JSContext ctx = this->get_context();

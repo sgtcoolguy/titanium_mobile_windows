@@ -201,29 +201,5 @@ namespace TitaniumWindows
 			return is_paused__;
 		}
 
-		void ImageView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::ImageView::enableEvent(event_name);
-
-			const JSContext ctx = this->get_context();
-
-			using namespace Windows::UI::Xaml::Input;
-			using namespace Windows::UI::Xaml;
-
-			auto component = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>()->getComponent();
-			// TODO Handle change/error/load/pause/start/stop!
-			if (event_name == "click") { // TODO Can't superclass handle common events like click?
-				click_event_ = component->Tapped += ref new TappedEventHandler([this, ctx](::Platform::Object^ sender, TappedRoutedEventArgs^ e) {
-					auto component = safe_cast<FrameworkElement^>(sender);
-					auto position = e->GetPosition(component);
-
-					JSObject  eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
-					eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
-
-					this->fireEvent("click", eventArgs);
-				});
-			}
-		}
 	} // namespace UI
 } // namespace TitaniumWindows

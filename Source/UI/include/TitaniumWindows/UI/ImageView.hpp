@@ -66,9 +66,6 @@ namespace TitaniumWindows
 			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
 			virtual bool get_paused() const TITANIUM_NOEXCEPT override final;
 
-			// EVent registration
-			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
-
 		private:
 			Windows::Foundation::EventRegistrationToken internal_load_event_;
 			Windows::UI::Xaml::Controls::Image^ image__;
@@ -76,13 +73,6 @@ namespace TitaniumWindows
 
 			bool is_animating__;
 			bool is_paused__;
-
-			// Event handlers
-			Windows::Foundation::EventRegistrationToken click_event_;
-			Windows::Foundation::EventRegistrationToken touch_start_event_;
-			Windows::Foundation::EventRegistrationToken touch_end_event_;
-			Windows::Foundation::EventRegistrationToken touch_move_event_;
-			Windows::Foundation::EventRegistrationToken touch_cancel_event_;
 		};
 	} // namespace UI
 } // namespace TitaniumWindow
