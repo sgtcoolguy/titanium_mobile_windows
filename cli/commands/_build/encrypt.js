@@ -25,14 +25,7 @@ function mixin(WindowsBuilder) {
 function processEncryption(next) {
 
 	// figure out which titanium prep to run
-	var titaniumPrep = 'titanium_prep';
-	if (process.platform == 'darwin') {
-		titaniumPrep += '.macos';
-	} else if (process.platform == 'win32') {
-		titaniumPrep += '.win32.exe';
-	} else if (process.platform == 'linux') {
-		titaniumPrep += '.linux' + (process.arch == 'x64' ? '64' : '32');
-	}
+	var titaniumPrep = 'titanium_prep.win32.exe';
 
 	// encrypt the javascript
 	var args = [this.tiapp.guid, this.tiapp.id, this.buildTargetAssetsDir].concat(this.jsFilesToEncrypt),
