@@ -105,14 +105,16 @@ namespace TitaniumWindows
 
 		void Window::blur() 
 		{
+			// Xaml Canvas doesn't actually fire LostFocus. Let's fire Ti event manually
+			fireEvent("blur");
 			updateWindowsCommandBar(nullptr);
-			Titanium::UI::Window::blur();
 		}
 
 		void Window::focus() 
 		{
 			updateWindowsCommandBar(getBottomAppBar());
-			Titanium::UI::Window::focus();
+			// Xaml Canvas doesn't actually fire GotFocus. Let's fire Ti event manually
+			fireEvent("focus");
 		}
 
 		void Window::close(const std::shared_ptr<Titanium::UI::CloseWindowParams>& params) TITANIUM_NOEXCEPT

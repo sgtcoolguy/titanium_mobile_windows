@@ -29,6 +29,8 @@ namespace TitaniumWindows
 	{
 		using namespace Windows::UI::Xaml;
 		using namespace Windows::UI::Xaml::Controls;
+		using namespace Windows::UI::Xaml::Input;
+		using namespace Windows::UI::Xaml::Media;
 
 		WindowsViewLayoutDelegate::WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
 			: ViewLayoutDelegate()
@@ -36,17 +38,23 @@ namespace TitaniumWindows
 			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::ctor ", this);
 		}
 
-		void WindowsViewLayoutDelegate::postInitialize() TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::postInitialize ", this);
-		}
-
 		WindowsViewLayoutDelegate::~WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::dtor ", this);
+			if (component__) {
+				component__->SizeChanged -= size_change_event__;
+				component__->Loaded -= loaded_event__;
+				component__->GotFocus -= update_background_event__;
+				component__->LostFocus -= reset_background_event__;
+				if (is_control__) {
+					dynamic_cast<Control^>(component__)->IsEnabledChanged -= enabled_changed_event__;
+				}
+			}
+			// make sure it is deleted from parent node, otherwise LayoutEngine crashes!
+			delete layout_node__;
 		}
 
-		std::shared_ptr<Titanium::UI::View> WindowsViewLayoutDelegate::rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT
+			std::shared_ptr<Titanium::UI::View> WindowsViewLayoutDelegate::rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT
 		{
 			// If this is a native wrapper, we need to jump through a lot of hoops to basically unwrap and rewrap as a Ti.UI.View
 			auto context = view.get_context();
@@ -69,6 +77,20 @@ namespace TitaniumWindows
 			return rewrapped.GetPrivate<Titanium::UI::View>();
 		}
 
+		void WindowsViewLayoutDelegate::blur()
+		{
+			TITANIUM_LOG_WARN("blur() is not supported on Windows");
+		}
+
+		void WindowsViewLayoutDelegate::focus()
+		{
+			if (is_control__) {
+				dynamic_cast<Control^>(component__)->Focus(FocusState::Programmatic);
+			} else {
+				TITANIUM_LOG_WARN("focus() is not supported for this control");
+			}
+		}
+
 		void WindowsViewLayoutDelegate::registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireHook)
 		{
 			native_wrapper_hook__ = requireHook;
@@ -80,14 +102,14 @@ namespace TitaniumWindows
 
 			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::remove ", view.get(), " for ", this);
 
-			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
+			auto nativeView = dynamic_cast<Controls::Panel^>(getComponent());
 
 			if (nativeView == nullptr) {
 				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::remove: Unknown component");
 				return;
 			}
 
-			auto newView = view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
+			auto newView = view->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
 			auto nativeChildView = newView->getComponent();
 			if (nativeChildView != nullptr) {
 				Titanium::LayoutEngine::nodeRemoveChild(layout_node__, newView->getLayoutNode());
@@ -117,14 +139,14 @@ namespace TitaniumWindows
 
 			TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::add ", view.get(), " for ", this);
 
-			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
+			auto nativeView = dynamic_cast<Controls::Panel^>(getComponent());
 
 			if (nativeView == nullptr) {
 				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::add: Unknown component");
 				return;
 			}
 
-			auto newView = view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
+			auto newView = view->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
 			TITANIUM_ASSERT(newView != nullptr);
 			auto nativeChildView = newView->getComponent();
 			if (nativeChildView != nullptr) {
@@ -146,14 +168,14 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutDelegate::insertAt(params);
 
-			auto nativeView = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(getComponent());
+			auto nativeView = dynamic_cast<Controls::Panel^>(getComponent());
 
 			if (nativeView == nullptr) {
 				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::insertAt: Unknown component");
 				return;
 			}
 
-			auto newView = params.view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
+			auto newView = params.view->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
 			auto nativeChildView = newView->getComponent();
 			if (nativeChildView != nullptr) {
 				Titanium::LayoutEngine::nodeInsertChildAt(layout_node__, newView->getLayoutNode(), params.position);
@@ -178,19 +200,19 @@ namespace TitaniumWindows
 
 		bool WindowsViewLayoutDelegate::get_visible() const TITANIUM_NOEXCEPT
 		{
-			return getComponent()->Visibility == Windows::UI::Xaml::Visibility::Visible;
+			return getComponent()->Visibility == Visibility::Visible;
 		}
 
 		void WindowsViewLayoutDelegate::set_visible(const bool& visible) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_visible(visible);
-			getComponent()->Visibility = (visible ? Windows::UI::Xaml::Visibility::Visible : Windows::UI::Xaml::Visibility::Collapsed);
+			getComponent()->Visibility = (visible ? Visibility::Visible : Visibility::Collapsed);
 		}
 
 		void WindowsViewLayoutDelegate::animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			// Storyboard where we attach all the animations
-			const auto storyboard = ref new Windows::UI::Xaml::Media::Animation::Storyboard();
+			const auto storyboard = ref new Media::Animation::Storyboard();
 
 			// delay
 			const std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> delay_ticks = animation->get_delay();
@@ -210,9 +232,9 @@ namespace TitaniumWindows
 			// repeat
 			const double repeat = animation->get_repeat();
 			if (repeat == 0) {
-				storyboard->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::Forever;
+				storyboard->RepeatBehavior = Media::Animation::RepeatBehaviorHelper::Forever;
 			} else if (repeat != 1) {
-				storyboard->RepeatBehavior = Windows::UI::Xaml::Media::Animation::RepeatBehaviorHelper::FromCount(repeat);
+				storyboard->RepeatBehavior = Media::Animation::RepeatBehaviorHelper::FromCount(repeat);
 			}
 
 			// curve/ease
@@ -223,19 +245,19 @@ namespace TitaniumWindows
 			// https://developer.apple.com/library/mac/documentation/Cocoa/Reference/CAMediaTimingFunction_class/index.html#//apple_ref/doc/constant_group/Predefined_Timing_Functions
 			// There are no equivalent easing functions on Windows!!!! They look/behave differently.
 			// You can compare the values used here: http://easings.net/
-			Windows::UI::Xaml::Media::Animation::EasingFunctionBase^ ease;
+			Media::Animation::EasingFunctionBase^ ease;
 			switch (curve) {
 			case Titanium::UI::ANIMATION_CURVE::EASE_IN:
-				ease = ref new Windows::UI::Xaml::Media::Animation::CubicEase();
-				ease->EasingMode = Windows::UI::Xaml::Media::Animation::EasingMode::EaseIn;
+				ease = ref new Media::Animation::CubicEase();
+				ease->EasingMode = Media::Animation::EasingMode::EaseIn;
 				break;
 			case Titanium::UI::ANIMATION_CURVE::EASE_IN_OUT:
-				ease = ref new Windows::UI::Xaml::Media::Animation::CubicEase();
-				ease->EasingMode = Windows::UI::Xaml::Media::Animation::EasingMode::EaseInOut;
+				ease = ref new Media::Animation::CubicEase();
+				ease->EasingMode = Media::Animation::EasingMode::EaseInOut;
 				break;
 			case Titanium::UI::ANIMATION_CURVE::EASE_OUT:
-				ease = ref new Windows::UI::Xaml::Media::Animation::CubicEase();
-				ease->EasingMode = Windows::UI::Xaml::Media::Animation::EasingMode::EaseOut;
+				ease = ref new Media::Animation::CubicEase();
+				ease->EasingMode = Media::Animation::EasingMode::EaseOut;
 				break;
 			case Titanium::UI::ANIMATION_CURVE::LINEAR:
 				ease = nullptr;
@@ -287,17 +309,17 @@ namespace TitaniumWindows
 
 				// Now we need to apply the transformations in a specific order to be equivalent to the final matrix:
 				// translate -> rotate -> scale -> skew X
-				const auto group = ref new Windows::UI::Xaml::Media::TransformGroup();
-				const auto translate = ref new Windows::UI::Xaml::Media::TranslateTransform();
-				const auto rotate = ref new Windows::UI::Xaml::Media::RotateTransform();
-				const auto composite = ref new Windows::UI::Xaml::Media::CompositeTransform(); // cheat and use composite to do scale and then skew
+				const auto group = ref new Media::TransformGroup();
+				const auto translate = ref new Media::TranslateTransform();
+				const auto rotate = ref new Media::RotateTransform();
+				const auto composite = ref new Media::CompositeTransform(); // cheat and use composite to do scale and then skew
 				group->Children->Append(translate);
 				group->Children->Append(rotate);
 				group->Children->Append(composite);
 
 				component->RenderTransform = group;
 
-				const auto rotation_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				const auto rotation_anim = ref new Media::Animation::DoubleAnimation();
 				rotation_anim->To = rotation;
 				rotation_anim->EasingFunction = ease;
 				rotation_anim->Duration = duration;
@@ -305,7 +327,7 @@ namespace TitaniumWindows
 				storyboard->SetTarget(rotation_anim, component);
 				storyboard->Children->Append(rotation_anim);
 
-				const auto scale_x_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				const auto scale_x_anim = ref new Media::Animation::DoubleAnimation();
 				scale_x_anim->To = a;
 				scale_x_anim->EasingFunction = ease;
 				scale_x_anim->Duration = duration;
@@ -313,7 +335,7 @@ namespace TitaniumWindows
 				storyboard->SetTarget(scale_x_anim, component);
 				storyboard->Children->Append(scale_x_anim);
 
-				const auto scale_y_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				const auto scale_y_anim = ref new Media::Animation::DoubleAnimation();
 				scale_y_anim->To = d;
 				scale_y_anim->EasingFunction = ease;
 				scale_y_anim->Duration = duration;
@@ -321,7 +343,7 @@ namespace TitaniumWindows
 				storyboard->SetTarget(scale_y_anim, component);
 				storyboard->Children->Append(scale_y_anim);
 
-				const auto tx_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				const auto tx_anim = ref new Media::Animation::DoubleAnimation();
 				tx_anim->To = animation->get_transform()->get_tx();
 				tx_anim->EasingFunction = ease;
 				tx_anim->Duration = duration;
@@ -329,7 +351,7 @@ namespace TitaniumWindows
 				storyboard->SetTarget(tx_anim, component);
 				storyboard->Children->Append(tx_anim);
 
-				const auto ty_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				const auto ty_anim = ref new Media::Animation::DoubleAnimation();
 				ty_anim->To = animation->get_transform()->get_ty();
 				ty_anim->EasingFunction = ease;
 				ty_anim->Duration = duration;
@@ -350,10 +372,10 @@ namespace TitaniumWindows
 				// when top, bottom and center are specified, top and center win (for determining height and position)
 
 				// Need to group up the transforms like we do above so we can do both translate and scale!
-				const auto group = ref new Windows::UI::Xaml::Media::TransformGroup();
-				const auto translate = ref new Windows::UI::Xaml::Media::TranslateTransform();
-				const auto rotate = ref new Windows::UI::Xaml::Media::RotateTransform();
-				const auto composite = ref new Windows::UI::Xaml::Media::CompositeTransform(); // cheat and use composite to do scale and then skew
+				const auto group = ref new Media::TransformGroup();
+				const auto translate = ref new Media::TranslateTransform();
+				const auto rotate = ref new Media::RotateTransform();
+				const auto composite = ref new Media::CompositeTransform(); // cheat and use composite to do scale and then skew
 				group->Children->Append(translate);
 				group->Children->Append(rotate);
 				group->Children->Append(composite);
@@ -364,10 +386,10 @@ namespace TitaniumWindows
 				if (top) {
 					// TODO Bottom
 					// Because we're animating a transform, the value behaves like setting By, not To. So we need to calculate the difference and set our target To to that value
-					const auto current_top = Windows::UI::Xaml::Controls::Canvas::GetTop(component);
+					const auto current_top = Controls::Canvas::GetTop(component);
 					const auto diff = *top - current_top;
 					
-					const auto top_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+					const auto top_anim = ref new Media::Animation::DoubleAnimation();
 					top_anim->To = diff;
 					top_anim->EasingFunction = ease;
 					top_anim->Duration = duration;
@@ -383,10 +405,10 @@ namespace TitaniumWindows
 				const auto left = animation->get_left(); // TODO Right
 				if (left) {
 					// TODO If "right", we need to calculate the current position of "right", take the diff and then do a transform By, not To
-					const auto current_left = Windows::UI::Xaml::Controls::Canvas::GetLeft(component);
+					const auto current_left = Controls::Canvas::GetLeft(component);
 					const auto diff = *left - current_left;
 
-					const auto left_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+					const auto left_anim = ref new Media::Animation::DoubleAnimation();
 					left_anim->To = diff;
 					left_anim->EasingFunction = ease;
 					left_anim->Duration = duration;
@@ -399,7 +421,7 @@ namespace TitaniumWindows
 				// For width and height, we have to calculate the scale to use to achieve desired height/width, since animating the Height or Width properties are ppor performance-wise and best avoided.
 				const auto height = animation->get_height();
 				if (height) {
-					const auto height_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+					const auto height_anim = ref new Media::Animation::DoubleAnimation();
 					const auto current_height = component->Height;
 					const auto scaleY = *height / current_height;
 					height_anim->To = scaleY;  // TODO Need to determine scale to use to achieve the desired height!
@@ -412,7 +434,7 @@ namespace TitaniumWindows
 
 				const auto width = animation->get_width();
 				if (width) {
-					const auto width_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+					const auto width_anim = ref new Media::Animation::DoubleAnimation();
 					const auto current_width = component->Width;
 					const auto scaleX = *width / current_width;
 					width_anim->To = scaleX;
@@ -427,7 +449,7 @@ namespace TitaniumWindows
 			// backgroundColor
 			const auto bg_color = animation->get_backgroundColor();
 			if (!bg_color.empty()) {
-				const auto color_anim = ref new Windows::UI::Xaml::Media::Animation::ColorAnimation();
+				const auto color_anim = ref new Media::Animation::ColorAnimation();
 				const auto color = ColorForName(bg_color);
 				color_anim->To = color;
 				color_anim->EasingFunction = ease;
@@ -445,7 +467,7 @@ namespace TitaniumWindows
 			// color
 			const auto fg_color = animation->get_color();
 			if (!fg_color.empty()) {
-				const auto color_anim = ref new Windows::UI::Xaml::Media::Animation::ColorAnimation();
+				const auto color_anim = ref new Media::Animation::ColorAnimation();
 				const auto color = ColorForName(fg_color);
 				color_anim->To = color;
 				color_anim->EasingFunction = ease;
@@ -463,7 +485,7 @@ namespace TitaniumWindows
 			// opacity
 			const auto opacity = animation->get_opacity();
 			if (opacity) {
-				const auto double_anim = ref new Windows::UI::Xaml::Media::Animation::DoubleAnimation();
+				const auto double_anim = ref new Media::Animation::DoubleAnimation();
 				double_anim->To = *opacity;
 				double_anim->EasingFunction = ease;
 				double_anim->Duration = duration;
@@ -476,23 +498,23 @@ namespace TitaniumWindows
 			// zIndex
 			const auto zIndex = animation->get_zIndex();
 			if (zIndex) {
-				const auto zIndex_anim = ref new Windows::UI::Xaml::Media::Animation::ObjectAnimationUsingKeyFrames();
+				const auto zIndex_anim = ref new Media::Animation::ObjectAnimationUsingKeyFrames();
 				zIndex_anim->Duration = duration;
 			
-				const auto current_zIndex = Windows::UI::Xaml::Controls::Canvas::GetZIndex(component);
+				const auto current_zIndex = Controls::Canvas::GetZIndex(component);
 				// FIXME This just transitions from current zIndex to new all at once at end of animation. We need to do our own interpolation based on the curve!
-				const auto start_frame = ref new Windows::UI::Xaml::Media::Animation::DiscreteObjectKeyFrame();
+				const auto start_frame = ref new Media::Animation::DiscreteObjectKeyFrame();
 				start_frame->Value = current_zIndex;
 				Windows::Foundation::TimeSpan start_timespan;
 				start_timespan.Duration = 0;
-				Windows::UI::Xaml::Media::Animation::KeyTime start_time;
+				Media::Animation::KeyTime start_time;
 				start_time.TimeSpan = start_timespan;
 				start_frame->KeyTime = start_time;
 				zIndex_anim->KeyFrames->Append(start_frame);
 
-				const auto end_frame = ref new Windows::UI::Xaml::Media::Animation::DiscreteObjectKeyFrame();
+				const auto end_frame = ref new Media::Animation::DiscreteObjectKeyFrame();
 				end_frame->Value = *zIndex;
-				end_frame->KeyTime = Windows::UI::Xaml::Media::Animation::KeyTimeHelper::FromTimeSpan(duration);
+				end_frame->KeyTime = Media::Animation::KeyTimeHelper::FromTimeSpan(duration);
 				zIndex_anim->KeyFrames->Append(end_frame);
 
 				storyboard->SetTargetProperty(zIndex_anim, "(Canvas.ZIndex)");
@@ -510,79 +532,134 @@ namespace TitaniumWindows
 			storyboard->Begin();
 		}
 
-		void WindowsViewLayoutDelegate::updateBackgroundImageSize() TITANIUM_NOEXCEPT
+		void WindowsViewLayoutDelegate::updateBackgroundGradient()
 		{
-			if (backgroundImageControl__ != nullptr) {
-				const auto component = getComponent();
-				backgroundImageControl__->Width  = component->Width;
-				backgroundImageControl__->Height = component->Height;
+			if (backgroundLinearGradientBrush__ != nullptr) {
+				// if gradient has '%', let's update associated values
+				if (!backgroundGradient__.startPoint.x_percent.empty()) {
+					backgroundGradient__.startPoint.x = (std::strtod(backgroundGradient__.startPoint.x_percent.c_str(), nullptr) / 100.0);
+				}
+				if (!backgroundGradient__.startPoint.y_percent.empty()) {
+					backgroundGradient__.startPoint.y = (std::strtod(backgroundGradient__.startPoint.y_percent.c_str(), nullptr) / 100.0);
+				}
+				if (!backgroundGradient__.endPoint.x_percent.empty()) {
+					backgroundGradient__.endPoint.x = (std::strtod(backgroundGradient__.endPoint.x_percent.c_str(), nullptr) / 100.0);
+				}
+				if (!backgroundGradient__.endPoint.y_percent.empty()) {
+					backgroundGradient__.endPoint.y = (std::strtod(backgroundGradient__.endPoint.y_percent.c_str(), nullptr) / 100.0);
+				}
+				const auto startPoint = Windows::Foundation::Point(static_cast<float>(backgroundGradient__.startPoint.x), static_cast<float>(backgroundGradient__.startPoint.y));
+				const auto endPoint = Windows::Foundation::Point(static_cast<float>(backgroundGradient__.endPoint.x), static_cast<float>(backgroundGradient__.endPoint.y));
+				backgroundLinearGradientBrush__->StartPoint = startPoint;
+				backgroundLinearGradientBrush__->EndPoint = endPoint;
+			}
+		}
+
+		void WindowsViewLayoutDelegate::set_backgroundGradient(const Titanium::UI::Gradient& backgroundGradient) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_backgroundGradient(backgroundGradient);
+			if (backgroundGradient__.type == Titanium::UI::GRADIENT_TYPE::LINEAR) {
+				const auto startPoint = Windows::Foundation::Point(static_cast<float>(backgroundGradient__.startPoint.x), static_cast<float>(backgroundGradient__.startPoint.y));
+				const auto endPoint = Windows::Foundation::Point(static_cast<float>(backgroundGradient__.endPoint.x), static_cast<float>(backgroundGradient__.endPoint.y));
+				backgroundLinearGradientBrush__ = ref new LinearGradientBrush();
+				backgroundLinearGradientBrush__->StartPoint = startPoint;
+				backgroundLinearGradientBrush__->EndPoint = endPoint;
+				for (auto color : backgroundGradient__.colors) {
+					auto stop = ref new GradientStop();
+					stop->Color = ColorForName(color.color);
+					stop->Offset = color.offset;
+					backgroundLinearGradientBrush__->GradientStops->Append(stop);
+				}
+				updateBackground(backgroundLinearGradientBrush__);
+			} else {
+				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_backgroundGradient: Only \"linear\" is supported for gradient type on Windows");
+			}
+		}
+
+		ImageBrush^ WindowsViewLayoutDelegate::CreateImageBrushFromPath(const std::string& path)
+		{
+			const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
+			const auto image = ref new Media::Imaging::BitmapImage(uri);
+
+			auto brush = ref new ImageBrush();
+			brush->ImageSource = image;
+			brush->Stretch = Stretch::Fill;
+
+			return brush;
+		}
+
+		void WindowsViewLayoutDelegate::updateBackground(Brush^ brush)
+		{
+			if (is_panel__) {
+				dynamic_cast<Panel^>(component__)->Background = brush;
+			} else if (is_control__) {
+				dynamic_cast<Control^>(component__)->Background = brush;
+			} else {
+				TITANIUM_LOG_WARN("Unable to set background: Unknown component");
 			}
 		}
 
 		void WindowsViewLayoutDelegate::set_backgroundImage(const std::string& backgroundImage) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_backgroundImage(backgroundImage);
-
-			const auto component = dynamic_cast<Controls::Panel^>(component__);
-			if (component != nullptr) {
-				// Hide image when url is empty
-				if (backgroundImage.empty() && backgroundImageControl__ != nullptr) {
-					backgroundImageControl__->Visibility = Visibility::Collapsed;
-					return;
-				}
-
-				// Lazy initialization
-				if (backgroundImageControl__ == nullptr) {
-					backgroundImageControl__ = ref new Controls::Image();
-					backgroundImageControl__->Stretch = Media::Stretch::Fill;
-					Windows::UI::Xaml::Controls::Canvas::SetZIndex(backgroundImageControl__, -1);
-				}
-
-				// Append image if not there
-				auto views = component->Children;
-				uint32_t index = 0;
-				const auto found = views->IndexOf(backgroundImageControl__, &index);
-				if (!found) {
-					views->Append(backgroundImageControl__);
-				}
-
-				// Fill this view
-				updateBackgroundImageSize();
-
-				// Update image source
-				const auto uri = TitaniumWindows::Utility::GetUriFromPath(backgroundImage);
-				const auto image = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(uri);
-				backgroundImageControl__->Source = image;
-
-			} else {
-				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_backgroundImage: Unable to set background image for this component");
-			}
-
+			backgroundImageBrush__ = CreateImageBrushFromPath(backgroundImage);
+			updateBackground(backgroundImageBrush__);
 		}
 
 		void WindowsViewLayoutDelegate::set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_backgroundColor(backgroundColor);
 
-			const auto background = ref new Windows::UI::Xaml::Media::SolidColorBrush(ColorForName(backgroundColor));
+			backgroundColorBrush__ = ref new Media::SolidColorBrush(ColorForName(backgroundColor));
+			updateBackground(backgroundColorBrush__);
+		}
 
-			if (is_panel__) {
-				dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(component__)->Background = background;
-			} else if (is_control__) {
-				dynamic_cast<Windows::UI::Xaml::Controls::Control^>(component__)->Background = background;
-			} else {
-				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_backgroundColor: Unknown component");
-			}
+		void WindowsViewLayoutDelegate::set_backgroundDisabledColor(const std::string& backgroundDisabledColor) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_backgroundDisabledColor(backgroundDisabledColor);
+			backgroundDisabledColorBrush__ = ref new Media::SolidColorBrush(ColorForName(backgroundDisabledColor));
+		}
+
+		void WindowsViewLayoutDelegate::set_backgroundDisabledImage(const std::string& backgroundDisabledImage) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_backgroundDisabledImage(backgroundDisabledImage);
+			backgroundDisabledImageBrush__ = CreateImageBrushFromPath(backgroundDisabledImage);
+		}
+
+		void WindowsViewLayoutDelegate::set_backgroundFocusedColor(const std::string& backgroundFocusedColor) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_backgroundFocusedColor(backgroundFocusedColor);
+			backgroundFocusedColorBrush__ = ref new Media::SolidColorBrush(ColorForName(backgroundFocusedColor));
+		}
+
+		void WindowsViewLayoutDelegate::set_backgroundFocusedImage(const std::string& backgroundFocusedImage) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_backgroundFocusedImage(backgroundFocusedImage);
+			backgroundFocusedImageBrush__ = CreateImageBrushFromPath(backgroundFocusedImage);
+		}
+
+		void WindowsViewLayoutDelegate::set_backgroundSelectedColor(const std::string& backgroundSelectedColor) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_backgroundSelectedColor(backgroundSelectedColor);
+			backgroundSelectedColorBrush__ = ref new Media::SolidColorBrush(ColorForName(backgroundSelectedColor));
+		}
+
+		void WindowsViewLayoutDelegate::set_backgroundSelectedImage(const std::string& backgroundSelectedImage) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_backgroundSelectedImage(backgroundSelectedImage);
+			backgroundSelectedImageBrush__ = CreateImageBrushFromPath(backgroundSelectedImage);
 		}
 
 		void WindowsViewLayoutDelegate::set_borderColor(const std::string& borderColor) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_borderColor(borderColor);
+			set_borderWidth(get_borderWidth()); // update brush
 		}
 
 		void WindowsViewLayoutDelegate::set_borderRadius(const uint32_t& borderRadius) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_borderRadius(borderRadius);
+			TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_borderRadius is not supported");
 		}
 
 		void WindowsViewLayoutDelegate::set_borderWidth(const uint32_t& borderWidth) TITANIUM_NOEXCEPT
@@ -590,7 +667,16 @@ namespace TitaniumWindows
 			Titanium::UI::ViewLayoutDelegate::set_borderWidth(borderWidth);
 
 			if (is_control__) {
-				dynamic_cast<Windows::UI::Xaml::Controls::Control^>(component__)->BorderThickness = borderWidth;
+				auto control = dynamic_cast<Control^>(component__);
+				if (borderColorBrush__ == nullptr) {
+					auto color = get_borderColor().empty() ? get_backgroundColor() : get_borderColor();
+					if (color.empty()) {
+						color = "black";
+					}
+					borderColorBrush__ = ref new SolidColorBrush(ColorForName(color));
+					control->BorderBrush = borderColorBrush__;
+				}
+				control->BorderThickness = borderWidth;
 			} else {
 				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_borderWidth: Unknown component");
 			}
@@ -620,15 +706,6 @@ namespace TitaniumWindows
 			d.width = static_cast<uint32_t>(std::round(oldRect__.width));
 			d.height = static_cast<uint32_t>(std::round(oldRect__.height));
 			return d;
-		}
-		void WindowsViewLayoutDelegate::set_tintColor(const std::string& tintColor) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::ViewLayoutDelegate::set_tintColor(tintColor);
-		}
-
-		void WindowsViewLayoutDelegate::set_touchEnabled(const bool& touchEnabled) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::ViewLayoutDelegate::set_touchEnabled(touchEnabled);
 		}
 
 		void WindowsViewLayoutDelegate::set_top(const std::string& top) TITANIUM_NOEXCEPT
@@ -715,31 +792,122 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutDelegate::set_zIndex(zIndex);
 
-			auto element = dynamic_cast<Windows::UI::Xaml::UIElement^>(component__);
+			auto element = dynamic_cast<UIElement^>(component__);
 			if (element != nullptr) {
-				Windows::UI::Xaml::Controls::Canvas::SetZIndex(element, zIndex);
+				Controls::Canvas::SetZIndex(element, zIndex);
 			} else {
 				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_zIndex is not supported for this component");
 			}
 		}
 
-
 		void WindowsViewLayoutDelegate::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			if (event_name == "focus") {
+			const auto component = getComponent();
+			if (event_name == "touchmove") {
+				component->ManipulationDelta -= touchmove_event__;
+			} else if (event_name == "touchstart") {
+				component->ManipulationStarted -= touchstart_event__;
+			} else if (event_name == "touchend") {
+				component->ManipulationCompleted -= touchend_event__;
+			} else if (event_name == "click") {
+				component->Tapped -= click_event__;
+			} else if (event_name == "doubleclick") {
+				component->DoubleTapped -= doubleclick_event__;
+			} else if (event_name == "singletap") {
+				component->Tapped -= singletap_event__;
+			} else if (event_name == "doubletap") {
+				component->DoubleTapped -= doubletap_event__;
+			} else if (event_name == "longpress") {
+				component->Holding -= longpress_event__;
+			} else if (event_name == "focus") {
 				getComponent()->GotFocus -= focus_event__;
-				return;
+			} else if (event_name == "blur") {
+				getComponent()->LostFocus -= blur_event__;
 			} else if (event_name == "postlayout") {
 				postlayout_listening__ = false;
-				return;
 			}
+		}
+
+		void WindowsViewLayoutDelegate::fireSimplePositionEvent(const std::string& event_name, FrameworkElement^ component, Windows::Foundation::Point position)
+		{
+			const auto event_delegate = event_delegate__.lock();
+			TITANIUM_ASSERT(event_delegate != nullptr);
+			const auto ctx = event_delegate->get_context();
+
+			JSObject  eventArgs = ctx.CreateObject();
+			eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
+			eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
+
+			event_delegate->fireEvent(event_name, eventArgs);
 		}
 
 		void WindowsViewLayoutDelegate::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			 if (event_name == "focus") {
-				 focus_event__ = getComponent()->GotFocus += ref new Windows::UI::Xaml::RoutedEventHandler([this](Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-				 	auto event_delegate = event_delegate__.lock();
+			if (std::find(filtered_events__.begin(), filtered_events__.end(), event_name) != filtered_events__.end()) {
+				return;
+			}
+
+			const auto component = getComponent();
+
+			if (event_name == "touchmove") {
+				component->ManipulationMode = ManipulationModes::All;
+				touchmove_event__ = component->ManipulationDelta += ref new ManipulationDeltaEventHandler([this](Platform::Object^ sender, ManipulationDeltaRoutedEventArgs^ e) {
+					const auto event_delegate = event_delegate__.lock();
+					auto ctx = event_delegate->get_context();
+					JSObject  delta = ctx.CreateObject();
+					delta.SetProperty("x", ctx.CreateNumber(e->Delta.Translation.X));
+					delta.SetProperty("y", ctx.CreateNumber(e->Delta.Translation.Y));
+
+					JSObject  eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("x", ctx.CreateNumber(e->Position.X));
+					eventArgs.SetProperty("y", ctx.CreateNumber(e->Position.Y));
+					eventArgs.SetProperty("delta", delta);
+
+					event_delegate->fireEvent("touchmove", eventArgs);
+				});
+			} else if (event_name == "touchstart") {
+				component->PointerPressed += ref new PointerEventHandler([this](Platform::Object^ sender, PointerRoutedEventArgs^ e) {
+					const auto component = safe_cast<FrameworkElement^>(sender);
+					const auto point = Windows::UI::Input::PointerPoint::GetCurrentPoint(e->Pointer->PointerId);
+					fireSimplePositionEvent("touchstart", component, point->Position);
+				});
+			} else if (event_name == "touchend") {
+				component->PointerReleased += ref new PointerEventHandler([this](Platform::Object^ sender, PointerRoutedEventArgs^ e) {
+					const auto component = safe_cast<FrameworkElement^>(sender);
+					const auto point = Windows::UI::Input::PointerPoint::GetCurrentPoint(e->Pointer->PointerId);
+					fireSimplePositionEvent("touchend", component, point->Position);
+				});
+			} else if (event_name == "click") {
+				click_event__ = component->Tapped += ref new TappedEventHandler([this](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
+					const auto component = safe_cast<FrameworkElement^>(sender);
+					fireSimplePositionEvent("click", component, e->GetPosition(component));
+				});
+			} else if (event_name == "doubleclick") {
+				doubleclick_event__ = component->DoubleTapped += ref new DoubleTappedEventHandler([this](Platform::Object^ sender, DoubleTappedRoutedEventArgs^ e) {
+					const auto component = safe_cast<FrameworkElement^>(sender);
+					fireSimplePositionEvent("doubleclick", component, e->GetPosition(component));
+				});
+			} else if (event_name == "singletap") {
+				singletap_event__ = component->Tapped += ref new TappedEventHandler([this](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
+					const auto component = safe_cast<FrameworkElement^>(sender);
+					fireSimplePositionEvent("singletap", component, e->GetPosition(component));
+				});
+			} else if (event_name == "doubletap") {
+				doubletap_event__ = component->DoubleTapped += ref new DoubleTappedEventHandler([this](Platform::Object^ sender, DoubleTappedRoutedEventArgs^ e) {
+					const auto component = safe_cast<FrameworkElement^>(sender);
+					fireSimplePositionEvent("doubletap", component, e->GetPosition(component));
+				});
+			} else if (event_name == "longpress") {
+				longpress_event__ = component->Holding += ref new HoldingEventHandler([this](Platform::Object^ sender, HoldingRoutedEventArgs^ e) {
+					// fires event only when it started
+					if (e->HoldingState == Windows::UI::Input::HoldingState::Started) {
+						const auto component = safe_cast<FrameworkElement^>(sender);
+						fireSimplePositionEvent("longpress", component, e->GetPosition(component));
+					}
+				});
+			} else if (event_name == "focus") {
+				 focus_event__ = getComponent()->GotFocus += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+				 	const auto event_delegate = event_delegate__.lock();
 				 	if (event_delegate != nullptr) {
 					 	JSContext js_context = event_delegate->get_context();
 						JSObject eventArgs = js_context.CreateObject();
@@ -747,10 +915,18 @@ namespace TitaniumWindows
 						event_delegate->fireEvent("focus", eventArgs);
 				 	}
 				});
-				return;
-			 } else if (event_name == "postlayout") {
+			} else if (event_name == "blur") {
+				blur_event__ = getComponent()->LostFocus += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+					const auto event_delegate = event_delegate__.lock();
+					if (event_delegate != nullptr) {
+						JSContext js_context = event_delegate->get_context();
+						JSObject eventArgs = js_context.CreateObject();
+						eventArgs.SetProperty("source", event_delegate->get_object());
+						event_delegate->fireEvent("blur", eventArgs);
+					}
+				});
+			} else if (event_name == "postlayout") {
 				 postlayout_listening__ = true;
-				 return;
 			 }
 		}
 
@@ -759,17 +935,32 @@ namespace TitaniumWindows
 			const auto view = static_cast<WindowsViewLayoutDelegate*>(node->data);
 			auto rect = Titanium::LayoutEngine::RectMake(node->element.measuredLeft, node->element.measuredTop, node->element.measuredWidth, node->element.measuredHeight);
 			view->onLayoutEngineCallback(rect, node->name);
-			view->updateBackgroundImageSize();
+
+			// update gradient when needed
+			view->updateBackgroundGradient();
 		}
 
-		void WindowsViewLayoutDelegate::setComponent(Windows::UI::Xaml::FrameworkElement^ component)
+		void WindowsViewLayoutDelegate::setDefaultBackground()
+		{
+			if (backgroundImageBrush__) {
+				updateBackground(backgroundImageBrush__);
+			} else if (backgroundColorBrush__) {
+				updateBackground(backgroundColorBrush__);
+			} else if (backgroundLinearGradientBrush__) {
+				updateBackground(backgroundLinearGradientBrush__);
+			} else {
+				updateBackground(nullptr); // delete background
+			}
+		}
+
+		void WindowsViewLayoutDelegate::setComponent(FrameworkElement^ component)
 		{
 			TITANIUM_ASSERT(component__ == nullptr);
 
 			component__  = component;
-			is_panel__   = dynamic_cast<Windows::UI::Xaml::Controls::Panel^>(component__) != nullptr;
-			is_control__ = dynamic_cast<Windows::UI::Xaml::Controls::Control^>(component__) != nullptr;
-			is_scrollview__ = dynamic_cast<Windows::UI::Xaml::Controls::ScrollViewer^>(component__) != nullptr;
+			is_panel__   = dynamic_cast<Controls::Panel^>(component__) != nullptr;
+			is_control__ = dynamic_cast<Controls::Control^>(component__) != nullptr;
+			is_scrollview__ = dynamic_cast<Controls::ScrollViewer^>(component__) != nullptr;
 
 			loaded_event__ = component__->Loaded += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
 				auto component = getComponent();
@@ -779,11 +970,10 @@ namespace TitaniumWindows
 					component->ActualWidth,
 					component->ActualHeight
 				);
-
 				onComponentLoaded(rect);
 			});
 
-			size_change_event__ = component__->SizeChanged += ref new Windows::UI::Xaml::SizeChangedEventHandler([this](Platform::Object^ sender, SizeChangedEventArgs^ e) {
+			size_change_event__ = component__->SizeChanged += ref new SizeChangedEventHandler([this](Platform::Object^ sender, SizeChangedEventArgs^ e) {
 				auto component = getComponent();
 				auto rect = Titanium::LayoutEngine::RectMake(
 					Canvas::GetLeft(component),
@@ -794,6 +984,59 @@ namespace TitaniumWindows
 
 				onComponentSizeChange(rect);
 			});
+
+			update_background_event__ = component__->GotFocus += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+				//
+				// check if background is set, show it one again.
+				// we prefer "focused" one here.
+				//
+				if (backgroundFocusedImageBrush__) {
+					updateBackground(backgroundFocusedImageBrush__);
+				} else if (backgroundFocusedColorBrush__) {
+					updateBackground(backgroundFocusedColorBrush__);
+				} else {
+					setDefaultBackground();
+				}
+			});
+
+			reset_background_event__ = component__->LostFocus += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+				//
+				// bring back background image in case we have shown "focused" or "selected" image
+				//
+				const auto imagesSet = (!get_backgroundFocusedImage().empty()) || (!get_backgroundFocusedColor().empty()) || (!get_backgroundSelectedImage().empty()) || (!get_backgroundSelectedColor().empty());
+				if (imagesSet) {
+					setDefaultBackground();
+				}
+			});
+
+			selected_event__ = component__->Tapped += ref new TappedEventHandler([this](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
+				//
+				// Show selected image/color when it is tapped. It is cleared once it losts focus.
+				//
+				if (backgroundSelectedImageBrush__) {
+					updateBackground(backgroundSelectedImageBrush__);
+				} else if (backgroundSelectedColorBrush__) {
+					updateBackground(backgroundSelectedColorBrush__);
+				}
+			});
+
+			if (is_control__) {
+				enabled_changed_event__ = dynamic_cast<Control^>(component__)->IsEnabledChanged += ref new DependencyPropertyChangedEventHandler([this](Platform::Object^ sender, DependencyPropertyChangedEventArgs^ e){
+					auto control = dynamic_cast<Control^>(sender);
+					if (control->IsEnabled) {
+						setDefaultBackground();
+					} else {
+						//
+						// show "disabled" background image if any
+						//
+						if (backgroundDisabledImageBrush__) {
+							updateBackground(backgroundDisabledImageBrush__);
+						} else if (backgroundDisabledColorBrush__) {
+							updateBackground(backgroundDisabledColorBrush__);
+						}
+					}
+				});
+			}
 
 			layout_node__ = new Titanium::LayoutEngine::Node;
 			layout_node__->data = this;

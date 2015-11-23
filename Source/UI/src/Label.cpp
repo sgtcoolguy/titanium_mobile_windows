@@ -74,6 +74,7 @@ namespace TitaniumWindows
 			Titanium::UI::Label::postCallAsConstructor(js_context, arguments);
 			
 			label__ = ref new Windows::UI::Xaml::Controls::TextBlock();
+
 			Titanium::UI::Label::setLayoutDelegate<WindowsLabelLayoutDelegate>();
 
 			label__->TextWrapping = Windows::UI::Xaml::TextWrapping::Wrap;
@@ -138,32 +139,7 @@ namespace TitaniumWindows
 		void Label::set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_font(font);
-			TitaniumWindows::UI::ViewHelper::SetFont(get_context(), label__, font);
-		}
-
-		void Label::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::Label::enableEvent(event_name);
-
-			const JSContext ctx = this->get_context();
-
-			using namespace Windows::UI::Xaml::Input;
-			using namespace Windows::UI::Xaml;
-
-			auto component = getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
-
-			if (event_name == "click") {
-				click_event_ = component->Tapped += ref new TappedEventHandler([this, ctx](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
-					auto component = safe_cast<FrameworkElement^>(sender);
-					auto position = e->GetPosition(component);
-
-					JSObject  eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
-					eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
-
-					this->fireEvent("click", eventArgs);
-				});
-			}
+			TitaniumWindows::UI::ViewHelper::SetFont<Windows::UI::Xaml::Controls::TextBlock^>(get_context(), label__, font);
 		}
 
 	} // namespace UI

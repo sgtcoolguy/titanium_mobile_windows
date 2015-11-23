@@ -578,6 +578,16 @@ namespace Titanium
 				event_delegate__ = event_delegate;
 			}
 
+			virtual void blur()
+			{
+				TITANIUM_LOG_DEBUG("ViewLayoutDelegate::blur() ", this);
+			}
+
+			virtual void focus()
+			{
+				TITANIUM_LOG_DEBUG("ViewLayoutDelegate::focus() ", this);
+			}
+
 			/*
 			 * For mixing Ti.Ui.View and native view
 			 */
@@ -631,7 +641,7 @@ namespace Titanium
 			uint32_t viewShadowRadius__;
 			std::string viewShadowColor__;
 			Point viewShadowOffset__;
-			bool horizontalWrap__;
+			bool horizontalWrap__ { true };
 			
 			Point anchorPoint__;
 			Point animatedCenter__;

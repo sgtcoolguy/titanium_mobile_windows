@@ -70,12 +70,12 @@ namespace Titanium
 
 		void View::blur() 
 		{
-			fireEvent("blur");
+			layoutDelegate__->blur();
 		}
 
 		void View::focus() 
 		{
-			fireEvent("focus");
+			layoutDelegate__->focus();
 		}
 
 		void View::add(const JSObject& view) TITANIUM_NOEXCEPT

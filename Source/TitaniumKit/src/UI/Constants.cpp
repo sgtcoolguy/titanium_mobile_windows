@@ -1547,8 +1547,8 @@ namespace Titanium
 			static std::unordered_map<GRADIENT_TYPE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-			map[GRADIENT_TYPE::LINEAR]    = "GRADIENT_TYPE_LINEAR";
-			map[GRADIENT_TYPE::RADIAL]    = "GRADIENT_TYPE_RADIAL";
+			map[GRADIENT_TYPE::LINEAR]    = "linear";
+			map[GRADIENT_TYPE::RADIAL]    = "radial";
 			});
 
 			std::string string = unknown_string;
@@ -1565,8 +1565,8 @@ namespace Titanium
 			static std::unordered_map<std::string, GRADIENT_TYPE> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-			map["GRADIENT_TYPE_LINEAR"]   = GRADIENT_TYPE::LINEAR;
-			map["GRADIENT_TYPE_RADIAL"]   = GRADIENT_TYPE::RADIAL;
+			map["linear"]   = GRADIENT_TYPE::LINEAR;
+			map["radial"]   = GRADIENT_TYPE::RADIAL;
 			});
 
 			GRADIENT_TYPE value = GRADIENT_TYPE::LINEAR;

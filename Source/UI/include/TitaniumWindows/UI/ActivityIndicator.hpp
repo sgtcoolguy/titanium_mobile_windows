@@ -30,8 +30,6 @@ namespace TitaniumWindows
 
 			// Shows the activity indicator and starts the animation.
 			virtual void show() TITANIUM_NOEXCEPT override;
-
-			virtual void postInitialize() TITANIUM_NOEXCEPT override;
 		protected:
 			Windows::UI::Xaml::Controls::ProgressRing^ ring__;
 		};

@@ -27,6 +27,11 @@ namespace Titanium
 		{
 			double x {0};
 			double y {0};
+
+			// Point actually accepts '%'.
+			// Point owner should be responsible for updating x and y.
+			std::string x_percent;
+			std::string y_percent;
 		};
 		
 		TITANIUMKIT_EXPORT Point js_to_Point(const JSObject& object);

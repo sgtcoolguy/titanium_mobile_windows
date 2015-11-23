@@ -60,19 +60,11 @@ namespace TitaniumWindows
 			virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
 			virtual void set_wordWrap(const bool& wordWrap) TITANIUM_NOEXCEPT override final;
 			virtual void set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT override final;
-			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 			static const std::uint32_t DefaultFontSize = 20;
 
 		private:
 			Windows::UI::Xaml::Controls::TextBlock^ label__;
-
-			// Event handlers
-			Windows::Foundation::EventRegistrationToken click_event_;
-			Windows::Foundation::EventRegistrationToken touch_start_event_;
-			Windows::Foundation::EventRegistrationToken touch_end_event_;
-			Windows::Foundation::EventRegistrationToken touch_move_event_;
-			Windows::Foundation::EventRegistrationToken touch_cancel_event_;
 		};
 	} // namespace UI
 } // namespace TitaniumWindows

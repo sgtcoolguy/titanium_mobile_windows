@@ -43,16 +43,10 @@ namespace TitaniumWindows
 			static Windows::UI::Xaml::Media::FontFamily^ LookupFont(const JSContext& js_context, const std::string& family);
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
-			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
-			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
-
 			virtual void registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireCallback);
-
 			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() TITANIUM_NOEXCEPT;
 
 		private:
-
-			void firePositionEvent(const std::string& event_name, Windows::UI::Xaml::FrameworkElement^ sender, Windows::Foundation::Point position);
 
 			Windows::UI::Xaml::Controls::Canvas^ canvas__;
 
@@ -61,16 +55,6 @@ namespace TitaniumWindows
 			static std::unordered_map<std::string, std::string> CustomFonts__;
 #pragma warning(pop)
 
-			// Event handlers
-			Windows::Foundation::EventRegistrationToken click_event__;
-			Windows::Foundation::EventRegistrationToken doubleclick_event__;
-			Windows::Foundation::EventRegistrationToken focus_event__;
-			Windows::Foundation::EventRegistrationToken touchstart_event__;
-			Windows::Foundation::EventRegistrationToken touchend_event__;
-			Windows::Foundation::EventRegistrationToken touchmove_event__;
-			Windows::Foundation::EventRegistrationToken singletap_event__;
-			Windows::Foundation::EventRegistrationToken doubletap_event__;
-			Windows::Foundation::EventRegistrationToken longpress_event__;
 		};
 	} // namespace UI
 } // namespace TitaniumWindows

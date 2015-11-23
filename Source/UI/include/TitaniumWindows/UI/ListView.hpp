@@ -95,7 +95,7 @@ namespace TitaniumWindows
 			std::vector<std::shared_ptr<Titanium::UI::View>> headers_as_view__;
 #pragma warning(pop)
 
-			Windows::Foundation::EventRegistrationToken click_event__;
+			Windows::Foundation::EventRegistrationToken itemclick_event__;
 
 		};
 	}  // namespace UI

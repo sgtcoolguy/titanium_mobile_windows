@@ -35,6 +35,14 @@ namespace Titanium
 			return colorRef;
 		}
 
+		JSObject GradientColorRef_to_js(const JSContext& js_context, const GradientColorRef& gradientColorRef)
+		{
+			auto object = js_context.CreateObject();
+			object.SetProperty("color", js_context.CreateString(gradientColorRef.color));
+			object.SetProperty("offsest", js_context.CreateNumber(gradientColorRef.offset));
+			return object;
+		}
+
 		Gradient js_to_Gradient(const JSObject& object)
 		{
 			Gradient gradient;
@@ -74,10 +82,10 @@ namespace Titanium
 					gradient.type = Constants::to_GRADIENT_TYPE(static_cast<std::string>(type_property));
 				}
 			}
-			if (object.HasProperty("color")) {
-				auto color_property = object.GetProperty("color");
+			if (object.HasProperty("colors")) {
+				auto color_property = object.GetProperty("colors");
 				if (color_property.IsString()) {
-					gradient.color.push_back(js_to_GradientColorRef(static_cast<std::string>(color_property)));
+					gradient.colors.push_back(js_to_GradientColorRef(static_cast<std::string>(color_property)));
 				} else if (color_property.IsObject()) {
 					auto js_color = static_cast<JSObject>(color_property);
 					if (js_color.IsArray()) {
@@ -86,13 +94,13 @@ namespace Titanium
 							auto item = js_color.GetProperty(i);
 							TITANIUM_ASSERT(item.IsObject());
 							if (item.IsObject()) {
-								gradient.color.push_back(js_to_GradientColorRef(static_cast<JSObject>(item)));
+								gradient.colors.push_back(js_to_GradientColorRef(static_cast<JSObject>(item)));
 							} else {
 								TITANIUM_LOG_WARN("js_to_Gradient: Invalid GradientColorRef");
 							}
 						}
 					} else {
-						gradient.color.push_back(js_to_GradientColorRef(static_cast<std::string>(color_property)));
+						gradient.colors.push_back(js_to_GradientColorRef(static_cast<std::string>(color_property)));
 					}
 				}
 
@@ -100,15 +108,21 @@ namespace Titanium
 			return gradient;
 		};
 
-		// TODO: implement this
 		JSObject Gradient_to_js(const JSContext& js_context, const Gradient& gradient)
 		{
 			auto object = js_context.CreateObject();
-			object.SetProperty("type", js_context.CreateNumber(static_cast<std::underlying_type<GRADIENT_TYPE>::type>(gradient.type)));
+			object.SetProperty("type", js_context.CreateString(Constants::to_string(gradient.type)));
 			object.SetProperty("backfillStart", js_context.CreateBoolean(gradient.backfillStart));
 			object.SetProperty("backfillEnd", js_context.CreateBoolean(gradient.backfillEnd));
 			object.SetProperty("endRadius", js_context.CreateNumber(gradient.endRadius));
 			object.SetProperty("startRadius", js_context.CreateNumber(gradient.startRadius));
+			object.SetProperty("startPoint", Point_to_js(js_context, gradient.startPoint));
+			object.SetProperty("endPoint", Point_to_js(js_context, gradient.endPoint));
+			std::vector<JSValue> colors;
+			for (auto color : gradient.colors) {
+				colors.push_back(GradientColorRef_to_js(js_context, color));
+			}
+			object.SetProperty("colors", js_context.CreateArray(colors));
 			return object;
 		}
 	} // namespace UI

@@ -125,7 +125,7 @@ namespace TitaniumWindows
 			const JSContext ctx = this->get_context();
 
 			if (event_name == "itemclick") {
-				click_event__ = listview__->ItemClick += ref new Controls::ItemClickEventHandler(
+				itemclick_event__ = listview__->ItemClick += ref new Controls::ItemClickEventHandler(
 					[this, ctx](Platform::Object^ sender, Controls::ItemClickEventArgs^ e) {
 					auto listview = safe_cast<Controls::ListView^>(sender);
 
@@ -162,7 +162,7 @@ namespace TitaniumWindows
 			Titanium::UI::ListView::disableEvent(event_name);
 
 			if (event_name == "itemclick") {
-				listview__->ItemClick -= click_event__;
+				listview__->ItemClick -= itemclick_event__;
 			}
 		}
 
@@ -432,8 +432,8 @@ namespace TitaniumWindows
 			if (view == nullptr) {
 				return;
 			}
-			auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
-			Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
+			auto layoutDelegate = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+			Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getLayoutNode());
 		}
 
 		void ListView::unregisterListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view) 
@@ -442,8 +442,8 @@ namespace TitaniumWindows
 				return;
 			}
 			TITANIUM_LOG_DEBUG("ListView::unregisterListViewItemAsLayoutNode ", view.get(), " for ", this);
-			auto layoutDelegate = getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
-			Titanium::LayoutEngine::nodeRemoveChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>()->getLayoutNode());
+			auto layoutDelegate = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+			Titanium::LayoutEngine::nodeRemoveChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getLayoutNode());
 		}
 
 		void ListView::appendListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, Vector<UIElement^>^ group)

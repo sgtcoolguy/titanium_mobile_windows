@@ -69,19 +69,7 @@ namespace TitaniumWindows
 
 			auto component = getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 
-			if (event_name == "click") {
-				click_event_ = component->Tapped += ref new TappedEventHandler([this, ctx](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
-					auto component = safe_cast<FrameworkElement^>(sender);
-					auto position = e->GetPosition(component);
-
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
-					eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
-
-					this->fireEvent("click", eventArgs);
-				});
-			}
-			else if (event_name == "change") {
+			if (event_name == "change") {
 				change_event_ = slider__->ValueChanged += ref new Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler([this, ctx](Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {						
 
 					JSObject eventArgs = ctx.CreateObject();

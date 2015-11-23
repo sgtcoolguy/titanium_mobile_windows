@@ -15,6 +15,10 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
+
+		using namespace Windows::UI::Xaml;
+		using namespace Windows::UI::Xaml::Input;
+
 		TextField::TextField(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::TextField(js_context)
 		{
@@ -28,11 +32,11 @@ namespace TitaniumWindows
 
 			// Parent of the text box.
 			// TextField have to deal with multiple controls. (TextBox & PasswordBox)
-			parent__ = ref new Windows::UI::Xaml::Controls::Grid();
+			parent__ = ref new Controls::Grid();
 
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(parent__);
 
-			text_box__ = ref new Windows::UI::Xaml::Controls::TextBox();
+			text_box__ = ref new Controls::TextBox();
 			text_box__->AcceptsReturn = false;
 			text_box__->IsSpellCheckEnabled = true;
 
@@ -70,8 +74,8 @@ namespace TitaniumWindows
 			// Now we need to dispose TextBox and inherit properties from it.
 			// Don't forget to update layout delegate too...
 			if (passwordMask && text_box__) {
-				password_box__ = ref new Windows::UI::Xaml::Controls::PasswordBox();
-				//password_box__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Black);
+				password_box__ = ref new Controls::PasswordBox();
+				//password_box__->Foreground = ref new Media::SolidColorBrush(Windows::UI::Colors::Black);
 
 				// Remove existing text box
 				if (parent__->Children->Size > 0) {
@@ -98,7 +102,7 @@ namespace TitaniumWindows
 
 				text_box__ = nullptr;
 			} else if (!passwordMask && password_box__) {
-				text_box__ = ref new Windows::UI::Xaml::Controls::TextBox();
+				text_box__ = ref new Controls::TextBox();
 				text_box__->AcceptsReturn = false;
 				text_box__->IsSpellCheckEnabled = true;
 
@@ -134,7 +138,7 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::TextField::set_color(colorName);
 			const auto color_obj = WindowsViewLayoutDelegate::ColorForName(colorName);
-			const auto color_brush = ref new Windows::UI::Xaml::Media::SolidColorBrush(color_obj);
+			const auto color_brush = ref new Media::SolidColorBrush(color_obj);
 			if (text_box__) {
 				text_box__->Foreground = color_brush;
 			} else if (password_box__) {
@@ -167,31 +171,31 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::TextField::set_keyboardType(keyboardType);
 			if (text_box__) {
-				auto scope_name = ref new Windows::UI::Xaml::Input::InputScopeName();
+				auto scope_name = ref new InputScopeName();
 				if (keyboardType == Titanium::UI::KEYBOARD::ASCII) {
-					scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::Default;
+					scope_name->NameValue = InputScopeNameValue::Default;
 				} else if (keyboardType == Titanium::UI::KEYBOARD::DECIMAL_PAD) {
-					scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::Number;
+					scope_name->NameValue = InputScopeNameValue::Number;
 				} else if (keyboardType == Titanium::UI::KEYBOARD::DEFAULT) {
-					scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::Default;
+					scope_name->NameValue = InputScopeNameValue::Default;
 				} else if (keyboardType == Titanium::UI::KEYBOARD::EMAIL) {
-					scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::EmailSmtpAddress;
+					scope_name->NameValue = InputScopeNameValue::EmailSmtpAddress;
 				} else if (keyboardType == Titanium::UI::KEYBOARD::NAMEPHONE_PAD) {
-					scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::NameOrPhoneNumber;
+					scope_name->NameValue = InputScopeNameValue::NameOrPhoneNumber;
 				} else if (keyboardType == Titanium::UI::KEYBOARD::NUMBERS_PUNCTUATION) {
-					scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::CurrencyAmountAndSymbol;
+					scope_name->NameValue = InputScopeNameValue::CurrencyAmountAndSymbol;
 				} else if (keyboardType == Titanium::UI::KEYBOARD::NUMBER_PAD) {
-					scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::Number;
+					scope_name->NameValue = InputScopeNameValue::Number;
 				} else if (keyboardType == Titanium::UI::KEYBOARD::PHONE_PAD) {
-					scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::TelephoneNumber;
+					scope_name->NameValue = InputScopeNameValue::TelephoneNumber;
 				} else if (keyboardType == Titanium::UI::KEYBOARD::URL) {
-					scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::Url;
+					scope_name->NameValue = InputScopeNameValue::Url;
 				} else {
 					return;
 				}
 				auto scope = text_box__->InputScope;
 				if (!scope) {
-					scope = ref new Windows::UI::Xaml::Input::InputScope();
+					scope = ref new InputScope();
 					text_box__->InputScope = scope;
 				}
 				text_box__->InputScope->Names->Clear();
@@ -216,11 +220,11 @@ namespace TitaniumWindows
 			Titanium::UI::TextField::set_textAlign(textAlign);
 			if (text_box__) {
 				if (textAlign == Titanium::UI::TEXT_ALIGNMENT::CENTER) {
-					text_box__->TextAlignment = Windows::UI::Xaml::TextAlignment::Center;
+					text_box__->TextAlignment = TextAlignment::Center;
 				} else if (textAlign == Titanium::UI::TEXT_ALIGNMENT::LEFT) {
-					text_box__->TextAlignment = Windows::UI::Xaml::TextAlignment::Left;
+					text_box__->TextAlignment = TextAlignment::Left;
 				} else if (textAlign == Titanium::UI::TEXT_ALIGNMENT::RIGHT) {
-					text_box__->TextAlignment = Windows::UI::Xaml::TextAlignment::Right;
+					text_box__->TextAlignment = TextAlignment::Right;
 				}
 				// TODO Windows supports JUSTIFY!
 			} else {
@@ -251,13 +255,13 @@ namespace TitaniumWindows
 		void TextField::set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::TextField::set_verticalAlign(verticalAlign);
-			auto align = Windows::UI::Xaml::VerticalAlignment::Center;
+			auto align = VerticalAlignment::Center;
 			if (verticalAlign == Titanium::UI::TEXT_VERTICAL_ALIGNMENT::BOTTOM) {
-				align = Windows::UI::Xaml::VerticalAlignment::Bottom;
+				align = VerticalAlignment::Bottom;
 			} else if (verticalAlign == Titanium::UI::TEXT_VERTICAL_ALIGNMENT::CENTER) {
-				align = Windows::UI::Xaml::VerticalAlignment::Center;
+				align = VerticalAlignment::Center;
 			} else if (verticalAlign == Titanium::UI::TEXT_VERTICAL_ALIGNMENT::TOP) {
-				align = Windows::UI::Xaml::VerticalAlignment::Top;
+				align = VerticalAlignment::Top;
 			}
 			// TODO Windows supports stretch!
 
@@ -277,9 +281,9 @@ namespace TitaniumWindows
 		void TextField::focus() TITANIUM_NOEXCEPT
 		{
 			if (text_box__) {
-				text_box__->Focus(Windows::UI::Xaml::FocusState::Programmatic);
+				text_box__->Focus(FocusState::Programmatic);
 			} else if (password_box__) {
-				password_box__->Focus(Windows::UI::Xaml::FocusState::Programmatic);
+				password_box__->Focus(FocusState::Programmatic);
 			}
 		}
 
@@ -299,22 +303,7 @@ namespace TitaniumWindows
 
 			const JSContext ctx = this->get_context();
 
-			using namespace Windows::UI::Xaml::Input;
-			using namespace Windows::UI::Xaml;
-
-			if (event_name == "blur") {
-				const auto lostfocus = ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e) {
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
-
-					this->fireEvent("blur", eventArgs);
-				});
-				if (text_box__) {
-					blur_event_ = text_box__->LostFocus += lostfocus;
-				} else if (password_box__) {
-					blur_event_ = password_box__->LostFocus += lostfocus;
-				}
-			} else if (event_name == "change") {
+			if (event_name == "change") {
 				if (text_box__) {
 					change_event_ = text_box__->TextChanged += ref new Controls::TextChangedEventHandler([this, ctx](Platform::Object^ sender, Controls::TextChangedEventArgs^ e) {
 						JSObject eventArgs = ctx.CreateObject();
@@ -329,18 +318,6 @@ namespace TitaniumWindows
 
 						this->fireEvent("change", eventArgs);
 					});
-				}
-			} else if (event_name == "focus") {
-				const auto gotfocus = ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e) {
-					JSObject eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
-
-					this->fireEvent("focus", eventArgs);
-				});
-				if (text_box__) {
-					focus_event_ = text_box__->GotFocus += gotfocus;
-				} else if (password_box__) {
-					focus_event_ = password_box__->GotFocus += gotfocus;
 				}
 			} else if (event_name == "return") {
 				const auto keydown = ref new KeyEventHandler([this, ctx](Platform::Object^ sender, KeyRoutedEventArgs^ e) {

@@ -53,9 +53,6 @@ namespace TitaniumWindows
 
 			// Event handlers
 			Windows::Foundation::EventRegistrationToken change_event_;
-			Windows::Foundation::EventRegistrationToken click_event_;
-			Windows::Foundation::EventRegistrationToken start_event_;
-			Windows::Foundation::EventRegistrationToken stop_event_;
 		};
 	} // namespace UI
 } // namespace TitaniumWindows
