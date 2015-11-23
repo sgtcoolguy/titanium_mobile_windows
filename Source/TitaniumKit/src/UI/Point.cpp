@@ -23,7 +23,7 @@ namespace Titanium
 					const auto xstr = static_cast<std::string>(xobj);
 					if (boost::ends_with(xstr, "%")) {
 						// Point accepts '%'. 
-						point.x_percent = static_cast<std::string>(xobj);
+						point.x_percent = xstr;
 					} else {
 						// not a percent? Force double anyway
 						point.x = static_cast<double>(xobj);
@@ -38,7 +38,7 @@ namespace Titanium
 					const auto ystr = static_cast<std::string>(yobj);
 					if (boost::ends_with(ystr, "%")) {
 						// Point accepts '%'
-						point.y_percent = static_cast<std::string>(yobj);
+						point.y_percent = ystr;
 					} else {
 						// not a percent? Force double anyway
 						point.y = static_cast<double>(yobj);
