@@ -40,7 +40,11 @@ var path = require('path'),
  * @param callback {Function} what to invoke when done/errored
  */
 function buildAndPackage(sourceDir, buildDir, destDir, buildType, sdkVersion, msBuildVersion, platform, arch, parallel, quiet, callback) {
-	var platformAbbrev = (platform == 'WindowsPhone') ? 'phone' : 'store';
+	var platformAbbrev = "win10";
+	if (sdkVersion == "8.1") {
+		platformAbbrev = (platform == 'WindowsPhone') ? 'phone' : 'store';
+	}
+
 	console.log('Building ' + platform + ' ' + sdkVersion + ' ' + arch + ': ' + buildType);
 	async.series([
 		function (next) {
@@ -50,7 +54,7 @@ function buildAndPackage(sourceDir, buildDir, destDir, buildType, sdkVersion, ms
 			runMSBuild(msBuildVersion, path.join(buildDir, platformAbbrev, arch, 'TitaniumWindows.sln'), buildType, arch, parallel, quiet, next);
 		},
 		function (next) {
-			copyToDistribution(buildDir, destDir, buildType, platform, arch, next);
+			copyToDistribution(buildDir, destDir, buildType, platformAbbrev, arch, next);
 		}
 	], function (err, results) {
 		if (err) {
@@ -161,13 +165,12 @@ function runMSBuild(msBuildVersion, slnFile, buildType, arch, parallel, quiet, c
  * @param sourceDir The top-level folder containing all the built libraries from the sln
  * @param destDir The top-level destination directory where we copy the built libraries
  * @param buildType 'Release' || 'Debug'
- * @param platform 'WindowsPhone' || 'WindowsStore'
+ * @param platformAbbrev 'phone' || 'store' || 'win10'
  * @param arch 'x86' || 'ARM'
  * @param callback what to invoke when done/errored
  */
-function copyToDistribution(sourceDir, destDir, buildType, platform, arch, callback) {
-	var platformAbbrev = (platform == 'WindowsPhone') ? 'phone' : 'store',
-		libs = {
+function copyToDistribution(sourceDir, destDir, buildType, platformAbbrev, arch, callback) {
+	var libs = {
 			// Library full name : output location
 			'TitaniumWindows_Sensors': 'Sensors',
 			'TitaniumWindows_Filesystem': 'Filesystem',
@@ -308,7 +311,7 @@ function build(sdkVersion, msBuildVersion, targets, options, finished) {
 		},
 		function buildAndPackageAll(next) {
 			(options.parallel ? async.each : async.eachSeries)(targets, function (configuration, next) {
-				var parts = configuration.split('-'); // target platform (WindowsStore|WindowsPhone), arch (ARM|x86)
+				var parts = configuration.split('-'); // target platform(WindowsStore|WindowsPhone)-arch(ARM|x86)
 				buildAndPackage(titaniumWindowsSrc, buildRoot, distLib, 'Release', sdkVersion, msBuildVersion, parts[0], parts[1], options.parallel, options.quiet, next);
 			}, next);
 		},

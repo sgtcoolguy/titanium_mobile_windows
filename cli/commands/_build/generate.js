@@ -314,46 +314,43 @@ function generateAppxManifest(next) {
 	var xprops = {phone: {}, store: {}},
 		domParser = new DOMParser();
 
-	if (!this.tiapp.windows.manifests) {
-		this.generateAppxManifestForPlatform("store", xprops.store);
-		this.generateAppxManifestForPlatform("phone", xprops.phone);
-		this.generateAppxManifestForPlatform("win10", xprops.store);
-		next();
-		return;
-	}
+	if (this.tiapp.windows.manifests) {
+		// Construct manifest properties
+		for (var i = 0; i < this.tiapp.windows.manifests.length; i++) {
+			var manifest = this.tiapp.windows.manifests[i];
 
-	// Construct manifest properties
-	for (var i = 0; i < this.tiapp.windows.manifests.length; i++) {
-		var manifest = this.tiapp.windows.manifests[i];
+			var dom = domParser.parseFromString(manifest, 'text/xml'),
+				root = dom.documentElement, properties = {},
+				target = appc.xml.getAttr(root, "target");
 
-		var dom = domParser.parseFromString(manifest, 'text/xml'),
-			root = dom.documentElement, properties = {},
-			target = appc.xml.getAttr(root, "target");
+			appc.xml.forEachElement(root, function (node) {
+				var key = node.tagName,
+					elements = [];
+				appc.xml.forEachElement(node, function (elm) {
+					elements.push(elm.toString());
+				});
+				properties[key] = elements;
 
-		appc.xml.forEachElement(root, function (node) {
-			var key = node.tagName,
-				elements = [];
-			appc.xml.forEachElement(node, function (elm) {
-				elements.push(elm.toString());
+				xprops.phone[key] = xprops.phone[key] || [];
+				xprops.store[key] = xprops.store[key] || [];
+
+				if (target == "phone") {
+					xprops.phone[key] = xprops.phone[key].concat(elements);
+				} else if (target == "store") {
+					xprops.store[key] = xprops.store[key].concat(elements);
+				} else {
+					xprops.phone[key] = xprops.phone[key].concat(elements);
+					xprops.store[key] = xprops.store[key].concat(elements);
+				}
 			});
-			properties[key] = elements;
-
-			xprops.phone[key] = xprops.phone[key] || [];
-			xprops.store[key] = xprops.store[key] || [];
-
-			if (target == "phone") {
-				xprops.phone[key] = xprops.phone[key].concat(elements);
-			} else if (target == "store") {
-				xprops.store[key] = xprops.store[key].concat(elements);
-			} else {
-				xprops.phone[key] = xprops.phone[key].concat(elements);
-				xprops.store[key] = xprops.store[key].concat(elements);
-			}
-		});
+		}
 	}
 
+	// TODO Only generate the manifest for the target we're building for!
+	// TODO Write them out in parallel
 	this.generateAppxManifestForPlatform("store", xprops.store);
 	this.generateAppxManifestForPlatform("phone", xprops.phone);
+	this.generateAppxManifestForPlatform("win10", xprops.store);
 
 	next();
 };
