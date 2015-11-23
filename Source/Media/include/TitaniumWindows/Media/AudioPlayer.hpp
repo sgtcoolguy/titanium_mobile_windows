@@ -17,13 +17,18 @@ namespace TitaniumWindows
 	namespace Media
 	{
 		/*!
-	      @class
+	      @class AudioPlayer
+	      @ingroup Titanium.Media.AudioPlayer
 
 	      @discussion This is the Titanium.Media.AudioPlayer implementation for Windows.
 	    */
 		class TITANIUMWINDOWS_MEDIA_EXPORT AudioPlayer final : public Titanium::Media::AudioPlayer, public JSExport<AudioPlayer>
 		{
 		public:
+
+			TITANIUM_FUNCTION_UNIMPLEMENTED(stateDescription);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(release);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(allowBackground);
 
 			virtual void set_paused(const bool& paused) TITANIUM_NOEXCEPT override;
 			virtual void set_url(const std::string& url) TITANIUM_NOEXCEPT override;

@@ -19,14 +19,26 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class TextField
+		  @ingroup Titanium.UI.TextField
 
-		  @discussion This is the Titanium.UI.TextField implementation for
-		  Windows.
+		  @discussion This is the Titanium.UI.TextField implementation for Windows.
 		*/
 		class TITANIUMWINDOWS_UI_EXPORT TextField final : public Titanium::UI::TextField, public JSExport<TextField>
 		{
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(autocapitalization);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderStyle);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(clearButtonMode);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(ellipsize);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(enableReturnKey);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(leftButtonMode);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(returnKeyType);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(rightButtonMode);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(suppressReturn);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(blur);
+
 			TextField(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~TextField() = default;
@@ -61,7 +73,6 @@ namespace TitaniumWindows
 			virtual void set_value(const std::string& value) TITANIUM_NOEXCEPT override final;
 			virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
 
-			virtual void blur() TITANIUM_NOEXCEPT override final;
 			virtual void focus() TITANIUM_NOEXCEPT override final;
 			virtual bool hasText() TITANIUM_NOEXCEPT override final;
 

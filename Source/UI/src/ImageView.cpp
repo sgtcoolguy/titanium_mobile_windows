@@ -133,15 +133,15 @@ namespace TitaniumWindows
 			storyboard__->SetTargetProperty(animation, "(Image.Source)");
 
 			storyboard__->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([this](Platform::Object^ sender, Platform::Object ^ e) mutable {
-				is_animating__ = false;
-				is_paused__ = false;
+				animating__ = false;
+				paused__ = false;
 
 				// TODO Fire stop event!
 			});
 
 			storyboard__->Begin();
-			is_animating__ = true;
-			is_paused__ = false;
+			animating__ = true;
+			paused__ = false;
 			// TODO Fire start event!
 		}
 
@@ -150,8 +150,8 @@ namespace TitaniumWindows
 			if (storyboard__ != nullptr) {
 				storyboard__->Stop();
 				// TODO Fire stop event!
-				is_animating__ = false;
-				is_paused__ = false;
+				animating__ = false;
+				paused__ = false;
 				// TODO Delete the storyboard?
 			}
 		}
@@ -160,8 +160,8 @@ namespace TitaniumWindows
 		{
 			if (storyboard__ != nullptr) {
 				storyboard__->Pause();
-				is_animating__ = false;
-				is_paused__ = true;
+				animating__ = false;
+				paused__ = true;
 				// TODO Fire pause event!
 			}
 		}
@@ -170,15 +170,10 @@ namespace TitaniumWindows
 		{
 			if (storyboard__ != nullptr) {
 				storyboard__->Resume();
-				is_animating__ = true;
-				is_paused__ = false;
+				animating__ = true;
+				paused__ = false;
 				// TODO Fire start event?
 			}
-		}
-
-		bool ImageView::get_animating() const TITANIUM_NOEXCEPT
-		{
-			return is_animating__;
 		}
 
 		void ImageView::set_image(const std::string& path) TITANIUM_NOEXCEPT
@@ -194,11 +189,6 @@ namespace TitaniumWindows
 			Titanium::UI::ImageView::set_images(images);
 			// HACK For now let's cheat and just set the first image as a static one
 			set_image(images.at(0));
-		}
-
-		bool ImageView::get_paused() const TITANIUM_NOEXCEPT
-		{
-			return is_paused__;
 		}
 
 	} // namespace UI

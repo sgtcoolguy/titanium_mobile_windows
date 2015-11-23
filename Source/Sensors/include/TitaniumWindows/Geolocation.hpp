@@ -17,13 +17,24 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class Geolocation
+	  @ingroup Titanium.Geolocation
 	  @discussion This is the Titanium.Geolocation implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_SENSORS_EXPORT Geolocation final : public Titanium::GeolocationModule, public JSExport<Geolocation>
 	{
 
 	public:
+
+		TITANIUM_PROPERTY_UNIMPLEMENTED(activityType);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(allowsBackgroundLocationUpdates);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(locationServicesAuthorization);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(pauseLocationUpdateAutomatically);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(purpose);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(showCalibration);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(trackSignificantLocationChange);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(requestLocationPermissions);
+
 		Geolocation(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~Geolocation()                  = default;
 		Geolocation(const Geolocation&)            = default;

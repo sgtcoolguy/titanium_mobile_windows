@@ -20,7 +20,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class PickerRow
+		  @ingroup Titanium.UI.PickerRow
 
 		  @discussion This is the Titanium.UI.PickerRow implementation for
 		  Windows.

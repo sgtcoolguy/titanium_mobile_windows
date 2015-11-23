@@ -15,7 +15,8 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class TiModule
+	  @ingroup Titanium
 
 	  @discussion This is the top-level Titanium module implementation for Windows.
 	*/

@@ -17,13 +17,17 @@ namespace TitaniumWindows
 	namespace Media
 	{
 		/*!
-	      @class
+	      @class Sound
+	      @ingroup Titanium.Media.Sound
 
 	      @discussion This is the Titanium.Media.Sound implementation for Windows.
 	    */
 		class TITANIUMWINDOWS_MEDIA_EXPORT Sound final : public Titanium::Media::Sound, public JSExport<Sound>
 		{
 		public:
+
+			TITANIUM_FUNCTION_UNIMPLEMENTED(release);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(allowBackground);
 
 			virtual void set_looping(const bool& looping) TITANIUM_NOEXCEPT override;
 			virtual void set_url(const std::string& url) TITANIUM_NOEXCEPT override;

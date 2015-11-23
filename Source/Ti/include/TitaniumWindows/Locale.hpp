@@ -15,13 +15,19 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class Locale
+	  @ingroup Titanium.Locale
 
 	  @discussion This is the Titanium.Locale module implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_TI_EXPORT Locale final : public Titanium::Locale, public JSExport<Locale>
 	{
 	public:
+		TITANIUM_PROPERTY_UNIMPLEMENTED(currentCountry);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(currentLanguage);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(getCurrencyCode);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(getCurrencySymbol);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(getLocaleCurrencySymbol);
 
 		/*!
 		  @method

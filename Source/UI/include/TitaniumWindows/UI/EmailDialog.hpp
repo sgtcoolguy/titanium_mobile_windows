@@ -21,7 +21,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class EmailDialog
+		  @ingroup Titanium.UI.EmailDialog
 
 		  @discussion This is the Titanium.UI.EmailDialog implementation for Windows.
 		*/

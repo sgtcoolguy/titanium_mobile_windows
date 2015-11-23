@@ -23,13 +23,16 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class FilesystemModule
+	  @ingroup Titanium.Filesystem
 
 	  @discussion This is the Titanium.FilesystemModule implementation for Windows.
     */
 	class TITANIUMWINDOWS_FILESYSTEM_EXPORT FilesystemModule final : public Titanium::FilesystemModule, public JSExport<FilesystemModule>
 	{
 	public:
+		TITANIUM_FUNCTION_UNIMPLEMENTED(openStream);
+
 		FilesystemModule(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~FilesystemModule();
@@ -43,7 +46,6 @@ namespace TitaniumWindows
 		static void JSExportInitialize();
 
 		virtual bool isExternalStoragePresent() TITANIUM_NOEXCEPT;
-		virtual std::shared_ptr<Titanium::Filesystem::FileStream> openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT;
 
 		virtual std::string separator() const TITANIUM_NOEXCEPT;
 		virtual std::string applicationCacheDirectory() const TITANIUM_NOEXCEPT;

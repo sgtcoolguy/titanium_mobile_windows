@@ -19,14 +19,16 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class Button
+		  @ingroup Titanium.UI.Button
 
-		  @discussion This is the Titanium.UI.Button implementation for
-		  Windows.
+		  @discussion This is the Titanium.UI.Button implementation for Windows.
 		*/
 		class TITANIUMWINDOWS_UI_EXPORT Button final : public Titanium::UI::Button, public JSExport<Button>
 		{
 		public:
+			TITANIUM_FUNCTION_UNIMPLEMENTED(textAlign);
+			
 			Button(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Button() = default;

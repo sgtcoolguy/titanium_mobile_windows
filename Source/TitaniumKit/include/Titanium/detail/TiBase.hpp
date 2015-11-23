@@ -76,4 +76,9 @@ virtual TYPE get_##NAME() const TITANIUM_NOEXCEPT
 TITANIUM_PROPERTY_IMPL_READONLY_DEF(TYPE, NAME); \
 virtual void set_##NAME(const TYPE& NAME) TITANIUM_NOEXCEPT
 
+// For defining "unimplemented" functions/properties, just used for documentation
+#define TITANIUM_MODULE_UNIMPLEMENTED(...) 
+#define TITANIUM_FUNCTION_UNIMPLEMENTED(...) 
+#define TITANIUM_PROPERTY_UNIMPLEMENTED(...)
+
 #endif  // _TITANIUM_DETAIL_TIBASE_HPP_

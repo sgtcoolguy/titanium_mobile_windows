@@ -21,7 +21,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class OptionDialog
+		  @ingroup Titanium.UI.OptionDialog
 
 		  @discussion This is the Titanium.UI.OptionDialog implementation for Windows.
 		*/
@@ -29,6 +30,13 @@ namespace TitaniumWindows
 		{
 
 		public:
+			TITANIUM_FUNCTION_UNIMPLEMENTED(hide);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(androidView);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(buttonNames);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(opaquebackground);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(persistent);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(titleid);
+
 			OptionDialog(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~OptionDialog()                      = default;
@@ -42,7 +50,6 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 
 			virtual void show(const Titanium::UI::OptionDialogShowParams& params) TITANIUM_NOEXCEPT override;
-			virtual void hide(const Titanium::UI::OptionDialogHideParams& params) TITANIUM_NOEXCEPT override;
 
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
 			static const std::uint32_t MaxButtonCount = 2;

@@ -15,7 +15,8 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class Platform
+	  @ingroup Titanium.Platform
 
 	  @discussion This is the Titanium.Platform implementation for Windows.
 	*/

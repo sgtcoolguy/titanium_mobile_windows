@@ -41,12 +41,6 @@ namespace TitaniumWindows
 		return !this->externalStorageDirectory().empty();
 	}
 
-	std::shared_ptr<Titanium::Filesystem::FileStream> FilesystemModule::openStream(std::unordered_set<Titanium::Filesystem::MODE> modes, const std::string& path) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("Filesystem.openStream is not implemented yet");
-		return nullptr;
-	}
-
 	std::string FilesystemModule::applicationCacheDirectory() const TITANIUM_NOEXCEPT
 	{
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP

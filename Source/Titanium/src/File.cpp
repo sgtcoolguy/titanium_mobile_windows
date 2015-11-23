@@ -271,24 +271,6 @@ namespace TitaniumWindows
 			}
 		}
 
-		bool File::append(const std::string& data) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("File::append(string): Unimplemented");
-			return false;
-		}
-
-		bool File::append(const std::shared_ptr<Titanium::Blob>& data) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("File::append(Blob): Unimplemented");
-			return false;
-		}
-
-		bool File::append(const std::shared_ptr<Titanium::Filesystem::File>& data) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("File::append(File): Unimplemented");
-			return false;
-		}
-
 		bool File::copy(const std::string& destinationPath) TITANIUM_NOEXCEPT
 		{
 			// copy will never work for folder

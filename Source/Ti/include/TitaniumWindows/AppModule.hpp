@@ -18,6 +18,7 @@ namespace TitaniumWindows
 
 	/*!
 	  @class AppModule
+	  @ingroup Titanium.App
 
 	  @discussion This is the Titanium.App implementation for Windows.
 	*/
@@ -25,6 +26,14 @@ namespace TitaniumWindows
 	{
 
 	public:
+		TITANIUM_FUNCTION_UNIMPLEMENTED(fireSystemEvent);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(accessibilityEnabled);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(disableNetworkActivityIndicator);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(forceSplashAsSnapshot);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(idleTimerDisabled);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(proximityDetection);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(proximityState);
+
 		AppModule(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~AppModule() = default;

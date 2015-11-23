@@ -32,7 +32,8 @@ namespace TitaniumWindows
 		};
 
 		/*!
-		  @class
+		  @class ImageView
+		  @ingroup Titanium.UI.ImageView
 
 		  @discussion This is the Titanium.UI.ImageView implementation for
 		  Windows.
@@ -40,6 +41,15 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT ImageView final : public Titanium::UI::ImageView, public JSExport<ImageView>
 		{
 		public:
+
+			TITANIUM_FUNCTION_UNIMPLEMENTED(toBlob);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(autorotate);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(decodeRetries);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(defaultImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(enableZoomControls);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(hires);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(preventDefaultImage);
+
 			ImageView(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ImageView() = default;
@@ -61,18 +71,13 @@ namespace TitaniumWindows
 			virtual void stop() TITANIUM_NOEXCEPT override final;
 
 			// properties
-			virtual bool get_animating() const TITANIUM_NOEXCEPT override final;
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
 			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
-			virtual bool get_paused() const TITANIUM_NOEXCEPT override final;
 
 		private:
 			Windows::Foundation::EventRegistrationToken internal_load_event_;
 			Windows::UI::Xaml::Controls::Image^ image__;
 			Windows::UI::Xaml::Media::Animation::Storyboard^ storyboard__;
-
-			bool is_animating__;
-			bool is_paused__;
 		};
 	} // namespace UI
 } // namespace TitaniumWindow

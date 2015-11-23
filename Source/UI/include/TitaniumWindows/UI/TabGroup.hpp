@@ -22,7 +22,8 @@ namespace TitaniumWindows
 		class Window;
 
 		/*!
-		  @class
+		  @class Tab
+		  @ingroup Titanium.UI.TabGroup
 
 		  @discussion This is the Titanium.UI.TabGroup implementation for Windows.
 		*/
@@ -30,6 +31,44 @@ namespace TitaniumWindows
 		{
 
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activity);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(allowUserCustomization);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(barColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(translucent);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(titleAttributes);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(navTintColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(editButtonTitle);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(exitOnClose);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(navBarHidden);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(swipeable);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(smoothScrollOnTabClick);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(windowSoftInputMode);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsTintColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(shadowImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabIconTint);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundDisabledColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundDisabledImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundFocusedColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundFocusedImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundSelectedColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundSelectedImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundDisabledColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundDisabledImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundFocusedColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundFocusedImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundSelectedColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundSelectedImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabDividerColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabDividerWidth);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabHeight);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsAtBottom);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(disableTabNavigation);
+
 			TabGroup(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TabGroup()                  = default;
 			TabGroup(const TabGroup&)            = default;

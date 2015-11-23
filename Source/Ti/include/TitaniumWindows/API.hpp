@@ -40,13 +40,16 @@ namespace TitaniumWindows
 	};
 
 	/*!
-	  @class
+	  @class API
+	  @ingroup Titanium.API
 
 	  @discussion This is the Titanium.API implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_TI_EXPORT API final : public Titanium::API, public JSExport<API>
 	{
 	public:
+		TITANIUM_FUNCTION_UNIMPLEMENTED(timestamp);
+
 		static bool done__;
 #pragma warning(push)
 #pragma warning(disable : 4251)

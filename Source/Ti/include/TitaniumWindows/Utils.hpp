@@ -23,7 +23,8 @@ namespace TitaniumWindows
 	using Blob_shared_ptr_t = std::shared_ptr<Titanium::Blob>;
 
 	/*!
-	  @class
+	  @class Utils
+	  @ingroup Titanium.Utils
 
 	  @discussion This is the Titanium.Utils implementation for Windows.
 	*/

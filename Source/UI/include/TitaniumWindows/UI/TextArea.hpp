@@ -19,7 +19,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class TextArea
+		  @ingroup Titanium.UI.TextArea
 
 		  @discussion This is the Titanium.UI.TextArea implementation for Windows.
 		*/
@@ -27,7 +28,25 @@ namespace TitaniumWindows
 		{
 
 		public:
-			
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(appearance);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(attributedString);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(autocapitalization);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(autoLink);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(clearOnEdit);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(ellipsize);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(enableReturnKey);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(handleLinks);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(keyboardToolbar);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(keyboardToolbarColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(keyboardToolbarHeight);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(returnKeyType);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(scrollsToTop);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(suppressReturn);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(scrollable);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(blur);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(hasText);
+
 			TextArea(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TextArea()                  = default;
 			TextArea(const TextArea&)            = default;
@@ -53,7 +72,6 @@ namespace TitaniumWindows
 			virtual void set_value(const std::string&) TITANIUM_NOEXCEPT override final;
 			virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
 
-			virtual void blur() TITANIUM_NOEXCEPT override final;
 			virtual void focus() TITANIUM_NOEXCEPT override final;
 
 		private:

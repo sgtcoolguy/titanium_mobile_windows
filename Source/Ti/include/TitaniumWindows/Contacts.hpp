@@ -17,7 +17,8 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class ContactsModule
+	  @ingroup Titanium.Contacts
 
 	  @discussion This is the Titanium.Contacts implementation for Windows.
 	*/
@@ -25,7 +26,10 @@ namespace TitaniumWindows
 	{
 
 	public:
-		
+
+		TITANIUM_PROPERTY_UNIMPLEMENTED(contactsAuthorization);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(requestContactsPermissions);
+
 		ContactsModule(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 		virtual ~ContactsModule()                        = default;
 		ContactsModule(const ContactsModule&)            = default;

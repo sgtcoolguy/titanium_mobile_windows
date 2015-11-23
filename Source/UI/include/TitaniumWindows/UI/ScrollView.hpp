@@ -41,14 +41,27 @@ namespace TitaniumWindows
 		};
 
 		/*!
-		  @class
+		  @class ScrollView
+		  @ingroup Titanium.UI.ScrollView
 
-		  @discussion This is the Titanium.UI.ScrollView implementation for
-		  Windows.
+		  @discussion This is the Titanium.UI.ScrollView implementation for Windows.
 		*/
 		class TITANIUMWINDOWS_UI_EXPORT ScrollView final : public Titanium::UI::ScrollView, public JSExport<ScrollView>
 		{
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(canCancelEvents);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(disableBounce);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(horizontalBounce);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(maxZoomScale);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(minZoomScale);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(scrollType);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(verticalBounce);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(zoomScale);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(decelerationRate);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(overScrollMode);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(scrollIndicatorStyle);
+
 			ScrollView(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ScrollView() = default;

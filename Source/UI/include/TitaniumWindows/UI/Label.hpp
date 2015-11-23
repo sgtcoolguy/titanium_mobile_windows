@@ -33,7 +33,8 @@ namespace TitaniumWindows
 		};
 
 		/*!
-		  @class
+		  @class Label
+		  @ingroup Titanium.UI.Label
 
 		  @discussion This is the Titanium.UI.Label implementation for
 		  Windows.
@@ -41,6 +42,8 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT Label final : public Titanium::UI::Label, public JSExport<Label>
 		{
 		public:
+			TITANIUM_PROPERTY_UNIMPLEMENTED(ellipsize);
+
 			Label(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Label();

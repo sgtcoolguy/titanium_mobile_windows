@@ -20,9 +20,20 @@ namespace TitaniumWindows
 	{
 		using namespace HAL;
 
+		/*!
+		  @class HTTPClient
+		  @ingroup Titanium.Network.HTTPClient
+
+		  @discussion This is the Titanium.Network.HTTPClient implementation for Windows.
+	    */
 		class TITANIUMWINDOWS_NETWORK_EXPORT HTTPClient final : public Titanium::Network::HTTPClient, public JSExport<HTTPClient>
 		{
 		public:
+
+			TITANIUM_FUNCTION_UNIMPLEMENTED(addAuthFactory);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(addKeyManager);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(addTrustManager);
+
 			HTTPClient(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~HTTPClient();

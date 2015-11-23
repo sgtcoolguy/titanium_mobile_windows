@@ -165,11 +165,6 @@ namespace TitaniumWindows
 			// TODO Windows supports stretch!
 		}
 
-		void TextArea::blur() TITANIUM_NOEXCEPT
-		{
-			// TODO Windows doesn't allow forcibly losing focus, need to set focus on another control to achieve it! Can we set focus on the window or parent or something?
-		}
-
 		void TextArea::focus() TITANIUM_NOEXCEPT
 		{
 			text_box__->Focus(Windows::UI::Xaml::FocusState::Programmatic);

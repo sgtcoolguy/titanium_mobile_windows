@@ -20,7 +20,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class Picker
+		  @ingroup Titanium.UI.Picker
 
 		  @discussion This is the Titanium.UI.Picker implementation for
 		  Windows.
@@ -29,6 +30,18 @@ namespace TitaniumWindows
 		{
 		public:
 
+			TITANIUM_PROPERTY_UNIMPLEMENTED(countDownDuration);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(format24);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(locale);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(minuteInterval);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(selectionIndicator);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(selectionOpens);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(useSpinner);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(calendarViewShown);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(font);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(showDatePickerDialog);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(showTimePickerDialog);
+
 			virtual void add_rows(const std::vector<std::shared_ptr<Titanium::UI::PickerRow>>& rows) TITANIUM_NOEXCEPT override;
 			virtual void add_columns(const std::vector<std::shared_ptr<Titanium::UI::PickerColumn>>& columns) TITANIUM_NOEXCEPT override;
 			virtual void set_type(const Titanium::UI::PICKER_TYPE& type) TITANIUM_NOEXCEPT override;
@@ -36,9 +49,6 @@ namespace TitaniumWindows
 			virtual void set_value(const boost::optional<std::chrono::system_clock::time_point>& value) TITANIUM_NOEXCEPT override;
 			virtual void set_maxDate(const boost::optional<std::chrono::system_clock::time_point>& value) TITANIUM_NOEXCEPT override;
 			virtual void set_minDate(const boost::optional<std::chrono::system_clock::time_point>& value) TITANIUM_NOEXCEPT override;
-
-			virtual void showDatePickerDialog(const Titanium::UI::PickerDialogOption& option) override;
-			virtual void showTimePickerDialog(const Titanium::UI::PickerDialogOption& option) override;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;

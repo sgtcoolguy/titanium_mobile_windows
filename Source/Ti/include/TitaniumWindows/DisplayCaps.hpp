@@ -15,14 +15,16 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class DisplayCaps
+	  @ingroup Titanium.Platform.DisplayCaps
 
 	  @discussion This is the Titanium.Platform.DisplayCaps implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_TI_EXPORT DisplayCaps final : public Titanium::Platform::DisplayCaps, public JSExport<DisplayCaps>
 	{
 	public:
-		virtual std::string density() const TITANIUM_NOEXCEPT;
+		TITANIUM_PROPERTY_UNIMPLEMENTED(density);
+
 		virtual double dpi() const TITANIUM_NOEXCEPT;
 		virtual double logicalDensityFactor() const TITANIUM_NOEXCEPT;
 		virtual double platformHeight() const TITANIUM_NOEXCEPT;

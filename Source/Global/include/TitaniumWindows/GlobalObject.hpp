@@ -17,7 +17,8 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class GlobalObject
+	  @ingroup Global
 
 	  @discussion This is the Titanium GlobalObject implementation for
 	  Windows.

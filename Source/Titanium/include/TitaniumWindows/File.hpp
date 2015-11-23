@@ -18,13 +18,19 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class File
+		  @ingroup Titanium.Filesystem.File
 
 		  @discussion This is the Titanium.Filesystem.File implementation for Windows.
 		*/
 		class TITANIUMWINDOWS_EXPORT File final : public Titanium::Filesystem::File, public JSExport<File>
 		{
 		public:
+			TITANIUM_FUNCTION_UNIMPLEMENTED(append);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(executable);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(remoteBackup);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(symbolicLink);
+
 			virtual bool get_executable() const TITANIUM_NOEXCEPT override;
 			virtual bool get_hidden() const TITANIUM_NOEXCEPT override;
 			virtual std::string get_name() const TITANIUM_NOEXCEPT override;
@@ -35,10 +41,6 @@ namespace TitaniumWindows
 			virtual std::uint64_t get_size() const TITANIUM_NOEXCEPT override;
 			virtual bool get_symbolicLink() const TITANIUM_NOEXCEPT override;
 			virtual bool get_writable() const TITANIUM_NOEXCEPT override;
-
-			virtual bool append(const std::string& data) TITANIUM_NOEXCEPT override;
-			virtual bool append(const std::shared_ptr<Titanium::Blob>& data) TITANIUM_NOEXCEPT override;
-			virtual bool append(const std::shared_ptr<Titanium::Filesystem::File>& data) TITANIUM_NOEXCEPT override;
 
 			virtual bool copy(const std::string& dest) TITANIUM_NOEXCEPT override;
 			virtual bool createDirectory() TITANIUM_NOEXCEPT override;

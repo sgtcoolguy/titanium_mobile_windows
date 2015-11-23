@@ -16,7 +16,8 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class Gesture
+	  @ingroup Titanium.Gesture
 
 	  @discussion This is the Titanium.Gesture implementation for Windows.
     */

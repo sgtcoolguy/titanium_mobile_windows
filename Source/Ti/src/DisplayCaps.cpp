@@ -23,13 +23,6 @@ namespace TitaniumWindows
 		JSExport<DisplayCaps>::SetParent(JSExport<Titanium::Platform::DisplayCaps>::Class());
 	}
 
-	std::string DisplayCaps::density() const TITANIUM_NOEXCEPT
-	{
-		// On Windows, there's no string value to describe screen density like "high" and "medium".
-		// Returning empty string for now
-		return "";
-	}
-
 	double DisplayCaps::dpi() const TITANIUM_NOEXCEPT
 	{
 		auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();

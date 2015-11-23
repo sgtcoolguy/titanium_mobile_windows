@@ -18,13 +18,19 @@ namespace TitaniumWindows
 	namespace Media
 	{
 		/*!
-		  @class
+		  @class AudioRecorder
+		  @ingroup Titanium.Media.AudioRecorder
 
 		  @discussion This is the Titanium.Media.AudioRecorder implementation for Windows.
 		*/
 		class TITANIUMWINDOWS_MEDIA_EXPORT AudioRecorder final : public Titanium::Media::AudioRecorder, public JSExport<AudioRecorder>
 		{
 		public:
+			TITANIUM_FUNCTION_UNIMPLEMENTED(resume);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(pause);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(compression);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(format);
+
 			AudioRecorder(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~AudioRecorder();

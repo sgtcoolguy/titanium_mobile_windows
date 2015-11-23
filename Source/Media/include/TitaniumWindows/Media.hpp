@@ -19,13 +19,20 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class MediaModule
+	  @ingroup Titanium.Media
 
 	  @discussion This is the Titanium.Media implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_MEDIA_EXPORT MediaModule final : public Titanium::MediaModule, public JSExport<MediaModule>
 	{
 	public:
+
+		TITANIUM_FUNCTION_UNIMPLEMENTED(hideMusicLibrary);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(previewImage);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(setOverrideAudioRoute);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(switchCamera);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(queryMusicLibrary);
 
 		/*!
 		  @method
@@ -40,13 +47,6 @@ namespace TitaniumWindows
 		  @discussion Hides the device camera UI.
 		*/
 		virtual void hideCamera() TITANIUM_NOEXCEPT override;
-
-		/*!
-		  @method
-		  @abstract hideMusicLibrary
-		  @discussion Hides the music library.
-		*/
-		virtual void hideMusicLibrary() TITANIUM_NOEXCEPT override;
 
 		/*!
 		  @method
@@ -73,13 +73,6 @@ namespace TitaniumWindows
 
 		/*!
 		  @method
-		  @abstract previewImage
-		  @discussion Displays the given image.
-		*/
-		virtual void previewImage(const std::unordered_map<std::string, Titanium::Media::PreviewImageOptions>& options) TITANIUM_NOEXCEPT override;
-
-		/*!
-		  @method
 		  @abstract saveToPhotoGallery
 		  @discussion Saves media to the device's photo gallery / camera roll.
 		*/
@@ -87,24 +80,10 @@ namespace TitaniumWindows
 
 		/*!
 		  @method
-		  @abstract setOverrideAudioRoute
-		  @discussion Overrides the default audio route when using the <Titanium.Media.AUDIO_SESSION_MODE_PLAY_AND_RECORD> session mode.
-		*/
-		virtual void setOverrideAudioRoute(const Titanium::Media::AudioSessionOverrideRoute& route) TITANIUM_NOEXCEPT override;
-
-		/*!
-		  @method
 		  @abstract showCamera
 		  @discussion Shows the camera.
 		*/
 		virtual void showCamera(const Titanium::Media::CameraOptionsType& options) TITANIUM_NOEXCEPT override;
-
-		/*!
-		  @method
-		  @abstract queryMusicLibrary
-		  @discussion Searches the music library for items matching the specified search predicates.
-		*/
-		virtual std::vector<std::shared_ptr<Titanium::Media::Item>> queryMusicLibrary(const Titanium::Media::MediaQueryType& query) TITANIUM_NOEXCEPT override;
 
 		/*!
 		  @method
@@ -140,13 +119,6 @@ namespace TitaniumWindows
 		  @discussion Stops video capture using the camera specified.
 		*/
 		virtual void stopVideoCapture() TITANIUM_NOEXCEPT override;
-
-		/*!
-		  @method
-		  @abstract switchCamera
-		  @discussion Switches between front and rear-facing cameras.
-		*/
-		virtual void switchCamera(const Titanium::Media::CameraOption& camera) TITANIUM_NOEXCEPT override;
 
 		/*!
 		  @method

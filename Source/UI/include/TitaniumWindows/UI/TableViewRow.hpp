@@ -22,7 +22,8 @@ namespace TitaniumWindows
 		class Label;
 
 		/*!
-		  @class
+		  @class TableViewRow
+		  @ingroup Titanium.UI.TableViewRow
 
 		  @discussion This is the Titanium.UI.TableViewRow implementation for Windows.
 		*/
@@ -32,6 +33,11 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
+
+			TITANIUM_FUNCTION_UNIMPLEMENTED(font);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(hasCheck);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(hasChild);
+
 			TableViewRow(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableViewRow()                      = default;
 			TableViewRow(const TableViewRow&)            = default;
