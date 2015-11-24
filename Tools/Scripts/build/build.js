@@ -144,7 +144,7 @@ function runCMake(sourceDir, buildDir, buildType, sdkVersion, msBuildVersion, pl
 
 /**
  * @param msBuildVersion {String} The version of MSBuild to run: '12.0' or '14.0'
- * @param slnFile {Stirng} The VS solution file to build.
+ * @param slnFile {String} The VS solution file to build.
  * @param buildType {String} 'Release' || 'Debug'
  * @param arch {String} 'x86' || 'ARM'
  * @param parallel {Boolean} Run msbuild in parallel? (/m option)
@@ -404,7 +404,7 @@ if (module.id === ".") {
 		},
 		function (err, results) {
 			if (err) {
-				console.error((symbols.error + ' ' + err.toString()).red);
+				console.error(err.toString().red);
 				process.exit(1);
 			}
 			process.exit(0);
