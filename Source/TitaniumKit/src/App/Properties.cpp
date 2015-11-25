@@ -154,7 +154,6 @@ namespace Titanium
 				get_context().JSEvaluateScript("Ti.API.warn('Cannot overwrite/delete read-only property: " + property + "');");
 				return;
 			}
-			
 		}
 
 		void Properties::setList(const std::string& property, std::vector<JSValue> value) TITANIUM_NOEXCEPT
@@ -162,15 +161,11 @@ namespace Titanium
 			std::vector<JSValue> arguments;
 			arguments.push_back(get_context().CreateArray(value));
 			setString(property, static_cast<std::string>(stringify_function__(arguments, get_context().get_global_object())));
-
-			//fireEvent
 		}
 
 		void Properties::setObject(const std::string& property, JSObject value) TITANIUM_NOEXCEPT
 		{
 			setString(property, static_cast<std::string>(stringify_function__({ value }, get_context().get_global_object())));
-
-			//fireEvent
 		}
 
 		void Properties::setString(const std::string& property, const std::string& value) TITANIUM_NOEXCEPT

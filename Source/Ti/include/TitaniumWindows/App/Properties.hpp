@@ -56,8 +56,9 @@ namespace TitaniumWindows
 			virtual void setInt(const std::string& property, int value) TITANIUM_NOEXCEPT override;
 			virtual void setString(const std::string& property, const std::string& value) TITANIUM_NOEXCEPT override;
 
-			ApplicationDataContainer^ local_settings_;
+			virtual void fireChangeEvent() TITANIUM_NOEXCEPT;
 
+			ApplicationDataContainer^ local_settings_;
 		};
 	} // namespace App
 }  // namespace TitaniumWindows
