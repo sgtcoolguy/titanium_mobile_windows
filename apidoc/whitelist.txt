@@ -2,11 +2,24 @@
 # C - Class, M - Method, P - Property
 
 C Titanium.UI.View
+E touchmove
+E touchstart
+E touchend
+E click
+E doubleclick
+E singletap
+E doubletap
+E longpress
+E focus
+E blur
 E postlayout
 
 C Titanium.UI.Animation
 E complete
 E start
+
+C Titanium.Accelerometer
+E update
 
 C Global.JSON
 M parse

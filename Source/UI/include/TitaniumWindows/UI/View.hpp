@@ -58,6 +58,10 @@ namespace TitaniumWindows
 			TITANIUM_FUNCTION_UNIMPLEMENTED(toImage);
 			TITANIUM_FUNCTION_UNIMPLEMENTED(convertPointToView);
 
+			// Implemented, works with some components which uses Xaml.Controls.Control
+			// But it doesn't work on TI.UI.View because it's Xaml.Controls.Panel
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderColor);
+
 			View(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~View();
