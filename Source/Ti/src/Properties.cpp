@@ -119,7 +119,7 @@ namespace TitaniumWindows
 			auto values = local_settings_->Values;
 			values->Insert(Utility::ConvertString(property), dynamic_cast<PropertyValue^>(PropertyValue::CreateBoolean(value)));
 
-			//fireEvent
+			fireChangeEvent();
 		}
 
 		void Properties::setDouble(const std::string& property, double value) TITANIUM_NOEXCEPT
@@ -127,7 +127,7 @@ namespace TitaniumWindows
 			auto values = local_settings_->Values;
 			values->Insert(Utility::ConvertString(property), dynamic_cast<PropertyValue^>(PropertyValue::CreateDouble(value)));
 
-			//fireEvent
+			fireChangeEvent();
 		}
 
 		void Properties::setInt(const std::string& property, int value) TITANIUM_NOEXCEPT
@@ -135,7 +135,7 @@ namespace TitaniumWindows
 			auto values = local_settings_->Values;
 			values->Insert(Utility::ConvertString(property), dynamic_cast<PropertyValue^>(PropertyValue::CreateInt32(value)));
 
-			//fireEvent
+			fireChangeEvent();
 		}
 
 		void Properties::setString(const std::string& property, const std::string& value) TITANIUM_NOEXCEPT
@@ -143,7 +143,15 @@ namespace TitaniumWindows
 			auto values = local_settings_->Values;
 			values->Insert(Utility::ConvertString(property), dynamic_cast<PropertyValue^>(PropertyValue::CreateString(Utility::ConvertString(value))));
 
-			//fireEvent
+			fireChangeEvent();
+		}
+
+		void Properties::fireChangeEvent() TITANIUM_NOEXCEPT
+		{
+			JSObject changeEvent = get_context().CreateObject();
+			changeEvent.SetProperty("source", this->get_object());
+			changeEvent.SetProperty("type", get_context().CreateString("change"));
+			this->fireEvent("change", changeEvent);
 		}
 
 	} // namespace App

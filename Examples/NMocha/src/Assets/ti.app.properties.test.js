@@ -163,4 +163,26 @@ describe('Titanium.App.Properties', function () {
         should(Ti.App.Properties.hasProperty('presetString')).be.eql(true);
         finish();
     });
+
+    it('change events', function (finish) {
+        var eventCount = 0;
+        Ti.App.Properties.addEventListener('change', function (properties) {
+            should(properties.source).be.a.Object;
+            should(properties.type).be.eql('change');
+            eventCount++;
+        });
+        Ti.App.Properties.setBool('test_bool', true);
+        Ti.App.Properties.setDouble('test_double', 1.23);
+        Ti.App.Properties.setInt('test_int', 1);
+        Ti.App.Properties.setString('test_string', 'test');
+        Ti.App.Properties.setList('test_list', [1, 2, 3]);
+        Ti.App.Properties.setObject('test_object', {test: 'test'});
+
+        // verify all change events have fired
+        setTimeout(function () {
+            should(eventCount).be.eql(6);
+        }, 3000);
+
+        finish();
+    });
 });
