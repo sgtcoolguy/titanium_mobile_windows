@@ -38,7 +38,11 @@ namespace TitaniumWindows
 			Titanium::Media::AudioPlayer::postCallAsConstructor(js_context, arguments);
 
 			player__ = ref new Windows::UI::Xaml::Controls::MediaElement();
+#pragma warning(push)
+#pragma warning(disable : 4973)
+			// Note: BackgroundCapableMedia is deprecated in Windows 10
 			player__->AudioCategory = AudioCategory::BackgroundCapableMedia;
+#pragma warning(pop)
 			player__->AreTransportControlsEnabled = true;
 			player__->Visibility = Windows::UI::Xaml::Visibility::Collapsed; // Hide UI
 			player__->AutoPlay = false;
