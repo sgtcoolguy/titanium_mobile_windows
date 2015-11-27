@@ -77,16 +77,6 @@ namespace TitaniumWindows
 
 		}
 
-		void Picker::showDatePickerDialog(const Titanium::UI::PickerDialogOption& option)
-		{
-			HAL::detail::ThrowRuntimeError("Picker::showDatePickerDialog", "Picker.showDatePickerDialog is not supported on Windows");
-		}
-
-		void Picker::showTimePickerDialog(const Titanium::UI::PickerDialogOption& option)
-		{
-			HAL::detail::ThrowRuntimeError("Picker::showTimePickerDialog", "Picker.showTimePickerDialog is not supported on Windows");
-		}
-
 		void Picker::set_value(const boost::optional<std::chrono::system_clock::time_point>& value) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Picker::set_value(value);

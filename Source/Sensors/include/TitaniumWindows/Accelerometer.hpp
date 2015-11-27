@@ -15,7 +15,8 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class Accelerometer
+	  @ingroup Titanium.Accelerometer
 
 	  @discussion This is the Titanium.Accelerometer implementation for Windows.
     */

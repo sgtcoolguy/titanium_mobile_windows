@@ -12,7 +12,7 @@
 namespace Titanium
 {
 	Blob::Blob(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Module(js_context, "Titanium.BLob")
+	    : Module(js_context, "Titanium.Blob")
 	{
 	}
 

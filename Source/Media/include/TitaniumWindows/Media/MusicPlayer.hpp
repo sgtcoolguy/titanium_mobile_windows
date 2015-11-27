@@ -17,13 +17,43 @@ namespace TitaniumWindows
 	namespace Media
 	{
 		/*!
-	      @class
+	      @class MusicPlayer
+	      @ingroup Titanium.Media.MusicPlayer
 
 	      @discussion This is the Titanium.Media.MusicPlayer implementation for Windows.
 	    */
 		class TITANIUMWINDOWS_MEDIA_EXPORT MusicPlayer final : public Titanium::Media::MusicPlayer, public JSExport<MusicPlayer>
 		{
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(currentPlaybackTime);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(nowPlaying);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(playbackState);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(repeatMode);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(shuffleMode);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(volume);
+
+			TITANIUM_FUNCTION_UNIMPLEMENTED(pause);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(play);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(seekBackward);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(seekForward);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(setQueue);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(skipToBeginning);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(skipToNext);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(skipToPrevious);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(stop);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(stopSeeking);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(getCurrentPlaybackTime);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(setCurrentPlaybackTime);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(getNowPlaying);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(getPlaybackState);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(getRepeatMode);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(setRepeatMode);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(getShuffleMode);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(setShuffleMode);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(getVolume);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(setVolume);
+
 			MusicPlayer(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~MusicPlayer();

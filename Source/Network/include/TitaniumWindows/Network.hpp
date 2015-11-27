@@ -14,14 +14,42 @@ namespace TitaniumWindows
 {
 	using namespace HAL;
 
+	// declare what's unimplemented regarding this modules.
+	// Make sure to remove once it's implemented
+	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.Network.Cookie);
+	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.Network.Socket.TCP);
+	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.Network.Socket.UDP);
+
 	/*!
-      @class
+      @class NetworkModule
+      @ingroup Titanium.Network
 
       @discussion This is the Titanium.Network implementation for Windows.
     */
 	class TITANIUMWINDOWS_NETWORK_EXPORT NetworkModule final : public Titanium::NetworkModule, public JSExport<NetworkModule>
 	{
 	public:
+
+		TITANIUM_PROPERTY_UNIMPLEMENTED(allHTTPCookies);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(remoteDeviceUUID);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(remoteNotificationTypes);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(remoteNotificationsEnabled);
+
+		TITANIUM_FUNCTION_UNIMPLEMENTED(addHTTPCookie);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(addSystemCookie);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(createBonjourBrowser);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(createBonjourService);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(getHTTPCookies);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(getHTTPCookiesForDomain);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(getSystemCookies);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(removeAllHTTPCookies);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(removeAllSystemCookies);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(removeHTTPCookie);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(removeHTTPCookiesForDomain);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(removeSystemCookie);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(registerForPushNotifications);
+		TITANIUM_FUNCTION_UNIMPLEMENTED(unregisterForPushNotifications);
+
 		NetworkModule(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~NetworkModule();

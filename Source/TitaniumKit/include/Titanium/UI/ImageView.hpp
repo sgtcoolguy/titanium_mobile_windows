@@ -268,6 +268,7 @@ namespace Titanium
 
 			TITANIUM_PROPERTY_DEF(autorotate);
 			TITANIUM_FUNCTION_DEF(getAutorotate);
+			TITANIUM_FUNCTION_DEF(setAutorotate);
 
 			TITANIUM_PROPERTY_DEF(decodeRetries);
 			TITANIUM_FUNCTION_DEF(getDecodeRetries);
@@ -312,7 +313,7 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(getReverse);
 			TITANIUM_FUNCTION_DEF(setReverse);
 
-		private:
+		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			bool autorotate__;
@@ -326,6 +327,8 @@ namespace Titanium
 			bool preventDefaultImage__;
 			uint32_t repeatCount__;
 			bool reverse__;
+			bool paused__;
+			bool animating__;
 #pragma warning(pop)
 		};
 	} // namespace UI

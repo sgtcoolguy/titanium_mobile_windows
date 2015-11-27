@@ -84,10 +84,5 @@ namespace TitaniumWindows
 			}
 		}
 
-		void OptionDialog::hide(const Titanium::UI::OptionDialogHideParams& params) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_WARN("OptionDialog.hide is not implemented yet");
-		}
-
 	}  // namespace UI
 }  // namespace TitaniumWindows

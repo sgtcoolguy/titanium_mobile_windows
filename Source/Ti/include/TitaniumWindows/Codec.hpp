@@ -15,9 +15,10 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class Codec
+	  @ingroup Titanium.Codec
 
-	  @discussion This is Codec module implementation for Windows.
+	  @discussion This is Titanium.Codec module implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_TI_EXPORT Codec final : public Titanium::Codec::CodecModule, public JSExport<Codec>
 	{

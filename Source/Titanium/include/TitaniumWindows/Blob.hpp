@@ -15,13 +15,17 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class Blob
+	  @ingroup Titanium.Blob
 
 	  @discussion This is the Titanium.Blob implementation for Windows.
     */
 	class TITANIUMWINDOWS_EXPORT Blob final : public Titanium::Blob, public JSExport<Blob>
 	{
 	public:
+		TITANIUM_PROPERTY_UNIMPLEMENTED(width);
+		TITANIUM_PROPERTY_UNIMPLEMENTED(height);
+
 		::Platform::Guid getImageEncoder();
 
 		void construct(Windows::Storage::StorageFile^ file);

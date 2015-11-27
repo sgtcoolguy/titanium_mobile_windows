@@ -20,7 +20,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class View
+		  @ingroup Titanium.UI.View
 
 		  @discussion This is the Titanium.UI.View implementation for
 		  Windows.
@@ -29,6 +30,38 @@ namespace TitaniumWindows
 		{
 
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(accessibilityHidden);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(accessibilityHint);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(accessibilityLabel);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(accessibilityValue);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(anchorPoint);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(animatedCenter);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundRepeat);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundLeftCap);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundTopCap);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(clipMode);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(enabled);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(focusable);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(overrideCurrentAnimation);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(pullBackgroundColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(softKeyboardOnFocus);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(tintColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(touchEnabled);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(transform);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(viewShadowRadius);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(viewShadowColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(viewShadowOffset);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(horizontalWrap);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(keepScreenOn);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(toImage);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(convertPointToView);
+
+			// Implemented, works with some components which uses Xaml.Controls.Control
+			// But it doesn't work on TI.UI.View because it's Xaml.Controls.Panel
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderColor);
+
 			View(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~View();

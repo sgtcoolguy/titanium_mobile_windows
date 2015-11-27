@@ -17,7 +17,8 @@ namespace TitaniumWindows
 	using namespace HAL;
 
 	/*!
-	  @class
+	  @class GlobalString
+	  @ingroup Global.String
 
 	  @discussion This is the Titanium Global.String implementation for Windows.
 	*/

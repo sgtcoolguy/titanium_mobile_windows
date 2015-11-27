@@ -20,9 +20,10 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class TableView
+		  @ingroup Titanium.UI.TableView
 
-		  @discussion This is the Titanium.UI.View implementation for Windows.
+		  @discussion This is the Titanium.UI.TableView implementation for Windows.
 		*/
 #pragma warning(push)
 #pragma warning(disable : 4275)
@@ -30,6 +31,29 @@ namespace TitaniumWindows
 		{
 #pragma warning(pop)
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(filterAttribute);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(filterAnchored);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(filterCaseInsensitive);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(footerTitle);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(footerView);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(maxRowHeight);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(minRowHeight);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(rowHeight);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(search);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(separatorColor);
+
+			TITANIUM_FUNCTION_UNIMPLEMENTED(deleteRow);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(deleteSection);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(insertRowAfter);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(insertSectionAfter);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(insertRowBefore);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(insertSectionBefore);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(scrollToIndex);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(scrollToTop);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(selectRow);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(updateRow);
+
 			TableView(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableView()                  = default;
 			TableView(const TableView&)            = default;

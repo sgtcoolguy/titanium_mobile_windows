@@ -20,7 +20,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class PickerColumn
+		  @ingroup Titanium.UI.PickerColumn
 
 		  @discussion This is the Titanium.UI.PickerColumn implementation for
 		  Windows.

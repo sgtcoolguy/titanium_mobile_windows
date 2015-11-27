@@ -19,7 +19,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class Notification
+		  @ingroup Titanium.UI.Notification
 
 		  @discussion This is the Titanium.UI.Notification implementation for Windows.
 		*/
@@ -28,6 +29,11 @@ namespace TitaniumWindows
 
 		public:
 			
+			TITANIUM_PROPERTY_UNIMPLEMENTED(xOffset);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(yOffset);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(horizontalMargin);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(verticalMargin);
+
 			Notification(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 			virtual ~Notification()                      = default;
 			Notification(const Notification&)            = default;

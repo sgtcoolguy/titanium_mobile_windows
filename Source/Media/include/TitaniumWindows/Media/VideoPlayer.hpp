@@ -17,13 +17,32 @@ namespace TitaniumWindows
 	namespace Media
 	{
 		/*!
-	      @class
+	      @class VideoPlayer
+	      @ingroup Titanium.Media.VideoPlayer
 
 	      @discussion This is the Titanium.Media.VideoPlayer implementation for Windows.
 	    */
 		class TITANIUMWINDOWS_MEDIA_EXPORT VideoPlayer final : public Titanium::Media::VideoPlayer, public JSExport<VideoPlayer>
 		{
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(allowsAirPlay);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(contentURL);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(fullscreen);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(initialPlaybackTime);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(loadState);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(mediaControlStyle);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(mediaTypes);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(movieControlMode);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(naturalSize);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(scalingMode);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(sourceType);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(useApplicationAudioSession);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(cancelAllThumbnailImageRequests);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(release);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(requestThumbnailImagesAtTimes);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(setBackgroundView);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(thumbnailImageAtTime);
 
 			virtual void pause() TITANIUM_NOEXCEPT override;
 			virtual void play() TITANIUM_NOEXCEPT override;

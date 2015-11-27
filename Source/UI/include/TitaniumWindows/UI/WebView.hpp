@@ -19,12 +19,18 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class WebView
+		  @ingroup Titanium.UI.WebView
  		  @discussion This is the Titanium.UI.WebView implementation for Windows.
 		*/
 		class TITANIUMWINDOWS_UI_EXPORT WebView final : public Titanium::UI::WebView, public JSExport<WebView>
 		{
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(scalesPageToFit);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(evalJS);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(setBasicAuthentication);
+
 			WebView(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~WebView();

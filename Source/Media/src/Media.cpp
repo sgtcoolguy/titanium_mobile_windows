@@ -71,32 +71,6 @@ namespace TitaniumWindows
 		js_beep__(get_object());
 	}
 
-	void MediaModule::hideMusicLibrary() TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("MediaModule::hideMusicLibrary: Unimplemented");
-	}
-
-	void MediaModule::previewImage(const std::unordered_map<std::string, Titanium::Media::PreviewImageOptions>& options) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("MediaModule::previewImage: Unimplemented");
-	}
-
-	void MediaModule::setOverrideAudioRoute(const Titanium::Media::AudioSessionOverrideRoute& route) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("MediaModule::setOverrideAudioRoute: Unimplemented");
-	}
-
-	void MediaModule::switchCamera(const Titanium::Media::CameraOption& camera) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("MediaModule::switchCamera: Unimplemented");
-	}
-
-	std::vector<std::shared_ptr<Titanium::Media::Item>> MediaModule::queryMusicLibrary(const Titanium::Media::MediaQueryType& query) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("MediaModule::queryMusicLibrary: Unimplemented");
-		return std::vector<std::shared_ptr<Titanium::Media::Item>>();
-	}
-
 	void MediaModule::openMusicLibrary(const Titanium::Media::MusicLibraryOptionsType& options) TITANIUM_NOEXCEPT
 	{
 		auto picker = ref new FileOpenPicker();

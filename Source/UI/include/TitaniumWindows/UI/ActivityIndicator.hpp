@@ -35,7 +35,8 @@ namespace TitaniumWindows
 		};
 
 		/*!
-		  @class
+		  @class ActivityIndicator
+		  @ingroup Titanium.UI.ActivityIndicator
 
 		  @discussion This is the Titanium.UI.ActivityIndicator implementation for Windows.
 		*/
@@ -43,6 +44,12 @@ namespace TitaniumWindows
 		{
 
 		public:
+			TITANIUM_PROPERTY_UNIMPLEMENTED(color);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(font);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(style);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(indicatorColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(indicatorDiameter);
+
 			ActivityIndicator(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ActivityIndicator()                  = default;

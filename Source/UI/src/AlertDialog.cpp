@@ -59,11 +59,6 @@ namespace TitaniumWindows
 			};
 		}
 
-		void AlertDialog::hide() TITANIUM_NOEXCEPT
-		{
-			// TODO Implement!
-		}
-
 		void AlertDialog::show() TITANIUM_NOEXCEPT
 		{
 			const std::string title   = get_title();

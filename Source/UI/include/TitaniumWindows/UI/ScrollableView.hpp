@@ -37,7 +37,8 @@ namespace TitaniumWindows
 		};
 
 		/*!
-		  @class
+		  @class ScrollableView
+		  @ingroup Titanium.UI.ScrollableView
 
 		  @discussion This is the Titanium.UI.ScrollableView implementation for Windows.
 		*/
@@ -45,6 +46,21 @@ namespace TitaniumWindows
 		{
 
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(cacheSize);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(disableBounce);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(overScrollMode);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(pagingControlColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(pagingControlHeight);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(showPagingControl);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(pagingControlTimeout);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(pagingControlAlpha);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(pagingControlOnTop);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(overlayEnabled);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(scrollingEnabled);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(clipViews);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(hitRect);
+
 			ScrollableView(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ScrollableView()                        = default;

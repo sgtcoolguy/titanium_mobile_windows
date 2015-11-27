@@ -20,7 +20,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class Person
+		  @ingroup Titanium.Contacts.Person
 
 		  @discussion This is the Titanium.Contacts.Person implementation for Windows.
 		*/

@@ -16,15 +16,26 @@ namespace TitaniumWindows
 {
 	using namespace HAL;
 
+	// declare what's unimplemented regarding this modules.
+	// Make sure to remove once it's implemented
+	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.3DMatrix);
+	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.AttributedString);
+	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.ButtonBar);
+	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.DashboardItem);
+	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.DashboardView);
+	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.MaskedImage);
+	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.RefreshControl);
+	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.SearchBar);
+
 	/*!
-	  @class
+	  @class UIModule
+	  @ingroup Titanium.UI
 
 	  @discussion This is the Titanium.UI implementation for Windows.
 	*/
 	class TITANIUMWINDOWS_UI_EXPORT UIModule final : public Titanium::UIModule, public JSExport<UIModule>
 	{
 	public:
-
 		virtual void set_backgroundColor(const std::string& color) TITANIUM_NOEXCEPT final override;
 
 		UIModule(const JSContext&) TITANIUM_NOEXCEPT;

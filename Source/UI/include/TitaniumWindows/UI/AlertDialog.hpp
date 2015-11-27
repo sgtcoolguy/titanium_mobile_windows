@@ -21,7 +21,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class AlertDialog
+		  @ingroup Titanium.UI.AlertDialog
 
 		  @discussion This is the Titanium.UI.AlertDialog implementation for
 		  Windows.
@@ -29,6 +30,8 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT AlertDialog final : public Titanium::UI::AlertDialog, public JSExport<AlertDialog>
 		{
 		public:
+			TITANIUM_FUNCTION_UNIMPLEMENTED(hide);
+			
 			AlertDialog(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~AlertDialog() = default;
@@ -42,7 +45,6 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
-			virtual void hide() TITANIUM_NOEXCEPT override;
 			virtual void show() TITANIUM_NOEXCEPT override;
 
 		protected:

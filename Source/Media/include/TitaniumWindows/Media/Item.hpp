@@ -17,13 +17,35 @@ namespace TitaniumWindows
 	namespace Media
 	{
 		/*!
-	      @class
+	      @class Item
+	      @ingroup Titanium.Media.Item
 
 	      @discussion This is the Titanium.Media.Item implementation for Windows.
 	    */
 		class TITANIUMWINDOWS_MEDIA_EXPORT Item final : public Titanium::Media::Item, public JSExport<Item>
 		{
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(albumArtist);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(albumTitle);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(albumTrackCount);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(albumTrackNumber);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(artist);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(artwork);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(composer);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(discCount);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(discNumber);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(genre);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(isCompilation);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(lyrics);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(mediaType);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(playCount);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(playbackDuration);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(podcastTitle);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(rating);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(skipCount);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(title);
+
 			Item(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Item();

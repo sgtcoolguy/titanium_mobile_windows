@@ -37,7 +37,8 @@ namespace TitaniumWindows
 		};
 
 		/*!
-		  @class
+		  @class ProgressBar
+		  @ingroup Titanium.UI.ProgressBar
 
 		  @discussion This is the Titanium.UI.ProgressBar implementation for Windows.
 		*/
@@ -45,6 +46,11 @@ namespace TitaniumWindows
 		{
 
 		public:
+			TITANIUM_FUNCTION_UNIMPLEMENTED(add);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(remove);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(font);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(style);
+
 			ProgressBar(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~ProgressBar()                  = default;

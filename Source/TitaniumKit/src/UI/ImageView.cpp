@@ -55,16 +55,10 @@ namespace Titanium
 			return nullptr;
 		}
 
-		bool ImageView::get_animating() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_DEBUG("ImageView::get_animating unimplemented");
-			return false;
-		}
 
+		TITANIUM_PROPERTY_READ(ImageView, bool, animating)
 		TITANIUM_PROPERTY_READWRITE(ImageView, bool, autorotate)
-
 		TITANIUM_PROPERTY_READWRITE(ImageView, uint32_t, decodeRetries)
-
 		TITANIUM_PROPERTY_READWRITE(ImageView, std::string, defaultImage)
 
 		std::chrono::milliseconds ImageView::get_duration() const TITANIUM_NOEXCEPT
@@ -83,23 +77,12 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_READWRITE(ImageView, bool, enableZoomControls)
-
 		TITANIUM_PROPERTY_READWRITE(ImageView, bool, hires)
-
 		TITANIUM_PROPERTY_READWRITE(ImageView, std::string, image)
-
 		TITANIUM_PROPERTY_READWRITE(ImageView, std::vector<std::string>, images)
-
-		bool ImageView::get_paused() const TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_DEBUG("ImageView::get_paused unimplemented");
-			return false;
-		}
-
+		TITANIUM_PROPERTY_READ(ImageView, bool, paused)
 		TITANIUM_PROPERTY_READWRITE(ImageView, bool, preventDefaultImage)
-
 		TITANIUM_PROPERTY_READWRITE(ImageView, uint32_t, repeatCount)
-
 		TITANIUM_PROPERTY_READWRITE(ImageView, bool, reverse)
 
 		void ImageView::JSExportInitialize()

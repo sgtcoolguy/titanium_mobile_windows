@@ -2,11 +2,24 @@
 # C - Class, M - Method, P - Property
 
 C Titanium.UI.View
+E touchmove
+E touchstart
+E touchend
+E click
+E doubleclick
+E singletap
+E doubletap
+E longpress
+E focus
+E blur
 E postlayout
 
 C Titanium.UI.Animation
 E complete
 E start
+
+C Titanium.Accelerometer
+E update
 
 C Global.JSON
 M parse
@@ -25,28 +38,6 @@ M error
 M info
 M log
 M warn
-
-C Titanium.UI.ListItem
-
-C Titanium.UI.Tab
-P window
-P title
-P icon
-M setWindow
-M getWindow
-M getTitle
-M setTitle
-M getIcon
-M setIcon
-M open
-M close
-M applyProperties
-
-C Titanium.UI.TabGroup
-M applyProperties
-M setActiveTab
-M open
-M addTab
 
 C Titanium.XML.Attr
 P value

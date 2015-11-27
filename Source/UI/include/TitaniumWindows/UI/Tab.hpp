@@ -19,7 +19,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class Tab
+		  @ingroup Titanium.UI.Tab
 
 		  @discussion This is the Titanium.UI.Tab implementation for Windows.
 		*/
@@ -27,6 +28,23 @@ namespace TitaniumWindows
 		{
 
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundDisabledColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundDisabledImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundFocusedColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundFocusedImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundSelectedImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(touchEnabled);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(active);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activeIcon);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(badge);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(icon);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(iconIsMask);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(activeIconIsMask);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(titleid);
+
 			Tab(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~Tab()                  = default;
 			Tab(const Tab&)            = default;

@@ -272,12 +272,6 @@ namespace TitaniumWindows
 			}
 		}
 
-		void TextField::blur() TITANIUM_NOEXCEPT
-		{
-			// TODO Windows doesn't allow forcibly losing focus, need to set focus on another control to achieve it! Can we set focus on the window or parent or something?
-			TITANIUM_LOG_WARN("TextField.blur() is not supported yet");
-		}
-
 		void TextField::focus() TITANIUM_NOEXCEPT
 		{
 			if (text_box__) {

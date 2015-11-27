@@ -26,12 +26,23 @@ namespace TitaniumWindows
 		using Annotation_shared_ptr_t = std::shared_ptr<Titanium::Map::Annotation>;
 
 		/*!
-		  @class
+		  @class View
+		  @ingroup Titanium.Map.View
  		  @discussion This is the Titanium.Map.View implementation for Windows.
 		*/
 		class TITANIUMWINDOWS_MAP_EXPORT View final : public Titanium::Map::View, public JSExport<View>
 		{
 		public:
+			TITANIUM_FUNCTION_UNIMPLEMENTED(addRoute);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(animateCamera);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(deselectAnnotation);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(removeRoute);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(selectAnnotation);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(setLocation);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(showAnnotations);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(snapshot);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(selectAnnotation);
+
 			View(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~View();

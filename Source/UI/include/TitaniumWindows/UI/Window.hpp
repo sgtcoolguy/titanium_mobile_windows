@@ -25,14 +25,26 @@ namespace TitaniumWindows
 		}
 
 		/*!
-		  @class
+		  @class Window
+		  @ingroup Titanium.UI.Window
 
-		  @discussion This is the Titanium.UI.Window implementation for
-		  Windows.
+		  @discussion This is the Titanium.UI.Window implementation for Windows.
 		*/
 		class TITANIUMWINDOWS_UI_EXPORT Window final : public Titanium::UI::Window, public JSExport<Window>
 		{
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(barColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(extendEdges);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(hideShadow);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(modal);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(navBarHidden);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(navTintColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(orientationModes);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(theme);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(titleAttributes);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(translucent);
+
 			TITANIUM_FUNCTION_DEF(add);
 
 			virtual void close(const std::shared_ptr<Titanium::UI::CloseWindowParams>&) TITANIUM_NOEXCEPT override final;

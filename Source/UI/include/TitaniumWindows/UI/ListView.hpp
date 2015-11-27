@@ -24,13 +24,22 @@ namespace TitaniumWindows
 		class View;
 
 		/*!
-		  @class
+		  @class ListView
+		  @ingroup Titanium.UI.ListView
 
 		  @discussion This is the Titanium.UI.ListView implementation for Windows.
 		*/
 		class TITANIUMWINDOWS_UI_EXPORT ListView final : public Titanium::UI::ListView, public JSExport<ListView>
 		{
 		public:
+
+			TITANIUM_PROPERTY_UNIMPLEMENTED(headerView);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(footerView);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(searchView);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(showVerticalScrollIndicator);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(separatorColor);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(scrollToItem);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(setMarker);
 
 			virtual void appendSection(const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
 			virtual void deleteSectionAt(const uint32_t& sectionIndex, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;

@@ -19,7 +19,8 @@ namespace TitaniumWindows
 		using namespace HAL;
 
 		/*!
-		  @class
+		  @class Slider
+		  @ingroup Titanium.UI.Slider
 
 		  @discussion This is the Titanium.UI.Slider implementation for
 		  Windows.
