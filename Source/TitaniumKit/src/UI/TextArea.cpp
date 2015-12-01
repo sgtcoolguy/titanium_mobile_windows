@@ -13,6 +13,25 @@ namespace Titanium
 {
 	namespace UI
 	{
+		TextAreaSelectedParams js_to_TextAreaSelectedParams(const JSObject& object)
+		{
+			TextAreaSelectedParams params;
+			if (object.HasProperty("length")) {
+				params.length = static_cast<std::uint32_t>(object.GetProperty("length"));
+			}
+			if (object.HasProperty("location")) {
+				params.location = static_cast<std::uint32_t>(object.GetProperty("location"));
+			}
+			return params;
+		};
+
+		JSObject TextAreaSelectedParams_to_js(const JSContext& js_context, const TextAreaSelectedParams& params)
+		{
+			auto object = js_context.CreateObject();
+			object.SetProperty("length",   js_context.CreateNumber(params.length));
+			object.SetProperty("location", js_context.CreateNumber(params.location));
+			return object;
+		}
 
 		TextArea::TextArea(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 			: View(js_context, "Titanium.UI.TextArea"),
@@ -67,13 +86,11 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(TextArea, std::string, value)
 		TITANIUM_PROPERTY_READWRITE(TextArea, bool, scrollable)
 
-		JSValue TextArea::get_selection() const TITANIUM_NOEXCEPT
+		TextAreaSelectedParams TextArea::get_selection() const TITANIUM_NOEXCEPT
 		{
-			auto context = get_context();
-			auto object = context.CreateObject();
-			object.SetProperty("location", context.CreateNumber(0));
-			object.SetProperty("length", context.CreateNumber(0));
-			return object;
+			TITANIUM_LOG_WARN("TextArea::get_selection: Unimplemented");
+			TextAreaSelectedParams params;
+			return params;
 		}
 
 		TITANIUM_PROPERTY_READWRITE(TextArea, TEXT_ALIGNMENT, textAlign)
@@ -308,7 +325,7 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(TextArea, selection)
 		{
-			return get_selection();
+			return TextAreaSelectedParams_to_js(get_context(), get_selection());
 		}
 
 		TITANIUM_PROPERTY_GETTER(TextArea, returnKeyType)

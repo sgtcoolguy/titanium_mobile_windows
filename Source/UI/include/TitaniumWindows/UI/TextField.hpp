@@ -77,6 +77,7 @@ namespace TitaniumWindows
 			virtual bool hasText() TITANIUM_NOEXCEPT override final;
 
 			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 			virtual bool js_set_width_min(const JSValue& argument) TITANIUM_NOEXCEPT final;
 
@@ -88,10 +89,8 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::PasswordBox^ password_box__{ nullptr };
 
 			// Event handlers
-			Windows::Foundation::EventRegistrationToken blur_event_;
-			Windows::Foundation::EventRegistrationToken change_event_;
-			Windows::Foundation::EventRegistrationToken focus_event_;
-			Windows::Foundation::EventRegistrationToken return_event_;
+			Windows::Foundation::EventRegistrationToken change_event__;
+			Windows::Foundation::EventRegistrationToken return_event__;
 		};
 	} // namespace UI
 } // namespace TitaniumWindows

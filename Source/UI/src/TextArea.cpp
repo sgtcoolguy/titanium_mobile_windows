@@ -16,6 +16,10 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
+
+		using namespace Windows::UI::Xaml;
+		using namespace Windows::UI::Xaml::Input;
+
 		TextArea::TextArea(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::TextArea(js_context)
 		{
@@ -74,32 +78,23 @@ namespace TitaniumWindows
 			auto scope_name = ref new Windows::UI::Xaml::Input::InputScopeName();
 			if (keyboardType == Titanium::UI::KEYBOARD::ASCII) {
 				scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::Default;
-			}
-			else if (keyboardType == Titanium::UI::KEYBOARD::DECIMAL_PAD) {
+			} else if (keyboardType == Titanium::UI::KEYBOARD::DECIMAL_PAD) {
 				scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::Number;
-			}
-			else if (keyboardType == Titanium::UI::KEYBOARD::DEFAULT) {
+			} else if (keyboardType == Titanium::UI::KEYBOARD::DEFAULT) {
 				scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::Default;
-			}
-			else if (keyboardType == Titanium::UI::KEYBOARD::EMAIL) {
+			} else if (keyboardType == Titanium::UI::KEYBOARD::EMAIL) {
 				scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::EmailSmtpAddress;
-			}
-			else if (keyboardType == Titanium::UI::KEYBOARD::NAMEPHONE_PAD) {
+			} else if (keyboardType == Titanium::UI::KEYBOARD::NAMEPHONE_PAD) {
 				scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::NameOrPhoneNumber;
-			}
-			else if (keyboardType == Titanium::UI::KEYBOARD::NUMBERS_PUNCTUATION) {
+			} else if (keyboardType == Titanium::UI::KEYBOARD::NUMBERS_PUNCTUATION) {
 				scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::CurrencyAmountAndSymbol;
-			}
-			else if (keyboardType == Titanium::UI::KEYBOARD::NUMBER_PAD) {
+			} else if (keyboardType == Titanium::UI::KEYBOARD::NUMBER_PAD) {
 				scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::Number;
-			}
-			else if (keyboardType == Titanium::UI::KEYBOARD::PHONE_PAD) {
+			} else if (keyboardType == Titanium::UI::KEYBOARD::PHONE_PAD) {
 				scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::TelephoneNumber;
-			}
-			else if (keyboardType == Titanium::UI::KEYBOARD::URL) {
+			} else if (keyboardType == Titanium::UI::KEYBOARD::URL) {
 				scope_name->NameValue = Windows::UI::Xaml::Input::InputScopeNameValue::Url;
-			}
-			else {
+			} else {
 				return;
 			}
 			auto scope = text_box__->InputScope;
@@ -118,14 +113,12 @@ namespace TitaniumWindows
 			text_box__->MaxLength = maxLength;
 		}
 
-		JSValue TextArea::get_selection() const TITANIUM_NOEXCEPT
+		Titanium::UI::TextAreaSelectedParams TextArea::get_selection() const TITANIUM_NOEXCEPT
 		{
-			// FIXME Introduce a struct up in TitaniumKit for this!
-			auto context = get_context();
-			auto object = context.CreateObject();
-			object.SetProperty("length", context.CreateNumber(text_box__->SelectionLength));
-			object.SetProperty("location", context.CreateNumber(text_box__->SelectionStart));
-			return object;
+			Titanium::UI::TextAreaSelectedParams params;
+			params.location = text_box__->SelectionStart;
+			params.length   = text_box__->SelectionLength;
+			return params;
 		}
 
 		void TextArea::set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT
@@ -165,9 +158,50 @@ namespace TitaniumWindows
 			// TODO Windows supports stretch!
 		}
 
-		void TextArea::focus() TITANIUM_NOEXCEPT
+		void TextArea::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			text_box__->Focus(Windows::UI::Xaml::FocusState::Programmatic);
+			Titanium::UI::TextArea::disableEvent(event_name);
+			if (event_name == "change") {
+				text_box__->TextChanged -= change_event__;
+			} else if (event_name == "return") {
+				text_box__->KeyDown -= return_event__;
+			} else if (event_name == "selected") {
+				text_box__->SelectionChanged -= select_event__;
+			}
+		}
+
+		void TextArea::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::TextArea::enableEvent(event_name);
+			const JSContext ctx = this->get_context();
+			if (event_name == "change") {
+				change_event__ = text_box__->TextChanged += ref new Controls::TextChangedEventHandler([this, ctx](Platform::Object^ sender, Controls::TextChangedEventArgs^ e) {
+					JSObject eventArgs = ctx.CreateObject();
+					eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
+					this->fireEvent("change", eventArgs);
+				});
+
+			} else if (event_name == "return") {
+				return_event__ = text_box__->KeyDown += ref new KeyEventHandler([this, ctx](Platform::Object^ sender, KeyRoutedEventArgs^ e) {
+					if (e->Key == Windows::System::VirtualKey::Enter) {
+						JSObject eventArgs = ctx.CreateObject();
+						eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
+						this->fireEvent("return", eventArgs);
+					}
+				});
+
+			} else if (event_name == "selected") {
+				select_event__ = text_box__->SelectionChanged += ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e){
+					if (text_box__->SelectionLength > 0) {
+						Titanium::UI::TextAreaSelectedParams params;
+						params.location = text_box__->SelectionStart;
+						params.length = text_box__->SelectionLength;
+						JSObject eventArgs = ctx.CreateObject();
+						eventArgs.SetProperty("range", TextAreaSelectedParams_to_js(ctx, params));
+						this->fireEvent("selected", eventArgs);
+					}
+				});
+			}
 		}
 
 	}  // namespace UI
