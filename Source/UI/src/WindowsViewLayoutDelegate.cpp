@@ -806,13 +806,16 @@ namespace TitaniumWindows
 			if (event_name == "touchmove") {
 				component->ManipulationDelta -= touchmove_event__;
 			} else if (event_name == "touchstart") {
-				component->ManipulationStarted -= touchstart_event__;
+				component->PointerPressed -= touchstart_event__;
+			} else if (event_name == "touchcancel") {
+				component->PointerCanceled -= touchcancel_event__;
+				component->PointerCaptureLost -= touchcancel_lost_event__;
 			} else if (event_name == "touchend") {
-				component->ManipulationCompleted -= touchend_event__;
+				component->PointerReleased -= touchend_event__;
 			} else if (event_name == "click") {
 				component->Tapped -= click_event__;
-			} else if (event_name == "doubleclick") {
-				component->DoubleTapped -= doubleclick_event__;
+			} else if (event_name == "dblclick") {
+				component->DoubleTapped -= dblclick_event__;
 			} else if (event_name == "singletap") {
 				component->Tapped -= singletap_event__;
 			} else if (event_name == "doubletap") {
@@ -820,11 +823,13 @@ namespace TitaniumWindows
 			} else if (event_name == "longpress") {
 				component->Holding -= longpress_event__;
 			} else if (event_name == "focus") {
-				getComponent()->GotFocus -= focus_event__;
+				component->GotFocus -= focus_event__;
 			} else if (event_name == "blur") {
-				getComponent()->LostFocus -= blur_event__;
+				component->LostFocus -= blur_event__;
 			} else if (event_name == "postlayout") {
 				postlayout_listening__ = false;
+			} else if (event_name == "keypressed") {
+				component->KeyDown -= keypressed_event__;
 			}
 		}
 
@@ -871,6 +876,17 @@ namespace TitaniumWindows
 					const auto point = Windows::UI::Input::PointerPoint::GetCurrentPoint(e->Pointer->PointerId);
 					fireSimplePositionEvent("touchstart", component, point->Position);
 				});
+			} else if (event_name == "touchcancel") {
+				//
+				// Note: PointerCanceled or PointerCaptureLost may be fired instead of PointerReleased
+				//
+				const auto cancel_handler = ref new PointerEventHandler([this](Platform::Object^ sender, PointerRoutedEventArgs^ e) {
+					const auto component = safe_cast<FrameworkElement^>(sender);
+					const auto point = Windows::UI::Input::PointerPoint::GetCurrentPoint(e->Pointer->PointerId);
+					fireSimplePositionEvent("touchcancel", component, point->Position);
+				});
+				component->PointerCanceled    += cancel_handler;
+				component->PointerCaptureLost += cancel_handler;
 			} else if (event_name == "touchend") {
 				component->PointerReleased += ref new PointerEventHandler([this](Platform::Object^ sender, PointerRoutedEventArgs^ e) {
 					const auto component = safe_cast<FrameworkElement^>(sender);
@@ -882,10 +898,10 @@ namespace TitaniumWindows
 					const auto component = safe_cast<FrameworkElement^>(sender);
 					fireSimplePositionEvent("click", component, e->GetPosition(component));
 				});
-			} else if (event_name == "doubleclick") {
-				doubleclick_event__ = component->DoubleTapped += ref new DoubleTappedEventHandler([this](Platform::Object^ sender, DoubleTappedRoutedEventArgs^ e) {
+			} else if (event_name == "dblclick") {
+				dblclick_event__ = component->DoubleTapped += ref new DoubleTappedEventHandler([this](Platform::Object^ sender, DoubleTappedRoutedEventArgs^ e) {
 					const auto component = safe_cast<FrameworkElement^>(sender);
-					fireSimplePositionEvent("doubleclick", component, e->GetPosition(component));
+					fireSimplePositionEvent("dblclick", component, e->GetPosition(component));
 				});
 			} else if (event_name == "singletap") {
 				singletap_event__ = component->Tapped += ref new TappedEventHandler([this](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
@@ -926,8 +942,23 @@ namespace TitaniumWindows
 					}
 				});
 			} else if (event_name == "postlayout") {
-				 postlayout_listening__ = true;
-			 }
+				postlayout_listening__ = true;
+			} else if (event_name == "keypressed") {
+				keypressed_event__ = getComponent()->KeyDown += ref new KeyEventHandler([this](Platform::Object^, KeyRoutedEventArgs^ e){
+					const auto event_delegate = event_delegate__.lock();
+					if (event_delegate != nullptr) {
+						//
+						// Sends "virtual key" code for Windows. See following link for details.
+						// https://msdn.microsoft.com/library/windows/apps/windows.system.virtualkey%28v=win.10%29.aspx
+						//
+						JSContext js_context = event_delegate->get_context();
+						JSObject eventArgs = js_context.CreateObject();
+						eventArgs.SetProperty("source", event_delegate->get_object());
+						eventArgs.SetProperty("keyCode", js_context.CreateNumber(static_cast<std::uint32_t>(e->Key)));
+						event_delegate->fireEvent("keypressed", eventArgs);
+					}
+				});
+			}
 		}
 
 		static void onLayoutCallback(Titanium::LayoutEngine::Node* node)

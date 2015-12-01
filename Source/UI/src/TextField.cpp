@@ -291,6 +291,24 @@ namespace TitaniumWindows
 			return false;
 		}
 
+		void TextField::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::TextField::disableEvent(event_name);
+			if (event_name == "change") {
+				if (text_box__) {
+					text_box__->TextChanged -= change_event__;
+				} else if (password_box__) {
+					password_box__->PasswordChanged -= change_event__;
+				}
+			} else if (event_name == "return") {
+				if (text_box__) {
+					text_box__->KeyDown -= return_event__;
+				} else if (password_box__) {
+					password_box__->KeyDown -= return_event__;
+				}
+			}
+		}
+
 		void TextField::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::TextField::enableEvent(event_name);
@@ -299,14 +317,14 @@ namespace TitaniumWindows
 
 			if (event_name == "change") {
 				if (text_box__) {
-					change_event_ = text_box__->TextChanged += ref new Controls::TextChangedEventHandler([this, ctx](Platform::Object^ sender, Controls::TextChangedEventArgs^ e) {
+					change_event__ = text_box__->TextChanged += ref new Controls::TextChangedEventHandler([this, ctx](Platform::Object^ sender, Controls::TextChangedEventArgs^ e) {
 						JSObject eventArgs = ctx.CreateObject();
 						eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
 
 						this->fireEvent("change", eventArgs);
 					});
 				} else if (password_box__) {
-					change_event_ = password_box__->PasswordChanged += ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e){
+					change_event__ = password_box__->PasswordChanged += ref new RoutedEventHandler([this, ctx](Platform::Object^ sender, RoutedEventArgs^ e){
 						JSObject eventArgs = ctx.CreateObject();
 						eventArgs.SetProperty("value", ctx.CreateString(this->get_value()));
 
@@ -323,9 +341,9 @@ namespace TitaniumWindows
 					}
 				});
 				if (text_box__) {
-					return_event_ = text_box__->KeyDown += keydown;
+					return_event__ = text_box__->KeyDown += keydown;
 				} else if (password_box__) {
-					return_event_ = password_box__->KeyDown += keydown;
+					return_event__ = password_box__->KeyDown += keydown;
 				}
 			}
 		}

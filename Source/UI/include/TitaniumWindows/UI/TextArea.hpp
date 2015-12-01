@@ -65,14 +65,15 @@ namespace TitaniumWindows
 			virtual void set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT override final;
 			virtual void set_keyboardType(const Titanium::UI::KEYBOARD& keyboardType) TITANIUM_NOEXCEPT override final;
 			virtual void set_hintText(const std::string&) TITANIUM_NOEXCEPT override final;
-			virtual JSValue get_selection() const TITANIUM_NOEXCEPT override final;
+			virtual Titanium::UI::TextAreaSelectedParams get_selection() const TITANIUM_NOEXCEPT override final;
 			virtual void set_maxLength(const int32_t&) TITANIUM_NOEXCEPT override final;
 			virtual void set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT override final;
 			virtual std::string get_value() const TITANIUM_NOEXCEPT override final;
 			virtual void set_value(const std::string&) TITANIUM_NOEXCEPT override final;
 			virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
 
-			virtual void focus() TITANIUM_NOEXCEPT override final;
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 		private:
 #pragma warning(push)
@@ -82,10 +83,9 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::TextBox^ text_box__;
 
 			// Event handlers
-			Windows::Foundation::EventRegistrationToken blur_event_;
-			Windows::Foundation::EventRegistrationToken change_event_;
-			Windows::Foundation::EventRegistrationToken focus_event_;
-			Windows::Foundation::EventRegistrationToken return_event_;
+			Windows::Foundation::EventRegistrationToken change_event__;
+			Windows::Foundation::EventRegistrationToken return_event__;
+			Windows::Foundation::EventRegistrationToken select_event__;
 
 		};
 	}  // namespace UI

@@ -20,6 +20,21 @@ namespace Titanium
 		using namespace HAL;
 
 		/*!
+		@struct
+		@discussion Dictionary object of parameters for the Titanium.UI.TextArea.
+		selected event and Titanium.UI.TextArea.selection property that describes position and length of the selected text.
+		See http://docs.appcelerator.com/platform/latest/#!/api/textAreaSelectedParams
+		*/
+		struct TextAreaSelectedParams
+		{
+			std::uint32_t length  { 0 };
+			std::uint32_t location{ 0 };
+		};
+
+		TITANIUMKIT_EXPORT TextAreaSelectedParams js_to_TextAreaSelectedParams(const JSObject& object);
+		TITANIUMKIT_EXPORT JSObject TextAreaSelectedParams_to_js(const JSContext& js_context, const TextAreaSelectedParams& params);
+
+		/*!
 		  @class
 		  @discussion This is the Titanium TextArea Module.
 		  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.UI.TextArea
@@ -193,7 +208,7 @@ namespace Titanium
 			  @abstract selection
 			  @discussion Returns the currently selected text of the text area.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(JSValue, selection);
+			TITANIUM_PROPERTY_IMPL_READONLY_DEF(TextAreaSelectedParams, selection);
 
 			/*!
 			  @property

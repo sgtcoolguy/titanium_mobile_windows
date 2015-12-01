@@ -52,6 +52,8 @@ namespace TitaniumWindows
 
 			static const std::uint32_t DefaultFontSize = 20;
 
+			virtual void enableEvent(const std::string& event_name)  TITANIUM_NOEXCEPT override final;
+
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)

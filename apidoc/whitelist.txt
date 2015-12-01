@@ -4,19 +4,30 @@
 C Titanium.UI.View
 E touchmove
 E touchstart
+E touchcancel
 E touchend
 E click
-E doubleclick
+E dblclick
 E singletap
 E doubletap
 E longpress
 E focus
 E blur
 E postlayout
+E keypressed
 
 C Titanium.UI.Animation
 E complete
 E start
+
+C Titanium.UI.TextField
+E change
+E return
+
+C Titanium.UI.TextArea
+E change
+E return
+E selected
 
 C Titanium.Accelerometer
 E update

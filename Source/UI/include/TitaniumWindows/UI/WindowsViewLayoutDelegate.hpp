@@ -426,12 +426,12 @@ namespace TitaniumWindows
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-
 			Windows::UI::Xaml::FrameworkElement^ component__ { nullptr };
 
 			Titanium::LayoutEngine::Node* layout_node__ { nullptr };
 
 			bool postlayout_listening__{ false };
+
 			Windows::Foundation::EventRegistrationToken size_change_event__;
 			Windows::Foundation::EventRegistrationToken loaded_event__;
 			Windows::Foundation::EventRegistrationToken update_background_event__;
@@ -441,15 +441,18 @@ namespace TitaniumWindows
 
 			// Titanium event handlers
 			Windows::Foundation::EventRegistrationToken click_event__;
-			Windows::Foundation::EventRegistrationToken doubleclick_event__;
+			Windows::Foundation::EventRegistrationToken dblclick_event__;
 			Windows::Foundation::EventRegistrationToken blur_event__;
 			Windows::Foundation::EventRegistrationToken focus_event__;
 			Windows::Foundation::EventRegistrationToken touchstart_event__;
 			Windows::Foundation::EventRegistrationToken touchend_event__;
+			Windows::Foundation::EventRegistrationToken touchcancel_event__;
+			Windows::Foundation::EventRegistrationToken touchcancel_lost_event__;
 			Windows::Foundation::EventRegistrationToken touchmove_event__;
 			Windows::Foundation::EventRegistrationToken singletap_event__;
 			Windows::Foundation::EventRegistrationToken doubletap_event__;
 			Windows::Foundation::EventRegistrationToken longpress_event__;
+			Windows::Foundation::EventRegistrationToken keypressed_event__;
 
 			bool is_width_size__{false};
 			bool is_height_size__{false};

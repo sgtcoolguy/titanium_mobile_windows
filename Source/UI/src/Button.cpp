@@ -102,5 +102,15 @@ namespace TitaniumWindows
 			}
 			// TODO Windows supports stretch!
 		}
+
+		void Button::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			//
+			// Disable some touch events because Xaml Button has a inconsistency on Pointer event handling.
+			//
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->filterEvents({ "touchstart", "touchend", "touchcancel" });
+
+			Titanium::UI::Button::enableEvent(event_name);
+		}
 	} // namespace UI
 } // namespace TitaniumWindows
