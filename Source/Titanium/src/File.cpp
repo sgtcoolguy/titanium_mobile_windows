@@ -350,36 +350,6 @@ namespace TitaniumWindows
 			}
 		}
 
-		bool File::deleteDirectory(const bool& recursive) TITANIUM_NOEXCEPT
-		{
-			TITANIUM_LOG_DEBUG("TitaniumWindows::Filesystem::File::deleteDirectory: ", path_);
-			if (!isFolder()) {
-				return false;
-			}
-
-			if (!recursive) {
-				return deleteFile();
-			}
-
-			std::vector<std::string> contents = getDirectoryListing();
-			for (size_t i = 0; i < contents.size(); i++) {
-				auto value = contents.at(i);
-				// FIXME We need to get handles on the sub-folders/files!
-				//auto native_file = static_cast<JSObject>(value).GetPrivate<Titanium::Filesystem::File>();
-				//if (native_file->isDirectory()) {
-				//	if (!native_file->deleteDirectory(recursive)) {
-				//		return false;
-				//	}
-				//} else {
-				//	if (!native_file->deleteFile()) {
-				//		return false;
-				//	}
-				//}
-			}
-
-			return deleteFile();
-		}
-
 		bool File::deleteFile() TITANIUM_NOEXCEPT
 		{
 			auto item = getStorageItem();

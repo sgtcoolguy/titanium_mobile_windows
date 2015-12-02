@@ -26,7 +26,6 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_EXPORT File final : public Titanium::Filesystem::File, public JSExport<File>
 		{
 		public:
-			TITANIUM_FUNCTION_UNIMPLEMENTED(append);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(executable);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(remoteBackup);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(symbolicLink);
@@ -46,7 +45,6 @@ namespace TitaniumWindows
 			virtual bool createDirectory() TITANIUM_NOEXCEPT override;
 			virtual bool createFile() TITANIUM_NOEXCEPT override;
 			virtual std::chrono::milliseconds createTimestamp() TITANIUM_NOEXCEPT override;
-			virtual bool deleteDirectory(const bool& recursive) TITANIUM_NOEXCEPT override;
 			virtual bool deleteFile() TITANIUM_NOEXCEPT override;
 			virtual bool exists() TITANIUM_NOEXCEPT override;
 			virtual std::string extension() TITANIUM_NOEXCEPT override;
