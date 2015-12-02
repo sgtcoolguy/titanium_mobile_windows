@@ -13,12 +13,29 @@ var path = require('path'),
 	spawn = require('child_process').spawn,
 	exec = require('child_process').exec,
 	titanium = path.join(__dirname, 'node_modules', 'titanium', 'bin', 'titanium'),
-	sdkPath,
+	DIST_DIR = path.join(__dirname, '..', '..', '..', 'dist'),
+	WINDOWS_DIST_DIR = path.join(DIST_DIR, 'windows'),
+	MOCHA_ASSETS_DIR = path.join(__dirname, '..', '..', '..', 'Examples', 'NMocha', 'src', 'Assets'),
+	// Constants
+	WIN_8_1 = '8.1',
+	WIN_10 = '10.0',
+	MSBUILD_12 = '12.0',
+	MSBUILD_14 = '14.0',
+	DEFAULT_DEVICE_ID = '8-1-1',
+	WP_EMULATOR = 'wp-emulator',
+	MAX_RETRIES = 3,
+	// Global vars
 	hadWindowsSDK = false,
-	deviceId,
+	projectDir = path.join(__dirname, 'mocha'),
 	testResults,
 	jsonResults;
 
+/**
+ * Installs the latest SDK from master branch remotely, sets it as the default
+ * SDK. We'll be hacking it to add our locally built Windows SDK into it.
+ *
+ * @param next {Function} callback function
+ **/
 function installSDK(next) {
 	var prc = spawn('node', [titanium, 'sdk', 'install', '-b', 'master', '-d']);
 	prc.stdout.on('data', function (data) {
@@ -29,7 +46,6 @@ function installSDK(next) {
 	});
 
 	prc.on('close', function (code) {
-		var setProcess;
 		if (code != 0) {
 			next("Failed to install master SDK. Exit code: " + code);
 		} else {
@@ -38,37 +54,56 @@ function installSDK(next) {
 	});
 }
 
+/**
+ * Look up the full path to the SDK we just installed (the SDK we'll be hacking
+ * to add our locally built Windows SDK into).
+ *
+ * @param next {Function} callback function
+ **/
 function getSDKInstallDir(next) {
 	var prc = exec('node "' + titanium + '" info -o json -t titanium', function (error, stdout, stderr) {
 		var out,
 			selectedSDK;
 		if (error !== null) {
-		  next('Failed to get SDK install dir: ' + error);
+			return next('Failed to get SDK install dir: ' + error);
 		}
 
 		out = JSON.parse(stdout);
 		selectedSDK = out['titaniumCLI']['selectedSDK'];
 
-		sdkPath = out['titanium'][selectedSDK]['path'];
-		next();
+		next(null, out['titanium'][selectedSDK]['path']);
 	});
 }
 
+/**
+ * Adds 'windows' into the list of supported platforms for a given SDK we're
+ * hacking.
+ *
+ * @param sdkPath {String} path to the Titanium SDK we'll be hacking to copy our
+ * 													locally built Windows SDK into
+ * @param next {Function} callback function
+ **/
 function copyWindowsIntoSDK(sdkPath, next) {
-	var windowsSDKDir = path.join(__dirname, '..', '..', '..', 'dist', 'windows'),
-		dest = path.join(sdkPath, 'windows');
+	var dest = path.join(sdkPath, 'windows');
 	if (fs.existsSync(dest)) {
 		hadWindowsSDK = true;
 		wrench.rmdirSyncRecursive(dest);
 	}
-	// TODO Be smarter about copying to speed it up? Only copy diff? 
-	wrench.copyDirSyncRecursive(windowsSDKDir, dest);
+	// TODO Be smarter about copying to speed it up? Only copy diff?
+	wrench.copyDirSyncRecursive(WINDOWS_DIST_DIR, dest);
 	next();
 }
 
+/**
+ * Adds 'windows' into the list of supported platforms for a given SDK we're
+ * hacking.
+ *
+ * @param sdkPath {String} path to the Titanium SDK we'll be hacking
+ * @param next {Function} callback function
+ **/
 function addWindowsToSDKManifest(sdkPath, next) {
 	var manifest = path.join(sdkPath, 'manifest.json');
-	
+
 	fs.readFile(manifest, function (err, data) {
 		if (err) {
 			next(err);
@@ -86,9 +121,14 @@ function addWindowsToSDKManifest(sdkPath, next) {
 	});
 }
 
+/**
+ * Generates a new project for Windows. This will be the project we use for
+ * running unit tests.
+ *
+ * @param next {Function} callback function
+ **/
 function generateWindowsProject(next) {
-	var projectDir = path.join(__dirname, 'mocha'),
-		prc;
+	var prc;
 	// If the project already exists, wipe it
 	if (fs.existsSync(projectDir)) {
 		wrench.rmdirSyncRecursive(projectDir);
@@ -101,7 +141,6 @@ function generateWindowsProject(next) {
 		console.log(data.toString());
 	});
 	prc.on('close', function (code) {
-		var setProcess;
 		if (code != 0) {
 			next("Failed to create project");
 		} else {
@@ -110,9 +149,13 @@ function generateWindowsProject(next) {
 	});
 }
 
-// Add required properties for our unit tests!
+/**
+ * Add required properties for our unit tests to the tiapp.xml
+ *
+ * @param next {Function} callback function
+ **/
 function addTiAppProperties(next) {
-	var tiapp_xml = path.join(__dirname, 'mocha', 'tiapp.xml');
+	var tiapp_xml = path.join(projectDir, 'tiapp.xml');
 
 	// Not so smart but this should work...
 	var content = [];
@@ -130,35 +173,69 @@ function addTiAppProperties(next) {
 	next();
 }
 
+/**
+ * Copies the assets from the NMocha example app into the generated project.
+ *
+ * @param next {Function} callback function
+ **/
 function copyMochaAssets(next) {
-	var mochaAssetsDir = path.join(__dirname, '..', '..', '..', 'Examples', 'NMocha', 'src', 'Assets'),
-		dest = path.join(__dirname, 'mocha', 'Resources');
-	wrench.copyDirSyncRecursive(mochaAssetsDir, dest, {
+	var dest = path.join(projectDir, 'Resources');
+	wrench.copyDirSyncRecursive(MOCHA_ASSETS_DIR, dest, {
 		forceDelete: true
 	});
 	next();
 }
 
-function getDeviceId(next) {
+/**
+ * Grabs the id of the first emulator for a given sdk version
+ *
+ * @param sdkVersion {String} '8.1'|'10.0' Used to grab the list of valid
+ *														emulators for the given sdk version
+ * @param target {String} 'wp-emulator'|'ws-local'|'wp-device'
+ * @param next {Function} callback function
+ **/
+function getDeviceId(sdkVersion, target, next) {
 	windowslib.detect(function (err, results) {
+		var deviceId = DEFAULT_DEVICE_ID;
 		if (err) {
-			console.error(err.message || err.toString());
-			next();
+			next(err);
 			return;
 		}
-		var devices = results.emulators['8.1'].filter(function(e) {
-			return /Emulator\ 8.1/.test(e.name);
-		});
-		deviceId = devices[0].udid;
-		next();
+
+		if (target === WP_EMULATOR) {
+			var key = sdkVersion;
+			if (sdkVersion == WIN_10) {
+				key = '10'; // FIXME We should fix this up in windowslib!
+			}
+			var devices = results.emulators[key].filter(function(e) {
+				// TODO escape periods in sdkVersion!
+				return new RegExp("Emulator\ " + sdkVersion).test(e.name);
+			});
+			deviceId = devices[0].udid;
+		} else {
+			deviceId = '0'; // assume device
+			// TODO What about for ws-local?
+		}
+
+		next(null, deviceId);
 	});
 }
 
-function runBuild(next, count) {
+/**
+ * Runs the build, should run the unit tests
+ *
+ * @param target {String} 'wp-emulator'|'ws-local'
+ * @param deviceId {String} deviceId to launch on. '0' for actual physical
+ *							device. Something like '8-1-1' for first Windows 8.1 emulator
+ * @param count {Number} Tracks how many times we've tried to run this build.
+ *											Used so we can finally abort after max retry count.
+ * @param next {Function} callback function
+ **/
+function runBuild(target, deviceId, count, next) {
 	var prc,
 		inResults = false,
 		done = false;
-	prc = spawn('node', [titanium, 'build', '--project-dir', path.join(__dirname, 'mocha'), '--platform', 'windows', '--target', 'wp-emulator', '--win-publisher-id', '13AFB724-65F2-4F30-8994-C79399EDBD80', '--device-id', (deviceId ? deviceId : '8-1-1'), '--no-prompt', '--no-colors']);
+	prc = spawn('node', [titanium, 'build', '--project-dir', projectDir, '--platform', 'windows', '--target', target, '--win-publisher-id', '13AFB724-65F2-4F30-8994-C79399EDBD80', '--device-id', deviceId, '--no-prompt', '--no-colors']);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 		var lines = data.toString().trim().match(/^.*([\n\r]+|$)/gm);
@@ -188,17 +265,17 @@ function runBuild(next, count) {
 				testResults = str.substr(index + 20).trim();
 			}
 
-			// Handle when app crashes and we haven't finished tests yet! 
+			// Handle when app crashes and we haven't finished tests yet!
 			if ((index = str.indexOf('-- End application log ----')) != -1) {
 				prc.kill(); // quit this build...
-				if (count > 3) {
+				if (count > MAX_RETRIES) {
 					next("failed to get test results before log ended!"); // failed too many times
 				} else {
-					runBuild(next, count + 1); // retry
+					runBuild(target, count + 1, next); // retry
 				}
 			}
 		}
-		
+
 	});
 	prc.stderr.on('data', function (data) {
 		console.log(data.toString());
@@ -211,26 +288,38 @@ function runBuild(next, count) {
 	});
 }
 
+/**
+ * Converts the raw string outut from the test app into a JSON Object.
+ *
+ * @param testResults {String} Raw string output from the logs of the test app
+ * @param next {Function} callback function
+ */
 function parseTestResults(testResults, next) {
 	if (!testResults) {
-		next("Failed to retrieve any tests results!");
-	} else {
-		// preserve newlines, etc - use valid JSON
-		testResults = testResults.replace(/\\n/g, "\\n")  
-				   .replace(/\\'/g, "\\'")
-				   .replace(/\\"/g, '\\"')
-				   .replace(/\\&/g, "\\&")
-				   .replace(/\\r/g, "\\r")
-				   .replace(/\\t/g, "\\t")
-				   .replace(/\\b/g, "\\b")
-				   .replace(/\\f/g, "\\f");
-		// remove non-printable and other non-valid JSON chars
-		testResults = testResults.replace(/[\u0000-\u0019]+/g,""); 
-		jsonResults = JSON.parse(testResults);
-		next();
+		return next("Failed to retrieve any tests results!");
 	}
+
+	// preserve newlines, etc - use valid JSON
+	testResults = testResults.replace(/\\n/g, "\\n")
+			   .replace(/\\'/g, "\\'")
+			   .replace(/\\"/g, '\\"')
+			   .replace(/\\&/g, "\\&")
+			   .replace(/\\r/g, "\\r")
+			   .replace(/\\t/g, "\\t")
+			   .replace(/\\b/g, "\\b")
+			   .replace(/\\f/g, "\\f");
+	// remove non-printable and other non-valid JSON chars
+	testResults = testResults.replace(/[\u0000-\u0019]+/g,"");
+	jsonResults = JSON.parse(testResults);
+	next();
 }
 
+/**
+ * Converts JSON results of unit tests into a JUnit test result XMl formatted file.
+ *
+ * @param jsonResults {Object} JSON containing results of the unit test output
+ * @param next {Function} callback function
+ */
 function outputJUnitXML(jsonResults, next) {
 	// We need to go through the results and separate them out into suites!
 	var suites = {},
@@ -253,7 +342,7 @@ function outputJUnitXML(jsonResults, next) {
 	var r = ejs.render('' + fs.readFileSync(path.join('.', 'junit.xml.ejs')),  { 'suites': values });
 
 	// Write the JUnit XML to a file
-	fs.writeFileSync(path.join('..', '..', '..', 'dist', 'junit_report.xml'), r);
+	fs.writeFileSync(path.join(DIST_DIR, 'junit_report.xml'), r);
 	next();
 }
 
@@ -262,8 +351,15 @@ function outputJUnitXML(jsonResults, next) {
  * for Windows SDK, sets up the project, copies unit tests into it from Examples/NMocha/src/Aseets,
  * and then runs the project in a Windows simulator which will run the mocha unit tests. The test results are piped to
  * the CLi, which takes them and generates a JUnit test result XML report for the Jenkins build machine.
+ *
+ * @param sdkVersion {String} '8.1'|'10.0'
+ * @param msbuild {String} '12.0'|'14.0' (Visual Studio 2013 or 2015)
+ * @param target {String} 'wp-emulator'|'ws-local'
+ * @param callback {Function} callback function
  */
-function test(callback) {
+function test(sdkVersion, msbuild, target, callback) {
+	var deviceId,
+		sdkPath;
 	async.series([
 		function (next) {
 			// If this is already installed we don't re-install, thankfully
@@ -271,7 +367,13 @@ function test(callback) {
 			installSDK(next);
 		},
 		function (next) {
-			getSDKInstallDir(next);
+			getSDKInstallDir(function (err, installPath) {
+				if (err) {
+					return next(err);
+				}
+				sdkPath = installPath;
+				next();
+			});
 		},
 		function (next) {
 			console.log("Copying built Windows SDK into master SDK");
@@ -287,7 +389,6 @@ function test(callback) {
 		function (next) {
 			console.log("Generating Windows project");
 			generateWindowsProject(next);
-
 		},
 		function (next) {
 			console.log("Adding properties for tiapp.xml");
@@ -299,11 +400,17 @@ function test(callback) {
 		},
 		function (next) {
 			console.log('Detecting simulator');
-			getDeviceId(next);
+			getDeviceId(sdkVersion, target, function (err, id) {
+				if (err) {
+					return next(err);
+				}
+				deviceId = id;
+				next();
+			});
 		},
 		function (next) {
 			console.log("Launching test project in simulator");
-			runBuild(next, 1);
+			runBuild(target, deviceId, 1, next);
 		},
 		function (next) {
 			parseTestResults(testResults, next);
@@ -319,13 +426,29 @@ exports.test = test;
 
 // When run as single script.
 if (module.id === ".") {
-	test(function (err, results) {
-		if (err) {
-			console.error(err.toString().red);
-			process.exit(1);
-		} else {
-			process.exit(0);
-		}
-	});
-}
+	(function () {
+		var program = require('commander');
 
+		// TODO Allow specifying what device id?
+		program
+			.version('0.0.1')
+			.option('-m, --msbuild [version]', 'Use a specific version of MSBuild', /^(12\.0|14\.0)$/, MSBUILD_12)
+			.option('-s, --sdk-version [version]', 'Target a specific Windows SDK version [version]', /^(8\.1|10\.0)$/, WIN_8_1)
+			.option('-T, --target [target]', 'Target a specific deploy target [target]', /^wp\-emulator|ws\-local|wp\-device$/, WP_EMULATOR)
+			.parse(process.argv);
+
+		// When doing win 10, it has to use msbuild 14
+		if (program.sdkVersion == WIN_10) {
+			// TODO Log warning if they used msbuild 12!
+			program.msbuild = MSBUILD_14;
+		}
+		test(program.sdkVersion, program.msbuild, program.target, function (err, results) {
+			if (err) {
+				console.error(err.toString().red);
+				process.exit(1);
+			} else {
+				process.exit(0);
+			}
+		});
+	})();
+}
