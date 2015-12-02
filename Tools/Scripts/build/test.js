@@ -203,15 +203,7 @@ function getDeviceId(sdkVersion, target, next) {
 		}
 
 		if (target === WP_EMULATOR) {
-			var key = sdkVersion;
-			if (sdkVersion == WIN_10) {
-				key = '10'; // FIXME We should fix this up in windowslib!
-			}
-			var devices = results.emulators[key].filter(function(e) {
-				// TODO escape periods in sdkVersion!
-				return new RegExp("Emulator\ " + sdkVersion).test(e.name);
-			});
-			deviceId = devices[0].udid;
+			deviceId = results.emulators[sdkVersion][0].udid;
 		} else {
 			deviceId = '0'; // assume device
 			// TODO What about for ws-local?

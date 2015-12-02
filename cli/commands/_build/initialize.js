@@ -46,6 +46,10 @@ function initialize(next) {
 		this.cmakePlatform = 'WindowsStore';
 		this.cmakePlatformAbbrev = 'store';
 	}
+	if (this.wpsdk == '10.0') {
+		this.cmakePlatform = 'WindowsStore';
+		this.cmakePlatformAbbrev = 'win10';
+	}
 	this.arch = this.cmakeArch == 'Win32' ? 'x86' : this.cmakeArch;
 	this.cmakeTarget = this.cmakePlatformAbbrev + '.' + this.arch;
 
