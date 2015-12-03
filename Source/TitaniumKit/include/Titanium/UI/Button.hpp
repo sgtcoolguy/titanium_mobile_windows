@@ -14,6 +14,8 @@
 
 namespace Titanium
 {
+	class Blob;
+
 	namespace UI
 	{
 		using namespace HAL;
@@ -55,6 +57,7 @@ namespace Titanium
 			  @discussion Image to display on the button, specified as a local path, URL or a Blob.
 			*/
 			TITANIUM_PROPERTY_IMPL_DEF(std::string, image);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<Titanium::Blob>, imageAsBlob);
 
 			/*!
 			  @method
@@ -125,6 +128,7 @@ namespace Titanium
 			std::string color__;
 			Font font__;
 			std::string image__;
+			std::shared_ptr<Titanium::Blob> imageAsBlob__;
 			TEXT_ALIGNMENT textAlign__;
 			std::string title__;
 			TEXT_VERTICAL_ALIGNMENT verticalAlign__;

@@ -46,6 +46,7 @@ namespace TitaniumWindows
 			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT override final;
 			virtual void set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT override final;
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
+			virtual void set_imageAsBlob(const std::shared_ptr<Titanium::Blob>& image) TITANIUM_NOEXCEPT override final;
 			virtual void set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT override final;
 			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override final;
 			virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;

@@ -13,6 +13,11 @@
 #include "Titanium/UI/ViewLayoutDelegate.hpp"
 #include "LayoutEngine/LayoutEngine.hpp"
 
+namespace Titanium
+{
+	class Blob;
+}
+
 namespace TitaniumWindows
 {
 	namespace UI
@@ -54,6 +59,7 @@ namespace TitaniumWindows
 			For generic views, no image is used. For most controls (buttons, text fields, and so on), platform-specific default images are used.
 			*/
 			virtual void set_backgroundImage(const std::string& backgroundImage) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundImage(const std::shared_ptr<Titanium::Blob>& backgroundImage) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -464,6 +470,8 @@ namespace TitaniumWindows
 			Titanium::LayoutEngine::Rect oldRect__;
 
 			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromPath(const std::string& path);
+			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBitmapImage(Windows::UI::Xaml::Media::Imaging::BitmapImage^ image);
+			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBlob(const std::shared_ptr<Titanium::Blob>& blob);
 
 			Windows::UI::Xaml::Media::ImageBrush^ backgroundImageBrush__{ nullptr };
 			Windows::UI::Xaml::Media::ImageBrush^ backgroundDisabledImageBrush__{ nullptr };

@@ -12,6 +12,7 @@
 #include "Titanium/UI/2DMatrix.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include "Titanium/App.hpp"
+#include "Titanium/Blob.hpp"
 #include <string>
 #include <algorithm>
 #include <cctype>
@@ -31,6 +32,7 @@ namespace TitaniumWindows
 		using namespace Windows::UI::Xaml::Controls;
 		using namespace Windows::UI::Xaml::Input;
 		using namespace Windows::UI::Xaml::Media;
+		using namespace Windows::Storage::Streams;
 
 		WindowsViewLayoutDelegate::WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
 			: ViewLayoutDelegate()
@@ -576,16 +578,43 @@ namespace TitaniumWindows
 			}
 		}
 
-		ImageBrush^ WindowsViewLayoutDelegate::CreateImageBrushFromPath(const std::string& path)
+		ImageBrush^ WindowsViewLayoutDelegate::CreateImageBrushFromBitmapImage(Media::Imaging::BitmapImage^ image)
 		{
-			const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
-			const auto image = ref new Media::Imaging::BitmapImage(uri);
-
 			auto brush = ref new ImageBrush();
 			brush->ImageSource = image;
 			brush->Stretch = Stretch::Fill;
 
 			return brush;
+		}
+
+		ImageBrush^ WindowsViewLayoutDelegate::CreateImageBrushFromPath(const std::string& path)
+		{
+			const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
+			return CreateImageBrushFromBitmapImage(ref new Media::Imaging::BitmapImage(uri));
+		}
+
+		ImageBrush^ WindowsViewLayoutDelegate::CreateImageBrushFromBlob(const std::shared_ptr<Titanium::Blob>& blob)
+		{
+			auto data = blob->getData();
+
+			const auto stream = ref new InMemoryRandomAccessStream();
+			const auto writer = ref new DataWriter(stream);
+			writer->WriteBytes(Platform::ArrayReference<std::uint8_t>(&data[0], data.size()));
+
+			concurrency::event event;
+			concurrency::create_task(writer->StoreAsync()).then([writer](std::uint32_t) {
+				return writer->FlushAsync();
+			}).then([&event](bool) {
+				event.set();
+			}, concurrency::task_continuation_context::use_arbitrary());
+			event.wait();
+
+			stream->Seek(0);
+
+			auto image = ref new Media::Imaging::BitmapImage();
+			image->SetSource(stream);
+
+			return CreateImageBrushFromBitmapImage(image);
 		}
 
 		void WindowsViewLayoutDelegate::updateBackground(Brush^ brush)
@@ -603,6 +632,12 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutDelegate::set_backgroundImage(backgroundImage);
 			backgroundImageBrush__ = CreateImageBrushFromPath(backgroundImage);
+			updateBackground(backgroundImageBrush__);
+		}
+
+		void WindowsViewLayoutDelegate::set_backgroundImage(const std::shared_ptr<Titanium::Blob>& backgroundImage) TITANIUM_NOEXCEPT
+		{
+			backgroundImageBrush__ = CreateImageBrushFromBlob(backgroundImage);
 			updateBackground(backgroundImageBrush__);
 		}
 
