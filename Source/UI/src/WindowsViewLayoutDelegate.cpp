@@ -16,6 +16,8 @@
 #include <string>
 #include <algorithm>
 #include <cctype>
+#include <ppltasks.h>
+#include <concrt.h>
 #include <collection.h>
 
 #include "TitaniumWindows/UI/View.hpp"
@@ -227,10 +229,10 @@ namespace TitaniumWindows
 			Windows::Foundation::TimeSpan duration = Windows::Foundation::TimeSpan();
 			duration.Duration = timer_interval_ticks.count();
 			storyboard->Duration = duration;
-			
+
 			// autoreverse
 			storyboard->AutoReverse = animation->get_autoreverse();
-			
+
 			// repeat
 			const double repeat = animation->get_repeat();
 			if (repeat == 0) {
@@ -243,7 +245,7 @@ namespace TitaniumWindows
 			const auto curve = animation->get_curve();
 			// TODO Expand the set of animation curves available to encompass all the ones from Windows!
 			// http://iphonedevelopment.blogspot.com/2010/12/more-animation-curves-than-you-can.html
-			// Here's where iOS defines it's Bezier control points! 
+			// Here's where iOS defines it's Bezier control points!
 			// https://developer.apple.com/library/mac/documentation/Cocoa/Reference/CAMediaTimingFunction_class/index.html#//apple_ref/doc/constant_group/Predefined_Timing_Functions
 			// There are no equivalent easing functions on Windows!!!! They look/behave differently.
 			// You can compare the values used here: http://easings.net/
@@ -390,7 +392,7 @@ namespace TitaniumWindows
 					// Because we're animating a transform, the value behaves like setting By, not To. So we need to calculate the difference and set our target To to that value
 					const auto current_top = Controls::Canvas::GetTop(component);
 					const auto diff = *top - current_top;
-					
+
 					const auto top_anim = ref new Media::Animation::DoubleAnimation();
 					top_anim->To = diff;
 					top_anim->EasingFunction = ease;
@@ -502,7 +504,7 @@ namespace TitaniumWindows
 			if (zIndex) {
 				const auto zIndex_anim = ref new Media::Animation::ObjectAnimationUsingKeyFrames();
 				zIndex_anim->Duration = duration;
-			
+
 				const auto current_zIndex = Controls::Canvas::GetZIndex(component);
 				// FIXME This just transitions from current zIndex to new all at once at end of animation. We need to do our own interpolation based on the curve!
 				const auto start_frame = ref new Media::Animation::DiscreteObjectKeyFrame();
