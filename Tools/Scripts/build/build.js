@@ -366,47 +366,49 @@ exports.build = build;
 
 // When run as script
 if (module.id === ".") {
-	// TODO wrap in self-invoking function to limit scope of vars...
-	var program = require('commander'),
-		// default platform/arch targets
-		arches = [
-			'WindowsPhone-x86',
-			'WindowsPhone-ARM',
-			'WindowsStore-x86'
-		];
+	(function () {
+		var program = require('commander'),
+			// default platform/arch targets
+			arches = [
+				'WindowsPhone-x86',
+				'WindowsPhone-ARM',
+				'WindowsStore-x86'
+			];
 
-	function collectArches(val, memo) {
-		var m = /^Windows(Store|Phone)\-(x86|ARM)$/.exec(val);
-		if (m) {
-			memo.push(val);
-		}
-		return memo;
-	}
-
-	program
-		.version('0.0.1')
-		.option('-o, --only [arch]', 'Limit to specific architectures (i.e. WindowsPhone-x86)', collectArches, [])
-		.option('-q, --quiet', 'Be quiet')
-		.option('-p, --parallel', 'Run builds in parallel')
-		.option('-m, --msbuild [version]', 'Use a specific version of MSBuild', /^(12\.0|14\.0)$/, MSBUILD_12)
-		.option('-s, --sdk-version [version]', 'Target a specific Windows SDK version [version]', /^(8\.1|10\.0)$/, WIN_8_1)
-		.parse(process.argv);
-
-	// When doing win 10, it has to use msbuild 14
-	if (program.sdkVersion == WIN_10) {
-		program.msbuild = MSBUILD_14;
-	}
-
-	build(program.sdkVersion, program.msbuild, (program.only && program.only.length > 0) ? program.only : arches,
-		{
-			parallel: program.parallel,
-			quiet: program.quiet
-		},
-		function (err, results) {
-			if (err) {
-				console.error(err.toString().red);
-				process.exit(1);
+		function collectArches(val, memo) {
+			var m = /^Windows(Store|Phone)\-(x86|ARM)$/.exec(val);
+			if (m) {
+				memo.push(val);
 			}
-			process.exit(0);
-	});
+			return memo;
+		}
+
+		program
+			.version('0.0.1')
+			.option('-o, --only [arch]', 'Limit to specific architectures (i.e. WindowsPhone-x86)', collectArches, [])
+			.option('-q, --quiet', 'Be quiet')
+			.option('-p, --parallel', 'Run builds in parallel')
+			.option('-m, --msbuild [version]', 'Use a specific version of MSBuild', /^(12\.0|14\.0)$/, MSBUILD_12)
+			.option('-s, --sdk-version [version]', 'Target a specific Windows SDK version [version]', /^(8\.1|10\.0)$/, WIN_8_1)
+			.parse(process.argv);
+
+		// When doing win 10, it has to use msbuild 14
+		if (program.sdkVersion == WIN_10) {
+			// TODO Log warning if they used msbuild 12!
+			program.msbuild = MSBUILD_14;
+		}
+
+		build(program.sdkVersion, program.msbuild, (program.only && program.only.length > 0) ? program.only : arches,
+			{
+				parallel: program.parallel,
+				quiet: program.quiet
+			},
+			function (err, results) {
+				if (err) {
+					console.error(err.toString().red);
+					process.exit(1);
+				}
+				process.exit(0);
+		});
+	})();
 }

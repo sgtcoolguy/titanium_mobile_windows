@@ -10,12 +10,22 @@ var appc = require('node-appc'),
  * @returns {Object}
  */
 module.exports = function configOptionWPSDK(order) {
+	var defaultTarget = '8.1';
+
+	var sdkTargets = [];
+	for (var version in this.windowsInfo.windowsphone) {
+		sdkTargets.push(version);
+		if (this.windowsInfo.windowsphone[version].selected) {
+			defaultTarget = version;
+		}
+	}
+
 	return {
 		abbr: 'S',
-		default: '8.1',
+		default: defaultTarget,
 		desc: __('the Windows Phone SDK version; only used when target is %s, %s, or %s', 'wp-emulator'.cyan, 'wp-device'.cyan, 'dist-phonestore'.cyan),
 		hint: __('version'),
 		order: order,
-		values: ['8.1', '10.0']
+		values: sdkTargets
 	};
 };
