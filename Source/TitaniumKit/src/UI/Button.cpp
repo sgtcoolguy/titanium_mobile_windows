@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/Button.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/Blob.hpp"
 
 namespace Titanium
 {
@@ -30,15 +31,11 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_READWRITE(Button, std::string, color)
-
 		TITANIUM_PROPERTY_READWRITE(Button, Font, font)
-	
 		TITANIUM_PROPERTY_READWRITE(Button, std::string, image)
-		
+		TITANIUM_PROPERTY_READWRITE(Button, std::shared_ptr<Titanium::Blob>, imageAsBlob)
 		TITANIUM_PROPERTY_READWRITE(Button, TEXT_ALIGNMENT, textAlign)
-
 		TITANIUM_PROPERTY_READWRITE(Button, std::string, title)
-
 		TITANIUM_PROPERTY_READWRITE(Button, TEXT_VERTICAL_ALIGNMENT, verticalAlign)
 
 		void Button::JSExportInitialize()
@@ -100,13 +97,28 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(Button, image)
 		{
-			return get_context().CreateString(get_image());
+			const auto ctx = get_context();
+			if (imageAsBlob__ != nullptr) {
+				return imageAsBlob__->get_object();
+			} else if (!image__.empty()) {
+				return ctx.CreateString(get_image());
+			} else {
+				return ctx.CreateNull();
+			}
 		}
 
 		TITANIUM_PROPERTY_SETTER(Button, image)
 		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_image(static_cast<std::string>(argument));
+			if (argument.IsString()) {
+				set_image(static_cast<std::string>(argument));
+				imageAsBlob__ = nullptr;
+			} else if (argument.IsObject()) {
+				const auto object = static_cast<JSObject>(argument);
+				set_imageAsBlob(object.GetPrivate<Titanium::Blob>());
+				image__ = "";
+			} else {
+				TITANIUM_LOG_WARN("Button.image should be either string or Blob");
+			}
 			return true;
 		}
 

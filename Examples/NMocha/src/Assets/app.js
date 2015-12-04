@@ -45,6 +45,7 @@ require('./ti.ui.constants.test');
 require('./ti.ui.emaildialog.test');
 require('./ti.ui.imageview.test');
 require('./ti.ui.label.test');
+require('./ti.ui.button.test');
 require('./ti.ui.layout.test');
 require('./ti.ui.listview.test');
 require('./ti.ui.alertdialog.test');

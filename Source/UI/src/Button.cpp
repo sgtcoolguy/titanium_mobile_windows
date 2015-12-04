@@ -63,6 +63,14 @@ namespace TitaniumWindows
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->set_backgroundImage(image);
 		}
 
+		void Button::set_imageAsBlob(const std::shared_ptr<Titanium::Blob>& image) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Button::set_imageAsBlob(image);
+			if (image != nullptr) {
+				getViewLayoutDelegate<WindowsViewLayoutDelegate>()->set_backgroundImage(image);
+			}
+		}
+
 		void Button::set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Button::set_font(font);
