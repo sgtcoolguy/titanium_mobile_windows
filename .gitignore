@@ -213,6 +213,7 @@ FakesAssemblies/
 # CLI
 !templates/build
 !cli/vendor/cmake/bin
+!cli/vendor/cmake/share
 
 # Scripts
 !Tools/Scripts/build
