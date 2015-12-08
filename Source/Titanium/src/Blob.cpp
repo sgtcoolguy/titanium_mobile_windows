@@ -7,6 +7,9 @@
 #include "TitaniumWindows/Blob.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/GlobalObject.hpp"
+#include <ppltasks.h>
+#include <concrt.h>
+#include <collection.h>
 #include <boost/algorithm/string/predicate.hpp>
 
 using Windows::Security::Cryptography::CryptographicBuffer;
