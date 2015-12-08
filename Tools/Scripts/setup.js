@@ -28,7 +28,10 @@ var async = require('async'),
 		OK: '✓',
 		ERROR: '✖'
 	},
-	JSC_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1446025802.zip",
+	// Constants
+	WIN_8_1 = '8.1',
+	WIN_10 = '10.0',
+	JSC_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1449385087.zip",
 	GTEST_URL = (os.platform() === 'win32') ? "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-windows.zip" : "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-osx.zip",
 	BOOST_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/boost_1_57_0.zip";
 
@@ -337,8 +340,14 @@ if (module.id === ".") {
 			.option('-j, --javascriptcore [javascriptcore]', 'Override the source URL for JavaScriptCore', JSC_URL)
 			.option('-g, --gtest [gtest]', 'Override the source URL for GTest', GTEST_URL)
 			.option('-b, --boost [boost]', 'Override the source URL for Boost', BOOST_URL)
+			.option('-s, --sdk-version [version]', 'Target a specific Windows SDK version [version]', /^(8\.1|10\.0)$/, WIN_8_1)
 			.allowUnknownOption()
 			.parse(process.argv);
+
+		// If not overriding the JSC URL and targeting win10, hack URL to point to win10 URL
+		if (program.javascriptcore === JSC_URL && program.sdkVersion === WIN_10) {
+			program.javascriptcore = JSC_URL.slice(0, -4) + "-win10.zip";
+		}
 
 		setup({
 			boost: program.boost,
