@@ -79,15 +79,15 @@ describe("Titanium.Blob", function () {
         finish();
     });
     it("width", function (finish) {
-        var blob = Ti.Filesystem.getFile('app.js').read();
+        var blob = Ti.Filesystem.getFile('Logo.png').read();
         should(blob.width).be.a.Number;
-        should(blob.width).be.eql(0);
+        should(blob.width).be.eql(150);
         finish();
     });
     it("height", function (finish) {
-        var blob = Ti.Filesystem.getFile('app.js').read();
+        var blob = Ti.Filesystem.getFile('Logo.png').read();
         should(blob.height).be.a.Number;
-        should(blob.height).be.eql(0);
+        should(blob.height).be.eql(150);
         finish();
     });
     it("file", function (finish) {
