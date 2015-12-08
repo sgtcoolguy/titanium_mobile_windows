@@ -11,6 +11,10 @@
 
 using Windows::Security::Cryptography::CryptographicBuffer;
 using Windows::Security::Cryptography::BinaryStringEncoding;
+using Windows::Storage::Streams::IRandomAccessStreamWithContentType;
+using Windows::Foundation::IAsyncOperation;
+using Windows::Graphics::Imaging::BitmapDecoder;
+using concurrency::task_continuation_context;
 
 namespace TitaniumWindows
 {
@@ -54,9 +58,23 @@ namespace TitaniumWindows
 			mimetype_ = "text/javascript";
 		}
 		if (boost::starts_with(mimetype_, "image/")) {
-			// TODO Determine width/height!
-			//create_task(file->OpenReadAsync()).then();
-			//auto decoder = Windows::Graphics::Imaging::BitmapDecoder::CreateAsync(getImageDecoder(), stream);
+			concurrency::event event;
+			concurrency::task<IRandomAccessStreamWithContentType^>(file->OpenReadAsync())
+				.then([](IRandomAccessStreamWithContentType^ stream) {
+					return Windows::Graphics::Imaging::BitmapDecoder::CreateAsync(stream);
+				}, task_continuation_context::use_arbitrary())
+				.then([=, &event](concurrency::task<BitmapDecoder^> task) {
+					try {
+						auto decoder = task.get();
+						width_ = static_cast<uint32_t>(decoder->PixelWidth);
+						height_ = static_cast<uint32_t>(decoder->PixelHeight);
+					} catch (...) {
+						TITANIUM_LOG_ERROR("Blob: Could not decode image file");
+					}
+					event.set();
+				}, task_continuation_context::use_arbitrary()
+			);
+			event.wait();
 		}
 
 		this->type_ = Titanium::BlobModule::TYPE::FILE;

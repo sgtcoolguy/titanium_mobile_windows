@@ -23,9 +23,6 @@ namespace TitaniumWindows
 	class TITANIUMWINDOWS_EXPORT Blob final : public Titanium::Blob, public JSExport<Blob>
 	{
 	public:
-		TITANIUM_PROPERTY_UNIMPLEMENTED(width);
-		TITANIUM_PROPERTY_UNIMPLEMENTED(height);
-
 		::Platform::Guid getImageEncoder();
 
 		void construct(Windows::Storage::StorageFile^ file);
