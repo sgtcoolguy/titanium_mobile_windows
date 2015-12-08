@@ -90,6 +90,18 @@ describe("Titanium.Blob", function () {
         should(blob.height).be.eql(150);
         finish();
     });
+	it("width of non-image", function (finish) {
+        var blob = Ti.Filesystem.getFile('app.js').read();
+        should(blob.width).be.a.Number;
+        should(blob.width).be.eql(0);
+        finish();
+    });
+    it("height of non-image", function (finish) {
+        var blob = Ti.Filesystem.getFile('app.js').read();
+        should(blob.height).be.a.Number;
+        should(blob.height).be.eql(0);
+        finish();
+    });
     it("file", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
         var file = blob.file;
