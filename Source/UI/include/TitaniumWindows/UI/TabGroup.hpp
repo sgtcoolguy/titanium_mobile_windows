@@ -34,7 +34,6 @@ namespace TitaniumWindows
 
 			TITANIUM_PROPERTY_UNIMPLEMENTED(activity);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(allowUserCustomization);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(barColor);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(translucent);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(titleAttributes);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(navTintColor);
@@ -44,25 +43,9 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(swipeable);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(smoothScrollOnTabClick);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(windowSoftInputMode);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundColor);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsTintColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundImage);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(shadowImage);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabIconTint);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundDisabledColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundDisabledImage);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundFocusedColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundFocusedImage);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundSelectedColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(tabsBackgroundSelectedImage);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundImage);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundDisabledColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundDisabledImage);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundFocusedColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundFocusedImage);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundSelectedColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(activeTabBackgroundSelectedImage);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(tabDividerColor);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(tabDividerWidth);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(tabHeight);
@@ -84,11 +67,10 @@ namespace TitaniumWindows
 			virtual void addTab(const std::shared_ptr<Titanium::UI::Tab>& tab) TITANIUM_NOEXCEPT override;
 			virtual void open() TITANIUM_NOEXCEPT override;
 			virtual void close() TITANIUM_NOEXCEPT override;
-
 			virtual void set_tabs(const std::vector<std::shared_ptr<Titanium::UI::Tab>>& tabs) TITANIUM_NOEXCEPT override;
-
 			virtual void set_activeTab(const std::shared_ptr<Titanium::UI::Tab>& activeTab) TITANIUM_NOEXCEPT override;
 			virtual void set_activeTab(const std::shared_ptr<Titanium::UI::Tab>& activeTab, const bool updateUI) TITANIUM_NOEXCEPT;
+			virtual void set_barColor(const std::string&) TITANIUM_NOEXCEPT override;
 
 		private:
 			void appendWindowsTabItem(const std::shared_ptr<Titanium::UI::Tab>& tab) TITANIUM_NOEXCEPT;

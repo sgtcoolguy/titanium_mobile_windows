@@ -27,6 +27,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(Tab, std::string, backgroundFocusedColor)
 		TITANIUM_PROPERTY_READWRITE(Tab, std::string, backgroundFocusedImage)
 		TITANIUM_PROPERTY_READWRITE(Tab, std::string, backgroundImage)
+		TITANIUM_PROPERTY_READWRITE(Tab, std::string, backgroundSelectedColor)
 		TITANIUM_PROPERTY_READWRITE(Tab, std::string, backgroundSelectedImage)
 		TITANIUM_PROPERTY_READWRITE(Tab, bool, touchEnabled)
 		TITANIUM_PROPERTY_READWRITE(Tab, std::string, backgroundColor)
@@ -48,6 +49,8 @@ namespace Titanium
 			const auto Ti = static_cast<JSObject>(get_context().get_global_object().GetProperty("Titanium"));
 			const auto UI = static_cast<JSObject>(Ti.GetProperty("UI")).GetPrivate<Titanium::UIModule>();
 			UI->set_currentTab(get_object().GetPrivate<Titanium::UI::Tab>());
+
+			set_active(true);
 		}
 
 		void Tab::blur() 
@@ -58,6 +61,8 @@ namespace Titanium
 			const auto Ti = static_cast<JSObject>(get_context().get_global_object().GetProperty("Titanium"));
 			const auto UI = static_cast<JSObject>(Ti.GetProperty("UI")).GetPrivate<Titanium::UIModule>();
 			UI->set_currentTab(nullptr);
+
+			set_active(false);
 		}
 
 		void Tab::open(const std::shared_ptr<OpenWindowParams>& options) TITANIUM_NOEXCEPT
@@ -100,6 +105,7 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(Tab, backgroundFocusedColor);
 			TITANIUM_ADD_PROPERTY(Tab, backgroundFocusedImage);
 			TITANIUM_ADD_PROPERTY(Tab, backgroundImage);
+			TITANIUM_ADD_PROPERTY(Tab, backgroundSelectedColor);
 			TITANIUM_ADD_PROPERTY(Tab, backgroundSelectedImage);
 			TITANIUM_ADD_PROPERTY(Tab, touchEnabled);
 			TITANIUM_ADD_PROPERTY(Tab, backgroundColor);
@@ -125,6 +131,8 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(Tab, setBackgroundFocusedImage);
 			TITANIUM_ADD_FUNCTION(Tab, getBackgroundImage);
 			TITANIUM_ADD_FUNCTION(Tab, setBackgroundImage);
+			TITANIUM_ADD_FUNCTION(Tab, getBackgroundSelectedColor);
+			TITANIUM_ADD_FUNCTION(Tab, setBackgroundSelectedColor);
 			TITANIUM_ADD_FUNCTION(Tab, getBackgroundSelectedImage);
 			TITANIUM_ADD_FUNCTION(Tab, setBackgroundSelectedImage);
 			TITANIUM_ADD_FUNCTION(Tab, getTouchEnabled);
@@ -161,6 +169,8 @@ namespace Titanium
 		TITANIUM_PROPERTY_SETTER_STRING(Tab, backgroundFocusedImage)
 		TITANIUM_PROPERTY_GETTER_STRING(Tab, backgroundImage)
 		TITANIUM_PROPERTY_SETTER_STRING(Tab, backgroundImage)
+		TITANIUM_PROPERTY_GETTER_STRING(Tab, backgroundSelectedColor)
+		TITANIUM_PROPERTY_SETTER_STRING(Tab, backgroundSelectedColor)
 		TITANIUM_PROPERTY_GETTER_STRING(Tab, backgroundSelectedImage)
 		TITANIUM_PROPERTY_SETTER_STRING(Tab, backgroundSelectedImage)
 		TITANIUM_PROPERTY_GETTER_BOOL(Tab, touchEnabled)
@@ -216,6 +226,8 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_SETTER(Tab, setBackgroundFocusedImage, backgroundFocusedImage)
 		TITANIUM_FUNCTION_AS_GETTER(Tab, getBackgroundImage, backgroundImage)
 		TITANIUM_FUNCTION_AS_SETTER(Tab, setBackgroundImage, backgroundImage)
+		TITANIUM_FUNCTION_AS_GETTER(Tab, getBackgroundSelectedColor, backgroundSelectedColor)
+		TITANIUM_FUNCTION_AS_SETTER(Tab, setBackgroundSelectedColor, backgroundSelectedColor)
 		TITANIUM_FUNCTION_AS_GETTER(Tab, getBackgroundSelectedImage, backgroundSelectedImage)
 		TITANIUM_FUNCTION_AS_SETTER(Tab, setBackgroundSelectedImage, backgroundSelectedImage)
 		TITANIUM_FUNCTION_AS_GETTER(Tab, getTouchEnabled, touchEnabled)

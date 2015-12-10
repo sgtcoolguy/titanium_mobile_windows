@@ -29,21 +29,12 @@ namespace TitaniumWindows
 
 		public:
 
-			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundDisabledColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundDisabledImage);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundFocusedColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundFocusedImage);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundImage);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundSelectedImage);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(touchEnabled);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(backgroundColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(active);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(activeIcon);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(badge);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(icon);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(iconIsMask);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(activeIconIsMask);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(titleid);
 
 			Tab(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~Tab()                  = default;
@@ -59,6 +50,14 @@ namespace TitaniumWindows
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 			virtual void set_title(const std::string& title) TITANIUM_NOEXCEPT override;
 			virtual void set_window(const std::shared_ptr<Titanium::UI::Window>& window) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundColor(const std::string&) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundImage(const std::string&) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundSelectedColor(const std::string&) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundSelectedImage(const std::string&) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundDisabledColor(const std::string&) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundDisabledImage(const std::string&) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundFocusedColor(const std::string&) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundFocusedImage(const std::string&) TITANIUM_NOEXCEPT override;
 			virtual void blur()  override;
 			virtual void focus() override;
 

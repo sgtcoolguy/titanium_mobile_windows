@@ -30,6 +30,32 @@ namespace Titanium
 				activeTab__->blur();
 			}
 			activeTab__ = activeTab;
+
+			if (!activeTabBackgroundColor__.empty()) {
+				activeTab__->set_backgroundColor(activeTabBackgroundColor__);
+			}
+			if (!activeTabBackgroundDisabledColor__.empty()) {
+				activeTab__->set_backgroundDisabledColor(activeTabBackgroundDisabledColor__);
+			}
+			if (!activeTabBackgroundFocusedColor__.empty()) {
+				activeTab__->set_backgroundFocusedColor(activeTabBackgroundFocusedColor__);
+			}
+			if (!activeTabBackgroundSelectedColor__.empty()) {
+				activeTab__->set_backgroundSelectedColor(activeTabBackgroundSelectedColor__);
+			}
+			if (!activeTabBackgroundImage__.empty()) {
+				activeTab__->set_backgroundImage(activeTabBackgroundImage__);
+			}
+			if (!activeTabBackgroundDisabledImage__.empty()) {
+				activeTab__->set_backgroundDisabledImage(activeTabBackgroundDisabledImage__);
+			}
+			if (!activeTabBackgroundFocusedImage__.empty()) {
+				activeTab__->set_backgroundFocusedImage(activeTabBackgroundFocusedImage__);
+			}
+			if (!activeTabBackgroundSelectedImage__.empty()) {
+				activeTab__->set_backgroundSelectedImage(activeTabBackgroundSelectedImage__);
+			}
+
 			activeTab__->focus();
 		}
 
@@ -46,18 +72,80 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(TabGroup, bool, smoothScrollOnTabClick)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::vector<std::shared_ptr<Tab>>, tabs)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, double, windowSoftInputMode)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabsBackgroundColor)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabsTintColor)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, title)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabsBackgroundImage)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, shadowImage)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, activeTabIconTint)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabsBackgroundDisabledColor)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabsBackgroundDisabledImage)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabsBackgroundFocusedColor)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabsBackgroundFocusedImage)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabsBackgroundSelectedColor)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabsBackgroundSelectedImage)
+		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabDividerColor)
+		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabDividerWidth)
+		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabHeight)
+		TITANIUM_PROPERTY_READWRITE(TabGroup, bool, tabsAtBottom)
+
+		TITANIUM_PROPERTY_READ(TabGroup, std::string, tabsBackgroundColor)
+		void TabGroup::set_tabsBackgroundColor(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			tabsBackgroundColor__ = value;
+			for (const auto tab : tabs__) {
+				tab->set_backgroundColor(value);
+			}
+		}
+		TITANIUM_PROPERTY_READ(TabGroup, std::string, tabsBackgroundImage)
+		void TabGroup::set_tabsBackgroundImage(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			tabsBackgroundImage__ = value;
+			for (const auto tab : tabs__) {
+				tab->set_backgroundImage(value);
+			}
+		}
+		TITANIUM_PROPERTY_READ(TabGroup, std::string, tabsBackgroundDisabledColor)
+		void TabGroup::set_tabsBackgroundDisabledColor(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			tabsBackgroundDisabledColor__ = value;
+			for (const auto tab : tabs__) {
+				tab->set_backgroundDisabledColor(value);
+			}
+		}
+		TITANIUM_PROPERTY_READ(TabGroup, std::string, tabsBackgroundDisabledImage)
+		void TabGroup::set_tabsBackgroundDisabledImage(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			tabsBackgroundDisabledImage__ = value;
+			for (const auto tab : tabs__) {
+				tab->set_backgroundDisabledImage(value);
+			}
+		}
+		TITANIUM_PROPERTY_READ(TabGroup, std::string, tabsBackgroundFocusedColor)
+		void TabGroup::set_tabsBackgroundFocusedColor(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			tabsBackgroundFocusedColor__ = value;
+			for (const auto tab : tabs__) {
+				tab->set_backgroundFocusedColor(value);
+			}
+		}
+		TITANIUM_PROPERTY_READ(TabGroup, std::string, tabsBackgroundFocusedImage)
+		void TabGroup::set_tabsBackgroundFocusedImage(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			tabsBackgroundFocusedImage__ = value;
+			for (const auto tab : tabs__) {
+				tab->set_backgroundFocusedImage(value);
+			}
+		}
+		TITANIUM_PROPERTY_READ(TabGroup, std::string, tabsBackgroundSelectedColor)
+		void TabGroup::set_tabsBackgroundSelectedColor(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			tabsBackgroundSelectedColor__ = value;
+			for (const auto tab : tabs__) {
+				tab->set_backgroundSelectedColor(value);
+			}
+		}
+		TITANIUM_PROPERTY_READ(TabGroup, std::string, tabsBackgroundSelectedImage)
+		void TabGroup::set_tabsBackgroundSelectedImage(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			tabsBackgroundSelectedImage__ = value;
+			for (const auto tab : tabs__) {
+				tab->set_backgroundSelectedImage(value);
+			}
+		}
+
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, activeTabBackgroundColor)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, activeTabBackgroundImage)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, activeTabBackgroundDisabledColor)
@@ -66,10 +154,6 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, activeTabBackgroundFocusedImage)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, activeTabBackgroundSelectedColor)
 		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, activeTabBackgroundSelectedImage)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabDividerColor)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabDividerWidth)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, std::string, tabHeight)
-		TITANIUM_PROPERTY_READWRITE(TabGroup, bool, tabsAtBottom)
 
 		void TabGroup::addTab(const std::shared_ptr<Tab>& tab) TITANIUM_NOEXCEPT
 		{
@@ -99,8 +183,9 @@ namespace Titanium
 			for (const auto tab : tabs__) {
 				tab->open();
 			}
-			if (activeTab__) {
-				activeTab__->focus();
+
+			if (tabs__.size() > 0) {
+				set_activeTab(tabs__.at(0));
 			}
 		}
 
