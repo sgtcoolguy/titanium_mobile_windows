@@ -32,7 +32,7 @@ var async = require('async'),
 	WIN_8_1 = '8.1',
 	WIN_10 = '10.0',
 	// Default JSC URL to build for Win 8.1. See https://jira.appcelerator.org/browse/TIMOB-20101
-	JSC_81_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1446025802.zip",
+	JSC_81_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1449751225.zip",
 	// Default JSC URL for building against Win 10
 	JSC_10_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1449385087-win10.zip",
 	GTEST_URL = (os.platform() === 'win32') ? "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-windows.zip" : "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-osx.zip",
