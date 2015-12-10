@@ -52,6 +52,7 @@ endif()
 
 set(SOURCE_Media
   include/TitaniumWindows/Media.hpp
+  include/TitaniumWindows/Media/AudioBackground.hpp
   include/TitaniumWindows/Media/AudioPlayer.hpp
   include/TitaniumWindows/Media/AudioRecorder.hpp
   include/TitaniumWindows/Media/Item.hpp
@@ -59,6 +60,7 @@ set(SOURCE_Media
   include/TitaniumWindows/Media/MusicPlayer.hpp
   include/TitaniumWindows/Media/VideoPlayer.hpp
   src/Media.cpp
+  src/Media/AudioBackground.cpp
   src/Media/AudioPlayer.cpp
   src/Media/AudioRecorder.cpp
   src/Media/Item.cpp
