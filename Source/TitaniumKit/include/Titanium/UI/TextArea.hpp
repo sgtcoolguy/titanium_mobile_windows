@@ -19,6 +19,8 @@ namespace Titanium
 	{
 		using namespace HAL;
 
+		class AttributedString;
+
 		/*!
 		@struct
 		@discussion Dictionary object of parameters for the Titanium.UI.TextArea.
@@ -56,7 +58,7 @@ namespace Titanium
 			  @abstract attributedString
 			  @discussion TextArea attributed string.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(JSValue, attributedString);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<AttributedString>, attributedString);
 
 			/*!
 			  @property
@@ -350,7 +352,7 @@ namespace Titanium
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			KEYBOARD_APPEARANCE appearance__;
-			JSValue attributedString__;
+			std::shared_ptr<AttributedString> attributedString__;
 			TEXT_AUTOCAPITALIZATION autocapitalization__;
 			bool autocorrect__;
 			std::unordered_set<AUTOLINK> autoLink__;

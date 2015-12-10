@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/TextArea.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/UI/AttributedString.hpp"
 
 namespace Titanium
 {
@@ -36,7 +37,6 @@ namespace Titanium
 		TextArea::TextArea(const JSContext& js_context, const std::vector<JSValue>& arguments) TITANIUM_NOEXCEPT
 			: View(js_context, "Titanium.UI.TextArea"),
 			appearance__(KEYBOARD_APPEARANCE::DEFAULT),
-			attributedString__(js_context.CreateUndefined()),
 			autocapitalization__(TEXT_AUTOCAPITALIZATION::NONE),
 			autocorrect__(false),
 			autoLink__({AUTOLINK::NONE}),
@@ -63,7 +63,6 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_READWRITE(TextArea, KEYBOARD_APPEARANCE, appearance)
-		TITANIUM_PROPERTY_READWRITE(TextArea, JSValue, attributedString)
 		TITANIUM_PROPERTY_READWRITE(TextArea, TEXT_AUTOCAPITALIZATION, autocapitalization)
 		TITANIUM_PROPERTY_READWRITE(TextArea, bool, autocorrect)
 		TITANIUM_PROPERTY_READWRITE(TextArea, std::unordered_set<AUTOLINK>, autoLink)
@@ -85,6 +84,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(TextArea, bool, suppressReturn)
 		TITANIUM_PROPERTY_READWRITE(TextArea, std::string, value)
 		TITANIUM_PROPERTY_READWRITE(TextArea, bool, scrollable)
+		TITANIUM_PROPERTY_READWRITE(TextArea, std::shared_ptr<AttributedString>, attributedString)
 
 		TextAreaSelectedParams TextArea::get_selection() const TITANIUM_NOEXCEPT
 		{
@@ -212,17 +212,8 @@ namespace Titanium
 			return true;
 		}
 
-		TITANIUM_PROPERTY_GETTER(TextArea, attributedString)
-		{
-			return attributedString__;
-		}
-
-		TITANIUM_PROPERTY_SETTER(TextArea, attributedString)
-		{
-			TITANIUM_ASSERT(argument.IsObject());
-			set_attributedString(static_cast<JSObject>(argument));
-			return true;
-		}
+		TITANIUM_PROPERTY_GETTER_OBJECT(TextArea, attributedString)
+		TITANIUM_PROPERTY_SETTER_OBJECT(TextArea, attributedString, AttributedString)
 
 		TITANIUM_PROPERTY_GETTER(TextArea, autocapitalization)
 		{

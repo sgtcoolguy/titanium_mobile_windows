@@ -135,7 +135,47 @@ namespace Titanium
 	      url_error_ssl_failed__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::URL_ERROR::SSL_FAILED))),
 	      url_error_timeout__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::URL_ERROR::TIMEOUT))),
 	      url_error_unknown__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::URL_ERROR::UNKNOWN))),
-	      url_error_unsupported_scheme__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::URL_ERROR::UNSUPPORTED_SCHEME)))
+	      url_error_unsupported_scheme__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::URL_ERROR::UNSUPPORTED_SCHEME))),
+	      attribute_type_FONT__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::FONT))),
+	      attribute_type_FOREGROUND_COLOR__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::FOREGROUND_COLOR))),
+	      attribute_type_BACKGROUND_COLOR__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::BACKGROUND_COLOR))),
+	      attribute_type_STRIKETHROUGH_STYLE__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::STRIKETHROUGH_STYLE))),
+	      attribute_type_UNDERLINES_STYLE__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::UNDERLINES_STYLE))),
+	      attribute_type_LINK__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::LINK))),
+	      attribute_type_UNDERLINE_COLOR__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::UNDERLINE_COLOR))),
+	      attribute_type_KERN__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::KERN))),
+	      attribute_type_STROKE_COLOR__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::STROKE_COLOR))),
+	      attribute_type_STROKE_WIDTH__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::STROKE_WIDTH))),
+	      attribute_type_SHADOW__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::SHADOW))),
+	      attribute_type_WRITING_DIRECTION__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::WRITING_DIRECTION))),
+	      attribute_type_TEXT_EFFECT__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::TEXT_EFFECT))),
+	      attribute_type_BASELINE_OFFSET__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::BASELINE_OFFSET))),
+	      attribute_type_STRIKETHROUGH_COLOR__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::STRIKETHROUGH_COLOR))),
+	      attribute_type_OBLIQUENESS__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::OBLIQUENESS))),
+	      attribute_type_EXPANSION__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::EXPANSION))),
+	      attribute_type_LINE_BREAK__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_TYPE::LINE_BREAK))),
+	      attribute_style_UNDERLINE_NONE__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_NONE))),
+	      attribute_style_UNDERLINE_SINGLE__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_SINGLE))),
+	      attribute_style_UNDERLINE_THICK__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_THICK))),
+	      attribute_style_UNDERLINE_DOUBLE__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_DOUBLE))),
+	      attribute_style_UNDERLINE_PATTERN_SOLID__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_PATTERN_SOLID))),
+	      attribute_style_UNDERLINE_PATTERN_DOT__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DOT))),
+	      attribute_style_UNDERLINE_PATTERN_DASH__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH))),
+	      attribute_style_UNDERLINE_PATTERN_DASH_DOT__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH_DOT))),
+	      attribute_style_UNDERLINE_PATTERN_DASH_DOT_DOT__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH_DOT_DOT))),
+	      attribute_style_UNDERLINE_BY_WORD__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_BY_WORD))),
+	      attribute_style_WRITING_DIRECTION_EMBEDDING__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::WRITING_DIRECTION_EMBEDDING))),
+	      attribute_style_WRITING_DIRECTION_OVERRIDE__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::WRITING_DIRECTION_OVERRIDE))),
+	      attribute_style_WRITING_DIRECTION_NATURAL__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::WRITING_DIRECTION_NATURAL))),
+	      attribute_style_WRITING_DIRECTION_LEFT_TO_RIGHT__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::WRITING_DIRECTION_LEFT_TO_RIGHT))),
+	      attribute_style_WRITING_DIRECTION_RIGHT_TO_LEFT__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::WRITING_DIRECTION_RIGHT_TO_LEFT))),
+	      attribute_style_TEXT_EFFECT_LETTERPRESS__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::TEXT_EFFECT_LETTERPRESS))),
+	      attribute_style_LINE_BREAK_BY_WORD_WRAPPING__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::LINE_BREAK_BY_WORD_WRAPPING))),
+	      attribute_style_LINE_BREAK_BY_CHAR_WRAPPING__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::LINE_BREAK_BY_CHAR_WRAPPING))),
+	      attribute_style_LINE_BREAK_BY_CLIPPING__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::LINE_BREAK_BY_CLIPPING))),
+	      attribute_style_LINE_BREAK_BY_TRUNCATING_HEAD__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_HEAD))),
+	      attribute_style_LINE_BREAK_BY_TRUNCATING_TAIL__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_TAIL))),
+	      attribute_style_LINE_BREAK_BY_TRUNCATING_MIDDLE__(js_context.CreateNumber(Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_MIDDLE)))
 	{
 		TITANIUM_LOG_DEBUG("UIModule:: ctor ", this);
 	}
@@ -567,8 +607,166 @@ namespace Titanium
 		return url_error_unsupported_scheme__;
 	}
 
-	// TODO: The following functions can automatically be generated from
-	// the YAML API docs.
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_FONT)
+	{
+		return attribute_type_FONT__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_FOREGROUND_COLOR)
+	{
+		return attribute_type_FOREGROUND_COLOR__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_BACKGROUND_COLOR)
+	{
+		return attribute_type_BACKGROUND_COLOR__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_STRIKETHROUGH_STYLE)
+	{
+		return attribute_type_STRIKETHROUGH_STYLE__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINES_STYLE)
+	{
+		return attribute_type_UNDERLINES_STYLE__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_LINK)
+	{
+		return attribute_type_LINK__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINE_COLOR)
+	{
+		return attribute_type_UNDERLINE_COLOR__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_KERN)
+	{
+		return attribute_type_KERN__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_STROKE_COLOR)
+	{
+		return attribute_type_STROKE_COLOR__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_STROKE_WIDTH)
+	{
+		return attribute_type_STROKE_WIDTH__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_SHADOW)
+	{
+		return attribute_type_SHADOW__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_WRITING_DIRECTION)
+	{
+		return attribute_type_WRITING_DIRECTION__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_TEXT_EFFECT)
+	{
+		return attribute_type_TEXT_EFFECT__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_BASELINE_OFFSET)
+	{
+		return attribute_type_BASELINE_OFFSET__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_STRIKETHROUGH_COLOR)
+	{
+		return attribute_type_STRIKETHROUGH_COLOR__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_OBLIQUENESS)
+	{
+		return attribute_type_OBLIQUENESS__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_EXPANSION)
+	{
+		return attribute_type_EXPANSION__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_LINE_BREAK)
+	{
+		return attribute_type_LINE_BREAK__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINE_STYLE_NONE)
+	{
+		return attribute_style_UNDERLINE_NONE__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINE_STYLE_SINGLE)
+	{
+		return attribute_style_UNDERLINE_SINGLE__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINE_STYLE_THICK)
+	{
+		return attribute_style_UNDERLINE_THICK__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINE_STYLE_DOUBLE)
+	{
+		return attribute_style_UNDERLINE_DOUBLE__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINE_PATTERN_SOLID)
+	{
+		return attribute_style_UNDERLINE_PATTERN_SOLID__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINE_PATTERN_DOT)
+	{
+		return attribute_style_UNDERLINE_PATTERN_DOT__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINE_PATTERN_DASH)
+	{
+		return attribute_style_UNDERLINE_PATTERN_DASH__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINE_PATTERN_DASH_DOT)
+	{
+		return attribute_style_UNDERLINE_PATTERN_DASH_DOT__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINE_PATTERN_DASH_DOT_DOT)
+	{
+		return attribute_style_UNDERLINE_PATTERN_DASH_DOT_DOT__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_UNDERLINE_BY_WORD)
+	{
+		return attribute_style_UNDERLINE_BY_WORD__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_WRITING_DIRECTION_EMBEDDING)
+	{
+		return attribute_style_WRITING_DIRECTION_EMBEDDING__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_WRITING_DIRECTION_OVERRIDE)
+	{
+		return attribute_style_WRITING_DIRECTION_OVERRIDE__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_WRITING_DIRECTION_NATURAL)
+	{
+		return attribute_style_WRITING_DIRECTION_NATURAL__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_WRITING_DIRECTION_LEFT_TO_RIGHT)
+	{
+		return attribute_style_WRITING_DIRECTION_LEFT_TO_RIGHT__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_WRITING_DIRECTION_RIGHT_TO_LEFT)
+	{
+		return attribute_style_WRITING_DIRECTION_RIGHT_TO_LEFT__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_LETTERPRESS_STYLE)
+	{
+		return attribute_style_TEXT_EFFECT_LETTERPRESS__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_LINE_BREAK_BY_WORD_WRAPPING)
+	{
+		return attribute_style_LINE_BREAK_BY_WORD_WRAPPING__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_LINE_BREAK_BY_CHAR_WRAPPING)
+	{
+		return attribute_style_LINE_BREAK_BY_CHAR_WRAPPING__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_LINE_BREAK_BY_CLIPPING)
+	{
+		return attribute_style_LINE_BREAK_BY_CLIPPING__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_HEAD)
+	{
+		return attribute_style_LINE_BREAK_BY_TRUNCATING_HEAD__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_TAIL)
+	{
+		return attribute_style_LINE_BREAK_BY_TRUNCATING_TAIL__;
+	}
+	TITANIUM_PROPERTY_GETTER(UIModule, ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_MIDDLE)
+	{
+		return attribute_style_LINE_BREAK_BY_TRUNCATING_MIDDLE__;
+	}
 
 	void UIModule::JSExportInitialize()
 	{
@@ -579,6 +777,7 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(UIModule, createActivityIndicator);
 		TITANIUM_ADD_FUNCTION(UIModule, createAnimation);
 		TITANIUM_ADD_FUNCTION(UIModule, createAlertDialog);
+		TITANIUM_ADD_FUNCTION(UIModule, createAttributedString);
 		TITANIUM_ADD_FUNCTION(UIModule, createButton);
 		TITANIUM_ADD_FUNCTION(UIModule, createEmailDialog);
 		TITANIUM_ADD_FUNCTION(UIModule, createImageView);
@@ -721,6 +920,46 @@ namespace Titanium
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, URL_ERROR_TIMEOUT);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, URL_ERROR_UNKNOWN);
 		TITANIUM_ADD_PROPERTY_READONLY(UIModule, URL_ERROR_UNSUPPORTED_SCHEME);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_FONT);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_FOREGROUND_COLOR);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_BACKGROUND_COLOR);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_STRIKETHROUGH_STYLE);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINES_STYLE);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_LINK);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINE_COLOR);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_KERN);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_STROKE_COLOR);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_STROKE_WIDTH);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_SHADOW);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_WRITING_DIRECTION);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_TEXT_EFFECT);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_BASELINE_OFFSET);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_STRIKETHROUGH_COLOR);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_OBLIQUENESS);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_EXPANSION);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_LINE_BREAK);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINE_STYLE_NONE);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINE_STYLE_SINGLE);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINE_STYLE_THICK);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINE_STYLE_DOUBLE);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINE_PATTERN_SOLID);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINE_PATTERN_DOT);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINE_PATTERN_DASH);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINE_PATTERN_DASH_DOT);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINE_PATTERN_DASH_DOT_DOT);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_UNDERLINE_BY_WORD);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_WRITING_DIRECTION_EMBEDDING);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_WRITING_DIRECTION_OVERRIDE);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_WRITING_DIRECTION_NATURAL);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_WRITING_DIRECTION_LEFT_TO_RIGHT);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_WRITING_DIRECTION_RIGHT_TO_LEFT);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_LETTERPRESS_STYLE);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_LINE_BREAK_BY_WORD_WRAPPING);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_LINE_BREAK_BY_CHAR_WRAPPING);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_LINE_BREAK_BY_CLIPPING);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_HEAD);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_TAIL);
+		TITANIUM_ADD_PROPERTY_READONLY(UIModule, ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_MIDDLE);		
 	}
 
 	TITANIUM_FUNCTION(UIModule, create2DMatrix)
@@ -758,6 +997,12 @@ namespace Titanium
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(Animation);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createAttributedString)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(AttributedString);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createButton)

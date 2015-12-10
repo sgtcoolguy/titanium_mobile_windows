@@ -63,6 +63,7 @@ namespace TitaniumWindows
 			virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
 			virtual void set_wordWrap(const bool& wordWrap) TITANIUM_NOEXCEPT override final;
 			virtual void set_font(const Titanium::UI::Font& font) TITANIUM_NOEXCEPT override final;
+			virtual void set_attributedString(const std::shared_ptr<Titanium::UI::AttributedString>& attr) override final;
 
 			static const std::uint32_t DefaultFontSize = 20;
 

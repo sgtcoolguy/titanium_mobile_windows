@@ -18,6 +18,8 @@ namespace Titanium
 	{
 		using namespace HAL;
 
+		class AttributedString;
+
 		/*!
 		  @class
 
@@ -28,6 +30,25 @@ namespace Titanium
 		class TITANIUMKIT_EXPORT TextField : public View, public JSExport<TextField>
 		{
 		public:
+
+			/*!
+			  @method
+
+			  @abstract attributedHintString : AttributedString
+
+			  @discussion Hint text attributed string
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<AttributedString>, attributedHintString);
+
+			/*!
+			  @method
+
+			  @abstract attributedString : AttributedString
+
+			  @discussion TextField attributed string
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<AttributedString>, attributedString);
+
 			/*!
 			  @method
 
@@ -268,6 +289,14 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
+			TITANIUM_PROPERTY_DEF(attributedHintString);
+			TITANIUM_FUNCTION_DEF(getAttributedHintString);
+			TITANIUM_FUNCTION_DEF(setAttributedHintString);
+			
+			TITANIUM_PROPERTY_DEF(attributedString);
+			TITANIUM_FUNCTION_DEF(getAttributedString);
+			TITANIUM_FUNCTION_DEF(setAttributedString);
+			
 			TITANIUM_PROPERTY_DEF(autocapitalization);
 			TITANIUM_FUNCTION_DEF(getAutocapitalization);
 			TITANIUM_FUNCTION_DEF(setAutocapitalization);
@@ -347,6 +376,8 @@ namespace Titanium
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+			std::shared_ptr<AttributedString> attributedHintString__;
+			std::shared_ptr<AttributedString> attributedString__;
 			TEXT_AUTOCAPITALIZATION autocapitalization__;
 			INPUT_BORDERSTYLE borderStyle__;
 			INPUT_BUTTONMODE clearButtonMode__;

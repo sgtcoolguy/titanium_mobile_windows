@@ -28,6 +28,7 @@ namespace TitaniumWindows
 		{
 		public:
 
+			TITANIUM_PROPERTY_UNIMPLEMENTED(attributedString);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(autocapitalization);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(borderStyle);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(clearButtonMode);

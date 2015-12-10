@@ -250,6 +250,8 @@
 		F9BD6BA11A96FA4E00D721A9 /* ListViewMarkerProps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9BD6BA01A96FA4E00D721A9 /* ListViewMarkerProps.cpp */; };
 		F9BE4A7C1A88999400301999 /* NativeWebViewExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9BE4A7A1A88999400301999 /* NativeWebViewExample.cpp */; };
 		F9BE4A7D1A88999400301999 /* NativeWebViewExample.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9BE4A7B1A88999400301999 /* NativeWebViewExample.hpp */; };
+		F9C9825D1C154DDA0079910A /* AttributedString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9C9825C1C154DDA0079910A /* AttributedString.cpp */; };
+		F9C9825F1C154DE70079910A /* AttributedString.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9C9825E1C154DE70079910A /* AttributedString.hpp */; };
 		F9E391921B0316A30096BA2D /* MediaModule.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E391911B0316A30096BA2D /* MediaModule.hpp */; };
 		F9E391A11B0318640096BA2D /* CameraOptionsType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E391961B0318640096BA2D /* CameraOptionsType.hpp */; };
 		F9E391A31B0318640096BA2D /* MediaQueryType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F9E391981B0318640096BA2D /* MediaQueryType.hpp */; };
@@ -525,6 +527,8 @@
 		F9BD6BA01A96FA4E00D721A9 /* ListViewMarkerProps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ListViewMarkerProps.cpp; path = src/UI/ListViewMarkerProps.cpp; sourceTree = "<group>"; };
 		F9BE4A7A1A88999400301999 /* NativeWebViewExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeWebViewExample.cpp; sourceTree = "<group>"; };
 		F9BE4A7B1A88999400301999 /* NativeWebViewExample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NativeWebViewExample.hpp; sourceTree = "<group>"; };
+		F9C9825C1C154DDA0079910A /* AttributedString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AttributedString.cpp; path = src/UI/AttributedString.cpp; sourceTree = "<group>"; };
+		F9C9825E1C154DE70079910A /* AttributedString.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AttributedString.hpp; path = include/Titanium/UI/AttributedString.hpp; sourceTree = "<group>"; };
 		F9E391911B0316A30096BA2D /* MediaModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MediaModule.hpp; path = include/Titanium/MediaModule.hpp; sourceTree = "<group>"; };
 		F9E391961B0318640096BA2D /* CameraOptionsType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CameraOptionsType.hpp; path = include/Titanium/Media/CameraOptionsType.hpp; sourceTree = "<group>"; };
 		F9E391981B0318640096BA2D /* MediaQueryType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MediaQueryType.hpp; path = include/Titanium/Media/MediaQueryType.hpp; sourceTree = "<group>"; };
@@ -563,6 +567,8 @@
 		C90B8F8B1A16D32C005F3210 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F9C9825E1C154DE70079910A /* AttributedString.hpp */,
+				F9C9825C1C154DDA0079910A /* AttributedString.cpp */,
 				F90E35EE1BE8A046008FAD33 /* 3DMatrix.cpp */,
 				F90E35EC1BE8A03A008FAD33 /* 3DMatrix.hpp */,
 				F9ACB7CC1AF9CE01008C2F3C /* 2DMatrix.hpp */,
@@ -1103,6 +1109,7 @@
 				F965FF201AA587F30092ABBA /* MapModule.hpp in Headers */,
 				F965FF251AA588010092ABBA /* Constants.hpp in Headers */,
 				C90B8FD41A17CB1C005F3210 /* API.hpp in Headers */,
+				F9C9825F1C154DE70079910A /* AttributedString.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1228,6 +1235,7 @@
 				C9BED2201A27B14200CFF800 /* NativeModuleExample.cpp in Sources */,
 				F9991D5A1AFF7D4100C7DDF2 /* PushNotificationConfig.cpp in Sources */,
 				C909509F1A2963F3002133E1 /* ListView.cpp in Sources */,
+				F9C9825D1C154DDA0079910A /* AttributedString.cpp in Sources */,
 				F9901B0B1AA5A366003FFD52 /* MapRegionTypev2.cpp in Sources */,
 				F91035DD1B958AB5004FCCDF /* Codec.cpp in Sources */,
 				F95F909B1B01EBF70002BD1C /* AcceptDict.cpp in Sources */,

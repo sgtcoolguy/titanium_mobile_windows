@@ -637,6 +637,104 @@ namespace Titanium
 			LINEAR,
 			RADIAL
 		};
+
+		/*!
+		  @enum
+
+		  @abstract These constants specify type of attribute for the Attribute Object.
+
+		  @constant FONT
+		  @constant FOREGROUND_COLOR
+		  @constant BACKGROUND_COLOR
+		  @constant STRIKETHROUGH_STYLE
+		  @constant UNDERLINES_STYLE
+		  @constant LINK
+		  @constant UNDERLINE_COLOR
+		  @constant KERN
+		  @constant STROKE_COLOR
+		  @constant STROKE_WIDTH
+		  @constant SHADOW
+		  @constant WRITING_DIRECTION
+		  @constant TEXT_EFFECT
+		  @constant BASELINE_OFFSET
+		  @constant STRIKETHROUGH_COLOR
+		  @constant OBLIQUENESS
+		  @constant EXPANSION
+		  @constant LINE_BREAK 
+		*/
+		enum class TITANIUMKIT_EXPORT ATTRIBUTE_TYPE {
+			FONT,
+			FOREGROUND_COLOR,
+			BACKGROUND_COLOR,
+			STRIKETHROUGH_STYLE,
+			UNDERLINES_STYLE,
+			LINK,
+			UNDERLINE_COLOR,
+			KERN,
+			STROKE_COLOR,
+			STROKE_WIDTH,
+			SHADOW,
+			WRITING_DIRECTION,
+			TEXT_EFFECT,
+			BASELINE_OFFSET,
+			STRIKETHROUGH_COLOR,
+			OBLIQUENESS,
+			EXPANSION,
+			LINE_BREAK
+		};
+
+		/*!
+		  @enum
+
+		  @abstract These constants specify type of attribute for the Attribute Object.
+
+		  @constant UNDERLINE_NONE
+		  @constant UNDERLINE_SINGLE
+		  @constant UNDERLINE_THICK
+		  @constant UNDERLINE_DOUBLE
+		  @constant UNDERLINE_PATTERN_SOLID
+		  @constant UNDERLINE_PATTERN_DOT
+		  @constant UNDERLINE_PATTERN_DASH
+		  @constant UNDERLINE_PATTERN_DASH_DOT
+		  @constant UNDERLINE_PATTERN_DASH_DOT_DOT
+		  @constant UNDERLINE_BY_WORD
+		  @constant WRITING_DIRECTION_EMBEDDING
+		  @constant WRITING_DIRECTION_OVERRIDE
+		  @constant WRITING_DIRECTION_NATURAL
+		  @constant WRITING_DIRECTION_LEFT_TO_RIGHT
+		  @constant WRITING_DIRECTION_RIGHT_TO_LEFT
+		  @constant TEXT_EFFECT_LETTERPRESS
+		  @constant LINE_BREAK_BY_WORD_WRAPPING
+		  @constant LINE_BREAK_BY_CHAR_WRAPPING
+		  @constant LINE_BREAK_BY_CLIPPING
+		  @constant LINE_BREAK_BY_TRUNCATING_HEAD
+		  @constant LINE_BREAK_BY_TRUNCATING_TAIL
+		  @constant LINE_BREAK_BY_TRUNCATING_MIDDLE
+		*/
+		enum class TITANIUMKIT_EXPORT ATTRIBUTE_STYLE {
+			UNDERLINE_NONE    = 1 << 0,
+			UNDERLINE_SINGLE  = 1 << 1,
+			UNDERLINE_THICK   = 1 << 2,
+			UNDERLINE_DOUBLE  = 1 << 3,
+			UNDERLINE_PATTERN_SOLID  = 1 << 4,
+			UNDERLINE_PATTERN_DOT    = 1 << 5,
+			UNDERLINE_PATTERN_DASH   = 1 << 6,
+			UNDERLINE_PATTERN_DASH_DOT      = 1 << 7,
+			UNDERLINE_PATTERN_DASH_DOT_DOT  = 1 << 8,
+			UNDERLINE_BY_WORD  = 1 << 9,
+			WRITING_DIRECTION_EMBEDDING  = 1 << 10,
+			WRITING_DIRECTION_OVERRIDE   = 1 << 11,
+			WRITING_DIRECTION_NATURAL    = 1 << 12,
+			WRITING_DIRECTION_LEFT_TO_RIGHT  = 1 << 13,
+			WRITING_DIRECTION_RIGHT_TO_LEFT  = 1 << 14,
+			TEXT_EFFECT_LETTERPRESS  = 1 << 15,
+			LINE_BREAK_BY_WORD_WRAPPING  = 1 << 16,
+			LINE_BREAK_BY_CHAR_WRAPPING  = 1 << 17,
+			LINE_BREAK_BY_CLIPPING = 1 << 18,
+			LINE_BREAK_BY_TRUNCATING_HEAD  = 1 << 19,
+			LINE_BREAK_BY_TRUNCATING_TAIL  = 1 << 20,
+			LINE_BREAK_BY_TRUNCATING_MIDDLE  = 1 << 21 
+		};
 	} // namespace UI
 }  // namespace Titanium
 
@@ -988,6 +1086,36 @@ namespace std
 			return hash_function(static_cast<underlying_type>(property_attribute));
 		}
 	};
+
+	using Titanium::UI::ATTRIBUTE_TYPE;
+	template <>
+	struct hash<ATTRIBUTE_TYPE>
+	{
+		using argument_type = ATTRIBUTE_TYPE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast<underlying_type>(property_attribute));
+		}
+	};
+
+	using Titanium::UI::ATTRIBUTE_STYLE;
+	template <>
+	struct hash<ATTRIBUTE_STYLE>
+	{
+		using argument_type = ATTRIBUTE_STYLE;
+		using result_type = std::size_t;
+		using underlying_type = std::underlying_type<argument_type>::type;
+		std::hash<underlying_type> hash_function = std::hash<underlying_type>();
+
+		result_type operator()(const argument_type& property_attribute) const
+		{
+			return hash_function(static_cast<underlying_type>(property_attribute));
+		}
+	};
 }  // namespace std
 
 namespace Titanium
@@ -1113,6 +1241,18 @@ namespace Titanium
 			static UNIT to_UNIT(const std::string& textStyleName) TITANIUM_NOEXCEPT;
 			static UNIT to_UNIT(std::underlying_type<UNIT>::type) TITANIUM_NOEXCEPT;
 			static std::underlying_type<UNIT>::type to_underlying_type(const UNIT&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const ATTRIBUTE_TYPE&) TITANIUM_NOEXCEPT;
+			static ATTRIBUTE_TYPE to_ATTRIBUTE_TYPE(const std::string& name) TITANIUM_NOEXCEPT;
+			static ATTRIBUTE_TYPE to_ATTRIBUTE_TYPE(std::underlying_type<ATTRIBUTE_TYPE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<ATTRIBUTE_TYPE>::type to_underlying_type(const ATTRIBUTE_TYPE&) TITANIUM_NOEXCEPT;
+
+			static std::string to_string(const ATTRIBUTE_STYLE&) TITANIUM_NOEXCEPT;
+			static ATTRIBUTE_STYLE to_ATTRIBUTE_STYLE(const std::string& name) TITANIUM_NOEXCEPT;
+			static std::unordered_set<ATTRIBUTE_STYLE> to_ATTRIBUTE_STYLE(std::underlying_type<ATTRIBUTE_STYLE>::type) TITANIUM_NOEXCEPT;
+			static std::underlying_type<ATTRIBUTE_STYLE>::type to_underlying_type(const std::unordered_set<ATTRIBUTE_STYLE>&) TITANIUM_NOEXCEPT;
+			static std::underlying_type<ATTRIBUTE_STYLE>::type to_underlying_type(const ATTRIBUTE_STYLE&) TITANIUM_NOEXCEPT;
+
 		};
 	} // namespace UI
 }  // namespace Titanium

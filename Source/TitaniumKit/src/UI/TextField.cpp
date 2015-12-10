@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/TextField.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/UI/AttributedString.hpp"
 #include <type_traits>
 
 namespace Titanium
@@ -36,40 +37,25 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_READWRITE(TextField, TEXT_AUTOCAPITALIZATION, autocapitalization)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, INPUT_BORDERSTYLE, borderStyle)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, INPUT_BUTTONMODE, clearButtonMode)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, std::string, color)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, bool, editable)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, bool, ellipsize)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, bool, enableReturnKey)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, std::string, hintText)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, KEYBOARD, keyboardType)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, INPUT_BUTTONMODE, leftButtonMode)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, int32_t, maxLength)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, bool, passwordMask)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, RETURNKEY, returnKeyType)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, INPUT_BUTTONMODE, rightButtonMode)
-		
 		TITANIUM_PROPERTY_READWRITE(TextField, bool, suppressReturn)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, TEXT_ALIGNMENT, textAlign)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, std::string, value)
-
 		TITANIUM_PROPERTY_READWRITE(TextField, TEXT_VERTICAL_ALIGNMENT, verticalAlign)
+		TITANIUM_PROPERTY_READWRITE(TextField, std::shared_ptr<AttributedString>, attributedHintString)
+		TITANIUM_PROPERTY_READWRITE(TextField, std::shared_ptr<AttributedString>, attributedString)
 
 		void TextField::blur() TITANIUM_NOEXCEPT
 		{
@@ -92,6 +78,8 @@ namespace Titanium
 			JSExport<TextField>::SetClassVersion(1);
 			JSExport<TextField>::SetParent(JSExport<View>::Class());
 			// properties
+			TITANIUM_ADD_PROPERTY(TextField, attributedHintString);
+			TITANIUM_ADD_PROPERTY(TextField, attributedString);
 			TITANIUM_ADD_PROPERTY(TextField, autocapitalization);
 			TITANIUM_ADD_PROPERTY(TextField, borderStyle);
 			TITANIUM_ADD_PROPERTY(TextField, clearButtonMode);
@@ -115,6 +103,10 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(TextField, focus);
 			TITANIUM_ADD_FUNCTION(TextField, hasText);
 			// property accessor methods
+			TITANIUM_ADD_FUNCTION(TextField, getAttributedHintString);
+			TITANIUM_ADD_FUNCTION(TextField, setAttributedHintString);
+			TITANIUM_ADD_FUNCTION(TextField, getAttributedString);
+			TITANIUM_ADD_FUNCTION(TextField, setAttributedString);
 			TITANIUM_ADD_FUNCTION(TextField, getAutocapitalization);
 			TITANIUM_ADD_FUNCTION(TextField, setAutocapitalization);
 			TITANIUM_ADD_FUNCTION(TextField, getBorderStyle);
@@ -152,6 +144,16 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(TextField, getVerticalAlign);
 			TITANIUM_ADD_FUNCTION(TextField, setVerticalAlign);
 		}
+
+		TITANIUM_FUNCTION_AS_GETTER(TextField, getAttributedHintString, attributedHintString)
+		TITANIUM_FUNCTION_AS_SETTER(TextField, setAttributedHintString, attributedHintString)
+		TITANIUM_FUNCTION_AS_GETTER(TextField, getAttributedString, attributedString)
+		TITANIUM_FUNCTION_AS_SETTER(TextField, setAttributedString, attributedString)
+
+		TITANIUM_PROPERTY_GETTER_OBJECT(TextField, attributedHintString)
+		TITANIUM_PROPERTY_SETTER_OBJECT(TextField, attributedHintString, AttributedString)
+		TITANIUM_PROPERTY_GETTER_OBJECT(TextField, attributedString)
+		TITANIUM_PROPERTY_SETTER_OBJECT(TextField, attributedString, AttributedString)
 
 		TITANIUM_PROPERTY_GETTER(TextField, autocapitalization)
 		{

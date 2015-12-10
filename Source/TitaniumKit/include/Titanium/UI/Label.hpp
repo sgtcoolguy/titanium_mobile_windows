@@ -19,6 +19,8 @@ namespace Titanium
 	{
 		using namespace HAL;
 
+		class AttributedString;
+
 		/*!
 		  @class
 
@@ -94,6 +96,15 @@ namespace Titanium
 			*/
 			TITANIUM_PROPERTY_IMPL_DEF(bool, wordWrap);
 
+			/*!
+			  @method
+
+			  @abstract attributedString : AttributedString
+
+			  @discussion Specify an attributed string for the label.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<AttributedString>, attributedString);
+
 			Label(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Label() = default;
@@ -134,6 +145,9 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(getWordWrap);
 			TITANIUM_FUNCTION_DEF(setWordWrap);
 
+			TITANIUM_PROPERTY_DEF(attributedString);
+			TITANIUM_FUNCTION_DEF(getAttributedString);
+			TITANIUM_FUNCTION_DEF(setAttributedString);
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
@@ -144,6 +158,7 @@ namespace Titanium
 			TEXT_ALIGNMENT textAlign__;
 			TEXT_VERTICAL_ALIGNMENT verticalAlign__;
 			bool wordWrap__;
+			std::shared_ptr<AttributedString> attributedString__;
 #pragma warning(pop)
 		};
 	} // namespace UI

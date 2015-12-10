@@ -234,6 +234,8 @@ set(SOURCE_UI
   src/UI/AlertDialog.cpp
   include/Titanium/UI/Animation.hpp
   src/UI/Animation.cpp
+  include/Titanium/UI/AttributedString.hpp
+  src/UI/AttributedString.cpp
   include/Titanium/UI/Button.hpp
   src/UI/Button.cpp
   include/Titanium/UI/CloseWindowParams.hpp
