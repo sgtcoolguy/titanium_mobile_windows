@@ -8,8 +8,10 @@
 
 #include "Titanium/GlobalObject.hpp"
 #include "Titanium/UIModule.hpp"
+#include "Titanium/UI/Constants.hpp"
 #include "Titanium/UI/ActivityIndicator.hpp"
 #include "Titanium/UI/ActivityIndicatorStyle.hpp"
+#include "Titanium/UI/AttributedString.hpp"
 #include "gtest/gtest.h"
 
 #define XCTAssertEqual ASSERT_EQ
@@ -63,6 +65,7 @@ TEST_F(UITests, properties)
 	XCTAssertTrue(UI.HasProperty("createView"));
 	XCTAssertTrue(UI.HasProperty("createWindow"));
 	XCTAssertTrue(UI.HasProperty("createButton"));
+	XCTAssertTrue(UI.HasProperty("createAttributedString"));
 	XCTAssertTrue(UI.HasProperty("ANIMATION_CURVE_EASE_IN"));
 	XCTAssertTrue(UI.HasProperty("ANIMATION_CURVE_EASE_IN_OUT"));
 	XCTAssertTrue(UI.HasProperty("ANIMATION_CURVE_EASE_OUT"));
@@ -167,6 +170,127 @@ TEST_F(UITests, properties)
 	XCTAssertTrue(UI.HasProperty("URL_ERROR_TIMEOUT"));
 	XCTAssertTrue(UI.HasProperty("URL_ERROR_UNKNOWN"));
 	XCTAssertTrue(UI.HasProperty("URL_ERROR_UNSUPPORTED_SCHEME"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_FONT"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_FOREGROUND_COLOR"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_BACKGROUND_COLOR"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_STRIKETHROUGH_STYLE"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINES_STYLE"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_LINK"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINE_COLOR"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_KERN"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_STROKE_COLOR"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_STROKE_WIDTH"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_SHADOW"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_WRITING_DIRECTION"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_TEXT_EFFECT"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_BASELINE_OFFSET"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_STRIKETHROUGH_COLOR"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_OBLIQUENESS"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_EXPANSION"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_LINE_BREAK"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINE_STYLE_NONE"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINE_STYLE_SINGLE"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINE_STYLE_THICK"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINE_STYLE_DOUBLE"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINE_PATTERN_SOLID"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINE_PATTERN_DOT"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINE_PATTERN_DASH"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINE_PATTERN_DASH_DOT"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINE_PATTERN_DASH_DOT_DOT"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_UNDERLINE_BY_WORD"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_WRITING_DIRECTION_EMBEDDING"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_WRITING_DIRECTION_OVERRIDE"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_WRITING_DIRECTION_NATURAL"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_WRITING_DIRECTION_LEFT_TO_RIGHT"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_WRITING_DIRECTION_RIGHT_TO_LEFT"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_LETTERPRESS_STYLE"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_LINE_BREAK_BY_WORD_WRAPPING"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_LINE_BREAK_BY_CHAR_WRAPPING"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_LINE_BREAK_BY_CLIPPING"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_HEAD"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_TAIL"));
+	XCTAssertTrue(UI.HasProperty("ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_MIDDLE"));
+}
+
+TEST_F(UITests, Attribute)
+{
+	// Pickup attribute styles randomly and check if it properly finds styles
+	auto styles_num = 
+		Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_SINGLE) |
+		Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_THICK) |
+		Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH_DOT) |
+		Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::WRITING_DIRECTION_RIGHT_TO_LEFT) |
+		Titanium::UI::Constants::to_underlying_type(Titanium::UI::ATTRIBUTE_STYLE::LINE_BREAK_BY_CLIPPING);
+	auto styles = Titanium::UI::Constants::to_ATTRIBUTE_STYLE(styles_num);
+
+	XCTAssertTrue(styles.find(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_SINGLE) != styles.end());
+	XCTAssertTrue(styles.find(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_THICK) != styles.end());
+	XCTAssertTrue(styles.find(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH_DOT) != styles.end());
+	XCTAssertTrue(styles.find(Titanium::UI::ATTRIBUTE_STYLE::WRITING_DIRECTION_RIGHT_TO_LEFT) != styles.end());
+	XCTAssertTrue(styles.find(Titanium::UI::ATTRIBUTE_STYLE::LINE_BREAK_BY_CLIPPING) != styles.end());
+
+	XCTAssertTrue(styles.find(Titanium::UI::ATTRIBUTE_STYLE::LINE_BREAK_BY_CHAR_WRAPPING) == styles.end());
+	XCTAssertTrue(styles.find(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_BY_WORD) == styles.end());
+	XCTAssertTrue(styles.find(Titanium::UI::ATTRIBUTE_STYLE::UNDERLINE_NONE) == styles.end());
+	XCTAssertTrue(styles.find(Titanium::UI::ATTRIBUTE_STYLE::WRITING_DIRECTION_EMBEDDING) == styles.end());
+	XCTAssertTrue(styles.find(Titanium::UI::ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_MIDDLE) == styles.end());
+}
+
+TEST_F(UITests, AttributedString)
+{
+	JSContext js_context = js_context_group.CreateContext(JSExport<Titanium::GlobalObject>::Class());
+	auto global_object = js_context.get_global_object();
+
+	XCTAssertFalse(global_object.HasProperty("Titanium"));
+	auto Titanium = js_context.CreateObject();
+	global_object.SetProperty("Titanium", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(global_object.HasProperty("Titanium"));
+
+	// Make the alias "Ti" for the "Titanium" property.
+	XCTAssertFalse(global_object.HasProperty("Ti"));
+	global_object.SetProperty("Ti", Titanium, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(global_object.HasProperty("Ti"));
+
+	XCTAssertFalse(Titanium.HasProperty("UI"));
+	auto UI = js_context.CreateObject(JSExport<Titanium::UIModule>::Class());
+	Titanium.SetProperty("UI", UI, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(Titanium.HasProperty("UI"));
+
+	XCTAssertFalse(UI.HasProperty("AttributedString"));
+	auto AttributedString = js_context.CreateObject(JSExport<Titanium::UI::AttributedString>::Class());
+	UI.SetProperty("AttributedString", AttributedString, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+	XCTAssertTrue(UI.HasProperty("AttributedString"));
+
+	XCTAssertTrue(UI.HasProperty("createAttributedString"));
+
+	std::string script = R"js(
+	var text =  'Bacon ipsum dolor Appcelerator Titanium rocks!';
+	var attr = Titanium.UI.createAttributedString({
+	    text: text,
+	    attributes: [
+	        {
+	            type: Titanium.UI.ATTRIBUTE_UNDERLINES_STYLE,
+	            range: [0, text.length]
+	        },
+	        {
+	            type: Titanium.UI.ATTRIBUTE_BACKGROUND_COLOR,
+	            value: 'red',
+	            range: [text.indexOf('Appcelerator'), ('Appcelerator').length]
+	        },
+	    ]
+		});
+	)js";
+
+	XCTAssertNoThrow(js_context.JSEvaluateScript(script));
+	XCTAssertTrue(static_cast<bool>(js_context.JSEvaluateScript("attr.text == text;")));
+	XCTAssertTrue(static_cast<bool>(js_context.JSEvaluateScript("attr.attributes.length == 2;")));
+	XCTAssertTrue(static_cast<bool>(js_context.JSEvaluateScript("attr.attributes[0].type == Titanium.UI.ATTRIBUTE_UNDERLINES_STYLE;")));
+	XCTAssertTrue(static_cast<bool>(js_context.JSEvaluateScript("attr.attributes[0].range[0] == 0;")));
+	XCTAssertTrue(static_cast<bool>(js_context.JSEvaluateScript("attr.attributes[0].range[1] == text.length;")));
+	XCTAssertTrue(static_cast<bool>(js_context.JSEvaluateScript("attr.attributes[1].type  == Titanium.UI.ATTRIBUTE_BACKGROUND_COLOR;")));
+	XCTAssertTrue(static_cast<bool>(js_context.JSEvaluateScript("attr.attributes[1].value = 'red';")));
+	XCTAssertTrue(static_cast<bool>(js_context.JSEvaluateScript("attr.attributes[1].range[0] == text.indexOf('Appcelerator');")));
+	XCTAssertTrue(static_cast<bool>(js_context.JSEvaluateScript("attr.attributes[1].range[1] == ('Appcelerator').length;")));
 }
 
 TEST_F(UITests, ActivityIndicator)

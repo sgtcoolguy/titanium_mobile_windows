@@ -88,6 +88,7 @@
 #include "Titanium/UI/OptionDialog.hpp"
 #include "Titanium/UI/ProgressBar.hpp"
 #include "Titanium/UI/ScrollableView.hpp"
+#include "Titanium/UI/AttributedString.hpp"
 
 namespace Titanium
 {
@@ -170,7 +171,8 @@ namespace Titanium
 		  picker__(js_context__.CreateObject(JSExport<Titanium::UI::Picker>::Class())),
 		  pickerrow__(js_context__.CreateObject(JSExport<Titanium::UI::PickerRow>::Class())),
 		  pickercolumn__(js_context__.CreateObject(JSExport<Titanium::UI::PickerColumn>::Class())),
-		  scrollableView__(js_context__.CreateObject(JSExport<Titanium::UI::ScrollableView>::Class()))
+		  scrollableView__(js_context__.CreateObject(JSExport<Titanium::UI::ScrollableView>::Class())),
+		  attributedString__(js_context__.CreateObject(JSExport<Titanium::UI::AttributedString>::Class()))
 	{
 	}
 
@@ -181,6 +183,7 @@ namespace Titanium
 		ui__.SetProperty("ActivityIndicatorStyle", activityIndicatorStyle__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		ui__.SetProperty("AlertDialog", alertDialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Animation", animation__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
+		ui__.SetProperty("AttributedString", attributedString__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Button", button__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
 		ui__.SetProperty("Clipboard", clipboard__, { JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete });
 		ui__.SetProperty("EmailDialog", emaildialog__, {JSPropertyAttribute::ReadOnly, JSPropertyAttribute::DontDelete});
@@ -1153,4 +1156,14 @@ JSString builtin_functions_script = R"js(
 		return *this;
 	}
 
+	JSObject ApplicationBuilder::AttributedStringObject() const TITANIUM_NOEXCEPT
+	{
+		return attributedString__;
+	}
+
+	ApplicationBuilder& ApplicationBuilder::AttributedStringObject(const JSObject& value) TITANIUM_NOEXCEPT
+	{
+		attributedString__ = value;
+		return *this;
+	}
 }  // namespace Titanium

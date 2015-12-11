@@ -11,11 +11,14 @@
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/UI/Windows/ViewHelper.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/UI/AttributedString.hpp"
+#include "Titanium/UI/Font.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
+		using namespace Windows::UI::Xaml::Documents;
 
 		WindowsLabelLayoutDelegate::WindowsLabelLayoutDelegate() TITANIUM_NOEXCEPT
 			: WindowsViewLayoutDelegate()
@@ -140,6 +143,92 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::Label::set_font(font);
 			TitaniumWindows::UI::ViewHelper::SetFont<Windows::UI::Xaml::Controls::TextBlock^>(get_context(), label__, font);
+		}
+
+		void Label::set_attributedString(const std::shared_ptr<Titanium::UI::AttributedString>& attributedString) TITANIUM_NOEXCEPT
+		{
+
+			Titanium::UI::Label::set_attributedString(attributedString);
+
+			//
+			// simple implementation for attributed string due to mismatch with Windows Style API
+			//   - only supports FOREGROUND_COLOR and FONT
+			//   - attributes can't be nested
+			// TODO: we might want to provide Windows-specific styling API leveraging Xaml Document API
+			//
+			const auto attributes = attributedString->get_attributes();
+			const auto text = TitaniumWindows::Utility::ConvertToUTF8WString(attributedString->get_text());
+			const auto text_length = text.length();
+
+			auto root = ref new Span();
+			std::unordered_map<std::uint32_t, std::uint32_t> ranges;
+ 			std::unordered_map<std::uint32_t, std::vector<Titanium::UI::Attribute>> styles;
+			// scan all attributes to construct range collection
+			for (const auto attribute : attributes) {
+				const auto index = attribute.from;
+				ranges.emplace(index, attribute.length);
+				if (styles.find(index) == styles.end()) {
+					std::vector<Titanium::UI::Attribute> attrs;
+					styles.emplace(index, attrs);
+				}
+				styles.at(attribute.from).push_back(attribute);
+			}
+
+			std::uint32_t nostyle_start = 0;
+			for (std::uint32_t pos = 0; pos < text_length; pos++) {
+				if (ranges.find(pos) != ranges.end()) {
+
+					// text with no attribute
+					const auto nostyle_pos = pos - nostyle_start;
+					if (nostyle_pos > 0) {
+						auto run = ref new Run();
+						run->Text = ref new Platform::String(text.substr(nostyle_start, nostyle_pos).data());
+						root->Inlines->Append(run);
+					}
+
+					// extract attributes
+					auto span = ref new Span();
+					if (styles.find(pos) != styles.end()) {
+						for (const auto attribute : styles.at(pos)) {
+							switch (attribute.type) {
+							case Titanium::UI::ATTRIBUTE_TYPE::FOREGROUND_COLOR: 
+							{
+								span->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(
+									WindowsViewLayoutDelegate::ColorForName(static_cast<std::string>(attribute.value)));
+								break;
+							}
+							case Titanium::UI::ATTRIBUTE_TYPE::FONT: 
+							{
+								const auto font = Titanium::UI::js_to_Font(static_cast<JSObject>(attribute.value));
+								TitaniumWindows::UI::ViewHelper::SetFont<Windows::UI::Xaml::Documents::Span^>(get_context(), span, font);
+								break;
+							}
+							}
+						}
+					}
+
+					// text with attribute
+					const auto len = ranges.at(pos);
+					auto run = ref new Run();
+					run->Text = ref new Platform::String(text.substr(pos, len).data());
+					auto debug = ref new Platform::String(text.substr(pos, len).data());
+
+					span->Inlines->Append(run);
+					root->Inlines->Append(span);
+					pos += len;
+					nostyle_start = pos;
+				}
+			}
+
+			// Append rest of the text with no attribute
+			if (nostyle_start < text_length) {
+				const auto len = text_length - nostyle_start;
+				auto run = ref new Run();
+				run->Text = ref new Platform::String(text.substr(nostyle_start, len).data());
+				root->Inlines->Append(run);
+			}
+
+			label__->Inlines->Append(root);
 		}
 
 	} // namespace UI

@@ -349,6 +349,28 @@ TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
 #define TITANIUM_PROPERTY_SETTER_BOOL(MODULE, NAME) \
 	TITANIUM_PROPERTY_SETTER_TYPE(MODULE, NAME, bool, Boolean)
 
+#define TITANIUM_PROPERTY_GETTER_STRUCT_ARRAY(MODULE, NAME, STRUCT_NAME) \
+TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
+  const auto ctx = get_context(); \
+  std::vector<JSValue> values; \
+  for (auto value : get_##NAME()) { \
+    values.push_back(STRUCT_NAME##_to_js(ctx, value)); \
+  } \
+  return get_context().CreateArray(values); \
+}
+
+#define TITANIUM_PROPERTY_SETTER_STRUCT_ARRAY(MODULE, NAME, STRUCT_NAME) \
+TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
+  ENSURE_ARRAY(argument, js_array); \
+  auto js_values = static_cast<std::vector<JSValue>>(static_cast<JSArray>(js_array)); \
+  std::vector<STRUCT_NAME> values; \
+  for (auto v : js_values) { \
+    values.push_back(js_to_##STRUCT_NAME(static_cast<JSObject>(v))); \
+  } \
+  set_##NAME(values); \
+  return true; \
+}
+
 #define TITANIUM_PROPERTY_GETTER_STRING_ARRAY(MODULE, NAME) \
 TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
 	std::vector<JSValue> values; \

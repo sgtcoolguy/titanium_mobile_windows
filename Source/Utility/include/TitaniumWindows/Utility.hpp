@@ -71,6 +71,11 @@ namespace TitaniumWindows
 		TITANIUMWINDOWS_UTILITY_EXPORT std::string ConvertUTF8String(::Platform::String^ str);
 
 		//
+		// Convert UTF-8 std::string into wstring
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT std::wstring ConvertToUTF8WString(const std::string& str);
+
+		//
 		// Convert IVector<Platform::String^> into std::string, concatenated by ","
 		//
 		TITANIUMWINDOWS_UTILITY_EXPORT std::string ConvertString(Windows::Foundation::Collections::IVector<::Platform::String^>^ strs);

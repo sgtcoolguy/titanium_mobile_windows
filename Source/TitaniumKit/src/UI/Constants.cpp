@@ -1677,5 +1677,240 @@ namespace Titanium
 		{
 			return static_cast<std::underlying_type<UNIT>::type>(unit);
 		}
+
+		std::string Constants::to_string(const ATTRIBUTE_TYPE& name) TITANIUM_NOEXCEPT
+		{
+			static std::string unknown_string = "ATTRIBUTE_TYPE::Unknown";
+			static std::unordered_map<ATTRIBUTE_TYPE, std::string> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+				map[ATTRIBUTE_TYPE::FONT] = "ATTRIBUTE_TYPE_FONT";
+				map[ATTRIBUTE_TYPE::FOREGROUND_COLOR] = "ATTRIBUTE_TYPE_FOREGROUND_COLOR";
+				map[ATTRIBUTE_TYPE::BACKGROUND_COLOR] = "ATTRIBUTE_TYPE_BACKGROUND_COLOR";
+				map[ATTRIBUTE_TYPE::STRIKETHROUGH_STYLE] = "ATTRIBUTE_TYPE_STRIKETHROUGH_STYLE";
+				map[ATTRIBUTE_TYPE::UNDERLINES_STYLE] = "ATTRIBUTE_TYPE_UNDERLINES_STYLE";
+				map[ATTRIBUTE_TYPE::LINK] = "ATTRIBUTE_TYPE_LINK";
+				map[ATTRIBUTE_TYPE::UNDERLINE_COLOR] = "ATTRIBUTE_TYPE_UNDERLINE_COLOR";
+				map[ATTRIBUTE_TYPE::KERN] = "ATTRIBUTE_TYPE_KERN";
+				map[ATTRIBUTE_TYPE::STROKE_COLOR] = "ATTRIBUTE_TYPE_STROKE_COLOR";
+				map[ATTRIBUTE_TYPE::STROKE_WIDTH] = "ATTRIBUTE_TYPE_STROKE_WIDTH";
+				map[ATTRIBUTE_TYPE::SHADOW] = "ATTRIBUTE_TYPE_SHADOW";
+				map[ATTRIBUTE_TYPE::WRITING_DIRECTION] = "ATTRIBUTE_TYPE_WRITING_DIRECTION";
+				map[ATTRIBUTE_TYPE::TEXT_EFFECT] = "ATTRIBUTE_TYPE_TEXT_EFFECT";
+				map[ATTRIBUTE_TYPE::BASELINE_OFFSET] = "ATTRIBUTE_TYPE_BASELINE_OFFSET";
+				map[ATTRIBUTE_TYPE::STRIKETHROUGH_COLOR] = "ATTRIBUTE_TYPE_STRIKETHROUGH_COLOR";
+				map[ATTRIBUTE_TYPE::OBLIQUENESS] = "ATTRIBUTE_TYPE_OBLIQUENESS";
+				map[ATTRIBUTE_TYPE::EXPANSION] = "ATTRIBUTE_TYPE_EXPANSION";
+				map[ATTRIBUTE_TYPE::LINE_BREAK] = "ATTRIBUTE_TYPE_LINE_BREAK";
+			});
+
+			std::string string = unknown_string;
+			const auto position = map.find(name);
+			if (position != map.end()) {
+				string = position->second;
+			}
+
+			return string;
+		}
+
+		ATTRIBUTE_TYPE Constants::to_ATTRIBUTE_TYPE(const std::string& name) TITANIUM_NOEXCEPT
+		{
+			static std::unordered_map<std::string, ATTRIBUTE_TYPE> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+				map["ATTRIBUTE_TYPE_FONT"] = ATTRIBUTE_TYPE::FONT;
+				map["ATTRIBUTE_TYPE_FOREGROUND_COLOR"] = ATTRIBUTE_TYPE::FOREGROUND_COLOR;
+				map["ATTRIBUTE_TYPE_BACKGROUND_COLOR"] = ATTRIBUTE_TYPE::BACKGROUND_COLOR;
+				map["ATTRIBUTE_TYPE_STRIKETHROUGH_STYLE"] = ATTRIBUTE_TYPE::STRIKETHROUGH_STYLE;
+				map["ATTRIBUTE_TYPE_UNDERLINES_STYLE"] = ATTRIBUTE_TYPE::UNDERLINES_STYLE;
+				map["ATTRIBUTE_TYPE_LINK"] = ATTRIBUTE_TYPE::LINK;
+				map["ATTRIBUTE_TYPE_UNDERLINE_COLOR"] = ATTRIBUTE_TYPE::UNDERLINE_COLOR;
+				map["ATTRIBUTE_TYPE_KERN"] = ATTRIBUTE_TYPE::KERN;
+				map["ATTRIBUTE_TYPE_STROKE_COLOR"] = ATTRIBUTE_TYPE::STROKE_COLOR;
+				map["ATTRIBUTE_TYPE_STROKE_WIDTH"] = ATTRIBUTE_TYPE::STROKE_WIDTH;
+				map["ATTRIBUTE_TYPE_SHADOW"] = ATTRIBUTE_TYPE::SHADOW;
+				map["ATTRIBUTE_TYPE_WRITING_DIRECTION"] = ATTRIBUTE_TYPE::WRITING_DIRECTION;
+				map["ATTRIBUTE_TYPE_TEXT_EFFECT"] = ATTRIBUTE_TYPE::TEXT_EFFECT;
+				map["ATTRIBUTE_TYPE_BASELINE_OFFSET"] = ATTRIBUTE_TYPE::BASELINE_OFFSET;
+				map["ATTRIBUTE_TYPE_STRIKETHROUGH_COLOR"] = ATTRIBUTE_TYPE::STRIKETHROUGH_COLOR;
+				map["ATTRIBUTE_TYPE_OBLIQUENESS"] = ATTRIBUTE_TYPE::OBLIQUENESS;
+				map["ATTRIBUTE_TYPE_EXPANSION"] = ATTRIBUTE_TYPE::EXPANSION;
+				map["ATTRIBUTE_TYPE_LINE_BREAK"] = ATTRIBUTE_TYPE::LINE_BREAK;
+			});
+
+			ATTRIBUTE_TYPE autoLink = ATTRIBUTE_TYPE::FONT;
+			const auto position = map.find(name);
+			if (position != map.end()) {
+				autoLink = position->second;
+			} else {
+				TITANIUM_LOG_WARN("Constants::to_ATTRIBUTE_TYPE: Titanium::UI::ATTRIBUTE_TYPE with name '", name, "' does not exist");
+			}
+
+			return autoLink;
+		}
+
+		ATTRIBUTE_TYPE Constants::to_ATTRIBUTE_TYPE(std::underlying_type<ATTRIBUTE_TYPE>::type value_underlying_type) TITANIUM_NOEXCEPT
+		{
+			static std::unordered_map<std::underlying_type<ATTRIBUTE_TYPE>::type, ATTRIBUTE_TYPE> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::FONT)] = ATTRIBUTE_TYPE::FONT;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::FOREGROUND_COLOR)] = ATTRIBUTE_TYPE::FOREGROUND_COLOR;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::BACKGROUND_COLOR)] = ATTRIBUTE_TYPE::BACKGROUND_COLOR;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::STRIKETHROUGH_STYLE)] = ATTRIBUTE_TYPE::STRIKETHROUGH_STYLE;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::UNDERLINES_STYLE)] = ATTRIBUTE_TYPE::UNDERLINES_STYLE;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::LINK)] = ATTRIBUTE_TYPE::LINK;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::UNDERLINE_COLOR)] = ATTRIBUTE_TYPE::UNDERLINE_COLOR;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::KERN)] = ATTRIBUTE_TYPE::KERN;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::STROKE_COLOR)] = ATTRIBUTE_TYPE::STROKE_COLOR;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::STROKE_WIDTH)] = ATTRIBUTE_TYPE::STROKE_WIDTH;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::SHADOW)] = ATTRIBUTE_TYPE::SHADOW;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::WRITING_DIRECTION)] = ATTRIBUTE_TYPE::WRITING_DIRECTION;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::TEXT_EFFECT)] = ATTRIBUTE_TYPE::TEXT_EFFECT;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::BASELINE_OFFSET)] = ATTRIBUTE_TYPE::BASELINE_OFFSET;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::STRIKETHROUGH_COLOR)] = ATTRIBUTE_TYPE::STRIKETHROUGH_COLOR;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::OBLIQUENESS)] = ATTRIBUTE_TYPE::OBLIQUENESS;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::EXPANSION)] = ATTRIBUTE_TYPE::EXPANSION;
+				map[static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(ATTRIBUTE_TYPE::LINE_BREAK)] = ATTRIBUTE_TYPE::LINE_BREAK;
+			});
+
+			ATTRIBUTE_TYPE value = ATTRIBUTE_TYPE::FONT;
+			const auto position = map.find(value_underlying_type);
+			if (position != map.end()) {
+				value = position->second;
+			} else {
+				TITANIUM_LOG_WARN("Constants::to_ATTRIBUTE_TYPE: Titanium::UI::ATTRIBUTE_TYPE with value '", value_underlying_type, "' does not exist");
+			}
+
+			return value;
+		}
+
+		std::underlying_type<ATTRIBUTE_TYPE>::type Constants::to_underlying_type(const ATTRIBUTE_TYPE& attrType) TITANIUM_NOEXCEPT
+		{
+			return static_cast<std::underlying_type<ATTRIBUTE_TYPE>::type>(attrType);
+		}
+
+		std::string Constants::to_string(const ATTRIBUTE_STYLE& name) TITANIUM_NOEXCEPT
+		{
+			static std::string unknown_string = "ATTRIBUTE_STYLE::Unknown";
+			static std::unordered_map<ATTRIBUTE_STYLE, std::string> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+				map[ATTRIBUTE_STYLE::UNDERLINE_NONE] = "ATTRIBUTE_STYLE_UNDERLINE_NONE";
+				map[ATTRIBUTE_STYLE::UNDERLINE_SINGLE] = "ATTRIBUTE_STYLE_UNDERLINE_SINGLE";
+				map[ATTRIBUTE_STYLE::UNDERLINE_THICK] = "ATTRIBUTE_STYLE_UNDERLINE_THICK";
+				map[ATTRIBUTE_STYLE::UNDERLINE_DOUBLE] = "ATTRIBUTE_STYLE_UNDERLINE_DOUBLE";
+				map[ATTRIBUTE_STYLE::UNDERLINE_PATTERN_SOLID] = "ATTRIBUTE_STYLE_UNDERLINE_PATTERN_SOLID";
+				map[ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DOT] = "ATTRIBUTE_STYLE_UNDERLINE_PATTERN_DOT";
+				map[ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH] = "ATTRIBUTE_STYLE_UNDERLINE_PATTERN_DASH";
+				map[ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH_DOT] = "ATTRIBUTE_STYLE_UNDERLINE_PATTERN_DASH_DOT";
+				map[ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH_DOT_DOT] = "ATTRIBUTE_STYLE_UNDERLINE_PATTERN_DASH_DOT_DOT";
+				map[ATTRIBUTE_STYLE::UNDERLINE_BY_WORD] = "ATTRIBUTE_STYLE_UNDERLINE_BY_WORD";
+				map[ATTRIBUTE_STYLE::WRITING_DIRECTION_EMBEDDING] = "ATTRIBUTE_STYLE_WRITING_DIRECTION_EMBEDDING";
+				map[ATTRIBUTE_STYLE::WRITING_DIRECTION_OVERRIDE] = "ATTRIBUTE_STYLE_WRITING_DIRECTION_OVERRIDE";
+				map[ATTRIBUTE_STYLE::WRITING_DIRECTION_NATURAL] = "ATTRIBUTE_STYLE_WRITING_DIRECTION_NATURAL";
+				map[ATTRIBUTE_STYLE::WRITING_DIRECTION_LEFT_TO_RIGHT] = "ATTRIBUTE_STYLE_WRITING_DIRECTION_LEFT_TO_RIGHT";
+				map[ATTRIBUTE_STYLE::WRITING_DIRECTION_RIGHT_TO_LEFT] = "ATTRIBUTE_STYLE_WRITING_DIRECTION_RIGHT_TO_LEFT";
+				map[ATTRIBUTE_STYLE::TEXT_EFFECT_LETTERPRESS] = "ATTRIBUTE_STYLE_TEXT_EFFECT_LETTERPRESS";
+				map[ATTRIBUTE_STYLE::LINE_BREAK_BY_WORD_WRAPPING] = "ATTRIBUTE_STYLE_LINE_BREAK_BY_WORD_WRAPPING";
+				map[ATTRIBUTE_STYLE::LINE_BREAK_BY_CHAR_WRAPPING] = "ATTRIBUTE_STYLE_LINE_BREAK_BY_CHAR_WRAPPING";
+				map[ATTRIBUTE_STYLE::LINE_BREAK_BY_CLIPPING] = "ATTRIBUTE_STYLE_LINE_BREAK_BY_CLIPPING";
+				map[ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_HEAD] = "ATTRIBUTE_STYLE_LINE_BREAK_BY_TRUNCATING_HEAD";
+				map[ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_TAIL] = "ATTRIBUTE_STYLE_LINE_BREAK_BY_TRUNCATING_TAIL";
+				map[ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_MIDDLE] = "ATTRIBUTE_STYLE_LINE_BREAK_BY_TRUNCATING_MIDDLE";
+			});
+
+			std::string string = unknown_string;
+			const auto position = map.find(name);
+			if (position != map.end()) {
+				string = position->second;
+			}
+
+			return string;
+		}
+
+		ATTRIBUTE_STYLE Constants::to_ATTRIBUTE_STYLE(const std::string& name) TITANIUM_NOEXCEPT
+		{
+			static std::unordered_map<std::string, ATTRIBUTE_STYLE> map;
+			static std::once_flag of;
+			std::call_once(of, []() {
+				map["ATTRIBUTE_STYLE_UNDERLINE_NONE"] = ATTRIBUTE_STYLE::UNDERLINE_NONE;
+				map["ATTRIBUTE_STYLE_UNDERLINE_SINGLE"] = ATTRIBUTE_STYLE::UNDERLINE_SINGLE;
+				map["ATTRIBUTE_STYLE_UNDERLINE_THICK"] = ATTRIBUTE_STYLE::UNDERLINE_THICK;
+				map["ATTRIBUTE_STYLE_UNDERLINE_DOUBLE"] = ATTRIBUTE_STYLE::UNDERLINE_DOUBLE;
+				map["ATTRIBUTE_STYLE_UNDERLINE_PATTERN_SOLID"] = ATTRIBUTE_STYLE::UNDERLINE_PATTERN_SOLID;
+				map["ATTRIBUTE_STYLE_UNDERLINE_PATTERN_DOT"] = ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DOT;
+				map["ATTRIBUTE_STYLE_UNDERLINE_PATTERN_DASH"] = ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH;
+				map["ATTRIBUTE_STYLE_UNDERLINE_PATTERN_DASH_DOT"] = ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH_DOT;
+				map["ATTRIBUTE_STYLE_UNDERLINE_PATTERN_DASH_DOT_DOT"] = ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH_DOT_DOT;
+				map["ATTRIBUTE_STYLE_UNDERLINE_BY_WORD"] = ATTRIBUTE_STYLE::UNDERLINE_BY_WORD;
+				map["ATTRIBUTE_STYLE_WRITING_DIRECTION_EMBEDDING"] = ATTRIBUTE_STYLE::WRITING_DIRECTION_EMBEDDING;
+				map["ATTRIBUTE_STYLE_WRITING_DIRECTION_OVERRIDE"] = ATTRIBUTE_STYLE::WRITING_DIRECTION_OVERRIDE;
+				map["ATTRIBUTE_STYLE_WRITING_DIRECTION_NATURAL"] = ATTRIBUTE_STYLE::WRITING_DIRECTION_NATURAL;
+				map["ATTRIBUTE_STYLE_WRITING_DIRECTION_LEFT_TO_RIGHT"] = ATTRIBUTE_STYLE::WRITING_DIRECTION_LEFT_TO_RIGHT;
+				map["ATTRIBUTE_STYLE_WRITING_DIRECTION_RIGHT_TO_LEFT"] = ATTRIBUTE_STYLE::WRITING_DIRECTION_RIGHT_TO_LEFT;
+				map["ATTRIBUTE_STYLE_TEXT_EFFECT_LETTERPRESS"] = ATTRIBUTE_STYLE::TEXT_EFFECT_LETTERPRESS;
+				map["ATTRIBUTE_STYLE_LINE_BREAK_BY_WORD_WRAPPING"] = ATTRIBUTE_STYLE::LINE_BREAK_BY_WORD_WRAPPING;
+				map["ATTRIBUTE_STYLE_LINE_BREAK_BY_CHAR_WRAPPING"] = ATTRIBUTE_STYLE::LINE_BREAK_BY_CHAR_WRAPPING;
+				map["ATTRIBUTE_STYLE_LINE_BREAK_BY_CLIPPING"] = ATTRIBUTE_STYLE::LINE_BREAK_BY_CLIPPING;
+				map["ATTRIBUTE_STYLE_LINE_BREAK_BY_TRUNCATING_HEAD"] = ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_HEAD;
+				map["ATTRIBUTE_STYLE_LINE_BREAK_BY_TRUNCATING_TAIL"] = ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_TAIL;
+				map["ATTRIBUTE_STYLE_LINE_BREAK_BY_TRUNCATING_MIDDLE"] = ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_MIDDLE;
+			});
+
+			ATTRIBUTE_STYLE autoLink = ATTRIBUTE_STYLE::UNDERLINE_NONE;
+			const auto position = map.find(name);
+			if (position != map.end()) {
+				autoLink = position->second;
+			} else {
+				TITANIUM_LOG_WARN("Constants::to_ATTRIBUTE_STYLE: Titanium::UI::ATTRIBUTE_STYLE with name '", name, "' does not exist");
+			}
+
+			return autoLink;
+		}
+
+		std::unordered_set<ATTRIBUTE_STYLE> Constants::to_ATTRIBUTE_STYLE(std::underlying_type<ATTRIBUTE_STYLE>::type types) TITANIUM_NOEXCEPT
+		{
+			std::unordered_set<ATTRIBUTE_STYLE> type_set;
+			static_cast<void>((types & (1 << 0)) && type_set.emplace(ATTRIBUTE_STYLE::UNDERLINE_NONE).second);
+			static_cast<void>((types & (1 << 1)) && type_set.emplace(ATTRIBUTE_STYLE::UNDERLINE_SINGLE).second);
+			static_cast<void>((types & (1 << 2)) && type_set.emplace(ATTRIBUTE_STYLE::UNDERLINE_THICK).second);
+			static_cast<void>((types & (1 << 3)) && type_set.emplace(ATTRIBUTE_STYLE::UNDERLINE_DOUBLE).second);
+			static_cast<void>((types & (1 << 4)) && type_set.emplace(ATTRIBUTE_STYLE::UNDERLINE_PATTERN_SOLID).second);
+			static_cast<void>((types & (1 << 5)) && type_set.emplace(ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DOT).second);
+			static_cast<void>((types & (1 << 6)) && type_set.emplace(ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH).second);
+			static_cast<void>((types & (1 << 7)) && type_set.emplace(ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH_DOT).second);
+			static_cast<void>((types & (1 << 8)) && type_set.emplace(ATTRIBUTE_STYLE::UNDERLINE_PATTERN_DASH_DOT_DOT).second);
+			static_cast<void>((types & (1 << 9)) && type_set.emplace(ATTRIBUTE_STYLE::UNDERLINE_BY_WORD).second);
+			static_cast<void>((types & (1 << 10)) && type_set.emplace(ATTRIBUTE_STYLE::WRITING_DIRECTION_EMBEDDING).second);
+			static_cast<void>((types & (1 << 11)) && type_set.emplace(ATTRIBUTE_STYLE::WRITING_DIRECTION_OVERRIDE).second);
+			static_cast<void>((types & (1 << 12)) && type_set.emplace(ATTRIBUTE_STYLE::WRITING_DIRECTION_NATURAL).second);
+			static_cast<void>((types & (1 << 13)) && type_set.emplace(ATTRIBUTE_STYLE::WRITING_DIRECTION_LEFT_TO_RIGHT).second);
+			static_cast<void>((types & (1 << 14)) && type_set.emplace(ATTRIBUTE_STYLE::WRITING_DIRECTION_RIGHT_TO_LEFT).second);
+			static_cast<void>((types & (1 << 15)) && type_set.emplace(ATTRIBUTE_STYLE::TEXT_EFFECT_LETTERPRESS).second);
+			static_cast<void>((types & (1 << 16)) && type_set.emplace(ATTRIBUTE_STYLE::LINE_BREAK_BY_WORD_WRAPPING).second);
+			static_cast<void>((types & (1 << 17)) && type_set.emplace(ATTRIBUTE_STYLE::LINE_BREAK_BY_CHAR_WRAPPING).second);
+			static_cast<void>((types & (1 << 18)) && type_set.emplace(ATTRIBUTE_STYLE::LINE_BREAK_BY_CLIPPING).second);
+			static_cast<void>((types & (1 << 19)) && type_set.emplace(ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_HEAD).second);
+			static_cast<void>((types & (1 << 20)) && type_set.emplace(ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_TAIL).second);
+			static_cast<void>((types & (1 << 21)) && type_set.emplace(ATTRIBUTE_STYLE::LINE_BREAK_BY_TRUNCATING_MIDDLE).second);
+			return type_set;
+		}
+
+		std::underlying_type<ATTRIBUTE_STYLE>::type Constants::to_underlying_type(const std::unordered_set<ATTRIBUTE_STYLE>& type_set) TITANIUM_NOEXCEPT
+		{
+			std::underlying_type<ATTRIBUTE_STYLE>::type result = 0;
+			for (auto attrType : type_set) {
+				result |= static_cast<std::underlying_type<ATTRIBUTE_STYLE>::type>(attrType);
+			}
+
+			return result;
+		}
+
+		std::underlying_type<ATTRIBUTE_STYLE>::type Constants::to_underlying_type(const ATTRIBUTE_STYLE& attrType) TITANIUM_NOEXCEPT
+		{
+			return static_cast<std::underlying_type<ATTRIBUTE_STYLE>::type>(attrType);
+		}
+
 	} // namespace UI
 }  // namespace Titanium

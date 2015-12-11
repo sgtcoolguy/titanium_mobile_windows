@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/Label.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "Titanium/UI/AttributedString.hpp"
 
 namespace Titanium
 {
@@ -25,18 +26,13 @@ namespace Titanium
 		}
 
 		TITANIUM_PROPERTY_READWRITE(Label, std::string, text)
-
 		TITANIUM_PROPERTY_READWRITE(Label, TEXT_ALIGNMENT, textAlign)
-
 		TITANIUM_PROPERTY_READWRITE(Label, TEXT_VERTICAL_ALIGNMENT, verticalAlign)
-
 		TITANIUM_PROPERTY_READWRITE(Label, bool, wordWrap)
-
 		TITANIUM_PROPERTY_READWRITE(Label, std::string, color)
-
 		TITANIUM_PROPERTY_READWRITE(Label, bool, ellipsize)
-
 		TITANIUM_PROPERTY_READWRITE(Label, Font, font)
+		TITANIUM_PROPERTY_READWRITE(Label, std::shared_ptr<AttributedString>, attributedString)
 
 		void Label::JSExportInitialize()
 		{
@@ -49,6 +45,7 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(Label, textAlign);
 			TITANIUM_ADD_PROPERTY(Label, verticalAlign);
 			TITANIUM_ADD_PROPERTY(Label, wordWrap);
+			TITANIUM_ADD_PROPERTY(Label, attributedString);
 
 			TITANIUM_ADD_FUNCTION(Label, getColor);
 			TITANIUM_ADD_FUNCTION(Label, setColor);
@@ -64,6 +61,8 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(Label, setVerticalAlign);
 			TITANIUM_ADD_FUNCTION(Label, getWordWrap);
 			TITANIUM_ADD_FUNCTION(Label, setWordWrap);
+			TITANIUM_ADD_FUNCTION(Label, getAttributedString);
+			TITANIUM_ADD_FUNCTION(Label, setAttributedString);
 		}
 
 		TITANIUM_PROPERTY_GETTER_STRING(Label, color)
@@ -129,6 +128,9 @@ namespace Titanium
 		TITANIUM_PROPERTY_GETTER_BOOL(Label, wordWrap)
 		TITANIUM_PROPERTY_SETTER_BOOL(Label, wordWrap)
 
+		TITANIUM_PROPERTY_GETTER_OBJECT(Label, attributedString)
+		TITANIUM_PROPERTY_SETTER_OBJECT(Label, attributedString, AttributedString)
+
 		TITANIUM_FUNCTION_AS_GETTER(Label, getColor, color)
 		TITANIUM_FUNCTION_AS_SETTER(Label, setColor, color)
 
@@ -149,5 +151,9 @@ namespace Titanium
 
 		TITANIUM_FUNCTION_AS_GETTER(Label, getWordWrap, wordWrap)
 		TITANIUM_FUNCTION_AS_SETTER(Label, setWordWrap, wordWrap)
+
+		TITANIUM_FUNCTION_AS_GETTER(Label, getAttributedString, attributedString)
+		TITANIUM_FUNCTION_AS_SETTER(Label, setAttributedString, attributedString)
+
 	} // namespace UI
 }  // namespace Titanium

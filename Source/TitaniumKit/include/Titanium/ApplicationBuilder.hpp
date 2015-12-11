@@ -254,6 +254,9 @@ namespace Titanium
 		JSObject ScrollableViewObject() const TITANIUM_NOEXCEPT;
 		ApplicationBuilder& ScrollableViewObject(const JSObject&) TITANIUM_NOEXCEPT;
 
+		JSObject AttributedStringObject() const TITANIUM_NOEXCEPT;
+		ApplicationBuilder& AttributedStringObject(const JSObject&) TITANIUM_NOEXCEPT;
+
 		virtual ~ApplicationBuilder() = default;
 		ApplicationBuilder(const ApplicationBuilder&) = default;
 		ApplicationBuilder& operator=(const ApplicationBuilder&) = default;
@@ -348,6 +351,7 @@ namespace Titanium
 		JSObject optionDialog__;
 		JSObject progressBar__;
 		JSObject scrollableView__;
+		JSObject attributedString__;
 #pragma warning(pop)
 	};
 

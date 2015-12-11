@@ -45,6 +45,15 @@ namespace TitaniumWindows
 		}
 
 		//
+		// Convert UTF-8 std::string into wstring
+		//
+		std::wstring ConvertToUTF8WString(const std::string& str)
+		{
+			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+			return converter.from_bytes(str);
+		}
+
+		//
 		// Convert Platform::String^ into UTF-8 std::string
 		//
 		std::string ConvertUTF8String(::Platform::String^ str) 
