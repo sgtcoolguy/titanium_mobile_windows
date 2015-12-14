@@ -41,7 +41,7 @@ function compileApp(next) {
 		'<AppxBundle>Always</AppxBundle>' +
 		'<AppxBundlePlatforms>' + this.arch + '</AppxBundlePlatforms>' +
 		(
-			!/^ws-local|dist-winstore$/.test(this.target) ? '' :
+			!/^ws-local|dist-winstore$/.test(this.target) && this.wpsdk != '10.0' ? '' :
 			'<PackageCertificateThumbprint>' + this.certificateThumbprint + '</PackageCertificateThumbprint>' +
 			'<PackageCertificateKeyFile>' + this.certificatePath + '</PackageCertificateKeyFile>'
 		) + '$&');

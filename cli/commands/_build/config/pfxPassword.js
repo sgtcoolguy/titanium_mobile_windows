@@ -16,7 +16,7 @@ module.exports = function configOptionPFXPassword(order) {
 
 	return {
 		abbr: 'P',
-		desc: __('the PFX password; only applicable when target is %s or %s', 'ws-local'.cyan, 'dist-winstore'.cyan),
+		desc: __('the PFX password; only applicable when target is %s or %s; or wpSDK is %s', 'ws-local'.cyan, 'dist-winstore'.cyan, '10.0'.cyan),
 		hint: 'password',
 		order: order,
 		prompt: function (callback) {
