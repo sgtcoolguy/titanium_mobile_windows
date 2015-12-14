@@ -22,6 +22,12 @@ module.exports = function configOptionWPSDK(order) {
 
 	return {
 		abbr: 'S',
+		callback: function (value) {
+			if (value === '10.0') {
+				this.conf.options['ws-cert'].required = true;
+				this.conf.options['pfx-password'].required = true;
+			}
+		}.bind(this),
 		default: defaultTarget,
 		desc: __('the Windows Phone SDK version; only used when target is %s, %s, or %s', 'wp-emulator'.cyan, 'wp-device'.cyan, 'dist-phonestore'.cyan),
 		hint: __('version'),

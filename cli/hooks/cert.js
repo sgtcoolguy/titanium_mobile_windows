@@ -1,5 +1,5 @@
 /**
- * Signs an app and copies the result to the specified output directory.
+ * Signs an app.
  *
  * @copyright
  * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
@@ -13,8 +13,6 @@ const
 	appc = require('node-appc'),
 	fs = require('fs'),
 	path = require('path'),
-	wrench = require('wrench'),
-	moment = require('moment'),
 	async = require('async'),
 	windowslib = require('windowslib'),
 	__ = appc.i18n(__dirname).__;
@@ -26,7 +24,7 @@ exports.init = function (logger, config, cli) {
 	cli.on('build.pre.compile', {
 		priority: 10000,
 		post: function (builder, finished) {
-			if (!/^ws-local|dist-winstore$/.test(builder.target)) {
+			if (!/^ws-local|dist-winstore$/.test(builder.target) && builder.wpsdk != '10.0') {
 				return finished();
 			}
 
@@ -106,36 +104,6 @@ exports.init = function (logger, config, cli) {
 					});
 				}
 			], finished);
-		}
-	});
-
-	cli.on('build.post.compile', {
-		priority: 10000,
-		post: function (builder, finished) {
-			if (builder.buildOnly || builder.target !== 'dist-winstore') {
-				return finished();
-			}
-
-			var outputDir = builder.outputDir,
-				wpARMDir = builder.cmakeTargetDir,
-				releaseDir = path.join(wpARMDir, 'Release'),
-				bundle = path.join(releaseDir, fs.readdirSync(releaseDir).filter(function (f) {
-					return f.indexOf('_Bundle') >= 0;
-				})[0]),
-				appx = path.join(bundle, fs.readdirSync(bundle).filter(function (f) {
-					return f.indexOf('.appx') >= 0 && f.indexOf('_scale') === -1;
-				})[0]),
-				dest = path.join(outputDir, path.basename(appx));
-
-			if (outputDir && outputDir != path.dirname(appx)) {
-				fs.existsSync(outputDir) || wrench.mkdirSyncRecursive(outputDir);
-				fs.existsSync(dest) && fs.unlinkSync(dest);
-				appc.fs.copyFileSync(appx, dest, {logger: logger.debug});
-			}
-
-			logger.info(__('Packaging complete'));
-			logger.info(__('Package location: %s', dest.cyan));
-			finished();
 		}
 	});
 };

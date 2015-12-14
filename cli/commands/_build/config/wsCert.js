@@ -12,6 +12,14 @@ var appc = require('node-appc'),
  * @returns {Object}
  */
 module.exports = function configOptionWSCert(order) {
+	var defaultCert = undefined,
+		certs = fs.readdirSync('./').filter(function (file) {
+			return file.slice(-4).toLowerCase() === '.pfx';
+		});
+	if (certs.length > 1) {
+		defaultCert = certs[0];
+	}
+
 	function validate(certFile, callback) {
 		if (certFile === '') {
 			return callback();
@@ -28,9 +36,10 @@ module.exports = function configOptionWSCert(order) {
 
 	return {
 		abbr: 'R',
-		desc: __('the location of the cert file; only applicable when target is %s or %s', 'ws-local'.cyan, 'dist-winstore'.cyan), // or ws-simulator or ws-remote
+		desc: __('the location of the cert file; only applicable when target is %s or %s; or wpSDK is %s', 'ws-local'.cyan, 'dist-winstore'.cyan, '10.0'.cyan), // or ws-simulator or ws-remote
 		hint: 'path',
 		order: order,
+		default: defaultCert,
 		prompt: function (callback) {
 			var certs = fs.readdirSync('./').filter(function (file) {
 				return file.slice(-4).toLowerCase() === '.pfx';

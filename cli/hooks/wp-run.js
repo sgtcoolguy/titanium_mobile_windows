@@ -216,7 +216,9 @@ exports.init = function (logger, config, cli) {
 
 				function installApp(deviceId, xapFile, opts, next) {
 					// Now install the real app
-					windowslib.install(deviceId, xapFile, opts)
+					windowslib.install(deviceId, xapFile, appc.util.mix({
+								appGuid: builder.phoneProductId
+							}, opts))
 						.on('installed', function (handle) {
 							logger.info(__('Finished launching the application'));
 
@@ -263,8 +265,8 @@ exports.init = function (logger, config, cli) {
 				possibleDependencies = possibleDependencies.filter(function(file) {
 					return appxExtensions.indexOf(path.extname(file)) !== -1;
 				});
-        		possibleDependencies.forEach(function(file) {
-        			installs.push(function (next) {
+				possibleDependencies.forEach(function(file) {
+					installs.push(function (next) {
 						windowslib.install(builder.deviceId, path.resolve(dependenciesDir, file), installOnlyOpts)
 						.on('installed', function (handle) {
 							next();
@@ -278,18 +280,18 @@ exports.init = function (logger, config, cli) {
 							next(err.message);
 						});
 					});
-        		});
-				
+				});
+
 				// Install actual app(s)
 				var possibleApps = fs.readdirSync(appxDir);
 				possibleApps = possibleApps.filter(function(file) {
 					return appxExtensions.indexOf(path.extname(file)) !== -1;
 				});
-        		possibleApps.forEach(function(file) {
-        			installs.push(function (next) {
+				possibleApps.forEach(function(file) {
+					installs.push(function (next) {
 						installApp(builder.deviceId, path.resolve(appxDir, file), opts, next);
 					});
-        		});
+				});
 
 				logger.info(__('Installing and launching the application'));
 				async.series(installs, function (err, results) {
