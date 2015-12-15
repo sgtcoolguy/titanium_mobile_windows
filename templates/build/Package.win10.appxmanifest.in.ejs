@@ -46,6 +46,15 @@
         <uap:DefaultTile Square71x71Logo="Square71x71Logo.png"/>
         <uap:SplashScreen Image="SplashScreen.png" />
       </uap:VisualElements>
+
+<% if (manifest.Extensions.length > 0) { -%>
+      <Extensions>
+<% for(var i = 0; i < manifest.Extensions.length; i++) { -%>
+      <%- manifest.Extensions[i] %>
+<% } -%>
+      </Extensions>
+<% } -%>
+
     </Application>
   </Applications>
 

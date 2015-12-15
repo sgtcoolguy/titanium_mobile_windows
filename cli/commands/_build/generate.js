@@ -273,6 +273,7 @@ function generateAppxManifestForPlatform(target, properties) {
 	properties.Capabilities = properties.Capabilities || ['<Capability Name=\"internetClient\" />'];
 	properties.Prerequisites = properties.Prerequisites || [];
 	properties.Resources = properties.Resources || [];
+	properties.Extensions = properties.Extensions || [];
 
 	this.logger.info(__('Writing appxmanifest %s', dest));
 	fs.writeFileSync(dest, ejs.render(template, {
