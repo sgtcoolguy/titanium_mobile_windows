@@ -327,6 +327,11 @@ namespace Titanium
 				return std::dynamic_pointer_cast<T>(layoutDelegate__);
 			}
 
+			std::shared_ptr<ViewLayoutDelegate> getViewLayoutDelegate()
+			{
+				return getViewLayoutDelegate<ViewLayoutDelegate>();
+			}
+
 		protected:
 			template<typename T, typename U, typename... Us>
 			void setLayoutDelegate(Us&&... constructor_arguments) TITANIUM_NOEXCEPT

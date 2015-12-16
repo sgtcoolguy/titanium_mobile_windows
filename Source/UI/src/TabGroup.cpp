@@ -58,6 +58,7 @@ namespace TitaniumWindows
   <Setter Property="FontSize" Value="20"/>
 </Style>
 			)";
+
 			sectionView__->ItemContainerStyle = static_cast<Style^>(Markup::XamlReader::Load(style));
 
 			sectionView__->ItemClick += ref new Controls::ItemClickEventHandler(
@@ -104,6 +105,17 @@ namespace TitaniumWindows
 			window__->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->add(get_object().GetPrivate<Titanium::UI::View>());
 		}
 
+		void TabGroup::set_barColor(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::TabGroup::set_barColor(value);
+			const auto brush = ref new Media::SolidColorBrush(WindowsViewLayoutDelegate::ColorForName(value));
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			pivot__->Background = brush;
+#else
+			sectionView__->Background = brush;
+#endif
+		}
+
 		void TabGroup::set_activeTab(const std::shared_ptr<Titanium::UI::Tab>& activeTab) TITANIUM_NOEXCEPT
 		{
 			set_activeTab(activeTab, true);
@@ -130,10 +142,6 @@ namespace TitaniumWindows
 		void TabGroup::open() TITANIUM_NOEXCEPT
 		{
 			window__->open(nullptr);
-
-			if (tabs__.size() > 0) {
-				set_activeTab(tabs__.at(0));
-			}
 
 			Titanium::UI::TabGroup::open();
 		}

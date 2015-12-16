@@ -85,6 +85,54 @@ namespace TitaniumWindows
 			Titanium::UI::Tab::focus();
 		}
 
+		void Tab::set_backgroundColor(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Tab::set_backgroundColor(value);
+			window__->getViewLayoutDelegate()->set_backgroundColor(value);
+		}
+
+		void Tab::set_backgroundImage(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Tab::set_backgroundImage(value);
+			window__->getViewLayoutDelegate()->set_backgroundImage(value);
+		}
+
+		void Tab::set_backgroundSelectedColor(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Tab::set_backgroundSelectedColor(value);
+			window__->getViewLayoutDelegate()->set_backgroundSelectedColor(value);
+		}
+
+		void Tab::set_backgroundSelectedImage(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Tab::set_backgroundSelectedImage(value);
+			window__->getViewLayoutDelegate()->set_backgroundSelectedImage(value);
+		}
+
+		void Tab::set_backgroundDisabledColor(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Tab::set_backgroundDisabledColor(value);
+			window__->getViewLayoutDelegate()->set_backgroundDisabledColor(value);
+		}
+
+		void Tab::set_backgroundDisabledImage(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Tab::set_backgroundDisabledImage(value);
+			window__->getViewLayoutDelegate()->set_backgroundDisabledImage(value);
+		}
+
+		void Tab::set_backgroundFocusedColor(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Tab::set_backgroundFocusedColor(value);
+			window__->getViewLayoutDelegate()->set_backgroundFocusedColor(value);
+		}
+
+		void Tab::set_backgroundFocusedImage(const std::string& value) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::Tab::set_backgroundFocusedImage(value);
+			window__->getViewLayoutDelegate()->set_backgroundFocusedImage(value);
+		}
+
 		void Tab::JSExportInitialize() 
 		{
 			JSExport<Tab>::SetClassVersion(1);

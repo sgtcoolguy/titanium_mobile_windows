@@ -75,6 +75,13 @@ namespace Titanium
 
 			/*!
 			  @property
+			  @abstract backgroundSelectedColor
+			  @discussion Selected background color for the view
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, backgroundSelectedColor);
+
+			/*!
+			  @property
 			  @abstract touchEnabled
 			  @discussion Determines whether view should receive touch events.
 			*/
@@ -197,10 +204,11 @@ namespace Titanium
 			TITANIUM_PROPERTY_DEF(backgroundDisabledImage);
 			TITANIUM_PROPERTY_DEF(backgroundFocusedColor);
 			TITANIUM_PROPERTY_DEF(backgroundFocusedImage);
+			TITANIUM_PROPERTY_DEF(backgroundColor);
 			TITANIUM_PROPERTY_DEF(backgroundImage);
+			TITANIUM_PROPERTY_DEF(backgroundSelectedColor);
 			TITANIUM_PROPERTY_DEF(backgroundSelectedImage);
 			TITANIUM_PROPERTY_DEF(touchEnabled);
-			TITANIUM_PROPERTY_DEF(backgroundColor);
 			TITANIUM_PROPERTY_DEF(active);
 			TITANIUM_PROPERTY_DEF(activeIcon);
 			TITANIUM_PROPERTY_DEF(badge);
@@ -221,14 +229,16 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setBackgroundFocusedColor);
 			TITANIUM_FUNCTION_DEF(getBackgroundFocusedImage);
 			TITANIUM_FUNCTION_DEF(setBackgroundFocusedImage);
+			TITANIUM_FUNCTION_DEF(getBackgroundColor);
+			TITANIUM_FUNCTION_DEF(setBackgroundColor);
 			TITANIUM_FUNCTION_DEF(getBackgroundImage);
 			TITANIUM_FUNCTION_DEF(setBackgroundImage);
+			TITANIUM_FUNCTION_DEF(getBackgroundSelectedColor);
+			TITANIUM_FUNCTION_DEF(setBackgroundSelectedColor);
 			TITANIUM_FUNCTION_DEF(getBackgroundSelectedImage);
 			TITANIUM_FUNCTION_DEF(setBackgroundSelectedImage);
 			TITANIUM_FUNCTION_DEF(getTouchEnabled);
 			TITANIUM_FUNCTION_DEF(setTouchEnabled);
-			TITANIUM_FUNCTION_DEF(getBackgroundColor);
-			TITANIUM_FUNCTION_DEF(setBackgroundColor);
 			TITANIUM_FUNCTION_DEF(getActive);
 			TITANIUM_FUNCTION_DEF(setActive);
 			TITANIUM_FUNCTION_DEF(getActiveIcon);
@@ -255,10 +265,11 @@ namespace Titanium
 			std::string backgroundDisabledImage__;
 			std::string backgroundFocusedColor__;
 			std::string backgroundFocusedImage__;
+			std::string backgroundColor__;
 			std::string backgroundImage__;
+			std::string backgroundSelectedColor__;
 			std::string backgroundSelectedImage__;
 			bool touchEnabled__;
-			std::string backgroundColor__;
 			bool active__;
 			std::string activeIcon__;
 			std::string badge__;
