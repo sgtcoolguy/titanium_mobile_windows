@@ -136,20 +136,21 @@ namespace TitaniumWindows
 				animating__ = false;
 				paused__ = false;
 
-				// TODO Fire stop event!
+				this->fireEvent("stop");
 			});
 
 			storyboard__->Begin();
 			animating__ = true;
 			paused__ = false;
-			// TODO Fire start event!
+
+			fireEvent("start");
 		}
 
 		void ImageView::stop() TITANIUM_NOEXCEPT
 		{
 			if (storyboard__ != nullptr) {
 				storyboard__->Stop();
-				// TODO Fire stop event!
+				fireEvent("stop");
 				animating__ = false;
 				paused__ = false;
 				// TODO Delete the storyboard?
@@ -162,7 +163,7 @@ namespace TitaniumWindows
 				storyboard__->Pause();
 				animating__ = false;
 				paused__ = true;
-				// TODO Fire pause event!
+				fireEvent("pause");
 			}
 		}
 
@@ -172,7 +173,8 @@ namespace TitaniumWindows
 				storyboard__->Resume();
 				animating__ = true;
 				paused__ = false;
-				// TODO Fire start event?
+				// TODO: Do we want to fire "start" event here?
+				// fireEvent("resume");
 			}
 		}
 

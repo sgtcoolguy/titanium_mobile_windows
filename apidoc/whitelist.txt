@@ -20,6 +20,11 @@ C Titanium.UI.Animation
 E complete
 E start
 
+C Titanium.UI.ImageView
+E start
+E pause
+E stop
+
 C Titanium.UI.TextField
 E change
 E return
