@@ -2,6 +2,7 @@ var appc = require('node-appc'),
 	fields = require('fields'),
 	path = require('path'),
 	fs = require('fs'),
+	windowslib = require('windowslib'),
 	__ = appc.i18n(__dirname).__;
 
 /**
@@ -21,7 +22,7 @@ module.exports = function configOptionWSCert(order) {
 	}
 
 	function validate(certFile, callback) {
-		if (certFile === '') {
+		if (!certFile || certFile === '') {
 			return callback();
 		}
 
@@ -59,6 +60,48 @@ module.exports = function configOptionWSCert(order) {
 				validate: validate
 			}));
 		},
-		validate: validate
+		validate: validate,
+		callback: function (value) {
+			var certFile,
+				stdout;
+
+			if (!value || value === '') {
+				// If dist-winstore or (dist-phonestore && 10.0), require
+				// password because they'll be generating a PFX!
+				if (this.conf.options['target'] == 'dist-winstore' ||
+					(this.conf.options['wp-sdk'] == '10.0' &&
+					this.conf.options['target'] == 'dist-phonestore')) {
+						this.conf.options['pfx-password'].required = true;
+				}
+				// otherwise we'll use the built-in temp key w/no password
+				return;
+			}
+
+			// At this point, assume we'll need a password by default
+			this.conf.options['pfx-password'].required = true;
+
+			// If we're generating it, keep password required
+			certFile = appc.fs.resolvePath(certFile);
+			if (!fs.existsSync(value) || !fs.statSync(certFile).isFile()) {
+				return;
+			}
+
+			// If PFX exists and we can read it with an empty password, don't
+			// require pfxPassword option
+			try {
+				stdout = execSync('certutil -p "" -dump "' + certFile + '"');
+				if (stdout.indexOf('The system cannot find the file specified.') >= 0) {
+					return; // keep password required. Thsi shouldn't ever happen!
+				}
+				else {
+					// We got the cert details, password isn't required!
+					stdout.split('Cert Hash(sha1): ')[1].split('\r')[0].split(' ').join('').toUpperCase();
+					this.conf.options['pfx-password'].required = false;
+					return;
+				}
+			} catch (e) {
+				return; // keep password required
+			}
+		}.bind(this),
 	};
 };

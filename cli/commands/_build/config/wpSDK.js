@@ -23,9 +23,11 @@ module.exports = function configOptionWPSDK(order) {
 	return {
 		abbr: 'S',
 		callback: function (value) {
-			if (value === '10.0') {
+			// We can use built-in temp key for local/emulator builds. For dist,
+			// insist on user/generated PFX when app requires one
+			if (this.conf.options['target'] == 'dist-winstore' ||
+				(value == '10.0' && this.conf.options['target'] == 'dist-phonestore')) {
 				this.conf.options['ws-cert'].required = true;
-				this.conf.options['pfx-password'].required = true;
 			}
 		}.bind(this),
 		default: defaultTarget,
