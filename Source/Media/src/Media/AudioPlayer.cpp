@@ -11,6 +11,10 @@
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Media;
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+using namespace Windows::Media::Playback;
+#endif
+using namespace Windows::Foundation;
 
 namespace TitaniumWindows
 {
@@ -25,6 +29,9 @@ namespace TitaniumWindows
 		AudioPlayer::~AudioPlayer()
 		{
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Media::AudioPlayer::dtor");
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			BackgroundMediaPlayer::Shutdown();
+#endif
 		}
 
 		void AudioPlayer::JSExportInitialize()
@@ -33,11 +40,32 @@ namespace TitaniumWindows
 			JSExport<AudioPlayer>::SetParent(JSExport<Titanium::Media::AudioPlayer>::Class());
 		}
 
+		void AudioPlayer::stateChanged() TITANIUM_NOEXCEPT
+		{
+			playing__ = isPlaying();
+			paused__ = isPaused();
+			volume__ = player__->Volume;
+			waiting__ = (get_state() == Titanium::Media::AudioState::Buffering);
+
+			const auto ctx = get_context();
+			auto event_arg = ctx.CreateObject();
+			event_arg.SetProperty("state", js_get_state());
+			fireEvent("change", event_arg);
+		}
+
 		void AudioPlayer::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
 		{
 			Titanium::Media::AudioPlayer::postCallAsConstructor(js_context, arguments);
 
-			player__ = ref new Windows::UI::Xaml::Controls::MediaElement();
+#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+			// allow background audio on WindowsStore apps
+			// this still requires Package.appxmanifest background task
+			auto controls = Windows::Media::SystemMediaTransportControls::GetForCurrentView();
+			controls->IsPlayEnabled = true;
+			controls->IsPauseEnabled = true;
+#endif
+
+			player__ = ref new MediaElement();
 #pragma warning(push)
 #pragma warning(disable : 4973)
 			// Note: BackgroundCapableMedia is deprecated in Windows 10
@@ -47,30 +75,48 @@ namespace TitaniumWindows
 			player__->Visibility = Windows::UI::Xaml::Visibility::Collapsed; // Hide UI
 			player__->AutoPlay = false;
 			player__->IsLooping = false;
-			player__->CurrentStateChanged += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
-
-				// Update state__
-				switch (player__->CurrentState) {
-				case MediaElementState::Buffering:
-					state__ = Titanium::Media::AudioState::Buffering;
-				case MediaElementState::Paused:
-					state__ = Titanium::Media::AudioState::Paused;
-				case MediaElementState::Playing:
-					state__ = Titanium::Media::AudioState::Playing;
-				case MediaElementState::Stopped:
-					state__ = Titanium::Media::AudioState::Stopped;
+			player__->CurrentStateChanged += ref new RoutedEventHandler(
+				[=](Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+					switch (player__->CurrentState) {
+						case MediaElementState::Buffering:
+							state__ = Titanium::Media::AudioState::Buffering;
+							break;
+						case MediaElementState::Paused:
+							state__ = Titanium::Media::AudioState::Paused;
+							break;
+						case MediaElementState::Playing:
+							state__ = Titanium::Media::AudioState::Playing;
+							break;
+						case MediaElementState::Stopped:
+							state__ = Titanium::Media::AudioState::Stopped;
+							break;
+					}
+					stateChanged();
 				}
-
-				playing__ = isPlaying();
-				paused__ = isPaused();
-				volume__ = player__->Volume;
-				waiting__ = (get_state() == Titanium::Media::AudioState::Buffering);
-
-				const auto ctx = get_context();
-				auto event_arg = ctx.CreateObject();
-				event_arg.SetProperty("state", js_get_state());
-				fireEvent("change", event_arg);
-			});
+			);
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			background_player__ = BackgroundMediaPlayer::Current;
+			background_player__->AutoPlay = false;
+			background_player__->CurrentStateChanged += ref new TypedEventHandler<MediaPlayer^, Platform::Object^>(
+				[=](MediaPlayer^ sender, Platform::Object^ e) {
+					switch (background_player__->CurrentState) {
+						case MediaPlayerState::Buffering:
+							state__ = Titanium::Media::AudioState::Buffering;
+							break;
+						case MediaPlayerState::Paused:
+							state__ = Titanium::Media::AudioState::Paused;
+							break;
+						case MediaPlayerState::Playing:
+							state__ = Titanium::Media::AudioState::Playing;
+							break;
+						case MediaPlayerState::Stopped:
+							state__ = Titanium::Media::AudioState::Stopped;
+							break;
+					}
+					stateChanged();
+				}
+			);
+#endif
 
 			// Add "hidden" MediaElement UI onto current Window, because it doesn't work when it is not on the UI.
 			// This is little bit tricky because this proxy is not kind of View and then you can't use Titanium's layout engine. 
@@ -93,6 +139,24 @@ namespace TitaniumWindows
 			}
 		}
 
+		void AudioPlayer::set_allowBackground(const bool& allowBackground) TITANIUM_NOEXCEPT
+		{
+			Titanium::Media::AudioPlayer::set_allowBackground(allowBackground);
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			if (get_playing()) {
+				if (allowBackground) {
+					background_player__->Position = player__->Position;
+					player__->Pause();
+					background_player__->Play();
+				} else {
+					player__->Position = background_player__->Position;
+					background_player__->Pause();
+					player__->Play();
+				}
+			}
+#endif
+		}
+
 		std::chrono::milliseconds AudioPlayer::get_time() const TITANIUM_NOEXCEPT
 		{
 			return TitaniumWindows::Utility::GetMSec(player__->Position);
@@ -101,49 +165,113 @@ namespace TitaniumWindows
 		void AudioPlayer::set_url(const std::string& url) TITANIUM_NOEXCEPT
 		{
 			Titanium::Media::AudioPlayer::set_url(url);
-			player__->Source = TitaniumWindows::Utility::GetUriFromPath(url);
+			auto uri = TitaniumWindows::Utility::GetUriFromPath(url);
+			player__->Source = uri;
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			background_player__->SetUriSource(uri);
+#endif
 		}
 
 		void AudioPlayer::pause() TITANIUM_NOEXCEPT
 		{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			if (get_allowBackground()) {
+				background_player__->Pause();
+			} else {
+				player__->Pause();
+			}
+#else
 			player__->Pause();
+#endif
 		}
 
 		void AudioPlayer::play() TITANIUM_NOEXCEPT
 		{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			if (get_allowBackground()) {
+				background_player__->Play();
+			} else {
+				player__->Play();
+			}
+#else
 			player__->Play();
+#endif
 		}
 
 		void AudioPlayer::start() TITANIUM_NOEXCEPT
 		{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			if (get_allowBackground()) {
+				background_player__->Play();
+			} else {
+				player__->Play();
+			}
+#else
 			player__->Play();
+#endif
 		}
 
 		void AudioPlayer::stop() TITANIUM_NOEXCEPT
 		{
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			if (get_allowBackground()) {
+				background_player__->Pause();
+
+				// since there is no Stop(), reset position
+				auto position = Windows::Foundation::TimeSpan();
+				position.Duration = 0;
+				background_player__->Position = position;
+			} else {
+				player__->Stop();
+			}
+#else
 			player__->Stop();
+#endif
 		}
 
 		void AudioPlayer::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
 			Titanium::Media::AudioPlayer::enableEvent(event_name);
 			if (event_name == "complete") {
-				complete_event__ = player__->MediaEnded += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+				const auto mediaEnded = [=] {
 					const auto ctx = get_context();
 					auto event_arg = ctx.CreateObject();
 					event_arg.SetProperty("success", ctx.CreateBoolean(true));
 					event_arg.SetProperty("code", ctx.CreateNumber(0));
 					fireEvent("complete", event_arg);
-				});
+				};
+				complete_event__ = player__->MediaEnded += ref new RoutedEventHandler(
+					[=](Platform::Object^ sender, RoutedEventArgs^ e) {
+						mediaEnded();
+					}
+				);
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+				background_complete_event__ = background_player__->MediaEnded += ref new TypedEventHandler<MediaPlayer^, Platform::Object^>(
+					[=](MediaPlayer^ sender, Platform::Object^ e){
+						mediaEnded();
+					}
+				);
+#endif
 			} else if (event_name == "error") {
-				failed_event__ = player__->MediaFailed += ref new ExceptionRoutedEventHandler([this](Platform::Object^ sender, ExceptionRoutedEventArgs^ e) {
+				const auto mediaFailed = [=] {
 					const auto ctx = get_context();
 					auto event_arg = ctx.CreateObject();
-					event_arg.SetProperty("message", ctx.CreateString(TitaniumWindows::Utility::ConvertString(e->ErrorMessage)));
-					event_arg.SetProperty("success", ctx.CreateBoolean(false));
-					event_arg.SetProperty("code", ctx.CreateNumber(TitaniumWindows::Utility::GetHResultErrorCode(e->ErrorMessage, -1)));
-					fireEvent("error", event_arg);
-				});
+					event_arg.SetProperty("success", ctx.CreateBoolean(true));
+					event_arg.SetProperty("code", ctx.CreateNumber(0));
+					fireEvent("complete", event_arg);
+				};
+				failed_event__ = player__->MediaFailed += ref new ExceptionRoutedEventHandler(
+					[=](Platform::Object^ sender, ExceptionRoutedEventArgs^ e) {
+						mediaFailed();
+					}
+				);
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+				background_failed_event__ = background_player__->MediaFailed += ref new TypedEventHandler<MediaPlayer^, MediaPlayerFailedEventArgs^>(
+					[=](MediaPlayer^ sender, MediaPlayerFailedEventArgs^ e) {
+						mediaFailed();
+					}
+				);
+#endif
 			}
 		}
 
@@ -152,8 +280,14 @@ namespace TitaniumWindows
 			Titanium::Media::AudioPlayer::disableEvent(event_name);
 			if (event_name == "complete") {
 				player__->MediaEnded -= complete_event__;
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+				background_player__->MediaEnded -= background_complete_event__;
+#endif
 			} else if (event_name == "error") {
 				player__->MediaFailed -= failed_event__;
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+				background_player__->MediaFailed -= background_failed_event__;
+#endif
 			}
 		}
 	}

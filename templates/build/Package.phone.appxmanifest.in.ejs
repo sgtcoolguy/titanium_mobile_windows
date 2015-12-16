@@ -54,6 +54,15 @@
         </m3:DefaultTile>
         <m3:SplashScreen BackgroundColor="#b41100" Image="SplashScreen480x800.png" />
       </m3:VisualElements>
+
+<% if (manifest.Extensions.length > 0) { -%>
+      <Extensions>
+<% for(var i = 0; i < manifest.Extensions.length; i++) { -%>
+      <%- manifest.Extensions[i] %>
+<% } -%>
+      </Extensions>
+<% } -%>
+
     </Application>
   </Applications>
   

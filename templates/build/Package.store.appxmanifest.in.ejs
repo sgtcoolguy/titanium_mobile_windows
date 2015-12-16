@@ -50,6 +50,15 @@
         </m2:DefaultTile>
         <m2:SplashScreen BackgroundColor="#b41100" Image="SplashScreen.png" />
       </m2:VisualElements>
+
+<% if (manifest.Extensions.length > 0) { -%>
+      <Extensions>
+<% for(var i = 0; i < manifest.Extensions.length; i++) { -%>
+      <%- manifest.Extensions[i] %>
+<% } -%>
+      </Extensions>
+<% } -%>
+
     </Application>
   </Applications>
   

@@ -28,17 +28,19 @@ namespace TitaniumWindows
 
 			TITANIUM_FUNCTION_UNIMPLEMENTED(stateDescription);
 			TITANIUM_FUNCTION_UNIMPLEMENTED(release);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(allowBackground);
 
 			virtual void set_paused(const bool& paused) TITANIUM_NOEXCEPT override;
 			virtual void set_url(const std::string& url) TITANIUM_NOEXCEPT override;
 			virtual void set_volume(const double& volume) TITANIUM_NOEXCEPT override;
+			virtual void set_allowBackground(const bool& allowBackground) TITANIUM_NOEXCEPT override;
 			virtual std::chrono::milliseconds get_time() const TITANIUM_NOEXCEPT override;
 
 			virtual void pause() TITANIUM_NOEXCEPT override;
 			virtual void play() TITANIUM_NOEXCEPT override;
 			virtual void start() TITANIUM_NOEXCEPT override;
 			virtual void stop() TITANIUM_NOEXCEPT override;
+
+			virtual void stateChanged() TITANIUM_NOEXCEPT;
 
 			AudioPlayer(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -57,9 +59,15 @@ namespace TitaniumWindows
 			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
 
 		protected:
-			Windows::UI::Xaml::Controls::MediaElement ^ player__;
+			Windows::Media::SystemMediaTransportControls^ controls__;
+			Windows::UI::Xaml::Controls::MediaElement^ player__;
+#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+			Windows::Media::Playback::MediaPlayer^ background_player__;
+#endif
 			Windows::Foundation::EventRegistrationToken complete_event__;
 			Windows::Foundation::EventRegistrationToken failed_event__;
+			Windows::Foundation::EventRegistrationToken background_complete_event__;
+			Windows::Foundation::EventRegistrationToken background_failed_event__;
 			Windows::Foundation::EventRegistrationToken navigated_event__;
 		};
 
