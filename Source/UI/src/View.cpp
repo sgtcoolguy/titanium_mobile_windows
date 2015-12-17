@@ -9,6 +9,7 @@
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/Blob.hpp"
 
 namespace TitaniumWindows
 {
@@ -96,6 +97,36 @@ namespace TitaniumWindows
 			return ref new Windows::UI::Xaml::Media::FontFamily(Utility::ConvertUTF8String(path));
 		}
 
+		void View::ToImage(Windows::UI::Xaml::FrameworkElement^ component, JSValue callback, JSObject this_object)
+		{
+			const auto render = ref new Windows::UI::Core::DispatchedHandler([component, callback, this_object]() {
+				auto renderTarget = ref new Windows::UI::Xaml::Media::Imaging::RenderTargetBitmap();
+				concurrency::create_task(renderTarget->RenderAsync(component)).then([renderTarget](){
+					return renderTarget->GetPixelsAsync();
+				}).then([callback, this_object](concurrency::task<Windows::Storage::Streams::IBuffer^> task){
+					try {
+						const auto buffer = task.get();
+						const auto data = TitaniumWindows::Utility::GetContentFromBuffer(buffer);
+						if (callback.IsObject()) {
+							auto func = static_cast<JSObject>(callback);
+							if (func.IsFunction()) {
+								const auto blob = callback.get_context().CreateObject(JSExport<Titanium::Blob>::Class()).CallAsConstructor();
+								const auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
+								blob_ptr->construct(data);
+
+								const std::vector<JSValue> args = { blob };
+								func(args, this_object);
+							}
+						}
+					} catch (Platform::COMException^ e) {
+						TITANIUM_LOG_WARN("ImageView.toImage: ", TitaniumWindows::Utility::ConvertString(e->Message));
+					}
+				});
+			});
+
+			Windows::UI::Xaml::Window::Current->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, render);
+		}
+
 		void View::registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireHook)
 		{
 			//
@@ -109,6 +140,17 @@ namespace TitaniumWindows
 		Windows::UI::Xaml::FrameworkElement^ View::getComponent() TITANIUM_NOEXCEPT
 		{
 			return getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
+		}
+
+		std::shared_ptr<Titanium::Blob> View::toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT
+		{
+			if (callback.IsObject() && static_cast<JSObject>(callback).IsFunction()) {
+				TitaniumWindows::UI::View::ToImage(getComponent(), callback, get_object());
+			} else {
+				HAL::detail::ThrowRuntimeError("View.toImage", "View.toImage only works with callback");
+			}
+
+			return nullptr;
 		}
 	} // namespace UI
 } // namespace TitaniumWindows

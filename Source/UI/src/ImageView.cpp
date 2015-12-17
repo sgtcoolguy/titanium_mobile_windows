@@ -9,7 +9,8 @@
 #include "TitaniumWindows/UI/ImageView.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "LayoutEngine/LayoutEngine.hpp"
-
+#include "TitaniumWindows/UI/View.hpp"
+#include "Titanium/Blob.hpp"
 #include <ppltasks.h>
 
 namespace TitaniumWindows
@@ -18,6 +19,9 @@ namespace TitaniumWindows
 	{
 		using namespace Windows::UI::Xaml;
 		using namespace Windows::UI::Xaml::Controls;
+		using namespace Windows::UI::Xaml::Media::Imaging;
+		using namespace Windows::Storage;
+		using namespace Windows::Storage::Streams;
 
 		WindowsImageViewLayoutDelegate::WindowsImageViewLayoutDelegate() TITANIUM_NOEXCEPT
 			: WindowsViewLayoutDelegate()
@@ -56,19 +60,18 @@ namespace TitaniumWindows
 
 		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::ImageView(js_context)
+			  , loaded__(false)
+			  , loaded_event_set__(false)
 		{
 		}
 
 		void ImageView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
-			using namespace Windows::UI::Xaml;
-			using namespace Windows::UI::Xaml::Controls;
-
 			Titanium::UI::ImageView::postCallAsConstructor(js_context, arguments);	
 
 			image__ = ref new Windows::UI::Xaml::Controls::Image();
 
-			internal_load_event_ = image__->ImageOpened += ref new RoutedEventHandler([this](::Platform::Object^ sender, RoutedEventArgs^ e) {
+			layout_event__ = image__->ImageOpened += ref new RoutedEventHandler([this](::Platform::Object^ sender, RoutedEventArgs^ e) {
 				const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
 				auto rect = layout->computeRelativeSize(
 					Canvas::GetLeft(this->image__),
@@ -77,8 +80,6 @@ namespace TitaniumWindows
 					this->image__->ActualHeight
 				);
 				layout->onComponentSizeChange(rect);
-
-				this->fireEvent("load", this->get_context().CreateObject());
 			});
 
 			Titanium::UI::ImageView::setLayoutDelegate<WindowsImageViewLayoutDelegate>();
@@ -125,7 +126,7 @@ namespace TitaniumWindows
 				Windows::Foundation::TimeSpan key_time;
 				key_time.Duration = timer_interval_ticks.count() * i;
 				keyFrame->KeyTime = key_time;
-				keyFrame->Value = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(uri);
+				keyFrame->Value = ref new BitmapImage(uri);
 				animation->KeyFrames->Append(keyFrame);
 			}
 			storyboard__->Children->Append(animation);
@@ -178,12 +179,57 @@ namespace TitaniumWindows
 			}
 		}
 
+		void ImageView::loadContentFromData(std::vector<std::uint8_t>& data)
+		{
+			const auto stream = ref new InMemoryRandomAccessStream();
+			const auto writer = ref new DataWriter(stream);
+
+			writer->WriteBytes(Platform::ArrayReference<std::uint8_t>(&data[0], data.size()));
+
+			concurrency::create_task(writer->StoreAsync()).then([this, stream, writer](std::uint32_t) {
+				auto bitmap = ref new BitmapImage();
+				writer->DetachStream();
+				stream->Seek(0);
+				bitmap->SetSourceAsync(stream);
+				this->image__->Source = bitmap;
+			});
+		}
+
 		void ImageView::set_image(const std::string& path) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ImageView::set_image(path);
-			auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
-			auto image = ref new Windows::UI::Xaml::Media::Imaging::BitmapImage(uri);
-			image__->Source = image;
+
+			// lazy load image event so it doesn't fire load event for defaultImage
+			if (!loaded_event_set__) {
+				loaded_event__ = image__->ImageOpened += ref new RoutedEventHandler([this](::Platform::Object^ sender, RoutedEventArgs^ e) {
+					loaded__ = true;
+					this->fireEvent("load", this->get_context().CreateObject());
+				});
+				loaded_event_set__ = true;
+			}
+
+			const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
+			// check if we're loading from local file
+			if (uri->SchemeName == "ms-appx") {
+				concurrency::create_task(StorageFile::GetFileFromApplicationUriAsync(uri)).then([this](concurrency::task<StorageFile^> task){
+					try {
+						auto file = task.get();
+						loadContentFromData(TitaniumWindows::Utility::GetContentFromFile(file));
+					} catch (Platform::COMException^ ex) {
+						TITANIUM_LOG_WARN("ImageView.image: ", TitaniumWindows::Utility::ConvertString(ex->Message));
+					}
+				}, concurrency::task_continuation_context::use_current());
+			} else {
+				Windows::Web::Http::HttpClient^ httpClient = ref new Windows::Web::Http::HttpClient();
+				concurrency::create_task(httpClient->GetBufferAsync(uri)).then([this](concurrency::task<IBuffer^> task){
+					try {
+						auto buffer = task.get();
+						loadContentFromData(TitaniumWindows::Utility::GetContentFromBuffer(buffer));
+					} catch (Platform::COMException^ ex) {
+						TITANIUM_LOG_WARN("ImageView.image: ", TitaniumWindows::Utility::ConvertString(ex->Message));
+					}
+				}, concurrency::task_continuation_context::use_current());
+			}
 		}
 
 		void ImageView::set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT
@@ -193,5 +239,31 @@ namespace TitaniumWindows
 			set_image(images.at(0));
 		}
 
+		void ImageView::set_defaultImage(const std::string& path) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ImageView::set_defaultImage(path);
+
+			// do nothing when image is already loaded
+			// otherwise start loading defaultImage
+			if (!loaded__) {
+				image__->Source = ref new BitmapImage(TitaniumWindows::Utility::GetUriFromPath(path));
+			}
+		}
+
+		std::shared_ptr<Titanium::Blob> ImageView::toBlob(JSValue callback) TITANIUM_NOEXCEPT
+		{
+			return this->toImage(callback, false);
+		}
+
+		std::shared_ptr<Titanium::Blob> ImageView::toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT
+		{
+			if (callback.IsObject() && static_cast<JSObject>(callback).IsFunction()) {
+				TitaniumWindows::UI::View::ToImage(image__, callback, get_object());
+			} else {
+				HAL::detail::ThrowRuntimeError("ImageView.toImage", "ImageView.toImage only works with callback");
+			}
+
+			return nullptr;
+		}
 	} // namespace UI
 } // namespace TitaniumWindows

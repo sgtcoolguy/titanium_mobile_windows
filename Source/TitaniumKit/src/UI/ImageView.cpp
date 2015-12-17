@@ -50,12 +50,11 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("ImageView::resume unimplemented");
 		}
 
-		std::shared_ptr<Titanium::Blob> ImageView::toBlob() TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::Blob> ImageView::toBlob(JSValue callback) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_DEBUG("ImageView::toBlob unimplemented");
 			return nullptr;
 		}
-
 
 		TITANIUM_PROPERTY_READ(ImageView, bool, animating)
 		TITANIUM_PROPERTY_READWRITE(ImageView, bool, autorotate)
@@ -166,12 +165,14 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(ImageView, toBlob)
 		{
-			TITANIUM_ASSERT(arguments.empty());
-			auto blob = toBlob();
-			if (blob == nullptr) {
+			ENSURE_OPTIONAL_OBJECT_AT_INDEX(callback, 0);
+			const auto image = toBlob(callback);
+			if (image) {
+				return image->get_object();
+			}
+			else {
 				return get_context().CreateNull();
 			}
-			return blob->get_object();
 		}
 
 		TITANIUM_PROPERTY_GETTER(ImageView, animating)
