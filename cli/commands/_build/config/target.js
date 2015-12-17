@@ -26,11 +26,6 @@ module.exports = function configOptionTarget(order) {
 			if (value === 'dist-phonestore' || value === 'dist-winstore') {
 				this.conf.options['output-dir'].required = true;
 			}
-
-			if (value === 'dist-winstore' || value == 'ws-local') {
-				this.conf.options['ws-cert'].required = true;
-				this.conf.options['pfx-password'].required = true;
-			}
 		}.bind(this),
 		default: this.defaultTarget,
 		desc: __('the target to build for'),

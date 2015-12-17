@@ -19,4 +19,8 @@ SET TESTLEVEL=%ERRORLEVEL%
 rmdir node_modules /Q /S
 cd ..\\..\\..
 
+cd dist
+copy junit_report.xml junit_report_8_1.xml
+cd ..
+
 exit /B %TESTLEVEL%

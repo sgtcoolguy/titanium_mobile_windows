@@ -10,7 +10,18 @@ cd build
 call npm install .
 echo Building for Windows 10
 call node build.js -s 10.0 -m 14.0 -o WindowsStore-x86 -o WindowsStore-ARM
-SET LEVEL=%ERRORLEVEL%
+SET BUILDLEVEL=%ERRORLEVEL%
+IF %BUILDLEVEL% NEQ 0 (
+	rmdir node_modules /Q /S
+	exit /B %BUILDLEVEL%
+)
+call node test.js -s 10.0
+SET TESTLEVEL=%ERRORLEVEL%
 rmdir node_modules /Q /S
+cd ..\\..\\..
 
-exit /B %LEVEL%
+cd dist
+copy junit_report.xml junit_report_10.xml
+cd ..
+
+exit /B %TESTLEVEL%

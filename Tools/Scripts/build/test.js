@@ -203,7 +203,7 @@ function getDeviceId(sdkVersion, target, next) {
 		}
 
 		if (target === WP_EMULATOR) {
-			deviceId = results.emulators[sdkVersion][0].udid;
+			deviceId = results.emulators && results.emulators[sdkVersion] && results.emulators[sdkVersion][0] && results.emulators[sdkVersion][0].udid;
 		} else {
 			deviceId = '0'; // assume device
 			// TODO What about for ws-local?
@@ -223,11 +223,11 @@ function getDeviceId(sdkVersion, target, next) {
  *											Used so we can finally abort after max retry count.
  * @param next {Function} callback function
  **/
-function runBuild(target, deviceId, count, next) {
+function runBuild(target, deviceId, sdkVersion, count, next) {
 	var prc,
 		inResults = false,
 		done = false;
-	prc = spawn('node', [titanium, 'build', '--project-dir', projectDir, '--platform', 'windows', '--target', target, '--win-publisher-id', '13AFB724-65F2-4F30-8994-C79399EDBD80', '--device-id', deviceId, '--no-prompt', '--no-colors']);
+	prc = spawn('node', [titanium, 'build', '--project-dir', projectDir, '--platform', 'windows', '--target', target, '--wp-sdk', sdkVersion, '--win-publisher-id', '13AFB724-65F2-4F30-8994-C79399EDBD80', '--device-id', deviceId, '--no-prompt', '--no-colors']);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 		var lines = data.toString().trim().match(/^.*([\n\r]+|$)/gm);
@@ -263,7 +263,7 @@ function runBuild(target, deviceId, count, next) {
 				if (count > MAX_RETRIES) {
 					next("failed to get test results before log ended!"); // failed too many times
 				} else {
-					runBuild(target, count + 1, next); // retry
+					runBuild(target, deviceId, sdkVersion, count + 1, next); // retry
 				}
 			}
 		}
@@ -349,9 +349,8 @@ function outputJUnitXML(jsonResults, next) {
  * @param target {String} 'wp-emulator'|'ws-local'
  * @param callback {Function} callback function
  */
-function test(sdkVersion, msbuild, target, callback) {
-	var deviceId,
-		sdkPath;
+function test(sdkVersion, msbuild, target, deviceId, callback) {
+	var sdkPath;
 	async.series([
 		function (next) {
 			// If this is already installed we don't re-install, thankfully
@@ -391,6 +390,10 @@ function test(sdkVersion, msbuild, target, callback) {
 			copyMochaAssets(next);
 		},
 		function (next) {
+			if (deviceId) {
+				return next();
+			}
+
 			console.log('Detecting simulator');
 			getDeviceId(sdkVersion, target, function (err, id) {
 				if (err) {
@@ -402,7 +405,7 @@ function test(sdkVersion, msbuild, target, callback) {
 		},
 		function (next) {
 			console.log("Launching test project in simulator");
-			runBuild(target, deviceId, 1, next);
+			runBuild(target, deviceId, sdkVersion, 1, next);
 		},
 		function (next) {
 			parseTestResults(testResults, next);
@@ -427,6 +430,7 @@ if (module.id === ".") {
 			.option('-m, --msbuild [version]', 'Use a specific version of MSBuild', /^(12\.0|14\.0)$/, MSBUILD_12)
 			.option('-s, --sdk-version [version]', 'Target a specific Windows SDK version [version]', /^(8\.1|10\.0)$/, WIN_8_1)
 			.option('-T, --target [target]', 'Target a specific deploy target [target]', /^wp\-emulator|ws\-local|wp\-device$/, WP_EMULATOR)
+			.option('-C, --device-id [udid]', 'Target a specific device/emulator')
 			.parse(process.argv);
 
 		// When doing win 10, it has to use msbuild 14
@@ -434,7 +438,7 @@ if (module.id === ".") {
 			// TODO Log warning if they used msbuild 12!
 			program.msbuild = MSBUILD_14;
 		}
-		test(program.sdkVersion, program.msbuild, program.target, function (err, results) {
+		test(program.sdkVersion, program.msbuild, program.target, program.deviceId, function (err, results) {
 			if (err) {
 				console.error(err.toString().red);
 				process.exit(1);
