@@ -16,7 +16,7 @@ const
 	async = require('async'),
 	windowslib = require('windowslib'),
 	__ = appc.i18n(__dirname).__,
-	CMAKE_TEMP_KEY = var dest = path.join(__dirname, '..', 'vendor', 'cmake', 'share', 'cmake-3.4', 'Templates', 'Windows', 'Windows_TemporaryKey.pfx');
+	CMAKE_TEMP_KEY = path.join(__dirname, '..', 'vendor', 'cmake', 'share', 'cmake-3.4', 'Templates', 'Windows', 'Windows_TemporaryKey.pfx');
 
 exports.cliVersion = '>=3.2';
 
@@ -33,6 +33,7 @@ exports.init = function (logger, config, cli) {
 			// Then use the included temp key from cmake
 			if (!builder.wsCert && 'dist-winstore' != builder.target &&
 				!('dist-phonestore' == builder.target && builder.wpsdk == '10.0')) {
+				logger.info(__('Using existing temporary pfx'));
 				builder.certificatePath = CMAKE_TEMP_KEY;
 				return windowslib.certs.thumbprint(CMAKE_TEMP_KEY, null, function (err, thumbprint) {
 					builder.certificateThumbprint = thumbprint;
