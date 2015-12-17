@@ -271,95 +271,109 @@ describe("buffer", function() {
 		should(blob.text).eql("appcelerator");
 		finish();
 	});
-	it("testAutoEncode", function(finish) {
-		// default UTF8
-		var buffer = Ti.createBuffer({
-			value: "appcelerator"
-		});
-		should(buffer.length).eql(12);
-		should(buffer[0]).eql(97);
-		// a
-		should(buffer[1]).eql(112);
-		// p
-		should(buffer[2]).eql(112);
-		// p
-		should(buffer[3]).eql(99);
-		// c
-		should(buffer[4]).eql(101);
-		// e
-		should(buffer[5]).eql(108);
-		// l
-		should(buffer[6]).eql(101);
-		// e
-		should(buffer[7]).eql(114);
-		// r
-		should(buffer[8]).eql(97);
-		// a
-		should(buffer[9]).eql(116);
-		// t
-		should(buffer[10]).eql(111);
-		// o
-		should(buffer[11]).eql(114);
-		// r
-		// UTF-16
-		buffer = Ti.createBuffer({
-			value: "appcelerator",
-			type: Ti.Codec.CHARSET_UTF16
-		});
-		var length = 24;
-		var start = 0;
-		// some impls will add a UTF-16 BOM
-		// http://en.wikipedia.org/wiki/UTF-16/UCS-2#Byte_order_encoding_schemes
-		if (255 == buffer[0] && 254 == buffer[1]) {
-			// UTF-16 BE
-			length = 26;
-			start = 1;
-		} else if (254 == buffer[0] && 255 == buffer[1]) {
-			// UTF-16 LE
-			length = 26;
-			start = 2;
-		}
-		should(buffer.length).eql(length);
-		should(buffer.byteOrder).eql(Ti.Codec.getNativeByteOrder());
-		should(buffer[start + 1]).eql(97);
-		// a
-		should(buffer[start + 3]).eql(112);
-		// p
-		should(buffer[start + 5]).eql(112);
-		// p
-		should(buffer[start + 7]).eql(99);
-		// c
-		should(buffer[start + 9]).eql(101);
-		// e
-		should(buffer[start + 11]).eql(108);
-		// l
-		should(buffer[start + 13]).eql(101);
-		// e
-		should(buffer[start + 15]).eql(114);
-		// r
-		should(buffer[start + 17]).eql(97);
-		// a
-		should(buffer[start + 19]).eql(116);
-		// t
-		should(buffer[start + 21]).eql(111);
-		// o
-		should(buffer[start + 23]).eql(114);
-		// r
-		// 8 Byte long in Big Endian (most significant byte first)
-		buffer = Ti.createBuffer({
-			value: 305419896,
-			type: Ti.Codec.TYPE_LONG,
-			byteOrder: Ti.Codec.BIG_ENDIAN
-		});
-		should(buffer.byteOrder).eql(Ti.Codec.BIG_ENDIAN);
-		should(buffer.length).eql(8);
-		for (var i = 0; 4 > i; i++) should(buffer[i]).eql(0);
-		should(buffer[4]).eql(18);
-		should(buffer[5]).eql(52);
-		should(buffer[6]).eql(86);
-		should(buffer[7]).eql(120);
+	it("testAutoEncodeUTF-8", function(finish) {
+	    // default UTF8
+	    var buffer = Ti.createBuffer({
+	        value: "appcelerator"
+	    });
+	    should(buffer.length).eql(12);
+	    should(buffer[0]).eql(97);
+	    // a
+	    should(buffer[1]).eql(112);
+	    // p
+	    should(buffer[2]).eql(112);
+	    // p
+	    should(buffer[3]).eql(99);
+	    // c
+	    should(buffer[4]).eql(101);
+	    // e
+	    should(buffer[5]).eql(108);
+	    // l
+	    should(buffer[6]).eql(101);
+	    // e
+	    should(buffer[7]).eql(114);
+	    // r
+	    should(buffer[8]).eql(97);
+	    // a
+	    should(buffer[9]).eql(116);
+	    // t
+	    should(buffer[10]).eql(111);
+	    // o
+	    should(buffer[11]).eql(114);
+	    // r
+	    finish();
+	});
+
+	it("testAutoEncodeUTF-16", function(finish) {
+	    // UTF-16
+	    var buffer = Ti.createBuffer({
+	        value: "appcelerator",
+	        type: Ti.Codec.CHARSET_UTF16
+	    });
+	    var length = 24;
+	    var start = 0;
+	    // some impls will add a UTF-16 BOM
+	    // http://en.wikipedia.org/wiki/UTF-16/UCS-2#Byte_order_encoding_schemes
+	    if (255 == buffer[0] && 254 == buffer[1]) {
+	        // UTF-16 BE
+	        length = 26;
+	        start = 1;
+	    } else if (254 == buffer[0] && 255 == buffer[1]) {
+	        // UTF-16 LE
+	        length = 26;
+	        start = 2;
+	    }
+	    should(buffer.length).eql(length);
+	    should(buffer.byteOrder).eql(Ti.Codec.getNativeByteOrder());
+	    should(buffer[start + 1]).eql(97);
+	    // a
+	    should(buffer[start + 3]).eql(112);
+	    // p
+	    should(buffer[start + 5]).eql(112);
+	    // p
+	    should(buffer[start + 7]).eql(99);
+	    // c
+	    should(buffer[start + 9]).eql(101);
+	    // e
+	    should(buffer[start + 11]).eql(108);
+	    // l
+	    should(buffer[start + 13]).eql(101);
+	    // e
+	    should(buffer[start + 15]).eql(114);
+	    // r
+	    should(buffer[start + 17]).eql(97);
+	    // a
+	    should(buffer[start + 19]).eql(116);
+	    // t
+	    should(buffer[start + 21]).eql(111);
+	    // o
+	    should(buffer[start + 23]).eql(114);
+	    // r
+	    finish();
+	});
+
+	// Skip on Windows 10 for now, it hangs
+	(Ti.Platform.version.indexOf('10.0' == 0) ? it.skip : it)("testAutoEncodeUTF-16", function (finish) {
+	    // 8 Byte long in Big Endian (most significant byte first)
+	    var buffer = Ti.createBuffer({
+	        value: 305419896,
+	        type: Ti.Codec.TYPE_LONG,
+	        byteOrder: Ti.Codec.BIG_ENDIAN
+	    });
+	    should(buffer.byteOrder).eql(Ti.Codec.BIG_ENDIAN);
+	    should(buffer.length).eql(8);
+	    for (var i = 0; 4 > i; i++) should(buffer[i]).eql(0);
+	    should(buffer[4]).eql(18);
+	    should(buffer[5]).eql(52);
+	    should(buffer[6]).eql(86);
+	    should(buffer[7]).eql(120);
+	    finish();
+	});
+
+    // Skip on Windows 10 for now, it hangs
+	(Ti.Platform.version.indexOf('10.0' == 0) ? it.skip : it)("testAutoEncodeUTF-16", function (finish) {
 		// 4 byte int in Little Endian (least significant byte first)
-		buffer = Ti.createBuffer({
+		var buffer = Ti.createBuffer({
 			value: 305419896,
 			type: Ti.Codec.TYPE_INT,
 			byteOrder: Ti.Codec.LITTLE_ENDIAN

@@ -45,9 +45,11 @@ namespace TitaniumWindows
 		{
 #if (WINVER >= 0x0A00)
 			// Windows 10+ API!
-			// TODO Do we need to make this sync? i.e. wait for it to finish before we return? Seems like we shouldn't...
-			std::shared_ptr<TitaniumWindows::Contacts::Person> win_person = std::dynamic_pointer_cast<::TitaniumWindows::Contacts::Person>(person);
-			contact_list__->SaveContactAsync(win_person->GetContact());
+			if (contact_list__) {
+				// TODO Do we need to make this sync? i.e. wait for it to finish before we return? Seems like we shouldn't...
+				std::shared_ptr<TitaniumWindows::Contacts::Person> win_person = std::dynamic_pointer_cast<::TitaniumWindows::Contacts::Person>(person);
+				contact_list__->SaveContactAsync(win_person->GetContact());
+			}
 #endif
 		}
 
@@ -55,37 +57,41 @@ namespace TitaniumWindows
 		{
 #if (WINVER >= 0x0A00)
 			// Windows 10+ API!
-			std::vector<std::shared_ptr<Titanium::Contacts::Person>> people;
-			auto reader = contact_list__->GetContactReader(); // is this available?
-			concurrency::event event;
-			concurrency::create_task(reader->ReadBatchAsync()).then([&people, &event] (concurrency::task<Windows::ApplicationModel::Contacts::ContactBatch^> task) {
-				try {
-					const auto batch = task.get();
-					const auto view = batch->Contacts;
-					//for (const auto contact : view) {
-						// TODO Turn the contact into a Person like we do in Contacts.cpp!
-						//people.push_back();
-					//}
-				}
-				catch (...) {
-					// TODO Log something here?
-				}
-				event.set();
-			});
-			event.wait();
-			return people;
+			if (contact_list__) {
+				std::vector<std::shared_ptr<Titanium::Contacts::Person>> people;
+				auto reader = contact_list__->GetContactReader(); // is this available?
+				concurrency::event event;
+				concurrency::create_task(reader->ReadBatchAsync()).then([&people, &event](concurrency::task<Windows::ApplicationModel::Contacts::ContactBatch^> task) {
+					try {
+						const auto batch = task.get();
+						const auto view = batch->Contacts;
+						//for (const auto contact : view) {
+							// TODO Turn the contact into a Person like we do in Contacts.cpp!
+							//people.push_back();
+						//}
+					}
+					catch (...) {
+						// TODO Log something here?
+					}
+					event.set();
+				});
+				event.wait();
+				return people;
+			}
 #else
 			TITANIUM_LOG_WARN("Group::members: Unimplemented");
-			return std::vector<std::shared_ptr<Titanium::Contacts::Person>>();
 #endif
+			return std::vector<std::shared_ptr<Titanium::Contacts::Person>>();
 		}
 
 		void Group::remove(const std::shared_ptr<Titanium::Contacts::Person>& person) TITANIUM_NOEXCEPT
 		{
 #if (WINVER >= 0x0A00)
 			// Windows 10+ API!
-			std::shared_ptr<TitaniumWindows::Contacts::Person> win_person = std::dynamic_pointer_cast<::TitaniumWindows::Contacts::Person>(person);
-			win_person->removeFromList(contact_list__);
+			if (contact_list__) {
+				std::shared_ptr<TitaniumWindows::Contacts::Person> win_person = std::dynamic_pointer_cast<::TitaniumWindows::Contacts::Person>(person);
+				win_person->removeFromList(contact_list__);
+			}
 #else
 			TITANIUM_LOG_WARN("Group::remove: Unimplemented");
 #endif
@@ -103,20 +109,22 @@ namespace TitaniumWindows
 		{
 #if (WINVER >= 0x0A00)
 			// Windows 10+ API!
-			return get_context().CreateString(TitaniumWindows::Utility::ConvertUTF8String(contact_list__->Id));
-#else
-			return get_context().CreateNull();
+			if (contact_list__) {
+				return get_context().CreateString(TitaniumWindows::Utility::ConvertUTF8String(contact_list__->Id));
+			}
 #endif
+			return get_context().CreateNull();
 		}
 
 		std::string Group::get_name() const TITANIUM_NOEXCEPT
 		{
 #if (WINVER >= 0x0A00)
 			// Windows 10+ API!
-			return TitaniumWindows::Utility::ConvertUTF8String(contact_list__->DisplayName);
-#else
-			return Titanium::Contacts::Group::get_name();
+			if (contact_list__) {
+				return TitaniumWindows::Utility::ConvertUTF8String(contact_list__->DisplayName);
+			}
 #endif
+			return Titanium::Contacts::Group::get_name();
 		}
 
 		void Group::set_name(const std::string& name) TITANIUM_NOEXCEPT
@@ -124,7 +132,9 @@ namespace TitaniumWindows
 			Titanium::Contacts::Group::set_name(name);
 #if (WINVER >= 0x0A00)
 			// Windows 10+ API!
-			contact_list__->DisplayName = TitaniumWindows::Utility::ConvertUTF8String(name);
+			if (contact_list__) {
+				contact_list__->DisplayName = TitaniumWindows::Utility::ConvertUTF8String(name);
+			}
 #else
 			TITANIUM_LOG_WARN("Group::set_name: Unimplemented");
 #endif
@@ -141,7 +151,9 @@ namespace TitaniumWindows
 #if (WINVER >= 0x0A00)
 			// Windows 10+ API!
 			// Do we need to make this sync? I don't think we do...
-			contact_list__->DeleteAsync();
+			if (contact_list__) {
+				contact_list__->DeleteAsync();
+			}
 #else
 			TITANIUM_LOG_WARN("Group::removeList: Unimplemented");
 #endif
