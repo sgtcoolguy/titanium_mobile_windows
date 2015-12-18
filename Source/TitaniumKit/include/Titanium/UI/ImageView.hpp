@@ -88,11 +88,13 @@ namespace Titanium
 
 			  @abstract toBlob() : Titanium.Blob
 
+			  @param callback <optional> Function to be invoked upon completion. If non-null, this method will be performed asynchronously. If null, it will be performed immediately.
+
 			  @discussion Returns the image as a Blob object.
 
 			  @result Titanium.Blob
 			*/
-			virtual std::shared_ptr<Titanium::Blob> toBlob() TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<Titanium::Blob> toBlob(JSValue callback) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method

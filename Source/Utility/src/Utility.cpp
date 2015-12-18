@@ -92,6 +92,9 @@ namespace TitaniumWindows
 
 		std::vector<std::uint8_t> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer) 
 		{
+			if (buffer == nullptr) {
+				return std::vector<std::uint8_t>();
+			}
 			const auto reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
 			std::vector<std::uint8_t> data(reader->UnconsumedBufferLength);
 			if (!data.empty()) {

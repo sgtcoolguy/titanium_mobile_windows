@@ -55,7 +55,6 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(viewShadowOffset);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(horizontalWrap);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(keepScreenOn);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(toImage);
 			TITANIUM_FUNCTION_UNIMPLEMENTED(convertPointToView);
 
 			// Implemented, works with some components which uses Xaml.Controls.Control
@@ -74,8 +73,11 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 			static Windows::UI::Xaml::Media::FontFamily^ LookupFont(const JSContext& js_context, const std::string& family);
+			static void ToImage(Windows::UI::Xaml::FrameworkElement^, JSValue, JSObject);
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+			virtual std::shared_ptr<Titanium::Blob> toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT override;
+
 			virtual void registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireCallback);
 			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() TITANIUM_NOEXCEPT;
 

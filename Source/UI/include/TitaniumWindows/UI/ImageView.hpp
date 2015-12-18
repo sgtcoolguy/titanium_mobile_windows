@@ -42,10 +42,8 @@ namespace TitaniumWindows
 		{
 		public:
 
-			TITANIUM_FUNCTION_UNIMPLEMENTED(toBlob);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(autorotate);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(decodeRetries);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(defaultImage);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(enableZoomControls);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(hires);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(preventDefaultImage);
@@ -69,15 +67,24 @@ namespace TitaniumWindows
 			virtual void resume() TITANIUM_NOEXCEPT override final;
 			virtual void start() TITANIUM_NOEXCEPT override final;
 			virtual void stop() TITANIUM_NOEXCEPT override final;
+			virtual std::shared_ptr<Titanium::Blob> toBlob(JSValue callback) TITANIUM_NOEXCEPT override final;
+			virtual std::shared_ptr<Titanium::Blob> toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT override;
 
 			// properties
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
 			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
+			virtual void set_defaultImage(const std::string&) TITANIUM_NOEXCEPT override final;
 
 		private:
-			Windows::Foundation::EventRegistrationToken internal_load_event_;
+
+			void loadContentFromData(std::vector<std::uint8_t>& data);
+
+			Windows::Foundation::EventRegistrationToken layout_event__;
+			Windows::Foundation::EventRegistrationToken loaded_event__;
 			Windows::UI::Xaml::Controls::Image^ image__;
 			Windows::UI::Xaml::Media::Animation::Storyboard^ storyboard__;
+			bool loaded__;
+			bool loaded_event_set__;
 		};
 	} // namespace UI
 } // namespace TitaniumWindow
