@@ -181,7 +181,7 @@ namespace TitaniumWindows
 
 		void WebView::set_url(const std::string& url) TITANIUM_NOEXCEPT
 		{
-			webview__->Navigate(ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(url)));
+			webview__->Navigate(TitaniumWindows::Utility::GetWebUriFromPath(url));
 		}
 
 		bool WebView::canGoBack() TITANIUM_NOEXCEPT
