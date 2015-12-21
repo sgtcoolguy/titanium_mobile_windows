@@ -171,6 +171,21 @@ namespace TitaniumWindows
 			return ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(modified));
 		}
 
+		Windows::Foundation::Uri^ GetWebUriFromPath(const std::string& path)
+		{
+			std::string modified = path;
+			// if the path isn't an http/s URI already, fix URI to point to local files in app
+			if (!boost::starts_with(modified, "http://") && !boost::starts_with(modified, "https://")) {
+				// URIs must be absolute
+				if (!boost::starts_with(modified, "/")) {
+					modified = "/" + modified;
+				}
+				// use MS's in-app URL scheme for browser
+				modified = "ms-appx-web://" + modified;
+			}
+			return ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(modified));
+		}
+
 		std::uint32_t GetHResultErrorCode(::Platform::String^ errorMessage, const std::uint32_t& defaultCode)
 		{
 			// Extract HRESULT error code from error message

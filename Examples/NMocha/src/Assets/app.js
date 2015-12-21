@@ -60,6 +60,7 @@ require('./ti.ui.view.test');
 require('./ti.ui.window.test');
 require('./ti.ui.2dmatrix.test');
 require('./ti.ui.picker.test');
+require('./ti.ui.webview.test');
 require('./ti.utils.test');
 require('./ti.xml.test');
 require('./ti.locale.test');

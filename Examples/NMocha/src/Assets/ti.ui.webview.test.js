@@ -1,0 +1,55 @@
+/*
+ * Appcelerator Titanium Mobile
+ * Copyright (c) 2011-2015 by Appcelerator, Inc. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License
+ * Please see the LICENSE included with this distribution for details.
+ */
+
+require('ti-mocha');
+var should = require('should');
+
+describe("Titanium.UI.WebView", function () {
+
+    it("WebView.url", function (finish) {
+        this.timeout(10000);
+        var w = Ti.UI.createWindow({
+            backgroundColor: 'blue'
+        });
+        var webview = Ti.UI.createWebView();
+
+        w.addEventListener('focus', function () {
+            should(function () {
+                webview.url = 'http://www.appcelerator.com/';
+            }).not.throw();
+            setTimeout(function () {
+                w.close();
+                finish();
+            }, 1000);
+        });
+
+        w.add(webview);
+        w.open();
+    });
+
+    it("WebView.url(local)", function (finish) {
+        this.timeout(10000);
+        var w = Ti.UI.createWindow({
+            backgroundColor: 'blue'
+        });
+        var webview = Ti.UI.createWebView();
+
+        w.addEventListener('focus', function () {
+            should(function () {
+                webview.url = 'ti.ui.webview.test.html';
+            }).not.throw();
+            setTimeout(function () {
+                w.close();
+                finish();
+            }, 1000);
+        });
+
+        w.add(webview);
+        w.open();
+    });
+
+});

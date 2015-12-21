@@ -119,6 +119,11 @@ namespace TitaniumWindows
 		TITANIUMWINDOWS_UTILITY_EXPORT Windows::Foundation::Uri^ GetUriFromPath(const std::string& path);
 
 		//
+		// Get Uri from path for browser
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT Windows::Foundation::Uri^ GetWebUriFromPath(const std::string& path);
+
+		//
 		// Get error code from HRESULT error message
 		//
 		TITANIUMWINDOWS_UTILITY_EXPORT std::uint32_t GetHResultErrorCode(::Platform::String^ errorMessage, const std::uint32_t& defaultCode);
