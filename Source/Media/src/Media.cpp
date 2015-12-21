@@ -13,6 +13,7 @@
 #include "TitaniumWindows/Utility.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include "TitaniumWindows/AppModule.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <ppltasks.h>
 #include <collection.h>
 #include <concrt.h>
@@ -102,7 +103,7 @@ namespace TitaniumWindows
 		openMusicLibraryOptionsState__ = options;
 		waitingForOpenMusicLibrary__ = true;
 
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		// Start listening to "windows.fileOpenFromPicker" event
 		GET_TITANIUM_APP(App);
 		App->addEventListener("windows.fileOpenFromPicker", fileOpenForMusicLibraryCallback__, fileOpenForMusicLibraryCallback__);
@@ -239,7 +240,7 @@ namespace TitaniumWindows
 		openPhotoGalleryOptionsState__ = options;
 		waitingForOpenPhotoGallery__ = true;
 
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		// Start listening to "windows.fileOpenFromPicker" event
 		GET_TITANIUM_APP(App);
 		App->addEventListener("windows.fileOpenFromPicker", fileOpenForPhotoGalleryCallback__, fileOpenForPhotoGalleryCallback__);
@@ -362,7 +363,7 @@ namespace TitaniumWindows
 
 	void MediaModule::hideCamera() TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		TITANIUM_ASSERT_AND_THROW(cameraPreviewStarted__, "Camera is not visiable. Use showCamera() to show camera.");
 		concurrency::create_task(mediaCapture__->StopPreviewAsync()).then([this](concurrency::task<void> stopTask) {
 			try {
@@ -380,7 +381,7 @@ namespace TitaniumWindows
 
 	void MediaModule::showCamera(const Titanium::Media::CameraOptionsType& options) TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 
 		if (cameraPreviewStarted__) {
 			TITANIUM_LOG_WARN("Failed to showCamera(): Camera is already visible.");
@@ -485,7 +486,7 @@ namespace TitaniumWindows
 
 	void MediaModule::takePicture() TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		// CreationCollisionOption::GenerateUniqueName generates unique name such as "TiMediaPhoto (2).jpg"
 		concurrency::task<StorageFile^>(KnownFolders::VideosLibrary->CreateFileAsync("TiMediaPhoto.jpg", CreationCollisionOption::GenerateUniqueName)).then([this](concurrency::task<StorageFile^> fileTask) {
 			try {
@@ -513,7 +514,7 @@ namespace TitaniumWindows
 
 	void MediaModule::startVideoCapture() TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		concurrency::task<StorageFile^>(KnownFolders::VideosLibrary->CreateFileAsync("TiMediaVideo.mp4", CreationCollisionOption::GenerateUniqueName)).then([this](concurrency::task<StorageFile^> fileTask) {
 			try {
 				auto file = fileTask.get();
@@ -541,7 +542,7 @@ namespace TitaniumWindows
 
 	void MediaModule::stopVideoCapture() TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		TITANIUM_ASSERT_AND_THROW(cameraPreviewStarted__, "Camera is not visiable. Use showCamera() to show camera.");
 		concurrency::create_task(mediaCapture__->StopRecordAsync()).then([this](concurrency::task<void> stopTask) {
 			try {
@@ -572,7 +573,7 @@ namespace TitaniumWindows
 
 	void MediaModule::clearScreenshotResources()
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		if (screenCaptureStarted__) {
 			delete(mediaCapture__.Get());
 			screenCaptureStarted__ = false;
@@ -583,7 +584,7 @@ namespace TitaniumWindows
 	// Create new storage and start capturing!
 	void MediaModule::takeScreenshotToFile(JSObject callback)
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		// CreationCollisionOption::GenerateUniqueName generates unique name such as "TiMediaScreenCapture (2).jpg"
 		concurrency::task<StorageFile^>(KnownFolders::VideosLibrary->CreateFileAsync("TiMediaScreenCapture.jpg", CreationCollisionOption::GenerateUniqueName)).then([this, callback](concurrency::task<StorageFile^> fileTask) {
 			try {
@@ -614,7 +615,7 @@ namespace TitaniumWindows
 
 	void MediaModule::takeScreenshot(JSValue callback_value) TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 
 		TITANIUM_ASSERT_AND_THROW(!cameraPreviewStarted__, "takeScreenshot() can't be used during camera preview");
 
@@ -665,7 +666,7 @@ namespace TitaniumWindows
 
 	void MediaModule::vibrate(std::vector<std::chrono::milliseconds> pattern) TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		using namespace Windows::Phone::Devices::Notification;
 		const auto device = VibrationDevice::GetDefault();
 
@@ -713,7 +714,7 @@ namespace TitaniumWindows
 	MediaModule::MediaModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Titanium::MediaModule(js_context)
 		, js_beep__(createBeepFunction(js_context))
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		, fileOpenForMusicLibraryCallback__(createFileOpenForMusicLibraryFunction(js_context))
 		, fileOpenForPhotoGalleryCallback__(createFileOpenForPhotoGalleryFunction(js_context))
 #endif
@@ -721,7 +722,7 @@ namespace TitaniumWindows
 		, openMusicLibraryOptionsState__(Titanium::Media::create_empty_MusicLibraryOptionsType(js_context))
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::MediaModule::ctor Initialize");
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		vibrate_timers__ = ref new Vector<DispatcherTimer^>();
 		captureElement__ = ref new CaptureElement();
 #endif

@@ -11,7 +11,8 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/OptionDialog.hpp"
-#include <Windows.h>
+#include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 namespace TitaniumWindows
 {
@@ -51,7 +52,7 @@ namespace TitaniumWindows
 
 			virtual void show(const Titanium::UI::OptionDialogShowParams& params) TITANIUM_NOEXCEPT override;
 
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 			static const std::uint32_t MaxButtonCount = 2;
 #else
 			static const std::uint32_t MaxButtonCount = 3;

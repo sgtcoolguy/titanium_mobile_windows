@@ -11,6 +11,8 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/TabGroup.hpp"
+#include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <collection.h>
 
 namespace TitaniumWindows
@@ -80,7 +82,7 @@ namespace TitaniumWindows
 			std::shared_ptr<TitaniumWindows::UI::Window> window__;
 			Windows::UI::Xaml::Controls::Grid^  grid__;
 
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 			Windows::UI::Xaml::Controls::Pivot^ pivot__;
 #else
 			//

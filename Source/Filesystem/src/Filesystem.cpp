@@ -6,8 +6,9 @@
 
 #include "TitaniumWindows/Filesystem.hpp"
 #include "Titanium/Filesystem/FileStream.hpp"
-#include "TitaniumWindows/Utility.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "TitaniumWindows/Utility.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <iostream>
 #include <objbase.h>
 
@@ -43,13 +44,13 @@ namespace TitaniumWindows
 
 	std::string FilesystemModule::applicationCacheDirectory() const TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-		const auto value = Windows::Storage::ApplicationData::Current->LocalCacheFolder->Path;
-		return TitaniumWindows::Utility::ConvertString(value) + separator(); // FIXME Only append separator if not already there!
-#else
-		TITANIUM_LOG_WARN("Filesystem.applicationCacheDirectory is not supported on Windows Store.");
-		return "";
-#endif
+		if (TitaniumWindows::Utility::IsWindowsPhoneOrMobile()) {
+			const auto value = Windows::Storage::ApplicationData::Current->LocalCacheFolder->Path;
+			return TitaniumWindows::Utility::ConvertString(value) + separator(); // FIXME Only append separator if not already there!
+		} else {
+			TITANIUM_LOG_WARN("Filesystem.applicationCacheDirectory is not supported on Windows Store.");
+			return "";
+		}
 	}
 
 	std::string FilesystemModule::applicationDataDirectory() const TITANIUM_NOEXCEPT

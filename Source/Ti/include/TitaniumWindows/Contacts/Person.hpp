@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows_Ti_EXPORT.h"
 #include "Titanium/Contacts/Person.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <sdkddkver.h>
 
 namespace TitaniumWindows
@@ -96,8 +97,7 @@ namespace TitaniumWindows
 			virtual void set_url(const Titanium::Contacts::Urls&) TITANIUM_NOEXCEPT override final;
 
 			void remove();
-#if (WINVER >= 0x0A00)
-// Windows 10+ API
+#if defined(IS_WINDOWS_10)
 			Windows::ApplicationModel::Contacts::Contact^ GetContact();
 			void removeFromList(Windows::ApplicationModel::Contacts::ContactList^ list);
 #endif

@@ -11,6 +11,8 @@
 #include "Titanium/MediaModule.hpp"
 #include "Titanium/Media/PhotoGalleryOptionsType.hpp"
 #include "Titanium/Media/MusicLibraryOptionsType.hpp"
+#include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <agile.h>
 #include <collection.h>
 
@@ -173,7 +175,7 @@ namespace TitaniumWindows
 		Titanium::Media::PhotoGalleryOptionsType openPhotoGalleryOptionsState__;
 		Titanium::Media::MusicLibraryOptionsType openMusicLibraryOptionsState__;
 		JSFunction js_beep__;
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		bool screenCaptureStarted__ { false };
 		bool cameraPreviewStarted__ { false };
 		JSFunction fileOpenForMusicLibraryCallback__;
@@ -182,11 +184,7 @@ namespace TitaniumWindows
 		::Platform::Collections::Vector<Windows::UI::Xaml::DispatcherTimer^>^ vibrate_timers__;
 		Windows::UI::Xaml::Controls::CaptureElement^ captureElement__;
 		Windows::Foundation::EventRegistrationToken camera_navigated_event__;
-
-#else
-
 #endif
-
 #pragma warning(pop)
 	};
 

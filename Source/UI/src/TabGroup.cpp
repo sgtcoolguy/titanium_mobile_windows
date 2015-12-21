@@ -11,6 +11,8 @@
 #include "TitaniumWindows/UI/Tab.hpp"
 #include "TitaniumWindows/UI/Window.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiImpl.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 namespace TitaniumWindows
 {
@@ -35,7 +37,7 @@ namespace TitaniumWindows
 
 			grid__  = ref new Grid();
 
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 			pivot__ = ref new Pivot();
 
 			pivot__->SelectionChanged += ref new SelectionChangedEventHandler([this](Platform::Object^ sender, SelectionChangedEventArgs^ e) {
@@ -109,7 +111,7 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::TabGroup::set_barColor(value);
 			const auto brush = ref new Media::SolidColorBrush(WindowsViewLayoutDelegate::ColorForName(value));
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 			pivot__->Background = brush;
 #else
 			sectionView__->Background = brush;
@@ -125,7 +127,7 @@ namespace TitaniumWindows
 		{
 			if (updateUI && activeTab != activeTab__) {
 				const auto tabview = activeTab->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 				pivot__->SelectedItem = tabview;
 #else
 				if (grid__->Children->Size > 1) {
@@ -155,7 +157,7 @@ namespace TitaniumWindows
 		void TabGroup::set_tabs(const std::vector<std::shared_ptr<Titanium::UI::Tab>>& tabs) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::TabGroup::set_tabs(tabs);
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 			pivot__->Items->Clear();
 #else
 			sectionViewItems__->Clear();
@@ -176,7 +178,7 @@ namespace TitaniumWindows
 			const auto windows_tab = dynamic_cast<TitaniumWindows::UI::Tab*>(tab.get());
 			const auto tabview = windows_tab->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 			if (windows_tab) {
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 				pivot__->Items->Append(tabview);
 #else
 				sectionViewItems__->Append(Utility::ConvertUTF8String(windows_tab->get_title()));

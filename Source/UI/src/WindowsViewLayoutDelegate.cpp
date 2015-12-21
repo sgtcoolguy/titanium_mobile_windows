@@ -22,6 +22,7 @@
 
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -1320,14 +1321,15 @@ namespace TitaniumWindows
 
 			if (prop.value == Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE)) {
 				prop.value = "UI.SIZE";
-			} else if (prop.value == Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)) {
+			}
+			else if (prop.value == Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)) {
 				prop.value = "UI.FILL";
 			}
 
 			auto info = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
 			double ppi = info->LogicalDpi;
-#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
-			switch (name) {
+			if (TitaniumWindows::Utility::IsWindowsPhoneOrMobile()) {
+				switch (name) {
 				case Titanium::LayoutEngine::ValueName::CenterX:
 				case Titanium::LayoutEngine::ValueName::Left:
 				case Titanium::LayoutEngine::ValueName::Right:
@@ -1342,8 +1344,9 @@ namespace TitaniumWindows
 				case Titanium::LayoutEngine::ValueName::MinHeight:
 					ppi = info->RawDpiY / info->RawPixelsPerViewPixel;
 					break;
+				}
 			}
-#endif
+
 			// Get the defaultUnits from ti.ui.defaultUnit!
 			std::string defaultUnits = "px";
 			auto event_delegate = event_delegate__.lock();

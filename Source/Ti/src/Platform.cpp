@@ -8,6 +8,7 @@
 #include "Titanium/detail/TiImpl.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/DisplayCaps.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <iostream>
 #include <objbase.h>
 #include <ppltasks.h>
@@ -19,16 +20,8 @@
 namespace TitaniumWindows
 {
 	Platform::Platform(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Titanium::PlatformModule(js_context),
-#if defined(__cplusplus_winrt)
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-	      osname__("windowsphone")
-#else
-	      osname__("windowsstore")
-#endif
-#else
-	      osname__("unknown")
-#endif
+	    : Titanium::PlatformModule(js_context)
+		, osname__(TitaniumWindows::Utility::IsWindowsPhoneOrMobile() ? "windowsphone" : "windowsstore")
 	{
 		TITANIUM_LOG_DEBUG("Platform::ctor");
 		setDisplayCaps(get_context().CreateObject(JSExport<TitaniumWindows::DisplayCaps>::Class()));
@@ -96,25 +89,24 @@ namespace TitaniumWindows
 	
 	std::uint64_t Platform::availableMemory() const TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-		return Windows::System::MemoryManager::AppMemoryUsageLimit - Windows::System::MemoryManager::AppMemoryUsage;
-#else
-		return 0;
-#endif
+		if (TitaniumWindows::Utility::IsWindowsPhoneOrMobile()) {
+			return Windows::System::MemoryManager::AppMemoryUsageLimit - Windows::System::MemoryManager::AppMemoryUsage;
+		} else {
+			return 0;
+		}
 	}
 
 	double Platform::batteryLevel() const TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		return Windows::Phone::Devices::Power::Battery::GetDefault()->RemainingChargePercent;
-#else
-		return 0;
 #endif
+		return 0;
 	}
 
 	bool Platform::batteryMonitoring() const TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		return true;
 #else
 		return false;
@@ -123,7 +115,7 @@ namespace TitaniumWindows
 
 	Titanium::Platform::BatteryState Platform::batteryState() const TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		// We can detect if it's fully charged, but we don't know if it's plugged or not.
 		// In this case let's return FULL if 100% charged, otherwise return UNKNOWN.
 		const auto percent = Windows::Phone::Devices::Power::Battery::GetDefault()->RemainingChargePercent;
@@ -312,7 +304,7 @@ namespace TitaniumWindows
 	std::string Platform::username() const TITANIUM_NOEXCEPT
 	{
 		using namespace Windows::System::UserProfile;
-#if (WINVER >= 0x0A00)
+#if defined(IS_WINDOWS_10)
 		TITANIUM_LOG_ERROR("Platform::username are not supported on Windows 10");
 		return "";
 #else

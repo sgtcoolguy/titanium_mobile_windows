@@ -13,6 +13,7 @@
 #include "Titanium/App.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include "Titanium/UIModule.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <windows.h>
 
 namespace TitaniumWindows
@@ -20,7 +21,7 @@ namespace TitaniumWindows
 	namespace UI
 	{
 
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		using namespace Windows::Foundation;
 		using namespace Windows::Phone::UI::Input;
 #endif
@@ -45,7 +46,7 @@ namespace TitaniumWindows
 
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(canvas__);
 
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 			backpressed_event__ = HardwareButtons::BackPressed += ref new EventHandler<BackPressedEventArgs^>([this](Platform::Object ^sender, BackPressedEventArgs ^e) {
 				if (is_window_event_active__) {
 					// close current window when there's no back button listener
@@ -62,7 +63,7 @@ namespace TitaniumWindows
 
 		Window::~Window() 
 		{
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 			HardwareButtons::BackPressed -= backpressed_event__;
 #endif
 		}
@@ -251,7 +252,7 @@ namespace TitaniumWindows
 		void Window::set_fullscreen(const bool& fullscreen) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Window::set_fullscreen(fullscreen);
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 			auto statusBar = Windows::UI::ViewManagement::StatusBar::GetForCurrentView();
 			fullscreen ? statusBar->HideAsync() : statusBar->ShowAsync();
 #endif

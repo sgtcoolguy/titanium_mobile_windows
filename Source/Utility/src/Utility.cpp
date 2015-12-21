@@ -11,6 +11,7 @@
 #include "HAL/HAL.hpp"
 #include <boost/algorithm/string/predicate.hpp>
 #include "Titanium/detail/TiImpl.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <ctime>
 #include <concrt.h>
 
@@ -314,5 +315,15 @@ namespace TitaniumWindows
 			return response;
 		}
 
+		bool IsWindowsPhoneOrMobile()
+		{
+#if defined(IS_WINDOWS_10)
+			return IS_WINDOWS_MOBILE;
+#elif defined(IS_WINDOWS_PHONE)
+			return true;
+#else
+			return false;
+#endif
+		}
 	}  // namespace Utility
 }  // namespace TitaniumWindows
