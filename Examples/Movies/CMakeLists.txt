@@ -5,7 +5,9 @@
 # Please see the LICENSE included with this distribution for details.
 cmake_minimum_required(VERSION 3.0.0)
 
-if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
+if (${CMAKE_SYSTEM_VERSION} STREQUAL "10.0")
+  set(PLATFORM win10)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
   set(PLATFORM wp)
   add_definitions("-DPHONE")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsStore")
@@ -94,6 +96,11 @@ set(EXE_NAME ${PROJECT_NAME})
 set(APP_MANIFEST_NAME Package.appxmanifest)
 set(SHORT_NAME ${EXE_NAME})
 set(PACKAGE_GUID "f0473be1-c557-4f98-a103-4ba9f453b5b0")
+set(PUBLISHER_ID "CN=appcelerator")
+set(PUBLISHER_DISPLAY_NAME "Appcelerator")
+set(PHONE_PRODUCT_ID "f0473be1-c557-4f98-a103-4ba9f453b5b0")
+set(PHONE_PUBLISHER_ID "00000000-0000-0000-0000-000000000000")
+set(VERSION "1.1.0.0")
 
 # Generate the app manifest.
 configure_file(
@@ -133,7 +140,7 @@ set(SOURCE_alloy
       "src/Assets/alloy/underscore.js"
       "src/Assets/alloy/widget.js"
   )
-source_group("alloy" FILES 
+source_group("alloy" FILES
       "src/Assets/alloy/animation.js"
       "src/Assets/alloy/backbone.js"
       "src/Assets/alloy/CFG.js"
@@ -154,7 +161,7 @@ set(SOURCE_alloy_controllers
       "src/Assets/alloy/controllers/movies_list.js"
       "src/Assets/alloy/controllers/settings.js"
   )
-source_group("alloy/controllers" FILES 
+source_group("alloy/controllers" FILES
       "src/Assets/alloy/controllers/BaseController.js"
       "src/Assets/alloy/controllers/about.js"
       "src/Assets/alloy/controllers/home.js"
@@ -173,7 +180,7 @@ set(SOURCE_alloy_controllers_views
       "src/Assets/alloy/controllers/views/movies_list_cell.js"
       "src/Assets/alloy/controllers/views/navbar.js"
   )
-source_group("alloy/controllers/views" FILES 
+source_group("alloy/controllers/views" FILES
       "src/Assets/alloy/controllers/views/list_cell.js"
       "src/Assets/alloy/controllers/views/list_static_cell.js"
       "src/Assets/alloy/controllers/views/movies_list_cell.js"
@@ -191,7 +198,7 @@ set(SOURCE_alloy_styles
       "src/Assets/alloy/styles/movies_list.js"
       "src/Assets/alloy/styles/settings.js"
   )
-source_group("alloy/styles" FILES 
+source_group("alloy/styles" FILES
       "src/Assets/alloy/styles/about.js"
       "src/Assets/alloy/styles/home.js"
       "src/Assets/alloy/styles/index.js"
@@ -209,7 +216,7 @@ set(SOURCE_alloy_styles_views
       "src/Assets/alloy/styles/views/movies_list_cell.js"
       "src/Assets/alloy/styles/views/navbar.js"
   )
-source_group("alloy/styles/views" FILES 
+source_group("alloy/styles/views" FILES
       "src/Assets/alloy/styles/views/list_cell.js"
       "src/Assets/alloy/styles/views/list_static_cell.js"
       "src/Assets/alloy/styles/views/movies_list_cell.js"
@@ -223,7 +230,7 @@ set(SOURCE_alloy_sync
       "src/Assets/alloy/sync/properties.js"
       "src/Assets/alloy/sync/sql.js"
   )
-source_group("alloy/sync" FILES 
+source_group("alloy/sync" FILES
       "src/Assets/alloy/sync/localStorage.js"
       "src/Assets/alloy/sync/properties.js"
       "src/Assets/alloy/sync/sql.js"
@@ -239,7 +246,7 @@ set(SOURCE_data
       "src/Assets/data/lists.json"
       "src/Assets/data/movie.json"
   )
-source_group("data" FILES 
+source_group("data" FILES
       "src/Assets/data/config.json"
       "src/Assets/data/genre.json"
       "src/Assets/data/genres.json"
@@ -253,7 +260,7 @@ set_property(SOURCE ${SOURCE_data} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 set(SOURCE_fonts
       "src/Assets/fonts/FontAwesome.otf"
   )
-source_group("fonts" FILES 
+source_group("fonts" FILES
       "src/Assets/fonts/FontAwesome.otf"
   )
 set_property(SOURCE ${SOURCE_fonts} PROPERTY VS_DEPLOYMENT_LOCATION "fonts")
@@ -264,7 +271,7 @@ set(SOURCE_tests
       "src/Assets/tests/tests_runner.js"
       "src/Assets/tests/ti-mocha.js"
   )
-source_group("tests" FILES 
+source_group("tests" FILES
       "src/Assets/tests/should.js"
       "src/Assets/tests/tests_runner.js"
       "src/Assets/tests/ti-mocha.js"
@@ -275,7 +282,7 @@ set_property(SOURCE ${SOURCE_tests} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 set(SOURCE_tests_specs
       "src/Assets/tests/specs/app_tests.js"
   )
-source_group("tests/specs" FILES 
+source_group("tests/specs" FILES
       "src/Assets/tests/specs/app_tests.js"
   )
 set_property(SOURCE ${SOURCE_tests_specs} PROPERTY VS_DEPLOYMENT_LOCATION "tests\\specs")
