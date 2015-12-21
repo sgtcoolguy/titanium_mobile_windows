@@ -44,13 +44,14 @@ namespace TitaniumWindows
 
 	std::string FilesystemModule::applicationCacheDirectory() const TITANIUM_NOEXCEPT
 	{
-		if (TitaniumWindows::Utility::IsWindowsPhoneOrMobile()) {
-			const auto value = Windows::Storage::ApplicationData::Current->LocalCacheFolder->Path;
-			return TitaniumWindows::Utility::ConvertString(value) + separator(); // FIXME Only append separator if not already there!
-		} else {
-			TITANIUM_LOG_WARN("Filesystem.applicationCacheDirectory is not supported on Windows Store.");
-			return "";
-		}
+		// Windows 10 and Windows 8.1 phone support LocalCacheFolder
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
+		const auto value = Windows::Storage::ApplicationData::Current->LocalCacheFolder->Path;
+		return TitaniumWindows::Utility::ConvertString(value) + separator(); // FIXME Only append separator if not already there!
+#else
+		TITANIUM_LOG_WARN("Filesystem.applicationCacheDirectory is not supported on Windows Store.");
+		return "";
+#endif
 	}
 
 	std::string FilesystemModule::applicationDataDirectory() const TITANIUM_NOEXCEPT

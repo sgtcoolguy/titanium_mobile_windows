@@ -6,7 +6,6 @@
 
 #include "TitaniumWindows/DisplayCaps.hpp"
 #include "Titanium/detail/TiLogger.hpp"
-#include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/WindowsMacros.hpp"
 #include <iostream>
 #include <objbase.h>
