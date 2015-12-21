@@ -5,7 +5,9 @@
 # Please see the LICENSE included with this distribution for details.
 cmake_minimum_required(VERSION 3.0.0)
 
-if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
+if (${CMAKE_SYSTEM_VERSION} STREQUAL "10.0")
+  set(PLATFORM win10)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
   set(PLATFORM wp)
   add_definitions("-DPHONE")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsStore")
@@ -94,6 +96,11 @@ set(EXE_NAME ${PROJECT_NAME})
 set(APP_MANIFEST_NAME Package.appxmanifest)
 set(SHORT_NAME ${EXE_NAME})
 set(PACKAGE_GUID "f0473be1-c557-4f98-a103-4ba9f453b5b0")
+set(PUBLISHER_ID "CN=appcelerator")
+set(PUBLISHER_DISPLAY_NAME "Appcelerator")
+set(PHONE_PRODUCT_ID "f0473be1-c557-4f98-a103-4ba9f453b5b0")
+set(PHONE_PUBLISHER_ID "00000000-0000-0000-0000-000000000000")
+set(VERSION "1.1.0.0")
 
 # Generate the app manifest.
 configure_file(
@@ -124,7 +131,7 @@ set(SOURCE_ui
   "src/Assets/ui/AppTabGroup.js"
   "src/Assets/ui/ListWindow.js"
   )
-source_group("ui" FILES 
+source_group("ui" FILES
   "src/Assets/ui/AddWindow.js"
   "src/Assets/ui/AppTabGroup.js"
   "src/Assets/ui/ListWindow.js"
@@ -137,7 +144,7 @@ set(SOURCE_images
   "src/Assets/images/KS_nav_ui.png"
   "src/Assets/images/KS_nav_views.png"
   )
-source_group("images" FILES 
+source_group("images" FILES
   "src/Assets/images/ic_menu_add.png"
   "src/Assets/images/KS_nav_ui.png"
   "src/Assets/images/KS_nav_views.png"

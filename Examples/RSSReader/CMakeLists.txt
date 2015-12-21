@@ -5,7 +5,9 @@
 # Please see the LICENSE included with this distribution for details.
 cmake_minimum_required(VERSION 3.0.0)
 
-if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
+if (${CMAKE_SYSTEM_VERSION} STREQUAL "10.0")
+  set(PLATFORM win10)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
   set(PLATFORM wp)
   add_definitions("-DPHONE")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsStore")
@@ -94,6 +96,11 @@ set(EXE_NAME ${PROJECT_NAME})
 set(APP_MANIFEST_NAME Package.appxmanifest)
 set(SHORT_NAME ${EXE_NAME})
 set(PACKAGE_GUID "f0473be1-c557-4f98-a103-4ba9f453b5b0")
+set(PUBLISHER_ID "CN=appcelerator")
+set(PUBLISHER_DISPLAY_NAME "Appcelerator")
+set(PHONE_PRODUCT_ID "f0473be1-c557-4f98-a103-4ba9f453b5b0")
+set(PHONE_PUBLISHER_ID "00000000-0000-0000-0000-000000000000")
+set(VERSION "1.1.0.0")
 
 # Generate the app manifest.
 configure_file(
@@ -126,7 +133,7 @@ set(SOURCE_alloy
       "src/Assets/alloy/underscore.js"
       "src/Assets/alloy/widget.js"
   )
-source_group("alloy" FILES 
+source_group("alloy" FILES
       "src/Assets/alloy/backbone.js"
       "src/Assets/alloy/CFG.js"
       "src/Assets/alloy/constants.js"
@@ -143,7 +150,7 @@ set(SOURCE_alloy_controllers
       "src/Assets/alloy/controllers/index.js"
       "src/Assets/alloy/controllers/master.js"
   )
-source_group("alloy/controllers" FILES 
+source_group("alloy/controllers" FILES
       "src/Assets/alloy/controllers/BaseController.js"
       "src/Assets/alloy/controllers/detail.js"
       "src/Assets/alloy/controllers/index.js"
@@ -155,7 +162,7 @@ set_property(SOURCE ${SOURCE_alloy_controllers} PROPERTY VS_DEPLOYMENT_CONTENT 1
 set(SOURCE_alloy_models
       "src/Assets/alloy/models/Feed.js"
   )
-source_group("alloy/models" FILES 
+source_group("alloy/models" FILES
       "src/Assets/alloy/models/Feed.js"
   )
 set_property(SOURCE ${SOURCE_alloy_models} PROPERTY VS_DEPLOYMENT_LOCATION "alloy\\models")
@@ -166,7 +173,7 @@ set(SOURCE_alloy_styles
       "src/Assets/alloy/styles/index.js"
       "src/Assets/alloy/styles/master.js"
   )
-source_group("alloy/styles" FILES 
+source_group("alloy/styles" FILES
       "src/Assets/alloy/styles/detail.js"
       "src/Assets/alloy/styles/index.js"
       "src/Assets/alloy/styles/master.js"
@@ -180,7 +187,7 @@ set(SOURCE_alloy_sync
       "src/Assets/alloy/sync/rss.js"
       "src/Assets/alloy/sync/sql.js"
   )
-source_group("alloy/sync" FILES 
+source_group("alloy/sync" FILES
       "src/Assets/alloy/sync/localStorage.js"
       "src/Assets/alloy/sync/properties.js"
       "src/Assets/alloy/sync/rss.js"
