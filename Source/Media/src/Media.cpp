@@ -363,7 +363,7 @@ namespace TitaniumWindows
 
 	void MediaModule::hideCamera() TITANIUM_NOEXCEPT
 	{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		TITANIUM_ASSERT_AND_THROW(cameraPreviewStarted__, "Camera is not visiable. Use showCamera() to show camera.");
 		concurrency::create_task(mediaCapture__->StopPreviewAsync()).then([this](concurrency::task<void> stopTask) {
 			try {
@@ -381,7 +381,7 @@ namespace TitaniumWindows
 
 	void MediaModule::showCamera(const Titanium::Media::CameraOptionsType& options) TITANIUM_NOEXCEPT
 	{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 
 		if (cameraPreviewStarted__) {
 			TITANIUM_LOG_WARN("Failed to showCamera(): Camera is already visible.");
@@ -486,7 +486,7 @@ namespace TitaniumWindows
 
 	void MediaModule::takePicture() TITANIUM_NOEXCEPT
 	{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		// CreationCollisionOption::GenerateUniqueName generates unique name such as "TiMediaPhoto (2).jpg"
 		concurrency::task<StorageFile^>(KnownFolders::VideosLibrary->CreateFileAsync("TiMediaPhoto.jpg", CreationCollisionOption::GenerateUniqueName)).then([this](concurrency::task<StorageFile^> fileTask) {
 			try {
@@ -514,7 +514,7 @@ namespace TitaniumWindows
 
 	void MediaModule::startVideoCapture() TITANIUM_NOEXCEPT
 	{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		concurrency::task<StorageFile^>(KnownFolders::VideosLibrary->CreateFileAsync("TiMediaVideo.mp4", CreationCollisionOption::GenerateUniqueName)).then([this](concurrency::task<StorageFile^> fileTask) {
 			try {
 				auto file = fileTask.get();
@@ -542,7 +542,7 @@ namespace TitaniumWindows
 
 	void MediaModule::stopVideoCapture() TITANIUM_NOEXCEPT
 	{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		TITANIUM_ASSERT_AND_THROW(cameraPreviewStarted__, "Camera is not visiable. Use showCamera() to show camera.");
 		concurrency::create_task(mediaCapture__->StopRecordAsync()).then([this](concurrency::task<void> stopTask) {
 			try {
@@ -573,7 +573,7 @@ namespace TitaniumWindows
 
 	void MediaModule::clearScreenshotResources()
 	{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		if (screenCaptureStarted__) {
 			delete(mediaCapture__.Get());
 			screenCaptureStarted__ = false;
@@ -584,7 +584,7 @@ namespace TitaniumWindows
 	// Create new storage and start capturing!
 	void MediaModule::takeScreenshotToFile(JSObject callback)
 	{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		// CreationCollisionOption::GenerateUniqueName generates unique name such as "TiMediaScreenCapture (2).jpg"
 		concurrency::task<StorageFile^>(KnownFolders::VideosLibrary->CreateFileAsync("TiMediaScreenCapture.jpg", CreationCollisionOption::GenerateUniqueName)).then([this, callback](concurrency::task<StorageFile^> fileTask) {
 			try {
@@ -714,7 +714,7 @@ namespace TitaniumWindows
 	MediaModule::MediaModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Titanium::MediaModule(js_context)
 		, js_beep__(createBeepFunction(js_context))
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		, fileOpenForMusicLibraryCallback__(createFileOpenForMusicLibraryFunction(js_context))
 		, fileOpenForPhotoGalleryCallback__(createFileOpenForPhotoGalleryFunction(js_context))
 #endif
@@ -722,7 +722,7 @@ namespace TitaniumWindows
 		, openMusicLibraryOptionsState__(Titanium::Media::create_empty_MusicLibraryOptionsType(js_context))
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::MediaModule::ctor Initialize");
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		vibrate_timers__ = ref new Vector<DispatcherTimer^>();
 		captureElement__ = ref new CaptureElement();
 #endif

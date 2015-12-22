@@ -20,11 +20,7 @@ namespace TitaniumWindows
 {
 	namespace UI
 	{
-
-#if defined(IS_WINDOWS_PHONE)
 		using namespace Windows::Foundation;
-		using namespace Windows::Phone::UI::Input;
-#endif
 
 		std::vector<std::shared_ptr<Window>> Window::window_stack__;
 
@@ -47,6 +43,8 @@ namespace TitaniumWindows
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(canvas__);
 
 #if defined(IS_WINDOWS_PHONE)
+			using namespace Windows::Phone::UI::Input;
+
 			backpressed_event__ = HardwareButtons::BackPressed += ref new EventHandler<BackPressedEventArgs^>([this](Platform::Object ^sender, BackPressedEventArgs ^e) {
 				if (is_window_event_active__) {
 					// close current window when there's no back button listener
@@ -64,7 +62,7 @@ namespace TitaniumWindows
 		Window::~Window() 
 		{
 #if defined(IS_WINDOWS_PHONE)
-			HardwareButtons::BackPressed -= backpressed_event__;
+			Windows::Phone::UI::Input::HardwareButtons::BackPressed -= backpressed_event__;
 #endif
 		}
 
@@ -255,6 +253,8 @@ namespace TitaniumWindows
 #if defined(IS_WINDOWS_PHONE)
 			auto statusBar = Windows::UI::ViewManagement::StatusBar::GetForCurrentView();
 			fullscreen ? statusBar->HideAsync() : statusBar->ShowAsync();
+#elif defined(IS_WINDOWS_10)
+			TITANIUM_LOG_WARN("set_fullscreen is not implemented on Windows 10");
 #endif
 		}
 

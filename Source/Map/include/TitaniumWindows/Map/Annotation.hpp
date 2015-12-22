@@ -47,7 +47,7 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			Windows::UI::Xaml::Controls::Grid^ GetMapIcon() {
 				return mapicon__;
 			}
@@ -56,7 +56,7 @@ namespace TitaniumWindows
 
 		private:
 
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			Windows::UI::Xaml::Controls::Grid^ mapicon__ = { nullptr };
 
 			Windows::UI::Xaml::Shapes::Line^ pin__ = { nullptr };

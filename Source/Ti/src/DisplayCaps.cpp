@@ -37,7 +37,7 @@ namespace TitaniumWindows
 	{
 		auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
 		if (display) {
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			return display->RawPixelsPerViewPixel;
 #else
 			return static_cast<int>(display->ResolutionScale) / 100.0;

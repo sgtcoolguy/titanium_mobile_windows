@@ -89,11 +89,11 @@ namespace TitaniumWindows
 	
 	std::uint64_t Platform::availableMemory() const TITANIUM_NOEXCEPT
 	{
-		if (TitaniumWindows::Utility::IsWindowsPhoneOrMobile()) {
-			return Windows::System::MemoryManager::AppMemoryUsageLimit - Windows::System::MemoryManager::AppMemoryUsage;
-		} else {
-			return 0;
-		}
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
+		return Windows::System::MemoryManager::AppMemoryUsageLimit - Windows::System::MemoryManager::AppMemoryUsage;
+#else
+		return 0;
+#endif
 	}
 
 	double Platform::batteryLevel() const TITANIUM_NOEXCEPT

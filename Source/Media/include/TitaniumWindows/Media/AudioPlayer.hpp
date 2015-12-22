@@ -63,7 +63,7 @@ namespace TitaniumWindows
 		protected:
 			Windows::Media::SystemMediaTransportControls^ controls__;
 			Windows::UI::Xaml::Controls::MediaElement^ player__;
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			Windows::Media::Playback::MediaPlayer^ background_player__;
 #endif
 			Windows::Foundation::EventRegistrationToken complete_event__;

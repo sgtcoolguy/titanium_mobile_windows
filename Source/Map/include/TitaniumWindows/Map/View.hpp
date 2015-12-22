@@ -14,11 +14,6 @@
 #include "Titanium/detail/TiBase.hpp"
 #include "TitaniumWindows/WindowsMacros.hpp"
 
-#if defined(IS_WINDOWS_PHONE)
-using namespace Windows::UI::Xaml::Controls::Maps;
-using namespace Windows::Services::Maps;
-#endif
-
 namespace TitaniumWindows
 {
 	namespace Map
@@ -76,8 +71,8 @@ namespace TitaniumWindows
 
 		private:
 
-#if defined(IS_WINDOWS_PHONE)
-			MapControl^ mapview__ = { nullptr };
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
+			Windows::UI::Xaml::Controls::Maps::MapControl^ mapview__ = { nullptr };
 #endif
 		};
 	} // namespace Map

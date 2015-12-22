@@ -1328,24 +1328,24 @@ namespace TitaniumWindows
 
 			auto info = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
 			double ppi = info->LogicalDpi;
-			if (TitaniumWindows::Utility::IsWindowsPhoneOrMobile()) {
-				switch (name) {
-				case Titanium::LayoutEngine::ValueName::CenterX:
-				case Titanium::LayoutEngine::ValueName::Left:
-				case Titanium::LayoutEngine::ValueName::Right:
-				case Titanium::LayoutEngine::ValueName::Width:
-				case Titanium::LayoutEngine::ValueName::MinWidth:
-					ppi = info->RawDpiX / info->RawPixelsPerViewPixel;
-					break;
-				case Titanium::LayoutEngine::ValueName::CenterY:
-				case Titanium::LayoutEngine::ValueName::Top:
-				case Titanium::LayoutEngine::ValueName::Bottom:
-				case Titanium::LayoutEngine::ValueName::Height:
-				case Titanium::LayoutEngine::ValueName::MinHeight:
-					ppi = info->RawDpiY / info->RawPixelsPerViewPixel;
-					break;
-				}
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
+			switch (name) {
+			case Titanium::LayoutEngine::ValueName::CenterX:
+			case Titanium::LayoutEngine::ValueName::Left:
+			case Titanium::LayoutEngine::ValueName::Right:
+			case Titanium::LayoutEngine::ValueName::Width:
+			case Titanium::LayoutEngine::ValueName::MinWidth:
+				ppi = info->RawDpiX / info->RawPixelsPerViewPixel;
+				break;
+			case Titanium::LayoutEngine::ValueName::CenterY:
+			case Titanium::LayoutEngine::ValueName::Top:
+			case Titanium::LayoutEngine::ValueName::Bottom:
+			case Titanium::LayoutEngine::ValueName::Height:
+			case Titanium::LayoutEngine::ValueName::MinHeight:
+				ppi = info->RawDpiY / info->RawPixelsPerViewPixel;
+				break;
 			}
+#endif
 
 			// Get the defaultUnits from ti.ui.defaultUnit!
 			std::string defaultUnits = "px";

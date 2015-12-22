@@ -12,7 +12,7 @@
 #include "Titanium/detail/TiImpl.hpp"
 #include "TitaniumWindows/WindowsMacros.hpp"
 
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 using namespace Windows::UI::Xaml::Controls::Maps;
 using namespace Windows::Devices::Geolocation;
 #endif
@@ -36,7 +36,7 @@ namespace TitaniumWindows
 
 		void Annotation::set_pincolor(const Titanium::Map::ANNOTATION_COLOR& pincolor) TITANIUM_NOEXCEPT
 		{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			if (pincolor == Titanium::Map::ANNOTATION_COLOR::AZURE) {
 				icon__->Fill = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Azure);
 			} else if (pincolor == Titanium::Map::ANNOTATION_COLOR::BLUE) {
@@ -64,7 +64,7 @@ namespace TitaniumWindows
 		}
 
 		void Annotation::updateGeoLocation() {
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			BasicGeoposition bgp = { get_latitude(), get_longitude() };
 			MapControl::SetLocation(mapicon__, ref new Geopoint(bgp));
 			MapControl::SetNormalizedAnchorPoint(mapicon__, Windows::Foundation::Point(0.5f, 0.75f));
@@ -74,7 +74,7 @@ namespace TitaniumWindows
 		void Annotation::set_title(const std::string& title) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::Annotation::set_title(title);
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			text__->Text = TitaniumWindows::Utility::ConvertString(title);
 #endif
 		}
@@ -83,7 +83,7 @@ namespace TitaniumWindows
 			: Titanium::Map::Annotation(js_context)
 		{
 			TITANIUM_LOG_DEBUG("Annotation::ctor Initialize");
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			mapicon__ = ref new Windows::UI::Xaml::Controls::Grid();
 
 			// Draw pin
@@ -122,7 +122,7 @@ namespace TitaniumWindows
 
 		Annotation::~Annotation()
 		{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			mapicon__ = nullptr;
 #endif
 		}

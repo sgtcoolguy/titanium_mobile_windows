@@ -30,7 +30,7 @@ namespace TitaniumWindows
 
 		bool EmailDialog::isSupported() TITANIUM_NOEXCEPT
 		{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			return true;
 #else
 			return false;
@@ -39,7 +39,7 @@ namespace TitaniumWindows
 
 		void EmailDialog::open(const bool& animated) TITANIUM_NOEXCEPT
 		{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			Windows::ApplicationModel::Email::EmailMessage^ email_message = ref new Windows::ApplicationModel::Email::EmailMessage();
 
 			// Set up all the fields!
@@ -81,7 +81,7 @@ namespace TitaniumWindows
 
 		// Common code for getting/setting recipients on To/Bcc/Cc
 
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		void EmailDialog::setRecipients(const std::vector<std::string>& arg, Windows::Foundation::Collections::IVector<Windows::ApplicationModel::Email::EmailRecipient^>^ recipients) {
 			// clear out an existing entries so we fully replace with new
 			recipients->Clear();

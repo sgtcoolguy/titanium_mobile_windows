@@ -175,8 +175,8 @@ namespace TitaniumWindows
 		Titanium::Media::PhotoGalleryOptionsType openPhotoGalleryOptionsState__;
 		Titanium::Media::MusicLibraryOptionsType openMusicLibraryOptionsState__;
 		JSFunction js_beep__;
-#if defined(IS_WINDOWS_PHONE)
-		bool screenCaptureStarted__ { false };
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
+		bool screenCaptureStarted__{ false };
 		bool cameraPreviewStarted__ { false };
 		JSFunction fileOpenForMusicLibraryCallback__;
 		JSFunction fileOpenForPhotoGalleryCallback__;

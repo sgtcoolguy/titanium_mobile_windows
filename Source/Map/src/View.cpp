@@ -14,8 +14,8 @@
 #include "Titanium/detail/TiImpl.hpp"
 #include "TitaniumWindows/WindowsMacros.hpp"
 
-#if defined(IS_WINDOWS_PHONE)
-using namespace Windows::Devices::Geolocation;
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
+using namespace Windows::UI::Xaml::Controls::Maps;
 #endif
 
 namespace TitaniumWindows
@@ -30,7 +30,7 @@ namespace TitaniumWindows
 
 		View::~View()
 		{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			mapview__ = nullptr;
 #endif
 		}
@@ -38,7 +38,7 @@ namespace TitaniumWindows
 		void View::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
 			Titanium::Map::View::postCallAsConstructor(js_context, arguments);
 
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			mapview__ = ref new MapControl();
 
 			// Set service token
@@ -64,7 +64,7 @@ namespace TitaniumWindows
 
 		uint32_t View::get_maxZoomLevel() const TITANIUM_NOEXCEPT
 		{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			return static_cast<uint32_t>(mapview__->MaxZoomLevel); // should be 20
 #else
 			return 20;
@@ -73,7 +73,7 @@ namespace TitaniumWindows
 
 		uint32_t View::get_minZoomLevel() const TITANIUM_NOEXCEPT
 		{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			return static_cast<uint32_t>(mapview__->MinZoomLevel); // should be 1
 #else
 			return 1;
@@ -83,7 +83,7 @@ namespace TitaniumWindows
 		void View::set_mapType(const Titanium::Map::MAP_TYPE& mapType) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::set_mapType(mapType);
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			if (mapType == Titanium::Map::MAP_TYPE::HYBRID) {
 				mapview__->Style = MapStyle::AerialWithRoads;
 			} else if (mapType == Titanium::Map::MAP_TYPE::SATELLITE) {
@@ -99,6 +99,8 @@ namespace TitaniumWindows
 			Titanium::Map::View::set_region(region);
 
 #if defined(IS_WINDOWS_PHONE)
+			using namespace Windows::Devices::Geolocation;
+
 			// set center to supplied lat/long
 			BasicGeoposition location = { region.latitude, region.longitude };
 			auto gp = ref new Geopoint(location);
@@ -126,7 +128,7 @@ namespace TitaniumWindows
 		void View::set_showsBuildings(const bool& buildings) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::set_showsBuildings(buildings);
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			mapview__->LandmarksVisible = buildings;
 #endif
 		}
@@ -134,7 +136,7 @@ namespace TitaniumWindows
 		void View::set_traffic(const bool& traffic) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::set_traffic(traffic);
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			mapview__->TrafficFlowVisible = traffic;
 #endif
 		}
@@ -142,7 +144,7 @@ namespace TitaniumWindows
 		void View::addAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::addAnnotation(annotation);
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			auto native_annotation_ptr = annotation->get_object().GetPrivate<TitaniumWindows::Map::Annotation>();
 			if (native_annotation_ptr != nullptr) {
 				mapview__->Children->Append(native_annotation_ptr->GetMapIcon());
@@ -154,7 +156,7 @@ namespace TitaniumWindows
 		{
 			Titanium::Map::View::removeAnnotation(annotation);
 
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			for (size_t i = 0; i < mapview__->Children->Size; i++) {
 				auto element = mapview__->Children->GetAt(i);
 				Windows::UI::Xaml::Controls::Grid^ icon = dynamic_cast<Windows::UI::Xaml::Controls::Grid^>(element);
@@ -175,7 +177,7 @@ namespace TitaniumWindows
 		void View::zoom(const uint32_t& zoom) TITANIUM_NOEXCEPT
 		{
 			Titanium::Map::View::zoom(zoom);
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			if (zoom != 0) // no zoom specified in the region object?
 			{
 				// TODO Enforce min/max zoom levels?
