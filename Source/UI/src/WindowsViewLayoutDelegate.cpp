@@ -22,6 +22,7 @@
 
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -1320,30 +1321,32 @@ namespace TitaniumWindows
 
 			if (prop.value == Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE)) {
 				prop.value = "UI.SIZE";
-			} else if (prop.value == Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)) {
+			}
+			else if (prop.value == Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)) {
 				prop.value = "UI.FILL";
 			}
 
 			auto info = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
 			double ppi = info->LogicalDpi;
-#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			switch (name) {
-				case Titanium::LayoutEngine::ValueName::CenterX:
-				case Titanium::LayoutEngine::ValueName::Left:
-				case Titanium::LayoutEngine::ValueName::Right:
-				case Titanium::LayoutEngine::ValueName::Width:
-				case Titanium::LayoutEngine::ValueName::MinWidth:
-					ppi = info->RawDpiX / info->RawPixelsPerViewPixel;
-					break;
-				case Titanium::LayoutEngine::ValueName::CenterY:
-				case Titanium::LayoutEngine::ValueName::Top:
-				case Titanium::LayoutEngine::ValueName::Bottom:
-				case Titanium::LayoutEngine::ValueName::Height:
-				case Titanium::LayoutEngine::ValueName::MinHeight:
-					ppi = info->RawDpiY / info->RawPixelsPerViewPixel;
-					break;
+			case Titanium::LayoutEngine::ValueName::CenterX:
+			case Titanium::LayoutEngine::ValueName::Left:
+			case Titanium::LayoutEngine::ValueName::Right:
+			case Titanium::LayoutEngine::ValueName::Width:
+			case Titanium::LayoutEngine::ValueName::MinWidth:
+				ppi = info->RawDpiX / info->RawPixelsPerViewPixel;
+				break;
+			case Titanium::LayoutEngine::ValueName::CenterY:
+			case Titanium::LayoutEngine::ValueName::Top:
+			case Titanium::LayoutEngine::ValueName::Bottom:
+			case Titanium::LayoutEngine::ValueName::Height:
+			case Titanium::LayoutEngine::ValueName::MinHeight:
+				ppi = info->RawDpiY / info->RawPixelsPerViewPixel;
+				break;
 			}
 #endif
+
 			// Get the defaultUnits from ti.ui.defaultUnit!
 			std::string defaultUnits = "px";
 			auto event_delegate = event_delegate__.lock();

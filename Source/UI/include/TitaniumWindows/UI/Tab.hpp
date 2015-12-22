@@ -11,6 +11,8 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/Tab.hpp"
+#include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 namespace TitaniumWindows
 {
@@ -62,7 +64,7 @@ namespace TitaniumWindows
 			virtual void focus() override;
 
 		private:
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 			Windows::UI::Xaml::Controls::PivotItem^ pivotItem__;
 #else
 			Windows::UI::Xaml::Controls::Grid^  grid__;

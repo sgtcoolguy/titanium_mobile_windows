@@ -11,6 +11,8 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/AlertDialog.hpp"
+#include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <functional>
 #include <agile.h>
 
@@ -54,7 +56,7 @@ namespace TitaniumWindows
 			static std::vector<std::shared_ptr<AlertDialog>> dialog_queue__;
 			std::function<void(Windows::UI::Popups::IUICommand^)> on_click__;
 
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 			static const std::uint32_t MaxButtonCount = 2;
 #else
 			static const std::uint32_t MaxButtonCount = 3;

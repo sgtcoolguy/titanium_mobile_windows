@@ -6,6 +6,7 @@
 
 #include "TitaniumWindows/DisplayCaps.hpp"
 #include "Titanium/detail/TiLogger.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <iostream>
 #include <objbase.h>
 
@@ -36,7 +37,7 @@ namespace TitaniumWindows
 	{
 		auto display = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
 		if (display) {
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			return display->RawPixelsPerViewPixel;
 #else
 			return static_cast<int>(display->ResolutionScale) / 100.0;

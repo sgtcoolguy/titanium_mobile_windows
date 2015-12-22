@@ -174,6 +174,11 @@ namespace TitaniumWindows
 		//
 		TITANIUMWINDOWS_UTILITY_EXPORT Titanium::ErrorResponse GetTiErrorResponse(::Platform::COMException^ e);
 
+		//
+		// Check if Titanium is running on Windws Phone
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT bool IsWindowsPhoneOrMobile();
+
 	}  // namespace Utility
 }  // namespace TitaniumWindows
 

@@ -7,11 +7,13 @@
 #include "TitaniumWindows/Media/AudioPlayer.hpp"
 #include "Titanium/detail/TiLogger.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiImpl.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Media;
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 using namespace Windows::Media::Playback;
 #endif
 using namespace Windows::Foundation;
@@ -29,7 +31,7 @@ namespace TitaniumWindows
 		AudioPlayer::~AudioPlayer()
 		{
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Media::AudioPlayer::dtor");
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			BackgroundMediaPlayer::Shutdown();
 #endif
 		}
@@ -57,7 +59,7 @@ namespace TitaniumWindows
 		{
 			Titanium::Media::AudioPlayer::postCallAsConstructor(js_context, arguments);
 
-#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			// allow background audio on WindowsStore apps
 			// this still requires Package.appxmanifest background task
 			auto controls = Windows::Media::SystemMediaTransportControls::GetForCurrentView();
@@ -94,7 +96,7 @@ namespace TitaniumWindows
 					stateChanged();
 				}
 			);
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			background_player__ = BackgroundMediaPlayer::Current;
 			background_player__->AutoPlay = false;
 			background_player__->CurrentStateChanged += ref new TypedEventHandler<MediaPlayer^, Platform::Object^>(
@@ -142,7 +144,7 @@ namespace TitaniumWindows
 		void AudioPlayer::set_allowBackground(const bool& allowBackground) TITANIUM_NOEXCEPT
 		{
 			Titanium::Media::AudioPlayer::set_allowBackground(allowBackground);
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			if (get_playing()) {
 				if (allowBackground) {
 					background_player__->Position = player__->Position;
@@ -167,14 +169,14 @@ namespace TitaniumWindows
 			Titanium::Media::AudioPlayer::set_url(url);
 			auto uri = TitaniumWindows::Utility::GetUriFromPath(url);
 			player__->Source = uri;
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			background_player__->SetUriSource(uri);
 #endif
 		}
 
 		void AudioPlayer::pause() TITANIUM_NOEXCEPT
 		{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			if (get_allowBackground()) {
 				background_player__->Pause();
 			} else {
@@ -187,7 +189,7 @@ namespace TitaniumWindows
 
 		void AudioPlayer::play() TITANIUM_NOEXCEPT
 		{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			if (get_allowBackground()) {
 				background_player__->Play();
 			} else {
@@ -200,7 +202,7 @@ namespace TitaniumWindows
 
 		void AudioPlayer::start() TITANIUM_NOEXCEPT
 		{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			if (get_allowBackground()) {
 				background_player__->Play();
 			} else {
@@ -213,7 +215,7 @@ namespace TitaniumWindows
 
 		void AudioPlayer::stop() TITANIUM_NOEXCEPT
 		{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			if (get_allowBackground()) {
 				background_player__->Pause();
 
@@ -245,7 +247,7 @@ namespace TitaniumWindows
 						mediaEnded();
 					}
 				);
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 				background_complete_event__ = background_player__->MediaEnded += ref new TypedEventHandler<MediaPlayer^, Platform::Object^>(
 					[=](MediaPlayer^ sender, Platform::Object^ e){
 						mediaEnded();
@@ -265,7 +267,7 @@ namespace TitaniumWindows
 						mediaFailed();
 					}
 				);
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 				background_failed_event__ = background_player__->MediaFailed += ref new TypedEventHandler<MediaPlayer^, MediaPlayerFailedEventArgs^>(
 					[=](MediaPlayer^ sender, MediaPlayerFailedEventArgs^ e) {
 						mediaFailed();
@@ -280,12 +282,12 @@ namespace TitaniumWindows
 			Titanium::Media::AudioPlayer::disableEvent(event_name);
 			if (event_name == "complete") {
 				player__->MediaEnded -= complete_event__;
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 				background_player__->MediaEnded -= background_complete_event__;
 #endif
 			} else if (event_name == "error") {
 				player__->MediaFailed -= failed_event__;
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 				background_player__->MediaFailed -= background_failed_event__;
 #endif
 			}

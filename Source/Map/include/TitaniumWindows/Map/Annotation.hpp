@@ -11,6 +11,8 @@
 
 #include "TitaniumWindows_Map_EXPORT.h"
 #include "Titanium/Map/Annotation.hpp"
+#include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 namespace TitaniumWindows
 {
@@ -45,7 +47,7 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			Windows::UI::Xaml::Controls::Grid^ GetMapIcon() {
 				return mapicon__;
 			}
@@ -54,7 +56,7 @@ namespace TitaniumWindows
 
 		private:
 
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			Windows::UI::Xaml::Controls::Grid^ mapicon__ = { nullptr };
 
 			Windows::UI::Xaml::Shapes::Line^ pin__ = { nullptr };

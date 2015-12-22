@@ -7,8 +7,9 @@
  */
 
 #include "TitaniumWindows/UI/Notification.hpp"
-#include "Titanium/detail/TiBase.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "Titanium/detail/TiImpl.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 namespace TitaniumWindows
 {
@@ -33,7 +34,7 @@ namespace TitaniumWindows
 			// TODO Should we auto split the message so first line gets inserted in as first text node (bold) and any others get in the second?
 			textNodes->GetAt(0)->AppendChild(xml->CreateTextNode(TitaniumWindows::Utility::ConvertUTF8String(get_message())));
 			textNodes->GetAt(1)->AppendChild(xml->CreateTextNode(""));
-#if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
+#if !defined(IS_WINDOWS_PHONE)
 			// Specifying duration length is only supported on WinStore, phone always does short
 			auto toast_node = xml->SelectSingleNode("/toast");
 			auto attr = xml->CreateAttribute("duration");

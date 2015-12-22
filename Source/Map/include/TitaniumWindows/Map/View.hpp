@@ -11,11 +11,8 @@
 
 #include "TitaniumWindows_Map_EXPORT.h"
 #include "Titanium/Map/View.hpp"
-
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-using namespace Windows::UI::Xaml::Controls::Maps;
-using namespace Windows::Services::Maps;
-#endif
+#include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 namespace TitaniumWindows
 {
@@ -74,8 +71,8 @@ namespace TitaniumWindows
 
 		private:
 
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-			MapControl^ mapview__ = { nullptr };
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
+			Windows::UI::Xaml::Controls::Maps::MapControl^ mapview__ = { nullptr };
 #endif
 		};
 	} // namespace Map

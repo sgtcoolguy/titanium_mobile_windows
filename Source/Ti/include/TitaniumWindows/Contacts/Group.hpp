@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows_Ti_EXPORT.h"
 #include "Titanium/Contacts/Group.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <sdkddkver.h>
 
 namespace TitaniumWindows
@@ -43,8 +44,7 @@ namespace TitaniumWindows
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
-#if (WINVER >= 0x0A00)
-// Windows 10+ API!
+#if defined(IS_WINDOWS_10)
 			void construct(Windows::ApplicationModel::Contacts::ContactList^ list);
 #endif
 
@@ -61,8 +61,7 @@ namespace TitaniumWindows
 			virtual void set_recordId(const uint32_t&) TITANIUM_NOEXCEPT override final;
 
 		private:
-#if (WINVER >= 0x0A00)
-// Windows 10+ API!
+#if defined(IS_WINDOWS_10)
 			Windows::ApplicationModel::Contacts::ContactList^ contact_list__;
 #endif
 		};

@@ -13,6 +13,7 @@
 #include "TitaniumWindows/Contacts/Group.hpp"
 #include "TitaniumWindows/Contacts/Person.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <ppltasks.h>
 #include <collection.h>
 #include <concrt.h>
@@ -34,7 +35,7 @@ namespace TitaniumWindows
 		JSExport<ContactsModule>::SetParent(JSExport<Titanium::ContactsModule>::Class());
 	}
 
-#if (WINVER >= 0x0A00)
+#if defined(IS_WINDOWS_10)
 	// Windows 10+ API!
 	static std::shared_ptr<Titanium::Contacts::Group> listToGroup(const JSContext& context, Windows::ApplicationModel::Contacts::ContactList^ contact_list) TITANIUM_NOEXCEPT
 	{
@@ -60,7 +61,7 @@ namespace TitaniumWindows
 
 	std::vector<std::shared_ptr<Titanium::Contacts::Group>> ContactsModule::getAllGroups() TITANIUM_NOEXCEPT
 	{
-#if (WINVER >= 0x0A00)
+#if defined(IS_WINDOWS_10)
 		// Windows 10+ API!
 		std::vector<std::shared_ptr<Titanium::Contacts::Group>> result;
 		// FIXME Should we grab the contact store during requestAuthorization?
@@ -92,7 +93,7 @@ namespace TitaniumWindows
 	std::vector<std::shared_ptr<Titanium::Contacts::Person>> ContactsModule::getAllPeople(const uint32_t& limit) TITANIUM_NOEXCEPT
 	{
 		std::vector<std::shared_ptr<Titanium::Contacts::Person>> result;
-#if (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP) && (WINVER >= 0x0A00)
+#if defined(IS_WINDOWS_10)
 		// FIXME Should we grab the contact store during requestAuthorization?
 		try {
 			const auto ctx = get_context();
@@ -107,30 +108,23 @@ namespace TitaniumWindows
 					for (auto contact : contacts) {
 						result.push_back(contactToPerson(ctx, contact));
 					}
-				}
-				catch (Platform::AccessDeniedException^ ade) {
+				} catch (Platform::AccessDeniedException^ ade) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.getAllPeople: Access denied: ", ade->Message->Data());
-				}
-				catch (Platform::COMException^ e) {
+				} catch (Platform::COMException^ e) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.getAllPeople: ", e->Message->Data());
-				}
-				catch (const std::exception& e) {
+				} catch (const std::exception& e) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.getAllPeople: ", e.what());
-				}
-				catch (...) {
+				} catch (...) {
 					TITANIUM_LOG_ERROR("i.Contacts.getAllPeople: Unknown error");
 				}
 				event.set();
 			}, concurrency::task_continuation_context::use_arbitrary());
 			event.wait();
-		}
-		catch (Platform::AccessDeniedException^ ade) {
+		} catch (Platform::AccessDeniedException^ ade) {
 			TITANIUM_LOG_ERROR("Ti.Contacts.getAllPeople: Access denied: ", ade->Message->Data());
-		}
-		catch (const std::exception& e) {
+		} catch (const std::exception& e) {
 			TITANIUM_LOG_ERROR("Ti.Contacts.getAllPeople: ", e.what());
-		}
-		catch (...) {
+		} catch (...) {
 			TITANIUM_LOG_ERROR("Ti.Contacts.getAllPeople: Unknown error");
 		}
 #else
@@ -141,7 +135,7 @@ namespace TitaniumWindows
 
 	std::shared_ptr<Titanium::Contacts::Group> ContactsModule::getGroupByIdentifier(const JSValue& id) TITANIUM_NOEXCEPT
 	{
-#if (WINVER >= 0x0A00)
+#if defined(IS_WINDOWS_10)
 		// Windows 10+ API!
 		TITANIUM_ASSERT(id.IsString());
 		const auto identifier = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(id));
@@ -175,7 +169,7 @@ namespace TitaniumWindows
 	std::vector<std::shared_ptr<Titanium::Contacts::Person>> ContactsModule::getPeopleWithName(const std::string& name) TITANIUM_NOEXCEPT
 	{
 		std::vector<std::shared_ptr<Titanium::Contacts::Person>> result;
-#if (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP) && (WINVER >= 0x0A00)
+#if defined(IS_WINDOWS_10)
 		// FIXME Should we grab the contact store during requestAuthorization?
 		const auto ctx = get_context();
 		const auto query = TitaniumWindows::Utility::ConvertUTF8String(name);
@@ -215,7 +209,7 @@ namespace TitaniumWindows
 	std::shared_ptr<Titanium::Contacts::Person> ContactsModule::getPersonByIdentifier(const JSValue& id) TITANIUM_NOEXCEPT
 	{
 		std::shared_ptr<Titanium::Contacts::Person> result = nullptr;
-#if (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP) && (WINVER >= 0x0A00)
+#if defined(IS_WINDOWS_10)
 		// FIXME Should we grab the contact store during requestAuthorization?
 		TITANIUM_ASSERT(id.IsString());
 		const auto identifier = TitaniumWindows::Utility::ConvertUTF8String(static_cast<std::string>(id));
@@ -281,25 +275,19 @@ namespace TitaniumWindows
 						auto person = getPersonByIdentifier(params.callbacks.selectedPerson.get_context().CreateString(TitaniumWindows::Utility::ConvertUTF8String(contact->Id)));
 						params.callbacks.onselectedPerson(person);
 					}
-				}
-				catch (Platform::COMException^ ce) {
+				} catch (Platform::COMException^ ce) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.showContacts: ", ce->Message->Data());
-				}
-				catch (const std::exception& e) {
+				} catch (const std::exception& e) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.showContacts: ", e.what());
-				}
-				catch (...) {
+				} catch (...) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.showContacts: Unknown error in selecting a contact.");
 				}
 			});
-		}
-		catch (Platform::COMException^ ce) {
+		} catch (Platform::COMException^ ce) {
 			TITANIUM_LOG_ERROR("Ti.Contacts.showContacts: ", ce->Message->Data());
-		}
-		catch (const std::exception& e) {
+		} catch (const std::exception& e) {
 			TITANIUM_LOG_ERROR("Ti.Contacts.showContacts: ", e.what());
-		}
-		catch (...) {
+		} catch (...) {
 			TITANIUM_LOG_ERROR("Ti.Contacts.showContacts: Unknown error in selecting a contact.");
 		}
 	}
@@ -309,7 +297,7 @@ namespace TitaniumWindows
 		Titanium::ErrorResponse e;
 		e.code = 0;
 		e.error = "";
-#if (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP) && (WINVER >= 0x0A00)
+#if defined(IS_WINDOWS_10)
 		if (Titanium::Contacts::AUTHORIZATION::UNKNOWN == contactsAuthorization__) {
 			concurrency::event event;
 			concurrency::create_task(ContactManager::RequestStoreAsync(), concurrency::task_continuation_context::use_arbitrary())

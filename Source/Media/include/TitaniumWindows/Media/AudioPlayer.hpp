@@ -9,6 +9,8 @@
 
 #include "TitaniumWindows_Media_EXPORT.h"
 #include "Titanium/Media/AudioPlayer.hpp"
+#include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 namespace TitaniumWindows
 {
@@ -61,7 +63,7 @@ namespace TitaniumWindows
 		protected:
 			Windows::Media::SystemMediaTransportControls^ controls__;
 			Windows::UI::Xaml::Controls::MediaElement^ player__;
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			Windows::Media::Playback::MediaPlayer^ background_player__;
 #endif
 			Windows::Foundation::EventRegistrationToken complete_event__;

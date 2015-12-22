@@ -11,6 +11,8 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/EmailDialog.hpp"
+#include "Titanium/detail/TiBase.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <Windows.h>
 
 namespace TitaniumWindows
@@ -48,7 +50,7 @@ namespace TitaniumWindows
 
 		private:
 
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			void setRecipients(const std::vector<std::string>& arg, Windows::Foundation::Collections::IVector<Windows::ApplicationModel::Email::EmailRecipient^>^ recipients);
 #endif
 

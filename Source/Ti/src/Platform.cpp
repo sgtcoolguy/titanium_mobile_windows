@@ -8,6 +8,7 @@
 #include "Titanium/detail/TiImpl.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/DisplayCaps.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <iostream>
 #include <objbase.h>
 #include <ppltasks.h>
@@ -19,16 +20,8 @@
 namespace TitaniumWindows
 {
 	Platform::Platform(const JSContext& js_context) TITANIUM_NOEXCEPT
-	    : Titanium::PlatformModule(js_context),
-#if defined(__cplusplus_winrt)
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
-	      osname__("windowsphone")
-#else
-	      osname__("windowsstore")
-#endif
-#else
-	      osname__("unknown")
-#endif
+	    : Titanium::PlatformModule(js_context)
+		, osname__(TitaniumWindows::Utility::IsWindowsPhoneOrMobile() ? "windowsphone" : "windowsstore")
 	{
 		TITANIUM_LOG_DEBUG("Platform::ctor");
 		setDisplayCaps(get_context().CreateObject(JSExport<TitaniumWindows::DisplayCaps>::Class()));
@@ -96,7 +89,7 @@ namespace TitaniumWindows
 	
 	std::uint64_t Platform::availableMemory() const TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		return Windows::System::MemoryManager::AppMemoryUsageLimit - Windows::System::MemoryManager::AppMemoryUsage;
 #else
 		return 0;
@@ -105,16 +98,15 @@ namespace TitaniumWindows
 
 	double Platform::batteryLevel() const TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		return Windows::Phone::Devices::Power::Battery::GetDefault()->RemainingChargePercent;
-#else
-		return 0;
 #endif
+		return 0;
 	}
 
 	bool Platform::batteryMonitoring() const TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		return true;
 #else
 		return false;
@@ -123,7 +115,7 @@ namespace TitaniumWindows
 
 	Titanium::Platform::BatteryState Platform::batteryState() const TITANIUM_NOEXCEPT
 	{
-#if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#if defined(IS_WINDOWS_PHONE)
 		// We can detect if it's fully charged, but we don't know if it's plugged or not.
 		// In this case let's return FULL if 100% charged, otherwise return UNKNOWN.
 		const auto percent = Windows::Phone::Devices::Power::Battery::GetDefault()->RemainingChargePercent;
@@ -311,11 +303,43 @@ namespace TitaniumWindows
 	}
 	std::string Platform::username() const TITANIUM_NOEXCEPT
 	{
-		using namespace Windows::System::UserProfile;
-#if (WINVER >= 0x0A00)
-		TITANIUM_LOG_ERROR("Platform::username are not supported on Windows 10");
-		return "";
+#if defined(IS_WINDOWS_10)
+
+		Windows::System::UserProfile::UserProfilePersonalizationSettings;
+
+		using namespace Windows::Foundation::Collections;
+		using namespace Windows::System;
+
+		::Platform::String^ username;
+		concurrency::event evt;
+		concurrency::create_task(Windows::System::User::FindAllAsync(UserType::LocalUser, UserAuthenticationStatus::LocallyAuthenticated)).then([&evt, &username](concurrency::task<IVectorView<User^>^> task) {
+			try {
+				const auto users = task.get();
+				if (users->Size > 0) {
+					// let's get the first one
+					const auto user = users->GetAt(0);
+					concurrency::create_task(user->GetPropertyAsync(KnownUserProperties::AccountName)).then([&evt, &username](concurrency::task<::Platform::Object^> task) {
+						try {
+							username = task.get()->ToString();
+						} catch (::Platform::COMException^ e) {
+							TITANIUM_LOG_WARN("Failed to get username", TitaniumWindows::Utility::ConvertString(e->Message));
+						}
+						evt.set();
+					});
+				} else {
+					// not found, let's bail out
+					evt.set();
+				}
+			} catch (::Platform::COMException^ e) {
+				TITANIUM_LOG_WARN("Failed to get username", TitaniumWindows::Utility::ConvertString(e->Message));
+				evt.set();
+			}
+		}, concurrency::task_continuation_context::use_arbitrary());
+		evt.wait();
+
+		return TitaniumWindows::Utility::ConvertString(username);
 #else
+		using namespace Windows::System::UserProfile;
 		if (UserInformation::NameAccessAllowed) {
 			::Platform::String^ name;
 			concurrency::event event;
@@ -341,6 +365,10 @@ namespace TitaniumWindows
 	}
 	std::string Platform::version() const TITANIUM_NOEXCEPT
 	{
+#if defined(IS_WINDOWS_10)
+		// do we have a way to get correct version on Windows 10? returning fixed value for now
+		return "10.0";
+#else
 		using namespace Windows::Devices::Enumeration::Pnp;
 		auto requestedProperties = ref new ::Platform::Collections::Vector<::Platform::String^>();
 		requestedProperties->Append("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},3"); // version
@@ -370,6 +398,7 @@ namespace TitaniumWindows
 		}, concurrency::task_continuation_context::use_arbitrary());
 		event.wait();
 		return os_version;
+#endif
 	}
 
 	bool Platform::canOpenURL(const std::string& url) TITANIUM_NOEXCEPT

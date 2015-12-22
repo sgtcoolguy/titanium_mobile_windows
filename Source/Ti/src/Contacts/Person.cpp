@@ -330,7 +330,7 @@ namespace TitaniumWindows
 
 		std::string Person::get_fullName() const TITANIUM_NOEXCEPT
 		{
-#if (WINVER >= 0x0A00) 
+#if defined(IS_WINDOWS_10)
 			// Windows 10+
 			return TitaniumWindows::Utility::ConvertUTF8String(contact__->FullName);
 #else
@@ -479,8 +479,7 @@ namespace TitaniumWindows
 
 		std::string Person::get_nickname() const TITANIUM_NOEXCEPT
 		{
-#if (WINVER >= 0x0A00) 
-			// Windows 10+
+#if defined(IS_WINDOWS_10)
 			return TitaniumWindows::Utility::ConvertUTF8String(contact__->Nickname);
 #else
 			return Titanium::Contacts::Person::get_nickname();
@@ -490,8 +489,7 @@ namespace TitaniumWindows
 		void Person::set_nickname(const std::string& nickname) TITANIUM_NOEXCEPT
 		{
 			Titanium::Contacts::Person::set_nickname(nickname);
-#if (WINVER >= 0x0A00) 
-			// Windows 10+
+#if defined(IS_WINDOWS_10)
 			contact__->Nickname = TitaniumWindows::Utility::ConvertUTF8String(nickname);
 #else
 			TITANIUM_LOG_WARN("Person::set_nickname: Unimplemented");
@@ -570,8 +568,7 @@ namespace TitaniumWindows
 				} else {
 					// Ok we didn't populate the Description, or it's changed since...
 					switch (phone->Kind) {
-#if (WINVER >= 0x0A00) 
-					// Windows 10+ enum values
+#if defined(IS_WINDOWS_10)
 					case ContactPhoneKind::Pager:
 						phones.pager.push_back(number);
 						break;
@@ -625,8 +622,7 @@ namespace TitaniumWindows
 				contact__->Phones->Append(p);
 			}
 			for (auto ad : phones.pager) {
-#if (WINVER >= 0x0A00) 
-				// Windows 10+
+#if defined(IS_WINDOWS_10)
 				auto kind = ContactPhoneKind::Pager;
 #else
 				auto kind = ContactPhoneKind::Other;
@@ -635,8 +631,7 @@ namespace TitaniumWindows
 				contact__->Phones->Append(p);
 			}
 			for (auto ad : phones.workFax) {
-#if (WINVER >= 0x0A00) 
-				// Windows 10+
+#if defined(IS_WINDOWS_10)
 				auto kind = ContactPhoneKind::BusinessFax;
 #else
 				auto kind = ContactPhoneKind::Other;
@@ -645,8 +640,7 @@ namespace TitaniumWindows
 				contact__->Phones->Append(p);
 			}
 			for (auto ad : phones.homeFax) {
-#if (WINVER >= 0x0A00) 
-				// Windows 10+
+#if defined(IS_WINDOWS_10)
 				auto kind = ContactPhoneKind::HomeFax;
 #else
 				auto kind = ContactPhoneKind::Other;
@@ -655,7 +649,7 @@ namespace TitaniumWindows
 				contact__->Phones->Append(p);
 			}
 			for (auto ad : phones.main) {
-#if (WINVER >= 0x0A00) 
+#if defined(IS_WINDOWS_10)
 				// Windows 10+
 				auto kind = ContactPhoneKind::Company;
 #else
@@ -724,7 +718,7 @@ namespace TitaniumWindows
 					names.manager.push_back(name);
 				} else {
 
-#if (WINVER >= 0x0A00)
+#if defined(IS_WINDOWS_10)
 					// Windows 10+ enum values
 					// Ok we didn't populate the Description, or it's changed since...
 					switch (so->Relationship) {
@@ -815,8 +809,7 @@ namespace TitaniumWindows
 			other->Name = TitaniumWindows::Utility::ConvertUTF8String(name);
 			// store Titanium key in Description, since we actually lose info about relationship using Windows 10+ enum
 			other->Description = TitaniumWindows::Utility::ConvertUTF8String(type);
-#if (WINVER >= 0x0A00) 
-			// Windows 10+
+#if defined(IS_WINDOWS_10)
 			auto relationship = ContactRelationship::Other;
 			if (type == "spouse") {
 				relationship = ContactRelationship::Spouse;
@@ -940,7 +933,7 @@ namespace TitaniumWindows
 			return website;
 		}
 
-#if (WINVER >= 0x0A00) 
+#if defined(IS_WINDOWS_10)
 		Windows::ApplicationModel::Contacts::Contact^ Person::GetContact()
 		{
 			TITANIUM_LOG_WARN("Person::GetContact: Unimplemented");
@@ -950,8 +943,7 @@ namespace TitaniumWindows
 
 		void Person::remove()
 		{
-#if (WINVER >= 0x0A00) 
-			// Windows 10+
+#if defined(IS_WINDOWS_10)
 			auto list_id = contact__->ContactListId;
 			// Pull up the contact list associated with this contact...
 			ContactList^ result;
@@ -971,8 +963,7 @@ namespace TitaniumWindows
 #endif
 		}
 
-#if (WINVER >= 0x0A00) 
-// Windows 10+ API
+#if defined(IS_WINDOWS_10)
 		void Person::removeFromList(ContactList^ list)
 		{
 			list->DeleteContactAsync(contact__);
