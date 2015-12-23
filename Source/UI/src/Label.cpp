@@ -282,7 +282,7 @@ namespace TitaniumWindows
 							case Titanium::UI::ATTRIBUTE_TYPE::KERN:
 								// convert px to 1/1000 em
 								// TODO: can we assume 16px for 1 em?
-								run->CharacterSpacing = static_cast<std::int32_t>(attribute.value) / 16.0 * 1000.0;
+								run->CharacterSpacing = static_cast<std::int32_t>(static_cast<std::int32_t>(attribute.value) / 16.0 * 1000.0);
 								Typography::SetKerning(label__, (run->CharacterSpacing > 0));
 								break;
 							case Titanium::UI::ATTRIBUTE_TYPE::LIGATURE:
