@@ -13,12 +13,17 @@
 #include "Titanium/detail/TiImpl.hpp"
 #include "Titanium/UI/AttributedString.hpp"
 #include "Titanium/UI/Font.hpp"
+#include <unordered_map>
+#include <tuple>
+#include <cmath>
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
+		using namespace Windows::UI::Xaml;
 		using namespace Windows::UI::Xaml::Documents;
+		using namespace Windows::UI::Text;
 
 		WindowsLabelLayoutDelegate::WindowsLabelLayoutDelegate() TITANIUM_NOEXCEPT
 			: WindowsViewLayoutDelegate()
@@ -161,22 +166,47 @@ namespace TitaniumWindows
 			const auto text_length = text.length();
 
 			auto root = ref new Span();
-			std::unordered_map<std::uint32_t, std::uint32_t> ranges;
+			//
+			// store some attributes by index so we can search them faster
+			//
+			// ranges[index] = [length, hasUnderline, hasLink, url]
+			//
+			std::unordered_map<std::uint32_t, std::tuple<std::uint32_t, bool, bool, std::string>> ranges;
  			std::unordered_map<std::uint32_t, std::vector<Titanium::UI::Attribute>> styles;
 			// scan all attributes to construct range collection
 			for (const auto attribute : attributes) {
+
 				const auto index = attribute.from;
-				ranges.emplace(index, attribute.length);
+
+				if (ranges.find(index) == ranges.end()) {
+					ranges[index] = std::make_tuple(attribute.length, false, false, "");
+				}
+
+
 				if (styles.find(index) == styles.end()) {
 					std::vector<Titanium::UI::Attribute> attrs;
 					styles.emplace(index, attrs);
 				}
+
+				auto data = ranges.at(index);
+				if (attribute.type == Titanium::UI::ATTRIBUTE_TYPE::UNDERLINES_STYLE) {
+					std::get<1>(data) = true;
+				} else if (attribute.type == Titanium::UI::ATTRIBUTE_TYPE::LINK) {
+					std::get<2>(data) = true;
+					std::get<3>(data) = static_cast<std::string>(attribute.value);
+				}
+				ranges.at(index) = data;
+
 				styles.at(attribute.from).push_back(attribute);
 			}
 
 			std::uint32_t nostyle_start = 0;
 			for (std::uint32_t pos = 0; pos < text_length; pos++) {
 				if (ranges.find(pos) != ranges.end()) {
+					const auto rangeInfo = ranges.at(pos);
+					const auto length = std::get<0>(rangeInfo);
+					const auto hasUnderline = std::get<1>(rangeInfo);
+					const auto hasLink = std::get<2>(rangeInfo);
 
 					// text with no attribute
 					const auto nostyle_pos = pos - nostyle_start;
@@ -187,35 +217,88 @@ namespace TitaniumWindows
 					}
 
 					// extract attributes
-					auto span = ref new Span();
+					auto run  = ref new Run();
+					// text with attribute
+					run->Text = ref new Platform::String(text.substr(pos, length).data());
+
+					Span^ span;
+					if (hasUnderline) {        /* UNDERLINES_STYLE */
+						span = ref new Underline();
+					} else if (hasLink) { /* LINK */
+						auto hyperlink = ref new Hyperlink();
+						hyperlink->NavigateUri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(std::get<3>(rangeInfo)));
+						span = hyperlink;
+					} else {
+						span = ref new Span();
+					}
+
 					if (styles.find(pos) != styles.end()) {
 						for (const auto attribute : styles.at(pos)) {
+							const auto attribute_styles = Titanium::UI::Constants::to_ATTRIBUTE_STYLE(static_cast<std::underlying_type<Titanium::UI::ATTRIBUTE_STYLE>::type>(attribute.value));
 							switch (attribute.type) {
 							case Titanium::UI::ATTRIBUTE_TYPE::FOREGROUND_COLOR: 
-							{
 								span->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(
 									WindowsViewLayoutDelegate::ColorForName(static_cast<std::string>(attribute.value)));
 								break;
-							}
 							case Titanium::UI::ATTRIBUTE_TYPE::FONT: 
 							{
 								const auto font = Titanium::UI::js_to_Font(static_cast<JSObject>(attribute.value));
 								TitaniumWindows::UI::ViewHelper::SetFont<Windows::UI::Xaml::Documents::Span^>(get_context(), span, font);
 								break;
 							}
+							case Titanium::UI::ATTRIBUTE_TYPE::EXPANSION:
+							{
+								// round based on 0.125 steps (i.e. 0.126 -> 0.125)
+								const auto value = round(static_cast<double>(attribute.value) / 0.125) * 0.125;
+
+								if (value <= -0.5) {
+									run->FontStretch = FontStretch::UltraCondensed;
+								} else if (value <= -0.375) {
+									run->FontStretch = FontStretch::ExtraCondensed;
+								} else if (value <= -0.25) {
+									run->FontStretch = FontStretch::Condensed;
+								} else if (value <= -0.125) {
+									run->FontStretch = FontStretch::SemiCondensed;
+								} else if (value <= 0) {
+									run->FontStretch = FontStretch::Normal;
+								} else if (value <= 0.125) {
+									run->FontStretch = FontStretch::SemiExpanded;
+								} else if (value <= 0.25) {
+									run->FontStretch = FontStretch::Expanded;
+								} else if (value <= 0.50) {
+									run->FontStretch = FontStretch::ExtraExpanded;
+								} else if (value <= 1.0) {
+									run->FontStretch = FontStretch::UltraExpanded;
+								}
+								break;
+							}
+							case Titanium::UI::ATTRIBUTE_TYPE::WRITING_DIRECTION:
+								if (attribute_styles.find(Titanium::UI::ATTRIBUTE_STYLE::WRITING_DIRECTION_LEFT_TO_RIGHT) != attribute_styles.end()) {
+									run->FlowDirection = FlowDirection::LeftToRight;
+								} else if (attribute_styles.find(Titanium::UI::ATTRIBUTE_STYLE::WRITING_DIRECTION_RIGHT_TO_LEFT) != attribute_styles.end()) {
+									run->FlowDirection = FlowDirection::RightToLeft;
+								}
+								break;
+							case Titanium::UI::ATTRIBUTE_TYPE::KERN:
+								// convert px to 1/1000 em
+								// TODO: can we assume 16px for 1 em?
+								run->CharacterSpacing = static_cast<std::int32_t>(static_cast<std::int32_t>(attribute.value) / 16.0 * 1000.0);
+								Typography::SetKerning(label__, (run->CharacterSpacing > 0));
+								break;
+							case Titanium::UI::ATTRIBUTE_TYPE::LIGATURE:
+							{
+								// range is ignored here, because Ligature affects entire text on TextBlock
+								const auto value = static_cast<std::uint32_t>(attribute.value);
+								Typography::SetStandardLigatures(label__, (value == 1 ? true : false));
+								break;
+							}
 							}
 						}
 					}
 
-					// text with attribute
-					const auto len = ranges.at(pos);
-					auto run = ref new Run();
-					run->Text = ref new Platform::String(text.substr(pos, len).data());
-					auto debug = ref new Platform::String(text.substr(pos, len).data());
-
 					span->Inlines->Append(run);
 					root->Inlines->Append(span);
-					pos += len;
+					pos += length;
 					nostyle_start = pos;
 				}
 			}
