@@ -254,7 +254,8 @@ namespace TitaniumWindows
 			auto statusBar = Windows::UI::ViewManagement::StatusBar::GetForCurrentView();
 			fullscreen ? statusBar->HideAsync() : statusBar->ShowAsync();
 #elif defined(IS_WINDOWS_10)
-			TITANIUM_LOG_WARN("set_fullscreen is not implemented on Windows 10");
+			auto view = Windows::UI::ViewManagement::ApplicationView::GetForCurrentView();
+			fullscreen ? view->TryEnterFullScreenMode() : view->ExitFullScreenMode();
 #endif
 		}
 
