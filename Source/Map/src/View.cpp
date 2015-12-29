@@ -10,6 +10,7 @@
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/Map/Annotation.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
+#include "TitaniumWindows/App/Properties.hpp"
 #include "Titanium/detail/TiLogger.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include "TitaniumWindows/WindowsMacros.hpp"
@@ -41,9 +42,26 @@ namespace TitaniumWindows
 #if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			mapview__ = ref new MapControl();
 
-			// Set service token
-			// TODO : Load this from app properties, windows_map_service_token?
-			mapview__->MapServiceToken = "VrSrmXR8B5bgklWrs0CK_w";
+			// obtain mapservicetoken
+			auto titanium_js = get_context().get_global_object().GetProperty("Titanium");
+			TITANIUM_ASSERT(titanium_js.IsObject());
+			auto titanium_obj = static_cast<JSObject>(titanium_js);
+
+			auto app_js = titanium_obj.GetProperty("App");
+			TITANIUM_ASSERT(app_js.IsObject());
+			auto app_obj = static_cast<JSObject>(app_js);
+
+			auto properties_js = app_obj.GetProperty("Properties");
+			TITANIUM_ASSERT(properties_js.IsObject());
+			auto properties_obj = static_cast<JSObject>(properties_js);
+			auto properties_ptr = properties_obj.GetPrivate<TitaniumWindows::App::Properties>();
+			TITANIUM_ASSERT(properties_ptr);
+
+			std::string mapservicetoken = properties_ptr->getString("mapservicetoken").get();
+			TITANIUM_ASSERT_AND_THROW(!mapservicetoken.empty(), "Windows mapservicetoken must be defined in tiapp.xml");
+
+			// set mapservicetoken
+			mapview__->MapServiceToken = TitaniumWindows::Utility::ConvertString(mapservicetoken);
 
 			Titanium::Map::View::setLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
 

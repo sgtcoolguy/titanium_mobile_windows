@@ -67,8 +67,6 @@ namespace TitaniumWindows
 			virtual void removeAnnotation(const Annotation_shared_ptr_t& annotation) TITANIUM_NOEXCEPT;
 			virtual void zoom(const uint32_t& zoom) TITANIUM_NOEXCEPT override final;
 
-		protected:
-
 		private:
 
 #if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
