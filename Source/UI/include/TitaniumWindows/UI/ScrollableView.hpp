@@ -74,6 +74,9 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
+			virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+			virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+
 			std::shared_ptr<WindowsViewLayoutDelegate> getContentViewLayoutDelegate();
 
 			void set_views(const std::vector<std::shared_ptr<View>>& views) TITANIUM_NOEXCEPT override;
@@ -86,6 +89,10 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::ScrollViewer^ scroll_viewer__;
 			JSObject contentView__;
 
+			Windows::Foundation::EventRegistrationToken dragend_event__;
+			Windows::Foundation::EventRegistrationToken dragstart_event__;
+			Windows::Foundation::EventRegistrationToken scroll_event__;
+			Windows::Foundation::EventRegistrationToken scrollend_event__;
 		};
 	}  // namespace UI
 }  // namespace TitaniumWindows

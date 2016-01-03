@@ -117,6 +117,62 @@ namespace TitaniumWindows
 			}
 		}
 
+		void ScrollableView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ScrollableView::enableEvent(event_name);
+
+			if (event_name == "dragend") {
+				dragend_event__ = scroll_viewer__->PointerReleased += ref new Windows::UI::Xaml::Input::PointerEventHandler(
+					[=](Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^e) {
+						auto eventArgs = get_context().CreateObject();
+						eventArgs.SetProperty("currentPage", get_context().CreateNumber(get_currentPage()));
+						eventArgs.SetProperty("view", get_object());
+						fireEvent("dragend", eventArgs);
+					}
+				);
+			} else if (event_name == "dragstart") {
+				dragstart_event__ = scroll_viewer__->PointerPressed += ref new Windows::UI::Xaml::Input::PointerEventHandler(
+					[=](Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^e) {
+						fireEvent("dragstart");
+					}
+				);
+			} else if (event_name == "scroll") {
+				scroll_event__ = scroll_viewer__->ViewChanging += ref new Windows::Foundation::EventHandler<Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs ^>(
+					[=](Platform::Object ^sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs ^args) {
+						auto eventArgs = get_context().CreateObject();
+						eventArgs.SetProperty("currentPage", get_context().CreateNumber(get_currentPage()));
+						float currentPageAsFloat = get_currentPage() + static_cast<float>(scroll_viewer__->HorizontalOffset / scroll_viewer__->Width);
+						eventArgs.SetProperty("currentPageAsFloat", get_context().CreateNumber(currentPageAsFloat));
+						fireEvent("scroll", eventArgs);
+					}
+				);
+			} else if (event_name == "scrollend") {
+				scrollend_event__ = scroll_viewer__->ViewChanged += ref new Windows::Foundation::EventHandler<Windows::UI::Xaml::Controls::ScrollViewerViewChangedEventArgs ^>(
+					[=](Platform::Object ^sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangedEventArgs ^args) {
+						auto eventArgs = get_context().CreateObject();
+						eventArgs.SetProperty("currentPage", get_context().CreateNumber(get_currentPage()));
+						eventArgs.SetProperty("view", get_object());
+						fireEvent("scrollend", eventArgs);
+					}
+				);
+			}
+		}
+
+		void ScrollableView::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ScrollableView::disableEvent(event_name);
+
+			if (event_name == "dragend") {
+				scroll_viewer__->PointerReleased -= dragend_event__;
+			} else if (event_name == "dragstart") {
+				scroll_viewer__->PointerPressed -= dragstart_event__;
+			} else if (event_name == "scroll") {
+				scroll_viewer__->ViewChanging -= scroll_event__;
+			} else if (event_name == "scrollend") {
+				scroll_viewer__->ViewChanged -= scrollend_event__;
+			}
+		}
+
 		void ScrollableView::set_currentPage(const std::uint32_t& page) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ScrollableView::set_currentPage(page);
