@@ -22,7 +22,7 @@ exports.init = function (logger, config, cli) {
 	cli.on('build.post.compile', {
 		priority: 10000,
 		post: function (builder, finished) {
-			if (builder.buildOnly || builder.target !== 'dist-winstore') {
+			if (builder.buildOnly || !/^dist-(phone|win)store$/.test(builder.target)) {
 				return finished();
 			}
 
