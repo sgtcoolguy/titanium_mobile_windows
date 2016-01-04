@@ -42,6 +42,11 @@ namespace TitaniumWindows
 
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(canvas__);
 
+			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
+			rootFrame->Navigated += ref new Windows::UI::Xaml::Navigation::NavigatedEventHandler([this](Platform::Object^, Windows::UI::Xaml::Navigation::NavigationEventArgs^) {
+				updateWindowSize();
+			});
+
 #if defined(IS_WINDOWS_PHONE)
 			using namespace Windows::Phone::UI::Input;
 
@@ -169,6 +174,25 @@ namespace TitaniumWindows
 				window_stack__.clear();
 				Windows::UI::Xaml::Application::Current->Exit();
 			}
+		}
+
+		void Window::updateWindowSize() TITANIUM_NOEXCEPT
+		{
+			const auto currentBounds = Windows::UI::Xaml::Window::Current->Bounds;
+
+			const auto layout    = getViewLayoutDelegate();
+			const auto strWidth  = layout->get_width();
+			const auto strHeight = layout->get_height();
+
+			// use current bounds if we don't get numeric size
+			const auto width  = std::all_of(strWidth.begin(),  strWidth.end(),  ::isdigit) ? std::stof(strWidth)  : currentBounds.Width;
+			const auto height = std::all_of(strHeight.begin(), strHeight.end(), ::isdigit) ? std::stof(strHeight) : currentBounds.Height;
+
+			// TryResizeView returns false when given size is too small/big. We don't have a way to get valid range here unfortunately.
+			if (!Windows::UI::ViewManagement::ApplicationView::GetForCurrentView()->TryResizeView(Size(width, height))) {
+				TITANIUM_LOG_WARN("Titanium::Window: Unable to resize root Window with size ", width, "x", height);
+			}
+
 		}
 
 		void Window::open(const std::shared_ptr<Titanium::UI::OpenWindowParams>& params) TITANIUM_NOEXCEPT
