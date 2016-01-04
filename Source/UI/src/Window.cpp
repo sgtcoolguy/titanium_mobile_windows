@@ -178,6 +178,7 @@ namespace TitaniumWindows
 
 		void Window::updateWindowSize() TITANIUM_NOEXCEPT
 		{
+#if defined(IS_WINDOWS_10)
 			const auto currentBounds = Windows::UI::Xaml::Window::Current->Bounds;
 
 			const auto layout    = getViewLayoutDelegate();
@@ -192,7 +193,7 @@ namespace TitaniumWindows
 			if (!Windows::UI::ViewManagement::ApplicationView::GetForCurrentView()->TryResizeView(Size(width, height))) {
 				TITANIUM_LOG_WARN("Titanium::Window: Unable to resize root Window with size ", width, "x", height);
 			}
-
+#endif
 		}
 
 		void Window::open(const std::shared_ptr<Titanium::UI::OpenWindowParams>& params) TITANIUM_NOEXCEPT
