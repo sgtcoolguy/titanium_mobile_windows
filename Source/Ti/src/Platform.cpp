@@ -318,7 +318,7 @@ namespace TitaniumWindows
 				if (users->Size > 0) {
 					// let's get the first one
 					const auto user = users->GetAt(0);
-					concurrency::create_task(user->GetPropertyAsync(KnownUserProperties::AccountName)).then([&evt, &username](concurrency::task<::Platform::Object^> task) {
+					concurrency::create_task(user->GetPropertyAsync(KnownUserProperties::DisplayName)).then([&evt, &username](concurrency::task<::Platform::Object^> task) {
 						try {
 							username = task.get()->ToString();
 						} catch (::Platform::COMException^ e) {
