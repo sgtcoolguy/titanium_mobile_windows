@@ -186,8 +186,15 @@ namespace TitaniumWindows
 			const auto strHeight = layout->get_height();
 
 			// use current bounds if we don't get numeric size
-			const auto width  = std::all_of(strWidth.begin(),  strWidth.end(),  ::isdigit) ? std::stof(strWidth)  : currentBounds.Width;
-			const auto height = std::all_of(strHeight.begin(), strHeight.end(), ::isdigit) ? std::stof(strHeight) : currentBounds.Height;
+			float width  = currentBounds.Width;
+			float height = currentBounds.Height;
+
+			if (!strWidth.empty() && std::all_of(strWidth.begin(), strWidth.end(), ::isdigit)) {
+				width = std::stof(strWidth);
+			}
+			if (!strHeight.empty() && std::all_of(strHeight.begin(), strHeight.end(), ::isdigit)) {
+				height = std::stof(strHeight);
+			}
 
 			// TryResizeView returns false when given size is too small/big. We don't have a way to get valid range here unfortunately.
 			if (!Windows::UI::ViewManagement::ApplicationView::GetForCurrentView()->TryResizeView(Size(width, height))) {
