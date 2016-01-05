@@ -8,7 +8,7 @@
 #include "Titanium/Database/DB.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include <type_traits>
-#include <boost/algorithm/string.hpp>    
+#include <boost/algorithm/string.hpp>
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 			close();
 		}
 
-		void ResultSet::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
+		void ResultSet::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
 			HAL_LOG_DEBUG("ResultSet:: postCallAsConstructor ", this);
 		}
@@ -44,7 +44,7 @@ namespace Titanium
 		{
 			return step_result__ == SQLITE_ROW;
 		}
-	
+
 		void ResultSet::close(bool needCallback) TITANIUM_NOEXCEPT
 		{
 			if (statement__ != nullptr && column_names__.size()) {
@@ -95,7 +95,7 @@ namespace Titanium
 		{
 			if (statement__ == nullptr) {
 				return get_context().CreateNull();
-			}			
+			}
 
 			switch (fieldType) {
 				case FIELD_TYPE::STRING:{
@@ -137,7 +137,7 @@ namespace Titanium
 		uint32_t ResultSet::fieldIndex(const std::string& name) TITANIUM_NOEXCEPT
 		{
 			for (uint32_t i = 0, len = static_cast<uint32_t>(column_names__.size()); i < len; i++) {
-				// Case insensitive string comparison 
+				// Case insensitive string comparison
 				if (boost::iequals(column_names__[i], name)) {
 					return i;
 				}
@@ -151,7 +151,7 @@ namespace Titanium
 				return nullptr;
 			}
 
-			auto _text = reinterpret_cast<const char*>(sqlite3_column_text(statement__, index));
+			auto _text = reinterpret_cast<const char*>(sqlite3_column_name(statement__, index));
 			if (_text != nullptr && index <= static_cast<size_t>(sqlite3_column_count(statement__)) && strlen(_text) > 0) {
 				std::string text(_text);
 				return text;
@@ -195,7 +195,7 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(ResultSet, isValidRow);
 			TITANIUM_ADD_FUNCTION(ResultSet, next);
 		}
-	
+
 		TITANIUM_PROPERTY_GETTER(ResultSet, fieldCount)
 		{
 			return get_context().CreateNumber(get_fieldCount());
