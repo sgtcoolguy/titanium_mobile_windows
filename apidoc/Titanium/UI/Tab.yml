@@ -1,0 +1,81 @@
+name: Titanium.UI.Tab
+platforms: [windowsphone]
+properties:
+  - name: backgroundDisabledColor
+    platforms: [windowsphone]
+  - name: backgroundDisabledImage
+    platforms: [windowsphone]
+  - name: backgroundFocusedColor
+    platforms: [windowsphone]
+  - name: backgroundFocusedImage
+    platforms: [windowsphone]
+  - name: backgroundImage
+    platforms: [windowsphone]
+  - name: backgroundSelectedColor
+    platforms: [windowsphone]
+  - name: backgroundSelectedImage
+    platforms: [windowsphone]
+  - name: backgroundColor
+    platforms: [windowsphone]
+  - name: active
+    platforms: [windowsphone]
+  - name: title
+    platforms: [windowsphone]
+  - name: titleid
+    platforms: [windowsphone]
+  - name: window
+    platforms: [windowsphone]
+methods:
+  - name: open
+    platforms: [windowsphone]
+  - name: close
+    platforms: [windowsphone]
+  - name: getBackgroundDisabledColor
+    platforms: [windowsphone]
+  - name: setBackgroundDisabledColor
+    platforms: [windowsphone]
+  - name: getBackgroundDisabledImage
+    platforms: [windowsphone]
+  - name: setBackgroundDisabledImage
+    platforms: [windowsphone]
+  - name: getBackgroundFocusedColor
+    platforms: [windowsphone]
+  - name: setBackgroundFocusedColor
+    platforms: [windowsphone]
+  - name: getBackgroundFocusedImage
+    platforms: [windowsphone]
+  - name: setBackgroundFocusedImage
+    platforms: [windowsphone]
+  - name: getBackgroundImage
+    platforms: [windowsphone]
+  - name: setBackgroundImage
+    platforms: [windowsphone]
+  - name: getBackgroundSelectedColor
+    platforms: [windowsphone]
+  - name: setBackgroundSelectedColor
+    platforms: [windowsphone]
+  - name: getBackgroundSelectedImage
+    platforms: [windowsphone]
+  - name: setBackgroundSelectedImage
+    platforms: [windowsphone]
+  - name: getBackgroundColor
+    platforms: [windowsphone]
+  - name: setBackgroundColor
+    platforms: [windowsphone]
+  - name: getActive
+    platforms: [windowsphone]
+  - name: setActive
+    platforms: [windowsphone]
+  - name: getTitle
+    platforms: [windowsphone]
+  - name: setTitle
+    platforms: [windowsphone]
+  - name: getTitleid
+    platforms: [windowsphone]
+  - name: setTitleid
+    platforms: [windowsphone]
+  - name: getWindow
+    platforms: [windowsphone]
+  - name: setWindow
+    platforms: [windowsphone]
+

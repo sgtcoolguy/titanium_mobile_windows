@@ -1,0 +1,35 @@
+name: Titanium.UI.TableViewRow
+platforms: [windowsphone]
+properties:
+  - name: color
+    platforms: [windowsphone]
+  - name: font
+    platforms: [windowsphone]
+  - name: hasCheck
+    platforms: [windowsphone]
+  - name: hasChild
+    platforms: [windowsphone]
+  - name: title
+    platforms: [windowsphone]
+methods:
+  - name: getColor
+    platforms: [windowsphone]
+  - name: setColor
+    platforms: [windowsphone]
+  - name: getFont
+    platforms: [windowsphone]
+  - name: setFont
+    platforms: [windowsphone]
+  - name: getHasCheck
+    platforms: [windowsphone]
+  - name: setHasCheck
+    platforms: [windowsphone]
+  - name: getHasChild
+    platforms: [windowsphone]
+  - name: setHasChild
+    platforms: [windowsphone]
+  - name: getTitle
+    platforms: [windowsphone]
+  - name: setTitle
+    platforms: [windowsphone]
+

@@ -1,0 +1,25 @@
+name: Titanium.UI.PickerRow
+platforms: [windowsphone]
+properties:
+  - name: color
+    platforms: [windowsphone]
+  - name: font
+    platforms: [windowsphone]
+  - name: title
+    platforms: [windowsphone]
+methods:
+  - name: add
+    platforms: [windowsphone]
+  - name: getColor
+    platforms: [windowsphone]
+  - name: setColor
+    platforms: [windowsphone]
+  - name: getFont
+    platforms: [windowsphone]
+  - name: setFont
+    platforms: [windowsphone]
+  - name: getTitle
+    platforms: [windowsphone]
+  - name: setTitle
+    platforms: [windowsphone]
+

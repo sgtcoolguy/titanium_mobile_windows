@@ -1,0 +1,9 @@
+name: Titanium.XML.NodeList
+platforms: [windowsphone]
+properties:
+  - name: length
+    platforms: [windowsphone]
+methods:
+  - name: item
+    platforms: [windowsphone]
+

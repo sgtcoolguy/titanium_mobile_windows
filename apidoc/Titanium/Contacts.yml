@@ -1,0 +1,51 @@
+name: Titanium.Contacts
+platforms: [windowsphone]
+properties:
+  - name: CONTACTS_KIND_ORGANIZATION
+    platforms: [windowsphone]
+  - name: CONTACTS_KIND_PERSON
+    platforms: [windowsphone]
+  - name: CONTACTS_SORT_FIRST_NAME
+    platforms: [windowsphone]
+  - name: CONTACTS_SORT_LAST_NAME
+    platforms: [windowsphone]
+  - name: AUTHORIZATION_AUTHORIZED
+    platforms: [windowsphone]
+  - name: AUTHORIZATION_DENIED
+    platforms: [windowsphone]
+  - name: AUTHORIZATION_RESTRICTED
+    platforms: [windowsphone]
+  - name: AUTHORIZATION_UNKNOWN
+    platforms: [windowsphone]
+methods:
+  - name: createGroup
+    platforms: [windowsphone]
+  - name: createPerson
+    platforms: [windowsphone]
+  - name: getAllGroups
+    platforms: [windowsphone]
+  - name: getAllPeople
+    platforms: [windowsphone]
+  - name: getGroupByID
+    platforms: [windowsphone]
+  - name: getGroupByIdentifier
+    platforms: [windowsphone]
+  - name: getPeopleWithName
+    platforms: [windowsphone]
+  - name: getPersonByID
+    platforms: [windowsphone]
+  - name: getPersonByIdentifier
+    platforms: [windowsphone]
+  - name: removeGroup
+    platforms: [windowsphone]
+  - name: removePerson
+    platforms: [windowsphone]
+  - name: requestAuthorization
+    platforms: [windowsphone]
+  - name: revert
+    platforms: [windowsphone]
+  - name: save
+    platforms: [windowsphone]
+  - name: showContacts
+    platforms: [windowsphone]
+

@@ -1,0 +1,19 @@
+name: Titanium.Network.Socket
+platforms: [windowsphone]
+properties:
+  - name: INITIALIZED
+    platforms: [windowsphone]
+  - name: CONNECTED
+    platforms: [windowsphone]
+  - name: LISTENING
+    platforms: [windowsphone]
+  - name: CLOSED
+    platforms: [windowsphone]
+  - name: ERROR
+    platforms: [windowsphone]
+methods:
+  - name: createTCP
+    platforms: [windowsphone]
+  - name: createUDP
+    platforms: [windowsphone]
+

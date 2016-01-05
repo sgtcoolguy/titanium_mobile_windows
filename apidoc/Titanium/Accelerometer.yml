@@ -1,0 +1,6 @@
+name: Titanium.Accelerometer
+platforms: [windowsphone]
+events:
+  - name: update
+    platforms: [windowsphone]
+

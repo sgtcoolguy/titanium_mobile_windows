@@ -1,0 +1,20 @@
+name: Titanium.UI.Clipboard
+platforms: [windowsphone]
+methods:
+  - name: clearData
+    platforms: [windowsphone]
+  - name: clearText
+    platforms: [windowsphone]
+  - name: getData
+    platforms: [windowsphone]
+  - name: getText
+    platforms: [windowsphone]
+  - name: hasData
+    platforms: [windowsphone]
+  - name: hasText
+    platforms: [windowsphone]
+  - name: setData
+    platforms: [windowsphone]
+  - name: setText
+    platforms: [windowsphone]
+

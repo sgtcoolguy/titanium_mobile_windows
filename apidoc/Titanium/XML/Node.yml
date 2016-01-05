@@ -1,0 +1,51 @@
+name: Titanium.XML.Node
+platforms: [windowsphone]
+properties:
+  - name: nodeValue
+    platforms: [windowsphone]
+  - name: prefix
+    platforms: [windowsphone]
+  - name: nodeName
+    platforms: [windowsphone]
+  - name: nodeType
+    platforms: [windowsphone]
+  - name: parentNode
+    platforms: [windowsphone]
+  - name: childNodes
+    platforms: [windowsphone]
+  - name: firstChild
+    platforms: [windowsphone]
+  - name: lastChild
+    platforms: [windowsphone]
+  - name: previousSibling
+    platforms: [windowsphone]
+  - name: nextSibling
+    platforms: [windowsphone]
+  - name: attributes
+    platforms: [windowsphone]
+  - name: ownerDocument
+    platforms: [windowsphone]
+  - name: namespaceURI
+    platforms: [windowsphone]
+  - name: localName
+    platforms: [windowsphone]
+methods:
+  - name: insertBefore
+    platforms: [windowsphone]
+  - name: replaceChild
+    platforms: [windowsphone]
+  - name: removeChild
+    platforms: [windowsphone]
+  - name: appendChild
+    platforms: [windowsphone]
+  - name: hasChildNodes
+    platforms: [windowsphone]
+  - name: cloneNode
+    platforms: [windowsphone]
+  - name: normalize
+    platforms: [windowsphone]
+  - name: isSupported
+    platforms: [windowsphone]
+  - name: hasAttributes
+    platforms: [windowsphone]
+

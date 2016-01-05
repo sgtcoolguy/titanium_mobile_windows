@@ -1,0 +1,69 @@
+name: Titanium.Media.VideoPlayer
+platforms: [windowsphone]
+properties:
+  - name: autoplay
+    platforms: [windowsphone]
+  - name: currentPlaybackTime
+    platforms: [windowsphone]
+  - name: duration
+    platforms: [windowsphone]
+  - name: endPlaybackTime
+    platforms: [windowsphone]
+  - name: media
+    platforms: [windowsphone]
+  - name: playableDuration
+    platforms: [windowsphone]
+  - name: playbackState
+    platforms: [windowsphone]
+  - name: playing
+    platforms: [windowsphone]
+  - name: repeatMode
+    platforms: [windowsphone]
+  - name: url
+    platforms: [windowsphone]
+  - name: volume
+    platforms: [windowsphone]
+methods:
+  - name: pause
+    platforms: [windowsphone]
+  - name: play
+    platforms: [windowsphone]
+  - name: stop
+    platforms: [windowsphone]
+  - name: getAutoplay
+    platforms: [windowsphone]
+  - name: setAutoplay
+    platforms: [windowsphone]
+  - name: getCurrentPlaybackTime
+    platforms: [windowsphone]
+  - name: setCurrentPlaybackTime
+    platforms: [windowsphone]
+  - name: getDuration
+    platforms: [windowsphone]
+  - name: setDuration
+    platforms: [windowsphone]
+  - name: getEndPlaybackTime
+    platforms: [windowsphone]
+  - name: setEndPlaybackTime
+    platforms: [windowsphone]
+  - name: setMedia
+    platforms: [windowsphone]
+  - name: getPlayableDuration
+    platforms: [windowsphone]
+  - name: getPlaybackState
+    platforms: [windowsphone]
+  - name: getPlaying
+    platforms: [windowsphone]
+  - name: getRepeatMode
+    platforms: [windowsphone]
+  - name: setRepeatMode
+    platforms: [windowsphone]
+  - name: getUrl
+    platforms: [windowsphone]
+  - name: setUrl
+    platforms: [windowsphone]
+  - name: getVolume
+    platforms: [windowsphone]
+  - name: setVolume
+    platforms: [windowsphone]
+

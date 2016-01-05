@@ -1,0 +1,14 @@
+name: Titanium.Utils
+platforms: [windowsphone]
+methods:
+  - name: base64decode
+    platforms: [windowsphone]
+  - name: base64encode
+    platforms: [windowsphone]
+  - name: md5HexDigest
+    platforms: [windowsphone]
+  - name: sha1
+    platforms: [windowsphone]
+  - name: sha256
+    platforms: [windowsphone]
+

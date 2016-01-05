@@ -1,0 +1,8 @@
+name: Titanium.XML.ProcessingInstruction
+platforms: [windowsphone]
+properties:
+  - name: data
+    platforms: [windowsphone]
+  - name: target
+    platforms: [windowsphone]
+

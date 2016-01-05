@@ -1,0 +1,39 @@
+name: Titanium.UI.TableView
+platforms: [windowsphone]
+properties:
+  - name: data
+    platforms: [windowsphone]
+  - name: headerTitle
+    platforms: [windowsphone]
+  - name: headerView
+    platforms: [windowsphone]
+  - name: sectionCount
+    platforms: [windowsphone]
+  - name: sections
+    platforms: [windowsphone]
+methods:
+  - name: getData
+    platforms: [windowsphone]
+  - name: setData
+    platforms: [windowsphone]
+  - name: appendRow
+    platforms: [windowsphone]
+  - name: appendSection
+    platforms: [windowsphone]
+  - name: updateSection
+    platforms: [windowsphone]
+  - name: getHeaderTitle
+    platforms: [windowsphone]
+  - name: setHeaderTitle
+    platforms: [windowsphone]
+  - name: getHeaderView
+    platforms: [windowsphone]
+  - name: setHeaderView
+    platforms: [windowsphone]
+  - name: getSectionCount
+    platforms: [windowsphone]
+  - name: getSections
+    platforms: [windowsphone]
+  - name: setSections
+    platforms: [windowsphone]
+

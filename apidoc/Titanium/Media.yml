@@ -1,0 +1,341 @@
+name: Titanium.Media
+platforms: [windowsphone]
+properties:
+  - name: AUDIO_FILEFORMAT_3GP2
+    platforms: [windowsphone]
+  - name: AUDIO_FILEFORMAT_3GPP
+    platforms: [windowsphone]
+  - name: AUDIO_FILEFORMAT_AIFF
+    platforms: [windowsphone]
+  - name: AUDIO_FILEFORMAT_AMR
+    platforms: [windowsphone]
+  - name: AUDIO_FILEFORMAT_CAF
+    platforms: [windowsphone]
+  - name: AUDIO_FILEFORMAT_MP3
+    platforms: [windowsphone]
+  - name: AUDIO_FILEFORMAT_MP4
+    platforms: [windowsphone]
+  - name: AUDIO_FILEFORMAT_MP4A
+    platforms: [windowsphone]
+  - name: AUDIO_FILEFORMAT_WAVE
+    platforms: [windowsphone]
+  - name: AUDIO_FORMAT_AAC
+    platforms: [windowsphone]
+  - name: AUDIO_FORMAT_ALAW
+    platforms: [windowsphone]
+  - name: AUDIO_FORMAT_APPLE_LOSSLESS
+    platforms: [windowsphone]
+  - name: AUDIO_FORMAT_ILBC
+    platforms: [windowsphone]
+  - name: AUDIO_FORMAT_IMA4
+    platforms: [windowsphone]
+  - name: AUDIO_FORMAT_LINEAR_PCM
+    platforms: [windowsphone]
+  - name: AUDIO_FORMAT_ULAW
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_CATEGORY_AMBIENT
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_CATEGORY_PLAYBACK
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_CATEGORY_PLAY_AND_RECORD
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_CATEGORY_RECORD
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_CATEGORY_SOLO_AMBIENT
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_OVERRIDE_ROUTE_NONE
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_OVERRIDE_ROUTE_SPEAKER
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_LINEIN
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_BUILTINMIC
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_HEADSETMIC
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_LINEOUT
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_HEADPHONES
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_BLUETOOTHA2DP
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_BUILTINRECEIVER
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_BUILTINSPEAKER
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_HDMI
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_AIRPLAY
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_BLUETOOTHHFP
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_USBAUDIO
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_BLUETOOTHLE
+    platforms: [windowsphone]
+  - name: AUDIO_SESSION_PORT_CARAUDIO
+    platforms: [windowsphone]
+  - name: CAMERA_FLASH_AUTO
+    platforms: [windowsphone]
+  - name: CAMERA_FLASH_OFF
+    platforms: [windowsphone]
+  - name: CAMERA_FLASH_ON
+    platforms: [windowsphone]
+  - name: CAMERA_FRONT
+    platforms: [windowsphone]
+  - name: CAMERA_REAR
+    platforms: [windowsphone]
+  - name: DEVICE_BUSY
+    platforms: [windowsphone]
+  - name: MEDIA_TYPE_PHOTO
+    platforms: [windowsphone]
+  - name: MEDIA_TYPE_VIDEO
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_TYPE_ALL
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_TYPE_ANY_AUDIO
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_TYPE_AUDIOBOOK
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_TYPE_MUSIC
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_TYPE_PODCAST
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_GROUP_TITLE
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_GROUP_ALBUM
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_GROUP_ARTIST
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_GROUP_ALBUM_ARTIST
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_GROUP_COMPOSER
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_GROUP_GENRE
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_GROUP_PLAYLIST
+    platforms: [windowsphone]
+  - name: MUSIC_MEDIA_GROUP_PODCAST_TITLE
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_REPEAT_ALL
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_REPEAT_DEFAULT
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_REPEAT_NONE
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_REPEAT_ONE
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_SHUFFLE_ALBUMS
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_SHUFFLE_DEFAULT
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_SHUFFLE_NONE
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_SHUFFLE_SONGS
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_STATE_INTERRUPTED
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_STATE_PAUSED
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_STATE_PLAYING
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_STATE_SEEK_BACKWARD
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_STATE_SEEK_FORWARD
+    platforms: [windowsphone]
+  - name: MUSIC_PLAYER_STATE_STOPPED
+    platforms: [windowsphone]
+  - name: NO_CAMERA
+    platforms: [windowsphone]
+  - name: NO_VIDEO
+    platforms: [windowsphone]
+  - name: QUALITY_HIGH
+    platforms: [windowsphone]
+  - name: QUALITY_LOW
+    platforms: [windowsphone]
+  - name: QUALITY_MEDIUM
+    platforms: [windowsphone]
+  - name: UNKNOWN_ERROR
+    platforms: [windowsphone]
+  - name: VIDEO_CONTROL_DEFAULT
+    platforms: [windowsphone]
+  - name: VIDEO_CONTROL_EMBEDDED
+    platforms: [windowsphone]
+  - name: VIDEO_CONTROL_FULLSCREEN
+    platforms: [windowsphone]
+  - name: VIDEO_CONTROL_HIDDEN
+    platforms: [windowsphone]
+  - name: VIDEO_CONTROL_NONE
+    platforms: [windowsphone]
+  - name: VIDEO_FINISH_REASON_PLAYBACK_ENDED
+    platforms: [windowsphone]
+  - name: VIDEO_FINISH_REASON_PLAYBACK_ERROR
+    platforms: [windowsphone]
+  - name: VIDEO_FINISH_REASON_USER_EXITED
+    platforms: [windowsphone]
+  - name: VIDEO_LOAD_STATE_PLAYABLE
+    platforms: [windowsphone]
+  - name: VIDEO_LOAD_STATE_PLAYTHROUGH_OK
+    platforms: [windowsphone]
+  - name: VIDEO_LOAD_STATE_STALLED
+    platforms: [windowsphone]
+  - name: VIDEO_LOAD_STATE_UNKNOWN
+    platforms: [windowsphone]
+  - name: VIDEO_MEDIA_TYPE_AUDIO
+    platforms: [windowsphone]
+  - name: VIDEO_MEDIA_TYPE_NONE
+    platforms: [windowsphone]
+  - name: VIDEO_MEDIA_TYPE_VIDEO
+    platforms: [windowsphone]
+  - name: VIDEO_PLAYBACK_STATE_INTERRUPTED
+    platforms: [windowsphone]
+  - name: VIDEO_PLAYBACK_STATE_PAUSED
+    platforms: [windowsphone]
+  - name: VIDEO_PLAYBACK_STATE_PLAYING
+    platforms: [windowsphone]
+  - name: VIDEO_PLAYBACK_STATE_SEEKING_BACKWARD
+    platforms: [windowsphone]
+  - name: VIDEO_PLAYBACK_STATE_SEEKING_FORWARD
+    platforms: [windowsphone]
+  - name: VIDEO_PLAYBACK_STATE_STOPPED
+    platforms: [windowsphone]
+  - name: VIDEO_REPEAT_MODE_NONE
+    platforms: [windowsphone]
+  - name: VIDEO_REPEAT_MODE_ONE
+    platforms: [windowsphone]
+  - name: VIDEO_SCALING_ASPECT_FILL
+    platforms: [windowsphone]
+  - name: VIDEO_SCALING_ASPECT_FIT
+    platforms: [windowsphone]
+  - name: VIDEO_SCALING_MODE_FILL
+    platforms: [windowsphone]
+  - name: VIDEO_SCALING_NONE
+    platforms: [windowsphone]
+  - name: VIDEO_SOURCE_TYPE_FILE
+    platforms: [windowsphone]
+  - name: VIDEO_SOURCE_TYPE_STREAMING
+    platforms: [windowsphone]
+  - name: VIDEO_SOURCE_TYPE_UNKNOWN
+    platforms: [windowsphone]
+  - name: VIDEO_TIME_OPTION_EXACT
+    platforms: [windowsphone]
+  - name: VIDEO_TIME_OPTION_NEAREST_KEYFRAME
+    platforms: [windowsphone]
+  - name: VIDEO_TIME_OPTION_CLOSEST_SYNC
+    platforms: [windowsphone]
+  - name: VIDEO_TIME_OPTION_NEXT_SYNC
+    platforms: [windowsphone]
+  - name: VIDEO_TIME_OPTION_PREVIOUS_SYNC
+    platforms: [windowsphone]
+  - name: appMusicPlayer
+    platforms: [windowsphone]
+  - name: audioPlaying
+    platforms: [windowsphone]
+  - name: audioSessionCategory
+    platforms: [windowsphone]
+  - name: availableCameras
+    platforms: [windowsphone]
+  - name: availableCameraMediaTypes
+    platforms: [windowsphone]
+  - name: availablePhotoGalleryMediaTypes
+    platforms: [windowsphone]
+  - name: availablePhotoMediaTypes
+    platforms: [windowsphone]
+  - name: averageMicrophonePower
+    platforms: [windowsphone]
+  - name: cameraFlashMode
+    platforms: [windowsphone]
+  - name: canRecord
+    platforms: [windowsphone]
+  - name: currentRoute
+    platforms: [windowsphone]
+  - name: isCameraSupported
+    platforms: [windowsphone]
+  - name: peakMicrophonePower
+    platforms: [windowsphone]
+  - name: systemMusicPlayer
+    platforms: [windowsphone]
+  - name: volume
+    platforms: [windowsphone]
+methods:
+  - name: beep
+    platforms: [windowsphone]
+  - name: hideCamera
+    platforms: [windowsphone]
+  - name: isMediaTypeSupported
+    platforms: [windowsphone]
+  - name: openMusicLibrary
+    platforms: [windowsphone]
+  - name: openPhotoGallery
+    platforms: [windowsphone]
+  - name: saveToPhotoGallery
+    platforms: [windowsphone]
+  - name: showCamera
+    platforms: [windowsphone]
+  - name: startMicrophoneMonitor
+    platforms: [windowsphone]
+  - name: stopMicrophoneMonitor
+    platforms: [windowsphone]
+  - name: takePicture
+    platforms: [windowsphone]
+  - name: startVideoCapture
+    platforms: [windowsphone]
+  - name: stopVideoCapture
+    platforms: [windowsphone]
+  - name: takeScreenshot
+    platforms: [windowsphone]
+  - name: vibrate
+    platforms: [windowsphone]
+  - name: requestAuthorization
+    platforms: [windowsphone]
+  - name: createAudioPlayer
+    platforms: [windowsphone]
+  - name: createAudioRecorder
+    platforms: [windowsphone]
+  - name: createSound
+    platforms: [windowsphone]
+  - name: createVideoPlayer
+    platforms: [windowsphone]
+  - name: getAppMusicPlayer
+    platforms: [windowsphone]
+  - name: getAudioPlaying
+    platforms: [windowsphone]
+  - name: getAudioSessionCategory
+    platforms: [windowsphone]
+  - name: setAudioSessionCategory
+    platforms: [windowsphone]
+  - name: getAvailableCameras
+    platforms: [windowsphone]
+  - name: getAvailableCameraMediaTypes
+    platforms: [windowsphone]
+  - name: setAvailableCameraMediaTypes
+    platforms: [windowsphone]
+  - name: getAvailablePhotoGalleryMediaTypes
+    platforms: [windowsphone]
+  - name: setAvailablePhotoGalleryMediaTypes
+    platforms: [windowsphone]
+  - name: getAvailablePhotoMediaTypes
+    platforms: [windowsphone]
+  - name: setAvailablePhotoMediaTypes
+    platforms: [windowsphone]
+  - name: getAverageMicrophonePower
+    platforms: [windowsphone]
+  - name: setAverageMicrophonePower
+    platforms: [windowsphone]
+  - name: getCameraFlashMode
+    platforms: [windowsphone]
+  - name: setCameraFlashMode
+    platforms: [windowsphone]
+  - name: getCanRecord
+    platforms: [windowsphone]
+  - name: getCurrentRoute
+    platforms: [windowsphone]
+  - name: getIsCameraSupported
+    platforms: [windowsphone]
+  - name: getPeakMicrophonePower
+    platforms: [windowsphone]
+  - name: getSystemMusicPlayer
+    platforms: [windowsphone]
+  - name: getVolume
+    platforms: [windowsphone]
+

@@ -1,0 +1,25 @@
+name: Titanium
+platforms: [windowsphone]
+properties:
+  - name: version
+    platforms: [windowsphone]
+  - name: buildDate
+    platforms: [windowsphone]
+  - name: buildHash
+    platforms: [windowsphone]
+  - name: userAgent
+    platforms: [windowsphone]
+methods:
+  - name: getVersion
+    platforms: [windowsphone]
+  - name: getBuildDate
+    platforms: [windowsphone]
+  - name: getBuildHash
+    platforms: [windowsphone]
+  - name: getUserAgent
+    platforms: [windowsphone]
+  - name: setUserAgent
+    platforms: [windowsphone]
+  - name: createBuffer
+    platforms: [windowsphone]
+

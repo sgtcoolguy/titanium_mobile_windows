@@ -1,0 +1,19 @@
+name: Titanium.UI.Notification
+platforms: [windowsphone]
+properties:
+  - name: message
+    platforms: [windowsphone]
+  - name: duration
+    platforms: [windowsphone]
+methods:
+  - name: show
+    platforms: [windowsphone]
+  - name: getMessage
+    platforms: [windowsphone]
+  - name: setMessage
+    platforms: [windowsphone]
+  - name: getDuration
+    platforms: [windowsphone]
+  - name: setDuration
+    platforms: [windowsphone]
+

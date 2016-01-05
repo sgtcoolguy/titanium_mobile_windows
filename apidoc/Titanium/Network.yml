@@ -1,0 +1,53 @@
+name: Titanium.Network
+platforms: [windowsphone]
+properties:
+  - name: NETWORK_LAN
+    platforms: [windowsphone]
+  - name: NETWORK_MOBILE
+    platforms: [windowsphone]
+  - name: NETWORK_NONE
+    platforms: [windowsphone]
+  - name: NETWORK_UNKNOWN
+    platforms: [windowsphone]
+  - name: NETWORK_WIFI
+    platforms: [windowsphone]
+  - name: NOTIFICATION_TYPE_ALERT
+    platforms: [windowsphone]
+  - name: NOTIFICATION_TYPE_BADGE
+    platforms: [windowsphone]
+  - name: NOTIFICATION_TYPE_SOUND
+    platforms: [windowsphone]
+  - name: NOTIFICATION_TYPE_NEWSSTAND
+    platforms: [windowsphone]
+  - name: TLS_VERSION_1_0
+    platforms: [windowsphone]
+  - name: TLS_VERSION_1_1
+    platforms: [windowsphone]
+  - name: TLS_VERSION_1_2
+    platforms: [windowsphone]
+  - name: PROGRESS_UNKNOWN
+    platforms: [windowsphone]
+  - name: networkType
+    platforms: [windowsphone]
+  - name: networkTypeName
+    platforms: [windowsphone]
+  - name: online
+    platforms: [windowsphone]
+  - name: httpURLFormatter
+    platforms: [windowsphone]
+methods:
+  - name: createCookie
+    platforms: [windowsphone]
+  - name: createHTTPClient
+    platforms: [windowsphone]
+  - name: getNetworkType
+    platforms: [windowsphone]
+  - name: getNetworkTypeName
+    platforms: [windowsphone]
+  - name: getOnline
+    platforms: [windowsphone]
+  - name: getHttpURLFormatter
+    platforms: [windowsphone]
+  - name: setHttpURLFormatter
+    platforms: [windowsphone]
+

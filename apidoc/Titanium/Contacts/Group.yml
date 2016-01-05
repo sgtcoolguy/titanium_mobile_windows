@@ -1,0 +1,27 @@
+name: Titanium.Contacts.Group
+platforms: [windowsphone]
+properties:
+  - name: identifier
+    platforms: [windowsphone]
+  - name: name
+    platforms: [windowsphone]
+  - name: recordId
+    platforms: [windowsphone]
+methods:
+  - name: add
+    platforms: [windowsphone]
+  - name: members
+    platforms: [windowsphone]
+  - name: remove
+    platforms: [windowsphone]
+  - name: sortedMembers
+    platforms: [windowsphone]
+  - name: getName
+    platforms: [windowsphone]
+  - name: setName
+    platforms: [windowsphone]
+  - name: getRecordId
+    platforms: [windowsphone]
+  - name: setRecordId
+    platforms: [windowsphone]
+

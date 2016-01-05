@@ -1,0 +1,8 @@
+name: Global.JSON
+platforms: [windowsphone]
+methods:
+  - name: parse
+    platforms: [windowsphone]
+  - name: stringify
+    platforms: [windowsphone]
+

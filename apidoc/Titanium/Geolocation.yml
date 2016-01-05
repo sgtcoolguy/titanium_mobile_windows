@@ -1,0 +1,101 @@
+name: Titanium.Geolocation
+platforms: [windowsphone]
+properties:
+  - name: ACCURACY_BEST
+    platforms: [windowsphone]
+  - name: ACCURACY_BEST_FOR_NAVIGATION
+    platforms: [windowsphone]
+  - name: ACCURACY_HUNDRED_METERS
+    platforms: [windowsphone]
+  - name: ACCURACY_KILOMETER
+    platforms: [windowsphone]
+  - name: ACCURACY_NEAREST_TEN_METERS
+    platforms: [windowsphone]
+  - name: ACCURACY_THREE_KILOMETERS
+    platforms: [windowsphone]
+  - name: ACCURACY_HIGH
+    platforms: [windowsphone]
+  - name: ACCURACY_LOW
+    platforms: [windowsphone]
+  - name: ACTIVITYTYPE_AUTOMOTIVE_NAVIGATION
+    platforms: [windowsphone]
+  - name: ACTIVITYTYPE_FITNESS
+    platforms: [windowsphone]
+  - name: ACTIVITYTYPE_OTHER
+    platforms: [windowsphone]
+  - name: ACTIVITYTYPE_OTHER_NAVIGATION
+    platforms: [windowsphone]
+  - name: AUTHORIZATION_ALWAYS
+    platforms: [windowsphone]
+  - name: AUTHORIZATION_AUTHORIZED
+    platforms: [windowsphone]
+  - name: AUTHORIZATION_DENIED
+    platforms: [windowsphone]
+  - name: AUTHORIZATION_RESTRICTED
+    platforms: [windowsphone]
+  - name: AUTHORIZATION_UNKNOWN
+    platforms: [windowsphone]
+  - name: AUTHORIZATION_WHEN_IN_USE
+    platforms: [windowsphone]
+  - name: ERROR_DENIED
+    platforms: [windowsphone]
+  - name: ERROR_HEADING_FAILURE
+    platforms: [windowsphone]
+  - name: ERROR_LOCATION_UNKNOWN
+    platforms: [windowsphone]
+  - name: ERROR_NETWORK
+    platforms: [windowsphone]
+  - name: ERROR_REGION_MONITORING_DELAYED
+    platforms: [windowsphone]
+  - name: ERROR_REGION_MONITORING_DENIED
+    platforms: [windowsphone]
+  - name: ERROR_REGION_MONITORING_FAILURE
+    platforms: [windowsphone]
+  - name: ERROR_TIMEOUT
+    platforms: [windowsphone]
+  - name: PROVIDER_GPS
+    platforms: [windowsphone]
+  - name: PROVIDER_NETWORK
+    platforms: [windowsphone]
+  - name: PROVIDER_PASSIVE
+    platforms: [windowsphone]
+  - name: accuracy
+    platforms: [windowsphone]
+  - name: distanceFilter
+    platforms: [windowsphone]
+  - name: headingFilter
+    platforms: [windowsphone]
+  - name: hasCompass
+    platforms: [windowsphone]
+  - name: locationServicesEnabled
+    platforms: [windowsphone]
+  - name: lastGeolocation
+    platforms: [windowsphone]
+methods:
+  - name: forwardGeocoder
+    platforms: [windowsphone]
+  - name: getCurrentHeading
+    platforms: [windowsphone]
+  - name: getCurrentPosition
+    platforms: [windowsphone]
+  - name: reverseGeocoder
+    platforms: [windowsphone]
+  - name: getAccuracy
+    platforms: [windowsphone]
+  - name: setAccuracy
+    platforms: [windowsphone]
+  - name: getHasCompass
+    platforms: [windowsphone]
+  - name: getDistanceFilter
+    platforms: [windowsphone]
+  - name: setDistanceFilter
+    platforms: [windowsphone]
+  - name: getHeadingFilter
+    platforms: [windowsphone]
+  - name: setHeadingFilter
+    platforms: [windowsphone]
+  - name: getLocationServicesEnabled
+    platforms: [windowsphone]
+  - name: getLastGeolocation
+    platforms: [windowsphone]
+

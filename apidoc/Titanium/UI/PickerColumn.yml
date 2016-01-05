@@ -1,0 +1,29 @@
+name: Titanium.UI.PickerColumn
+platforms: [windowsphone]
+properties:
+  - name: rowCount
+    platforms: [windowsphone]
+  - name: rows
+    platforms: [windowsphone]
+  - name: selectedRow
+    platforms: [windowsphone]
+  - name: font
+    platforms: [windowsphone]
+methods:
+  - name: addRow
+    platforms: [windowsphone]
+  - name: removeRow
+    platforms: [windowsphone]
+  - name: getRowCount
+    platforms: [windowsphone]
+  - name: getRows
+    platforms: [windowsphone]
+  - name: getSelectedRow
+    platforms: [windowsphone]
+  - name: setSelectedRow
+    platforms: [windowsphone]
+  - name: getFont
+    platforms: [windowsphone]
+  - name: setFont
+    platforms: [windowsphone]
+

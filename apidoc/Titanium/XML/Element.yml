@@ -1,0 +1,37 @@
+name: Titanium.XML.Element
+platforms: [windowsphone]
+properties:
+  - name: tagName
+    platforms: [windowsphone]
+methods:
+  - name: getAttribute
+    platforms: [windowsphone]
+  - name: setAttribute
+    platforms: [windowsphone]
+  - name: removeAttribute
+    platforms: [windowsphone]
+  - name: getAttributeNode
+    platforms: [windowsphone]
+  - name: setAttributeNode
+    platforms: [windowsphone]
+  - name: removeAttributeNode
+    platforms: [windowsphone]
+  - name: getElementsByTagName
+    platforms: [windowsphone]
+  - name: getAttributeNS
+    platforms: [windowsphone]
+  - name: setAttributeNS
+    platforms: [windowsphone]
+  - name: removeAttributeNS
+    platforms: [windowsphone]
+  - name: getAttributeNodeNS
+    platforms: [windowsphone]
+  - name: setAttributeNodeNS
+    platforms: [windowsphone]
+  - name: getElementsByTagNameNS
+    platforms: [windowsphone]
+  - name: hasAttribute
+    platforms: [windowsphone]
+  - name: hasAttributeNS
+    platforms: [windowsphone]
+

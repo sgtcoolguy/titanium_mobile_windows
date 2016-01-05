@@ -1,0 +1,43 @@
+name: Titanium.UI.TableViewSection
+platforms: [windowsphone]
+properties:
+  - name: footerTitle
+    platforms: [windowsphone]
+  - name: footerView
+    platforms: [windowsphone]
+  - name: headerTitle
+    platforms: [windowsphone]
+  - name: headerView
+    platforms: [windowsphone]
+  - name: rowCount
+    platforms: [windowsphone]
+  - name: rows
+    platforms: [windowsphone]
+methods:
+  - name: add
+    platforms: [windowsphone]
+  - name: remove
+    platforms: [windowsphone]
+  - name: rowAtIndex
+    platforms: [windowsphone]
+  - name: getFooterTitle
+    platforms: [windowsphone]
+  - name: setFooterTitle
+    platforms: [windowsphone]
+  - name: getFooterView
+    platforms: [windowsphone]
+  - name: setFooterView
+    platforms: [windowsphone]
+  - name: getHeaderTitle
+    platforms: [windowsphone]
+  - name: setHeaderTitle
+    platforms: [windowsphone]
+  - name: getHeaderView
+    platforms: [windowsphone]
+  - name: setHeaderView
+    platforms: [windowsphone]
+  - name: getRowCount
+    platforms: [windowsphone]
+  - name: getRows
+    platforms: [windowsphone]
+

@@ -1,0 +1,25 @@
+name: Titanium.Database.ResultSet
+platforms: [windowsphone]
+properties:
+  - name: fieldCount
+    platforms: [windowsphone]
+  - name: rowCount
+    platforms: [windowsphone]
+  - name: validRow
+    platforms: [windowsphone]
+methods:
+  - name: close
+    platforms: [windowsphone]
+  - name: field
+    platforms: [windowsphone]
+  - name: fieldByName
+    platforms: [windowsphone]
+  - name: fieldName
+    platforms: [windowsphone]
+  - name: getFieldName
+    platforms: [windowsphone]
+  - name: isValidRow
+    platforms: [windowsphone]
+  - name: next
+    platforms: [windowsphone]
+

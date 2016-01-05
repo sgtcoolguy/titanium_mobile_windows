@@ -1,0 +1,21 @@
+name: Titanium.Media.AudioRecorder
+platforms: [windowsphone]
+properties:
+  - name: paused
+    platforms: [windowsphone]
+  - name: recording
+    platforms: [windowsphone]
+  - name: stopped
+    platforms: [windowsphone]
+methods:
+  - name: start
+    platforms: [windowsphone]
+  - name: stop
+    platforms: [windowsphone]
+  - name: getPaused
+    platforms: [windowsphone]
+  - name: getRecording
+    platforms: [windowsphone]
+  - name: getStopped
+    platforms: [windowsphone]
+

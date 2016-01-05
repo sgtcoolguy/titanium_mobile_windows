@@ -1,0 +1,61 @@
+name: Titanium.App
+platforms: [windowsphone]
+properties:
+  - name: EVENT_ACCESSIBILITY_ANNOUNCEMENT
+    platforms: [windowsphone]
+  - name: EVENT_ACCESSIBILITY_CHANGED
+    platforms: [windowsphone]
+  - name: analytics
+    platforms: [windowsphone]
+  - name: copyright
+    platforms: [windowsphone]
+  - name: deployType
+    platforms: [windowsphone]
+  - name: description
+    platforms: [windowsphone]
+  - name: guid
+    platforms: [windowsphone]
+  - name: id
+    platforms: [windowsphone]
+  - name: installId
+    platforms: [windowsphone]
+  - name: keyboardVisible
+    platforms: [windowsphone]
+  - name: name
+    platforms: [windowsphone]
+  - name: publisher
+    platforms: [windowsphone]
+  - name: sessionId
+    platforms: [windowsphone]
+  - name: url
+    platforms: [windowsphone]
+  - name: version
+    platforms: [windowsphone]
+methods:
+  - name: getAnalytics
+    platforms: [windowsphone]
+  - name: getCopyright
+    platforms: [windowsphone]
+  - name: getDeployType
+    platforms: [windowsphone]
+  - name: getDescription
+    platforms: [windowsphone]
+  - name: getGuid
+    platforms: [windowsphone]
+  - name: getId
+    platforms: [windowsphone]
+  - name: getInstallId
+    platforms: [windowsphone]
+  - name: getKeyboardVisible
+    platforms: [windowsphone]
+  - name: getName
+    platforms: [windowsphone]
+  - name: getPublisher
+    platforms: [windowsphone]
+  - name: getSessionId
+    platforms: [windowsphone]
+  - name: getUrl
+    platforms: [windowsphone]
+  - name: getVersion
+    platforms: [windowsphone]
+

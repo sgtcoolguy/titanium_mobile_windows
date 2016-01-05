@@ -1,0 +1,103 @@
+name: Titanium.Platform
+platforms: [windowsphone]
+properties:
+  - name: address
+    platforms: [windowsphone]
+  - name: architecture
+    platforms: [windowsphone]
+  - name: availableMemory
+    platforms: [windowsphone]
+  - name: batteryLevel
+    platforms: [windowsphone]
+  - name: batteryMonitoring
+    platforms: [windowsphone]
+  - name: batteryState
+    platforms: [windowsphone]
+  - name: id
+    platforms: [windowsphone]
+  - name: locale
+    platforms: [windowsphone]
+  - name: macaddress
+    platforms: [windowsphone]
+  - name: manufacturer
+    platforms: [windowsphone]
+  - name: model
+    platforms: [windowsphone]
+  - name: name
+    platforms: [windowsphone]
+  - name: netmask
+    platforms: [windowsphone]
+  - name: osname
+    platforms: [windowsphone]
+  - name: ostype
+    platforms: [windowsphone]
+  - name: processorCount
+    platforms: [windowsphone]
+  - name: runtime
+    platforms: [windowsphone]
+  - name: username
+    platforms: [windowsphone]
+  - name: version
+    platforms: [windowsphone]
+  - name: displayCaps
+    platforms: [windowsphone]
+  - name: BATTERY_STATE_CHARGING
+    platforms: [windowsphone]
+  - name: BATTERY_STATE_FULL
+    platforms: [windowsphone]
+  - name: BATTERY_STATE_UNKNOWN
+    platforms: [windowsphone]
+  - name: BATTERY_STATE_UNPLUGGED
+    platforms: [windowsphone]
+methods:
+  - name: getAddress
+    platforms: [windowsphone]
+  - name: getArchitecture
+    platforms: [windowsphone]
+  - name: getAvailableMemory
+    platforms: [windowsphone]
+  - name: getBatteryLevel
+    platforms: [windowsphone]
+  - name: getBatteryMonitoring
+    platforms: [windowsphone]
+  - name: setBatteryMonitoring
+    platforms: [windowsphone]
+  - name: getBatteryState
+    platforms: [windowsphone]
+  - name: getId
+    platforms: [windowsphone]
+  - name: getLocale
+    platforms: [windowsphone]
+  - name: getMacaddress
+    platforms: [windowsphone]
+  - name: getManufacturer
+    platforms: [windowsphone]
+  - name: getModel
+    platforms: [windowsphone]
+  - name: getName
+    platforms: [windowsphone]
+  - name: getNetmask
+    platforms: [windowsphone]
+  - name: getOsname
+    platforms: [windowsphone]
+  - name: getOstype
+    platforms: [windowsphone]
+  - name: getProcessorCount
+    platforms: [windowsphone]
+  - name: getRuntime
+    platforms: [windowsphone]
+  - name: getUsername
+    platforms: [windowsphone]
+  - name: getVersion
+    platforms: [windowsphone]
+  - name: createUUID
+    platforms: [windowsphone]
+  - name: canOpenURL
+    platforms: [windowsphone]
+  - name: openURL
+    platforms: [windowsphone]
+  - name: getDisplayCaps
+    platforms: [windowsphone]
+  - name: is24HourTimeFormat
+    platforms: [windowsphone]
+

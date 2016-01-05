@@ -1,0 +1,57 @@
+name: Titanium.UI.ListView
+platforms: [windowsphone]
+properties:
+  - name: sections
+    platforms: [windowsphone]
+  - name: footerTitle
+    platforms: [windowsphone]
+  - name: headerTitle
+    platforms: [windowsphone]
+  - name: searchText
+    platforms: [windowsphone]
+  - name: caseInsensitiveSearch
+    platforms: [windowsphone]
+  - name: sectionCount
+    platforms: [windowsphone]
+  - name: defaultItemTemplate
+    platforms: [windowsphone]
+methods:
+  - name: appendSection
+    platforms: [windowsphone]
+  - name: deleteSectionAt
+    platforms: [windowsphone]
+  - name: insertSectionAt
+    platforms: [windowsphone]
+  - name: replaceSectionAt
+    platforms: [windowsphone]
+  - name: getTemplates
+    platforms: [windowsphone]
+  - name: setTemplates
+    platforms: [windowsphone]
+  - name: getSections
+    platforms: [windowsphone]
+  - name: setSections
+    platforms: [windowsphone]
+  - name: getFooterTitle
+    platforms: [windowsphone]
+  - name: setFooterTitle
+    platforms: [windowsphone]
+  - name: getHeaderTitle
+    platforms: [windowsphone]
+  - name: setHeaderTitle
+    platforms: [windowsphone]
+  - name: getSearchText
+    platforms: [windowsphone]
+  - name: setSearchText
+    platforms: [windowsphone]
+  - name: getCaseInsensitiveSearch
+    platforms: [windowsphone]
+  - name: setCaseInsensitiveSearch
+    platforms: [windowsphone]
+  - name: getSectionCount
+    platforms: [windowsphone]
+  - name: getDefaultItemTemplate
+    platforms: [windowsphone]
+  - name: setDefaultItemTemplate
+    platforms: [windowsphone]
+

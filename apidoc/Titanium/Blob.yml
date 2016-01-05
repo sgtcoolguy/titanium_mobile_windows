@@ -1,0 +1,41 @@
+name: Titanium.Blob
+platforms: [windowsphone]
+properties:
+  - name: file
+    platforms: [windowsphone]
+  - name: height
+    platforms: [windowsphone]
+  - name: length
+    platforms: [windowsphone]
+  - name: mimeType
+    platforms: [windowsphone]
+  - name: nativePath
+    platforms: [windowsphone]
+  - name: size
+    platforms: [windowsphone]
+  - name: text
+    platforms: [windowsphone]
+  - name: width
+    platforms: [windowsphone]
+methods:
+  - name: getFile
+    platforms: [windowsphone]
+  - name: getHeight
+    platforms: [windowsphone]
+  - name: getLength
+    platforms: [windowsphone]
+  - name: getMimeType
+    platforms: [windowsphone]
+  - name: getNativePath
+    platforms: [windowsphone]
+  - name: getSize
+    platforms: [windowsphone]
+  - name: getText
+    platforms: [windowsphone]
+  - name: getWidth
+    platforms: [windowsphone]
+  - name: append
+    platforms: [windowsphone]
+  - name: toString
+    platforms: [windowsphone]
+

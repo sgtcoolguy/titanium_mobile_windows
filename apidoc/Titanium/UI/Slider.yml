@@ -1,0 +1,23 @@
+name: Titanium.UI.Slider
+platforms: [windowsphone]
+properties:
+  - name: max
+    platforms: [windowsphone]
+  - name: min
+    platforms: [windowsphone]
+  - name: value
+    platforms: [windowsphone]
+methods:
+  - name: getMax
+    platforms: [windowsphone]
+  - name: setMax
+    platforms: [windowsphone]
+  - name: getMin
+    platforms: [windowsphone]
+  - name: setMin
+    platforms: [windowsphone]
+  - name: getValue
+    platforms: [windowsphone]
+  - name: setValue
+    platforms: [windowsphone]
+

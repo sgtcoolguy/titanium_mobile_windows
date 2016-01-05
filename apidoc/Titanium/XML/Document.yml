@@ -1,0 +1,39 @@
+name: Titanium.XML.Document
+platforms: [windowsphone]
+properties:
+  - name: doctype
+    platforms: [windowsphone]
+  - name: implementation
+    platforms: [windowsphone]
+  - name: documentElement
+    platforms: [windowsphone]
+methods:
+  - name: createElement
+    platforms: [windowsphone]
+  - name: createDocumentFragment
+    platforms: [windowsphone]
+  - name: createTextNode
+    platforms: [windowsphone]
+  - name: createComment
+    platforms: [windowsphone]
+  - name: createCDATASection
+    platforms: [windowsphone]
+  - name: createProcessingInstruction
+    platforms: [windowsphone]
+  - name: createAttribute
+    platforms: [windowsphone]
+  - name: createEntityReference
+    platforms: [windowsphone]
+  - name: getElementsByTagName
+    platforms: [windowsphone]
+  - name: importNode
+    platforms: [windowsphone]
+  - name: createElementNS
+    platforms: [windowsphone]
+  - name: createAttributeNS
+    platforms: [windowsphone]
+  - name: getElementsByTagNameNS
+    platforms: [windowsphone]
+  - name: getElementById
+    platforms: [windowsphone]
+

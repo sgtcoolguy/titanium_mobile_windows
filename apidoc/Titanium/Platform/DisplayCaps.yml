@@ -1,0 +1,29 @@
+name: Titanium.Platform.DisplayCaps
+platforms: [windowsphone]
+properties:
+  - name: dpi
+    platforms: [windowsphone]
+  - name: logicalDensityFactor
+    platforms: [windowsphone]
+  - name: platformHeight
+    platforms: [windowsphone]
+  - name: platformWidth
+    platforms: [windowsphone]
+  - name: xdpi
+    platforms: [windowsphone]
+  - name: ydpi
+    platforms: [windowsphone]
+methods:
+  - name: getDpi
+    platforms: [windowsphone]
+  - name: getLogicalDensityFactor
+    platforms: [windowsphone]
+  - name: getPlatformHeight
+    platforms: [windowsphone]
+  - name: getPlatformWidth
+    platforms: [windowsphone]
+  - name: getXdpi
+    platforms: [windowsphone]
+  - name: getYdpi
+    platforms: [windowsphone]
+

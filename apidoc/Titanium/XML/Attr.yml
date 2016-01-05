@@ -1,0 +1,12 @@
+name: Titanium.XML.Attr
+platforms: [windowsphone]
+properties:
+  - name: value
+    platforms: [windowsphone]
+  - name: name
+    platforms: [windowsphone]
+  - name: specified
+    platforms: [windowsphone]
+  - name: ownerElement
+    platforms: [windowsphone]
+

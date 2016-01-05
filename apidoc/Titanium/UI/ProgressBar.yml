@@ -1,0 +1,35 @@
+name: Titanium.UI.ProgressBar
+platforms: [windowsphone]
+properties:
+  - name: color
+    platforms: [windowsphone]
+  - name: max
+    platforms: [windowsphone]
+  - name: message
+    platforms: [windowsphone]
+  - name: min
+    platforms: [windowsphone]
+  - name: value
+    platforms: [windowsphone]
+methods:
+  - name: getColor
+    platforms: [windowsphone]
+  - name: setColor
+    platforms: [windowsphone]
+  - name: getMax
+    platforms: [windowsphone]
+  - name: setMax
+    platforms: [windowsphone]
+  - name: getMessage
+    platforms: [windowsphone]
+  - name: setMessage
+    platforms: [windowsphone]
+  - name: getMin
+    platforms: [windowsphone]
+  - name: setMin
+    platforms: [windowsphone]
+  - name: getValue
+    platforms: [windowsphone]
+  - name: setValue
+    platforms: [windowsphone]
+

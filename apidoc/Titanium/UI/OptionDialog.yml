@@ -1,0 +1,37 @@
+name: Titanium.UI.OptionDialog
+platforms: [windowsphone]
+properties:
+  - name: cancel
+    platforms: [windowsphone]
+  - name: destructive
+    platforms: [windowsphone]
+  - name: options
+    platforms: [windowsphone]
+  - name: selectedIndex
+    platforms: [windowsphone]
+  - name: title
+    platforms: [windowsphone]
+methods:
+  - name: show
+    platforms: [windowsphone]
+  - name: getCancel
+    platforms: [windowsphone]
+  - name: setCancel
+    platforms: [windowsphone]
+  - name: getDestructive
+    platforms: [windowsphone]
+  - name: setDestructive
+    platforms: [windowsphone]
+  - name: getOptions
+    platforms: [windowsphone]
+  - name: setOptions
+    platforms: [windowsphone]
+  - name: getSelectedIndex
+    platforms: [windowsphone]
+  - name: setSelectedIndex
+    platforms: [windowsphone]
+  - name: getTitle
+    platforms: [windowsphone]
+  - name: setTitle
+    platforms: [windowsphone]
+

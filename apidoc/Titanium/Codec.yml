@@ -1,0 +1,43 @@
+name: Titanium.Codec
+platforms: [windowsphone]
+properties:
+  - name: CHARSET_ASCII
+    platforms: [windowsphone]
+  - name: CHARSET_ISO_LATIN_1
+    platforms: [windowsphone]
+  - name: CHARSET_UTF8
+    platforms: [windowsphone]
+  - name: CHARSET_UTF16
+    platforms: [windowsphone]
+  - name: CHARSET_UTF16BE
+    platforms: [windowsphone]
+  - name: CHARSET_UTF16LE
+    platforms: [windowsphone]
+  - name: TYPE_BYTE
+    platforms: [windowsphone]
+  - name: TYPE_SHORT
+    platforms: [windowsphone]
+  - name: TYPE_INT
+    platforms: [windowsphone]
+  - name: TYPE_FLOAT
+    platforms: [windowsphone]
+  - name: TYPE_LONG
+    platforms: [windowsphone]
+  - name: TYPE_DOUBLE
+    platforms: [windowsphone]
+  - name: BIG_ENDIAN
+    platforms: [windowsphone]
+  - name: LITTLE_ENDIAN
+    platforms: [windowsphone]
+methods:
+  - name: getNativeByteOrder
+    platforms: [windowsphone]
+  - name: encodeNumber
+    platforms: [windowsphone]
+  - name: decodeNumber
+    platforms: [windowsphone]
+  - name: encodeString
+    platforms: [windowsphone]
+  - name: decodeString
+    platforms: [windowsphone]
+

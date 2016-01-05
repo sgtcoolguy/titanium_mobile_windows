@@ -1,0 +1,41 @@
+name: Titanium.UI.WebView
+platforms: [windowsphone]
+properties:
+  - name: data
+    platforms: [windowsphone]
+  - name: html
+    platforms: [windowsphone]
+  - name: loading
+    platforms: [windowsphone]
+  - name: url
+    platforms: [windowsphone]
+methods:
+  - name: canGoBack
+    platforms: [windowsphone]
+  - name: canGoForward
+    platforms: [windowsphone]
+  - name: goBack
+    platforms: [windowsphone]
+  - name: goForward
+    platforms: [windowsphone]
+  - name: reload
+    platforms: [windowsphone]
+  - name: stopLoading
+    platforms: [windowsphone]
+  - name: getData
+    platforms: [windowsphone]
+  - name: setData
+    platforms: [windowsphone]
+  - name: getHtml
+    platforms: [windowsphone]
+  - name: setHtml
+    platforms: [windowsphone]
+  - name: getLoading
+    platforms: [windowsphone]
+  - name: setLoading
+    platforms: [windowsphone]
+  - name: getUrl
+    platforms: [windowsphone]
+  - name: setUrl
+    platforms: [windowsphone]
+

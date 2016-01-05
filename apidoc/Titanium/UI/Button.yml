@@ -1,0 +1,41 @@
+name: Titanium.UI.Button
+platforms: [windowsphone]
+properties:
+  - name: color
+    platforms: [windowsphone]
+  - name: font
+    platforms: [windowsphone]
+  - name: image
+    platforms: [windowsphone]
+  - name: textAlign
+    platforms: [windowsphone]
+  - name: title
+    platforms: [windowsphone]
+  - name: verticalAlign
+    platforms: [windowsphone]
+methods:
+  - name: getColor
+    platforms: [windowsphone]
+  - name: setColor
+    platforms: [windowsphone]
+  - name: getFont
+    platforms: [windowsphone]
+  - name: setFont
+    platforms: [windowsphone]
+  - name: getImage
+    platforms: [windowsphone]
+  - name: setImage
+    platforms: [windowsphone]
+  - name: getTextAlign
+    platforms: [windowsphone]
+  - name: setTextAlign
+    platforms: [windowsphone]
+  - name: getTitle
+    platforms: [windowsphone]
+  - name: setTitle
+    platforms: [windowsphone]
+  - name: getVerticalAlign
+    platforms: [windowsphone]
+  - name: setVerticalAlign
+    platforms: [windowsphone]
+

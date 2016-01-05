@@ -1,0 +1,31 @@
+name: Titanium.UI.AlertDialog
+platforms: [windowsphone]
+properties:
+  - name: buttonNames
+    platforms: [windowsphone]
+  - name: cancel
+    platforms: [windowsphone]
+  - name: message
+    platforms: [windowsphone]
+  - name: title
+    platforms: [windowsphone]
+methods:
+  - name: show
+    platforms: [windowsphone]
+  - name: getButtonNames
+    platforms: [windowsphone]
+  - name: setButtonNames
+    platforms: [windowsphone]
+  - name: getCancel
+    platforms: [windowsphone]
+  - name: setCancel
+    platforms: [windowsphone]
+  - name: getMessage
+    platforms: [windowsphone]
+  - name: setMessage
+    platforms: [windowsphone]
+  - name: getTitle
+    platforms: [windowsphone]
+  - name: setTitle
+    platforms: [windowsphone]
+

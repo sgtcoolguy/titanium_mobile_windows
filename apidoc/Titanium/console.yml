@@ -1,0 +1,14 @@
+name: Global.console
+platforms: [windowsphone]
+methods:
+  - name: debug
+    platforms: [windowsphone]
+  - name: error
+    platforms: [windowsphone]
+  - name: info
+    platforms: [windowsphone]
+  - name: log
+    platforms: [windowsphone]
+  - name: warn
+    platforms: [windowsphone]
+

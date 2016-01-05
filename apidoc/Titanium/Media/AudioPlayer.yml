@@ -1,0 +1,107 @@
+name: Titanium.Media.AudioPlayer
+platforms: [windowsphone]
+properties:
+  - name: STATE_BUFFERING
+    platforms: [windowsphone]
+  - name: STATE_INITIALIZED
+    platforms: [windowsphone]
+  - name: STATE_PAUSED
+    platforms: [windowsphone]
+  - name: STATE_PLAYING
+    platforms: [windowsphone]
+  - name: STATE_STARTING
+    platforms: [windowsphone]
+  - name: STATE_STOPPED
+    platforms: [windowsphone]
+  - name: STATE_STOPPING
+    platforms: [windowsphone]
+  - name: STATE_WAITING_FOR_DATA
+    platforms: [windowsphone]
+  - name: STATE_WAITING_FOR_QUEUE
+    platforms: [windowsphone]
+  - name: allowBackground
+    platforms: [windowsphone]
+  - name: autoplay
+    platforms: [windowsphone]
+  - name: bitRate
+    platforms: [windowsphone]
+  - name: duration
+    platforms: [windowsphone]
+  - name: idle
+    platforms: [windowsphone]
+  - name: paused
+    platforms: [windowsphone]
+  - name: playing
+    platforms: [windowsphone]
+  - name: progress
+    platforms: [windowsphone]
+  - name: state
+    platforms: [windowsphone]
+  - name: url
+    platforms: [windowsphone]
+  - name: volume
+    platforms: [windowsphone]
+  - name: waiting
+    platforms: [windowsphone]
+  - name: bufferSize
+    platforms: [windowsphone]
+  - name: time
+    platforms: [windowsphone]
+methods:
+  - name: isPaused
+    platforms: [windowsphone]
+  - name: isPlaying
+    platforms: [windowsphone]
+  - name: pause
+    platforms: [windowsphone]
+  - name: play
+    platforms: [windowsphone]
+  - name: start
+    platforms: [windowsphone]
+  - name: stop
+    platforms: [windowsphone]
+  - name: getAllowBackground
+    platforms: [windowsphone]
+  - name: setAllowBackground
+    platforms: [windowsphone]
+  - name: getAutoplay
+    platforms: [windowsphone]
+  - name: setAutoplay
+    platforms: [windowsphone]
+  - name: getBitRate
+    platforms: [windowsphone]
+  - name: setBitRate
+    platforms: [windowsphone]
+  - name: getDuration
+    platforms: [windowsphone]
+  - name: getIdle
+    platforms: [windowsphone]
+  - name: getPaused
+    platforms: [windowsphone]
+  - name: setPaused
+    platforms: [windowsphone]
+  - name: getPlaying
+    platforms: [windowsphone]
+  - name: getProgress
+    platforms: [windowsphone]
+  - name: getState
+    platforms: [windowsphone]
+  - name: getUrl
+    platforms: [windowsphone]
+  - name: setUrl
+    platforms: [windowsphone]
+  - name: getVolume
+    platforms: [windowsphone]
+  - name: setVolume
+    platforms: [windowsphone]
+  - name: getWaiting
+    platforms: [windowsphone]
+  - name: getBufferSize
+    platforms: [windowsphone]
+  - name: setBufferSize
+    platforms: [windowsphone]
+  - name: getTime
+    platforms: [windowsphone]
+  - name: setTime
+    platforms: [windowsphone]
+

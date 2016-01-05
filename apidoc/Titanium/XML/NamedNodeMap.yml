@@ -1,0 +1,21 @@
+name: Titanium.XML.NamedNodeMap
+platforms: [windowsphone]
+properties:
+  - name: length
+    platforms: [windowsphone]
+methods:
+  - name: getNamedItem
+    platforms: [windowsphone]
+  - name: setNamedItem
+    platforms: [windowsphone]
+  - name: removeNamedItem
+    platforms: [windowsphone]
+  - name: item
+    platforms: [windowsphone]
+  - name: getNamedItemNS
+    platforms: [windowsphone]
+  - name: setNamedItemNS
+    platforms: [windowsphone]
+  - name: removeNamedItemNS
+    platforms: [windowsphone]
+

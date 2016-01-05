@@ -1,0 +1,25 @@
+name: Titanium.Gesture
+platforms: [windowsphone]
+properties:
+  - name: orientation
+    platforms: [windowsphone]
+  - name: landscape
+    platforms: [windowsphone]
+  - name: portrait
+    platforms: [windowsphone]
+methods:
+  - name: getLandscape
+    platforms: [windowsphone]
+  - name: getPortrait
+    platforms: [windowsphone]
+  - name: getOrientation
+    platforms: [windowsphone]
+  - name: isFaceDown
+    platforms: [windowsphone]
+  - name: isFaceUp
+    platforms: [windowsphone]
+  - name: isLandscape
+    platforms: [windowsphone]
+  - name: isPortrait
+    platforms: [windowsphone]
+

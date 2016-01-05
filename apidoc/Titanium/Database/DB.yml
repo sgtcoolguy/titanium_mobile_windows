@@ -1,0 +1,19 @@
+name: Titanium.Database.DB
+platforms: [windowsphone]
+properties:
+  - name: file
+    platforms: [windowsphone]
+  - name: lastInsertRowId
+    platforms: [windowsphone]
+  - name: name
+    platforms: [windowsphone]
+  - name: rowsAffected
+    platforms: [windowsphone]
+methods:
+  - name: close
+    platforms: [windowsphone]
+  - name: execute
+    platforms: [windowsphone]
+  - name: remove
+    platforms: [windowsphone]
+

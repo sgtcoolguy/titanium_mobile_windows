@@ -1,0 +1,14 @@
+name: Global.String
+platforms: [windowsphone]
+methods:
+  - name: format
+    platforms: [windowsphone]
+  - name: formatCurrency
+    platforms: [windowsphone]
+  - name: formatDate
+    platforms: [windowsphone]
+  - name: formatDecimal
+    platforms: [windowsphone]
+  - name: formatTime
+    platforms: [windowsphone]
+

@@ -1,0 +1,13 @@
+name: Titanium.Analytics
+platforms: [windowsphone]
+properties:
+  - name: lastEvent
+    platforms: [windowsphone]
+methods:
+  - name: featureEvent
+    platforms: [windowsphone]
+  - name: navEvent
+    platforms: [windowsphone]
+  - name: getLastEvent
+    platforms: [windowsphone]
+

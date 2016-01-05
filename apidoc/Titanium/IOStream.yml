@@ -1,0 +1,14 @@
+name: Titanium.IOStream
+platforms: [windowsphone]
+methods:
+  - name: read
+    platforms: [windowsphone]
+  - name: write
+    platforms: [windowsphone]
+  - name: isWritable
+    platforms: [windowsphone]
+  - name: isReadable
+    platforms: [windowsphone]
+  - name: close
+    platforms: [windowsphone]
+

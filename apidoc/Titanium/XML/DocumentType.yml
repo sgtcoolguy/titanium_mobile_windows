@@ -1,0 +1,16 @@
+name: Titanium.XML.DocumentType
+platforms: [windowsphone]
+properties:
+  - name: name
+    platforms: [windowsphone]
+  - name: entities
+    platforms: [windowsphone]
+  - name: notations
+    platforms: [windowsphone]
+  - name: publicId
+    platforms: [windowsphone]
+  - name: systemId
+    platforms: [windowsphone]
+  - name: internalSubset
+    platforms: [windowsphone]
+

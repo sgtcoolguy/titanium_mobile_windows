@@ -1,0 +1,73 @@
+name: Titanium.Filesystem.File
+platforms: [windowsphone]
+properties:
+  - name: hidden
+    platforms: [windowsphone]
+  - name: name
+    platforms: [windowsphone]
+  - name: nativePath
+    platforms: [windowsphone]
+  - name: parent
+    platforms: [windowsphone]
+  - name: readonly
+    platforms: [windowsphone]
+  - name: size
+    platforms: [windowsphone]
+  - name: writable
+    platforms: [windowsphone]
+methods:
+  - name: getHidden
+    platforms: [windowsphone]
+  - name: getName
+    platforms: [windowsphone]
+  - name: getNativePath
+    platforms: [windowsphone]
+  - name: getParent
+    platforms: [windowsphone]
+  - name: getReadonly
+    platforms: [windowsphone]
+  - name: getSize
+    platforms: [windowsphone]
+  - name: getWritable
+    platforms: [windowsphone]
+  - name: append
+    platforms: [windowsphone]
+  - name: copy
+    platforms: [windowsphone]
+  - name: createDirectory
+    platforms: [windowsphone]
+  - name: createFile
+    platforms: [windowsphone]
+  - name: createTimestamp
+    platforms: [windowsphone]
+  - name: deleteDirectory
+    platforms: [windowsphone]
+  - name: deleteFile
+    platforms: [windowsphone]
+  - name: exists
+    platforms: [windowsphone]
+  - name: extension
+    platforms: [windowsphone]
+  - name: getDirectoryListing
+    platforms: [windowsphone]
+  - name: isDirectory
+    platforms: [windowsphone]
+  - name: isFile
+    platforms: [windowsphone]
+  - name: modificationTimestamp
+    platforms: [windowsphone]
+  - name: move
+    platforms: [windowsphone]
+  - name: open
+    platforms: [windowsphone]
+  - name: read
+    platforms: [windowsphone]
+  - name: rename
+    platforms: [windowsphone]
+  - name: resolve
+    platforms: [windowsphone]
+  - name: spaceAvailable
+    platforms: [windowsphone]
+  - name: write
+    platforms: [windowsphone]
+

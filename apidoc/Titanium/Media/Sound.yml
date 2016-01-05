@@ -1,0 +1,69 @@
+name: Titanium.Media.Sound
+platforms: [windowsphone]
+properties:
+  - name: STATE_BUFFERING
+    platforms: [windowsphone]
+  - name: STATE_INITIALIZED
+    platforms: [windowsphone]
+  - name: STATE_PAUSED
+    platforms: [windowsphone]
+  - name: STATE_PLAYING
+    platforms: [windowsphone]
+  - name: STATE_STARTING
+    platforms: [windowsphone]
+  - name: STATE_STOPPED
+    platforms: [windowsphone]
+  - name: STATE_STOPPING
+    platforms: [windowsphone]
+  - name: STATE_WAITING_FOR_DATA
+    platforms: [windowsphone]
+  - name: STATE_WAITING_FOR_QUEUE
+    platforms: [windowsphone]
+  - name: duration
+    platforms: [windowsphone]
+  - name: looping
+    platforms: [windowsphone]
+  - name: paused
+    platforms: [windowsphone]
+  - name: playing
+    platforms: [windowsphone]
+  - name: time
+    platforms: [windowsphone]
+  - name: url
+    platforms: [windowsphone]
+  - name: volume
+    platforms: [windowsphone]
+methods:
+  - name: isLooping
+    platforms: [windowsphone]
+  - name: isPaused
+    platforms: [windowsphone]
+  - name: isPlaying
+    platforms: [windowsphone]
+  - name: pause
+    platforms: [windowsphone]
+  - name: play
+    platforms: [windowsphone]
+  - name: reset
+    platforms: [windowsphone]
+  - name: setLooping
+    platforms: [windowsphone]
+  - name: setPaused
+    platforms: [windowsphone]
+  - name: stop
+    platforms: [windowsphone]
+  - name: getDuration
+    platforms: [windowsphone]
+  - name: getTime
+    platforms: [windowsphone]
+  - name: setTime
+    platforms: [windowsphone]
+  - name: getUrl
+    platforms: [windowsphone]
+  - name: setUrl
+    platforms: [windowsphone]
+  - name: getVolume
+    platforms: [windowsphone]
+  - name: setVolume
+    platforms: [windowsphone]
+

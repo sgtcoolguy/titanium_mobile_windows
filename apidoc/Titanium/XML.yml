@@ -1,0 +1,8 @@
+name: Titanium.XML
+platforms: [windowsphone]
+methods:
+  - name: parseString
+    platforms: [windowsphone]
+  - name: serializeToString
+    platforms: [windowsphone]
+

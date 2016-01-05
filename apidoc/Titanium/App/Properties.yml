@@ -1,0 +1,34 @@
+name: Titanium.App.Properties
+platforms: [windowsphone]
+methods:
+  - name: getBool
+    platforms: [windowsphone]
+  - name: getDouble
+    platforms: [windowsphone]
+  - name: getInt
+    platforms: [windowsphone]
+  - name: getList
+    platforms: [windowsphone]
+  - name: getObject
+    platforms: [windowsphone]
+  - name: getString
+    platforms: [windowsphone]
+  - name: hasProperty
+    platforms: [windowsphone]
+  - name: listProperties
+    platforms: [windowsphone]
+  - name: removeProperty
+    platforms: [windowsphone]
+  - name: setBool
+    platforms: [windowsphone]
+  - name: setDouble
+    platforms: [windowsphone]
+  - name: setInt
+    platforms: [windowsphone]
+  - name: setList
+    platforms: [windowsphone]
+  - name: setObject
+    platforms: [windowsphone]
+  - name: setString
+    platforms: [windowsphone]
+

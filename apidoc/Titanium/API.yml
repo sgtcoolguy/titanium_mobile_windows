@@ -1,0 +1,16 @@
+name: Titanium.API
+platforms: [windowsphone]
+methods:
+  - name: info
+    platforms: [windowsphone]
+  - name: warn
+    platforms: [windowsphone]
+  - name: error
+    platforms: [windowsphone]
+  - name: debug
+    platforms: [windowsphone]
+  - name: trace
+    platforms: [windowsphone]
+  - name: log
+    platforms: [windowsphone]
+

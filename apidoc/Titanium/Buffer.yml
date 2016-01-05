@@ -1,0 +1,47 @@
+name: Titanium.Buffer
+platforms: [windowsphone]
+properties:
+  - name: length
+    platforms: [windowsphone]
+  - name: value
+    platforms: [windowsphone]
+  - name: type
+    platforms: [windowsphone]
+  - name: byteOrder
+    platforms: [windowsphone]
+methods:
+  - name: append
+    platforms: [windowsphone]
+  - name: insert
+    platforms: [windowsphone]
+  - name: copy
+    platforms: [windowsphone]
+  - name: clone
+    platforms: [windowsphone]
+  - name: fill
+    platforms: [windowsphone]
+  - name: clear
+    platforms: [windowsphone]
+  - name: release
+    platforms: [windowsphone]
+  - name: toString
+    platforms: [windowsphone]
+  - name: toBlob
+    platforms: [windowsphone]
+  - name: getLength
+    platforms: [windowsphone]
+  - name: setLength
+    platforms: [windowsphone]
+  - name: getValue
+    platforms: [windowsphone]
+  - name: setValue
+    platforms: [windowsphone]
+  - name: getType
+    platforms: [windowsphone]
+  - name: setType
+    platforms: [windowsphone]
+  - name: getByteOrder
+    platforms: [windowsphone]
+  - name: setByteOrder
+    platforms: [windowsphone]
+

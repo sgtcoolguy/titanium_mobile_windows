@@ -1,0 +1,10 @@
+name: Titanium.XML.DOMImplementation
+platforms: [windowsphone]
+methods:
+  - name: hasFeature
+    platforms: [windowsphone]
+  - name: createDocumentType
+    platforms: [windowsphone]
+  - name: createDocument
+    platforms: [windowsphone]
+

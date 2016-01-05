@@ -1,0 +1,17 @@
+name: Titanium.Database
+platforms: [windowsphone]
+properties:
+  - name: FIELD_TYPE_DOUBLE
+    platforms: [windowsphone]
+  - name: FIELD_TYPE_FLOAT
+    platforms: [windowsphone]
+  - name: FIELD_TYPE_INT
+    platforms: [windowsphone]
+  - name: FIELD_TYPE_STRING
+    platforms: [windowsphone]
+methods:
+  - name: install
+    platforms: [windowsphone]
+  - name: open
+    platforms: [windowsphone]
+

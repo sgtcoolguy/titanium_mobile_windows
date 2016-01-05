@@ -1,0 +1,55 @@
+name: Titanium.Filesystem
+platforms: [windowsphone]
+properties:
+  - name: MODE_READ
+    platforms: [windowsphone]
+  - name: MODE_WRITE
+    platforms: [windowsphone]
+  - name: MODE_APPEND
+    platforms: [windowsphone]
+  - name: separator
+    platforms: [windowsphone]
+  - name: lineEnding
+    platforms: [windowsphone]
+  - name: applicationCacheDirectory
+    platforms: [windowsphone]
+  - name: applicationDataDirectory
+    platforms: [windowsphone]
+  - name: applicationDirectory
+    platforms: [windowsphone]
+  - name: applicationSupportDirectory
+    platforms: [windowsphone]
+  - name: externalStorageDirectory
+    platforms: [windowsphone]
+  - name: resourcesDirectory
+    platforms: [windowsphone]
+  - name: tempDirectory
+    platforms: [windowsphone]
+methods:
+  - name: getFile
+    platforms: [windowsphone]
+  - name: createTempDirectory
+    platforms: [windowsphone]
+  - name: createTempFile
+    platforms: [windowsphone]
+  - name: isExternalStoragePresent
+    platforms: [windowsphone]
+  - name: getSeparator
+    platforms: [windowsphone]
+  - name: getLineEnding
+    platforms: [windowsphone]
+  - name: getApplicationCacheDirectory
+    platforms: [windowsphone]
+  - name: getApplicationDataDirectory
+    platforms: [windowsphone]
+  - name: getApplicationDirectory
+    platforms: [windowsphone]
+  - name: getApplicationSupportDirectory
+    platforms: [windowsphone]
+  - name: getExternalStorageDirectory
+    platforms: [windowsphone]
+  - name: getResourcesDirectory
+    platforms: [windowsphone]
+  - name: getTempDirectory
+    platforms: [windowsphone]
+

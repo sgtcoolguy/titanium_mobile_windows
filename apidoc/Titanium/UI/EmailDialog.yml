@@ -1,0 +1,55 @@
+name: Titanium.UI.EmailDialog
+platforms: [windowsphone]
+properties:
+  - name: CANCELLED
+    platforms: [windowsphone]
+  - name: FAILED
+    platforms: [windowsphone]
+  - name: SAVED
+    platforms: [windowsphone]
+  - name: SENT
+    platforms: [windowsphone]
+  - name: bccRecipients
+    platforms: [windowsphone]
+  - name: ccRecipients
+    platforms: [windowsphone]
+  - name: html
+    platforms: [windowsphone]
+  - name: messageBody
+    platforms: [windowsphone]
+  - name: subject
+    platforms: [windowsphone]
+  - name: toRecipients
+    platforms: [windowsphone]
+methods:
+  - name: addAttachment
+    platforms: [windowsphone]
+  - name: isSupported
+    platforms: [windowsphone]
+  - name: open
+    platforms: [windowsphone]
+  - name: getBccRecipients
+    platforms: [windowsphone]
+  - name: setBccRecipients
+    platforms: [windowsphone]
+  - name: getCcRecipients
+    platforms: [windowsphone]
+  - name: setCcRecipients
+    platforms: [windowsphone]
+  - name: getHtml
+    platforms: [windowsphone]
+  - name: setHtml
+    platforms: [windowsphone]
+  - name: getMessageBody
+    platforms: [windowsphone]
+  - name: setMessageBody
+    platforms: [windowsphone]
+  - name: getSubject
+    platforms: [windowsphone]
+  - name: setSubject
+    platforms: [windowsphone]
+  - name: getToRecipients
+    platforms: [windowsphone]
+  - name: setToRecipients
+    platforms: [windowsphone]
+

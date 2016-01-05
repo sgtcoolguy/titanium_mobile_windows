@@ -1,0 +1,375 @@
+name: Titanium.UI
+platforms: [windowsphone]
+properties:
+  - name: currentTab
+    platforms: [windowsphone]
+  - name: currentWindow
+    platforms: [windowsphone]
+  - name: ANIMATION_CURVE_EASE_IN
+    platforms: [windowsphone]
+  - name: ANIMATION_CURVE_EASE_IN_OUT
+    platforms: [windowsphone]
+  - name: ANIMATION_CURVE_EASE_OUT
+    platforms: [windowsphone]
+  - name: ANIMATION_CURVE_LINEAR
+    platforms: [windowsphone]
+  - name: AUTOLINK_ALL
+    platforms: [windowsphone]
+  - name: AUTOLINK_CALENDAR
+    platforms: [windowsphone]
+  - name: AUTOLINK_EMAIL_ADDRESSES
+    platforms: [windowsphone]
+  - name: AUTOLINK_MAP_ADDRESSES
+    platforms: [windowsphone]
+  - name: AUTOLINK_NONE
+    platforms: [windowsphone]
+  - name: AUTOLINK_PHONE_NUMBERS
+    platforms: [windowsphone]
+  - name: AUTOLINK_URLS
+    platforms: [windowsphone]
+  - name: EXTEND_EDGE_ALL
+    platforms: [windowsphone]
+  - name: EXTEND_EDGE_BOTTOM
+    platforms: [windowsphone]
+  - name: EXTEND_EDGE_LEFT
+    platforms: [windowsphone]
+  - name: EXTEND_EDGE_NONE
+    platforms: [windowsphone]
+  - name: EXTEND_EDGE_RIGHT
+    platforms: [windowsphone]
+  - name: EXTEND_EDGE_TOP
+    platforms: [windowsphone]
+  - name: FACE_DOWN
+    platforms: [windowsphone]
+  - name: FACE_UP
+    platforms: [windowsphone]
+  - name: FILL
+    platforms: [windowsphone]
+  - name: INHERIT
+    platforms: [windowsphone]
+  - name: INPUT_BORDERSTYLE_BEZEL
+    platforms: [windowsphone]
+  - name: INPUT_BORDERSTYLE_LINE
+    platforms: [windowsphone]
+  - name: INPUT_BORDERSTYLE_NONE
+    platforms: [windowsphone]
+  - name: INPUT_BORDERSTYLE_ROUNDED
+    platforms: [windowsphone]
+  - name: INPUT_BUTTONMODE_ALWAYS
+    platforms: [windowsphone]
+  - name: INPUT_BUTTONMODE_NEVER
+    platforms: [windowsphone]
+  - name: INPUT_BUTTONMODE_ONBLUR
+    platforms: [windowsphone]
+  - name: INPUT_BUTTONMODE_ONFOCUS
+    platforms: [windowsphone]
+  - name: KEYBOARD_APPEARANCE_ALERT
+    platforms: [windowsphone]
+  - name: KEYBOARD_APPEARANCE_DEFAULT
+    platforms: [windowsphone]
+  - name: KEYBOARD_ASCII
+    platforms: [windowsphone]
+  - name: KEYBOARD_DECIMAL_PAD
+    platforms: [windowsphone]
+  - name: KEYBOARD_DEFAULT
+    platforms: [windowsphone]
+  - name: KEYBOARD_EMAIL
+    platforms: [windowsphone]
+  - name: KEYBOARD_NAMEPHONE_PAD
+    platforms: [windowsphone]
+  - name: KEYBOARD_NUMBERS_PUNCTUATION
+    platforms: [windowsphone]
+  - name: KEYBOARD_NUMBER_PAD
+    platforms: [windowsphone]
+  - name: KEYBOARD_PHONE_PAD
+    platforms: [windowsphone]
+  - name: KEYBOARD_URL
+    platforms: [windowsphone]
+  - name: LANDSCAPE_LEFT
+    platforms: [windowsphone]
+  - name: LANDSCAPE_RIGHT
+    platforms: [windowsphone]
+  - name: LIST_ACCESSORY_TYPE_CHECKMARK
+    platforms: [windowsphone]
+  - name: LIST_ACCESSORY_TYPE_DETAIL
+    platforms: [windowsphone]
+  - name: LIST_ACCESSORY_TYPE_DISCLOSURE
+    platforms: [windowsphone]
+  - name: LIST_ACCESSORY_TYPE_NONE
+    platforms: [windowsphone]
+  - name: LIST_ITEM_TEMPLATE_CONTACTS
+    platforms: [windowsphone]
+  - name: LIST_ITEM_TEMPLATE_DEFAULT
+    platforms: [windowsphone]
+  - name: LIST_ITEM_TEMPLATE_SETTINGS
+    platforms: [windowsphone]
+  - name: LIST_ITEM_TEMPLATE_SUBTITLE
+    platforms: [windowsphone]
+  - name: NOTIFICATION_DURATION_LONG
+    platforms: [windowsphone]
+  - name: NOTIFICATION_DURATION_SHORT
+    platforms: [windowsphone]
+  - name: PICKER_TYPE_COUNT_DOWN_TIMER
+    platforms: [windowsphone]
+  - name: PICKER_TYPE_DATE
+    platforms: [windowsphone]
+  - name: PICKER_TYPE_DATE_AND_TIME
+    platforms: [windowsphone]
+  - name: PICKER_TYPE_PLAIN
+    platforms: [windowsphone]
+  - name: PICKER_TYPE_TIME
+    platforms: [windowsphone]
+  - name: PORTRAIT
+    platforms: [windowsphone]
+  - name: RETURNKEY_DEFAULT
+    platforms: [windowsphone]
+  - name: RETURNKEY_DONE
+    platforms: [windowsphone]
+  - name: RETURNKEY_EMERGENCY_CALL
+    platforms: [windowsphone]
+  - name: RETURNKEY_GO
+    platforms: [windowsphone]
+  - name: RETURNKEY_GOOGLE
+    platforms: [windowsphone]
+  - name: RETURNKEY_JOIN
+    platforms: [windowsphone]
+  - name: RETURNKEY_NEXT
+    platforms: [windowsphone]
+  - name: RETURNKEY_ROUTE
+    platforms: [windowsphone]
+  - name: RETURNKEY_SEARCH
+    platforms: [windowsphone]
+  - name: RETURNKEY_SEND
+    platforms: [windowsphone]
+  - name: RETURNKEY_YAHOO
+    platforms: [windowsphone]
+  - name: SIZE
+    platforms: [windowsphone]
+  - name: TEXT_ALIGNMENT_CENTER
+    platforms: [windowsphone]
+  - name: TEXT_ALIGNMENT_LEFT
+    platforms: [windowsphone]
+  - name: TEXT_ALIGNMENT_RIGHT
+    platforms: [windowsphone]
+  - name: TEXT_AUTOCAPITALIZATION_ALL
+    platforms: [windowsphone]
+  - name: TEXT_AUTOCAPITALIZATION_NONE
+    platforms: [windowsphone]
+  - name: TEXT_AUTOCAPITALIZATION_SENTENCES
+    platforms: [windowsphone]
+  - name: TEXT_AUTOCAPITALIZATION_WORDS
+    platforms: [windowsphone]
+  - name: TEXT_STYLE_BODY
+    platforms: [windowsphone]
+  - name: TEXT_STYLE_CAPTION1
+    platforms: [windowsphone]
+  - name: TEXT_STYLE_CAPTION2
+    platforms: [windowsphone]
+  - name: TEXT_STYLE_FOOTNOTE
+    platforms: [windowsphone]
+  - name: TEXT_STYLE_HEADLINE
+    platforms: [windowsphone]
+  - name: TEXT_STYLE_SUBHEADLINE
+    platforms: [windowsphone]
+  - name: TEXT_VERTICAL_ALIGNMENT_BOTTOM
+    platforms: [windowsphone]
+  - name: TEXT_VERTICAL_ALIGNMENT_CENTER
+    platforms: [windowsphone]
+  - name: TEXT_VERTICAL_ALIGNMENT_TOP
+    platforms: [windowsphone]
+  - name: UNIT_CM
+    platforms: [windowsphone]
+  - name: UNIT_DIP
+    platforms: [windowsphone]
+  - name: UNIT_IN
+    platforms: [windowsphone]
+  - name: UNIT_MM
+    platforms: [windowsphone]
+  - name: UNIT_PX
+    platforms: [windowsphone]
+  - name: UNKNOWN
+    platforms: [windowsphone]
+  - name: UPSIDE_PORTRAIT
+    platforms: [windowsphone]
+  - name: URL_ERROR_AUTHENTICATION
+    platforms: [windowsphone]
+  - name: URL_ERROR_BAD_URL
+    platforms: [windowsphone]
+  - name: URL_ERROR_CONNECT
+    platforms: [windowsphone]
+  - name: URL_ERROR_FILE
+    platforms: [windowsphone]
+  - name: URL_ERROR_FILE_NOT_FOUND
+    platforms: [windowsphone]
+  - name: URL_ERROR_HOST_LOOKUP
+    platforms: [windowsphone]
+  - name: URL_ERROR_REDIRECT_LOOP
+    platforms: [windowsphone]
+  - name: URL_ERROR_SSL_FAILED
+    platforms: [windowsphone]
+  - name: URL_ERROR_TIMEOUT
+    platforms: [windowsphone]
+  - name: URL_ERROR_UNKNOWN
+    platforms: [windowsphone]
+  - name: URL_ERROR_UNSUPPORTED_SCHEME
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_FONT
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_FOREGROUND_COLOR
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_BACKGROUND_COLOR
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_STRIKETHROUGH_STYLE
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINES_STYLE
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_LINK
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINE_COLOR
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_KERN
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_STROKE_COLOR
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_STROKE_WIDTH
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_SHADOW
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_WRITING_DIRECTION
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_TEXT_EFFECT
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_BASELINE_OFFSET
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_STRIKETHROUGH_COLOR
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_OBLIQUENESS
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_EXPANSION
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_LINE_BREAK
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINE_STYLE_NONE
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINE_STYLE_SINGLE
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINE_STYLE_THICK
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINE_STYLE_DOUBLE
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINE_PATTERN_SOLID
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINE_PATTERN_DOT
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINE_PATTERN_DASH
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINE_PATTERN_DASH_DOT
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINE_PATTERN_DASH_DOT_DOT
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_UNDERLINE_BY_WORD
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_WRITING_DIRECTION_EMBEDDING
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_WRITING_DIRECTION_OVERRIDE
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_WRITING_DIRECTION_NATURAL
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_WRITING_DIRECTION_LEFT_TO_RIGHT
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_WRITING_DIRECTION_RIGHT_TO_LEFT
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_LETTERPRESS_STYLE
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_LINE_BREAK_BY_WORD_WRAPPING
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_LINE_BREAK_BY_CHAR_WRAPPING
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_LINE_BREAK_BY_CLIPPING
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_HEAD
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_TAIL
+    platforms: [windowsphone]
+  - name: ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_MIDDLE
+    platforms: [windowsphone]
+methods:
+  - name: create2DMatrix
+    platforms: [windowsphone]
+  - name: createActivityIndicator
+    platforms: [windowsphone]
+  - name: createAnimation
+    platforms: [windowsphone]
+  - name: createAlertDialog
+    platforms: [windowsphone]
+  - name: createAttributedString
+    platforms: [windowsphone]
+  - name: createButton
+    platforms: [windowsphone]
+  - name: createEmailDialog
+    platforms: [windowsphone]
+  - name: createImageView
+    platforms: [windowsphone]
+  - name: createLabel
+    platforms: [windowsphone]
+  - name: createListItem
+    platforms: [windowsphone]
+  - name: createListSection
+    platforms: [windowsphone]
+  - name: createListView
+    platforms: [windowsphone]
+  - name: createNotification
+    platforms: [windowsphone]
+  - name: createOptionDialog
+    platforms: [windowsphone]
+  - name: createPicker
+    platforms: [windowsphone]
+  - name: createPickerRow
+    platforms: [windowsphone]
+  - name: createPickerColumn
+    platforms: [windowsphone]
+  - name: createProgressBar
+    platforms: [windowsphone]
+  - name: createScrollableView
+    platforms: [windowsphone]
+  - name: createScrollView
+    platforms: [windowsphone]
+  - name: createSlider
+    platforms: [windowsphone]
+  - name: createSwitch
+    platforms: [windowsphone]
+  - name: createTab
+    platforms: [windowsphone]
+  - name: createTabGroup
+    platforms: [windowsphone]
+  - name: createTextArea
+    platforms: [windowsphone]
+  - name: createTextField
+    platforms: [windowsphone]
+  - name: createTableView
+    platforms: [windowsphone]
+  - name: createTableViewRow
+    platforms: [windowsphone]
+  - name: createTableViewSection
+    platforms: [windowsphone]
+  - name: createView
+    platforms: [windowsphone]
+  - name: createWebView
+    platforms: [windowsphone]
+  - name: createWindow
+    platforms: [windowsphone]
+  - name: getBackgroundColor
+    platforms: [windowsphone]
+  - name: setBackgroundColor
+    platforms: [windowsphone]
+  - name: getBackgroundImage
+    platforms: [windowsphone]
+  - name: setBackgroundImage
+    platforms: [windowsphone]
+  - name: getCurrentTab
+    platforms: [windowsphone]
+  - name: setCurrentTab
+    platforms: [windowsphone]
+  - name: getCurrentWindow
+    platforms: [windowsphone]
+

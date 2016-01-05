@@ -1,0 +1,23 @@
+name: Titanium.Stream
+platforms: [windowsphone]
+properties:
+  - name: MODE_APPEND
+    platforms: [windowsphone]
+  - name: MODE_READ
+    platforms: [windowsphone]
+  - name: MODE_WRITE
+    platforms: [windowsphone]
+methods:
+  - name: createStream
+    platforms: [windowsphone]
+  - name: read
+    platforms: [windowsphone]
+  - name: readAll
+    platforms: [windowsphone]
+  - name: write
+    platforms: [windowsphone]
+  - name: writeStream
+    platforms: [windowsphone]
+  - name: pump
+    platforms: [windowsphone]
+

@@ -1,0 +1,35 @@
+name: Titanium.UI.Switch
+platforms: [windowsphone]
+properties:
+  - name: color
+    platforms: [windowsphone]
+  - name: enabled
+    platforms: [windowsphone]
+  - name: titleOff
+    platforms: [windowsphone]
+  - name: titleOn
+    platforms: [windowsphone]
+  - name: value
+    platforms: [windowsphone]
+methods:
+  - name: getColor
+    platforms: [windowsphone]
+  - name: setColor
+    platforms: [windowsphone]
+  - name: getEnabled
+    platforms: [windowsphone]
+  - name: setEnabled
+    platforms: [windowsphone]
+  - name: getTitleOff
+    platforms: [windowsphone]
+  - name: setTitleOff
+    platforms: [windowsphone]
+  - name: getTitleOn
+    platforms: [windowsphone]
+  - name: setTitleOn
+    platforms: [windowsphone]
+  - name: getValue
+    platforms: [windowsphone]
+  - name: setValue
+    platforms: [windowsphone]
+

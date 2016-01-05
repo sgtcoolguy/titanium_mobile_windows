@@ -1,0 +1,17 @@
+name: Titanium.UI.ActivityIndicator
+platforms: [windowsphone]
+properties:
+  - name: message
+    platforms: [windowsphone]
+  - name: messageid
+    platforms: [windowsphone]
+methods:
+  - name: getMessage
+    platforms: [windowsphone]
+  - name: setMessage
+    platforms: [windowsphone]
+  - name: getMessageid
+    platforms: [windowsphone]
+  - name: setMessageid
+    platforms: [windowsphone]
+

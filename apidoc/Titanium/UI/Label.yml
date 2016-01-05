@@ -1,0 +1,47 @@
+name: Titanium.UI.Label
+platforms: [windowsphone]
+properties:
+  - name: color
+    platforms: [windowsphone]
+  - name: font
+    platforms: [windowsphone]
+  - name: text
+    platforms: [windowsphone]
+  - name: textAlign
+    platforms: [windowsphone]
+  - name: verticalAlign
+    platforms: [windowsphone]
+  - name: wordWrap
+    platforms: [windowsphone]
+  - name: attributedString
+    platforms: [windowsphone]
+methods:
+  - name: getColor
+    platforms: [windowsphone]
+  - name: setColor
+    platforms: [windowsphone]
+  - name: getFont
+    platforms: [windowsphone]
+  - name: setFont
+    platforms: [windowsphone]
+  - name: getText
+    platforms: [windowsphone]
+  - name: setText
+    platforms: [windowsphone]
+  - name: getTextAlign
+    platforms: [windowsphone]
+  - name: setTextAlign
+    platforms: [windowsphone]
+  - name: getVerticalAlign
+    platforms: [windowsphone]
+  - name: setVerticalAlign
+    platforms: [windowsphone]
+  - name: getWordWrap
+    platforms: [windowsphone]
+  - name: setWordWrap
+    platforms: [windowsphone]
+  - name: getAttributedString
+    platforms: [windowsphone]
+  - name: setAttributedString
+    platforms: [windowsphone]
+

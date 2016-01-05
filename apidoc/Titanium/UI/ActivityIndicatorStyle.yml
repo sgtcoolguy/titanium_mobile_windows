@@ -1,0 +1,12 @@
+name: Titanium.UI.ActivityIndicatorStyle
+platforms: [windowsphone]
+properties:
+  - name: BIG
+    platforms: [windowsphone]
+  - name: BIG_DARK
+    platforms: [windowsphone]
+  - name: DARK
+    platforms: [windowsphone]
+  - name: PLAIN
+    platforms: [windowsphone]
+

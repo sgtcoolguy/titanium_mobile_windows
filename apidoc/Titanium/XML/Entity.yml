@@ -1,0 +1,10 @@
+name: Titanium.XML.Entity
+platforms: [windowsphone]
+properties:
+  - name: publicId
+    platforms: [windowsphone]
+  - name: systemId
+    platforms: [windowsphone]
+  - name: notationName
+    platforms: [windowsphone]
+

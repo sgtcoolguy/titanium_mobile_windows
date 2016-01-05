@@ -1,0 +1,21 @@
+name: Titanium.UI.Window
+platforms: [windowsphone]
+properties:
+  - name: exitOnClose
+    platforms: [windowsphone]
+  - name: fullscreen
+    platforms: [windowsphone]
+methods:
+  - name: close
+    platforms: [windowsphone]
+  - name: open
+    platforms: [windowsphone]
+  - name: getExitOnClose
+    platforms: [windowsphone]
+  - name: setExitOnClose
+    platforms: [windowsphone]
+  - name: getFullscreen
+    platforms: [windowsphone]
+  - name: setFullscreen
+    platforms: [windowsphone]
+
