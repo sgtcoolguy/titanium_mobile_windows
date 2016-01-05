@@ -37,7 +37,7 @@ namespace TitaniumWindows
 
 			grid__  = ref new Grid();
 
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			pivot__ = ref new Pivot();
 
 			pivot__->SelectionChanged += ref new SelectionChangedEventHandler([this](Platform::Object^ sender, SelectionChangedEventArgs^ e) {
@@ -111,7 +111,7 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::TabGroup::set_barColor(value);
 			const auto brush = ref new Media::SolidColorBrush(WindowsViewLayoutDelegate::ColorForName(value));
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			pivot__->Background = brush;
 #else
 			sectionView__->Background = brush;
@@ -127,7 +127,7 @@ namespace TitaniumWindows
 		{
 			if (updateUI && activeTab != activeTab__) {
 				const auto tabview = activeTab->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 				pivot__->SelectedItem = tabview;
 #else
 				if (grid__->Children->Size > 1) {
@@ -157,7 +157,7 @@ namespace TitaniumWindows
 		void TabGroup::set_tabs(const std::vector<std::shared_ptr<Titanium::UI::Tab>>& tabs) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::TabGroup::set_tabs(tabs);
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			pivot__->Items->Clear();
 #else
 			sectionViewItems__->Clear();
@@ -178,7 +178,7 @@ namespace TitaniumWindows
 			const auto windows_tab = dynamic_cast<TitaniumWindows::UI::Tab*>(tab.get());
 			const auto tabview = windows_tab->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
 			if (windows_tab) {
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 				pivot__->Items->Append(tabview);
 #else
 				sectionViewItems__->Append(Utility::ConvertUTF8String(windows_tab->get_title()));

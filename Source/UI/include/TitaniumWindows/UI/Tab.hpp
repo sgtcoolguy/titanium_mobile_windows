@@ -64,7 +64,7 @@ namespace TitaniumWindows
 			virtual void focus() override;
 
 		private:
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			Windows::UI::Xaml::Controls::PivotItem^ pivotItem__;
 #else
 			Windows::UI::Xaml::Controls::Grid^  grid__;

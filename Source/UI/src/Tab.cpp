@@ -29,7 +29,7 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::Tab::postCallAsConstructor(js_context, arguments);	
 
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			pivotItem__ = ref new PivotItem();
 
 			Titanium::UI::Tab::setLayoutDelegate<WindowsViewLayoutDelegate>();
@@ -44,7 +44,7 @@ namespace TitaniumWindows
 		void Tab::set_title(const std::string& title) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Tab::set_title(title);
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			pivotItem__->Header = TitaniumWindows::Utility::ConvertUTF8String(title);
 #else
 
@@ -56,7 +56,7 @@ namespace TitaniumWindows
 			if (window != window__) {
 				const auto windows_window = dynamic_cast<TitaniumWindows::UI::Window*>(window.get());
 				const auto view = windows_window->getComponent();
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 				pivotItem__->Content = view;
 #else
 				if (grid__->Children->Size > 0) {

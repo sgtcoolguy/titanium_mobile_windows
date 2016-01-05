@@ -82,7 +82,7 @@ namespace TitaniumWindows
 			std::shared_ptr<TitaniumWindows::UI::Window> window__;
 			Windows::UI::Xaml::Controls::Grid^  grid__;
 
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			Windows::UI::Xaml::Controls::Pivot^ pivot__;
 #else
 			//
