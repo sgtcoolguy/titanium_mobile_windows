@@ -5,12 +5,15 @@
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
+#if defined(_DEBUG)
 #include "OutputDebugStringBuf.hpp"
+#endif
+
 #include <iostream>
 
 int main(Platform::Array<Platform::String^>^) {
 
-#if defined(_WIN32)
+#if defined(_DEBUG)
   static TitaniumWindows::OutputDebugStringBuf<char> charDebugOutput;
   std::cerr.rdbuf(&charDebugOutput);
   std::clog.rdbuf(&charDebugOutput);
