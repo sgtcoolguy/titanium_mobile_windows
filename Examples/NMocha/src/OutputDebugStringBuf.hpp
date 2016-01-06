@@ -7,6 +7,7 @@
  */
 #ifndef _TITANIUM_MOBILE_WINDOWS_UTIL_OUTPUTDEBUGSTRINGBUF_HPP_
 #define _TITANIUM_MOBILE_WINDOWS_UTIL_OUTPUTDEBUGSTRINGBUF_HPP_
+#if defined(_DEBUG)
 
 #include <ostream>
 #include <sstream>
@@ -80,4 +81,5 @@ namespace TitaniumWindows {
 
 }  // namespace TitaniumWindows {
 
+#endif
 #endif  // _TITANIUM_MOBILE_WINDOWS_UTIL_OUTPUTDEBUGSTRINGBUF_HPP_
