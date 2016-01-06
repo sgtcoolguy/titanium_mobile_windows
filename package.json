@@ -24,8 +24,8 @@
 		"Chris Barber <cbarber@appcelerator.com>"
 	],
 	"vendorDependencies": {
-		"visual studio": "12.x",
-		"windows phone sdk": "8.1",
+		"visual studio": ">=12.x <=14.x",
+		"windows phone sdk": "8.1 || 10.0",
 		"msbuild": ">=4.0",
 		"node": ">=0.10.0 <=0.12.x",
 		"java": "<=1.8.x"
