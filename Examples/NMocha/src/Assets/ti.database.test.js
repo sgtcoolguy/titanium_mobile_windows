@@ -106,6 +106,10 @@ describe('Titanium.Database', function () {
         should(rows).be.a.Object;
         should(rows.rowCount).be.eql(2);
         should(rows.fieldCount).be.eql(3);
+        // Validate field names
+        should(rows.fieldName(0)).be.eql('rowid');
+        should(rows.fieldName(1)).be.eql('text');
+        should(rows.fieldName(2)).be.eql('number');
 
         // Loop through each row
         var index = 1;
@@ -142,13 +146,27 @@ describe('Titanium.Database', function () {
                 should(text).be.eql(testArray[0]);
             }
 
-            // Next row                                                                                                                                                                                                                                                  
+            // Next row
             rows.next();
             index++;
         }
 
         // Close the 'rows' object
         rows.close();
+
+        // test aliased field name
+        var aliased = db.execute('SELECT rowid, text AS something FROM testTable');
+
+        // Validate the returned 'rows' object
+        should(aliased).be.a.Object;
+        should(aliased.rowCount).be.eql(2);
+        should(aliased.fieldCount).be.eql(2);
+        // Validate field names
+        should(aliased.fieldName(0)).be.eql('rowid');
+        should(aliased.fieldName(1)).be.eql('something');
+
+        // Close the 'rows' object
+        aliased.close();
 
         // Remove the 'testDbInstall' database file
         db.remove();
