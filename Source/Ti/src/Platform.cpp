@@ -365,14 +365,10 @@ namespace TitaniumWindows
 	}
 	std::string Platform::version() const TITANIUM_NOEXCEPT
 	{
-#if defined(IS_WINDOWS_10)
-		// do we have a way to get correct version on Windows 10? returning fixed value for now
-		return "10.0";
-#else
 		using namespace Windows::Devices::Enumeration::Pnp;
 		auto requestedProperties = ref new ::Platform::Collections::Vector<::Platform::String^>();
 		requestedProperties->Append("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},3"); // version
-		requestedProperties->Append("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},9"); // provider
+		requestedProperties->Append("{A45C254E-DF1C-4EFD-8020-67D146A850E0},10"); // device
 
 		std::string os_version = "6.3.9600"; // Win 8.1 base value
 		concurrency::event event;
@@ -381,8 +377,8 @@ namespace TitaniumWindows
 				auto found = false;
 				auto collection = t.get();
 				for (auto object : collection) {
-					auto provider = object->Properties->Lookup("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},9")->ToString();
-					if (provider == "Microsoft") {
+					auto deviceClass = object->Properties->Lookup("{A45C254E-DF1C-4EFD-8020-67D146A850E0},10")->ToString();
+					if (deviceClass == "{4d36e966-e325-11ce-bfc1-08002be10318}") {
 						auto version = object->Properties->Lookup("{A8B865DD-2E3D-4094-AD97-E593A70C75D6},3")->ToString();
 						os_version = Utility::ConvertUTF8String(version);
 						found = true;
@@ -398,7 +394,6 @@ namespace TitaniumWindows
 		}, concurrency::task_continuation_context::use_arbitrary());
 		event.wait();
 		return os_version;
-#endif
 	}
 
 	bool Platform::canOpenURL(const std::string& url) TITANIUM_NOEXCEPT
