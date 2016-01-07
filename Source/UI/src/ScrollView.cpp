@@ -95,6 +95,70 @@ namespace TitaniumWindows
 			JSExport<ScrollView>::SetParent(JSExport<Titanium::UI::ScrollView>::Class());
 		}
 
+		void ScrollView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ScrollView::enableEvent(event_name);
+
+			if (event_name == "dragend" || event_name == "dragEnd") {
+				dragend_event__ = scroll_viewer__->PointerReleased += ref new Windows::UI::Xaml::Input::PointerEventHandler(
+					[=](Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^e) {
+						fireEvent(event_name);
+					}
+				);
+			} else if (event_name == "dragstart" || event_name == "dragStart") {
+				dragstart_event__ = scroll_viewer__->PointerPressed += ref new Windows::UI::Xaml::Input::PointerEventHandler(
+					[=](Platform::Object ^sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs ^e) {
+						fireEvent(event_name);
+					}
+				);
+			} else if (event_name == "scale") {
+				scale_event__ = scroll_viewer__->ViewChanging += ref new Windows::Foundation::EventHandler<Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs ^>(
+					[=](Platform::Object ^sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs ^args) {
+						auto eventArgs = get_context().CreateObject();
+						auto scale = args->FinalView->ZoomFactor;
+						eventArgs.SetProperty("scale", get_context().CreateNumber(scale));
+						fireEvent("scale", eventArgs);
+					}
+				);
+			} else if (event_name == "scroll") {
+				scroll_event__ = scroll_viewer__->ViewChanging += ref new Windows::Foundation::EventHandler<Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs ^>(
+					[=](Platform::Object ^sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangingEventArgs ^args) {
+						auto eventArgs = get_context().CreateObject();
+						auto dragging = args->FinalView->HorizontalOffset != 0 || args->FinalView->VerticalOffset != 0;
+						auto zoom = args->FinalView->ZoomFactor;
+						auto zooming = zoom != 1;
+						eventArgs.SetProperty("dragging", get_context().CreateBoolean(dragging)); // test this
+						eventArgs.SetProperty("zooming", get_context().CreateBoolean(zooming)); // test this
+						eventArgs.SetProperty("curZoomScale", get_context().CreateNumber(zoom));
+						fireEvent("scroll", eventArgs);
+					}
+				);
+			} else if (event_name == "scrollend" || event_name == "scrollEnd") {
+				scrollend_event__ = scroll_viewer__->ViewChanged += ref new Windows::Foundation::EventHandler<Windows::UI::Xaml::Controls::ScrollViewerViewChangedEventArgs ^>(
+					[=](Platform::Object ^sender, Windows::UI::Xaml::Controls::ScrollViewerViewChangedEventArgs ^args) {
+						fireEvent(event_name);
+					}
+				);
+			}
+		}
+
+		void ScrollView::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ScrollView::disableEvent(event_name);
+
+			if (event_name == "dragend" || event_name == "dragEnd") {
+				scroll_viewer__->PointerReleased -= dragend_event__;
+			} else if (event_name == "dragstart" || event_name == "dragStart") {
+				scroll_viewer__->PointerPressed -= dragstart_event__;
+			} else if (event_name == "scale") {
+				scroll_viewer__->ViewChanging -= scale_event__;
+			} else if (event_name == "scroll") {
+				scroll_viewer__->ViewChanging -= scroll_event__;
+			} else if (event_name == "scrollend" || event_name == "scrollEnd") {
+				scroll_viewer__->ViewChanged -= scrollend_event__;
+			}
+		}
+
 		void ScrollView::scrollTo(const double& x, const double& y) TITANIUM_NOEXCEPT
 		{
 			scroll_viewer__->ChangeView(
