@@ -117,9 +117,15 @@ namespace Titanium
 			  @property
 			  @abstract id
 			  @discussion Record identifier of the person. Single value.
-			  This value is a Number on iOS, and is a String on Windows.
 			*/
-			TITANIUM_PROPERTY_IMPL_READONLY_DEF(JSValue, id);
+			TITANIUM_PROPERTY_IMPL_READONLY_DEF(int32_t, id);
+
+			/*!
+			  @property
+			  @abstract identifier
+			  @discussion Identifier of the person.
+			*/
+			TITANIUM_PROPERTY_IMPL_READONLY_DEF(std::string, identifier);
 
 			/*!
 			  @property
@@ -225,9 +231,8 @@ namespace Titanium
 			  @property
 			  @abstract recordId
 			  @discussion Record identifier of the person. Single value.
-			  This value is a Number on iOS, and is a String on Windows.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(JSValue, recordId);
+			TITANIUM_PROPERTY_IMPL_DEF(uint32_t, recordId);
 
 			/*!
 			  @property
@@ -279,6 +284,7 @@ namespace Titanium
 			TITANIUM_PROPERTY_DEF(firstPhonetic);
 			TITANIUM_PROPERTY_DEF(fullName);
 			TITANIUM_PROPERTY_READONLY_DEF(id);
+			TITANIUM_PROPERTY_READONLY_DEF(identifier);
 			TITANIUM_PROPERTY_DEF(image);
 			TITANIUM_PROPERTY_DEF(instantMessage);
 			TITANIUM_PROPERTY_DEF(jobTitle);
@@ -319,6 +325,7 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(getFullName);
 			TITANIUM_FUNCTION_DEF(setFullName);
 			TITANIUM_FUNCTION_DEF(getId);
+			TITANIUM_FUNCTION_DEF(getIdentifier);
 			TITANIUM_FUNCTION_DEF(getImage);
 			TITANIUM_FUNCTION_DEF(setImage);
 			TITANIUM_FUNCTION_DEF(getInstantMessage);
@@ -370,7 +377,8 @@ namespace Titanium
 			std::string firstName__;
 			std::string firstPhonetic__;
 			std::string fullName__;
-			JSValue id__;
+			int32_t id__;
+			std::string identifier__;
 			std::shared_ptr<::Titanium::Blob> image__;
 			InstantMessages instantMessage__;
 			std::string jobTitle__;
@@ -385,7 +393,7 @@ namespace Titanium
 			std::string organization__;
 			Phones phone__;
 			std::string prefix__;
-			JSValue recordId__;
+			uint32_t recordId__;
 			RelatedNames relatedNames__;
 			InstantMessages socialProfile__;
 			std::string suffix__;

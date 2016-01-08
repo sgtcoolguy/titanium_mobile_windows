@@ -11,7 +11,6 @@
 
 #include "TitaniumWindows_Ti_EXPORT.h"
 #include "Titanium/Contacts/Group.hpp"
-#include "TitaniumWindows/WindowsMacros.hpp"
 #include <sdkddkver.h>
 
 namespace TitaniumWindows
@@ -30,7 +29,7 @@ namespace TitaniumWindows
 		{
 
 		public:
-			
+
 			Group(const JSContext&, const std::vector<JSValue>& arguments = {}) TITANIUM_NOEXCEPT;
 			virtual ~Group()               = default;
 			Group(const Group&)            = default;
@@ -42,28 +41,31 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+			static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
+			static std::vector<std::shared_ptr<Titanium::Contacts::Group>> getAllGroups(const JSContext&) TITANIUM_NOEXCEPT;
+			static std::shared_ptr<Titanium::Contacts::Group> getGroupByIdentifier(const std::string&, const JSContext&) TITANIUM_NOEXCEPT;
 
-#if defined(IS_WINDOWS_10)
-			void construct(Windows::ApplicationModel::Contacts::ContactList^ list);
-#endif
+			virtual void create();
+			virtual void removeList();
 
-			void removeList();
+			virtual void add(const std::shared_ptr<Titanium::Contacts::Person>&) TITANIUM_NOEXCEPT override final;
+			virtual std::vector<std::shared_ptr<Titanium::Contacts::Person>> members() TITANIUM_NOEXCEPT override final;
+			virtual void remove(const std::shared_ptr<Titanium::Contacts::Person>&) TITANIUM_NOEXCEPT override final;
+			virtual std::vector<std::shared_ptr<Titanium::Contacts::Person>> sortedMembers(const Titanium::Contacts::SORT&) TITANIUM_NOEXCEPT override final;
 
-			virtual void add(const std::shared_ptr<Titanium::Contacts::Person>& person) TITANIUM_NOEXCEPT;
-			virtual std::vector<std::shared_ptr<Titanium::Contacts::Person>> members() TITANIUM_NOEXCEPT;
-			virtual void remove(const std::shared_ptr<Titanium::Contacts::Person>& person) TITANIUM_NOEXCEPT;
-			virtual std::vector<std::shared_ptr<Titanium::Contacts::Person>> sortedMembers(const Titanium::Contacts::SORT& sortBy) TITANIUM_NOEXCEPT override final;
-
-			virtual JSValue get_identifier() const TITANIUM_NOEXCEPT override final;
+			virtual std::string get_identifier() const TITANIUM_NOEXCEPT override final;
 			virtual std::string get_name() const TITANIUM_NOEXCEPT override final;
 			virtual void set_name(const std::string&) TITANIUM_NOEXCEPT override final;
 			virtual void set_recordId(const uint32_t&) TITANIUM_NOEXCEPT override final;
 
+			bool loadJS();
+			JSObject getTiObject() {
+				return ti_contacts_group__;
+			}
+
 		private:
-#if defined(IS_WINDOWS_10)
-			Windows::ApplicationModel::Contacts::ContactList^ contact_list__;
-#endif
+			JSObject ti_contacts_group__; // The loaded module for group.js
+			JSValue js_instance__; // The instance of a Group on the JS side from group.js
 		};
 	}  // namespace Contacts
 }  // namespace TitaniumWindows

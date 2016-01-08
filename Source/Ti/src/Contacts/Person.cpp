@@ -28,14 +28,13 @@ namespace TitaniumWindows
 
 		void Person::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
-			Titanium::Contacts::Person::postCallAsConstructor(js_context, arguments);	
 			contact__ = ref new Contact();
+			Titanium::Contacts::Person::postCallAsConstructor(js_context, arguments);
 		}
 
 		void Person::construct(Windows::ApplicationModel::Contacts::Contact^ contact)
 		{
 			contact__ = contact;
-			// TODO Set all the fields? If we're overriding all the getters, this won't matter
 		}
 
 		void Person::JSExportInitialize() {
@@ -344,9 +343,9 @@ namespace TitaniumWindows
 			TITANIUM_LOG_WARN("Person::set_fullName: Read-only on Windows 8.1 and Windows 10");
 		}
 
-		JSValue Person::get_id() const TITANIUM_NOEXCEPT
+		std::string Person::get_identifier() const TITANIUM_NOEXCEPT
 		{
-			return get_context().CreateString(TitaniumWindows::Utility::ConvertUTF8String(contact__->Id));
+			return TitaniumWindows::Utility::ConvertUTF8String(contact__->Id);
 		}
 
 		void Person::set_image(const std::shared_ptr<::Titanium::Blob>& image) TITANIUM_NOEXCEPT
@@ -925,8 +924,9 @@ namespace TitaniumWindows
 		ContactWebsite^ Person::createWebsite(const std::string& value, const std::string& type) TITANIUM_NOEXCEPT
 		{
 			auto website = ref new ContactWebsite();
-			// FIXME Windows 10+ API
-			//website->RawValue = TitaniumWindows::Utility::ConvertUTF8String(value);
+#if defined(IS_WINDOWS_10)
+			website->RawValue = TitaniumWindows::Utility::ConvertUTF8String(value);
+#endif
 			website->Uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(value));
 			// Store the Titanium url type in the Description field
 			website->Description = TitaniumWindows::Utility::ConvertUTF8String(type);
@@ -934,41 +934,40 @@ namespace TitaniumWindows
 		}
 
 #if defined(IS_WINDOWS_10)
-		Windows::ApplicationModel::Contacts::Contact^ Person::GetContact()
+		Windows::ApplicationModel::Contacts::Contact^ Person::GetContact() const
 		{
-			TITANIUM_LOG_WARN("Person::GetContact: Unimplemented");
-			return nullptr;
+			return contact__;
 		}
 #endif
 
 		void Person::remove()
 		{
+			// TODO Remove from any contact lists in DB
 #if defined(IS_WINDOWS_10)
-			auto list_id = contact__->ContactListId;
+			const auto list_id = contact__->ContactListId;
 			// Pull up the contact list associated with this contact...
-			ContactList^ result;
-			concurrency::create_task(ContactManager::RequestStoreAsync()).then([&list_id](ContactStore^ store) {
+			concurrency::event event;
+			concurrency::create_task(ContactManager::RequestStoreAsync(ContactStoreAccessType::AppContactsReadWrite))
+			.then([&list_id](ContactStore^ store) {
 				return store->GetContactListAsync(list_id);
 			}, concurrency::task_continuation_context::use_arbitrary())
-			.then([this, &result] (concurrency::task<ContactList^> task) {
+			.then([this] (ContactList^ list) {
+				return list->DeleteContactAsync(contact__);
+			}, concurrency::task_continuation_context::use_arbitrary())
+			.then([&event](concurrency::task<void> task) {
 				try {
-					removeFromList(task.get());
+					task.get();
 				}
 				catch (...) {
-					// TODO Log something here?
+					// TODO log
 				}
-			});
+				event.set();
+			}, concurrency::task_continuation_context::use_arbitrary());
+			event.wait();
 #else
 			TITANIUM_LOG_WARN("Person::remove: Unimplemented");
 #endif
 		}
-
-#if defined(IS_WINDOWS_10)
-		void Person::removeFromList(ContactList^ list)
-		{
-			list->DeleteContactAsync(contact__);
-		}
-#endif
 
 	}  // namespace Contacts
 }  // namespace TitaniumWindows
