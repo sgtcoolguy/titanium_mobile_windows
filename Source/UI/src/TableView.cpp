@@ -254,6 +254,7 @@ namespace TitaniumWindows
 						const auto row = sections__.at(sectionIndex)->get_rows().at(itemIndex);
 						eventArgs.SetProperty("row", row->get_object());
 						eventArgs.SetProperty("rowData", fromSection ? row->get_object() : data__.at(itemIndex));
+						eventArgs.SetProperty("source", row->get_object());
 					}
 
 					fireEvent("click", eventArgs);
