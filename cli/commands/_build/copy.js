@@ -565,6 +565,12 @@ function copyResources(next) {
 			Object.keys(this.tiapp.properties).forEach(function (prop) {
 				props[prop] = this.tiapp.properties[prop].value;
 			}, this);
+			this.tiapp.windows && Object.keys(this.tiapp.windows).forEach(function (prop) {
+				// ignore appxmanifest
+				if (prop !== 'manifest') {
+					props[prop] = this.tiapp.windows[prop];
+				}
+			}, this);
 			fs.writeFileSync(
 				appPropsFile,
 				JSON.stringify(props)

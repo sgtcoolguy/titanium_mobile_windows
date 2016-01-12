@@ -69,7 +69,7 @@ namespace TitaniumWindows
 			return default;
 		}
 
-		boost::optional<std::string> Properties::getString(const std::string& property, const boost::optional<std::string>& default = nullptr) TITANIUM_NOEXCEPT
+		boost::optional<std::string> Properties::getString(const std::string& property, const boost::optional<std::string>& default) TITANIUM_NOEXCEPT
 		{
 			if (Titanium::App::Properties::hasProperty(property)) {
 				return Titanium::App::Properties::getString(property, default);

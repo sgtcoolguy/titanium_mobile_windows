@@ -78,12 +78,14 @@ target_include_directories(TitaniumWindows_Map PUBLIC
   $<TARGET_PROPERTY:TitaniumKit,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_Utility,INTERFACE_INCLUDE_DIRECTORIES>
   $<TARGET_PROPERTY:TitaniumWindows_UI,INTERFACE_INCLUDE_DIRECTORIES>
+  $<TARGET_PROPERTY:TitaniumWindows_Ti,INTERFACE_INCLUDE_DIRECTORIES>
   )
 
 target_link_libraries(TitaniumWindows_Map
   TitaniumKit
   TitaniumWindows_Utility
   TitaniumWindows_UI
+  TitaniumWindows_Ti
   )
 
 set_target_properties(TitaniumWindows_Map PROPERTIES VS_WINRT_COMPONENT TRUE)
