@@ -22,10 +22,12 @@ exports.init = function (logger, config, cli) {
 	cli.on('clean.post', {
 		priority: 10000,
 		post: function (builder, finished) {
-			var file = builder.buildDir;
-			logger.debug(__('Deleting %s', file.cyan));
-			if (file && fs.lstatSync(file).isDirectory()) {
-				wrench.rmdirSyncRecursive(file);
+			var home = process.env.HOME || process.env.USERPROFILE || process.env.APPDATA,
+				tempBuildDir = path.join(home, '.titanium', 'vsbuild', path.basename(cli.argv['project-dir']));
+
+			logger.debug(__('Deleting %s', tempBuildDir.cyan));
+			if (fs.existsSync(tempBuildDir) && fs.lstatSync(tempBuildDir).isDirectory()) {
+				wrench.rmdirSyncRecursive(tempBuildDir);
 			}
 			finished();
 		}
