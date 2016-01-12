@@ -70,7 +70,7 @@ describe("Titanium.Platform", function () {
     it("batteryMonitoring", function (finish) {
         should(Ti.Platform.batteryMonitoring).be.Boolean;
         // Note: Windows 10 Mobile doesn't support battery monitoring
-        if (Ti.Platform.osname == 'windowsphone' && Ti.Platform.version != '10.0') {
+        if (Ti.Platform.osname == 'windowsphone' && !/^10\./.test(Ti.Platform.version)) {
             should(Ti.Platform.batteryMonitoring).be.eql(true);
         } else if (Ti.Platform.osname == 'windowsstore') {
             should(Ti.Platform.batteryMonitoring).be.eql(false);
