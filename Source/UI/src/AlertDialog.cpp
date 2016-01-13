@@ -95,7 +95,8 @@ namespace TitaniumWindows
 
 				// show first dialog and then proceed to next after finishing click event
 				if (dialog_queue__.size() == 1) {
-					concurrency::create_task(dialog__->ShowAsync()).then(on_click__);
+					dialog_task__ = dialog__->ShowAsync();
+					concurrency::create_task(dialog_task__).then(on_click__);
 				}
 
 			} catch (::Platform::COMException^ ce) {
@@ -103,6 +104,25 @@ namespace TitaniumWindows
 				detail::ThrowRuntimeError("Ti.UI.AlertDialog", "Exception during show(): " + Utility::ConvertUTF8String(ce->Message));
 			} catch (...) {
 				detail::ThrowRuntimeError("Ti.UI.AlertDialog", "Exception during show()");
+			}
+		}
+
+		void AlertDialog::hide() TITANIUM_NOEXCEPT
+		{
+#if defined(IS_WINDOWS_10)
+			if (IS_WINDOWS_MOBILE) {
+				TITANIUM_LOG_WARN("AlertDialog::hide() is not supported on Windows 10 Mobile");
+				return;
+			}
+#elif defined(IS_WINDOWS_PHONE)
+			TITANIUM_LOG_WARN("AlertDialog::hide() is not supported on Windows Phone");
+			return;
+#endif
+			if (dialog_task__ != nullptr) {
+				dialog_task__->Cancel();
+				if (dialog_queue__.size() > 0) {
+					dialog_queue__.erase(dialog_queue__.begin());
+				}
 			}
 		}
 	} // namespace UI
