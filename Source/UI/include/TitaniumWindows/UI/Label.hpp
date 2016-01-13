@@ -19,19 +19,6 @@ namespace TitaniumWindows
 	{
 		using namespace HAL;
 
-		class TITANIUMWINDOWS_UI_EXPORT WindowsLabelLayoutDelegate : public WindowsViewLayoutDelegate {
-		public:
-			WindowsLabelLayoutDelegate() TITANIUM_NOEXCEPT;
-			virtual ~WindowsLabelLayoutDelegate();
-
-			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component) override;
-			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
-			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override;
-		private:
-			double defaultMaxWidth__;
-			double defaultMaxHeight__;
-		};
-
 		/*!
 		  @class Label
 		  @ingroup Titanium.UI.Label
@@ -68,7 +55,10 @@ namespace TitaniumWindows
 			static const std::uint32_t DefaultFontSize = 20;
 
 		private:
+			Windows::UI::Xaml::Controls::Grid^ parent__;
 			Windows::UI::Xaml::Controls::TextBlock^ label__;
+			Windows::Foundation::EventRegistrationToken label_sizechanged_event__;
+			bool request_resize__ { true };
 		};
 	} // namespace UI
 } // namespace TitaniumWindows

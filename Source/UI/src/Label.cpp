@@ -25,47 +25,6 @@ namespace TitaniumWindows
 		using namespace Windows::UI::Xaml::Documents;
 		using namespace Windows::UI::Text;
 
-		WindowsLabelLayoutDelegate::WindowsLabelLayoutDelegate() TITANIUM_NOEXCEPT
-			: WindowsViewLayoutDelegate()
-		{
-			TITANIUM_LOG_DEBUG("WindowsLabelLayoutDelegate::ctor ", this);
-		}
-
-		WindowsLabelLayoutDelegate::~WindowsLabelLayoutDelegate() 
-		{
-			TITANIUM_LOG_DEBUG("WindowsLabelLayoutDelegate::dtor ", this);
-		}
-
-		void WindowsLabelLayoutDelegate::setComponent(Windows::UI::Xaml::FrameworkElement^ label) 
-		{
-			WindowsViewLayoutDelegate::setComponent(label);
-
-			// TIMOB-19048: max size is set to screen size by default
-			defaultMaxWidth__  = label->MaxWidth;
-			defaultMaxHeight__ = label->MaxHeight;
-			const auto current = Windows::UI::Xaml::Window::Current;
-			if (current) {
-				label->MaxWidth  = current->Bounds.Width;
-				label->MaxHeight = current->Bounds.Height;
-			}
-		}
-
-		void WindowsLabelLayoutDelegate::set_width(const std::string& width) TITANIUM_NOEXCEPT
-		{
-			WindowsViewLayoutDelegate::set_width(width);
-
-			// reset max width when width is set explicitly
-			getComponent()->MaxWidth = defaultMaxWidth__;
-		}
-
-		void WindowsLabelLayoutDelegate::set_height(const std::string& height) TITANIUM_NOEXCEPT
-		{
-			WindowsViewLayoutDelegate::set_height(height);
-
-			// reset max height when height is set explicitly
-			getComponent()->MaxHeight = defaultMaxHeight__;
-		}
-
 		Label::Label(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::Label(js_context)
 		{
@@ -75,22 +34,50 @@ namespace TitaniumWindows
 		Label::~Label() 
 		{
 			TITANIUM_LOG_DEBUG("Label::dtor ", this);
+			label__->SizeChanged -= label_sizechanged_event__;
 		}
 
 		void Label::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
 			Titanium::UI::Label::postCallAsConstructor(js_context, arguments);
 			
+			// Note: TextAlignment and VerticalAlignment does not work without parent Grid container!
+			parent__ = ref new Controls::Grid();
 			label__ = ref new Windows::UI::Xaml::Controls::TextBlock();
 
-			Titanium::UI::Label::setLayoutDelegate<WindowsLabelLayoutDelegate>();
+			// Grid needs to resize when label text is changed
+			label_sizechanged_event__ = label__->SizeChanged += ref new SizeChangedEventHandler([this](Platform::Object^ sender, SizeChangedEventArgs^ e) {
+				const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				if (e->PreviousSize.Height > 0 && request_resize__ && layout->get_height() != Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)) {
+					request_resize__ = false;
+					layout->set_height(std::to_string(e->NewSize.Height));
+				}
+			});
+
+			Titanium::UI::Label::setLayoutDelegate<WindowsViewLayoutDelegate>();
 
 			label__->TextWrapping = Windows::UI::Xaml::TextWrapping::Wrap;
 			label__->TextTrimming = Windows::UI::Xaml::TextTrimming::None;
-			label__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Center;
+			label__->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
 			label__->FontSize = DefaultFontSize;
 
-			getViewLayoutDelegate<WindowsLabelLayoutDelegate>()->setComponent(label__);
+			// TIMOB-19048: max size is set to screen size by default
+			const auto current = Windows::UI::Xaml::Window::Current;
+			if (current) {
+				label__->MaxWidth = current->Bounds.Width;
+				label__->MaxHeight = current->Bounds.Height;
+			}
+
+			parent__->Children->Append(label__);
+			parent__->SetColumn(label__, 0);
+			parent__->SetRow(label__, 0);
+
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::FILL);
+
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(parent__);
 		}
 
 		void Label::JSExportInitialize()
@@ -109,7 +96,11 @@ namespace TitaniumWindows
 		void Label::set_text(const std::string& text) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::Label::set_text(text);
-			label__->Text = TitaniumWindows::Utility::ConvertUTF8String(text);
+			const auto new_text = TitaniumWindows::Utility::ConvertUTF8String(text);
+			if (label__->Text != new_text) {
+				request_resize__ = true; // indicate parent Grid to resize
+				label__->Text = new_text;
+			}
 		}
 
 		void Label::set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT
