@@ -1,7 +1,7 @@
 /**
  * TitaniumKit Titanium.Contacts
  *
- * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -58,14 +58,14 @@ namespace Titanium
 		  @abstract getGroupByID
 		  @discussion Gets the group with the specified identifier.
 		*/
-		virtual std::shared_ptr<Contacts::Group> getGroupByID(const JSValue& id) TITANIUM_NOEXCEPT;
+		virtual std::shared_ptr<Contacts::Group> getGroupByID(const int32_t& id) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
 		  @abstract getGroupByIdentifier
 		  @discussion Gets the group with the specified identifier.
 		*/
-		virtual std::shared_ptr<Contacts::Group> getGroupByIdentifier(const JSValue& id) TITANIUM_NOEXCEPT;
+		virtual std::shared_ptr<Contacts::Group> getGroupByIdentifier(const std::string& id) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -79,14 +79,14 @@ namespace Titanium
 		  @abstract getPersonByID
 		  @discussion Gets the person with the specified identifier.
 		*/
-		virtual std::shared_ptr<Contacts::Person> getPersonByID(const JSValue& id) TITANIUM_NOEXCEPT;
+		virtual std::shared_ptr<Contacts::Person> getPersonByID(const int32_t& id) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
 		  @abstract getPersonByIdentifier
 		  @discussion Gets the person with the specified identifier.
 		*/
-		virtual std::shared_ptr<Contacts::Person> getPersonByIdentifier(const JSValue& id) TITANIUM_NOEXCEPT;
+		virtual std::shared_ptr<Contacts::Person> getPersonByIdentifier(const std::string& id) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -199,8 +199,8 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_READONLY_DEF(contactsAuthorization);
 
-		TITANIUM_FUNCTION_DEF(createGroup);
-		TITANIUM_FUNCTION_DEF(createPerson);
+		virtual TITANIUM_FUNCTION_DEF(createGroup);
+		virtual TITANIUM_FUNCTION_DEF(createPerson);
 		TITANIUM_FUNCTION_DEF(getAllGroups);
 		TITANIUM_FUNCTION_DEF(getAllPeople);
 		TITANIUM_FUNCTION_DEF(getGroupByID);
