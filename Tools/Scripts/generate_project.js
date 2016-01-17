@@ -137,7 +137,7 @@ if (module.id === ".") {
 
 		// Win 10 must be 'WindowsStore', VS 2015 and MSBuild 14.0
 		if (program.sdkVersion == WIN_10) {
-			program.msdev = MSBUILD_14;
+			program.msbuild = MSBUILD_14;
 			program.platform = WINDOWS_STORE;
 			abbrev = 'Windows10';
 		}
@@ -145,7 +145,7 @@ if (module.id === ".") {
 		// output location
 		var dest = program.outputPath || path.join('.', example_name + '.' + abbrev + '.' + program.arch);
 
-		generateProject(example_name, dest, program.platform, program.sdkVersion, program.msdev, program.arch, function (err) {
+		generateProject(example_name, dest, program.platform, program.sdkVersion, program.msbuild, program.arch, function (err) {
 			if (err) {
 				console.error(err.toString().red);
 				process.exit(1);
