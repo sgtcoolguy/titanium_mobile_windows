@@ -168,11 +168,7 @@ function addTiAppProperties(sdkVersion, next) {
 			content.push('\t<property name="presetInt" type="int">1337</property>');
 			content.push('\t<property name="presetDouble" type="double">1.23456</property>');
 			content.push('\t<windows><manifest><Capabilities><Capability Name=\"internetClient\" />');
-			if (sdkVersion == WIN_10) {
-				content.push('\t<uap:Capability Name=\"contacts\" />');
-			} else {
-				content.push('\t<m3:Capability Name=\"contacts\" />');
-			}
+			content.push('\t<Capability Name=\"contacts\" />');
 			content.push('\t</Capabilities></manifest></windows>');
 		}
 	});
