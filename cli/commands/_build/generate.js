@@ -266,11 +266,93 @@ function generateCmakeList(next) {
 function generateAppxManifestForPlatform(target, properties) {
 	var template = fs.readFileSync(path.resolve(this.platformPath,
 			'templates', 'build', 'Package.' + target + '.appxmanifest.in.ejs'), 'utf8'),
-		dest = path.join(this.buildDir, 'Package.' + target + '.appxmanifest.in');
+		dest = path.join(this.buildDir, 'Package.' + target + '.appxmanifest.in'),
+		win10BaseCapabilities = [
+			'internetClient',
+			'internetClientServer',
+			'privateNetworkClientServer',
+			'allJoyn',
+			'codeGeneration'
+		],
+		win81BaseCapabilities = [
+			'documentsLibrary', // not listed
+			'enterpriseAuthentication',
+			'internetClient',
+			'internetClientServer',
+			'musicLibrary',
+			'picturesLibrary',
+			'privateNetworkClientServer', // store only?
+			'removableStorage',
+			'sharedUserCertificates',
+			'videosLibrary'
+		],
+		win81M3Capabilities = [ // m3 namespace, phone 8.1 only
+			'contacts',
+			'appointments'
+		],
+		win10UAPCapabilities = [
+			'documentsLibrary',
+			'picturesLibrary',
+			'videosLibrary',
+			'musicLibrary',
+			'enterpriseAuthentication',
+			'sharedUserCertificates',
+			'userAccountInformation',
+			'removableStorage',
+			'appointments',
+			'contacts',
+			'phoneCall',
+			'blockedChatMessages',
+			'objects3D',
+			'voipCall',
+			'chat'
+		],
+		win81DeviceCapabilities = [
+			'webcam',
+			'proximity',
+			'microphone',
+			'location'
+		],
+		capabilities = [];
 
 	// Supported properties
 	properties.Properties = properties.Properties || [];
-	properties.Capabilities = properties.Capabilities || ['<Capability Name=\"internetClient\" />'];
+
+	// Capabilities (we kept them as xml nodes to make this below easier!)
+	if (properties.Capabilities) {
+		// Filter capabilities that aren't valid for the SDK version and platform we're targeting
+		// Also make sure we use the correct tag namespace for target
+		properties.Capabilities.forEach(function (node) {
+			var name;
+			if (node.tagName == 'Capability') {
+				// grab name of capability, determine if we include or filter, which namespace to use for tag
+				name = appc.xml.getAttr(node, "Name");
+				if (target == 'win10') { // Windows 10 universal
+					if (win10UAPCapabilities.indexOf(name) != -1) {
+						capabilities.push('<uap:Capability Name="' + name + '" />');
+					} else if (win10BaseCapabilities.indexOf(name) != -1) {
+						capabilities.push('<Capability Name="' + name + '" />');
+					}
+				}
+				else {
+					if (win81BaseCapabilities.indexOf(name) != -1) {
+						capabilities.push('<Capability Name="' + name + '" />');
+					} else if (win81M3Capabilities.indexOf(name) != -1) {
+						capabilities.push('<m3:Capability Name="' + name + '" />');
+					}
+				}
+			}
+			else {
+				// Just write the XML out as is
+				// TODO Do some validation of DeviceCapability name?
+				capabilities.push(node.toString());
+			}
+		});
+		properties.Capabilities = capabilities;
+	} else {
+		properties.Capabilities = ['<Capability Name=\"internetClient\" />'];
+	}
+
 	properties.Prerequisites = properties.Prerequisites || [];
 	properties.Resources = properties.Resources || [];
 	properties.Extensions = properties.Extensions || [];
@@ -312,7 +394,10 @@ function generateAppxManifest(next) {
 	this.tiapp.windows = this.tiapp.windows || {};
 	this.readTiAppManifest();
 
-	var xprops = {phone: {}, store: {}},
+	var xprops = {
+			phone: { '8.1': {}, '10.0': {} },
+			store: { '8.1': {}, '10.0': {} }
+		},
 		domParser = new DOMParser();
 
 	if (this.tiapp.windows.manifests) {
@@ -321,27 +406,40 @@ function generateAppxManifest(next) {
 			var manifest = this.tiapp.windows.manifests[i];
 
 			var dom = domParser.parseFromString(manifest, 'text/xml'),
-				root = dom.documentElement, properties = {},
-				target = appc.xml.getAttr(root, "target");
+				root = dom.documentElement,
+				target = appc.xml.getAttr(root, "target"),
+				version = appc.xml.getAttr(root, "version");
 
 			appc.xml.forEachElement(root, function (node) {
 				var key = node.tagName,
 					elements = [];
 				appc.xml.forEachElement(node, function (elm) {
-					elements.push(elm.toString());
+					if (key == 'Capabilities') { // keep capability as tags
+						elements.push(elm);
+					} else {
+						elements.push(elm.toString());
+					}
 				});
-				properties[key] = elements;
 
-				xprops.phone[key] = xprops.phone[key] || [];
-				xprops.store[key] = xprops.store[key] || [];
+				xprops.phone['8.1'][key] = xprops.phone['8.1'][key] || [];
+				xprops.store['8.1'][key] = xprops.store['8.1'][key] || [];
+				xprops.store['10.0'][key] = xprops.store['10.0'][key] || [];
 
-				if (target == "phone") {
-					xprops.phone[key] = xprops.phone[key].concat(elements);
-				} else if (target == "store") {
-					xprops.store[key] = xprops.store[key].concat(elements);
-				} else {
-					xprops.phone[key] = xprops.phone[key].concat(elements);
-					xprops.store[key] = xprops.store[key].concat(elements);
+				// If version is 10.0 or not specified, add it to store['10.0']
+				if (version == '10.0' || !version) {
+					xprops.store['10.0'][key] = xprops.store['10.0'][key].concat(elements);
+				}
+
+				// If version is 8.1 or not defined, check target to determine phone[8.1] and/or store[8.1]
+				if (version == '8.1' || !version) {
+					if (target == "phone") {
+						xprops.phone['8.1'][key] = xprops.phone['8.1'][key].concat(elements);
+					} else if (target == "store") {
+						xprops.store['8.1'][key] = xprops.store['8.1'][key].concat(elements);
+					} else {
+						xprops.phone['8.1'][key] = xprops.phone['8.1'][key].concat(elements);
+						xprops.store['8.1'][key] = xprops.store['8.1'][key].concat(elements);
+					}
 				}
 			});
 		}
@@ -349,9 +447,9 @@ function generateAppxManifest(next) {
 
 	// TODO Only generate the manifest for the target we're building for!
 	// TODO Write them out in parallel
-	this.generateAppxManifestForPlatform("store", xprops.store);
-	this.generateAppxManifestForPlatform("phone", xprops.phone);
-	this.generateAppxManifestForPlatform("win10", xprops.store);
+	this.generateAppxManifestForPlatform("store", xprops.store['8.1']);
+	this.generateAppxManifestForPlatform("phone", xprops.phone['8.1']);
+	this.generateAppxManifestForPlatform("win10", xprops.store['10.0']);
 
 	next();
 };
