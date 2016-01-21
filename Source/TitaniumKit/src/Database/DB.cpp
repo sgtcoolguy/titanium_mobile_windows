@@ -168,6 +168,13 @@ namespace Titanium
 			// Execute query statement
 			auto stepResult = sqlite3_step(statement);
 
+			int affectedRows = 0;
+			if (stepResult == SQLITE_DONE) {
+				sqlite3_finalize(statement);
+				affected_rows__ = 1; // FIXME Why do we set the DB's affected rows to 1 while the result set says 0?
+				return get_context().CreateNull();
+			}
+
 			// Now let's wrap the results in our ResultSet proxy
 			// FIXME Pass these values into the constructor, don't expose the fields
 			// How would we pass along the statement pointer?
@@ -176,14 +183,6 @@ namespace Titanium
 			resultSet->setDatabase(this);
 			const auto insert_result = resultSets__.emplace(statement, resultSet);
 			TITANIUM_ASSERT(insert_result.second);
-			int affectedRows = 0;
-			if (stepResult == SQLITE_DONE) {
-				sqlite3_finalize(statement);
-				resultSet->affected_rows__ = affectedRows;
-				affected_rows__ = resultSet->affected_rows__ + 1; // FIXME Why do we set the DB's affected rows to 1 while the result set says 0?
-				resultSet->statement__ = statement;
-				return resultSet_object;
-			}
 
 			while (stepResult != SQLITE_DONE) {
 				if (stepResult == SQLITE_ROW) {
