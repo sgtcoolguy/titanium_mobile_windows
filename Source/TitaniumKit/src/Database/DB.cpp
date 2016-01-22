@@ -22,13 +22,13 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("DB:: ctor ", this);
 		}
 
-		DB::~DB() 
+		DB::~DB()
 		{
 			TITANIUM_LOG_DEBUG("DB:: dtor ", this);
 			close();
 		}
 
-		void DB::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
+		void DB::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
 			HAL_LOG_DEBUG("DB:: postCallAsConstructor ", this);
 
@@ -100,14 +100,14 @@ namespace Titanium
 		{
 			return affected_rows__;
 		}
-	
+
 		void DB::close() TITANIUM_NOEXCEPT
 		{
 			for (auto resultSet : resultSets__) {
 				resultSet.second->close(false);
 			}
 			resultSets__.clear();
-			
+
 			if (db__ != nullptr) {
 				sqlite3_close(db__);
 				db__ = nullptr;
@@ -121,7 +121,7 @@ namespace Titanium
 			}
 
 			sqlite3_stmt* statement;
-			
+
 			auto error = sqlite3_prepare_v2(db__, sql.c_str(), static_cast<int>(sql.size()), &statement, NULL);
 			if (error != SQLITE_OK) {
 				TITANIUM_LOG_WARN("[ERROR] SQLite prepare error!");
@@ -168,13 +168,6 @@ namespace Titanium
 			// Execute query statement
 			auto stepResult = sqlite3_step(statement);
 
-			int affectedRows = 0;
-			if (stepResult == SQLITE_DONE) {
-				sqlite3_finalize(statement);
-				affected_rows__ = 1; // FIXME Why do we set the DB's affected rows to 1 while the result set says 0?
-				return get_context().CreateNull();
-			}
-
 			// Now let's wrap the results in our ResultSet proxy
 			// FIXME Pass these values into the constructor, don't expose the fields
 			// How would we pass along the statement pointer?
@@ -183,6 +176,19 @@ namespace Titanium
 			resultSet->setDatabase(this);
 			const auto insert_result = resultSets__.emplace(statement, resultSet);
 			TITANIUM_ASSERT(insert_result.second);
+
+			int affectedRows = 0;
+			if (stepResult == SQLITE_DONE) {
+				int columns = sqlite3_column_count(statement);
+				sqlite3_finalize(statement);
+				affected_rows__ = 1; // FIXME Why do we set the DB's affected rows to 1 while the result set says 0?
+				if (columns == 0) {
+					return get_context().CreateNull();
+				}
+				resultSet->affected_rows__ = 0;
+				resultSet->statement__ = statement;
+				return resultSet_object;
+			}
 
 			while (stepResult != SQLITE_DONE) {
 				if (stepResult == SQLITE_ROW) {
@@ -207,7 +213,7 @@ namespace Titanium
 
 			return resultSet_object;
 		}
-		
+
 		void DB::removeStatement(sqlite3_stmt* statement)
 		{
 			resultSets__.erase(statement);
@@ -226,7 +232,7 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(DB, execute);
 			TITANIUM_ADD_FUNCTION(DB, remove);
 		}
-	
+
 		TITANIUM_PROPERTY_GETTER(DB, file)
 		{
 			return get_file();
@@ -250,7 +256,7 @@ namespace Titanium
 		TITANIUM_FUNCTION(DB, close)
 		{
 			close();
-			
+
 			return get_context().CreateUndefined();
 		}
 
