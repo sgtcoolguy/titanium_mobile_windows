@@ -96,6 +96,13 @@ namespace TitaniumWindows
 			filter__->AllowAutoRedirect = true;
 			filter__->CacheControl->ReadBehavior = Windows::Web::Http::Filters::HttpCacheReadBehavior::MostRecent;
 
+			if (!username__.empty()) {
+				filter__->ServerCredential = ref new Windows::Security::Credentials::PasswordCredential(
+					TitaniumWindows::Utility::ConvertString(location__),
+					TitaniumWindows::Utility::ConvertString(username__),
+					TitaniumWindows::Utility::ConvertString(password__));
+			}
+
 			addCookiesToRequest();
 
 			auto user_agent = get_context().JSEvaluateScript("Ti.userAgent");
