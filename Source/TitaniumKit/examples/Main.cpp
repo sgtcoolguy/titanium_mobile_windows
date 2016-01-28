@@ -7,6 +7,7 @@
  */
 
 #include "Titanium/Titanium.hpp"
+#include "NativeTiExample.hpp"
 #include "NativeGlobalObjectExample.hpp"
 #include "NativeAPIExample.hpp"
 #include "NativeWindowExample.hpp"
@@ -60,17 +61,20 @@ Ti.API.info('ng.js running...');
 
 	JSContextGroup js_context_group;
 	JSContext js_context = js_context_group.CreateContext(JSExport<NativeGlobalObjectExample>::Class());
-	Titanium::Application app = Titanium::ApplicationBuilder(js_context)
-	                                .APIObject(js_context.CreateObject(JSExport<NativeAPIExample>::Class()))
-	                                .ViewObject(js_context.CreateObject(JSExport<NativeViewExample>::Class()))
-	                                .WindowObject(js_context.CreateObject(JSExport<NativeWindowExample>::Class()))
-	                                .ButtonObject(js_context.CreateObject(JSExport<NativeButtonExample>::Class()))
-	                                .PlatformObject(js_context.CreateObject(JSExport<NativePlatformExample>::Class()))
-	                                .AccelerometerObject(js_context.CreateObject(JSExport<NativeAccelerometerExample>::Class()))
-	                                .GestureObject(js_context.CreateObject(JSExport<NativeGestureExample>::Class()))
-	                                .FilesystemObject(js_context.CreateObject(JSExport<NativeFilesystemExample>::Class()))
-	                                .FileObject(js_context.CreateObject(JSExport<NativeFileExample>::Class()))
+	auto titanium = js_context.CreateObject(JSExport<NativeTiExample>::Class());
+	auto titanium_ptr = titanium.GetPrivate<NativeTiExample>();
+	titanium_ptr->APIClass(JSExport<NativeAPIExample>::Class())
+	                                .ViewClass(JSExport<NativeViewExample>::Class())
+	                                .WindowClass(JSExport<NativeWindowExample>::Class())
+	                                .ButtonClass(JSExport<NativeButtonExample>::Class())
+	                                .PlatformClass(JSExport<NativePlatformExample>::Class())
+	                                .AccelerometerClass(JSExport<NativeAccelerometerExample>::Class())
+	                                .GestureClass(JSExport<NativeGestureExample>::Class())
+	                                .FilesystemClass(JSExport<NativeFilesystemExample>::Class())
+	                                .FileClass(JSExport<NativeFileExample>::Class())
 	                                .build();
+	auto app = std::make_shared<Titanium::Application>(js_context);
 
-	JSValue reslut = app.Run("app.js");
+
+	JSValue reslut = app->Run("app.js");
 }
