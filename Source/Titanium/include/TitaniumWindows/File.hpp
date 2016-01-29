@@ -151,7 +151,7 @@ namespace TitaniumWindows
 				if (append) {
 					writeContentFromFile(writer, appendingFile);
 				}
-				writer->WriteString(TitaniumWindows::Utility::ConvertString(string));
+				writer->WriteString(TitaniumWindows::Utility::ConvertUTF8String(string));
 				return writer->DetachBuffer();
 			}
 
