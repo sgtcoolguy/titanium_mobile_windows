@@ -23,6 +23,8 @@ properties:
     platforms: [windowsphone]
   - name: id
     platforms: [windowsphone]
+  - name: identifier
+    platforms: [windowsphone]
   - name: image
     platforms: [windowsphone]
   - name: instantMessage
@@ -101,6 +103,8 @@ methods:
   - name: setFullName
     platforms: [windowsphone]
   - name: getId
+    platforms: [windowsphone]
+  - name: getIdentifier
     platforms: [windowsphone]
   - name: getImage
     platforms: [windowsphone]
