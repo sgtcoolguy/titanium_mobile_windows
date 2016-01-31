@@ -365,4 +365,29 @@ describe('Titanium.Database', function () {
         // Finish the mocha test
         finish();
     });
+
+    // Test behavior expected by alloy code for createCollection. See TIMOB-20222
+    it('execute returns null instead of empty result set', function (finish) {
+        should(Ti.Database.install).not.be.undefined;
+        should(Ti.Database.install).be.a.Function;
+
+        // Call install on a database file that doesn't exist. We should just make a new db with name 'category'
+        var db = Ti.Database.install("made.up.sqlite", "category");
+
+        // Confirm 'db' is an object
+        should(db).be.a.Object;
+
+        var rows = db.execute('pragma table_info("category");');
+
+        should(rows).be.null;
+
+        // Remove the 'category' database file
+        db.remove();
+
+        // Close the database (unnecessary as remove() does this for us)
+        db.close();
+
+        finish();
+    });
+
 });
