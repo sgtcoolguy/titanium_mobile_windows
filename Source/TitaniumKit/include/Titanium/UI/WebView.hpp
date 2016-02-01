@@ -88,9 +88,11 @@ namespace Titanium
 			/*!
 			  @method
 			  @abstract evalJS
-			  @discussion Evaluates a JavaScript expression inside the context of the web view andoptionally, returns a result.
+			  @param code JavaScript code to evaluate
+			  @param callback JavaScript function that is executed asynchronously
+			  @discussion Evaluates a JavaScript expression inside the context of the web view and optionally, returns a result.
 			*/
-			virtual std::string evalJS(const std::string& code) TITANIUM_NOEXCEPT;
+			virtual std::string evalJS(const std::string& code, JSObject& callback) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -138,6 +140,7 @@ namespace Titanium
 #endif
 
 			static void JSExportInitialize();
+			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			TITANIUM_PROPERTY_READONLY_DEF(data);
 			TITANIUM_PROPERTY_DEF(html);
@@ -162,6 +165,9 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setScalesPageToFit);
 			TITANIUM_FUNCTION_DEF(getUrl);
 			TITANIUM_FUNCTION_DEF(setUrl);
+
+			virtual void _executeListener(const std::string& name, const std::string& data) TITANIUM_NOEXCEPT;
+			TITANIUM_FUNCTION_DEF(_executeListener);
 
 			protected:
 #pragma warning(push)

@@ -10,7 +10,7 @@ var should = require('should');
 
 describe("Titanium.UI.WebView", function () {
 
-    it("WebView.url", function (finish) {
+    it("url", function (finish) {
         this.timeout(10000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -31,7 +31,7 @@ describe("Titanium.UI.WebView", function () {
         w.open();
     });
 
-    it("WebView.url(local)", function (finish) {
+    it("url(local)", function (finish) {
         this.timeout(10000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -46,6 +46,31 @@ describe("Titanium.UI.WebView", function () {
                 w.close();
                 finish();
             }, 1000);
+        });
+
+        w.add(webview);
+        w.open();
+    });
+
+    it("evalJS", function (finish) {
+        this.timeout(10000);
+        var w = Ti.UI.createWindow({
+            backgroundColor: 'blue'
+        });
+        var webview = Ti.UI.createWebView();
+        webview.addEventListener('load', function () {
+            webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST";', function (result) {
+                should(result).be.eql('WebView.evalJS.TEST');
+                setTimeout(function () {
+                    w.close();
+                    finish();
+                }, 1000);
+            });
+        });
+        w.addEventListener('focus', function () {
+            should(function () {
+                webview.url = 'ti.ui.webview.test.html';
+            }).not.throw();
         });
 
         w.add(webview);

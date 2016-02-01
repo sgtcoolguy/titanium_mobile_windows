@@ -191,7 +191,12 @@ namespace Titanium
 				JSObject this_object = static_cast<JSObject>(this_object_property);
 
 				TITANIUM_LOG_DEBUG("Module::fireEvent: name = '", name, "' for listener at index ", i, " for ", this);
-				callback({ static_cast<JSValue>(event_copy) }, this_object);
+
+				//
+				// Note: Currently there's no way to access "arguments.callee" inside HAL JSExport callback.
+				// We cheat here, by adding callback as an argument
+				//
+				callback({ static_cast<JSValue>(event_copy), callback }, this_object);
 			}
 		} catch (const HAL::detail::js_runtime_error& ex) {
 			std::ostringstream os;

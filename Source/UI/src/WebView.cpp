@@ -11,12 +11,17 @@
 #include "TitaniumWindows/Utility.hpp"
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#include <collection.h>
+#include <ppltasks.h>
+#include <concrt.h>
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
+#include "Titanium/UI/webview_js.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
+		using namespace Windows::Storage;
 
 		WebView::WebView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::WebView(js_context)
@@ -43,7 +48,16 @@ namespace TitaniumWindows
 
 		WebView::~WebView() 
 		{
-			
+			// Make sure to remove all listeners of Ti.App for this WebView
+			const auto ctx = get_context();
+			const auto app = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App"));
+			const auto callback = get_object().GetProperty("_executeListener");
+			auto func = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App.removeEventListener"));
+
+			for (const auto name : app_event_names) {
+				std::vector<JSValue> args = { ctx.CreateString(name), callback };
+				func(args, app);
+			}
 		}
 
 		void WebView::JSExportInitialize() 
@@ -73,13 +87,60 @@ namespace TitaniumWindows
 			return Titanium::UI::URL_ERROR::UNKNOWN;
 		}
 
+		std::string WebView::evalJS(const std::string& code, JSObject& callback) TITANIUM_NOEXCEPT
+		{
+			auto args = ref new Platform::Collections::Vector<Platform::String^>();
+			args->Append(TitaniumWindows::Utility::ConvertUTF8String(code));
+
+			// Always return empty string because WebView.InvokeScriptAsync only works with async on Windows
+			concurrency::task<Platform::String^>(webview__->InvokeScriptAsync("eval", args)).then([this, callback](concurrency::task<Platform::String^> task){
+				try {
+					const auto result = task.get();
+					if (callback.IsFunction()) {
+						std::vector<JSValue> args = { get_context().CreateString(TitaniumWindows::Utility::ConvertUTF8String(result)) };
+						static_cast<JSObject>(callback)(args, get_object());
+					}
+				} catch (Platform::COMException^ e) {
+					TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(e->Message));
+				}
+			});
+
+			return "";
+		}
+
+		/*
+		 * Inject Titanium API over the local content
+		 */
+		void WebView::navigateWithLocalScript(const std::string& original)
+		{
+			std::string content = original;
+
+			// common script for WebView-Titanium binding
+			const std::string inject_script = webview_js;
+
+			// In WebView content, we use Ti.App.notifyEvent to point to the platform-specific notify function
+			const std::string windows_bind = ("Ti.App.notifyEvent = function(msg) { window.external.notify(msg); }; ");
+
+			// attempt to inject in Titanium API bridge code
+			// However, we do this only when content looks like HTML 
+			const auto found = content.find_first_of("<html");
+			if (found != std::string::npos) {
+				const auto start = content.find_first_of(">", found);
+				if (start != std::string::npos) {
+					content.insert(start + 1, "<script id='__ti_injection'>" + inject_script + windows_bind + "</script>");
+				}
+			}
+
+			webview__->NavigateToString(TitaniumWindows::Utility::ConvertUTF8String(content));
+		}
+
 		void WebView::initWebViewListeners() TITANIUM_NOEXCEPT 
 		{
 			using namespace std::placeholders;
 			using namespace Windows::UI::Xaml::Controls;
 
 			load_event__ = webview__->NavigationCompleted += ref new Windows::Foundation::TypedEventHandler
-				<Windows::UI::Xaml::Controls::WebView^, WebViewNavigationCompletedEventArgs^>([this](Platform::Object^ sender, WebViewNavigationCompletedEventArgs^ e) {
+				<Windows::UI::Xaml::Controls::WebView^, WebViewNavigationCompletedEventArgs^>([this](Platform::Object^ sender, WebViewNavigationCompletedEventArgs^ e) {				
 				loading__ = false;
 				if (e->IsSuccess && load_event_enabled__) {
 					JSObject obj = get_context().CreateObject();
@@ -109,10 +170,10 @@ namespace TitaniumWindows
 			script_event__ = webview__->ScriptNotify += ref new NotifyEventHandler([this](Platform::Object^ sender, Windows::UI::Xaml::Controls::NotifyEventArgs^ e) {
 				const auto value = TitaniumWindows::Utility::ConvertString(e->Value);
 				std::vector<std::string> args;
-	#pragma warning(push)
-	#pragma warning(disable:4996)
+#pragma warning(push)
+#pragma warning(disable:4996)
 				boost::split(args, value, boost::is_any_of(","));
-	#pragma warning(pop)
+#pragma warning(pop)
 
 				// we need at least 3 arguments
 				if (args.size() < 3) {
@@ -122,20 +183,43 @@ namespace TitaniumWindows
 				// notify command
 				const auto command = args.at(0);
 				// first argument
-				const auto arg1    = args.at(1);
+				const auto arg1 = args.at(1);
 				// rest of arguments
-				const auto arg2    = value.substr(command.length() + arg1.length() + 2);
+				const auto arg2 = value.substr(command.length() + arg1.length() + 2);
 
-				if (command == "log") {
-					const auto script = (boost::format("Ti.API.log('%1%', '%2%');\r\n") % arg1 % arg2).str();
-					get_context().JSEvaluateScript(script);
-				} else if (command == "event") {
-					// Event execution shortcut: let's do just like the way Ti Blackberry does for now
-					const auto script = (boost::format("Ti.App.fireEvent('%1%', %2%);\r\n") % arg1 % arg2).str();
-					get_context().JSEvaluateScript(script);
+				const auto ctx = get_context();
+
+				// Invoke Titanium functions with explicit "this". 
+				// May be safer than building scripts by just concatinating strings.
+				if (command == "Ti.API.log") {
+					const auto api = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.API"));
+					auto func = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.API.log"));
+					std::vector<JSValue> args = { ctx.CreateString(arg1), ctx.CreateString(arg2) };
+					func(args, api);
+				} else if (command == "Ti.App.fireEvent") {
+					const auto app = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App"));
+					auto func = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App.fireEvent"));
+					std::vector<JSValue> args = { ctx.CreateString(arg1), ctx.CreateValueFromJSON(arg2) };
+					func(args, app);
+				} else if (command == "Ti.App.addEventListener") {
+					const auto app = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App"));
+					auto func = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App.addEventListener"));
+					std::vector<JSValue> args = { ctx.CreateString(arg1), get_object().GetProperty("_executeListener") };
+					func(args, app);
+					app_event_names.emplace(arg1);
+				} else if (command == "Ti.App.removeEventListener") {
+					const auto app = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App"));
+					auto func = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App.removeEventListener"));
+					std::vector<JSValue> args = { ctx.CreateString(arg1), get_object().GetProperty("_executeListener") };
+					func(args, app);
 				}
 			});
+		}
 
+		void WebView::_executeListener(const std::string& name, const std::string& data) TITANIUM_NOEXCEPT
+		{
+			const auto script = (boost::format("Ti.App.executeListeners('%1%', %2%);") % name % data).str();
+			evalJS(script, get_context().CreateObject());
 		}
 
 		void WebView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
@@ -164,9 +248,14 @@ namespace TitaniumWindows
 			}
 		}
 
+		void WebView::set_html(const std::string& html) TITANIUM_NOEXCEPT
+		{
+			navigateWithLocalScript(html);
+		}
+
 		bool WebView::setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT
 		{
-			webview__->NavigateToString(TitaniumWindows::Utility::ConvertUTF8String(html));
+			set_html(html);
 			return true;
 		}
 
@@ -181,7 +270,30 @@ namespace TitaniumWindows
 
 		void WebView::set_url(const std::string& url) TITANIUM_NOEXCEPT
 		{
-			webview__->Navigate(TitaniumWindows::Utility::GetWebUriFromPath(url));
+			const auto uri = TitaniumWindows::Utility::GetUriFromPath(boost::algorithm::replace_first_copy(url, "ms-appx-web://", "ms-appx://"));
+
+			if (uri->SchemeName == "ms-appx" || uri->SchemeName == "ms-appdata") {
+				Windows::Storage::StorageFile^ file = nullptr;
+				concurrency::event event;
+				concurrency::task<StorageFile^>(StorageFile::GetFileFromApplicationUriAsync(uri)).then([&file, &event](concurrency::task<StorageFile^> task) {
+					try {
+						file = task.get();
+					} catch (Platform::COMException^ ex) {
+						file = nullptr;
+					}
+					event.set();
+				}, concurrency::task_continuation_context::use_arbitrary());
+				event.wait();
+
+				if (file != nullptr) {
+					const auto content = TitaniumWindows::Utility::GetContentFromFile(file);
+					navigateWithLocalScript(std::string(content.begin(), content.end()));
+				} else {
+					HAL::detail::ThrowRuntimeError("TitaniumWindows::UI::WebView", "Ti.UI.WebView: Unable to load file content");
+				}
+			} else {
+				webview__->Navigate(uri);
+			}
 		}
 
 		bool WebView::canGoBack() TITANIUM_NOEXCEPT

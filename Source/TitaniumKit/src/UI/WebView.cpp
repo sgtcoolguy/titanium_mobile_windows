@@ -19,6 +19,21 @@ namespace Titanium
 		{
 		}
 
+		void WebView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
+		{
+			Titanium::UI::View::postCallAsConstructor(js_context, arguments);
+
+			//
+			// _executeListener is a callback for internal use that listens to Ti.App events.
+			// Since there's no way to find "this" webview object when App callback is fired,
+			// we do little cheat here: attach "this" object to the function.
+			//
+			auto executeListener_prop = get_object().GetProperty("_executeListener");
+			TITANIUM_ASSERT(executeListener_prop.IsObject());
+			auto executeListener = static_cast<JSObject>(executeListener_prop);
+			executeListener.SetProperty("webview", get_object());
+		}
+
 		TITANIUM_PROPERTY_READWRITE(WebView, std::vector<std::uint8_t>, data)
 
 		TITANIUM_PROPERTY_READWRITE(WebView, std::string, html)
@@ -47,7 +62,7 @@ namespace Titanium
 			return false;
 		}
 
-		std::string WebView::evalJS(const std::string& code) TITANIUM_NOEXCEPT
+		std::string WebView::evalJS(const std::string& code, JSObject& callback) TITANIUM_NOEXCEPT
 		{
 			TITANIUM_LOG_WARN("WebView::evalJS: Unimplemented");
 			return "";
@@ -106,6 +121,7 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(WebView, setScalesPageToFit);
 			TITANIUM_ADD_FUNCTION(WebView, getUrl);
 			TITANIUM_ADD_FUNCTION(WebView, setUrl);
+			TITANIUM_ADD_FUNCTION(WebView, _executeListener);
 		}
 
 		TITANIUM_PROPERTY_GETTER(WebView, data)
@@ -202,13 +218,12 @@ namespace Titanium
 		{
 			if (arguments.size() < 1) {
 				return get_context().CreateUndefined();
-			} else if (arguments.size() >= 1) {
-				const auto _0 = arguments.at(0);
-				TITANIUM_ASSERT(_0.IsString());
-				const std::string code = static_cast<std::string>(_0);
-				return get_context().CreateString(evalJS(code));
 			}
-			return get_context().CreateUndefined();
+
+			ENSURE_STRING_AT_INDEX(code, 0);
+			ENSURE_OPTIONAL_OBJECT_AT_INDEX(callback, 1);
+
+			return get_context().CreateString(evalJS(code, callback));
 		}
 
 		TITANIUM_FUNCTION(WebView, goBack)
@@ -281,6 +296,41 @@ namespace Titanium
 				// TODO Convert JSObject(Ti.Blob or Ti.File) to std::vector<std::uint8_t>
 				// setData(data);
 			}
+			return get_context().CreateUndefined();
+		}
+
+		void WebView::_executeListener(const std::string& name, const std::string& data) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("WebView::_executeListener: Unimplemented for event ", name);
+		}
+
+		//
+		// _executeListener is internal function for Ti.App event callback.
+		//
+		TITANIUM_FUNCTION(WebView, _executeListener)
+		{
+			if (arguments.size() < 2) {
+				TITANIUM_LOG_WARN("WebView._executeListener: Invalid arguments");
+				return get_context().CreateUndefined();
+			}
+
+			auto callee = arguments.at(1);
+			auto tostring = static_cast<std::string>(callee);
+			TITANIUM_ASSERT(callee.IsObject());
+			auto webview = static_cast<JSObject>(callee).GetProperty("webview");
+			if (!webview.IsObject()) {
+				TITANIUM_LOG_WARN("WebView._executeListener: Can't find this object");
+				return get_context().CreateUndefined();
+			}
+			auto webview_ptr = static_cast<JSObject>(webview).GetPrivate<Titanium::UI::WebView>();
+			TITANIUM_ASSERT(webview_ptr);
+
+			auto data = arguments.at(0);
+			TITANIUM_ASSERT(data.IsObject());
+			webview_ptr->_executeListener(
+				static_cast<std::string>(static_cast<JSObject>(data).GetProperty("type")), 
+				static_cast<std::string>(data.ToJSONString()));
+
 			return get_context().CreateUndefined();
 		}
 

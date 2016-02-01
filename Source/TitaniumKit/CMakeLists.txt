@@ -44,6 +44,7 @@ generate_cpp_header_file(resource_xml_dom_js_hpp ${PROJECT_SOURCE_DIR}/src/XML/d
 generate_cpp_header_file(resource_xml_dom_parser_js_hpp ${PROJECT_SOURCE_DIR}/src/XML/dom-parser.js ${PROJECT_SOURCE_DIR}/include/Titanium/XML/dom_parser_js.hpp)
 generate_cpp_header_file(resource_xml_sax_js_hpp ${PROJECT_SOURCE_DIR}/src/XML/sax.js ${PROJECT_SOURCE_DIR}/include/Titanium/XML/sax_js.hpp)
 generate_cpp_header_file(resource_global_sprintf_js_hpp ${PROJECT_SOURCE_DIR}/src/Global/sprintf.js ${PROJECT_SOURCE_DIR}/include/Titanium/Global/sprintf_js.hpp)
+generate_cpp_header_file(resource_webview_js_hpp ${PROJECT_SOURCE_DIR}/src/UI/webview.js ${PROJECT_SOURCE_DIR}/include/Titanium/UI/webview_js.hpp)
 
 set(Boost_USE_STATIC_LIBS ON )
 set(Boost_USE_MULTITHREADED ON )
@@ -321,6 +322,7 @@ set(SOURCE_UI
   src/UI/ViewLayoutDelegate.cpp
   include/Titanium/UI/WebView.hpp
   src/UI/WebView.cpp
+  include/Titanium/UI/webview_js.hpp
   include/Titanium/UI/Window.hpp
   src/UI/Window.cpp
   include/Titanium/UI/ViewInsertOrReplaceParams.hpp
@@ -489,6 +491,7 @@ add_library(TitaniumKit SHARED
 
 add_dependencies(TitaniumKit resource_analytics_js_hpp)
 add_dependencies(TitaniumKit resource_listview_js_hpp)
+add_dependencies(TitaniumKit resource_webview_js_hpp)
 add_dependencies(TitaniumKit resource_xml_dom_js_hpp)
 add_dependencies(TitaniumKit resource_xml_dom_parser_js_hpp)
 add_dependencies(TitaniumKit resource_xml_sax_js_hpp)
