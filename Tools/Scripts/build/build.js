@@ -158,6 +158,7 @@ function runMSBuild(msBuildVersion, slnFile, buildType, arch, parallel, quiet, c
 	}
 	args.unshift(slnFile);
 	parallel && args.push('/m');
+	args.push('/nr:false');
 	spawnWithArgs('MSBuild', 'C:/Program Files (x86)/MSBuild/' + msBuildVersion + '/Bin/MSBuild.exe', args, {}, quiet, callback);
 }
 
