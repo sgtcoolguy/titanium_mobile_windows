@@ -48,6 +48,17 @@ namespace TitaniumWindows
 			bar__ = ref new Windows::UI::Xaml::Controls::ProgressBar();
 			bar__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Gray);
 
+			sizechanged_event__ = panel__->SizeChanged += ref new SizeChangedEventHandler([this](Platform::Object^ sender, SizeChangedEventArgs^ e) {
+				const auto fill = Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL);
+				const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				if (layout->get_height() != fill) {
+					layout->set_height(std::to_string(e->NewSize.Height));
+				}
+				if (layout->get_width() != fill) {
+					layout->set_width(std::to_string(e->NewSize.Width));
+				}
+			});
+
 			label__ = ref new Windows::UI::Xaml::Controls::TextBlock();
 			label__->Text = "";
 
@@ -62,8 +73,8 @@ namespace TitaniumWindows
 			panel__->Children->Append(bar__);
 
 			Titanium::UI::ProgressBar::setLayoutDelegate<ProgressBarLayoutDelegate>(bar__);
-			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
-			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::SIZE);
 			getViewLayoutDelegate<ProgressBarLayoutDelegate>()->setComponent(panel__);
 		}
 
@@ -71,6 +82,11 @@ namespace TitaniumWindows
 			: Titanium::UI::ProgressBar(js_context)
 		{
 			TITANIUM_LOG_DEBUG("ProgressBar::ctor Initialize");
+		}
+
+		ProgressBar::~ProgressBar()
+		{
+			panel__->SizeChanged -= sizechanged_event__;
 		}
 
 		void ProgressBar::JSExportInitialize() 

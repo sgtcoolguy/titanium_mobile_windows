@@ -53,7 +53,7 @@ namespace TitaniumWindows
 
 			ProgressBar(const JSContext&) TITANIUM_NOEXCEPT;
 
-			virtual ~ProgressBar()                  = default;
+			virtual ~ProgressBar();
 			ProgressBar(const ProgressBar&)            = default;
 			ProgressBar& operator=(const ProgressBar&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
@@ -74,6 +74,8 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::StackPanel^ panel__;
 			Windows::UI::Xaml::Controls::ProgressBar^ bar__;
 			Windows::UI::Xaml::Controls::TextBlock^ label__;
+
+			Windows::Foundation::EventRegistrationToken sizechanged_event__;
 
 		};
 	}  // namespace UI
