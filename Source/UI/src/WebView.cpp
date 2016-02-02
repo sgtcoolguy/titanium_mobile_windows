@@ -92,7 +92,6 @@ namespace TitaniumWindows
 			auto args = ref new Platform::Collections::Vector<Platform::String^>();
 			args->Append(TitaniumWindows::Utility::ConvertUTF8String(code));
 
-			// Always return empty string because WebView.InvokeScriptAsync only works with async on Windows
 			concurrency::task<Platform::String^>(webview__->InvokeScriptAsync("eval", args)).then([this, callback](concurrency::task<Platform::String^> task){
 				try {
 					const auto result = task.get();
@@ -105,6 +104,7 @@ namespace TitaniumWindows
 				}
 			});
 
+			// Always return empty string because WebView.InvokeScriptAsync only works with async on Windows
 			return "";
 		}
 
@@ -251,12 +251,6 @@ namespace TitaniumWindows
 		void WebView::set_html(const std::string& html) TITANIUM_NOEXCEPT
 		{
 			navigateWithLocalScript(html);
-		}
-
-		bool WebView::setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT
-		{
-			set_html(html);
-			return true;
 		}
 
 		std::string WebView::get_url() const TITANIUM_NOEXCEPT

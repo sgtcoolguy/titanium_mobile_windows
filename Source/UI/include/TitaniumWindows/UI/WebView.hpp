@@ -57,7 +57,6 @@ namespace TitaniumWindows
 			void navigateWithLocalScript(const std::string& content);
 
 			virtual void set_html(const std::string& html) TITANIUM_NOEXCEPT override;
-			virtual bool setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT override;
 			virtual std::string get_url() const TITANIUM_NOEXCEPT override;
 			virtual void set_url(const std::string& url) TITANIUM_NOEXCEPT override;
 
@@ -78,7 +77,10 @@ namespace TitaniumWindows
 			Windows::Foundation::EventRegistrationToken beforeload_event__;
 			Windows::Foundation::EventRegistrationToken script_event__;
 
+#pragma warning(push)
+#pragma warning(disable : 4251)
 			std::unordered_set<std::string> app_event_names;
+#pragma warning(pop)
 		};
 	} // namespace UI
 }  // namespace Titanium

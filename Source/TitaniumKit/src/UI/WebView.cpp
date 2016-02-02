@@ -40,8 +40,8 @@ namespace Titanium
 
 		bool WebView::setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("WebView::setHtml: Unimplemented");
-			return false;
+			set_html(html);
+			return true;
 		}
 
 		TITANIUM_PROPERTY_READWRITE(WebView, bool, loading)
@@ -314,10 +314,8 @@ namespace Titanium
 				return get_context().CreateUndefined();
 			}
 
-			auto callee = arguments.at(1);
-			auto tostring = static_cast<std::string>(callee);
-			TITANIUM_ASSERT(callee.IsObject());
-			auto webview = static_cast<JSObject>(callee).GetProperty("webview");
+			ENSURE_OBJECT_AT_INDEX(callee, 1);
+			auto webview = callee.GetProperty("webview");
 			if (!webview.IsObject()) {
 				TITANIUM_LOG_WARN("WebView._executeListener: Can't find this object");
 				return get_context().CreateUndefined();
@@ -325,11 +323,10 @@ namespace Titanium
 			auto webview_ptr = static_cast<JSObject>(webview).GetPrivate<Titanium::UI::WebView>();
 			TITANIUM_ASSERT(webview_ptr);
 
-			auto data = arguments.at(0);
-			TITANIUM_ASSERT(data.IsObject());
+			ENSURE_OBJECT_AT_INDEX(data, 0);
 			webview_ptr->_executeListener(
-				static_cast<std::string>(static_cast<JSObject>(data).GetProperty("type")), 
-				static_cast<std::string>(data.ToJSONString()));
+				static_cast<std::string>(data.GetProperty("type")), 
+				static_cast<std::string>(static_cast<JSValue>(data).ToJSONString()));
 
 			return get_context().CreateUndefined();
 		}
