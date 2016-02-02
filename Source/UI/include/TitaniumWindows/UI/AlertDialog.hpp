@@ -48,12 +48,14 @@ namespace TitaniumWindows
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
 			virtual void show() TITANIUM_NOEXCEPT override;
+			virtual void hide() TITANIUM_NOEXCEPT override;
 
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			::Platform::Agile<Windows::UI::Popups::MessageDialog^> dialog__;
 			static std::vector<std::shared_ptr<AlertDialog>> dialog_queue__;
+			Windows::Foundation::IAsyncOperation<Windows::UI::Popups::IUICommand^>^ dialog_task__{nullptr};
 			std::function<void(Windows::UI::Popups::IUICommand^)> on_click__;
 
 #if defined(IS_WINDOWS_PHONE)
