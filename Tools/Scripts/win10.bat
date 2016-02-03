@@ -17,6 +17,7 @@ IF %BUILDLEVEL% NEQ 0 (
 )
 call node test.js -s 10.0
 SET TESTLEVEL=%ERRORLEVEL%
+taskkill /F /IM xde.exe /T
 rmdir node_modules /Q /S
 cd ..\\..\\..
 
