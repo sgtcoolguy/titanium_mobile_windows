@@ -62,7 +62,6 @@ namespace TitaniumWindows
 		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::ImageView(js_context)
 			  , loaded__(false)
-			  , loaded_event_set__(false)
 		{
 		}
 
@@ -201,6 +200,11 @@ namespace TitaniumWindows
 						bitmap->PixelHeight
 						);
 					layout->onComponentSizeChange(rect);
+
+					if (!loaded__) {
+						loaded__ = true;
+						this->fireEvent("load", this->get_context().CreateObject());
+					}
 				});
 			});
 		}
@@ -209,14 +213,7 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ImageView::set_image(path);
 
-			// lazy load image event so it doesn't fire load event for defaultImage
-			if (!loaded_event_set__) {
-				loaded_event__ = image__->ImageOpened += ref new RoutedEventHandler([this](::Platform::Object^ sender, RoutedEventArgs^ e) {
-					loaded__ = true;
-					this->fireEvent("load", this->get_context().CreateObject());
-				});
-				loaded_event_set__ = true;
-			}
+			loaded__ = false;
 
 			const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
 			// check if we're loading from local file

@@ -80,11 +80,9 @@ namespace TitaniumWindows
 			void loadContentFromData(std::vector<std::uint8_t>& data);
 
 			Windows::Foundation::EventRegistrationToken layout_event__;
-			Windows::Foundation::EventRegistrationToken loaded_event__;
 			Windows::UI::Xaml::Controls::Image^ image__;
 			Windows::UI::Xaml::Media::Animation::Storyboard^ storyboard__;
 			bool loaded__;
-			bool loaded_event_set__;
 		};
 	} // namespace UI
 } // namespace TitaniumWindow
