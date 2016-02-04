@@ -72,7 +72,7 @@ namespace TitaniumWindows
 
 			image__ = ref new Windows::UI::Xaml::Controls::Image();
 
-			layout_event__ = image__->ImageOpened += ref new RoutedEventHandler([this](::Platform::Object^ sender, RoutedEventArgs^ e) {
+			layout_event__ = image__->ImageOpened += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
 				const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
 				auto rect = layout->computeRelativeSize(
 					Canvas::GetLeft(this->image__),
@@ -85,10 +85,10 @@ namespace TitaniumWindows
 
 			Titanium::UI::ImageView::setLayoutDelegate<WindowsImageViewLayoutDelegate>();
 
-			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
-			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
-			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::FILL);
-			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::SIZE);
 
 			getViewLayoutDelegate<WindowsImageViewLayoutDelegate>()->setComponent(image__);
 		}
@@ -191,8 +191,17 @@ namespace TitaniumWindows
 				auto bitmap = ref new BitmapImage();
 				writer->DetachStream();
 				stream->Seek(0);
-				bitmap->SetSourceAsync(stream);
-				this->image__->Source = bitmap;
+				concurrency::create_task(bitmap->SetSourceAsync(stream)).then([this, bitmap]() {
+					this->image__->Source = bitmap;
+					const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
+					auto rect = layout->computeRelativeSize(
+						Canvas::GetLeft(this->image__),
+						Canvas::GetTop(this->image__),
+						bitmap->PixelWidth,
+						bitmap->PixelHeight
+						);
+					layout->onComponentSizeChange(rect);
+				});
 			});
 		}
 

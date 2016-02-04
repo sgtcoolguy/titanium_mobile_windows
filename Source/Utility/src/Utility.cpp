@@ -170,7 +170,9 @@ namespace TitaniumWindows
 				// fix root folder path
 				auto rootFolder = TitaniumWindows::Utility::ConvertString(Windows::ApplicationModel::Package::Current->InstalledLocation->Path);
 				boost::replace_all<std::string>(rootFolder, "\\", "/");
-				boost::replace_all<std::string>(modified, rootFolder, "ms-appx:///");
+
+				// Note that rootFolder does not end with "/", so we don't need to use ":///" here
+				boost::replace_all<std::string>(modified, rootFolder, "ms-appx://");
 				
 				// fix local folder path
 				auto localFolder = TitaniumWindows::Utility::ConvertString(Windows::Storage::ApplicationData::Current->LocalFolder->Path);
