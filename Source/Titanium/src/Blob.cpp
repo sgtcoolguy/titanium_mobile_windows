@@ -103,7 +103,7 @@ namespace TitaniumWindows
 		}
 	}
 
-	std::shared_ptr<Titanium::Blob> Blob::transformImage(const std::uint32_t& width, const std::uint32_t height, const Titanium::UI::Dimension& crop) TITANIUM_NOEXCEPT
+	std::shared_ptr<Titanium::Blob> Blob::transformImage(const std::uint32_t& scaledWidth, const std::uint32_t scaledHeight, const Titanium::UI::Dimension& crop) TITANIUM_NOEXCEPT
 	{
 		using namespace Windows::Graphics::Imaging;
 		using namespace Windows::Storage::Streams;
@@ -123,11 +123,11 @@ namespace TitaniumWindows
 			return BitmapDecoder::CreateAsync(instream);
 		}, task_continuation_context::use_arbitrary()).then([outstream](BitmapDecoder^ decoder){
 			return BitmapEncoder::CreateForTranscodingAsync(outstream, decoder);
-		}, task_continuation_context::use_arbitrary()).then([width, height, crop](BitmapEncoder^ encoder){
+		}, task_continuation_context::use_arbitrary()).then([scaledWidth, scaledHeight, crop](BitmapEncoder^ encoder){
 
 			// scaling
-			encoder->BitmapTransform->ScaledWidth  = width;
-			encoder->BitmapTransform->ScaledHeight = height;
+			encoder->BitmapTransform->ScaledWidth  = scaledWidth;
+			encoder->BitmapTransform->ScaledHeight = scaledHeight;
 
 			// cropping
 			BitmapBounds bounds;
@@ -156,8 +156,8 @@ namespace TitaniumWindows
 		auto blob = Blob.CallAsConstructor();
 		auto blob_ptr = blob.GetPrivate<TitaniumWindows::Blob>();
 		blob_ptr->construct(data, mimetype_);
-		blob_ptr->width_  = width;
-		blob_ptr->height_ = height;
+		blob_ptr->width_  = crop.width;
+		blob_ptr->height_ = crop.height;
 
 		return blob.GetPrivate<Titanium::Blob>();
 	}

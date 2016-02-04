@@ -78,7 +78,7 @@ namespace TitaniumWindows
 		  @param crop options (width, height, x, y)
 		  @discussion Creates a new blob by resizing/scaling/cropping the underlying image to the specified dimensions.
 		*/
-		std::shared_ptr<Titanium::Blob> transformImage(const std::uint32_t& width, const std::uint32_t height, const Titanium::UI::Dimension& crop) TITANIUM_NOEXCEPT;
+		std::shared_ptr<Titanium::Blob> transformImage(const std::uint32_t& scaledWidth, const std::uint32_t scaledHeight, const Titanium::UI::Dimension& crop) TITANIUM_NOEXCEPT;
 
 		Blob(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~Blob();
