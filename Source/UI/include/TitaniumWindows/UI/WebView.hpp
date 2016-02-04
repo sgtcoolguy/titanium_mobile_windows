@@ -11,6 +11,7 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/WebView.hpp"
+#include <unordered_set>
 
 namespace TitaniumWindows
 {
@@ -28,7 +29,6 @@ namespace TitaniumWindows
 		public:
 
 			TITANIUM_PROPERTY_UNIMPLEMENTED(scalesPageToFit);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(evalJS);
 			TITANIUM_FUNCTION_UNIMPLEMENTED(setBasicAuthentication);
 
 			WebView(const JSContext&) TITANIUM_NOEXCEPT;
@@ -44,17 +44,19 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 			
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+			virtual std::string evalJS(const std::string& code, JSObject& callback) override TITANIUM_NOEXCEPT;
+
+			virtual void _executeListener(const std::string& name, const std::string& data) TITANIUM_NOEXCEPT override;
 
 		protected:
 			virtual void enableEvent(const std::string& event_name)  TITANIUM_NOEXCEPT;
 			virtual	void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT;
 
-		private:
-
 			Titanium::UI::URL_ERROR getUrlError(const Windows::Web::WebErrorStatus status) const TITANIUM_NOEXCEPT;
 			void initWebViewListeners() TITANIUM_NOEXCEPT;
+			void navigateWithLocalScript(const std::string& content);
 
-			virtual bool setHtml(const std::string& html, const std::unordered_map<std::string, std::string>& options) TITANIUM_NOEXCEPT override;
+			virtual void set_html(const std::string& html) TITANIUM_NOEXCEPT override;
 			virtual std::string get_url() const TITANIUM_NOEXCEPT override;
 			virtual void set_url(const std::string& url) TITANIUM_NOEXCEPT override;
 
@@ -74,6 +76,11 @@ namespace TitaniumWindows
 			Windows::Foundation::EventRegistrationToken load_event__;
 			Windows::Foundation::EventRegistrationToken beforeload_event__;
 			Windows::Foundation::EventRegistrationToken script_event__;
+
+#pragma warning(push)
+#pragma warning(disable : 4251)
+			std::unordered_set<std::string> app_event_names;
+#pragma warning(pop)
 		};
 	} // namespace UI
 }  // namespace Titanium

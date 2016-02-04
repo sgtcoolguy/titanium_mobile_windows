@@ -29,6 +29,10 @@ var files_to_process = [
         to:   path.join(include_dir, 'UI', 'listview_js.hpp')
     },
     {
+        from: path.join(source_dir,  'UI', 'webview.js'),
+        to:   path.join(include_dir, 'UI', 'webview_js.hpp')
+    },
+    {
         from: path.join(source_dir,  'XML', 'dom-parser.js'),
         to:   path.join(include_dir, 'XML', 'dom_parser_js.hpp')
     },
