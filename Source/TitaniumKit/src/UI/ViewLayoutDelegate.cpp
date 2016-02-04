@@ -188,7 +188,7 @@ namespace Titanium
 		  @abstract viewShadowRadius
 		  @discussion Determines the blur radius used to create the shadow.
 		*/
-		TITANIUM_PROPERTY_READWRITE(ViewLayoutDelegate, uint32_t, viewShadowRadius);
+		TITANIUM_PROPERTY_READWRITE(ViewLayoutDelegate, double, viewShadowRadius);
 
 		/*!
 		  @property
@@ -246,12 +246,12 @@ namespace Titanium
 			borderColor__ = borderColor;
 		}
 
-		uint32_t ViewLayoutDelegate::get_borderRadius() const TITANIUM_NOEXCEPT
+		double ViewLayoutDelegate::get_borderRadius() const TITANIUM_NOEXCEPT
 		{
 			return borderRadius__;
 		}
 
-		void ViewLayoutDelegate::set_borderRadius(const uint32_t& borderRadius) TITANIUM_NOEXCEPT
+		void ViewLayoutDelegate::set_borderRadius(const double& borderRadius) TITANIUM_NOEXCEPT
 		{
 			borderRadius__ = borderRadius;
 		}

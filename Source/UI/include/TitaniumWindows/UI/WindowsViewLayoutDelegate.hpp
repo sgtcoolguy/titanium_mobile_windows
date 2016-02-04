@@ -90,19 +90,6 @@ namespace TitaniumWindows
 			/*!
 			  @method
 
-			  @abstract borderRadius : Number
-
-			  @discussion Radius for the rounded corners of the view's border.
-
-			  Each corner is rounded using an arc of a circle.
-
-			  Default: 0
-			*/
-			virtual void set_borderRadius(const uint32_t& borderRadius) TITANIUM_NOEXCEPT override;
-
-			/*!
-			  @method
-
 			  @abstract borderWidth : Number
 
 			  @discussion Border width of the view.

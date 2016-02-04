@@ -8,6 +8,7 @@
 #define _TITANIUM_BLOB_HPP_
 
 #include "Titanium/Module.hpp"
+#include "Titanium/UI/Dimension.hpp"
 
 namespace Titanium
 {
@@ -93,6 +94,48 @@ namespace Titanium
 		*/
 		virtual void append(const std::shared_ptr<Blob>&) TITANIUM_NOEXCEPT;
 
+		/*!
+		  @method
+		  @abstract imageAsCropped
+		  @discussion Creates a new blob by cropping the underlying image to the specified dimensions.
+		*/
+		virtual std::shared_ptr<Blob> imageAsCropped(const Titanium::UI::Dimension&) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract imageAsResized
+		  @discussion Creates a new blob by resizing and scaling the underlying image to the specified dimensions.
+		*/
+		virtual std::shared_ptr<Blob> imageAsResized(const std::uint32_t&, const std::uint32_t&) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract imageAsThumbnail
+		  @discussion Returns a thumbnail version of the underlying image, optionally with a border and rounded corners.
+		*/
+		virtual std::shared_ptr<Blob> imageAsThumbnail(const std::uint32_t&, const std::uint32_t&, const double&) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract imageWithAlpha
+		  @discussion Returns a copy of the underlying image with an added alpha channel.
+		*/
+		virtual std::shared_ptr<Blob> imageWithAlpha() TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract imageWithRoundedCorner
+		  @discussion Returns a copy of the underlying image with rounded corners added.
+		*/
+		virtual std::shared_ptr<Blob> imageWithRoundedCorner(const std::uint32_t&, const std::uint32_t&) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract imageWithTransparentBorder
+		  @discussion Returns a copy of the underlying image with an added transparent border.
+		*/
+		virtual std::shared_ptr<Blob> imageWithTransparentBorder(const std::uint32_t&) TITANIUM_NOEXCEPT;
+
 		virtual void construct(const std::vector<std::uint8_t>& data) TITANIUM_NOEXCEPT;
 		virtual std::vector<std::uint8_t> getData() TITANIUM_NOEXCEPT;
 
@@ -129,6 +172,12 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(getText);
 		TITANIUM_FUNCTION_DEF(getWidth);
 		TITANIUM_FUNCTION_DEF(toString);
+		TITANIUM_FUNCTION_DEF(imageAsCropped);
+		TITANIUM_FUNCTION_DEF(imageAsResized);
+		TITANIUM_FUNCTION_DEF(imageAsThumbnail);
+		TITANIUM_FUNCTION_DEF(imageWithAlpha);
+		TITANIUM_FUNCTION_DEF(imageWithRoundedCorner);
+		TITANIUM_FUNCTION_DEF(imageWithTransparentBorder);
 
 	protected:
 #pragma warning(push)

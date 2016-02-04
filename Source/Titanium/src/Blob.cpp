@@ -36,7 +36,13 @@ namespace TitaniumWindows
 		JSExport<Blob>::SetParent(JSExport<Titanium::Blob>::Class());
 	}
 
-	void Blob::construct(Windows::Storage::StorageFile^ file)
+	void Blob::construct(const std::vector<std::uint8_t>& data, const std::string& mimetype) TITANIUM_NOEXCEPT
+	{
+		Titanium::Blob::construct(data);
+		mimetype_ = mimetype;
+	}
+
+	void Blob::construct(Windows::Storage::StorageFile^ file) TITANIUM_NOEXCEPT
 	{
 		width_ = 0;
 		height_ = 0;
@@ -51,8 +57,7 @@ namespace TitaniumWindows
 			std::string contents = global->readRequiredModule(get_object(), path_);
 			auto buffer = CryptographicBuffer::ConvertStringToBinary(TitaniumWindows::Utility::ConvertString(contents), BinaryStringEncoding::Utf8);
 			data_ = TitaniumWindows::Utility::GetContentFromBuffer(buffer);
-		}
-		else {
+		} else {
 			data_ = TitaniumWindows::Utility::GetContentFromFile(file);
 		}
 
@@ -96,5 +101,109 @@ namespace TitaniumWindows
 		} else { // image/bmp?
 			return Windows::Graphics::Imaging::BitmapEncoder::BmpEncoderId;
 		}
+	}
+
+	std::shared_ptr<Titanium::Blob> Blob::transformImage(const std::uint32_t& width, const std::uint32_t height, const Titanium::UI::Dimension& crop) TITANIUM_NOEXCEPT
+	{
+		using namespace Windows::Graphics::Imaging;
+		using namespace Windows::Storage::Streams;
+
+		const auto instream  = ref new InMemoryRandomAccessStream();
+		const auto outstream = ref new InMemoryRandomAccessStream();
+		const auto writer = ref new DataWriter(instream);
+		const auto reader = ref new DataReader(outstream->GetInputStreamAt(0));
+
+		writer->WriteBytes(Platform::ArrayReference<std::uint8_t>(&data_[0], data_.size()));
+
+		concurrency::event evt;
+		concurrency::create_task(writer->StoreAsync()).then([writer](std::uint32_t) {
+			return writer->FlushAsync();
+		}, task_continuation_context::use_arbitrary()).then([instream](bool) {
+			instream->Seek(0);
+			return BitmapDecoder::CreateAsync(instream);
+		}, task_continuation_context::use_arbitrary()).then([outstream](BitmapDecoder^ decoder){
+			return BitmapEncoder::CreateForTranscodingAsync(outstream, decoder);
+		}, task_continuation_context::use_arbitrary()).then([width, height, crop](BitmapEncoder^ encoder){
+
+			// scaling
+			encoder->BitmapTransform->ScaledWidth  = width;
+			encoder->BitmapTransform->ScaledHeight = height;
+
+			// cropping
+			BitmapBounds bounds;
+			bounds.Width  = crop.width;
+			bounds.Height = crop.height;
+			bounds.X = crop.x;
+			bounds.Y = crop.y;
+			encoder->BitmapTransform->Bounds = bounds;
+
+			return encoder->FlushAsync();
+		}, task_continuation_context::use_arbitrary()).then([reader, outstream](){
+			return reader->LoadAsync(static_cast<std::uint32_t>(outstream->Size));
+		}, task_continuation_context::use_arbitrary()).then([&evt, reader](std::uint32_t size){
+			evt.set();
+		}, task_continuation_context::use_arbitrary());
+		evt.wait();
+
+		std::vector<std::uint8_t> data(reader->UnconsumedBufferLength);
+		if (data.empty()) {
+			return nullptr;
+		} else {
+			reader->ReadBytes(::Platform::ArrayReference<std::uint8_t>(&data[0], data.size()));
+		}
+
+		auto Blob = get_context().CreateObject(JSExport<TitaniumWindows::Blob>::Class());
+		auto blob = Blob.CallAsConstructor();
+		auto blob_ptr = blob.GetPrivate<TitaniumWindows::Blob>();
+		blob_ptr->construct(data, mimetype_);
+		blob_ptr->width_  = width;
+		blob_ptr->height_ = height;
+
+		return blob.GetPrivate<Titanium::Blob>();
+	}
+
+	std::shared_ptr<Titanium::Blob> Blob::imageAsCropped(const Titanium::UI::Dimension& options) TITANIUM_NOEXCEPT
+	{
+		return transformImage(width_, height_, options);
+	}
+
+	std::shared_ptr<Titanium::Blob> Blob::imageAsResized(const std::uint32_t& width, const std::uint32_t& height) TITANIUM_NOEXCEPT
+	{
+		Titanium::UI::Dimension crop;
+		crop.width  = width;
+		crop.height = height;
+		crop.x = 0;
+		crop.y = 0;
+
+		return transformImage(width, height, crop);
+	}
+
+	std::shared_ptr<Titanium::Blob> Blob::imageAsThumbnail(const std::uint32_t& size, const std::uint32_t& borderSize, const double& cornerRadius) TITANIUM_NOEXCEPT
+	{
+		Titanium::UI::Dimension crop;
+		crop.width  = size;
+		crop.height = size;
+		crop.x = 0;
+		crop.y = 0;
+
+		return transformImage(size, size, crop);
+	}
+
+	std::shared_ptr<Titanium::Blob> Blob::imageWithAlpha() TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Blob::imageWithAlpha: Unimplemented");
+		return nullptr;
+	}
+
+	std::shared_ptr<Titanium::Blob> Blob::imageWithRoundedCorner(const std::uint32_t& cornerSize, const std::uint32_t& borderSize) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Blob::imageWithRoundedCorner: Unimplemented");
+		return nullptr;
+	}
+
+	std::shared_ptr<Titanium::Blob> Blob::imageWithTransparentBorder(const std::uint32_t& size) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Blob::imageWithTransparentBorder: Unimplemented");
+		return nullptr;
 	}
 }  // namespace TitaniumWindows

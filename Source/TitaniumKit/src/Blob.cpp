@@ -56,7 +56,12 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(Blob, getWidth);
 		TITANIUM_ADD_FUNCTION(Blob, append);
 		TITANIUM_ADD_FUNCTION(Blob, toString);
-		// TODO image* methods!
+		TITANIUM_ADD_FUNCTION(Blob, imageAsCropped);
+		TITANIUM_ADD_FUNCTION(Blob, imageAsResized);
+		TITANIUM_ADD_FUNCTION(Blob, imageAsThumbnail);
+		TITANIUM_ADD_FUNCTION(Blob, imageWithAlpha);
+		TITANIUM_ADD_FUNCTION(Blob, imageWithRoundedCorner);
+		TITANIUM_ADD_FUNCTION(Blob, imageWithTransparentBorder);
 	}
 
 	uint32_t Blob::get_length() const TITANIUM_NOEXCEPT
@@ -137,6 +142,42 @@ namespace Titanium
 		mimetype_ = "";
 	}
 
+	std::shared_ptr<Blob> Blob::imageAsCropped(const Titanium::UI::Dimension&) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Blob::imageAsCropped: Unimplemented");
+		return nullptr;
+	}
+
+	std::shared_ptr<Blob> Blob::imageAsResized(const std::uint32_t&, const std::uint32_t&) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Blob::imageAsResized: Unimplemented");
+		return nullptr;
+	}
+
+	std::shared_ptr<Blob> Blob::imageAsThumbnail(const std::uint32_t&, const std::uint32_t&, const double&) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Blob::imageAsThumbnail: Unimplemented");
+		return nullptr;
+	}
+
+	std::shared_ptr<Blob> Blob::imageWithAlpha() TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Blob::imageWithAlpha: Unimplemented");
+		return nullptr;
+	}
+
+	std::shared_ptr<Blob> Blob::imageWithRoundedCorner(const std::uint32_t&, const std::uint32_t&) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Blob::imageWithRoundedCorner: Unimplemented");
+		return nullptr;
+	}
+
+	std::shared_ptr<Blob> Blob::imageWithTransparentBorder(const std::uint32_t&) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("Blob::imageWithTransparentBorder: Unimplemented");
+		return nullptr;
+	}
+
 	TITANIUM_PROPERTY_GETTER(Blob, length)	
 	{
 		return get_context().CreateNumber(get_length());
@@ -206,6 +247,69 @@ namespace Titanium
 		append(blob_ptr);
 
 		return get_context().CreateUndefined();
+	}
+	
+	TITANIUM_FUNCTION(Blob, imageAsCropped)
+	{
+		ENSURE_OBJECT_AT_INDEX(options, 0);
+		const auto blob = imageAsCropped(Titanium::UI::js_to_Dimension(options));
+		if (blob) {
+			return blob->get_object();	
+		}
+		return get_context().CreateNull();
+	}
+
+	TITANIUM_FUNCTION(Blob, imageAsResized)
+	{
+		ENSURE_UINT_AT_INDEX(width,  0);
+		ENSURE_UINT_AT_INDEX(height, 1);
+		const auto blob = imageAsResized(width, height);
+		if (blob) {
+			return blob->get_object();
+		}
+		return get_context().CreateNull();
+	}
+
+	TITANIUM_FUNCTION(Blob, imageAsThumbnail)
+	{
+		ENSURE_UINT_AT_INDEX(size, 0);
+		ENSURE_OPTIONAL_UINT_AT_INDEX(borderSize, 1, 0);
+		ENSURE_OPTIONAL_DOUBLE_AT_INDEX(cornerRadius, 2, 0);
+		const auto blob = imageAsThumbnail(size, borderSize, cornerRadius);
+		if (blob) {
+			return blob->get_object();
+		}
+		return get_context().CreateNull();
+	}
+
+	TITANIUM_FUNCTION(Blob, imageWithAlpha)
+	{
+		const auto blob = imageWithAlpha();
+		if (blob) {
+			return blob->get_object();
+		}
+		return get_context().CreateNull();
+	}
+
+	TITANIUM_FUNCTION(Blob, imageWithRoundedCorner)
+	{
+		ENSURE_UINT_AT_INDEX(cornerSize, 0);
+		ENSURE_OPTIONAL_UINT_AT_INDEX(borderSize, 1, 0);
+		const auto blob = imageWithRoundedCorner(cornerSize, borderSize);
+		if (blob) {
+			return blob->get_object();
+		}
+		return get_context().CreateNull();
+	}
+
+	TITANIUM_FUNCTION(Blob, imageWithTransparentBorder)
+	{
+		ENSURE_UINT_AT_INDEX(size, 0);
+		const auto blob = imageWithTransparentBorder(size);
+		if (blob) {
+			return blob->get_object();
+		}
+		return get_context().CreateNull();
 	}
 
 	// getter functions

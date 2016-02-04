@@ -158,8 +158,8 @@ namespace Titanium
 
 			  Default: 0
 			*/
-			virtual uint32_t get_borderRadius() const TITANIUM_NOEXCEPT;
-			virtual void set_borderRadius(const uint32_t& borderRadius) TITANIUM_NOEXCEPT;
+			virtual double get_borderRadius() const TITANIUM_NOEXCEPT;
+			virtual void set_borderRadius(const double& borderRadius) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -545,7 +545,7 @@ namespace Titanium
 			  @abstract viewShadowRadius
 			  @discussion Determines the blur radius used to create the shadow.
 			*/
-			TITANIUM_PROPERTY_IMPL_DEF(uint32_t, viewShadowRadius);
+			TITANIUM_PROPERTY_IMPL_DEF(double, viewShadowRadius);
 
 			/*!
 			  @property
@@ -606,7 +606,7 @@ namespace Titanium
 			std::string backgroundImage__;
 			std::string backgroundColor__;
 			std::string borderColor__;
-			uint32_t borderRadius__;
+			double borderRadius__;
 			uint32_t borderWidth__;
 			double opacity__;
 			std::string top__;
@@ -638,7 +638,7 @@ namespace Titanium
 			std::string pullBackgroundColor__;
 			std::shared_ptr<TwoDMatrix> transform2D__;
 			std::shared_ptr<ThreeDMatrix> transform3D__;
-			uint32_t viewShadowRadius__;
+			double viewShadowRadius__;
 			std::string viewShadowColor__;
 			Point viewShadowOffset__;
 			bool horizontalWrap__ { true };
