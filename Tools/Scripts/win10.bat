@@ -15,9 +15,8 @@ IF %BUILDLEVEL% NEQ 0 (
 	rmdir node_modules /Q /S
 	exit /B %BUILDLEVEL%
 )
-call node test.js -s 10.0
+call node test.js -s 10.0.10586
 SET TESTLEVEL=%ERRORLEVEL%
-taskkill /F /IM xde.exe /T
 rmdir node_modules /Q /S
 cd ..\\..\\..
 
