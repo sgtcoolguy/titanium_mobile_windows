@@ -28,7 +28,8 @@ var path = require('path'),
 	hadWindowsSDK = false,
 	projectDir = path.join(__dirname, 'mocha'),
 	testResults,
-	jsonResults;
+	jsonResults,
+	sdkRegex = /^(8\.1|10\.0)(\.\d+)*/;
 
 /**
  * Installs the latest SDK from master branch remotely, sets it as the default
@@ -200,14 +201,25 @@ function copyMochaAssets(next) {
  **/
 function getDeviceId(sdkVersion, target, next) {
 	windowslib.detect(function (err, results) {
-		var deviceId = DEFAULT_DEVICE_ID;
+		var deviceId = DEFAULT_DEVICE_ID,
+			shortSdkVersion = sdkRegex.exec(sdkVersion)[1],
+			sdkVersionRegex = new RegExp(sdkVersion);
 		if (err) {
 			next(err);
 			return;
 		}
 
 		if (target === WP_EMULATOR) {
-			deviceId = results.emulators && results.emulators[sdkVersion] && results.emulators[sdkVersion][0] && results.emulators[sdkVersion][0].udid;
+			deviceId = results.emulators && results.emulators[shortSdkVersion] && results.emulators[shortSdkVersion][0] && results.emulators[shortSdkVersion][0].udid;
+
+			for(i in results.emulators[shortSdkVersion]) {
+				var emulator = results.emulators[shortSdkVersion][i];
+				if (sdkVersionRegex.test(emulator.uapVersion)) {
+					deviceId = emulator.udid;
+					console.log('Found ' + emulator.uapVersion + ' : ' + deviceId);
+					break;
+				}
+			}
 		} else {
 			deviceId = '0'; // assume device
 			// TODO What about for ws-local?
@@ -354,7 +366,9 @@ function outputJUnitXML(jsonResults, next) {
  * @param callback {Function} callback function
  */
 function test(sdkVersion, msbuild, target, deviceId, callback) {
-	var sdkPath;
+	var sdkPath,
+		shortSdkVersion = sdkRegex.exec(sdkVersion)[1];
+
 	async.series([
 		function (next) {
 			// If this is already installed we don't re-install, thankfully
@@ -387,7 +401,7 @@ function test(sdkVersion, msbuild, target, deviceId, callback) {
 		},
 		function (next) {
 			console.log("Adding properties for tiapp.xml");
-			addTiAppProperties(sdkVersion, next);
+			addTiAppProperties(shortSdkVersion, next);
 		},
 		function (next) {
 			console.log("Copying test scripts into project");
@@ -409,7 +423,7 @@ function test(sdkVersion, msbuild, target, deviceId, callback) {
 		},
 		function (next) {
 			console.log("Launching test project in simulator");
-			runBuild(target, deviceId, sdkVersion, 1, next);
+			runBuild(target, deviceId, shortSdkVersion, 1, next);
 		},
 		function (next) {
 			parseTestResults(testResults, next);
@@ -432,7 +446,7 @@ if (module.id === ".") {
 		program
 			.version('0.0.1')
 			.option('-m, --msbuild [version]', 'Use a specific version of MSBuild', /^(12\.0|14\.0)$/, MSBUILD_12)
-			.option('-s, --sdk-version [version]', 'Target a specific Windows SDK version [version]', /^(8\.1|10\.0)$/, WIN_8_1)
+			.option('-s, --sdk-version [version]', 'Target a specific Windows SDK version [version]', sdkRegex, WIN_8_1)
 			.option('-T, --target [target]', 'Target a specific deploy target [target]', /^wp\-emulator|ws\-local|wp\-device$/, WP_EMULATOR)
 			.option('-C, --device-id [udid]', 'Target a specific device/emulator')
 			.parse(process.argv);
