@@ -8,7 +8,6 @@
 #define _TITANIUM_BLOB_HPP_
 
 #include "Titanium/Module.hpp"
-#include "Titanium/UI/Dimension.hpp"
 
 namespace Titanium
 {
@@ -28,6 +27,11 @@ namespace Titanium
 			FILE = 1,
 			DATA = 2
 		};
+	}
+
+	namespace UI
+	{
+		struct Dimension;
 	}
 
 	/*!
@@ -135,6 +139,16 @@ namespace Titanium
 		  @discussion Returns a copy of the underlying image with an added transparent border.
 		*/
 		virtual std::shared_ptr<Blob> imageWithTransparentBorder(const std::uint32_t&) TITANIUM_NOEXCEPT;
+
+		/*!
+		@method
+		@abstract transformImage
+		@param width Width to resize
+		@param height Height to resize
+		@param crop options (width, height, x, y)
+		@discussion Creates a new blob by resizing/scaling/cropping the underlying image to the specified dimensions.
+		*/
+		virtual std::shared_ptr<Titanium::Blob> transformImage(const std::uint32_t& scaledWidth, const std::uint32_t scaledHeight, const Titanium::UI::Dimension& crop) TITANIUM_NOEXCEPT;
 
 		virtual void construct(const std::vector<std::uint8_t>& data) TITANIUM_NOEXCEPT;
 		virtual std::vector<std::uint8_t> getData() TITANIUM_NOEXCEPT;

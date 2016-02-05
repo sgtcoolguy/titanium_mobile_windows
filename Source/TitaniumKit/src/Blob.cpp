@@ -7,6 +7,7 @@
 #include "Titanium/detail/TiImpl.hpp"
 #include "Titanium/Blob.hpp"
 #include "Titanium/Filesystem/File.hpp"
+#include "Titanium/UI/Dimension.hpp"
 #include <type_traits>
 
 namespace Titanium
@@ -142,22 +143,37 @@ namespace Titanium
 		mimetype_ = "";
 	}
 
-	std::shared_ptr<Blob> Blob::imageAsCropped(const Titanium::UI::Dimension&) TITANIUM_NOEXCEPT
+	std::shared_ptr<Titanium::Blob> Blob::transformImage(const std::uint32_t& scaledWidth, const std::uint32_t scaledHeight, const Titanium::UI::Dimension& crop) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::imageAsCropped: Unimplemented");
+		TITANIUM_LOG_WARN("Blob::transformImage: Unimplemented");
 		return nullptr;
 	}
 
-	std::shared_ptr<Blob> Blob::imageAsResized(const std::uint32_t&, const std::uint32_t&) TITANIUM_NOEXCEPT
+	std::shared_ptr<Titanium::Blob> Blob::imageAsCropped(const Titanium::UI::Dimension& options) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::imageAsResized: Unimplemented");
-		return nullptr;
+		return transformImage(width_, height_, options);
 	}
 
-	std::shared_ptr<Blob> Blob::imageAsThumbnail(const std::uint32_t&, const std::uint32_t&, const double&) TITANIUM_NOEXCEPT
+	std::shared_ptr<Titanium::Blob> Blob::imageAsResized(const std::uint32_t& width, const std::uint32_t& height) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Blob::imageAsThumbnail: Unimplemented");
-		return nullptr;
+		Titanium::UI::Dimension crop;
+		crop.width = width;
+		crop.height = height;
+		crop.x = 0;
+		crop.y = 0;
+
+		return transformImage(width, height, crop);
+	}
+
+	std::shared_ptr<Titanium::Blob> Blob::imageAsThumbnail(const std::uint32_t& size, const std::uint32_t& borderSize, const double& cornerRadius) TITANIUM_NOEXCEPT
+	{
+		Titanium::UI::Dimension crop;
+		crop.width = size;
+		crop.height = size;
+		crop.x = 0;
+		crop.y = 0;
+
+		return transformImage(size, size, crop);
 	}
 
 	std::shared_ptr<Blob> Blob::imageWithAlpha() TITANIUM_NOEXCEPT

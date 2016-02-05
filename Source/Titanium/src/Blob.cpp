@@ -5,6 +5,7 @@
  */
 
 #include "TitaniumWindows/Blob.hpp"
+#include "Titanium/UI/Dimension.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/GlobalObject.hpp"
 #include <ppltasks.h>
@@ -159,51 +160,7 @@ namespace TitaniumWindows
 		blob_ptr->width_  = crop.width;
 		blob_ptr->height_ = crop.height;
 
-		return blob.GetPrivate<Titanium::Blob>();
+		return blob_ptr;
 	}
 
-	std::shared_ptr<Titanium::Blob> Blob::imageAsCropped(const Titanium::UI::Dimension& options) TITANIUM_NOEXCEPT
-	{
-		return transformImage(width_, height_, options);
-	}
-
-	std::shared_ptr<Titanium::Blob> Blob::imageAsResized(const std::uint32_t& width, const std::uint32_t& height) TITANIUM_NOEXCEPT
-	{
-		Titanium::UI::Dimension crop;
-		crop.width  = width;
-		crop.height = height;
-		crop.x = 0;
-		crop.y = 0;
-
-		return transformImage(width, height, crop);
-	}
-
-	std::shared_ptr<Titanium::Blob> Blob::imageAsThumbnail(const std::uint32_t& size, const std::uint32_t& borderSize, const double& cornerRadius) TITANIUM_NOEXCEPT
-	{
-		Titanium::UI::Dimension crop;
-		crop.width  = size;
-		crop.height = size;
-		crop.x = 0;
-		crop.y = 0;
-
-		return transformImage(size, size, crop);
-	}
-
-	std::shared_ptr<Titanium::Blob> Blob::imageWithAlpha() TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("Blob::imageWithAlpha: Unimplemented");
-		return nullptr;
-	}
-
-	std::shared_ptr<Titanium::Blob> Blob::imageWithRoundedCorner(const std::uint32_t& cornerSize, const std::uint32_t& borderSize) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("Blob::imageWithRoundedCorner: Unimplemented");
-		return nullptr;
-	}
-
-	std::shared_ptr<Titanium::Blob> Blob::imageWithTransparentBorder(const std::uint32_t& size) TITANIUM_NOEXCEPT
-	{
-		TITANIUM_LOG_WARN("Blob::imageWithTransparentBorder: Unimplemented");
-		return nullptr;
-	}
 }  // namespace TitaniumWindows
