@@ -25,7 +25,18 @@ namespace TitaniumWindows
 	public:
 		::Platform::Guid getImageEncoder();
 
-		void construct(Windows::Storage::StorageFile^ file);
+		virtual void construct(const std::vector<std::uint8_t>& data, const std::string& mimetype) TITANIUM_NOEXCEPT;
+		virtual void construct(Windows::Storage::StorageFile^ file) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract transformImage
+		  @param width Width to resize
+		  @param height Height to resize
+		  @param crop options (width, height, x, y)
+		  @discussion Creates a new blob by resizing/scaling/cropping the underlying image to the specified dimensions.
+		*/
+		virtual std::shared_ptr<Titanium::Blob> transformImage(const std::uint32_t& scaledWidth, const std::uint32_t scaledHeight, const Titanium::UI::Dimension& crop) TITANIUM_NOEXCEPT override;
 
 		Blob(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~Blob();

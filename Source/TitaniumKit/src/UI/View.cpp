@@ -449,7 +449,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_SETTER(View, viewShadowRadius)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			layoutDelegate__->set_viewShadowRadius(static_cast<uint32_t>(argument));
+			layoutDelegate__->set_viewShadowRadius(static_cast<double>(argument));
 			return true;
 		}
 
@@ -628,7 +628,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_SETTER(View, borderRadius)
 		{
 			TITANIUM_ASSERT(argument.IsNumber());
-			layoutDelegate__->set_borderRadius(static_cast<uint32_t>(argument));
+			layoutDelegate__->set_borderRadius(static_cast<double>(argument));
 			return true;
 		}
 

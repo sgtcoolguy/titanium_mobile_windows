@@ -694,12 +694,6 @@ namespace TitaniumWindows
 			set_borderWidth(get_borderWidth()); // update brush
 		}
 
-		void WindowsViewLayoutDelegate::set_borderRadius(const uint32_t& borderRadius) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::ViewLayoutDelegate::set_borderRadius(borderRadius);
-			TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_borderRadius is not supported");
-		}
-
 		void WindowsViewLayoutDelegate::set_borderWidth(const uint32_t& borderWidth) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_borderWidth(borderWidth);

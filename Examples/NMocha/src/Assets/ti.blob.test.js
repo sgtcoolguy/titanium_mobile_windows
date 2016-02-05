@@ -109,34 +109,61 @@ describe("Titanium.Blob", function () {
         should(file.nativePath).be.eql(blob.nativePath);
         finish();
     });
-    it.skip("imageAsCropped", function (finish) {
-        var blob = Ti.Filesystem.getFile('app.js').read();
+    it("imageAsCropped", function (finish) {
+        var blob = Ti.Filesystem.getFile('Logo.png').read();
         should(blob.imageAsCropped).be.a.Function;
+        should(function () {
+            var b = blob.imageAsCropped({ width: 50, height: 60, x: 0, y: 0 });
+            should(b).be.an.Object;
+            should(b.width).be.eql(50);
+            should(b.height).be.eql(60);
+        }).not.throw();
         finish();
     });
-    it.skip("imageAsResized", function (finish) {
-        var blob = Ti.Filesystem.getFile('app.js').read();
+    it("imageAsResized", function (finish) {
+        var blob = Ti.Filesystem.getFile('Logo.png').read();
         should(blob.imageAsResized).be.a.Function;
+        should(function () {
+            var b = blob.imageAsResized(50, 60);
+            should(b).be.an.Object;
+            should(b.width).be.eql(50);
+            should(b.height).be.eql(60);
+        }).not.throw();
         finish();
     });
-    it.skip("imageAsThumbnail", function (finish) {
-        var blob = Ti.Filesystem.getFile('app.js').read();
+    it("imageAsThumbnail", function (finish) {
+        var blob = Ti.Filesystem.getFile('Logo.png').read();
         should(blob.imageAsThumbnail).be.a.Function;
+        should(function () {
+            var b = blob.imageAsThumbnail(50);
+            should(b).be.an.Object;
+            should(b.width).eql(50);
+            should(b.height).eql(50);
+        }).not.throw();
         finish();
     });
-    it.skip("imageWithAlpha", function (finish) {
-        var blob = Ti.Filesystem.getFile('app.js').read();
+    it("imageWithAlpha", function (finish) {
+        var blob = Ti.Filesystem.getFile('Logo.png').read();
         should(blob.imageWithAlpha).be.a.Function;
+        should(function () {
+            blob.imageWithAlpha();
+        }).not.throw();
         finish();
     });
-    it.skip("imageWithRoundedCorner", function (finish) {
-        var blob = Ti.Filesystem.getFile('app.js').read();
+    it("imageWithRoundedCorner", function (finish) {
+        var blob = Ti.Filesystem.getFile('Logo.png').read();
         should(blob.imageWithRoundedCorner).be.a.Function;
+        should(function () {
+            blob.imageWithRoundedCorner(1);
+        }).not.throw();
         finish();
     });
-    it.skip("imageWithTransparentBorder", function (finish) {
-        var blob = Ti.Filesystem.getFile('app.js').read();
+    it("imageWithTransparentBorder", function (finish) {
+        var blob = Ti.Filesystem.getFile('Logo.png').read();
         should(blob.imageWithTransparentBorder).be.a.Function;
+        should(function () {
+            blob.imageWithTransparentBorder(1);
+        }).not.throw();
         finish();
     });
 });
