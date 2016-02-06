@@ -12,6 +12,7 @@
 #include "TitaniumWindows/UI/View.hpp"
 #include "Titanium/Blob.hpp"
 #include <ppltasks.h>
+#include <boost/algorithm/string.hpp>
 
 namespace TitaniumWindows
 {
@@ -61,7 +62,6 @@ namespace TitaniumWindows
 		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::ImageView(js_context)
 			  , loaded__(false)
-			  , loaded_event_set__(false)
 		{
 		}
 
@@ -71,7 +71,7 @@ namespace TitaniumWindows
 
 			image__ = ref new Windows::UI::Xaml::Controls::Image();
 
-			layout_event__ = image__->ImageOpened += ref new RoutedEventHandler([this](::Platform::Object^ sender, RoutedEventArgs^ e) {
+			layout_event__ = image__->ImageOpened += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
 				const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
 				auto rect = layout->computeRelativeSize(
 					Canvas::GetLeft(this->image__),
@@ -84,10 +84,10 @@ namespace TitaniumWindows
 
 			Titanium::UI::ImageView::setLayoutDelegate<WindowsImageViewLayoutDelegate>();
 
-			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
-			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
-			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::FILL);
-			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::SIZE);
 
 			getViewLayoutDelegate<WindowsImageViewLayoutDelegate>()->setComponent(image__);
 		}
@@ -190,8 +190,22 @@ namespace TitaniumWindows
 				auto bitmap = ref new BitmapImage();
 				writer->DetachStream();
 				stream->Seek(0);
-				bitmap->SetSourceAsync(stream);
-				this->image__->Source = bitmap;
+				concurrency::create_task(bitmap->SetSourceAsync(stream)).then([this, bitmap]() {
+					this->image__->Source = bitmap;
+					const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
+					auto rect = layout->computeRelativeSize(
+						Canvas::GetLeft(this->image__),
+						Canvas::GetTop(this->image__),
+						bitmap->PixelWidth,
+						bitmap->PixelHeight
+						);
+					layout->onComponentSizeChange(rect);
+
+					if (!loaded__) {
+						loaded__ = true;
+						this->fireEvent("load", this->get_context().CreateObject());
+					}
+				});
 			});
 		}
 
@@ -199,18 +213,11 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ImageView::set_image(path);
 
-			// lazy load image event so it doesn't fire load event for defaultImage
-			if (!loaded_event_set__) {
-				loaded_event__ = image__->ImageOpened += ref new RoutedEventHandler([this](::Platform::Object^ sender, RoutedEventArgs^ e) {
-					loaded__ = true;
-					this->fireEvent("load", this->get_context().CreateObject());
-				});
-				loaded_event_set__ = true;
-			}
+			loaded__ = false;
 
 			const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
 			// check if we're loading from local file
-			if (uri->SchemeName == "ms-appx") {
+			if (boost::starts_with(TitaniumWindows::Utility::ConvertString(uri->SchemeName), "ms-")) {
 				concurrency::create_task(StorageFile::GetFileFromApplicationUriAsync(uri)).then([this](concurrency::task<StorageFile^> task){
 					try {
 						auto file = task.get();
