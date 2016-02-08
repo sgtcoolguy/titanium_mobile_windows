@@ -2,7 +2,7 @@
  * Runs an app on a Windows Store emulator.
  *
  * @copyright
- * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
  *
  * @license
  * Licensed under the terms of the Apache Public License
@@ -160,25 +160,38 @@ exports.init = function (logger, config, cli) {
 					opts = appc.util.mix({
 						killIfRunning: false,
 						timeout: config.get('windows.log.timeout', 60000),
-						wpsdk: builder.wpsdk 
+						wpsdk: builder.wpsdk
 					}, builder.windowslibOptions);
 
-				// TODO Remove existing package if it's already installed? Otherwise we'll fail here if same package same version is already installed!
 				async.series([function(next) {
 					logger.info(__('Uninstalling old versions of the application'));
 					windowslib.winstore.uninstall(appId, opts, next);
 				}, function(next) {
 					logger.info(__('Installing the application'));
 					windowslib.winstore.install(projectDir, opts, next);
+				}, function (next) {
+					logger.info(__('Making the application exempt from loopback IP restrictions for logging'));
+					windowslib.winstore.getAppxPackages(opts, function (err, packages) {
+						if (err) {
+							return next(err);
+						}
+
+						appc.subprocess.run('CheckNetIsolation.exe', ['LoopbackExempt', '-a', '-n=' + packages[appId].PackageFamilyName], function (code, out, err) {
+							if (!code) {
+								return next();
+							}
+							return next(err);
+						});
+					});
+					// TODO Poll for when the app closes like we do for the emulator!
 				}, function(next) {
 					logger.info(__('Launching the application'));
 					windowslib.winstore.launch(appId, opts, next);
 				}], function (err, results) {
+					logger.info(__('Finished launching the application'));
 					if (err) {
 						logger.error(err);
 						process.exit(1);
-					} else {
-						process.exit(0);
 					}
 				});
 
