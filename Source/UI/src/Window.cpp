@@ -40,7 +40,9 @@ namespace TitaniumWindows
 			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(canvas__);
+			// Window is considered as "root" of the view and it doesn't support border.
+			// Don't set Border to Xaml Frame content, otherwise you'll see runtime exception.
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(canvas__, nullptr, false);
 
 			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 			rootFrame->Navigated += ref new Windows::UI::Xaml::Navigation::NavigatedEventHandler([this](Platform::Object^, Windows::UI::Xaml::Navigation::NavigationEventArgs^) {

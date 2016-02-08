@@ -50,10 +50,10 @@ describe("Titanium.UI.ImageView", function () {
         });
         view.add(innerView);
         innerView.addEventListener("load", function (e) {
-            should(innerView.size.height).eql(100);
-            should(view.size.height).eql(innerView.size.height);
-            should(view.size.width).eql(innerView.size.width);
             setTimeout(function () {
+                should(innerView.size.height).eql(100);
+                should(view.size.height).eql(innerView.size.height);
+                should(view.size.width).eql(innerView.size.width);
                 win.close();
                 finish();
             }, 1000);

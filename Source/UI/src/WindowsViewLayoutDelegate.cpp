@@ -107,9 +107,7 @@ namespace TitaniumWindows
 
 			TITANIUM_LOG_DEBUG("WindowsViewLayoutDelegate::remove ", view.get(), " for ", this);
 
-			auto nativeView = dynamic_cast<Controls::Panel^>(getComponent());
-
-			if (nativeView == nullptr) {
+			if (!is_panel__) {
 				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::remove: Unknown component");
 				return;
 			}
@@ -123,6 +121,7 @@ namespace TitaniumWindows
 				}
 				try {
 					uint32_t index = 0;
+					auto nativeView = dynamic_cast<Controls::Panel^>(component__);
 					auto found = nativeView->Children->IndexOf(nativeChildView, &index);
 					if (found) {
 						nativeView->Children->RemoveAt(index);
@@ -144,9 +143,7 @@ namespace TitaniumWindows
 
 			TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::add ", view.get(), " for ", this);
 
-			auto nativeView = dynamic_cast<Controls::Panel^>(getComponent());
-
-			if (nativeView == nullptr) {
+			if (!is_panel__) {
 				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::add: Unknown component");
 				return;
 			}
@@ -160,6 +157,7 @@ namespace TitaniumWindows
 					requestLayout();
 				}
 				try {
+					auto nativeView = dynamic_cast<Controls::Panel^>(component__);
 					nativeView->Children->Append(nativeChildView);
 					newView->set_enabled(get_enabled() && newView->get_enabled());
 				} catch (Platform::Exception^ e) {
@@ -174,9 +172,7 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutDelegate::insertAt(params);
 
-			auto nativeView = dynamic_cast<Controls::Panel^>(getComponent());
-
-			if (nativeView == nullptr) {
+			if (!is_panel__) {
 				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::insertAt: Unknown component");
 				return;
 			}
@@ -189,6 +185,7 @@ namespace TitaniumWindows
 					requestLayout();
 				}
 				try {
+					auto nativeView = dynamic_cast<Controls::Panel^>(component__);
 					nativeView->Children->InsertAt(params.position, nativeChildView);
 				} catch (Platform::Exception^ e) {
 					detail::ThrowRuntimeError("insertAt", Utility::ConvertString(e->Message));
@@ -623,7 +620,9 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::updateBackground(Brush^ brush)
 		{
-			if (is_panel__) {
+			if (underlying_control__) {
+				underlying_control__->Background = brush;
+			} else if (is_panel__) {
 				dynamic_cast<Panel^>(component__)->Background = brush;
 			} else if (is_control__) {
 				dynamic_cast<Control^>(component__)->Background = brush;
@@ -734,19 +733,22 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutDelegate::set_borderWidth(borderWidth);
 
-			if (is_control__) {
-				auto control = dynamic_cast<Control^>(component__);
-				if (borderColorBrush__ == nullptr) {
-					auto color = get_borderColor().empty() ? get_backgroundColor() : get_borderColor();
-					if (color.empty()) {
-						color = "black";
-					}
-					borderColorBrush__ = ref new SolidColorBrush(ColorForName(color));
-					control->BorderBrush = borderColorBrush__;
-				}
+			auto color = get_borderColor().empty() ? get_backgroundColor() : get_borderColor();
+			if (color.empty()) {
+				color = "black";
+			}
+			borderColorBrush__ = ref new SolidColorBrush(ColorForName(color));
+
+			if (is_control__ || underlying_control__) {
+				// Xaml::Control descendant has its own border property. 
+				// Use it then, it usually works better than Xaml::Border. Note that it doesn't support border radius though...
+				const auto control = underlying_control__ ? underlying_control__ : dynamic_cast<Control^>(component__);
+				control->BorderBrush = borderColorBrush__;
 				control->BorderThickness = borderWidth;
-			} else {
-				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_borderWidth: Unknown component");
+			} else if (border__) {
+				border__->BorderBrush = borderColorBrush__;
+				border__->BorderThickness = borderWidth;
+				border__->CornerRadius = CornerRadiusHelper::FromUniformRadius(get_borderRadius());
 			}
 		}
 
@@ -808,9 +810,12 @@ namespace TitaniumWindows
 		void WindowsViewLayoutDelegate::set_enabled(const bool& enabled) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_enabled(enabled);
-			if (is_control__) {
-				const auto control = dynamic_cast<Control^>(component__);
-				control->IsEnabled = enabled;
+			if (is_control__ || underlying_control__) {
+				if (underlying_control__) {
+					underlying_control__->IsEnabled = enabled;
+				} else {
+					dynamic_cast<Control^>(component__)->IsEnabled = enabled;
+				}
 			}
 			updateDisabledBackground();
 
@@ -873,18 +878,12 @@ namespace TitaniumWindows
 		void WindowsViewLayoutDelegate::set_zIndex(const int32_t& zIndex) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_zIndex(zIndex);
-
-			auto element = dynamic_cast<UIElement^>(component__);
-			if (element != nullptr) {
-				Controls::Canvas::SetZIndex(element, zIndex);
-			} else {
-				TITANIUM_LOG_WARN("WindowsViewLayoutDelegate::set_zIndex is not supported for this component");
-			}
+			Controls::Canvas::SetZIndex(component__, zIndex);
 		}
 
 		void WindowsViewLayoutDelegate::disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
 		{
-			const auto component = getComponent();
+			const auto component = getEventComponent();
 			if (event_name == "touchmove") {
 				component->ManipulationDelta -= touchmove_event__;
 			} else if (event_name == "touchstart") {
@@ -934,7 +933,7 @@ namespace TitaniumWindows
 				return;
 			}
 
-			const auto component = getComponent();
+			const auto component = getEventComponent();
 
 			if (event_name == "touchmove") {
 				component->ManipulationMode = ManipulationModes::All;
@@ -1004,7 +1003,7 @@ namespace TitaniumWindows
 					}
 				});
 			} else if (event_name == "focus") {
-				 focus_event__ = getComponent()->GotFocus += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+				focus_event__ = component->GotFocus += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
 				 	const auto event_delegate = event_delegate__.lock();
 				 	if (event_delegate != nullptr) {
 					 	JSContext js_context = event_delegate->get_context();
@@ -1014,7 +1013,7 @@ namespace TitaniumWindows
 				 	}
 				});
 			} else if (event_name == "blur") {
-				blur_event__ = getComponent()->LostFocus += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+				blur_event__ = component->LostFocus += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
 					const auto event_delegate = event_delegate__.lock();
 					if (event_delegate != nullptr) {
 						JSContext js_context = event_delegate->get_context();
@@ -1026,7 +1025,7 @@ namespace TitaniumWindows
 			} else if (event_name == "postlayout") {
 				postlayout_listening__ = true;
 			} else if (event_name == "keypressed") {
-				keypressed_event__ = getComponent()->KeyDown += ref new KeyEventHandler([this](Platform::Object^, KeyRoutedEventArgs^ e){
+				keypressed_event__ = component->KeyDown += ref new KeyEventHandler([this](Platform::Object^, KeyRoutedEventArgs^ e){
 					const auto event_delegate = event_delegate__.lock();
 					if (event_delegate != nullptr) {
 						//
@@ -1068,14 +1067,23 @@ namespace TitaniumWindows
 			}
 		}
 
-		void WindowsViewLayoutDelegate::setComponent(FrameworkElement^ component)
+		void WindowsViewLayoutDelegate::setComponent(FrameworkElement^ component, Windows::UI::Xaml::Controls::Control^ underlying_control, const bool& enableBorder)
 		{
 			TITANIUM_ASSERT(component__ == nullptr);
+			TITANIUM_ASSERT(underlying_control__ == nullptr);
 
 			component__  = component;
+			underlying_control__ = underlying_control;
+
+			if (enableBorder) {
+				border__ = ref new Border();
+				border__->Child = component__;
+			}
+
 			is_panel__   = dynamic_cast<Controls::Panel^>(component__) != nullptr;
 			is_control__ = dynamic_cast<Controls::Control^>(component__) != nullptr;
 			is_scrollview__ = dynamic_cast<Controls::ScrollViewer^>(component__) != nullptr;
+			is_grid__    = dynamic_cast<Controls::Grid^>(component__) != nullptr;
 
 			loaded_event__ = component__->Loaded += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
 				auto component = getComponent();
@@ -1185,7 +1193,7 @@ namespace TitaniumWindows
 				return;
 
 			auto component = getComponent();
-			auto panel = is_panel__ ? safe_cast<Panel^>(component) : nullptr;
+			auto panel = is_panel__ ? safe_cast<Panel^>(component__) : nullptr;
 			auto parentLayout = layout_node__->parent;
 
 			auto setWidth = false;
@@ -1274,10 +1282,8 @@ namespace TitaniumWindows
 			if (root) {
 				Titanium::LayoutEngine::nodeLayout(root);
 
-				const auto component = getComponent();
-				const auto panel = dynamic_cast<Panel^>(component);
-
-				if (panel != nullptr) {
+				if (is_panel__) {
+					const auto panel = dynamic_cast<Panel^>(component__);
 					for (auto child : panel->Children) {
 						// ScrollViewer should not be clipped
 						if (dynamic_cast<ScrollViewer^>(static_cast<UIElement^>(child)) != nullptr) {
@@ -1341,13 +1347,13 @@ namespace TitaniumWindows
 		{
 			bool needsLayout = false;
 
-			if (is_width_size__ && !is_panel__) {
+			if (is_width_size__ && (is_grid__ || !is_panel__)) {
 				layout_node__->properties.width.value = rect.width;
 				layout_node__->properties.width.valueType = Titanium::LayoutEngine::Fixed;
 				needsLayout = isLoaded();
 			}
 
-			if (is_height_size__ && !is_panel__) {
+			if (is_height_size__ && (is_grid__ || !is_panel__)) {
 				layout_node__->properties.height.value = rect.height;
 				layout_node__->properties.height.valueType = Titanium::LayoutEngine::Fixed;
 				needsLayout = isLoaded();

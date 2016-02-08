@@ -34,8 +34,6 @@ namespace TitaniumWindows
 			// TextField have to deal with multiple controls. (TextBox & PasswordBox)
 			parent__ = ref new Controls::Grid();
 
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(parent__);
-
 			text_box__ = ref new Controls::TextBox();
 			text_box__->AcceptsReturn = false;
 			text_box__->IsSpellCheckEnabled = true;
@@ -43,6 +41,9 @@ namespace TitaniumWindows
 			parent__->Children->Append(text_box__);
 			parent__->SetColumn(text_box__, 0);
 			parent__->SetRow(text_box__, 0);
+
+			const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+			layout->setComponent(parent__, text_box__);
 
 			initTextComponent();
 		}
@@ -100,6 +101,9 @@ namespace TitaniumWindows
 				// Update color based on property string
 				set_color(get_color());
 
+				// Update underlying control
+				getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setUnderlyingControl(password_box__);
+
 				text_box__ = nullptr;
 			} else if (!passwordMask && password_box__) {
 				text_box__ = ref new Controls::TextBox();
@@ -127,6 +131,9 @@ namespace TitaniumWindows
 
 				// Update color based on property string
 				set_color(get_color());
+
+				// Update underlying control
+				getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setUnderlyingControl(password_box__);
 
 				password_box__ = nullptr;
 			}

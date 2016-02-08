@@ -24,8 +24,9 @@ namespace TitaniumWindows
 		using namespace Windows::Storage;
 		using namespace Windows::Storage::Streams;
 
-		WindowsImageViewLayoutDelegate::WindowsImageViewLayoutDelegate() TITANIUM_NOEXCEPT
+		WindowsImageViewLayoutDelegate::WindowsImageViewLayoutDelegate(Windows::UI::Xaml::Controls::Image^ image) TITANIUM_NOEXCEPT
 			: WindowsViewLayoutDelegate()
+			, image__(image)
 		{
 			TITANIUM_LOG_DEBUG("WindowsImageViewLayoutDelegate::ctor ", this);
 		}
@@ -37,13 +38,11 @@ namespace TitaniumWindows
 
 		void WindowsImageViewLayoutDelegate::stretchImageView() TITANIUM_NOEXCEPT
 		{
-			const auto imageview = dynamic_cast<Image^>(component__);
-			TITANIUM_ASSERT(imageview != nullptr);
 			const auto fillstr = Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL);
 			if (width__ == fillstr && height__ == fillstr) {
-				imageview->Stretch = Media::Stretch::Fill;
+				image__->Stretch = Media::Stretch::Fill;
 			} else {
-				imageview->Stretch = Media::Stretch::Uniform;
+				image__->Stretch = Media::Stretch::Uniform;
 			}
 		}
 
@@ -70,26 +69,43 @@ namespace TitaniumWindows
 			Titanium::UI::ImageView::postCallAsConstructor(js_context, arguments);	
 
 			image__ = ref new Windows::UI::Xaml::Controls::Image();
-
-			layout_event__ = image__->ImageOpened += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+			image__->SizeChanged += ref new SizeChangedEventHandler([this](Platform::Object^ sender, SizeChangedEventArgs^ e) {
 				const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
-				auto rect = layout->computeRelativeSize(
-					Canvas::GetLeft(this->image__),
-					Canvas::GetTop(this->image__),
+				const auto rect = layout->computeRelativeSize(
+					Canvas::GetLeft(image__),
+					Canvas::GetTop(image__),
 					this->image__->ActualWidth,
 					this->image__->ActualHeight
-				);
+					);
 				layout->onComponentSizeChange(rect);
 			});
 
-			Titanium::UI::ImageView::setLayoutDelegate<WindowsImageViewLayoutDelegate>();
+			image__->ImageOpened += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+				const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
+				const auto rect = layout->computeRelativeSize(
+					Canvas::GetLeft(image__),
+					Canvas::GetTop(image__),
+					this->image__->ActualWidth,
+					this->image__->ActualHeight
+					);
+				layout->onComponentSizeChange(rect);
+			});
+
+			Titanium::UI::ImageView::setLayoutDelegate<WindowsImageViewLayoutDelegate>(image__);
+
+			// Set parent of the ImageView, to support background color and border
+			parent__ = ref new Controls::Grid();
+
+			parent__->Children->Append(image__);
+			parent__->SetColumn(image__, 0);
+			parent__->SetRow(image__, 0);
 
 			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::SIZE);
 			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::SIZE);
 			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::SIZE);
 
-			getViewLayoutDelegate<WindowsImageViewLayoutDelegate>()->setComponent(image__);
+			getViewLayoutDelegate<WindowsImageViewLayoutDelegate>()->setComponent(parent__);
 		}
 
 		void ImageView::JSExportInitialize()

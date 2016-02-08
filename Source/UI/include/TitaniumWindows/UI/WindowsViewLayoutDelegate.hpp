@@ -390,11 +390,30 @@ namespace TitaniumWindows
 			virtual void updateBackgroundGradient();
 
 			virtual void setLayoutProperty(const Titanium::LayoutEngine::ValueName&, const std::string&);
-			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component);
-			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() const TITANIUM_NOEXCEPT
+			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component, Windows::UI::Xaml::Controls::Control^ underlying_control = nullptr, const bool& enableBorder = true);
+			virtual Windows::UI::Xaml::FrameworkElement^ getEventComponent() const TITANIUM_NOEXCEPT
 			{
+				if (underlying_control__) {
+					return underlying_control__;
+				}
 				return component__;
 			}
+
+			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() const TITANIUM_NOEXCEPT
+			{
+				if (border__) {
+					return border__;
+				}
+				return component__;
+			}
+
+			// We want to detect if component__ is a container (like Grid) and there's a underlying control.
+			// We'll use this to set correct background and border.
+			void setUnderlyingControl(Windows::UI::Xaml::Controls::Control^ control)
+			{
+				underlying_control__ = control;
+			}
+
 
 			virtual Titanium::LayoutEngine::Node* getLayoutNode() const TITANIUM_NOEXCEPT
 			{
@@ -432,7 +451,9 @@ namespace TitaniumWindows
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+			Windows::UI::Xaml::Controls::Border^ border__    { nullptr };
 			Windows::UI::Xaml::FrameworkElement^ component__ { nullptr };
+			Windows::UI::Xaml::Controls::Control^ underlying_control__ { nullptr };
 
 			Titanium::LayoutEngine::Node* layout_node__ { nullptr };
 
@@ -463,6 +484,7 @@ namespace TitaniumWindows
 			bool is_width_size__{false};
 			bool is_height_size__{false};
 			bool is_panel__{false};
+			bool is_grid__{false};
 			bool is_control__{false};
 			bool is_scrollview__ { false };
 			bool is_loaded__{false};

@@ -28,7 +28,8 @@ namespace TitaniumWindows
 		{
 		public:
 			TITANIUM_FUNCTION_UNIMPLEMENTED(textAlign);
-			
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
+
 			Button(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Button() = default;

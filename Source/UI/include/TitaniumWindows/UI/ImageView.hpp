@@ -21,7 +21,7 @@ namespace TitaniumWindows
 
 		class TITANIUMWINDOWS_UI_EXPORT WindowsImageViewLayoutDelegate : public WindowsViewLayoutDelegate {
 		public:
-			WindowsImageViewLayoutDelegate() TITANIUM_NOEXCEPT;
+			WindowsImageViewLayoutDelegate(Windows::UI::Xaml::Controls::Image^ image) TITANIUM_NOEXCEPT;
 			virtual ~WindowsImageViewLayoutDelegate();
 
 			void stretchImageView() TITANIUM_NOEXCEPT;
@@ -29,6 +29,7 @@ namespace TitaniumWindows
 			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
 			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override;
 		private:
+			Windows::UI::Xaml::Controls::Image^ image__;
 		};
 
 		/*!
@@ -47,6 +48,7 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(enableZoomControls);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(hires);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(preventDefaultImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
 
 			ImageView(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -79,8 +81,8 @@ namespace TitaniumWindows
 
 			void loadContentFromData(std::vector<std::uint8_t>& data);
 
-			Windows::Foundation::EventRegistrationToken layout_event__;
-			Windows::UI::Xaml::Controls::Image^ image__;
+			Windows::UI::Xaml::Controls::Grid^ parent__{ nullptr };
+			Windows::UI::Xaml::Controls::Image^ image__{ nullptr };
 			Windows::UI::Xaml::Media::Animation::Storyboard^ storyboard__;
 			bool loaded__;
 		};
