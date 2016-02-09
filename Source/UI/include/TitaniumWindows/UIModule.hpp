@@ -19,7 +19,6 @@ namespace TitaniumWindows
 	// declare what's unimplemented regarding this modules.
 	// Make sure to remove once it's implemented
 	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.3DMatrix);
-	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.AttributedString);
 	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.ButtonBar);
 	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.DashboardItem);
 	TITANIUM_MODULE_UNIMPLEMENTED(Titanium.UI.DashboardView);
