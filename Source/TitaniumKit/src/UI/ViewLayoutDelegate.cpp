@@ -20,6 +20,7 @@ namespace Titanium
 			borderWidth__(0),
 			touchEnabled__(true),
 			visible__(true),
+			enabled__(true),
 			defaultWidth__(Titanium::UI::LAYOUT::SIZE),
 			defaultHeight__(Titanium::UI::LAYOUT::SIZE),
 			autoLayoutForHeight__(defaultHeight__),
@@ -298,6 +299,16 @@ namespace Titanium
 		void ViewLayoutDelegate::set_visible(const bool& visible) TITANIUM_NOEXCEPT
 		{
 			visible__ = visible;
+		}
+
+		bool ViewLayoutDelegate::get_enabled() const TITANIUM_NOEXCEPT
+		{
+			return enabled__;
+		}
+
+		void ViewLayoutDelegate::set_enabled(const bool& enabled) TITANIUM_NOEXCEPT
+		{
+			enabled__ = enabled;
 		}
 
 		std::string ViewLayoutDelegate::get_tintColor() const TITANIUM_NOEXCEPT

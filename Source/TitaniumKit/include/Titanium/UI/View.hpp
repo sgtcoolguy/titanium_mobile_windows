@@ -75,13 +75,6 @@ namespace Titanium
 
 			/*!
 			  @property
-			  @abstract enabled
-			  @discussion Determines if the view is enabled or disabled.
-			*/
-			TITANIUM_PROPERTY_IMPL_DEF(bool, enabled);
-
-			/*!
-			  @property
 			  @abstract focusable
 			  @discussion Whether view should be focusable while navigating with the trackball.
 			*/
@@ -363,7 +356,6 @@ namespace Titanium
 
 			std::uint32_t clipMode__; // iOS specific
 			std::uint32_t softKeyboardOnFocus__; // Android specific
-			bool enabled__ { true };
 			bool focusable__ { true };
 			bool keepScreenOn__ { false };
 #pragma warning(pop)

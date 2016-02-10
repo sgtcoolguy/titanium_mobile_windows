@@ -125,6 +125,17 @@ namespace TitaniumWindows
 			/*!
 			  @method
 
+			  @abstract enabled : Boolean
+
+			  @discussion Determines whether the view is enabled.
+
+			  Default: true
+			*/
+			virtual void set_enabled(const bool& enabled) TITANIUM_NOEXCEPT override;
+
+			/*!
+			  @method
+
 			  @abstract height : Number/String
 
 			  @discussion View height, in platform-specific units.
@@ -405,6 +416,8 @@ namespace TitaniumWindows
 
 			void setDefaultBackground();
 			void updateBackground(Windows::UI::Xaml::Media::Brush^);
+			void updateDisabledBackground();
+			Windows::UI::Xaml::Media::Brush^ getBackground();
 
 			virtual std::shared_ptr<Titanium::UI::View> rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT override;
 			virtual void registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireCallback);
@@ -470,6 +483,7 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Media::SolidColorBrush^ backgroundFocusedColorBrush__{ nullptr };
 			Windows::UI::Xaml::Media::SolidColorBrush^ backgroundSelectedColorBrush__{ nullptr };
 			Windows::UI::Xaml::Media::SolidColorBrush^ borderColorBrush__{ nullptr };
+			Windows::UI::Xaml::Media::Brush^ previousBackgroundBrush__{ nullptr };
 
 			Windows::UI::Xaml::Media::LinearGradientBrush^ backgroundLinearGradientBrush__{ nullptr };
 #pragma warning(pop)

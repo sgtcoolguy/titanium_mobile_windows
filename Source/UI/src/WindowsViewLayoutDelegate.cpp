@@ -161,6 +161,7 @@ namespace TitaniumWindows
 				}
 				try {
 					nativeView->Children->Append(nativeChildView);
+					newView->set_enabled(get_enabled() && newView->get_enabled());
 				} catch (Platform::Exception^ e) {
 					detail::ThrowRuntimeError("add", Utility::ConvertString(e->Message));
 				}
@@ -631,17 +632,48 @@ namespace TitaniumWindows
 			}
 		}
 
+		void WindowsViewLayoutDelegate::updateDisabledBackground()
+		{
+			if (get_enabled()) {
+				if (previousBackgroundBrush__ != nullptr) {
+					updateBackground(previousBackgroundBrush__);
+				}
+			} else {
+				previousBackgroundBrush__ = getBackground();
+
+				if (backgroundDisabledImageBrush__ != nullptr) {
+					updateBackground(backgroundDisabledImageBrush__);
+				} else if (backgroundDisabledColorBrush__ != nullptr) {
+					updateBackground(backgroundDisabledColorBrush__);
+				}
+			}
+		}
+
+		Brush^ WindowsViewLayoutDelegate::getBackground()
+		{
+			if (backgroundImageBrush__ != nullptr) {
+				return backgroundImageBrush__;
+			} else if (backgroundColorBrush__ != nullptr) {
+				return backgroundColorBrush__;
+			}
+			return nullptr;
+		}
+
 		void WindowsViewLayoutDelegate::set_backgroundImage(const std::string& backgroundImage) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_backgroundImage(backgroundImage);
 			backgroundImageBrush__ = CreateImageBrushFromPath(backgroundImage);
-			updateBackground(backgroundImageBrush__);
+			if (get_enabled()) {
+				updateBackground(backgroundImageBrush__);
+			}
 		}
 
 		void WindowsViewLayoutDelegate::set_backgroundImage(const std::shared_ptr<Titanium::Blob>& backgroundImage) TITANIUM_NOEXCEPT
 		{
 			backgroundImageBrush__ = CreateImageBrushFromBlob(backgroundImage);
-			updateBackground(backgroundImageBrush__);
+			if (get_enabled()) {
+				updateBackground(backgroundImageBrush__);
+			}
 		}
 
 		void WindowsViewLayoutDelegate::set_backgroundColor(const std::string& backgroundColor) TITANIUM_NOEXCEPT
@@ -649,19 +681,23 @@ namespace TitaniumWindows
 			Titanium::UI::ViewLayoutDelegate::set_backgroundColor(backgroundColor);
 
 			backgroundColorBrush__ = ref new Media::SolidColorBrush(ColorForName(backgroundColor));
-			updateBackground(backgroundColorBrush__);
+			if (get_enabled()) {
+				updateBackground(backgroundColorBrush__);
+			}
 		}
 
 		void WindowsViewLayoutDelegate::set_backgroundDisabledColor(const std::string& backgroundDisabledColor) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_backgroundDisabledColor(backgroundDisabledColor);
 			backgroundDisabledColorBrush__ = ref new Media::SolidColorBrush(ColorForName(backgroundDisabledColor));
+			updateDisabledBackground();
 		}
 
 		void WindowsViewLayoutDelegate::set_backgroundDisabledImage(const std::string& backgroundDisabledImage) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_backgroundDisabledImage(backgroundDisabledImage);
 			backgroundDisabledImageBrush__ = CreateImageBrushFromPath(backgroundDisabledImage);
+			updateDisabledBackground();
 		}
 
 		void WindowsViewLayoutDelegate::set_backgroundFocusedColor(const std::string& backgroundFocusedColor) TITANIUM_NOEXCEPT
@@ -767,6 +803,20 @@ namespace TitaniumWindows
 		void WindowsViewLayoutDelegate::set_center(const Titanium::UI::Point& center) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_center(center);
+		}
+
+		void WindowsViewLayoutDelegate::set_enabled(const bool& enabled) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_enabled(enabled);
+			if (is_control__) {
+				const auto control = dynamic_cast<Control^>(component__);
+				control->IsEnabled = enabled;
+			}
+			updateDisabledBackground();
+
+			for (auto child : get_children()) {
+				child->getViewLayoutDelegate()->set_enabled(enabled);
+			}
 		}
 
 		void WindowsViewLayoutDelegate::set_width(const std::string& width) TITANIUM_NOEXCEPT
@@ -1005,14 +1055,16 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::setDefaultBackground()
 		{
-			if (backgroundImageBrush__) {
-				updateBackground(backgroundImageBrush__);
-			} else if (backgroundColorBrush__) {
-				updateBackground(backgroundColorBrush__);
-			} else if (backgroundLinearGradientBrush__) {
-				updateBackground(backgroundLinearGradientBrush__);
-			} else {
-				updateBackground(nullptr); // delete background
+			if (get_enabled()) {
+				if (backgroundImageBrush__) {
+					updateBackground(backgroundImageBrush__);
+				} else if (backgroundColorBrush__) {
+					updateBackground(backgroundColorBrush__);
+				} else if (backgroundLinearGradientBrush__) {
+					updateBackground(backgroundLinearGradientBrush__);
+				} else {
+					updateBackground(nullptr); // delete background
+				}
 			}
 		}
 

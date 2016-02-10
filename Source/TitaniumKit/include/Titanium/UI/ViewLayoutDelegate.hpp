@@ -106,6 +106,18 @@ namespace Titanium
 			virtual void set_visible(const bool& visible) TITANIUM_NOEXCEPT;
 
 			/*!
+			  @method
+
+			  @abstract enabled : Boolean
+
+			  @discussion Determines whether the view is enabled.
+
+			  Default: true
+			*/
+			virtual bool get_enabled() const TITANIUM_NOEXCEPT;
+			virtual void set_enabled(const bool& enabled) TITANIUM_NOEXCEPT;
+
+			/*!
 			@method
 
 			@abstract backgroundImage : String
@@ -622,6 +634,7 @@ namespace Titanium
 			std::string tintColor__;
 			bool touchEnabled__;
 			bool visible__;
+			bool enabled__;
 			int32_t zIndex__;
 
 			std::string backgroundDisabledColor__;
