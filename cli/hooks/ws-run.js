@@ -171,24 +171,40 @@ exports.init = function (logger, config, cli) {
 					windowslib.winstore.install(projectDir, opts, next);
 				}, function (next) {
 					logger.info(__('Making the application exempt from loopback IP restrictions for logging'));
-					windowslib.winstore.getAppxPackages(opts, function (err, packages) {
+					windowslib.winstore.loopbackExempt(appId, opts, next);
+				}, function(next) {
+					logger.info(__('Launching the application'));
+					windowslib.winstore.launch(appId, opts, function (err, pid) {
 						if (err) {
 							return next(err);
 						}
+						logger.info(__('Finished launching the application'));
 
-						appc.subprocess.run('CheckNetIsolation.exe', ['LoopbackExempt', '-a', '-n=' + packages[appId].PackageFamilyName], function (code, out, err) {
-							if (!code) {
-								return next();
-							}
-							return next(err);
-						});
+						// Poll on pid for when the app closes like we do for the emulator!
+						var pollInterval = config.get('windows.emulator.pollInterval', 1000);
+						if (pollInterval > 0) {
+							(function watchForAppQuit() {
+								setTimeout(function () {
+									windowslib.process.find(pid, opts, function (err, proc) {
+										if (!err && !proc) { // no error, but no process by pid
+											logRelay && logRelay.stop();
+											process.exit(0);
+										} else {
+											watchForAppQuit();
+										}
+									});
+								}, pollInterval);
+							}());
+						}
+
+						if (logRelay) {
+							logger.info(__('Waiting for app to connect to log relay'));
+						} else {
+							// no reason to stick around, let the build command finish
+							next(null);
+						}
 					});
-					// TODO Poll for when the app closes like we do for the emulator!
-				}, function(next) {
-					logger.info(__('Launching the application'));
-					windowslib.winstore.launch(appId, opts, next);
 				}], function (err, results) {
-					logger.info(__('Finished launching the application'));
 					if (err) {
 						logger.error(err);
 						process.exit(1);
