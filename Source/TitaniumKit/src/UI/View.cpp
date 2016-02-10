@@ -45,7 +45,6 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(View, std::string, accessibilityValue)
 		TITANIUM_PROPERTY_READWRITE(View, std::uint32_t, clipMode)
 		TITANIUM_PROPERTY_READWRITE(View, std::uint32_t, softKeyboardOnFocus)
-		TITANIUM_PROPERTY_READWRITE(View, bool, enabled)
 		TITANIUM_PROPERTY_READWRITE(View, bool, focusable)
 		TITANIUM_PROPERTY_READWRITE(View, bool, keepScreenOn)
 
@@ -801,6 +800,18 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_PROPERTY_GETTER(View, enabled)
+		{
+			return get_context().CreateBoolean(layoutDelegate__->get_enabled());
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, enabled)
+		{
+			TITANIUM_ASSERT(argument.IsBoolean());
+			layoutDelegate__->set_enabled(static_cast<bool>(argument));
+			return true;
+		}
+
 		TITANIUM_PROPERTY_GETTER(View, width)
 		{
 			return get_context().CreateString(layoutDelegate__->get_width());
@@ -864,8 +875,6 @@ namespace Titanium
 		TITANIUM_PROPERTY_SETTER_STRING(View, accessibilityValue)
 		TITANIUM_PROPERTY_GETTER_UINT(View, clipMode)
 		TITANIUM_PROPERTY_SETTER_UINT(View, clipMode)
-		TITANIUM_PROPERTY_GETTER_BOOL(View, enabled)
-		TITANIUM_PROPERTY_SETTER_BOOL(View, enabled)
 		TITANIUM_PROPERTY_GETTER_BOOL(View, focusable)
 		TITANIUM_PROPERTY_SETTER_BOOL(View, focusable)
 		TITANIUM_PROPERTY_GETTER_UINT(View, softKeyboardOnFocus)
