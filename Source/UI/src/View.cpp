@@ -71,8 +71,13 @@ namespace TitaniumWindows
 		Windows::UI::Xaml::Media::FontFamily^ View::LookupFont(const JSContext& js_context, const std::string& family)
 		{
 			auto path = family;
-			if (CustomFonts__.find(family) == CustomFonts__.end()) {
-				// Look up to see if this is a custom font!
+			// if we have a cached value, use it
+			if (CustomFonts__.count(family) > 0) {
+				path = CustomFonts__.at(family);
+			}
+			else {
+				// new font
+				// Look up to see if this is a custom font, or builtin
 				auto export_object = js_context.CreateObject();
 				js_context.JSEvaluateScript(ti_label_js, export_object);
 				TITANIUM_ASSERT(export_object.HasProperty("exports"));
@@ -91,9 +96,9 @@ namespace TitaniumWindows
 					const auto file_name = static_cast<std::string>(result);
 					path = "/fonts/" + file_name + "#" + family;
 				}
+				CustomFonts__.emplace(family, path);
 			}
-
-			CustomFonts__.emplace(family, path);
+			
 			return ref new Windows::UI::Xaml::Media::FontFamily(Utility::ConvertUTF8String(path));
 		}
 
