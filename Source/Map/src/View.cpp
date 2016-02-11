@@ -57,11 +57,14 @@ namespace TitaniumWindows
 			auto properties_ptr = properties_obj.GetPrivate<TitaniumWindows::App::Properties>();
 			TITANIUM_ASSERT(properties_ptr);
 
-			std::string mapservicetoken = properties_ptr->getString("mapservicetoken").get();
-			TITANIUM_ASSERT_AND_THROW(!mapservicetoken.empty(), "Windows mapservicetoken must be defined in tiapp.xml");
-
-			// set mapservicetoken
-			mapview__->MapServiceToken = TitaniumWindows::Utility::ConvertString(mapservicetoken);
+			auto mapservicetoken = properties_ptr->getString("mapservicetoken");
+			if (mapservicetoken) {
+				// set mapservicetoken
+				mapview__->MapServiceToken = TitaniumWindows::Utility::ConvertString(*mapservicetoken);
+			}
+			else {
+				js_context.JSEvaluateScript("Ti.API.error('Windows mapservicetoken must be defined in tiapp.xml');");
+			}
 
 			Titanium::Map::View::setLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
 
