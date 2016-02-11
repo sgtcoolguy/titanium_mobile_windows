@@ -2,7 +2,7 @@
  * Runs an app on a Windows Store emulator.
  *
  * @copyright
- * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
  *
  * @license
  * Licensed under the terms of the Apache Public License
@@ -160,25 +160,54 @@ exports.init = function (logger, config, cli) {
 					opts = appc.util.mix({
 						killIfRunning: false,
 						timeout: config.get('windows.log.timeout', 60000),
-						wpsdk: builder.wpsdk 
+						wpsdk: builder.wpsdk
 					}, builder.windowslibOptions);
 
-				// TODO Remove existing package if it's already installed? Otherwise we'll fail here if same package same version is already installed!
 				async.series([function(next) {
 					logger.info(__('Uninstalling old versions of the application'));
 					windowslib.winstore.uninstall(appId, opts, next);
 				}, function(next) {
 					logger.info(__('Installing the application'));
 					windowslib.winstore.install(projectDir, opts, next);
+				}, function (next) {
+					logger.info(__('Making the application exempt from loopback IP restrictions for logging'));
+					windowslib.winstore.loopbackExempt(appId, opts, next);
 				}, function(next) {
 					logger.info(__('Launching the application'));
-					windowslib.winstore.launch(appId, opts, next);
+					windowslib.winstore.launch(appId, opts, function (err, pid) {
+						if (err) {
+							return next(err);
+						}
+						logger.info(__('Finished launching the application'));
+
+						// Poll on pid for when the app closes like we do for the emulator!
+						var pollInterval = config.get('windows.emulator.pollInterval', 1000);
+						if (pollInterval > 0) {
+							(function watchForAppQuit() {
+								setTimeout(function () {
+									windowslib.process.find(pid, opts, function (err, proc) {
+										if (!err && !proc) { // no error, but no process by pid
+											logRelay && logRelay.stop();
+											process.exit(0);
+										} else {
+											watchForAppQuit();
+										}
+									});
+								}, pollInterval);
+							}());
+						}
+
+						if (logRelay) {
+							logger.info(__('Waiting for app to connect to log relay'));
+						} else {
+							// no reason to stick around, let the build command finish
+							next(null);
+						}
+					});
 				}], function (err, results) {
 					if (err) {
 						logger.error(err);
 						process.exit(1);
-					} else {
-						process.exit(0);
 					}
 				});
 
