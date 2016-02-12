@@ -56,9 +56,13 @@ namespace Titanium
 
 		Point View::convertPointToView(Point point, std::shared_ptr<View> destinationView) TITANIUM_NOEXCEPT
 		{
-			// TODO IMPLEMENT
 			Point viewPoint;
-
+			if (destinationView != nullptr) {
+				const auto viewRect = getViewLayoutDelegate()->get_rect();
+				const auto destRect = destinationView->getViewLayoutDelegate()->get_rect();
+				viewPoint.x = viewRect.x + point.x - destRect.x;
+				viewPoint.y = viewRect.y + point.y - destRect.y;
+			}
 			return viewPoint;
 		}
 
