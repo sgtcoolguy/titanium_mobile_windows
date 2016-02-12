@@ -63,7 +63,7 @@ namespace TitaniumWindows
 				mapview__->MapServiceToken = TitaniumWindows::Utility::ConvertString(*mapservicetoken);
 			}
 			else {
-				js_context.JSEvaluateScript("Ti.API.error('Windows mapservicetoken must be defined in tiapp.xml');");
+				TITANIUM_LOG_ERROR("Ti.Map.View: Windows mapservicetoken must be defined in tiapp.xml property, none was found");
 			}
 
 			Titanium::Map::View::setLayoutDelegate<TitaniumWindows::UI::WindowsViewLayoutDelegate>();
@@ -77,7 +77,7 @@ namespace TitaniumWindows
 #endif
 		}
 
-		void View::JSExportInitialize() 
+		void View::JSExportInitialize()
 		{
 			JSExport<View>::SetClassVersion(1);
 			JSExport<View>::SetParent(JSExport<Titanium::Map::View>::Class());
