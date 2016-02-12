@@ -181,7 +181,7 @@ describe("Titanium.UI.View", function () {
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
         });
-       
+
         w.addEventListener('focus', function () {
             Ti.API.info("Got focus event");
             should(w.visible).be.true;
@@ -196,4 +196,33 @@ describe("Titanium.UI.View", function () {
         });
         w.open();
     });
+
+	it("convertPointToView", function (finish) {
+		this.timeout(5000);
+
+		var w = Ti.UI.createWindow(),
+		a = Ti.UI.createView({backgroundColor:'red'}),
+		b = Ti.UI.createView({ top: '100', backgroundColor: 'blue' });
+
+		a.add(b);
+		w.add(a);
+
+		w.addEventListener('focus', function () {
+			setTimeout(function () {
+				w.close();
+				finish();
+			}, 3000);
+		});
+
+		view.addEventListener('postlayout', function () {
+			Ti.API.info("Got postlayout event");
+			var result = b.convertPointToView({ x: 123, y: 23 }, a);
+			should(result).be.an.Object;
+			should(result.x).be.a.Number;
+			should(result.y).be.a.Number;
+			should(result.x).eql(123);
+			should(result.y).eql(123);
+		});
+		w.open();
+	});
 });
