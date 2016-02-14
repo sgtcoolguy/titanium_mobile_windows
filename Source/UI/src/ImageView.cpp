@@ -58,9 +58,37 @@ namespace TitaniumWindows
 			stretchImageView();
 		}
 
+		void WindowsImageViewLayoutDelegate::set_borderRadius(const double& borderRadius) TITANIUM_NOEXCEPT
+		{
+			WindowsViewLayoutDelegate::set_borderRadius(borderRadius);
+			if (borderRadius > 0) {
+				set_backgroundImage(get_backgroundImage()); // update background image
+			} else {
+				backgroundImageBrush__ = nullptr;
+				border__->Background   = nullptr;
+			}
+		}
+
+		void WindowsImageViewLayoutDelegate::set_backgroundImage(const std::string& backgroundImage) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_backgroundImage(backgroundImage);
+
+			updateBackground(nullptr); // disable Image's background to enable Border's background
+			backgroundImageBrush__ = CreateImageBrushFromPath(backgroundImage);
+			border__->Background = backgroundImageBrush__;
+		}
+
+		void WindowsImageViewLayoutDelegate::set_backgroundImage(const std::shared_ptr<Titanium::Blob>& backgroundImage) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_backgroundImage("");
+
+			updateBackground(nullptr); // disable Image's background to enable Border's background
+			backgroundImageBrush__ = CreateImageBrushFromBlob(backgroundImage);
+			border__->Background = backgroundImageBrush__;
+		}
+
 		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::ImageView(js_context)
-			  , loaded__(false)
 		{
 		}
 
@@ -93,25 +121,43 @@ namespace TitaniumWindows
 
 			Titanium::UI::ImageView::setLayoutDelegate<WindowsImageViewLayoutDelegate>(image__);
 
-			// Set parent of the ImageView, to support background color and border
-			parent__ = ref new Controls::Grid();
+			auto border = ref new Controls::Border();
+			border->Child = image__;
 
-			parent__->Children->Append(image__);
-			parent__->SetColumn(image__, 0);
-			parent__->SetRow(image__, 0);
+			// Set parent of the ImageView, to support background color and border
+			auto parent = ref new Controls::Grid();
+
+			parent->Children->Append(border);
+			parent->SetColumn(border, 0);
+			parent->SetRow(border, 0);
 
 			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::SIZE);
 			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::SIZE);
 			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::SIZE);
 
-			getViewLayoutDelegate<WindowsImageViewLayoutDelegate>()->setComponent(parent__);
+			getViewLayoutDelegate<WindowsImageViewLayoutDelegate>()->setComponent(parent, nullptr, border);
 		}
 
 		void ImageView::JSExportInitialize()
 		{
 			JSExport<ImageView>::SetClassVersion(1);
 			JSExport<ImageView>::SetParent(JSExport<Titanium::UI::ImageView>::Class());
+		}
+
+		void ImageView::afterPropertiesSet() TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ImageView::afterPropertiesSet();
+
+			// Make sure to call set_image after all properties are set
+			propertiesSet__ = true;
+
+			// Initialize image(s)
+			if (get_images().size() > 1) {
+				set_images(get_images());
+			} else {
+				set_image(get_image());
+			}
 		}
 
 		void ImageView::start() TITANIUM_NOEXCEPT
@@ -217,10 +263,7 @@ namespace TitaniumWindows
 						);
 					layout->onComponentSizeChange(rect);
 
-					if (!loaded__) {
-						loaded__ = true;
-						this->fireEvent("load", this->get_context().CreateObject());
-					}
+					this->fireEvent("load");
 				});
 			});
 		}
@@ -229,7 +272,17 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ImageView::set_image(path);
 
-			loaded__ = false;
+			// Make sure to call set_image after all properties are set
+			if (!propertiesSet__) {
+				return;
+			}
+
+			// Shortcut for border's background image when borderRadius is enabled
+			const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
+			if (layout->get_borderRadius() > 0) {
+				layout->set_backgroundImage(path);
+				return;
+			}
 
 			const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
 			// check if we're loading from local file
@@ -265,12 +318,7 @@ namespace TitaniumWindows
 		void ImageView::set_defaultImage(const std::string& path) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ImageView::set_defaultImage(path);
-
-			// do nothing when image is already loaded
-			// otherwise start loading defaultImage
-			if (!loaded__) {
-				image__->Source = ref new BitmapImage(TitaniumWindows::Utility::GetUriFromPath(path));
-			}
+			image__->Source = ref new BitmapImage(TitaniumWindows::Utility::GetUriFromPath(path));
 		}
 
 		std::shared_ptr<Titanium::Blob> ImageView::toBlob(JSValue callback) TITANIUM_NOEXCEPT

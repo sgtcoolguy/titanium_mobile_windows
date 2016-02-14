@@ -99,6 +99,19 @@ namespace TitaniumWindows
 			virtual void set_borderWidth(const uint32_t& borderWidth) TITANIUM_NOEXCEPT override;
 
 			/*!
+			@method
+
+			@abstract borderRadius : Number
+
+			@discussion Radius for the rounded corners of the view's border.
+
+			Each corner is rounded using an arc of a circle.
+
+			Default: 0
+			*/
+			virtual void set_borderRadius(const double& borderRadius) TITANIUM_NOEXCEPT override;
+
+			/*!
 			  @method
 
 			  @abstract bottom : Number/String
@@ -390,7 +403,10 @@ namespace TitaniumWindows
 			virtual void updateBackgroundGradient();
 
 			virtual void setLayoutProperty(const Titanium::LayoutEngine::ValueName&, const std::string&);
+
 			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component, Windows::UI::Xaml::Controls::Control^ underlying_control = nullptr, const bool& enableBorder = true);
+			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component, Windows::UI::Xaml::Controls::Control^ underlying_control, Windows::UI::Xaml::Controls::Border^ border);
+
 			virtual Windows::UI::Xaml::FrameworkElement^ getEventComponent() const TITANIUM_NOEXCEPT
 			{
 				if (underlying_control__) {
@@ -433,9 +449,9 @@ namespace TitaniumWindows
 			static Windows::UI::Color ColorForName(const std::string& colorName);
 			static Windows::UI::Color ColorForHexCode(const std::string& hexCode);
 
-			void setDefaultBackground();
-			void updateBackground(Windows::UI::Xaml::Media::Brush^);
-			void updateDisabledBackground();
+			virtual void setDefaultBackground();
+			virtual void updateBackground(Windows::UI::Xaml::Media::Brush^);
+			virtual void updateDisabledBackground();
 			Windows::UI::Xaml::Media::Brush^ getBackground();
 
 			virtual std::shared_ptr<Titanium::UI::View> rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT override;

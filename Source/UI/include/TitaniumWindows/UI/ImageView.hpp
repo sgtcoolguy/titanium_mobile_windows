@@ -28,6 +28,14 @@ namespace TitaniumWindows
 
 			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
 			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundImage(const std::string& backgroundImage) TITANIUM_NOEXCEPT override;
+			virtual void set_backgroundImage(const std::shared_ptr<Titanium::Blob>& backgroundImage) TITANIUM_NOEXCEPT override;
+			virtual void set_borderRadius(const double& borderRadius) TITANIUM_NOEXCEPT override;
+
+			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() const TITANIUM_NOEXCEPT override
+			{
+				return component__;
+			}
 		private:
 			Windows::UI::Xaml::Controls::Image^ image__;
 		};
@@ -63,6 +71,7 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+			virtual void afterPropertiesSet() TITANIUM_NOEXCEPT override;
 
 			// Methods
 			virtual void pause() TITANIUM_NOEXCEPT override final;
@@ -76,15 +85,13 @@ namespace TitaniumWindows
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
 			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
 			virtual void set_defaultImage(const std::string&) TITANIUM_NOEXCEPT override final;
-
 		private:
 
 			void loadContentFromData(std::vector<std::uint8_t>& data);
 
-			Windows::UI::Xaml::Controls::Grid^ parent__{ nullptr };
 			Windows::UI::Xaml::Controls::Image^ image__{ nullptr };
 			Windows::UI::Xaml::Media::Animation::Storyboard^ storyboard__;
-			bool loaded__;
+			bool propertiesSet__{ false };
 		};
 	} // namespace UI
 } // namespace TitaniumWindow

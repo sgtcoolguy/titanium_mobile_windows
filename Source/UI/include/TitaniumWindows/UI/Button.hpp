@@ -11,12 +11,24 @@
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/Button.hpp"
+#include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
 		using namespace HAL;
+
+		class TITANIUMWINDOWS_UI_EXPORT WindowsButtonLayoutDelegate : public WindowsViewLayoutDelegate {
+		public:
+			WindowsButtonLayoutDelegate() TITANIUM_NOEXCEPT : WindowsViewLayoutDelegate() { };
+			virtual ~WindowsButtonLayoutDelegate() = default;
+
+			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() const TITANIUM_NOEXCEPT override
+			{
+				return component__;
+			}
+		};
 
 		/*!
 		  @class Button
@@ -59,9 +71,8 @@ namespace TitaniumWindows
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			std::unordered_map<std::string, std::string> custom_fonts__;
-#pragma warning(pop)
 			Windows::UI::Xaml::Controls::Button^ button__;
+#pragma warning(pop)
 		};
 	} // namespace UI
 } // namespace TitaniumWindows

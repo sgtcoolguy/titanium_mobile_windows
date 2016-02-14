@@ -33,11 +33,11 @@ namespace TitaniumWindows
 			pivotItem__ = ref new PivotItem();
 
 			Titanium::UI::Tab::setLayoutDelegate<WindowsViewLayoutDelegate>();
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(pivotItem__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(pivotItem__, nullptr, false);
 #else
 			grid__ = ref new Grid();
 			Titanium::UI::Tab::setLayoutDelegate<WindowsViewLayoutDelegate>();
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(grid__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(grid__, nullptr, false);
 #endif
 		}
 

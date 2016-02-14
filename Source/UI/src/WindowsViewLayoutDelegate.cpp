@@ -590,12 +590,18 @@ namespace TitaniumWindows
 
 		ImageBrush^ WindowsViewLayoutDelegate::CreateImageBrushFromPath(const std::string& path)
 		{
+			if (path.empty()) {
+				return nullptr;
+			}
 			const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
 			return CreateImageBrushFromBitmapImage(ref new Media::Imaging::BitmapImage(uri));
 		}
 
 		ImageBrush^ WindowsViewLayoutDelegate::CreateImageBrushFromBlob(const std::shared_ptr<Titanium::Blob>& blob)
 		{
+			if (blob == nullptr) {
+				return nullptr;
+			}
 			auto data = blob->getData();
 
 			const auto stream = ref new InMemoryRandomAccessStream();
@@ -669,6 +675,7 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::set_backgroundImage(const std::shared_ptr<Titanium::Blob>& backgroundImage) TITANIUM_NOEXCEPT
 		{
+			Titanium::UI::ViewLayoutDelegate::set_backgroundImage("");
 			backgroundImageBrush__ = CreateImageBrushFromBlob(backgroundImage);
 			if (get_enabled()) {
 				updateBackground(backgroundImageBrush__);
@@ -721,6 +728,12 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutDelegate::set_backgroundSelectedImage(backgroundSelectedImage);
 			backgroundSelectedImageBrush__ = CreateImageBrushFromPath(backgroundSelectedImage);
+		}
+
+		void WindowsViewLayoutDelegate::set_borderRadius(const double& borderRadius) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ViewLayoutDelegate::set_borderRadius(borderRadius);
+			set_borderWidth(get_borderWidth()); // update brush
 		}
 
 		void WindowsViewLayoutDelegate::set_borderColor(const std::string& borderColor) TITANIUM_NOEXCEPT
@@ -1069,16 +1082,23 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::setComponent(FrameworkElement^ component, Windows::UI::Xaml::Controls::Control^ underlying_control, const bool& enableBorder)
 		{
+			Border^ border = nullptr;
+			if (enableBorder) {
+				border = ref new Border();
+				border->Child = component;
+			}
+			setComponent(component, underlying_control, border);
+		}
+
+		void WindowsViewLayoutDelegate::setComponent(FrameworkElement^ component, Windows::UI::Xaml::Controls::Control^ underlying_control, Windows::UI::Xaml::Controls::Border^ border)
+		{
 			TITANIUM_ASSERT(component__ == nullptr);
 			TITANIUM_ASSERT(underlying_control__ == nullptr);
+			TITANIUM_ASSERT(border__ == nullptr);
 
 			component__  = component;
 			underlying_control__ = underlying_control;
-
-			if (enableBorder) {
-				border__ = ref new Border();
-				border__->Child = component__;
-			}
+			border__ = border;
 
 			is_panel__   = dynamic_cast<Controls::Panel^>(component__) != nullptr;
 			is_control__ = dynamic_cast<Controls::Control^>(component__) != nullptr;

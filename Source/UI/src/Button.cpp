@@ -30,15 +30,25 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::Button::postCallAsConstructor(js_context, arguments);	
 			button__ = ref new Controls::Button();
-			Titanium::UI::Button::setLayoutDelegate<WindowsViewLayoutDelegate>();
+			Titanium::UI::Button::setLayoutDelegate<WindowsButtonLayoutDelegate>();
 
-			button__->VerticalAlignment = VerticalAlignment::Center;
+			button__->VerticalAlignment = VerticalAlignment::Stretch;
+			button__->HorizontalAlignment = HorizontalAlignment::Stretch;
 			button__->FontSize = DefaultFontSize;
+			button__->BorderThickness = 0;
 
 			// TIMOB-19143: reset MinWidth to fix size issues
 			button__->MinWidth = 0;
 
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(button__);
+			auto border = ref new Controls::Border();
+			border->Child = button__;
+
+			auto parent = ref new Controls::Grid();
+			parent->Children->Append(border);
+			parent->SetColumn(border, 0);
+			parent->SetRow(border, 0);
+
+			getViewLayoutDelegate<WindowsButtonLayoutDelegate>()->setComponent(parent, nullptr, border);
 		}
 
 		void Button::JSExportInitialize()

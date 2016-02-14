@@ -73,9 +73,9 @@ namespace TitaniumWindows
 			parent__->SetRow(label__, 0);
 
 			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
-			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::SIZE);
 			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::SIZE);
-			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::SIZE);
 
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(parent__);
 		}
