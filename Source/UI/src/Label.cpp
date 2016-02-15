@@ -48,8 +48,8 @@ namespace TitaniumWindows
 			// Grid needs to resize when label text is changed
 			label_sizechanged_event__ = label__->SizeChanged += ref new SizeChangedEventHandler([this](Platform::Object^ sender, SizeChangedEventArgs^ e) {
 				const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
-				if (e->PreviousSize.Height > 0 && request_resize__ && layout->get_height() != Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)) {
-					request_resize__ = false;
+				if (e->PreviousSize.Height > 0 && sizeChanged__ && layout->get_height() != Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL)) {
+					sizeChanged__ = false;
 					layout->set_height(std::to_string(e->NewSize.Height));
 				}
 			});
@@ -98,7 +98,7 @@ namespace TitaniumWindows
 			Titanium::UI::Label::set_text(text);
 			const auto new_text = TitaniumWindows::Utility::ConvertUTF8String(text);
 			if (label__->Text != new_text) {
-				request_resize__ = true; // indicate parent Grid to resize
+				sizeChanged__ = true; // indicate parent Grid to resize
 				label__->Text = new_text;
 			}
 		}

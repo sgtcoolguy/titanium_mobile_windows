@@ -76,6 +76,7 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::ProgressBar^ bar__;
 			Windows::UI::Xaml::Controls::TextBlock^ label__;
 
+			bool sizeChanged__{ true };
 			Windows::Foundation::EventRegistrationToken sizechanged_event__;
 
 		};

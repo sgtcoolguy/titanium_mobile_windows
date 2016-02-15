@@ -50,6 +50,10 @@ namespace TitaniumWindows
 			bar__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Gray);
 
 			sizechanged_event__ = panel__->SizeChanged += ref new SizeChangedEventHandler([this](Platform::Object^ sender, SizeChangedEventArgs^ e) {
+				// Make sure to resize this only when it's requested.
+				if (!sizeChanged__) {
+					return;
+				}
 				const auto fill = Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL);
 				const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
 				if (layout->get_height() != fill) {

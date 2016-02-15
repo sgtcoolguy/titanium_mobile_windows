@@ -28,9 +28,6 @@ namespace TitaniumWindows
 
 			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
 			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override;
-			virtual void set_backgroundImage(const std::string& backgroundImage) TITANIUM_NOEXCEPT override;
-			virtual void set_backgroundImage(const std::shared_ptr<Titanium::Blob>& backgroundImage) TITANIUM_NOEXCEPT override;
-			virtual void set_borderRadius(const double& borderRadius) TITANIUM_NOEXCEPT override;
 
 			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() const TITANIUM_NOEXCEPT override
 			{
@@ -89,9 +86,11 @@ namespace TitaniumWindows
 
 			void loadContentFromData(std::vector<std::uint8_t>& data);
 
+			Windows::UI::Xaml::Controls::Border^ border__{ nullptr };
 			Windows::UI::Xaml::Controls::Image^ image__{ nullptr };
 			Windows::UI::Xaml::Media::Animation::Storyboard^ storyboard__;
 			bool propertiesSet__{ false };
+			bool sizeChanged__{ true };
 		};
 	} // namespace UI
 } // namespace TitaniumWindow

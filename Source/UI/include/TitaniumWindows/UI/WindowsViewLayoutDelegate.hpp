@@ -458,6 +458,10 @@ namespace TitaniumWindows
 			virtual void registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireCallback);
 			virtual void fireSimplePositionEvent(const std::string& event_name, Windows::UI::Xaml::FrameworkElement^ sender, Windows::Foundation::Point position);
 
+			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromPath(const std::string& path);
+			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBitmapImage(Windows::UI::Xaml::Media::Imaging::BitmapImage^ image);
+			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBlob(const std::shared_ptr<Titanium::Blob>& blob);
+
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			std::function<JSObject(const JSContext&, const JSObject&)> native_wrapper_hook__;
@@ -506,10 +510,6 @@ namespace TitaniumWindows
 			bool is_loaded__{false};
 
 			Titanium::LayoutEngine::Rect oldRect__;
-
-			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromPath(const std::string& path);
-			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBitmapImage(Windows::UI::Xaml::Media::Imaging::BitmapImage^ image);
-			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBlob(const std::shared_ptr<Titanium::Blob>& blob);
 
 			Windows::UI::Xaml::Media::ImageBrush^ backgroundImageBrush__{ nullptr };
 			Windows::UI::Xaml::Media::ImageBrush^ backgroundDisabledImageBrush__{ nullptr };

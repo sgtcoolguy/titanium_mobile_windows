@@ -58,35 +58,6 @@ namespace TitaniumWindows
 			stretchImageView();
 		}
 
-		void WindowsImageViewLayoutDelegate::set_borderRadius(const double& borderRadius) TITANIUM_NOEXCEPT
-		{
-			WindowsViewLayoutDelegate::set_borderRadius(borderRadius);
-			if (borderRadius > 0) {
-				set_backgroundImage(get_backgroundImage()); // update background image
-			} else {
-				backgroundImageBrush__ = nullptr;
-				border__->Background   = nullptr;
-			}
-		}
-
-		void WindowsImageViewLayoutDelegate::set_backgroundImage(const std::string& backgroundImage) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::ViewLayoutDelegate::set_backgroundImage(backgroundImage);
-
-			updateBackground(nullptr); // disable Image's background to enable Border's background
-			backgroundImageBrush__ = CreateImageBrushFromPath(backgroundImage);
-			border__->Background = backgroundImageBrush__;
-		}
-
-		void WindowsImageViewLayoutDelegate::set_backgroundImage(const std::shared_ptr<Titanium::Blob>& backgroundImage) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::ViewLayoutDelegate::set_backgroundImage("");
-
-			updateBackground(nullptr); // disable Image's background to enable Border's background
-			backgroundImageBrush__ = CreateImageBrushFromBlob(backgroundImage);
-			border__->Background = backgroundImageBrush__;
-		}
-
 		ImageView::ImageView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::ImageView(js_context)
 		{
@@ -98,6 +69,9 @@ namespace TitaniumWindows
 
 			image__ = ref new Windows::UI::Xaml::Controls::Image();
 			image__->SizeChanged += ref new SizeChangedEventHandler([this](Platform::Object^ sender, SizeChangedEventArgs^ e) {
+				if (!sizeChanged__) {
+					return;
+				}
 				const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
 				const auto rect = layout->computeRelativeSize(
 					Canvas::GetLeft(image__),
@@ -106,6 +80,7 @@ namespace TitaniumWindows
 					this->image__->ActualHeight
 					);
 				layout->onComponentSizeChange(rect);
+				sizeChanged__ = false;
 			});
 
 			image__->ImageOpened += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
@@ -121,22 +96,22 @@ namespace TitaniumWindows
 
 			Titanium::UI::ImageView::setLayoutDelegate<WindowsImageViewLayoutDelegate>(image__);
 
-			auto border = ref new Controls::Border();
-			border->Child = image__;
+			border__ = ref new Controls::Border();
+			border__->Child = image__;
 
 			// Set parent of the ImageView, to support background color and border
 			auto parent = ref new Controls::Grid();
 
-			parent->Children->Append(border);
-			parent->SetColumn(border, 0);
-			parent->SetRow(border, 0);
+			parent->Children->Append(border__);
+			parent->SetColumn(border__, 0);
+			parent->SetRow(border__, 0);
 
 			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::SIZE);
 			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::SIZE);
 			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::SIZE);
 
-			getViewLayoutDelegate<WindowsImageViewLayoutDelegate>()->setComponent(parent, nullptr, border);
+			getViewLayoutDelegate<WindowsImageViewLayoutDelegate>()->setComponent(parent, nullptr, border__);
 		}
 
 		void ImageView::JSExportInitialize()
@@ -151,11 +126,9 @@ namespace TitaniumWindows
 
 			// Make sure to call set_image after all properties are set
 			propertiesSet__ = true;
-
-			// Initialize image(s)
-			if (get_images().size() > 1) {
-				set_images(get_images());
-			} else {
+			
+			// Initialize image
+			if (!get_image().empty()) {
 				set_image(get_image());
 			}
 		}
@@ -253,8 +226,14 @@ namespace TitaniumWindows
 				writer->DetachStream();
 				stream->Seek(0);
 				concurrency::create_task(bitmap->SetSourceAsync(stream)).then([this, bitmap]() {
-					this->image__->Source = bitmap;
 					const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
+
+					if (layout->get_borderRadius() > 0) {
+						this->border__->Background = WindowsImageViewLayoutDelegate::CreateImageBrushFromBitmapImage(bitmap);
+					} else {
+						this->image__->Source = bitmap;
+					}
+
 					auto rect = layout->computeRelativeSize(
 						Canvas::GetLeft(this->image__),
 						Canvas::GetTop(this->image__),
@@ -277,35 +256,35 @@ namespace TitaniumWindows
 				return;
 			}
 
-			// Shortcut for border's background image when borderRadius is enabled
-			const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
-			if (layout->get_borderRadius() > 0) {
-				layout->set_backgroundImage(path);
-				return;
-			}
+			sizeChanged__ = true;
 
-			const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
-			// check if we're loading from local file
-			if (boost::starts_with(TitaniumWindows::Utility::ConvertString(uri->SchemeName), "ms-")) {
-				concurrency::create_task(StorageFile::GetFileFromApplicationUriAsync(uri)).then([this](concurrency::task<StorageFile^> task){
-					try {
-						auto file = task.get();
-						loadContentFromData(TitaniumWindows::Utility::GetContentFromFile(file));
-					} catch (Platform::COMException^ ex) {
-						TITANIUM_LOG_WARN("ImageView.image: ", TitaniumWindows::Utility::ConvertString(ex->Message));
-					}
-				}, concurrency::task_continuation_context::use_current());
-			} else {
-				Windows::Web::Http::HttpClient^ httpClient = ref new Windows::Web::Http::HttpClient();
-				concurrency::create_task(httpClient->GetBufferAsync(uri)).then([this](concurrency::task<IBuffer^> task){
-					try {
-						auto buffer = task.get();
-						loadContentFromData(TitaniumWindows::Utility::GetContentFromBuffer(buffer));
-					} catch (Platform::COMException^ ex) {
-						TITANIUM_LOG_WARN("ImageView.image: ", TitaniumWindows::Utility::ConvertString(ex->Message));
-					}
-				}, concurrency::task_continuation_context::use_current());
-			}
+			// Make sure to update image from UI thread.
+			// We do it here because we're observing even StorageFile doesn't work outside of UI thread.
+			TitaniumWindows::Utility::RunOnUIThread([path, this](){
+				const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
+				// check if we're loading from local file
+				if (boost::starts_with(TitaniumWindows::Utility::ConvertString(uri->SchemeName), "ms-")) {
+					concurrency::create_task(StorageFile::GetFileFromApplicationUriAsync(uri)).then([this](concurrency::task<StorageFile^> task){
+						try {
+							auto file = task.get();
+							loadContentFromData(TitaniumWindows::Utility::GetContentFromFile(file));
+						} catch (Platform::COMException^ ex) {
+							TITANIUM_LOG_WARN("ImageView.image: ", TitaniumWindows::Utility::ConvertString(ex->Message));
+						}
+					});
+				}
+				else {
+					Windows::Web::Http::HttpClient^ httpClient = ref new Windows::Web::Http::HttpClient();
+					concurrency::create_task(httpClient->GetBufferAsync(uri)).then([this](concurrency::task<IBuffer^> task){
+						try {
+							auto buffer = task.get();
+							loadContentFromData(TitaniumWindows::Utility::GetContentFromBuffer(buffer));
+						} catch (Platform::COMException^ ex) {
+							TITANIUM_LOG_WARN("ImageView.image: ", TitaniumWindows::Utility::ConvertString(ex->Message));
+						}
+					});
+				}
+			});
 		}
 
 		void ImageView::set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT
