@@ -38,19 +38,16 @@ namespace TitaniumWindows
 
 			static void JSExportInitialize();
 
-			virtual void postInitialize(JSObject& js_object) override;
+			TITANIUM_PROPERTY_READONLY_DEF(CommandBar);
+			TITANIUM_PROPERTY_READONLY_DEF(AppBarButton);
+			TITANIUM_PROPERTY_READONLY_DEF(AppBarToggleButton);
+			TITANIUM_PROPERTY_READONLY_DEF(AppBarSeparator);
+			TITANIUM_PROPERTY_READONLY_DEF(SystemIcon);
 
 			TITANIUM_FUNCTION_DEF(createCommandBar);
 			TITANIUM_FUNCTION_DEF(createAppBarButton);
 			TITANIUM_FUNCTION_DEF(createAppBarToggleButton);
 			TITANIUM_FUNCTION_DEF(createAppBarSeparator);
-
-		private:
-			JSObject commandBar__;
-			JSObject appBarButton__;
-			JSObject appBarToggleButton__;
-			JSObject appBarSeparator__;
-			JSObject systemIcon__;
 		};
 	}  // namespace UI
 }  // namespace TitaniumWindows

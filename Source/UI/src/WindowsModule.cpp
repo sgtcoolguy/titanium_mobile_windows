@@ -38,32 +38,48 @@ namespace TitaniumWindows
 
 		WindowsModule::WindowsModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::Module(js_context)
-			, commandBar__(js_context.CreateObject(JSExport<TitaniumWindows::UI::WindowsXaml::CommandBar>::Class()))
-			, appBarButton__(js_context.CreateObject(JSExport<TitaniumWindows::UI::WindowsXaml::AppBarButton>::Class()))
-			, appBarToggleButton__(js_context.CreateObject(JSExport<TitaniumWindows::UI::WindowsXaml::AppBarToggleButton>::Class())) 
-			, appBarSeparator__(js_context.CreateObject(JSExport<TitaniumWindows::UI::WindowsXaml::AppBarSeparator>::Class())) 
-			, systemIcon__(js_context.CreateObject(JSExport<TitaniumWindows::UI::WindowsXaml::SystemIcon>::Class())) 
 		{
 			TITANIUM_LOG_DEBUG("WindowsModule::ctor Initialize");
-		}
-
-		void WindowsModule::postInitialize(JSObject& js_object) 
-		{
-			js_object.SetProperty("CommandBar", commandBar__);
-			js_object.SetProperty("AppBarButton", appBarButton__);
-			js_object.SetProperty("AppBarSeparator", appBarSeparator__);
-			js_object.SetProperty("AppBarToggleButton", appBarToggleButton__);
-			js_object.SetProperty("SystemIcon", systemIcon__);
 		}
 
 		void WindowsModule::JSExportInitialize() 
 		{
 			JSExport<WindowsModule>::SetClassVersion(1);
 			JSExport<WindowsModule>::SetParent(JSExport<Titanium::Module>::Class());
+			TITANIUM_ADD_CONSTANT_PROPERTY(WindowsModule, CommandBar);
+			TITANIUM_ADD_CONSTANT_PROPERTY(WindowsModule, AppBarButton);
+			TITANIUM_ADD_CONSTANT_PROPERTY(WindowsModule, AppBarSeparator);
+			TITANIUM_ADD_CONSTANT_PROPERTY(WindowsModule, AppBarToggleButton);
+			TITANIUM_ADD_CONSTANT_PROPERTY(WindowsModule, SystemIcon);
 			TITANIUM_ADD_FUNCTION(WindowsModule, createCommandBar);
 			TITANIUM_ADD_FUNCTION(WindowsModule, createAppBarButton);
 			TITANIUM_ADD_FUNCTION(WindowsModule, createAppBarToggleButton);
 			TITANIUM_ADD_FUNCTION(WindowsModule, createAppBarSeparator);
+		}
+
+		TITANIUM_PROPERTY_GETTER(WindowsModule, CommandBar)
+		{
+			return get_context().CreateObject(JSExport<TitaniumWindows::UI::WindowsXaml::CommandBar>::Class());
+		}
+
+		TITANIUM_PROPERTY_GETTER(WindowsModule, AppBarButton)
+		{
+			return get_context().CreateObject(JSExport<TitaniumWindows::UI::WindowsXaml::AppBarButton>::Class());
+		}
+
+		TITANIUM_PROPERTY_GETTER(WindowsModule, AppBarSeparator)
+		{
+			return get_context().CreateObject(JSExport<TitaniumWindows::UI::WindowsXaml::AppBarSeparator>::Class());
+		}
+
+		TITANIUM_PROPERTY_GETTER(WindowsModule, AppBarToggleButton)
+		{
+			return get_context().CreateObject(JSExport<TitaniumWindows::UI::WindowsXaml::AppBarToggleButton>::Class());
+		}
+
+		TITANIUM_PROPERTY_GETTER(WindowsModule, SystemIcon) 
+		{
+			return get_context().CreateObject(JSExport<TitaniumWindows::UI::WindowsXaml::SystemIcon>::Class());
 		}
 
 		TITANIUM_FUNCTION(WindowsModule, createCommandBar) 
