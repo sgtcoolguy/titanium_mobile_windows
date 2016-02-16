@@ -29,6 +29,8 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT PickerColumn final : public Titanium::UI::PickerColumn, public JSExport<PickerColumn>
 		{
 		public:
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
+
 			PickerColumn(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~PickerColumn();

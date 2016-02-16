@@ -99,6 +99,19 @@ namespace TitaniumWindows
 			virtual void set_borderWidth(const uint32_t& borderWidth) TITANIUM_NOEXCEPT override;
 
 			/*!
+			@method
+
+			@abstract borderRadius : Number
+
+			@discussion Radius for the rounded corners of the view's border.
+
+			Each corner is rounded using an arc of a circle.
+
+			Default: 0
+			*/
+			virtual void set_borderRadius(const double& borderRadius) TITANIUM_NOEXCEPT override;
+
+			/*!
 			  @method
 
 			  @abstract bottom : Number/String
@@ -390,11 +403,33 @@ namespace TitaniumWindows
 			virtual void updateBackgroundGradient();
 
 			virtual void setLayoutProperty(const Titanium::LayoutEngine::ValueName&, const std::string&);
-			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component);
-			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() const TITANIUM_NOEXCEPT
+
+			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component, Windows::UI::Xaml::Controls::Control^ underlying_control = nullptr, const bool& enableBorder = true);
+			virtual void setComponent(Windows::UI::Xaml::FrameworkElement^ component, Windows::UI::Xaml::Controls::Control^ underlying_control, Windows::UI::Xaml::Controls::Border^ border);
+
+			virtual Windows::UI::Xaml::FrameworkElement^ getEventComponent() const TITANIUM_NOEXCEPT
 			{
+				if (underlying_control__) {
+					return underlying_control__;
+				}
 				return component__;
 			}
+
+			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() const TITANIUM_NOEXCEPT
+			{
+				if (border__) {
+					return border__;
+				}
+				return component__;
+			}
+
+			// We want to detect if component__ is a container (like Grid) and there's a underlying control.
+			// We'll use this to set correct background and border.
+			void setUnderlyingControl(Windows::UI::Xaml::Controls::Control^ control)
+			{
+				underlying_control__ = control;
+			}
+
 
 			virtual Titanium::LayoutEngine::Node* getLayoutNode() const TITANIUM_NOEXCEPT
 			{
@@ -414,14 +449,18 @@ namespace TitaniumWindows
 			static Windows::UI::Color ColorForName(const std::string& colorName);
 			static Windows::UI::Color ColorForHexCode(const std::string& hexCode);
 
-			void setDefaultBackground();
-			void updateBackground(Windows::UI::Xaml::Media::Brush^);
-			void updateDisabledBackground();
+			virtual void setDefaultBackground();
+			virtual void updateBackground(Windows::UI::Xaml::Media::Brush^);
+			virtual void updateDisabledBackground();
 			Windows::UI::Xaml::Media::Brush^ getBackground();
 
 			virtual std::shared_ptr<Titanium::UI::View> rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT override;
 			virtual void registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireCallback);
 			virtual void fireSimplePositionEvent(const std::string& event_name, Windows::UI::Xaml::FrameworkElement^ sender, Windows::Foundation::Point position);
+
+			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromPath(const std::string& path);
+			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBitmapImage(Windows::UI::Xaml::Media::Imaging::BitmapImage^ image);
+			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBlob(const std::shared_ptr<Titanium::Blob>& blob);
 
 #pragma warning(push)
 #pragma warning(disable : 4251)
@@ -432,7 +471,9 @@ namespace TitaniumWindows
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+			Windows::UI::Xaml::Controls::Border^ border__    { nullptr };
 			Windows::UI::Xaml::FrameworkElement^ component__ { nullptr };
+			Windows::UI::Xaml::Controls::Control^ underlying_control__ { nullptr };
 
 			Titanium::LayoutEngine::Node* layout_node__ { nullptr };
 
@@ -463,15 +504,12 @@ namespace TitaniumWindows
 			bool is_width_size__{false};
 			bool is_height_size__{false};
 			bool is_panel__{false};
+			bool is_grid__{false};
 			bool is_control__{false};
 			bool is_scrollview__ { false };
 			bool is_loaded__{false};
 
 			Titanium::LayoutEngine::Rect oldRect__;
-
-			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromPath(const std::string& path);
-			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBitmapImage(Windows::UI::Xaml::Media::Imaging::BitmapImage^ image);
-			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBlob(const std::shared_ptr<Titanium::Blob>& blob);
 
 			Windows::UI::Xaml::Media::ImageBrush^ backgroundImageBrush__{ nullptr };
 			Windows::UI::Xaml::Media::ImageBrush^ backgroundDisabledImageBrush__{ nullptr };

@@ -27,6 +27,8 @@ namespace TitaniumWindows
 		{
 
 		public:
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
+
 			Switch(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~Switch()                  = default;
 			Switch(const Switch&)            = default;

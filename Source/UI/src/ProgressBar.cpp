@@ -38,7 +38,8 @@ namespace TitaniumWindows
 			bar__->IsIndeterminate = false;
 		}
 
-		void ProgressBar::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) {
+		void ProgressBar::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) 
+		{
 			Titanium::UI::ProgressBar::postCallAsConstructor(js_context, arguments);
 
 			// use stack panel because ProgressBar needs label & bar
@@ -49,6 +50,10 @@ namespace TitaniumWindows
 			bar__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(Windows::UI::Colors::Gray);
 
 			sizechanged_event__ = panel__->SizeChanged += ref new SizeChangedEventHandler([this](Platform::Object^ sender, SizeChangedEventArgs^ e) {
+				// Make sure to resize this only when it's requested.
+				if (!sizeChanged__) {
+					return;
+				}
 				const auto fill = Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL);
 				const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
 				if (layout->get_height() != fill) {
@@ -75,7 +80,7 @@ namespace TitaniumWindows
 			Titanium::UI::ProgressBar::setLayoutDelegate<ProgressBarLayoutDelegate>(bar__);
 			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::SIZE);
-			getViewLayoutDelegate<ProgressBarLayoutDelegate>()->setComponent(panel__);
+			getViewLayoutDelegate<ProgressBarLayoutDelegate>()->setComponent(panel__, bar__);
 		}
 
 		ProgressBar::ProgressBar(const JSContext& js_context) TITANIUM_NOEXCEPT

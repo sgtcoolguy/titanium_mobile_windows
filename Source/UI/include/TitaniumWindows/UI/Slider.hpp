@@ -28,6 +28,8 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_UI_EXPORT Slider final : public Titanium::UI::Slider, public JSExport<Slider>
 		{
 		public:
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
+
 			Slider(const JSContext&) TITANIUM_NOEXCEPT;
 
 			virtual ~Slider() = default;

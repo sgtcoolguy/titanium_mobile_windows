@@ -46,6 +46,7 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(scrollable);
 			TITANIUM_FUNCTION_UNIMPLEMENTED(blur);
 			TITANIUM_FUNCTION_UNIMPLEMENTED(hasText);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
 
 			TextArea(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TextArea()                  = default;

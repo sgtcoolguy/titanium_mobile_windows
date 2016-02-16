@@ -21,14 +21,20 @@ namespace TitaniumWindows
 
 		class TITANIUMWINDOWS_UI_EXPORT WindowsImageViewLayoutDelegate : public WindowsViewLayoutDelegate {
 		public:
-			WindowsImageViewLayoutDelegate() TITANIUM_NOEXCEPT;
+			WindowsImageViewLayoutDelegate(Windows::UI::Xaml::Controls::Image^ image) TITANIUM_NOEXCEPT;
 			virtual ~WindowsImageViewLayoutDelegate();
 
 			void stretchImageView() TITANIUM_NOEXCEPT;
 
 			virtual void set_width(const std::string& width) TITANIUM_NOEXCEPT override;
 			virtual void set_height(const std::string& height) TITANIUM_NOEXCEPT override;
+
+			virtual Windows::UI::Xaml::FrameworkElement^ getComponent() const TITANIUM_NOEXCEPT override
+			{
+				return component__;
+			}
 		private:
+			Windows::UI::Xaml::Controls::Image^ image__;
 		};
 
 		/*!
@@ -47,6 +53,7 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(enableZoomControls);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(hires);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(preventDefaultImage);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
 
 			ImageView(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -61,6 +68,7 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
+			virtual void afterPropertiesSet() TITANIUM_NOEXCEPT override;
 
 			// Methods
 			virtual void pause() TITANIUM_NOEXCEPT override final;
@@ -74,15 +82,15 @@ namespace TitaniumWindows
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
 			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
 			virtual void set_defaultImage(const std::string&) TITANIUM_NOEXCEPT override final;
-
 		private:
 
 			void loadContentFromData(std::vector<std::uint8_t>& data);
 
-			Windows::Foundation::EventRegistrationToken layout_event__;
-			Windows::UI::Xaml::Controls::Image^ image__;
+			Windows::UI::Xaml::Controls::Border^ border__{ nullptr };
+			Windows::UI::Xaml::Controls::Image^ image__{ nullptr };
 			Windows::UI::Xaml::Media::Animation::Storyboard^ storyboard__;
-			bool loaded__;
+			bool propertiesSet__{ false };
+			bool sizeChanged__{ true };
 		};
 	} // namespace UI
 } // namespace TitaniumWindow

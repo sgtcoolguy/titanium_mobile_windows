@@ -50,6 +50,7 @@ namespace TitaniumWindows
 			TITANIUM_FUNCTION_UNIMPLEMENTED(remove);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(font);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(style);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
 
 			ProgressBar(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -75,6 +76,7 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::ProgressBar^ bar__;
 			Windows::UI::Xaml::Controls::TextBlock^ label__;
 
+			bool sizeChanged__{ true };
 			Windows::Foundation::EventRegistrationToken sizechanged_event__;
 
 		};

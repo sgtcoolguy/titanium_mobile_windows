@@ -40,6 +40,9 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(separatorColor);
 			TITANIUM_FUNCTION_UNIMPLEMENTED(scrollToItem);
 			TITANIUM_FUNCTION_UNIMPLEMENTED(setMarker);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderColor);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderWidth);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
 
 			virtual void appendSection(const std::vector<std::shared_ptr<Titanium::UI::ListSection>>& section, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
 			virtual void deleteSectionAt(const uint32_t& sectionIndex, const std::shared_ptr<Titanium::UI::ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;

@@ -135,7 +135,9 @@ describe("Titanium.UI.Label", function () {
 
         win.addEventListener('postlayout', function () {
             should(bgView.size.height).be.eql(100);
-            should(label.size.height).not.be.greaterThan(100);
+            // Uncomment below because it should be ok for label to have height greater than parent view
+            // parent view should be able to handle which areas should be shown in that case.
+            // should(label.size.height).not.be.greaterThan(100);
         });
         win.addEventListener('focus', function() {
             setTimeout(function() {

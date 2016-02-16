@@ -60,6 +60,7 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(scrollingEnabled);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(clipViews);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(hitRect);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
 
 			ScrollableView(const JSContext&) TITANIUM_NOEXCEPT;
 

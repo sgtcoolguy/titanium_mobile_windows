@@ -61,6 +61,7 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(decelerationRate);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(overScrollMode);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(scrollIndicatorStyle);
+			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
 
 			ScrollView(const JSContext&) TITANIUM_NOEXCEPT;
 
