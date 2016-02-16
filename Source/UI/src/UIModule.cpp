@@ -17,7 +17,6 @@ namespace TitaniumWindows
 
 	UIModule::UIModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Titanium::UIModule(js_context)
-		, windows__(js_context.CreateObject(JSExport<TitaniumWindows::WindowsModule>::Class()))
 	{
 	}
 
@@ -25,16 +24,16 @@ namespace TitaniumWindows
 	{
 	}
 
-	// Initialize Windows-specific UI types
-	void UIModule::postInitialize(JSObject& js_object) 
+	void UIModule::JSExportInitialize() 
 	{
-		Titanium::UIModule::postInitialize(js_object);
-		js_object.SetProperty("Windows", windows__);
-	}
-
-	void UIModule::JSExportInitialize() {
 		JSExport<UIModule>::SetClassVersion(1);
 		JSExport<UIModule>::SetParent(JSExport<Titanium::UIModule>::Class());
+		TITANIUM_ADD_CONSTANT_PROPERTY(UIModule, Windows);
+	}
+
+	TITANIUM_PROPERTY_GETTER(UIModule, Windows)
+	{
+		return get_context().CreateObject(JSExport<TitaniumWindows::WindowsModule>::Class());
 	}
 
 	void UIModule::set_backgroundColor(const std::string& color) TITANIUM_NOEXCEPT

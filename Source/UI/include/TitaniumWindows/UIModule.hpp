@@ -35,11 +35,11 @@ namespace TitaniumWindows
 	class TITANIUMWINDOWS_UI_EXPORT UIModule final : public Titanium::UIModule, public JSExport<UIModule>
 	{
 	public:
+		TITANIUM_PROPERTY_READONLY_DEF(Windows);
+
 		virtual void set_backgroundColor(const std::string& color) TITANIUM_NOEXCEPT final override;
 
 		UIModule(const JSContext&) TITANIUM_NOEXCEPT;
-
-		virtual void postInitialize(JSObject& js_object) override;
 
 		virtual ~UIModule() TITANIUM_NOEXCEPT;
 		UIModule(const UIModule&) = default;
@@ -50,8 +50,6 @@ namespace TitaniumWindows
 #endif
 
 		static void JSExportInitialize();
-	private:
-		JSObject windows__;
 	};
 }  // namespace TitaniumWindows
 
