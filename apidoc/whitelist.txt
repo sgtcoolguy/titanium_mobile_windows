@@ -2,6 +2,13 @@
 # C - Class, M - Method, P - Property
 
 C Global
+M L
+M alert
+M clearTimeout
+M setTimeout
+M require
+M setInterval
+M clearInterval
 
 C Titanium.UI.View
 E touchmove
@@ -64,6 +71,11 @@ P specified
 P ownerElement
 
 C Titanium.XML.CDATASection
+M substringData
+M appendData
+M insertData
+M deleteData
+M replaceData
 
 C Titanium.XML.CharacterData
 M substringData
@@ -73,6 +85,11 @@ M deleteData
 M replaceData
 
 C Titanium.XML.Comment
+M substringData
+M appendData
+M insertData
+M deleteData
+M replaceData
 
 C Titanium.XML.DOMImplementation
 M hasFeature
@@ -99,6 +116,43 @@ M getElementsByTagNameNS
 M getElementById
 
 C Titanium.XML.DocumentFragment
+P ATTRIBUTE_NODE
+P CDATA_SECTION_NODE
+P COMMENT_NODE
+P DOCUMENT_FRAGMENT_NODE
+P DOCUMENT_NODE
+P DOCUMENT_TYPE_NODE
+P ELEMENT_NODE
+P ENTITY_NODE
+P ENTITY_REFERENCE_NODE
+P NOTATION_NODE
+P PROCESSING_INSTRUCTION_NODE
+P TEXT_NODE
+P attributes
+P childNodes
+P firstChild
+P lastChild
+P localName
+P namespaceURI
+P nextSibling
+P nodeName
+P nodeType
+P nodeValue
+P ownerDocument
+P parentNode
+P prefix
+P previousSibling
+P text
+P textContent
+M appendChild
+M cloneNode
+M hasAttributes
+M hasChildNodes
+M insertBefore
+M isSupported
+M normalize
+M removeChild
+M replaceChild
 
 C Titanium.XML.DocumentType
 P name
@@ -132,6 +186,43 @@ P systemId
 P notationName
 
 C Titanium.XML.EntityReference
+P ATTRIBUTE_NODE
+P CDATA_SECTION_NODE
+P COMMENT_NODE
+P DOCUMENT_FRAGMENT_NODE
+P DOCUMENT_NODE
+P DOCUMENT_TYPE_NODE
+P ELEMENT_NODE
+P ENTITY_NODE
+P ENTITY_REFERENCE_NODE
+P NOTATION_NODE
+P PROCESSING_INSTRUCTION_NODE
+P TEXT_NODE
+P attributes
+P childNodes
+P firstChild
+P lastChild
+P localName
+P namespaceURI
+P nextSibling
+P nodeName
+P nodeType
+P nodeValue
+P ownerDocument
+P parentNode
+P prefix
+P previousSibling
+P text
+P textContent
+M appendChild
+M cloneNode
+M hasAttributes
+M hasChildNodes
+M insertBefore
+M isSupported
+M normalize
+M removeChild
+M replaceChild
 
 C Titanium.XML.NamedNodeMap
 P length
@@ -144,6 +235,18 @@ M setNamedItemNS
 M removeNamedItemNS
 
 C Titanium.XML.Node
+P ATTRIBUTE_NODE
+P CDATA_SECTION_NODE
+P COMMENT_NODE
+P DOCUMENT_FRAGMENT_NODE
+P DOCUMENT_NODE
+P DOCUMENT_TYPE_NODE
+P ELEMENT_NODE
+P ENTITY_NODE
+P ENTITY_REFERENCE_NODE
+P NOTATION_NODE
+P PROCESSING_INSTRUCTION_NODE
+P TEXT_NODE
 P nodeValue
 P prefix
 P nodeName
@@ -158,6 +261,8 @@ P attributes
 P ownerDocument
 P namespaceURI
 P localName
+P text
+P textContent
 M insertBefore
 M replaceChild
 M removeChild
@@ -202,10 +307,18 @@ M close
 M construct
 
 C Titanium.Module
-
-C Titanium.Proxy
-
-C Titanium.UI.ListItem
+P apiName
+P bubbleParent
+P lifecycleContainer
+M addEventListener
+M applyProperties
+M fireEvent
+M getApiName
+M getBubbleParent
+M getLifecycleContainer
+M removeEventListener
+M setBubbleParent
+M setLifecycleContainer
 
 C Titanium.UI.ListSection
 P footerTitle
@@ -219,13 +332,17 @@ M replaceItemsAt
 M deleteItemsAt
 M getItemAt
 M updateItemAt
-M getFooterTitle
-M setFooterTitle
-M getFooterView
-M setFooterView
-M getHeaderTitle
-M setHeaderTitle
-M getHeaderView
-M setHeaderView
-M getItems
-M setItems
+
+C Titanium.Proxy
+P apiName
+P bubbleParent
+P lifecycleContainer
+M addEventListener
+M applyProperties
+M fireEvent
+M getApiName
+M getBubbleParent
+M getLifecycleContainer
+M removeEventListener
+M setBubbleParent
+M setLifecycleContainer

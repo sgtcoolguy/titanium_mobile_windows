@@ -91,6 +91,18 @@ function extractWhiteList(callback) {
 	var titaniumKit_whitelist = {};
 	var reader = new LineReader(path.join(__dirname, 'whitelist.txt')),
 		module_name, properties = [], methods = [], events = [];
+	function addWhitelistEntry() {
+		if (module_name) {
+			titaniumKit_whitelist[module_name] = {
+				module_name: module_name,
+				properties: properties,
+				methods: methods,
+				events: events
+			};
+		}
+		module_name = null;
+		properties = [], methods = [], events = [];
+	}
 	reader.on('line', function(line) {
 		var element = line.split(' '),
 			type = element[0];
@@ -103,18 +115,8 @@ function extractWhiteList(callback) {
 		} else if (type === 'E') {
 			events.push(element[1]);
 		} else if (line.trim() == "") {
-			// there must be a empty line which indicates separator of data
-			if (module_name) {
-				titaniumKit_whitelist[module_name] = {
-					module_name: module_name,
-					properties: properties,
-					methods: methods,
-					events: events
-				};
-			}
-
-			module_name = null;
-			properties = [], methods = [], events = [];
+			// new whitelist entry
+			addWhitelistEntry();
 		}
 	});
 	reader.on('error', function(err) {
@@ -122,6 +124,9 @@ function extractWhiteList(callback) {
 		process.exit(1);
 	});
 	reader.on('end', function() {
+		// include last entry into whitelist
+		addWhitelistEntry();
+
 		// merge the result
 		for (name in titaniumKit_whitelist) {
 			if (titaniumKit[name]) {
