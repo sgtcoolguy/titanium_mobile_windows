@@ -58,6 +58,7 @@ set(SOURCE_Map
   include/TitaniumWindows/Map.hpp
   include/TitaniumWindows/Map/Annotation.hpp
   src/Annotation.cpp
+  src/TitaniumEntryPoint.cpp
   )
 
 source_group(Titanium\\Map FILES ${SOURCE_Map})

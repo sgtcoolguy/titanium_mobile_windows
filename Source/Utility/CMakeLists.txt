@@ -46,6 +46,7 @@ endif()
 set(SOURCE_Utility
   include/TitaniumWindows/Utility.hpp
   src/Utility.cpp
+  src/TitaniumEntryPoint.cpp
   )
 
 source_group(Titanium\\Utility FILES ${SOURCE_Utility})

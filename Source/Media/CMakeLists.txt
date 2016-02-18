@@ -65,6 +65,7 @@ set(SOURCE_Media
   src/Media/Sound.cpp
   src/Media/MusicPlayer.cpp
   src/Media/VideoPlayer.cpp
+  src/TitaniumEntryPoint.cpp
   )
 
 source_group(Titanium\\Media FILES ${SOURCE_Media})

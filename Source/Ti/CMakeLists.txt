@@ -48,6 +48,7 @@ endif()
 set(SOURCE_Ti
   include/TitaniumWindows/TiModule.hpp
   src/TiModule.cpp
+  src/TitaniumEntryPoint.cpp
   )
 
 set(SOURCE_Codec
