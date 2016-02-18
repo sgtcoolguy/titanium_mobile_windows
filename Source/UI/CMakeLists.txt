@@ -108,6 +108,7 @@ set(SOURCE_UI
   src/WindowsViewLayoutDelegate.cpp
   include/TitaniumWindows/UI/UIElement.hpp
   src/UIElement.cpp
+  src/TitaniumEntryPoint.cpp
   )
 
 source_group(Titanium\\UI FILES ${SOURCE_UI})

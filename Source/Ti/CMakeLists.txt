@@ -55,6 +55,7 @@ generate_cpp_header_file(resource_group_js_hpp ${PROJECT_SOURCE_DIR}/src/Contact
 set(SOURCE_Ti
   include/TitaniumWindows/TiModule.hpp
   src/TiModule.cpp
+  src/TitaniumEntryPoint.cpp
   )
 
 set(SOURCE_Codec

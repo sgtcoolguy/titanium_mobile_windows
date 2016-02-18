@@ -52,6 +52,7 @@ set(SOURCE_Global
   src/GlobalObject.cpp
   include/TitaniumWindows/GlobalString.hpp
   src/GlobalString.cpp
+  src/TitaniumEntryPoint.cpp
   )
 
 source_group(Titanium\\Global FILES ${SOURCE_Global})

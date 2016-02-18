@@ -48,6 +48,7 @@ endif()
 set(SOURCE_Filesystem
   include/TitaniumWindows/Filesystem.hpp
   src/Filesystem.cpp
+  src/TitaniumEntryPoint.cpp
   )
 
 source_group(Titanium\\Filesystem FILES ${SOURCE_Filesystem})
