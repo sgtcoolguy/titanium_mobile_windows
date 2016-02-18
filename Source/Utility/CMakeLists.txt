@@ -47,6 +47,7 @@ set(SOURCE_Utility
   include/TitaniumWindows/Utility.hpp
   src/Utility.cpp
   include/TitaniumWindows/WindowsMacros.hpp
+  src/TitaniumEntryPoint.cpp
   )
 
 source_group(Titanium\\Utility FILES ${SOURCE_Utility})
