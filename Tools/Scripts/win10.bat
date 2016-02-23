@@ -15,13 +15,30 @@ IF %BUILDLEVEL% NEQ 0 (
 	rmdir node_modules /Q /S
 	exit /B %BUILDLEVEL%
 )
-call node test.js -s 10.0.10586
-SET TESTLEVEL=%ERRORLEVEL%
-rmdir node_modules /Q /S
-cd ..\\..\\..
 
-cd dist
-copy junit_report.xml junit_report_10.xml
-cd ..
+echo Running Tests on Windows 10 Phone Emulator
+call node test.js -s 10.0.10586 -p Windows10.Phone
+SET TESTLEVEL=%ERRORLEVEL%
+
+echo Copying JUnit report
+cd ..\\..\\..\\dist
+copy junit_report.xml junit_report_10_phone.xml
+del junit_report.xml
+cd ..\\Tools\\Scripts\\build
+
+IF %TESTLEVEL% NEQ 0 (
+	rmdir node_modules /Q /S
+	exit /B %TESTLEVEL%
+)
+
+echo Running Tests on Windows 10 Desktop
+call node test.js -s 10.0 -T ws-local -p Windows10.Store
+SET TESTLEVEL=%ERRORLEVEL%
+
+rmdir node_modules /Q /S
+
+cd ..\\..\\..\\dist
+copy junit_report.xml junit_report_10_store.xml
+del junit_report.xml
 
 exit /B %TESTLEVEL%

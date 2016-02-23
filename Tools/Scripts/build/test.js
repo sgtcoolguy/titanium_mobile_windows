@@ -242,8 +242,20 @@ function getDeviceId(sdkVersion, target, next) {
 function runBuild(target, deviceId, sdkVersion, count, next) {
 	var prc,
 		inResults = false,
-		done = false;
-	prc = spawn('node', [titanium, 'build', '--project-dir', projectDir, '--platform', 'windows', '--target', target, '--wp-sdk', sdkVersion, '--win-publisher-id', '13AFB724-65F2-4F30-8994-C79399EDBD80', '--device-id', deviceId, '--no-prompt', '--no-colors']);
+		done = false,
+		args = [
+			titanium, 'build',
+			'--project-dir', projectDir,
+			'--platform', 'windows',
+			'--target', target,
+			'--wp-sdk', sdkVersion,
+			'--win-publisher-id', '13AFB724-65F2-4F30-8994-C79399EDBD80',
+			'--no-prompt', '--no-colors'
+		];
+	if (deviceId) {
+		args = args.concat('--device-id', deviceId);
+	}
+	prc = spawn('node', args);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 		var lines = data.toString().trim().match(/^.*([\n\r]+|$)/gm);
@@ -323,12 +335,13 @@ function parseTestResults(testResults, next) {
 }
 
 /**
- * Converts JSON results of unit tests into a JUnit test result XMl formatted file.
+ * Converts JSON results of unit tests into a JUnit test result XML formatted file.
  *
  * @param jsonResults {Object} JSON containing results of the unit test output
+ * @param prefix {String} prefix for test names to identify them uniquely
  * @param next {Function} callback function
  */
-function outputJUnitXML(jsonResults, next) {
+function outputJUnitXML(jsonResults, prefix, next) {
 	// We need to go through the results and separate them out into suites!
 	var suites = {},
 		keys = [],
@@ -347,7 +360,7 @@ function outputJUnitXML(jsonResults, next) {
 	});
 	keys = Object.keys(suites);
 	values = keys.map(function(v) { return suites[v]; });
-	var r = ejs.render('' + fs.readFileSync(path.join('.', 'junit.xml.ejs')),  { 'suites': values });
+	var r = ejs.render('' + fs.readFileSync(path.join('.', 'junit.xml.ejs')),  { 'suites': values, 'prefix': prefix });
 
 	// Write the JUnit XML to a file
 	fs.writeFileSync(path.join(DIST_DIR, 'junit_report.xml'), r);
@@ -363,9 +376,11 @@ function outputJUnitXML(jsonResults, next) {
  * @param sdkVersion {String} '8.1'|'10.0'
  * @param msbuild {String} '12.0'|'14.0' (Visual Studio 2013 or 2015)
  * @param target {String} 'wp-emulator'|'ws-local'
+ * @param deviceId {String} id of the device to run tests on
+ * @param prefix {String} prefix to use for test results to uniquely identify them
  * @param callback {Function} callback function
  */
-function test(sdkVersion, msbuild, target, deviceId, callback) {
+function test(sdkVersion, msbuild, target, deviceId, prefix, callback) {
 	var sdkPath,
 		shortSdkVersion = sdkRegex.exec(sdkVersion)[1];
 
@@ -408,7 +423,7 @@ function test(sdkVersion, msbuild, target, deviceId, callback) {
 			copyMochaAssets(next);
 		},
 		function (next) {
-			if (deviceId) {
+			if (deviceId || target == 'ws-local') {
 				return next();
 			}
 
@@ -429,7 +444,7 @@ function test(sdkVersion, msbuild, target, deviceId, callback) {
 			parseTestResults(testResults, next);
 		},
 		function (next) {
-			outputJUnitXML(jsonResults, next);
+			outputJUnitXML(jsonResults, prefix, next);
 		}
 	], callback);
 }
@@ -449,6 +464,7 @@ if (module.id === ".") {
 			.option('-s, --sdk-version [version]', 'Target a specific Windows SDK version [version]', sdkRegex, WIN_8_1)
 			.option('-T, --target [target]', 'Target a specific deploy target [target]', /^wp\-emulator|ws\-local|wp\-device$/, WP_EMULATOR)
 			.option('-C, --device-id [udid]', 'Target a specific device/emulator')
+			.option('-p, --prefix [prefix]', 'Set a prefix to put before testsuite names to uniquely identify them') // we run same suite for Windows 8.1/10 and phone/desktop. Use this to prefix tests so we can identify them uniquely?
 			.parse(process.argv);
 
 		// When doing win 10, it has to use msbuild 14
@@ -456,7 +472,8 @@ if (module.id === ".") {
 			// TODO Log warning if they used msbuild 12!
 			program.msbuild = MSBUILD_14;
 		}
-		test(program.sdkVersion, program.msbuild, program.target, program.deviceId, function (err, results) {
+		// TODO Use default prefix based on SDK version and target?
+		test(program.sdkVersion, program.msbuild, program.target, program.deviceId, program.prefix, function (err, results) {
 			if (err) {
 				console.error(err.toString().red);
 				process.exit(1);

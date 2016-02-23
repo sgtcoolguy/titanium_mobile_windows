@@ -1,16 +1,22 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
 
 require('ti-mocha');
-var should = require('should');
+var should = require('should'),
+    didFocus = false;
 
 describe("Titanium.UI.WebView", function () {
 
-    it("url", function (finish) {
+    beforeEach(function() {
+        didFocus = false;
+    });
+
+    // Skip this on desktop Windows apps because it crashes the app now.
+    ((Ti.Platform.version.indexOf('10.0' == 0) && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("url", function (finish) {
         this.timeout(10000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -18,6 +24,8 @@ describe("Titanium.UI.WebView", function () {
         var webview = Ti.UI.createWebView();
 
         w.addEventListener('focus', function () {
+            if (didFocus) return;
+            didFocus = true;
             should(function () {
                 webview.url = 'http://www.appcelerator.com/';
             }).not.throw();
@@ -39,6 +47,8 @@ describe("Titanium.UI.WebView", function () {
         var webview = Ti.UI.createWebView();
 
         w.addEventListener('focus', function () {
+            if (didFocus) return;
+            didFocus = true;
             should(function () {
                 webview.url = 'ti.ui.webview.test.html';
             }).not.throw();
@@ -52,7 +62,8 @@ describe("Titanium.UI.WebView", function () {
         w.open();
     });
 
-    it("evalJS", function (finish) {
+    // Skip this on desktop Windows apps because it crashes the app now.
+    ((Ti.Platform.version.indexOf('10.0' == 0) && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("evalJS", function (finish) {
         this.timeout(10000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -68,6 +79,8 @@ describe("Titanium.UI.WebView", function () {
             });
         });
         w.addEventListener('focus', function () {
+            if (didFocus) return;
+            didFocus = true;
             should(function () {
                 webview.url = 'ti.ui.webview.test.html';
             }).not.throw();

@@ -1,13 +1,19 @@
-
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./should');
+var should = require('./should'),
+    didFocus = false,
+    didPostLayout = false;
 
 describe("Titanium.UI.Label", function () {
+
+    beforeEach(function() {
+        didFocus = false;
+        didPostLayout = false;
+    });
 
     it("apiName", function (finish) {
         var label = Ti.UI.createLabel({
@@ -94,7 +100,7 @@ describe("Titanium.UI.Label", function () {
         finish();
     });
 
-    it("width", function (finish) {
+    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("width", function (finish) {
         this.timeout(5000);
         var label = Ti.UI.createLabel({
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
@@ -105,9 +111,13 @@ describe("Titanium.UI.Label", function () {
         });
         win.add(label);
         win.addEventListener('postlayout', function () {
+            if (didPostLayout) return;
+            didPostLayout = true;
             should(label.size.width).not.be.greaterThan(win.size.width);
         });
         win.addEventListener('focus', function() {
+            if (didFocus) return;
+            didFocus = true;
             setTimeout(function() {
                 win.close();
                 finish();
@@ -134,12 +144,16 @@ describe("Titanium.UI.Label", function () {
         win.add(bgView);
 
         win.addEventListener('postlayout', function () {
+            if (didPostLayout) return;
+            didPostLayout = true;
             should(bgView.size.height).be.eql(100);
             // Uncomment below because it should be ok for label to have height greater than parent view
             // parent view should be able to handle which areas should be shown in that case.
             // should(label.size.height).not.be.greaterThan(100);
         });
         win.addEventListener('focus', function() {
+            if (didFocus) return;
+            didFocus = true;
             setTimeout(function() {
                 win.close();
                 finish();
