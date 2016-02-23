@@ -11,40 +11,75 @@
 
 namespace Titanium
 {
+	LocationCoordinatesFloor js_to_LocationCoordinatesFloor(const JSObject& object)
+	{
+		LocationCoordinatesFloor params;
+		if (object.HasProperty("level")) {
+			params.level = static_cast<std::int32_t>(object.GetProperty("level"));
+		}
+		return params;
+	};
+
+	JSObject LocationCoordinatesFloor_to_js(const JSContext& js_context, const LocationCoordinatesFloor& params)
+	{
+		auto object = js_context.CreateObject();
+		object.SetProperty("level", js_context.CreateNumber(params.level));
+		return object;
+	}
+
+	LocationCoordinates js_to_LocationCoordinates(const JSObject& object)
+	{
+		LocationCoordinates params;
+		if (object.HasProperty("accuracy")) {
+			params.accuracy = static_cast<double>(object.GetProperty("accuracy"));
+		}
+		if (object.HasProperty("altitude")) {
+			params.altitude = static_cast<double>(object.GetProperty("altitude"));
+		}
+		if (object.HasProperty("altitudeAccuracy")) {
+			params.altitude = static_cast<double>(object.GetProperty("altitudeAccuracy"));
+		}
+		if (object.HasProperty("floor")) {
+			params.floor = js_to_LocationCoordinatesFloor(static_cast<JSObject>(object.GetProperty("altitude")));
+		}
+		if (object.HasProperty("heading")) {
+			params.heading = static_cast<double>(object.GetProperty("heading"));
+		}
+		if (object.HasProperty("latitude")) {
+			params.latitude = static_cast<double>(object.GetProperty("latitude"));
+		}
+		if (object.HasProperty("longitude")) {
+			params.longitude = static_cast<double>(object.GetProperty("longitude"));
+		}
+		if (object.HasProperty("speed")) {
+			params.speed = static_cast<double>(object.GetProperty("speed"));
+		}
+		if (object.HasProperty("timestamp")) {
+			params.timestamp = std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(static_cast<double>(object.GetProperty("timstamp"))));
+		}
+		return params;
+	};
+
+	JSObject LocationCoordinates_to_js(const JSContext& js_context, const LocationCoordinates& params)
+	{
+		auto object = js_context.CreateObject();
+		object.SetProperty("accuracy",  js_context.CreateNumber(params.accuracy));
+		object.SetProperty("altitude",  js_context.CreateNumber(params.altitude));
+		object.SetProperty("altitudeAccuracy", js_context.CreateNumber(params.altitudeAccuracy));
+		object.SetProperty("floor", LocationCoordinatesFloor_to_js(js_context, params.floor));
+		object.SetProperty("heading",   js_context.CreateNumber(params.heading));
+		object.SetProperty("latitude",  js_context.CreateNumber(params.latitude));
+		object.SetProperty("longitude", js_context.CreateNumber(params.longitude));
+		object.SetProperty("speed",     js_context.CreateNumber(params.speed));
+		object.SetProperty("timestamp", js_context.CreateNumber(static_cast<double>(params.timestamp.count())));
+		return object;
+	}
+
 	GeolocationModule::GeolocationModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Module(js_context, "Titanium.Geolocation"),
-		accuracy_best__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::BEST))),
-		accuracy_best_for_navigation__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::BEST_FOR_NAVIGATION))),
-		accuracy_high__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::HIGH))),
-		accuracy_hundred_meters__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::HUNDRED_METERS))),
-		accuracy_kilometer__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::KILOMETER))),
-		accuracy_low__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::LOW))),
-		accuracy_nearest_ten_meters__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::NEAREST_TEN_METERS))),
-		accuracy_three_kilometers__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::THREE_KILOMETERS))),
 		accuracy__(Geolocation::ACCURACY::BEST),
-		activitytype_automotive_navigation__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACTIVITYTYPE::AUTOMOTIVE_NAVIGATION))),
-		activitytype_fitness__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACTIVITYTYPE::FITNESS))),
-		activitytype_other__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACTIVITYTYPE::OTHER))),
-		activitytype_other_navigation__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACTIVITYTYPE::OTHER_NAVIGATION))),
 		activityType__(Geolocation::ACTIVITYTYPE::OTHER),
-		authorization_always__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::ALWAYS))),
-		authorization_authorized__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::AUTHORIZED))),
-		authorization_denied__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::DENIED))),
-		authorization_restricted__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::RESTRICTED))),
-		authorization_unknown__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::UNKNOWN))),
-		authorization_when_in_use__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::WHEN_IN_USE))),
 		locationServicesAuthorization__(Geolocation::AUTHORIZATION::UNKNOWN),
-		error_denied__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::DENIED))),
-		error_heading_failure__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::HEADING_FAILIURE))),
-		error_location_unknown__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::LOCATION_UNKNOWN))),
-		error_network__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::NETWORK))),
-		error_region_monitoring_delayed__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::REGION_MONITORING_DELAYED))),
-		error_region_monitoring_denied__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::REGION_MONITORING_DENIED))),
-		error_region_monitoring_failure__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::REGION_MONITORING_FAILIURE))),
-		error_timeout__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::TIMEOUT))),
-		provider_gps__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::PROVIDER::GPS))),
-		provider_network__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::PROVIDER::NETOWORK))),
-		provider_passive__(js_context.CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::PROVIDER::PASSIVE))),
 		distanceFilter__(0),
 		headingFilter__(0),
 		hasCompass__(false),
@@ -56,151 +91,151 @@ namespace Titanium
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_BEST)
 	{
-		return accuracy_best__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::BEST));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_BEST_FOR_NAVIGATION)
 	{
-		return accuracy_best_for_navigation__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::BEST_FOR_NAVIGATION));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_HUNDRED_METERS)
 	{
-		return accuracy_hundred_meters__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::HUNDRED_METERS));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_KILOMETER)
 	{
-		return accuracy_kilometer__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::KILOMETER));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_NEAREST_TEN_METERS)
 	{
-		return accuracy_nearest_ten_meters__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::NEAREST_TEN_METERS));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_THREE_KILOMETERS)
 	{
-		return accuracy_three_kilometers__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::THREE_KILOMETERS));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_HIGH)
 	{
-		return accuracy_high__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::HIGH));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACCURACY_LOW)
 	{
-		return accuracy_low__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACCURACY::LOW));
 	}
 
-	TITANIUM_PROPERTY_READWRITE(GeolocationModule, Geolocation::ACCURACY, accuracy)
+	TITANIUM_PROPERTY_READWRITE(GeolocationModule, Geolocation::ACCURACY, accuracy);
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACTIVITYTYPE_AUTOMOTIVE_NAVIGATION)
 	{
-			return activitytype_automotive_navigation__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACTIVITYTYPE::AUTOMOTIVE_NAVIGATION));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACTIVITYTYPE_FITNESS)
 	{
-			return activitytype_fitness__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACTIVITYTYPE::FITNESS));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACTIVITYTYPE_OTHER)
 	{
-			return activitytype_other__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACTIVITYTYPE::OTHER));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ACTIVITYTYPE_OTHER_NAVIGATION)
 	{
-			return activitytype_other_navigation__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ACTIVITYTYPE::OTHER_NAVIGATION));
 	}
 
-	TITANIUM_PROPERTY_READWRITE(GeolocationModule, Geolocation::ACTIVITYTYPE, activityType)
+	TITANIUM_PROPERTY_READWRITE(GeolocationModule, Geolocation::ACTIVITYTYPE, activityType);
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_ALWAYS)
 	{
-			return authorization_always__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::ALWAYS));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_AUTHORIZED)
 	{
-			return authorization_authorized__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::AUTHORIZED));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_DENIED)
 	{
-			return authorization_denied__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::DENIED));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_RESTRICTED)
 	{
-			return authorization_restricted__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::RESTRICTED));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_UNKNOWN)
 	{
-			return authorization_unknown__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::UNKNOWN));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, AUTHORIZATION_WHEN_IN_USE)
 	{
-			return authorization_when_in_use__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::AUTHORIZATION::WHEN_IN_USE));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_DENIED)
 	{
-			return error_denied__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::DENIED));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_HEADING_FAILURE)
 	{
-			return error_heading_failure__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::HEADING_FAILIURE));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_LOCATION_UNKNOWN)
 	{
-			return error_location_unknown__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::LOCATION_UNKNOWN));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_NETWORK)
 	{
-			return error_network__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::NETWORK));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_REGION_MONITORING_DELAYED)
 	{
-			return error_region_monitoring_delayed__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::REGION_MONITORING_DELAYED));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_REGION_MONITORING_DENIED)
 	{
-			return error_region_monitoring_denied__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::REGION_MONITORING_DENIED));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_REGION_MONITORING_FAILURE)
 	{
-			return error_region_monitoring_failure__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::REGION_MONITORING_FAILIURE));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, ERROR_TIMEOUT)
 	{
-			return error_timeout__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::ERROR::TIMEOUT));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, PROVIDER_GPS)
 	{
-			return provider_gps__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::PROVIDER::GPS));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, PROVIDER_NETWORK)
 	{
-			return provider_network__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::PROVIDER::NETOWORK));
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, PROVIDER_PASSIVE)
 	{
-			return provider_passive__;
+		return get_context().CreateNumber(Titanium::Geolocation::Constants::to_underlying_type(Titanium::Geolocation::PROVIDER::PASSIVE));
 	}
 
 	TITANIUM_PROPERTY_READWRITE(GeolocationModule, double, distanceFilter)
@@ -240,7 +275,8 @@ namespace Titanium
 		TITANIUM_LOG_WARN("GeolocationModule::reverseGeocoder: Unimplemented");
 	}
 
-	void GeolocationModule::JSExportInitialize() {
+	void GeolocationModule::JSExportInitialize() 
+	{
 		JSExport<GeolocationModule>::SetClassVersion(1);
 		JSExport<GeolocationModule>::SetParent(JSExport<Module>::Class());
 

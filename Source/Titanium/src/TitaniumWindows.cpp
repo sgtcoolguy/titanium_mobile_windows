@@ -324,6 +324,9 @@ namespace TitaniumWindows
 
 	void Application::OnResuming(Object ^sender, Object ^args) 
 	{
+		// shorthand to indicate we're in background
+		js_context__.JSEvaluateScript("Ti.App.Windows.BackgroundService.suspended = false;");
+
 		// Since we only have "resuming" event, we fires both resume and resumed event.
 		GET_TITANIUM_APP(App);
 		App->fireEvent("resume");
@@ -334,6 +337,8 @@ namespace TitaniumWindows
 	{
 		auto deferral = e->SuspendingOperation->GetDeferral();
 
+		// shorthand to indicate we're in background
+		js_context__.JSEvaluateScript("Ti.App.Windows.BackgroundService.suspended = true;");
 		js_context__.JSEvaluateScript("Ti.Analytics._receivedResponse = false");
 
 		// Since we only have "suspending" event, we fires both pause and paused event.

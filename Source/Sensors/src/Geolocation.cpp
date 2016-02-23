@@ -64,18 +64,26 @@ namespace TitaniumWindows
 				const auto latitude = args->Position->Coordinate->Point->Position.Latitude;
 				const auto longitude = args->Position->Coordinate->Point->Position.Longitude;
 				const auto altitude = args->Position->Coordinate->Point->Position.Altitude;
-				const auto altitudeAccuracy = args->Position->Coordinate->AltitudeAccuracy->Value;
-				const auto speed = args->Position->Coordinate->Speed->Value;
+				const auto altitudeAccuracy = args->Position->Coordinate->AltitudeAccuracy;
+				const auto speed = args->Position->Coordinate->Speed;
 
-				Utility::RunOnUIThread([=](){
-					lastGeolocation__.SetProperty("latitude", get_context().CreateNumber(latitude));
-					lastGeolocation__.SetProperty("longitude", get_context().CreateNumber(longitude));
-					lastGeolocation__.SetProperty("altitude", get_context().CreateNumber(altitude));
-					lastGeolocation__.SetProperty("altitudeAccuracy", get_context().CreateNumber(altitudeAccuracy));
-					lastGeolocation__.SetProperty("speed", get_context().CreateNumber(speed));
+				const auto func = [=](){
+					const auto ctx = get_context();
+					lastGeolocation__.SetProperty("latitude", ctx.CreateNumber(latitude));
+					lastGeolocation__.SetProperty("longitude", ctx.CreateNumber(longitude));
+					lastGeolocation__.SetProperty("altitude", ctx.CreateNumber(altitude));
+					lastGeolocation__.SetProperty("altitudeAccuracy", altitudeAccuracy ? ctx.CreateNumber(altitudeAccuracy->Value) : ctx.CreateNumber(0));
+					lastGeolocation__.SetProperty("speed", speed ? ctx.CreateNumber(speed->Value) : ctx.CreateNumber(0));
 
 					this->fireEvent("location", lastGeolocation__);
-				});
+				};
+
+				// Check if we are in background, in that case we do not run it on UI thread.
+				if (static_cast<bool>(get_context().JSEvaluateScript("Ti.App.Windows.BackgroundService.suspended;"))) {
+					func();
+				} else {
+					Utility::RunOnUIThread(func);
+				}
 			});
 
 		// Heading event
@@ -83,14 +91,22 @@ namespace TitaniumWindows
 			heading_event_ = geolocator_->PositionChanged += ref new TypedEventHandler<Geolocator^, PositionChangedEventArgs^>([=](Geolocator^ locator, PositionChangedEventArgs^ args) {
 				const auto heading = args->Position->Coordinate->Heading->Value;
 
-				Utility::RunOnUIThread([=](){
+				const auto func = [=](){
 					const auto old_heading = static_cast<double>(heading__.GetProperty("heading"));
 					if (abs(heading - old_heading) > headingFilter__) {
 						heading__.SetProperty("heading", get_context().CreateNumber(heading));
 
 						this->fireEvent("heading", heading__);
 					}
-				});
+				};
+
+				// Check if we are in background, in that case we do not run it on UI thread.
+				if (static_cast<bool>(get_context().JSEvaluateScript("Ti.App.Windows.BackgroundService.suspended;"))) {
+					func();
+				} else {
+					Utility::RunOnUIThread(func);
+				}
+
 			});
 		}
 	}

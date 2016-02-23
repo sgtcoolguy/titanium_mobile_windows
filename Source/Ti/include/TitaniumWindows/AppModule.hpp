@@ -44,6 +44,8 @@ namespace TitaniumWindows
 		AppModule& operator=(AppModule&&) = default;
 #endif
 
+		TITANIUM_PROPERTY_READONLY_DEF(Windows);
+
 		virtual bool keyboardVisible() const TITANIUM_NOEXCEPT override;
 
 		static void JSExportInitialize();
