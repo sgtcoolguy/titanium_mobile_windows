@@ -30,6 +30,10 @@ module.exports = function configOptionWindowsPublisherID(order) {
 				validate: validate
 			}));
 		}.bind(this),
-		validate: validate
+		validate: validate,
+		required: true,
+		verifyIfRequired: function (callback) {
+			callback(this.cli.argv['deploy-type'] === 'production');
+		}.bind(this)
 	};
 };
