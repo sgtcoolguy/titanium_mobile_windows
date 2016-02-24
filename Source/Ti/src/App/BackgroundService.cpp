@@ -94,7 +94,7 @@ namespace TitaniumWindows
 
 			std::shared_ptr<BackgroundServiceTask> BackgroundService::registerTask(JSObject& callback, IBackgroundTrigger^ trigger, IBackgroundCondition^ condition)
 			{
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 				BackgroundExecutionManager::RequestAccessAsync();
 #endif
 				const auto taskId   = task_id_generator__++;

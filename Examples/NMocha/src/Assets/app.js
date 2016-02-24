@@ -19,6 +19,7 @@ var $results = [],
 require('./ti.accelerometer.test');
 require('./ti.app.test');
 require('./ti.app.properties.test');
+require('./ti.app.windows.backgroundservice.test');
 require('./ti.blob.test');
 require('./ti.builtin.test');
 require('./ti.buffer.test');

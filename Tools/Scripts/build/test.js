@@ -170,7 +170,9 @@ function addTiAppProperties(sdkVersion, next) {
 			content.push('\t<property name="presetDouble" type="double">1.23456</property>');
 			content.push('\t<windows><manifest><Capabilities><Capability Name=\"internetClient\" />');
 			content.push('\t<Capability Name=\"contacts\" />');
-			content.push('\t</Capabilities></manifest></windows>');
+			content.push('\t</Capabilities>');
+			content.push('\t<Extensions> <Extension Category="windows.backgroundTasks" EntryPoint="TitaniumWindows_Ti.BackgroundServiceTask"> <BackgroundTasks> <Task Type="timer" /> </BackgroundTasks> </Extension> </Extensions>');
+			content.push('\t</manifest></windows>');
 		}
 	});
 	fs.writeFileSync(tiapp_xml, content.join('\n'));
