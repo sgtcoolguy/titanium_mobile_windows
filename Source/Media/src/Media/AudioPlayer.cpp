@@ -115,7 +115,9 @@ namespace TitaniumWindows
 							state__ = Titanium::Media::AudioState::Stopped;
 							break;
 					}
-					stateChanged();
+					TitaniumWindows::Utility::RunOnUIThread([=]{
+						stateChanged();
+					});
 				}
 			);
 #endif
