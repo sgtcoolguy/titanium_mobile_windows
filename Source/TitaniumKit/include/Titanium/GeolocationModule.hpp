@@ -12,10 +12,49 @@
 #include "Titanium/Module.hpp"
 #include "Titanium/Geolocation/Constants.hpp"
 #include "HAL/HAL.hpp"
+#include <chrono>
 
 namespace Titanium
 {
 	using namespace HAL;
+
+	/*!
+	  @struct
+	  @discussion Simple object holding floor of the building on which the user is located.
+      In places where floor information can be determined.
+	  See http://docs.appcelerator.com/platform/latest/#!/api/LocationCoordinatesFloor
+	*/
+	struct LocationCoordinatesFloor 
+	{
+		std::int32_t level { 0 };
+	};
+
+	TITANIUMKIT_EXPORT LocationCoordinatesFloor js_to_LocationCoordinatesFloor(const JSObject& object);
+	TITANIUMKIT_EXPORT JSObject LocationCoordinatesFloor_to_js(const JSContext& js_context, const LocationCoordinatesFloor& params);
+
+	/*!
+	  @struct
+	  @discussion Simple object holding the data for a location update.
+	  See http://docs.appcelerator.com/platform/latest/#!/api/LocationCoordinates
+	*/
+	struct LocationCoordinates
+	{
+		double accuracy  { 0 };
+		double altitude  { 0 };
+		double altitudeAccuracy  { 0 };
+		double heading   { 0 };
+		double longitude { 0 };
+		double latitude  { 0 };
+		double speed     { 0 };
+		LocationCoordinatesFloor floor;
+		std::chrono::milliseconds timestamp;
+
+		/* for internal use, to indicate this value is valid */
+		bool available { true };
+	};
+
+	TITANIUMKIT_EXPORT LocationCoordinates js_to_LocationCoordinates(const JSObject& object);
+	TITANIUMKIT_EXPORT JSObject LocationCoordinates_to_js(const JSContext& js_context, const LocationCoordinates& params);
 
 	/*!
 	  @class
@@ -185,35 +224,6 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(getLastGeolocation);
 
 		protected:
-			JSValue accuracy_best__;
-			JSValue accuracy_best_for_navigation__;
-			JSValue accuracy_hundred_meters__;
-			JSValue accuracy_kilometer__;
-			JSValue accuracy_nearest_ten_meters__;
-			JSValue accuracy_three_kilometers__;
-			JSValue accuracy_high__;
-			JSValue accuracy_low__;
-			JSValue activitytype_automotive_navigation__;
-			JSValue activitytype_fitness__;
-			JSValue activitytype_other__;
-			JSValue activitytype_other_navigation__;
-			JSValue authorization_always__;
-			JSValue authorization_authorized__;
-			JSValue authorization_denied__;
-			JSValue authorization_restricted__;
-			JSValue authorization_unknown__;
-			JSValue authorization_when_in_use__;
-			JSValue error_denied__;
-			JSValue error_heading_failure__;
-			JSValue error_location_unknown__;
-			JSValue error_network__;
-			JSValue error_region_monitoring_delayed__;
-			JSValue error_region_monitoring_denied__;
-			JSValue error_region_monitoring_failure__;
-			JSValue error_timeout__;
-			JSValue provider_gps__;
-			JSValue provider_network__;
-			JSValue provider_passive__;
 			Geolocation::ACCURACY accuracy__;
 			Geolocation::ACTIVITYTYPE activityType__;
 			double distanceFilter__;

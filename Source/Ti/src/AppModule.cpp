@@ -7,6 +7,7 @@
 */
 
 #include "TitaniumWindows/AppModule.hpp"
+#include "TitaniumWindows/App/WindowsModule.hpp"
 #include "Titanium/detail/TiLogger.hpp"
 
 using namespace Windows::Foundation;
@@ -20,9 +21,16 @@ namespace TitaniumWindows
 		TITANIUM_LOG_DEBUG("AppModule::ctor Initialize");
 	}
 
-	void AppModule::JSExportInitialize() {
+	void AppModule::JSExportInitialize() 
+	{
 		JSExport<AppModule>::SetClassVersion(1);
 		JSExport<AppModule>::SetParent(JSExport<Titanium::AppModule>::Class());
+		TITANIUM_ADD_CONSTANT_PROPERTY(AppModule, Windows);
+	}
+
+	TITANIUM_PROPERTY_GETTER(AppModule, Windows)
+	{
+		return get_context().CreateObject(JSExport<TitaniumWindows::App::WindowsModule>::Class());
 	}
 
 	JSObject AppModule::RectToJS(const JSContext& js_context, const Windows::Foundation::Rect& rect)
