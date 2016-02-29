@@ -7,6 +7,9 @@
 #include "TitaniumWindows/Locale.hpp"
 #include "Titanium/detail/TiLogger.hpp"
 #include "TitaniumWindows/Utility.hpp"
+#include <collection.h>
+
+using namespace Windows::System::UserProfile;
 
 namespace TitaniumWindows
 {
@@ -14,6 +17,16 @@ namespace TitaniumWindows
 		: Titanium::Locale(js_context)
 	{
 		TITANIUM_LOG_DEBUG("TitaniumWindows::Locale::ctor");
+
+		currentCountry__ = TitaniumWindows::Utility::ConvertString(GlobalizationPreferences::HomeGeographicRegion);
+		currentLocale__  = TitaniumWindows::Utility::ConvertString(GlobalizationPreferences::Languages->GetAt(0));
+
+		const auto pos = currentLocale__.find("-");
+		if (pos != std::string::npos) {
+			currentLanguage__ = currentLocale__.substr(0, pos);
+		} else {
+			currentLanguage__ = currentLocale__;
+		}
 	}
 
 	Locale::~Locale()

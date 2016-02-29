@@ -59,16 +59,19 @@ describe('Titanium.Locale', function () {
 
     it('Ti.Locale.currentCountry', function (finish) {
         should(Ti.Locale.currentCountry).be.a.String;
+        should(Ti.Locale.currentCountry).eql('US');
         finish();
     });
 
     it('Ti.Locale.currentLanguage', function (finish) {
         should(Ti.Locale.currentLanguage).be.a.String;
+        should(Ti.Locale.currentLanguage).eql('en');
         finish();
     });
     
     it('Ti.Locale.currentLocale', function (finish) {
         should(Ti.Locale.currentLocale).be.a.String;
+        should(Ti.Locale.currentLocale).eql('en-US');
         finish();
     });
 
