@@ -179,7 +179,7 @@ describe("Titanium.UI.Layout", function () {
 
     // functional test case #1022, #1024
     // ViewWidth, ViewHeight
-    it("viewWidth", function (finish) {
+    (((Ti.Platform.version.indexOf('10.0') == 0) && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("viewWidth", function (finish) {
         var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             width: 10,
