@@ -7,7 +7,7 @@
 	    Version="@VERSION@" />
 
   <Properties>
-    <DisplayName>@SHORT_NAME@</DisplayName>
+    <DisplayName>ms-resource:app_name</DisplayName>
     <PublisherDisplayName>@PUBLISHER_DISPLAY_NAME@</PublisherDisplayName>
     <Logo>StoreLogo.png</Logo>
 <% for(var i = 0; i < manifest.Properties.length; i++) { -%>
@@ -35,14 +35,14 @@
 		 Executable="$targetnametoken$.exe"
 		 EntryPoint="@SHORT_NAME@.App">
       <m2:VisualElements
-          DisplayName="@SHORT_NAME@"
-          Description="@SHORT_NAME@"
+          DisplayName="ms-resource:app_name"
+          Description="ms-resource:app_description"
           BackgroundColor="#171717"
           ForegroundText="light"
           Square150x150Logo="Logo.png"
           Square30x30Logo="SmallLogo.png"
           ToastCapable="true">
-        <m2:DefaultTile ShortName="@SHORT_NAME@">
+        <m2:DefaultTile ShortName="ms-resource:app_name">
           <m2:ShowNameOnTiles>
             <m2:ShowOn Tile="square150x150Logo" />
           </m2:ShowNameOnTiles>
