@@ -79,6 +79,12 @@ set(SOURCE_App
   include/TitaniumWindows/App.hpp
   include/TitaniumWindows/AppModule.hpp
   src/AppModule.cpp
+  include/TitaniumWindows/App/WindowsModule.hpp
+  src/App/WindowsModule.cpp
+  include/TitaniumWindows/App/BackgroundService.hpp
+  src/App/BackgroundService.cpp
+  include/TitaniumWindows/App/BackgroundServiceTask.hpp
+  src/App/BackgroundServiceTask.cpp
   )
 
 set(SOURCE_Platform

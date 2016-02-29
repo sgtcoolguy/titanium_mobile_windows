@@ -30,7 +30,6 @@ namespace TitaniumWindows
 
 			filter__ = nullptr;
 			httpClient__ = nullptr;
-			dispatcherTimer__ = nullptr;
 		}
 
 		void HTTPClient::JSExportInitialize()
@@ -42,10 +41,6 @@ namespace TitaniumWindows
 		void HTTPClient::abort() TITANIUM_NOEXCEPT
 		{
 			cancellationTokenSource__.cancel();
-
-			if (dispatcherTimer__ != nullptr && dispatcherTimer__->IsEnabled) {
-				dispatcherTimer__->Stop();
-			}
 		}
 
 		void HTTPClient::clearCookies(const std::string& location) TITANIUM_NOEXCEPT
@@ -184,7 +179,7 @@ namespace TitaniumWindows
 			auto operation = httpClient__->SendRequestAsync(request);
 
 			// Startup a timer that will abort the request after the timeout period is reached.
-			startDispatcherTimer();
+			configureTimeout();
 
 			// clang-format off
 			const auto token = cancellationTokenSource__.get_token();
@@ -271,12 +266,6 @@ namespace TitaniumWindows
 			return s_stream.str();
 		}
 
-		void HTTPClient::set_timeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT
-		{
-			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = timeout;
-			timeoutSpan__.Duration = timer_interval_ticks.count();
-		}
-
 		// Native
 		void HTTPClient::setRequestHeaders(Windows::Web::Http::HttpRequestMessage^ request)
 		{
@@ -326,11 +315,6 @@ namespace TitaniumWindows
 					cancel_current_task();
 				}
 
-				// Stop the timeout timer
-				if (dispatcherTimer__ != nullptr && httpClient__ != nullptr) {
-					dispatcherTimer__->Stop();
-				}
-
 				if (contentLength__ != -1 && contentLength__ != 0) {
 					ondatastream(responseBuffer->Length / contentLength__);
 				} else {
@@ -352,18 +336,15 @@ namespace TitaniumWindows
 			// clang-format on
 		}
 
-		void HTTPClient::startDispatcherTimer()
+		void HTTPClient::configureTimeout()
 		{
-			if (dispatcherTimer__ == nullptr && timeoutSpan__.Duration > 0) {
-				dispatcherTimer__ = ref new Windows::UI::Xaml::DispatcherTimer();
-				dispatcherTimer__->Interval = timeoutSpan__;
-				auto timeoutRegistrationToken__ = dispatcherTimer__->Tick += ref new Windows::Foundation::EventHandler<Platform::Object^>([this](Platform::Object^ sender, Platform::Object^ e) {
-					cancellationTokenSource__.cancel();
-					dispatcherTimer__->Stop();
-					// re-create the CancellationTokenSource.
-					cancellationTokenSource__ = cancellation_token_source();
+			if (timeout__.count() > 0) {
+				const auto timeout = timeout__.count();
+				const auto token_source = cancellationTokenSource__;
+				create_async([timeout, token_source](concurrency::cancellation_token token) {
+					concurrency::wait(static_cast<unsigned int>(timeout));
+					token_source.cancel();
 				});
-				dispatcherTimer__->Start();
 			}
 		}
 

@@ -996,6 +996,44 @@ describe("Titanium.UI.Layout", function () {
         win.open();
     });
 
+    //TIMOB-20385
+    it("scrollViewWithTop", function (finish) {
+        var win = createWindow({
+            backgroundColor: "#7B6700",
+            layout: "vertical"
+        }, finish);
+        var NavBarView = Ti.UI.createView({
+            height: "25",
+            top: 0,
+            backgroundColor: "green",
+            width: "100%"
+        });
+        var scrollView = Ti.UI.createScrollView({
+            height: 300,
+            width: Ti.UI.FILL,
+            scrollType: "vertical",
+            layout: "vertical",
+            backgroundColor: "red"
+        });
+        var button = Ti.UI.createButton({
+            title: "Click",
+            width: "100",
+            height: "50",
+            top: 20, left: 40
+        });
+        scrollView.add(button);
+        win.add(NavBarView);
+        win.add(scrollView);
+        scrollView.addEventListener("postlayout", function (e) {
+            if (didPostlayout) return;
+            didPostlayout = true;
+            should(scrollView.size.height).eql(300);
+            should(button.top).eql(20);
+            should(button.left).eql(40);
+        });
+        win.open();
+    });
+
     //TIMOB-8891
     ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("scrollViewWithLargeVerticalLayoutChild", function (finish) {
         var win = createWindow({}, finish);

@@ -41,6 +41,22 @@ namespace TitaniumWindows
 			contentView__->set_layout(layout);
 		}
 
+		void ScrollViewLayoutDelegate::set_width(const std::string& width) TITANIUM_NOEXCEPT
+		{
+			WindowsViewLayoutDelegate::set_width(width);
+			if (width != Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE)) {
+				contentView__->set_width(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
+			}
+		}
+
+		void ScrollViewLayoutDelegate::set_height(const std::string& height) TITANIUM_NOEXCEPT
+		{
+			WindowsViewLayoutDelegate::set_height(height);
+			if (height != Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE)) {
+				contentView__->set_height(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
+			}
+		}
+
 		void ScrollView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
 			using namespace Windows::UI::Xaml::Controls;
@@ -64,10 +80,10 @@ namespace TitaniumWindows
 
 			Titanium::UI::ScrollView::setLayoutDelegate<ScrollViewLayoutDelegate>(this, content->getViewLayoutDelegate<WindowsViewLayoutDelegate>());
 
-			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
-			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
-			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::FILL);
-			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::FILL);
+			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::SIZE);
+			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::SIZE);
 
 			getViewLayoutDelegate<ScrollViewLayoutDelegate>()->setComponent(scroll_viewer__);
 
