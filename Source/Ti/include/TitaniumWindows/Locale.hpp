@@ -23,10 +23,21 @@ namespace TitaniumWindows
 	class TITANIUMWINDOWS_TI_EXPORT Locale final : public Titanium::Locale, public JSExport<Locale>
 	{
 	public:
-		TITANIUM_FUNCTION_UNIMPLEMENTED(getCurrencyCode);
-		TITANIUM_FUNCTION_UNIMPLEMENTED(getCurrencySymbol);
-		TITANIUM_FUNCTION_UNIMPLEMENTED(getLocaleCurrencySymbol);
 		TITANIUM_FUNCTION_UNIMPLEMENTED(formatTelephoneNumber);
+
+		/*!
+		@method
+		@abstract getCurrencyCode
+		@discussion Returns the ISO 3-letter currency code for the specified locale.
+		*/
+		virtual std::string getCurrencyCode(const std::string& locale) TITANIUM_NOEXCEPT;
+
+		/*!
+		@method
+		@abstract getCurrencySymbol
+		@discussion Returns the currency symbol for the specified currency code.
+		*/
+		virtual std::string getCurrencySymbol(const std::string& currencyCode) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method

@@ -42,8 +42,7 @@ namespace Titanium
 
 	std::string Locale::getLocaleCurrencySymbol(const std::string& locale) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("Locale::getLocaleCurrencySymbol: Unimplemented");
-		return "";
+		return getCurrencySymbol(getCurrencyCode(locale));
 	}
 
 	std::string Locale::getString(const std::string& key, const std::string& hint) TITANIUM_NOEXCEPT
@@ -101,21 +100,21 @@ namespace Titanium
 	{
 		ENSURE_STRING_AT_INDEX(number, 0);
 		const auto ctx = this_object.get_context();
-		return this_object.get_context().CreateString(GetStaticObject(ctx).GetPrivate<Locale>()->formatTelephoneNumber(number));
+		return ctx.CreateString(GetStaticObject(ctx).GetPrivate<Locale>()->formatTelephoneNumber(number));
 	}
 
 	TITANIUM_FUNCTION(Locale, getCurrencyCode)
 	{
 		ENSURE_STRING_AT_INDEX(locale, 0);
 		const auto ctx = this_object.get_context();
-		return this_object.get_context().CreateString(GetStaticObject(ctx).GetPrivate<Locale>()->getCurrencyCode(locale));
+		return ctx.CreateString(GetStaticObject(ctx).GetPrivate<Locale>()->getCurrencyCode(locale));
 	}
 
 	TITANIUM_FUNCTION(Locale, getCurrencySymbol)
 	{
 		ENSURE_STRING_AT_INDEX(code, 0);
 		const auto ctx = this_object.get_context();
-		return this_object.get_context().CreateString(GetStaticObject(ctx).GetPrivate<Locale>()->getCurrencySymbol(code));
+		return ctx.CreateString(GetStaticObject(ctx).GetPrivate<Locale>()->getCurrencySymbol(code));
 	}
 
 	TITANIUM_FUNCTION(Locale, getLocaleCurrencySymbol)

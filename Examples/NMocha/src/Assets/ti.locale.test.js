@@ -29,26 +29,38 @@ describe('Titanium.Locale', function () {
 
     it('Ti.Locale.getCurrentCountry', function (finish) {
         should(Ti.Locale.getCurrentCountry).be.a.Function;
+        should(Ti.Locale.getCurrentCountry()).eql('US');
         finish();
     });
 
     it('Ti.Locale.getCurrentLanguage', function (finish) {
         should(Ti.Locale.getCurrentLanguage).be.a.Function;
+        should(Ti.Locale.getCurrentLanguage()).eql('en');
         finish();
     });
 
     it('Ti.Locale.getLocaleCurrencySymbol', function (finish) {
         should(Ti.Locale.getLocaleCurrencySymbol).be.a.Function;
+        should(Ti.Locale.getLocaleCurrencySymbol('en-US')).eql('$');
         finish();
     });
 
     it('Ti.Locale.getCurrencySymbol', function (finish) {
         should(Ti.Locale.getCurrencySymbol).be.a.Function;
+        should(Ti.Locale.getCurrencySymbol('USD')).eql('$');
+        should(Ti.Locale.getCurrencySymbol('JPY')).eql('¥');
+        should(Ti.Locale.getCurrencySymbol('CNY')).eql('¥');
+        should(Ti.Locale.getCurrencySymbol('TWD')).eql('NT$');
         finish();
     });
 
     it('Ti.Locale.getCurrencyCode', function (finish) {
         should(Ti.Locale.getCurrencyCode).be.a.Function;
+        should(Ti.Locale.getCurrencyCode('en-US')).eql('USD');
+        should(Ti.Locale.getCurrencyCode('ja-JP')).eql('JPY');
+        should(Ti.Locale.getCurrencyCode('zh-CN')).eql('CNY');
+        should(Ti.Locale.getCurrencyCode('zh-TW')).eql('TWD');
+
         finish();
     });
 
