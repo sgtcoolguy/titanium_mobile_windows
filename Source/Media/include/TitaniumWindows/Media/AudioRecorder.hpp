@@ -26,13 +26,9 @@ namespace TitaniumWindows
 		class TITANIUMWINDOWS_MEDIA_EXPORT AudioRecorder final : public Titanium::Media::AudioRecorder, public JSExport<AudioRecorder>
 		{
 		public:
-			TITANIUM_FUNCTION_UNIMPLEMENTED(resume);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(pause);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(compression);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(format);
 
 			AudioRecorder(const JSContext&) TITANIUM_NOEXCEPT;
-
 			virtual ~AudioRecorder();
 			AudioRecorder(const AudioRecorder&) = default;
 			AudioRecorder& operator=(const AudioRecorder&) = default;
@@ -42,6 +38,13 @@ namespace TitaniumWindows
 	#endif
 
 			static void JSExportInitialize();
+
+			/*!
+			  @property
+			  @abstract format
+			  @discussion Audio format to be used for the recording.
+			*/
+			virtual void set_format(const Titanium::Media::AudioFileFormat& format) TITANIUM_NOEXCEPT override;
 
 			/*!
 			  @method
@@ -57,12 +60,26 @@ namespace TitaniumWindows
 			*/
 			virtual std::shared_ptr<Titanium::Filesystem::File> stop() TITANIUM_NOEXCEPT override;
 
+			/*!
+			  @method
+			  @abstract pause
+			  @discussion Pauses the current audio recording.
+			*/
+			virtual void pause() TITANIUM_NOEXCEPT override;
+
+			/*!
+			  @method
+			  @abstract resume
+			  @discussion Resumes a paused recording.
+			*/
+			virtual void resume() TITANIUM_NOEXCEPT override;
+
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			::Platform::Agile<Windows::Media::Capture::MediaCapture> mediaCapture__;
-			Windows::Storage::StorageFile^ recordStorageFile__;
-			bool recording__ { false };
+			Windows::Media::MediaProperties::MediaEncodingProfile^ encodingProfile__;
+			Windows::Storage::StorageFile^ recordFile__;
 #pragma warning(pop)
 		};
 
