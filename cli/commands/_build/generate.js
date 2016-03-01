@@ -65,11 +65,11 @@ function generateI18N(next) {
 		}
 
 		// process default app_name
-		if (!data[locale].strings.app_name) {
+		if (data[locale].strings && !data[locale].strings.app_name) {
 			data[locale].strings.app_name = data.en.app.appname;
 		}
 		// process default app_description
-		if (!data[locale].strings.app_description) {
+		if (data[locale].strings && !data[locale].strings.app_description) {
 			data[locale].strings.app_description = data[locale].strings.app_name;
 		}
 
