@@ -67,10 +67,14 @@ function generateI18N(next) {
 		// process default app_name
 		if (data[locale].strings && !data[locale].strings.app_name) {
 			data[locale].strings.app_name = data.en.app.appname;
+		} else {
+			addString('app_name', data.en.app.appname);
 		}
 		// process default app_description
 		if (data[locale].strings && !data[locale].strings.app_description) {
 			data[locale].strings.app_description = data[locale].strings.app_name;
+		} else {
+			addString('app_description', data.en.app.appname);
 		}
 
 		data[locale].strings && Object.keys(data[locale].strings).forEach(function (name) {
