@@ -264,6 +264,15 @@ function copyResources(next) {
 		var appIconSetDir = path.join(this.buildDir, 'Assets'),
 			missingIcons = [
 
+			// Square24x24Logo
+			{
+				description: 'Square24x24Logo.png - Used for badge',
+				file: path.join(appIconSetDir, 'Square24x24Logo.png'),
+				width: 24,
+				height: 24,
+				required: true
+			},
+
 			// Square44x44Logo
 			{
 				description: 'Square44x44Logo.png - Used for logo',
