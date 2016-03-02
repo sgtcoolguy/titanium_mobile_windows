@@ -64,13 +64,21 @@ function generateI18N(next) {
 			root.appendChild(dataNode);
 		}
 
-		// process app_name first
-		addString('app_name', data[locale].app && data[locale].app.appname || this.tiapp.name);
+		// process default app_name
+		if (data[locale].strings && !data[locale].strings.app_name) {
+			data[locale].strings.app_name = data.en.app.appname;
+		} else {
+			addString('app_name', data.en.app.appname);
+		}
+		// process default app_description
+		if (data[locale].strings && !data[locale].strings.app_description) {
+			data[locale].strings.app_description = data[locale].strings.app_name;
+		} else {
+			addString('app_description', data.en.app.appname);
+		}
 
 		data[locale].strings && Object.keys(data[locale].strings).forEach(function (name) {
-			if (name !== 'appname') {
-				addString(name, data[locale].strings[name]);
-			}
+			addString(name, data[locale].strings[name]);
 		});
 
 		this.logger.debug(__('Writing %s strings => %s', locale.cyan, dest.cyan));

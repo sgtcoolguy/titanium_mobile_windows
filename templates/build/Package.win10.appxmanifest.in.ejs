@@ -14,7 +14,7 @@
   <mp:PhoneIdentity PhoneProductId="@PHONE_PRODUCT_ID@" PhonePublisherId="@PHONE_PUBLISHER_ID@"/>
 
   <Properties>
-    <DisplayName>@SHORT_NAME@</DisplayName>
+    <DisplayName>ms-resource:app_name</DisplayName>
     <PublisherDisplayName>@PUBLISHER_DISPLAY_NAME@</PublisherDisplayName>
     <Logo>StoreLogo.png</Logo>
 <% for(var i = 0; i < manifest.Properties.length; i++) { -%>
@@ -38,10 +38,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="@SHORT_NAME@.App">
       <uap:VisualElements
-        DisplayName="@SHORT_NAME@"
+        DisplayName="ms-resource:app_name"
         Square150x150Logo="Square150x150Logo.png"
         Square44x44Logo="Square44x44Logo.png"
-        Description="@SHORT_NAME@"
+        Description="ms-resource:app_description"
         BackgroundColor="transparent">
         <uap:LockScreen Notification="badge" BadgeLogo="Square24x24Logo.png" />
         <uap:DefaultTile Square71x71Logo="Square71x71Logo.png"/>
