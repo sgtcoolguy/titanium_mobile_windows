@@ -155,6 +155,7 @@ namespace Titanium
 		TiModule& OptionDialogClass(const JSClass&) TITANIUM_NOEXCEPT;
 		TiModule& ProgressBarClass(const JSClass&) TITANIUM_NOEXCEPT;
 		TiModule& ScrollableViewClass(const JSClass&) TITANIUM_NOEXCEPT;
+		TiModule& SearchBarClass(const JSClass&) TITANIUM_NOEXCEPT;
 		TiModule& AttributedStringClass(const JSClass&) TITANIUM_NOEXCEPT;
 
 		void build() TITANIUM_NOEXCEPT;
@@ -240,6 +241,7 @@ namespace Titanium
 		JSClass optionDialog__;
 		JSClass progressBar__;
 		JSClass scrollableView__;
+		JSClass searchBar__;
 		JSClass attributedString__;
 
 #pragma warning(pop)

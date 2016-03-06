@@ -83,6 +83,7 @@
 #include "Titanium/UI/OptionDialog.hpp"
 #include "Titanium/UI/ProgressBar.hpp"
 #include "Titanium/UI/ScrollableView.hpp"
+#include "Titanium/UI/SearchBar.hpp"
 #include "Titanium/UI/AttributedString.hpp"
 #include <unordered_map>
 #include <sstream>
@@ -167,6 +168,7 @@ namespace Titanium
 		  pickerrow__(JSExport<Titanium::UI::PickerRow>::Class()),
 		  pickercolumn__(JSExport<Titanium::UI::PickerColumn>::Class()),
 		  scrollableView__(JSExport<Titanium::UI::ScrollableView>::Class()),
+		  searchBar__(JSExport<Titanium::UI::SearchBar>::Class()),
 		  attributedString__(JSExport<Titanium::UI::AttributedString>::Class()),
 	      userAgent__(js_context.CreateString())
 	{
@@ -412,6 +414,7 @@ namespace Titanium
 			OptionDialogClass(optionDialog__).
 			ProgressBarClass(progressBar__).
 			ScrollableViewClass(scrollableView__).
+			SearchBarClass(searchBar__).
 			AttributedStringClass(attributedString__);
 
 		return ui;
@@ -971,6 +974,12 @@ namespace Titanium
 	TiModule& TiModule::ScrollableViewClass(const JSClass& value) TITANIUM_NOEXCEPT
 	{
 		scrollableView__ = value;
+		return *this;
+	}
+
+	TiModule& TiModule::SearchBarClass(const JSClass& value) TITANIUM_NOEXCEPT
+	{
+		searchBar__ = value;
 		return *this;
 	}
 

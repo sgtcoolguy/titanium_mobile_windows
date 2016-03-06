@@ -9,6 +9,7 @@
 #include "Titanium/UI/ListSection.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include "Titanium/UI/ListView.hpp"
+#include <boost/algorithm/string.hpp>
 
 namespace Titanium
 {
@@ -58,6 +59,16 @@ namespace Titanium
 				}
 			}
 			return items;
+		}
+
+		bool ListDataItem_contains(const ListDataItem& item, const std::string& query)
+		{
+			if (item.properties.find("title") == item.properties.end()) {
+				return false;
+			}
+			const auto title = static_cast<std::string>(item.properties.at("title"));
+			const auto pos = boost::algorithm::to_lower_copy(title).find(boost::algorithm::to_lower_copy(query));
+			return pos != std::string::npos;
 		}
 
 		ListSection::ListSection(const JSContext& js_context) TITANIUM_NOEXCEPT

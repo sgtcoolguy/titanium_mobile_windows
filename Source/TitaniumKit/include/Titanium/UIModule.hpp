@@ -230,6 +230,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_READONLY_DEF(PickerColumn);
 		TITANIUM_PROPERTY_READONLY_DEF(ScrollableView);
 		TITANIUM_PROPERTY_READONLY_DEF(ScrollView);
+		TITANIUM_PROPERTY_READONLY_DEF(SearchBar);
 		TITANIUM_PROPERTY_READONLY_DEF(Slider);
 		TITANIUM_PROPERTY_READONLY_DEF(Switch);
 		TITANIUM_PROPERTY_READONLY_DEF(Tab);
@@ -275,6 +276,7 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(createProgressBar);
 		TITANIUM_FUNCTION_DEF(createScrollableView);
 		TITANIUM_FUNCTION_DEF(createScrollView);
+		TITANIUM_FUNCTION_DEF(createSearchBar);
 		TITANIUM_FUNCTION_DEF(createSlider);
 		TITANIUM_FUNCTION_DEF(createSwitch);
 		TITANIUM_FUNCTION_DEF(createTab);
@@ -328,6 +330,7 @@ namespace Titanium
 		UIModule& OptionDialogClass(const JSClass&) TITANIUM_NOEXCEPT;
 		UIModule& ProgressBarClass(const JSClass&) TITANIUM_NOEXCEPT;
 		UIModule& ScrollableViewClass(const JSClass&) TITANIUM_NOEXCEPT;
+		UIModule& SearchBarClass(const JSClass&) TITANIUM_NOEXCEPT;
 		UIModule& AttributedStringClass(const JSClass&) TITANIUM_NOEXCEPT;
 
 	protected:
@@ -373,6 +376,7 @@ namespace Titanium
 		JSClass optionDialog__;
 		JSClass progressBar__;
 		JSClass scrollableView__;
+		JSClass searchBar__;
 		JSClass attributedString__;
 
 #pragma warning(pop)

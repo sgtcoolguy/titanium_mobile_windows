@@ -10,7 +10,7 @@
 #define _TITANIUM_TABLEVIEW_HPP_
 
 #include "Titanium/UI/View.hpp"
-
+#include "Titanium/detail/TiBase.hpp"
 #include <vector>
 #include <unordered_map>
 
@@ -23,6 +23,7 @@ namespace Titanium
 		class TableViewAnimationProperties;
 		class TableViewRow;
 		class TableViewSection;
+		class SearchBar;
 
 		/*!
 		  @class
@@ -123,7 +124,7 @@ namespace Titanium
 			  @abstract search
 			  @discussion Search field to use for the table view.
 			*/
-  			TITANIUM_PROPERTY_IMPL_DEF(JSValue, search);
+  			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<SearchBar>, search);
 
 			/*!
 			  @property
@@ -239,6 +240,20 @@ namespace Titanium
 			*/
 			virtual void updateSection(const uint32_t& index, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
+			/*!
+			@method
+			@abstract querySubmitted
+			@discussion Occurs when the user submits a search query
+			*/
+			virtual void querySubmitted(const std::string& query);
+
+			/*!
+			@method
+			@abstract suggestionRequested
+			@discussion Occurs when app needs to provide new suggestions
+			*/
+			virtual std::vector<std::string> suggestionRequested(const std::string& query);
+
 			TableView(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableView() = default;
 			TableView(const TableView&) = default;
@@ -317,6 +332,7 @@ namespace Titanium
 			protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+				std::vector<JSObject> saved_data__;
 				std::vector<JSObject> data__;
 				std::string filterAttribute__;
 				bool filterAnchored__;
@@ -328,11 +344,10 @@ namespace Titanium
 				double maxRowHeight__;
 				double minRowHeight__;
 				double rowHeight__;
-				JSValue search__;
+				std::shared_ptr<SearchBar> search__;
 				std::vector<std::shared_ptr<TableViewSection>> sections__;
 				std::string separatorColor__;
 				JSObject tableviewAnimationProperties_ctor__;
-
 #pragma warning(pop)
 		};
 

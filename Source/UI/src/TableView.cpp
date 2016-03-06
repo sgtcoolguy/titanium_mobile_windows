@@ -72,8 +72,31 @@ namespace TitaniumWindows
 			JSExport<TableView>::SetParent(JSExport<Titanium::UI::TableView>::Class());
 		}
 
+		void TableView::querySubmitted(const std::string& query)
+		{
+			// Make sure to update UI from UI thread
+			TitaniumWindows::Utility::RunOnUIThread([this, query]() {
+				Titanium::UI::TableView::querySubmitted(query);
+			});
+		}
+
+		// unregister all rows from LayoutEngine
+		void TableView::unregisterTableRows() 
+		{
+			for (const auto section : sections__) {
+				auto header = section->get_headerView();
+				if (header) {
+					unregisterTableViewRowAsLayoutNode(header);
+				}
+				for (const auto row : section->get_rows()) {
+					unregisterTableViewRowAsLayoutNode(row);
+				}
+			}
+		}
+
 		void TableView::set_data(const std::vector<JSObject>& data) TITANIUM_NOEXCEPT
 		{
+			unregisterTableRows();
 			Titanium::UI::TableView::set_data(data);
 			clearTableData();
 			for (uint32_t i = 0; i < sections__.size(); i++) {
@@ -83,6 +106,7 @@ namespace TitaniumWindows
 
 		void TableView::set_sections(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections) TITANIUM_NOEXCEPT
 		{
+			unregisterTableRows();
 			Titanium::UI::TableView::set_sections(sections);
 			clearTableData();
 			for (uint32_t i = 0; i < sections__.size(); i++) {
@@ -119,8 +143,7 @@ namespace TitaniumWindows
 				group->Append(component);
 				// Add as child view to make layout engine work
 				registerTableViewRowAsLayoutNode(headerView);
-			}
-			else {
+			} else {
 				const auto header = createDefaultSectionHeader(section);
 				if (header != nullptr) {
 					group->Append(header);
@@ -173,6 +196,13 @@ namespace TitaniumWindows
 		{
 			auto layoutDelegate = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
 			Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getLayoutNode());
+		}
+
+		// Remove child view 
+		void TableView::unregisterTableViewRowAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view)
+		{
+			auto layoutDelegate = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+			Titanium::LayoutEngine::nodeRemoveChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getLayoutNode());
 		}
 
 		/*
