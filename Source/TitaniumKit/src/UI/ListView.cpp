@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/ListView.hpp"
 #include "Titanium/UI/ListViewAnimationProperties.hpp"
+#include "Titanium/UI/SearchBar.hpp"
 #include "Titanium/UI/listview_js.hpp"
 
 namespace Titanium
@@ -61,9 +62,66 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(ListView, std::string, headerTitle)
 		TITANIUM_PROPERTY_READWRITE(ListView, std::shared_ptr<View>, footerView)
 		TITANIUM_PROPERTY_READWRITE(ListView, std::shared_ptr<View>, headerView)
-		TITANIUM_PROPERTY_READWRITE(ListView, std::shared_ptr<View>, searchView)
 		TITANIUM_PROPERTY_READWRITE(ListView, std::string, searchText)
 		TITANIUM_PROPERTY_READWRITE(ListView, bool, caseInsensitiveSearch)
+		TITANIUM_PROPERTY_READ(ListView, std::shared_ptr<SearchBar>, searchView)
+		void ListView::set_searchView(const std::shared_ptr<SearchBar>& searchView) TITANIUM_NOEXCEPT
+		{
+			searchView__ = searchView;
+			searchView__->set_querySubmitted([this](const std::string& query) {
+				querySubmitted(query);
+			});
+			searchView__->set_suggestionRequested([this](const std::string& query) {
+				return suggestionRequested(query);
+			});
+
+		}
+
+		void ListView::querySubmitted(const std::string& query) 
+		{
+			if (query.empty()) {
+				//
+				// query finished, recover saved data
+				//
+				if (!saved_sections__.empty()) {
+					sections__ = saved_sections__;
+					saved_sections__ = std::vector<std::shared_ptr<ListSection>>();
+				}
+				set_sections(sections__);
+				return;
+			}
+
+			// Create default section to show results
+			const auto section = static_cast<JSObject>(get_context().JSEvaluateScript("Ti.UI.createListSection({ headerTitle: 'Search Results' });")).GetPrivate<Titanium::UI::ListSection>();
+			const std::vector<std::shared_ptr<ListSection>> sections { section };
+			std::vector<ListDataItem> items;
+			for (const auto section : saved_sections__) {
+				for (const auto item : section->get_items()) {
+					if (ListDataItem_contains(item, query)) {
+						items.push_back(item);
+					}
+				}
+			}
+			section->appendItems(items, nullptr);
+			set_sections(sections);
+		}
+
+		std::vector<std::string> ListView::suggestionRequested(const std::string& query)
+		{
+			if (saved_sections__.empty()) {
+				saved_sections__ = sections__;
+			}
+
+			std::vector<std::string> suggestions;
+			for (const auto section : saved_sections__) {
+				for (const auto item : section->get_items()) {
+					if (ListDataItem_contains(item, query)) {
+						suggestions.push_back(static_cast<std::string>(item.properties.at("title")));
+					}
+				}
+			}
+			return suggestions;
+		}
 
 		uint32_t ListView::get_sectionCount() const TITANIUM_NOEXCEPT
 		{
@@ -272,7 +330,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_SETTER(ListView, searchView)
 		{
 			TITANIUM_ASSERT(argument.IsObject());
-			set_searchView(static_cast<JSObject>(argument).GetPrivate<View>());
+			set_searchView(static_cast<JSObject>(argument).GetPrivate<SearchBar>());
 			return true;
 		}
 

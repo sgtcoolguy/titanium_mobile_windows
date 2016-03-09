@@ -649,6 +649,7 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(UIModule, createProgressBar);
 		TITANIUM_ADD_FUNCTION(UIModule, createScrollableView);
 		TITANIUM_ADD_FUNCTION(UIModule, createScrollView);
+		TITANIUM_ADD_FUNCTION(UIModule, createSearchBar);
 		TITANIUM_ADD_FUNCTION(UIModule, createSlider);
 		TITANIUM_ADD_FUNCTION(UIModule, createSwitch);
 		TITANIUM_ADD_FUNCTION(UIModule, createTab);
@@ -837,6 +838,7 @@ namespace Titanium
 		TITANIUM_ADD_CONSTANT_PROPERTY(UIModule, PickerColumn);
 		TITANIUM_ADD_CONSTANT_PROPERTY(UIModule, ScrollableView);
 		TITANIUM_ADD_CONSTANT_PROPERTY(UIModule, ScrollView);
+		TITANIUM_ADD_CONSTANT_PROPERTY(UIModule, SearchBar);
 		TITANIUM_ADD_CONSTANT_PROPERTY(UIModule, Slider);
 		TITANIUM_ADD_CONSTANT_PROPERTY(UIModule, Switch);
 		TITANIUM_ADD_CONSTANT_PROPERTY(UIModule, Tab);
@@ -954,6 +956,11 @@ namespace Titanium
 	TITANIUM_PROPERTY_GETTER(UIModule, ScrollView)
 	{
 		return get_context().CreateObject(scrollview__);
+	}
+
+	TITANIUM_PROPERTY_GETTER(UIModule, SearchBar)
+	{
+		return get_context().CreateObject(searchBar__);
 	}
 
 	TITANIUM_PROPERTY_GETTER(UIModule, Slider)
@@ -1147,6 +1154,12 @@ namespace Titanium
 	{
 		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
 		CREATE_TITANIUM_UI(ScrollView);
+	}
+
+	TITANIUM_FUNCTION(UIModule, createSearchBar)
+	{
+		ENSURE_OPTIONAL_OBJECT_AT_INDEX(parameters, 0);
+		CREATE_TITANIUM_UI(SearchBar);
 	}
 
 	TITANIUM_FUNCTION(UIModule, createSlider)
@@ -1470,6 +1483,12 @@ namespace Titanium
 	UIModule& UIModule::ScrollableViewClass(const JSClass& value) TITANIUM_NOEXCEPT
 	{
 		scrollableView__ = value;
+		return *this;
+	}
+
+	UIModule& UIModule::SearchBarClass(const JSClass& value) TITANIUM_NOEXCEPT
+	{
+		searchBar__ = value;
 		return *this;
 	}
 

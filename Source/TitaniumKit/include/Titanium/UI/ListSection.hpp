@@ -43,6 +43,9 @@ namespace Titanium
 		TITANIUMKIT_EXPORT ListDataItem js_to_ListDataItem(const JSObject& object);
 		TITANIUMKIT_EXPORT JSObject ListDataItem_to_js(const JSContext& js_context, const ListDataItem& item);
 
+		// Case-insensitive query ListDataItem title 
+		TITANIUMKIT_EXPORT bool ListDataItem_contains(const ListDataItem& item, const std::string& query);
+
 		/*!
 		  @class
 		  @discussion This is the Titanium ListSection Module.

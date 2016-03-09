@@ -457,12 +457,14 @@ namespace Titanium
 
 		std::string Constants::to_string(const KEYBOARD_APPEARANCE& keyboardAppearance) TITANIUM_NOEXCEPT
 		{
-			static std::string unknown_string = "KEYBOARD_APPEARANCE::Unknown";
+			static std::string unknown_string = "KEYBOARD_APPEARANCE_DEFAULT";
 			static std::unordered_map<KEYBOARD_APPEARANCE, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
       map[KEYBOARD_APPEARANCE::ALERT]   = "KEYBOARD_APPEARANCE_ALERT";
       map[KEYBOARD_APPEARANCE::DEFAULT] = "KEYBOARD_APPEARANCE_DEFAULT";
+      map[KEYBOARD_APPEARANCE::DARK]    = "KEYBOARD_APPEARANCE_DARK";
+      map[KEYBOARD_APPEARANCE::LIGHT]   = "KEYBOARD_APPEARANCE_LIGHT";
 			});
 
 			std::string string = unknown_string;
@@ -481,6 +483,8 @@ namespace Titanium
 			std::call_once(of, []() {
       map["KEYBOARD_APPEARANCE_ALERT"]   = KEYBOARD_APPEARANCE::ALERT;
       map["KEYBOARD_APPEARANCE_DEFAULT"] = KEYBOARD_APPEARANCE::DEFAULT;
+      map["KEYBOARD_APPEARANCE_DARK"]    = KEYBOARD_APPEARANCE::DARK;
+      map["KEYBOARD_APPEARANCE_LIGHT"]   = KEYBOARD_APPEARANCE::LIGHT;
 			});
 
 			KEYBOARD_APPEARANCE keyboardAppearance = KEYBOARD_APPEARANCE::DEFAULT;
@@ -501,6 +505,8 @@ namespace Titanium
 			std::call_once(of, []() {
       map[static_cast<std::underlying_type<KEYBOARD_APPEARANCE>::type>(KEYBOARD_APPEARANCE::ALERT)]   = KEYBOARD_APPEARANCE::ALERT;
       map[static_cast<std::underlying_type<KEYBOARD_APPEARANCE>::type>(KEYBOARD_APPEARANCE::DEFAULT)] = KEYBOARD_APPEARANCE::DEFAULT;
+      map[static_cast<std::underlying_type<KEYBOARD_APPEARANCE>::type>(KEYBOARD_APPEARANCE::DARK)]    = KEYBOARD_APPEARANCE::DARK;
+      map[static_cast<std::underlying_type<KEYBOARD_APPEARANCE>::type>(KEYBOARD_APPEARANCE::LIGHT)]   = KEYBOARD_APPEARANCE::LIGHT;
 			});
 
 			KEYBOARD_APPEARANCE keyboardAppearance = KEYBOARD_APPEARANCE::DEFAULT;
@@ -533,6 +539,8 @@ namespace Titanium
       map[KEYBOARD::NUMBER_PAD]          = "KEYBOARD_NUMBER_PAD";
       map[KEYBOARD::PHONE_PAD]           = "KEYBOARD_PHONE_PAD";
       map[KEYBOARD::DEFAULT]             = "KEYBOARD_DEFAULT";
+      map[KEYBOARD::WEBSEARCH]           = "KEYBOARD_WEBSEARCH";
+      map[KEYBOARD::TWITTER]             = "KEYBOARD_TWITTER";
       map[KEYBOARD::URL]                 = "KEYBOARD_URL";
 			});
 
@@ -558,6 +566,8 @@ namespace Titanium
       map["KEYBOARD_NUMBER_PAD"]          = KEYBOARD::NUMBER_PAD;
       map["KEYBOARD_PHONE_PAD"]           = KEYBOARD::PHONE_PAD;
       map["KEYBOARD_DEFAULT"]             = KEYBOARD::DEFAULT;
+      map["KEYBOARD_WEBSEARCH"]           = KEYBOARD::WEBSEARCH;
+      map["KEYBOARD_TWITTER"]             = KEYBOARD::TWITTER;
       map["KEYBOARD_URL"]                 = KEYBOARD::URL;
 			});
 
@@ -585,6 +595,8 @@ namespace Titanium
       map[static_cast<std::underlying_type<KEYBOARD>::type>(KEYBOARD::NUMBER_PAD)]          = KEYBOARD::NUMBER_PAD;
       map[static_cast<std::underlying_type<KEYBOARD>::type>(KEYBOARD::PHONE_PAD)]           = KEYBOARD::PHONE_PAD;
       map[static_cast<std::underlying_type<KEYBOARD>::type>(KEYBOARD::DEFAULT)]             = KEYBOARD::DEFAULT;
+      map[static_cast<std::underlying_type<KEYBOARD>::type>(KEYBOARD::WEBSEARCH)]           = KEYBOARD::WEBSEARCH;
+      map[static_cast<std::underlying_type<KEYBOARD>::type>(KEYBOARD::TWITTER)]             = KEYBOARD::TWITTER;
       map[static_cast<std::underlying_type<KEYBOARD>::type>(KEYBOARD::URL)]                 = KEYBOARD::URL;
 			});
 

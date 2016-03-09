@@ -284,6 +284,8 @@ set(SOURCE_UI
   src/UI/Point.cpp
   include/Titanium/UI/ProgressBar.hpp
   src/UI/ProgressBar.cpp
+  include/Titanium/UI/SearchBar.hpp
+  src/UI/SearchBar.cpp
   include/Titanium/UI/ScrollableView.hpp
   src/UI/ScrollableView.cpp
   include/Titanium/UI/ScrollView.hpp

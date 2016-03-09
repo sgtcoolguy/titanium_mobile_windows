@@ -94,6 +94,8 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(getColor);
 			TITANIUM_FUNCTION_DEF(setColor);
 
+			bool contains(const std::string& query);
+
 			protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)

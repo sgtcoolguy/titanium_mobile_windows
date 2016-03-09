@@ -76,6 +76,8 @@ set(SOURCE_UI
   src/PickerRow.cpp
   include/TitaniumWindows/UI/ProgressBar.hpp
   src/ProgressBar.cpp
+  include/TitaniumWindows/UI/SearchBar.hpp
+  src/SearchBar.cpp
   include/TitaniumWindows/UI/ScrollableView.hpp
   src/ScrollableView.cpp
   include/TitaniumWindows/UI/ScrollView.hpp

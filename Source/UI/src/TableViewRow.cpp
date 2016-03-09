@@ -8,6 +8,7 @@
 
 #include "Titanium/detail/TiImpl.hpp"
 #include "TitaniumWindows/UI/TableViewRow.hpp"
+#include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/UI/Label.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
@@ -58,31 +59,10 @@ namespace TitaniumWindows
 				const auto label = Label.CallAsConstructor();
 				title__ = label.GetPrivate<TitaniumWindows::UI::Label>();
 				title__->set_text("");
+				title__->getViewLayoutDelegate()->set_left("0");
 
-				// make sure there's only one Label
-				content__->Children->Clear();
-				content__->Children->Append(title__->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent());
+				add(label);
 			}
-		}
-
-		void TableViewRow::add(const JSObject& view, JSObject& this_object) TITANIUM_NOEXCEPT
-		{
-			// if there's title already defined, let's remove it
-			if (title__ != nullptr) {
-				unsigned int index = -1;
-				content__->Children->IndexOf(title__->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent(), &index);
-				if (index > -1) {
-					content__->Children->RemoveAt(index);
-				}
-				title__ = nullptr;
-			}
-			const auto view_ptr = view.GetPrivate<Titanium::UI::View>();
-			const auto newView = std::dynamic_pointer_cast<TitaniumWindows::UI::WindowsViewLayoutDelegate>(view_ptr);
-			const auto nativeChildView = newView->getComponent();
-			if (nativeChildView != nullptr) {
-				content__->Children->Append(nativeChildView);
-			}
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->add(view_ptr);
 		}
 
 		void TableViewRow::set_title(const std::string& title) TITANIUM_NOEXCEPT
