@@ -23,6 +23,7 @@ namespace Titanium
 		using namespace HAL;
 
 		class ListViewAnimationProperties;
+		class SearchBar;
 
 		/*!
 		  @class
@@ -108,7 +109,7 @@ namespace Titanium
 			 @abstract searchView
 			 @discussion Search field to use for the list view.
 			 */
-			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<View>, searchView);
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<SearchBar>, searchView);
 
 			/*!
 			  @property
@@ -257,15 +258,30 @@ namespace Titanium
 			// Subclass may override this to catch changes for section.
 			virtual void fireListSectionEvent(const std::string& name, const std::shared_ptr<ListSection>& section, const std::uint32_t& itemIndex = 0, const std::uint32_t& itemCount = 0, const std::uint32_t& affectedRows = 0);
 
+			/*!
+			@method
+			@abstract querySubmitted
+			@discussion Occurs when the user submits a search query
+			*/
+			virtual void querySubmitted(const std::string& query);
+
+			/*!
+			@method
+			@abstract suggestionRequested
+			@discussion Occurs when app needs to provide new suggestions
+			*/
+			virtual std::vector<std::string> suggestionRequested(const std::string& query);
+
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+			std::vector<std::shared_ptr<ListSection>> saved_sections__;
 			std::vector<std::shared_ptr<ListSection>> sections__;
 			std::string footerTitle__;
 			std::string headerTitle__;
 			std::shared_ptr<View> footerView__;
 			std::shared_ptr<View> headerView__;
-			std::shared_ptr<View> searchView__;
+			std::shared_ptr<SearchBar> searchView__;
 			std::string searchText__;
 			bool caseInsensitiveSearch__ { false };
 			bool showVerticalScrollIndicator__;

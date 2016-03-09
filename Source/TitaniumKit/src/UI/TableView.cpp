@@ -10,6 +10,7 @@
 #include "Titanium/UI/TableViewRow.hpp"
 #include "Titanium/UI/TableViewSection.hpp"
 #include "Titanium/UI/TableViewAnimationProperties.hpp"
+#include "Titanium/UI/SearchBar.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 
 #define CREATE_TITANIUM_UI_INSTANCE(OUT, PARAM, NAME) \
@@ -31,7 +32,6 @@ namespace Titanium
 	{
 		TableView::TableView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: View(js_context, "Titanium.UI.TableView"),
-			search__(get_context().CreateUndefined()),
 			tableviewAnimationProperties_ctor__(js_context.CreateObject(JSExport<Titanium::UI::TableViewAnimationProperties>::Class())),
 			filterAttribute__(""),
 			filterAnchored__(false),
@@ -102,8 +102,76 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(TableView, double, maxRowHeight)
 		TITANIUM_PROPERTY_READWRITE(TableView, double, minRowHeight)
 		TITANIUM_PROPERTY_READWRITE(TableView, double, rowHeight)
-		TITANIUM_PROPERTY_READWRITE(TableView, JSValue, search)
 		TITANIUM_PROPERTY_READWRITE(TableView, std::string, separatorColor)
+		TITANIUM_PROPERTY_READ(TableView, std::shared_ptr<SearchBar>, search)
+		void TableView::set_search(const std::shared_ptr<SearchBar>& search) TITANIUM_NOEXCEPT
+		{
+			search__ = search;
+			search__->set_querySubmitted([this](const std::string& query) {
+				querySubmitted(query);
+			});
+			search__->set_suggestionRequested([this](const std::string& query) {
+				return suggestionRequested(query);
+			});
+		}
+
+		void TableView::querySubmitted(const std::string& query) 
+		{
+			if (query.empty()) {
+				//
+				// query finished, recover saved data
+				//
+				if (!saved_data__.empty()) {
+					data__ = saved_data__;
+					saved_data__ = std::vector<JSObject>();
+				}
+				set_data(data__);
+				return;
+			}
+
+			std::vector<JSObject> rows;
+			for (const auto data : saved_data__) {
+				const auto section = data.GetPrivate<Titanium::UI::TableViewSection>();
+				if (section) {
+					for (const auto row : section->get_rows()) {
+						if (row->contains(query)) {
+							rows.push_back(row->get_object());
+						}
+					}
+				} else {
+					const auto row = data.GetPrivate<Titanium::UI::TableViewRow>();
+					if (row && row->contains(query)) {
+						rows.push_back(row->get_object());
+					}
+				}
+			}
+			set_data(rows);
+		}
+
+		std::vector<std::string> TableView::suggestionRequested(const std::string& query) 
+		{
+			if (saved_data__.empty()) {
+				saved_data__ = data__;
+			}
+
+			std::vector<std::string> suggestions;
+			for (const auto data : saved_data__) {
+				const auto section = data.GetPrivate<Titanium::UI::TableViewSection>();
+				if (section) {
+					for (const auto row : section->get_rows()) {
+						if (row->contains(query)) {
+							suggestions.push_back(row->get_title());
+						}
+					}
+				} else {
+					const auto row = data.GetPrivate<Titanium::UI::TableViewRow>();
+					if (row && row->contains(query)) {
+						suggestions.push_back(row->get_title());
+					}
+				}
+			}
+			return suggestions;
+		}
 
 		std::uint32_t TableView::get_sectionCount() const TITANIUM_NOEXCEPT
 		{
@@ -331,11 +399,16 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(TableView, search)
 		{
-			return get_search();
+			const auto bar = get_search();
+			if (bar) {
+				return bar->get_object();
+			}
+			return get_context().CreateNull();
 		}
 		TITANIUM_PROPERTY_SETTER(TableView, search)
 		{
-			set_search(argument);
+			TITANIUM_ASSERT(argument.IsObject());
+			set_search(static_cast<JSObject>(argument).GetPrivate<SearchBar>());
 			return true;
 		}
 

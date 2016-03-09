@@ -204,7 +204,9 @@ namespace Titanium
 		*/
 		enum class TITANIUMKIT_EXPORT KEYBOARD_APPEARANCE {
 			ALERT,
-			DEFAULT
+			DEFAULT,
+			DARK,
+			LIGHT
 		};
 
 		/*!
@@ -250,6 +252,8 @@ namespace Titanium
 			NUMBERS_PUNCTUATION,
 			NUMBER_PAD,
 			PHONE_PAD,
+			WEBSEARCH,
+			TWITTER,
 			URL
 		};
 

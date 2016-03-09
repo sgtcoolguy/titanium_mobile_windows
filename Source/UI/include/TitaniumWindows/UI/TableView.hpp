@@ -40,7 +40,6 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(maxRowHeight);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(minRowHeight);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(rowHeight);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(search);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(separatorColor);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(borderColor);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(borderWidth);
@@ -77,6 +76,7 @@ namespace TitaniumWindows
 
 			virtual void appendRowAtSection(const std::uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::TableViewRow>>& row) TITANIUM_NOEXCEPT override;
 			virtual void appendSection(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void querySubmitted(const std::string& query) override;
 
 		private:
 			// Search for section index and item index. Returns {sectionIndex, itemIndex}
@@ -87,11 +87,13 @@ namespace TitaniumWindows
 			::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ createUIElementsForSection(const std::uint32_t& sectionIndex) TITANIUM_NOEXCEPT;
 			Windows::UI::Xaml::Controls::ListViewHeaderItem^ createDefaultSectionHeader(const std::shared_ptr<Titanium::UI::TableViewSection>& seciton);
 			void registerTableViewRowAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
+			void unregisterTableViewRowAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
 
 			// Receive all events fired from TableViewSection.
 			// Subclass may override this to catch changes for section.
 			virtual void fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::uint32_t& rowIndex) override;
 
+			void unregisterTableRows();
 			void clearTableData();
 			void resetTableDataBinding();
 

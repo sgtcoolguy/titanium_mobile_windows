@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/TableViewRow.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include <boost/algorithm/string.hpp>
 
 namespace Titanium
 {
@@ -126,5 +127,12 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_GETTER(TableViewRow, getTitle, title)
 		TITANIUM_FUNCTION_AS_SETTER(TableViewRow, setTitle, title)
 
+		bool TableViewRow::contains(const std::string& query) 
+		{
+			const auto title = boost::algorithm::to_lower_copy(get_title());
+			const auto pos = title.find(boost::algorithm::to_lower_copy(query));
+
+			return pos != std::string::npos;
+		}
 	} // namespace UI
 } // namespace Titanium

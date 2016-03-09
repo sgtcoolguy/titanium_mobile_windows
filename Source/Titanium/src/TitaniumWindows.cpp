@@ -35,6 +35,7 @@
 #include "TitaniumWindows/UI/ImageView.hpp"
 #include "TitaniumWindows/UI/Label.hpp"
 #include "TitaniumWindows/UI/ScrollView.hpp"
+#include "TitaniumWindows/UI/SearchBar.hpp"
 #include "TitaniumWindows/UI/Slider.hpp"
 #include "TitaniumWindows/UI/TextField.hpp"
 #include "TitaniumWindows/UI/ListView.hpp"
@@ -134,6 +135,7 @@ namespace TitaniumWindows
 			.ImageViewClass(JSExport<TitaniumWindows::UI::ImageView>::Class())
 			.LabelClass(JSExport<TitaniumWindows::UI::Label>::Class())
 			.ScrollViewClass(JSExport<TitaniumWindows::UI::ScrollView>::Class())
+			.SearchBarClass(JSExport<TitaniumWindows::UI::SearchBar>::Class())
 			.SliderClass(JSExport<TitaniumWindows::UI::Slider>::Class())
 			.TextFieldClass(JSExport<TitaniumWindows::UI::TextField>::Class())
 			.ListViewClass(JSExport<TitaniumWindows::UI::ListView>::Class())
