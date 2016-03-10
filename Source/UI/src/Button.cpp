@@ -48,7 +48,7 @@ namespace TitaniumWindows
 			parent->SetColumn(border, 0);
 			parent->SetRow(border, 0);
 
-			getViewLayoutDelegate<WindowsButtonLayoutDelegate>()->setComponent(parent, nullptr, border);
+			getViewLayoutDelegate<WindowsButtonLayoutDelegate>()->setComponent(parent, button__, border);
 		}
 
 		void Button::JSExportInitialize()

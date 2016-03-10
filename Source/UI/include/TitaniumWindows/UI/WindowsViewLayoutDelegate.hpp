@@ -450,6 +450,7 @@ namespace TitaniumWindows
 			static Windows::UI::Color ColorForHexCode(const std::string& hexCode);
 
 			virtual void setDefaultBackground();
+			virtual void updateSelectedBackground();
 			virtual void updateBackground(Windows::UI::Xaml::Media::Brush^);
 			virtual void updateDisabledBackground();
 			Windows::UI::Xaml::Media::Brush^ getBackground();
@@ -507,6 +508,7 @@ namespace TitaniumWindows
 			bool is_grid__{false};
 			bool is_control__{false};
 			bool is_scrollview__ { false };
+			bool is_button__{ false };
 			bool is_loaded__{false};
 
 			Titanium::LayoutEngine::Rect oldRect__;
