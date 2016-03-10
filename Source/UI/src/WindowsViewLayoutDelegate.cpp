@@ -637,6 +637,18 @@ namespace TitaniumWindows
 			}
 		}
 
+		//
+		// Show selected image/color when it is tapped. It is cleared once it losts focus.
+		//
+		void WindowsViewLayoutDelegate::updateSelectedBackground()
+		{
+			if (backgroundSelectedImageBrush__) {
+				updateBackground(backgroundSelectedImageBrush__);
+			} else if (backgroundSelectedColorBrush__) {
+				updateBackground(backgroundSelectedColorBrush__);
+			}
+		}
+
 		void WindowsViewLayoutDelegate::updateDisabledBackground()
 		{
 			if (get_enabled()) {
@@ -907,7 +919,11 @@ namespace TitaniumWindows
 			} else if (event_name == "touchend") {
 				component->PointerReleased -= touchend_event__;
 			} else if (event_name == "click") {
-				component->Tapped -= click_event__;
+				if (is_button__) {
+					dynamic_cast<Controls::Button^>(underlying_control__)->Click -= click_event__;
+				} else {
+					component->Tapped -= click_event__;
+				}
 			} else if (event_name == "dblclick") {
 				component->DoubleTapped -= dblclick_event__;
 			} else if (event_name == "singletap") {
@@ -988,10 +1004,21 @@ namespace TitaniumWindows
 					fireSimplePositionEvent("touchend", component, point->Position);
 				});
 			} else if (event_name == "click") {
-				click_event__ = component->Tapped += ref new TappedEventHandler([this](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
-					const auto component = safe_cast<FrameworkElement^>(sender);
-					fireSimplePositionEvent("click", component, e->GetPosition(component));
-				});
+				if (is_button__) {
+					click_event__ = dynamic_cast<Controls::Button^>(underlying_control__)->Click += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+						const auto button = safe_cast<Controls::Button^>(sender);
+						// Set center of the button since Button::Click does not provide position info
+						Windows::Foundation::Point pos;
+						pos.X = static_cast<float>(button->Width  * 0.5);
+						pos.Y = static_cast<float>(button->Height * 0.5);
+						fireSimplePositionEvent("click", button, pos);
+					});
+				} else {
+					click_event__ = component->Tapped += ref new TappedEventHandler([this](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
+						const auto component = safe_cast<FrameworkElement^>(sender);
+						fireSimplePositionEvent("click", component, e->GetPosition(component));
+					});
+				}
 			} else if (event_name == "dblclick") {
 				dblclick_event__ = component->DoubleTapped += ref new DoubleTappedEventHandler([this](Platform::Object^ sender, DoubleTappedRoutedEventArgs^ e) {
 					const auto component = safe_cast<FrameworkElement^>(sender);
@@ -1104,6 +1131,7 @@ namespace TitaniumWindows
 			is_control__ = dynamic_cast<Controls::Control^>(component__) != nullptr;
 			is_scrollview__ = dynamic_cast<Controls::ScrollViewer^>(component__) != nullptr;
 			is_grid__    = dynamic_cast<Controls::Grid^>(component__) != nullptr;
+			is_button__  = dynamic_cast<Controls::Button^>(underlying_control__) != nullptr;
 
 			loaded_event__ = component__->Loaded += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
 				auto component = getComponent();
@@ -1152,16 +1180,15 @@ namespace TitaniumWindows
 				}
 			});
 
-			selected_event__ = component__->Tapped += ref new TappedEventHandler([this](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
-				//
-				// Show selected image/color when it is tapped. It is cleared once it losts focus.
-				//
-				if (backgroundSelectedImageBrush__) {
-					updateBackground(backgroundSelectedImageBrush__);
-				} else if (backgroundSelectedColorBrush__) {
-					updateBackground(backgroundSelectedColorBrush__);
-				}
-			});
+			if (is_button__) {
+				selected_event__ = dynamic_cast<Controls::Button^>(underlying_control__)->Click += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+					updateSelectedBackground();
+				});
+			} else {
+				selected_event__ = component__->Tapped += ref new TappedEventHandler([this](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
+					updateSelectedBackground();
+				});
+			}
 
 			if (is_control__) {
 				enabled_changed_event__ = dynamic_cast<Control^>(component__)->IsEnabledChanged += ref new DependencyPropertyChangedEventHandler([this](Platform::Object^ sender, DependencyPropertyChangedEventArgs^ e){
