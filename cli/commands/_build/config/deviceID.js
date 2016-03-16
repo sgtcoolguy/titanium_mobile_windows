@@ -46,6 +46,7 @@ module.exports = function configOptionDeviceID(order) {
 		// check the device
 		if (cli.argv.target === 'wp-device') {
 			// try connecting to the device to detect no device or more than 1 device
+			this.windowslibOptions['wpsdk'] = cli.argv['wp-sdk'];
 			windowslib.device.connect(dev.udid, this.windowslibOptions)
 				.on('connected', function () {
 					callback(null, value);
