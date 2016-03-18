@@ -13,6 +13,7 @@
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 #include <collection.h>
 
@@ -80,55 +81,47 @@ namespace TitaniumWindows
 			});
 		}
 
-		// unregister all rows from LayoutEngine
-		void TableView::unregisterTableRows() 
+		// unregister all rows in section from LayoutEngine
+		void TableView::unregisterSectionLayoutNode(const std::shared_ptr<Titanium::UI::TableViewSection>& section)
 		{
-			for (const auto section : sections__) {
-				auto header = section->get_headerView();
-				if (header) {
-					unregisterTableViewRowAsLayoutNode(header);
-				}
-				for (const auto row : section->get_rows()) {
-					unregisterTableViewRowAsLayoutNode(row);
-				}
+			unregisterTableViewRowAsLayoutNode(section->get_headerView());
+			unregisterTableViewRowAsLayoutNode(section->get_footerView());
+			for (const auto row : section->get_rows()) {
+				unregisterTableViewRowAsLayoutNode(row);
+			}
+		}
+
+		// unregister all rows from LayoutEngine
+		void TableView::unregisterSections() 
+		{
+			for (const auto section : model__->get_sections()) {
+				unregisterSectionLayoutNode(section);
 			}
 		}
 
 		void TableView::set_data(const std::vector<JSObject>& data) TITANIUM_NOEXCEPT
 		{
-			unregisterTableRows();
+			unregisterSections();
 			Titanium::UI::TableView::set_data(data);
 			clearTableData();
-			for (uint32_t i = 0; i < sections__.size(); i++) {
+			for (uint32_t i = 0; i < model__->get_sectionCount(); i++) {
 				collectionViewItems__->Append(createUIElementsForSection(i));
 			}
 		}
 
 		void TableView::set_sections(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections) TITANIUM_NOEXCEPT
 		{
-			unregisterTableRows();
+			unregisterSections();
 			Titanium::UI::TableView::set_sections(sections);
 			clearTableData();
-			for (uint32_t i = 0; i < sections__.size(); i++) {
+			for (uint32_t i = 0; i < model__->get_sectionCount(); i++) {
 				collectionViewItems__->Append(createUIElementsForSection(i));
 			}
 		}
 
-		void TableView::appendRowAtSection(const std::uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::TableViewRow>>& rows) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::TableView::appendRowAtSection(sectionIndex, rows);
-			unbindCollectionViewSource();
-
-			// TODO:
-
-			bindCollectionViewSource();
-		}
-
 		Vector<UIElement^>^ TableView::createUIElementsForSection(const std::uint32_t& sectionIndex) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(sections__.size() > sectionIndex);
-
-			const auto section = sections__.at(sectionIndex);
+			const auto section = model__->getSectionAtIndex(sectionIndex);
 			const auto rows    = section->get_rows();
 			auto group = ref new Vector<UIElement^>();
 
@@ -138,16 +131,16 @@ namespace TitaniumWindows
 			// Set section header
 			auto headerView = section->get_headerView();
 			if (headerView != nullptr) {
-				auto windows_view = dynamic_cast<TitaniumWindows::UI::View*>(headerView.get());
-				auto component = windows_view->getComponent();
-				group->Append(component);
-				// Add as child view to make layout engine work
-				registerTableViewRowAsLayoutNode(headerView);
-			} else {
-				const auto header = createDefaultSectionHeader(section);
-				if (header != nullptr) {
-					group->Append(header);
+				const auto view_delegate = headerView->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				if (view_delegate == nullptr) {
+					TITANIUM_LOG_ERROR("TableView: headerView must be of type Titanium.UI.View");
+				} else {
+					group->Append(view_delegate->getComponent());
+					// Add as child view to make layout engine work
+					registerTableViewRowAsLayoutNode(headerView);
 				}
+			} else if (section->hasHeader()) {
+				group->Append(createDefaultSectionHeader(section));
 			}
 
 			for (uint32_t i = 0; i < rows.size(); i++) {
@@ -164,25 +157,67 @@ namespace TitaniumWindows
 			return group;
 		}
 
+		void TableView::updateSection(const uint32_t& index, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::TableView::updateSection(index, section, animation);
+			unbindCollectionViewSource();
+			collectionViewItems__->SetAt(index, createUIElementsForSection(index));
+
+			// Make sure to unregister rows from LayoutEngine
+			unregisterSectionLayoutNode(section);
+
+			bindCollectionViewSource();
+		}
+
 		void TableView::appendSection(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			const auto startSectionIndex = sections__.size();
+			const auto startSectionIndex = model__->get_sectionCount();
 
 			Titanium::UI::TableView::appendSection(sections, animation);
 			unbindCollectionViewSource();
 
 			for (std::uint32_t i = 0; i < sections.size(); i++) {
-				collectionViewItems__->Append(createUIElementsForSection(i));
+				collectionViewItems__->Append(createUIElementsForSection(startSectionIndex + i));
 			}
 
 			bindCollectionViewSource();
 		}
 
+		void TableView::deleteSection(const uint32_t& sectionIndex, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			auto section = model__->getSectionAtIndex(sectionIndex);
+
+			Titanium::UI::TableView::deleteSection(sectionIndex, animation);
+			unbindCollectionViewSource();
+
+			unregisterSectionLayoutNode(section);
+
+			const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
+			views->Clear();
+
+			bindCollectionViewSource();
+
+		}
+
+		void TableView::insertSectionAfter(const uint32_t& index, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::TableView::insertSectionAfter(index, section, animation);
+			unbindCollectionViewSource();
+			collectionViewItems__->InsertAt(index + 1, createUIElementsForSection(index + 1));
+			bindCollectionViewSource();
+		}
+
+		void TableView::insertSectionBefore(const uint32_t& index, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::TableView::insertSectionBefore(index, section, animation);
+			unbindCollectionViewSource();
+			collectionViewItems__->InsertAt(index, createUIElementsForSection(index));
+			bindCollectionViewSource();
+		}
+
+
 		Controls::ListViewHeaderItem^ TableView::createDefaultSectionHeader(const std::shared_ptr<Titanium::UI::TableViewSection>& section) 
 		{
-			if (section->get_headerTitle().empty()) {
-				return nullptr;
-			}
 			Controls::ListViewHeaderItem^ header = ref new Controls::ListViewHeaderItem();
 			auto headerText = ref new Controls::TextBlock();
 			headerText->Text = Utility::ConvertUTF8String(section->get_headerTitle());
@@ -201,47 +236,14 @@ namespace TitaniumWindows
 		// Remove child view 
 		void TableView::unregisterTableViewRowAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view)
 		{
-			auto layoutDelegate = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
-			Titanium::LayoutEngine::nodeRemoveChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getLayoutNode());
-		}
-
-		/*
-		* Search for section index and item index
-		* TODO: Is there a better way to do this?
-		*/
-		std::tuple<std::uint32_t, std::int32_t> TableView::searchFromSelectedIndex(const std::uint32_t& selectedIndex) 
-		{
-			std::int32_t  itemIndex = -1; // -1 means it's a header
-			std::uint32_t sectionIndex   = 0;
-			std::uint32_t totalItemCount = 0;
-
-			TITANIUM_ASSERT(data__.size() > 0);
-
-			// Is data constructed from TableViewSection?
-			const auto fromSection = sections__.at(0)->get_rowCount() != static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(0))->Size;
-
-			for (sectionIndex = 0; sectionIndex < sections__.size(); sectionIndex++) {
-				const auto section = sections__.at(sectionIndex);
-				const auto rowCountIncludingHeader = section->get_rowCount() + (fromSection ? 1 : 0);
-				totalItemCount += rowCountIncludingHeader;
-				if (totalItemCount < selectedIndex) {
-					// we just count the total item
-					continue;
-				} else if (fromSection && selectedIndex == 0) {
-					// that's a first header
-					break;
-				} else if (fromSection && totalItemCount == selectedIndex) {
-					// this indicates header is selected
-					itemIndex = -1;
-					sectionIndex++;
-					break;
-				} else {
-					// this indicates selected index is in this section
-					itemIndex = selectedIndex - (totalItemCount - rowCountIncludingHeader) - (fromSection ? 1 : 0);
-					break;
-				}
+			if (view == nullptr) {
+				return;
 			}
-			return std::make_tuple(sectionIndex, itemIndex);
+			const auto layout      = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+			const auto view_layout = view->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+			if (layout && view_layout) {
+				Titanium::LayoutEngine::nodeRemoveChild(layout->getLayoutNode(), view_layout->getLayoutNode());
+			}
 		}
 
 		void TableView::enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT
@@ -256,7 +258,7 @@ namespace TitaniumWindows
 				click_event__ = tableview__->ItemClick += ref new Controls::ItemClickEventHandler(
 					[this, ctx](Platform::Object^ sender, Controls::ItemClickEventArgs^ e) {
 
-					if (data__.size() == 0) {
+					if (model__->empty()) {
 						TITANIUM_LOG_DEBUG("TableView is clicked but there's no data");
 						return;
 					}
@@ -267,27 +269,21 @@ namespace TitaniumWindows
 					listview->Items->IndexOf(e->ClickedItem, &selectedIndex);
 					if (selectedIndex == -1) return;
 
-					const auto result = searchFromSelectedIndex(selectedIndex);
+					const auto result = model__->searchRowBySelectedIndex(selectedIndex);
 
-					const auto sectionIndex = std::get<0>(result);
-					const auto itemIndex    = std::get<1>(result);
+					if (result.found) {
+						JSObject  eventArgs = ctx.CreateObject();
+						eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(result.sectionIndex));
+						eventArgs.SetProperty("index", ctx.CreateNumber(result.rowIndex));
 
-					// Is data constructed from TableViewSection?
-					const auto fromSection = data__.at(0).GetPrivate<Titanium::UI::TableViewSection>() != nullptr;
-
-					JSObject  eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(sectionIndex));
-					eventArgs.SetProperty("index", ctx.CreateNumber(itemIndex));
-
-					// add row info if it's not a header
-					if (itemIndex >= 0) {
-						const auto row = sections__.at(sectionIndex)->get_rows().at(itemIndex);
+						const auto section = model__->getSectionAtIndex(result.sectionIndex);
+						const auto row = section->get_rows().at(result.rowIndex);
 						eventArgs.SetProperty("row", row->get_object());
-						eventArgs.SetProperty("rowData", fromSection ? row->get_object() : data__.at(itemIndex));
+						eventArgs.SetProperty("rowData", row->get_data());
 						eventArgs.SetProperty("source", row->get_object());
-					}
 
-					fireEvent("click", eventArgs);
+						fireEvent("click", eventArgs);
+					}
 				});
 			}
 		}
@@ -311,32 +307,79 @@ namespace TitaniumWindows
 			collectionViewSource__->Source = ref new Vector<Platform::Object^>();
 		}
 
-		void TableView::fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::uint32_t& rowIndex) 
+		std::uint32_t TableView::getRowIndexInCollectionView(const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::uint32_t& rowIndex)
 		{
-			const std::uint32_t sectionIndex = std::distance(sections__.begin(), std::find(sections__.begin(), sections__.end(), section));
-
-			if (name == "append") {
-				if (collectionViewItems__->Size > sectionIndex) {
-					unbindCollectionViewSource();
-					const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
-					const auto row = section->get_rows().at(rowIndex);
-					const auto rowContent = row->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
-					TITANIUM_ASSERT(rowContent);
-					views->Append(rowContent);
-					registerTableViewRowAsLayoutNode(row);
-					bindCollectionViewSource();
-				}
-			} else if (name == "remove") {
-				if (collectionViewItems__->Size > sectionIndex) {
-					unbindCollectionViewSource();
-					const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
-					views->RemoveAt(rowIndex);
-					bindCollectionViewSource();
-				}
-			}
-
-			Titanium::UI::TableView::fireTableViewSectionEvent(name, section, rowIndex);
+			return rowIndex + /* +1 to skip table header */ (hasHeader() ? 1 : 0) + /* +1 to skip section header */ (section->hasHeader() ? 1 : 0);
 		}
 
+		void TableView::fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::shared_ptr<Titanium::UI::TableViewRow>& row, const std::uint32_t& rowIndex, const std::shared_ptr<Titanium::UI::TableViewRow>& old_row)
+		{
+			const std::uint32_t sectionIndex = model__->getSectionIndex(section);
+			TITANIUM_ASSERT(collectionViewItems__->Size > sectionIndex);
+
+			if (name == "append") {
+				unbindCollectionViewSource();
+				const auto rowIndexInCollectionView = getRowIndexInCollectionView(section, rowIndex);
+				const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
+				const auto rowContent = row->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
+				TITANIUM_ASSERT(rowContent);
+				if (views->Size > rowIndexInCollectionView) {
+					views->InsertAt(rowIndexInCollectionView, rowContent);
+				} else {
+					views->Append(rowContent);
+				}
+				registerTableViewRowAsLayoutNode(row);
+				bindCollectionViewSource();
+			} else if (name == "remove") {
+				unbindCollectionViewSource();
+				const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
+				views->RemoveAt(getRowIndexInCollectionView(section, rowIndex));
+				unregisterTableViewRowAsLayoutNode(row);
+				bindCollectionViewSource();
+			} else if (name == "update") {
+				TITANIUM_ASSERT(old_row != nullptr);
+				unbindCollectionViewSource();
+				unregisterTableViewRowAsLayoutNode(old_row);
+
+				const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
+				const auto rowContent = row->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
+				views->SetAt(getRowIndexInCollectionView(section, rowIndex), rowContent);
+				registerTableViewRowAsLayoutNode(row);
+				bindCollectionViewSource();
+			} else {
+				TITANIUM_LOG_WARN("TableView: Unknown TableViewSectionEvent: ", name);
+			}
+
+			Titanium::UI::TableView::fireTableViewSectionEvent(name, section, row, rowIndex, old_row);
+		}
+
+		void TableView::scrollToIndex(const uint32_t& index, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			// On Windows the top value is interpreted as a row index
+			const auto result = searchRowByIndex(index);
+
+			if (result.found) {
+				auto rows = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(result.sectionIndex));
+				tableview__->ScrollIntoView(rows->GetAt(result.rowIndex));
+			} else {
+				TITANIUM_LOG_WARN("TableView::scrollToIndex: Invalid row index ", index);
+			}
+		}
+
+		void TableView::scrollToTop(const uint32_t& top, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			// On Windows the top value is interpreted as a row index
+			scrollToIndex(top, animation);
+		}
+
+		void TableView::selectRow(const uint32_t& row) TITANIUM_NOEXCEPT
+		{
+			tableview__->SelectedIndex = row;
+		}
+
+		void TableView::deselectRow(const uint32_t& row) TITANIUM_NOEXCEPT
+		{
+			tableview__->SelectedIndex = row;
+		}
 	}  // namespace UI
 }  // namespace TitaniumWindows

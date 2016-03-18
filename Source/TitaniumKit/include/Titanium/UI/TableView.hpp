@@ -11,8 +11,10 @@
 
 #include "Titanium/UI/View.hpp"
 #include "Titanium/detail/TiBase.hpp"
+#include "Titanium/UI/ListModel.hpp"
 #include <vector>
 #include <unordered_map>
+#include <tuple>
 
 namespace Titanium
 {
@@ -34,6 +36,20 @@ namespace Titanium
 		{
 
 		public:
+
+			/*!
+			  @property
+			  @abstract allowsSelection
+			  @discussion Determines whether this table's rows can be selected.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, allowsSelection);
+
+			/*!
+			  @property
+			  @abstract allowsSelectionDuringEditing
+			  @discussion Determines whether this table's rows can be selected while editing the table.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(bool, allowsSelectionDuringEditing);
 
 			/*!
 			  @property
@@ -228,6 +244,13 @@ namespace Titanium
 
 			/*!
 			  @method
+			  @abstract deselectRow
+			  @discussion Programmatically deselects a row.
+			*/
+			virtual void deselectRow(const uint32_t& row) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
 			  @abstract updateRow
 			  @discussion Updates an existing row, optionally with animation.
 			*/
@@ -241,18 +264,25 @@ namespace Titanium
 			virtual void updateSection(const uint32_t& index, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT;
 
 			/*!
-			@method
-			@abstract querySubmitted
-			@discussion Occurs when the user submits a search query
+			  @method
+			  @abstract querySubmitted
+			  @discussion Occurs when the user submits a search query
 			*/
 			virtual void querySubmitted(const std::string& query);
 
 			/*!
-			@method
-			@abstract suggestionRequested
-			@discussion Occurs when app needs to provide new suggestions
+			  @method
+			  @abstract suggestionRequested
+			  @discussion Occurs when app needs to provide new suggestions
 			*/
 			virtual std::vector<std::string> suggestionRequested(const std::string& query);
+
+			/*!
+			  @method
+			  @abstract searchRowByIndex
+			  @discussion Locate row and section from row index
+			*/
+			virtual ListRowSearchResult searchRowByIndex(const std::uint32_t& index) TITANIUM_NOEXCEPT;
 
 			TableView(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableView() = default;
@@ -265,6 +295,8 @@ namespace Titanium
 
 			static void JSExportInitialize();
 
+			TITANIUM_PROPERTY_DEF(allowsSelection);
+			TITANIUM_PROPERTY_DEF(allowsSelectionDuringEditing);
 			TITANIUM_PROPERTY_DEF(data);
 			TITANIUM_PROPERTY_DEF(filterAttribute);
 			TITANIUM_PROPERTY_DEF(filterAnchored);
@@ -291,10 +323,15 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(scrollToIndex);
 			TITANIUM_FUNCTION_DEF(scrollToTop);
 			TITANIUM_FUNCTION_DEF(selectRow);
+			TITANIUM_FUNCTION_DEF(deselectRow);
 			TITANIUM_FUNCTION_DEF(updateRow);
 			TITANIUM_FUNCTION_DEF(updateSection);
 			TITANIUM_FUNCTION_DEF(getData);
 			TITANIUM_FUNCTION_DEF(setData);
+			TITANIUM_FUNCTION_DEF(getAllowsSelection);
+			TITANIUM_FUNCTION_DEF(setAllowsSelection);
+			TITANIUM_FUNCTION_DEF(getAllowsSelectionDuringEditing);
+			TITANIUM_FUNCTION_DEF(setAllowsSelectionDuringEditing);
 			TITANIUM_FUNCTION_DEF(getFilterAttribute);
 			TITANIUM_FUNCTION_DEF(setFilterAttribute);
 			TITANIUM_FUNCTION_DEF(getFilterAnchored);
@@ -325,15 +362,37 @@ namespace Titanium
 
 			// Receive all events fired from TableViewSection.
 			// Subclass may override this to catch changes for section.
-			virtual void fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<TableViewSection>& section, const std::uint32_t& rowIndex);
+			virtual void fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewRow>& row, const std::uint32_t& rowIndex, const std::shared_ptr<TableViewRow>& old_row);
 
 			virtual void createEmptyTableViewSection();
 
+			bool hasHeaderTitle() const TITANIUM_NOEXCEPT
+			{
+				return !headerTitle__.empty();
+			}
+
+			bool hasHeader() const TITANIUM_NOEXCEPT
+			{
+				return hasHeaderTitle() || (headerView__.get() != nullptr);
+			}
+
+			bool hasFooterTitle() const TITANIUM_NOEXCEPT
+			{
+				return !footerTitle__.empty();
+			}
+
+			bool hasFooter() const TITANIUM_NOEXCEPT
+			{
+				return hasFooterTitle() || (footerView__.get() != nullptr);
+			}
+
 			protected:
+
 #pragma warning(push)
 #pragma warning(disable : 4251)
-				std::vector<JSObject> saved_data__;
-				std::vector<JSObject> data__;
+				std::shared_ptr<ListModel<TableViewSection>> model__;
+				bool allowsSelection__ { true };
+				bool allowsSelectionDuringEditing__ { false };
 				std::string filterAttribute__;
 				bool filterAnchored__;
 				bool filterCaseInsensitive__;
@@ -345,7 +404,6 @@ namespace Titanium
 				double minRowHeight__;
 				double rowHeight__;
 				std::shared_ptr<SearchBar> search__;
-				std::vector<std::shared_ptr<TableViewSection>> sections__;
 				std::string separatorColor__;
 				JSObject tableviewAnimationProperties_ctor__;
 #pragma warning(pop)

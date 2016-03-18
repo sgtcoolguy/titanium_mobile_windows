@@ -79,13 +79,12 @@ function lookup(name) {
 
 function ensureLoadTemplates(listview) {
 	// prepare default template
-	if (!this.loaded) {
+	if (!listview.templates[Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT]) {
 		listview.templates[Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT] = LISTVIEW_LIST_ITEM_TEMPLATE_DEFAULT;
 
 		for (var binding in listview.templates) {
 			processTemplates(listview.templates[binding]);
 		}
-		this.loaded = true;
 	}
 }
 
@@ -155,4 +154,3 @@ this.exports = {};
 this.exports.createSectionItemAt = createSectionItemAt;
 this.exports.createSectionView = createSectionView;
 this.exports.processTemplates  = processTemplates;
-this.exports.loaded = false;

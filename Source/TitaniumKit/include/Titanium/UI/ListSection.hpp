@@ -179,6 +179,31 @@ namespace Titanium
 			virtual void setViewForSectionItem(const std::uint32_t& itemIndex, const std::shared_ptr<View>& view);
 			virtual std::shared_ptr<View> getViewForSectionItem(const std::uint32_t& itemIndex);
 
+			std::uint32_t get_itemCount() const TITANIUM_NOEXCEPT
+			{
+				return static_cast<std::uint32_t>(items__.size());
+			}
+
+			bool hasHeaderTitle() const TITANIUM_NOEXCEPT
+			{
+				return !headerTitle__.empty();
+			}
+
+			bool hasHeader() const TITANIUM_NOEXCEPT
+			{
+				return hasHeaderTitle() || (headerView__.get() != nullptr);
+			}
+
+			bool hasFooterTitle() const TITANIUM_NOEXCEPT
+			{
+				return !footerTitle__.empty();
+			}
+
+			bool hasFooter() const TITANIUM_NOEXCEPT
+			{
+				return hasFooterTitle() || (footerView__.get() != nullptr);
+			}
+
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)

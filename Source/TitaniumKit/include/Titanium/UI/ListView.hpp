@@ -12,9 +12,11 @@
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/ListSection.hpp"
 #include "Titanium/UI/ListViewMarkerProps.hpp"
+#include "Titanium/UI/ListModel.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include <vector>
 #include <unordered_map>
+#include <tuple>
 
 namespace Titanium
 {
@@ -52,7 +54,7 @@ namespace Titanium
 				loadJS();
 				
 				std::vector<std::shared_ptr<T>> items;
-				const std::vector<JSValue> args { get_object(), sections__.at(index)->get_object() };
+				const std::vector<JSValue> args { get_object(), model__->getSectionAtIndex(index)->get_object() };
 				JSValue result = sectionViewCreateFunction__(args, ti_listview_exports__);
 				TITANIUM_ASSERT(result.IsObject());
 				auto js_items = static_cast<JSObject>(result);
@@ -69,8 +71,8 @@ namespace Titanium
 			template<typename T>
 			std::shared_ptr<T> createSectionItemViewAt(const std::uint32_t& sectionIndex, const uint32_t& itemIndex) {
 				loadJS();
-				auto section = sections__.at(sectionIndex);
-				const std::vector<JSValue> args { get_object(), sections__.at(sectionIndex)->get_object(), get_context().CreateNumber(itemIndex) };
+				auto section = model__->getSectionAtIndex(sectionIndex);
+				const std::vector<JSValue> args { get_object(), section->get_object(), get_context().CreateNumber(itemIndex) };
 				JSValue js_view = sectionViewItemCreateFunction__(args, ti_listview_exports__);
 				TITANIUM_ASSERT(js_view.IsObject());
 				return static_cast<JSObject>(js_view).GetPrivate<T>();
@@ -275,8 +277,7 @@ namespace Titanium
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			std::vector<std::shared_ptr<ListSection>> saved_sections__;
-			std::vector<std::shared_ptr<ListSection>> sections__;
+			std::shared_ptr<ListModel<ListSection>> model__;
 			std::string footerTitle__;
 			std::string headerTitle__;
 			std::shared_ptr<View> footerView__;
