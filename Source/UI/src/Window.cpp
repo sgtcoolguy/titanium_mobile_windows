@@ -134,33 +134,55 @@ namespace TitaniumWindows
 			// disable all events further because it doesn't make sense.
 			disableEvents();
 
-			auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
+			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
+			const auto top_window = window_stack__.back();
+			const auto is_top_window = (top_window.get() == this); // check if window.close has been issued onto the top window
+
 			if (!get_exitOnClose() && window_stack__.size() > 1) {
-				rootFrame->GoBack();
 
-				auto top_window = window_stack__.back();
+				// Check if stack-top is not a current Window.
+				// This usually means new windows is opened before current windows is closed,
+				// or user explicitly closes a window which is not on top.
+				// In this case we don't want to GoBack().
+				if (!is_top_window) {
 
-				// If stack-top is not a current Window,
-				// it means new Window is opened before current Window is closed.
-				// In that case we need to re-arrange the stack.
-				if (top_window.get() != this) {
-					window_stack__.pop_back();
-					window_stack__.pop_back(); // remove current Window
-					window_stack__.push_back(top_window); // push new Window
+					// Iterate over the stack to search for shared_ptr for "this" because std::find does not work in this case.
+					// Assuming this reasonable as we don't usually open too many windows...
+					auto found = false;
+					for (std::size_t i = 0; i < window_stack__.size(); i++) {
+						const auto w = window_stack__.at(i);
+						if (w.get() == this) {
+							window_stack__.erase(window_stack__.begin() + i);
+							found = true;
+							break;
+						}
+					}
+
+					if (!found) {
+						TITANIUM_LOG_WARN("Window.close: Window is not opened or already closed");
+					}
+
 				} else {
 					window_stack__.pop_back();
+					rootFrame->GoBack();
+					
+					const auto next_window = window_stack__.back();
+
+					try {
+						rootFrame->Navigate(Windows::UI::Xaml::Controls::Page::typeid);
+						auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
+						page->Content = next_window->getComponent();
+					} catch (Platform::COMException^ e) {
+						// This may happen when current window is not actually opened yet. In this case we just can skip it.
+						// TODO: Is there any way to avoid this exception by checking if page content is valid?
+						TITANIUM_LOG_ERROR("Window.close: failed to set content for the new Window");
+					}
+
+					// start accepting events for the new Window
+					next_window->enableEvents();
+					next_window->focus();
 				}
-
-				auto window = window_stack__.back();
-
-				rootFrame->Navigate(Windows::UI::Xaml::Controls::Page::typeid);
-				auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
-				page->Content = window->getComponent();
-
-				// start accepting events for the new Window
-				window->enableEvents();
-				window->focus();
-			} else {
+			} else if (is_top_window) {
 				JSValue Titanium_property = get_context().get_global_object().GetProperty("Titanium");
 				TITANIUM_ASSERT(Titanium_property.IsObject());
 				JSObject Titanium = static_cast<JSObject>(Titanium_property);
