@@ -119,9 +119,10 @@ describe("Titanium.UI.Window", function () {
             }, 1000);
         }, 3000);
     });
+
     // For this test, you should see errors in the console, it is expected.
     // What you should not see is a crash
-    it.skip("should_not_crash", function (finish) {
+    it("should_not_crash", function (finish) {
         this.timeout(5000)
         var win1 = Ti.UI.createWindow();
         win1.open();
@@ -136,7 +137,93 @@ describe("Titanium.UI.Window", function () {
                 win1.close();
                 finish();
             }, 1000);
-        }, 3000);
+        }, 1000);
+    });
+
+    it("window_close_order_1", function (finish) {
+        this.timeout(5000)
+        var win1 = Ti.UI.createWindow({backgroundColor:'green'}),
+            win2 = Ti.UI.createWindow({backgroundColor:'blue' }),
+            win3 = Ti.UI.createWindow({backgroundColor:'gray' });
+
+        win1.addEventListener('focus', function(e) {
+            if (didFocus) return;
+            didFocus = true;
+
+            win2.open();
+            setTimeout(function () {
+                win3.open();
+                setTimeout(function () {
+                    win3.close();
+                    setTimeout(function () {
+                        win2.close();
+                        setTimeout(function () {
+                            win1.close();
+                            finish(); 
+                        }, 500);
+                    }, 500);
+                }, 500);
+            }, 500);
+        });
+
+        win1.open();
+    });
+
+    it("window_close_order_2", function (finish) {
+        this.timeout(5000)
+        var win1 = Ti.UI.createWindow({backgroundColor:'green'}),
+            win2 = Ti.UI.createWindow({backgroundColor:'blue' }),
+            win3 = Ti.UI.createWindow({backgroundColor:'gray' });
+
+        win1.addEventListener('focus', function(e) {
+            if (didFocus) return;
+            didFocus = true;
+
+            win2.open();
+            setTimeout(function () {
+                win3.open();
+                win2.close();
+                setTimeout(function () {
+                    win3.close();
+                    setTimeout(function () {
+                        win1.close();
+                        finish(); 
+                    }, 500);
+                }, 500);
+            }, 500);
+        });
+
+        win1.open();
+    });
+
+    // TIMOB-20600
+    it("TIMOB-20600", function (finish) {
+        this.timeout(5000)
+        var win1 = Ti.UI.createWindow({backgroundColor:'green'}),
+            win2 = Ti.UI.createWindow({backgroundColor:'blue' }),
+            win3 = Ti.UI.createWindow({backgroundColor:'gray' });
+
+        win1.addEventListener('focus', function(e) {
+            if (didFocus) return;
+            didFocus = true;
+
+            win2.open();
+            setTimeout(function () {
+                win3.open();
+                setTimeout(function () {
+                    win2.close();
+                    setTimeout(function () {
+                        win3.close();
+                        setTimeout(function () {
+                            win1.close();
+                            finish(); 
+                        }, 500);
+                    }, 500);
+                }, 500);
+            }, 500);
+        });
+
+        win1.open();
     });
 
     it.skip("window_to_string", function (finish) {
@@ -231,10 +318,10 @@ describe("Titanium.UI.Window", function () {
                             should(thridWindowOpen).be.eql(1);
                             should(thridWindowClose).be.eql(1);
                             finish();
-                        }, 1000);
-                    }, 1000);
-                }, 1000);
-            }, 1000);
-        }, 1000);
+                        }, 500);
+                    }, 500);
+                }, 500);
+            }, 500);
+        }, 500);
     });
 });
