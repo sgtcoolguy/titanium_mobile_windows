@@ -153,7 +153,7 @@ namespace TitaniumWindows
 		void HTTPClient::send(Windows::Web::Http::IHttpContent^ content)
 		{
 			auto uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
-			
+
 			// Set up the request
 			Windows::Web::Http::HttpRequestMessage^ request;
 			if (method__ == Titanium::Network::RequestMethod::Post) {
@@ -329,7 +329,7 @@ namespace TitaniumWindows
 						&responseData__[responseDataLen__], responseBuffer->Length));
 					responseDataLen__ += responseBuffer->Length;
 				}
-				
+
 				// FIXME How do we pass the token on in case of readTask?
 				return responseBuffer->Length ? HTTPResultAsync(stream, token) : readTask;
 			}, task_continuation_context::use_current());
@@ -339,11 +339,10 @@ namespace TitaniumWindows
 		void HTTPClient::configureTimeout()
 		{
 			if (timeout__.count() > 0) {
-				const auto timeout = timeout__.count();
-				const auto token_source = cancellationTokenSource__;
-				create_async([timeout, token_source](concurrency::cancellation_token token) {
-					concurrency::wait(static_cast<unsigned int>(timeout));
-					token_source.cancel();
+				create_async([this](concurrency::cancellation_token token) {
+					concurrency::wait(static_cast<unsigned int>(timeout__.count()));
+					cancellationTokenSource__.cancel();
+					cancellationTokenSource__ = concurrency::cancellation_token_source();
 				});
 			}
 		}
@@ -402,7 +401,7 @@ namespace TitaniumWindows
 			auto location = TitaniumWindows::Utility::ConvertString(location__);
 
 			for (auto it = requestHeaders__.begin(); it != requestHeaders__.end(); ++it) {
-				
+
 				auto key   = TitaniumWindows::Utility::ConvertString(it->first);
 				auto value = TitaniumWindows::Utility::ConvertString(it->second);
 
