@@ -200,8 +200,8 @@ describe('Titanium.UI.ListView', function () {
                     bindId: 'info',
                     properties: {
                         color: 'black',
-                        font: { fontSize: '20dp', fontWeight: 'bold' },
-                        left: '60dp', top: 0,
+                        font: { fontSize: '20', fontWeight: 'bold' },
+                        left: '60', top: 0,
                     }
                 },
                 {
@@ -209,8 +209,8 @@ describe('Titanium.UI.ListView', function () {
                     bindId: 'es_info',
                     properties: {
                         color: 'gray',
-                        font: { fontSize: '14dp' },
-                        left: '60dp', top: '25dp',
+                        font: { fontSize: '14' },
+                        left: '60', top: '25',
                     }
                 }
             ]
@@ -224,24 +224,24 @@ describe('Titanium.UI.ListView', function () {
 
         var fruitSection = Ti.UI.createListSection({ headerTitle: 'Fruits / Frutas' });
         var fruitDataSet = [
-            { info: { text: 'Apple' }, es_info: { text: 'Manzana' }, pic: { image: 'apple.png' } },
-            { info: { text: 'Banana' }, es_info: { text: 'Banana' }, pic: { image: 'banana.png' } }
+            { info: { text: 'Apple' }, es_info: { text: 'Manzana' }, pic: { image: 'Logo.png' } },
+            { info: { text: 'Banana' }, es_info: { text: 'Banana' }, pic: { image: 'Logo.png' } }
         ];
         fruitSection.setItems(fruitDataSet);
         sections.push(fruitSection);
 
         var vegSection = Ti.UI.createListSection({ headerTitle: 'Vegetables / Verduras' });
         var vegDataSet = [
-            { info: { text: 'Carrot' }, es_info: { text: 'Zanahoria' }, pic: { image: 'carrot.png' } },
-            { info: { text: 'Potato' }, es_info: { text: 'Patata' }, pic: { image: 'potato.png' } }
+            { info: { text: 'Carrot' }, es_info: { text: 'Zanahoria' }, pic: { image: 'Logo.png' } },
+            { info: { text: 'Potato' }, es_info: { text: 'Patata' }, pic: { image: 'Logo.png' } }
         ];
         vegSection.setItems(vegDataSet);
         sections.push(vegSection);
 
         var grainSection = Ti.UI.createListSection({ headerTitle: 'Grains / Granos' });
         var grainDataSet = [
-            { info: { text: 'Corn' }, es_info: { text: 'Maiz' }, pic: { image: 'corn.png' } },
-            { info: { text: 'Rice' }, es_info: { text: 'Arroz' }, pic: { image: 'rice.png' } }
+            { info: { text: 'Corn' }, es_info: { text: 'Maiz' }, pic: { image: 'Logo.png' } },
+            { info: { text: 'Rice' }, es_info: { text: 'Arroz' }, pic: { image: 'Logo.png' } }
         ];
         grainSection.setItems(grainDataSet);
         sections.push(grainSection);
@@ -273,7 +273,7 @@ describe('Titanium.UI.ListView', function () {
         win.open();
     });
 
-    it.skip('appendSection', function (finish) {
+    it('appendSection', function (finish) {
         var win = Ti.UI.createWindow({backgroundColor: 'green'});
         var listView = Ti.UI.createListView();
 
