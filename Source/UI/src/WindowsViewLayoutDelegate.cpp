@@ -201,15 +201,23 @@ namespace TitaniumWindows
 			insertAt(params);
 		}
 
-		bool WindowsViewLayoutDelegate::get_visible() const TITANIUM_NOEXCEPT
-		{
-			return getComponent()->Visibility == Visibility::Visible;
-		}
-
 		void WindowsViewLayoutDelegate::set_visible(const bool& visible) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_visible(visible);
 			getComponent()->Visibility = (visible ? Visibility::Visible : Visibility::Collapsed);
+
+			// all visible schildren should be affected by parent visibility
+			for (const auto child : children__) {
+				const auto layout    = child->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				const auto component = layout->getComponent();
+
+				// don't change visibility of hidden component.
+				// only "visible" children are affected by parent visibility
+				if (layout->get_visible()) {
+					getComponent()->Visibility = (visible ? Visibility::Visible : Visibility::Collapsed);
+				}
+
+			}
 		}
 
 		void WindowsViewLayoutDelegate::animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT
@@ -1277,10 +1285,6 @@ namespace TitaniumWindows
 			}
 
 			if (is_panel__) {
-				for (auto child : panel->Children) {
-					child->Visibility = Visibility::Collapsed;
-				}
-
 				setWidth = true;
 				setHeight = true;
 			}
@@ -1305,12 +1309,6 @@ namespace TitaniumWindows
 
 			Canvas::SetLeft(component, rect.x);
 			Canvas::SetTop(component, rect.y);
-
-			if (is_panel__) {
-				for (auto child : panel->Children) {
-					child->Visibility = Visibility::Visible;
-				}
-			}
 
 			if (!is_scrollview__ && !std::isnan(component->Width) && !std::isnan(component->Height)) {
 				auto clipRect = ref new Media::RectangleGeometry();
