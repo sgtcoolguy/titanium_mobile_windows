@@ -327,7 +327,6 @@ namespace TitaniumWindows
 
 			  @discussion Determines whether the view is visible
 			*/
-			virtual bool get_visible() const TITANIUM_NOEXCEPT override;
 			virtual void set_visible(const bool& visible) TITANIUM_NOEXCEPT override;
 
 			/*!
