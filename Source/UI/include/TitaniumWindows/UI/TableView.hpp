@@ -6,8 +6,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#ifndef _TITANIUMWINDOWS_View_HPP_
-#define _TITANIUMWINDOWS_View_HPP_
+#ifndef _TITANIUMWINDOWS_TABLEVIEW_HPP_
+#define _TITANIUMWINDOWS_TABLEVIEW_HPP_
 
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/TableView.hpp"
@@ -45,17 +45,6 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(borderWidth);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
 
-			TITANIUM_FUNCTION_UNIMPLEMENTED(deleteRow);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(deleteSection);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(insertRowAfter);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(insertSectionAfter);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(insertRowBefore);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(insertSectionBefore);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(scrollToIndex);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(scrollToTop);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(selectRow);
-			TITANIUM_FUNCTION_UNIMPLEMENTED(updateRow);
-
 			TableView(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableView()                  = default;
 			TableView(const TableView&)            = default;
@@ -74,13 +63,20 @@ namespace TitaniumWindows
 			virtual void set_sections(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections) TITANIUM_NOEXCEPT override;
 			virtual void set_data(const std::vector<JSObject>& data) TITANIUM_NOEXCEPT override;
 
-			virtual void appendRowAtSection(const std::uint32_t& sectionIndex, const std::vector<std::shared_ptr<Titanium::UI::TableViewRow>>& row) TITANIUM_NOEXCEPT override;
 			virtual void appendSection(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
 			virtual void querySubmitted(const std::string& query) override;
 
+			virtual void updateSection(const uint32_t& index, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void deleteSection(const uint32_t& section, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void insertSectionAfter(const uint32_t& index, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void insertSectionBefore(const uint32_t& index, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+
+			virtual void scrollToIndex(const uint32_t& index, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void scrollToTop(const uint32_t& top, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
+			virtual void selectRow(const uint32_t& row) TITANIUM_NOEXCEPT override;
+			virtual void deselectRow(const uint32_t& row) TITANIUM_NOEXCEPT override;
+
 		private:
-			// Search for section index and item index. Returns {sectionIndex, itemIndex}
-			std::tuple<std::uint32_t, std::int32_t> searchFromSelectedIndex(const std::uint32_t& selectedIndex);
 			void bindCollectionViewSource();
 			void unbindCollectionViewSource();
 
@@ -91,11 +87,13 @@ namespace TitaniumWindows
 
 			// Receive all events fired from TableViewSection.
 			// Subclass may override this to catch changes for section.
-			virtual void fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::uint32_t& rowIndex) override;
+			virtual void fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::shared_ptr<Titanium::UI::TableViewRow>& row, const std::uint32_t& rowIndex, const std::shared_ptr<Titanium::UI::TableViewRow>& old_row) override;
 
-			void unregisterTableRows();
+			void unregisterSectionLayoutNode(const std::shared_ptr<Titanium::UI::TableViewSection>& section);
+			void unregisterSections();
 			void clearTableData();
 			void resetTableDataBinding();
+			std::uint32_t getRowIndexInCollectionView(const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::uint32_t& rowIndex) TITANIUM_NOEXCEPT;
 
 			Windows::UI::Xaml::Controls::ListView^ tableview__;
 			Windows::UI::Xaml::Data::CollectionViewSource^ collectionViewSource__;
@@ -105,4 +103,4 @@ namespace TitaniumWindows
 		};
 	}  // namespace UI
 }  // namespace TitaniumWindows
-#endif // _TITANIUMWINDOWS_View_HPP_
+#endif // _TITANIUMWINDOWS_TABLEVIEW_HPP_

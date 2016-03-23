@@ -22,8 +22,8 @@
   JSObject UI = static_cast<JSObject>(UI_property); \
   JSValue NAME##_property = UI.GetProperty(#NAME); \
   TITANIUM_ASSERT(NAME##_property.IsObject()); \
-  JSObject NAME = static_cast<JSObject>(NAME##_property); \
-  auto OUT = NAME.CallAsConstructor(PARAM); \
+  JSObject NAME##_obj = static_cast<JSObject>(NAME##_property); \
+  auto OUT = NAME##_obj.CallAsConstructor(PARAM); \
   Titanium::Module::applyProperties(PARAM, OUT);
 
 namespace Titanium
@@ -41,48 +41,65 @@ namespace Titanium
 			maxRowHeight__(0),
 			minRowHeight__(0),
 			rowHeight__(0),
-			separatorColor__("")
+			separatorColor__(""),
+			model__(std::make_shared<ListModel<TableViewSection>>())
+
 		{
 			TITANIUM_LOG_INFO("TableView ctor");
 		}
 
-		TITANIUM_PROPERTY_READ(TableView, std::vector<std::shared_ptr<TableViewSection>>, sections)
+		std::vector<std::shared_ptr<TableViewSection>> TableView::get_sections() const TITANIUM_NOEXCEPT
+		{
+			return model__->get_sections();
+		}
 
 		void TableView::set_sections(const std::vector<std::shared_ptr<TableViewSection>>& sections) TITANIUM_NOEXCEPT
 		{
-			sections__ = sections;
-			data__.clear();
-			for (std::uint32_t i = 0; i < sections.size(); i++) {
-				data__.push_back(sections.at(i)->get_object());
-			}
+			model__->set_sections(sections);
 		}
 
-		TITANIUM_PROPERTY_READ(TableView, std::vector<JSObject>, data)
+		std::vector<JSObject> TableView::get_data() const TITANIUM_NOEXCEPT
+		{
+			std::vector<JSObject> data;
+			const auto sections = get_sections();
+			for (const auto section : sections) {
+				// this indicates data is constructed from array of rows without header
+				if (sections.size() == 1 && !section->hasHeader())
+				{
+					for (const auto row : section->get_rows())
+					{
+						data.push_back(row->get_data());
+					}
+				} else {
+					data.push_back(section->get_object());
+				}
+			}
+			return data;
+		}
 
 		void TableView::set_data(const std::vector<JSObject>& data) TITANIUM_NOEXCEPT
 		{
-			data__ = data;
-			sections__.clear();
+			model__->clear();
 			for (std::uint32_t i = 0; i < data.size(); i++) {
 				const auto datum    = data.at(i);
 				const auto section  = datum.GetPrivate<Titanium::UI::TableViewSection>();
 				if (section != nullptr) {
-					sections__.push_back(section);
+					model__->appendSection(section);
 				} else {
 					// if there's no sections create new one and add rows into it.
-					if (sections__.size() == 0) {
+					if (model__->empty()) {
 						createEmptyTableViewSection();
 					}
-					const auto firstSection = sections__.at(0);
-					const auto row = datum.GetPrivate<Titanium::UI::TableViewRow>();
+					const auto firstSection = model__->first();
+					auto row = datum.GetPrivate<Titanium::UI::TableViewRow>();
 
-					// if row is TableViewRow, add it into section. otherwise create new one.
-					if (row != nullptr) {
-						firstSection->add(row);
-					} else {
+					// if row is not TableViewRow, create new one.
+					if (row == nullptr) {
 						CREATE_TITANIUM_UI_INSTANCE(js_row, datum, TableViewRow);
-						firstSection->add(js_row.GetPrivate<Titanium::UI::TableViewRow>());
+						row = js_row.GetPrivate<Titanium::UI::TableViewRow>();
+						row->set_data(datum);
 					}
+					firstSection->add(row);
 				}
 			}
 		}
@@ -92,6 +109,8 @@ namespace Titanium
 			set_data(data);
 		}
 
+		TITANIUM_PROPERTY_READWRITE(TableView, bool, allowsSelection)
+		TITANIUM_PROPERTY_READWRITE(TableView, bool, allowsSelectionDuringEditing)
 		TITANIUM_PROPERTY_READWRITE(TableView, std::string, filterAttribute)
 		TITANIUM_PROPERTY_READWRITE(TableView, bool, filterAnchored)
 		TITANIUM_PROPERTY_READWRITE(TableView, bool, filterCaseInsensitive)
@@ -121,51 +140,41 @@ namespace Titanium
 				//
 				// query finished, recover saved data
 				//
-				if (!saved_data__.empty()) {
-					data__ = saved_data__;
-					saved_data__ = std::vector<JSObject>();
+				if (model__->isSaved()) {
+					model__->restore();
 				}
-				set_data(data__);
+				set_sections(model__->get_sections());
 				return;
 			}
 
-			std::vector<JSObject> rows;
-			for (const auto data : saved_data__) {
-				const auto section = data.GetPrivate<Titanium::UI::TableViewSection>();
-				if (section) {
-					for (const auto row : section->get_rows()) {
-						if (row->contains(query)) {
-							rows.push_back(row->get_object());
-						}
-					}
-				} else {
-					const auto row = data.GetPrivate<Titanium::UI::TableViewRow>();
-					if (row && row->contains(query)) {
-						rows.push_back(row->get_object());
+			std::vector<std::shared_ptr<TableViewSection>> sections;
+
+			// Create new section to show the result
+			JSObject param = get_context().CreateObject();
+			CREATE_TITANIUM_UI_INSTANCE(js_section, param, TableViewSection);
+			auto section = js_section.GetPrivate<TableViewSection>();
+			for (const auto save_section : model__->get_saved_sections()) {
+				for (const auto row : save_section->get_rows()) {
+					if (row->contains(query)) {
+						section->add(row);
 					}
 				}
 			}
-			set_data(rows);
+
+			sections.push_back(section);
+			set_sections(sections);
 		}
 
 		std::vector<std::string> TableView::suggestionRequested(const std::string& query) 
 		{
-			if (saved_data__.empty()) {
-				saved_data__ = data__;
+			if (!model__->isSaved()) {
+				model__->save();
 			}
 
 			std::vector<std::string> suggestions;
-			for (const auto data : saved_data__) {
-				const auto section = data.GetPrivate<Titanium::UI::TableViewSection>();
-				if (section) {
-					for (const auto row : section->get_rows()) {
-						if (row->contains(query)) {
-							suggestions.push_back(row->get_title());
-						}
-					}
-				} else {
-					const auto row = data.GetPrivate<Titanium::UI::TableViewRow>();
-					if (row && row->contains(query)) {
+			for (const auto section : model__->get_saved_sections()) {
+				for (const auto row : section->get_rows()) {
+					if (row->contains(query)) {
 						suggestions.push_back(row->get_title());
 					}
 				}
@@ -175,31 +184,31 @@ namespace Titanium
 
 		std::uint32_t TableView::get_sectionCount() const TITANIUM_NOEXCEPT
 		{
-			return static_cast<std::uint32_t>(sections__.size());
+			return model__->get_sectionCount();
 		}
 
 		void TableView::createEmptyTableViewSection() 
 		{
 			const auto properties = get_context().CreateObject();
 			CREATE_TITANIUM_UI_INSTANCE(js_section, properties, TableViewSection);
-			sections__.push_back(js_section.GetPrivate<Titanium::UI::TableViewSection>());
+			model__->appendSection(js_section.GetPrivate<Titanium::UI::TableViewSection>());
 		}
 
 		void TableView::appendRow(const std::vector<std::shared_ptr<TableViewRow>>& rows, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			// create new section if there's no one
-			if (sections__.size() == 0) {
+			if (model__->empty()) {
 				createEmptyTableViewSection();
 			}
 
-			appendRowAtSection(static_cast<std::uint32_t>(sections__.size() - 1), rows);
+			appendRowAtSection(static_cast<std::uint32_t>(model__->get_sectionCount() - 1), rows);
 		}
 
 		void TableView::appendRowAtSection(const std::uint32_t& sectionIndex, const std::vector<std::shared_ptr<TableViewRow>>& rows) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_ASSERT(sections__.size() > sectionIndex);
+			TITANIUM_ASSERT(model__->get_sectionCount() > sectionIndex);
 
-			std::shared_ptr<Titanium::UI::TableViewSection> section = sections__.at(sectionIndex);
+			std::shared_ptr<Titanium::UI::TableViewSection> section = model__->getSectionAtIndex(sectionIndex);
 			for (const auto row : rows) {
 				section->add(row);
 			}
@@ -208,43 +217,79 @@ namespace Titanium
 		void TableView::appendSection(const std::vector<std::shared_ptr<TableViewSection>>& sections, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			for (const auto section : sections) {
-				sections__.push_back(section);
+				model__->appendSection(section);
 			}
 		}
 
-		void TableView::deleteRow(const std::uint32_t& rowIndex, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		ListRowSearchResult TableView::searchRowByIndex(const std::uint32_t& index) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TableView::deleteRow: Unimplemented");
+			ListRowSearchResult result;
+			std::uint32_t sectionIndex = 0;
+			std::uint32_t rowCount = 0;
+			for (const auto section : model__->get_sections()) {
+				auto sectionRowCount = section->get_rowCount();
+				if (sectionRowCount + rowCount > index) {
+					std::uint32_t rowIndexInSection = index - rowCount;
+					if (section->get_rowCount() > rowIndexInSection) {
+						result.found = true;
+						result.rowIndex = rowIndexInSection;
+						break;
+					}
+				} else {
+					rowCount += sectionRowCount;
+				}
+				sectionIndex++;
+			}
+			result.sectionIndex = sectionIndex;
+			return result;
+		}
+
+		void TableView::deleteRow(const std::uint32_t& index, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
+		{
+			const auto result = searchRowByIndex(index);
+			if (result.found) {
+				model__->getSectionAtIndex(result.sectionIndex)->remove(result.rowIndex);
+			}
 		}
 
 		void TableView::deleteRow(const std::shared_ptr<TableViewRow>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TableView::deleteRow: Unimplemented");
+			for (const auto section : model__->get_sections()) {
+				if (section->remove(row)) {
+					break;
+				}
+			}
 		}
 
 		void TableView::deleteSection(const uint32_t& sectionIndex, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			sections__.erase(sections__.begin()+sectionIndex);
+			model__->deleteSectionAt(sectionIndex);
 		}
 
 		void TableView::insertRowAfter(const uint32_t& index, const std::shared_ptr<TableViewRow>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TableView::insertRowAfter: Unimplemented");
+			const auto result = searchRowByIndex(index);
+			if (result.found) {
+				model__->getSectionAtIndex(result.sectionIndex)->add(row, result.rowIndex + 1);
+			}
 		}
 
 		void TableView::insertSectionAfter(const uint32_t& index, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			sections__.insert(sections__.begin() + index + 1, section);
+			model__->insertSectionAfter(index, { section });
 		}
 
 		void TableView::insertRowBefore(const uint32_t& index, const std::shared_ptr<TableViewRow>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TableView::insertRowBefore: Unimplemented");
+			const auto result = searchRowByIndex(index);
+			if (result.found) {
+				model__->getSectionAtIndex(result.sectionIndex)->add(row, result.rowIndex);
+			}
 		}
 
 		void TableView::insertSectionBefore(const uint32_t& index, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			sections__.insert(sections__.begin() + index, section);
+			model__->insertSectionBefore(index, { section });
 		}
 
 		void TableView::scrollToIndex(const uint32_t& index, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
@@ -262,17 +307,25 @@ namespace Titanium
 			TITANIUM_LOG_WARN("TableView::selectRow: Unimplemented");
 		}
 
+		void TableView::deselectRow(const uint32_t& row) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("TableView::deselectRow: Unimplemented");
+		}
+
 		void TableView::updateRow(const uint32_t& index, const std::shared_ptr<TableViewRow>& row, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("TableView::updateRow: Unimplemented");
+			const auto result = searchRowByIndex(index);
+			if (result.found) {
+				model__->getSectionAtIndex(result.sectionIndex)->update(result.rowIndex, row);
+			}
 		}
 
 		void TableView::updateSection(const uint32_t& index, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			sections__.emplace(sections__.begin() + index, section);
+			model__->updateSection(index, section);
 		}
 
-		void TableView::fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<TableViewSection>& section, const std::uint32_t& rowIndex) 
+		void TableView::fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<TableViewSection>& section, const std::shared_ptr<TableViewRow>& row, const std::uint32_t& rowIndex, const std::shared_ptr<TableViewRow>& old_row)
 		{
 			const auto ctx = get_context();
 			auto event_args = ctx.CreateObject();
@@ -291,6 +344,8 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(TableView, getData);
 			TITANIUM_ADD_FUNCTION(TableView, setData);
 
+			TITANIUM_ADD_PROPERTY(TableView, allowsSelection);
+			TITANIUM_ADD_PROPERTY(TableView, allowsSelectionDuringEditing);
 			TITANIUM_ADD_PROPERTY(TableView, filterAttribute);
 			TITANIUM_ADD_PROPERTY(TableView, filterAnchored);
 			TITANIUM_ADD_PROPERTY(TableView, filterCaseInsensitive);
@@ -317,8 +372,13 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(TableView, scrollToIndex);
 			TITANIUM_ADD_FUNCTION(TableView, scrollToTop);
 			TITANIUM_ADD_FUNCTION(TableView, selectRow);
+			TITANIUM_ADD_FUNCTION(TableView, deselectRow);
 			TITANIUM_ADD_FUNCTION(TableView, updateRow);
 			TITANIUM_ADD_FUNCTION(TableView, updateSection);
+			TITANIUM_ADD_FUNCTION(TableView, getAllowsSelection);
+			TITANIUM_ADD_FUNCTION(TableView, setAllowsSelection);
+			TITANIUM_ADD_FUNCTION(TableView, getAllowsSelectionDuringEditing);
+			TITANIUM_ADD_FUNCTION(TableView, setAllowsSelectionDuringEditing);
 			TITANIUM_ADD_FUNCTION(TableView, getFilterAttribute);
 			TITANIUM_ADD_FUNCTION(TableView, setFilterAttribute);
 			TITANIUM_ADD_FUNCTION(TableView, getFilterAnchored);
@@ -376,6 +436,11 @@ namespace Titanium
 			return true;
 		}
 
+		TITANIUM_PROPERTY_GETTER_BOOL(TableView, allowsSelection)
+		TITANIUM_PROPERTY_SETTER_BOOL(TableView, allowsSelection)
+		TITANIUM_PROPERTY_GETTER_BOOL(TableView, allowsSelectionDuringEditing)
+		TITANIUM_PROPERTY_SETTER_BOOL(TableView, allowsSelectionDuringEditing)
+
 		TITANIUM_PROPERTY_GETTER_STRING(TableView, filterAttribute)
 		TITANIUM_PROPERTY_SETTER_STRING(TableView, filterAttribute)
 		TITANIUM_PROPERTY_GETTER_BOOL(TableView, filterAnchored)
@@ -428,12 +493,33 @@ namespace Titanium
 
 				const auto _0 = arguments.at(0);
 				TITANIUM_ASSERT(_0.IsObject());
-				const auto js_rows = static_cast<JSObject>(_0);
+				const auto params = static_cast<JSObject>(_0);
 
-				if (js_rows.IsArray()) {
-					rows = static_cast<JSArray>(js_rows).GetPrivateItems<TableViewRow>();
+				if (params.IsArray()) {
+					const auto js_rows_array = static_cast<JSArray>(params);
+					for (uint32_t i = 0; i < js_rows_array.GetLength(); i++) {
+						auto item = js_rows_array.GetProperty(i);
+						// appendRow accepts array of TableViewRow or JS Dictionary Object
+						if (item.IsObject()) {
+							const auto item_obj = static_cast<JSObject>(item);
+							const auto row = item_obj.GetPrivate<TableViewRow>();
+							if (row) {
+								rows.push_back(row);
+							} else {
+								CREATE_TITANIUM_UI_INSTANCE(newrow, item_obj, TableViewRow);
+								rows.push_back(newrow.GetPrivate<TableViewRow>());
+							}
+						}
+					}
+
 				} else {
-					rows.push_back(js_rows.GetPrivate<TableViewRow>());
+					auto row = params.GetPrivate<TableViewRow>();
+					if (row) {
+						rows.push_back(row);
+					} else {
+						CREATE_TITANIUM_UI_INSTANCE(newrow, params, TableViewRow);
+						rows.push_back(newrow.GetPrivate<TableViewRow>());
+					}
 				}
 
 				if (arguments.size() >= 2) {
@@ -674,6 +760,13 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
+		TITANIUM_FUNCTION(TableView, deselectRow)
+		{
+			ENSURE_UINT_AT_INDEX(index, 0);
+			deselectRow(index);
+			return get_context().CreateUndefined();
+		}
+
 		TITANIUM_FUNCTION(TableView, updateRow)
 		{
 			const auto js_context = this_object.get_context();
@@ -728,6 +821,10 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
+		TITANIUM_FUNCTION_AS_GETTER(TableView, getAllowsSelection, allowsSelection)
+		TITANIUM_FUNCTION_AS_SETTER(TableView, setAllowsSelection, allowsSelection)
+		TITANIUM_FUNCTION_AS_GETTER(TableView, getAllowsSelectionDuringEditing, allowsSelectionDuringEditing)
+		TITANIUM_FUNCTION_AS_SETTER(TableView, setAllowsSelectionDuringEditing, allowsSelectionDuringEditing)
 		TITANIUM_FUNCTION_AS_GETTER(TableView, getData, data)
 		TITANIUM_FUNCTION_AS_SETTER(TableView, setData, data)
 		TITANIUM_FUNCTION_AS_GETTER(TableView, getFilterAttribute, filterAttribute)

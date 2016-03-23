@@ -77,20 +77,13 @@ namespace TitaniumWindows
 			void clearListViewData();
 
 		private:
+			void unregisterSectionLayoutNode(const std::shared_ptr<Titanium::UI::ListSection>& section);
 			void registerListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
 			void unregisterListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
 			void appendListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ group);
 			void insertListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, ::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ group, const std::uint32_t& index);
-			// Search for section index and item index. Returns {sectionIndex, itemIndex}
-			std::tuple<std::uint32_t, std::int32_t> searchFromSelectedIndex(const std::uint32_t& selectedIndex);
 			void bindCollectionViewSource();
 			void unbindCollectionViewSource();
-
-			// hide header view
-			void hideHeaderView(const std::uint32_t& sectionIndex);
-
-			// restore header view as it may be hidden according to the results
-			void restoreHeaderViewIfNecessary(const std::uint32_t& sectionIndex);
 
 			Windows::UI::Xaml::Controls::ListView^ listview__;
 			Windows::UI::Xaml::Data::CollectionViewSource^ collectionViewSource__;
@@ -100,14 +93,8 @@ namespace TitaniumWindows
 
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			bool is_filtering__ { false };
-
-			std::vector<Windows::UI::Xaml::UIElement^> unfiltered_headers__;
-			std::vector<std::vector<Titanium::UI::ListDataItem>> unfiltered_sectionItems__;
-			std::vector<std::shared_ptr<Titanium::UI::View>> headers_as_view__;
-#pragma warning(pop)
-
 			Windows::Foundation::EventRegistrationToken itemclick_event__;
+#pragma warning(pop)
 
 		};
 	}  // namespace UI

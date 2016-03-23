@@ -25,6 +25,9 @@ namespace TitaniumWindows
 		//
 		::Platform::String^ ConvertString(const std::string& str) 
 		{
+			if (str.empty()) {
+				return "";
+			}
 			return ref new ::Platform::String(std::wstring(str.begin(), str.end()).c_str());
 		}
 
@@ -33,6 +36,9 @@ namespace TitaniumWindows
 		//
 		std::string ConvertString(::Platform::String^ str) 
 		{
+			if (str->IsEmpty()) {
+				return "";
+			}
 			return std::string(str->Begin(), str->End());
 		}
 
@@ -41,6 +47,9 @@ namespace TitaniumWindows
 		//
 		::Platform::String^ ConvertUTF8String(const std::string& str) 
 		{
+			if (str.empty()) {
+				return "";
+			}
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 			return ref new ::Platform::String(converter.from_bytes(str).data());
 		}
@@ -50,6 +59,9 @@ namespace TitaniumWindows
 		//
 		std::wstring ConvertToUTF8WString(const std::string& str)
 		{
+			if (str.empty()) {
+				return std::wstring();
+			}
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 			return converter.from_bytes(str);
 		}
@@ -59,6 +71,9 @@ namespace TitaniumWindows
 		//
 		std::string ConvertUTF8String(::Platform::String^ str) 
 		{
+			if (str->IsEmpty()) {
+				return "";
+			}
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 			return std::string(converter.to_bytes(str->Data()));
 		}

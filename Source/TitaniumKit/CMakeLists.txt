@@ -327,6 +327,7 @@ set(SOURCE_UI
   src/UI/Window.cpp
   include/Titanium/UI/ViewInsertOrReplaceParams.hpp
   src/UI/ViewInsertOrReplaceParams.cpp
+  include/Titanium/UI/ListModel.hpp
   )
 
 set(SOURCE_TiLogger_detail

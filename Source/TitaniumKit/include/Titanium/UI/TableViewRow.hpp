@@ -63,6 +63,14 @@ namespace Titanium
 			*/
 			TITANIUM_PROPERTY_IMPL_DEF(std::string, title);
 
+			/*!
+			  @property
+			  @abstract data
+			  @discussion Raw data of the row
+			*/
+			void set_data(const JSObject& data) TITANIUM_NOEXCEPT;
+			JSObject get_data() TITANIUM_NOEXCEPT;
+
 			TableViewRow(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableViewRow() = default;
 			TableViewRow(const TableViewRow&) = default;
@@ -104,6 +112,7 @@ namespace Titanium
 				bool hasCheck__;
 				bool hasChild__;
 				std::string title__;
+				JSObject data__;
 #pragma warning(pop)
 		};
 	} // namespace UI
