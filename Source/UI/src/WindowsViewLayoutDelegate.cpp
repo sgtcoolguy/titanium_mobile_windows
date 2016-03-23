@@ -59,7 +59,7 @@ namespace TitaniumWindows
 			delete layout_node__;
 		}
 
-			std::shared_ptr<Titanium::UI::View> WindowsViewLayoutDelegate::rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::UI::View> WindowsViewLayoutDelegate::rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT
 		{
 			// If this is a native wrapper, we need to jump through a lot of hoops to basically unwrap and rewrap as a Ti.UI.View
 			auto context = view.get_context();
@@ -1350,15 +1350,22 @@ namespace TitaniumWindows
 					}
 				}
 
-				if (fire_event && postlayout_listening__) {
-				 	auto event_delegate = event_delegate__.lock();
-				 	if (event_delegate != nullptr) {
-						// Fire postlayout event
-						JSContext js_context = event_delegate->get_context();
-						JSObject  eventArgs = js_context.CreateObject();
-						eventArgs.SetProperty("source", event_delegate->get_object());
-						event_delegate->fireEvent("postlayout", eventArgs);
-					}
+				if (fire_event) {
+					firePostLayoutEvent();
+				}
+			}
+		}
+
+		void WindowsViewLayoutDelegate::firePostLayoutEvent()
+		{
+			if (postlayout_listening__) {
+				auto event_delegate = event_delegate__.lock();
+				if (event_delegate != nullptr) {
+					// Fire postlayout event
+					JSContext js_context = event_delegate->get_context();
+					JSObject  eventArgs = js_context.CreateObject();
+					eventArgs.SetProperty("source", event_delegate->get_object());
+					event_delegate->fireEvent("postlayout", eventArgs);
 				}
 			}
 		}
@@ -1408,7 +1415,10 @@ namespace TitaniumWindows
 
 			if (needsLayout) {
 				requestLayout(true);
+			} else if (isLoaded()) {
+				firePostLayoutEvent();
 			}
+
 		}
 
 
