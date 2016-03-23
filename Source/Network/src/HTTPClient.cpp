@@ -339,10 +339,10 @@ namespace TitaniumWindows
 		void HTTPClient::configureTimeout()
 		{
 			if (timeout__.count() > 0) {
-				create_async([this](concurrency::cancellation_token token) {
+				create_async([=](concurrency::cancellation_token token) {
+					const auto cancellationToken = cancellationTokenSource__;
 					concurrency::wait(static_cast<unsigned int>(timeout__.count()));
-					cancellationTokenSource__.cancel();
-					cancellationTokenSource__ = concurrency::cancellation_token_source();
+					cancellationToken.cancel();
 				});
 			}
 		}
