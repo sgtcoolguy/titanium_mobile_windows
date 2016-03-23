@@ -458,6 +458,7 @@ namespace TitaniumWindows
 			virtual std::shared_ptr<Titanium::UI::View> rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT override;
 			virtual void registerNativeUIWrapHook(const std::function<JSObject(const JSContext&, const JSObject&)>& requireCallback);
 			virtual void fireSimplePositionEvent(const std::string& event_name, Windows::UI::Xaml::FrameworkElement^ sender, Windows::Foundation::Point position);
+			virtual void firePostLayoutEvent();
 
 			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromPath(const std::string& path);
 			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBitmapImage(Windows::UI::Xaml::Media::Imaging::BitmapImage^ image);
