@@ -205,19 +205,6 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutDelegate::set_visible(visible);
 			getComponent()->Visibility = (visible ? Visibility::Visible : Visibility::Collapsed);
-
-			// all visible schildren should be affected by parent visibility
-			for (const auto child : children__) {
-				const auto layout    = child->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
-				const auto component = layout->getComponent();
-
-				// don't change visibility of hidden component.
-				// only "visible" children are affected by parent visibility
-				if (layout->get_visible()) {
-					getComponent()->Visibility = (visible ? Visibility::Visible : Visibility::Collapsed);
-				}
-
-			}
 		}
 
 		void WindowsViewLayoutDelegate::animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT
