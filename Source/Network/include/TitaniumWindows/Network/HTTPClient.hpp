@@ -56,6 +56,7 @@ namespace TitaniumWindows
 			virtual void setRequestHeader(const std::string& name, const std::string& value) TITANIUM_NOEXCEPT override final;
 			// properties
 			virtual std::string get_allResponseHeaders() const TITANIUM_NOEXCEPT override final;
+			virtual void set_timeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT override final;
 			
 		protected:
 #pragma warning(push)
@@ -71,10 +72,14 @@ namespace TitaniumWindows
 			concurrency::cancellation_token_source cancellationTokenSource__;
 			//  timeoutRegistrationToken__ - used to remove the timeout handler
 			Windows::Foundation::EventRegistrationToken timeoutRegistrationToken__;
+			// dispatcherTimer__ - WinRT timer used to cancel a HTTP connection if timeout specified
+			Windows::UI::Xaml::DispatcherTimer^ dispatcherTimer__;
 			// responseStream__ - holds response string, the stream is not exposed
 			Windows::Storage::Streams::IBuffer^ responseStream__;
 			// responseDataLen__ - count of character contained in data vector
 			long responseDataLen__ { 0 };
+			// timeoutSpan__ - the span in milliseconds during which the request is active
+			Windows::Foundation::TimeSpan timeoutSpan__;
 			// responseHeaders__ - the collection of key value pairs returned from the server
 
 			std::map<const std::string, std::string> responseHeaders__;
@@ -87,7 +92,7 @@ namespace TitaniumWindows
 			bool disposed__ { false };
 #pragma warning(pop)
 
-			void configureTimeout();
+			void startDispatcherTimer();
 			task<Windows::Storage::Streams::IBuffer^> HTTPClient::HTTPResultAsync(Windows::Storage::Streams::IInputStream^ stream, concurrency::cancellation_token token);
 			Windows::Storage::Streams::Buffer^ charVecToBuffer(std::vector<std::uint8_t> char_vector);
 
