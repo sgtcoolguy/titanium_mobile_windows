@@ -189,6 +189,15 @@ namespace TitaniumWindows
 
 					modified = "ms-appx://" + modified;
 				}
+
+				// Fix invalid path separator in path "//" just in case since Windows can't handle this
+				// This often happens when user concatenate path with filename manually
+				auto scheme    = modified.substr(0, modified.find_first_of("://") + 3);
+				auto pathInURL = modified.substr(scheme.size());
+
+				boost::replace_all<std::string>(pathInURL, "//", "/");
+
+				modified = scheme + pathInURL;
 			}
 			return ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(modified));
 		}

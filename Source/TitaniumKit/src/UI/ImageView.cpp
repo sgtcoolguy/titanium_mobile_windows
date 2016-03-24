@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/ImageView.hpp"
 #include "Titanium/Blob.hpp"
+#include "Titanium/Filesystem/File.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 
 #define IMAGEVIEW_MIN_INTERVAL 30
@@ -52,8 +53,13 @@ namespace Titanium
 
 		std::shared_ptr<Titanium::Blob> ImageView::toBlob(JSValue callback) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("ImageView::toBlob unimplemented");
-			return nullptr;
+			if (imageAsBlob__) {
+				return imageAsBlob__;
+			} else if (imageAsFile__) {
+				return imageAsFile__->read();
+			} else {
+				return toImage(callback, false);
+			}
 		}
 
 		TITANIUM_PROPERTY_READ(ImageView, bool, animating)
@@ -79,7 +85,11 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(ImageView, bool, enableZoomControls)
 		TITANIUM_PROPERTY_READWRITE(ImageView, bool, hires)
 		TITANIUM_PROPERTY_READWRITE(ImageView, std::string, image)
+		TITANIUM_PROPERTY_READWRITE(ImageView, std::shared_ptr<Titanium::Blob>, imageAsBlob)
+		TITANIUM_PROPERTY_READWRITE(ImageView, std::shared_ptr<Titanium::Filesystem::File>, imageAsFile)
 		TITANIUM_PROPERTY_READWRITE(ImageView, std::vector<std::string>, images)
+		TITANIUM_PROPERTY_READWRITE(ImageView, std::vector<std::shared_ptr<Titanium::Blob>>, imagesAsBlob)
+		TITANIUM_PROPERTY_READWRITE(ImageView, std::vector<std::shared_ptr<Titanium::Filesystem::File>>, imagesAsFile)
 		TITANIUM_PROPERTY_READ(ImageView, bool, paused)
 		TITANIUM_PROPERTY_READWRITE(ImageView, bool, preventDefaultImage)
 		TITANIUM_PROPERTY_READWRITE(ImageView, uint32_t, repeatCount)
@@ -256,21 +266,50 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(ImageView, image)
 		{
-			return get_context().CreateString(get_image());
+			if (!get_image().empty()) {
+				return get_context().CreateString(get_image());
+			} else if (get_imageAsBlob()) {
+				return get_imageAsBlob()->get_object();	
+			} else if (get_imageAsFile()) {
+				return get_imageAsFile()->get_object();
+			}
+			return get_context().CreateNull();
 		}
 
 		TITANIUM_PROPERTY_SETTER(ImageView, image)
 		{
-			TITANIUM_ASSERT(argument.IsString());
-			set_image(static_cast<std::string>(argument));
+			if (argument.IsObject()) {
+				auto obj = static_cast<JSObject>(argument);
+				auto blob = obj.GetPrivate<Titanium::Blob>();
+				auto file = obj.GetPrivate<Titanium::Filesystem::File>();
+				if (blob) {
+					set_imageAsBlob(blob);
+				} else if (file) {
+					set_imageAsFile(file);
+				} else {
+					TITANIUM_LOG_WARN("ImageView.image only accepts String, Blob or File");
+				}
+			} else {
+				set_image(static_cast<std::string>(argument));
+			}
 			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(ImageView, images)
 		{
 			std::vector<JSValue> images;
-			for (auto image : get_images()) {
-				images.push_back(get_context().CreateString(image));
+			if (get_imagesAsBlob().size() > 0) {
+				for (auto blob : get_imagesAsBlob()) {
+					images.push_back(blob->get_object());
+				}
+			} else if (get_imagesAsFile().size() > 0) {
+				for (auto file : get_imagesAsFile()) {
+					images.push_back(file->get_object());
+				}
+			} else {
+				for (auto image : get_images()) {
+					images.push_back(get_context().CreateString(image));
+				}
 			}
 			return get_context().CreateArray(images);
 		}
@@ -282,13 +321,40 @@ namespace Titanium
 			TITANIUM_ASSERT(object.IsArray());
 			
 			std::vector<std::string> images;
+			std::vector<std::shared_ptr<Titanium::Blob>> imagesAsBlob;
+			std::vector<std::shared_ptr<Titanium::Filesystem::File>> imagesAsFile;
+
+			auto useBlob = false;
+			auto useFile = false;
 			const auto item_count = object.GetPropertyNames().GetCount();
 			for (uint32_t i = 0; i < item_count; ++i) {
 				JSValue item = object.GetProperty(i);
-				TITANIUM_ASSERT(item.IsString());
-				images.push_back(static_cast<std::string>(item));
+				if (item.IsObject()) {
+					auto itemObj = static_cast<JSObject>(item);
+					auto blob = itemObj.GetPrivate<Titanium::Blob>();
+					auto file = itemObj.GetPrivate<Titanium::Filesystem::File>();
+					if (blob) {
+						useBlob = true;
+						imagesAsBlob.push_back(blob);
+					} else if (file) {
+						useFile = true;
+						imagesAsFile.push_back(file);
+					} else {
+						TITANIUM_LOG_WARN("ImageView.images only accepts String, Blob or File");
+					}
+				} else {
+					images.push_back(static_cast<std::string>(item));
+				}
 			}
-			set_images(images);
+
+			if (useBlob) {
+				set_imagesAsBlob(imagesAsBlob);
+			} else if (useFile) {
+				set_imagesAsFile(imagesAsFile);
+			} else {
+				set_images(images);
+			}
+
 			return true;
 		}
 
