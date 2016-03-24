@@ -9,28 +9,106 @@ var should = require('./should');
 describe("Titanium.UI.ImageView", function () {
     this.timeout(5000);
 
+    function isWindows() {
+        return (Ti.Platform.osname == 'windowsphone' || Ti.Platform.osname == 'windowsstore');
+    }
+
     it("apiName", function (finish) {
-        var label = Ti.UI.createImageView({
+        var imageView = Ti.UI.createImageView({
             image: "https://www.google.com/images/srpr/logo11w.png"
         });
-        should(label.apiName).be.a.String;
-        should(label.apiName).be.eql("Titanium.UI.ImageView");
+        should(imageView.apiName).be.a.String;
+        should(imageView.apiName).be.eql("Titanium.UI.ImageView");
         finish();
     });
 
 
-    it("image", function (finish) {
-        var label = Ti.UI.createImageView({
+    it("image (URL)", function (finish) {
+        var imageView = Ti.UI.createImageView({
             image: "https://www.google.com/images/srpr/logo11w.png"
         });
-        should(label.image).be.a.String;
-        should(label.getImage).be.a.Function;
-        should(label.image).eql('https://www.google.com/images/srpr/logo11w.png');
-        should(label.getImage()).eql('https://www.google.com/images/srpr/logo11w.png');
-        label.image = 'path/to/logo.png';
-        should(label.image).eql('path/to/logo.png');
-        should(label.getImage()).eql('path/to/logo.png');
+        should(imageView.image).be.a.String;
+        should(imageView.getImage).be.a.Function;
+        should(imageView.image).eql('https://www.google.com/images/srpr/logo11w.png');
+        should(imageView.getImage()).eql('https://www.google.com/images/srpr/logo11w.png');
+        imageView.image = 'path/to/logo.png';
+        should(imageView.image).eql('path/to/logo.png');
+        should(imageView.getImage()).eql('path/to/logo.png');
         finish();
+    });
+
+    (isWindows() ? it : it.skip)("image (local path)", function (finish) {
+        var imageView = Ti.UI.createImageView();
+        imageView.addEventListener('load', function() {
+            should(imageView.image).be.a.String;
+            should(imageView.image).eql(Ti.Filesystem.resourcesDirectory + 'Logo.png');
+            finish();
+        });
+        imageView.image = Ti.Filesystem.resourcesDirectory + 'Logo.png';
+    });
+
+    (isWindows() ? it : it.skip)("image (nativePath)", function (finish) {
+        var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png");
+        var imageView = Ti.UI.createImageView();
+        imageView.addEventListener('load', function() {
+            should(imageView.image).be.a.String;
+            should(imageView.image).eql(Ti.Filesystem.resourcesDirectory + 'Logo.png');
+            finish();
+        });
+        imageView.image = fromFile.nativePath;
+    });
+
+    (isWindows() ? it : it.skip)("image (ms-appx)", function (finish) {
+        var imageView = Ti.UI.createImageView();
+        imageView.addEventListener('load', function() {
+            should(imageView.image).be.a.String;
+            should(imageView.image).eql('ms-appx:///Logo.png');
+
+            finish();
+        });
+        imageView.image = 'ms-appx:///Logo.png';
+    });
+
+    (isWindows() ? it : it.skip)("image (ms-appdata)", function (finish) {
+        var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png");
+        var toFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + 'TIMOB-20609.png');
+        toFile.write(fromFile.read());
+
+        var imageView = Ti.UI.createImageView();
+        imageView.addEventListener('load', function() {
+            should(imageView.image).be.a.String;
+            should(imageView.image).eql('ms-appdata:///local/TIMOB-20609.png');
+            toFile.deleteFile();
+            finish();
+        });
+
+        imageView.image = 'ms-appdata:///local/TIMOB-20609.png';
+    });
+
+    (isWindows() ? it : it.skip)("image (File)", function (finish) {
+        var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png");
+
+        var imageView = Ti.UI.createImageView();
+        imageView.addEventListener('load', function() {
+            should(imageView.image).be.an.Object;
+            should(imageView.image).eql(fromFile);
+            finish();
+        });
+
+        imageView.image = fromFile;
+    });
+
+    (isWindows() ? it : it.skip)("image (Blob)", function (finish) {
+        var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png"),
+            blob = fromFile.read();
+        var imageView = Ti.UI.createImageView();
+        imageView.addEventListener('load', function() {
+            should(imageView.image).be.an.Object;
+            should(imageView.toBlob()).eql(blob);
+            finish();
+        });
+
+        imageView.image = blob;
     });
 
     // TIMOB-18684
