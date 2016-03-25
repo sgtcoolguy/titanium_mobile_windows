@@ -201,11 +201,6 @@ namespace TitaniumWindows
 			insertAt(params);
 		}
 
-		bool WindowsViewLayoutDelegate::get_visible() const TITANIUM_NOEXCEPT
-		{
-			return getComponent()->Visibility == Visibility::Visible;
-		}
-
 		void WindowsViewLayoutDelegate::set_visible(const bool& visible) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_visible(visible);
@@ -1277,10 +1272,6 @@ namespace TitaniumWindows
 			}
 
 			if (is_panel__) {
-				for (auto child : panel->Children) {
-					child->Visibility = Visibility::Collapsed;
-				}
-
 				setWidth = true;
 				setHeight = true;
 			}
@@ -1305,12 +1296,6 @@ namespace TitaniumWindows
 
 			Canvas::SetLeft(component, rect.x);
 			Canvas::SetTop(component, rect.y);
-
-			if (is_panel__) {
-				for (auto child : panel->Children) {
-					child->Visibility = Visibility::Visible;
-				}
-			}
 
 			if (!is_scrollview__ && !std::isnan(component->Width) && !std::isnan(component->Height)) {
 				auto clipRect = ref new Media::RectangleGeometry();
