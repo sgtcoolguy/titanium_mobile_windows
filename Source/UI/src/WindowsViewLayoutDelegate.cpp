@@ -830,6 +830,8 @@ namespace TitaniumWindows
 		void WindowsViewLayoutDelegate::set_center(const Titanium::UI::Point& center) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_center(center);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::CenterX, std::to_string(center.x));
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::CenterY, std::to_string(center.y));
 		}
 
 		void WindowsViewLayoutDelegate::set_enabled(const bool& enabled) TITANIUM_NOEXCEPT
