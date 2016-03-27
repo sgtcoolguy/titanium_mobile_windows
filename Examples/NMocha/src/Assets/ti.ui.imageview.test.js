@@ -47,6 +47,30 @@ describe("Titanium.UI.ImageView", function () {
         imageView.image = Ti.Filesystem.resourcesDirectory + 'Logo.png';
     });
 
+    (isWindows() ? it : it.skip)("image (local path with separator)", function (finish) {
+        var imageView = Ti.UI.createImageView();
+        imageView.addEventListener('load', function() {
+            should(imageView.image).be.a.String;
+            should(imageView.image).eql(Ti.Filesystem.resourcesDirectory + Ti.Filesystem.separator + 'Logo.png');
+            finish();
+        });
+        // Try appending separator
+        // It's not quite clear if we needs separator, but people often do this
+        imageView.image = Ti.Filesystem.resourcesDirectory + Ti.Filesystem.separator + 'Logo.png';
+    });
+
+    (isWindows() ? it : it.skip)("image (local path with /)", function (finish) {
+        var imageView = Ti.UI.createImageView();
+        imageView.addEventListener('load', function() {
+            should(imageView.image).be.a.String;
+            should(imageView.image).eql(Ti.Filesystem.resourcesDirectory + '/' + 'Logo.png');
+            finish();
+        });
+        // Try appending '/' for the separator
+        // Technically this is not right on Windows, but people often do this
+        imageView.image = Ti.Filesystem.resourcesDirectory + '/' + 'Logo.png';
+    });
+
     (isWindows() ? it : it.skip)("image (nativePath)", function (finish) {
         var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png");
         var imageView = Ti.UI.createImageView();
@@ -83,32 +107,6 @@ describe("Titanium.UI.ImageView", function () {
         });
 
         imageView.image = 'ms-appdata:///local/TIMOB-20609.png';
-    });
-
-    (isWindows() ? it : it.skip)("image (File)", function (finish) {
-        var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png");
-
-        var imageView = Ti.UI.createImageView();
-        imageView.addEventListener('load', function() {
-            should(imageView.image).be.an.Object;
-            should(imageView.image).eql(fromFile);
-            finish();
-        });
-
-        imageView.image = fromFile;
-    });
-
-    (isWindows() ? it : it.skip)("image (Blob)", function (finish) {
-        var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png"),
-            blob = fromFile.read();
-        var imageView = Ti.UI.createImageView();
-        imageView.addEventListener('load', function() {
-            should(imageView.image).be.an.Object;
-            should(imageView.toBlob()).eql(blob);
-            finish();
-        });
-
-        imageView.image = blob;
     });
 
     // TIMOB-18684
