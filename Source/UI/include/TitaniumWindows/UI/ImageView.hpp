@@ -79,11 +79,6 @@ namespace TitaniumWindows
 
 			// properties
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
-			virtual void set_imageAsBlob(const std::shared_ptr<Titanium::Blob>& image) TITANIUM_NOEXCEPT override final;
-			virtual void set_imageAsFile(const std::shared_ptr<Titanium::Filesystem::File>& image) TITANIUM_NOEXCEPT override final;
-			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
-			virtual void set_imagesAsBlob(const std::vector<std::shared_ptr<Titanium::Blob>>& images) TITANIUM_NOEXCEPT override final;
-			virtual void set_imagesAsFile(const std::vector<std::shared_ptr<Titanium::Filesystem::File>>& images) TITANIUM_NOEXCEPT override final;
 			virtual void set_defaultImage(const std::string&) TITANIUM_NOEXCEPT override final;
 		private:
 

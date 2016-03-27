@@ -196,8 +196,6 @@ namespace Titanium
 			  Image to display, defined using a local filesystem path, a File object, a remote URL, or a Blob object containing image data. Blob and File objects are not supported on Mobile Web.
 			*/
 			TITANIUM_PROPERTY_IMPL_DEF(std::string, image);
-			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<Titanium::Blob>, imageAsBlob);
-			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<Titanium::Filesystem::File>, imageAsFile);
 
 			/*!
 			  @method
@@ -207,8 +205,6 @@ namespace Titanium
 			  @discussion Array of images to animate, defined using local filesystem paths, File objects, remote URLs (Android only), or Blob objects containing image data. Blob and File objects are not supported on Mobile Web.
 			*/
 			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::string>, images);
-			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::shared_ptr<Titanium::Blob>>, imagesAsBlob);
-			TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::shared_ptr<Titanium::Filesystem::File>>, imagesAsFile);
 
 			/*!
 			  @method
@@ -334,11 +330,7 @@ namespace Titanium
 			bool enableZoomControls__;
 			bool hires__;
 			std::string image__;
-			std::shared_ptr<Titanium::Blob> imageAsBlob__;
-			std::shared_ptr<Titanium::Filesystem::File> imageAsFile__;
 			std::vector<std::string> images__;
-			std::vector<std::shared_ptr<Titanium::Blob>> imagesAsBlob__;
-			std::vector<std::shared_ptr<Titanium::Filesystem::File>> imagesAsFile__;
 			bool preventDefaultImage__;
 			uint32_t repeatCount__;
 			bool reverse__;

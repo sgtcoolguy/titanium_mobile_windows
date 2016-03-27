@@ -265,32 +265,6 @@ namespace TitaniumWindows
 			return true;
 		}
 
-		void ImageView::set_imageAsBlob(const std::shared_ptr<Titanium::Blob>& blob)
-		{
-			Titanium::UI::ImageView::set_imageAsBlob(blob);
-
-			if (!prepareImageParams()) {
-				return;
-			}
-
-			TitaniumWindows::Utility::RunOnUIThread([blob, this](){
-				loadContentFromData(blob->getData());
-			});
-		}
-
-		void ImageView::set_imageAsFile(const std::shared_ptr<Titanium::Filesystem::File>& file)
-		{
-			Titanium::UI::ImageView::set_imageAsFile(file);
-
-			if (!prepareImageParams()) {
-				return;
-			}
-
-			TitaniumWindows::Utility::RunOnUIThread([file, this](){
-				loadContentFromData(file->read()->getData());
-			});
-		}
-
 		void ImageView::set_image(const std::string& path) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ImageView::set_image(path);
@@ -326,33 +300,6 @@ namespace TitaniumWindows
 					});
 				}
 			});
-		}
-
-		void ImageView::set_imagesAsBlob(const std::vector<std::shared_ptr<Titanium::Blob>>& images) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::ImageView::set_imagesAsBlob(images);
-			if (images.size() > 0) {
-				// HACK For now let's cheat and just set the first image as a static one
-				set_imageAsBlob(images.at(0));
-			}
-		}
-
-		void ImageView::set_imagesAsFile(const std::vector<std::shared_ptr<Titanium::Filesystem::File>>& images) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::ImageView::set_imagesAsFile(images);
-			if (images.size() > 0) {
-				// HACK For now let's cheat and just set the first image as a static one
-				set_imageAsFile(images.at(0));
-			}
-		}
-
-		void ImageView::set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::ImageView::set_images(images);
-			if (images.size() > 0) {
-				// HACK For now let's cheat and just set the first image as a static one
-				set_image(images.at(0));
-			}
 		}
 
 		void ImageView::set_defaultImage(const std::string& path) TITANIUM_NOEXCEPT
