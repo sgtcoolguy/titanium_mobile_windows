@@ -75,11 +75,29 @@ namespace TitaniumWindows
 				return Titanium::App::Properties::getString(property, default);
 			}
 
-			auto values = local_settings_->Values;
+			const auto values = local_settings_->Values;
 			const auto key = Utility::ConvertString(property);
 			if (values->HasKey(key)) {
-				auto value = safe_cast<IPropertyValue^>(values->Lookup(key))->GetString();
-				return Utility::ConvertString(value);
+				const auto stored_value = safe_cast<IPropertyValue^>(values->Lookup(key));
+				if (stored_value->Type == PropertyType::Int32) {
+					// Note: If string is too large (> 2048), we split them into array of strings. 
+					// In that case we stores "array size" here, and value type is Int32
+
+					std::string value;
+					const auto array_size = stored_value->GetInt32();
+					for (int i = 0; i < array_size; i++) {
+						// restore original string as string values are stored in different place.
+						auto array_key = "TitaniumWindows_Ti.App.Properties.StringArray." + key + "." + i;
+						if (values->HasKey(array_key)) {
+							value += Utility::ConvertString(safe_cast<IPropertyValue^>(values->Lookup(array_key))->GetString());
+						} else {
+							HAL::detail::ThrowRuntimeError("Properties::getString", "Ti.App.Properties: Unable to restore large strings");
+						}
+					}
+					return value;
+				}
+
+				return Utility::ConvertString(stored_value->GetString());
 			}
 			return default;
 		}
@@ -110,8 +128,28 @@ namespace TitaniumWindows
 				return; // can't remove system prop
 			}
 
-			auto values = local_settings_->Values;
-			values->Remove(Utility::ConvertString(property));
+			const auto values = local_settings_->Values;
+			const auto key    = Utility::ConvertString(property);
+
+			// we may have stored array of string in different place
+			if (values->HasKey(key)) {
+				const auto stored_value = safe_cast<IPropertyValue^>(values->Lookup(key));
+				if (stored_value->Type == PropertyType::Int32) {
+					// Note: If string is too large (> 2048), we split them into array of strings. 
+					// In that case we stores "array size" here, and value type is Int32
+					const auto array_size = stored_value->GetInt32();
+					for (int i = 0; i < array_size; i++) {
+						const auto array_key = "TitaniumWindows_Ti.App.Properties.StringArray." + key + "." + i;
+						if (values->HasKey(array_key)) {
+							values->Remove(array_key);
+						}
+					}
+				}
+			}
+
+			if (values->HasKey(key)) {
+				values->Remove(key);
+			}
 		}
 
 		void Properties::setBool(const std::string& property, bool value) TITANIUM_NOEXCEPT
@@ -140,8 +178,28 @@ namespace TitaniumWindows
 
 		void Properties::setString(const std::string& property, const std::string& value) TITANIUM_NOEXCEPT
 		{
-			auto values = local_settings_->Values;
-			values->Insert(Utility::ConvertString(property), dynamic_cast<PropertyValue^>(PropertyValue::CreateString(Utility::ConvertString(value))));
+			const auto values = local_settings_->Values;
+
+			// Note: If string is too large (> 2048), we split them into array of strings. 
+			// In that case we stores "array size" here, and value type is Int32
+			const int limit = 2048;
+			if (value.size() > limit) {
+				std::uint32_t array_size = 0;
+				for (std::string::const_iterator it(value.begin()); it != value.end();) {
+					const auto sc = std::min(limit, std::distance(it, value.end()));
+					const auto newvalue = std::string(it, it + sc);
+
+					// store original string in different place.
+					const auto array_key = "TitaniumWindows_Ti.App.Properties.StringArray." + Utility::ConvertString(property) + "." + array_size;
+					values->Insert(array_key, dynamic_cast<PropertyValue^>(PropertyValue::CreateString(Utility::ConvertString(newvalue))));
+
+					array_size++;
+					it = it + sc;
+				};
+				values->Insert(Utility::ConvertString(property), dynamic_cast<PropertyValue^>(PropertyValue::CreateInt32(array_size)));
+			} else {
+				values->Insert(Utility::ConvertString(property), dynamic_cast<PropertyValue^>(PropertyValue::CreateString(Utility::ConvertString(value))));
+			}
 
 			fireChangeEvent();
 		}

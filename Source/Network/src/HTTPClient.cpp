@@ -30,6 +30,7 @@ namespace TitaniumWindows
 
 			filter__ = nullptr;
 			httpClient__ = nullptr;
+			dispatcherTimer__ = nullptr;
 		}
 
 		void HTTPClient::JSExportInitialize()
@@ -41,6 +42,10 @@ namespace TitaniumWindows
 		void HTTPClient::abort() TITANIUM_NOEXCEPT
 		{
 			cancellationTokenSource__.cancel();
+
+			if (dispatcherTimer__ != nullptr && dispatcherTimer__->IsEnabled) {
+				dispatcherTimer__->Stop();
+			}
 		}
 
 		void HTTPClient::clearCookies(const std::string& location) TITANIUM_NOEXCEPT
@@ -153,7 +158,7 @@ namespace TitaniumWindows
 		void HTTPClient::send(Windows::Web::Http::IHttpContent^ content)
 		{
 			auto uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
-
+			
 			// Set up the request
 			Windows::Web::Http::HttpRequestMessage^ request;
 			if (method__ == Titanium::Network::RequestMethod::Post) {
@@ -179,7 +184,7 @@ namespace TitaniumWindows
 			auto operation = httpClient__->SendRequestAsync(request);
 
 			// Startup a timer that will abort the request after the timeout period is reached.
-			configureTimeout();
+			startDispatcherTimer();
 
 			// clang-format off
 			const auto token = cancellationTokenSource__.get_token();
@@ -266,6 +271,12 @@ namespace TitaniumWindows
 			return s_stream.str();
 		}
 
+		void HTTPClient::set_timeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT
+		{
+			std::chrono::duration<std::chrono::nanoseconds::rep, std::ratio_multiply<std::ratio<100>, std::nano>> timer_interval_ticks = timeout;
+			timeoutSpan__.Duration = timer_interval_ticks.count();
+		}
+
 		// Native
 		void HTTPClient::setRequestHeaders(Windows::Web::Http::HttpRequestMessage^ request)
 		{
@@ -315,6 +326,11 @@ namespace TitaniumWindows
 					cancel_current_task();
 				}
 
+				// Stop the timeout timer
+				if (dispatcherTimer__ != nullptr && httpClient__ != nullptr) {
+					dispatcherTimer__->Stop();
+				}
+
 				if (contentLength__ != -1 && contentLength__ != 0) {
 					ondatastream(responseBuffer->Length / contentLength__);
 				} else {
@@ -329,21 +345,25 @@ namespace TitaniumWindows
 						&responseData__[responseDataLen__], responseBuffer->Length));
 					responseDataLen__ += responseBuffer->Length;
 				}
-
+				
 				// FIXME How do we pass the token on in case of readTask?
 				return responseBuffer->Length ? HTTPResultAsync(stream, token) : readTask;
 			}, task_continuation_context::use_current());
 			// clang-format on
 		}
 
-		void HTTPClient::configureTimeout()
+		void HTTPClient::startDispatcherTimer()
 		{
-			if (timeout__.count() > 0) {
-				create_async([=](concurrency::cancellation_token token) {
-					const auto cancellationToken = cancellationTokenSource__;
-					concurrency::wait(static_cast<unsigned int>(timeout__.count()));
-					cancellationToken.cancel();
+			if (dispatcherTimer__ == nullptr && timeoutSpan__.Duration > 0) {
+				dispatcherTimer__ = ref new Windows::UI::Xaml::DispatcherTimer();
+				dispatcherTimer__->Interval = timeoutSpan__;
+				auto timeoutRegistrationToken__ = dispatcherTimer__->Tick += ref new Windows::Foundation::EventHandler<Platform::Object^>([this](Platform::Object^ sender, Platform::Object^ e) {
+					cancellationTokenSource__.cancel();
+					dispatcherTimer__->Stop();
+					// re-create the CancellationTokenSource.
+					cancellationTokenSource__ = cancellation_token_source();
 				});
+				dispatcherTimer__->Start();
 			}
 		}
 
@@ -401,7 +421,7 @@ namespace TitaniumWindows
 			auto location = TitaniumWindows::Utility::ConvertString(location__);
 
 			for (auto it = requestHeaders__.begin(); it != requestHeaders__.end(); ++it) {
-
+				
 				auto key   = TitaniumWindows::Utility::ConvertString(it->first);
 				auto value = TitaniumWindows::Utility::ConvertString(it->second);
 
