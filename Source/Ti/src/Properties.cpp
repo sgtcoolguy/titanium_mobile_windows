@@ -80,14 +80,14 @@ namespace TitaniumWindows
 			if (values->HasKey(key)) {
 				const auto stored_value = safe_cast<IPropertyValue^>(values->Lookup(key));
 				if (stored_value->Type == PropertyType::Int32) {
-					// Note: If string is too large (> 2048), we split them into array of strings. 
+					// Note: If string is too large (> 2048), we split them into array of strings.
 					// In that case we stores "array size" here, and value type is Int32
 
 					std::string value;
 					const auto array_size = stored_value->GetInt32();
 					for (int i = 0; i < array_size; i++) {
 						// restore original string as string values are stored in different place.
-						auto array_key = "TitaniumWindows_Ti.App.Properties.StringArray." + key + "." + i;
+						auto array_key = "T.A.P.SA." + key + "." + i;
 						if (values->HasKey(array_key)) {
 							value += Utility::ConvertString(safe_cast<IPropertyValue^>(values->Lookup(array_key))->GetString());
 						} else {
@@ -135,11 +135,11 @@ namespace TitaniumWindows
 			if (values->HasKey(key)) {
 				const auto stored_value = safe_cast<IPropertyValue^>(values->Lookup(key));
 				if (stored_value->Type == PropertyType::Int32) {
-					// Note: If string is too large (> 2048), we split them into array of strings. 
+					// Note: If string is too large (> 2048), we split them into array of strings.
 					// In that case we stores "array size" here, and value type is Int32
 					const auto array_size = stored_value->GetInt32();
 					for (int i = 0; i < array_size; i++) {
-						const auto array_key = "TitaniumWindows_Ti.App.Properties.StringArray." + key + "." + i;
+						const auto array_key = "T.A.P.SA." + key + "." + i;
 						if (values->HasKey(array_key)) {
 							values->Remove(array_key);
 						}
@@ -180,7 +180,7 @@ namespace TitaniumWindows
 		{
 			const auto values = local_settings_->Values;
 
-			// Note: If string is too large (> 2048), we split them into array of strings. 
+			// Note: If string is too large (> 2048), we split them into array of strings.
 			// In that case we stores "array size" here, and value type is Int32
 			const int limit = 2048;
 			if (value.size() > limit) {
@@ -190,7 +190,7 @@ namespace TitaniumWindows
 					const auto newvalue = std::string(it, it + sc);
 
 					// store original string in different place.
-					const auto array_key = "TitaniumWindows_Ti.App.Properties.StringArray." + Utility::ConvertString(property) + "." + array_size;
+					const auto array_key = "T.A.P.SA." + Utility::ConvertString(property) + "." + array_size;
 					values->Insert(array_key, dynamic_cast<PropertyValue^>(PropertyValue::CreateString(Utility::ConvertString(newvalue))));
 
 					array_size++;
