@@ -26,11 +26,20 @@ namespace Titanium
 			separatorColor__(""),
 			ti_listview_exports__(js_context.CreateObject()),
 			sectionViewCreateFunction__(js_context.CreateObject()),
-			sectionViewItemCreateFunction__(js_context.CreateObject()) 
+			sectionViewItemCreateFunction__(js_context.CreateObject()),
+			model__(std::make_shared<ListModel<ListSection>>())
 		{
 		}
 
-		TITANIUM_PROPERTY_READWRITE(ListView, std::vector<std::shared_ptr<ListSection>>, sections)
+		std::vector<std::shared_ptr<ListSection>> ListView::get_sections() const TITANIUM_NOEXCEPT 
+		{
+			return model__->get_sections();
+		}
+
+		void ListView::set_sections(const std::vector<std::shared_ptr<ListSection>>& sections) TITANIUM_NOEXCEPT
+		{
+			return model__->set_sections(sections);
+		}
 
 		void ListView::loadJS()
 		{
@@ -83,11 +92,10 @@ namespace Titanium
 				//
 				// query finished, recover saved data
 				//
-				if (!saved_sections__.empty()) {
-					sections__ = saved_sections__;
-					saved_sections__ = std::vector<std::shared_ptr<ListSection>>();
+				if (model__->isSaved()) {
+					model__->restore();
 				}
-				set_sections(sections__);
+				set_sections(model__->get_sections());
 				return;
 			}
 
@@ -95,7 +103,7 @@ namespace Titanium
 			const auto section = static_cast<JSObject>(get_context().JSEvaluateScript("Ti.UI.createListSection({ headerTitle: 'Search Results' });")).GetPrivate<Titanium::UI::ListSection>();
 			const std::vector<std::shared_ptr<ListSection>> sections { section };
 			std::vector<ListDataItem> items;
-			for (const auto section : saved_sections__) {
+			for (const auto section : model__->get_saved_sections()) {
 				for (const auto item : section->get_items()) {
 					if (ListDataItem_contains(item, query)) {
 						items.push_back(item);
@@ -108,12 +116,12 @@ namespace Titanium
 
 		std::vector<std::string> ListView::suggestionRequested(const std::string& query)
 		{
-			if (saved_sections__.empty()) {
-				saved_sections__ = sections__;
+			if (!model__->isSaved()) {
+				model__->save();
 			}
 
 			std::vector<std::string> suggestions;
-			for (const auto section : saved_sections__) {
+			for (const auto section : model__->get_saved_sections()) {
 				for (const auto item : section->get_items()) {
 					if (ListDataItem_contains(item, query)) {
 						suggestions.push_back(static_cast<std::string>(item.properties.at("title")));
@@ -123,9 +131,9 @@ namespace Titanium
 			return suggestions;
 		}
 
-		uint32_t ListView::get_sectionCount() const TITANIUM_NOEXCEPT
+		std::uint32_t ListView::get_sectionCount() const TITANIUM_NOEXCEPT
 		{
-			return static_cast<uint32_t>(sections__.size());
+			return model__->get_sectionCount();
 		}
 
 		TITANIUM_PROPERTY_READWRITE(ListView, bool, showVerticalScrollIndicator)
@@ -139,25 +147,22 @@ namespace Titanium
 
 		void ListView::appendSection(const std::vector<std::shared_ptr<ListSection>>& sections, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			for (const auto section : sections) {
-				sections__.push_back(section);
-			}
+			model__->appendSection(sections);
 		}
 
 		void ListView::deleteSectionAt(const uint32_t& index, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			sections__.erase(sections__.begin()+index);
+			model__->deleteSectionAt(index);
 		}
 
 		void ListView::insertSectionAt(const uint32_t& index, const std::vector<std::shared_ptr<ListSection>>& section, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			sections__.insert(sections__.begin() + index, section.begin(), section.end());
+			model__->insertSectionAt(index, section);
 		}
 
 		void ListView::replaceSectionAt(const uint32_t& index, const std::vector<std::shared_ptr<ListSection>>& sections, const std::shared_ptr<ListViewAnimationProperties>& animationn) TITANIUM_NOEXCEPT
 		{
-			sections__.erase (sections__.begin() + index, sections__.begin() + index + sections.size());
-			sections__.insert(sections__.begin() + index, sections.begin(), sections.end());
+			model__->replaceSectionAt(index, sections);
 		}
 
 		void ListView::setMarker(const ListViewMarkerProps& marker) TITANIUM_NOEXCEPT
@@ -172,8 +177,7 @@ namespace Titanium
 			event_args.SetProperty("section", get_object());
 			event_args.SetProperty("itemIndex", ctx.CreateNumber(itemIndex));
 			event_args.SetProperty("itemCount", ctx.CreateNumber(itemCount));
-			const auto sectionIndex = std::distance(sections__.begin(), std::find(sections__.begin(), sections__.end(), section));
-			event_args.SetProperty("sectionIndex", get_context().CreateNumber(static_cast<std::uint32_t>(sectionIndex)));
+			event_args.SetProperty("sectionIndex", get_context().CreateNumber(model__->getSectionIndex(section)));
 
 			fireEvent(name, event_args);
 		}

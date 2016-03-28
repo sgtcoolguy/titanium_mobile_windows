@@ -75,15 +75,14 @@ namespace TitaniumWindows
 			virtual void resume() TITANIUM_NOEXCEPT override final;
 			virtual void start() TITANIUM_NOEXCEPT override final;
 			virtual void stop() TITANIUM_NOEXCEPT override final;
-			virtual std::shared_ptr<Titanium::Blob> toBlob(JSValue callback) TITANIUM_NOEXCEPT override final;
 			virtual std::shared_ptr<Titanium::Blob> toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT override;
 
 			// properties
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
-			virtual void set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT override final;
 			virtual void set_defaultImage(const std::string&) TITANIUM_NOEXCEPT override final;
 		private:
 
+			bool prepareImageParams();
 			void loadContentFromData(std::vector<std::uint8_t>& data);
 
 			Windows::UI::Xaml::Controls::Border^ border__{ nullptr };

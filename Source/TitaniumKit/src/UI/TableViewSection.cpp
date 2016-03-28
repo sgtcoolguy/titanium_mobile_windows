@@ -38,29 +38,67 @@ namespace Titanium
 		void TableViewSection::add(const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT
 		{
 			rows__.push_back(row);
-			fireTableViewSectionEvent("append", static_cast<std::uint32_t>(rows__.size() - 1));
+			const auto index = static_cast<std::uint32_t>(rows__.size() - 1);
+			fireTableViewSectionEvent("append", rows__.at(index), index);
 		}
 
-		void TableViewSection::remove(const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT
+		void TableViewSection::add(const std::shared_ptr<TableViewRow>& row, const std::uint32_t& index) TITANIUM_NOEXCEPT
+		{
+			rows__.insert(rows__.begin() + index, row);
+			fireTableViewSectionEvent("append", rows__.at(index), index);
+		}
+
+		bool TableViewSection::remove(const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT
 		{
 			const auto it = find(rows__.begin(), rows__.end(), row);
-			const auto index= std::distance(rows__.begin(), it);
-			rows__.erase(it);
-			fireTableViewSectionEvent("remove", static_cast<std::uint32_t>(index));
+			if (it != rows__.end()) {
+				const auto index = static_cast<std::uint32_t>(std::distance(rows__.begin(), it));
+				rows__.erase(it);
+				fireTableViewSectionEvent("remove", row, index);
+				return true;
+			} else {
+				return false;
+			}
 		}
 
-		std::shared_ptr<TableViewRow> TableViewSection::rowAtIndex(const uint32_t& index) TITANIUM_NOEXCEPT
+		bool TableViewSection::remove(const std::uint32_t& index) TITANIUM_NOEXCEPT
+		{
+			if (rows__.size() > index) {
+				const auto row = rows__.at(index);
+				rows__.erase(rows__.begin() + index);
+				fireTableViewSectionEvent("remove", row, index);
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+
+		std::shared_ptr<TableViewRow> TableViewSection::rowAtIndex(const std::uint32_t& index) TITANIUM_NOEXCEPT
 		{
 			return rows__.at(index);
 		}
 
-		void TableViewSection::fireTableViewSectionEvent(const std::string& event_name, const std::uint32_t& rowIndex)
+		bool TableViewSection::update(const std::uint32_t& index, const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT
+		{
+			if (rows__.size() > index) {
+				const auto old_row = rows__.at(index);
+				rows__.at(index) = row;
+				fireTableViewSectionEvent("update", row, index, old_row);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+
+		void TableViewSection::fireTableViewSectionEvent(const std::string& event_name, const std::shared_ptr<TableViewRow>& row, const std::uint32_t& rowIndex, const std::shared_ptr<TableViewRow>& old_row)
 		{
 			// return if no table view attached to this section
 			if (tableView__ == nullptr) {
 				return;
 			}
-			tableView__->fireTableViewSectionEvent(event_name, get_object().GetPrivate<TableViewSection>(), rowIndex);
+			tableView__->fireTableViewSectionEvent(event_name, get_object().GetPrivate<TableViewSection>(), row, rowIndex, old_row);
 		}
 
 		void TableViewSection::JSExportInitialize() 

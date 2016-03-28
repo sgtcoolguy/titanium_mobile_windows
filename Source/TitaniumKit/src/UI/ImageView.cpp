@@ -8,6 +8,7 @@
 
 #include "Titanium/UI/ImageView.hpp"
 #include "Titanium/Blob.hpp"
+#include "Titanium/Filesystem/File.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 
 #define IMAGEVIEW_MIN_INTERVAL 30
@@ -52,8 +53,7 @@ namespace Titanium
 
 		std::shared_ptr<Titanium::Blob> ImageView::toBlob(JSValue callback) TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_DEBUG("ImageView::toBlob unimplemented");
-			return nullptr;
+			return toImage(callback, false);
 		}
 
 		TITANIUM_PROPERTY_READ(ImageView, bool, animating)
@@ -261,7 +261,6 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_SETTER(ImageView, image)
 		{
-			TITANIUM_ASSERT(argument.IsString());
 			set_image(static_cast<std::string>(argument));
 			return true;
 		}
@@ -282,13 +281,15 @@ namespace Titanium
 			TITANIUM_ASSERT(object.IsArray());
 			
 			std::vector<std::string> images;
+
 			const auto item_count = object.GetPropertyNames().GetCount();
 			for (uint32_t i = 0; i < item_count; ++i) {
 				JSValue item = object.GetProperty(i);
-				TITANIUM_ASSERT(item.IsString());
 				images.push_back(static_cast<std::string>(item));
 			}
+
 			set_images(images);
+
 			return true;
 		}
 

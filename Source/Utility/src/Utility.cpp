@@ -25,6 +25,9 @@ namespace TitaniumWindows
 		//
 		::Platform::String^ ConvertString(const std::string& str) 
 		{
+			if (str.empty()) {
+				return "";
+			}
 			return ref new ::Platform::String(std::wstring(str.begin(), str.end()).c_str());
 		}
 
@@ -33,6 +36,9 @@ namespace TitaniumWindows
 		//
 		std::string ConvertString(::Platform::String^ str) 
 		{
+			if (str->IsEmpty()) {
+				return "";
+			}
 			return std::string(str->Begin(), str->End());
 		}
 
@@ -41,6 +47,9 @@ namespace TitaniumWindows
 		//
 		::Platform::String^ ConvertUTF8String(const std::string& str) 
 		{
+			if (str.empty()) {
+				return "";
+			}
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 			return ref new ::Platform::String(converter.from_bytes(str).data());
 		}
@@ -50,6 +59,9 @@ namespace TitaniumWindows
 		//
 		std::wstring ConvertToUTF8WString(const std::string& str)
 		{
+			if (str.empty()) {
+				return std::wstring();
+			}
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 			return converter.from_bytes(str);
 		}
@@ -59,6 +71,9 @@ namespace TitaniumWindows
 		//
 		std::string ConvertUTF8String(::Platform::String^ str) 
 		{
+			if (str->IsEmpty()) {
+				return "";
+			}
 			std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 			return std::string(converter.to_bytes(str->Data()));
 		}
@@ -189,6 +204,15 @@ namespace TitaniumWindows
 
 					modified = "ms-appx://" + modified;
 				}
+
+				// Fix invalid path separator in path "//" just in case since Windows can't handle this
+				// This often happens when user concatenate path with filename manually
+				auto scheme    = modified.substr(0, modified.find_first_of("://") + 3);
+				auto pathInURL = modified.substr(scheme.size());
+
+				boost::replace_all<std::string>(pathInURL, "//", "/");
+
+				modified = scheme + pathInURL;
 			}
 			return ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(modified));
 		}

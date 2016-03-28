@@ -11,6 +11,7 @@
 #include "LayoutEngine/LayoutEngine.hpp"
 #include "TitaniumWindows/UI/View.hpp"
 #include "Titanium/Blob.hpp"
+#include "Titanium/Filesystem/File.hpp"
 #include <ppltasks.h>
 #include <boost/algorithm/string.hpp>
 
@@ -216,6 +217,11 @@ namespace TitaniumWindows
 
 		void ImageView::loadContentFromData(std::vector<std::uint8_t>& data)
 		{
+			if (data.size() == 0) {
+				TITANIUM_LOG_WARN("ImageView: There's no data to load");
+				return;
+			}
+
 			const auto stream = ref new InMemoryRandomAccessStream();
 			const auto writer = ref new DataWriter(stream);
 
@@ -247,16 +253,26 @@ namespace TitaniumWindows
 			});
 		}
 
+		bool ImageView::prepareImageParams()
+		{
+			// Make sure to call set_image after all properties are set
+			if (!propertiesSet__) {
+				return false;
+			}
+
+			sizeChanged__ = true;
+
+			return true;
+		}
+
 		void ImageView::set_image(const std::string& path) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ImageView::set_image(path);
 
 			// Make sure to call set_image after all properties are set
-			if (!propertiesSet__) {
+			if (!prepareImageParams()) {
 				return;
 			}
-
-			sizeChanged__ = true;
 
 			// Make sure to update image from UI thread.
 			// We do it here because we're observing even StorageFile doesn't work outside of UI thread.
@@ -272,8 +288,7 @@ namespace TitaniumWindows
 							TITANIUM_LOG_WARN("ImageView.image: ", TitaniumWindows::Utility::ConvertString(ex->Message));
 						}
 					});
-				}
-				else {
+				} else {
 					Windows::Web::Http::HttpClient^ httpClient = ref new Windows::Web::Http::HttpClient();
 					concurrency::create_task(httpClient->GetBufferAsync(uri)).then([this](concurrency::task<IBuffer^> task){
 						try {
@@ -287,22 +302,10 @@ namespace TitaniumWindows
 			});
 		}
 
-		void ImageView::set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::ImageView::set_images(images);
-			// HACK For now let's cheat and just set the first image as a static one
-			set_image(images.at(0));
-		}
-
 		void ImageView::set_defaultImage(const std::string& path) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ImageView::set_defaultImage(path);
 			image__->Source = ref new BitmapImage(TitaniumWindows::Utility::GetUriFromPath(path));
-		}
-
-		std::shared_ptr<Titanium::Blob> ImageView::toBlob(JSValue callback) TITANIUM_NOEXCEPT
-		{
-			return this->toImage(callback, false);
 		}
 
 		std::shared_ptr<Titanium::Blob> ImageView::toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT

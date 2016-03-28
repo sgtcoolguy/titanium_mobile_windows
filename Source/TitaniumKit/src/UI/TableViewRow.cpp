@@ -19,7 +19,8 @@ namespace Titanium
         	color__(""),
         	hasCheck__(false),
         	hasChild__(false),
-        	title__("")
+        	title__(""),
+        	data__(js_context.CreateObject())
     	{
     	}
 
@@ -28,6 +29,16 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(TableViewRow, bool, hasCheck)
 		TITANIUM_PROPERTY_READWRITE(TableViewRow, bool, hasChild)
 		TITANIUM_PROPERTY_READWRITE(TableViewRow, std::string, title)
+
+		TITANIUM_PROPERTY_WRITE(TableViewRow, JSObject, data)
+		JSObject TableViewRow::get_data() TITANIUM_NOEXCEPT
+		{
+			// This indicates raw data is empty. In this case we should return TableViewRow
+			if (!data__.HasProperty("title")) {
+				return get_object();
+			}
+			return data__;
+		}
 
 		void TableViewRow::JSExportInitialize() 
 		{

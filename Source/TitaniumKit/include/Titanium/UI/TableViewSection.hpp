@@ -79,13 +79,21 @@ namespace Titanium
 			  @discussion Adds a table view row to this section.
 			*/
 			virtual void add(const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT;
+			virtual void add(const std::shared_ptr<TableViewRow>& row, const std::uint32_t& pos) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
 			  @abstract remove
 			  @discussion Removes a table view row from this section.
 			*/
-			virtual void remove(const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT;
+			virtual bool remove(const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+			  @abstract remove
+			  @discussion Removes a table view row from this section by index.
+			*/
+			virtual bool remove(const std::uint32_t& index) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
@@ -93,6 +101,13 @@ namespace Titanium
 			  @discussion Returns a row in this section.
 			*/
 			virtual std::shared_ptr<TableViewRow> rowAtIndex(const uint32_t& index) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+			  @abstract update
+			  @discussion Update a table view row from this section by index.
+			*/
+			virtual bool update(const std::uint32_t& index, const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT;
 
 			TableViewSection(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableViewSection() = default;
@@ -131,7 +146,32 @@ namespace Titanium
 				tableView__ = tableView;
 			}
 
-			virtual void fireTableViewSectionEvent(const std::string& event_name, const std::uint32_t& rowIndex);
+			virtual void fireTableViewSectionEvent(const std::string& event_name, const std::shared_ptr<TableViewRow>& row, const std::uint32_t& rowIndex, const std::shared_ptr<TableViewRow>& old_row = nullptr);
+
+			bool hasHeaderTitle() const TITANIUM_NOEXCEPT
+			{
+				return !headerTitle__.empty();
+			}
+
+			bool hasHeader() const TITANIUM_NOEXCEPT
+			{
+				return hasHeaderTitle() || (headerView__.get() != nullptr);
+			}
+
+			bool hasFooterTitle() const TITANIUM_NOEXCEPT
+			{
+				return !footerTitle__.empty();
+			}
+
+			bool hasFooter() const TITANIUM_NOEXCEPT
+			{
+				return hasFooterTitle() || (footerView__.get() != nullptr);
+			}
+
+			std::uint32_t get_itemCount() const TITANIUM_NOEXCEPT
+			{
+				return static_cast<std::uint32_t>(rows__.size());
+			}
 
 			protected:
 #pragma warning(push)

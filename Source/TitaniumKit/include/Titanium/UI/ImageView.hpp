@@ -16,6 +16,11 @@ namespace Titanium
 
 	class Blob;
 
+	namespace Filesystem
+	{
+		class File;
+	}
+
 	namespace UI
 	{
 		using namespace HAL;
