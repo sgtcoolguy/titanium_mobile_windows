@@ -10,6 +10,8 @@
 #ifndef _TITANIUMWINDOWS_UTILITY_HPP_
 #define _TITANIUMWINDOWS_UTILITY_HPP_
 
+#define NOMINMAX // disable min & max macro which is just evil
+
 #include <string>
 #include <locale>
 #include <codecvt>
