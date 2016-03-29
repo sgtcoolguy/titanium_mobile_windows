@@ -109,6 +109,108 @@ describe("Titanium.UI.ImageView", function () {
         imageView.image = 'ms-appdata:///local/TIMOB-20609.png';
     });
 
+    (isWindows() ? it : it.skip)("image (File)", function (finish) {
+        var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png");
+
+        var imageView = Ti.UI.createImageView();
+        imageView.addEventListener('load', function() {
+            should(imageView.image).be.an.Object;
+            should(imageView.image).eql(fromFile);
+            finish();
+        });
+
+        imageView.image = fromFile;
+    });
+
+    (isWindows() ? it : it.skip)("image (Blob)", function (finish) {
+        var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png"),
+            blob = fromFile.read();
+        var imageView = Ti.UI.createImageView();
+        imageView.addEventListener('load', function() {
+            should(imageView.image).be.an.Object;
+            should(imageView.toBlob()).eql(blob);
+            finish();
+        });
+
+        imageView.image = blob;
+    });
+
+    (isWindows() ? it : it.skip)("images", function (finish) {
+        this.timeout(6e4);
+        var win = Ti.UI.createWindow();
+        var imageView = Ti.UI.createImageView({
+            width: Ti.UI.FILL, height: Ti.UI.FILL
+        });
+        imageView.addEventListener('load', function() {
+            should(imageView.animating).be.false;
+            imageView.start();
+            setTimeout(function(){
+                should(imageView.animating).be.true;
+                win.close();
+                finish();
+            }, 3000);
+        });
+        win.addEventListener('open', function() {
+            imageView.images = [
+                'ms-appx:///Logo.png',
+                'ms-appx:///Logo.png',
+                'ms-appx:///Logo.png'
+            ];
+        });
+        win.add(imageView);
+        win.open();
+    });
+
+    (isWindows() ? it : it.skip)("images (File)", function (finish) {
+        this.timeout(6e4);
+        var win = Ti.UI.createWindow();
+        var imageView = Ti.UI.createImageView({
+            width: Ti.UI.FILL, height: Ti.UI.FILL
+        });
+
+        imageView.addEventListener('load', function() {
+            should(imageView.animating).be.false;
+            imageView.start();
+            setTimeout(function(){
+                should(imageView.animating).be.true;
+                win.close();
+                finish();
+            }, 3000);
+        });
+        win.addEventListener('open', function() {
+            var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png");
+            imageView.images = [ fromFile, fromFile, fromFile ];
+        });
+
+        win.add(imageView);
+        win.open();
+    });
+
+    (isWindows() ? it : it.skip)("images (Blob)", function (finish) {
+        this.timeout(6e4);
+        var win = Ti.UI.createWindow();
+        var imageView = Ti.UI.createImageView({
+            width: Ti.UI.FILL, height: Ti.UI.FILL
+        });
+
+        imageView.addEventListener('load', function() {
+            should(imageView.animating).be.false;
+            imageView.start();
+            setTimeout(function(){
+                should(imageView.animating).be.true;
+                win.close();
+                finish();
+            }, 3000);
+        });
+        win.addEventListener('open', function() {
+            var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png");
+            imageView.images = [ fromFile.read(), fromFile.read(), fromFile.read() ];
+        });
+
+        win.add(imageView);
+        win.open();
+    });
+
     // TIMOB-18684
     it("layoutWithSIZE_and_fixed", function (finish) {
         var win = Ti.UI.createWindow();

@@ -12,12 +12,14 @@
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/ImageView.hpp"
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
+#include <collection.h>
 
 namespace TitaniumWindows
 {
 	namespace UI
 	{
 		using namespace HAL;
+		using SetBitmapImageCallback_t = std::function<void(Windows::UI::Xaml::Media::Imaging::BitmapImage^)> ;
 
 		class TITANIUMWINDOWS_UI_EXPORT WindowsImageViewLayoutDelegate : public WindowsViewLayoutDelegate {
 		public:
@@ -79,17 +81,38 @@ namespace TitaniumWindows
 
 			// properties
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;
+			virtual void set_imageAsBlob(const std::shared_ptr<Titanium::Blob>& image) TITANIUM_NOEXCEPT override final;
+			virtual void set_imageAsFile(const std::shared_ptr<Titanium::Filesystem::File>& image) TITANIUM_NOEXCEPT override final;
+			virtual void set_images(const std::vector<std::string>&) TITANIUM_NOEXCEPT override final;
+			virtual void set_imagesAsBlob(const std::vector<std::shared_ptr<Titanium::Blob>>&) TITANIUM_NOEXCEPT override final;
+			virtual void set_imagesAsFile(const std::vector<std::shared_ptr<Titanium::Filesystem::File>>&) TITANIUM_NOEXCEPT override final;
 			virtual void set_defaultImage(const std::string&) TITANIUM_NOEXCEPT override final;
 		private:
 
+#pragma warning(push)
+#pragma warning(disable : 4251)
+
+			SetBitmapImageCallback_t set_image_fn__;
+
+			std::uint32_t bitmaps_loaded_count__{ 0 };
+			bool bitmaps_waiting__ { false };
+			bool bitmaps_loaded__ { false };
+			::Platform::Collections::Vector<Windows::UI::Xaml::Media::Imaging::BitmapImage^>^ bitmaps__;
+
 			bool prepareImageParams();
-			void loadContentFromData(std::vector<std::uint8_t>& data);
+			void loadBitmap(std::vector<std::uint8_t>& data, SetBitmapImageCallback_t);
+			void loadBitmap(const std::string& path,         SetBitmapImageCallback_t);
+			void loadBitmaps();
+
+			void set_image(Windows::UI::Xaml::Media::Imaging::BitmapImage^);
 
 			Windows::UI::Xaml::Controls::Border^ border__{ nullptr };
 			Windows::UI::Xaml::Controls::Image^ image__{ nullptr };
 			Windows::UI::Xaml::Media::Animation::Storyboard^ storyboard__;
 			bool propertiesSet__{ false };
 			bool sizeChanged__{ true };
+
+#pragma warning(pop)
 		};
 	} // namespace UI
 } // namespace TitaniumWindow
