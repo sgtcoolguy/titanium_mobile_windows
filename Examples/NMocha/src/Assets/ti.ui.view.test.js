@@ -235,6 +235,8 @@ describe("Titanium.UI.View", function () {
                 setTimeout(function(){
                     should(view.rect.x).be.eql(100);
                     should(view.rect.y).be.eql(150);
+                    should(view.left).be.eql(100);
+                    should(view.top).be.eql(100);
                     win.close();
                     finish();
                 }, 500);
@@ -267,6 +269,8 @@ describe("Titanium.UI.View", function () {
                 setTimeout(function(){
                     should(view.rect.x).be.eql(150);
                     should(view.rect.y).be.eql(100);
+                    should(view.left).be.eql(100);
+                    should(view.top).be.eql(100);
                     win.close();
                     finish();
                 }, 500);
@@ -298,6 +302,8 @@ describe("Titanium.UI.View", function () {
                 setTimeout(function(){
                     should(view.rect.x).be.eql(pos);
                     should(view.rect.y).be.eql(100);
+                    should(view.left).be.eql(100);
+                    should(view.top).be.eql(100);
                     if (count > 1) {
                         win.close();
                         finish();
