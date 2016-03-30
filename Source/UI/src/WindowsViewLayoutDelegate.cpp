@@ -529,11 +529,11 @@ namespace TitaniumWindows
 				// 
 				const auto top = animation->get_top();
 				if (top) {
-					set_top(std::to_string(*top));
+					setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, std::to_string(*top));
 				}
 				const auto left = animation->get_left();
 				if (left) {
-					set_left(std::to_string(*left));
+					setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, std::to_string(*left));
 				}
 
 				// Make sure to clear the StoryBoard because transform made by StoryBoard remains.
