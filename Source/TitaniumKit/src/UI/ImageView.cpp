@@ -51,7 +51,7 @@ namespace Titanium
 			TITANIUM_LOG_DEBUG("ImageView::resume unimplemented");
 		}
 
-		std::shared_ptr<Titanium::Blob> ImageView::toBlob(JSValue callback) TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::Blob> ImageView::toBlob(JSObject& callback) TITANIUM_NOEXCEPT
 		{
 			return toImage(callback, false);
 		}

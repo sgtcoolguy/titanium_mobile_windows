@@ -308,15 +308,9 @@ namespace TitaniumWindows
 			image__->Source = ref new BitmapImage(TitaniumWindows::Utility::GetUriFromPath(path));
 		}
 
-		std::shared_ptr<Titanium::Blob> ImageView::toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::Blob> ImageView::toImage(JSObject& callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT
 		{
-			if (callback.IsObject() && static_cast<JSObject>(callback).IsFunction()) {
-				TitaniumWindows::UI::View::ToImage(image__, callback, get_object());
-			} else {
-				HAL::detail::ThrowRuntimeError("ImageView.toImage", "ImageView.toImage only works with callback");
-			}
-
-			return nullptr;
+			return getViewLayoutDelegate()->toImage(callback, honorScaleFactor, get_object());
 		}
 	} // namespace UI
 } // namespace TitaniumWindows

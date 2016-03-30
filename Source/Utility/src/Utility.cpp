@@ -106,6 +106,13 @@ namespace TitaniumWindows
 			return ss.str();
 		}
 
+		::Platform::Array<std::uint8_t, 1U>^ GetArrayFromBuffer(Windows::Storage::Streams::IBuffer^ buffer)
+		{
+			::Platform::Array<std::uint8_t, 1U>^ array = ref new ::Platform::Array<std::uint8_t, 1U>(buffer->Length);
+			Windows::Security::Cryptography::CryptographicBuffer::CopyToByteArray(buffer, &array);
+			return array;
+		}
+
 		std::vector<std::uint8_t> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer) 
 		{
 			if (buffer == nullptr) {

@@ -68,6 +68,12 @@ namespace Titanium
 			TITANIUM_LOG_WARN("ViewLayoutDelegate::animate: Unimplemented");
 		}
 
+		std::shared_ptr<Titanium::Blob> ViewLayoutDelegate::toImage(JSObject& callback, const bool& honorScaleFactor, const JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			TITANIUM_LOG_WARN("ViewLayoutDelegate::toImage: Unimplemented");
+			return nullptr;
+		}
+
 		void ViewLayoutDelegate::hide() TITANIUM_NOEXCEPT
 		{
 			set_visible(false);

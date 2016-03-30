@@ -99,7 +99,7 @@ namespace Titanium
 
 			  @result Titanium.Blob
 			*/
-			virtual std::shared_ptr<Titanium::Blob> toBlob(JSValue callback) TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<Titanium::Blob> toBlob(JSObject& callback) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method

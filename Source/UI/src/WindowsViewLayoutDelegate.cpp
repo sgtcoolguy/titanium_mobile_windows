@@ -207,6 +207,72 @@ namespace TitaniumWindows
 			getComponent()->Visibility = (visible ? Visibility::Visible : Visibility::Collapsed);
 		}
 
+		void WindowsViewLayoutDelegate::ToImage(Windows::UI::Xaml::FrameworkElement^ component, JSObject& callback, const JSObject& this_object)
+		{
+			using Windows::Graphics::Imaging::BitmapEncoder;
+
+			TitaniumWindows::Utility::RunOnUIThread([component, this_object, callback]() {
+				auto renderTargetBitmap = ref new Windows::UI::Xaml::Media::Imaging::RenderTargetBitmap();
+
+				// render component as a BGRA8 bitmap
+				concurrency::create_task(renderTargetBitmap->RenderAsync(component)).then([renderTargetBitmap]() {
+					return renderTargetBitmap->GetPixelsAsync();
+
+				// obtain rendered pixel data
+				}).then([renderTargetBitmap, this_object, callback](IBuffer^ pixelBuffer) {
+					const auto pngStream = ref new InMemoryRandomAccessStream();
+					const auto pixelArray = TitaniumWindows::Utility::GetArrayFromBuffer(pixelBuffer);
+
+					// encode pixel data into a PNG
+					// NOTE: using PNG encoder to support transparency
+					concurrency::create_task(BitmapEncoder::CreateAsync(BitmapEncoder::PngEncoderId, pngStream)).then(
+						[renderTargetBitmap, pixelArray, pngStream](BitmapEncoder^ encoder) {
+							encoder->SetPixelData(
+								Windows::Graphics::Imaging::BitmapPixelFormat::Bgra8,
+								Windows::Graphics::Imaging::BitmapAlphaMode::Straight,
+								renderTargetBitmap->PixelWidth,
+								renderTargetBitmap->PixelHeight,
+								0,
+								0,
+								pixelArray
+							);
+							return encoder->FlushAsync();
+						}
+
+					// obtain encoded PNG stream
+					).then([this_object, callback, pngStream]() {
+						const auto pngBuffer = ref new Windows::Storage::Streams::Buffer(static_cast<unsigned int>(pngStream->Size));
+
+						// write encoded PNG stream to PNG buffer
+						concurrency::create_task(pngStream->ReadAsync(pngBuffer, pngBuffer->Capacity, Windows::Storage::Streams::InputStreamOptions::None)).then(
+							[this_object, callback, pngBuffer](IBuffer^) {
+								
+								// create Titanium.Blob from PNG buffer
+								const auto blob = this_object.get_context().CreateObject(JSExport<Titanium::Blob>::Class()).CallAsConstructor();
+								const auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
+								blob_ptr->construct(TitaniumWindows::Utility::GetContentFromBuffer(pngBuffer));
+
+								// call callback
+								const std::vector<JSValue> args = {blob};
+								auto cb = static_cast<JSObject>(callback);
+								cb(args, this_object);
+							}
+						);
+					});
+				});
+			});
+		}
+
+		std::shared_ptr<Titanium::Blob> WindowsViewLayoutDelegate::toImage(JSObject& callback, const bool& honorScaleFactor, const JSObject& this_object) TITANIUM_NOEXCEPT
+		{
+			if (callback.IsFunction()) {
+				ToImage(getComponent(), callback, this_object);
+			} else {
+				HAL::detail::ThrowRuntimeError("View.toImage", "View.toImage only works using the callback parameter on Windows");
+			}
+			return nullptr;
+		}
+
 		void WindowsViewLayoutDelegate::animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT
 		{
 			// Storyboard where we attach all the animations
