@@ -68,6 +68,9 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ImageView::postCallAsConstructor(js_context, arguments);	
 
+			bitmaps__ = ref new Platform::Collections::Vector<BitmapImage^>();
+			set_image_fn__ = [this](BitmapImage^ image){ set_image(image); };
+			
 			image__ = ref new Windows::UI::Xaml::Controls::Image();
 			image__->SizeChanged += ref new SizeChangedEventHandler([this](Platform::Object^ sender, SizeChangedEventArgs^ e) {
 				if (!sizeChanged__) {
@@ -136,8 +139,13 @@ namespace TitaniumWindows
 
 		void ImageView::start() TITANIUM_NOEXCEPT
 		{
-			const auto images = get_images();
-			const size_t image_count = images.size();
+			// bitmaps are not loaded yet. Will be re-started once all bitmaps are loaded.
+			if (!bitmaps_loaded__) {
+				bitmaps_waiting__ = true;
+				return;
+			}
+
+			const auto image_count = bitmaps__->Size;
 
 			storyboard__ = ref new Windows::UI::Xaml::Media::Animation::Storyboard();
 			Windows::Foundation::TimeSpan time_span;
@@ -156,13 +164,13 @@ namespace TitaniumWindows
 			const bool reverse = get_reverse();
 			for (size_t i = 0; i < image_count; i++) {
 				size_t index = reverse ? (image_count - 1) - i : i;
-				auto uri = TitaniumWindows::Utility::GetUriFromPath(images.at(index));
 
+				const auto bitmap = bitmaps__->GetAt(i);
 				auto keyFrame = ref new Windows::UI::Xaml::Media::Animation::DiscreteObjectKeyFrame();
 				Windows::Foundation::TimeSpan key_time;
 				key_time.Duration = timer_interval_ticks.count() * i;
 				keyFrame->KeyTime = key_time;
-				keyFrame->Value = ref new BitmapImage(uri);
+				keyFrame->Value   = bitmap == nullptr ? ref new BitmapImage() : bitmap;
 				animation->KeyFrames->Append(keyFrame);
 			}
 			storyboard__->Children->Append(animation);
@@ -179,6 +187,7 @@ namespace TitaniumWindows
 			storyboard__->Begin();
 			animating__ = true;
 			paused__ = false;
+			bitmaps_waiting__ = false;
 
 			fireEvent("start");
 		}
@@ -215,7 +224,101 @@ namespace TitaniumWindows
 			}
 		}
 
-		void ImageView::loadContentFromData(std::vector<std::uint8_t>& data)
+		void ImageView::loadBitmaps()
+		{
+			bitmaps__->Clear();
+			bitmaps_loaded__ = false;
+			bitmaps_loaded_count__ = 0;
+
+			const auto images = get_images();
+			const auto images_count = images.size();
+			for (std::size_t i = 0; i < images_count; i++) {
+				bitmaps__->Append(nullptr);
+				const auto image = images.at(i);
+				loadBitmap(image, [this, images_count, i](BitmapImage^ bitmap){
+					bitmaps_loaded_count__++;
+					bitmaps__->SetAt(i, bitmap);
+					// do we load all images?
+					if (bitmaps_loaded_count__ >= images_count) {
+						bitmaps_loaded__ = true;
+						fireEvent("load");
+						// start animation when we held it off
+						if (bitmaps_waiting__) {
+							start();
+						}
+					}
+				});
+			}
+			if (images.size() > 0) {
+				return;
+			}
+
+			const auto blobs = get_imagesAsBlob();
+			const auto blobs_count = blobs.size();
+			for (std::size_t i = 0; i < blobs_count; i++) {
+				bitmaps__->Append(nullptr);
+				const auto blob = blobs.at(i);
+				loadBitmap(blob->getData(), [this, blobs_count, i](BitmapImage^ bitmap){
+					bitmaps_loaded_count__++;
+					bitmaps__->SetAt(i, bitmap);
+					// do we load all images?
+					if (bitmaps_loaded_count__ >= blobs_count) {
+						bitmaps_loaded__ = true;
+						fireEvent("load");
+						// start animation when we held it off
+						if (bitmaps_waiting__) {
+							start();
+						}
+					}
+				});
+			}
+			if (blobs.size() > 0) {
+				return;
+			}
+
+			const auto files = get_imagesAsFile();
+			const auto files_count = files.size();
+			for (std::size_t i = 0; i < files_count; i++) {
+				bitmaps__->Append(nullptr);
+				const auto file = files.at(i);
+				loadBitmap(file->read()->getData(), [this, files_count, i](BitmapImage^ bitmap){
+					bitmaps_loaded_count__++;
+					bitmaps__->SetAt(i, bitmap);
+					// do we load all images?
+					if (bitmaps_loaded_count__ >= files_count) {
+						bitmaps_loaded__ = true;
+						fireEvent("load");
+						// start animation when we held it off
+						if (bitmaps_waiting__) {
+							start();
+						}
+					}
+				});
+			}
+		}
+
+		void ImageView::set_image(BitmapImage^ bitmap)
+		{
+			const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
+
+			if (layout->get_borderRadius() > 0) {
+				this->border__->Background = WindowsImageViewLayoutDelegate::CreateImageBrushFromBitmapImage(bitmap);
+			} else {
+				this->image__->Source = bitmap;
+			}
+
+			auto rect = layout->computeRelativeSize(
+				Canvas::GetLeft(this->image__),
+				Canvas::GetTop(this->image__),
+				bitmap->PixelWidth,
+				bitmap->PixelHeight
+				);
+			layout->onComponentSizeChange(rect);
+
+			this->fireEvent("load");
+		}
+
+		void ImageView::loadBitmap(std::vector<std::uint8_t>& data, SetBitmapImageCallback_t callback)
 		{
 			if (data.size() == 0) {
 				TITANIUM_LOG_WARN("ImageView: There's no data to load");
@@ -227,30 +330,42 @@ namespace TitaniumWindows
 
 			writer->WriteBytes(Platform::ArrayReference<std::uint8_t>(&data[0], data.size()));
 
-			concurrency::create_task(writer->StoreAsync()).then([this, stream, writer](std::uint32_t) {
+			concurrency::create_task(writer->StoreAsync()).then([this, stream, writer, callback](std::uint32_t) {
 				auto bitmap = ref new BitmapImage();
 				writer->DetachStream();
 				stream->Seek(0);
-				concurrency::create_task(bitmap->SetSourceAsync(stream)).then([this, bitmap]() {
-					const auto layout = getViewLayoutDelegate<WindowsImageViewLayoutDelegate>();
-
-					if (layout->get_borderRadius() > 0) {
-						this->border__->Background = WindowsImageViewLayoutDelegate::CreateImageBrushFromBitmapImage(bitmap);
-					} else {
-						this->image__->Source = bitmap;
-					}
-
-					auto rect = layout->computeRelativeSize(
-						Canvas::GetLeft(this->image__),
-						Canvas::GetTop(this->image__),
-						bitmap->PixelWidth,
-						bitmap->PixelHeight
-						);
-					layout->onComponentSizeChange(rect);
-
-					this->fireEvent("load");
+				concurrency::create_task(bitmap->SetSourceAsync(stream)).then([bitmap, callback]() {
+					callback(bitmap);
 				});
 			});
+		}
+
+		void ImageView::loadBitmap(const std::string& path, SetBitmapImageCallback_t callback)
+		{
+			const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
+			// check if we're loading from local file
+			if (boost::starts_with(TitaniumWindows::Utility::ConvertString(uri->SchemeName), "ms-")) {
+				concurrency::create_task(StorageFile::GetFileFromApplicationUriAsync(uri)).then([this, callback](concurrency::task<StorageFile^> task){
+					try {
+						auto file = task.get();
+						loadBitmap(TitaniumWindows::Utility::GetContentFromFile(file), callback);
+					} catch (Platform::COMException^ ex) {
+						TITANIUM_LOG_WARN("ImageView::loadBitmap: ", TitaniumWindows::Utility::ConvertString(ex->Message));
+						callback(ref new BitmapImage());
+					}
+				});
+			} else {
+				Windows::Web::Http::HttpClient^ httpClient = ref new Windows::Web::Http::HttpClient();
+				concurrency::create_task(httpClient->GetBufferAsync(uri)).then([this, callback](concurrency::task<IBuffer^> task){
+					try {
+						auto buffer = task.get();
+						loadBitmap(TitaniumWindows::Utility::GetContentFromBuffer(buffer), callback);
+					} catch (Platform::COMException^ ex) {
+						TITANIUM_LOG_WARN("ImageView::loadBitmap: ", TitaniumWindows::Utility::ConvertString(ex->Message));
+						callback(ref new BitmapImage());
+					}
+				});
+			}
 		}
 
 		bool ImageView::prepareImageParams()
@@ -265,6 +380,32 @@ namespace TitaniumWindows
 			return true;
 		}
 
+		void ImageView::set_imageAsBlob(const std::shared_ptr<Titanium::Blob>& blob)
+		{
+			Titanium::UI::ImageView::set_imageAsBlob(blob);
+
+			if (!prepareImageParams()) {
+				return;
+			}
+
+			TitaniumWindows::Utility::RunOnUIThread([blob, this](){
+				loadBitmap(blob->getData(), set_image_fn__);
+			});
+		}
+
+		void ImageView::set_imageAsFile(const std::shared_ptr<Titanium::Filesystem::File>& file)
+		{
+			Titanium::UI::ImageView::set_imageAsFile(file);
+
+			if (!prepareImageParams()) {
+				return;
+			}
+
+			TitaniumWindows::Utility::RunOnUIThread([file, this](){
+				loadBitmap(file->read()->getData(), set_image_fn__);
+			});
+		}
+
 		void ImageView::set_image(const std::string& path) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ImageView::set_image(path);
@@ -277,29 +418,26 @@ namespace TitaniumWindows
 			// Make sure to update image from UI thread.
 			// We do it here because we're observing even StorageFile doesn't work outside of UI thread.
 			TitaniumWindows::Utility::RunOnUIThread([path, this](){
-				const auto uri = TitaniumWindows::Utility::GetUriFromPath(path);
-				// check if we're loading from local file
-				if (boost::starts_with(TitaniumWindows::Utility::ConvertString(uri->SchemeName), "ms-")) {
-					concurrency::create_task(StorageFile::GetFileFromApplicationUriAsync(uri)).then([this](concurrency::task<StorageFile^> task){
-						try {
-							auto file = task.get();
-							loadContentFromData(TitaniumWindows::Utility::GetContentFromFile(file));
-						} catch (Platform::COMException^ ex) {
-							TITANIUM_LOG_WARN("ImageView.image: ", TitaniumWindows::Utility::ConvertString(ex->Message));
-						}
-					});
-				} else {
-					Windows::Web::Http::HttpClient^ httpClient = ref new Windows::Web::Http::HttpClient();
-					concurrency::create_task(httpClient->GetBufferAsync(uri)).then([this](concurrency::task<IBuffer^> task){
-						try {
-							auto buffer = task.get();
-							loadContentFromData(TitaniumWindows::Utility::GetContentFromBuffer(buffer));
-						} catch (Platform::COMException^ ex) {
-							TITANIUM_LOG_WARN("ImageView.image: ", TitaniumWindows::Utility::ConvertString(ex->Message));
-						}
-					});
-				}
+				loadBitmap(path, set_image_fn__);
 			});
+		}
+
+		void ImageView::set_images(const std::vector<std::string>& images) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ImageView::set_images(images);
+			loadBitmaps();
+		}
+
+		void ImageView::set_imagesAsBlob(const std::vector<std::shared_ptr<Titanium::Blob>>& images) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ImageView::set_imagesAsBlob(images);
+			loadBitmaps();
+		}
+
+		void ImageView::set_imagesAsFile(const std::vector<std::shared_ptr<Titanium::Filesystem::File>>& images) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ImageView::set_imagesAsFile(images);
+			loadBitmaps();
 		}
 
 		void ImageView::set_defaultImage(const std::string& path) TITANIUM_NOEXCEPT
