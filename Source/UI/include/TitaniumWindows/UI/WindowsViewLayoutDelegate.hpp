@@ -47,6 +47,9 @@ namespace TitaniumWindows
 
 			virtual void animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT override;
 
+			virtual void ToImage(Windows::UI::Xaml::FrameworkElement^ component, JSObject& callback, const JSObject& this_object);
+			virtual std::shared_ptr<Titanium::Blob> toImage(JSObject& callback, const bool& honorScaleFactor, const JSObject& this_object) TITANIUM_NOEXCEPT override;
+
 			/*!
 			@method
 

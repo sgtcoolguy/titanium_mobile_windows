@@ -88,6 +88,11 @@ namespace TitaniumWindows
 		TITANIUMWINDOWS_UTILITY_EXPORT std::string HexString(unsigned char* data, size_t length);
 
 		//
+		// Get Platform::Array from IBuffer
+		//
+		TITANIUMWINDOWS_UTILITY_EXPORT::Platform::Array<std::uint8_t, 1U>^ GetArrayFromBuffer(Windows::Storage::Streams::IBuffer^ buffer);
+
+		//
 		// Get binary content from IBuffer
 		//
 		TITANIUMWINDOWS_UTILITY_EXPORT std::vector<std::uint8_t> GetContentFromBuffer(Windows::Storage::Streams::IBuffer^ buffer);

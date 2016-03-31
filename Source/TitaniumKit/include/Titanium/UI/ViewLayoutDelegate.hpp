@@ -18,6 +18,7 @@
 #include "Titanium/UI/2DMatrix.hpp"
 #include "Titanium/UI/3DMatrix.hpp"
 #include "Titanium/UI/ViewInsertOrReplaceParams.hpp"
+#include "Titanium/Blob.hpp"
 
 namespace Titanium
 {
@@ -66,6 +67,15 @@ namespace Titanium
 			virtual void replaceAt(const ViewInsertOrReplaceParams& params) TITANIUM_NOEXCEPT;
 
 			virtual void animate(const std::shared_ptr<Titanium::UI::Animation>& animation, JSObject& callback, const JSObject& this_object) TITANIUM_NOEXCEPT;
+
+			/*!
+			  @method
+
+			  @abstract toImage
+
+			  @discussion Returns an image of the rendered view, as a Blob.
+			*/
+			virtual std::shared_ptr<Titanium::Blob> toImage(JSObject& callback, const bool& honorScaleFactor, const JSObject& this_object) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method

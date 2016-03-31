@@ -75,7 +75,7 @@ namespace TitaniumWindows
 			virtual void resume() TITANIUM_NOEXCEPT override final;
 			virtual void start() TITANIUM_NOEXCEPT override final;
 			virtual void stop() TITANIUM_NOEXCEPT override final;
-			virtual std::shared_ptr<Titanium::Blob> toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT override;
+			virtual std::shared_ptr<Titanium::Blob> toImage(JSObject& callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT override;
 
 			// properties
 			virtual void set_image(const std::string& image) TITANIUM_NOEXCEPT override final;

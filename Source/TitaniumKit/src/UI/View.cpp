@@ -48,10 +48,9 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(View, bool, focusable)
 		TITANIUM_PROPERTY_READWRITE(View, bool, keepScreenOn)
 
-		std::shared_ptr<Titanium::Blob> View::toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::Blob> View::toImage(JSObject& callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT
 		{
-			// TODO IMPLEMENT
-			return nullptr;
+			return layoutDelegate__->toImage(callback, honorScaleFactor, get_object());
 		}
 
 		Point View::convertPointToView(Point point, std::shared_ptr<View> destinationView) TITANIUM_NOEXCEPT

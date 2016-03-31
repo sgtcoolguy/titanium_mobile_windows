@@ -99,7 +99,7 @@ namespace Titanium
 			  @abstract toImage
 			  @discussion Returns an image of the rendered view, as a Blob.
 			*/
-			virtual std::shared_ptr<Titanium::Blob> toImage(JSValue callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT;
+			virtual std::shared_ptr<Titanium::Blob> toImage(JSObject& callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT;
 
 			/*!
 			  @method
