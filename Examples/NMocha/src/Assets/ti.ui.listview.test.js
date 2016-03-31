@@ -9,6 +9,7 @@ var should = require('./should'),
     didFocus = false;
 
 describe('Titanium.UI.ListView', function () {
+    this.timeout(6e4);
 
     beforeEach(function() {
         didFocus = false;
