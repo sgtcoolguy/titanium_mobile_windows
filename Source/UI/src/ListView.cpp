@@ -25,15 +25,15 @@ namespace TitaniumWindows
 		{
 		}
 
-		ListView::~ListView() 
+		ListView::~ListView()
 		{
 			clearListViewData();
 		}
 
 		void ListView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
-			Titanium::UI::ListView::postCallAsConstructor(js_context, arguments);	
-			
+			Titanium::UI::ListView::postCallAsConstructor(js_context, arguments);
+
 			listview__ = ref new Controls::ListView();
 			listview__->IsItemClickEnabled = true;
 
@@ -46,7 +46,7 @@ namespace TitaniumWindows
 			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(listview__);
 		}
 
-		void ListView::resetListViewDataBinding() 
+		void ListView::resetListViewDataBinding()
 		{
 			collectionViewSource__ = ref new Data::CollectionViewSource();
 			collectionViewItems__  = ref new Vector<Platform::Object^>();
@@ -58,7 +58,7 @@ namespace TitaniumWindows
 			Data::BindingOperations::SetBinding(listview__, Controls::ListView::ItemsSourceProperty, binding);
 		}
 
-		void ListView::clearListViewData() 
+		void ListView::clearListViewData()
 		{
 			for (const auto section : sections__) {
 				unregisterListViewItemAsLayoutNode(section->get_headerView());
@@ -80,7 +80,7 @@ namespace TitaniumWindows
 			headers_as_view__.clear();
 		}
 
-		void ListView::JSExportInitialize() 
+		void ListView::JSExportInitialize()
 		{
 			JSExport<ListView>::SetClassVersion(1);
 			JSExport<ListView>::SetParent(JSExport<Titanium::UI::ListView>::Class());
@@ -90,7 +90,7 @@ namespace TitaniumWindows
 		 * Search for section index and item index
 		 * TODO: Is there a better way to do this?
 		 */
-		std::tuple<std::uint32_t, std::int32_t> ListView::searchFromSelectedIndex(const std::uint32_t& selectedIndex) 
+		std::tuple<std::uint32_t, std::int32_t> ListView::searchFromSelectedIndex(const std::uint32_t& selectedIndex)
 		{
 			std::int32_t  itemIndex      = -1; // -1 means it's a header
 			std::uint32_t sectionIndex   =  0;
@@ -133,26 +133,46 @@ namespace TitaniumWindows
 					listview->Items->IndexOf(e->ClickedItem, &selectedIndex);
 					if (selectedIndex == -1) return;
 
-					const auto result = searchFromSelectedIndex(selectedIndex);
-					const auto sectionIndex = std::get<0>(result);
-					const auto itemIndex    = std::get<1>(result);
-					const auto section      = sections__.at(sectionIndex);
+					const auto result  = model__->searchRowBySelectedIndex(selectedIndex);
+					if (result.found) {
+						const auto section = model__->getSectionAtIndex(result.sectionIndex);
+						auto this_object = get_object();
 
-					JSObject eventArgs = ctx.CreateObject();
-					if (itemIndex >= 0) {
-						TITANIUM_ASSERT(section->get_items().size() > static_cast<std::uint32_t>(itemIndex));
-						const auto properties = section->getItemAt(itemIndex).properties;
+						TITANIUM_ASSERT(section->get_items().size() > static_cast<std::uint32_t>(result.rowIndex));
+						const auto properties = section->getItemAt(result.rowIndex).properties;
 						if (properties.find("itemId") != properties.end()) {
-							eventArgs.SetProperty("itemId", properties.at("itemId"));
+							this_object.SetProperty("_itemclick_itemId_", properties.at("itemId"));
 						}
 						if (properties.find("bindId") != properties.end()) {
-							eventArgs.SetProperty("bindId", properties.at("bindId"));
+							this_object.SetProperty("_itemclick_bindId_", properties.at("bindId"));
 						}
+						// we just forward event properties to underlying view so that it can process itemclick event
+						this_object.SetProperty("_itemclick_section_", section->get_object());
+						this_object.SetProperty("_itemclick_sectionIndex_", ctx.CreateNumber(result.sectionIndex));
+						this_object.SetProperty("_itemclick_itemIndex_", ctx.CreateNumber(result.rowIndex));
 					}
-					eventArgs.SetProperty("section", section->get_object());
-					eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(sectionIndex));
-					eventArgs.SetProperty("itemIndex", ctx.CreateNumber(itemIndex));
-					this->fireEvent("itemclick", eventArgs);
+					// hack: fallback when no view processes the event
+					TitaniumWindows::Utility::RunOnUIThread([this](){
+						auto this_object = get_object();
+						// this means no one catches the event
+						if (this_object.HasProperty("_itemclick_section_")) {
+							auto eventArgs = get_context().CreateObject();
+
+							eventArgs.SetProperty("section", this_object.GetProperty("_itemclick_section_"));
+							eventArgs.SetProperty("sectionIndex", this_object.GetProperty("_itemclick_sectionIndex_"));
+							eventArgs.SetProperty("itemIndex", this_object.GetProperty("_itemclick_itemIndex_"));
+							eventArgs.SetProperty("itemId", this_object.GetProperty("_itemclick_itemId_"));
+							eventArgs.SetProperty("bindId", this_object.GetProperty("_itemclick_bindId_"));
+
+							fireEvent("itemclick", eventArgs);
+
+							this_object.DeleteProperty("_itemclick_section_");
+							this_object.DeleteProperty("_itemclick_sectionIndex_");
+							this_object.DeleteProperty("_itemclick_itemIndex_");
+							this_object.DeleteProperty("_itemclick_itemId_");
+							this_object.DeleteProperty("_itemclick_bindId_");
+						}
+					});
 				});
 			}
 		}
@@ -166,7 +186,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		void ListView::set_searchText(const std::string& pretransform_searchText) TITANIUM_NOEXCEPT 
+		void ListView::set_searchText(const std::string& pretransform_searchText) TITANIUM_NOEXCEPT
 		{
 			if (pretransform_searchText == searchText__) { // if value didn't change don't do any work
 				return;
@@ -252,7 +272,7 @@ namespace TitaniumWindows
 			is_filtering__ = false;
 		}
 
-		void ListView::hideHeaderView(const std::uint32_t& sectionIndex) 
+		void ListView::hideHeaderView(const std::uint32_t& sectionIndex)
 		{
 			TITANIUM_ASSERT(sections__.size() > sectionIndex);
 			const auto section = sections__.at(sectionIndex);
@@ -273,7 +293,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		void ListView::bindCollectionViewSource() 
+		void ListView::bindCollectionViewSource()
 		{
 			collectionViewSource__->Source = collectionViewItems__;
 		}
@@ -343,7 +363,7 @@ namespace TitaniumWindows
 			}
 			// this is list of view for the section including header view
 			const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
-			
+
 			TITANIUM_ASSERT(views);
 
 			if (name == "append") {
@@ -436,7 +456,7 @@ namespace TitaniumWindows
 			Titanium::LayoutEngine::nodeAddChild(layoutDelegate->getLayoutNode(), view->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getLayoutNode());
 		}
 
-		void ListView::unregisterListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view) 
+		void ListView::unregisterListViewItemAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view)
 		{
 			if (view == nullptr) {
 				return;
@@ -452,7 +472,7 @@ namespace TitaniumWindows
 			registerListViewItemAsLayoutNode(view);
 		}
 
-		void ListView::insertListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, Vector<UIElement^>^ group, const std::uint32_t& index) 
+		void ListView::insertListViewItemForSection(const std::shared_ptr<TitaniumWindows::UI::View>& view, Vector<UIElement^>^ group, const std::uint32_t& index)
 		{
 			group->InsertAt(index, view->getComponent());
 			registerListViewItemAsLayoutNode(view);

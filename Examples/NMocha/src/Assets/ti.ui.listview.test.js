@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -8,12 +8,18 @@
 var should = require('./should');
 
 describe('Titanium.UI.ListView', function () {
+    this.timeout(6e4);
+
+    beforeEach(function() {
+        didFocus = false;
+    });
+
     it('Ti.UI.ListView', function (finish) {
         should(Ti.UI.ListView).not.be.undefined;
         finish();
     });
     it('createListView', function (finish) {
-        
+
         // Validate createListView()
         should(Ti.UI.createListView).not.be.undefined;
         should(Ti.UI.createListView).be.a.Function;
@@ -69,5 +75,5 @@ describe('Titanium.UI.ListView', function () {
 
         finish();
     });
-    
+
 });
