@@ -141,14 +141,14 @@ describe("Titanium.UI.ImageView", function () {
         var imageView = Ti.UI.createImageView({
             width: Ti.UI.FILL, height: Ti.UI.FILL
         });
+        imageView.addEventListener('start', function(){
+            should(imageView.animating).be.true;
+            win.close();
+            finish();
+        });
         imageView.addEventListener('load', function() {
             should(imageView.animating).be.false;
             imageView.start();
-            setTimeout(function(){
-                should(imageView.animating).be.true;
-                win.close();
-                finish();
-            }, 3000);
         });
         win.addEventListener('open', function() {
             imageView.images = [
@@ -167,15 +167,14 @@ describe("Titanium.UI.ImageView", function () {
         var imageView = Ti.UI.createImageView({
             width: Ti.UI.FILL, height: Ti.UI.FILL
         });
-
+        imageView.addEventListener('start', function(){
+            should(imageView.animating).be.true;
+            win.close();
+            finish();
+        });
         imageView.addEventListener('load', function() {
             should(imageView.animating).be.false;
             imageView.start();
-            setTimeout(function(){
-                should(imageView.animating).be.true;
-                win.close();
-                finish();
-            }, 3000);
         });
         win.addEventListener('open', function() {
             var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png");
@@ -193,14 +192,14 @@ describe("Titanium.UI.ImageView", function () {
             width: Ti.UI.FILL, height: Ti.UI.FILL
         });
 
+        imageView.addEventListener('start', function(){
+            should(imageView.animating).be.true;
+            win.close();
+            finish();
+        });
         imageView.addEventListener('load', function() {
             should(imageView.animating).be.false;
             imageView.start();
-            setTimeout(function(){
-                should(imageView.animating).be.true;
-                win.close();
-                finish();
-            }, 3000);
         });
         win.addEventListener('open', function() {
             var fromFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "Logo.png");
