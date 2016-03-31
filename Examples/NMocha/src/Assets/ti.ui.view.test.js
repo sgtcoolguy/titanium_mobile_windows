@@ -215,6 +215,116 @@ describe("Titanium.UI.View", function () {
         w.open();
     });
 
+    it("animate (top)", function (finish) {
+        this.timeout(6e4);
+        var win = Ti.UI.createWindow(),
+            view = Ti.UI.createView({
+                backgroundColor:'red',
+                width: 100, height: 100,
+                left: 100,  top: 100
+            });
+
+        win.addEventListener('open', function() {
+            var animation = Ti.UI.createAnimation({
+                top: 150,
+                duration: 1000,
+            });
+
+            animation.addEventListener('complete', function() {
+                // make sure to give it a time to layout
+                setTimeout(function(){
+                    should(view.rect.x).be.eql(100);
+                    should(view.rect.y).be.eql(150);
+                    should(view.left).be.eql(100);
+                    should(view.top).be.eql(100);
+                    win.close();
+                    finish();
+                }, 500);
+            });
+
+            view.animate(animation);
+
+        });
+        win.add(view);
+        win.open();
+    });
+
+    it("animate (left)", function (finish) {
+        this.timeout(6e4);
+        var win = Ti.UI.createWindow(),
+            view = Ti.UI.createView({
+                backgroundColor:'red',
+                width: 100, height: 100,
+                left: 100,  top: 100
+            });
+
+        win.addEventListener('open', function() {
+            var animation = Ti.UI.createAnimation({
+                left: 150,
+                duration: 1000,
+            });
+
+            animation.addEventListener('complete', function() {
+                // make sure to give it a time to layout
+                setTimeout(function(){
+                    should(view.rect.x).be.eql(150);
+                    should(view.rect.y).be.eql(100);
+                    should(view.left).be.eql(100);
+                    should(view.top).be.eql(100);
+                    win.close();
+                    finish();
+                }, 500);
+            });
+
+            view.animate(animation);
+
+        });
+        win.add(view);
+        win.open();
+    });
+
+    it("TIMOB-20598", function (finish) {
+        this.timeout(6e4);
+        var win = Ti.UI.createWindow(),
+            view = Ti.UI.createView({
+                backgroundColor:'red',
+                width: 100, height: 100,
+                left: 100,  top: 100
+            }),
+            pos = 100, count = 0;
+
+        function start() {
+            var animation = Ti.UI.createAnimation({
+                left: pos,
+                duration: 1000,
+            });
+            animation.addEventListener('complete', function() {
+                setTimeout(function(){
+                    should(view.rect.x).be.eql(pos);
+                    should(view.rect.y).be.eql(100);
+                    should(view.left).be.eql(100);
+                    should(view.top).be.eql(100);
+                    if (count > 1) {
+                        win.close();
+                        finish();
+                    } else {
+                        pos += 50;
+                        count++;
+                        start();
+                    }
+                }, 500);
+            });
+
+            view.animate(animation);
+        }
+
+        win.addEventListener('open', function() {
+            start();
+        });
+        win.add(view);
+        win.open();
+    });
+
 	it("convertPointToView", function (finish) {
 		var w = Ti.UI.createWindow(),
 		a = Ti.UI.createView({backgroundColor:'red'}),

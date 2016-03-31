@@ -586,7 +586,25 @@ namespace TitaniumWindows
 				storyboard->Children->Append(zIndex_anim);
 			}
 
-			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, this_object, animation](Platform::Object^ sender, Platform::Object ^ e) mutable {
+			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, animation, this_object, this](Platform::Object^ sender, Platform::Object ^ e) mutable {
+				const auto storyboard = dynamic_cast<Media::Animation::Storyboard^>(sender);
+				const auto component = getComponent();
+
+				//
+				// Make sure to update the position of the view because StoryBoard doesn't change actual position of it.
+				// 
+				const auto top = animation->get_top();
+				if (top) {
+					setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, std::to_string(*top));
+				}
+				const auto left = animation->get_left();
+				if (left) {
+					setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, std::to_string(*left));
+				}
+
+				// Make sure to clear the StoryBoard because transform made by StoryBoard remains.
+				storyboard->Stop();
+
 				if (callback.IsFunction()) {
 					callback(this_object);
 				}
