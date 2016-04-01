@@ -33,7 +33,7 @@ namespace TitaniumWindows
 			Titanium::UI::PickerRow::postCallAsConstructor(js_context, arguments);
 			label__ = ref new Windows::UI::Xaml::Controls::TextBlock();
 			Titanium::UI::PickerRow::setLayoutDelegate<WindowsViewLayoutDelegate>();
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(label__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(label__, nullptr, false);
 		}
 
 		void PickerRow::set_color(const std::string& colorName) TITANIUM_NOEXCEPT

@@ -44,6 +44,8 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
+			virtual void addRow(const std::shared_ptr<Titanium::UI::PickerRow>& row) TITANIUM_NOEXCEPT override;
+
 			Windows::UI::Xaml::Controls::ComboBox^ getComponent() const TITANIUM_NOEXCEPT
 			{
 				return picker__;
