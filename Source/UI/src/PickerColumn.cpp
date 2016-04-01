@@ -38,7 +38,13 @@ namespace TitaniumWindows
 			resetPickerBinding();
 
 			Titanium::UI::PickerColumn::setLayoutDelegate<WindowsViewLayoutDelegate>();
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(picker__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(picker__, nullptr, false);
+		}
+
+		void PickerColumn::addRow(const std::shared_ptr<Titanium::UI::PickerRow>& row) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::PickerColumn::addRow(row);
+			refreshRows();
 		}
 
 		void PickerColumn::refreshRows() 

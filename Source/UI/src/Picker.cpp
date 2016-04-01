@@ -44,7 +44,7 @@ namespace TitaniumWindows
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::FILL);
 
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(parent__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(parent__, nullptr, false);
 		}
 
 		void Picker::afterPropertiesSet() TITANIUM_NOEXCEPT
