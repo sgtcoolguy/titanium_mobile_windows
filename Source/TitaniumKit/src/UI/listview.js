@@ -55,9 +55,6 @@ function lookupCreateFunction(template) {
 			template.createView = func;
 		} else {
 			template.createView = Ti.UI.createView;
-			if (template.properties === void 0) {
-				template.properties = {top:0, left:0, width:Ti.UI.FILL, height:Ti.UI.SIZE};
-			}
 		}
 	}
 }
@@ -108,7 +105,7 @@ function createSectionView(listview, section) {
 	return views;
 }
 
-function createSectionItemView(listview, item, template, parent) {
+function createSectionItemView(item, template, parent) {
 	var options = template.properties;
 	if (options === void 0) {
 		options = {top:0, left:0, width:Ti.UI.SIZE, height:Ti.UI.SIZE};
@@ -119,32 +116,6 @@ function createSectionItemView(listview, item, template, parent) {
 	}
 
 	var view = template.createView(options);
-
-	if (template.bindId !== void 0) {
-		view.bindId = template.bindId;
-	}
-
-	// hook click and fire listview event with bindId
-	view.addEventListener('click', function() {
-		// check if other view already processes the event
-		if (listview._itemclick_section_) {
-			// set bindId and forward the event again
-			listview.fireEvent('itemclick', {
-				bindId:       listview._itemclick_bindId_ ? listview._itemclick_bindId_ : view.bindId,
-				itemId:       listview._itemclick_itemId_,
-				section:      listview._itemclick_section_,
-				sectionIndex: listview._itemclick_sectionIndex_,
-				itemIndex:    listview._itemclick_itemIndex_
-			});
-			// make sure to delete event properties so we can detect it's processed
-			delete listview._itemclick_bindId_;
-			delete listview._itemclick_itemId_;
-			delete listview._itemclick_section_;
-			delete listview._itemclick_sectionIndex_;
-			delete listview._itemclick_itemIndex_;
-		}
-	});
-
 	if (template.bindId !== void 0 && item[template.bindId] !== void 0) {
 		view.applyProperties(item[template.bindId]);
 	} else if (item.properties !== void 0) {
@@ -161,7 +132,7 @@ function createSectionItemView(listview, item, template, parent) {
 	}
 	if (template.childTemplates !== void 0 && Array.isArray(template.childTemplates)) {
 		for (var i = 0; i < template.childTemplates.length; i++) {
-			createSectionItemView(listview, item, template.childTemplates[i], view);
+			createSectionItemView(item, template.childTemplates[i], view);
 		}
 	}
 	if (parent !== void 0) {
@@ -177,7 +148,7 @@ function createSectionItemAt(listview, section, index) {
 	if (item.template !== void 0 && listview.templates[item.template] !== void 0 ) {
 		template = listview.templates[item.template];
 	}
-	return createSectionItemView(listview, item, template);
+	return createSectionItemView(item, template);
 }
 
 this.exports = {};

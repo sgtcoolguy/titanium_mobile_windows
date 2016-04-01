@@ -53,8 +53,7 @@ protected:
 				},
 				applyProperties: function(properties) {
 					this.properties = properties;
-				},
-				addEventListener: function(name, callback) {}
+				}
 			};
 		};
 		this.Ti.UI.createImageView = function(option) {
@@ -69,8 +68,7 @@ protected:
 				},
 				applyProperties: function(properties) {
 					this.properties = properties;
-				},
-				addEventListener: function(name, callback) {}
+				}
 			};
 		};
 		this.Ti.UI.createLabel = function(option) {
@@ -85,8 +83,7 @@ protected:
 				},
 				applyProperties: function(properties) {
 					this.properties = properties;
-				},
-				addEventListener: function(name, callback) {}
+				}
 			};
 		};
 
