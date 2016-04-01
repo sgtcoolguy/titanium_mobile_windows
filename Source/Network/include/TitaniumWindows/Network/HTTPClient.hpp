@@ -11,6 +11,7 @@
 #include "Titanium/Network/HTTPClient.hpp"
 #include <ppltasks.h>
 #include <Robuffer.h>
+#include <boost/algorithm/string.hpp>
 
 using namespace Concurrency;
 
@@ -86,8 +87,14 @@ namespace TitaniumWindows
 			// contentLength__ - the value in the Content-Length attribute of the response header
 			// If no length is returned the server has returned the data using chunked encoding
 			long contentLength__ { 0 }; // -1 if response is using chunked encoding
-			// requestHeaders__ - the collection of key value pairs to be sent to the server
-			std::map<const std::string, std::string> requestHeaders__;
+
+			struct lexicographicalComparator : public std::binary_function<std::string, std::string, bool> {
+				bool operator()(const std::string &lhs, const std::string &rhs) const {
+					return boost::algorithm::lexicographical_compare(lhs, rhs, boost::algorithm::is_iless());
+				}
+			};
+			// requestHeaders__ - the case-insensitive collection of key value pairs to be sent to the server
+			std::map<const std::string, std::string, lexicographicalComparator> requestHeaders__;
 
 			bool disposed__ { false };
 #pragma warning(pop)
