@@ -8,6 +8,7 @@
 var should = require('./should');
 
 describe('Titanium.UI.ListView', function () {
+    this.timeout(6e4);
     it('Ti.UI.ListView', function (finish) {
         should(Ti.UI.ListView).not.be.undefined;
         finish();
