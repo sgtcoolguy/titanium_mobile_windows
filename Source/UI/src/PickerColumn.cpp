@@ -9,6 +9,7 @@
 #include "TitaniumWindows/UI/PickerColumn.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include "TitaniumWindows/UI/PickerRow.hpp"
+#include "TitaniumWindows/WindowsMacros.hpp"
 #include <collection.h>
 
 namespace TitaniumWindows
@@ -32,51 +33,74 @@ namespace TitaniumWindows
 		void PickerColumn::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
 			Titanium::UI::PickerColumn::postCallAsConstructor(js_context, arguments);
-
 			picker__ = ref new Windows::UI::Xaml::Controls::ComboBox();
-
-			resetPickerBinding();
-
-			Titanium::UI::PickerColumn::setLayoutDelegate<WindowsViewLayoutDelegate>();
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(picker__, nullptr, false);
 		}
 
-		void PickerColumn::addRow(const std::shared_ptr<Titanium::UI::PickerRow>& row) TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::UI::PickerRow> PickerColumn::get_selectedRow() const TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::PickerColumn::addRow(row);
-			refreshRows();
-		}
-
-		void PickerColumn::refreshRows() 
-		{
-			resetPickerBinding();
-
-			for (const auto r : rows__) {
-				const auto row = std::dynamic_pointer_cast<TitaniumWindows::UI::PickerRow>(r);
-				pickerItems__->Append(row->getComponent());
+			const auto index = picker__->SelectedIndex;
+			if (rows__.size() > index) {
+				return rows__.at(index);
+			} else {
+				return nullptr;
 			}
 		}
 
-		void PickerColumn::bindPickerItemsSource() 
+		void PickerColumn::addRow(const std::shared_ptr<Titanium::UI::PickerRow>& r) TITANIUM_NOEXCEPT
 		{
-			pickerItemsSource__->Source = pickerItems__;
+			Titanium::UI::PickerColumn::addRow(r);
+
+#if defined(IS_WINDOWS_PHONE)
+			refreshRows();
+#else
+			const auto row = std::dynamic_pointer_cast<TitaniumWindows::UI::PickerRow>(r);
+			picker__->Items->Append(row->getComboBoxItem());
+#endif
 		}
 
-		void PickerColumn::unbindPickerItemsSource() 
+		void PickerColumn::removeRow(const std::shared_ptr<Titanium::UI::PickerRow>& r) TITANIUM_NOEXCEPT
 		{
-			pickerItemsSource__->Source = ref new Vector<::Platform::String^>();
+			Titanium::UI::PickerColumn::removeRow(r);
+
+#if defined(IS_WINDOWS_PHONE)
+			refreshRows();
+#else
+			const auto row = std::dynamic_pointer_cast<TitaniumWindows::UI::PickerRow>(r);
+			std::uint32_t index;
+			if (picker__->Items->IndexOf(row->getComboBoxItem(), &index)) {
+				picker__->Items->RemoveAt(index);
+			}
+#endif
 		}
 
-		void PickerColumn::resetPickerBinding() 
+		void PickerColumn::afterPropertiesSet() TITANIUM_NOEXCEPT
 		{
-			pickerItems__ = ref new Vector<Windows::UI::Xaml::FrameworkElement^>();
+			refreshRows();
+		}
 
-			pickerItemsSource__ = ref new Data::CollectionViewSource();
-			pickerItemsSource__->Source = pickerItems__;
+		void PickerColumn::refreshRows() TITANIUM_NOEXCEPT
+		{
+			picker__->Items->Clear();
 
-			auto binding = ref new Data::Binding();
-			binding->Source = pickerItemsSource__;
-			Data::BindingOperations::SetBinding(picker__, Controls::ComboBox::ItemsSourceProperty, binding);
+			for (const auto r : rows__) {
+				const auto row = std::dynamic_pointer_cast<TitaniumWindows::UI::PickerRow>(r);
+				picker__->Items->Append(row->getComboBoxItem());
+			}
+
+#if defined(IS_WINDOWS_PHONE)
+			//
+			// hack: force full screen selector for Windows Phone 8.1.
+			// We want to make Picker fullscreen because Xaml ComboBox can't be rendered through parent component.
+			//
+			// Force at least 6 items in the list. Append "empty" items when needed
+			//
+			const std::int32_t count = 6 - picker__->Items->Size;
+			for (std::int32_t i = 0; i < count; i++) {
+				const auto item = ref new Controls::ComboBoxItem();
+				item->Content = ref new Controls::TextBlock();
+				picker__->Items->Append(item);
+			}
+#endif
 		}
 
 		void PickerColumn::JSExportInitialize()
