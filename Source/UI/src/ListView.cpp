@@ -94,9 +94,9 @@ namespace TitaniumWindows
 					[this, ctx](Platform::Object^ sender, Controls::ItemClickEventArgs^ e) {
 					auto listview = safe_cast<Controls::ListView^>(sender);
 
-					uint32_t selectedIndex = -1;
-					listview->Items->IndexOf(e->ClickedItem, &selectedIndex);
-					if (selectedIndex == -1) return;
+					uint32_t selectedIndex;
+					const bool found = listview->Items->IndexOf(e->ClickedItem, &selectedIndex);
+					if (!found) return;
 
 					const auto result  = model__->searchRowBySelectedIndex(selectedIndex);
 					if (result.found) {
