@@ -138,21 +138,42 @@ namespace TitaniumWindows
 					const auto itemIndex    = std::get<1>(result);
 					const auto section      = sections__.at(sectionIndex);
 
-					JSObject eventArgs = ctx.CreateObject();
+					auto this_object = get_object();
 					if (itemIndex >= 0) {
 						TITANIUM_ASSERT(section->get_items().size() > static_cast<std::uint32_t>(itemIndex));
 						const auto properties = section->getItemAt(itemIndex).properties;
 						if (properties.find("itemId") != properties.end()) {
-							eventArgs.SetProperty("itemId", properties.at("itemId"));
+							this_object.SetProperty("_itemclick_itemId_", properties.at("itemId"));
 						}
 						if (properties.find("bindId") != properties.end()) {
-							eventArgs.SetProperty("bindId", properties.at("bindId"));
+							this_object.SetProperty("_itemclick_bindId_", properties.at("bindId"));
 						}
+						this_object.SetProperty("_itemclick_section_", section->get_object());
+						this_object.SetProperty("_itemclick_sectionIndex_", ctx.CreateNumber(sectionIndex));
+						this_object.SetProperty("_itemclick_itemIndex_", ctx.CreateNumber(itemIndex));
 					}
-					eventArgs.SetProperty("section", section->get_object());
-					eventArgs.SetProperty("sectionIndex", ctx.CreateNumber(sectionIndex));
-					eventArgs.SetProperty("itemIndex", ctx.CreateNumber(itemIndex));
-					this->fireEvent("itemclick", eventArgs);
+					// hack: fallback when no view processes the event
+					TitaniumWindows::Utility::RunOnUIThread([this](){
+						auto this_object = get_object();
+						// this means no one catches the event
+						if (this_object.HasProperty("_itemclick_section_")) {
+							auto eventArgs = get_context().CreateObject();
+
+							eventArgs.SetProperty("section", this_object.GetProperty("_itemclick_section_"));
+							eventArgs.SetProperty("sectionIndex", this_object.GetProperty("_itemclick_sectionIndex_"));
+							eventArgs.SetProperty("itemIndex", this_object.GetProperty("_itemclick_itemIndex_"));
+							eventArgs.SetProperty("itemId", this_object.GetProperty("_itemclick_itemId_"));
+							eventArgs.SetProperty("bindId", this_object.GetProperty("_itemclick_bindId_"));
+
+							fireEvent("itemclick", eventArgs);
+
+							this_object.DeleteProperty("_itemclick_section_");
+							this_object.DeleteProperty("_itemclick_sectionIndex_");
+							this_object.DeleteProperty("_itemclick_itemIndex_");
+							this_object.DeleteProperty("_itemclick_itemId_");
+							this_object.DeleteProperty("_itemclick_bindId_");
+						}
+					});
 				});
 			}
 		}
