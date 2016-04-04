@@ -72,16 +72,15 @@ namespace TitaniumWindows
 			
 #pragma warning(push)
 #pragma warning(disable : 4251)
-
 			Windows::UI::Xaml::Controls::Grid^       parent__;      // Parent view
 			Windows::UI::Xaml::Controls::Grid^       plainPicker__; // For PICKER_TYPE_PLAIN
 			Windows::UI::Xaml::Controls::DatePicker^ datePicker__;  // For PICKER_TYPE_DATE
 			Windows::UI::Xaml::Controls::TimePicker^ timePicker__;  // For PICKER_TYPE_TIME
 
-			Windows::Foundation::EventRegistrationToken change_event__;
 			std::vector<Windows::Foundation::EventRegistrationToken> change_events__;
+			Windows::Foundation::EventRegistrationToken change_event__;
 
-			void createColumns(const std::vector<std::shared_ptr<Titanium::UI::PickerColumn>>& columns);
+			void addColumns(const std::vector<std::shared_ptr<Titanium::UI::PickerColumn>>& columns);
 			std::vector<JSValue> getSelectedJSValues();
 
 #pragma warning(pop)

@@ -17,6 +17,8 @@ namespace TitaniumWindows
 	namespace UI
 	{
 
+		using namespace Windows::UI::Xaml::Controls;
+
 		PickerRow::PickerRow(const JSContext& js_context) TITANIUM_NOEXCEPT
 			  : Titanium::UI::PickerRow(js_context)
 		{
@@ -31,9 +33,9 @@ namespace TitaniumWindows
 		void PickerRow::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
 			Titanium::UI::PickerRow::postCallAsConstructor(js_context, arguments);
-			label__ = ref new Windows::UI::Xaml::Controls::TextBlock();
-			Titanium::UI::PickerRow::setLayoutDelegate<WindowsViewLayoutDelegate>();
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(label__, nullptr, false);
+			item__  = ref new ComboBoxItem();
+			label__ = ref new TextBlock();
+			item__->Content = label__;
 		}
 
 		void PickerRow::set_color(const std::string& colorName) TITANIUM_NOEXCEPT

@@ -44,25 +44,22 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
+			virtual void afterPropertiesSet() TITANIUM_NOEXCEPT override;
 			virtual void addRow(const std::shared_ptr<Titanium::UI::PickerRow>& row) TITANIUM_NOEXCEPT override;
+			virtual void removeRow(const std::shared_ptr<Titanium::UI::PickerRow>& row) TITANIUM_NOEXCEPT override;
+			virtual std::shared_ptr<Titanium::UI::PickerRow> get_selectedRow() const TITANIUM_NOEXCEPT override;
 
 			Windows::UI::Xaml::Controls::ComboBox^ getComponent() const TITANIUM_NOEXCEPT
 			{
 				return picker__;
 			}
 
-			void refreshRows();
-
 		private:
+			void refreshRows() TITANIUM_NOEXCEPT;
+
 #pragma warning(push)
 #pragma warning(disable : 4251)
 			Windows::UI::Xaml::Controls::ComboBox^ picker__;
-			Windows::UI::Xaml::Data::CollectionViewSource^ pickerItemsSource__;
-			Windows::Foundation::Collections::IObservableVector<Windows::UI::Xaml::FrameworkElement^>^ pickerItems__;
-
-			void bindPickerItemsSource();
-			void unbindPickerItemsSource();
-			void resetPickerBinding();
 #pragma warning(pop)
 		};
 	} // namespace UI

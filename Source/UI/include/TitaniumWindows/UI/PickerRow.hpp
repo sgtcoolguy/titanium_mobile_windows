@@ -42,9 +42,9 @@ namespace TitaniumWindows
 			static void JSExportInitialize();
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 
-			Windows::UI::Xaml::FrameworkElement^ getComponent() TITANIUM_NOEXCEPT
+			Windows::UI::Xaml::Controls::ComboBoxItem^ getComboBoxItem() TITANIUM_NOEXCEPT
 			{
-				return label__;
+				return item__;
 			}
 
 			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT override;
@@ -54,6 +54,7 @@ namespace TitaniumWindows
 		private:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+			Windows::UI::Xaml::Controls::ComboBoxItem^ item__;
 			Windows::UI::Xaml::Controls::TextBlock^ label__;
 #pragma warning(pop)
 		};
