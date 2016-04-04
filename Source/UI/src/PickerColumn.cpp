@@ -39,7 +39,7 @@ namespace TitaniumWindows
 		std::shared_ptr<Titanium::UI::PickerRow> PickerColumn::get_selectedRow() const TITANIUM_NOEXCEPT
 		{
 			const auto index = picker__->SelectedIndex;
-			if (rows__.size() > index) {
+			if (index >= 0 && rows__.size() > static_cast<std::uint32_t>(index)) {
 				return rows__.at(index);
 			} else {
 				return nullptr;

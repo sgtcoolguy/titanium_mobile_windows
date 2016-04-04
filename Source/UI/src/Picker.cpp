@@ -220,7 +220,7 @@ namespace TitaniumWindows
 							const auto rowIndex = picker->SelectedIndex;
 							const auto ctx = get_context();
 							JSObject  eventArgs = ctx.CreateObject();
-							if (column->get_rowCount() > rowIndex) {
+							if (rowIndex >= 0 && column->get_rowCount() > static_cast<std::uint32_t>(rowIndex)) {
 								eventArgs.SetProperty("rowIndex", ctx.CreateNumber(rowIndex));
 								eventArgs.SetProperty("row", column->get_rows().at(rowIndex)->get_object());
 							}
