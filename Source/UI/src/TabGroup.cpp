@@ -67,9 +67,9 @@ namespace TitaniumWindows
 				[this](Platform::Object^ sender, Controls::ItemClickEventArgs^ e) {
 				const auto listview = safe_cast<Controls::ListView^>(sender);
 
-				uint32_t selectedIndex = -1;
-				listview->Items->IndexOf(e->ClickedItem, &selectedIndex);
-				if (selectedIndex == -1) return;
+				uint32_t selectedIndex;
+				const bool found = listview->Items->IndexOf(e->ClickedItem, &selectedIndex);
+				if (!found) return;
 
 				TITANIUM_LOG_WARN(tabs__.size() > selectedIndex);
 				set_activeTab(tabs__.at(selectedIndex));

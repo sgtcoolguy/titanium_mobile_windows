@@ -315,9 +315,11 @@ namespace TitaniumWindows
 						const auto content = static_cast<Windows::UI::Xaml::Controls::Panel^>(page->Content);
 						if (content) {
 							std::uint32_t index;
-							content->Children->IndexOf(view, &index);
-							TITANIUM_ASSERT_AND_THROW(index >= 0, "Could not find view from current Window");
-							content->Children->RemoveAt(index);
+							if (content->Children->IndexOf(view, &index)) {
+								content->Children->RemoveAt(index);
+							} else {
+								TITANIUM_LOG_WARN("Could not find view from current Window");
+							}
 						}
 					}
 				}
