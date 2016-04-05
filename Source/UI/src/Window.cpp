@@ -287,6 +287,7 @@ namespace TitaniumWindows
 				if (ui_view == nullptr) {
 					ui_view = layoutDelegate__->rescueGetView(viewObj);
 				}
+				ui_view->set_parent(this->get_object().GetPrivate<View>());
 				layoutDelegate__->add(ui_view);
 				return get_context().CreateUndefined();
 			}

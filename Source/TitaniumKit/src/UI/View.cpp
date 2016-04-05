@@ -47,6 +47,7 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(View, std::uint32_t, softKeyboardOnFocus)
 		TITANIUM_PROPERTY_READWRITE(View, bool, focusable)
 		TITANIUM_PROPERTY_READWRITE(View, bool, keepScreenOn)
+		TITANIUM_PROPERTY_READWRITE(View, std::shared_ptr<View>, parent)
 
 		std::shared_ptr<Titanium::Blob> View::toImage(JSObject& callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT
 		{
@@ -88,6 +89,8 @@ namespace Titanium
 			if (view_ptr == nullptr) {
 				view_ptr = layoutDelegate__->rescueGetView(view);
 			}
+
+			view_ptr->set_parent(this->get_object().GetPrivate<View>());
 
 			layoutDelegate__->add(view_ptr);
 		}
@@ -146,6 +149,7 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(View, width);
 			TITANIUM_ADD_PROPERTY(View, height);
 			TITANIUM_ADD_PROPERTY(View, layout);
+			TITANIUM_ADD_PROPERTY(View, parent);
 
 			TITANIUM_ADD_FUNCTION(View, animate);
 			TITANIUM_ADD_FUNCTION(View, remove);
@@ -249,10 +253,30 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(View, setHeight);
 			TITANIUM_ADD_FUNCTION(View, getLayout);
 			TITANIUM_ADD_FUNCTION(View, setLayout);
+			TITANIUM_ADD_FUNCTION(View, getParent);
+			TITANIUM_ADD_FUNCTION(View, setParent);
 
 			TITANIUM_ADD_FUNCTION(View, insertAt);
 			TITANIUM_ADD_FUNCTION(View, replaceAt);
 
+		}
+
+		TITANIUM_PROPERTY_GETTER(View, parent)
+		{
+			if (parent__) {
+				return parent__->get_object();
+			}
+			return get_context().CreateNull();
+		}
+
+		TITANIUM_PROPERTY_SETTER(View, parent)
+		{
+			if (argument.IsObject()) {
+				parent__ = static_cast<JSObject>(argument).GetPrivate<View>();
+			} else {
+				parent__ = nullptr;
+			}
+			return true;
 		}
 
 		TITANIUM_PROPERTY_GETTER(View, anchorPoint)
@@ -979,6 +1003,8 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_SETTER(View, setHeight, height)
 		TITANIUM_FUNCTION_AS_GETTER(View, getLayout, layout)
 		TITANIUM_FUNCTION_AS_SETTER(View, setLayout, layout)
+		TITANIUM_FUNCTION_AS_GETTER(View, getParent, parent)
+		TITANIUM_FUNCTION_AS_SETTER(View, setParent, parent)
 
 	} // namespace UI
 }  // namespace Titanium
