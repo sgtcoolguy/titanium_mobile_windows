@@ -66,6 +66,20 @@ namespace Titanium
 
 			/*!
 			  @property
+			  @abstract tintColor
+			  @discussion Color of the progress bar text, as a color name or hex triplet.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, tintColor);
+
+			/*!
+			  @property
+			  @abstract trackTintColor
+			  @discussion Color of the progress bar text, as a color name or hex triplet.
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::string, trackTintColor);
+
+			/*!
+			  @property
 			  @abstract value
 			  @discussion Current value of the progress bar.
 			*/
@@ -89,6 +103,8 @@ namespace Titanium
 			TITANIUM_PROPERTY_DEF(message);
 			TITANIUM_PROPERTY_DEF(min);
 			TITANIUM_PROPERTY_DEF(style);
+			TITANIUM_PROPERTY_DEF(tintColor);
+			TITANIUM_PROPERTY_DEF(trackTintColor);
 			TITANIUM_PROPERTY_DEF(value);
 
 			TITANIUM_FUNCTION_DEF(remove);
@@ -105,6 +121,10 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setMin);
 			TITANIUM_FUNCTION_DEF(getStyle);
 			TITANIUM_FUNCTION_DEF(setStyle);
+			TITANIUM_FUNCTION_DEF(getTintColor);
+			TITANIUM_FUNCTION_DEF(setTintColor);
+			TITANIUM_FUNCTION_DEF(getTrackTintColor);
+			TITANIUM_FUNCTION_DEF(setTrackTintColor);
 			TITANIUM_FUNCTION_DEF(getValue);
 			TITANIUM_FUNCTION_DEF(setValue);
 
@@ -116,6 +136,8 @@ namespace Titanium
 			double max__;
 			std::string message__;
 			double min__;
+			std::string trackTintColor__;
+			std::string tintColor__;
 			double value__;
 #pragma warning(pop)
 		};
