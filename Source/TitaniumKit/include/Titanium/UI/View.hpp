@@ -95,6 +95,13 @@ namespace Titanium
 			TITANIUM_PROPERTY_IMPL_DEF(bool, keepScreenOn);
 
 			/*!
+			  @property
+			  @abstract parent
+			  @discussion Return parent view of this view
+			*/
+			TITANIUM_PROPERTY_IMPL_DEF(std::shared_ptr<View>, parent);
+
+			/*!
 			  @method
 			  @abstract toImage
 			  @discussion Returns an image of the rendered view, as a Blob.
@@ -202,6 +209,7 @@ namespace Titanium
 			TITANIUM_PROPERTY_DEF(width);
 			TITANIUM_PROPERTY_DEF(height);
 			TITANIUM_PROPERTY_DEF(layout);
+			TITANIUM_PROPERTY_DEF(parent);
 
 			TITANIUM_FUNCTION_DEF(animate);
 			TITANIUM_FUNCTION_DEF(remove);
@@ -305,6 +313,8 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setHeight);
 			TITANIUM_FUNCTION_DEF(getLayout);
 			TITANIUM_FUNCTION_DEF(setLayout);
+			TITANIUM_FUNCTION_DEF(getParent);
+			TITANIUM_FUNCTION_DEF(setParent);
 
 			TITANIUM_FUNCTION_DEF(insertAt);
 			TITANIUM_FUNCTION_DEF(replaceAt);
@@ -346,6 +356,8 @@ namespace Titanium
 
 #pragma warning(push)
 #pragma warning(disable : 4251)
+			std::shared_ptr<View> parent__;
+
 			std::shared_ptr<ViewLayoutEventDelegate> layoutEventDelegate__;
 			std::shared_ptr<ViewLayoutDelegate> layoutDelegate__;
 

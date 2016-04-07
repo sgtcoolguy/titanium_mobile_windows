@@ -358,4 +358,33 @@ describe("Titanium.UI.View", function () {
 		});
 		w.open();
 	});
+
+    it("parent", function (finish) {
+        var w = Ti.UI.createWindow({
+            backgroundColor: 'blue'
+        });
+        var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
+        w.add(view);
+
+        w.addEventListener('open', function () {
+
+            should(view.parent).be.an.Object;
+            should(view.parent).eql(w);
+            should(view.getParent).be.a.Function;
+            should(view.setParent).be.a.Function;
+            should(view.getParent()).eql(w);
+
+            // parent is not read-only
+            view.setParent(null);
+            should(view.parent).be.null;
+
+            setTimeout(function () {
+                w.close();
+                finish();
+            }, 1000);
+        });
+
+        w.open();
+    });
+
 });
