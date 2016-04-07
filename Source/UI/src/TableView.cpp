@@ -263,9 +263,9 @@ namespace TitaniumWindows
 
 					const auto listview = safe_cast<Controls::ListView^>(sender);
 
-					uint32_t selectedIndex = -1;
-					listview->Items->IndexOf(e->ClickedItem, &selectedIndex);
-					if (selectedIndex == -1) return;
+					uint32_t selectedIndex;
+					const auto found = listview->Items->IndexOf(e->ClickedItem, &selectedIndex);
+					if (!found) return;
 
 					const auto result = searchFromSelectedIndex(selectedIndex);
 
