@@ -100,6 +100,12 @@ namespace TitaniumWindows
 			JSExport<ProgressBar>::SetParent(JSExport<Titanium::UI::ProgressBar>::Class());
 		}
 
+		void ProgressBar::set_color(const std::string& colorName) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ProgressBar::set_color(colorName);
+			label__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(WindowsViewLayoutDelegate::ColorForName(colorName));
+		}
+
 		void ProgressBar::set_message(const std::string& message) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ProgressBar::set_message(message);
@@ -118,16 +124,22 @@ namespace TitaniumWindows
 			bar__->Maximum = value;
 		}
 
+		void ProgressBar::set_tintColor(const std::string& colorName) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ProgressBar::set_tintColor(colorName);
+			bar__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(WindowsViewLayoutDelegate::ColorForName(colorName));
+		}
+
+		void ProgressBar::set_trackTintColor(const std::string& colorName) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ProgressBar::set_trackTintColor(colorName);
+			bar__->Background = ref new Windows::UI::Xaml::Media::SolidColorBrush(WindowsViewLayoutDelegate::ColorForName(colorName));
+		}
+
 		void ProgressBar::set_value(const double& value) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ProgressBar::set_value(value);
 			bar__->Value = value;
-		}
-
-		void ProgressBar::set_color(const std::string& colorName) TITANIUM_NOEXCEPT
-		{
-			Titanium::UI::ProgressBar::set_color(colorName);
-			bar__->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(WindowsViewLayoutDelegate::ColorForName(colorName));
 		}
 
 	}  // namespace UI

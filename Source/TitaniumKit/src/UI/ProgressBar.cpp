@@ -21,6 +21,8 @@ namespace Titanium
 			max__(1.0),
 			message__(""),
 			min__(0.0),
+			tintColor__(""),
+			trackTintColor__(""),
 			value__(0.0)
 		{
 		}
@@ -30,6 +32,8 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(ProgressBar, double, max)
 		TITANIUM_PROPERTY_READWRITE(ProgressBar, std::string, message)
 		TITANIUM_PROPERTY_READWRITE(ProgressBar, double, min)
+		TITANIUM_PROPERTY_READWRITE(ProgressBar, std::string, tintColor)
+		TITANIUM_PROPERTY_READWRITE(ProgressBar, std::string, trackTintColor)
 		TITANIUM_PROPERTY_READWRITE(ProgressBar, double, value)
 
 		void ProgressBar::JSExportInitialize() 
@@ -43,6 +47,8 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(ProgressBar, message);
 			TITANIUM_ADD_PROPERTY(ProgressBar, min);
 			TITANIUM_ADD_PROPERTY(ProgressBar, style);
+			TITANIUM_ADD_PROPERTY(ProgressBar, tintColor);
+			TITANIUM_ADD_PROPERTY(ProgressBar, trackTintColor);
 			TITANIUM_ADD_PROPERTY(ProgressBar, value);
 
 			TITANIUM_ADD_FUNCTION(ProgressBar, getColor);
@@ -57,6 +63,10 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(ProgressBar, setMin);
 			TITANIUM_ADD_FUNCTION(ProgressBar, getStyle);
 			TITANIUM_ADD_FUNCTION(ProgressBar, setStyle);
+			TITANIUM_ADD_FUNCTION(ProgressBar, getTintColor);
+			TITANIUM_ADD_FUNCTION(ProgressBar, setTintColor);
+			TITANIUM_ADD_FUNCTION(ProgressBar, getTrackTintColor);
+			TITANIUM_ADD_FUNCTION(ProgressBar, setTrackTintColor);
 			TITANIUM_ADD_FUNCTION(ProgressBar, getValue);
 			TITANIUM_ADD_FUNCTION(ProgressBar, setValue);
 		}
@@ -79,6 +89,12 @@ namespace Titanium
 		TITANIUM_PROPERTY_GETTER_DOUBLE(ProgressBar, value)
 		TITANIUM_PROPERTY_SETTER_DOUBLE(ProgressBar, value)
 
+		TITANIUM_PROPERTY_GETTER_STRING(ProgressBar, tintColor)
+		TITANIUM_PROPERTY_SETTER_STRING(ProgressBar, tintColor)
+
+		TITANIUM_PROPERTY_GETTER_STRING(ProgressBar, trackTintColor)
+		TITANIUM_PROPERTY_SETTER_STRING(ProgressBar, trackTintColor)
+
 		TITANIUM_PROPERTY_GETTER_UNIMPLEMENTED(ProgressBar, style)
 		TITANIUM_PROPERTY_SETTER_UNIMPLEMENTED(ProgressBar, style)
 
@@ -94,6 +110,10 @@ namespace Titanium
 		TITANIUM_FUNCTION_AS_SETTER(ProgressBar, setMin, min)
 		TITANIUM_FUNCTION_AS_GETTER(ProgressBar, getStyle, style)
 		TITANIUM_FUNCTION_AS_SETTER(ProgressBar, setStyle, style)
+		TITANIUM_FUNCTION_AS_GETTER(ProgressBar, getTintColor, tintColor)
+		TITANIUM_FUNCTION_AS_SETTER(ProgressBar, setTintColor, tintColor)
+		TITANIUM_FUNCTION_AS_GETTER(ProgressBar, getTrackTintColor, trackTintColor)
+		TITANIUM_FUNCTION_AS_SETTER(ProgressBar, setTrackTintColor, trackTintColor)
 		TITANIUM_FUNCTION_AS_GETTER(ProgressBar, getValue, value)
 		TITANIUM_FUNCTION_AS_SETTER(ProgressBar, setValue, value)
 

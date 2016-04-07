@@ -65,11 +65,13 @@ namespace TitaniumWindows
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 			static void JSExportInitialize();
 
+			virtual void set_color(const std::string&) TITANIUM_NOEXCEPT override;
 			virtual void set_message(const std::string&) TITANIUM_NOEXCEPT override;
 			virtual void set_min(const double&)   TITANIUM_NOEXCEPT override;
 			virtual void set_max(const double&)   TITANIUM_NOEXCEPT override;
+			virtual void set_tintColor(const std::string&) TITANIUM_NOEXCEPT override;
+			virtual void set_trackTintColor(const std::string&) TITANIUM_NOEXCEPT override;
 			virtual void set_value(const double&) TITANIUM_NOEXCEPT override;
-			virtual void set_color(const std::string&) TITANIUM_NOEXCEPT override;
 
 		private:
 			Windows::UI::Xaml::Controls::StackPanel^ panel__;
