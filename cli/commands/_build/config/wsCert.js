@@ -81,7 +81,7 @@ module.exports = function configOptionWSCert(order) {
 			this.conf.options['pfx-password'].required = true;
 
 			// If we're generating it, keep password required
-			certFile = appc.fs.resolvePath(certFile);
+			certFile = appc.fs.resolvePath(value);
 			if (!fs.existsSync(value) || !fs.statSync(certFile).isFile()) {
 				return;
 			}
