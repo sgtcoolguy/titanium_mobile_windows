@@ -55,6 +55,7 @@ namespace TitaniumWindows
 			virtual void set_fullscreen(const bool& fullscreen) TITANIUM_NOEXCEPT override final;
 			virtual void blur()  override;
 			virtual void focus() override;
+			virtual void set_orientationModes(const std::vector<Titanium::UI::ORIENTATION>& modes) TITANIUM_NOEXCEPT override final;
 
 			Window(const JSContext&) TITANIUM_NOEXCEPT;
 
