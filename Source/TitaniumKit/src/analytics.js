@@ -170,7 +170,6 @@ Analytics.prototype.postEvents = function postEvents() {
 					onload: function (e) {
 						_t.eventQueue = [];
 						_t.saveEventQueue();
-						Ti.API.error(e.toString());
 						_t.receivedResponse = true;
 					},
 					onerror: function (e) {
