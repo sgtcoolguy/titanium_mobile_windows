@@ -22,8 +22,8 @@ var archiver = require('archiver'),
 	windowslib = require('windowslib'),
 	util = require('util'),
 	spawn = require('child_process').spawn,
-	types = ['WindowsPhone', 'WindowsStore'],
-	typesMin = ['phone', 'store'],
+	types = ['WindowsPhone', 'WindowsStore', 'Windows10'],
+	typesMin = ['phone', 'store', 'win10'],
 	configuration = 'Release',
 	vs_architectures = {ARM:'ARM', x86:'Win32'}; // x86 -> Win32 mapping
 
@@ -299,7 +299,11 @@ WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
 			// We may have built in temp because of long path issues!
 			// Check to see if the dll exists in normal spot, if not, fall back to trying temp location!
 			if (!fs.existsSync(moduleSrc + '.dll')) {
-				moduleSrc = path.join(os.tmpdir(), path.basename(path.dirname(_t.projectDir)), path.basename(moduleProjectDir), configuration, projectname);
+				var home = process.env.HOME || process.env.USERPROFILE || process.env.APPDATA,
+				    ti_home = path.join(home, '.titanium'),
+				    tempBuildDir = path.join(ti_home, 'vsbuild');
+
+				moduleSrc = path.join(tempBuildDir, path.basename(path.dirname(_t.projectDir)), path.basename(moduleProjectDir), configuration, projectname);
 			}
 
 			// create module directory
