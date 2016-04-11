@@ -25,12 +25,26 @@ exports.cliVersion = '>=3.2';
 exports.init = function (logger, config, cli) {
 	cli.on('create.post.module.platform.windows', {
 		post: function (data, callback) {
+
+			function isWindows10() {
+				return (os.release().indexOf('10.0') == 0);
+			}
+
+			function chooseCMakeVSgenerator(cli) {
+				var wpsdk_index = cli.argv.$_.indexOf('--wp-sdk');
+				if (wpsdk_index >= 0 && cli.argv.$_[wpsdk_index + 1] == '8.1') {
+					return 'Visual Studio 12 2013';
+				}
+				return 'Visual Studio 14 2015';
+			}
+
 			var cmakeDir = path.resolve(data.sdk.path, 'windows', 'cli', 'vendor', 'cmake'),
 				cmake = path.join(cmakeDir, 'bin', 'cmake.exe'),
 				projectDir = path.join(data.projectDir, 'windows'),
 				cmakeFinds = ['HAL', 'JavascriptCore', 'TitaniumKit'],
 				cmakeFindDirSrc = path.join(data.sdk.path, 'windows', 'templates', 'build', 'cmake'),
-				cmakeFindDirDst = path.join(projectDir, 'cmake');
+				cmakeFindDirDst = path.join(projectDir, 'cmake'),
+				generator = chooseCMakeVSgenerator(cli);
 
 			async.series([
 				function(next) {
@@ -43,19 +57,31 @@ exports.init = function (logger, config, cli) {
 				},
 				function(next) {
 					logger.info('Generating WindowsPhone ARM project');
-					runCMake(logger, cmake, projectDir, 'WindowsPhone', 'ARM', next);
+					runCMake(logger, cmake, projectDir, 'WindowsPhone', 'ARM', generator, next);
 				},
-				//function(next) {
-				//	logger.info('Generating WindowsStore ARM project');
-				//	runCMake(logger, cmake, projectDir, 'WindowsStore', 'ARM', next);
-				//},
 				function(next) {
 					logger.info('Generating WindowsPhone Win32 project');
-					runCMake(logger, cmake, projectDir, 'WindowsPhone', 'Win32', next);
+					runCMake(logger, cmake, projectDir, 'WindowsPhone', 'Win32', generator, next);
 				},
 				function(next) {
 					logger.info('Generating WindowsStore Win32 project');
-					runCMake(logger, cmake, projectDir, 'WindowsStore', 'Win32', next);
+					runCMake(logger, cmake, projectDir, 'WindowsStore', 'Win32', generator, next);
+				},
+				function(next) {
+					if (isWindows10()) {
+						logger.info('Generating Windows 10 Win32 project');
+						runCMake(logger, cmake, projectDir, 'Windows10', 'Win32', generator, next);
+					} else {
+						logger.info('Skipping Windows 10 Win32 project');
+					}
+				},
+				function(next) {
+					if (isWindows10()) {
+						logger.info('Generating Windows 10 ARM project');
+						runCMake(logger, cmake, projectDir, 'Windows10', 'ARM', generator, next);
+					} else {
+						logger.info('Skipping Windows 10 ARM project');
+					}
 				}
 			], function(err, result) {
 				if (err) {
@@ -67,34 +93,45 @@ exports.init = function (logger, config, cli) {
 	});
 };
 
-function runCMake(logger, cmake, projectDir, targetEnv, targetArch, callback){
+function runCMake(logger, cmake, projectDir, targetEnv, targetArch, targetGenerator, callback){
 	var targetDir = path.join(projectDir, targetEnv+'.'+targetArch),
-		generatorName = 'Visual Studio 12 2013'+(targetArch === 'ARM' ? ' ARM' : ''),
+		generatorName =  targetGenerator+(targetArch === 'ARM' ? ' ARM' : ''),
 		p,
 		originalTargetDir,
-		tempBuildDir;
+		targetPlatform = (targetEnv == 'Windows10') ? 'WindowsStore' : targetEnv;
+		targetVersion  = (targetEnv == 'Windows10') ? '10.0' : '8.1';
 
+	// check that the build directory is writeable
 	// try to build under temp if the path is shorter and we have write access
-	tempBuildDir = path.join(os.tmpdir(), path.basename(path.dirname(projectDir)), path.basename(targetDir));
-	if ((tempBuildDir.length < targetDir.length) && appc.fs.isDirWritable(os.tmpdir())) {
+	var home = process.env.HOME || process.env.USERPROFILE || process.env.APPDATA;
+	var ti_home = path.join(home, '.titanium');
+	var tempBuildDir = path.join(ti_home, 'vsbuild');
+	if (appc.fs.isDirWritable(home)) {
+		if (!fs.existsSync(ti_home)) {
+			fs.mkdirSync(ti_home);
+		}
+		if (!fs.existsSync(tempBuildDir)) {
+			fs.mkdirSync(tempBuildDir);
+		}
+	}
+	if (appc.fs.isDirWritable(tempBuildDir)) {
 		originalTargetDir = targetDir;
-		targetDir = tempBuildDir; // build under temp!
-		logger.info(__('Generating solution under temp directory to avoid path length issues...'));
-		// if already exists, wipe it
-		fs.existsSync(targetDir) && wrench.rmdirSyncRecursive(targetDir);
+		targetDir = path.join(tempBuildDir, path.basename(path.dirname(projectDir)), path.basename(targetDir));
+		logger.info(__('Generating solution under vsbuild directory to avoid path length issues...'));
+       	// if already exists, wipe it
+		if (fs.existsSync(targetDir)) {
+        	wrench.rmdirSyncRecursive(targetDir);
+		}
+		wrench.mkdirSyncRecursive(targetDir);
 	} else {
 		originalTargetDir = null;
-	}
-
-	if (!fs.existsSync(targetDir)) {
-		wrench.mkdirSyncRecursive(targetDir);
 	}
 
 	p = spawn(cmake,
 		[
 			'-G', generatorName,
-			'-DCMAKE_SYSTEM_NAME=' + targetEnv,
-			'-DCMAKE_SYSTEM_VERSION=' + '8.1',
+			'-DCMAKE_SYSTEM_NAME=' + targetPlatform,
+			'-DCMAKE_SYSTEM_VERSION=' + targetVersion,
 			path.join(projectDir)
 		],
 		{
