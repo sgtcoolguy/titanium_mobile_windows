@@ -30,21 +30,12 @@ exports.init = function (logger, config, cli) {
 				return (os.release().indexOf('10.0') == 0);
 			}
 
-			function chooseCMakeVSgenerator(cli) {
-				var wpsdk_index = cli.argv.$_.indexOf('--wp-sdk');
-				if (wpsdk_index >= 0 && cli.argv.$_[wpsdk_index + 1] == '8.1') {
-					return 'Visual Studio 12 2013';
-				}
-				return 'Visual Studio 14 2015';
-			}
-
 			var cmakeDir = path.resolve(data.sdk.path, 'windows', 'cli', 'vendor', 'cmake'),
 				cmake = path.join(cmakeDir, 'bin', 'cmake.exe'),
 				projectDir = path.join(data.projectDir, 'windows'),
 				cmakeFinds = ['HAL', 'JavascriptCore', 'TitaniumKit'],
 				cmakeFindDirSrc = path.join(data.sdk.path, 'windows', 'templates', 'build', 'cmake'),
-				cmakeFindDirDst = path.join(projectDir, 'cmake'),
-				generator = chooseCMakeVSgenerator(cli);
+				cmakeFindDirDst = path.join(projectDir, 'cmake');
 
 			async.series([
 				function(next) {
@@ -57,20 +48,20 @@ exports.init = function (logger, config, cli) {
 				},
 				function(next) {
 					logger.info('Generating WindowsPhone ARM project');
-					runCMake(logger, cmake, projectDir, 'WindowsPhone', 'ARM', generator, next);
+					runCMake(logger, cmake, projectDir, 'WindowsPhone', 'ARM', next);
 				},
 				function(next) {
 					logger.info('Generating WindowsPhone Win32 project');
-					runCMake(logger, cmake, projectDir, 'WindowsPhone', 'Win32', generator, next);
+					runCMake(logger, cmake, projectDir, 'WindowsPhone', 'Win32', next);
 				},
 				function(next) {
 					logger.info('Generating WindowsStore Win32 project');
-					runCMake(logger, cmake, projectDir, 'WindowsStore', 'Win32', generator, next);
+					runCMake(logger, cmake, projectDir, 'WindowsStore', 'Win32', next);
 				},
 				function(next) {
 					if (isWindows10()) {
 						logger.info('Generating Windows 10 Win32 project');
-						runCMake(logger, cmake, projectDir, 'Windows10', 'Win32', generator, next);
+						runCMake(logger, cmake, projectDir, 'Windows10', 'Win32', next);
 					} else {
 						logger.info('Skipping Windows 10 Win32 project');
 					}
@@ -78,7 +69,7 @@ exports.init = function (logger, config, cli) {
 				function(next) {
 					if (isWindows10()) {
 						logger.info('Generating Windows 10 ARM project');
-						runCMake(logger, cmake, projectDir, 'Windows10', 'ARM', generator, next);
+						runCMake(logger, cmake, projectDir, 'Windows10', 'ARM', next);
 					} else {
 						logger.info('Skipping Windows 10 ARM project');
 					}
@@ -93,9 +84,9 @@ exports.init = function (logger, config, cli) {
 	});
 };
 
-function runCMake(logger, cmake, projectDir, targetEnv, targetArch, targetGenerator, callback){
+function runCMake(logger, cmake, projectDir, targetEnv, targetArch, callback){
 	var targetDir = path.join(projectDir, targetEnv+'.'+targetArch),
-		generatorName =  targetGenerator+(targetArch === 'ARM' ? ' ARM' : ''),
+		generatorName = 'Visual Studio 14 2015'+(targetArch === 'ARM' ? ' ARM' : ''),
 		p,
 		originalTargetDir,
 		targetPlatform = (targetEnv == 'Windows10') ? 'WindowsStore' : targetEnv;
