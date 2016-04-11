@@ -257,6 +257,29 @@ namespace TitaniumWindows
 			focus();
 		}
 
+		void Window::set_orientationModes(const std::vector<Titanium::UI::ORIENTATION>& modes) TITANIUM_NOEXCEPT
+		{
+			Windows::Graphics::Display::DisplayOrientations orientations = Windows::Graphics::Display::DisplayOrientations::None;
+			for (const auto mode : modes) {
+				switch (mode) {
+				case Titanium::UI::ORIENTATION::LANDSCAPE_LEFT:  /* home button on left */
+					orientations = orientations | Windows::Graphics::Display::DisplayOrientations::LandscapeFlipped;
+					break;
+				case Titanium::UI::ORIENTATION::LANDSCAPE_RIGHT: /* home button on right */
+					orientations = orientations | Windows::Graphics::Display::DisplayOrientations::Landscape;
+					break;
+				case Titanium::UI::ORIENTATION::PORTRAIT:
+					orientations = orientations | Windows::Graphics::Display::DisplayOrientations::Portrait;
+					break;
+				case Titanium::UI::ORIENTATION::UPSIDE_PORTRAIT:
+					orientations = orientations | Windows::Graphics::Display::DisplayOrientations::PortraitFlipped;
+					break;
+				}
+			}
+
+			Windows::Graphics::Display::DisplayInformation::AutoRotationPreferences = orientations;
+		}
+
 		void Window::JSExportInitialize()
 		{
 			JSExport<Window>::SetClassVersion(1);
