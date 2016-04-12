@@ -35,8 +35,6 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(filterAttribute);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(filterAnchored);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(filterCaseInsensitive);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(footerTitle);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(footerView);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(maxRowHeight);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(minRowHeight);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(rowHeight);
@@ -82,6 +80,7 @@ namespace TitaniumWindows
 
 			::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ createUIElementsForSection(const std::uint32_t& sectionIndex) TITANIUM_NOEXCEPT;
 			Windows::UI::Xaml::Controls::ListViewHeaderItem^ createDefaultSectionHeader(const std::shared_ptr<Titanium::UI::TableViewSection>& seciton);
+			Windows::UI::Xaml::Controls::ListViewHeaderItem^ createDefaultSectionFooter(const std::shared_ptr<Titanium::UI::TableViewSection>& seciton);
 			void registerTableViewRowAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
 			void unregisterTableViewRowAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
 

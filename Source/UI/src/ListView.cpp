@@ -36,6 +36,7 @@ namespace TitaniumWindows
 			
 			listview__ = ref new Controls::ListView();
 			listview__->IsItemClickEnabled = true;
+			listview__->SelectionMode = Controls::ListViewSelectionMode::None;
 
 			resetListViewDataBinding();
 

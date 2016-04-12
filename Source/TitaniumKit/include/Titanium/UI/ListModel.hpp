@@ -66,12 +66,14 @@ namespace Titanium
 						// this indicates selected index is in this section
 						result.rowIndex = selectedIndex - (totalItemCount - rowCountIncludingHeader) - (section->hasHeader() ? 1 : 0);
 						if (result.rowIndex >= itemCount) {
-							// this indicates footer is selected
-							TITANIUM_ASSERT(section->hasFooter());
+							if (section->hasFooter()) {
+								// this indicates footer is selected
+								break;
+							}
 						} else {
 							result.found = true;
+							break;
 						}
-						break;
 					}
 				}
 

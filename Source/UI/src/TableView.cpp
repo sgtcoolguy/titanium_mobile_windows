@@ -59,6 +59,7 @@ namespace TitaniumWindows
 			resetTableDataBinding();
 
 			tableview__->IsItemClickEnabled = true;
+			tableview__->SelectionMode = Controls::ListViewSelectionMode::None;
 
 			Titanium::UI::TableView::setLayoutDelegate<WindowsViewLayoutDelegate>();
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
@@ -154,6 +155,20 @@ namespace TitaniumWindows
 				registerTableViewRowAsLayoutNode(view);
 			}
 
+			// set section footer
+			auto footerView = section->get_footerView();
+			if (footerView != nullptr) {
+				const auto view_delegate = footerView->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				if (view_delegate == nullptr) {
+					TITANIUM_LOG_ERROR("TableView: footerView must be of type Titanium.UI.View");
+				} else {
+					group->Append(view_delegate->getComponent());
+					registerTableViewRowAsLayoutNode(footerView);
+				}
+			} else if (section->hasFooter()) {
+				group->Append(createDefaultSectionFooter(section));
+			}
+
 			return group;
 		}
 
@@ -215,7 +230,6 @@ namespace TitaniumWindows
 			bindCollectionViewSource();
 		}
 
-
 		Controls::ListViewHeaderItem^ TableView::createDefaultSectionHeader(const std::shared_ptr<Titanium::UI::TableViewSection>& section) 
 		{
 			Controls::ListViewHeaderItem^ header = ref new Controls::ListViewHeaderItem();
@@ -224,6 +238,16 @@ namespace TitaniumWindows
 			headerText->FontSize = 28; // Change this?
 			header->Content = headerText;
 			return header;
+		}
+
+		Controls::ListViewHeaderItem^ TableView::createDefaultSectionFooter(const std::shared_ptr<Titanium::UI::TableViewSection>& section)
+		{
+			Controls::ListViewHeaderItem^ footer = ref new Controls::ListViewHeaderItem();
+			auto footerText = ref new Controls::TextBlock();
+			footerText->Text = Utility::ConvertUTF8String(section->get_footerTitle());
+			footerText->FontSize = 28; // Change this?
+			footer->Content = footerText;
+			return footer;
 		}
 
 		// Add as child view to make layout engine work
