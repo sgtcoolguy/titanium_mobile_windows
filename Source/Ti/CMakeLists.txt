@@ -75,7 +75,7 @@ set(SOURCE_Locale
 
 set(SOURCE_App
   include/TitaniumWindows/App/Properties.hpp
-  src/Properties.cpp
+  src/App/Properties.cpp
   include/TitaniumWindows/App.hpp
   include/TitaniumWindows/AppModule.hpp
   src/AppModule.cpp
