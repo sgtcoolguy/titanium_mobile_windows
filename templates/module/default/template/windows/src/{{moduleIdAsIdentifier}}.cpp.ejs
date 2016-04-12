@@ -42,7 +42,28 @@
 <%- indent %>	{
 <%- indent %>		JSExport<<%- className %>>::SetClassVersion(1);
 <%- indent %>		JSExport<<%- className %>>::SetParent(JSExport<JSExportObject>::Class());
+<%- indent %>		TITANIUM_ADD_PROPERTY(<%- className %>, exampleProp);
+<%- indent %>		TITANIUM_ADD_FUNCTION(<%- className %>, example);
 <%- indent %>	}
+
+<%- indent %>	TITANIUM_PROPERTY_GETTER(<%- className %>, exampleProp)
+<%- indent %>	{
+<%- indent %>		// example property getter
+<%- indent %>		return get_context().CreateString("hello world");
+<%- indent %>	}
+
+<%- indent %>	TITANIUM_PROPERTY_SETTER(<%- className %>, exampleProp)
+<%- indent %>	{
+<%- indent %>		// example property setter
+<%- indent %>		return true; // Return true if the property was set, otherwise false.
+<%- indent %>	}
+
+<%- indent %>	TITANIUM_FUNCTION(<%- className %>, example)
+<%- indent %>	{
+<%- indent %>		// example method
+<%- indent %>		return get_context().CreateString("hello world");
+<%- indent %>	}
+
 <%  for(var i = namespaces.length-1; i > 0; i--) { -%>
 <%- 	Array(i).join('\t') %>}
 <%  } -%>
