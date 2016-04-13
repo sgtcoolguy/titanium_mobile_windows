@@ -49,18 +49,59 @@
 <%- indent %>	TITANIUM_PROPERTY_GETTER(<%- className %>, exampleProp)
 <%- indent %>	{
 <%- indent %>		// example property getter
+<%- indent %>		// 
+<%- indent %>		// Getter should return JavaScript value (JSValue).
+<%- indent %>		// 
+<%- indent %>		// For more information on how to use JSContext / JSValue / JSObject, check out HAL:
+<%- indent %>		//      https://github.com/appcelerator/HAL
+<%- indent %>		// 
 <%- indent %>		return get_context().CreateString("hello world");
 <%- indent %>	}
 
 <%- indent %>	TITANIUM_PROPERTY_SETTER(<%- className %>, exampleProp)
 <%- indent %>	{
 <%- indent %>		// example property setter
-<%- indent %>		return true; // Return true if the property was set, otherwise false.
+<%- indent %>		// 
+<%- indent %>		// There are a variable expanded from TITANIUM_PROPERTY_SETTER macro here:
+<%- indent %>		//     JSValue argument ... JavaScript value that is passed to this setter
+<%- indent %>		// 
+<%- indent %>		// Example:
+<%- indent %>		//   # Check if it's a string
+<%- indent %>		//      auto _0 = argument.IsString();
+<%- indent %>		// 
+<%- indent %>		//   # Convert argument to std::string
+<%- indent %>		//      auto _0 = static_cast<std::string>(argument);    
+<%- indent %>		// 
+<%- indent %>		//   For more information on how to use JSContext / JSValue / JSObject, check out HAL:
+<%- indent %>		//      https://github.com/appcelerator/HAL
+<%- indent %>		// 
+<%- indent %>		// Setter should return true if the property was set, otherwise false.
+<%- indent %>   // 
+<%- indent %>		return true;
 <%- indent %>	}
 
 <%- indent %>	TITANIUM_FUNCTION(<%- className %>, example)
 <%- indent %>	{
 <%- indent %>		// example method
+<%- indent %>		// 
+<%- indent %>		// There are variables expanded from TITANIUM_FUNCTION macro here:
+<%- indent %>		//     std::vector<JSValue> arguments ... list of arguments that is passed to this function
+<%- indent %>		//     JSObject this_object           ... "this" JavaScript object
+<%- indent %>		// 
+<%- indent %>		// Example: 
+<%- indent %>		//    # Get first argument and convert to std::string
+<%- indent %>		//      auto _0 = static_cast<std::string>(arguments.at(0));    
+<%- indent %>		// 
+<%- indent %>		//    # Get first argument and convert to double
+<%- indent %>		//      auto _0 = static_cast<double>(arguments.at(0));    
+<%- indent %>		// 
+<%- indent %>		//    # Get first argument and convert to std::uint32_t
+<%- indent %>		//      auto _0 = static_cast<std::uint32_t>(arguments.at(0));    
+<%- indent %>		// 
+<%- indent %>		//   Function should return JSValue.
+<%- indent %>		//   For more information on how to use JSContext / JSValue / JSObject, check out HAL:
+<%- indent %>		//      https://github.com/appcelerator/HAL
+<%- indent %>		// 
 <%- indent %>		return get_context().CreateString("hello world");
 <%- indent %>	}
 
