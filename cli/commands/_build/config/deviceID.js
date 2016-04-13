@@ -43,6 +43,11 @@ module.exports = function configOptionDeviceID(order) {
 			return callback(new Error(__('Invalid device id "%s"', value)));
 		}
 
+		// use wpsdk specified for device
+		if (dev.wpsdk) {
+			cli.argv['wp-sdk'] = dev.wpsdk;
+		}
+
 		// check the device
 		if (cli.argv.target === 'wp-device') {
 			// try connecting to the device to detect no device or more than 1 device
