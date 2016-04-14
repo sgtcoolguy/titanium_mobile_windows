@@ -23,8 +23,8 @@ module.exports = function configOptionDeviceID(order) {
 
 		// xd: first emulator
 		// de: first device
-		if (cli.argv.target === 'wp-emulator' && value === 'xd' ||
-			cli.argv.target === 'wp-device' && value === 'de' && devices[0]) {
+		if (((cli.argv.target === 'wp-emulator' && value === 'xd') ||
+			 (cli.argv.target === 'wp-device' && value === 'de')) && devices[0]) {
 			
 			// use wpsdk for device
 			if (devices[0].wpsdk) {
