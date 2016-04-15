@@ -82,6 +82,21 @@ describe("Titanium.Network.HTTPClient", function () {
         xhr.send("TIMOB-23127");
     });
 
+	it("TIMOB-23214", function (finish) {
+        this.timeout(6e4);
+
+        var xhr = Ti.Network.createHTTPClient();
+        xhr.setTimeout(6e4);
+
+        xhr.onload = function (e) {
+            finish();
+        };
+
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.open("GET", "http://www.appcelerator.com/");
+        xhr.send();
+    });
+
     it("TIMOB-19042", function (finish) {
         this.timeout(6e4);
 
