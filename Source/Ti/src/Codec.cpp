@@ -107,8 +107,7 @@ namespace TitaniumWindows
 	{
 		using namespace Windows::Storage::Streams;
 
-		const auto data = options.source->get_data();
-		auto source_data = std::vector<std::uint8_t>(data.begin() + options.position, data.end());
+		auto source_data = options.source->get_data(options.position, 8 /* we only need 8 bytes at most */);
 
 		Platform::ArrayReference<std::uint8_t> data_ref(&source_data[0], source_data.size());
 		const auto buffer = CryptographicBuffer::CreateFromByteArray(data_ref);

@@ -72,6 +72,13 @@ namespace Titanium
 		TITANIUM_PROPERTY_IMPL_DEF(std::vector<std::uint8_t>, data);
 
 		/*!
+		@method
+		@abstract get_data
+		@discussion Return data partical representation of this buffer
+		*/
+		virtual std::vector<std::uint8_t> get_data(const std::uint32_t& offset, const std::uint32_t& size) TITANIUM_NOEXCEPT;
+
+		/*!
 		  @method
 		  @abstract append
 		  @discussion Appends `sourceBuffer` to the this buffer.
