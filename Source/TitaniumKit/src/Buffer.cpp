@@ -102,7 +102,7 @@ namespace Titanium
 
 	std::vector<std::uint8_t> Buffer::get_data(const std::uint32_t& offset, const std::uint32_t& size) TITANIUM_NOEXCEPT
 	{
-		return std::vector<std::uint8_t>(data__.begin() + offset, data__.begin() + std::min(offset + size, data__.size()));
+		return std::vector<std::uint8_t>(data__.begin() + offset, data__.begin() + std::min(offset + size, static_cast<std::uint32_t>(data__.size())));
 	}
 
 	std::uint32_t Buffer::append(const std::shared_ptr<Buffer>& sourceBuffer, const std::uint32_t& sourceOffset, const std::uint32_t& sourceLength) TITANIUM_NOEXCEPT
