@@ -107,16 +107,32 @@ namespace TitaniumWindows
 	{
 		using namespace Windows::Storage::Streams;
 
-		const auto data = options.source->get_data();
-		auto source_data = std::vector<std::uint8_t>(data.begin() + options.position, data.end());
+		auto length = 8;
+		switch (options.type) {
+		case Type::Byte:
+			length = 1;
+			break;
+		case Type::Short:
+			length = 2;
+			break;
+		case Type::Int:
+		case Type::Float:
+			length = 4;
+			break;
+		case Type::Double:
+		case Type::Long:
+			length = 8; // Do we always use 8 byte for long? Note that iOS-32bit uses 4 bytes for long.
+			break;
+		}
 
+		auto source_data = options.source->get_data(options.position, length);
 		Platform::ArrayReference<std::uint8_t> data_ref(&source_data[0], source_data.size());
 		const auto buffer = CryptographicBuffer::CreateFromByteArray(data_ref);
 		const auto reader = DataReader::FromBuffer(buffer);
-
 		reader->ByteOrder = GetWindowsByteOrder(options.byteOrder);
+
 		switch (options.type) {
-		case Type::Byte: 
+		case Type::Byte:
 			return static_cast<double>(reader->ReadByte());
 		case Type::Double:
 			return static_cast<double>(reader->ReadDouble());
@@ -127,7 +143,7 @@ namespace TitaniumWindows
 		case Type::Int:
 			return static_cast<double>(reader->ReadInt32());
 		case Type::Long:
-			return static_cast<double>(reader->ReadInt64()); // Do we always use 8 byte for long? Note that iOS-32bit uses 4 bytes for long.
+			return static_cast<double>(reader->ReadInt64());
 		}
 
 		return 0;
@@ -204,7 +220,7 @@ namespace TitaniumWindows
 		return TitaniumWindows::Utility::ConvertUTF8String(decoded);
 	}
 
-	BinaryStringEncoding Codec::GetWindowsEncoding(const Titanium::Codec::CharSet& charset, const ByteOrder& byteOrder) 
+	BinaryStringEncoding Codec::GetWindowsEncoding(const Titanium::Codec::CharSet& charset, const ByteOrder& byteOrder)
 	{
 		switch (charset) {
 		case CharSet::UTF8:
@@ -221,7 +237,7 @@ namespace TitaniumWindows
 		}
 	}
 
-	Windows::Storage::Streams::ByteOrder Codec::GetWindowsByteOrder(const ByteOrder& byteOrder) 
+	Windows::Storage::Streams::ByteOrder Codec::GetWindowsByteOrder(const ByteOrder& byteOrder)
 	{
 		return byteOrder == ByteOrder::BigEndian ? Windows::Storage::Streams::ByteOrder::BigEndian : Windows::Storage::Streams::ByteOrder::LittleEndian;
 	}
