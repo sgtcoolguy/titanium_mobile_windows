@@ -25,7 +25,7 @@ module.exports = function configOptionDeviceID(order) {
 		// de: first device
 		if (((cli.argv.target === 'wp-emulator' && value === 'xd') ||
 			 (cli.argv.target === 'wp-device' && value === 'de')) && devices[0]) {
-			
+
 			// use wpsdk for device
 			if (devices[0].wpsdk) {
 				cli.argv['wp-sdk'] = devices[0].wpsdk;
@@ -35,7 +35,8 @@ module.exports = function configOptionDeviceID(order) {
 
 		// validate device
 		if (!devices.some(function (d) {
-				if (d.udid == value || d.name === value) {
+			// because we specify ignorecase below, we may get the name lowercased!
+				if (d.udid == value || d.name.toLowerCase() === value.toLowerCase()) {
 					dev = d;
 					value = d.udid;
 					return true;
@@ -52,22 +53,9 @@ module.exports = function configOptionDeviceID(order) {
 
 		// check the device
 		if (cli.argv.target === 'wp-device') {
-			// try connecting to the device to detect no device or more than 1 device
 			this.windowslibOptions['wpsdk'] = cli.argv['wp-sdk'];
-			windowslib.device.connect(dev.udid, this.windowslibOptions)
-				.on('connected', function () {
-					callback(null, value);
-				})
-				.on('error', function (err) {
-					this.logger.log();
-					this.logger.error(err.message || err.toString());
-					this.logger.log();
-					process.exit(1);
-				}.bind(this));
-		} else {
-			// must be emulator then
-			callback(null, value);
 		}
+		callback(null, value);
 	}
 
 	return {

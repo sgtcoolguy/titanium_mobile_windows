@@ -161,9 +161,6 @@ exports.init = function (logger, config, cli) {
 		post: function (builder, finished) {
 			if (builder.buildOnly || !/^wp-emulator|wp-device$/.test(builder.target)) return finished();
 
-			var delta = appc.time.prettyDiff(cli.startTime, Date.now());
-			logger.info(__('Finished building the application in %s', delta.cyan));
-
 			function install() {
 				if (logRelay) {
 					// start the log relay server
@@ -217,11 +214,17 @@ exports.init = function (logger, config, cli) {
 
 				function installApp(deviceId, xapFile, opts, next) {
 					// Now install the real app
+					var installed = false;
+					logger.info(__('Installing the application...'));
 					windowslib.install(deviceId, xapFile, appc.util.mix({
 								appGuid: builder.phoneProductId
 							}, opts))
-						.on('installed', function (handle) {
+						.on('launched', function () {
 							logger.info(__('Finished launching the application'));
+						})
+						.on('installed', function (handle) {
+							installed = true;
+							logger.info(__('Finished installing the application'));
 
 							// watch for when the emulator is quit, if necessary
 							if (builder.target == 'wp-emulator') {
@@ -255,9 +258,13 @@ exports.init = function (logger, config, cli) {
 							next(err);
 						})
 						.on('error', function (err) {
-							logRelay && logRelay.stop();
-							logger.error(err.message);
-							next(err);
+							if (installed) {
+								logger.warn(__('We were unable to launch the app for you on the device/emulator due to an error (common causes include un-paired devices). Please launch the app manually.'));
+							} else {
+								logRelay && logRelay.stop();
+								logger.error(err.message);
+								next(err);
+							}
 						});
 				}
 
@@ -268,6 +275,7 @@ exports.init = function (logger, config, cli) {
 				});
 				possibleDependencies.forEach(function(file) {
 					installs.push(function (next) {
+						logger.info(__('Installing dependency: %s', file));
 						windowslib.install(builder.deviceId, path.resolve(dependenciesDir, file), installOnlyOpts)
 						.on('installed', function (handle) {
 							next();
@@ -294,7 +302,7 @@ exports.init = function (logger, config, cli) {
 					});
 				});
 
-				logger.info(__('Installing and launching the application'));
+				logger.info(__('Installing and launching the application. Please wait as this may take some time...'));
 				async.series(installs, function (err, results) {
 					if (err) {
 						logger.error(err);
