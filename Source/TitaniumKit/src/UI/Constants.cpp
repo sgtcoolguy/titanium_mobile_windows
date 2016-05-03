@@ -990,9 +990,9 @@ namespace Titanium
 			static std::unordered_map<TEXT_ALIGNMENT, std::string> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-      map[TEXT_ALIGNMENT::CENTER] = "TEXT_ALIGNMENT_CENTER";
-      map[TEXT_ALIGNMENT::LEFT]   = "TEXT_ALIGNMENT_LEFT";
-      map[TEXT_ALIGNMENT::RIGHT]  = "TEXT_ALIGNMENT_RIGHT";
+      map[TEXT_ALIGNMENT::CENTER] = "center";
+      map[TEXT_ALIGNMENT::LEFT]   = "left";
+      map[TEXT_ALIGNMENT::RIGHT]  = "right";
 			});
 
 			std::string string = unknown_string;
@@ -1009,9 +1009,9 @@ namespace Titanium
 			static std::unordered_map<std::string, TEXT_ALIGNMENT> map;
 			static std::once_flag of;
 			std::call_once(of, []() {
-      map["TEXT_ALIGNMENT_CENTER"] = TEXT_ALIGNMENT::CENTER;
-      map["TEXT_ALIGNMENT_LEFT"]   = TEXT_ALIGNMENT::LEFT;
-      map["TEXT_ALIGNMENT_RIGHT"]  = TEXT_ALIGNMENT::RIGHT;
+      map["center"] = TEXT_ALIGNMENT::CENTER;
+      map["left"]   = TEXT_ALIGNMENT::LEFT;
+      map["right"]  = TEXT_ALIGNMENT::RIGHT;
 			});
 
 			TEXT_ALIGNMENT textAlignment = TEXT_ALIGNMENT::LEFT;
