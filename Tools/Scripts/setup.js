@@ -32,11 +32,14 @@ var async = require('async'),
 	WIN_8_1 = '8.1',
 	WIN_10 = '10.0',
 	// Default JSC URL to build for Win 8.1.
-	JSC_81_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1453983009.zip",
+	JSC_81_URL = 'http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1453983009.zip',
 	// Default JSC URL for building against Win 10
-	JSC_10_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1453983009-win10.zip",
-	GTEST_URL = (os.platform() === 'win32') ? "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-windows.zip" : "http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-osx.zip",
-	BOOST_URL = "http://timobile.appcelerator.com.s3.amazonaws.com/boost_1_57_0.zip";
+	JSC_10_URL = 'http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1453983009-win10.zip',
+	JSC_DIR = 'JavaScriptCore', // directory inside zipfile
+	GTEST_URL = (os.platform() === 'win32') ? 'http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-windows.zip' : 'http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-osx.zip',
+	GTEST_DIR = (os.platform() === 'win32') ? 'gtest-1.7.0-windows' : 'gtest-1.7.0-osx', // directory inside zipfile
+	BOOST_URL = 'http://timobile.appcelerator.com.s3.amazonaws.com/boost_1_57_0.zip',
+	BOOST_DIR = 'boost_1_57_0'; // directory inside zipfile
 
 
 // With node.js on Windows: use symbols available in terminal default fonts
@@ -163,7 +166,7 @@ function setENV(key, value, next) {
 		prc.on('close', function (code) {
 			var setProcess;
 			if (code != 0) {
-				next("Failed to run SETX");
+				next('Failed to run SETX');
 			} else {
 				// FIXME Can't seem to run SET to also set for current session!
 				console.log((SYMBOLS.OK + ' ' + key + ' set').green);
@@ -201,12 +204,17 @@ function writeSourceURL(destination, url) {
 
 /**
  * Common logic for downloading a zip file from an URL for a dependency and setting up the right ENV var to point at the unzipped folder.
+ * @param {String} envKey The ENV variable key we should look at or set
+ * @param {String} defaultDest The default location to install if no ENV var is set (first time)
+ * @param {String} expectedDir Expected enclosing directory isnide the zipfile. Used to rename the extract directory to the expected path in ENV
+ * @param {String} url the URL of the zip file to download.
+ * @param {Function} next callback function
  **/
-function downloadIfNecessary(envKey, defaultDest, url, next) {
+function downloadIfNecessary(envKey, defaultDest, expectedDir, url, next) {
 	var envValue = process.env[envKey],
 		destination = '';
 
-	// retreive environment variable
+	// retrieve environment variable
 	if (typeof envValue !== 'undefined') {
 		destination = path.normalize(envValue);
 	} else {
@@ -224,13 +232,19 @@ function downloadIfNecessary(envKey, defaultDest, url, next) {
 		downloadURL(url, function (filename) {
 			// What if it _does_ exist and is out of date? We should "wipe it", or move it...
 			if (fs.existsSync(destination)) {
-				console.log("Destination for " + url + " already exists, wiping before extracting.");
-				// TODO move/rename it instead of deleting it?
-				wrench.rmdirSyncRecursive(destination);
+				var urlFile = path.join(destination, 'SOURCE_URL');
+				var contents = fs.readFileSync(urlFile);
+				var base = path.basename(contents.slice(7), '.zip');
+				var byURL = path.normalize(path.join(destination, '..', base));
+				console.log('Destination for ' + url + ' already exists, moving existing directory to ' + byURL + ' before extracting.');
+				fs.renameSync(destination, byURL);
 			}
-			// Etxract to parent of destionation...
-			var dest = path.normalize(destination + "\\..");
+			// Extract to parent of destination...
+			var dest = path.normalize(path.join(destination, '..'));
 			extract(filename, dest, true, function() {
+				// Need to rename the extracted directory to match our expected destination!
+				var extractedDir = path.join(dest, expectedDir);
+				fs.renameSync(extractedDir, destination);
 				writeSourceURL(destination, url);
 				next();
 			});
@@ -253,9 +267,9 @@ function setupBoost(url, next) {
 		url = BOOST_URL;
 	}
 
-	console.log("Setting up Boost libraries...");
-	var boostRoot = path.join(HOME, "boost_1_57_0");
-	downloadIfNecessary('BOOST_ROOT', boostRoot, url, next);
+	console.log('Setting up Boost libraries...');
+	var boostRoot = path.join(HOME, 'boost');
+	downloadIfNecessary('BOOST_ROOT', boostRoot, BOOST_DIR, url, next);
 }
 
 /**
@@ -269,9 +283,9 @@ function setupGTest(url, next) {
 		url = GTEST_URL;
 	}
 
-	console.log("Setting up GTest...");
-	var gtestRoot = path.join(HOME, "gtest-1.7.0-windows"); // FIXME What about mac?
-	downloadIfNecessary('GTEST_ROOT', gtestRoot, url, next);
+	console.log('Setting up GTest...');
+	var gtestRoot = path.join(HOME, 'gtest');
+	downloadIfNecessary('GTEST_ROOT', gtestRoot, GTEST_DIR, url, next);
 }
 
 /**
@@ -285,19 +299,19 @@ function setupJSC(url, next) {
 		url = JSC_URL;
 	}
 
-	console.log("Setting up JavaScriptCore pre-built libraries...");
-	var jscHome = path.join(HOME, "JavaScriptCore");
-	downloadIfNecessary('JavaScriptCore_HOME', jscHome, url, next);
+	console.log('Setting up JavaScriptCore pre-built libraries...');
+	var jscHome = path.join(HOME, 'JavaScriptCore');
+	downloadIfNecessary('JavaScriptCore_HOME', jscHome, JSC_DIR, url, next);
 }
 
 /**
  * Modifies PATH to include bin folder of included cmake.
  **/
 function setupCMake(next) {
-	console.log("Appending included cmake to PATH...");
+	console.log('Appending included cmake to PATH...');
 	var cmakeBinPath = path.join(__dirname, '..', '..', 'cli', 'vendor', 'cmake', 'bin');
 	if (process.env.PATH.indexOf(cmakeBinPath) == -1) {
-		console.log("Appending %s to PATH", cmakeBinPath);
+		console.log('Appending %s to PATH', cmakeBinPath);
 		setENV('PATH', process.env.PATH + ';' + cmakeBinPath, next);
 	} else {
 		// If we can find cmake.exe on PATH, don't append it
