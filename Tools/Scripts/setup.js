@@ -38,8 +38,8 @@ var async = require('async'),
 	JSC_DIR = 'JavaScriptCore', // directory inside zipfile
 	GTEST_URL = (os.platform() === 'win32') ? 'http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-windows.zip' : 'http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-osx.zip',
 	GTEST_DIR = (os.platform() === 'win32') ? 'gtest-1.7.0-windows' : 'gtest-1.7.0-osx', // directory inside zipfile
-	BOOST_URL = 'http://timobile.appcelerator.com.s3.amazonaws.com/boost_1_57_0.zip',
-	BOOST_DIR = 'boost_1_57_0'; // directory inside zipfile
+	BOOST_URL = 'http://nchc.dl.sourceforge.net/project/boost/boost/1.60.0/boost_1_60_0.zip',
+	BOOST_DIR = 'boost_1_60_0'; // directory inside zipfile
 
 
 // With node.js on Windows: use symbols available in terminal default fonts
@@ -228,6 +228,7 @@ function downloadIfNecessary(envKey, defaultDest, expectedDir, url, next) {
 
 	// Does it already exist, and is it up to date?
 	if (!isUpToDate(destination, url)) {
+		// TODO What if we have local copy already in renamed folder? Look for that first!
 		downloadURL(url, function (filename) {
 			// What if it _does_ exist and is out of date? We should "wipe it", or move it...
 			if (fs.existsSync(destination)) {
@@ -236,14 +237,19 @@ function downloadIfNecessary(envKey, defaultDest, expectedDir, url, next) {
 				var base = path.basename(contents.slice(7), '.zip');
 				var byURL = path.normalize(path.join(destination, '..', base));
 				console.log('Destination for ' + url + ' already exists, moving existing directory to ' + byURL + ' before extracting.');
-				fs.renameSync(destination, byURL);
+				if (!fs.existsSync(byURL)) {
+					wrench.copyDirSyncRecursive(destination, byURL);
+				}
+
+				wrench.rmdirSyncRecursive(destination);
 			}
 			// Extract to parent of destination...
 			var dest = path.normalize(path.join(destination, '..'));
 			extract(filename, dest, true, function() {
 				// Need to rename the extracted directory to match our expected destination!
 				var extractedDir = path.join(dest, expectedDir);
-				fs.renameSync(extractedDir, destination);
+				wrench.copyDirSyncRecursive(extractedDir, destination);
+
 				writeSourceURL(destination, url);
 				next();
 			});
