@@ -119,7 +119,7 @@ namespace TitaniumWindows
 		{
 			Titanium::Map::View::set_region(region);
 
-#if defined(IS_WINDOWS_PHONE)
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			using namespace Windows::Devices::Geolocation;
 
 			// set center to supplied lat/long
