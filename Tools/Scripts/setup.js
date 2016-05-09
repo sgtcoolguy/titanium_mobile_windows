@@ -195,6 +195,7 @@ function isUpToDate(destination, url) {
 
 function writeSourceURL(destination, url) {
 	var urlFile = path.join(destination, 'SOURCE_URL');
+	fs.existsSync(destination) || wrench.mkdirSyncRecursive(destination);
 	fs.writeFileSync(urlFile, url);
 }
 
