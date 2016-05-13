@@ -38,7 +38,7 @@
         Description="@SHORT_NAME@"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Wide310x150Logo.png"/>
-        <uap:SplashScreen Image="SplashScreen.png" />
+        <uap:SplashScreen Image="SplashScreen.png" BackgroundColor="#b41100" />
       </uap:VisualElements>
     </Application>
   </Applications>
