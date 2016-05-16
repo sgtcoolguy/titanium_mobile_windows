@@ -57,10 +57,10 @@ namespace TitaniumWindows
 					}
 					const auto width = layout->get_width();
 					if (!layout->get_right().empty() && !layout->get_left().empty()) {
-						// FIXME:
+						// FIXME: Workaround to make sure text content is shown.
 						// When both left and right is specified with horizontal layout, LayoutEngine doesn't respect them. (TIMOB-23372)
 						// We would respect text box size in this case to make sure text content is shown at least.
-						layout->set_width(std::to_string(e->NewSize.Width));
+						layout->set_width(std::to_string(e->NewSize.Width + /* some more margin was needed */ std::stod(layout->get_left())));
 					} else if (width.empty() || width == size) {
 						layout->set_width(std::to_string(e->NewSize.Width));
 					}
