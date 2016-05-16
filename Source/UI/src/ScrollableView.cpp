@@ -184,6 +184,17 @@ namespace TitaniumWindows
 			false);
 		}
 
+		void ScrollableView::set_scrollingEnabled(const bool& scrollingEnabled) TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::ScrollableView::set_scrollingEnabled(scrollingEnabled);
+
+			if (scrollingEnabled) {
+				scroll_viewer__->HorizontalScrollMode = ScrollMode::Auto;
+			} else {
+				scroll_viewer__->HorizontalScrollMode = ScrollMode::Disabled;
+			}
+		}
+
 		ScrollableView::ScrollableView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::ScrollableView(js_context)
 			, contentView__(get_context().CreateObject(JSExport<TitaniumWindows::UI::View>::Class()).CallAsConstructor())

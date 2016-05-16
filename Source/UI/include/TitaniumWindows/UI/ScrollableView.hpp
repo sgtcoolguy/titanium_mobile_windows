@@ -57,7 +57,6 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(pagingControlAlpha);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(pagingControlOnTop);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(overlayEnabled);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(scrollingEnabled);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(clipViews);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(hitRect);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
@@ -85,6 +84,7 @@ namespace TitaniumWindows
 			void removeView(const std::shared_ptr<View>& view) TITANIUM_NOEXCEPT override;
 
 			virtual void set_currentPage(const std::uint32_t& page) TITANIUM_NOEXCEPT override;
+			virtual void set_scrollingEnabled(const bool& scrollingEnabled) TITANIUM_NOEXCEPT override;
 
 		private:
 			Windows::UI::Xaml::Controls::ScrollViewer^ scroll_viewer__;
