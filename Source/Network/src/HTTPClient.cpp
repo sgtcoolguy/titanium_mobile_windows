@@ -153,7 +153,7 @@ namespace TitaniumWindows
 
 		void HTTPClient::send(const std::string& postDataStr) TITANIUM_NOEXCEPT
 		{
-			Windows::Web::Http::IHttpContent^ postData = ref new Windows::Web::Http::HttpStringContent(TitaniumWindows::Utility::ConvertString(postDataStr));
+			Windows::Web::Http::IHttpContent^ postData = ref new Windows::Web::Http::HttpStringContent(TitaniumWindows::Utility::ConvertUTF8String(postDataStr));
 			send(postData);
 		}
 
