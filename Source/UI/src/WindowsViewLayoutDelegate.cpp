@@ -1312,10 +1312,33 @@ namespace TitaniumWindows
 			}
 		}
 
+
+		bool WindowsViewLayoutDelegate::shouldUseOwnWidth() const TITANIUM_NOEXCEPT
+		{
+			// Check if parent can't decide its width and this component doesn't have fixed width property & handles its width
+			if (use_own_size__ && layout_node__->parent != nullptr) {
+				return get_width().empty()
+					&& layout_node__->parent->properties.right.valueType == Titanium::LayoutEngine::ValueType::None
+					&& layout_node__->parent->properties.width.valueType == Titanium::LayoutEngine::ValueType::Size;
+			}
+			return false;
+		}
+
+		bool WindowsViewLayoutDelegate::shouldUseOwnHeight() const TITANIUM_NOEXCEPT
+		{
+			// Check if parent can't decide its height and this component doesn't have fixed height property & handles its height
+			if (use_own_size__ && layout_node__->parent != nullptr) {
+				return get_height().empty()
+					&& layout_node__->parent->properties.bottom.valueType == Titanium::LayoutEngine::ValueType::None
+					&& layout_node__->parent->properties.height.valueType == Titanium::LayoutEngine::ValueType::Size;
+			}
+			return false;
+		}
+
 		void WindowsViewLayoutDelegate::onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name)
 		{
-			auto skipHeight = (is_height_size__ && rect.height == 0);
-			auto skipWidth  = (is_width_size__  && rect.width  == 0);
+			auto skipHeight = shouldUseOwnHeight() || (is_height_size__ && rect.height == 0);
+			auto skipWidth  = shouldUseOwnWidth()  || (is_width_size__  && rect.width  == 0);
 
 			if (rect.width < 0 || rect.height < 0)
 				return;

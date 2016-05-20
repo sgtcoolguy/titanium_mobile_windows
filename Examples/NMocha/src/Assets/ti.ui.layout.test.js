@@ -1179,4 +1179,313 @@ describe("Titanium.UI.Layout", function () {
         win.add(view);
         win.open();
     });
+
+    // TIMOB-23372 #1
+    //
+    // left/right/top/bottom should just work for child view
+    // when both left/right/top/bottom are specified to parent
+    // 
+    it("TIMOB-23372 #1", function (finish) {
+        var a = Ti.UI.createView({
+            backgroundColor: 'orange',
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: 10,
+        }),
+        b = Ti.UI.createView({
+            backgroundColor: 'yellow',
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: 10,
+        });
+        var win = createWindow({}, function() {
+            should(a.rect.x).eql(10);
+            should(a.rect.y).eql(10);
+            should(b.rect.x).eql(10);
+            should(b.rect.y).eql(10);
+            should(b.rect.width).eql(a.rect.width - 20);
+            should(b.rect.height).eql(a.rect.height - 20);
+            finish();
+        });
+        a.add(b);
+        win.add(a);
+        win.open();
+    });
+
+    // TIMOB-23372 #2
+    //
+    // left & right should just work for child view (vertical)
+    // when both left & right are specified to parent
+    // 
+    it("TIMOB-23372 #2", function (finish) {
+        var view = Ti.UI.createView({
+            backgroundColor: 'orange',
+            layout: "vertical",
+            top: 10,
+            left: 10,
+            right: 10,
+            height: Ti.UI.SIZE,
+            width: Ti.UI.SIZE,
+        }),
+        label = Ti.UI.createLabel({
+            left: 10,
+            right: 10,
+            color: "green",
+            backgroundColor: 'yellow',
+            text: "this is test text"
+        });
+        var win = createWindow({}, function() {
+            should(view.rect.x).eql(10);
+            should(view.rect.y).eql(10);
+            should(label.rect.x).eql(10);
+            should(label.rect.y).eql(0);
+            should(label.rect.width).eql(view.rect.width - 20);
+            finish();
+        });
+        view.add(label);
+        win.add(view);
+        win.open();
+    });
+
+    // TIMOB-23372 #3
+    //
+    // left & right should just work for child view (composite)
+    // when both left & right are specified to parent
+    // 
+    it("TIMOB-23372 #3", function (finish) {
+        var view = Ti.UI.createView({
+            backgroundColor: 'yellow',
+            layout: "composite",
+            top: 10,
+            left: 10,
+            right: 10,
+            height: Ti.UI.SIZE,
+            width: Ti.UI.SIZE
+        }),
+        label = Ti.UI.createLabel({
+            left: 10,
+            right: 10,
+            color: "blue",
+            text: "this is test text"
+        });
+        view.add(label);
+        var win = createWindow({}, function () {
+            should(view.rect.x).eql(10);
+            should(view.rect.y).eql(10);
+            should(label.rect.x).eql(10);
+            should(label.rect.y).eql(0);
+            should(label.rect.width).eql(view.rect.width - 20);
+            finish();
+        });
+        win.add(view);
+        win.open();
+    });
+
+    // TIMOB-23372 #4
+    //
+    // left & right should just work for child view (horizontal)
+    // when both left & right are specified to parent
+    // 
+    it("TIMOB-23372 #4", function (finish) {
+        var view = Ti.UI.createView({
+            backgroundColor: 'yellow',
+            layout: "horizontal",
+            top: 10,
+            left: 10,
+            right: 10,
+            height: Ti.UI.SIZE,
+            width: Ti.UI.SIZE
+        }),
+        label = Ti.UI.createLabel({
+            left: 10,
+            right: 10,
+            color: "blue",
+            text: "this is test text"
+        });
+        view.add(label);
+        var win = createWindow({}, function() {
+            should(view.rect.x).eql(10);
+            should(view.rect.y).eql(10);
+            should(label.rect.x).eql(10);
+            should(label.rect.y).eql(0);
+            should(label.rect.width).eql(view.rect.width - 20);
+            finish();
+        });
+        win.add(view);
+        win.open();
+    });
+
+    // TIMOB-23372 #5
+    //
+    // left & right should just work for label (horizontal)
+    // even when parent view doesn't have right value.
+    // parent view should fit the size of the child, not Window
+    // 
+    it("TIMOB-23372 #5", function (finish) {
+        var view = Ti.UI.createView({
+            backgroundColor: 'orange',
+            layout: "horizontal",
+            top: 10,
+            left: 10,
+            height: Ti.UI.SIZE,
+            width: Ti.UI.SIZE,
+        }),
+        label = Ti.UI.createLabel({
+            left: 10,
+            right: 10,
+            color: "green",
+            backgroundColor: 'yellow',
+            text: "this is test text"
+        });
+        var win = createWindow({}, function() {
+            should(view.rect.x).eql(10);
+            should(view.rect.y).eql(10);
+            should(label.rect.x).eql(10);
+            should(label.rect.y).eql(0);
+            should(label.rect.width).eql(view.rect.width - 20);
+            should(view.rect.width).not.eql(win.rect.width - 20);
+            finish();
+        });
+        view.add(label);
+        win.add(view);
+        win.open();
+    });
+
+    // TIMOB-23372 #6
+    //
+    // left & right should just work for label (vertical)
+    // even when parent view doesn't have right value.
+    // parent view should fit the size of the child, not Window
+    // 
+    it("TIMOB-23372 #6", function (finish) {
+        var view = Ti.UI.createView({
+            backgroundColor: 'orange',
+            layout: "vertical",
+            top: 10,
+            left: 10,
+            height: Ti.UI.SIZE,
+            width: Ti.UI.SIZE,
+        }),
+        label = Ti.UI.createLabel({
+            left: 10,
+            right: 10,
+            color: "green",
+            backgroundColor: 'yellow',
+            text: "this is test text"
+        });
+        var win = createWindow({}, function() {
+            should(view.rect.x).eql(10);
+            should(view.rect.y).eql(10);
+            should(label.rect.x).eql(10);
+            should(label.rect.y).eql(0);
+            should(label.rect.width).eql(view.rect.width - 20);
+            should(view.rect.width).not.eql(win.rect.width - 20);
+            finish();
+        });
+        view.add(label);
+        win.add(view);
+        win.open();
+    });
+
+    // TIMOB-23372 #7
+    //
+    // left & right should just work for label (composite)
+    // even when parent view doesn't have right value.
+    // parent view should fit the size of the child, not Window
+    // 
+    it("TIMOB-23372 #7", function (finish) {
+        var view = Ti.UI.createView({
+            backgroundColor: 'orange',
+            layout: "composite",
+            top: 10,
+            left: 10,
+            height: Ti.UI.SIZE,
+            width: Ti.UI.SIZE,
+        }),
+        label = Ti.UI.createLabel({
+            left: 10,
+            right: 10,
+            color: "green",
+            backgroundColor: 'yellow',
+            text: "this is test text"
+        });
+        var win = createWindow({}, function() {
+            should(view.rect.x).eql(10);
+            should(view.rect.y).eql(10);
+            should(label.rect.x).eql(10);
+            should(label.rect.y).eql(0);
+            should(label.rect.width).eql(view.rect.width - 20);
+            should(view.rect.width).not.eql(win.rect.width - 20);
+            finish();
+        });
+        view.add(label);
+        win.add(view);
+        win.open();
+    });
+
+    // TIMOB-23372 #8
+    //
+    // left & right should just work for child view when parent is Window (composite)
+    // 
+    it("TIMOB-23372 #8", function (finish) {
+        var label = Ti.UI.createLabel({
+            left: 10,
+            right: 10,
+            backgroundColor:'yellow',
+            color: "green",
+            text: "this is test text"
+        });
+        var win = createWindow({layout:'composite'}, function() {
+            should(label.rect.x).eql(10);
+            should(label.rect.width).eql(win.rect.width - 20);
+            finish();
+        });
+        win.add(label);
+        win.open();
+    });
+
+    // TIMOB-23372 #9
+    //
+    // left & right should just work for child view when parent is Window (horizontal)
+    // 
+    it("TIMOB-23372 #9", function (finish) {
+        var label = Ti.UI.createLabel({
+            left: 10,
+            right: 10,
+            backgroundColor:'yellow',
+            color: "green",
+            text: "this is test text"
+        });
+        var win = createWindow({layout:'horizontal'}, function() {
+            should(label.rect.x).eql(10);
+            should(label.rect.width).eql(win.rect.width - 20);
+            finish();
+        });
+        win.add(label);
+        win.open();
+    });
+
+    // TIMOB-23372 #10
+    //
+    // left & right should just work for child view when parent is Window (vertical)
+    // 
+    it("TIMOB-23372 #10", function (finish) {
+        var label = Ti.UI.createLabel({
+            left: 10,
+            right: 10,
+            backgroundColor:'yellow',
+            color: "green",
+            text: "this is test text"
+        });
+        var win = createWindow({layout:'vertical'}, function() {
+            should(label.rect.x).eql(10);
+            should(label.rect.width).eql(win.rect.width - 20);
+            finish();
+        });
+        win.add(label);
+        win.open();
+    });
+
 });

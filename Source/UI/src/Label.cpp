@@ -34,7 +34,6 @@ namespace TitaniumWindows
 		Label::~Label() 
 		{
 			TITANIUM_LOG_DEBUG("Label::dtor ", this);
-			label__->SizeChanged -= label_sizechanged_event__;
 		}
 
 		void Label::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
@@ -44,27 +43,6 @@ namespace TitaniumWindows
 			// Note: TextAlignment and VerticalAlignment does not work without parent Grid container!
 			parent__ = ref new Controls::Grid();
 			label__ = ref new Windows::UI::Xaml::Controls::TextBlock();
-
-			// In case width/height is Ti.UI.SIZE, grid needs to resize when label text is changed
-			label_sizechanged_event__ = label__->SizeChanged += ref new SizeChangedEventHandler([this](Platform::Object^ sender, SizeChangedEventArgs^ e) {
-				const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
-				if (sizeChanged__) {
-					sizeChanged__ = false;
-					const auto size = Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE);
-					const auto height = layout->get_height();
-					if (height.empty() || height == size) {
-						layout->set_height(std::to_string(e->NewSize.Height));
-					}
-					const auto width = layout->get_width();
-					if (!layout->get_right().empty() && !layout->get_left().empty()) {
-						// When both left and right is specified, Label.width acts like Ti.UI.FILL on iOS. (TIMOB-23372)
-						// Not sure exactly why but we simulate what it looks like on iOS.
-						layout->set_width(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::FILL));
-					} else if (width.empty() || width == size) {
-						layout->set_width(std::to_string(e->NewSize.Width));
-					}
-				}
-			});
 
 			Titanium::UI::Label::setLayoutDelegate<WindowsViewLayoutDelegate>();
 
@@ -84,12 +62,16 @@ namespace TitaniumWindows
 			parent__->SetColumn(label__, 0);
 			parent__->SetRow(label__, 0);
 
-			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
-			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::SIZE);
-			layoutDelegate__->set_autoLayoutForHeight(Titanium::UI::LAYOUT::SIZE);
-			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::SIZE);
+			const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
 
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(parent__);
+			layout->set_defaultHeight(Titanium::UI::LAYOUT::SIZE);
+			layout->set_defaultWidth(Titanium::UI::LAYOUT::SIZE);
+			layout->set_autoLayoutForHeight(Titanium::UI::LAYOUT::SIZE);
+			layout->set_autoLayoutForWidth(Titanium::UI::LAYOUT::SIZE);
+
+			// Label handles its size
+			layout->useOwnSize();
+			layout->setComponent(parent__);
 		}
 
 		void Label::JSExportInitialize()
@@ -110,7 +92,6 @@ namespace TitaniumWindows
 			Titanium::UI::Label::set_text(text);
 			const auto new_text = TitaniumWindows::Utility::ConvertUTF8String(text);
 			if (label__->Text != new_text) {
-				sizeChanged__ = true; // indicate parent Grid to resize
 				label__->Text = new_text;
 			}
 		}
