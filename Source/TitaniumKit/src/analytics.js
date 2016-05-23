@@ -84,6 +84,16 @@ Analytics.prototype.createEvent = function createEvent(eventType, data) {
 	this.lastEvent = event;
 };
 
+function trimVersionQualifier(version) {
+	var parts = [];
+	// keep first three segments of the version number.
+	if (version && version.indexOf('.') != -1) {
+		parts = version.split('.');
+		return parts.slice(0, 3).join('.');
+	}
+	return version;
+}
+
 /**
  * Creates a 'ti.enroll' event and adds it to the event queue
  * @private
@@ -103,7 +113,7 @@ Analytics.prototype.createEnrollEvent = function createAppEnrollEvent() {
 		nettype: Ti.Network.networkTypeName,
 		app_version: Ti.App.version,
 		osver: Ti.Platform.version,
-		sdkver: Ti.version
+		sdkver: "ti." + trimVersionQualifier(Ti.version)
 	});
 };
 
@@ -126,7 +136,7 @@ Analytics.prototype.createForegroundEvent = function foregroundEvent() {
 		nettype: Ti.Network.networkTypeName,
 		app_version: Ti.App.version,
 		osver: Ti.Platform.version,
-		sdkver: Ti.version
+		sdkver: "ti." + trimVersionQualifier(Ti.version)
 	});
 };
 
