@@ -432,6 +432,15 @@ namespace TitaniumWindows
 				underlying_control__ = control;
 			}
 
+			//
+			// Check if this component uses its own width
+			//
+			virtual bool shouldUseOwnWidth() const TITANIUM_NOEXCEPT;
+
+			//
+			// Check if this component uses its own height
+			//
+			virtual bool shouldUseOwnHeight() const TITANIUM_NOEXCEPT;
 
 			virtual Titanium::LayoutEngine::Node* getLayoutNode() const TITANIUM_NOEXCEPT
 			{
@@ -441,6 +450,11 @@ namespace TitaniumWindows
 			virtual bool isLoaded() const TITANIUM_NOEXCEPT
 			{
 				return is_loaded__;
+			}
+
+			virtual void useOwnSize() TITANIUM_NOEXCEPT
+			{
+				use_own_size__ = true;
 			}
 
 			virtual void requestLayout(const bool& fire_event = false);
@@ -513,6 +527,7 @@ namespace TitaniumWindows
 			bool is_scrollview__ { false };
 			bool is_button__{ false };
 			bool is_loaded__{false};
+			bool use_own_size__ { false };
 
 			Titanium::LayoutEngine::Rect oldRect__;
 
