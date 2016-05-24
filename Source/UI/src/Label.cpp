@@ -89,10 +89,34 @@ namespace TitaniumWindows
 
 		void Label::set_text(const std::string& text) TITANIUM_NOEXCEPT
 		{
+			set_text(text, true);
+		}
+
+		void Label::set_text(const std::string& text, const bool resize) TITANIUM_NOEXCEPT
+		{
 			Titanium::UI::Label::set_text(text);
 			const auto new_text = TitaniumWindows::Utility::ConvertUTF8String(text);
-			if (label__->Text != new_text) {
-				label__->Text = new_text;
+
+			label__->Text = new_text;
+
+			if (propertiesSet__) {
+				measureDesiredSize();
+			}
+		}
+
+		void Label::measureDesiredSize() TITANIUM_NOEXCEPT
+		{
+			// TIMOB-23305: Measure desired size for this text and resize parent container accordingly.
+			Windows::Foundation::Size desiredSize{ static_cast<float>(label__->MaxWidth), static_cast<float>(label__->MaxHeight) };
+			label__->Measure(desiredSize);
+
+			const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+
+			if (layout->get_width().empty() || layout->get_right().empty()) {
+				parent__->Width = label__->DesiredSize.Width;
+			}
+			if (layout->get_height().empty() || layout->get_bottom().empty()) {
+				parent__->Height = label__->DesiredSize.Height;
 			}
 		}
 

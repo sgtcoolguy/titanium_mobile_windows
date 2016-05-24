@@ -46,6 +46,7 @@ namespace TitaniumWindows
 
 			virtual void set_color(const std::string& color) TITANIUM_NOEXCEPT override final;
 			virtual void set_text(const std::string& text) TITANIUM_NOEXCEPT override final;
+			virtual void set_text(const std::string& text, const bool resize) TITANIUM_NOEXCEPT;
 			virtual void set_textAlign(const Titanium::UI::TEXT_ALIGNMENT& textAlign) TITANIUM_NOEXCEPT override final;
 			virtual void set_verticalAlign(const Titanium::UI::TEXT_VERTICAL_ALIGNMENT& verticalAlign) TITANIUM_NOEXCEPT override final;
 			virtual void set_wordWrap(const bool& wordWrap) TITANIUM_NOEXCEPT override final;
@@ -55,6 +56,9 @@ namespace TitaniumWindows
 			static const std::uint32_t DefaultFontSize = 20;
 
 		private:
+			// Measure desired size based on current text.
+			void measureDesiredSize() TITANIUM_NOEXCEPT;
+
 			Windows::UI::Xaml::Controls::Grid^ parent__;
 			Windows::UI::Xaml::Controls::TextBlock^ label__;
 		};

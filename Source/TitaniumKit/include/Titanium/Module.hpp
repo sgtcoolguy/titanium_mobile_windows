@@ -221,6 +221,7 @@ namespace Titanium
 
 #pragma warning(push)
 #pragma warning(disable : 4251)
+		bool propertiesSet__{ false };
 		bool bubbleParent__ { true };
 		std::string apiName__;
 		std::shared_ptr<Titanium::UI::Window> lifecycleContainerWindow__;

@@ -121,8 +121,10 @@ namespace Titanium
 				this_object.SetProperty(property_name, props.GetProperty(property_name));
 			}
 		}
+
 		const auto module = this_object.GetPrivate<Titanium::Module>();
 		if (module) {
+			module->propertiesSet__ = true;
 			module->afterPropertiesSet();
 		}
 	}
