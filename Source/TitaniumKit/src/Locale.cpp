@@ -6,6 +6,7 @@
 
 #include "Titanium/Locale.hpp"
 #include "Titanium/detail/TiImpl.hpp"
+#include <boost/algorithm/string.hpp>
 
 namespace Titanium
 {
@@ -87,6 +88,34 @@ namespace Titanium
 		return static_cast<JSObject>(Object_property);
 	}
 
+	//
+	// Escape characters with backslash. 
+	// Based on iOS behavior, not all backslashes are converted.
+	//
+	std::string Locale::EscapeJSCharacters(const std::string& content) TITANIUM_NOEXCEPT
+	{
+		// new line characters
+		auto replaced = boost::replace_all_copy(content, "\\n", "\n");
+		boost::replace_all(replaced, "\\r", "\r");
+		boost::replace_all(replaced, "\\f", "\f");
+		boost::replace_all(replaced, "\\t", "\t");
+
+		// backspace is ignored
+		boost::replace_all(replaced, "\\b", "");
+
+		//double backslash
+		boost::replace_all(replaced, "\\\\", "\\");
+
+		// just remove backslash from \" and \'
+		boost::replace_all(replaced, "\\\"", "\"");
+		boost::replace_all(replaced, "\\'", "'");
+
+		// Just remove backslash from unicode strings like "\u20ac"
+		boost::replace_all(replaced, "\\u", "u");
+
+		return replaced;
+	}
+
 	TITANIUM_PROPERTY_GETTER(Locale, currentCountry)
 	{
 		return get_context().CreateString(get_currentCountry());
@@ -135,7 +164,7 @@ namespace Titanium
 		ENSURE_STRING_AT_INDEX(key, 0);
 		ENSURE_OPTIONAL_STRING_AT_INDEX(hint, 1, "");
 		const auto ctx = this_object.get_context();
-		return ctx.CreateString(GetStaticObject(ctx).GetPrivate<Locale>()->getString(key, hint));
+		return ctx.CreateString(EscapeJSCharacters(GetStaticObject(ctx).GetPrivate<Locale>()->getString(key, hint)));
 	}
 
 	TITANIUM_FUNCTION(Locale, setLanguage)
