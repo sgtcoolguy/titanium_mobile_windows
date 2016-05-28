@@ -109,7 +109,6 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::Border^ border__{ nullptr };
 			Windows::UI::Xaml::Controls::Image^ image__{ nullptr };
 			Windows::UI::Xaml::Media::Animation::Storyboard^ storyboard__;
-			bool propertiesSet__{ false };
 			bool sizeChanged__{ true };
 
 #pragma warning(pop)

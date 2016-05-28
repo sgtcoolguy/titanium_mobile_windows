@@ -127,9 +127,6 @@ namespace TitaniumWindows
 		void ImageView::afterPropertiesSet() TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ImageView::afterPropertiesSet();
-
-			// Make sure to call set_image after all properties are set
-			propertiesSet__ = true;
 			
 			// Initialize image
 			if (!get_image().empty()) {

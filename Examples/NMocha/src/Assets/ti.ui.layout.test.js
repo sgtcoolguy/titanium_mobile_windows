@@ -1488,4 +1488,33 @@ describe("Titanium.UI.Layout", function () {
         win.open();
     });
 
+    // TIMOB-23305
+    //
+    // Label width should be updated when setting new text
+    it("TIMOB-23305", function (finish) {
+        var label = Ti.UI.createLabel({
+            text: 'Lorem ipsum dolor sit amet',
+            backgroundColor: 'orange',
+        });
+        var savedRect = {};
+        var win = createWindow({}, function () {
+                should(label.rect.width).not.eql(0);
+                should(label.rect.height).not.eql(0);
+                should(label.rect.width).greaterThan(savedRect.width);
+                if (Ti.Platform.osname === 'windowsphone') {
+                    should(label.rect.height).greaterThan(savedRect.height);
+                }
+                finish();
+        });
+        label.addEventListener('postlayout', function () {
+            if (didPostlayout) return;
+            didPostlayout = true;
+            savedRect = label.rect;
+            should(label.rect.width).not.eql(0);
+            should(label.rect.height).not.eql(0);
+            label.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut mollis rutrum dignissim.';
+        });
+        win.add(label);
+        win.open();
+    });
 });

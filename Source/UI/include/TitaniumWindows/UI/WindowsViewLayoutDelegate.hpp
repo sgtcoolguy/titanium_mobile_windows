@@ -482,7 +482,7 @@ namespace TitaniumWindows
 
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			std::function<JSObject(const JSContext&, const JSObject&)> native_wrapper_hook__;
+			std::function<JSObject(const JSContext&, const JSObject&)> native_wrapper_hook__ { nullptr };
 			std::vector<std::string> filtered_events__;
 #pragma warning(pop)
 
