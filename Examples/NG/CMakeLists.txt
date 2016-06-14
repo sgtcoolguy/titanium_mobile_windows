@@ -127,6 +127,9 @@ set(SOURCE_Assets
   src/Assets/Square44x44Logo.png
   src/Assets/cricket.wav
   src/Assets/Resources.resw
+  src/Assets/WebViewIndexPage.htm
+  src/Assets/WebViewNextPage.htm
+  src/Assets/Resources.resw
   )
 
 set_property(SOURCE ${SOURCE_Assets} PROPERTY VS_DEPLOYMENT_CONTENT 1)
