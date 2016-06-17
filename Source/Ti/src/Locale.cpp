@@ -88,7 +88,7 @@ namespace TitaniumWindows
 		return "";
 	}
 
-	std::string Locale::getString(const std::string& key, const std::string& hint) TITANIUM_NOEXCEPT
+	boost::optional<std::string> Locale::getString(const std::string& key) TITANIUM_NOEXCEPT
 	{
 		try {
 			const auto loader = Windows::ApplicationModel::Resources::ResourceLoader::GetForCurrentView();
@@ -99,7 +99,7 @@ namespace TitaniumWindows
 		} catch (...) {
 			TITANIUM_LOG_ERROR("Error during Locale::getString");
 		}
-		return hint.empty() ? key : hint;
+		return boost::none;
 	}
 
 	void Locale::setLanguage(const std::string& language) TITANIUM_NOEXCEPT

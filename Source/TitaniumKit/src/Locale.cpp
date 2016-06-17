@@ -46,10 +46,10 @@ namespace Titanium
 		return getCurrencySymbol(getCurrencyCode(locale));
 	}
 
-	std::string Locale::getString(const std::string& key, const std::string& hint) TITANIUM_NOEXCEPT
+	boost::optional<std::string> Locale::getString(const std::string& key) TITANIUM_NOEXCEPT
 	{
 		TITANIUM_LOG_WARN("Locale::getString: Unimplemented");
-		return hint.empty() ? key : hint;
+		return boost::none;
 	}
 
 	void Locale::setLanguage(const std::string& language) TITANIUM_NOEXCEPT
@@ -88,12 +88,17 @@ namespace Titanium
 		return static_cast<JSObject>(Object_property);
 	}
 
-	std::string Locale::GetString(const JSContext& js_context, const std::string& key) TITANIUM_NOEXCEPT
+	boost::optional<std::string> Locale::GetString(const JSContext& js_context, const std::string& key) TITANIUM_NOEXCEPT
 	{
 		const auto L = GetStaticObject(js_context);
 		auto getString = static_cast<JSObject>(L.GetProperty("getString"));
-		const std::vector<JSValue> args = { js_context.CreateString(key) };
-		return static_cast<std::string>(getString(args, L));
+		const std::vector<JSValue> args = { js_context.CreateString(key), js_context.CreateNull() };
+		const auto value = getString(args, L);
+		if (value.IsNull()) {
+			return boost::none;
+		} else {
+			return static_cast<std::string>(value);
+		}
 	}
 
 	//
@@ -170,9 +175,17 @@ namespace Titanium
 	TITANIUM_FUNCTION(Locale, getString)
 	{
 		ENSURE_STRING_AT_INDEX(key, 0);
-		ENSURE_OPTIONAL_STRING_AT_INDEX(hint, 1, "");
 		const auto ctx = this_object.get_context();
-		return ctx.CreateString(EscapeJSCharacters(GetStaticObject(ctx).GetPrivate<Locale>()->getString(key, hint)));
+		const auto value = GetStaticObject(ctx).GetPrivate<Locale>()->getString(key);
+		if (value) {
+			return ctx.CreateString(EscapeJSCharacters(*value));
+		} else if (arguments.size() > 1){
+			// If there's a hint, let's return it.
+			// Note that this may return any JS value, according to Ti behavior on iOS.
+			return arguments.at(1);
+		}
+		// If there's no hint and no entry, getString should return key.
+		return arguments.at(0);
 	}
 
 	TITANIUM_FUNCTION(Locale, setLanguage)
