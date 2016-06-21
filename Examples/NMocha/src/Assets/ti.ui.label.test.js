@@ -47,7 +47,7 @@ describe('Titanium.UI.Label', function () {
         label.textid = 'other text';
         should(label.textid).eql('other text');
         should(label.getTextid()).eql('other text');
-        should(label.text).eql('other text'); // key is used when no resources found
+        should(label.text).eql('this is my value'); // should retain old value if can't find key
         finish();
     });
 

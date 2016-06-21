@@ -39,7 +39,7 @@ describe('Titanium.UI.AlertDialog', function () {
         bar.titleid = 'other text';
         should(bar.titleid).eql('other text');
         should(bar.getTitleid()).eql('other text');
-        should(bar.title).eql('other text'); // key is used when no resources found
+        should(bar.title).eql('this is my value'); // should retain old value if can't find key
         finish();
     });
 

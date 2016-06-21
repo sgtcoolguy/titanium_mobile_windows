@@ -8,6 +8,7 @@
 #define _TITANIUM_LOCALE_HPP_
 
 #include "Titanium/Module.hpp"
+#include <boost/optional.hpp>
 
 namespace Titanium
 {
@@ -74,9 +75,10 @@ namespace Titanium
 		/*!
 		  @method
 		  @abstract getString
-		  @discussion Returns a string, localized according to the current system locale
+		  @discussion Returns a string, localized according to the current system locale. 
+		              Returns boost::none if there's no entry for the key.
 		*/
-		virtual std::string getString(const std::string& key, const std::string& hint) TITANIUM_NOEXCEPT;
+		virtual boost::optional<std::string> getString(const std::string& key) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -97,7 +99,7 @@ namespace Titanium
 
 		static void JSExportInitialize();
 		static JSObject GetStaticObject(const JSContext& js_context) TITANIUM_NOEXCEPT;
-		static std::string GetString(const JSContext& js_context, const std::string& key) TITANIUM_NOEXCEPT;
+		static boost::optional<std::string> GetString(const JSContext& js_context, const std::string& key) TITANIUM_NOEXCEPT;
 
 		// Escape characters with backslash. Based on iOS behavior, not all backslashes are converted.
 		static std::string EscapeJSCharacters(const std::string& content) TITANIUM_NOEXCEPT;
