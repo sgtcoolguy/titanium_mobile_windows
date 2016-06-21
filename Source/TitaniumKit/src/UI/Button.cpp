@@ -43,7 +43,10 @@ namespace Titanium
 		void Button::set_titleid(const std::string& titleid) TITANIUM_NOEXCEPT
 		{
 			titleid__ = titleid;
-			set_title(Titanium::Locale::GetString(get_context(), titleid));
+			const auto value = Titanium::Locale::GetString(get_context(), titleid);
+			if (value) {
+				set_title(*value);
+			}
 		}
 
 		void Button::JSExportInitialize()

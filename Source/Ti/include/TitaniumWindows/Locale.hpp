@@ -43,8 +43,9 @@ namespace TitaniumWindows
 		  @method
 		  @abstract getString
 		  @discussion Returns a string, localized according to the current system locale
-		*/
-		virtual std::string getString(const std::string& key, const std::string& hint) TITANIUM_NOEXCEPT override;
+		              Returns boost::none if there's no entry for the key.
+		  */
+		virtual boost::optional<std::string> getString(const std::string& key) TITANIUM_NOEXCEPT override;
 
 		/*!
 		  @method

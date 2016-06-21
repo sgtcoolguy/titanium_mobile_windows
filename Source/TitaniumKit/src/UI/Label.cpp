@@ -39,7 +39,10 @@ namespace Titanium
 		void Label::set_textid(const std::string& textid) TITANIUM_NOEXCEPT
 		{
 			textid__ = textid;
-			set_text(Titanium::Locale::GetString(get_context(), textid));
+			const auto value = Titanium::Locale::GetString(get_context(), textid);
+			if (value) {
+				set_text(*value);
+			}
 		}
 
 		void Label::JSExportInitialize()
