@@ -1,5 +1,6 @@
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script>
         Ti.App.addEventListener("app:fromTitanium", function(e) {
             Ti.API.info(e.message);
@@ -7,7 +8,10 @@
     </script>
 </head>
 <body>
-    <h2>ms-appx-web:///NextPage.htm</h2>
+    <h1>日本語は表示されていますか</h1>
+    <h2>WebViewNextPage.htm</h2>
+    <img src="sample.jpg" />
     <button onclick="Ti.App.fireEvent('app:fromWebView', { message: 'event fired from WebView, handled in Titanium' });">fromWebView</button>
+    <h2>Push button above and see if you get an alert dialog</h2>
 </body>
 </html>

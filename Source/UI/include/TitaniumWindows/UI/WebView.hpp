@@ -12,6 +12,7 @@
 #include "TitaniumWindows_UI_EXPORT.h"
 #include "Titanium/UI/WebView.hpp"
 #include <unordered_set>
+#include <collection.h>
 
 namespace TitaniumWindows
 {
@@ -43,7 +44,9 @@ namespace TitaniumWindows
 		#endif
 
 			static void JSExportInitialize();
-			
+			static Windows::Foundation::Collections::IMap<::Platform::String^, ::Platform::String^>^ LocalHostKeys;
+			static std::string InjectLocalScript(const std::string& content);
+
 			virtual void postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments) override;
 			virtual std::string evalJS(const std::string& code, JSObject& callback) override TITANIUM_NOEXCEPT;
 
@@ -55,7 +58,6 @@ namespace TitaniumWindows
 
 			Titanium::UI::URL_ERROR getUrlError(const Windows::Web::WebErrorStatus status) const TITANIUM_NOEXCEPT;
 			void initWebViewListeners() TITANIUM_NOEXCEPT;
-			void navigateWithLocalScript(const std::string& content);
 
 			virtual void set_html(const std::string& html) TITANIUM_NOEXCEPT override;
 			virtual std::string get_url() const TITANIUM_NOEXCEPT override;
@@ -68,9 +70,6 @@ namespace TitaniumWindows
 			virtual void reload() TITANIUM_NOEXCEPT override;
 			virtual void stopLoading(const bool& hardStop) TITANIUM_NOEXCEPT override;
 
-			bool isLocalUri(Windows::Foundation::Uri^ uri) const TITANIUM_NOEXCEPT;
-
-			bool localscript_navigating__{ false };
 			bool error_event_enabled__ { false };
 			bool load_event_enabled__  { false };
 			bool beforeload_event_enabled__  { false };
@@ -81,9 +80,10 @@ namespace TitaniumWindows
 			Windows::Foundation::EventRegistrationToken beforeload_event__;
 			Windows::Foundation::EventRegistrationToken script_event__;
 
+			Windows::Web::IUriToStreamResolver^ streamResolver__;
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			std::unordered_set<std::string> app_event_names;
+			std::unordered_set<std::string> app_event_names__;
 #pragma warning(pop)
 		};
 	} // namespace UI
