@@ -257,7 +257,48 @@ namespace Titanium
 
 	void GeolocationModule::forwardGeocoder(const std::string& address, JSObject callback) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("GeolocationModule::forwardGeocoder: Unimplemented");
+		static const std::string forwardGeocoder_js = R"JS((function(self) {
+			var requestUrl = 'http://api.appcelerator.net/p/v1/geo?d=f',
+				client = Ti.Network.createHTTPClient({
+					onload: function (e) {
+						var response = this.responseText.split(','),
+							response_obj = {
+								success: false,
+								error: 'no results',
+								code: -1
+							};
+
+						if (response.length > 0 && response[0] == '200') {
+							response_obj = {
+								accuracy: response[1],
+								address: self.address,
+								latitude: Number(response[2]),
+								longitude: Number(response[3]),
+								success: true,
+								code: 0
+							};
+						}
+						self.callback(response_obj);
+					},
+					onerror: function (e) {
+						Ti.API.debug(e.error);
+					},
+					timeout: 3000
+				});
+
+			requestUrl += '&aguid=' + Ti.App.guid;
+			requestUrl += '&mid=' + Ti.App.id;
+			requestUrl += '&sid=' + Ti.App.sessionId;
+			requestUrl += '&q=' + self.address;
+
+			client.open('GET', requestUrl);
+			client.send();
+		})(this))JS";
+		const auto context = get_context();
+		auto export_obj = context.CreateObject();
+		export_obj.SetProperty("address", context.CreateString(address));
+		export_obj.SetProperty("callback", callback);
+		context.JSEvaluateScript(forwardGeocoder_js, export_obj);
 	}
 
 	void GeolocationModule::getCurrentHeading(JSObject callback) TITANIUM_NOEXCEPT
@@ -272,7 +313,39 @@ namespace Titanium
 
 	void GeolocationModule::reverseGeocoder(const double& latitude, const double& longitude, JSObject callback) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("GeolocationModule::reverseGeocoder: Unimplemented");
+		static const std::string reverseGeocoder_js = R"JS((function(self) {
+			var requestUrl = 'http://api.appcelerator.net/p/v1/geo?d=r',
+				client = Ti.Network.createHTTPClient({
+					onload: function (e) {
+						var response = JSON.parse(this.responseText);
+						if (response.success) {
+							response.code = 0;
+						} else {
+							response.code = -1;
+							response.error = 'no results';
+						}
+						self.callback(response);
+					},
+					onerror: function (e) {
+						Ti.API.debug(e.error);
+					},
+					timeout: 3000
+				});
+
+			requestUrl += '&aguid=' + Ti.App.guid;
+			requestUrl += '&mid=' + Ti.App.id;
+			requestUrl += '&sid=' + Ti.App.sessionId;
+			requestUrl += '&q=' + self.latitude + ',' + self.longitude;
+
+			client.open('GET', requestUrl);
+			client.send();
+		})(this))JS";
+		const auto context = get_context();
+		auto export_obj = context.CreateObject();
+		export_obj.SetProperty("latitude", context.CreateNumber(latitude));
+		export_obj.SetProperty("longitude", context.CreateNumber(longitude));
+		export_obj.SetProperty("callback", callback);
+		context.JSEvaluateScript(reverseGeocoder_js, export_obj);
 	}
 
 	void GeolocationModule::JSExportInitialize()
