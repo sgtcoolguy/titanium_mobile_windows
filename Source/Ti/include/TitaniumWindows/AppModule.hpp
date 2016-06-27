@@ -11,6 +11,7 @@
 
 #include "Titanium/App.hpp"
 #include "TitaniumWindows_Ti_EXPORT.h"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 namespace TitaniumWindows
 {
@@ -31,8 +32,6 @@ namespace TitaniumWindows
 		TITANIUM_PROPERTY_UNIMPLEMENTED(disableNetworkActivityIndicator);
 		TITANIUM_PROPERTY_UNIMPLEMENTED(forceSplashAsSnapshot);
 		TITANIUM_PROPERTY_UNIMPLEMENTED(idleTimerDisabled);
-		TITANIUM_PROPERTY_UNIMPLEMENTED(proximityDetection);
-		TITANIUM_PROPERTY_UNIMPLEMENTED(proximityState);
 
 		AppModule(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -53,17 +52,24 @@ namespace TitaniumWindows
 		virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 		virtual void disableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override;
 
+		virtual void setProximityDetection(const bool&) TITANIUM_NOEXCEPT override;
+		virtual bool proximityState() const TITANIUM_NOEXCEPT override;
+
 		virtual void _restart() TITANIUM_NOEXCEPT override;
 
 	private:
 
 		static JSObject RectToJS(const JSContext& js_context, const Windows::Foundation::Rect& rect);
+		void initProximitySensor();
 
 		Windows::Foundation::EventRegistrationToken keyboardframe_showing_event__;
 		Windows::Foundation::EventRegistrationToken keyboardframe_hiding_event__;
-
-	private:
 		bool keyboardVisible__ { false };
+#if defined(IS_WINDOWS_10)
+		Windows::Devices::Sensors::ProximitySensor^ proximitySensor__ { nullptr };
+		Windows::Foundation::EventRegistrationToken proximity_event__;
+		bool no_proximitySensor__{ false };
+#endif
 	};
 }  // namespace TitaniumWindows
 #endif // _TITANIUMWINDOWS_APPMODULE_HPP_
