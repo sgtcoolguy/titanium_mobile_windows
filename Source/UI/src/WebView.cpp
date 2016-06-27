@@ -84,7 +84,12 @@ namespace TitaniumWindows_UI
 
 					return static_cast<IInputStream^>(stream);
 				});
-				return getInputStreamTask.get();
+
+				try {
+					return getInputStreamTask.get();
+				} catch (Platform::Exception^ e) {
+					HAL::detail::ThrowRuntimeError("TitaniumWindows::UI::WebView", "Ti.UI.WebView: Unable to read " + TitaniumWindows::Utility::ConvertString(uri->Path));
+				}
 			});
 		}
 	};
