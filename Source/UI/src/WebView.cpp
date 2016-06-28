@@ -90,6 +90,8 @@ namespace TitaniumWindows_UI
 				} catch (Platform::Exception^ e) {
 					HAL::detail::ThrowRuntimeError("TitaniumWindows::UI::WebView", "Ti.UI.WebView: Unable to read " + TitaniumWindows::Utility::ConvertString(uri->Path));
 				}
+
+				return nullptr;
 			});
 		}
 	};
