@@ -22,9 +22,6 @@ namespace TitaniumWindows
 
 		Tab::Tab(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::Tab(js_context)
-#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
-			, defaultForeground__(nullptr)
-#endif
 		{
 		}
 
@@ -105,7 +102,7 @@ namespace TitaniumWindows
 			Titanium::UI::Tab::set_window(window);
 		}
 
-		void Tab::blur() 
+		void Tab::blur()
 		{
 			if (window__) {
 				window__->blur();
@@ -114,7 +111,7 @@ namespace TitaniumWindows
 			set_titleColorByState();
 		}
 
-		void Tab::focus() 
+		void Tab::focus()
 		{
 			if (window__) {
 				window__->focus();
@@ -125,23 +122,30 @@ namespace TitaniumWindows
 
 		void Tab::set_titleColorByState()
 		{
+			const auto is_active = Titanium::UI::Tab::get_active();
 			std::string colorName;
-			if (Titanium::UI::Tab::get_active()) {
-				colorName = Titanium::UI::Tab::get_activeColor();
-			}
-			else {
+			if (is_active) {
+				colorName = Titanium::UI::Tab::get_activeTitleColor();
+			} else {
 				colorName = Titanium::UI::Tab::get_titleColor();
 			}
-			const auto color_obj = WindowsViewLayoutDelegate::ColorForName(colorName);
 #if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 			const auto textBlock = safe_cast<Controls::TextBlock^>(pivotItem__->Header);
-			if (defaultForeground__ == nullptr) {
-				defaultForeground__ = textBlock->Foreground;
-			}
 			if (colorName.empty()) {
-				// Use the default colors if the new color is empty
-				textBlock->Foreground = defaultForeground__;
+				// if no color specified, try to get "default color" from current theme.
+				if (is_active) {
+					Platform::String^ key = "PivotHeaderForegroundSelectedBrush";
+					if (Application::Current->Resources->HasKey(key)) {
+						textBlock->Foreground = static_cast<Windows::UI::Xaml::Media::Brush^>(Application::Current->Resources->Lookup(key));
+					}
+				} else {
+					Platform::String^ key = "PivotHeaderForegroundUnselectedBrush";
+					if (Application::Current->Resources->HasKey(key)) {
+						textBlock->Foreground = static_cast<Windows::UI::Xaml::Media::Brush^>(Application::Current->Resources->Lookup(key));
+					}
+				}
 			} else {
+				const auto color_obj = WindowsViewLayoutDelegate::ColorForName(colorName);
 				textBlock->Foreground = ref new Windows::UI::Xaml::Media::SolidColorBrush(color_obj);
 			}
 #else
@@ -149,9 +153,9 @@ namespace TitaniumWindows
 #endif
 		}
 
-		void Tab::set_activeColor(const std::string& colorName) TITANIUM_NOEXCEPT
+		void Tab::set_activeTitleColor(const std::string& colorName) TITANIUM_NOEXCEPT
 		{
-			Titanium::UI::Tab::set_activeColor(colorName);
+			Titanium::UI::Tab::set_activeTitleColor(colorName);
 			set_titleColorByState();
 		}
 
@@ -209,7 +213,7 @@ namespace TitaniumWindows
 			window__->getViewLayoutDelegate()->set_backgroundFocusedImage(value);
 		}
 
-		void Tab::JSExportInitialize() 
+		void Tab::JSExportInitialize()
 		{
 			JSExport<Tab>::SetClassVersion(1);
 			JSExport<Tab>::SetParent(JSExport<Titanium::UI::Tab>::Class());
