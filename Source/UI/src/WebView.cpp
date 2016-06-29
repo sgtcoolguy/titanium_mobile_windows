@@ -17,11 +17,94 @@
 #include "TitaniumWindows/UI/WindowsViewLayoutDelegate.hpp"
 #include "Titanium/UI/webview_js.hpp"
 
+using namespace Windows::UI::Xaml;
+using namespace Windows::Foundation;
+using namespace Windows::Storage;
+using namespace Windows::Storage::Streams;
+
+namespace TitaniumWindows_UI
+{
+	public ref class StreamFromApplicationUriResolver sealed : public Windows::Web::IUriToStreamResolver
+	{
+	public:
+		StreamFromApplicationUriResolver() { }
+		virtual IAsyncOperation<Windows::Storage::Streams::IInputStream^>^ UriToStreamAsync(Uri^ uri)
+		{
+			if (uri == nullptr) {
+				throw Platform::Exception::CreateException(0, "Uri should not be null");
+			}
+
+			if (TitaniumWindows::UI::WebView::LocalHostKeys->HasKey(uri->Host)) {
+				const auto key = TitaniumWindows::UI::WebView::LocalHostKeys->Lookup(uri->Host);
+				if (key->Equals("ms-appx://")) {
+					// if host key points to uri scheme, just use the scheme and given path.
+					Uri^ appDataUri = ref new Uri(key + uri->Path);
+					return GetFileStreamFromApplicationUriAsync(appDataUri);
+				} else {
+					// host key points to the local sub folder
+					Uri^ appDataUri = ref new Uri("ms-appdata:///local/" + key + uri->Path);
+					return GetFileStreamFromApplicationUriAsync(appDataUri);
+				}
+			}
+
+			throw Platform::Exception::CreateException(0, "Unexpected Uri");
+		}
+
+		IAsyncOperation<IInputStream^>^ GetFileStreamFromApplicationUriAsync(Uri^ uri)
+		{
+			return concurrency::create_async([this, uri]()->IInputStream^ {
+				concurrency::task<StorageFile^> getFileTask(StorageFile::GetFileFromApplicationUriAsync(uri));
+				concurrency::task<IInputStream^> getInputStreamTask = getFileTask.then([](StorageFile^ file) {
+
+					// If this file points to HTML content, let's inject Titanium API.
+					if (file->ContentType == "text/html") {
+						IRandomAccessStream^ stream = ref new InMemoryRandomAccessStream();
+						const auto data = TitaniumWindows::Utility::GetContentFromFile(file);
+						const auto content = TitaniumWindows::Utility::ConvertUTF8String(TitaniumWindows::UI::WebView::InjectLocalScript(std::string(data.begin(), data.end())));
+						const auto writer = ref new Streams::DataWriter(stream);
+						writer->WriteString(content);
+						concurrency::event evt;
+						concurrency::create_task(writer->StoreAsync()).then([stream, writer, &evt](std::uint32_t) {
+							concurrency::create_task(writer->FlushAsync()).then([&evt](bool){
+								evt.set();
+							});
+						}, concurrency::task_continuation_context::use_arbitrary());
+						evt.wait();
+						writer->DetachStream();
+						stream->Seek(0);
+						return static_cast<IInputStream^>(stream);
+					}
+					IRandomAccessStream^ stream;
+					concurrency::event evt;
+					concurrency::create_task(file->OpenAsync(FileAccessMode::Read)).then([&evt, &stream](IRandomAccessStream^ stream_) {
+						stream = stream_;
+						evt.set();
+					}, concurrency::task_continuation_context::use_arbitrary());
+					evt.wait();
+
+					return static_cast<IInputStream^>(stream);
+				});
+
+				try {
+					return getInputStreamTask.get();
+				} catch (Platform::Exception^ e) {
+					HAL::detail::ThrowRuntimeError("TitaniumWindows::UI::WebView", "Ti.UI.WebView: Unable to read " + TitaniumWindows::Utility::ConvertString(uri->Path));
+				}
+
+				return nullptr;
+			});
+		}
+	};
+}
+
 namespace TitaniumWindows
 {
 	namespace UI
 	{
 		using namespace Windows::Storage;
+
+		Windows::Foundation::Collections::IMap<::Platform::String^, ::Platform::String^>^ WebView::LocalHostKeys =
+			ref new Platform::Collections::Map<Platform::String^, Platform::String^>();
 
 		WebView::WebView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::WebView(js_context)
@@ -33,7 +116,9 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::WebView::postCallAsConstructor(js_context, arguments);	
 			
-			webview__ = ref new Windows::UI::Xaml::Controls::WebView();
+			webview__ = ref new Controls::WebView();
+			streamResolver__ = ref new TitaniumWindows_UI::StreamFromApplicationUriResolver();
+
 			initWebViewListeners();
 
 			Titanium::UI::WebView::setLayoutDelegate<WindowsViewLayoutDelegate>();
@@ -54,7 +139,7 @@ namespace TitaniumWindows
 			const auto callback = get_object().GetProperty("_executeListener");
 			auto func = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App.removeEventListener"));
 
-			for (const auto name : app_event_names) {
+			for (const auto name : app_event_names__) {
 				std::vector<JSValue> args = { ctx.CreateString(name), callback };
 				func(args, app);
 			}
@@ -111,10 +196,8 @@ namespace TitaniumWindows
 		/*
 		 * Inject Titanium API over the local content
 		 */
-		void WebView::navigateWithLocalScript(const std::string& original)
+		std::string WebView::InjectLocalScript(const std::string& original)
 		{
-			localscript_navigating__ = true;
-
 			std::string content = original;
 
 			// common script for WebView-Titanium binding
@@ -133,17 +216,15 @@ namespace TitaniumWindows
 				}
 			}
 
-			webview__->NavigateToString(TitaniumWindows::Utility::ConvertUTF8String(content));
+			return content;
 		}
 
 		void WebView::initWebViewListeners() TITANIUM_NOEXCEPT 
 		{
 			using namespace std::placeholders;
-			using namespace Windows::UI::Xaml::Controls;
 
 			load_event__ = webview__->NavigationCompleted += ref new Windows::Foundation::TypedEventHandler
-				<Windows::UI::Xaml::Controls::WebView^, WebViewNavigationCompletedEventArgs^>([this](Platform::Object^ sender, WebViewNavigationCompletedEventArgs^ e) {				
-				localscript_navigating__ = false;
+				<Controls::WebView^, Controls::WebViewNavigationCompletedEventArgs^>([this](Platform::Object^ sender, Controls::WebViewNavigationCompletedEventArgs^ e) {				
 				loading__ = false;
 				if (e->IsSuccess && load_event_enabled__) {
 					JSObject obj = get_context().CreateObject();
@@ -159,16 +240,8 @@ namespace TitaniumWindows
 					fireEvent("error", obj);
 				}
 			});
-
 			beforeload_event__ = webview__->NavigationStarting += ref new Windows::Foundation::TypedEventHandler
-				<Windows::UI::Xaml::Controls::WebView^, WebViewNavigationStartingEventArgs^>([this](Platform::Object^ sender, WebViewNavigationStartingEventArgs^ e) {
-				// This means user navigates to local content via hyperlink
-				if (!localscript_navigating__ && isLocalUri(e->Uri)) {
-					e->Cancel = true;
-					set_url(TitaniumWindows::Utility::ConvertString(e->Uri->AbsoluteUri));
-					return;
-				}
-
+				<Controls::WebView^, Controls::WebViewNavigationStartingEventArgs^>([this](Controls::WebView^, Controls::WebViewNavigationStartingEventArgs^ e) {
 				loading__ = true;
 				if (beforeload_event_enabled__) {
 					JSObject obj = get_context().CreateObject();
@@ -177,7 +250,7 @@ namespace TitaniumWindows
 				}
 			});
 
-			script_event__ = webview__->ScriptNotify += ref new NotifyEventHandler([this](Platform::Object^ sender, Windows::UI::Xaml::Controls::NotifyEventArgs^ e) {
+			script_event__ = webview__->ScriptNotify += ref new Controls::NotifyEventHandler([this](Platform::Object^ sender, Controls::NotifyEventArgs^ e) {
 				const auto value = TitaniumWindows::Utility::ConvertString(e->Value);
 				std::vector<std::string> args;
 #pragma warning(push)
@@ -211,12 +284,12 @@ namespace TitaniumWindows
 					auto func = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App.fireEvent"));
 					std::vector<JSValue> args = { ctx.CreateString(arg1), ctx.CreateValueFromJSON(arg2) };
 					func(args, app);
-				} else if (command == "Ti.App.addEventListener" && app_event_names.find(arg1) == app_event_names.end()) {
+				} else if (command == "Ti.App.addEventListener" && app_event_names__.find(arg1) == app_event_names__.end()) {
 					const auto app = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App"));
 					auto func = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App.addEventListener"));
 					std::vector<JSValue> args = { ctx.CreateString(arg1), get_object().GetProperty("_executeListener") };
 					func(args, app);
-					app_event_names.emplace(arg1);
+					app_event_names__.emplace(arg1);
 				} else if (command == "Ti.App.removeEventListener") {
 					const auto app = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App"));
 					auto func = static_cast<JSObject>(ctx.JSEvaluateScript("Ti.App.removeEventListener"));
@@ -260,13 +333,7 @@ namespace TitaniumWindows
 
 		void WebView::set_html(const std::string& html) TITANIUM_NOEXCEPT
 		{
-			navigateWithLocalScript(html);
-		}
-
-		bool WebView::isLocalUri(Windows::Foundation::Uri^ uri) const TITANIUM_NOEXCEPT
-		{
-			const auto scheme = uri->SchemeName;
-			return (scheme == "ms-appx" || scheme == "ms-appdata" || scheme == "ms-appx-web");
+			webview__->NavigateToString(TitaniumWindows::Utility::ConvertUTF8String(InjectLocalScript(html)));
 		}
 
 		std::string WebView::get_url() const TITANIUM_NOEXCEPT
@@ -282,27 +349,33 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::WebView::set_url(url);
 
-			const auto uri = TitaniumWindows::Utility::GetUriFromPath(boost::algorithm::replace_first_copy(url, "ms-appx-web://", "ms-appx://"));
+			const auto uri = TitaniumWindows::Utility::GetUriFromPath(url);
+			const auto scheme = uri->SchemeName;
 
-			if (isLocalUri(uri)) {
-				Windows::Storage::StorageFile^ file = nullptr;
-				concurrency::event event;
-				concurrency::task<StorageFile^>(StorageFile::GetFileFromApplicationUriAsync(uri)).then([&file, &event](concurrency::task<StorageFile^> task) {
-					try {
-						file = task.get();
-					} catch (Platform::COMException^ ex) {
-						file = nullptr;
+			if (scheme->Equals("ms-appdata")) {
+				// Save host name for ms-local-stream.
+				// Local content should be stored in /local/SUBFOLDER/actual_content,
+				// and the host name for ms-local-stream will be built based on this SUBFOLDER. (ms-local-stream:://SUBFOLDER_KEY/actual_content).
+				// So save the mapping here since there's no way to get SUBFOLDER string from SUBFOLDER_KEY.
+				const auto fullpath = TitaniumWindows::Utility::ConvertString(uri->Path);
+				if (fullpath.find_first_of("/local/") == 0) {
+					const auto offset = fullpath.find_first_of("/", 7);
+					if (offset != std::string::npos) {
+						const auto hostname = TitaniumWindows::Utility::ConvertString(fullpath.substr(7, offset - 7));
+						const auto path = TitaniumWindows::Utility::ConvertString(fullpath.substr(offset));
+						const auto streamuri = webview__->BuildLocalStreamUri(hostname, path);
+						WebView::LocalHostKeys->Insert(streamuri->Host, hostname);
+						webview__->NavigateToLocalStreamUri(streamuri, streamResolver__);
+						return;
 					}
-					event.set();
-				}, concurrency::task_continuation_context::use_arbitrary());
-				event.wait();
-
-				if (file != nullptr) {
-					const auto content = TitaniumWindows::Utility::GetContentFromFile(file);
-					navigateWithLocalScript(std::string(content.begin(), content.end()));
-				} else {
-					HAL::detail::ThrowRuntimeError("TitaniumWindows::UI::WebView", "Ti.UI.WebView: Unable to load file content");
 				}
+				HAL::detail::ThrowRuntimeError("TitaniumWindows::UI::WebView", "Ti.UI.WebView: Unable to load file content");
+			} else if (scheme->Equals("ms-appx") || scheme->Equals("ms-appx-web")) {
+				// Use ms-local-stream for applicaiton resource too. In this case we use scheme name for host key
+				const auto streamuri = webview__->BuildLocalStreamUri("ms-appx://", uri->Path);
+				WebView::LocalHostKeys->Insert(streamuri->Host, "ms-appx://");
+				webview__->NavigateToLocalStreamUri(streamuri, streamResolver__);
+				return;
 			} else {
 				webview__->Navigate(uri);
 			}
