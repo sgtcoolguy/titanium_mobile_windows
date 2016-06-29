@@ -6,14 +6,9 @@
  */
 
 var should = require('should'),
-	utilities = require('./utilities/utilities'),
-	didFocus = false;
+	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.WebView', function () {
-
-	beforeEach(function() {
-		didFocus = false;
-	});
 
 	// Skip this on desktop Windows 10 apps because it crashes the app now.
 	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('url', function (finish) {
@@ -23,9 +18,7 @@ describe('Titanium.UI.WebView', function () {
 		});
 		var webview = Ti.UI.createWebView();
 
-		w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
+		w.addEventListener('open', function () {
 			should(function () {
 				webview.url = 'http://www.appcelerator.com/';
 			}).not.throw();
@@ -45,21 +38,94 @@ describe('Titanium.UI.WebView', function () {
 			backgroundColor: 'blue'
 		});
 		var webview = Ti.UI.createWebView();
-
-		w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
+		webview.addEventListener('load', function () {
+		    w.close();
+		    finish();
+		});
+		w.addEventListener('open', function () {
 			should(function () {
 				webview.url = 'ti.ui.webview.test.html';
 			}).not.throw();
-			setTimeout(function () {
-				w.close();
-				finish();
-			}, 1000);
 		});
 
 		w.add(webview);
 		w.open();
+	});
+
+	(utilities.isWindows() ? it : it.skip)('url (ms-appx)', function (finish) {
+	    this.timeout(10000);
+	    var w = Ti.UI.createWindow({
+	        backgroundColor: 'blue'
+	    });
+	    var webview = Ti.UI.createWebView();
+
+	    webview.addEventListener('load', function () {
+	        w.close();
+	        finish();
+	    });
+	    w.addEventListener('open', function () {
+	        should(function () {
+	            webview.url = 'ms-appx:///ti.ui.webview.test.html';
+	        }).not.throw();
+	    });
+
+	    w.add(webview);
+	    w.open();
+	});
+
+	(utilities.isWindows() ? it : it.skip)('url (ms-appx-web)', function (finish) {
+	    this.timeout(10000);
+	    var w = Ti.UI.createWindow({
+	        backgroundColor: 'blue'
+	    });
+	    var webview = Ti.UI.createWebView();
+
+	    webview.addEventListener('load', function () {
+	        w.close();
+	        finish();
+	    });
+	    w.addEventListener('open', function () {
+	        should(function () {
+	            webview.url = 'ms-appx-web:///ti.ui.webview.test.html';
+	        }).not.throw();
+	    });
+
+	    w.add(webview);
+	    w.open();
+	});
+
+	(utilities.isWindows() ? it : it.skip)('url (ms-appx-data)', function (finish) {
+	    this.timeout(10000);
+	    function prepare(files) {
+	        var webroot = Ti.Filesystem.applicationDataDirectory + 'webroot';
+	        var webroot_file = Ti.Filesystem.getFile(webroot);
+	        if (!webroot_file.exists()) {
+	            webroot_file.createDirectory();
+	        }
+	        for (var i = 0; i < files.length; i++) {
+	            var file = files[i];
+	            var from = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, file);
+	            var to = webroot + Ti.Filesystem.separator + file;
+	            from.copy(to)
+	        }
+	    }
+	    var w = Ti.UI.createWindow({
+	        backgroundColor: 'blue'
+	    });
+	    var webview = Ti.UI.createWebView();
+	    webview.addEventListener('load', function () {
+	        w.close();
+	        finish();
+	    });
+	    w.addEventListener('open', function () {
+	        prepare(['ti.ui.webview.test.html'])
+	        should(function () {
+	            webview.url = 'ms-appdata:///local/webroot/ti.ui.webview.test.html';
+	        }).not.throw();
+	    });
+
+	    w.add(webview);
+	    w.open();
 	});
 
 	// Skip this on desktop Windows apps because it crashes the app now.
@@ -78,9 +144,7 @@ describe('Titanium.UI.WebView', function () {
 				}, 1000);
 			});
 		});
-		w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
+		w.addEventListener('open', function () {
 			should(function () {
 				webview.url = 'ti.ui.webview.test.html';
 			}).not.throw();

@@ -128,6 +128,7 @@ set(SOURCE_Assets
   src/Assets/cricket.wav
   src/Assets/WebViewIndexPage.htm
   src/Assets/WebViewNextPage.htm
+  src/Assets/sample.jpg
   src/Assets/require_test.js
   )
 

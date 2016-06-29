@@ -202,9 +202,9 @@ namespace TitaniumWindows
 				boost::replace_all<std::string>(modified, localFolder, "ms-appdata:///local");
 
 				// fix relative path with application directory
-				if (!boost::starts_with(modified, "ms-appx:") && !boost::starts_with(modified, "ms-appdata:")) {
+				if (modified.find("://") == std::string::npos) {
 
-					// always absolute path
+					// always use absolute path
 					if (!boost::starts_with(modified, "/")) {
 						modified = "/" + modified;
 					}
