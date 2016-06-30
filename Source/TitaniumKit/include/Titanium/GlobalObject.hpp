@@ -318,6 +318,7 @@ namespace Titanium
 #pragma warning(push)
 #pragma warning(disable : 4251)
 		std::unordered_map<std::string, JSValue> module_cache__;
+		std::string currentDir__;
 		std::unordered_map<unsigned, std::shared_ptr<Timer>> timer_map__;
 
 		static std::atomic<unsigned> timer_id_generator__;
