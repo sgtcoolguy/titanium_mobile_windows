@@ -44,7 +44,7 @@ namespace TitaniumWindows
 	{
 		std::vector<std::shared_ptr<Titanium::Contacts::Person>> result;
 #if defined(IS_WINDOWS_10)
-		// FIXME Should we grab the contact store during requestAuthorization?
+		// FIXME Should we grab the contact store during requestContactsPermissions?
 		try {
 
 			IVectorView<Contact^>^ contacts;
@@ -103,7 +103,7 @@ namespace TitaniumWindows
 	{
 		std::vector<std::shared_ptr<Titanium::Contacts::Person>> result;
 #if defined(IS_WINDOWS_10)
-		// FIXME Should we grab the contact store during requestAuthorization?
+		// FIXME Should we grab the contact store during requestContactsPermissions?
 		IVectorView<Contact^>^ contacts;
 		const auto query = TitaniumWindows::Utility::ConvertUTF8String(name);
 		concurrency::event event;
@@ -147,7 +147,7 @@ namespace TitaniumWindows
 	{
 		std::shared_ptr<Titanium::Contacts::Person> result = nullptr;
 #if defined(IS_WINDOWS_10)
-		// FIXME Should we grab the contact store during requestAuthorization?
+		// FIXME Should we grab the contact store during requestContactsPermissions?
 		Contact^ contact;
 		const auto identifier = Utility::ConvertUTF8String(id);
 		concurrency::event event;
@@ -382,7 +382,7 @@ namespace TitaniumWindows
 		}
 	}
 
-	void ContactsModule::requestAuthorization(JSObject& callback) TITANIUM_NOEXCEPT
+	void ContactsModule::requestContactsPermissions(JSObject& callback) TITANIUM_NOEXCEPT
 	{
 		Titanium::ErrorResponse e;
 		e.code = 0;

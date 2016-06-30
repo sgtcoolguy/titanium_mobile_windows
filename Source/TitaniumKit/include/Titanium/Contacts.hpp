@@ -104,10 +104,10 @@ namespace Titanium
 
 		/*!
 		  @method
-		  @abstract requestAuthorization
+		  @abstract requestContactsPermissions
 		  @discussion If authorization is unknown, will bring up a dialog requesting permission.
 		*/
-		virtual void requestAuthorization(JSObject& callback) TITANIUM_NOEXCEPT;
+		virtual void requestContactsPermissions(JSObject& callback) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -213,7 +213,7 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(getPersonByIdentifier);
 		TITANIUM_FUNCTION_DEF(removeGroup);
 		TITANIUM_FUNCTION_DEF(removePerson);
-		TITANIUM_FUNCTION_DEF(requestAuthorization);
+		TITANIUM_FUNCTION_DEF(requestContactsPermissions);
 		TITANIUM_FUNCTION_DEF(revert);
 		TITANIUM_FUNCTION_DEF(save);
 		TITANIUM_FUNCTION_DEF(showContacts);

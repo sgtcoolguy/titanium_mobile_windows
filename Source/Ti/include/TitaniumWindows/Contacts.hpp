@@ -59,7 +59,7 @@ namespace TitaniumWindows
 		virtual void revert() TITANIUM_NOEXCEPT override final;
 		virtual void save(const std::vector<std::shared_ptr<Titanium::Contacts::Person>>& contacts) TITANIUM_NOEXCEPT override final;
 		virtual void showContacts(const Titanium::Contacts::ShowContactsParams& params) TITANIUM_NOEXCEPT override final;
-		virtual void requestAuthorization(JSObject& callback) TITANIUM_NOEXCEPT override final;
+		virtual void requestContactsPermissions(JSObject& callback) TITANIUM_NOEXCEPT override final;
 
 	private:
 #if defined(IS_WINDOWS_10)
