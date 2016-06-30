@@ -242,8 +242,8 @@ describe('Titanium.Contacts', function() {
 		// We exercise removal in Person add/remove
 		finish();
 	});
-	it('requestAuthorization', function(finish) {
-		should(Ti.Contacts.requestAuthorization).be.a.Function;
+	it('requestContactsPermissions', function(finish) {
+		should(Ti.Contacts.requestContactsPermissions).be.a.Function;
 		// TODO Test the method
 		finish();
 	});

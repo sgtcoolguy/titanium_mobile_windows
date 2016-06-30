@@ -151,9 +151,9 @@ namespace Titanium
 		TITANIUM_LOG_WARN("ContactsModule::removePerson: Unimplemented");
 	}
 
-	void ContactsModule::requestAuthorization(JSObject& callback) TITANIUM_NOEXCEPT
+	void ContactsModule::requestContactsPermissions(JSObject& callback) TITANIUM_NOEXCEPT
 	{
-		TITANIUM_LOG_WARN("ContactsModule::requestAuthorization: Unimplemented");
+		TITANIUM_LOG_WARN("ContactsModule::requestContactsPermissions: Unimplemented");
 	}
 
 	void ContactsModule::revert() TITANIUM_NOEXCEPT
@@ -199,7 +199,7 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(ContactsModule, getPersonByIdentifier);
 		TITANIUM_ADD_FUNCTION(ContactsModule, removeGroup);
 		TITANIUM_ADD_FUNCTION(ContactsModule, removePerson);
-		TITANIUM_ADD_FUNCTION(ContactsModule, requestAuthorization);
+		TITANIUM_ADD_FUNCTION(ContactsModule, requestContactsPermissions);
 		TITANIUM_ADD_FUNCTION(ContactsModule, revert);
 		TITANIUM_ADD_FUNCTION(ContactsModule, save);
 		TITANIUM_ADD_FUNCTION(ContactsModule, showContacts);
@@ -303,10 +303,10 @@ namespace Titanium
 		return get_context().CreateUndefined();
 	}
 
-	TITANIUM_FUNCTION(ContactsModule, requestAuthorization)
+	TITANIUM_FUNCTION(ContactsModule, requestContactsPermissions)
 	{
 		ENSURE_OBJECT_AT_INDEX(callback, 0);
-		requestAuthorization(callback);
+		requestContactsPermissions(callback);
 		return get_context().CreateUndefined();
 	}
 

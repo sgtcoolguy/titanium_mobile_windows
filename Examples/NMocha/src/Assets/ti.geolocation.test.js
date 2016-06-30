@@ -159,18 +159,42 @@ describe('Titanium.Geolocation', function () {
 	it('forwardGeocoder', function (finish) {
 		should(Ti.Geolocation.forwardGeocoder).be.a.Function;
 		Ti.Geolocation.forwardGeocoder('440 N Bernardo Ave, Mountain View', function (data) {
-			should(data.latitude).be.eql(37.3883645);
-			should(data.longitude).be.eql(-122.0512682);
+		    try {
+		        should(data).have.property('success').which.is.a.Boolean;
+		        should(data.success).be.eql(true);
+		        should(data).have.property('code').which.is.a.Number;
+		        should(data.code).be.eql(0);
+		        should(data.latitude).be.approximately(37.387, 0.002);
+		        should(data.longitude).be.approximately(-122.065, 0.02);
+		        finish();
+		    } catch (err) {
+		        finish(err);
+		    }
 		});
-		finish();
 	});
 
 	it('reverseGeocoder', function (finish) {
 		should(Ti.Geolocation.reverseGeocoder).be.a.Function;
 		Ti.Geolocation.reverseGeocoder(37.3883645, -122.0512682, function (data) {
-			should(data.zipcode).be.eql('94043');
+			try {
+				should(data).have.property('success').which.is.a.Boolean;
+				should(data.success).be.eql(true);
+				should(data).have.property('code').which.is.a.Number;
+				should(data.code).be.eql(0);
+				should(data).have.property('places').which.is.an.Array;
+				should(data.places[0].zipcode).be.eql('94043');
+				should(data.places[0].country).be.eql('United States of America');
+				should(data.places[0].state).be.eql('California');
+				should(data.places[0].country_code).be.eql('US');
+				should(data.places[0]).have.property('city').which.is.a.String;
+				should(data.places[0]).have.property('address').which.is.a.String;
+				should(data.places[0]).have.property('latitude').which.is.a.Number;
+				should(data.places[0]).have.property('longitude').which.is.a.Number;
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
-		finish();
 	});
 
 	it('currentPosition', function (finish) {

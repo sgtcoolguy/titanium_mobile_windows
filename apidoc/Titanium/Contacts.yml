@@ -40,7 +40,7 @@ methods:
     platforms: [windowsphone]
   - name: removePerson
     platforms: [windowsphone]
-  - name: requestAuthorization
+  - name: requestContactsPermissions
     platforms: [windowsphone]
   - name: revert
     platforms: [windowsphone]
