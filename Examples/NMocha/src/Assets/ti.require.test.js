@@ -139,14 +139,16 @@ describe('requireJS', function () {
 		should(with_index_js.name).be.eql('index.js');
 		finish();
 	});
-    
-    // TIMOB-23512
+
+	// TIMOB-23512
 	it('relative require() from sub directory', function (finish) {
-	    var with_index_js = require('./with_index_js/sub1');
-	    should(with_index_js).have.property('name');
-	    should(with_index_js.name).be.eql('sub1.js');
-	    should(with_index_js.sub).be.eql('sub2.js');
-	    finish();
+		var with_index_js = require('./with_index_js/sub1');
+		should(with_index_js).have.property('name');
+		should(with_index_js.name).be.eql('sub1.js');
+		should(with_index_js.sub).be.eql('sub2.js');
+		// Was also failing if same file had multiple relative requires
+		should(with_index_js.sub3).be.eql('sub3.js');
+		finish();
 	});
 
 	it('falls back to index.json when requiring directory with no package.json or index.js', function (finish) {
