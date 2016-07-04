@@ -22,6 +22,8 @@ namespace Titanium
 				return Size;
 			} else if (value == "UI.FILL") {
 				return Fill;
+			} else if (value == "NONE") {
+				return None;
 			} else if (value.find("%") != std::string::npos) {
 				return Percent;
 			} else {
