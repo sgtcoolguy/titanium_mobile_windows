@@ -134,7 +134,7 @@ namespace TitaniumWindows
 				try {
 					content = std::move(GetContentFromBuffer(task.get()));
 				}
-				catch (::Platform::COMException^ ex) {
+				catch (::Platform::Exception^ ex) {
 					// TODO throw JavaScript Exception
 				}
 				event.set();
