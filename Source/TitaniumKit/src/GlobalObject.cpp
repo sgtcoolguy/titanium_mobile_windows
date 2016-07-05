@@ -26,6 +26,7 @@ namespace Titanium
 	GlobalObject::GlobalObject(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : JSExportObject(js_context)
 	    , callback_map__(js_context.CreateObject())
+		, currentDir__(COMMONJS_SEPARATOR__)
 	{
 		TITANIUM_LOG_DEBUG("GlobalObject:: ctor ", this);
 	}
@@ -266,25 +267,17 @@ namespace Titanium
 			return requireNativeModule(js_context, moduleId);
 		}
 
-		std::string dirname = COMMONJS_SEPARATOR__;
-		if (parent.HasProperty("__TI_REQUIRED__")) {
-			const auto filename_obj = parent.GetProperty("__TI_REQUIRED__");
-			if (filename_obj.IsString()) {
-				const auto filename = static_cast<std::string>(filename_obj);
-				const auto pos = filename.find_last_of(COMMONJS_SEPARATOR__);
-				if (pos != std::string::npos) {
-					dirname = filename.substr(0, pos);
-				}
-			}
-		}
+		// FIXME We should be able to ask for the parent module's filename property to determine the dirname!
+		// Parent here seems to _always_ be the global object.
+		std::string dirname = currentDir__;
 
 		auto module_path = requestResolveModule(parent, moduleId, dirname);
-		if (module_path.empty()) {
-			// Fall back to assuming equivalent of "/" + moduleId?
+		if (module_path.empty() && moduleId.find(".") != 0 && moduleId.find("/") != 0) {
+			// Fall back to assuming equivalent of "/" + moduleId (legacy behavior) if we don't already have a leading . or /
 			module_path = requestResolveModule(parent, "/" + moduleId);
-			if (module_path.empty()) {
-				detail::ThrowRuntimeError("require", "Could not load module " + moduleId);
-			}
+		}
+		if (module_path.empty()) {
+			detail::ThrowRuntimeError("require", "Could not load module " + moduleId);
 		}
 
 		// check if we have already loaded the module
@@ -292,11 +285,27 @@ namespace Titanium
 			return module_cache__.at(module_path);
 		}
 
+		// FIXME We need to create a new Module object where we set the filename and parent on it after resolving the filename
+		// This should be what we use for parent object in sub-require() calls
+		// Node basically hangs a special require and resolve function off each module object
+		// the require call has references to the __dirname, __filename, parent, global, etc
+		//JSObject module = js_context.CreateObject();
+
 		const auto module_js = readRequiredModule(parent, module_path);
 
 		if (module_js.empty()) {
 			detail::ThrowRuntimeError("require", "Could not load module " + moduleId);
 		}
+
+		// Update currentDir__ pointer
+		std::size_t found = module_path.rfind(COMMONJS_SEPARATOR__);
+		if (found != std::string::npos) {
+			currentDir__ = COMMONJS_SEPARATOR__ + module_path.substr(0, found); //  Take the dirname of this, not the full filename
+		}
+		else {
+			currentDir__ = COMMONJS_SEPARATOR__;
+		}
+
 		try {
 			JSValue result = js_context.CreateUndefined();
 			if (boost::ends_with(module_path, ".json")){
@@ -308,9 +317,8 @@ namespace Titanium
 				if (moduleId == "/app") {
 					result = js_context.JSEvaluateScript(module_js, js_context.get_global_object());
 				} else {
-					const std::string require_module_js = "(function(global) { var exports={},__OXP=exports,module={'exports':exports},__filename='/"
-						+ module_path + "';this.__TI_REQUIRED__ = __filename;" + module_js + R"JS(
-						delete this.__TI_REQUIRED__; // only available while evaluating current module
+					const std::string require_module_js = "(function(global) { var exports={},__OXP=exports,module={'exports':exports},__dirname='" + currentDir__ + "';__filename='/"
+						+ module_path + "';" + module_js + R"JS(
 						if(module.exports !== __OXP){
 							return module.exports;
 						} else {
@@ -318,11 +326,13 @@ namespace Titanium
 						}
 					})(this);
 					)JS";
-					result = js_context.JSEvaluateScript(require_module_js, js_context.get_global_object());
+					result = js_context.JSEvaluateScript(require_module_js, js_context.get_global_object(), module_path);
 				}
 			} else {
+				currentDir__ = dirname; // Should ensure this gets reset on _EVERY_ code branch possible here. Would be nice if C++/CX had finally blocks
 				detail::ThrowRuntimeError("require", "Could not load module "+moduleId);
 			}
+			currentDir__ = dirname; // Should ensure this gets reset on _EVERY_ code branch possible here. Would be nice if C++/CX had finally blocks
 			if (!result.IsObject()) {
 				TITANIUM_LOG_WARN("GlobalObject::require: module '", moduleId, "' replaced 'exports' with a non-object: ", to_string(result));
 			}
@@ -330,8 +340,10 @@ namespace Titanium
 			module_cache__.insert({module_path, result});
 			return result;
 		} catch (const std::exception& exception) {
+			currentDir__ = dirname; // Should ensure this gets reset on _EVERY_ code branch possible here. Would be nice if C++/CX had finally blocks
 			detail::ThrowRuntimeError("require", "Error while require("+moduleId+") "+static_cast<std::string>(exception.what()));
 		} catch (...) {
+			currentDir__ = dirname; // Should ensure this gets reset on _EVERY_ code branch possible here. Would be nice if C++/CX had finally blocks
 			detail::ThrowRuntimeError("require", "Unknown error while require("+moduleId+")");
 		}
 		return js_context.CreateUndefined();

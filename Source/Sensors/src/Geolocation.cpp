@@ -229,59 +229,6 @@ namespace TitaniumWindows
 		event.wait();
 	}
 
-	void Geolocation::forwardGeocoder(const std::string& address, JSObject callback) TITANIUM_NOEXCEPT
-	{
-		if (!get_locationServicesEnabled()) {
-			return;
-		}
-
-		auto requestString = std::string("http://api.appcelerator.net/p/v1/geo?d=f");
-
-			//TODO : Use real GUID, MID, SID
-			requestString += std::string("&aguid=") + std::string("25FE4B6E-7DA9-4344-B55B-25195570860F");
-			requestString += std::string("&mid=") + std::string("com.appcelerator.uuid");
-			requestString += std::string("&sid=") + std::string("sid");
-			requestString += std::string("&q=") + address;
-			//requestString += std::string("&c=") + std::string("US");
-
-			const auto requestUri = ref new Windows::Foundation::Uri(Utility::ConvertString(requestString));
-
-			const auto httpClient = ref new HttpClient();
-			concurrency::create_task(httpClient->GetAsync(requestUri)).then([this, address, callback](concurrency::task<HttpResponseMessage^> task) {
-				TITANIUM_EXCEPTION_CATCH_START {
-					const auto response = task.get();
-					std::vector<std::string> split_response;
-					boost::split(split_response, Utility::ConvertString(response->Content->ToString()), boost::is_any_of(","));
-
-					JSObject forwardGeocodeResponse = get_context().CreateObject();
-
-					if (split_response.size() > 0 && split_response.at(0) == "200") {
-						const double accuracy = atof(split_response.at(1).c_str());
-						const double latitude = atof(split_response.at(2).c_str());
-						const double longitude = atof(split_response.at(3).c_str());
-
-						forwardGeocodeResponse.SetProperty("accuracy", get_context().CreateNumber(accuracy));
-						forwardGeocodeResponse.SetProperty("address", get_context().CreateString(address));
-						forwardGeocodeResponse.SetProperty("latitude", get_context().CreateNumber(latitude));
-						forwardGeocodeResponse.SetProperty("longitude", get_context().CreateNumber(longitude));
-						forwardGeocodeResponse.SetProperty("success", get_context().CreateBoolean(true));
-						forwardGeocodeResponse.SetProperty("error", get_context().CreateString(""));
-						forwardGeocodeResponse.SetProperty("code", get_context().CreateNumber(0.0));
-					} else {
-						forwardGeocodeResponse.SetProperty("success", get_context().CreateBoolean(false));
-						forwardGeocodeResponse.SetProperty("error", get_context().CreateString("no results"));
-						forwardGeocodeResponse.SetProperty("code", get_context().CreateNumber(static_cast<double>(-1)));
-					}
-
-					// Cast callback as non-const JSObject
-					// TODO : More elegant way of doing this
-					auto cb = static_cast<JSObject>(callback);
-					TITANIUM_ASSERT(cb.IsFunction());
-					cb({ forwardGeocodeResponse }, get_context().get_global_object());
-				} TITANIUMWINDOWS_EXCEPTION_CATCH_END
-			});
-	}
-
 	void Geolocation::getCurrentHeading(JSObject callback) TITANIUM_NOEXCEPT
 	{
 		if (!get_locationServicesEnabled()) {
@@ -365,40 +312,6 @@ namespace TitaniumWindows
 				// Cast callback as non-const JSObject
 				auto cb = static_cast<JSObject>(callback);
 				cb({ locationResult }, get_object());
-			} TITANIUMWINDOWS_EXCEPTION_CATCH_END
-		});
-	}
-
-	void Geolocation::reverseGeocoder(const double& latitude, const double& longitude, JSObject callback) TITANIUM_NOEXCEPT
-	{
-		if (!get_locationServicesEnabled()) {
-			return;
-		}
-
-		ensureLoadGeolocator();
-
-		auto requestString = std::string("http://api.appcelerator.net/p/v1/geo?d=r");
-
-		//TODO : Use real GUID, MID, SID
-		requestString += std::string("&aguid=") + std::string("25FE4B6E-7DA9-4344-B55B-25195570860F");
-		requestString += std::string("&mid=") + std::string("com.appcelerator.uuid");
-		requestString += std::string("&sid=") + std::string("sid");
-		requestString += std::string("&q="+boost::lexical_cast<std::string>(latitude)+","+boost::lexical_cast<std::string>(longitude));
-		//requestString += std::string("&c=") + std::string("US");
-
-		const auto requestUri = ref new Windows::Foundation::Uri(Utility::ConvertString(requestString));
-
-		const auto httpClient = ref new HttpClient();
-		concurrency::create_task(httpClient->GetAsync(requestUri)).then([this, callback](concurrency::task<HttpResponseMessage^> task) {
-			TITANIUM_EXCEPTION_CATCH_START{
-				const auto response = task.get();
-				auto result = get_context().CreateValueFromJSON(Utility::ConvertString(response->Content->ToString()));
-
-				// Cast callback as non-const JSObject
-				// TODO : More elegant way of doing this
-				auto cb = static_cast<JSObject>(callback);
-				TITANIUM_ASSERT(cb.IsFunction());
-				cb({result}, get_context().get_global_object());
 			} TITANIUMWINDOWS_EXCEPTION_CATCH_END
 		});
 	}
