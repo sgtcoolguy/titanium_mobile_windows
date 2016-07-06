@@ -27,6 +27,7 @@ var archiver = require('archiver'),
 	types = defaultTypes.slice(0),
 	typesMin = ['phone', 'store', 'win10'],
 	configuration = 'Release',
+	EventEmitter = require('events').EventEmitter,
 	vs_architectures = {ARM:'ARM', x86:'Win32'}; // x86 -> Win32 mapping
 
 function WindowsModuleBuilder() {
@@ -287,6 +288,10 @@ function walkdir(dirpath, base, callback) {
 }
 
 WindowsModuleBuilder.prototype.packageZip = function packageZip(next) {
+
+	// Suppress warnings from Stream
+	EventEmitter.defaultMaxListeners = 100;
+
 	var buildDir = path.join(this.projectDir, 'build'),
 		moduleDir = path.join(buildDir, this.manifest.moduleid, this.manifest.version),
 		projectname = this.manifest.moduleIdAsIdentifier,
