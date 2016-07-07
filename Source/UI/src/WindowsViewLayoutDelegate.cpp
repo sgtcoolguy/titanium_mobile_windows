@@ -742,20 +742,20 @@ namespace TitaniumWindows
 				// Make sure to update the position of the view because StoryBoard doesn't change actual position of it.
 				//
 				const auto top = animation->get_top();
+				const auto bottom = animation->get_bottom();
 				if (top) {
 					setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, *top);
-				}
-				const auto bottom = animation->get_bottom();
-				if (bottom) {
+				} else if (bottom) {
+					setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, "NONE");
 					setLayoutProperty(Titanium::LayoutEngine::ValueName::Bottom, *bottom);
 				}
 
 				const auto left = animation->get_left();
+				const auto right = animation->get_right();
 				if (left) {
 					setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, *left);
-				}
-				const auto right = animation->get_right();
-				if (right) {
+				} else if (right) {
+					setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, "NONE");
 					setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, *right);
 				}
 

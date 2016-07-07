@@ -285,6 +285,73 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	it('animate (right)', function (finish) {
+		this.timeout(1e4);
+		var win = Ti.UI.createWindow(),
+		    parent = Ti.UI.createView({backgroundColor: 'red', width: 100, height: 100}),
+		    view = Ti.UI.createView({
+		        backgroundColor: 'orange',
+		        top: 0,
+		        left: 0,
+		        height: '10',
+		        width: '10'
+		    }),
+            animation = Ti.UI.createAnimation({
+		        right: '10',
+		        duration: 1000
+            });
+
+		animation.addEventListener('complete', function () {
+		    setTimeout(function () {
+				should(view.rect.x).be.eql(80);
+				should(view.rect.y).be.eql(0);
+				should(view.left).be.eql(0);
+				should(view.top).be.eql(0);
+				win.close();
+				finish();
+			}, 500);
+		});
+
+		parent.add(view);
+		view.animate(animation);
+		win.add(parent);
+		win.open();
+	});
+
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	it('animate (bottom)', function (finish) {
+		this.timeout(1e4);
+		var win = Ti.UI.createWindow(),
+		    parent = Ti.UI.createView({backgroundColor: 'red', width: 100, height: 100}),
+		    view = Ti.UI.createView({
+		        backgroundColor: 'orange',
+		        top: 0,
+		        left: 0,
+		        height: '10',
+		        width: '10'
+		    });
+		    animation = Ti.UI.createAnimation({
+		        bottom: '10',
+		        duration: 1000
+		    });
+		animation.addEventListener('complete', function () {
+		    setTimeout(function () {
+		        should(view.rect.x).be.eql(0);
+		        should(view.rect.y).be.eql(80);
+		        should(view.left).be.eql(0);
+		        should(view.top).be.eql(0);
+		        win.close();
+		        finish();
+	        }, 500);
+        });
+
+		parent.add(view);
+		view.animate(animation);
+		win.add(parent);
+		win.open();
+	});
+
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.
 	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('TIMOB-20598', function (finish) {
 		var win = Ti.UI.createWindow(),
 			view = Ti.UI.createView({
