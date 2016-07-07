@@ -406,9 +406,8 @@ function generateAppxManifestForPlatform(target, properties) {
 			}
 		});
 		properties.Capabilities = capabilities.concat(deviceCapabilities);
-	} else {
-		this.generateCapabilityList(target, properties);
 	}
+	this.generateCapabilityList(target, properties);
 
 	properties.Prerequisites = properties.Prerequisites || [];
 	properties.Resources = properties.Resources || [];
