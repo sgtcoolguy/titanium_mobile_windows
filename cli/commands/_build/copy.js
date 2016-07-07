@@ -85,7 +85,7 @@ function copyResources(next) {
 	var ignoreDirs = this.ignoreDirs,
 		ignoreFiles = this.ignoreFiles,
 		extRegExp = /\.(\w+)$/,
-		jsFiles = {},
+		jsFiles = this.jsFiles = {},
 		jsFilesToEncrypt = this.jsFilesToEncrypt = [],
 		htmlJsFiles = this.htmlJsFiles = {},
 		_t = this;
