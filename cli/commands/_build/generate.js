@@ -24,6 +24,7 @@ function mixin(WindowsBuilder) {
 	WindowsBuilder.prototype.generateNativeWrappers = generateNativeWrappers;
 	WindowsBuilder.prototype.generateModuleFinder = generateModuleFinder;
 	WindowsBuilder.prototype.generateCmakeList = generateCmakeList;
+	WindowsBuilder.prototype.generateCapabilityList = generateCapabilityList;
 	WindowsBuilder.prototype.generateAppxManifestForPlatform = generateAppxManifestForPlatform;
 	WindowsBuilder.prototype.generateAppxManifest = generateAppxManifest;
 }
@@ -234,6 +235,84 @@ function generateCmakeList(next) {
 };
 
 /**
+ * Generates capabilities based on API usage
+ *
+ * @param {String} target - Build target to determine platform specific capabilities
+ * @param {Object} properties - Properties object to set generated API list
+ */
+function generateCapabilityList(target, properties) {
+	Object.keys(this.jsFiles).forEach(function (id) {
+		var js = fs.readFileSync(this.jsFiles[id], {encoding: 'utf8'}),
+			apis = {
+				// Titanium.Contacts
+				'Contacts': {
+					uapCapability: ['contacts']
+				},
+				// Titanium.Filesystem
+				'Filesystem.externalStorageDirectory': {
+					uapCapability: ['removableStorage']
+				},
+				// Titanium.Geolocation.*
+				'Geolocation': {
+					deviceCapability: ['location']
+				},
+				// Titanium.Media
+				'Media.openPhotoGallery': {
+					uapCapability: ['picturesLibrary']
+				},
+				'Media.startVideoCapture': {
+					uapCapability: ['videosLibrary']
+				},
+				'Media.takeScreenshotToFile': {
+					uapCapability: ['picturesLibrary']
+				},
+				'Media.showCamera': {
+					deviceCapability: ['microphone', 'webcam']
+				},
+				// Titanium.Media.AudioRecorder.*
+				'Media.AudioRecorder': {
+					uapCapability: ['musicLibrary'],
+					deviceCapability: ['microphone', 'webcam']
+				},
+				// Titanium.Network.*
+				'Network': {
+					capability: ['internetClient']
+				}
+			},
+			capabilities = [
+				'<Capability Name=\"internetClient\" />' // always include internetClient for analytics
+			],
+			uapCapabilities = [],
+			deviceCapabilities = [];
+
+		for (api in apis) {
+			var reg = new RegExp('(Ti|Titanium)\\.(' + api.replace('.', '\\.') +')', 'g');
+			if (reg.test(js)) {
+				apis[api].capability && apis[api].capability.forEach(function(name) {
+					var entry = '<Capability Name="' + name + '" />';
+					if (capabilities.indexOf(entry) === -1) {
+						capabilities.push(entry);
+					}
+				});
+				apis[api].uapCapability && apis[api].uapCapability.forEach(function(name) {
+					var entry = '<uap:Capability Name="' + name + '" />';
+					if (uapCapabilities.indexOf(entry) === -1) {
+						uapCapabilities.push(entry);
+					}
+				});
+				apis[api].deviceCapability && apis[api].deviceCapability.forEach(function(name) {
+					var entry = '<DeviceCapability Name="' + name + '" />';
+					if (deviceCapabilities.indexOf(entry) === -1) {
+						deviceCapabilities.push(entry);
+					}
+				});
+			}
+		}
+		properties.Capabilities = capabilities.concat(uapCapabilities).concat(deviceCapabilities);
+	}.bind(this));
+};
+
+/**
  * Write appxmanifest.in according to manifest properties
  */
 function generateAppxManifestForPlatform(target, properties) {
@@ -327,9 +406,8 @@ function generateAppxManifestForPlatform(target, properties) {
 			}
 		});
 		properties.Capabilities = capabilities.concat(deviceCapabilities);
-	} else {
-		properties.Capabilities = ['<Capability Name=\"internetClient\" />'];
 	}
+	this.generateCapabilityList(target, properties);
 
 	properties.Prerequisites = properties.Prerequisites || [];
 	properties.Resources = properties.Resources || [];
