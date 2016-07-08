@@ -229,7 +229,7 @@ namespace TitaniumWindows
 							rootFrame->Navigate(Windows::UI::Xaml::Controls::Page::typeid);
 							auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
 							page->Content = next_window->getComponent();
-						} catch (Platform::COMException^ e) {
+						} catch (Platform::Exception^ e) {
 							// This may happen when current window is not actually opened yet. In this case we just can skip it.
 							// TODO: Is there any way to avoid this exception by checking if page content is valid?
 							TITANIUM_LOG_ERROR("Window.close: failed to set content for the new Window");

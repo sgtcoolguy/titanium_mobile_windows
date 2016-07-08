@@ -64,10 +64,21 @@ namespace TitaniumWindows_UI
 						const auto writer = ref new Streams::DataWriter(stream);
 						writer->WriteString(content);
 						concurrency::event evt;
-						concurrency::create_task(writer->StoreAsync()).then([stream, writer, &evt](std::uint32_t) {
-							concurrency::create_task(writer->FlushAsync()).then([&evt](bool){
+						concurrency::create_task(writer->StoreAsync()).then([stream, writer, &evt](concurrency::task<std::uint32_t> task) {
+							try {
+								task.get();
+								concurrency::create_task(writer->FlushAsync()).then([&evt](concurrency::task<bool> task) {
+									try {
+										task.get();
+									} catch (Platform::Exception^ e) {
+										TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(e->Message));
+									}
+									evt.set();
+								});
+							} catch (Platform::Exception^ e) {
+								TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(e->Message));
 								evt.set();
-							});
+							}
 						}, concurrency::task_continuation_context::use_arbitrary());
 						evt.wait();
 						writer->DetachStream();
@@ -76,8 +87,12 @@ namespace TitaniumWindows_UI
 					}
 					IRandomAccessStream^ stream;
 					concurrency::event evt;
-					concurrency::create_task(file->OpenAsync(FileAccessMode::Read)).then([&evt, &stream](IRandomAccessStream^ stream_) {
-						stream = stream_;
+					concurrency::create_task(file->OpenAsync(FileAccessMode::Read)).then([&evt, &stream](concurrency::task<IRandomAccessStream^> task) {
+						try {
+							stream = task.get();
+						} catch (Platform::Exception^ e) {
+							TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(e->Message));
+						}
 						evt.set();
 					}, concurrency::task_continuation_context::use_arbitrary());
 					evt.wait();
@@ -184,7 +199,7 @@ namespace TitaniumWindows
 						std::vector<JSValue> args = { get_context().CreateString(TitaniumWindows::Utility::ConvertUTF8String(result)) };
 						static_cast<JSObject>(callback)(args, get_object());
 					}
-				} catch (Platform::COMException^ e) {
+				} catch (Platform::Exception^ e) {
 					TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(e->Message));
 				}
 			});

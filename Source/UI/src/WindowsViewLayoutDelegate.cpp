@@ -25,6 +25,7 @@
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/WindowsMacros.hpp"
 #include "TitaniumWindows/LogForwarder.hpp"
+#include "TitaniumWindows/WindowsTiImpl.hpp"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -221,46 +222,55 @@ namespace TitaniumWindows
 					return renderTargetBitmap->GetPixelsAsync();
 
 				// obtain rendered pixel data
-				}).then([renderTargetBitmap, this_object, callback](IBuffer^ pixelBuffer) {
-					const auto pngStream = ref new InMemoryRandomAccessStream();
-					const auto pixelArray = TitaniumWindows::Utility::GetArrayFromBuffer(pixelBuffer);
+				}).then([renderTargetBitmap, this_object, callback](concurrency::task<IBuffer^> task) {
+					try {
+						const auto pixelBuffer = task.get();
+						const auto pngStream = ref new InMemoryRandomAccessStream();
+						const auto pixelArray = TitaniumWindows::Utility::GetArrayFromBuffer(pixelBuffer);
 
-					// encode pixel data into a PNG
-					// NOTE: using PNG encoder to support transparency
-					concurrency::create_task(BitmapEncoder::CreateAsync(BitmapEncoder::PngEncoderId, pngStream)).then(
-						[renderTargetBitmap, pixelArray, pngStream](BitmapEncoder^ encoder) {
-							encoder->SetPixelData(
-								Windows::Graphics::Imaging::BitmapPixelFormat::Bgra8,
-								Windows::Graphics::Imaging::BitmapAlphaMode::Straight,
-								renderTargetBitmap->PixelWidth,
-								renderTargetBitmap->PixelHeight,
-								0,
-								0,
-								pixelArray
-							);
-							return encoder->FlushAsync();
-						}
-
-					// obtain encoded PNG stream
-					).then([this_object, callback, pngStream]() {
-						const auto pngBuffer = ref new Windows::Storage::Streams::Buffer(static_cast<unsigned int>(pngStream->Size));
-
-						// write encoded PNG stream to PNG buffer
-						concurrency::create_task(pngStream->ReadAsync(pngBuffer, pngBuffer->Capacity, Windows::Storage::Streams::InputStreamOptions::None)).then(
-							[this_object, callback, pngBuffer](IBuffer^) {
-
-								// create Titanium.Blob from PNG buffer
-								const auto blob = this_object.get_context().CreateObject(JSExport<Titanium::Blob>::Class()).CallAsConstructor();
-								const auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
-								blob_ptr->construct(TitaniumWindows::Utility::GetContentFromBuffer(pngBuffer));
-
-								// call callback
-								const std::vector<JSValue> args = {blob};
-								auto cb = static_cast<JSObject>(callback);
-								cb(args, this_object);
+						// encode pixel data into a PNG
+						// NOTE: using PNG encoder to support transparency
+						concurrency::create_task(BitmapEncoder::CreateAsync(BitmapEncoder::PngEncoderId, pngStream)).then(
+							[renderTargetBitmap, pixelArray, pngStream](BitmapEncoder^ encoder) {
+								encoder->SetPixelData(
+									Windows::Graphics::Imaging::BitmapPixelFormat::Bgra8,
+									Windows::Graphics::Imaging::BitmapAlphaMode::Straight,
+									renderTargetBitmap->PixelWidth,
+									renderTargetBitmap->PixelHeight,
+									0,
+									0,
+									pixelArray
+								);
+								return encoder->FlushAsync();
 							}
-						);
-					});
+
+							// obtain encoded PNG stream
+							).then([this_object, callback, pngStream](concurrency::task<void> previousTask) {
+								try {
+									previousTask.get();
+									const auto pngBuffer = ref new Windows::Storage::Streams::Buffer(static_cast<unsigned int>(pngStream->Size));
+
+									// write encoded PNG stream to PNG buffer
+									concurrency::create_task(pngStream->ReadAsync(pngBuffer, pngBuffer->Capacity, Windows::Storage::Streams::InputStreamOptions::None)).then(
+										[this_object, callback, pngBuffer](IBuffer^) {
+
+										// create Titanium.Blob from PNG buffer
+										const auto blob = this_object.get_context().CreateObject(JSExport<Titanium::Blob>::Class()).CallAsConstructor();
+										const auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
+										blob_ptr->construct(TitaniumWindows::Utility::GetContentFromBuffer(pngBuffer));
+
+										// call callback
+										const std::vector<JSValue> args = { blob };
+										auto cb = static_cast<JSObject>(callback);
+										cb(args, this_object);
+									});
+								} catch (Platform::Exception^ e) {
+									TITANIUMWINDOWS_EXCEPTION_SHOW_REDSCREEN(e, this_object);
+								}
+						});
+					} catch (Platform::Exception^ e) {
+						TITANIUMWINDOWS_EXCEPTION_SHOW_REDSCREEN(e, this_object);
+					}
 				});
 			});
 		}
@@ -847,7 +857,12 @@ namespace TitaniumWindows
 			concurrency::event event;
 			concurrency::create_task(writer->StoreAsync()).then([writer](std::uint32_t) {
 				return writer->FlushAsync();
-			}).then([&event](bool) {
+			}).then([&event](concurrency::task<bool> task) {
+				try {
+					task.get();
+				} catch (Platform::Exception^ e) {
+					TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(e->Message));
+				}
 				event.set();
 			}, concurrency::task_continuation_context::use_arbitrary());
 			event.wait();

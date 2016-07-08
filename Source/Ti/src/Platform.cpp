@@ -345,7 +345,7 @@ namespace TitaniumWindows
 					if (found) break;
 				}
 			}
-			catch (::Platform::COMException^ ce) {
+			catch (::Platform::Exception^ ce) {
 			}
 			catch (...) {}
 			event.set();
@@ -370,9 +370,8 @@ namespace TitaniumWindows
 		concurrency::task<bool>(Windows::System::Launcher::LaunchUriAsync(uri)).then([&result, &event](concurrency::task<bool> task) {
 				try {
 					result = task.get();
-				}
-				catch (::Platform::COMException^ ce) {
-
+				} catch (::Platform::Exception^ ce) {
+					TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(ce->Message));
 				}
 				catch (...) {}
 				event.set();
