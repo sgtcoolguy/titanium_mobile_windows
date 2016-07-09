@@ -8,6 +8,7 @@
 #include "Titanium/UI/Dimension.hpp"
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/GlobalObject.hpp"
+#include "TitaniumWindows/WindowsTiImpl.hpp"
 #include <ppltasks.h>
 #include <concrt.h>
 #include <collection.h>
@@ -145,7 +146,12 @@ namespace TitaniumWindows
 			return encoder->FlushAsync();
 		}, task_continuation_context::use_arbitrary()).then([reader, outstream](){
 			return reader->LoadAsync(static_cast<std::uint32_t>(outstream->Size));
-		}, task_continuation_context::use_arbitrary()).then([&evt, reader](std::uint32_t size){
+		}, task_continuation_context::use_arbitrary()).then([&evt, reader](concurrency::task<std::uint32_t> task){
+			try {
+				task.get();
+			} catch (...) {
+				// do nothing
+			}
 			evt.set();
 		}, task_continuation_context::use_arbitrary());
 		evt.wait();

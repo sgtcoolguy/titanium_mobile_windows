@@ -10,6 +10,7 @@
 #include "TitaniumWindows/Utility.hpp"
 #include "LayoutEngine/LayoutEngine.hpp"
 #include "TitaniumWindows/UI/View.hpp"
+#include "TitaniumWindows/WindowsTiImpl.hpp"
 #include "Titanium/Blob.hpp"
 #include "Titanium/Filesystem/File.hpp"
 #include <ppltasks.h>
@@ -319,13 +320,16 @@ namespace TitaniumWindows
 
 			writer->WriteBytes(Platform::ArrayReference<std::uint8_t>(&data[0], data.size()));
 
-			concurrency::create_task(writer->StoreAsync()).then([this, stream, writer, callback](std::uint32_t) {
-				auto bitmap = ref new BitmapImage();
-				writer->DetachStream();
-				stream->Seek(0);
-				concurrency::create_task(bitmap->SetSourceAsync(stream)).then([bitmap, callback]() {
-					callback(bitmap);
-				});
+			concurrency::create_task(writer->StoreAsync()).then([this, stream, writer, callback](concurrency::task<std::uint32_t> task) {
+				TITANIUM_EXCEPTION_CATCH_START{
+					task.get();
+					auto bitmap = ref new BitmapImage();
+					writer->DetachStream();
+					stream->Seek(0);
+					concurrency::create_task(bitmap->SetSourceAsync(stream)).then([bitmap, callback]() {
+						callback(bitmap);
+					});
+				} TITANIUMWINDOWS_EXCEPTION_CATCH_END
 			});
 		}
 

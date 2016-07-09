@@ -67,7 +67,11 @@ namespace TitaniumWindows
 			concurrency::event event;
 
 			auto task = concurrency::create_task(content->GetTextAsync()).then([&event, &buffer](concurrency::task<Platform::String^> text) {
-				buffer = text.get();
+				try {
+					buffer = text.get();
+				} catch (Platform::Exception^ e) {
+					TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(e->Message));
+				}
 				event.set();
 			}, concurrency::task_continuation_context::use_arbitrary());
 			event.wait();

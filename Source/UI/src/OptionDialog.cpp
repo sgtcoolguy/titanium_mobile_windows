@@ -75,7 +75,7 @@ namespace TitaniumWindows
 					fireEvent("click", eventArgs);
 				});
 			}
-			catch (::Platform::COMException^ ce) {
+			catch (::Platform::Exception^ ce) {
 				// Typically would have happened on phone if we supplied more than max buttons allowed
 				detail::ThrowRuntimeError("Ti.UI.OptionDialog", "Exception during show(): " + Utility::ConvertUTF8String(ce->Message));
 			}

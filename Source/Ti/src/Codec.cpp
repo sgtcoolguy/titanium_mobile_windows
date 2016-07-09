@@ -77,7 +77,11 @@ namespace TitaniumWindows
 		}, task_continuation_context::use_arbitrary()).then([reader, stream](bool) {
 			return reader->LoadAsync(static_cast<std::uint32_t>(stream->Size));
 		}, task_continuation_context::use_arbitrary()).then([reader,&bytesLoaded,  &event](task<std::uint32_t> task) {
-			bytesLoaded = task.get();
+			try {
+				bytesLoaded = task.get();
+			} catch (...) {
+				bytesLoaded = 0;
+			}
 			event.set();
 		}, task_continuation_context::use_arbitrary());
 		event.wait();

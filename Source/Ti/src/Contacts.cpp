@@ -58,7 +58,7 @@ namespace TitaniumWindows
 					contacts = task.get();
 				} catch (Platform::AccessDeniedException^ ade) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.getAllPeople: Access denied: ", ade->Message->Data());
-				} catch (Platform::COMException^ e) {
+				} catch (Platform::Exception^ e) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.getAllPeople: ", e->Message->Data());
 				} catch (const std::exception& e) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.getAllPeople: ", e.what());
@@ -118,7 +118,7 @@ namespace TitaniumWindows
 			catch (Platform::AccessDeniedException^ ade) {
 				TITANIUM_LOG_ERROR("Ti.Contacts.getPeopleWithName: Access denied:", ade->Message->Data());
 			}
-			catch (Platform::COMException^ ce) {
+			catch (Platform::Exception^ ce) {
 				TITANIUM_LOG_ERROR("Ti.Contacts.getPeopleWithName: ", ce->Message->Data());
 			}
 			catch (const std::exception& e) {
@@ -165,7 +165,7 @@ namespace TitaniumWindows
 			catch (Platform::InvalidArgumentException^ iae) {
 				TITANIUM_LOG_ERROR("Ti.Contacts.getPersonByIdentifier: Invalid identifier: ", iae->Message->Data());
 			}
-			catch (Platform::COMException^ ce) {
+			catch (Platform::Exception^ ce) {
 				TITANIUM_LOG_ERROR("Ti.Contacts.getPersonByIdentifier: ", ce->Message->Data());
 		}
 			catch (const std::exception& e) {
@@ -229,7 +229,7 @@ namespace TitaniumWindows
 			catch (Platform::AccessDeniedException^ ade) {
 				TITANIUM_LOG_ERROR("Ti.Contacts.getAllGroups: Access denied: ", ade->Message->Data());
 			}
-			catch (Platform::COMException^ e) {
+			catch (Platform::Exception^ e) {
 				TITANIUM_LOG_ERROR("Ti.Contacts.getAllGroups: ", e->Message->Data());
 			}
 			catch (const std::exception& e) {
@@ -257,7 +257,7 @@ namespace TitaniumWindows
 			catch (Platform::AccessDeniedException^ ade) {
 				TITANIUM_LOG_ERROR("Ti.Contacts.Group.create: Access denied:", ade->Message->Data());
 			}
-			catch (Platform::COMException^ ce) {
+			catch (Platform::Exception^ ce) {
 				TITANIUM_LOG_ERROR("Ti.Contacts.Group.create: ", ce->Message->Data());
 			}
 			catch (const std::exception& e) {
@@ -299,7 +299,7 @@ namespace TitaniumWindows
 				catch (Platform::AccessDeniedException^ ade) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.createPerson: Access denied:", ade->Message->Data());
 				}
-				catch (Platform::COMException^ ce) {
+				catch (Platform::Exception^ ce) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.createPerson: ", ce->Message->Data());
 				}
 				catch (const std::exception& e) {
@@ -365,7 +365,7 @@ namespace TitaniumWindows
 						auto person = getPersonByIdentifier(TitaniumWindows::Utility::ConvertUTF8String(contact->Id));
 						params.callbacks.onselectedPerson(person);
 					}
-				} catch (Platform::COMException^ ce) {
+				} catch (Platform::Exception^ ce) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.showContacts: ", ce->Message->Data());
 				} catch (const std::exception& e) {
 					TITANIUM_LOG_ERROR("Ti.Contacts.showContacts: ", e.what());
@@ -373,7 +373,7 @@ namespace TitaniumWindows
 					TITANIUM_LOG_ERROR("Ti.Contacts.showContacts: Unknown error in selecting a contact.");
 				}
 			});
-		} catch (Platform::COMException^ ce) {
+		} catch (Platform::Exception^ ce) {
 			TITANIUM_LOG_ERROR("Ti.Contacts.showContacts: ", ce->Message->Data());
 		} catch (const std::exception& e) {
 			TITANIUM_LOG_ERROR("Ti.Contacts.showContacts: ", e.what());
