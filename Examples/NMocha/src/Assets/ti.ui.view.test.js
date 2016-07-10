@@ -216,75 +216,72 @@ describe('Titanium.UI.View', function () {
 		w.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('animate (top)', function (finish) {
+	it('animate (top)', function (finish) {
+		this.timeout(1e4);
 		var win = Ti.UI.createWindow(),
-			view = Ti.UI.createView({
-				backgroundColor:'red',
-				width: 100, height: 100,
-				left: 100,  top: 100
-			});
+		    parent = Ti.UI.createView({backgroundColor: 'red', width: 100, height: 100}),
+		    view = Ti.UI.createView({
+		        backgroundColor: 'orange',
+		        top: 0,
+		        left: 0,
+		        height: '10',
+		        width: '10'
+		    }),
+            animation = Ti.UI.createAnimation({
+		        top: '10',
+		        duration: 1000
+            });
 
-		win.addEventListener('open', function() {
-			var animation = Ti.UI.createAnimation({
-				top: 150,
-				duration: 1000,
-			});
-
-			animation.addEventListener('complete', function() {
-				// make sure to give it a time to layout
-				setTimeout(function(){
-					should(view.rect.x).be.eql(100);
-					should(view.rect.y).be.eql(150);
-					should(view.left).be.eql(100);
-					should(view.top).be.eql(100);
-					win.close();
-					finish();
-				}, 500);
-			});
-
-			view.animate(animation);
-
+		animation.addEventListener('complete', function () {
+		    setTimeout(function () {
+				should(view.rect.x).be.eql(0);
+				should(view.rect.y).be.eql(10);
+				should(view.left).be.eql(0);
+				should(view.top).be.eql(0);
+				win.close();
+				finish();
+			}, 500);
 		});
-		win.add(view);
+
+		parent.add(view);
+		view.animate(animation);
+		win.add(parent);
 		win.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('animate (left)', function (finish) {
+	it('animate (left)', function (finish) {
+		this.timeout(1e4);
 		var win = Ti.UI.createWindow(),
-			view = Ti.UI.createView({
-				backgroundColor:'red',
-				width: 100, height: 100,
-				left: 100,  top: 100
-			});
+		    parent = Ti.UI.createView({backgroundColor: 'red', width: 100, height: 100}),
+		    view = Ti.UI.createView({
+		        backgroundColor: 'orange',
+		        top: 0,
+		        left: 0,
+		        height: '10',
+		        width: '10'
+		    }),
+            animation = Ti.UI.createAnimation({
+		        left: '10',
+		        duration: 1000
+            });
 
-		win.addEventListener('open', function() {
-			var animation = Ti.UI.createAnimation({
-				left: 150,
-				duration: 1000,
-			});
-
-			animation.addEventListener('complete', function() {
-				// make sure to give it a time to layout
-				setTimeout(function(){
-					should(view.rect.x).be.eql(150);
-					should(view.rect.y).be.eql(100);
-					should(view.left).be.eql(100);
-					should(view.top).be.eql(100);
-					win.close();
-					finish();
-				}, 500);
-			});
-
-			view.animate(animation);
-
+		animation.addEventListener('complete', function () {
+		    setTimeout(function () {
+				should(view.rect.x).be.eql(10);
+				should(view.rect.y).be.eql(0);
+				should(view.left).be.eql(0);
+				should(view.top).be.eql(0);
+				win.close();
+				finish();
+			}, 500);
 		});
-		win.add(view);
+
+		parent.add(view);
+		view.animate(animation);
+		win.add(parent);
 		win.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
 	it('animate (right)', function (finish) {
 		this.timeout(1e4);
 		var win = Ti.UI.createWindow(),
@@ -318,7 +315,6 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
 	it('animate (bottom)', function (finish) {
 		this.timeout(1e4);
 		var win = Ti.UI.createWindow(),
