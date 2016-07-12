@@ -340,21 +340,21 @@ function copyResources(next) {
 		// if it does not exist in project root then generate the missing icon
 		for (var i = missingIcons.length - 1; i >= 0; i--) {
 			var icon = missingIcons[i],
-				assetIcon = path.join(this.projectDir, 'app', 'assets', 'windows', path.basename(icon.file)),
-				rootIcon = path.join(this.projectDir, path.basename(icon.file));
-			if (fs.existsSync(assetIcon)) {
-				if (fs.existsSync(icon.file) && md5(icon.file) === md5(assetIcon)) {
+				platformResourceIcon = path.join(this.projectDir, 'Resources', 'Windows', path.basename(icon.file)),
+				resourceIcon = path.join(this.projectDir, 'Resources', path.basename(icon.file));
+			if (fs.existsSync(platformResourceIcon)) {
+				if (fs.existsSync(icon.file) && md5(icon.file) === md5(platformResourceIcon)) {
 					this.logger.debug(__('%s already exists, skipping...', icon.file));
 				} else {
-					copyFile.call(this, assetIcon, icon.file);
+					copyFile.call(this, platformResourceIcon, icon.file);
 				}
 				missingIcons.splice(i, 1);
 			} else {
-				if (fs.existsSync(rootIcon)) {
-					if (fs.existsSync(icon.file) && md5(icon.file) === md5(rootIcon)) {
+				if (fs.existsSync(resourceIcon)) {
+					if (fs.existsSync(icon.file) && md5(icon.file) === md5(resourceIcon)) {
 						this.logger.debug(__('%s already exists, skipping...', icon.file));
 					} else {
-						copyFile.call(this, rootIcon, icon.file);
+						copyFile.call(this, resourceIcon, icon.file);
 					}
 					missingIcons.splice(i, 1);
 				} else {
