@@ -261,6 +261,7 @@ namespace Titanium
 #pragma warning(push)
 #pragma warning(disable : 4251)
 		static const std::string COMMONJS_SEPARATOR__;
+		static std::uint32_t require_nested_count__;
 #pragma warning(pop)
 
 		virtual std::string requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname = COMMONJS_SEPARATOR__) TITANIUM_NOEXCEPT;
@@ -317,6 +318,7 @@ namespace Titanium
 // need to be exported from a DLL.
 #pragma warning(push)
 #pragma warning(disable : 4251)
+		std::unordered_map<std::string, std::string> module_path_cache__;
 		std::unordered_map<std::string, JSValue> module_cache__;
 		std::string currentDir__;
 		std::unordered_map<unsigned, std::shared_ptr<Timer>> timer_map__;
