@@ -79,8 +79,8 @@ namespace TitaniumWindows
 			void unbindCollectionViewSource();
 
 			::Platform::Collections::Vector<Windows::UI::Xaml::UIElement^>^ createUIElementsForSection(const std::uint32_t& sectionIndex) TITANIUM_NOEXCEPT;
-			Windows::UI::Xaml::Controls::ListViewHeaderItem^ createDefaultSectionHeader(const std::shared_ptr<Titanium::UI::TableViewSection>& seciton);
-			Windows::UI::Xaml::Controls::ListViewHeaderItem^ createDefaultSectionFooter(const std::shared_ptr<Titanium::UI::TableViewSection>& seciton);
+			Windows::UI::Xaml::Controls::ListViewHeaderItem^ createDefaultHeader(const std::shared_ptr<Titanium::UI::TableViewSection>& seciton = nullptr);
+			Windows::UI::Xaml::Controls::ListViewHeaderItem^ createDefaultFooter(const std::shared_ptr<Titanium::UI::TableViewSection>& seciton = nullptr);
 			void registerTableViewRowAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
 			void unregisterTableViewRowAsLayoutNode(const std::shared_ptr<Titanium::UI::View>& view);
 
@@ -93,6 +93,8 @@ namespace TitaniumWindows
 			void clearTableData();
 			void resetTableDataBinding();
 			std::uint32_t getRowIndexInCollectionView(const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::uint32_t& rowIndex) TITANIUM_NOEXCEPT;
+			void setTableHeader();
+			void setTableFooter();
 
 			Windows::UI::Xaml::Controls::ListView^ tableview__;
 			Windows::UI::Xaml::Data::CollectionViewSource^ collectionViewSource__;

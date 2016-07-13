@@ -52,7 +52,7 @@ namespace Titanium
 					const auto itemCount = section->get_itemCount();
 					const auto rowCountIncludingHeader = itemCount + (section->hasHeader() ? 1 : 0) + (section->hasFooter() ? 1 : 0);
 					totalItemCount += rowCountIncludingHeader;
-					if (totalItemCount < selectedIndex) {
+					if (totalItemCount <= selectedIndex) {
 						// we just count the total item
 						continue;
 					} else if (section->hasHeader() && selectedIndex == 0) {
