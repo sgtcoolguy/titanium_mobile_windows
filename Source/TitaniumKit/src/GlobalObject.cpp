@@ -22,6 +22,7 @@ namespace Titanium
 
 	const std::string GlobalObject::COMMONJS_SEPARATOR__{"/"};
 	std::atomic<std::uint32_t> GlobalObject::timer_id_generator__;
+	std::uint32_t GlobalObject::require_nested_count__ = 0;
 
 	GlobalObject::GlobalObject(const JSContext& js_context) TITANIUM_NOEXCEPT
 	    : JSExportObject(js_context)
@@ -190,6 +191,13 @@ namespace Titanium
 
 	std::string GlobalObject::requestResolveModule(const JSObject& parent, const std::string& moduleId, const std::string& dirname) TITANIUM_NOEXCEPT
 	{
+		// Create unique key for the dirname + moduleId, assuming moduleId does not contain whitespace.
+		const auto modulePathCacheKey = dirname + " " + moduleId;
+		const auto cached = module_path_cache__.find(modulePathCacheKey);
+		if (cached != module_path_cache__.end()) {
+			return cached->second;
+		}
+
 		auto isNodeModule = false;
 		std::string rawPath;
 
@@ -214,6 +222,9 @@ namespace Titanium
 				modulePath = resolvePathAsDirectory(parent,resolvedPath);
 			}
 		}
+
+		module_path_cache__.emplace(modulePathCacheKey, modulePath);
+
 		return modulePath;
 	}
 
@@ -254,8 +265,9 @@ namespace Titanium
 	JSValue GlobalObject::requireModule(const JSObject& parent, const std::string& moduleId)
 	{
 		TITANIUM_GLOBALOBJECT_LOCK_GUARD;
-
 		const auto js_context = parent.get_context();
+
+		TITANIUM_LOG_DEBUG(std::string(require_nested_count__, '-') + " require(" + moduleId + ") from ", currentDir__);
 
 		// check if we have special module such as ti.map
 		if (requiredBuiltinModuleExists(js_context, moduleId)) {
@@ -529,7 +541,10 @@ namespace Titanium
 		const auto global_ptr = global_object.GetPrivate<GlobalObject>();
 		TITANIUM_ASSERT(global_ptr);
 
-		return global_ptr->requireModule(this_object, moduleId);
+		require_nested_count__++;
+		const auto module = global_ptr->requireModule(this_object, moduleId);
+		require_nested_count__--;
+		return module;
 	}
 
 	TITANIUM_FUNCTION(GlobalObject, setTimeout)
