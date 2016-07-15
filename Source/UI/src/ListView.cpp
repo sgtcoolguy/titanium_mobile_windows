@@ -272,6 +272,12 @@ namespace TitaniumWindows
 				} else {
 					views->Clear();
 				}
+			} else if (name == "insert") {
+				for (std::uint32_t i = itemIndex; i < itemIndex + itemCount; i++) {
+					const auto view = createSectionItemViewAt<TitaniumWindows::UI::View>(sectionIndex, i);
+					insertListViewItemForSection(view, views, i);
+					section->setViewForSectionItem(i, view);
+				}
 			}
 			Titanium::UI::ListView::fireListSectionEvent(name, section, itemIndex, itemCount, affectedRows);
 		}
