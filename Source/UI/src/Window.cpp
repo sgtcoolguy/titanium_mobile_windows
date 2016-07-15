@@ -87,7 +87,9 @@ namespace TitaniumWindows
 		Window::~Window() 
 		{
 #if defined(IS_WINDOWS_PHONE)
-			Windows::Phone::UI::Input::HardwareButtons::BackPressed -= backpressed_event__;
+			if (canvas__) {
+				Windows::Phone::UI::Input::HardwareButtons::BackPressed -= backpressed_event__;
+			}
 #endif
 		}
 
@@ -259,6 +261,8 @@ namespace TitaniumWindows
 			// fire pause events
 			App->fireEvent("pause");
 			App->fireEvent("paused");
+
+			TitaniumWindows::LogForwarder::done__ = true;
 
 			// exit the app because there's no window to navigate back
 			window_stack__.clear();

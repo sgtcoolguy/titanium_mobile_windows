@@ -21,6 +21,7 @@ namespace TitaniumWindows
 	{
 		HTTPClient::HTTPClient(const JSContext& js_context) TITANIUM_NOEXCEPT
 		    : Titanium::Network::HTTPClient(js_context)
+		    , cancellationTokenSource__(concurrency::cancellation_token_source())
 		{
 			TITANIUM_LOG_DEBUG("TitaniumWindows::Network::HTTPClient::ctor");
 		}

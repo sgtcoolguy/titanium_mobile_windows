@@ -90,7 +90,6 @@ namespace Titanium
 					if (model__->empty()) {
 						createEmptyTableViewSection();
 					}
-					const auto firstSection = model__->first();
 					auto row = datum.GetPrivate<Titanium::UI::TableViewRow>();
 
 					// if row is not TableViewRow, create new one.
@@ -99,7 +98,7 @@ namespace Titanium
 						row = js_row.GetPrivate<Titanium::UI::TableViewRow>();
 						row->set_data(datum);
 					}
-					firstSection->add(row);
+					model__->first()->add(row, false);
 				}
 			}
 		}
