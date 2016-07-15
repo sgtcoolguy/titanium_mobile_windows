@@ -101,11 +101,47 @@ namespace TitaniumWindows
 			}
 		}
 
+		void TableView::setTableHeader()
+		{
+			auto headerView = get_headerView();
+			if (headerView != nullptr) {
+				const auto view_delegate = headerView->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				if (view_delegate == nullptr) {
+					TITANIUM_LOG_ERROR("TableView: headerView must be of type Titanium.UI.View");
+				} else {
+					tableview__->Header = view_delegate->getComponent();
+					// Add as child view to make layout engine work
+					registerTableViewRowAsLayoutNode(headerView);
+				}
+			} else if (hasHeader()) {
+				tableview__->Header = createDefaultHeader();
+			}
+		}
+
+		void TableView::setTableFooter()
+		{
+			auto footerView = get_footerView();
+			if (footerView != nullptr) {
+				const auto view_delegate = footerView->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				if (view_delegate == nullptr) {
+					TITANIUM_LOG_ERROR("TableView: footerView must be of type Titanium.UI.View");
+				} else {
+					tableview__->Footer = view_delegate->getComponent();
+					// Add as child view to make layout engine work
+					registerTableViewRowAsLayoutNode(footerView);
+				}
+			} else if (hasFooter()) {
+				tableview__->Footer = createDefaultFooter();
+			}
+		}
+
 		void TableView::set_data(const std::vector<JSObject>& data) TITANIUM_NOEXCEPT
 		{
 			unregisterSections();
 			Titanium::UI::TableView::set_data(data);
 			clearTableData();
+			setTableHeader();
+			setTableFooter();
 			for (uint32_t i = 0; i < model__->get_sectionCount(); i++) {
 				collectionViewItems__->Append(createUIElementsForSection(i));
 			}
@@ -116,6 +152,8 @@ namespace TitaniumWindows
 			unregisterSections();
 			Titanium::UI::TableView::set_sections(sections);
 			clearTableData();
+			setTableHeader();
+			setTableFooter();
 			for (uint32_t i = 0; i < model__->get_sectionCount(); i++) {
 				collectionViewItems__->Append(createUIElementsForSection(i));
 			}
@@ -142,7 +180,7 @@ namespace TitaniumWindows
 					registerTableViewRowAsLayoutNode(headerView);
 				}
 			} else if (section->hasHeader()) {
-				group->Append(createDefaultSectionHeader(section));
+				group->Append(createDefaultHeader(section));
 			}
 
 			for (uint32_t i = 0; i < rows.size(); i++) {
@@ -167,7 +205,7 @@ namespace TitaniumWindows
 					registerTableViewRowAsLayoutNode(footerView);
 				}
 			} else if (section->hasFooter()) {
-				group->Append(createDefaultSectionFooter(section));
+				group->Append(createDefaultFooter(section));
 			}
 
 			return group;
@@ -231,21 +269,21 @@ namespace TitaniumWindows
 			bindCollectionViewSource();
 		}
 
-		Controls::ListViewHeaderItem^ TableView::createDefaultSectionHeader(const std::shared_ptr<Titanium::UI::TableViewSection>& section) 
+		Controls::ListViewHeaderItem^ TableView::createDefaultHeader(const std::shared_ptr<Titanium::UI::TableViewSection>& section) 
 		{
 			Controls::ListViewHeaderItem^ header = ref new Controls::ListViewHeaderItem();
 			auto headerText = ref new Controls::TextBlock();
-			headerText->Text = Utility::ConvertUTF8String(section->get_headerTitle());
+			headerText->Text = Utility::ConvertUTF8String(section ? section->get_headerTitle() : get_headerTitle());
 			headerText->FontSize = 28; // Change this?
 			header->Content = headerText;
 			return header;
 		}
 
-		Controls::ListViewHeaderItem^ TableView::createDefaultSectionFooter(const std::shared_ptr<Titanium::UI::TableViewSection>& section)
+		Controls::ListViewHeaderItem^ TableView::createDefaultFooter(const std::shared_ptr<Titanium::UI::TableViewSection>& section)
 		{
 			Controls::ListViewHeaderItem^ footer = ref new Controls::ListViewHeaderItem();
 			auto footerText = ref new Controls::TextBlock();
-			footerText->Text = Utility::ConvertUTF8String(section->get_footerTitle());
+			footerText->Text = Utility::ConvertUTF8String(section ? section->get_footerTitle() : get_footerTitle());
 			footerText->FontSize = 28; // Change this?
 			footer->Content = footerText;
 			return footer;
@@ -334,7 +372,7 @@ namespace TitaniumWindows
 
 		std::uint32_t TableView::getRowIndexInCollectionView(const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::uint32_t& rowIndex)
 		{
-			return rowIndex + /* +1 to skip table header */ (hasHeader() ? 1 : 0) + /* +1 to skip section header */ (section->hasHeader() ? 1 : 0);
+			return rowIndex + /* +1 to skip section header */ (section->hasHeader() ? 1 : 0);
 		}
 
 		void TableView::fireTableViewSectionEvent(const std::string& name, const std::shared_ptr<Titanium::UI::TableViewSection>& section, const std::shared_ptr<Titanium::UI::TableViewRow>& row, const std::uint32_t& rowIndex, const std::shared_ptr<Titanium::UI::TableViewRow>& old_row)
