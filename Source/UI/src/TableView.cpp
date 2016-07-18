@@ -246,8 +246,7 @@ namespace TitaniumWindows
 
 			unregisterSectionLayoutNode(section);
 
-			const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
-			views->Clear();
+			collectionViewItems__->RemoveAt(sectionIndex);
 
 			bindCollectionViewSource();
 
