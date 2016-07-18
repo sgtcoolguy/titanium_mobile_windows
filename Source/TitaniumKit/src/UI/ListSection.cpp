@@ -126,7 +126,7 @@ namespace Titanium
 		void ListSection::insertItemsAt(const std::uint32_t& index, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
 			items__.insert(items__.begin() + index, dataItems.begin(), dataItems.end());
-			fireListSectionEvent("append", index, static_cast<std::uint32_t>(dataItems.size()));
+			fireListSectionEvent("insert", index, static_cast<std::uint32_t>(dataItems.size()));
 		}
 
 		void ListSection::replaceItemsAt(const std::uint32_t& index, const std::uint32_t& count, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
