@@ -54,6 +54,7 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::TableView::postCallAsConstructor(js_context, arguments);
 
+			parent__ = ref new Controls::Grid();
 			tableview__ = ref new Controls::ListView();
 			collectionViewItems__ = ref new Vector<Platform::Object^>();
 
@@ -62,11 +63,15 @@ namespace TitaniumWindows
 			tableview__->IsItemClickEnabled = true;
 			tableview__->SelectionMode = Controls::ListViewSelectionMode::None;
 
+			parent__->Children->Append(tableview__);
+			parent__->SetColumn(tableview__, 0);
+			parent__->SetRow(tableview__, 0);
+
 			Titanium::UI::TableView::setLayoutDelegate<WindowsViewLayoutDelegate>();
 			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
 			layoutDelegate__->set_defaultHeight(Titanium::UI::LAYOUT::FILL);
 
-			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(tableview__);
+			getViewLayoutDelegate<WindowsViewLayoutDelegate>()->setComponent(parent__);
 		}
 
 		void TableView::JSExportInitialize() 

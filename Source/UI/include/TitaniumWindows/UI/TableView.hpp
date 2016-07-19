@@ -39,9 +39,6 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(minRowHeight);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(rowHeight);
 			TITANIUM_PROPERTY_UNIMPLEMENTED(separatorColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(borderColor);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(borderWidth);
-			TITANIUM_PROPERTY_UNIMPLEMENTED(borderRadius);
 
 			TableView(const JSContext&) TITANIUM_NOEXCEPT;
 			virtual ~TableView()                  = default;
@@ -96,6 +93,7 @@ namespace TitaniumWindows
 			void setTableHeader();
 			void setTableFooter();
 
+			Windows::UI::Xaml::Controls::Grid^ parent__;
 			Windows::UI::Xaml::Controls::ListView^ tableview__;
 			Windows::UI::Xaml::Data::CollectionViewSource^ collectionViewSource__;
 			Windows::Foundation::Collections::IObservableVector<::Platform::Object^>^ collectionViewItems__;
