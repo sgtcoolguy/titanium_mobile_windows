@@ -347,6 +347,30 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
+	it('animate (opacity)', function (finish) {
+		this.timeout(1e4);
+		var win = Ti.UI.createWindow(),
+		    img = Ti.UI.createImageView({
+		    	image: 'Logo.png',
+		    	opacity: 0.5
+		    }),
+		    animation = Ti.UI.createAnimation({
+		        opacity: 1,
+		        duration: 1000
+		    });
+		animation.addEventListener('complete', function () {
+		    setTimeout(function () {
+		        should(img.opacity).be.eql(1);
+		        win.close();
+		        finish();
+	        }, 500);
+        });
+
+		win.add(img);
+		img.animate(animation);
+		win.open();
+	});
+
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
 	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('TIMOB-20598', function (finish) {
 		var win = Ti.UI.createWindow(),

@@ -767,6 +767,11 @@ namespace TitaniumWindows
 					setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, y);
 				}
 
+				const auto opacity = animation->get_opacity();
+				if (opacity) {
+					set_opacity(*opacity);
+				}
+
 				// Make sure to clear the StoryBoard because transform made by StoryBoard remains.
 				storyboard->Stop();
 
