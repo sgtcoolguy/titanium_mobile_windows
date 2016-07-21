@@ -35,21 +35,21 @@ describe('Titanium.UI.Label', function () {
 		finish();
 	});
 
-    it("textid", function (finish) {
-        var label = Ti.UI.createLabel({
-            textid: "this is my key"
-        });
-        should(label.textid).be.a.String;
-        should(label.getTextid).be.a.Function;
-        should(label.textid).eql('this is my key');
-        should(label.getTextid()).eql('this is my key');
-        should(label.text).eql('this is my value');
-        label.textid = 'other text';
-        should(label.textid).eql('other text');
-        should(label.getTextid()).eql('other text');
-        should(label.text).eql('this is my value'); // should retain old value if can't find key
-        finish();
-    });
+	it("textid", function (finish) {
+		var label = Ti.UI.createLabel({
+			textid: "this is my key"
+		});
+		should(label.textid).be.a.String;
+		should(label.getTextid).be.a.Function;
+		should(label.textid).eql('this is my key');
+		should(label.getTextid()).eql('this is my key');
+		should(label.text).eql('this is my value');
+		label.textid = 'other text';
+		should(label.textid).eql('other text');
+		should(label.getTextid()).eql('other text');
+		should(label.text).eql('this is my value'); // should retain old value if can't find key
+		finish();
+	});
 
 	it('textAlign', function (finish) {
 		var label = Ti.UI.createLabel({
@@ -175,4 +175,24 @@ describe('Titanium.UI.Label', function () {
 		win.open();
 	});
 
+	it('border (without width/height)', function (finish) {
+		this.timeout(3000);
+		var win = Ti.UI.createWindow(),
+			label = Ti.UI.createLabel({
+				borderWidth: 5,
+				borderColor: 'yellow',
+				borderRadius: 5,
+				text: 'this is some text'
+			});
+		win.addEventListener('focus', function () {
+			setTimeout(function () {
+				should(label.size.width).be.greaterThan(0);
+				should(label.size.height).be.greaterThan(0);
+				win.close();
+				finish();
+			}, 1000);
+		});
+		win.add(label);
+		win.open();
+	});
 });
