@@ -44,6 +44,7 @@ namespace TitaniumWindows
 	using namespace Windows::Media;
 	using namespace Windows::Media::Capture;
 	using namespace Windows::Media::MediaProperties;
+	using namespace Windows::Media::Devices;
 	using namespace Windows::Devices::Enumeration;
 	using namespace Windows::UI::Xaml;
 	using namespace Windows::UI::Xaml::Controls;
@@ -491,6 +492,27 @@ namespace TitaniumWindows
 	}
 #endif
 
+	void MediaModule::focus(const Titanium::Media::CameraOptionsType& options) TITANIUM_NOEXCEPT
+	{
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
+		concurrency::create_task(mediaCapture__->VideoDeviceController->FocusControl->UnlockAsync()).then([this, options](concurrency::task<void> task) {
+			try {
+				task.get();
+				const auto settings = ref new FocusSettings();
+				settings->AutoFocusRange = AutoFocusRange::Normal;
+				settings->Mode = FocusMode::Auto;
+				settings->WaitForFocus = true;
+				settings->DisableDriverFallback = false;
+				mediaCapture__->VideoDeviceController->FocusControl->Configure(settings);
+				mediaCapture__->VideoDeviceController->FocusControl->FocusAsync();
+			} catch (Platform::Exception^ e) {
+				GENERATE_TI_ERROR_RESPONSE(TitaniumWindows::Utility::ConvertString(e->Message), error);
+				options.callbacks.onerror(error);
+			}
+		});
+#endif
+	}
+
 	void MediaModule::showCamera(const Titanium::Media::CameraOptionsType& options) TITANIUM_NOEXCEPT
 	{
 
@@ -520,6 +542,11 @@ namespace TitaniumWindows
 			settings->AudioDeviceId = "";
 			settings->StreamingCaptureMode = StreamingCaptureMode::Video;
 		}
+
+		// For tap-to-focus
+		captureElement__->Tapped += ref new Input::TappedEventHandler([this, options](Platform::Object^ sender, Input::TappedRoutedEventArgs^ e) {
+			focus(options);
+		});
 
 		if (options.autorotate) {
 			camera_orientation_event__ = DisplayInformation::GetForCurrentView()->OrientationChanged += 
