@@ -93,7 +93,9 @@ namespace TitaniumWindows
 
 		ProgressBar::~ProgressBar()
 		{
-			panel__->SizeChanged -= sizechanged_event__;
+			if (panel__) {
+				panel__->SizeChanged -= sizechanged_event__;
+			}
 		}
 
 		void ProgressBar::JSExportInitialize() 

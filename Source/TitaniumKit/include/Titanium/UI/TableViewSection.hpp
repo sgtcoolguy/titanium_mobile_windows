@@ -78,7 +78,7 @@ namespace Titanium
 			  @abstract add
 			  @discussion Adds a table view row to this section.
 			*/
-			virtual void add(const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT;
+			virtual void add(const std::shared_ptr<TableViewRow>& row, const bool& fireEvent = true) TITANIUM_NOEXCEPT;
 			virtual void add(const std::shared_ptr<TableViewRow>& row, const std::uint32_t& pos) TITANIUM_NOEXCEPT;
 
 			/*!

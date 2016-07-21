@@ -27,6 +27,7 @@ enable_testing()
 if (NOT TARGET HAL)
   get_filename_component(HAL_SOURCE_DIR ${PROJECT_SOURCE_DIR}/../HAL ABSOLUTE)
   add_subdirectory(${HAL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/HAL EXCLUDE_FROM_ALL)
+  target_compile_definitions(HAL PUBLIC HAL_USE_SINGLE_CONTEXT=1)
 endif()
 
 # find_package(HAL REQUIRED)

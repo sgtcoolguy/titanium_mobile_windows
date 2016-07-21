@@ -35,11 +35,13 @@ namespace Titanium
 			return static_cast<std::uint32_t>(rows__.size());
 		}
 
-		void TableViewSection::add(const std::shared_ptr<TableViewRow>& row) TITANIUM_NOEXCEPT
+		void TableViewSection::add(const std::shared_ptr<TableViewRow>& row, const bool& fireEvent) TITANIUM_NOEXCEPT
 		{
 			rows__.push_back(row);
-			const auto index = static_cast<std::uint32_t>(rows__.size() - 1);
-			fireTableViewSectionEvent("append", rows__.at(index), index);
+			if (fireEvent) {
+				const auto index = static_cast<std::uint32_t>(rows__.size() - 1);
+				fireTableViewSectionEvent("append", rows__.at(index), index);
+			}
 		}
 
 		void TableViewSection::add(const std::shared_ptr<TableViewRow>& row, const std::uint32_t& index) TITANIUM_NOEXCEPT

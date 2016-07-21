@@ -27,7 +27,9 @@ namespace TitaniumWindows
 
 		ListView::~ListView() 
 		{
-			clearListViewData();
+			if (listview__) {
+				clearListViewData();
+			}
 		}
 
 		void ListView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
