@@ -59,7 +59,7 @@ namespace TitaniumWindows
 			// Measure desired size based on current text.
 			void measureDesiredSize() TITANIUM_NOEXCEPT;
 
-			Windows::UI::Xaml::Controls::Grid^ parent__;
+			Windows::UI::Xaml::Controls::Border^ border__;
 			Windows::UI::Xaml::Controls::TextBlock^ label__;
 		};
 	} // namespace UI

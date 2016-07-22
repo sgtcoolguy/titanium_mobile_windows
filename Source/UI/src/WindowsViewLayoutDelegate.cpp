@@ -884,7 +884,7 @@ namespace TitaniumWindows
 		{
 			if (underlying_control__) {
 				underlying_control__->Background = brush;
-			} else if (is_grid__ && border__) {
+			} else if ((is_grid__ || is_border__) && border__) {
 				border__->Background = brush;
 			} else if (is_panel__) {
 				dynamic_cast<Panel^>(component__)->Background = brush;
@@ -1391,6 +1391,7 @@ namespace TitaniumWindows
 			is_control__ = dynamic_cast<Controls::Control^>(component__) != nullptr;
 			is_scrollview__ = dynamic_cast<Controls::ScrollViewer^>(component__) != nullptr;
 			is_grid__    = dynamic_cast<Controls::Grid^>(component__) != nullptr;
+			is_border__ = dynamic_cast<Controls::Border^>(component__) != nullptr;
 			is_button__  = dynamic_cast<Controls::Button^>(underlying_control__) != nullptr;
 
 			loaded_event__ = component__->Loaded += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
@@ -1680,13 +1681,13 @@ namespace TitaniumWindows
 		{
 			bool needsLayout = false;
 
-			if (is_width_size__ && (is_grid__ || !is_panel__)) {
+			if (is_width_size__ && (is_grid__ || is_border__ || !is_panel__)) {
 				layout_node__->properties.width.value = rect.width;
 				layout_node__->properties.width.valueType = Titanium::LayoutEngine::Fixed;
 				needsLayout = isLoaded();
 			}
 
-			if (is_height_size__ && (is_grid__ || !is_panel__)) {
+			if (is_height_size__ && (is_grid__ || is_border__ || !is_panel__)) {
 				layout_node__->properties.height.value = rect.height;
 				layout_node__->properties.height.valueType = Titanium::LayoutEngine::Fixed;
 				needsLayout = isLoaded();
