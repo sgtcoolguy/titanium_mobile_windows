@@ -10,6 +10,7 @@
 #include "Titanium/Media/Item.hpp"
 #include "Titanium/Media/CameraOptionsType.hpp"
 #include "Titanium/Media/MediaQueryType.hpp"
+#include "Titanium/UI/OpenWindowParams.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include <windows.h>
 #include <ppltasks.h>
@@ -364,12 +365,17 @@ namespace TitaniumWindows
 
 	void MediaModule::hideCamera() TITANIUM_NOEXCEPT
 	{
+		hideCamera(nullptr);
+	}
+
+	void MediaModule::hideCamera(std::function<void()> callback) TITANIUM_NOEXCEPT
+	{
 #if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		TITANIUM_ASSERT_AND_THROW(cameraPreviewStarted__, "Camera is not visiable. Use showCamera() to show camera.");
 		if (!cameraPreviewStarted__) {
 			return;
 		}
-		concurrency::create_task(mediaCapture__->StopPreviewAsync()).then([this](concurrency::task<void> stopTask) {
+		concurrency::create_task(mediaCapture__->StopPreviewAsync()).then([this, callback](concurrency::task<void> stopTask) {
 			try {
 				stopTask.get();
 			} catch (Platform::Exception^ e) {
@@ -388,18 +394,26 @@ namespace TitaniumWindows
 				shouldRemoveRotationEvent__ = false;
 			}
 
-			// Clear showCamera callbacks
-			JSValue empty = get_context().CreateNull();
-			cameraCallbacks__.cancel  = empty;
-			cameraCallbacks__.error   = empty;
-			cameraCallbacks__.success = empty;
+			TitaniumWindows::Utility::RemoveViewFromCurrentWindow(captureElement__, [this, callback]() {
+				// Close preview Window
+				get_context().JSEvaluateScript("Ti.UI.currentWindow.close();");
 
-			takingPictureState__ = nullptr;
+				if (callback) {
+					callback();
+				}
 
-			TitaniumWindows::Utility::RemoveViewFromCurrentWindow(captureElement__);
-			captureElement__->Source = nullptr;
-			cameraPreviewStarted__ = false;
-			delete(mediaCapture__.Get());
+				// Clear showCamera callbacks
+				JSValue empty = get_context().CreateNull();
+				cameraCallbacks__.cancel = empty;
+				cameraCallbacks__.error = empty;
+				cameraCallbacks__.success = empty;
+
+				takingPictureState__ = nullptr;
+
+				captureElement__->Source = nullptr;
+				cameraPreviewStarted__ = false;
+				delete(mediaCapture__.Get());
+			});
 		});
 #endif
 	}
@@ -589,14 +603,35 @@ namespace TitaniumWindows
 			}
 		});
 
-		TitaniumWindows::Utility::SetViewForCurrentWindow(captureElement__, camera_navigated_event__, /* visible */ true, /* fullscreen */ true);
-
-		// Add overlay view. Running on UI thread to make sure it's done after SetViewForCurrentWindow.
 		if (options.overlay) {
 			cameraOverlay__ = options.overlay;
+			// Open new Window, and add camera preview on _postShowCamera()
+			auto window = static_cast<JSObject>(get_context().JSEvaluateScript(
+				R"js(
+				  (function(global) {
+				    var win = Ti.UI.createWindow({backgroundColor:'transparent'});
+				     win.addEventListener('open', function() {
+				       Ti.Media._postShowCamera();
+					 });
+					return win;
+				  })(this);
+				)js"
+			));
+			static_cast<JSObject>(window.GetProperty("open"))(window);
+		}
+#endif
+	}
+
+	void MediaModule::_postShowCamera() TITANIUM_NOEXCEPT
+	{
+#if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
+		TitaniumWindows::Utility::SetViewForCurrentWindow(captureElement__, camera_navigated_event__, /* visible */ true, /* fullscreen */ true);
+
+		if (cameraOverlay__) {
+			// Add overlay view to new Window. Running on UI thread to make sure it's done on UI thread after SetViewForCurrentWindow.
 			TitaniumWindows::Utility::RunOnUIThread([this]() {
+				auto window = static_cast<JSObject>(get_context().JSEvaluateScript("Ti.UI.currentWindow;"));
 				const std::vector<JSValue> add_args = { cameraOverlay__->get_object() };
-				auto window = static_cast<JSObject>(get_context().JSEvaluateScript("Ti.UI.currentWindow"));
 				static_cast<JSObject>(window.GetProperty("add"))(add_args, window);
 			});
 		}
@@ -688,21 +723,21 @@ namespace TitaniumWindows
 				takingPictureState__->outstream = nullptr;
 				takingPictureState__->file    = nullptr;
 
-				TitaniumWindows::Utility::RunOnUIThread([this, media_filename]() {
-					// autohide
-					if (shouldHideAfterTakingShot__) {
-						this->hideCamera();
-						shouldHideAfterTakingShot__ = false;
-					}
+				// autohide
+				if (shouldHideAfterTakingShot__) {
+					// make sure to fire success callback after camera window is closed
+					this->hideCamera([this, media_filename]() {
+						if (cameraCallbacks__.success.IsObject()) {
+							Titanium::Media::CameraMediaItemType item;
+							item.mediaType = Titanium::Media::MediaType::Photo;
+							item.media_filename = TitaniumWindows::Utility::ConvertUTF8String(media_filename);
 
-					if (cameraCallbacks__.success.IsObject()) {
-						Titanium::Media::CameraMediaItemType item;
-						item.mediaType = Titanium::Media::MediaType::Photo;
-						item.media_filename = TitaniumWindows::Utility::ConvertUTF8String(media_filename);
+							cameraCallbacks__.onsuccess(item);
+						}
+					});
+					shouldHideAfterTakingShot__ = false;
+				}
 
-						cameraCallbacks__.onsuccess(item);
-					}
-				});
 			} catch (Platform::Exception^ e) {
 				TitaniumWindows::Utility::RunOnUIThread([this, e]() {
 					if (cameraCallbacks__.error.IsObject()) {
@@ -947,6 +982,7 @@ namespace TitaniumWindows
 		JSExport<MediaModule>::SetParent(JSExport<Titanium::MediaModule>::Class());
 		TITANIUM_ADD_FUNCTION(MediaModule, _postOpenPhotoGallery);
 		TITANIUM_ADD_FUNCTION(MediaModule, _postOpenMusicLibrary);
+		TITANIUM_ADD_FUNCTION(MediaModule, _postShowCamera);
 	}
 
 	TITANIUM_FUNCTION(MediaModule, _postOpenPhotoGallery)
@@ -968,6 +1004,12 @@ namespace TitaniumWindows
 
 		_postOpenMusicLibrary(files);
 
+		return get_context().CreateUndefined();
+	}
+
+	TITANIUM_FUNCTION(MediaModule, _postShowCamera)
+	{
+		_postShowCamera();
 		return get_context().CreateUndefined();
 	}
 

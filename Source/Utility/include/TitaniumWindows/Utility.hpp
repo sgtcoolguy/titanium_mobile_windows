@@ -169,7 +169,7 @@ namespace TitaniumWindows
 		//
 		// Remove view from current Window
 		//
-		TITANIUMWINDOWS_UTILITY_EXPORT void RemoveViewFromCurrentWindow(Windows::UI::Xaml::FrameworkElement^ view);
+		TITANIUMWINDOWS_UTILITY_EXPORT void RemoveViewFromCurrentWindow(Windows::UI::Xaml::FrameworkElement^ view, std::function<void()> = nullptr);
 
 		//
 		// Construct Ti.Blob from given path
