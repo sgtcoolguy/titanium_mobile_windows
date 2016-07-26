@@ -185,6 +185,20 @@ namespace Titanium
 		*/
 		virtual void reverseGeocoder(const double& latitude, const double& longitude, JSObject callback) TITANIUM_NOEXCEPT;
 
+		/*!
+		  @method
+		  @abstract hasLocationPermissions
+		  @discussion Returns true if the app has location access.
+		*/
+		virtual bool hasLocationPermissions(const Geolocation::AUTHORIZATION& authorizationType) TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract requestLocationPermissions
+		  @discussion Requests for location access.
+		*/
+		virtual void requestLocationPermissions(const Geolocation::AUTHORIZATION& authorizationType, JSObject callback) TITANIUM_NOEXCEPT;
+
 		GeolocationModule(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~GeolocationModule() = default;
 		GeolocationModule(const GeolocationModule&) = default;
@@ -222,6 +236,8 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(getLocationServicesAuthorization);
 		TITANIUM_FUNCTION_DEF(getLocationServicesEnabled);
 		TITANIUM_FUNCTION_DEF(getLastGeolocation);
+		TITANIUM_FUNCTION_DEF(hasLocationPermissions);
+		TITANIUM_FUNCTION_DEF(requestLocationPermissions);
 
 		protected:
 			Geolocation::ACCURACY accuracy__;

@@ -28,12 +28,10 @@ namespace TitaniumWindows
 
 		TITANIUM_PROPERTY_UNIMPLEMENTED(activityType);
 		TITANIUM_PROPERTY_UNIMPLEMENTED(allowsBackgroundLocationUpdates);
-		TITANIUM_PROPERTY_UNIMPLEMENTED(locationServicesAuthorization);
 		TITANIUM_PROPERTY_UNIMPLEMENTED(pauseLocationUpdateAutomatically);
 		TITANIUM_PROPERTY_UNIMPLEMENTED(purpose);
 		TITANIUM_PROPERTY_UNIMPLEMENTED(showCalibration);
 		TITANIUM_PROPERTY_UNIMPLEMENTED(trackSignificantLocationChange);
-		TITANIUM_FUNCTION_UNIMPLEMENTED(requestLocationPermissions);
 
 		Geolocation(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~Geolocation()                  = default;
@@ -53,6 +51,9 @@ namespace TitaniumWindows
 		virtual void getCurrentPosition(JSObject callback) TITANIUM_NOEXCEPT override;
 
 		virtual void enableEvent(const std::string& event_name) TITANIUM_NOEXCEPT override final;
+
+		virtual bool hasLocationPermissions(const Titanium::Geolocation::AUTHORIZATION& authorizationType) TITANIUM_NOEXCEPT override;
+		virtual void requestLocationPermissions(const Titanium::Geolocation::AUTHORIZATION& authorizationType, JSObject callback) TITANIUM_NOEXCEPT override;
 
 	protected:
 		void ensureLoadGeolocator();
