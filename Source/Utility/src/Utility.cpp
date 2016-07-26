@@ -304,11 +304,11 @@ namespace TitaniumWindows
 			return std::chrono::time_point<std::chrono::system_clock>(std::chrono::milliseconds(static_cast<std::chrono::milliseconds::rep>(base_date_msec + time_msec)));
 		}
 
-		void RemoveViewFromCurrentWindow(Windows::UI::Xaml::FrameworkElement^ view)
+		void RemoveViewFromCurrentWindow(Windows::UI::Xaml::FrameworkElement^ view, std::function<void()> callback)
 		{
 			const auto rootFrame = dynamic_cast<Windows::UI::Xaml::Controls::Frame^>(Windows::UI::Xaml::Window::Current->Content);
 			TITANIUM_ASSERT_AND_THROW(rootFrame->Content, "Could not get content from current Window");
-			const auto removeUI = ref new Windows::UI::Core::DispatchedHandler([view, rootFrame]() {
+			const auto removeUI = ref new Windows::UI::Core::DispatchedHandler([view, rootFrame, callback]() {
 				if (rootFrame->Content) {
 					const auto page = dynamic_cast<Windows::UI::Xaml::Controls::Page^>(rootFrame->Content);
 					if (page && page->Content) {
@@ -321,6 +321,9 @@ namespace TitaniumWindows
 								TITANIUM_LOG_WARN("Could not find view from current Window");
 							}
 						}
+					}
+					if (callback) {
+						callback();
 					}
 				}
 			});

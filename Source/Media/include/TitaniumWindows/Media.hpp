@@ -61,6 +61,7 @@ namespace TitaniumWindows
 		  @discussion Hides the device camera UI.
 		*/
 		virtual void hideCamera() TITANIUM_NOEXCEPT override;
+		virtual void hideCamera(std::function<void()>) TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -98,6 +99,7 @@ namespace TitaniumWindows
 		  @discussion Shows the camera.
 		*/
 		virtual void showCamera(const Titanium::Media::CameraOptionsType& options) TITANIUM_NOEXCEPT override;
+		virtual void _postShowCamera() TITANIUM_NOEXCEPT;
 
 		/*!
 		  @method
@@ -167,6 +169,7 @@ namespace TitaniumWindows
 
 		TITANIUM_FUNCTION_DEF(_postOpenPhotoGallery);
 		TITANIUM_FUNCTION_DEF(_postOpenMusicLibrary);
+		TITANIUM_FUNCTION_DEF(_postShowCamera);
 
 	protected:
 
@@ -176,6 +179,8 @@ namespace TitaniumWindows
 		void takeScreenshotDone(JSObject callback, const std::string& file = "", const bool& hasError = true);
 		void clearScreenshotResources();
 		void takeScreenshotToFile(JSObject callback);
+
+		void focus(const Titanium::Media::CameraOptionsType&) TITANIUM_NOEXCEPT;
 
 #if !defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		void showDefaultCamera(const Titanium::Media::CameraOptionsType& options) TITANIUM_NOEXCEPT;
