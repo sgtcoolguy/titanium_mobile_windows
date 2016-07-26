@@ -275,6 +275,20 @@ namespace Titanium
 		*/
 		virtual void requestAuthorization(JSValue callback) TITANIUM_NOEXCEPT;
 
+		/*!
+		  @method
+		  @abstract hasCameraPermissions
+		  @discussion Returns true if the app has camera access.
+		*/
+		virtual bool hasCameraPermissions() TITANIUM_NOEXCEPT;
+
+		/*!
+		  @method
+		  @abstract requestCameraPermissions
+		  @discussion Requests for camera access.
+		*/
+		virtual void requestCameraPermissions(JSValue callback) TITANIUM_NOEXCEPT;
+
 		MediaModule(const JSContext&) TITANIUM_NOEXCEPT;
 		virtual ~MediaModule()                     = default;
 		MediaModule(const MediaModule&)            = default;
@@ -441,6 +455,8 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(takeScreenshot);
 		TITANIUM_FUNCTION_DEF(vibrate);
 		TITANIUM_FUNCTION_DEF(requestAuthorization);
+		TITANIUM_FUNCTION_DEF(hasCameraPermissions);
+		TITANIUM_FUNCTION_DEF(requestCameraPermissions);
 		TITANIUM_FUNCTION_DEF(createAudioPlayer);
 		TITANIUM_FUNCTION_DEF(createAudioRecorder);
 		TITANIUM_FUNCTION_DEF(createSound);
