@@ -218,10 +218,12 @@ if (IN.IsObject()) { \
 TITANIUM_ASSERT(IN.IsObject()); \
 auto js_##IN = static_cast<JSObject>(IN); \
 TITANIUM_ASSERT(js_##IN.IsArray()); \
-auto js_##OUT = static_cast<std::vector<JSValue>>(static_cast<JSArray>(js_##IN)); \
+auto js_##OUT = static_cast<JSArray>(js_##IN); \
+const auto js_##OUT##_len = js_##OUT.GetLength(); \
 std::vector<TYPE> OUT; \
-for (auto v : js_##OUT) { \
-	OUT.push_back(static_cast<TYPE>(v)); \
+OUT.reserve(js_##OUT##_len); \
+for (std::size_t i = 0; i < js_##OUT##_len; i++) { \
+	OUT.push_back(static_cast<TYPE>(js_##OUT.GetProperty(i))); \
 }
 
 #define ENSURE_STRING_ARRAY(IN,OUT) ENSURE_TYPE_ARRAY(IN,OUT,std::string)
@@ -230,10 +232,12 @@ for (auto v : js_##OUT) { \
 TITANIUM_ASSERT(IN.IsObject()); \
 auto js_##IN = static_cast<JSObject>(IN); \
 TITANIUM_ASSERT(js_##IN.IsArray()); \
-auto js_##OUT = static_cast<std::vector<JSValue>>(static_cast<JSArray>(js_##IN)); \
+auto js_##OUT = static_cast<JSArray>(js_##IN); \
+const auto js_##OUT##_len = js_##OUT.GetLength(); \
 std::vector<std::shared_ptr<TYPE>> OUT; \
-for (auto v : js_##OUT) { \
-	OUT.push_back(static_cast<JSObject>(v).GetPrivate<TYPE>()); \
+OUT.reserve(js_##OUT##_len); \
+for (std::size_t i = 0; i < js_##OUT##_len; i++) { \
+	OUT.push_back(static_cast<JSObject>(js_##OUT.GetProperty(i)).GetPrivate<TYPE>()); \
 }
 
 #define TITANIUM_PROPERTY_GETTER_TYPE(MODULE, NAME, TYPE, CHECK) \
@@ -366,10 +370,12 @@ TITANIUM_PROPERTY_GETTER(MODULE, NAME) { \
 #define TITANIUM_PROPERTY_SETTER_STRUCT_ARRAY(MODULE, NAME, STRUCT_NAME) \
 TITANIUM_PROPERTY_SETTER(MODULE, NAME) { \
   ENSURE_ARRAY(argument, js_array); \
-  auto js_values = static_cast<std::vector<JSValue>>(static_cast<JSArray>(js_array)); \
+  auto js_values = static_cast<JSArray>(js_array); \
+  const auto js_values_len = js_values.GetLength(); \
   std::vector<STRUCT_NAME> values; \
-  for (auto v : js_values) { \
-    values.push_back(js_to_##STRUCT_NAME(static_cast<JSObject>(v))); \
+  values.reserve(js_values_len); \
+  for (std::size_t i = 0; i < js_values_len; i++) { \
+    values.push_back(js_to_##STRUCT_NAME(static_cast<JSObject>(js_values.GetProperty(i)))); \
   } \
   set_##NAME(values); \
   return true; \

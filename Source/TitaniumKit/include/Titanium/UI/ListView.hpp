@@ -71,8 +71,9 @@ namespace Titanium
 			template<typename T>
 			std::shared_ptr<T> createSectionItemViewAt(const std::uint32_t& sectionIndex, const uint32_t& itemIndex) {
 				loadJS();
-				auto section = model__->getSectionAtIndex(sectionIndex);
-				const std::vector<JSValue> args { get_object(), section->get_object(), get_context().CreateNumber(itemIndex) };
+				const auto section = model__->getSectionAtIndex(sectionIndex);
+				const auto item = section->getItemAt(itemIndex);			
+				const std::vector<JSValue> args { get_object(), section->get_object(), ListDataItem_to_js(get_context(), item) };
 				JSValue js_view = sectionViewItemCreateFunction__(args, ti_listview_exports__);
 				TITANIUM_ASSERT(js_view.IsObject());
 				return static_cast<JSObject>(js_view).GetPrivate<T>();

@@ -77,7 +77,6 @@ namespace TitaniumWindows
 			}
 
 			resetListViewDataBinding();
-			collectionViewItems__->Clear();
 		}
 
 		void ListView::JSExportInitialize() 

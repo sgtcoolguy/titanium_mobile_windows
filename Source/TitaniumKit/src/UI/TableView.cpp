@@ -423,12 +423,12 @@ namespace Titanium
 
 			auto data_obj = static_cast<JSObject>(argument);
 			TITANIUM_ASSERT(data_obj.IsArray());
-			auto data = static_cast<std::vector<JSValue>>(static_cast<JSArray>(data_obj));
-
+			auto data = static_cast<JSArray>(data_obj);
+			const auto length = data.GetLength();
 			std::vector<JSObject> tableObjects;
-			for (uint32_t i=0;i<data.size();i++) {
-				auto tableObject = static_cast<JSObject>(data[i]);
-				tableObjects.push_back(tableObject);
+			tableObjects.reserve(length);
+			for (std::size_t i = 0; i < length; i++) {
+				tableObjects.push_back(static_cast<JSObject>(data.GetProperty(i)));
 			}
 			set_data(tableObjects);
 

@@ -94,15 +94,15 @@ function ensureLoadTemplates(listview) {
 // Create item views from section
 function createSectionView(listview, section) {
 	section.listview = listview;
-	section.items = section.items || [];
 	listview.templates = listview.templates || [];
 	listview.defaultItemTemplate = listview.defaultItemTemplate || Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT;
 
 	ensureLoadTemplates(listview);
 
 	var views = [];
-	for (var i = 0; i < section.items.length; i++) {
-		views.push(createSectionItemAt(listview, section, i));
+	var items = section.items;
+	for (var i = 0; i < items.length; i++) {
+		views.push(createSectionItemAt(listview, section, items[i]));
 	}
 	return views;
 }
@@ -170,8 +170,7 @@ function createSectionItemView(listview, item, template, parent) {
 }
 
 // Create list item for custom template
-function createSectionItemAt(listview, section, index) {
-	var item = section.items[index];
+function createSectionItemAt(listview, section, item) {
 	var template = listview.templates[listview.defaultItemTemplate];
 	if (item.template !== void 0 && listview.templates[item.template] !== void 0 ) {
 		template = listview.templates[item.template];
