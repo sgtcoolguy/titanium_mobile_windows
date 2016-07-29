@@ -111,6 +111,9 @@ set_target_properties(TitaniumWindows_Utility PROPERTIES VS_WINRT_COMPONENT TRUE
 # configuration.
 set_property(TARGET TitaniumWindows_Utility APPEND_STRING PROPERTY LINK_FLAGS_DEBUG "/OPT:NOREF /OPT:NOICF")
 
+# Disable inline function expansion, prevents "C1001 An internal error has occurred in the compiler."
+set_property(TARGET TitaniumWindows_Utility APPEND_STRING PROPERTY COMPILE_FLAGS "/Ob0")
+
 if (NOT TitaniumWindows_Utility_DISABLE_TESTS)
   add_subdirectory(test)
 endif()
