@@ -348,6 +348,17 @@ namespace Titanium
 		context.JSEvaluateScript(reverseGeocoder_js, export_obj);
 	}
 
+	bool GeolocationModule::hasLocationPermissions(const Titanium::Geolocation::AUTHORIZATION& authorizationType) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("GeolocationModule::hasLocationPermissions: Unimplemented");
+		return false;
+	}
+
+	void GeolocationModule::requestLocationPermissions(const Titanium::Geolocation::AUTHORIZATION& authorizationType, JSObject callback) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("GeolocationModule::requestLocationPermissions: Unimplemented");
+	}
+
 	void GeolocationModule::JSExportInitialize()
 	{
 		JSExport<GeolocationModule>::SetClassVersion(1);
@@ -412,6 +423,9 @@ namespace Titanium
 
 		TITANIUM_ADD_FUNCTION(GeolocationModule, getLocationServicesEnabled);
 		TITANIUM_ADD_FUNCTION(GeolocationModule, getLastGeolocation);
+
+		TITANIUM_ADD_FUNCTION(GeolocationModule, hasLocationPermissions);
+		TITANIUM_ADD_FUNCTION(GeolocationModule, requestLocationPermissions);
 	}
 
 	TITANIUM_PROPERTY_GETTER(GeolocationModule, accuracy)
@@ -559,6 +573,31 @@ namespace Titanium
 			TITANIUM_ASSERT(_0.IsNumber());
 			const double latitude = static_cast<double>(_0);
 			reverseGeocoder(latitude, 0, get_context().CreateObject());
+		}
+		return get_context().CreateUndefined();
+	}
+
+	TITANIUM_FUNCTION(GeolocationModule, hasLocationPermissions)
+	{
+		if (arguments.size() >= 1) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsNumber());
+			const auto authorizationType = Titanium::Geolocation::Constants::to_AUTHORIZATION(static_cast<std::underlying_type<Geolocation::AUTHORIZATION>::type>(_0));
+			return get_context().CreateBoolean(hasLocationPermissions(authorizationType));
+		}
+		return get_context().CreateBoolean(false);
+	}
+
+	TITANIUM_FUNCTION(GeolocationModule, requestLocationPermissions)
+	{
+		if (arguments.size() >= 2) {
+			const auto _0 = arguments.at(0);
+			TITANIUM_ASSERT(_0.IsNumber());
+			const auto _1 = arguments.at(1);
+			TITANIUM_ASSERT(_1.IsObject());
+			const auto authorizationType = Titanium::Geolocation::Constants::to_AUTHORIZATION(static_cast<std::underlying_type<Geolocation::AUTHORIZATION>::type>(_0));
+			const auto callback = static_cast<JSObject>(_1);
+			requestLocationPermissions(authorizationType, callback);
 		}
 		return get_context().CreateUndefined();
 	}
