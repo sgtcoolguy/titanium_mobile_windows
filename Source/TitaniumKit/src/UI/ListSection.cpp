@@ -51,12 +51,11 @@ namespace Titanium
 
 		static std::vector<ListDataItem> js_to_ListDataItem_array(const JSArray& js_array)
 		{
+			const auto length = js_array.GetLength();
 			std::vector<ListDataItem> items;
-			const auto js_items = static_cast<std::vector<JSValue>>(js_array);
-			for (const auto js_item : js_items) {
-				if (js_item.IsObject()) {
-					items.push_back(js_to_ListDataItem(static_cast<JSObject>(js_item)));
-				}
+			items.reserve(length);
+			for (uint32_t i = 0; i < length; i++) {
+				items.push_back(js_to_ListDataItem(static_cast<JSObject>(js_array.GetProperty(i))));
 			}
 			return items;
 		}

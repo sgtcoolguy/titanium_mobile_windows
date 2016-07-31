@@ -116,11 +116,11 @@ namespace Titanium
 
 	void Module::applyProperties(const JSObject& props, JSObject& this_object) TITANIUM_NOEXCEPT
 	{
-		if (props.GetPropertyNames().GetCount() > 0) {
-			const auto propertyNames = props.GetPropertyNames();
-			for (const auto& property_name : static_cast<std::vector<JSString>>(propertyNames)) {
-				this_object.SetProperty(property_name, props.GetProperty(property_name));
-			}
+		const auto propertyNames = props.GetPropertyNames();
+		const auto length = propertyNames.GetCount();
+		for (std::size_t i = 0; i < length; i++) {
+			const auto property_name = propertyNames.GetNameAtIndex(i);
+			this_object.SetProperty(property_name, props.GetProperty(property_name));
 		}
 
 		const auto module = this_object.GetPrivate<Titanium::Module>();
