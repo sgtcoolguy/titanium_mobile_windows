@@ -150,6 +150,20 @@ namespace TitaniumWindows
 		*/
 		virtual void vibrate(std::vector<std::chrono::milliseconds> pattern) TITANIUM_NOEXCEPT override;
 
+		/*!
+		  @method
+		  @abstract hasCameraPermissions
+		  @discussion Returns true if the app has camera access.
+		*/
+		virtual bool hasCameraPermissions() TITANIUM_NOEXCEPT override;
+
+		/*!
+		  @method
+		  @abstract requestCameraPermissions
+		  @discussion Requests for camera access.
+		*/
+		virtual void requestCameraPermissions(JSValue callback) TITANIUM_NOEXCEPT override;
+
 		MediaModule(const JSContext&) TITANIUM_NOEXCEPT;
 
 		virtual ~MediaModule();
