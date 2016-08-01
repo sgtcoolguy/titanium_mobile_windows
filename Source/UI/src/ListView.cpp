@@ -299,6 +299,9 @@ namespace TitaniumWindows
 				if (view_delegate == nullptr) {
 					TITANIUM_LOG_ERROR("ListView: headerView must be of type Titanium.UI.View");
 				} else {
+					if (view_delegate->get_height().empty()) {
+						view_delegate->set_height(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE));
+					}
 					const auto component = view_delegate->getComponent();
 					group->Append(component);
 
@@ -323,11 +326,14 @@ namespace TitaniumWindows
 			// set footer
 			const auto footerView = section->get_footerView();
 			if (footerView != nullptr) {
-				const auto view = dynamic_cast<TitaniumWindows::UI::View*>(footerView.get());
-				if (view == nullptr) {
+				const auto view_delegate = footerView->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				if (view_delegate == nullptr) {
 					TITANIUM_LOG_ERROR("ListView: footerView must be of type Titanium.UI.View");
 				} else {
-					const auto component = view->getComponent();
+					if (view_delegate->get_height().empty()) {
+						view_delegate->set_height(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE));
+					}
+					const auto component = view_delegate->getComponent();
 					group->Append(component);
 
 					// add as child view to make layout engine work
