@@ -296,24 +296,30 @@ namespace TitaniumWindows
 		waitingForOpenPhotoGallery__ = false;
 	}
 
-	bool MediaModule::isMediaTypeSupported(const std::string& source, const Titanium::Media::MediaType& type) TITANIUM_NOEXCEPT
+	void MediaModule::findCameraDevices()
 	{
-		if (source == "camera") {
-			bool videoSupported = false;
+		if (cameraDevices__ == nullptr) {
 			concurrency::event event;
-			task<DeviceInformationCollection^>(DeviceInformation::FindAllAsync(DeviceClass::VideoCapture)).then([&videoSupported, &event](task<DeviceInformationCollection^> task) {
+			task<DeviceInformationCollection^>(DeviceInformation::FindAllAsync(DeviceClass::VideoCapture)).then([this, &event](task<DeviceInformationCollection^> task) {
 				try {
-					videoSupported = task.get()->Size > 0;
+					cameraDevices__ = task.get();
 				} catch (Platform::Exception^ ex) {
 					TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(ex->Message));
 				}
 				event.set();
 			}, concurrency::task_continuation_context::use_arbitrary());
 			event.wait();
+		}
+	}
+
+	bool MediaModule::isMediaTypeSupported(const std::string& source, const Titanium::Media::MediaType& type) TITANIUM_NOEXCEPT
+	{
+		if (source == "camera") {
+			findCameraDevices();
 
 			// Looks like there's no difference between "video" and "camera" in DeviceInformation...
 			// Assuming "VideoCapture" device supports both camera and video. 
-			return videoSupported;
+			return cameraDevices__->Size > 0;
 		} else if (source == "photo") {
 			// Does Photo Library support both picture and video? There's no way to query that.
 			return true;
@@ -458,6 +464,8 @@ namespace TitaniumWindows
 		props->Properties->Insert(RotationKey, orientationToDegrees());
 		mediaCapture__->SetEncodingPropertiesAsync(Windows::Media::Capture::MediaStreamType::VideoPreview, props, nullptr);
 	}
+
+
 #endif
 
 #if !defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
@@ -549,12 +557,34 @@ namespace TitaniumWindows
 		}
 
 		TITANIUM_ASSERT_AND_THROW(!screenCaptureStarted__, "showCamera() can't be used during screen capture.");
+
+		findCameraDevices();
 		mediaCapture__ = ref new MediaCapture();
 		auto settings = ref new MediaCaptureInitializationSettings();
 		// If not capturing video, don't require audio. This way we don't need "microphone" capability to take a picture
 		if (std::find(options.mediaTypes.begin(), options.mediaTypes.end(), Titanium::Media::MediaType::Video) == options.mediaTypes.end()) {
 			settings->AudioDeviceId = "";
 			settings->StreamingCaptureMode = StreamingCaptureMode::Video;
+		}
+
+		// set default camera
+		Platform::String^ defaultCameraId = nullptr;
+		for (auto camera : cameraDevices__) {
+			const auto name = TitaniumWindows::Utility::ConvertString(camera->Name);
+			const auto isFrontCamera = name.find("Front") != std::string::npos;
+			const auto isBackCamera = name.find("Back") != std::string::npos;
+
+			if ((options.whichCamera == Titanium::Media::CameraOption::Front && isFrontCamera) ||
+				(options.whichCamera == Titanium::Media::CameraOption::Rear && isBackCamera)) {
+				defaultCameraId = camera->Id;
+				break;
+			}
+			if (camera->IsDefault || isBackCamera) {
+				defaultCameraId = camera->Id;
+			}
+		}
+		if (defaultCameraId) {
+			settings->VideoDeviceId = defaultCameraId;
 		}
 
 		// For tap-to-focus

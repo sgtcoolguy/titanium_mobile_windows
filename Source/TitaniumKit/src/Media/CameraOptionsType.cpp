@@ -51,6 +51,15 @@ namespace Titanium
 			
 			const auto js_transform = object.GetProperty("transform");
 			ENSURE_MODULE_OBJECT(js_transform, transform, Titanium::UI::TwoDMatrix)
+
+			const auto js_whichCamera = object.GetProperty("whichCamera");
+			auto whichCamera = CameraOption::NotDetermined;
+			if (!js_whichCamera.IsUndefined()) {
+				const auto value = static_cast<CameraOption>(static_cast<uint32_t>(js_whichCamera));
+				if (value == CameraOption::Front || value == CameraOption::Rear) {
+					whichCamera = value;
+				}
+			}
 			
 			const auto success_property = object.GetProperty("success");
 			const auto onsuccess = [success_property](const CameraMediaItemType& item) {
@@ -113,6 +122,7 @@ namespace Titanium
 				transform,
 				std::chrono::milliseconds::min(),
 				Quality::High,
+				whichCamera,
 				callbacks
 			};
 			
@@ -157,6 +167,7 @@ namespace Titanium
 			object.SetProperty("showControls", js_context.CreateBoolean(config.showControls));
 			object.SetProperty("success", config.callbacks.success);
 			object.SetProperty("videoMaximumDuration", js_context.CreateNumber(static_cast<double>(config.videoMaximumDuration.count())));
+			object.SetProperty("whichCamera", js_context.CreateNumber(static_cast<std::uint32_t>(config.whichCamera)));
 			object.SetProperty("videoQuality", js_context.CreateNumber(static_cast<std::uint32_t>(config.videoQuality)));
 			return object;
 		}

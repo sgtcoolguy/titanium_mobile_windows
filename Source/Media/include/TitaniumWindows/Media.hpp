@@ -203,6 +203,7 @@ namespace TitaniumWindows
 #if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		void updatePreviewOrientation();
 #endif
+		void findCameraDevices();
 		Windows::Storage::FileProperties::PhotoOrientation toPhotoOrientation();
 		std::uint32_t orientationToDegrees();
 
@@ -216,6 +217,7 @@ namespace TitaniumWindows
 		Titanium::Media::PhotoGalleryOptionsType openPhotoGalleryOptionsState__;
 		Titanium::Media::MusicLibraryOptionsType openMusicLibraryOptionsState__;
 		JSFunction js_beep__;
+		Windows::Devices::Enumeration::DeviceInformationCollection^ cameraDevices__{ nullptr };
 #if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		Titanium::Media::CameraOptionsTypeCallbacks cameraCallbacks__;
 		std::shared_ptr<Titanium::UI::View> cameraOverlay__;
