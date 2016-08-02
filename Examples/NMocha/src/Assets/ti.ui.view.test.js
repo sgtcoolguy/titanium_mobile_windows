@@ -139,6 +139,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('border', function (finish) {
+		this.timeout(3000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
