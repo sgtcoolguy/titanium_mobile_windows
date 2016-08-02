@@ -165,6 +165,17 @@ namespace Titanium
 		TITANIUM_LOG_WARN("MediaModule::requestAuthorization: Unimplemented");
 	}
 
+	bool MediaModule::hasCameraPermissions() TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("MediaModule::hasCameraPermissions: Unimplemented");
+		return false;
+	}
+
+	void MediaModule::requestCameraPermissions(JSValue callback) TITANIUM_NOEXCEPT
+	{
+		TITANIUM_LOG_WARN("MediaModule::requestCameraPermissions: Unimplemented");
+	}
+
 	void MediaModule::JSExportInitialize()
 	{
 		JSExport<MediaModule>::SetClassVersion(1);
@@ -325,6 +336,8 @@ namespace Titanium
 		TITANIUM_ADD_FUNCTION(MediaModule, takeScreenshot);
 		TITANIUM_ADD_FUNCTION(MediaModule, vibrate);
 		TITANIUM_ADD_FUNCTION(MediaModule, requestAuthorization);
+		TITANIUM_ADD_FUNCTION(MediaModule, hasCameraPermissions);
+		TITANIUM_ADD_FUNCTION(MediaModule, requestCameraPermissions);
 		TITANIUM_ADD_FUNCTION(MediaModule, createAudioPlayer);
 		TITANIUM_ADD_FUNCTION(MediaModule, createAudioRecorder);
 		TITANIUM_ADD_FUNCTION(MediaModule, createSound);
@@ -1241,6 +1254,18 @@ namespace Titanium
 	{
 		ENSURE_OBJECT_AT_INDEX(callback, 0);
 		requestAuthorization(callback);
+		return get_context().CreateUndefined();
+	}
+
+	TITANIUM_FUNCTION(MediaModule, hasCameraPermissions)
+	{
+		return get_context().CreateBoolean(hasCameraPermissions());
+	}
+
+	TITANIUM_FUNCTION(MediaModule, requestCameraPermissions)
+	{
+		ENSURE_OBJECT_AT_INDEX(callback, 0);
+		requestCameraPermissions(callback);
 		return get_context().CreateUndefined();
 	}
 

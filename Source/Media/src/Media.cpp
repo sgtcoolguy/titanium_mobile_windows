@@ -952,6 +952,62 @@ namespace TitaniumWindows
 #endif
 	}
 
+	bool MediaModule::hasCameraPermissions() TITANIUM_NOEXCEPT
+	{
+		bool result = false;
+		using namespace Windows::Data::Xml::Dom;
+
+		concurrency::event event;
+		task<StorageFile^>(Windows::ApplicationModel::Package::Current->InstalledLocation->GetFileAsync("AppxManifest.xml")).then([&event, &result, this](task<StorageFile^> fileTask) {
+			try {
+				task<XmlDocument^>(XmlDocument::LoadFromFileAsync(fileTask.get())).then([&event, &result, this](task<XmlDocument^> docTask) {
+					try {
+						const auto doc = docTask.get();
+						const auto items = doc->GetElementsByTagName("DeviceCapability");
+						for (unsigned int i = 0; i < items->Length; i++) {
+							const auto node = items->GetAt(i);
+							const auto name = static_cast<Platform::String^>(node->Attributes->GetNamedItem("Name")->NodeValue);
+							if (name == "webcam") {
+								result = true;
+								break;
+							}
+						}
+					} catch (...) {
+					}
+					event.set();
+				}, concurrency::task_continuation_context::use_arbitrary());
+			} catch (...) {
+				result = true;
+				event.set();
+			}
+		}, concurrency::task_continuation_context::use_arbitrary());
+		event.wait();
+
+		return result;
+	}
+
+	void MediaModule::requestCameraPermissions(JSValue callback) TITANIUM_NOEXCEPT
+	{
+		// not compatible with Windows 8.1/10
+		// currently, it is not possible to request camera permissions
+		const auto ctx = get_context();
+		JSObject response = ctx.CreateObject();
+
+		if (hasCameraPermissions()) {
+			response.SetProperty("code", ctx.CreateNumber(0));
+			response.SetProperty("error", ctx.CreateString());
+			response.SetProperty("success", ctx.CreateBoolean(true));
+		} else {
+			response.SetProperty("code", ctx.CreateNumber(-1));
+			response.SetProperty("error", ctx.CreateString(TitaniumWindows::Utility::ConvertString("webcam DeviceCapability not set in tiapp.xml")));
+			response.SetProperty("success", ctx.CreateBoolean(false));
+		}
+
+		auto cb = static_cast<JSObject>(callback);
+		TITANIUM_ASSERT(cb.IsFunction());
+		cb({ response }, get_object());
+	}
+
 	MediaModule::MediaModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 		: Titanium::MediaModule(js_context)
 		, js_beep__(createBeepFunction(js_context))
