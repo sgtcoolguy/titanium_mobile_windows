@@ -114,6 +114,9 @@ namespace TitaniumWindows
 				if (view_delegate == nullptr) {
 					TITANIUM_LOG_ERROR("TableView: headerView must be of type Titanium.UI.View");
 				} else {
+					if (view_delegate->get_height().empty()) {
+						view_delegate->set_height(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE));
+					}
 					tableview__->Header = view_delegate->getComponent();
 					// Add as child view to make layout engine work
 					registerTableViewRowAsLayoutNode(headerView);
@@ -131,6 +134,9 @@ namespace TitaniumWindows
 				if (view_delegate == nullptr) {
 					TITANIUM_LOG_ERROR("TableView: footerView must be of type Titanium.UI.View");
 				} else {
+					if (view_delegate->get_height().empty()) {
+						view_delegate->set_height(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE));
+					}
 					tableview__->Footer = view_delegate->getComponent();
 					// Add as child view to make layout engine work
 					registerTableViewRowAsLayoutNode(footerView);
@@ -180,6 +186,9 @@ namespace TitaniumWindows
 				if (view_delegate == nullptr) {
 					TITANIUM_LOG_ERROR("TableView: headerView must be of type Titanium.UI.View");
 				} else {
+					if (view_delegate->get_height().empty()) {
+						view_delegate->set_height(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE));
+					}
 					group->Append(view_delegate->getComponent());
 					// Add as child view to make layout engine work
 					registerTableViewRowAsLayoutNode(headerView);
@@ -206,6 +215,9 @@ namespace TitaniumWindows
 				if (view_delegate == nullptr) {
 					TITANIUM_LOG_ERROR("TableView: footerView must be of type Titanium.UI.View");
 				} else {
+					if (view_delegate->get_height().empty()) {
+						view_delegate->set_height(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE));
+					}
 					group->Append(view_delegate->getComponent());
 					registerTableViewRowAsLayoutNode(footerView);
 				}
