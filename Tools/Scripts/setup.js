@@ -234,14 +234,15 @@ function downloadIfNecessary(envKey, defaultDest, expectedDir, url, next) {
 			// What if it _does_ exist and is out of date? We should "wipe it", or move it...
 			if (fs.existsSync(destination)) {
 				var urlFile = path.join(destination, 'SOURCE_URL');
-				var contents = fs.readFileSync(urlFile);
-				var base = path.basename(contents.slice(7), '.zip');
-				var byURL = path.normalize(path.join(destination, '..', base));
-				console.log('Destination for ' + url + ' already exists, moving existing directory to ' + byURL + ' before extracting.');
-				if (!fs.existsSync(byURL)) {
-					wrench.copyDirSyncRecursive(destination, byURL);
+				if (fs.existsSync(urlFile)) {
+					var contents = fs.readFileSync(urlFile);
+					var base = path.basename(contents.slice(7), '.zip');
+					var byURL = path.normalize(path.join(destination, '..', base));
+					console.log('Destination for ' + url + ' already exists, moving existing directory to ' + byURL + ' before extracting.');
+					if (!fs.existsSync(byURL)) {
+						wrench.copyDirSyncRecursive(destination, byURL);
+					}
 				}
-
 				wrench.rmdirSyncRecursive(destination);
 			}
 			// Extract to parent of destination...
