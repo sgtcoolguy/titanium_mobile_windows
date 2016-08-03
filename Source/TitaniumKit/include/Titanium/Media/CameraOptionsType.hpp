@@ -61,6 +61,7 @@ namespace Titanium
 			std::shared_ptr<Titanium::UI::TwoDMatrix> transform;
 			std::chrono::milliseconds videoMaximumDuration;
 			Quality videoQuality;
+			CameraOption whichCamera;
 			CameraOptionsTypeCallbacks callbacks;
 		};
 		
