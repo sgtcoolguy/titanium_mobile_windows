@@ -214,6 +214,7 @@ namespace TitaniumWindows
 		Windows::Foundation::EventRegistrationToken audioMonitoring_token__;
 		bool waitingForOpenMusicLibrary__ { false };
 		bool waitingForOpenPhotoGallery__ { false };
+		bool isFrontCameraSelected__{ false };
 		Titanium::Media::PhotoGalleryOptionsType openPhotoGalleryOptionsState__;
 		Titanium::Media::MusicLibraryOptionsType openMusicLibraryOptionsState__;
 		JSFunction js_beep__;
