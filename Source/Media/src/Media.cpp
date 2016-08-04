@@ -426,17 +426,32 @@ namespace TitaniumWindows
 
 	FileProperties::PhotoOrientation MediaModule::toPhotoOrientation()
 	{
-		switch (DisplayInformation::GetForCurrentView()->CurrentOrientation)
-		{
-		case DisplayOrientations::Portrait:
-			return FileProperties::PhotoOrientation::Rotate270;
-		case DisplayOrientations::LandscapeFlipped:
-			return FileProperties::PhotoOrientation::Rotate180;
-		case DisplayOrientations::PortraitFlipped:
-			return FileProperties::PhotoOrientation::Rotate90;
-		case DisplayOrientations::Landscape:
-		default:
-			return FileProperties::PhotoOrientation::Normal;
+		if (isFrontCameraSelected__) {
+			switch (DisplayInformation::GetForCurrentView()->CurrentOrientation)
+			{
+			case DisplayOrientations::Portrait:
+				return FileProperties::PhotoOrientation::Rotate90;
+			case DisplayOrientations::Landscape:
+				return FileProperties::PhotoOrientation::Rotate180;
+			case DisplayOrientations::PortraitFlipped:
+				return FileProperties::PhotoOrientation::Rotate270;
+			case DisplayOrientations::LandscapeFlipped:
+			default:
+				return FileProperties::PhotoOrientation::Normal;
+			}
+		} else {
+			switch (DisplayInformation::GetForCurrentView()->CurrentOrientation)
+			{
+			case DisplayOrientations::Portrait:
+				return FileProperties::PhotoOrientation::Rotate270;
+			case DisplayOrientations::LandscapeFlipped:
+				return FileProperties::PhotoOrientation::Rotate180;
+			case DisplayOrientations::PortraitFlipped:
+				return FileProperties::PhotoOrientation::Rotate90;
+			case DisplayOrientations::Landscape:
+			default:
+				return FileProperties::PhotoOrientation::Normal;
+			}
 		}
 	}
 
@@ -567,6 +582,9 @@ namespace TitaniumWindows
 			settings->StreamingCaptureMode = StreamingCaptureMode::Video;
 		}
 
+		// Indicate if front camera is selected
+		isFrontCameraSelected__ = false;
+
 		// set default camera
 		Platform::String^ defaultCameraId = nullptr;
 		for (auto camera : cameraDevices__) {
@@ -577,10 +595,12 @@ namespace TitaniumWindows
 			if ((options.whichCamera == Titanium::Media::CameraOption::Front && isFrontCamera) ||
 				(options.whichCamera == Titanium::Media::CameraOption::Rear && isBackCamera)) {
 				defaultCameraId = camera->Id;
+				isFrontCameraSelected__ = isFrontCamera && options.whichCamera == Titanium::Media::CameraOption::Front;
 				break;
 			}
 			if (camera->IsDefault || isBackCamera) {
 				defaultCameraId = camera->Id;
+				isFrontCameraSelected__ = isFrontCamera && options.whichCamera == Titanium::Media::CameraOption::Front;
 			}
 		}
 		if (defaultCameraId) {
@@ -614,6 +634,10 @@ namespace TitaniumWindows
 				auto mediaCapture = mediaCapture__.Get();
 				captureElement__->Source = mediaCapture;
 				this->cameraPreviewStarted__ = true;
+
+				if (isFrontCameraSelected__) {
+					mediaCapture__->SetPreviewRotation(VideoRotation::Clockwise180Degrees);
+				}
 
 				concurrency::create_task(mediaCapture->StartPreviewAsync()).then([options, this](concurrency::task<void> previewTask) {
 					try {
