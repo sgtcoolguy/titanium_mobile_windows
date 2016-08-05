@@ -49,9 +49,11 @@ set(SOURCE_Network
   include/TitaniumWindows/Network.hpp
   include/TitaniumWindows/Network/HTTPClient.hpp
   include/TitaniumWindows/detail/NetworkBase.hpp
+  include/TitaniumWindows/Network/Socket/TCP.hpp
   src/Network.cpp
   src/HTTPClient.cpp
   src/TitaniumEntryPoint.cpp
+  src/Socket/TCP.cpp
   )
 
 source_group(Titanium\\Network FILES ${SOURCE_Network})

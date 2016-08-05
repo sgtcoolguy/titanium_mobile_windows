@@ -9,7 +9,7 @@
 #ifndef _TITANIUM_UDP_HPP_
 #define _TITANIUM_UDP_HPP_
 
-#include "Titanium/Module.hpp"
+#include "Titanium/IOStream.hpp"
 
 namespace Titanium
 {
@@ -25,7 +25,7 @@ namespace Titanium
 			  @discussion This is the Titanium UDP Module.
 			  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Network.Socket.UDP
 			*/
-			class TITANIUMKIT_EXPORT UDP : public Module, public JSExport<UDP>
+			class TITANIUMKIT_EXPORT UDP : public IOStream, public JSExport<UDP>
 			{
 
 			public:
