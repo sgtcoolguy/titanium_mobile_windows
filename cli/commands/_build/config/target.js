@@ -26,6 +26,18 @@ module.exports = function configOptionTarget(order) {
 			if (value === 'dist-phonestore' || value === 'dist-winstore') {
 				this.conf.options['output-dir'].required = true;
 			}
+
+			// targeting ws-local without SDK specified, select most appropriate for platform
+			if (value === 'ws-local' && this.cli.argv.$_.indexOf('--wp-sdk') === -1 && this.cli.argv.$_.indexOf('-S') === -1) {
+				var sdk = '10.0',
+					os = require('os').release();
+
+				// not on Windows 10, default to 8.1 sdk
+				if (!os.startsWith('10.0')) {
+					sdk = '8.1';
+				}
+				this.cli.argv['wp-sdk'] = sdk;
+			}
 		}.bind(this),
 		default: this.defaultTarget,
 		desc: __('the target to build for'),
