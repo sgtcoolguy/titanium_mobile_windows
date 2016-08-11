@@ -30,10 +30,14 @@ Utility.isWindows = function() {
 
 Utility.isWindows10 = function() {
 	return this.isWindows() && Ti.Platform.version.indexOf('10.0') == 0;
-}
+};
+
+Utility.isWindows10Desktop = function() {
+	return this.isWindowsDesktop() && this.isWindows10();
+};
 
 Utility.isWindows8_1 = function() {
 	return this.isWindows() && Ti.Platform.version.indexOf('6.3.9600') == 0;
-}
+};
 
 module.exports = Utility;
