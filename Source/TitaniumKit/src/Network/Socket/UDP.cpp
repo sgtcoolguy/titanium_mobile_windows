@@ -17,7 +17,7 @@ namespace Titanium
 		{
 
 			UDP::UDP(const JSContext& js_context) TITANIUM_NOEXCEPT
-				: Module(js_context, "Ti.Network.Socket.UDP")
+				: IOStream(js_context, "Ti.Network.Socket.UDP")
 				, port__(0)
 				, started__(js_context.CreateNull())
 				, data__(js_context.CreateNull())

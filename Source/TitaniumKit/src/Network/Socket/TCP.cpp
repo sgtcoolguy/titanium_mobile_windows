@@ -17,7 +17,7 @@ namespace Titanium
 		namespace Socket
 		{
 			TCP::TCP(const JSContext& js_context) TITANIUM_NOEXCEPT
-				: Module(js_context, "Ti.Network.Socket.TCP")
+				: IOStream(js_context, "Ti.Network.Socket.TCP")
 				, host__("")
 				, port__(0)
 				, listenQueueSize__(0)
@@ -60,7 +60,7 @@ namespace Titanium
 			void TCP::JSExportInitialize()
 			{
 				JSExport<TCP>::SetClassVersion(1);
-				JSExport<TCP>::SetParent(JSExport<Module>::Class());
+				JSExport<TCP>::SetParent(JSExport<IOStream>::Class());
 
 				TITANIUM_ADD_PROPERTY(TCP, host);
 				TITANIUM_ADD_PROPERTY(TCP, port);

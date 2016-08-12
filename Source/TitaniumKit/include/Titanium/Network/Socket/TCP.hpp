@@ -9,8 +9,8 @@
 #ifndef _TITANIUM_TCP_HPP_
 #define _TITANIUM_TCP_HPP_
 
-#include "Titanium/Module.hpp"
 #include "Titanium/Network/Socket.hpp"
+#include "Titanium/IOStream.hpp"
 
 namespace Titanium
 {
@@ -28,7 +28,7 @@ namespace Titanium
 			  @discussion This is the Titanium TCP Module.
 			  See http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Network.Socket.TCP
 			*/
-			class TITANIUMKIT_EXPORT TCP : public Module, public JSExport<TCP>
+			class TITANIUMKIT_EXPORT TCP : public IOStream, public JSExport<TCP>
 			{
 
 			public:
