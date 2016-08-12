@@ -222,6 +222,14 @@ function generateCmakeList(next) {
 		}
 	}
 
+	this.targetPlatformSdkVersion   = this.targetPlatformSdkVersion || this.tiapp.windows['TargetPlatformVersion'] || this.wpsdk;
+	this.targetPlatformSdkMinVersion = this.targetPlatformSdkMinVersion || this.tiapp.windows['TargetPlatformMinVersion'] || this.targetPlatformSdkVersion;
+
+	// '10.0' is not valid for MinVersion because it requires build number
+	if (this.targetPlatformSdkMinVersion.match(/^[0-9]{1,2}\.[0-9]$/)) {
+		this.targetPlatformSdkMinVersion = '';
+	}
+
 	this.cli.createHook('build.windows.writeCMakeLists', this, function (manifest, cb) {
 		fs.existsSync(this.buildDir) || wrench.mkdirSyncRecursive(this.buildDir)
 
@@ -250,7 +258,8 @@ function generateCmakeList(next) {
 			phoneProductId: this.phoneProductId,
 			sourceGroups: sourceGroups,
 			i18nVSResources: this.i18nVSResources,
-			native_modules: native_modules
+			native_modules: native_modules,
+			targetPlatformSdkMinVersion: this.targetPlatformSdkMinVersion
 		}
 	), next);
 };
