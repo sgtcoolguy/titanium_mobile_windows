@@ -230,6 +230,7 @@ function generateCmakeList(next) {
 			phoneProductId: this.phoneProductId,
 			sourceGroups: sourceGroups,
 			i18nVSResources: this.i18nVSResources,
+			defaultLanguage: this.defaultLanguage,
 			native_modules: native_modules
 		}
 	), next);
