@@ -1117,6 +1117,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(MediaModule, isMediaTypeSupported)
 	{
+		ENSURE_ARGUMENT_INDEX(1);
 		ENSURE_STRING_AT_INDEX(source, 0);
 		ENSURE_ENUM_AT_INDEX(type, 1, Media::MediaType);
 
@@ -1160,6 +1161,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(MediaModule, saveToPhotoGallery)
 	{
+		ENSURE_ARGUMENT_INDEX(1);
 		ENSURE_OBJECT_AT_INDEX(media, 0);
 		ENSURE_OBJECT_AT_INDEX(callbacks, 1);
 

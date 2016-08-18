@@ -292,6 +292,7 @@ namespace Titanium
 				return get_context().CreateUndefined();
 			}
 
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_DOUBLE_AT_INDEX(sx, 0);
 			ENSURE_DOUBLE_AT_INDEX(sy, 1);
 			ENSURE_OPTIONAL_DOUBLE_AT_INDEX(toSx, 2, 0);
@@ -310,6 +311,7 @@ namespace Titanium
 				return get_context().CreateUndefined();
 			}
 
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_DOUBLE_AT_INDEX(tx, 0);
 			ENSURE_DOUBLE_AT_INDEX(ty, 1);
 

@@ -327,15 +327,22 @@ namespace Titanium
 				// app entry point should not be treated as "CommonJS module". It should expose every variables to children.
 				//
 				if (moduleId == "/app") {
-					result = js_context.JSEvaluateScript(module_js, js_context.get_global_object());
+					const std::string app_module_js = "try {" + module_js + "} catch (E) { E.fileName='app.js'; Titanium_RedScreenOfDeath(E);}";
+					result = js_context.JSEvaluateScript(app_module_js, js_context.get_global_object());
 				} else {
 					const std::string require_module_js = "(function(global) { var exports={},__OXP=exports,module={'exports':exports},__dirname='" + currentDir__ + "';__filename='/"
-						+ module_path + "';" + module_js + R"JS(
+						+ module_path + "';try {" + module_js + R"JS(
 						if(module.exports !== __OXP){
 							return module.exports;
 						} else {
 							return exports;
 						}
+					  } catch (E) {
+						if (!E.fileName) {
+						    E.fileName = __filename;
+						}
+						Titanium_RedScreenOfDeath(E);
+					  }
 					})(this);
 					)JS";
 					result = js_context.JSEvaluateScript(require_module_js, js_context.get_global_object(), module_path);
@@ -576,6 +583,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(GlobalObject, setInterval)
 	{
+		ENSURE_ARGUMENT_INDEX(1);
 		ENSURE_OBJECT_AT_INDEX(function, 0);
 		ENSURE_UINT_AT_INDEX(delay, 1);
 

@@ -199,6 +199,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(ThreeDMatrix, rotate)
 		{
+			ENSURE_ARGUMENT_INDEX(3);
 			ENSURE_DOUBLE_AT_INDEX(angle, 0);
 			ENSURE_DOUBLE_AT_INDEX(x, 1);
 			ENSURE_DOUBLE_AT_INDEX(y, 2);
@@ -213,6 +214,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(ThreeDMatrix, scale)
 		{
+			ENSURE_ARGUMENT_INDEX(2);
 			ENSURE_DOUBLE_AT_INDEX(sx, 0);
 			ENSURE_DOUBLE_AT_INDEX(sy, 1);
 			ENSURE_DOUBLE_AT_INDEX(sz, 2);
@@ -226,6 +228,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(ThreeDMatrix, translate)
 		{
+			ENSURE_ARGUMENT_INDEX(2);
 			ENSURE_DOUBLE_AT_INDEX(tx, 0);
 			ENSURE_DOUBLE_AT_INDEX(ty, 1);
 			ENSURE_DOUBLE_AT_INDEX(tz, 2);

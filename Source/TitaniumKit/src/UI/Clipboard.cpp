@@ -91,10 +91,6 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(Clipboard, getData)
 		{
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			}
-
 			ENSURE_STRING_AT_INDEX(type, 0);
 			return getData(type);
 		}
@@ -106,10 +102,6 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(Clipboard, hasData)
 		{
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			}
-
 			ENSURE_STRING_AT_INDEX(type, 0);
 			return get_context().CreateBoolean(hasData(type));
 		}
@@ -121,10 +113,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(Clipboard, setData)
 		{
-			if (arguments.size() < 2) {
-				return get_context().CreateUndefined();
-			}
-
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_STRING_AT_INDEX(type, 0);
 			ENSURE_OBJECT_AT_INDEX(data, 1);
 			setData(type, data);
@@ -133,10 +122,6 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(Clipboard, setText)
 		{
-			if (arguments.empty()) {
-				return get_context().CreateUndefined();
-			}
-
 			ENSURE_STRING_AT_INDEX(text, 0);
 			setText(text);
 			return get_context().CreateUndefined();

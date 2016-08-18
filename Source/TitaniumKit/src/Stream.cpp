@@ -282,9 +282,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Stream, read)
 	{
-		if (arguments.size() < 3) {
-			HAL::detail::ThrowRuntimeError("Titanium::Stream::read", "Titanium::Stream::read: Invalid arguments");
-		}
+		ENSURE_ARGUMENT_INDEX(1);
 		ENSURE_OBJECT_AT_INDEX(source_object, 0);
 		ENSURE_OBJECT_AT_INDEX(buffer_object, 1);
 
@@ -307,6 +305,7 @@ namespace Titanium
 			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			read(source_stream, write_buffer, 0, write_buffer->get_length(), resultsCallback);
 		} else {
+			ENSURE_ARGUMENT_INDEX(4);
 			ENSURE_UINT_AT_INDEX(offset, 2);
 			ENSURE_UINT_AT_INDEX(length, 3);
 			ENSURE_OBJECT_AT_INDEX(resultsCallback, 4);
@@ -347,10 +346,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Stream, write)
 	{
-		if (arguments.size() < 3) {
-			HAL::detail::ThrowRuntimeError("Titanium::Stream::write", "Titanium::Stream::write: Invalid arguments");
-		}
-
+		ENSURE_ARGUMENT_INDEX(1);
 		ENSURE_OBJECT_AT_INDEX(output_object, 0);
 		ENSURE_OBJECT_AT_INDEX(buffer_object, 1);
 
@@ -366,6 +362,7 @@ namespace Titanium
 			HAL::detail::ThrowRuntimeError("Titanium::Stream::write", "Titanium::Stream::write: Cannot write to the stream");
 		}
 
+		ENSURE_ARGUMENT_INDEX(2);
 		if (arguments.at(2).IsObject()) {
 			ENSURE_OBJECT_AT_INDEX(resultsCallback, 2);
 			// Ensure callback is always done with Promise-like async manner
@@ -373,6 +370,7 @@ namespace Titanium
 			resultsCallback = static_cast<JSObject>(promisifyFunc__(pargs, get_object()));
 			write(output_stream, read_buffer, 0, read_buffer->get_length(), resultsCallback);
 		} else {
+			ENSURE_ARGUMENT_INDEX(4);
 			ENSURE_UINT_AT_INDEX(offset, 2);
 			ENSURE_UINT_AT_INDEX(length, 3);
 			ENSURE_OBJECT_AT_INDEX(resultsCallback, 4);
@@ -387,6 +385,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Stream, writeStream)
 	{
+		ENSURE_ARGUMENT_INDEX(2);
 		ENSURE_OBJECT_AT_INDEX(input_object, 0);
 		ENSURE_OBJECT_AT_INDEX(output_object, 1);
 		ENSURE_UINT_AT_INDEX(maxChunkSize, 2);
@@ -420,6 +419,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Stream, pump)
 	{
+		ENSURE_ARGUMENT_INDEX(2);
 		ENSURE_OBJECT_AT_INDEX(inputStream, 0);
 		ENSURE_OBJECT_AT_INDEX(handler, 1);
 		ENSURE_UINT_AT_INDEX(maxChunkSize, 2);

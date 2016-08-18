@@ -307,10 +307,6 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Buffer, append)
 	{
-		if (arguments.size() == 0) {
-			HAL::detail::ThrowRuntimeError("Titanium::Buffer::append", "Buffer::append: Too few argument");
-		}
-
 		ENSURE_OBJECT_AT_INDEX(sourceBuffer, 0);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(sourceOffset, 1, 0);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(sourceLength, 2, 0);
@@ -333,10 +329,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Buffer, insert)
 	{
-		if (arguments.size() < 2) {
-			HAL::detail::ThrowRuntimeError("Titanium::Buffer::insert", "Buffer::insert: Too few argument");
-		}
-
+		ENSURE_ARGUMENT_INDEX(1);
 		ENSURE_OBJECT_AT_INDEX(sourceBuffer, 0);
 		ENSURE_UINT_AT_INDEX(offset, 1);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(sourceOffset, 2, 0);
@@ -360,10 +353,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Buffer, copy)
 	{
-		if (arguments.size() < 2) {
-			HAL::detail::ThrowRuntimeError("Titanium::Buffer::copy", "Buffer::copy: Too few argument");
-		}
-
+		ENSURE_ARGUMENT_INDEX(1);
 		ENSURE_OBJECT_AT_INDEX(sourceBuffer, 0);
 		ENSURE_UINT_AT_INDEX(offset, 1);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(sourceOffset, 2, 0);
@@ -405,10 +395,6 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Buffer, fill)
 	{
-		if (arguments.size() < 1) {
-			HAL::detail::ThrowRuntimeError("Titanium::Buffer::fill", "Buffer::fill: Too few argument");
-		}
-
 		ENSURE_UINT_AT_INDEX(fillByte, 0);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(offset, 1, 0);
 		ENSURE_OPTIONAL_UINT_AT_INDEX(length, 2, get_length());

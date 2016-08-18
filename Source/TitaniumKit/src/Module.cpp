@@ -292,6 +292,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Module, addEventListener)
 	{
+		ENSURE_ARGUMENT_INDEX(1);
 		ENSURE_STRING_AT_INDEX(name, 0);
 		ENSURE_OBJECT_AT_INDEX(callback, 1);
 
@@ -302,6 +303,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Module, removeEventListener)
 	{
+		ENSURE_ARGUMENT_INDEX(1);
 		ENSURE_STRING_AT_INDEX(name, 0);
 		ENSURE_OBJECT_AT_INDEX(callback, 1);
 

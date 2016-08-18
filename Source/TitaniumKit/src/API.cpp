@@ -197,6 +197,7 @@ namespace Titanium
 			ENSURE_STRING_AT_INDEX(message, 0);
 			GetStaticObject(js_context).GetPrivate<API>()->log("info", message);
 		} else if (arguments.size() == 2) {
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_STRING_AT_INDEX(level, 0);
 			ENSURE_STRING_AT_INDEX(message, 1);
 			GetStaticObject(js_context).GetPrivate<API>()->log(level, message);

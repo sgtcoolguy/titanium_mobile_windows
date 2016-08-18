@@ -277,6 +277,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(Blob, imageAsResized)
 	{
+		ENSURE_ARGUMENT_INDEX(1);
 		ENSURE_UINT_AT_INDEX(width,  0);
 		ENSURE_UINT_AT_INDEX(height, 1);
 		const auto blob = imageAsResized(width, height);

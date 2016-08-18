@@ -114,6 +114,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(ScrollView, scrollTo)
 		{
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_DOUBLE_AT_INDEX(x, 0);
 			ENSURE_DOUBLE_AT_INDEX(y, 1);
 			scrollTo(x, y);

@@ -338,6 +338,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(Properties, setBool)
 		{
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_STRING_AT_INDEX(property, 0);
 			ENSURE_BOOL_AT_INDEX(value, 1);
 
@@ -350,6 +351,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(Properties, setDouble)
 		{
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_STRING_AT_INDEX(property, 0);
 			ENSURE_DOUBLE_AT_INDEX(value, 1);
 
@@ -362,6 +364,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(Properties, setInt)
 		{
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_STRING_AT_INDEX(property, 0);
 			ENSURE_INT_AT_INDEX(value, 1);
 
@@ -374,6 +377,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(Properties, setList)
 		{
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_STRING_AT_INDEX(property, 0);
 			ENSURE_ARRAY_AT_INDEX(array, 1);
 
@@ -386,6 +390,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(Properties, setObject)
 		{
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_STRING_AT_INDEX(property, 0);
 			ENSURE_OBJECT_AT_INDEX(value, 1);
 
@@ -398,6 +403,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(Properties, setString)
 		{
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_STRING_AT_INDEX(property, 0);
 			ENSURE_STRING_AT_INDEX(value, 1);
 

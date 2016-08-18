@@ -309,11 +309,7 @@ namespace Titanium
 		//
 		TITANIUM_FUNCTION(WebView, _executeListener)
 		{
-			if (arguments.size() < 2) {
-				TITANIUM_LOG_WARN("WebView._executeListener: Invalid arguments");
-				return get_context().CreateUndefined();
-			}
-
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_OBJECT_AT_INDEX(callee, 1);
 			auto webview = callee.GetProperty("webview");
 			if (!webview.IsObject()) {
