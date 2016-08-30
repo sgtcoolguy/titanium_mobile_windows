@@ -22,7 +22,7 @@
 #define TITANIUM_ASSERT_AND_THROW(expr, message) 
 #else
 #define TITANIUM_ASSERT_AND_THROW(expr, message) ((expr) ? (void)0 : \
-    (Titanium::detail::TiLogger<Titanium::detail::TiLoggerPolicyConsole>::Instance()->Print<Titanium::detail::TiLoggerSeverityType::Ti_WARN>(__FILE__, ":", __LINE__, ": ", message)))
+    HAL::detail::ThrowRuntimeError("Invalid argument supplied", message))
 #endif
 
 // For implementing the bridge getter function for a function property (cpp)
@@ -75,13 +75,17 @@ JSExport<MODULE>::AddValueProperty(#NAME, std::mem_fn(&MODULE::js_get_##NAME), s
 #define JSOBJECT_GETPROPERTY(IN, NAME, TYPE, DEFAULT_VALUE) \
 IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
 
-#define ENSURE_ARGUMENT_BOUNDS(INDEX) TITANIUM_ASSERT_AND_THROW((arguments.size() >= INDEX + 1), ("Index out of bounds: "#INDEX))
+#define ENSURE_ARGUMENT_INDEX(INDEX) \
+  if (arguments.size() <= INDEX) { \
+    std::stringstream ss; ss << "Invalid number of arguments. Expected " << (INDEX + 1) << " but got " << arguments.size(); \
+    HAL::detail::ThrowRuntimeError("Invalid argument supplied", ss.str()); \
+  }
 
 #define ENSURE_OPTIONAL_OBJECT_AT_INDEX(OUT,INDEX) \
   auto OUT = this_object.get_context().CreateObject(); \
   if (arguments.size() >= INDEX + 1) { \
     const auto _##INDEX = arguments.at(INDEX); \
-    TITANIUM_ASSERT_AND_THROW(_##INDEX.IsObject(), "Expected Object"); \
+    TITANIUM_ASSERT_AND_THROW(_##INDEX.IsObject(), "Expected Object at argument index " #INDEX); \
     OUT = static_cast<JSObject>(_##INDEX);\
   }
 
@@ -89,7 +93,7 @@ IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
   auto OUT = VALUE; \
   if (arguments.size() >= INDEX + 1) { \
     const auto _##INDEX = arguments.at(INDEX); \
-    TITANIUM_ASSERT_AND_THROW(_##INDEX.IsBoolean(), "Expected boolean"); \
+    TITANIUM_ASSERT_AND_THROW(_##INDEX.IsBoolean(), "Expected boolean at argument index " #INDEX); \
     OUT = static_cast<bool>(_##INDEX);\
   }
 
@@ -106,7 +110,7 @@ IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
   TYPE OUT = VALUE; \
   if (arguments.size() >= INDEX + 1) { \
     const auto _##INDEX = arguments.at(INDEX); \
-    TITANIUM_ASSERT_AND_THROW(_##INDEX.IsNumber(), "Expected Number"); \
+    TITANIUM_ASSERT_AND_THROW(_##INDEX.IsNumber(), "Expected Number at argument index " #INDEX); \
     OUT = static_cast<TYPE>(_##INDEX);\
   }
 
@@ -114,9 +118,9 @@ IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
   auto OUT = this_object.get_context().CreateArray(); \
   if (arguments.size() >= INDEX + 1) { \
     const auto _##INDEX = arguments.at(INDEX); \
-    TITANIUM_ASSERT_AND_THROW(_##INDEX.IsObject(), "Expected Object"); \
+    TITANIUM_ASSERT_AND_THROW(_##INDEX.IsObject(), "Expected Object at argument index " #INDEX); \
     const auto _obj_##INDEX = static_cast<JSObject>(_##INDEX); \
-    TITANIUM_ASSERT_AND_THROW(_obj_##INDEX.IsArray(), "Expected Array"); \
+    TITANIUM_ASSERT_AND_THROW(_obj_##INDEX.IsArray(), "Expected Array at argument index" #INDEX); \
     OUT = static_cast<JSArray>(_obj_##INDEX); \
   }
 
@@ -130,19 +134,19 @@ IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
   ENSURE_OPTIONAL_NUMBER_AT_INDEX(OUT,INDEX,VALUE,double)
 
 #define ENSURE_NUMBER_AT_INDEX(OUT,INDEX,TYPE) \
-  ENSURE_ARGUMENT_BOUNDS(INDEX); \
+  ENSURE_ARGUMENT_INDEX(INDEX); \
   const auto _##INDEX = arguments.at(INDEX); \
-  TITANIUM_ASSERT_AND_THROW(_##INDEX.IsNumber(), "Expected Number"); \
+  TITANIUM_ASSERT_AND_THROW(_##INDEX.IsNumber(), "Expected Number at argument index " #INDEX); \
   auto OUT = static_cast<TYPE>(_##INDEX);
 
 #define ENSURE_BOOL_AT_INDEX(OUT,INDEX) \
-  ENSURE_ARGUMENT_BOUNDS(INDEX); \
+  ENSURE_ARGUMENT_INDEX(INDEX); \
   const auto _##INDEX = arguments.at(INDEX); \
-  TITANIUM_ASSERT_AND_THROW(_##INDEX.IsBoolean(), "Expected boolean"); \
+  TITANIUM_ASSERT_AND_THROW(_##INDEX.IsBoolean(), "Expected boolean at argument index " #INDEX); \
   auto OUT = static_cast<bool>(_##INDEX);
 
 #define ENSURE_STRING_AT_INDEX(OUT,INDEX) \
-  ENSURE_ARGUMENT_BOUNDS(INDEX); \
+  ENSURE_ARGUMENT_INDEX(INDEX); \
   const auto _##INDEX = arguments.at(INDEX); \
   std::string OUT; \
   if (!_##INDEX.IsUndefined() && !_##INDEX.IsNull()) { \
@@ -150,27 +154,27 @@ IN.HasProperty(#NAME) ? static_cast<TYPE>(IN.GetProperty(#NAME)) : DEFAULT_VALUE
   }
 
 #define ENSURE_ENUM_AT_INDEX(OUT,INDEX,TYPE) \
-  ENSURE_ARGUMENT_BOUNDS(INDEX); \
+  ENSURE_ARGUMENT_INDEX(INDEX); \
   const auto _##INDEX = arguments.at(INDEX); \
-  TITANIUM_ASSERT_AND_THROW(_##INDEX.IsNumber(), "Expected number"); \
+  TITANIUM_ASSERT_AND_THROW(_##INDEX.IsNumber(), "Expected Number at argument index " #INDEX); \
   auto OUT = static_cast<TYPE>(static_cast<std::uint32_t>(_##INDEX));
 
 #define ENSURE_VALUE_AT_INDEX(OUT,INDEX) \
-  ENSURE_ARGUMENT_BOUNDS(INDEX); \
+  ENSURE_ARGUMENT_INDEX(INDEX); \
   auto OUT = arguments.at(INDEX);
 
 #define ENSURE_OBJECT_AT_INDEX(OUT,INDEX) \
-  ENSURE_ARGUMENT_BOUNDS(INDEX); \
+  ENSURE_ARGUMENT_INDEX(INDEX); \
   const auto _##INDEX = arguments.at(INDEX); \
-  TITANIUM_ASSERT_AND_THROW(_##INDEX.IsObject(), "Expected Object"); \
+  TITANIUM_ASSERT_AND_THROW(_##INDEX.IsObject(), "Expected Object at argument index " #INDEX); \
   auto OUT = static_cast<JSObject>(_##INDEX);
 
 #define ENSURE_ARRAY_AT_INDEX(OUT,INDEX) \
-  ENSURE_ARGUMENT_BOUNDS(INDEX); \
+  ENSURE_ARGUMENT_INDEX(INDEX); \
   const auto _##INDEX = arguments.at(INDEX); \
-  TITANIUM_ASSERT_AND_THROW(_##INDEX.IsObject(), "Expected Object"); \
+  TITANIUM_ASSERT_AND_THROW(_##INDEX.IsObject(), "Expected Object at argument index " #INDEX); \
   const auto _obj_##INDEX = static_cast<JSObject>(_##INDEX); \
-  TITANIUM_ASSERT_AND_THROW(_obj_##INDEX.IsArray(), "Expected Array"); \
+  TITANIUM_ASSERT_AND_THROW(_obj_##INDEX.IsArray(), "Expected Array at argument index " #INDEX); \
   auto OUT = static_cast<JSArray>(_obj_##INDEX);
 
 #define ENSURE_ARRAY(IN, OUT) \

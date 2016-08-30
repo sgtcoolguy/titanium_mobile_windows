@@ -288,6 +288,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(Picker, setSelectedRow)
 		{
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_UINT_AT_INDEX(column, 0);
 			ENSURE_UINT_AT_INDEX(row, 1);
 			ENSURE_OPTIONAL_BOOL_AT_INDEX(animated, 2, false);

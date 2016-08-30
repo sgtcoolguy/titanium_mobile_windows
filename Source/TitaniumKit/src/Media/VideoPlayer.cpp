@@ -306,6 +306,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(VideoPlayer, requestThumbnailImagesAtTimes)
 		{
+			ENSURE_ARGUMENT_INDEX(2);
 			ENSURE_ARRAY_AT_INDEX(js_array, 0);
 			ENSURE_UINT_AT_INDEX(option, 1);
 			ENSURE_OBJECT_AT_INDEX(callback, 2);
@@ -336,6 +337,7 @@ namespace Titanium
 		}
 		TITANIUM_FUNCTION(VideoPlayer, thumbnailImageAtTime)
 		{
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_TIME_AT_INDEX(time, 0);
 			ENSURE_UINT_AT_INDEX(option, 1);
 

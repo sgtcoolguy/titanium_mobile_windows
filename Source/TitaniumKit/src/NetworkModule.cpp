@@ -360,6 +360,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(NetworkModule, removeHTTPCookie)
 	{
+		ENSURE_ARGUMENT_INDEX(2);
 		ENSURE_STRING_AT_INDEX(domain, 0);
 		ENSURE_STRING_AT_INDEX(path, 1);
 		ENSURE_STRING_AT_INDEX(name, 2);
@@ -376,6 +377,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(NetworkModule, removeSystemCookie)
 	{
+		ENSURE_ARGUMENT_INDEX(2);
 		ENSURE_STRING_AT_INDEX(domain, 0);
 		ENSURE_STRING_AT_INDEX(path, 1);
 		ENSURE_STRING_AT_INDEX(name, 2);
@@ -398,6 +400,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(NetworkModule, getHTTPCookies)
 	{
+		ENSURE_ARGUMENT_INDEX(2);
 		ENSURE_STRING_AT_INDEX(domain, 0);
 		ENSURE_STRING_AT_INDEX(path, 1);
 		ENSURE_STRING_AT_INDEX(name, 2);
@@ -422,6 +425,7 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(NetworkModule, getSystemCookies)
 	{
+		ENSURE_ARGUMENT_INDEX(2);
 		ENSURE_STRING_AT_INDEX(domain, 0);
 		ENSURE_STRING_AT_INDEX(path, 1);
 		ENSURE_STRING_AT_INDEX(name, 2);

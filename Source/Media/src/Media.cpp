@@ -571,7 +571,7 @@ namespace TitaniumWindows
 			return;
 		}
 
-		TITANIUM_ASSERT_AND_THROW(!screenCaptureStarted__, "showCamera() can't be used during screen capture.");
+		TITANIUM_ASSERT_AND_THROW(!screenCaptureStarted__, "Can't be used during screen capture.");
 
 		findCameraDevices();
 		mediaCapture__ = ref new MediaCapture();
@@ -911,7 +911,7 @@ namespace TitaniumWindows
 	{
 #if defined(IS_WINDOWS_PHONE)
 
-		TITANIUM_ASSERT_AND_THROW(!cameraPreviewStarted__, "takeScreenshot() can't be used during camera preview");
+		TITANIUM_ASSERT_AND_THROW(!cameraPreviewStarted__, "Can't be used during camera preview");
 
 		// https://msdn.microsoft.com/en-us/library/windows/apps/xaml/dn642093.aspx
 		auto screenCapture = ScreenCapture::GetForCurrentView();
@@ -1097,7 +1097,7 @@ namespace TitaniumWindows
 
 	TITANIUM_FUNCTION(MediaModule, _postOpenPhotoGallery)
 	{
-		ENSURE_ARGUMENT_BOUNDS(0);
+		ENSURE_ARGUMENT_INDEX(0);
 		const auto argument = arguments.at(0);
 		ENSURE_STRING_ARRAY(argument, files);
 
@@ -1108,7 +1108,7 @@ namespace TitaniumWindows
 
 	TITANIUM_FUNCTION(MediaModule, _postOpenMusicLibrary) 
 	{
-		ENSURE_ARGUMENT_BOUNDS(0);
+		ENSURE_ARGUMENT_INDEX(0);
 		const auto argument = arguments.at(0);
 		ENSURE_STRING_ARRAY(argument, files);
 

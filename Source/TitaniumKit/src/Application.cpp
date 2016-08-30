@@ -32,7 +32,9 @@ function Titanium_RedScreenOfDeath(e) {
 
     try {
 
-        Ti.API.error("Application Error: "+JSON.stringify(e, null, 2));
+        Ti.API.error("----- Titanium Javascript Runtime Error -----");
+        Ti.API.error("In " + e.fileName + ": " + e.line + "," + e.column);
+        Ti.API.error("Message: Uncaught Error: " + e.message);
 
         var f = e.fileName || "",
             match = f.match(/:\/\/.+(\/.*)/),

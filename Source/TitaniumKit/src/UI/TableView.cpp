@@ -567,7 +567,7 @@ namespace Titanium
 		{
 			const auto js_context = this_object.get_context();
 
-			ENSURE_ARGUMENT_BOUNDS(0);
+			ENSURE_ARGUMENT_INDEX(0);
 			const auto _0 = arguments.at(0);
 
 			JSObject animation = js_context.CreateObject();
@@ -610,6 +610,7 @@ namespace Titanium
 		{
 			const auto js_context = this_object.get_context();
 
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_UINT_AT_INDEX(rowIndex, 0);
 			ENSURE_OBJECT_AT_INDEX(js_row, 1);
 
@@ -637,6 +638,7 @@ namespace Titanium
 		{
 			const auto js_context = this_object.get_context();
 
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_UINT_AT_INDEX(sectionIndex, 0);
 			ENSURE_OBJECT_AT_INDEX(js_section, 1);
 
@@ -664,6 +666,7 @@ namespace Titanium
 		{
 			const auto js_context = this_object.get_context();
 
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_UINT_AT_INDEX(rowIndex, 0);
 			ENSURE_OBJECT_AT_INDEX(js_row, 1);
 
@@ -691,6 +694,7 @@ namespace Titanium
 		{
 			const auto js_context = this_object.get_context();
 
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_UINT_AT_INDEX(sectionIndex, 0);
 			ENSURE_OBJECT_AT_INDEX(js_section, 1);
 
@@ -770,6 +774,7 @@ namespace Titanium
 		{
 			const auto js_context = this_object.get_context();
 
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_UINT_AT_INDEX(rowIndex, 0);
 			ENSURE_OBJECT_AT_INDEX(js_row, 1);
 
@@ -797,6 +802,7 @@ namespace Titanium
 		{
 			const auto js_context = this_object.get_context();
 
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_UINT_AT_INDEX(sectionIndex, 0);
 			ENSURE_OBJECT_AT_INDEX(js_section, 1);
 

@@ -545,7 +545,6 @@ namespace Titanium
 		TITANIUM_FUNCTION(View, animate)
 		{
 			ENSURE_OBJECT_AT_INDEX(object, 0);
-
 			ENSURE_OPTIONAL_OBJECT_AT_INDEX(callback, 1);
 
 			// Convert the animation object into a Ti.UI.Animation if it isn't one already
@@ -887,6 +886,7 @@ namespace Titanium
 
 		TITANIUM_FUNCTION(View, convertPointToView)
 		{
+			ENSURE_ARGUMENT_INDEX(1);
 			ENSURE_OBJECT_AT_INDEX(point, 0);
 			ENSURE_OBJECT_AT_INDEX(destinationView, 1);
 			return Point_to_js(get_context(), convertPointToView(js_to_Point(point), destinationView.GetPrivate<View>()));

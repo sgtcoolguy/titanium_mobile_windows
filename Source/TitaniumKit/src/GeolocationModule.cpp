@@ -509,17 +509,11 @@ namespace Titanium
 	TITANIUM_FUNCTION(GeolocationModule, forwardGeocoder)
 	{
 		if (arguments.size() >= 2) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsString());
-			const auto _1 = arguments.at(1);
-			TITANIUM_ASSERT(_1.IsObject());
-			const std::string address = static_cast<std::string>(_0);
-			const auto callback = static_cast<JSObject>(_1);
+			ENSURE_STRING_AT_INDEX(address, 0);
+			ENSURE_OBJECT_AT_INDEX(callback, 1);
 			forwardGeocoder(address, callback);
 		} else if (arguments.size() >= 1) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsString());
-			const std::string address = static_cast<std::string>(_0);
+			ENSURE_STRING_AT_INDEX(address, 0);
 			forwardGeocoder(address, get_context().CreateObject());
 		}
 		return get_context().CreateUndefined();
@@ -527,51 +521,31 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(GeolocationModule, getCurrentHeading)
 	{
-		if (arguments.size() >= 1) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsObject());
-			const auto callback = static_cast<JSObject>(_0);
-			getCurrentHeading(callback);
-		}
+		ENSURE_OBJECT_AT_INDEX(callback, 0);
+		getCurrentHeading(callback);
 		return get_context().CreateUndefined();
 	}
 
 	TITANIUM_FUNCTION(GeolocationModule, getCurrentPosition)
 	{
-		if (arguments.size() >= 1) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsObject());
-			const auto callback = static_cast<JSObject>(_0);
-			getCurrentPosition(callback);
-		}
+		ENSURE_OBJECT_AT_INDEX(callback, 0);
+		getCurrentPosition(callback);
 		return get_context().CreateUndefined();
 	}
 
 	TITANIUM_FUNCTION(GeolocationModule, reverseGeocoder)
 	{
 		if (arguments.size() >= 3) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsNumber());
-			const auto _1 = arguments.at(1);
-			TITANIUM_ASSERT(_1.IsNumber());
-			const auto _2 = arguments.at(2);
-			TITANIUM_ASSERT(_2.IsObject());
-			const double latitude = static_cast<double>(_0);
-			const double longitude = static_cast<double>(_1);
-			const auto callback = static_cast<JSObject>(_2);
+			ENSURE_DOUBLE_AT_INDEX(latitude, 0);
+			ENSURE_DOUBLE_AT_INDEX(longitude, 1);
+			ENSURE_OBJECT_AT_INDEX(callback, 2);
 			reverseGeocoder(latitude, longitude, callback);
 		} else if (arguments.size() >= 2) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsNumber());
-			const auto _1 = arguments.at(1);
-			TITANIUM_ASSERT(_1.IsNumber());
-			const double latitude = static_cast<double>(_0);
-			const double longitude = static_cast<double>(_1);
+			ENSURE_DOUBLE_AT_INDEX(latitude, 0);
+			ENSURE_DOUBLE_AT_INDEX(longitude, 1);
 			reverseGeocoder(latitude, longitude, get_context().CreateObject());
 		} else if (arguments.size() >= 1) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsNumber());
-			const double latitude = static_cast<double>(_0);
+			ENSURE_DOUBLE_AT_INDEX(latitude, 0);
 			reverseGeocoder(latitude, 0, get_context().CreateObject());
 		}
 		return get_context().CreateUndefined();
@@ -579,26 +553,18 @@ namespace Titanium
 
 	TITANIUM_FUNCTION(GeolocationModule, hasLocationPermissions)
 	{
-		if (arguments.size() >= 1) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsNumber());
-			const auto authorizationType = Titanium::Geolocation::Constants::to_AUTHORIZATION(static_cast<std::underlying_type<Geolocation::AUTHORIZATION>::type>(_0));
-			return get_context().CreateBoolean(hasLocationPermissions(authorizationType));
-		}
-		return get_context().CreateBoolean(false);
+		ENSURE_UINT_AT_INDEX(type, 0);
+		const auto authorizationType = Titanium::Geolocation::Constants::to_AUTHORIZATION(static_cast<std::underlying_type<Geolocation::AUTHORIZATION>::type>(type));
+		return get_context().CreateBoolean(hasLocationPermissions(authorizationType));
 	}
 
 	TITANIUM_FUNCTION(GeolocationModule, requestLocationPermissions)
 	{
-		if (arguments.size() >= 2) {
-			const auto _0 = arguments.at(0);
-			TITANIUM_ASSERT(_0.IsNumber());
-			const auto _1 = arguments.at(1);
-			TITANIUM_ASSERT(_1.IsObject());
-			const auto authorizationType = Titanium::Geolocation::Constants::to_AUTHORIZATION(static_cast<std::underlying_type<Geolocation::AUTHORIZATION>::type>(_0));
-			const auto callback = static_cast<JSObject>(_1);
-			requestLocationPermissions(authorizationType, callback);
-		}
+		ENSURE_ARGUMENT_INDEX(1);
+		ENSURE_UINT_AT_INDEX(type, 0);
+		ENSURE_OBJECT_AT_INDEX(callback, 1);
+		const auto authorizationType = Titanium::Geolocation::Constants::to_AUTHORIZATION(static_cast<std::underlying_type<Geolocation::AUTHORIZATION>::type>(type));
+		requestLocationPermissions(authorizationType, callback);
 		return get_context().CreateUndefined();
 	}
 
