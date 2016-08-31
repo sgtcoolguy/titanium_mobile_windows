@@ -124,6 +124,7 @@ namespace Titanium
 
 		void ListSection::insertItemsAt(const std::uint32_t& index, const std::vector<ListDataItem>& dataItems, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
+			TITANIUM_ASSERT(items__.size() > index);
 			items__.insert(items__.begin() + index, dataItems.begin(), dataItems.end());
 			fireListSectionEvent("insert", index, static_cast<std::uint32_t>(dataItems.size()));
 		}
@@ -140,18 +141,23 @@ namespace Titanium
 		{
 			TITANIUM_ASSERT(items__.size() >= index + count);
 			fireListSectionEvent("delete", index, count, count);
-			items__.erase (items__.begin() + index, items__.begin() + index + count);
+			items__.erase(items__.begin() + index, items__.begin() + index + count);
 		}
 
 		ListDataItem ListSection::getItemAt(const std::uint32_t& index) TITANIUM_NOEXCEPT
 		{
+			TITANIUM_ASSERT(items__.size() > index);
 			return items__.at(index);
 		}
 
 		void ListSection::updateItemAt(const std::uint32_t& index, const ListDataItem& dataItem, const std::shared_ptr<ListViewAnimationProperties>& animation) TITANIUM_NOEXCEPT
 		{
-			items__.at(index) = dataItem;
-			fireListSectionEvent("update", index);
+			try {
+				items__.at(index) = dataItem;
+				fireListSectionEvent("update", index);
+			} catch (std::out_of_range e) {
+				TITANIUM_API_LOG_WARN("ListSection::updateItemAt() index is out of range");
+			}
 		}
 
 		void ListSection::fireListSectionEvent(const std::string& event_name, const std::uint32_t& index, const std::uint32_t& itemCount, const std::uint32_t& affectedRows)
