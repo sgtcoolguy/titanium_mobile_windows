@@ -116,9 +116,12 @@ function config(logger, config, cli) {
 						'vs-target': this.configOptionVisualStudioTarget(120),
 						'win-publisher-id': this.configOptionWindowsPublisherID(210),
 						'wp-publisher-guid': this.configOptionWPPublisherGUID(220),
-						'wp-product-guid': this.configOptionWPProductID(230),
-						'wp-sdk': this.configOptionWPSDK(200),
-						'ws-cert': this.configOptionWSCert(300)
+						'wp-product-guid': this.configOptionProductID(230),
+						'win-product-guid': this.configOptionProductID(240),
+						'win-sdk': this.configOptionSDK(300),
+						'wp-sdk': this.configOptionSDK(310),
+						'win-cert': this.configOptionCert(400),
+						'ws-cert': this.configOptionCert(410)
 					}
 				});
 			})(function (err, result) {
