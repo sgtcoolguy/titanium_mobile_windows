@@ -164,6 +164,8 @@ namespace Titanium
 		TITANIUM_FUNCTION_DEF(applyProperties);
 		TITANIUM_FUNCTION_DEF(fireEvent);
 
+		virtual bool hasEventListener(const std::string& event_name) TITANIUM_NOEXCEPT;
+
 		/*
 		* Stop firing all events, especially used when module is closed/hidden.
 		*/

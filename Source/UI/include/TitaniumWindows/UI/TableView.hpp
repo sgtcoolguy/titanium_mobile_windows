@@ -40,7 +40,7 @@ namespace TitaniumWindows
 			TITANIUM_PROPERTY_UNIMPLEMENTED(rowHeight);
 
 			TableView(const JSContext&) TITANIUM_NOEXCEPT;
-			virtual ~TableView()                  = default;
+			virtual ~TableView();
 			TableView(const TableView&)            = default;
 			TableView& operator=(const TableView&) = default;
 #ifdef TITANIUM_MOVE_CTOR_AND_ASSIGN_DEFAULT_ENABLE
@@ -72,6 +72,8 @@ namespace TitaniumWindows
 			virtual void deselectRow(const uint32_t& row) TITANIUM_NOEXCEPT override;
 
 		private:
+			static Windows::UI::Xaml::Controls::ScrollViewer^ GetScrollView(Windows::UI::Xaml::DependencyObject^ obj);
+
 			void bindCollectionViewSource();
 			void unbindCollectionViewSource();
 
@@ -93,13 +95,26 @@ namespace TitaniumWindows
 			void setTableHeader();
 			void setTableFooter();
 
+			void registerScrollEvent();
+			void registerScrollendEvent();
+
 			Windows::UI::Xaml::Controls::Grid^ parent__;
 			Windows::UI::Xaml::Controls::ListView^ tableview__;
+			Windows::UI::Xaml::Controls::ScrollViewer^ scrollview__;
 			Windows::UI::Xaml::Data::CollectionViewSource^ collectionViewSource__;
 			Windows::Foundation::Collections::IObservableVector<::Platform::Object^>^ collectionViewItems__;
 			Windows::UI::Xaml::Media::Brush^ separatorBrush__;
 
 			Windows::Foundation::EventRegistrationToken click_event__;
+			Windows::Foundation::EventRegistrationToken loaded_event__;
+			Windows::Foundation::EventRegistrationToken scroll_event__;
+			Windows::Foundation::EventRegistrationToken scrollend_event__;
+
+#pragma warning(push)
+#pragma warning(disable : 4251)
+
+#pragma warning(pop)
+
 		};
 	}  // namespace UI
 }  // namespace TitaniumWindows

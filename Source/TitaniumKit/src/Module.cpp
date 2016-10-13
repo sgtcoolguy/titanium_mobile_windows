@@ -148,6 +148,11 @@ namespace Titanium
 		}
 	}
 
+	bool Module::hasEventListener(const std::string& event_name) TITANIUM_NOEXCEPT
+	{
+		return event_listener_map__.find(event_name) != event_listener_map__.end() && event_listener_map__.at(event_name).size() > 0;
+	}
+
 	void Module::fireEvent(const std::string& name) TITANIUM_NOEXCEPT
 	{
 		fireEvent(name, get_context().CreateObject());
