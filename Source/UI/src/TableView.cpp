@@ -25,12 +25,17 @@ namespace TitaniumWindows
 
 		using namespace Platform::Collections;
 		using namespace Windows::UI::Xaml;
-
+		using namespace Windows::Foundation;
 
 		TableView::TableView(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::UI::TableView(js_context)
 		{
 			TITANIUM_LOG_DEBUG("TableView::ctor Initialize");
+		}
+
+		TableView::~TableView()
+		{
+			tableview__->Loaded -= loaded_event__;
 		}
 
 		void TableView::resetTableDataBinding()
@@ -50,6 +55,21 @@ namespace TitaniumWindows
 			resetTableDataBinding();
 		}
 
+		Controls::ScrollViewer^ TableView::GetScrollView(DependencyObject^ root)
+		{
+			const auto count = Media::VisualTreeHelper::GetChildrenCount(root);
+			for (int i = 0; i < count; i++) {
+				const auto child = Media::VisualTreeHelper::GetChild(root, i);
+				const auto scrollview = dynamic_cast<Controls::ScrollViewer^>(child);
+				if (scrollview) {
+					return scrollview;
+				} else {
+					return TableView::GetScrollView(child);
+				}
+			}
+			return nullptr;
+		}
+
 		void TableView::postCallAsConstructor(const JSContext& js_context, const std::vector<JSValue>& arguments)
 		{
 			Titanium::UI::TableView::postCallAsConstructor(js_context, arguments);
@@ -63,6 +83,18 @@ namespace TitaniumWindows
 
 			tableview__->IsItemClickEnabled = true;
 			tableview__->SelectionMode = Controls::ListViewSelectionMode::None;
+
+			// Since VisualTreeHelper is only available after Loaded event is fired, we need to register scroll/scrollend event after that.
+			loaded_event__ = tableview__->Loaded += ref new RoutedEventHandler([this](Platform::Object^ sender, RoutedEventArgs^ e) {
+				scrollview__ = GetScrollView(Media::VisualTreeHelper::GetChild(tableview__, 0));
+				TITANIUM_ASSERT(scrollview__ != nullptr);
+				if (hasEventListener("scroll")) {
+					registerScrollEvent();
+				}
+				if (hasEventListener("scrollend")) {
+					registerScrollendEvent();
+				}
+			});
 
 			parent__->Children->Append(tableview__);
 			parent__->SetColumn(tableview__, 0);
@@ -392,6 +424,16 @@ namespace TitaniumWindows
 						fireEvent("click", eventArgs);
 					}
 				});
+			} else if (event_name == "scroll") {
+				// This means addEventListener is called after ListView.Loaded event.
+				if (scrollview__) {
+					registerScrollEvent();
+				}
+			} else if (event_name == "scrollend") {
+				// This means addEventListener is called after ListView.Loaded event.
+				if (scrollview__) {
+					registerScrollendEvent();
+				}
 			}
 		}
 
@@ -401,7 +443,53 @@ namespace TitaniumWindows
 
 			if (event_name == "click") {
 				tableview__->ItemClick -= click_event__;
+			} else if (event_name == "scroll") {
+				if (scrollview__) {
+					scrollview__->ViewChanging -= scroll_event__;
+				}
+			} else if (event_name == "scrollend") {
+				if (scrollview__) {
+					scrollview__->ViewChanged -= scrollend_event__;
+				}
 			}
+		}
+
+		void TableView::registerScrollEvent()
+		{
+			scroll_event__ = scrollview__->ViewChanging += ref new EventHandler<Controls::ScrollViewerViewChangingEventArgs ^>([this](Platform::Object^ sender, Controls::ScrollViewerViewChangingEventArgs^ e) {
+				const auto ctx = get_context();
+				auto eventArgs = ctx.CreateObject();
+
+				auto size = ctx.CreateObject();
+				size.SetProperty("width", ctx.CreateNumber(scrollview__->ViewportWidth));
+				size.SetProperty("height", ctx.CreateNumber(scrollview__->ViewportHeight));
+				eventArgs.SetProperty("size", size);
+
+				eventArgs.SetProperty("totalItemCount", ctx.CreateNumber(tableview__->Items->Size));
+
+				fireEvent("scroll", eventArgs);
+			});
+		}
+
+		void TableView::registerScrollendEvent()
+		{
+			scrollend_event__ = scrollview__->ViewChanged += ref new EventHandler<Controls::ScrollViewerViewChangedEventArgs ^>([this](Platform::Object^ sender, Controls::ScrollViewerViewChangedEventArgs^ e) {
+				// Stop firing event when ScrollView didn't actually move
+				if (oldScrollPosX__ != scrollview__->VerticalOffset || oldScrollPosY__ != scrollview__->HorizontalOffset) {
+					const auto ctx = get_context();
+					auto eventArgs = ctx.CreateObject();
+
+					auto size = ctx.CreateObject();
+					size.SetProperty("width", ctx.CreateNumber(scrollview__->ViewportWidth));
+					size.SetProperty("height", ctx.CreateNumber(scrollview__->ViewportHeight));
+					eventArgs.SetProperty("size", size);
+
+					fireEvent("scrollend", eventArgs);
+
+					oldScrollPosX__ = scrollview__->VerticalOffset;
+					oldScrollPosY__ = scrollview__->HorizontalOffset;
+				}
+			});
 		}
 
 		void TableView::bindCollectionViewSource()

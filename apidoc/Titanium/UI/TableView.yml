@@ -36,4 +36,8 @@ methods:
     platforms: [windowsphone]
   - name: setSections
     platforms: [windowsphone]
-
+events:
+  - name: scroll
+    platforms: [windowsphone]
+  - name: scrollend
+    platforms: [windowsphone]
