@@ -474,15 +474,21 @@ namespace TitaniumWindows
 		void TableView::registerScrollendEvent()
 		{
 			scrollend_event__ = scrollview__->ViewChanged += ref new EventHandler<Controls::ScrollViewerViewChangedEventArgs ^>([this](Platform::Object^ sender, Controls::ScrollViewerViewChangedEventArgs^ e) {
-				const auto ctx = get_context();
-				auto eventArgs = ctx.CreateObject();
+				// Stop firing event when ScrollView didn't actually move
+				if (oldScrollPosX__ != scrollview__->VerticalOffset || oldScrollPosY__ != scrollview__->HorizontalOffset) {
+					const auto ctx = get_context();
+					auto eventArgs = ctx.CreateObject();
 
-				auto size = ctx.CreateObject();
-				size.SetProperty("width", ctx.CreateNumber(scrollview__->ViewportWidth));
-				size.SetProperty("height", ctx.CreateNumber(scrollview__->ViewportHeight));
-				eventArgs.SetProperty("size", size);
+					auto size = ctx.CreateObject();
+					size.SetProperty("width", ctx.CreateNumber(scrollview__->ViewportWidth));
+					size.SetProperty("height", ctx.CreateNumber(scrollview__->ViewportHeight));
+					eventArgs.SetProperty("size", size);
 
-				fireEvent("scrollend", eventArgs);
+					fireEvent("scrollend", eventArgs);
+
+					oldScrollPosX__ = scrollview__->VerticalOffset;
+					oldScrollPosY__ = scrollview__->HorizontalOffset;
+				}
 			});
 		}
 

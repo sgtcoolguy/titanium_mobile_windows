@@ -109,7 +109,9 @@ namespace TitaniumWindows
 			Windows::Foundation::EventRegistrationToken loaded_event__;
 			Windows::Foundation::EventRegistrationToken scroll_event__;
 			Windows::Foundation::EventRegistrationToken scrollend_event__;
-
+			
+			double oldScrollPosX__ { -1 };
+			double oldScrollPosY__ { -1 };
 #pragma warning(push)
 #pragma warning(disable : 4251)
 
