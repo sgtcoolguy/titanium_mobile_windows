@@ -16,7 +16,8 @@ var fs = require('fs'),
 	async = require('async'),
 	spawn = require('child_process').spawn,
 	logger, windowsInfo, buildConfiguration,
-	targetPlatformSdkVersion, targetPlatformSdkMinVersion;
+	targetPlatformSdkVersion, targetPlatformSdkMinVersion,
+	cmakePlatform;
 
 exports.init = function(thiz) {
 	logger = thiz.logger;
@@ -24,6 +25,7 @@ exports.init = function(thiz) {
 	buildConfiguration = thiz.buildConfiguration
 	targetPlatformSdkVersion    = thiz.targetPlatformSdkVersion === '10.0' ? windowsInfo.windows['10.0'].sdks[0] : thiz.targetPlatformSdkVersion;
 	targetPlatformSdkMinVersion = thiz.targetPlatformSdkMinVersion === '10.0' ? targetPlatformSdkVersion : thiz.targetPlatformSdkMinVersion;
+	cmakePlatform = thiz.cmakePlatform;
 };
 
 function generateCmakeList(dest, modules, next) {
@@ -268,37 +270,41 @@ function runMSBuild(slnFile, callback) {
 exports.generate = function generate(dest, modules, native_types, finished) {
 	var dest_Native    = path.join(dest, 'Native'),
 		dest_Hyperloop = path.join(dest, 'TitaniumWindows_Hyperloop');
+
 	native_types = native_types || [];
 
-    async.parallel([
-    	function(callback) {
-    		// generate native types only when hyperloop is used
-    		if (native_types.length === 0) {
-    			return callback();
-    		}
-	    	async.series([
-			    function(c) {
-			        generateNativeTypeHelper(dest_Hyperloop, native_types, c);
-			    },
-			    function(c) {
-			        generateTargetVersion(dest_Hyperloop, 'win10', c);
-			    },
-			    function(c) {
-			        buildNativeTypeHelper(dest_Hyperloop, 'phone', c);
-			    },
-			    function(c) {
-			        buildNativeTypeHelper(dest_Hyperloop, 'store', c);
-			    },
-			    function(c) {
-			        buildNativeTypeHelper(dest_Hyperloop, 'win10', c);
-			    },
-		    ], callback);
-    	},
-	    function(callback) {
-	        generateCmakeList(dest_Native, modules, callback);
-	    },
-	    function(callback) {
-	        generateRequireHook(dest_Native, modules, native_types, callback);
-	    }
+	var platform = 'win10';
+	if (targetPlatformSdkVersion === '8.1') {
+		if (cmakePlatform === 'WindowsStore') {
+			platform = 'store';
+		} else if (cmakePlatform === 'WindowsPhone') {
+			platform = 'phone';
+		}
+	}
+
+	async.parallel([
+		function(callback) {
+			// generate native types only when hyperloop is used
+			if (native_types.length === 0) {
+				return callback();
+			}
+			async.series([
+				function(next) {
+					generateNativeTypeHelper(dest_Hyperloop, native_types, next);
+				},
+				function(next) {
+					generateTargetVersion(dest_Hyperloop, 'win10', next);
+				},
+				function(next) {
+					buildNativeTypeHelper(dest_Hyperloop, platform, next);
+				},
+			], callback);
+		},
+		function(callback) {
+			generateCmakeList(dest_Native, modules, callback);
+		},
+		function(callback) {
+			generateRequireHook(dest_Native, modules, native_types, callback);
+		}
 	], finished);
 };
