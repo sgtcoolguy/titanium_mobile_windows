@@ -139,7 +139,6 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(View, horizontalWrap);
 			TITANIUM_ADD_PROPERTY(View, zIndex);
 			TITANIUM_ADD_PROPERTY(View, keepScreenOn);
-			TITANIUM_ADD_PROPERTY_READONLY(View, children);
 			TITANIUM_ADD_PROPERTY(View, backgroundColor);
 			TITANIUM_ADD_PROPERTY(View, top);
 			TITANIUM_ADD_PROPERTY(View, left);
@@ -149,7 +148,8 @@ namespace Titanium
 			TITANIUM_ADD_PROPERTY(View, width);
 			TITANIUM_ADD_PROPERTY(View, height);
 			TITANIUM_ADD_PROPERTY(View, layout);
-			TITANIUM_ADD_PROPERTY(View, parent);
+			TITANIUM_ADD_PROPERTY_READONLY_NOENUMERABLE(View, children);
+			TITANIUM_ADD_PROPERTY_NOENUMERABLE(View, parent);
 
 			TITANIUM_ADD_FUNCTION(View, animate);
 			TITANIUM_ADD_FUNCTION(View, remove);
