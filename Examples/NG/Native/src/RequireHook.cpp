@@ -10,7 +10,6 @@
 #include "Titanium/detail/TiImpl.hpp"
 #include "HAL/HAL.hpp"
 #include <collection.h>
-#include "Hyperloop.hpp"
 
 namespace TitaniumWindows_Native
 {
@@ -44,7 +43,7 @@ namespace TitaniumWindows_Native
 
 		//// TODO: native module initialization 
 		//// js_preloaded_module_map.SetProperty("com.example.test", js_context.CreateObject(JSExport<Com::Example::Test>::Class()));
-		js_preloaded_module_map.SetProperty("hyperloop", js_context.CreateObject(JSExport<Hyperloop>::Class()));
+		// js_preloaded_module_map.SetProperty("hyperloop", js_context.CreateObject(JSExport<Hyperloop>::Class()));
 
 		//// INITIALLIZE PRELOADED NATIVE MODULE START
 		//// INITIALLIZE PRELOADED NATIVE MODULE END
