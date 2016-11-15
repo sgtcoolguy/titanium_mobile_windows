@@ -15,14 +15,13 @@ var fs = require('fs'),
 	path = require('path'),
 	async = require('async'),
 	spawn = require('child_process').spawn,
-	logger, windowsInfo, buildConfiguration,
+	logger, windowsInfo,
 	targetPlatformSdkVersion, targetPlatformSdkMinVersion,
 	cmakePlatform;
 
 exports.init = function(thiz) {
 	logger = thiz.logger;
 	windowsInfo = thiz.windowsInfo;
-	buildConfiguration = thiz.buildConfiguration
 	targetPlatformSdkVersion    = thiz.targetPlatformSdkVersion === '10.0' ? windowsInfo.windows['10.0'].sdks[0] : thiz.targetPlatformSdkVersion;
 	targetPlatformSdkMinVersion = thiz.targetPlatformSdkMinVersion === '10.0' ? targetPlatformSdkVersion : thiz.targetPlatformSdkMinVersion;
 	cmakePlatform = thiz.cmakePlatform;
@@ -163,11 +162,11 @@ function generateRequireHook(dest, modules, native_types, next) {
 	});
 }
 
-function buildNativeTypeHelper(dest, platform, callback) {
+function buildNativeTypeHelper(dest, platform, buildConfiguration, callback) {
 	var slnFile = path.join(dest, platform, 'TitaniumWindows_Hyperloop.sln');
 	runNuGet(slnFile, function(err) {
 		if (err) return callback(err);
-		runMSBuild(slnFile, callback);
+		runMSBuild(slnFile, buildConfiguration, callback);
 	});
 }
 
@@ -191,6 +190,7 @@ function generateTargetVersion(dest, platform, callback) {
 }
 
 function runNuGet(slnFile, callback) {
+	logger.debug('nuget restore ' + slnFile);
 	// Make sure project dependencies are installed via NuGet
 	var nuget = path.resolve(__dirname, '..', 'vendor', 'nuget', 'nuget.exe');
 		p = spawn(nuget, ['restore', slnFile]);
@@ -217,7 +217,7 @@ function runNuGet(slnFile, callback) {
 	});
 }
 
-function runMSBuild(slnFile, callback) {
+function runMSBuild(slnFile, buildConfiguration, callback) {
 	var vsInfo = windowsInfo.selectedVisualStudio;
 
 	if (!vsInfo) {
@@ -225,7 +225,7 @@ function runMSBuild(slnFile, callback) {
 		process.exit(1);
 	}
 
-	logger.debug('Running MSBuild on solution: ' + slnFile);
+	logger.debug('Running MSBuild on solution: ' + slnFile + ' for ' + buildConfiguration);
 
 	// Use spawn directly so we can pipe output as we go
 	var p = spawn(vsInfo.vcvarsall, [
@@ -296,8 +296,11 @@ exports.generate = function generate(dest, modules, native_types, finished) {
 					generateTargetVersion(dest_Hyperloop, 'win10', next);
 				},
 				function(next) {
-					buildNativeTypeHelper(dest_Hyperloop, platform, next);
+					buildNativeTypeHelper(dest_Hyperloop, platform, 'Debug', next);
 				},
+				function(next) {
+					buildNativeTypeHelper(dest_Hyperloop, platform, 'Release', next);
+				}
 			], callback);
 		},
 		function(callback) {
