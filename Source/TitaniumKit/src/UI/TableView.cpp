@@ -190,7 +190,9 @@ namespace Titanium
 		{
 			const auto properties = get_context().CreateObject();
 			CREATE_TITANIUM_UI_INSTANCE(js_section, properties, TableViewSection);
-			model__->appendSection(js_section.GetPrivate<Titanium::UI::TableViewSection>());
+			const auto section = js_section.GetPrivate<TableViewSection>();
+			section->attachTableView(get_object().GetPrivate<TableView>());
+			model__->appendSection(section);
 		}
 
 		void TableView::appendRow(const std::vector<std::shared_ptr<TableViewRow>>& rows, const std::shared_ptr<TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT

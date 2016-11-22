@@ -71,6 +71,8 @@ namespace TitaniumWindows
 			virtual void selectRow(const uint32_t& row) TITANIUM_NOEXCEPT override;
 			virtual void deselectRow(const uint32_t& row) TITANIUM_NOEXCEPT override;
 
+			virtual void createEmptyTableViewSection() override;
+
 		private:
 			static Windows::UI::Xaml::Controls::ScrollViewer^ GetScrollView(Windows::UI::Xaml::DependencyObject^ obj);
 
