@@ -203,6 +203,12 @@ namespace TitaniumWindows
 			}
 		}
 
+		void TableView::createEmptyTableViewSection()
+		{
+			Titanium::UI::TableView::createEmptyTableViewSection();
+			collectionViewItems__->Append(createUIElementsForSection(0));
+		}
+
 		Vector<UIElement^>^ TableView::createUIElementsForSection(const std::uint32_t& sectionIndex) TITANIUM_NOEXCEPT
 		{
 			const auto section = model__->getSectionAtIndex(sectionIndex);
