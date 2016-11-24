@@ -57,6 +57,8 @@ namespace TitaniumWindows
 			virtual void set_sections(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections) TITANIUM_NOEXCEPT override;
 			virtual void set_data(const std::vector<JSObject>& data) TITANIUM_NOEXCEPT override;
 			virtual void set_separatorColor(const std::string& color) TITANIUM_NOEXCEPT override;
+			virtual void set_headerView(const std::shared_ptr<Titanium::UI::View>&) TITANIUM_NOEXCEPT override;
+			virtual void set_headerTitle(const std::string&) TITANIUM_NOEXCEPT override;
 
 			virtual void appendSection(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections, const std::shared_ptr<Titanium::UI::TableViewAnimationProperties>& animation) TITANIUM_NOEXCEPT override;
 			virtual void querySubmitted(const std::string& query) override;
@@ -71,7 +73,11 @@ namespace TitaniumWindows
 			virtual void selectRow(const uint32_t& row) TITANIUM_NOEXCEPT override;
 			virtual void deselectRow(const uint32_t& row) TITANIUM_NOEXCEPT override;
 
+
 			virtual void createEmptyTableViewSection() override;
+			virtual void createTableSectionUIElements() TITANIUM_NOEXCEPT;
+
+			virtual void afterPropertiesSet() TITANIUM_NOEXCEPT;
 
 		private:
 			static Windows::UI::Xaml::Controls::ScrollViewer^ GetScrollView(Windows::UI::Xaml::DependencyObject^ obj);

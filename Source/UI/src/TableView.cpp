@@ -179,22 +179,58 @@ namespace TitaniumWindows
 			}
 		}
 
+		void TableView::set_headerView(const std::shared_ptr<Titanium::UI::View>& view) TITANIUM_NOEXCEPT
+		{
+			if (propertiesSet__) {
+				unregisterSections();
+				Titanium::UI::TableView::set_headerView(view);
+				createTableSectionUIElements();
+			} else {
+				Titanium::UI::TableView::set_headerView(view);
+			}
+		}
+
+		void TableView::set_headerTitle(const std::string& title) TITANIUM_NOEXCEPT
+		{
+			if (propertiesSet__) {
+				unregisterSections();
+				Titanium::UI::TableView::set_headerTitle(title);
+				createTableSectionUIElements();
+			} else {
+				Titanium::UI::TableView::set_headerTitle(title);
+			}
+		}
+
 		void TableView::set_data(const std::vector<JSObject>& data) TITANIUM_NOEXCEPT
 		{
-			unregisterSections();
-			Titanium::UI::TableView::set_data(data);
-			clearTableData();
-			setTableHeader();
-			setTableFooter();
-			for (uint32_t i = 0; i < model__->get_sectionCount(); i++) {
-				collectionViewItems__->Append(createUIElementsForSection(i));
+			if (propertiesSet__) {
+				unregisterSections();
+				Titanium::UI::TableView::set_data(data);
+				createTableSectionUIElements();
+			} else {
+				Titanium::UI::TableView::set_data(data);
 			}
 		}
 
 		void TableView::set_sections(const std::vector<std::shared_ptr<Titanium::UI::TableViewSection>>& sections) TITANIUM_NOEXCEPT
 		{
-			unregisterSections();
-			Titanium::UI::TableView::set_sections(sections);
+			if (propertiesSet__) {
+				unregisterSections();
+				Titanium::UI::TableView::set_sections(sections);
+				createTableSectionUIElements();
+			} else {
+				Titanium::UI::TableView::set_sections(sections);
+			}
+		}
+
+		void TableView::afterPropertiesSet() TITANIUM_NOEXCEPT
+		{
+			Titanium::UI::TableView::afterPropertiesSet();
+			createTableSectionUIElements();
+		}
+
+		void TableView::createTableSectionUIElements() TITANIUM_NOEXCEPT
+		{
 			clearTableData();
 			setTableHeader();
 			setTableFooter();
