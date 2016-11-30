@@ -218,7 +218,13 @@ namespace TitaniumWindows
 
 				} else {
 					window_stack__.pop_back();
-					const auto next_window = std::dynamic_pointer_cast<Window>(window_stack__.back());
+					auto next_window = std::dynamic_pointer_cast<Window>(window_stack__.back());
+					if (next_window->tab__) {
+						const auto tab = next_window;
+						window_stack__.pop_back();
+						next_window = std::dynamic_pointer_cast<Window>(window_stack__.back());
+						tab->open(nullptr);
+					}
 
 					if (is_last_window) {
 						ExitApp(get_context());
