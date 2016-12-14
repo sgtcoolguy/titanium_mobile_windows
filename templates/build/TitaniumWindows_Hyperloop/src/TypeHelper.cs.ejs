@@ -27,17 +27,17 @@ namespace TitaniumWindows_Hyperloop
     public sealed class EventHelper
     {
 
-<% for(var i=0; i<native_events.length; i++) { -%>
-        public static Event add_<%= native_events[i].signature %>(object target)
+<% for(var key in native_events) { -%>
+        public static Event add_<%= native_events[key].signature %>(object target)
         {
-            Event evt = new Event("<%= native_events[i].name %>", target);
-            ((<%= native_events[i].type %>)target).<%= native_events[i].name %> += evt.HandleEvent;
+            Event evt = new Event("<%= native_events[key].name %>", target);
+            ((<%= native_events[key].type %>)target).<%= native_events[key].name %> += evt.HandleEvent;
             return evt;
         }
 
-        public static void remove_<%= native_events[i].signature %>(object evt, object target)
+        public static void remove_<%= native_events[key].signature %>(object evt, object target)
         {
-            ((<%= native_events[i].type %>)target).<%= native_events[i].name %> -= ((Event)evt).HandleEvent;
+            ((<%= native_events[key].type %>)target).<%= native_events[key].name %> -= ((Event)evt).HandleEvent;
         }
 <% } -%>
     }
@@ -47,15 +47,29 @@ namespace TitaniumWindows_Hyperloop
     {
         private static Dictionary<string, string> KnownTypes = new Dictionary<string, string>()
             {
+                { "Object",           typeof(System.Object).AssemblyQualifiedName },
+                { "String",           typeof(System.String).AssemblyQualifiedName },
                 { "System.Object",    typeof(System.Object).AssemblyQualifiedName },
                 { "System.String",    typeof(System.String).AssemblyQualifiedName },
                 { "System.Exception", typeof(System.Exception).AssemblyQualifiedName },
+                { "System.Double",    typeof(System.Double).AssemblyQualifiedName },
+                { "System.SByte",     typeof(System.SByte).AssemblyQualifiedName },
+                { "System.Byte",      typeof(System.Byte).AssemblyQualifiedName },
+                { "System.Single",    typeof(System.Single).AssemblyQualifiedName },
+                { "System.Decimal",   typeof(System.Decimal).AssemblyQualifiedName },
+                { "System.Int64",     typeof(System.Int64).AssemblyQualifiedName },
+                { "System.Int32",     typeof(System.Int32).AssemblyQualifiedName },
+                { "System.Int16",     typeof(System.Int16).AssemblyQualifiedName },
+                { "System.UInt64",    typeof(System.UInt64).AssemblyQualifiedName },
+                { "System.UInt32",    typeof(System.UInt32).AssemblyQualifiedName },
+                { "System.UInt16",    typeof(System.UInt16).AssemblyQualifiedName },
+                { "System.Boolean",   typeof(System.Boolean).AssemblyQualifiedName }
             };
 
         private static Dictionary<string, string> AssemblyQualifiedName = new Dictionary<string, string>()
             {
-<% for(var i=0; i<native_types.length; i++) { -%>
-                { "<%= native_types[i].name %>", typeof(<%= native_types[i].name %>).AssemblyQualifiedName },
+<% for(var key in native_types) { -%>
+                { "<%= native_types[key].name %>", typeof(<%= native_types[key].name %>).AssemblyQualifiedName },
 <% } -%>
             };
 

@@ -503,8 +503,8 @@ function copyResources(next) {
 				var from = jsFiles[id],
 					to = path.join(this.buildTargetAssetsDir, id),
 					t_ = this;
-				t_.native_types  = t_.native_types  || [];
-				t_.native_events = t_.native_events || [];
+				t_.native_types  = t_.native_types  || {};
+				t_.native_events = t_.native_events || {};
 
 				// Look for native requires here
 				var fromContent = fs.readFileSync(from, {encoding: 'utf8'});
@@ -524,7 +524,7 @@ function copyResources(next) {
 						var node_value = node.args[0].getValue();
 						if (hasWindowsAPI(node_value)) {
 							t_.logger.info("Detected native API reference: " + node_value);
-							t_.native_types.unshift({name:node_value});
+							t_.native_types[node_value] = {name:node_value};
 						}
 					}
 					if (node instanceof UglifyJS.AST_Call && node.expression.property == 'addEventListener') {
@@ -551,7 +551,7 @@ function copyResources(next) {
 									type:detectedConstructorType,
 									signature:event_name + '_' + detectedConstructorType.replace(/\./g, '_')
 								};
-								t_.native_events.push(native_event);
+								t_.native_events[native_event.signature] = native_event;
 								t_.logger.info('Detected native API event: ' + native_event.name + ' for ' + detectedConstructorType);
 							}
 						}
