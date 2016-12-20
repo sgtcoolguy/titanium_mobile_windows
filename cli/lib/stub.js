@@ -273,8 +273,8 @@ exports.generate = function generate(dest, modules, native_types, native_events,
 	var dest_Native    = path.join(dest, 'Native'),
 		dest_Hyperloop = path.join(dest, 'TitaniumWindows_Hyperloop');
 
-	native_types  = native_types  || [];
-	native_events = native_events || [];
+	native_types  = native_types  || {};
+	native_events = native_events || {};
 
 	var platform = 'win10';
 	if (targetPlatformSdkVersion === '8.1') {
@@ -288,7 +288,7 @@ exports.generate = function generate(dest, modules, native_types, native_events,
 	async.parallel([
 		function(callback) {
 			// generate native types only when hyperloop is used
-			if (native_types.length === 0) {
+			if (Object.keys(native_types).length === 0) {
 				return callback();
 			}
 			async.series([
