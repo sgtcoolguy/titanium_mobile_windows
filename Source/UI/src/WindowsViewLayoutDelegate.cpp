@@ -164,14 +164,19 @@ namespace TitaniumWindows
 			TITANIUM_ASSERT(newView != nullptr);
 			auto nativeChildView = newView->getComponent();
 			if (nativeChildView != nullptr) {
-				Titanium::LayoutEngine::nodeAddChild(layout_node__, newView->getLayoutNode());
-				if (isLoaded()) {
-					requestLayout();
-				}
 				try {
 					auto nativeView = dynamic_cast<Controls::Panel^>(component__);
+					uint32_t index = 0;
+					if (nativeView->Children->IndexOf(nativeChildView, &index)) {
+						TITANIUM_LOG_DEBUG("This UI element is already added");
+						return;
+					}
 					nativeView->Children->Append(nativeChildView);
 					newView->set_touchEnabled(get_touchEnabled() && newView->get_touchEnabled());
+					Titanium::LayoutEngine::nodeAddChild(layout_node__, newView->getLayoutNode());
+					if (isLoaded()) {
+						requestLayout();
+					}
 				} catch (Platform::Exception^ e) {
 					detail::ThrowRuntimeError("add", Utility::ConvertString(e->Message));
 				}
