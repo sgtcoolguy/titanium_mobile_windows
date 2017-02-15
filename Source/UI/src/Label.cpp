@@ -55,11 +55,13 @@ namespace TitaniumWindows
 			label__->FontSize = DefaultFontSize;
 
 			// TIMOB-19048: max size is set to screen size by default
-			const auto current = Windows::UI::Xaml::Window::Current;
-			if (current) {
-				label__->MaxWidth = current->Bounds.Width;
-				label__->MaxHeight = current->Bounds.Height;
-			}
+			border__->SizeChanged += ref new Windows::UI::Xaml::SizeChangedEventHandler([this](Platform::Object^, Windows::UI::Xaml::SizeChangedEventArgs^) {
+				const auto current = Windows::UI::Xaml::Window::Current;
+				if (current) {
+					label__->MaxWidth  = current->Bounds.Width;
+					label__->MaxHeight = current->Bounds.Height;
+				}
+			});
 
 			border__->Child = label__;
 
@@ -131,11 +133,11 @@ namespace TitaniumWindows
 			BOOST_FOREACH(std::string text, blocks) {
 
 				const auto run = ref new Run();
-				run->Text = TitaniumWindows::Utility::ConvertString(text);
+				run->Text = TitaniumWindows::Utility::ConvertUTF8String(text);
 
 				if ((enableALL || enableURL) && std::regex_search(text, url_matches, url_pattern) && !url_matches.str(1).empty()) {
 					auto hyperlink = ref new Hyperlink();
-					hyperlink->NavigateUri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(text));
+					hyperlink->NavigateUri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertUTF8String(text));
 					hyperlink->Inlines->Append(run);
 					root->Inlines->Append(hyperlink);
 				} else {
