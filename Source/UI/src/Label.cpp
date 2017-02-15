@@ -60,6 +60,9 @@ namespace TitaniumWindows
 				if (current) {
 					label__->MaxWidth  = current->Bounds.Width;
 					label__->MaxHeight = current->Bounds.Height;
+					if (propertiesSet__) {
+						measureDesiredSize();
+					}
 				}
 			});
 
