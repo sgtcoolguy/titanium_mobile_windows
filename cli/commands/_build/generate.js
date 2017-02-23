@@ -107,7 +107,13 @@ function generateNativeTypes(next) {
 	this.logger.info(__('Generating Native Types'));
 
 	this.targetPlatformSdkVersion    = this.targetPlatformSdkVersion || this.tiapp.windows['TargetPlatformVersion'] || this.wpsdk;
-	this.targetPlatformSdkMinVersion = this.targetPlatformSdkMinVersion || this.tiapp.windows['TargetPlatformMinVersion'] || this.targetPlatformSdkVersion;
+
+	// default min version goes to the minimum version we can find in the sdks
+	var defaultTargetPlatformSdkMinVersion = this.targetPlatformSdkVersion;
+	if (this.wpsdk.startsWith('10.0') && this.windowsInfo.windowsphone['10.0'] && this.windowsInfo.windowsphone['10.0'].sdks && this.windowsInfo.windowsphone['10.0'].sdks.length > 0) {
+		defaultTargetPlatformSdkMinVersion = this.windowsInfo.windowsphone['10.0'].sdks[0];
+	}
+	this.targetPlatformSdkMinVersion = this.targetPlatformSdkMinVersion || this.tiapp.windows['TargetPlatformMinVersion'] || defaultTargetPlatformSdkMinVersion;
 
 	nativeModuleGenerator.generate(this, next);
 };
