@@ -8,7 +8,10 @@ var appc = require('node-appc'),
 	path = require('path'),
 	ti = require('node-titanium-sdk'),
 	wrench = require('wrench'),
-	UglifyJS = require('uglify-js'),
+	babel = require('babel-core'),
+	babylon = require('babylon'),
+	types = require('babel-types'),
+	traverse = require('babel-traverse').default,
 	__ = appc.i18n(__dirname).__;
 
 /*
@@ -522,11 +525,10 @@ function copyResources(next) {
 				t_.native_events = t_.native_events || {};
 
 				// Look for native requires here
-				var fromContent = fs.readFileSync(from, {encoding: 'utf8'});
+				var fromContent = fs.readFileSync(from, {encoding: 'utf8'}),
+					ast;
 				try {
-					// FIXME Avoid parsing the AST twice! We do it below using jsanalyze for non html referenced JS files!
-					var toplevel = UglifyJS.parse(fromContent);
-					toplevel.figure_out_scope();
+					ast = babylon.parse(fromContent, { sourceFilename: from }););
 				} catch (E) {
 					t_.logger.error(reportJSErrors(from, fromContent, E));
 					return next('Failed to parse JavaScript files.');
@@ -534,87 +536,62 @@ function copyResources(next) {
 
 				// Mapping variable and required class name
 				var native_requires = {};
-				//
-				// Search for constructor class from addEventListener node
-				//
-				function findConstructorClass(node) {
-					if (node.expression && 
-							node.expression.expression && 
-							node.expression.expression.thedef &&
-							node.expression.expression.thedef.name) {
 
-						var expression = node.expression.expression,
-								thedef     = expression.thedef,
-								name       = thedef.name,
-								type;
-
-						if (thedef.scope && thedef.scope.ctors) {
-							type = native_requires[thedef.scope.ctors[name]];
-						}
-
-						if (!type && expression.scope && expression.scope.ctors) {
-							type = native_requires[expression.scope.ctors[name]];
-						}
-
-						return { name: name, type: type };
-					}
-				}
-
-
-				var walker = new UglifyJS.TreeWalker(function (node) {
-					var parent = walker.parent();
-
-					if (node instanceof UglifyJS.AST_SymbolVar) {
-						if (parent.value && parent.value.expression && parent.value.expression.name == 'require' && parent.value.args.length > 0) {
-							native_requires[node.name] = parent.value.args[0].value;
-						}
-					}
-
-					if (node instanceof UglifyJS.AST_New) {
-						if (node.expression && node.expression.scope) {
-							var scope = node.expression.scope;
-							scope.ctors || (scope.ctors = {});
-							if (parent.name && parent.name.thedef) {
-								scope.ctors[parent.name.thedef.name] = node.expression.name;
-							} else if (parent.left) {
-								scope.ctors[parent.left.name] = node.expression.name;
+				traverse(ast, {
+					VariableDeclarator: {
+						enter: function(path) {
+							if (path.node.init &&
+									types.isCallExpression(path.node.init) && // var value is a call expression
+									types.isIdentifier(path.node.id) && // var name is identifier
+									types.isIdentifier(path.node.init.callee, { name: 'require' }) && // function called is 'require'
+									path.node.init.arguments.length > 0 && // there's at least one argument
+									types.isStringLiteral(path.node.init.arguments[0])) { // the first argument is a string literal
+								native_requires[node.path.id.name] = path.node.init.arguments[0].value; // record var name -> required string
 							}
 						}
-					}
+					},
+					// looks for require calls
+					CallExpression: {
+						// FIXME What if it is a requires, but not a string? What if it is a dynamically built string?
+						enter: function(path) {
+							if (types.isIdentifier(path.node.callee, { name: 'require' }) &&
+								path.node.arguments && path.node.arguments.length == 1 &&
+								types.isStringLiteral(path.node.arguments[0])
+							) {
+								var node_value = path.node.arguments[0].value;
+								if (hasWindowsAPI(node_value)) {
+									t_.logger.info("Detected native API reference: " + node_value);
+									t_.native_types[node_value] = {name:node_value};
+								}
+							} else if (types.isMemberExpression(path.node.callee) && // are we calling 'addEventListener'?
+									types.isIdentifier(path.node.callee.property, { name: 'addEventListener' }) &&
+									path.node.arguments && path.node.arguments.length > 0 && // with at least one argument
+									types.isStringLiteral(path.node.arguments[0]) && // first argument is a string literal
+									types.isIdentifier(path.node.callee.object) // on some variable
+								) {
+									var event_name = path.node.arguments[0].value,  // record the event name
+										binding = path.scope.getBinding(path.node.callee.object.name); // get binding for the receiver variable
 
-					// FIXME What if it is a requires, but not a string? What if it is a dynamically built string?
-					if (node instanceof UglifyJS.AST_Call && node.expression.name == 'require' &&
-						node.args && node.args.length == 1 && node.args[0] instanceof UglifyJS.AST_String) {
-						var node_value = node.args[0].getValue();
-						if (hasWindowsAPI(node_value)) {
-							t_.logger.info("Detected native API reference: " + node_value);
-							t_.native_types[node_value] = {name:node_value};
-						}
-					}
-					if (node instanceof UglifyJS.AST_Call && node.expression.property == 'addEventListener') {
-
-						var ctor = findConstructorClass(node);
-						if (ctor && ctor.type) {
-							var detectedConstructorType = ctor.type;
-							if (hasWindowsAPI(detectedConstructorType) &&
-								node.args &&
-								node.args.length > 0 &&
-								node.args[0] instanceof UglifyJS.AST_String) {
-
-								var event_name = node.args[0].getValue();
-
-								var native_event = {
-									name:event_name,
-									type:detectedConstructorType,
-									signature:event_name + '_' + detectedConstructorType.replace(/\./g, '_')
-								};
-								t_.native_events[native_event.signature] = native_event;
-								t_.logger.info('Detected native API event: ' + native_event.name + ' for ' + detectedConstructorType);
+									if (binding && // if we got the initial binding for the variable
+											types.isVariableDeclarator(binding.path.node) && // and it declares the variable
+											types.isNewExpression(binding.path.node.init) && // and it's ssigned from a new Type()
+											types.isIdentifier(binding.path.node.init.callee) // and the type is an identifier
+										) {
+											var detectedConstructorType = binding.path.node.init.callee.name; // record the type of the variable
+											if (hasWindowsAPI(detectedConstructorType)) {
+												var native_event = {
+													name: event_name,
+													type: detectedConstructorType,
+													signature: event_name + '_' + detectedConstructorType.replace(/\./g, '_')
+												};
+												t_.native_events[native_event.signature] = native_event;
+												t_.logger.info('Detected native API event: ' + native_event.name + ' for ' + detectedConstructorType);
+											}
+									}
 							}
 						}
 					}
 				});
-				toplevel.walk(walker);
 
 				if (htmlJsFiles[id]) {
 					// this js file is referenced from an html file, so don't minify or encrypt
@@ -706,7 +683,6 @@ function copyResources(next) {
 				return next();
 			}
 
-			
 			this.processEncryption(next);
 		});
 	});
