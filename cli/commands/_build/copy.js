@@ -4,11 +4,9 @@ var appc = require('node-appc'),
 	fs = require('fs'),
 	crypto = require('crypto'),
 	jsanalyze = require('node-titanium-sdk/lib/jsanalyze'),
-	os = require('os'),
 	path = require('path'),
 	ti = require('node-titanium-sdk'),
 	wrench = require('wrench'),
-	babel = require('babel-core'),
 	babylon = require('babylon'),
 	types = require('babel-types'),
 	traverse = require('babel-traverse').default,
@@ -46,7 +44,7 @@ function copyResultsToProject(next) {
 		});
 	}
 	next();
-};
+}
 
 /**
  * Copies files from the project's "Resources", "Resources\windows", and "platform\windows"
@@ -333,10 +331,10 @@ function copyResources(next) {
 			// TODO: Generate SplashScreen.scale-100.png?
 		],
 		md5 = function (file) {
-		    return crypto
-		        .createHash('md5')
-		        .update(fs.readFileSync(file), 'binary')
-		        .digest('hex')
+			return crypto
+				.createHash('md5')
+				.update(fs.readFileSync(file), 'binary')
+				.digest('hex')
 		};
 
 		// if the app icon does not exist then check if it exists in the project root
@@ -463,9 +461,9 @@ function copyResources(next) {
 		});
 	});
 
-	this.modules.forEach(function (module) {
+	// this.modules.forEach(function (module) {
 		// TODO: copy any module specific resources here
-	}, this);
+	// }, this);
 
 	var platformPaths = [];
 	// WARNING! This is pretty dangerous, but yes, we're intentionally copying
@@ -528,7 +526,7 @@ function copyResources(next) {
 				var fromContent = fs.readFileSync(from, {encoding: 'utf8'}),
 					ast;
 				try {
-					ast = babylon.parse(fromContent, { filename: from }););
+					ast = babylon.parse(fromContent, { filename: from });
 				} catch (E) {
 					t_.logger.error(reportJSErrors(from, fromContent, E));
 					return next('Failed to parse JavaScript files.');
