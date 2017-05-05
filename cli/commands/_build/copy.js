@@ -528,66 +528,51 @@ function copyResources(next) {
 				var fromContent = fs.readFileSync(from, {encoding: 'utf8'}),
 					ast;
 				try {
-					ast = babylon.parse(fromContent, { sourceFilename: from }););
+					ast = babylon.parse(fromContent, { filename: from }););
 				} catch (E) {
 					t_.logger.error(reportJSErrors(from, fromContent, E));
 					return next('Failed to parse JavaScript files.');
 				}
 
-				// Mapping variable and required class name
-				var native_requires = {};
-
 				traverse(ast, {
-					VariableDeclarator: {
-						enter: function(path) {
-							if (path.node.init &&
-									types.isCallExpression(path.node.init) && // var value is a call expression
-									types.isIdentifier(path.node.id) && // var name is identifier
-									types.isIdentifier(path.node.init.callee, { name: 'require' }) && // function called is 'require'
-									path.node.init.arguments.length > 0 && // there's at least one argument
-									types.isStringLiteral(path.node.init.arguments[0])) { // the first argument is a string literal
-								native_requires[node.path.id.name] = path.node.init.arguments[0].value; // record var name -> required string
-							}
-						}
-					},
-					// looks for require calls
 					CallExpression: {
-						// FIXME What if it is a requires, but not a string? What if it is a dynamically built string?
 						enter: function(path) {
+							// if we're calling require with one string literal argument...
+							// FIXME What if it is a requires, but not a string? What if it is a dynamically built string?
 							if (types.isIdentifier(path.node.callee, { name: 'require' }) &&
-								path.node.arguments && path.node.arguments.length == 1 &&
-								types.isStringLiteral(path.node.arguments[0])
-							) {
+									path.node.arguments && path.node.arguments.length == 1 &&
+									types.isStringLiteral(path.node.arguments[0])) {
+								// check if the required type is "native"
 								var node_value = path.node.arguments[0].value;
 								if (hasWindowsAPI(node_value)) {
 									t_.logger.info("Detected native API reference: " + node_value);
-									t_.native_types[node_value] = {name:node_value};
+									t_.native_types[node_value] = {name: node_value};
 								}
 							} else if (types.isMemberExpression(path.node.callee) && // are we calling 'addEventListener'?
 									types.isIdentifier(path.node.callee.property, { name: 'addEventListener' }) &&
 									path.node.arguments && path.node.arguments.length > 0 && // with at least one argument
 									types.isStringLiteral(path.node.arguments[0]) && // first argument is a string literal
 									types.isIdentifier(path.node.callee.object) // on some variable
-								) {
-									var event_name = path.node.arguments[0].value,  // record the event name
-										binding = path.scope.getBinding(path.node.callee.object.name); // get binding for the receiver variable
+									) {
+								var event_name = path.node.arguments[0].value,  // record the event name
+									binding = path.scope.getBinding(path.node.callee.object.name); // get binding for the receiver variable
 
-									if (binding && // if we got the initial binding for the variable
-											types.isVariableDeclarator(binding.path.node) && // and it declares the variable
-											types.isNewExpression(binding.path.node.init) && // and it's ssigned from a new Type()
-											types.isIdentifier(binding.path.node.init.callee) // and the type is an identifier
+								if (binding && // if we got the initial binding for the variable
+										types.isVariableDeclarator(binding.path.node) && // and it declares the variable
+										types.isNewExpression(binding.path.node.init) && // and it's assigned from a 'new' expression
+										types.isIdentifier(binding.path.node.init.callee) // and the type is an identifier
 										) {
-											var detectedConstructorType = binding.path.node.init.callee.name; // record the type of the variable
-											if (hasWindowsAPI(detectedConstructorType)) {
-												var native_event = {
-													name: event_name,
-													type: detectedConstructorType,
-													signature: event_name + '_' + detectedConstructorType.replace(/\./g, '_')
-												};
-												t_.native_events[native_event.signature] = native_event;
-												t_.logger.info('Detected native API event: ' + native_event.name + ' for ' + detectedConstructorType);
-											}
+									var detectedConstructorType = binding.path.node.init.callee.name; // record the type of the variable
+									if (hasWindowsAPI(detectedConstructorType)) {
+										var native_event = {
+											name: event_name,
+											type: detectedConstructorType,
+											signature: event_name + '_' + detectedConstructorType.replace(/\./g, '_')
+										};
+										t_.native_events[native_event.signature] = native_event;
+										t_.logger.info('Detected native API event: ' + native_event.name + ' for ' + detectedConstructorType);
 									}
+								}
 							}
 						}
 					}
