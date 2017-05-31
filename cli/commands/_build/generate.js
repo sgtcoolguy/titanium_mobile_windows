@@ -249,7 +249,8 @@ function generateCmakeList(next) {
 			i18nVSResources: this.i18nVSResources,
 			defaultLanguage: this.defaultLanguage,
 			native_modules: native_modules,
-			targetPlatformSdkMinVersion: this.targetPlatformSdkMinVersion
+			targetPlatformSdkMinVersion: this.targetPlatformSdkMinVersion,
+			vsSdkReferences: this.vsSdkReferences || []
 		}
 	), next);
 };
@@ -414,7 +415,8 @@ function generateAppxManifestForPlatform(target, properties) {
 			'location'
 		],
 		capabilities = [],
-		deviceCapabilities = [];
+		deviceCapabilities = [],
+		_t = this;
 
 	// Supported properties
 	properties.Properties = properties.Properties || [];
@@ -479,6 +481,8 @@ function generateAppxManifestForPlatform(target, properties) {
 	properties.Resources = properties.Resources || [];
 	properties.Extensions = properties.Extensions || [];
 	properties.PackageExtensions = properties.PackageExtensions || [];
+	properties.Dependencies = properties.Dependencies || [];
+	properties.SDKReferences = properties.SDKReferences || [];
 
 	var applications = {};
 	if (properties.Applications) {
@@ -523,6 +527,13 @@ function generateAppxManifestForPlatform(target, properties) {
 		}
 	});
 	properties.requiresBadgeLogo = requiresBadgeLogo;
+
+	this.vsSdkReferences = [];
+	properties.SDKReferences.forEach(function (node) {
+		if (node.tagName == 'SDKReference') {
+			_t.vsSdkReferences.push(appc.xml.getAttr(node, "Include"));
+		}
+	});
 
 	this.logger.info(__('Writing appxmanifest %s', dest));
 	fs.writeFileSync(dest, ejs.render(template, {

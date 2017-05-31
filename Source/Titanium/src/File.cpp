@@ -15,6 +15,7 @@
 using namespace Windows::Storage;
 using namespace Windows::Foundation::Collections;
 using namespace concurrency;
+using TitaniumWindows::Utility::RunOnUIThread;
 
 namespace TitaniumWindows
 {
@@ -99,6 +100,8 @@ namespace TitaniumWindows
 							result = true;
 						} catch (Platform::Exception^ ex) {
 							TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+						} catch (...) {
+							TITANIUM_LOG_DEBUG("Unknown error while createDirectory");
 						}
 						event.set();
 					},
@@ -106,11 +109,14 @@ namespace TitaniumWindows
 				event.wait();
 
 				return result;
+			} catch (Platform::AccessDeniedException^ e) {
+				TITANIUM_LOG_DEBUG("createDirectory: Denied access to parent folder");
+			} catch (Platform::Exception^ ex) {
+				TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+			} catch (...) {
+				TITANIUM_LOG_DEBUG("Unknown error while createDirectory");
 			}
-			catch (Platform::AccessDeniedException^ e) {
-				TITANIUM_LOG_DEBUG("TitaniumWindows::Filesystem::File::createDirectory(std::string): Denied access to parent folder");
-				return false;
-			}
+			return false;
 		}
 
 		FileProperties::BasicProperties^ File::getStorageProperties(IStorageItem^ file) const
@@ -124,9 +130,10 @@ namespace TitaniumWindows
 				task<FileProperties::BasicProperties^>(file->GetBasicPropertiesAsync()).then([&properties, &event](task<FileProperties::BasicProperties^> task) {
 						try {
 							properties = task.get();
-						}
-						catch (Platform::Exception^ ex) {
+						} catch (Platform::Exception^ ex) {
 							TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+						} catch (...) {
+							TITANIUM_LOG_DEBUG("Unknown error while getStorageProperties");
 						}
 						event.set();
 					},
@@ -136,8 +143,10 @@ namespace TitaniumWindows
 				return properties;
 			} catch (Platform::Exception^ ex) {
 				TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
-				return nullptr;
+			} catch (...) {
+				TITANIUM_LOG_DEBUG("Unknown error while getStorageProperties");
 			}
+			return nullptr;
 		}
 
 		Windows::Storage::StorageFolder^ File::getFolderFromPathSync(Platform::String^ filename) const
@@ -148,13 +157,12 @@ namespace TitaniumWindows
 			task<StorageFolder^>(Windows::Storage::StorageFolder::GetFolderFromPathAsync(filename)).then([&storageFolder, &denied, &event](task<StorageFolder^> task) {
 					try {
 						storageFolder = task.get();
-					}
-					catch (Platform::AccessDeniedException^ e) {
-						storageFolder = nullptr;
+					} catch (Platform::AccessDeniedException^ e) {
 						denied = true;
-					}
-					catch (Platform::Exception^ ex) {
-						storageFolder = nullptr;
+					} catch (Platform::Exception^ ex) {
+						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+					} catch (...) {
+						TITANIUM_LOG_DEBUG("Unknown error while getFolderFromPathSync");
 					}
 					event.set();
 				},
@@ -174,9 +182,10 @@ namespace TitaniumWindows
 			task<StorageFile^>(Windows::Storage::StorageFile::GetFileFromPathAsync(filename)).then([&storageFile, &event](task<StorageFile^> task) {
 					try {
 						storageFile = task.get();
-					}
-					catch (Platform::Exception^ ex) {
-						storageFile = nullptr;
+					} catch (Platform::Exception^ ex) {
+						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+					} catch (...) {
+						TITANIUM_LOG_DEBUG("Unknown error while getFileFromPathSync");
 					}
 					event.set();
 				},
@@ -297,9 +306,10 @@ namespace TitaniumWindows
 					try {
 						task.get();
 						result = true;
-					}
-					catch (Platform::Exception^ ex) {
+					} catch (Platform::Exception^ ex) {
 						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+					} catch (...) {
+						TITANIUM_LOG_DEBUG("Unknown error while copy");
 					}
 					event.set();
 				},
@@ -363,9 +373,10 @@ namespace TitaniumWindows
 				try {
 					task.get();
 					result = true;
-				}
-				catch (Platform::Exception^ ex) {
+				} catch (Platform::Exception^ ex) {
 					TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+				} catch (...) {
+					TITANIUM_LOG_DEBUG("Unknown error while deleteFile");
 				}
 				event.set();
 			}, concurrency::task_continuation_context::use_arbitrary());
@@ -404,9 +415,10 @@ namespace TitaniumWindows
 						std::for_each(begin(folders), end(folders), [&filenames](StorageFolder^ folder) {
 							filenames.push_back(TitaniumWindows::Utility::ConvertString(folder->Name));
 						});
-					}
-					catch (Platform::Exception^ ex) {
+					} catch (Platform::Exception^ ex) {
 						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+					} catch (...) {
+						TITANIUM_LOG_DEBUG("Unknown error while getDirectoryListing");
 					}
 					folderEvent.set();
 				},
@@ -421,9 +433,10 @@ namespace TitaniumWindows
 						std::for_each(begin(files), end(files), [&filenames](StorageFile^ file) {
 							filenames.push_back(TitaniumWindows::Utility::ConvertString(file->Name));
 						});
-					}
-					catch (Platform::Exception^ ex) {
+					} catch (Platform::Exception^ ex) {
 						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+					} catch (...) {
+						TITANIUM_LOG_DEBUG("Unknown error while getDirectoryListing");
 					}
 					fileEvent.set();
 				},
@@ -494,9 +507,10 @@ namespace TitaniumWindows
 					try {
 						task.get();
 						result = true;
-					}
-					catch (Platform::Exception^ ex) {
+					} catch (Platform::Exception^ ex) {
 						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+					} catch (...) {
+						TITANIUM_LOG_DEBUG("Unknown error while move");
 					}
 					event.set();
 				},
@@ -536,9 +550,10 @@ namespace TitaniumWindows
 					try {
 						task.get();
 						result = true;
-					}
-					catch (Platform::Exception^ ex) {
+					} catch (Platform::Exception^ ex) {
 						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+					} catch (...) {
+						TITANIUM_LOG_DEBUG("Unknown error while rename");
 					}
 					event.set();
 				},
@@ -564,9 +579,10 @@ namespace TitaniumWindows
 					try {
 						const auto extraProperties = task.get();
 						freeSpace = (std::uint64_t)extraProperties->Lookup("System.FreeSpace");
-					}
-					catch (Platform::Exception^ ex) {
+					} catch (Platform::Exception^ ex) {
 						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+					} catch (...) {
+						TITANIUM_LOG_DEBUG("Unknown error while spaceAvailable");
 					}
 					event.set();
 				},
@@ -649,6 +665,8 @@ namespace TitaniumWindows
 						result = true;
 					} catch (Platform::Exception^ ex) {
 						TITANIUM_LOG_DEBUG(TitaniumWindows::Utility::ConvertString(ex->Message));
+					} catch (...) {
+						TITANIUM_LOG_DEBUG("Unknown error while write");
 					}
 					event.set();
 				},
@@ -682,17 +700,24 @@ namespace TitaniumWindows
 								data = TitaniumWindows::Utility::GetContentFromBuffer(buffer);
 							} catch (Platform::Exception^ ex) {
 								TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(ex->Message));
+							} catch (...) {
+								TITANIUM_LOG_WARN("Unknown error while readBytes");
 							}
 							evt.set();
 						}, concurrency::task_continuation_context::use_arbitrary());
 					} catch (Platform::Exception^ ex) {
 						TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(ex->Message));
 						evt.set();
+					} catch (...) {
+						TITANIUM_LOG_WARN("Unknown error while readBytes");
+						evt.set();
 					}
 				}, concurrency::task_continuation_context::use_arbitrary());
 				evt.wait();
 			} catch (Platform::Exception^ ex) {
 				TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(ex->Message));
+			} catch (...) {
+				TITANIUM_LOG_WARN("Unknown error while readBytes");
 			}
 
 			return data;
@@ -710,19 +735,51 @@ namespace TitaniumWindows
 						stream->Seek(offset);
 						concurrency::task<IBuffer^>(stream->ReadAsync(buffer, buffer->Capacity, InputStreamOptions::Partial)).then([callback](concurrency::task<IBuffer^> task) {
 							try {
-								const Titanium::ErrorResponse errorResponse;
-								const auto buffer = task.get();
-								callback(errorResponse, TitaniumWindows::Utility::GetContentFromBuffer(buffer));
+								RunOnUIThread([task, callback]() {
+									const Titanium::ErrorResponse errorResponse;
+									const auto buffer = task.get();
+									callback(errorResponse, TitaniumWindows::Utility::GetContentFromBuffer(buffer));
+								});
 							} catch (Platform::COMException^ ex) {
-								callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+								RunOnUIThread([ex, callback]() {
+									callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+								});
+							} catch (Platform::Exception^ ex) {
+								RunOnUIThread([ex, callback]() {
+									callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+								});
+							} catch (...) {
+								RunOnUIThread([callback]() {
+									callback(TitaniumWindows::Utility::GetTiErrorResponse("Unknown error"), std::vector<std::uint8_t>());
+								});
 							}
 						});
 					} catch (Platform::COMException^ ex) {
-						callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+						RunOnUIThread([ex, callback]() {
+							callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+						});
+					} catch (Platform::Exception^ ex) {
+						RunOnUIThread([ex, callback]() {
+							callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+						});
+					} catch (...) {
+						RunOnUIThread([callback]() {
+							callback(TitaniumWindows::Utility::GetTiErrorResponse("Unknown error"), std::vector<std::uint8_t>());
+						});
 					}
 				});
 			} catch (Platform::COMException^ ex) {
-				callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+				RunOnUIThread([ex, callback]() {
+					callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+				});
+			} catch (Platform::Exception^ ex) {
+				RunOnUIThread([ex, callback]() {
+					callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+				});
+			} catch (...) {
+				RunOnUIThread([callback]() {
+					callback(TitaniumWindows::Utility::GetTiErrorResponse("Unknown error"), std::vector<std::uint8_t>());
+				});
 			}
 		}
 
@@ -732,11 +789,23 @@ namespace TitaniumWindows
 
 			concurrency::task<IBuffer^>(FileIO::ReadBufferAsync(file_)).then([callback](concurrency::task<IBuffer ^ > task) {
 				try {
-					const Titanium::ErrorResponse errorResponse;
-					const auto buffer = task.get();
-					callback(errorResponse, TitaniumWindows::Utility::GetContentFromBuffer(buffer));
-				} catch (::Platform::COMException^ ex) {
-					callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+					RunOnUIThread([task, callback]() {
+						const Titanium::ErrorResponse errorResponse;
+						const auto buffer = task.get();
+						callback(errorResponse, TitaniumWindows::Utility::GetContentFromBuffer(buffer));
+					});
+				} catch (Platform::COMException^ ex) {
+					RunOnUIThread([ex, callback]() {
+						callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+					});
+				} catch (Platform::Exception^ ex) {
+					RunOnUIThread([ex, callback]() {
+						callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), std::vector<std::uint8_t>());
+					});
+				} catch (...) {
+					RunOnUIThread([callback]() {
+						callback(TitaniumWindows::Utility::GetTiErrorResponse("Unknown error"), std::vector<std::uint8_t>());
+					});
 				}
 			});
 		}
@@ -753,22 +822,36 @@ namespace TitaniumWindows
 		void File::writeAsync(const std::vector<std::uint8_t>& data, const std::uint32_t& offset, const std::uint32_t& length, const bool& append, const std::function<void(const Titanium::ErrorResponse&, const uint32_t&)>& callback)
 		{
 			if (!prepareWrite()) {
-				Titanium::ErrorResponse error;
-				error.code    = -1;
-				error.success = false;
-				error.error = "File::writeAsync: Failed to get file instance";
-				callback(error, 0);
+				RunOnUIThread([callback]() {
+					Titanium::ErrorResponse error;
+					error.code = -1;
+					error.success = false;
+					error.error = "File::writeAsync: Failed to get file instance";
+					callback(error, 0);
+				});
 				return;
 			}
 			auto read_data = const_cast<std::vector<std::uint8_t>&>(data);
 			const auto buffer = getBufferFromBytes(&read_data[offset], length, append, file_);
 			task<void>(FileIO::WriteBufferAsync(file_, buffer)).then([length, callback](task<void> task) {
 				try {
-					const Titanium::ErrorResponse error;
 					task.get();
-					callback(error, length);
+					RunOnUIThread([length, callback]() {
+						const Titanium::ErrorResponse error;
+						callback(error, length);
+					});
 				} catch (Platform::COMException^ ex) {
-					callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), 0);
+					RunOnUIThread([ex, callback]() {
+						callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), 0);
+					});
+				} catch (Platform::Exception^ ex) {
+					RunOnUIThread([ex, callback]() {
+						callback(TitaniumWindows::Utility::GetTiErrorResponse(ex), 0);
+					});
+				} catch (...) {
+					RunOnUIThread([callback]() {
+						callback(TitaniumWindows::Utility::GetTiErrorResponse("Unknown error"), 0);
+					});
 				}
 			});
 
