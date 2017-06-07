@@ -174,7 +174,7 @@ source_group("node_modules/bar" FILES ${NODE_MODULES_BAR})
 set_property(SOURCE ${SOURCE_node_modules_bar} PROPERTY VS_DEPLOYMENT_LOCATION "node_modules\\bar")
 set_property(SOURCE ${SOURCE_node_modules_bar} PROPERTY VS_DEPLOYMENT_CONTENT 1)
 
-file(GLOB_RECURSE NODE_MODULES_BAR_BAZ "src/Assets/modules/bar/node_modules/baz/*.*")
+file(GLOB_RECURSE NODE_MODULES_BAR_BAZ "src/Assets/modules/bar/modules/baz/*.*")
 set(SOURCE_node_modules_bar_baz ${NODE_MODULES_BAR_BAZ})
 source_group("node_modules/bar/node_modules/baz" FILES ${NODE_MODULES_BAR_BAZ})
 set_property(SOURCE ${SOURCE_node_modules_bar_baz} PROPERTY VS_DEPLOYMENT_LOCATION "node_modules\\bar\\node_modules\\baz")
