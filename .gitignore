@@ -243,5 +243,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # Do not ignore node_modules dir under NMocha
-
-!Examples/NMocha/src/Assets/node_modules
+!Examples/NMocha/src/Assets/node_modules/
+!Examples/NMocha/src/Assets/node_modules/bar/node_modules/
