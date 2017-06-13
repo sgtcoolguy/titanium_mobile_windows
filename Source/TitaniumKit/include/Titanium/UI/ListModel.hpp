@@ -93,7 +93,7 @@ namespace Titanium
 							// this indicates header is selected
 							result.header = true;
 							break;
-						} else if (rowIndex >= itemCount) {
+						} else if (rowIndex >= static_cast<std::int32_t>(itemCount)) {
 							if (section->hasFooter()) {
 								// this indicates footer is selected
 								result.footer = true;

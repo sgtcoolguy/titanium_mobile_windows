@@ -157,7 +157,6 @@ namespace TitaniumWindows
 			const auto visibleItemIndex = static_cast<std::size_t>(scrollview__->VerticalOffset / itemHeight);
 			const auto visibleItemCount = static_cast<std::size_t>(scrollview__->ViewportHeight / itemHeight);
 
-			// First item
 			for (std::size_t i = visibleItemIndex; i < visibleItemIndex + visibleItemCount; i++) {
 				const auto row = model__->searchRowBySelectedIndex(i);
 				for (std::size_t m = 0; m < markers__.size(); m++) {
@@ -215,7 +214,7 @@ namespace TitaniumWindows
 		{
 			scrollend_event__ = scrollview__->ViewChanged += ref new Windows::Foundation::EventHandler<Controls::ScrollViewerViewChangedEventArgs ^>([this](Platform::Object^ sender, Controls::ScrollViewerViewChangedEventArgs^ e) {
 				// Stop firing event when ScrollView didn't actually move
-				if (oldScrollPosX__ != scrollview__->VerticalOffset || oldScrollPosY__ != scrollview__->HorizontalOffset) {
+				if (!e->IsIntermediate && oldScrollPosX__ != scrollview__->VerticalOffset || oldScrollPosY__ != scrollview__->HorizontalOffset) {
 					scrollstop__ = true;
 
 					const auto ctx = get_context();
