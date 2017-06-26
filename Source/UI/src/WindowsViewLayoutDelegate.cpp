@@ -1189,7 +1189,7 @@ namespace TitaniumWindows
 			} else {
 				setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 			}
-			is_width_size__ = layout_node__->properties.width.valueType == Titanium::LayoutEngine::ValueType::Size;
+			is_default_width_size__ = layout_node__->properties.width.valueType == Titanium::LayoutEngine::ValueType::Size;
 		}
 
 		void WindowsViewLayoutDelegate::set_minWidth(const std::string& width) TITANIUM_NOEXCEPT
@@ -1206,7 +1206,7 @@ namespace TitaniumWindows
 			} else {
 				setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
 			}
-			is_height_size__ = layout_node__->properties.height.valueType == Titanium::LayoutEngine::ValueType::Size;
+			is_default_height_size__ = layout_node__->properties.height.valueType == Titanium::LayoutEngine::ValueType::Size;
 		}
 
 		void WindowsViewLayoutDelegate::set_minHeight(const std::string& height) TITANIUM_NOEXCEPT
@@ -1587,20 +1587,29 @@ namespace TitaniumWindows
 			layout_node__->onLayout = onLayoutCallback;
 
 			if (get_defaultWidth() == Titanium::UI::LAYOUT::SIZE) {
-				is_width_size__ = true;
+				is_default_width_size__ = true;
 				layout_node__->properties.defaultWidthType = Titanium::LayoutEngine::ValueType::Size;
 			} else if (get_defaultWidth() == Titanium::UI::LAYOUT::FILL) {
 				layout_node__->properties.defaultWidthType = Titanium::LayoutEngine::ValueType::Fill;
 			}
 
 			if (get_defaultHeight() == Titanium::UI::LAYOUT::SIZE) {
-				is_height_size__ = true;
+				is_default_height_size__ = true;
 				layout_node__->properties.defaultHeightType = Titanium::LayoutEngine::ValueType::Size;
 			} else if (get_defaultHeight() == Titanium::UI::LAYOUT::FILL) {
 				layout_node__->properties.defaultHeightType = Titanium::LayoutEngine::ValueType::Fill;
 			}
 		}
 
+		void WindowsViewLayoutDelegate::fixWidth(const double& width) TITANIUM_NOEXCEPT
+		{
+			layout_node__->properties.width.value = width;
+		}
+
+		void WindowsViewLayoutDelegate::fixHeight(const double& height) TITANIUM_NOEXCEPT
+		{
+			layout_node__->properties.height.value = height;
+		}
 
 		bool WindowsViewLayoutDelegate::shouldUseOwnWidth() const TITANIUM_NOEXCEPT
 		{
@@ -1626,8 +1635,14 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name)
 		{
-			auto skipHeight = shouldUseOwnHeight() || (is_height_size__ && rect.height == 0);
-			auto skipWidth  = shouldUseOwnWidth()  || (is_width_size__  && rect.width  == 0);
+			if (parent__) {
+				const auto p_border = parent__->getViewLayoutDelegate()->get_borderWidth();
+				rect.x -= p_border;
+				rect.y -= p_border;
+			}
+
+			auto skipHeight = shouldUseOwnHeight() || (is_default_height_size__ && rect.height == 0);
+			auto skipWidth  = shouldUseOwnWidth()  || (is_default_width_size__  && rect.width  == 0);
 
 			if (rect.width < 0 || rect.height < 0)
 				return;
@@ -1642,10 +1657,10 @@ namespace TitaniumWindows
 
 			auto setWidth = false;
 			auto setHeight = false;
-			auto setWidthOnWidget = !is_width_size__;
-			auto setHeightOnWidget = !is_height_size__;
+			auto setWidthOnWidget = !is_default_width_size__;
+			auto setHeightOnWidget = !is_default_height_size__;
 
-			if (!is_panel__ && is_width_size__ && parentLayout != nullptr) {
+			if (!is_panel__ && is_default_width_size__ && parentLayout != nullptr) {
 				if (rect.width > parentLayout->element.measuredWidth && parentLayout->element.measuredWidth > 0) {
 					rect.width = parentLayout->element.measuredWidth;
 					setWidthOnWidget = true;
@@ -1654,7 +1669,7 @@ namespace TitaniumWindows
 				}
 			}
 
-			if (!is_panel__ && is_height_size__ && parentLayout != nullptr) {
+			if (!is_panel__ && is_default_height_size__ && parentLayout != nullptr) {
 				if (rect.height > parentLayout->element.measuredHeight && parentLayout->element.measuredHeight > 0) {
 					rect.height = parentLayout->element.measuredHeight;
 					setHeightOnWidget = true;
@@ -1796,16 +1811,16 @@ namespace TitaniumWindows
 		{
 			bool needsLayout = false;
 
-			if (is_width_size__ && (is_grid__ || is_border__ || !is_panel__)) {
+			if (is_default_width_size__ && (is_grid__ || is_border__ || !is_panel__)) {
 				layout_node__->properties.width.value = rect.width;
 				layout_node__->properties.width.valueType = Titanium::LayoutEngine::Fixed;
-				needsLayout = isLoaded();
+				needsLayout = isLoaded() && !is_border__;
 			}
 
-			if (is_height_size__ && (is_grid__ || is_border__ || !is_panel__)) {
+			if (is_default_height_size__ && (is_grid__ || is_border__ || !is_panel__)) {
 				layout_node__->properties.height.value = rect.height;
 				layout_node__->properties.height.valueType = Titanium::LayoutEngine::Fixed;
-				needsLayout = isLoaded();
+				needsLayout = isLoaded() && !is_border__;
 			}
 
 			if (needsLayout) {
