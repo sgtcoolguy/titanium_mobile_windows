@@ -356,8 +356,9 @@ namespace TitaniumWindows
 				page->Content = canvas__;
 			}
 
-			// OpenWindowParams
-			set_fullscreen(params->get_fullscreen());
+			if (params) {
+				set_fullscreen(params->get_fullscreen());
+			}
 
 			if (window_stack__.size() > 0) {
 				// Fire blur on the last window
