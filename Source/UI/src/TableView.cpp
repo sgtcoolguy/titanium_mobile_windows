@@ -361,6 +361,9 @@ namespace TitaniumWindows
 			unbindCollectionViewSource();
 			for (size_t g = 0; g < collectionViewItems__->Size; g++) {
 				const auto group = reinterpret_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(g));
+				if (group->Size == 0) {
+					continue;
+				}
 				const auto section = model__->getSectionAtIndex(g);
 				const auto startIndex = section->hasHeader() ? 1 : 0;
 				for (size_t i = startIndex; i < group->Size - 1; i++) {
