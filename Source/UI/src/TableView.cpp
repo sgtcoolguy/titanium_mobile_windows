@@ -648,14 +648,17 @@ namespace TitaniumWindows
 				bindCollectionViewSource();
 			} else if (name == "update") {
 				TITANIUM_ASSERT(old_row != nullptr);
-				unbindCollectionViewSource();
-				unregisterTableViewRowAsLayoutNode(old_row);
+				// skip when row is already added to section
+				if (!row->get_added()) {
+					unbindCollectionViewSource();
+					unregisterTableViewRowAsLayoutNode(old_row);
 
-				const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
-				const auto rowContent = row->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
-				views->SetAt(getRowIndexInCollectionView(section, rowIndex), rowContent);
-				registerTableViewRowAsLayoutNode(row);
-				bindCollectionViewSource();
+					const auto views = static_cast<Vector<UIElement^>^>(collectionViewItems__->GetAt(sectionIndex));
+					const auto rowContent = row->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent();
+					views->SetAt(getRowIndexInCollectionView(section, rowIndex), rowContent);
+					registerTableViewRowAsLayoutNode(row);
+					bindCollectionViewSource();
+				}
 			} else {
 				TITANIUM_LOG_WARN("TableView: Unknown TableViewSectionEvent: ", name);
 			}
