@@ -158,6 +158,16 @@ namespace TitaniumWindows
 					if (view_delegate->get_height().empty()) {
 						view_delegate->set_height(Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE));
 					}
+
+					const auto headerWidth = view_delegate->getLayoutNode()->properties.width;
+					const auto parentWidth = getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getLayoutNode()->properties.width;
+
+					if (headerWidth.valueType == Titanium::LayoutEngine::Fixed &&
+						parentWidth.valueType == Titanium::LayoutEngine::Fixed &&
+						headerWidth.value > parentWidth.value) {
+						view_delegate->getLayoutNode()->properties.width.value = parentWidth.value;
+					}
+
 					tableview__->Header = view_delegate->getComponent();
 					// Add as child view to make layout engine work
 					registerTableViewRowAsLayoutNode(headerView);
