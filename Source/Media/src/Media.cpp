@@ -521,34 +521,41 @@ namespace TitaniumWindows
 			try {
 				auto fromFile = task.get();
 				if (fromFile != nullptr) {
-					// CameraCaptureUI saves picture into temporary folder. Let's move it to photo library then.
-					concurrency::task<StorageFile^>(KnownFolders::CameraRoll->CreateFileAsync("TiMediaPhoto.jpg", CreationCollisionOption::GenerateUniqueName))
-						.then([fromFile, options](concurrency::task<Windows::Storage::StorageFile^> task) {
-						try {
-							auto toFile = task.get();
-							concurrency::create_task(fromFile->MoveAndReplaceAsync(toFile)).then([toFile, options](concurrency::task<void> task) {
-								try {
-									task.get();
-									Titanium::Media::CameraMediaItemType item;
-									item.mediaType = Titanium::Media::MediaType::Photo;
-									item.media_filename = TitaniumWindows::Utility::ConvertString(toFile->Path);
-									options.callbacks.onsuccess(item);
-								} catch (Platform::Exception^ e) {
-									GENERATE_TI_ERROR_RESPONSE(TitaniumWindows::Utility::ConvertString(e->Message), error);
-									options.callbacks.onerror(error);
-								} catch (...) {
-									GENERATE_TI_ERROR_RESPONSE("Unknown error", error);
-									options.callbacks.onerror(error);
-								}
-							});
-						} catch (Platform::Exception^ e) {
-							GENERATE_TI_ERROR_RESPONSE(TitaniumWindows::Utility::ConvertString(e->Message), error);
-							options.callbacks.onerror(error);
-						} catch (...) {
-							GENERATE_TI_ERROR_RESPONSE("Unknown error", error);
-							options.callbacks.onerror(error);
-						}
-					});
+					if (options.saveToPhotoGallery) {
+						// CameraCaptureUI saves picture into temporary folder. Let's move it to photo library then.
+						concurrency::task<StorageFile^>(KnownFolders::CameraRoll->CreateFileAsync("TiMediaPhoto.jpg", CreationCollisionOption::GenerateUniqueName))
+							.then([fromFile, options](concurrency::task<Windows::Storage::StorageFile^> task) {
+							try {
+								auto toFile = task.get();
+								concurrency::create_task(fromFile->MoveAndReplaceAsync(toFile)).then([toFile, options](concurrency::task<void> task) {
+									try {
+										task.get();
+										Titanium::Media::CameraMediaItemType item;
+										item.mediaType = Titanium::Media::MediaType::Photo;
+										item.media_filename = TitaniumWindows::Utility::ConvertString(toFile->Path);
+										options.callbacks.onsuccess(item);
+									} catch (Platform::Exception^ e) {
+										GENERATE_TI_ERROR_RESPONSE(TitaniumWindows::Utility::ConvertString(e->Message), error);
+										options.callbacks.onerror(error);
+									} catch (...) {
+										GENERATE_TI_ERROR_RESPONSE("Unknown error", error);
+										options.callbacks.onerror(error);
+									}
+								});
+							} catch (Platform::Exception^ e) {
+								GENERATE_TI_ERROR_RESPONSE(TitaniumWindows::Utility::ConvertString(e->Message), error);
+								options.callbacks.onerror(error);
+							} catch (...) {
+								GENERATE_TI_ERROR_RESPONSE("Unknown error", error);
+								options.callbacks.onerror(error);
+							}
+						});
+					} else {
+						Titanium::Media::CameraMediaItemType item;
+						item.mediaType = Titanium::Media::MediaType::Photo;
+						item.media_filename = TitaniumWindows::Utility::ConvertString(fromFile->Path);
+						options.callbacks.onsuccess(item);
+					}
 				} else {
 					GENERATE_TI_ERROR_RESPONSE("Failed to capture photo", error);
 					options.callbacks.onerror(error);
