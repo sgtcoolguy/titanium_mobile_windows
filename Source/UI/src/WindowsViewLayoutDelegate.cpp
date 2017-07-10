@@ -1639,8 +1639,9 @@ namespace TitaniumWindows
 		{
 			if (parent__) {
 				const auto p_border = parent__->getViewLayoutDelegate()->get_borderWidth();
-				rect.x -= p_border;
-				rect.y -= p_border;
+				const auto ppi = ComputePPI(Titanium::LayoutEngine::ValueName::Width);
+				rect.x -= Titanium::LayoutEngine::parseUnitValue(p_border, Titanium::LayoutEngine::ValueType::Fixed, ppi, "px");
+				rect.y -= Titanium::LayoutEngine::parseUnitValue(p_border, Titanium::LayoutEngine::ValueType::Fixed, ppi, "px");
 			}
 
 			auto skipHeight = shouldUseOwnHeight() || (is_default_height_size__ && rect.height == 0);
