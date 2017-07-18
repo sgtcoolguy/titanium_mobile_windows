@@ -47,7 +47,7 @@ function config(logger, config, cli) {
 		supportedWindowsPhoneSDKVersions: windowsPackageJson.vendorDependencies['windows phone sdk'],
 		supportedWindows10SDKVersions: windowsPackageJson.vendorDependencies['windows 10 sdk'],
 		tasklist: config.get('windows.executables.tasklist'),
-		skipWpTool: cli.argv['build-only'] || (target !== 'wp-device' && target !== 'wp-emulator' && target !== undefined)
+		skipWpTool: cli.argv['build-only'] || (target !== 'wp-device' && target !== 'wp-emulator' && target !== undefined && this.targets.indexOf(target) !== -1)
 	};
 
 	this.ignoreDirs = new RegExp(config.get('cli.ignoreDirs'));
@@ -92,7 +92,7 @@ function config(logger, config, cli) {
 		if (shouldForceProduction(cli.argv)) {
 			cli.argv['deploy-type'] = 'production';
 		}
-	
+
 		callback();
 	}.bind(this));
 
