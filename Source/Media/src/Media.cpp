@@ -414,11 +414,10 @@ namespace TitaniumWindows
 				TITANIUM_MODULE_LOG_WARN("MediaModule: Failed to stop camera preview");
 			}
 
-			if (cameraOverlay__) {
-				const std::vector<JSValue> remove_args = { cameraOverlay__->get_object() };
+			if (cameraOptionsState__.overlay) {
+				const std::vector<JSValue> remove_args = { cameraOptionsState__.overlay->get_object() };
 				auto window = static_cast<JSObject>(get_context().JSEvaluateScript("Ti.UI.currentWindow"));
 				static_cast<JSObject>(window.GetProperty("remove"))(remove_args, window);
-				cameraOverlay__ = nullptr;
 			}
 
 			if (shouldRemoveRotationEvent__) {
@@ -434,11 +433,8 @@ namespace TitaniumWindows
 					callback();
 				}
 
-				// Clear showCamera callbacks
-				JSValue empty = get_context().CreateNull();
-				cameraCallbacks__.cancel = empty;
-				cameraCallbacks__.error = empty;
-				cameraCallbacks__.success = empty;
+				// Clear showCamera state
+				cameraOptionsState__ = Titanium::Media::create_empty_CameraOptionsType(get_context());
 
 				takingPictureState__ = nullptr;
 
@@ -603,6 +599,7 @@ namespace TitaniumWindows
 	{
 
 #if defined(IS_WINDOWS_10)
+		cameraOptionsState__ = options;
 		// If there's no overlay on Windows 10 (Mobile), let's use CameraCaptureUI.
 		if (options.overlay == nullptr) {
 			showDefaultCamera(options);
@@ -674,10 +671,6 @@ namespace TitaniumWindows
 			shouldRemoveRotationEvent__ = true;
 		}
 
-		shouldHideAfterTakingShot__ = options.autohide;
-
-		cameraCallbacks__ = options.callbacks;
-
 		concurrency::create_task(mediaCapture__->InitializeAsync(settings)).then([options, this](concurrency::task<void> initTask) {
 			try {
 				initTask.get();
@@ -714,7 +707,6 @@ namespace TitaniumWindows
 		});
 
 		if (options.overlay) {
-			cameraOverlay__ = options.overlay;
 			// Open new Window, and add camera preview on _postShowCamera()
 			auto window = static_cast<JSObject>(get_context().JSEvaluateScript(
 				R"js(
@@ -737,11 +729,11 @@ namespace TitaniumWindows
 #if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		TitaniumWindows::Utility::SetViewForCurrentWindow(captureElement__, camera_navigated_event__, /* visible */ true, /* fullscreen */ true);
 
-		if (cameraOverlay__) {
+		if (cameraOptionsState__.overlay) {
 			// Add overlay view to new Window. Running on UI thread to make sure it's done on UI thread after SetViewForCurrentWindow.
 			TitaniumWindows::Utility::RunOnUIThread([this]() {
 				auto window = static_cast<JSObject>(get_context().JSEvaluateScript("Ti.UI.currentWindow;"));
-				const std::vector<JSValue> add_args = { cameraOverlay__->get_object() };
+				const std::vector<JSValue> add_args = { cameraOptionsState__.overlay->get_object() };
 				static_cast<JSObject>(window.GetProperty("add"))(add_args, window);
 			});
 		}
@@ -807,7 +799,11 @@ namespace TitaniumWindows
 		}).then([this](BitmapDecoder^ decoder) {
 			takingPictureState__->decoder = decoder;
 			// CreationCollisionOption::GenerateUniqueName generates unique name such as "TiMediaPhoto (2).jpg"
-			return KnownFolders::CameraRoll->CreateFileAsync("TiMediaPhoto.jpg", CreationCollisionOption::GenerateUniqueName);
+			if (cameraOptionsState__.saveToPhotoGallery) {
+				return KnownFolders::CameraRoll->CreateFileAsync("TiMediaPhoto.jpg", CreationCollisionOption::GenerateUniqueName);
+			} else {
+				return Windows::Storage::ApplicationData::Current->TemporaryFolder->CreateFileAsync("TiMediaPhoto.jpg", CreationCollisionOption::GenerateUniqueName);
+			}
 		}).then([this](StorageFile^ file) {
 			takingPictureState__->file = file;
 			return concurrency::create_task(takingPictureState__->file->OpenAsync(FileAccessMode::ReadWrite));
@@ -834,32 +830,37 @@ namespace TitaniumWindows
 				takingPictureState__->file    = nullptr;
 
 				// autohide
-				if (shouldHideAfterTakingShot__) {
+				if (cameraOptionsState__.autohide) {
 					// make sure to fire success callback after camera window is closed
 					this->hideCamera([this, media_filename]() {
-						if (cameraCallbacks__.success.IsObject()) {
+						if (cameraOptionsState__.callbacks.success.IsObject()) {
 							Titanium::Media::CameraMediaItemType item;
 							item.mediaType = Titanium::Media::MediaType::Photo;
 							item.media_filename = TitaniumWindows::Utility::ConvertUTF8String(media_filename);
 
-							cameraCallbacks__.onsuccess(item);
+							cameraOptionsState__.callbacks.onsuccess(item);
 						}
 					});
-					shouldHideAfterTakingShot__ = false;
+				} else  if (cameraOptionsState__.callbacks.success.IsObject()) {
+					Titanium::Media::CameraMediaItemType item;
+					item.mediaType = Titanium::Media::MediaType::Photo;
+					item.media_filename = TitaniumWindows::Utility::ConvertUTF8String(media_filename);
+
+					cameraOptionsState__.callbacks.onsuccess(item);
 				}
 
 			} catch (Platform::Exception^ e) {
 				TitaniumWindows::Utility::RunOnUIThread([this, e]() {
-					if (cameraCallbacks__.error.IsObject()) {
+					if (cameraOptionsState__.callbacks.error.IsObject()) {
 						GENERATE_TI_ERROR_RESPONSE("MediaModule: Failure on start taking photo: " + TitaniumWindows::Utility::ConvertString(e->Message), error);
-						cameraCallbacks__.onerror(error);
+						cameraOptionsState__.callbacks.onerror(error);
 					}
 				});
 			} catch (...) {
 				TitaniumWindows::Utility::RunOnUIThread([this]() {
-					if (cameraCallbacks__.error.IsObject()) {
+					if (cameraOptionsState__.callbacks.error.IsObject()) {
 						GENERATE_TI_ERROR_RESPONSE("MediaModule: Failure on start taking photo", error);
-						cameraCallbacks__.onerror(error);
+						cameraOptionsState__.callbacks.onerror(error);
 					}
 				});
 			}
@@ -1146,7 +1147,7 @@ namespace TitaniumWindows
 #if defined(IS_WINDOWS_PHONE) || defined(IS_WINDOWS_10)
 		, fileOpenForMusicLibraryCallback__(createFileOpenForMusicLibraryFunction(js_context))
 		, fileOpenForPhotoGalleryCallback__(createFileOpenForPhotoGalleryFunction(js_context))
-		, cameraCallbacks__(Titanium::Media::create_empty_CameraOptionsTypeCallbacks(js_context))
+		, cameraOptionsState__(Titanium::Media::create_empty_CameraOptionsType(js_context))
 #endif
 		, openPhotoGalleryOptionsState__(Titanium::Media::create_empty_PhotoGalleryOptionsType(js_context))
 		, openMusicLibraryOptionsState__(Titanium::Media::create_empty_MusicLibraryOptionsType(js_context))
