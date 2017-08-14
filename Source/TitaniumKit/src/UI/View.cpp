@@ -50,7 +50,21 @@ namespace Titanium
 		TITANIUM_PROPERTY_READWRITE(View, std::uint32_t, softKeyboardOnFocus)
 		TITANIUM_PROPERTY_READWRITE(View, bool, focusable)
 		TITANIUM_PROPERTY_READWRITE(View, bool, keepScreenOn)
-		TITANIUM_PROPERTY_READWRITE(View, std::shared_ptr<View>, parent)
+
+		void View::set_parent(const std::shared_ptr<View>& parent) TITANIUM_NOEXCEPT
+		{
+			if (layoutDelegate__) {
+				layoutDelegate__->set_parent(parent);
+			}
+		}
+
+		std::shared_ptr<View> View::get_parent() const TITANIUM_NOEXCEPT
+		{
+			if (layoutDelegate__) {
+				return layoutDelegate__->get_parent();
+			}
+			return nullptr;
+		}
 
 		std::shared_ptr<Titanium::Blob> View::toImage(JSObject& callback, const bool& honorScaleFactor) TITANIUM_NOEXCEPT
 		{
@@ -66,8 +80,8 @@ namespace Titanium
 			if (destinationView != nullptr) {
 				const auto viewRect = getViewLayoutDelegate()->get_rect();
 				const auto destRect = destinationView->getViewLayoutDelegate()->get_rect();
-				viewPoint.x = viewRect.x + point.x - destRect.x;
-				viewPoint.y = viewRect.y + point.y - destRect.y;
+				viewPoint.x = std::to_string(viewRect.x + get_Point_value(point.x) - destRect.x);
+				viewPoint.y = std::to_string(viewRect.y + get_Point_value(point.y) - destRect.y);
 			}
 			return viewPoint;
 		}
@@ -288,8 +302,9 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(View, parent)
 		{
-			if (parent__) {
-				return parent__->get_object();
+			const auto parent = get_parent();
+			if (parent) {
+				return parent->get_object();
 			}
 			return get_context().CreateNull();
 		}
@@ -297,9 +312,9 @@ namespace Titanium
 		TITANIUM_PROPERTY_SETTER(View, parent)
 		{
 			if (argument.IsObject()) {
-				parent__ = static_cast<JSObject>(argument).GetPrivate<View>();
+				set_parent(static_cast<JSObject>(argument).GetPrivate<View>());
 			} else {
-				parent__ = nullptr;
+				set_parent(nullptr);
 			}
 			return true;
 		}

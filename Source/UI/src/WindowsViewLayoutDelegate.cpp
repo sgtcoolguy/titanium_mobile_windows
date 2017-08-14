@@ -20,6 +20,7 @@
 #include <ppltasks.h>
 #include <concrt.h>
 #include <collection.h>
+#include <boost/algorithm/string/predicate.hpp>
 
 #include "TitaniumWindows/UI/View.hpp"
 #include "TitaniumWindows/Utility.hpp"
@@ -187,7 +188,6 @@ namespace TitaniumWindows
 						return;
 					}
 					nativeView->Children->Append(nativeChildView);
-					newView->set_touchEnabled(get_touchEnabled() && newView->get_touchEnabled());
 					Titanium::LayoutEngine::nodeAddChild(layout_node__, newView->getLayoutNode());
 					if (isLoaded()) {
 						requestLayout();
@@ -605,14 +605,11 @@ namespace TitaniumWindows
 				const auto center = animation->get_center();
 				if (center) {
 					// x-axis
-					auto x_value = center->x;
-					if (!center->x_percent.empty()) {
-						setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, center->x_percent, properties);
-						x_value = properties->left.value;
-						const auto x_type = properties->left.valueType;
-						if (x_type == Titanium::LayoutEngine::ValueType::Percent) {
-							x_value *= layout_node__->parent->element.measuredWidth;
-						}
+					setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, center->x, properties);
+					auto x_value = properties->left.value;
+					const auto x_type = properties->left.valueType;
+					if (x_type == Titanium::LayoutEngine::ValueType::Percent) {
+						x_value *= layout_node__->parent->element.measuredWidth - layout_node__->element.measuredWidth;
 					}
 					const auto current_left = Controls::Canvas::GetLeft(component);
 					const auto x_diff = x_value - current_left;
@@ -625,14 +622,11 @@ namespace TitaniumWindows
 					storyboard->Children->Append(x_anim);
 
 					//y-axis
-					auto y_value = center->y;
-					if (!center->y_percent.empty()) {
-						setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, center->y_percent, properties);
-						y_value = properties->right.value;
-						const auto y_type = properties->right.valueType;
-						if (y_type == Titanium::LayoutEngine::ValueType::Percent) {
-							y_value *= layout_node__->parent->element.measuredHeight;
-						}
+					setLayoutProperty(Titanium::LayoutEngine::ValueName::Right, center->y, properties);
+					auto y_value = properties->right.value;
+					const auto y_type = properties->right.valueType;
+					if (y_type == Titanium::LayoutEngine::ValueType::Percent) {
+						y_value *= layout_node__->parent->element.measuredHeight - layout_node__->element.measuredHeight;
 					}
 					const auto current_top = Controls::Canvas::GetTop(component);
 					const auto y_diff = y_value - current_top;
@@ -769,7 +763,6 @@ namespace TitaniumWindows
 
 			storyboard->Completed += ref new Windows::Foundation::EventHandler<Platform::Object ^>([callback, animation, this_object, this](Platform::Object^ sender, Platform::Object ^ e) mutable {
 				const auto storyboard = dynamic_cast<Media::Animation::Storyboard^>(sender);
-				const auto component = getComponent();
 
 				//
 				// Make sure to update the position of the view because StoryBoard doesn't change actual position of it.
@@ -794,10 +787,7 @@ namespace TitaniumWindows
 
 				const auto center = animation->get_center();
 				if (center) {
-					std::string x = center->x_percent.empty() ? std::to_string(center->x) : center->x_percent;
-					std::string y = center->y_percent.empty() ? std::to_string(center->y) : center->y_percent;
-					setLayoutProperty(Titanium::LayoutEngine::ValueName::Left, x);
-					setLayoutProperty(Titanium::LayoutEngine::ValueName::Top, y);
+					set_center(*center);
 				}
 
 				const auto opacity = animation->get_opacity();
@@ -823,20 +813,20 @@ namespace TitaniumWindows
 		{
 			if (backgroundLinearGradientBrush__ != nullptr) {
 				// if gradient has '%', let's update associated values
-				if (!backgroundGradient__.startPoint.x_percent.empty()) {
-					backgroundGradient__.startPoint.x = (std::strtod(backgroundGradient__.startPoint.x_percent.c_str(), nullptr) / 100.0);
+				if (boost::ends_with(backgroundGradient__.startPoint.x, "%")) {
+					backgroundGradient__.startPoint.x = std::to_string(Titanium::UI::get_Point_value(backgroundGradient__.startPoint.x));
 				}
-				if (!backgroundGradient__.startPoint.y_percent.empty()) {
-					backgroundGradient__.startPoint.y = (std::strtod(backgroundGradient__.startPoint.y_percent.c_str(), nullptr) / 100.0);
+				if (boost::ends_with(backgroundGradient__.startPoint.y, "%")) {
+					backgroundGradient__.startPoint.y = std::to_string(Titanium::UI::get_Point_value(backgroundGradient__.startPoint.y));
 				}
-				if (!backgroundGradient__.endPoint.x_percent.empty()) {
-					backgroundGradient__.endPoint.x = (std::strtod(backgroundGradient__.endPoint.x_percent.c_str(), nullptr) / 100.0);
+				if (boost::ends_with(backgroundGradient__.endPoint.x, "%")) {
+					backgroundGradient__.endPoint.x = std::to_string(Titanium::UI::get_Point_value(backgroundGradient__.endPoint.x));
 				}
-				if (!backgroundGradient__.endPoint.y_percent.empty()) {
-					backgroundGradient__.endPoint.y = (std::strtod(backgroundGradient__.endPoint.y_percent.c_str(), nullptr) / 100.0);
+				if (boost::ends_with(backgroundGradient__.endPoint.y,  "%")) {
+					backgroundGradient__.endPoint.y = std::to_string(Titanium::UI::get_Point_value(backgroundGradient__.endPoint.y));
 				}
-				const auto startPoint = Windows::Foundation::Point(static_cast<float>(backgroundGradient__.startPoint.x), static_cast<float>(backgroundGradient__.startPoint.y));
-				const auto endPoint = Windows::Foundation::Point(static_cast<float>(backgroundGradient__.endPoint.x), static_cast<float>(backgroundGradient__.endPoint.y));
+				const auto startPoint = Windows::Foundation::Point(static_cast<float>(Titanium::UI::get_Point_value(backgroundGradient__.startPoint.x)), static_cast<float>(Titanium::UI::get_Point_value(backgroundGradient__.startPoint.y)));
+				const auto endPoint = Windows::Foundation::Point(static_cast<float>(Titanium::UI::get_Point_value(backgroundGradient__.endPoint.x)), static_cast<float>(Titanium::UI::get_Point_value(backgroundGradient__.endPoint.y)));
 				backgroundLinearGradientBrush__->StartPoint = startPoint;
 				backgroundLinearGradientBrush__->EndPoint = endPoint;
 			}
@@ -846,8 +836,8 @@ namespace TitaniumWindows
 		{
 			Titanium::UI::ViewLayoutDelegate::set_backgroundGradient(backgroundGradient);
 			if (backgroundGradient__.type == Titanium::UI::GRADIENT_TYPE::LINEAR) {
-				const auto startPoint = Windows::Foundation::Point(static_cast<float>(backgroundGradient__.startPoint.x), static_cast<float>(backgroundGradient__.startPoint.y));
-				const auto endPoint = Windows::Foundation::Point(static_cast<float>(backgroundGradient__.endPoint.x), static_cast<float>(backgroundGradient__.endPoint.y));
+				const auto startPoint = Windows::Foundation::Point(static_cast<float>(Titanium::UI::get_Point_value(backgroundGradient__.startPoint.x)), static_cast<float>(Titanium::UI::get_Point_value(backgroundGradient__.startPoint.y)));
+				const auto endPoint = Windows::Foundation::Point(static_cast<float>(Titanium::UI::get_Point_value(backgroundGradient__.endPoint.x)), static_cast<float>(Titanium::UI::get_Point_value(backgroundGradient__.endPoint.y)));
 				backgroundLinearGradientBrush__ = ref new LinearGradientBrush();
 				backgroundLinearGradientBrush__->StartPoint = startPoint;
 				backgroundLinearGradientBrush__->EndPoint = endPoint;
@@ -955,6 +945,8 @@ namespace TitaniumWindows
 					updateBackground(backgroundDisabledImageBrush__);
 				} else if (backgroundDisabledColorBrush__ != nullptr) {
 					updateBackground(backgroundDisabledColorBrush__);
+				} else {
+					updateBackground(previousBackgroundBrush__);
 				}
 			}
 		}
@@ -975,6 +967,8 @@ namespace TitaniumWindows
 			backgroundImageBrush__ = CreateImageBrushFromPath(backgroundImage);
 			if (get_touchEnabled()) {
 				updateBackground(backgroundImageBrush__);
+			} else {
+				updateDisabledBackground();
 			}
 		}
 
@@ -984,6 +978,8 @@ namespace TitaniumWindows
 			backgroundImageBrush__ = CreateImageBrushFromBlob(backgroundImage);
 			if (get_touchEnabled()) {
 				updateBackground(backgroundImageBrush__);
+			} else {
+				updateDisabledBackground();
 			}
 		}
 
@@ -994,6 +990,8 @@ namespace TitaniumWindows
 			backgroundColorBrush__ = ref new Media::SolidColorBrush(ColorForName(backgroundColor));
 			if (get_touchEnabled()) {
 				updateBackground(backgroundColorBrush__);
+			} else {
+				updateDisabledBackground();
 			}
 		}
 
@@ -1125,8 +1123,8 @@ namespace TitaniumWindows
 		void WindowsViewLayoutDelegate::set_center(const Titanium::UI::Point& center) TITANIUM_NOEXCEPT
 		{
 			Titanium::UI::ViewLayoutDelegate::set_center(center);
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::CenterX, std::to_string(center.x));
-			setLayoutProperty(Titanium::LayoutEngine::ValueName::CenterY, std::to_string(center.y));
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::CenterX, center.x);
+			setLayoutProperty(Titanium::LayoutEngine::ValueName::CenterY, center.y);
 		}
 
 		void WindowsViewLayoutDelegate::set_touchEnabled(const bool& enabled) TITANIUM_NOEXCEPT
@@ -1191,7 +1189,7 @@ namespace TitaniumWindows
 			} else {
 				setLayoutProperty(Titanium::LayoutEngine::ValueName::Width, width);
 			}
-			is_width_size__ = layout_node__->properties.width.valueType == Titanium::LayoutEngine::ValueType::Size;
+			is_default_width_size__ = layout_node__->properties.width.valueType == Titanium::LayoutEngine::ValueType::Size;
 		}
 
 		void WindowsViewLayoutDelegate::set_minWidth(const std::string& width) TITANIUM_NOEXCEPT
@@ -1208,7 +1206,7 @@ namespace TitaniumWindows
 			} else {
 				setLayoutProperty(Titanium::LayoutEngine::ValueName::Height, height);
 			}
-			is_height_size__ = layout_node__->properties.height.valueType == Titanium::LayoutEngine::ValueType::Size;
+			is_default_height_size__ = layout_node__->properties.height.valueType == Titanium::LayoutEngine::ValueType::Size;
 		}
 
 		void WindowsViewLayoutDelegate::set_minHeight(const std::string& height) TITANIUM_NOEXCEPT
@@ -1295,7 +1293,8 @@ namespace TitaniumWindows
 			const auto children = root == nullptr ? get_children() : root->get_children();
 			// Let's find correct source
 			for (const auto child : children) {
-				const auto childView = child->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getEventComponent();
+				const auto childLayout = child->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				const auto childView   = childLayout->getComponent();
 				const auto elements = Windows::UI::Xaml::Media::VisualTreeHelper::FindElementsInHostCoordinates(position, childView);
 				for (const auto e : elements) {
 					// Let's check its descendents so we can support nested views
@@ -1305,7 +1304,9 @@ namespace TitaniumWindows
 							return found;
 						}
 					}
-					return child;
+					if (childLayout->get_touchEnabled()) {
+						return child;
+					}
 				}
 			}
 			return nullptr;
@@ -1479,6 +1480,8 @@ namespace TitaniumWindows
 				} else {
 					updateBackground(nullptr); // delete background
 				}
+			} else {
+				updateDisabledBackground();
 			}
 		}
 
@@ -1589,20 +1592,29 @@ namespace TitaniumWindows
 			layout_node__->onLayout = onLayoutCallback;
 
 			if (get_defaultWidth() == Titanium::UI::LAYOUT::SIZE) {
-				is_width_size__ = true;
+				is_default_width_size__ = true;
 				layout_node__->properties.defaultWidthType = Titanium::LayoutEngine::ValueType::Size;
 			} else if (get_defaultWidth() == Titanium::UI::LAYOUT::FILL) {
 				layout_node__->properties.defaultWidthType = Titanium::LayoutEngine::ValueType::Fill;
 			}
 
 			if (get_defaultHeight() == Titanium::UI::LAYOUT::SIZE) {
-				is_height_size__ = true;
+				is_default_height_size__ = true;
 				layout_node__->properties.defaultHeightType = Titanium::LayoutEngine::ValueType::Size;
 			} else if (get_defaultHeight() == Titanium::UI::LAYOUT::FILL) {
 				layout_node__->properties.defaultHeightType = Titanium::LayoutEngine::ValueType::Fill;
 			}
 		}
 
+		void WindowsViewLayoutDelegate::fixWidth(const double& width) TITANIUM_NOEXCEPT
+		{
+			layout_node__->properties.width.value = width;
+		}
+
+		void WindowsViewLayoutDelegate::fixHeight(const double& height) TITANIUM_NOEXCEPT
+		{
+			layout_node__->properties.height.value = height;
+		}
 
 		bool WindowsViewLayoutDelegate::shouldUseOwnWidth() const TITANIUM_NOEXCEPT
 		{
@@ -1628,8 +1640,15 @@ namespace TitaniumWindows
 
 		void WindowsViewLayoutDelegate::onLayoutEngineCallback(Titanium::LayoutEngine::Rect rect, const std::string& name)
 		{
-			auto skipHeight = shouldUseOwnHeight() || (is_height_size__ && rect.height == 0);
-			auto skipWidth  = shouldUseOwnWidth()  || (is_width_size__  && rect.width  == 0);
+			if (parent__) {
+				const auto p_border = parent__->getViewLayoutDelegate()->get_borderWidth();
+				const auto ppi = ComputePPI(Titanium::LayoutEngine::ValueName::Width);
+				rect.x -= Titanium::LayoutEngine::parseUnitValue(p_border, Titanium::LayoutEngine::ValueType::Fixed, ppi, "px");
+				rect.y -= Titanium::LayoutEngine::parseUnitValue(p_border, Titanium::LayoutEngine::ValueType::Fixed, ppi, "px");
+			}
+
+			auto skipHeight = shouldUseOwnHeight() || (is_default_height_size__ && rect.height == 0);
+			auto skipWidth  = shouldUseOwnWidth()  || (is_default_width_size__  && rect.width  == 0);
 
 			if (rect.width < 0 || rect.height < 0)
 				return;
@@ -1644,10 +1663,10 @@ namespace TitaniumWindows
 
 			auto setWidth = false;
 			auto setHeight = false;
-			auto setWidthOnWidget = !is_width_size__;
-			auto setHeightOnWidget = !is_height_size__;
+			auto setWidthOnWidget = !is_default_width_size__;
+			auto setHeightOnWidget = !is_default_height_size__;
 
-			if (!is_panel__ && is_width_size__ && parentLayout != nullptr) {
+			if (!is_panel__ && is_default_width_size__ && parentLayout != nullptr) {
 				if (rect.width > parentLayout->element.measuredWidth && parentLayout->element.measuredWidth > 0) {
 					rect.width = parentLayout->element.measuredWidth;
 					setWidthOnWidget = true;
@@ -1656,7 +1675,7 @@ namespace TitaniumWindows
 				}
 			}
 
-			if (!is_panel__ && is_height_size__ && parentLayout != nullptr) {
+			if (!is_panel__ && is_default_height_size__ && parentLayout != nullptr) {
 				if (rect.height > parentLayout->element.measuredHeight && parentLayout->element.measuredHeight > 0) {
 					rect.height = parentLayout->element.measuredHeight;
 					setHeightOnWidget = true;
@@ -1798,16 +1817,16 @@ namespace TitaniumWindows
 		{
 			bool needsLayout = false;
 
-			if (is_width_size__ && (is_grid__ || is_border__ || !is_panel__)) {
+			if (is_default_width_size__ && (is_grid__ || is_border__ || !is_panel__)) {
 				layout_node__->properties.width.value = rect.width;
 				layout_node__->properties.width.valueType = Titanium::LayoutEngine::Fixed;
-				needsLayout = isLoaded();
+				needsLayout = isLoaded() && !is_border__;
 			}
 
-			if (is_height_size__ && (is_grid__ || is_border__ || !is_panel__)) {
+			if (is_default_height_size__ && (is_grid__ || is_border__ || !is_panel__)) {
 				layout_node__->properties.height.value = rect.height;
 				layout_node__->properties.height.valueType = Titanium::LayoutEngine::Fixed;
-				needsLayout = isLoaded();
+				needsLayout = isLoaded() && !is_border__;
 			}
 
 			if (needsLayout) {

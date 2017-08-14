@@ -1,10 +1,6 @@
 var spawn = require('child_process').spawn,
-    async = require('async'),
     path = require('path'),
-    fs   = require('fs'),
-    ejs  = require('ejs'),
-    appc = require('node-appc'),
-    wrench = require('wrench');
+    fs   = require('fs');
 
 exports.cliVersion = ">=3.2";
 exports.init = function(logger, config, cli, nodeappc) {
@@ -19,31 +15,35 @@ exports.init = function(logger, config, cli, nodeappc) {
                 },
                 function(next) {
                     runCmake(data, 'WindowsStore', 'ARM', '10.0', next);
-                },
-                function(next) {
-                    runCmake(data, 'WindowsPhone', 'Win32', '8.1', next);
-                },
-                function(next) {
-                    runCmake(data, 'WindowsPhone', 'ARM', '8.1', next);
-                },
-                function(next) {
-                    runCmake(data, 'WindowsStore', 'Win32', '8.1', next);
                 }
             ];
 
-            async.series(tasks, function(err) {
+            // Visual Studio 2017 doesn't support Windows/Phone 8.1 project anymore
+            if (selectVisualStudio(data) != 'Visual Studio 15 2017') {
+                tasks.push(function(next) {
+                    runCmake(data, 'WindowsPhone', 'Win32', '8.1', next);
+                });
+                tasks.push(function(next) {
+                    runCmake(data, 'WindowsPhone', 'ARM', '8.1', next);
+                });
+                tasks.push(function(next) {
+                    runCmake(data, 'WindowsStore', 'Win32', '8.1', next);
+                });
+            }
+
+            nodeappc.async.series(this, tasks, function(err) {
                 callback(err, data);
             });
         } else {
             callback(null, data);
         }
     });
-    
+
 };
 
 function selectVisualStudio(data) {
-    if (data.windowsInfo && data.selectedVisualStudio) {
-        var version = data.selectedVisualStudio.version;
+    if (data.windowsInfo && data.windowsInfo.selectedVisualStudio) {
+        var version = data.windowsInfo.selectedVisualStudio.version;
         if (version == '12.0') {
             return 'Visual Studio 12 2013';
         } else if (version == '14.0') {
@@ -55,6 +55,28 @@ function selectVisualStudio(data) {
     return 'Visual Studio 14 2015';
 }
 
+function rmdir(dirPath, fs, path, logger, removeSelf) {
+	var files;
+	try {
+		files = fs.readdirSync(dirPath);
+	} catch (e) {
+		return;
+	}
+	if (files.length > 0) {
+		for (var i = 0; i < files.length; i++) {
+			var filePath = path.join(dirPath, files[i]);
+			if (fs.statSync(filePath).isFile()) {
+				fs.unlinkSync(filePath);
+			} else {
+				rmdir(filePath, fs, path, logger, true);
+			}
+		}
+	}
+	if (removeSelf) {
+		fs.rmdirSync(dirPath);
+	}
+}
+
 function runCmake(data, platform, arch, sdkVersion, next) {
     var logger = data.logger,
         generatorName = selectVisualStudio(data) + (arch==='ARM' ? ' ARM' : ''),
@@ -64,7 +86,7 @@ function runCmake(data, platform, arch, sdkVersion, next) {
     logger.debug('Run CMake on ' + cmakeWorkDir);
 
     if (fs.existsSync(cmakeWorkDir)) {
-        wrench.rmdirSyncRecursive(cmakeWorkDir);
+        rmdir(cmakeWorkDir, fs, path, logger, true);
     }
 
     fs.mkdirSync(cmakeWorkDir);
