@@ -660,8 +660,13 @@ namespace TitaniumWindows
 				bindCollectionViewSource();
 			} else if (name == "update") {
 				TITANIUM_ASSERT(old_row != nullptr);
-				// skip when row is already added to section
-				if (!row->get_added()) {
+				// copy existing properties when given row is already added to section
+				if (row->get_added()) {
+					auto ctor   = get_context().CreateObject(JSExport<TitaniumWindows::UI::TableViewRow>::Class());
+					auto new_row = ctor.CallAsConstructor().GetPrivate<TitaniumWindows::UI::TableViewRow>();
+					new_row->applyProperties(row->get_data(), new_row->get_object());
+					updateRow(rowIndex, new_row, nullptr);
+				} else {
 					unbindCollectionViewSource();
 					unregisterTableViewRowAsLayoutNode(old_row);
 
