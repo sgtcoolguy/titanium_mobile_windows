@@ -12,6 +12,7 @@
 #include <ppltasks.h>
 #include <Robuffer.h>
 #include <boost/algorithm/string.hpp>
+#include <concrt.h>
 
 using namespace Concurrency;
 
@@ -55,6 +56,8 @@ namespace TitaniumWindows
 			virtual void send(const std::map<std::string, JSValue>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT override final;
 			virtual void send(const std::string& postDataStr) TITANIUM_NOEXCEPT override final;
 			virtual void setRequestHeader(const std::string& name, const std::string& value) TITANIUM_NOEXCEPT override final;
+			virtual void waitForResponse() TITANIUM_NOEXCEPT override final;
+
 			// properties
 			virtual std::string get_allResponseHeaders() const TITANIUM_NOEXCEPT override final;
 			virtual void set_timeout(const std::chrono::milliseconds& timeout) TITANIUM_NOEXCEPT override final;
@@ -62,6 +65,8 @@ namespace TitaniumWindows
 		protected:
 #pragma warning(push)
 #pragma warning(disable : 4251)
+			concurrency::event responseWaiter__;
+
 			// method_ - type of HTTP request (GET, POST, PUT)
 			Titanium::Network::RequestMethod method__;
 			// filter__ - controls the HTTP session and data flow
