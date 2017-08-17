@@ -883,11 +883,9 @@ namespace TitaniumWindows
 			writer->WriteBytes(Platform::ArrayReference<std::uint8_t>(&data[0], data.size()));
 
 			concurrency::event event;
-			concurrency::create_task(writer->StoreAsync()).then([writer](std::uint32_t) {
-				return writer->FlushAsync();
-			}).then([&event](concurrency::task<bool> task) {
+			concurrency::create_task(writer->StoreAsync()).then([writer, &event](std::uint32_t) {
 				try {
-					task.get();
+					writer->DetachStream();
 				} catch (Platform::Exception^ e) {
 					TITANIUM_LOG_WARN(TitaniumWindows::Utility::ConvertString(e->Message));
 				} catch (...) {
