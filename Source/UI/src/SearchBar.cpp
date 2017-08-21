@@ -101,6 +101,9 @@ namespace TitaniumWindows
 							const auto button = dynamic_cast<Button^>(Media::VisualTreeHelper::GetChild(grid, i));
 							if (button) {
 								delete_button__ = button;
+								delete_button__->Click += ref new Windows::UI::Xaml::RoutedEventHandler([this](Platform::Object^, RoutedEventArgs^) {
+									updateCancelButtonVisibility(false);
+								});
 								return;
 							}
 						}
