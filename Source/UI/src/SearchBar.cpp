@@ -169,6 +169,12 @@ namespace TitaniumWindows
 					for (const auto item : items) {
 						suggestItems__->Append(TitaniumWindows::Utility::ConvertString(item));
 					}
+
+					// When there's no results, show "No results"
+					if (items.size() == 0) {
+						suggestItems__->Append("No results");
+					}
+
 					suggest_box__->ItemsSource = suggestItems__;
 				}
 			});
