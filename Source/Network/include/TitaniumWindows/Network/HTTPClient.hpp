@@ -35,6 +35,7 @@ namespace TitaniumWindows
 			TITANIUM_FUNCTION_UNIMPLEMENTED(addAuthFactory);
 			TITANIUM_FUNCTION_UNIMPLEMENTED(addKeyManager);
 			TITANIUM_FUNCTION_UNIMPLEMENTED(addTrustManager);
+			TITANIUM_FUNCTION_UNIMPLEMENTED(_waitForResponse);
 
 			HTTPClient(const JSContext&) TITANIUM_NOEXCEPT;
 
