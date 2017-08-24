@@ -56,7 +56,7 @@ namespace TitaniumWindows
 			virtual void send(const std::map<std::string, JSValue>& postDataPairs, const bool& useMultipartForm) TITANIUM_NOEXCEPT override final;
 			virtual void send(const std::string& postDataStr) TITANIUM_NOEXCEPT override final;
 			virtual void setRequestHeader(const std::string& name, const std::string& value) TITANIUM_NOEXCEPT override final;
-			virtual void waitForResponse() TITANIUM_NOEXCEPT override final;
+			virtual void _waitForResponse() TITANIUM_NOEXCEPT override final;
 
 			// properties
 			virtual std::string get_allResponseHeaders() const TITANIUM_NOEXCEPT override final;

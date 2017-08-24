@@ -255,10 +255,10 @@ namespace Titanium
 
 			/*!
 			  @method
-			  @abstract waitForResponse
+			  @abstract _waitForResponse
 			  @discussion Wait for response for the request. Blocks until server responses.
 			*/
-			virtual void waitForResponse() TITANIUM_NOEXCEPT;
+			virtual void _waitForResponse() TITANIUM_NOEXCEPT;
 
 			HTTPClient(const JSContext&) TITANIUM_NOEXCEPT;
 
@@ -361,7 +361,7 @@ namespace Titanium
 			TITANIUM_FUNCTION_DEF(setUsername);
 			TITANIUM_FUNCTION_DEF(setValidatesSecureCertificate);
 			TITANIUM_FUNCTION_DEF(setWithCredentials);
-			TITANIUM_FUNCTION_DEF(waitForResponse);
+			TITANIUM_FUNCTION_DEF(_waitForResponse);
 
 			/////// slots
 			void ondatastream(const double progress) TITANIUM_NOEXCEPT;

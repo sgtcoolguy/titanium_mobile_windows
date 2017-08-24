@@ -109,9 +109,9 @@ namespace Titanium
 			TITANIUM_LOG_WARN("HTTPClient::setRequestHeader: unimplemented");
 		}
 
-		void HTTPClient::waitForResponse() TITANIUM_NOEXCEPT
+		void HTTPClient::_waitForResponse() TITANIUM_NOEXCEPT
 		{
-			TITANIUM_LOG_WARN("HTTPClient::waitForResponse: unimplemented");
+			TITANIUM_LOG_WARN("HTTPClient::_waitForResponse: unimplemented");
 		}
 
 		void HTTPClient::JSExportInitialize()
@@ -208,7 +208,7 @@ namespace Titanium
 			TITANIUM_ADD_FUNCTION(HTTPClient, setUsername);
 			TITANIUM_ADD_FUNCTION(HTTPClient, setValidatesSecureCertificate);
 			TITANIUM_ADD_FUNCTION(HTTPClient, setWithCredentials);
-			TITANIUM_ADD_FUNCTION(HTTPClient, waitForResponse);
+			TITANIUM_ADD_FUNCTION(HTTPClient, _waitForResponse);
 
 		}
 
@@ -333,9 +333,9 @@ namespace Titanium
 			return get_context().CreateUndefined();
 		}
 
-		TITANIUM_FUNCTION(HTTPClient, waitForResponse)
+		TITANIUM_FUNCTION(HTTPClient, _waitForResponse)
 		{
-			waitForResponse();
+			_waitForResponse();
 			return get_context().CreateUndefined();
 		}
 

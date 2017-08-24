@@ -514,7 +514,7 @@ namespace TitaniumWindows
 			}
 		}
 
-		void HTTPClient::waitForResponse() TITANIUM_NOEXCEPT
+		void HTTPClient::_waitForResponse() TITANIUM_NOEXCEPT
 		{
 			responseWaiter__.wait();
 		}
