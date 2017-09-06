@@ -64,6 +64,18 @@ namespace TitaniumWindows
 				checkMarkers();
 			});
 
+			listview__->SizeChanged += ref new Windows::UI::Xaml::SizeChangedEventHandler([this](Platform::Object^, Windows::UI::Xaml::SizeChangedEventArgs^ e) {
+				//
+				// TIMOB-25175: Use the first size on SizeChanged event when height equals SIZE
+				// ListView changes its size based on the row content.
+				//
+				const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
+				const auto isSize = layout->get_height() == Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE);
+				if (isSize && e->NewSize.Height > 0) {
+					layout->set_height(std::to_string(e->NewSize.Height));
+				}
+			});
+
 			resetListViewDataBinding();
 
 			parent__ = ref new Controls::Grid();
