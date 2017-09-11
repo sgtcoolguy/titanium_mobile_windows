@@ -63,6 +63,7 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Controls::Border^ border__;
 			Windows::UI::Xaml::Controls::TextBlock^ label__;
 
+			Titanium::LayoutEngine::Rect oldRect__;
 			bool need_measure__ { false };
 		};
 	} // namespace UI
