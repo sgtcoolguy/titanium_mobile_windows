@@ -66,7 +66,7 @@ namespace TitaniumWindows
 			bool need_measure__ { false };
 #pragma warning(push)
 #pragma warning(disable : 4251)
-			Titanium::LayoutEngine::Rect oldRect__;
+			Titanium::LayoutEngine::Rect previousSize__;
 #pragma warning(pop)
 		};
 	} // namespace UI
