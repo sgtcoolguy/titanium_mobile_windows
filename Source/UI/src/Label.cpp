@@ -75,7 +75,7 @@ namespace TitaniumWindows
 								label__->MaxHeight = height;
 							}
 							
-							if (oldRect__.width != width && oldRect__.height != height) {
+							if (oldRect__.width != width || oldRect__.height != height) {
 								need_measure__ = true;
 								oldRect__.width = width;
 								oldRect__.height = height;
