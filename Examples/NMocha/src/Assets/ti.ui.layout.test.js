@@ -29,6 +29,12 @@ function closeAndFinish(win, finish) {
 	finish();
 }
 
+function cleanerCreateWindow(_args) {
+    _args = _args || {};
+    _args.backgroundColor = _args.backgroundColor || 'red';
+    return Ti.UI.createWindow(_args);
+}
+
 describe('Titanium.UI.Layout', function () {
 	this.timeout(5000);
 
@@ -1320,7 +1326,8 @@ describe('Titanium.UI.Layout', function () {
 			text: 'this is test text'
 		});
 		view.add(label);
-		var win = createWindow({}, function() {
+		var win = cleanerCreateWindow();
+		win.addEventListener('postlayout', function () {
 			var err;
 			try {
 				should(view.rect.x).eql(10);
@@ -1331,6 +1338,7 @@ describe('Titanium.UI.Layout', function () {
 			} catch (e) {
 				err = e;
 			}
+			win.close();
 			finish(err);
 		});
 		win.add(view);
@@ -1359,7 +1367,9 @@ describe('Titanium.UI.Layout', function () {
 			backgroundColor: 'yellow',
 			text: 'this is test text'
 		});
-		var win = createWindow({}, function() {
+		var win = cleanerCreateWindow();
+
+        win.addEventListener('postlayout', function() {
 			var err;
 			try {
 				should(view.rect.x).eql(10);
@@ -1371,6 +1381,7 @@ describe('Titanium.UI.Layout', function () {
 			} catch (e) {
 				err = e;
 			}
+			win.close();
 			finish(err);
 		});
 		view.add(label);
@@ -1384,7 +1395,7 @@ describe('Titanium.UI.Layout', function () {
 	// even when parent view doesn't have right value.
 	// parent view should fit the size of the child, not Window
 	//
-	it('TIMOB-23372 #6', function (finish) {
+	it.only('TIMOB-23372 #6', function (finish) {
 		var view = Ti.UI.createView({
 			backgroundColor: 'orange',
 			layout: 'vertical',
@@ -1400,7 +1411,8 @@ describe('Titanium.UI.Layout', function () {
 			backgroundColor: 'yellow',
 			text: 'this is test text'
 		});
-		var win = createWindow({}, function() {
+		var win = cleanerCreateWindow();
+		win.addEventListener('postlayout', function() {
 			var err;
 			try {
 				should(view.rect.x).eql(10);
@@ -1412,6 +1424,7 @@ describe('Titanium.UI.Layout', function () {
 			} catch (e) {
 				err = e;
 			}
+            win.close()
 			finish(err);
 		});
 		view.add(label);
