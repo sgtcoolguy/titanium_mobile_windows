@@ -1395,7 +1395,7 @@ describe('Titanium.UI.Layout', function () {
 	// even when parent view doesn't have right value.
 	// parent view should fit the size of the child, not Window
 	//
-	it.only('TIMOB-23372 #6', function (finish) {
+	it('TIMOB-23372 #6', function (finish) {
 		var view = Ti.UI.createView({
 			backgroundColor: 'orange',
 			layout: 'vertical',
