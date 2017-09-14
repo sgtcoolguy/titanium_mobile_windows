@@ -103,6 +103,11 @@ namespace TitaniumWindows
 #endif
 		}
 
+		void PickerColumn::reload() TITANIUM_NOEXCEPT
+		{
+			refreshRows();
+		}
+
 		void PickerColumn::JSExportInitialize()
 		{
 			JSExport<PickerColumn>::SetClassVersion(1);
