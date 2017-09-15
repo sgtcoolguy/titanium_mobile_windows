@@ -495,6 +495,8 @@ namespace TitaniumWindows
 			{
 				if (underlying_control__) {
 					return underlying_control__;
+				} else if (is_panel__ && border__) {
+					return border__;
 				}
 				return component__;
 			}
