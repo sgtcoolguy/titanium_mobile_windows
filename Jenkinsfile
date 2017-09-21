@@ -1,4 +1,6 @@
 #!groovy​
+// Keep history of up to 30 builds, but only keep artifacts for the last 5
+properties([buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '5'))])
 
 def gitCommit = ''
 def testTimeout = 25
