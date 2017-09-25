@@ -10,6 +10,7 @@
 
 #include "Titanium/Module.hpp"
 #include "TitaniumWindows_UI_EXPORT.h"
+#include "TitaniumWindows/WindowsMacros.hpp"
 
 namespace TitaniumWindows
 {
@@ -51,6 +52,19 @@ namespace TitaniumWindows
 			TITANIUM_FUNCTION_DEF(createAppBarToggleButton);
 			TITANIUM_FUNCTION_DEF(createAppBarSeparator);
 			TITANIUM_FUNCTION_DEF(createStyle);
+
+			TITANIUM_FUNCTION_DEF(beginExtendedExecution);
+			TITANIUM_FUNCTION_DEF(endExtendedExecution);
+
+		private:
+#if defined(IS_WINDOWS_10)
+			Windows::ApplicationModel::ExtendedExecution::ExtendedExecutionSession^ session__;
+			Windows::Foundation::EventRegistrationToken session_revoked_token__;
+
+			void beginExtendedExecution();
+			void endExtendedExecution();
+			void clearExtendedExecution();
+#endif
 		};
 	}  // namespace UI
 }  // namespace TitaniumWindows

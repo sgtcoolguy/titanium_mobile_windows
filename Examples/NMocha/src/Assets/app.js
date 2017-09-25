@@ -8,6 +8,13 @@
 var win = Ti.UI.createWindow({
     backgroundColor: 'lightyellow'
 });
+
+win.addEventListener('open', function () {
+    if (Ti.UI.Windows.beginExtendedExecution) {
+        Ti.UI.Windows.beginExtendedExecution();
+    }
+});
+
 win.open();
 
 require('./ti-mocha');
@@ -137,4 +144,10 @@ mocha.run(function () {
             results: $results
         })) +
     '\n!TEST_RESULTS_STOP!');
+
+
+    if (Ti.UI.Windows.endExtendedExecution) {
+        Ti.UI.Windows.endExtendedExecution();
+    }
+
 });
