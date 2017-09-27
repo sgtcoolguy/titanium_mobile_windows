@@ -39,7 +39,9 @@ namespace TitaniumWindows
 	namespace UI
 	{
 		using namespace ::Windows::UI::Xaml;
+#if defined(IS_WINDOWS_10)
 		using namespace ::Windows::ApplicationModel::ExtendedExecution;
+#endif
 
 		WindowsModule::WindowsModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::Module(js_context)
