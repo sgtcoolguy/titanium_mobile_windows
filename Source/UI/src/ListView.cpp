@@ -71,8 +71,11 @@ namespace TitaniumWindows
 				//
 				const auto layout = getViewLayoutDelegate<WindowsViewLayoutDelegate>();
 				const auto isSize = layout->get_height() == Titanium::UI::Constants::to_string(Titanium::UI::LAYOUT::SIZE);
-				if (isSize && e->NewSize.Height > 0) {
-					layout->set_height(std::to_string(e->NewSize.Height));
+				if (isSize && e->NewSize.Height > e->PreviousSize.Height) {
+					// Workaround: According to the studies from some environments ListView needs some more margins,
+					// otherwise unexpected scrollbar appears. Following number worked fine but I don't know why.
+					double margin = 7 * listview__->Items->Size;
+					layout->set_height(std::to_string(e->NewSize.Height + margin));
 				}
 			});
 
