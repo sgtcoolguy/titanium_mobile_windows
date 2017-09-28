@@ -14,8 +14,6 @@
 #include "TitaniumWindows/UI/Windows/Style.hpp"
 #include "TitaniumWindows/UI/Windows/ListViewScrollPosition.hpp"
 #include "Titanium/detail/TiImpl.hpp"
-#include "TitaniumWindows/LogForwarder.hpp"
-#include <ppltasks.h>
 
 #define CREATE_TITANIUM_UI_WINDOWS(NAME) \
   JSValue Titanium_property = this_object.get_context().get_global_object().GetProperty("Titanium"); \
@@ -39,7 +37,6 @@ namespace TitaniumWindows
 	namespace UI
 	{
 		using namespace ::Windows::UI::Xaml;
-		using namespace ::Windows::ApplicationModel::ExtendedExecution;
 
 		WindowsModule::WindowsModule(const JSContext& js_context) TITANIUM_NOEXCEPT
 			: Titanium::Module(js_context)
@@ -63,8 +60,6 @@ namespace TitaniumWindows
 			TITANIUM_ADD_FUNCTION(WindowsModule, createAppBarToggleButton);
 			TITANIUM_ADD_FUNCTION(WindowsModule, createAppBarSeparator);
 			TITANIUM_ADD_FUNCTION(WindowsModule, createStyle);
-			TITANIUM_ADD_FUNCTION(WindowsModule, beginExtendedExecution);
-			TITANIUM_ADD_FUNCTION(WindowsModule, endExtendedExecution);
 		}
 
 		TITANIUM_PROPERTY_GETTER(WindowsModule, CommandBar)
@@ -132,65 +127,5 @@ namespace TitaniumWindows
 			CREATE_TITANIUM_UI_WINDOWS(Style);
 		}
 
-		TITANIUM_FUNCTION(WindowsModule, beginExtendedExecution)
-		{
-#if defined(IS_WINDOWS_10)
-			TITANIUM_EXCEPTION_CATCH_START{
-				beginExtendedExecution();
-			} TITANIUM_EXCEPTION_CATCH_END
-#endif
-			return get_context().CreateUndefined();
-		}
-
-		TITANIUM_FUNCTION(WindowsModule, endExtendedExecution)
-		{
-#if defined(IS_WINDOWS_10)
-			TITANIUM_EXCEPTION_CATCH_START{
-				endExtendedExecution();
-			} TITANIUM_EXCEPTION_CATCH_END
-#endif
-			return get_context().CreateUndefined();
-		}
-
-#if defined(IS_WINDOWS_10)
-		void WindowsModule::beginExtendedExecution()
-		{
-			clearExtendedExecution();
-
-			auto session = ref new ExtendedExecutionSession();
-			session->Reason = ExtendedExecutionReason::Unspecified;
-
-			session_revoked_token__ = session->Revoked += ref new Windows::Foundation::TypedEventHandler<Platform::Object^, ExtendedExecutionRevokedEventArgs^>([this](Platform::Object^, ExtendedExecutionRevokedEventArgs^) {
-				TITANIUM_EXCEPTION_CATCH_START{
-					endExtendedExecution();
-				} TITANIUM_EXCEPTION_CATCH_END
-			});
-
-			concurrency::create_task(session->RequestExtensionAsync()).then([](ExtendedExecutionResult result) {
-				if (result == ExtendedExecutionResult::Allowed) {
-					TITANIUM_MODULE_LOG_INFO("ExtendedExecutionSession has been allowed");
-				} else {
-					TITANIUM_MODULE_LOG_WARN("ExtendedExecutionSession has been denied");
-				}
-			});
-
-			session__ = session;
-		}
-
-		void WindowsModule::endExtendedExecution()
-		{
-			clearExtendedExecution();
-		}
-
-		void WindowsModule::clearExtendedExecution()
-		{
-			if (session__) {
-				session__->Revoked -= session_revoked_token__;
-				delete session__; // Do we usually do this? Added because this is there in the sample code
-				session__ = nullptr;
-				TITANIUM_MODULE_LOG_INFO("ExtendedExecutionSession has ended");
-			}
-		}
-#endif
 	}  // namespace UI
 }  // namespace TitaniumWindows
