@@ -8,6 +8,21 @@
 var win = Ti.UI.createWindow({
     backgroundColor: 'lightyellow'
 });
+
+win.addEventListener('open', function () {
+    if (Ti.App.Windows.requestExtendedExecution) {
+        Ti.App.Windows.requestExtendedExecution(
+            Ti.App.Windows.EXTENDED_EXECUTION_REASON_UNSPECIFIED,
+            function (granted) {
+                Ti.API.info('Windows extended execution requested: result = ' + granted);
+            },
+            function (reason) {
+                Ti.API.info('Windows extended execution revoked: reason = ' + reason);
+            }
+        );
+    }
+});
+
 win.open();
 
 require('./ti-mocha');
@@ -137,4 +152,9 @@ mocha.run(function () {
             results: $results
         })) +
     '\n!TEST_RESULTS_STOP!');
+
+    if (Ti.App.Windows.closeExtendedExecution) {
+        Ti.App.Windows.closeExtendedExecution();
+    }
+
 });
