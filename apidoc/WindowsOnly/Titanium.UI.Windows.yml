@@ -56,11 +56,3 @@ methods:
         type: Dictionary<Titanium.UI.Windows.Style>
     returns:
       - type: Titanium.UI.Windows.Style
-  - name: beginExtendedExecution
-    summary: Postpone app suspension with background execution.
-    returns:
-      - type: void
-  - name: endExtendedExecution
-    summary: End background execution.
-    returns:
-      - type: void
