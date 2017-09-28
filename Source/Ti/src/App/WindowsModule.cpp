@@ -108,7 +108,7 @@ namespace TitaniumWindows
 #if defined(IS_WINDOWS_10)
 			using namespace Windows::ApplicationModel::ExtendedExecution;
 
-			ENSURE_OPTIONAL_INT_AT_INDEX(reason, 0, 0);
+			ENSURE_OPTIONAL_INT_AT_INDEX(reason, 0, static_cast<std::uint32_t>(Windows::ApplicationModel::ExtendedExecution::ExtendedExecutionReason::Unspecified));
 			ENSURE_OPTIONAL_OBJECT_AT_INDEX(result_callback, 1);
 			ENSURE_OPTIONAL_OBJECT_AT_INDEX(revoked_callback, 2);
 
