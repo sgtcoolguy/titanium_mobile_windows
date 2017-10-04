@@ -74,7 +74,7 @@ namespace TitaniumWindows
 				if (isSize && e->NewSize.Height > e->PreviousSize.Height) {
 					// Workaround: According to the studies from some environments ListView needs some more margins,
 					// otherwise unexpected scrollbar appears. Following number worked fine but I don't know why.
-					double margin = 7 * listview__->Items->Size;
+					double margin = 6 * listview__->Items->Size;
 					layout->set_height(std::to_string(e->NewSize.Height + margin));
 				}
 			});
