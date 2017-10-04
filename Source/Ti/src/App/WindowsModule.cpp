@@ -108,11 +108,21 @@ namespace TitaniumWindows
 #if defined(IS_WINDOWS_10)
 			using namespace Windows::ApplicationModel::ExtendedExecution;
 
-			ENSURE_OPTIONAL_INT_AT_INDEX(reason, 0, static_cast<std::uint32_t>(Windows::ApplicationModel::ExtendedExecution::ExtendedExecutionReason::Unspecified));
-			ENSURE_OPTIONAL_OBJECT_AT_INDEX(result_callback, 1);
-			ENSURE_OPTIONAL_OBJECT_AT_INDEX(revoked_callback, 2);
+			ENSURE_OPTIONAL_OBJECT_AT_INDEX(extendedExecutionArgs, 0);
+			auto reason = ExtendedExecutionReason::Unspecified;
+			if (extendedExecutionArgs.HasProperty("reason")) {
+				reason = static_cast<ExtendedExecutionReason>(static_cast<std::uint32_t>(extendedExecutionArgs.GetProperty("reason")));
+			}
+			auto result_callback = get_context().CreateObject();
+			if (extendedExecutionArgs.HasProperty("result")) {
+				result_callback = static_cast<JSObject>(extendedExecutionArgs.GetProperty("result"));
+			}
+			auto revoked_callback = get_context().CreateObject();
+			if (extendedExecutionArgs.HasProperty("revoked")) {
+				revoked_callback = static_cast<JSObject>(extendedExecutionArgs.GetProperty("revoked"));
+			}
 
-			beginExtendedExecution(static_cast<ExtendedExecutionReason>(reason), result_callback, revoked_callback);
+			beginExtendedExecution(reason, result_callback, revoked_callback);
 #endif
 			return get_context().CreateUndefined();
 		}

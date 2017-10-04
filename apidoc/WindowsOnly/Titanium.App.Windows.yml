@@ -35,24 +35,10 @@ methods:
   - name: requestExtendedExecution
     summary: Postpone app suspension with background execution.
     parameters:
-      - name: reason
+      - name: options
         summary: |
-            Reason for the background execution request.
-        type: Number
-        constants: Titanium.App.Windows.EXTENDED_EXECUTION_REASON_*
-        optional: true
-        default: Titanium.App.Windows.EXTENDED_EXECUTION_REASON_UNSPECIFIED
-      - name: result
-        summary: |
-            Function to call upon extended execution request.
-            Callbacks `true` when request is granted.
-        type: Callback<bool>
-        optional: true
-      - name: revoked
-        summary: |
-            Function to call upon extended execution revocation.
-            Callbacks one of the <Titanium.App.Windows.EXTENDED_EXECUTION_REVOKED_REASON_*> constants.
-        type: Callback<Number>
+            Options for the background execution request.
+        type: ExtendedExecutionOptionsType
         optional: true
     returns:
       - type: void
@@ -60,3 +46,29 @@ methods:
     summary: End background execution.
     returns:
       - type: void
+
+---
+name: ExtendedExecutionOptionsType
+summary: |
+    Simple object for specifying options to
+    [requestExtendedExecution](Titanium.App.Windows.requestExtendedExecution).
+properties: 
+  - name: reason
+    summary: |
+        Reason for the background execution request.
+    type: Number
+    constants: Titanium.App.Windows.EXTENDED_EXECUTION_REASON_*
+    optional: true
+    default: Titanium.App.Windows.EXTENDED_EXECUTION_REASON_UNSPECIFIED
+  - name: result
+    summary: |
+        Function to call upon extended execution request.
+        Callbacks `true` when request is granted.
+    type: Callback<bool>
+    optional: true
+  - name: revoked
+    summary: |
+        Function to call upon extended execution revocation.
+        Callbacks one of the <Titanium.App.Windows.EXTENDED_EXECUTION_REVOKED_REASON_*> constants.
+    type: Callback<Number>
+    optional: true
