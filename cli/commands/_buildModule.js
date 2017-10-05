@@ -153,7 +153,7 @@ WindowsModuleBuilder.prototype.initialize = function initialize(next) {
 								_t.logger.debug('targetSdkVersion: ' + sdk_version);
 								// Remove Windows10 target only when it targets to 8.1 explicitly
 								if (sdk_version == '8.1') {
-									_t.logger.error('The specified version of the Windows and Windows Phone SDK "%s" is no supported by Titanium %s', sdk_version, _t.titaniumSdkName)
+									_t.logger.error('The specified version of the Windows and Windows Phone SDK "%s" is not supported by Titanium %s', sdk_version, _t.titaniumSdkName)
 									process.exit(0)
 								}
 							}
