@@ -76,10 +76,6 @@ namespace TitaniumWindows
 
 			parent__ = ref new Windows::UI::Xaml::Controls::Grid();
 
-			// Fill width
-			layoutDelegate__->set_defaultWidth(Titanium::UI::LAYOUT::FILL);
-			layoutDelegate__->set_autoLayoutForWidth(Titanium::UI::LAYOUT::FILL);
-
 			getViewLayoutDelegate<WindowsPickerLayoutDelegate>()->setComponent(parent__, nullptr, false);
 		}
 
