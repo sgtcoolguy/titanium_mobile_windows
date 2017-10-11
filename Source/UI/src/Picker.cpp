@@ -93,6 +93,8 @@ namespace TitaniumWindows
 				getViewLayoutDelegate<WindowsPickerLayoutDelegate>()->setStyleComponent(plainPicker__);
 			} else if (type__ == Titanium::UI::PICKER_TYPE::DATE) {
 				datePicker__  = ref new Windows::UI::Xaml::Controls::DatePicker();
+				datePicker__->HorizontalAlignment = HorizontalAlignment::Stretch;
+				datePicker__->VerticalAlignment = VerticalAlignment::Stretch;
 
 				// Adding Grid in Grid just to make border properties work. Otherwise it crashes for no reason
 				const auto border = ref new Windows::UI::Xaml::Controls::Grid();
@@ -107,6 +109,8 @@ namespace TitaniumWindows
 				getViewLayoutDelegate<WindowsPickerLayoutDelegate>()->setStyleComponent(datePicker__);
 			} else if (type__ == Titanium::UI::PICKER_TYPE::TIME) {
 				timePicker__  = ref new Windows::UI::Xaml::Controls::TimePicker();
+				timePicker__->HorizontalAlignment = HorizontalAlignment::Stretch;
+				timePicker__->VerticalAlignment = VerticalAlignment::Stretch;
 
 				// Adding Grid in Grid just to make border properties work. Otherwise it crashes for no reason
 				const auto border = ref new Windows::UI::Xaml::Controls::Grid();
