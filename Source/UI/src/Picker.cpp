@@ -93,15 +93,31 @@ namespace TitaniumWindows
 				getViewLayoutDelegate<WindowsPickerLayoutDelegate>()->setStyleComponent(plainPicker__);
 			} else if (type__ == Titanium::UI::PICKER_TYPE::DATE) {
 				datePicker__  = ref new Windows::UI::Xaml::Controls::DatePicker();
-				parent__->Children->Append(datePicker__);
-				parent__->SetColumn(datePicker__, 0);
-				parent__->SetRow(datePicker__, 0);
+
+				// Adding Grid in Grid just to make border properties work. Otherwise it crashes for no reason
+				const auto border = ref new Windows::UI::Xaml::Controls::Grid();
+				border->Children->Append(datePicker__);
+				border->SetColumn(datePicker__, 0);
+				border->SetRow(datePicker__, 0);
+
+				parent__->Children->Append(border);
+				parent__->SetColumn(border, 0);
+				parent__->SetRow(border, 0);
+
 				getViewLayoutDelegate<WindowsPickerLayoutDelegate>()->setStyleComponent(datePicker__);
 			} else if (type__ == Titanium::UI::PICKER_TYPE::TIME) {
 				timePicker__  = ref new Windows::UI::Xaml::Controls::TimePicker();
-				parent__->Children->Append(timePicker__);
-				parent__->SetColumn(timePicker__, 0);
-				parent__->SetRow(timePicker__, 0);
+
+				// Adding Grid in Grid just to make border properties work. Otherwise it crashes for no reason
+				const auto border = ref new Windows::UI::Xaml::Controls::Grid();
+				border->Children->Append(timePicker__);
+				border->SetColumn(timePicker__, 0);
+				border->SetRow(timePicker__, 0);
+
+				parent__->Children->Append(border);
+				parent__->SetColumn(border, 0);
+				parent__->SetRow(border, 0);
+
 				getViewLayoutDelegate<WindowsPickerLayoutDelegate>()->setStyleComponent(timePicker__);
 			}
 
