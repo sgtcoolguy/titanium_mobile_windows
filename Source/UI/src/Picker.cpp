@@ -76,6 +76,8 @@ namespace TitaniumWindows
 			Titanium::UI::Picker::setLayoutDelegate<WindowsPickerLayoutDelegate>();
 
 			parent__ = ref new Windows::UI::Xaml::Controls::Grid();
+			parent__->VerticalAlignment = VerticalAlignment::Stretch;
+			parent__->HorizontalAlignment = HorizontalAlignment::Stretch;
 
 			getViewLayoutDelegate<WindowsPickerLayoutDelegate>()->setComponent(parent__, nullptr, false);
 		}
