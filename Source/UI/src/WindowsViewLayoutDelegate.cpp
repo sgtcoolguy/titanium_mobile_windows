@@ -1301,18 +1301,28 @@ namespace TitaniumWindows
 			}
 		}
 
-		std::shared_ptr<Titanium::UI::View> WindowsViewLayoutDelegate::getHierarchyEventSource(Windows::Foundation::Point position, const std::shared_ptr<Titanium::UI::View>& root) const TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::UI::View> WindowsViewLayoutDelegate::getHierarchyEventSource(Windows::Foundation::Point rootPosition, const std::shared_ptr<Titanium::UI::View>& root, const bool& nested) const TITANIUM_NOEXCEPT
 		{
+			const auto rootComponent = root == nullptr ? getEventComponent() : root->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getEventComponent();
+			Windows::Foundation::Point position = rootPosition;
+			if (!nested) {
+				position.X += static_cast<float>(Canvas::GetLeft(rootComponent));
+				position.Y += static_cast<float>(Canvas::GetTop(rootComponent));
+			}
+
 			const auto children = root == nullptr ? get_children() : root->get_children();
 			// Let's find correct source
 			for (const auto child : children) {
 				const auto childLayout = child->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
-				const auto childView   = childLayout->getComponent();
+				const auto childView   = childLayout->getEventComponent();
 				const auto elements = Windows::UI::Xaml::Media::VisualTreeHelper::FindElementsInHostCoordinates(position, childView);
 				for (const auto e : elements) {
 					// Let's check its descendents so we can support nested views
 					if (child->get_children().size() > 0) {
-						const auto found = getHierarchyEventSource(position, child);
+						Windows::Foundation::Point childPos = rootPosition;
+						childPos.X += static_cast<float>(Canvas::GetLeft(childView));
+						childPos.Y += static_cast<float>(Canvas::GetTop(childView));
+						const auto found = getHierarchyEventSource(position, child, true);
 						if (found) {
 							return found;
 						}
