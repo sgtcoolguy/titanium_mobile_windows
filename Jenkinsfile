@@ -20,14 +20,14 @@ def build(sdkVersion, msBuildVersion, architecture, gitCommit, nodeVersion, npmV
 	nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
 		ensureNPM(npmVersion)
 		dir('Tools/Scripts') {
-			bat 'npm install .'
+			bat 'npm ci.'
 			echo "Installing JSC built for Windows ${sdkVersion}"
 			bat "node setup.js -s ${sdkVersion} --no-color --no-progress-bars"
 			bat 'rmdir node_modules /Q /S'
 		}
 
 		dir('Tools/Scripts/build') {
-			bat 'npm install .'
+			bat 'npm ci'
 
 			timeout(45) {
 				echo "Building for ${architecture} ${sdkVersion}"
@@ -56,7 +56,7 @@ def unitTests(target, branch, testSuiteBranch, nodeVersion, npmVersion) {
 
 		dir('Tools/Scripts/build') {
 			echo 'Setting up SDK'
-			bat 'npm install .'
+			bat 'npm ci'
 			bat "node setupSDK.js --branch ${branch}"
 		}
 
@@ -71,7 +71,7 @@ def unitTests(target, branch, testSuiteBranch, nodeVersion, npmVersion) {
 		unstash 'override-tests'
 		bat '(robocopy tests titanium-mobile-mocha-suite /e) ^& IF %ERRORLEVEL% LEQ 3 cmd /c exit 0'
 		dir('titanium-mobile-mocha-suite/scripts') {
-			bat 'npm install .'
+			bat 'npm ci'
 			echo "Running tests on ${target}"
 			try {
 				timeout(30) {
@@ -141,11 +141,11 @@ timestamps {
 				ensureNPM(npmVersion)
 				dir('apidoc') {
 					if (isUnix()) {
-						sh 'npm install .'
+						sh 'npm ci'
 						sh 'node ti_win_yaml.js'
 					} else {
-						bat 'call npm install .'
-						bat 'call node ti_win_yaml.js'
+						bat 'npm ci'
+						bat 'node ti_win_yaml.js'
 					}
 				}
 			}
