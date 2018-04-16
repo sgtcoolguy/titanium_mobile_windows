@@ -20,7 +20,7 @@ def build(sdkVersion, msBuildVersion, architecture, gitCommit, nodeVersion, npmV
 	nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
 		ensureNPM(npmVersion)
 		dir('Tools/Scripts') {
-			bat 'npm ci.'
+			bat 'npm ci'
 			echo "Installing JSC built for Windows ${sdkVersion}"
 			bat "node setup.js -s ${sdkVersion} --no-color --no-progress-bars"
 			bat 'rmdir node_modules /Q /S'
