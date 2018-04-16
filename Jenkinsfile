@@ -70,39 +70,41 @@ def unitTests(target, branch, testSuiteBranch, nodeVersion, npmVersion) {
 		}
 		unstash 'override-tests'
 		bat '(robocopy tests titanium-mobile-mocha-suite /e) ^& IF %ERRORLEVEL% LEQ 3 cmd /c exit 0'
-		dir('titanium-mobile-mocha-suite/scripts') {
+		dir('titanium-mobile-mocha-suite') {
 			bat 'npm ci'
 			echo "Running tests on ${target}"
-			try {
-				timeout(30) {
+			dir('scripts') {
+				try {
+					timeout(30) {
+						if ('ws-local'.equals(target)) {
+							bat "node test.js -p windows -T ${target} --skip-sdk-install --cleanup"
+						} else if ('wp-emulator'.equals(target)) {
+							bat "node test.js -p windows -T ${target} -C ${defaultEmulatorID} --skip-sdk-install --cleanup"
+						}
+					}
+				} catch (e) {
+					// Archive the crash reports...
+					// Crash event report:
+					// C:\ProgramData\Microsoft\Windows\WER\ReportArchive\AppCrash_com.appcelerator_8a7a6091d98a3b6827daff1404991c2a9e161a7_8c8df8cd_0a167d3a\Report.wer
+					bat 'mkdir crash_reports'
+					dir ('crash_reports') {
+						// move command doesn't grok wildcards, so we hack it: https://serverfault.com/questions/374997/move-directory-in-dos-batch-file-without-knowing-full-directory-name
+						bat "FOR /d %i IN (C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportArchive\\AppCrash_com.appcelerator_*) DO move %i ."
+					}
+					archiveArtifacts 'crash_reports/**/*'
+					bat 'rmdir crash_reports /Q /S'
+					throw e
+				} finally {
+					// kill the emulator/app
 					if ('ws-local'.equals(target)) {
-						bat "node test.js -p windows -T ${target} --skip-sdk-install --cleanup"
+						bat 'taskkill /IM mocha.exe /F 2> nul'
 					} else if ('wp-emulator'.equals(target)) {
-						bat "node test.js -p windows -T ${target} -C ${defaultEmulatorID} --skip-sdk-install --cleanup"
+						bat 'taskkill /IM xde.exe /F 2> nul'
 					}
 				}
-			} catch (e) {
-				// Archive the crash reports...
-				// Crash event report:
-				// C:\ProgramData\Microsoft\Windows\WER\ReportArchive\AppCrash_com.appcelerator_8a7a6091d98a3b6827daff1404991c2a9e161a7_8c8df8cd_0a167d3a\Report.wer
-				bat 'mkdir crash_reports'
-				dir ('crash_reports') {
-					// move command doesn't grok wildcards, so we hack it: https://serverfault.com/questions/374997/move-directory-in-dos-batch-file-without-knowing-full-directory-name
-					bat "FOR /d %i IN (C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportArchive\\AppCrash_com.appcelerator_*) DO move %i ."
-				}
-				archiveArtifacts 'crash_reports/**/*'
-				bat 'rmdir crash_reports /Q /S'
-				throw e
-			} finally {
-				// kill the emulator/app
-				if ('ws-local'.equals(target)) {
-					bat 'taskkill /IM mocha.exe /F 2> nul'
-				} else if ('wp-emulator'.equals(target)) {
-					bat 'taskkill /IM xde.exe /F 2> nul'
-				}
-			}
-			junit 'junit.*.xml'
-		} // dir 'titanium-mobile-mocha-suite/scripts
+				junit 'junit.*.xml'
+			} // dir 'scripts'
+		} // dir 'titanium-mobile-mocha-suite'
 	} // nodejs
 } // def unitTests
 
