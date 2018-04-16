@@ -1,4 +1,5 @@
-#!groovy​
+#!groovy
+library 'pipeline-library'
 // Keep history of up to 30 builds, but only keep artifacts for the last 5
 properties([buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '5'))])
 
@@ -7,20 +8,17 @@ def gitCommit = ''
 // FIXME Using the nodejs jenkins plugin introduces complications that cause us not to properly connect to the Windows Phone emulator for logs
 // Likely need to modify the firewall rules to allow traffic from the new nodejs install like we do for system install!
 def nodeVersion = '8.11.1' // NOTE that changing this requires we set up the desired version on jenkins master first!
+def npmVersion = '5.8.0'
 
-def build(sdkVersion, msBuildVersion, architecture, gitCommit, nodeVersion) {
+def build(sdkVersion, msBuildVersion, architecture, gitCommit, nodeVersion, npmVersion) {
 	unstash 'sources' // for build
 	if (fileExists('dist/windows')) {
 		bat 'rmdir dist\\windows /Q /S'
 	}
 	bat 'mkdir dist\\windows'
 
-	// nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
-	// 	bat 'npm install -g npm@5.4.1' // Install NPM 5.4.1
-	// 	def nodeHome = tool(name: "node ${nodeVersion}", type: 'nodejs')
-	// 	echo nodeHome
-	// 	bat "netsh advfirewall firewall add rule name=\"Node ${nodeVersion}\ TCP" program=\"${nodeHome}\\node.exe\" dir=in action=allow protocol=TCP"
-	// 	bat "netsh advfirewall firewall add rule name=\"Node ${nodeVersion}\ UDP" program=\"${nodeHome}\\node.exe\" dir=in action=allow protocol=UDP"
+	nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
+		ensureNPM(npmVersion)
 		dir('Tools/Scripts') {
 			bat 'npm install .'
 			echo "Installing JSC built for Windows ${sdkVersion}"
@@ -41,16 +39,21 @@ def build(sdkVersion, msBuildVersion, architecture, gitCommit, nodeVersion) {
 				}
 			} // timeout
 		} // dir Tool/Scripts/build
-	// } // nodejs
+	} // nodejs
 	archiveArtifacts artifacts: 'dist/**/*'
 } // def build
 
-def unitTests(target, branch, testSuiteBranch, nodeVersion) {
+def unitTests(target, branch, testSuiteBranch, nodeVersion, npmVersion) {
 	def defaultEmulatorID = '10-0-1'
 	unarchive mapping: ['dist/' : '.'] // copy in built SDK from dist/ folder (from Build stage)
 	unstash 'sources'
-	// nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
-		// bat 'npm install -g npm@5.4.1' // Install NPM 5.4.1
+	nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
+		ensureNPM(npmVersion)
+		def nodeHome = tool(name: "node ${nodeVersion}", type: 'nodejs')
+		echo nodeHome
+		bat "netsh advfirewall firewall add rule name=\"Node ${nodeVersion}\" program=\"${nodeHome}\\node.exe\" dir=in action=allow protocol=udp description=\"Firewall rule\""
+		bat "netsh advfirewall firewall add rule name=\"Node ${nodeVersion}\" program=\"${nodeHome}\\node.exe\" dir=in action=allow protocol=tcp description=\"Firewall rule\""
+
 		dir('Tools/Scripts/build') {
 			echo 'Setting up SDK'
 			bat 'npm install .'
@@ -100,7 +103,7 @@ def unitTests(target, branch, testSuiteBranch, nodeVersion) {
 			}
 			junit 'junit.*.xml'
 		} // dir 'titanium-mobile-mocha-suite/scripts
-	// } // nodejs
+	} // nodejs
 } // def unitTests
 
 // wrap in timestamps
@@ -135,13 +138,12 @@ timestamps {
 			echo 'Generating docs'
 
 			nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
+				ensureNPM(npmVersion)
 				dir('apidoc') {
 					if (isUnix()) {
-						sh 'npm install -g npm@5.7.1'
 						sh 'npm install .'
 						sh 'node ti_win_yaml.js'
 					} else {
-						bat 'call npm install -g npm@5.7.1'
 						bat 'call npm install .'
 						bat 'call node ti_win_yaml.js'
 					}
@@ -172,13 +174,13 @@ timestamps {
 	stage('Build') {
 		parallel(
 			'Windows 10 x86': {
-				node('msbuild-14 && vs2015 && windows-sdk-10 && node && npm && cmake && jsc') {
-					build('10.0', '14.0', 'WindowsStore-x86', gitCommit, nodeVersion)
+				node('msbuild-14 && vs2015 && windows-sdk-10 && cmake && jsc') {
+					build('10.0', '14.0', 'WindowsStore-x86', gitCommit, nodeVersion, npmVersion)
 				}
 			},
 			'Windows 10 ARM': {
-				node('msbuild-14 && vs2015 && windows-sdk-10 && node && npm && cmake && jsc') {
-					build('10.0', '14.0', 'WindowsStore-ARM', gitCommit, nodeVersion)
+				node('msbuild-14 && vs2015 && windows-sdk-10 && cmake && jsc') {
+					build('10.0', '14.0', 'WindowsStore-ARM', gitCommit, nodeVersion, npmVersion)
 				}
 			},
 			failFast: true
@@ -189,13 +191,13 @@ timestamps {
 		def testSuiteBranch = targetBranch
 		parallel(
 			'ws-local': {
-				node('msbuild-14 && vs2015 && windows-sdk-10 && cmake && node && npm') {
-					unitTests('ws-local', targetBranch, testSuiteBranch, nodeVersion)
+				node('msbuild-14 && vs2015 && windows-sdk-10 && cmake') {
+					unitTests('ws-local', targetBranch, testSuiteBranch, nodeVersion, npmVersion)
 				}
 			},
 			'wp-emulator': {
-				node('msbuild-14 && vs2015 && hyper-v && windows-sdk-10 && cmake && node && npm') {
-					unitTests('wp-emulator', targetBranch, testSuiteBranch, nodeVersion)
+				node('msbuild-14 && vs2015 && hyper-v && windows-sdk-10 && cmake') {
+					unitTests('wp-emulator', targetBranch, testSuiteBranch, nodeVersion, npmVersion)
 				}
 			}
 		)
