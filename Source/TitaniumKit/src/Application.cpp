@@ -38,10 +38,23 @@ function Titanium_RedScreenOfDeath(e) {
             button;
 
         function makeMessage(e) {
-            return (e.fileName ? "In " + e.fileName + " " : "") + (e.message || e.toString()).trim() + (e.lineNumber ? " (line " + e.lineNumber + " column " + e.columnNumber + ")" : "");
+            return "Runtime Exception: " + (e.fileName ? "In " + e.fileName + " " : "") + (e.message || e.toString()).trim() + (e.lineNumber ? " (line " + e.lineNumber + " column " + e.columnNumber + ")" : "");
+        }
+        function makeLabel(label, str) {
+            label.add(Ti.UI.createLabel({
+                color: 'red',
+                width:  Ti.UI.FILL,
+                height: Ti.UI.SIZE,
+                textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+                verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_TOP,
+                text: str,
+            }));
         }
 
         Ti.API.error("Message: Uncaught Error: " + makeMessage(e));
+        if (e.stack) {
+            Ti.API.error(e.stack);
+        }
         if (e.nativeStack) {
             Ti.API.error(e.nativeStack);
         }
@@ -52,24 +65,14 @@ function Titanium_RedScreenOfDeath(e) {
             top: 10, left: 10,
             layout: 'vertical',            
         });
-        label.add(Ti.UI.createLabel({
-            color: 'red',
-            width:  Ti.UI.FILL,
-            height: Ti.UI.SIZE,
-            textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-            verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_TOP,
-            text: makeMessage(e),
-        }));
+        makeLabel(label, makeMessage(e));
+        if (e.stack) {
+            label.add(Ti.UI.createView({width: Ti.UI.FILL, height: 20}));
+            makeLabel(label, e.stack);
+        }
         if (e.nativeStack) {
             label.add(Ti.UI.createView({width: Ti.UI.FILL, height: 20}));
-            label.add(Ti.UI.createLabel({
-                color: 'red',
-                width:  Ti.UI.FILL,
-                height: Ti.UI.SIZE,
-                textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-                verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_TOP,
-                text: e.nativeStack,
-            }));
+            makeLabel(label, e.nativeStack);
         }
         win.add(label);
 
