@@ -435,7 +435,7 @@ namespace Titanium
 
 	TITANIUM_PROPERTY_SETTER(GeolocationModule, accuracy)
 	{
-		TITANIUM_ASSERT(argument.IsNumber());
+		TITANIUM_ASSERT_AND_THROW(argument.IsNumber(), "Ti.Geolocation.accuracy expects Number");
 		const auto accuracy = Titanium::Geolocation::Constants::to_ACCURACY(static_cast<std::underlying_type<Geolocation::ACCURACY>::type>(argument));
 		set_accuracy(accuracy);
 		return true;
