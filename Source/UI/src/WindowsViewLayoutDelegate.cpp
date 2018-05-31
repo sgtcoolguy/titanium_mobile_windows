@@ -10,6 +10,8 @@
 #include "Titanium/UI/View.hpp"
 #include "Titanium/UI/Animation.hpp"
 #include "Titanium/UI/2DMatrix.hpp"
+#include "Titanium/UI/Point.hpp"
+#include "Titanium/UI/MatrixCreationDict.hpp"
 #include "Titanium/detail/TiImpl.hpp"
 #include "Titanium/App.hpp"
 #include "Titanium/Blob.hpp"
@@ -409,10 +411,12 @@ namespace TitaniumWindows
 			// transform
 			if (animation->get_transform() != nullptr) {
 
-				const auto a = animation->get_transform()->get_a(); // scale x
-				const auto b = animation->get_transform()->get_b(); // shear y
-				const auto c = animation->get_transform()->get_c(); // shear x
-				const auto d = animation->get_transform()->get_d(); // scale y
+				const auto transform = animation->get_transform();
+				const auto transform_params = transform->get_parameters();
+				const auto a = transform->get_a(); // scale x
+				const auto b = transform->get_b(); // shear y
+				const auto c = transform->get_c(); // shear x
+				const auto d = transform->get_d(); // scale y
 
 				auto rotation = 0.0;
 				auto scale_x = 1.0;
@@ -451,6 +455,11 @@ namespace TitaniumWindows
 				const auto translate = ref new Media::TranslateTransform();
 				const auto rotate = ref new Media::RotateTransform();
 				const auto composite = ref new Media::CompositeTransform(); // cheat and use composite to do scale and then skew
+
+				// set rotation center
+				rotate->CenterX = layout_node__->element.measuredWidth  * Titanium::UI::get_Point_value(transform_params.anchorPoint.x);
+				rotate->CenterY = layout_node__->element.measuredHeight * Titanium::UI::get_Point_value(transform_params.anchorPoint.y);
+
 				group->Children->Append(translate);
 				group->Children->Append(rotate);
 				group->Children->Append(composite);
@@ -465,21 +474,24 @@ namespace TitaniumWindows
 				storyboard->SetTarget(rotation_anim, component);
 				storyboard->Children->Append(rotation_anim);
 
-				const auto scale_x_anim = ref new Media::Animation::DoubleAnimation();
-				scale_x_anim->To = a;
-				scale_x_anim->EasingFunction = ease;
-				scale_x_anim->Duration = duration;
-				storyboard->SetTargetProperty(scale_x_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleX)");
-				storyboard->SetTarget(scale_x_anim, component);
-				storyboard->Children->Append(scale_x_anim);
+				// No need to scale when scale equals 1.0
+				if (transform_params.scale != 1.0) {
+					const auto scale_x_anim = ref new Media::Animation::DoubleAnimation();
+					scale_x_anim->To = a;
+					scale_x_anim->EasingFunction = ease;
+					scale_x_anim->Duration = duration;
+					storyboard->SetTargetProperty(scale_x_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleX)");
+					storyboard->SetTarget(scale_x_anim, component);
+					storyboard->Children->Append(scale_x_anim);
 
-				const auto scale_y_anim = ref new Media::Animation::DoubleAnimation();
-				scale_y_anim->To = d;
-				scale_y_anim->EasingFunction = ease;
-				scale_y_anim->Duration = duration;
-				storyboard->SetTargetProperty(scale_y_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleY)");
-				storyboard->SetTarget(scale_y_anim, component);
-				storyboard->Children->Append(scale_y_anim);
+					const auto scale_y_anim = ref new Media::Animation::DoubleAnimation();
+					scale_y_anim->To = d;
+					scale_y_anim->EasingFunction = ease;
+					scale_y_anim->Duration = duration;
+					storyboard->SetTargetProperty(scale_y_anim, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(CompositeTransform.ScaleY)");
+					storyboard->SetTarget(scale_y_anim, component);
+					storyboard->Children->Append(scale_y_anim);
+				}
 
 				const auto tx_anim = ref new Media::Animation::DoubleAnimation();
 				tx_anim->To = animation->get_transform()->get_tx();
@@ -810,8 +822,11 @@ namespace TitaniumWindows
 					set_opacity(*opacity);
 				}
 
-				// Make sure to clear the StoryBoard because transform made by StoryBoard remains.
-				storyboard->Stop();
+				// When there's no Transform2D involved,
+				// make sure to clear the StoryBoard because transform made by StoryBoard remains.
+				if (animation->get_transform() == nullptr) {
+					storyboard->Stop();
+				}
 
 				is_transforming_layout__ = false;
 
