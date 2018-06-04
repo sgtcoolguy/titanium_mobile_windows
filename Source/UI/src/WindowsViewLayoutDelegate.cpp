@@ -460,6 +460,9 @@ namespace TitaniumWindows
 				rotate->CenterX = layout_node__->element.measuredWidth  * Titanium::UI::get_Point_value(transform_params.anchorPoint.x);
 				rotate->CenterY = layout_node__->element.measuredHeight * Titanium::UI::get_Point_value(transform_params.anchorPoint.y);
 
+				composite->CenterX = layout_node__->element.measuredWidth  * Titanium::UI::get_Point_value(transform_params.anchorPoint.x);
+				composite->CenterY = layout_node__->element.measuredHeight  * Titanium::UI::get_Point_value(transform_params.anchorPoint.y);
+
 				group->Children->Append(translate);
 				group->Children->Append(rotate);
 				group->Children->Append(composite);
