@@ -26,32 +26,33 @@ namespace Titanium
 function Titanium_RedScreenOfDeath(e) {
 
     // We don't want to show RSOD in production mode. re-throw.
-    if (Ti.App.deployType == "production") {
+    if (Ti.App.deployType == 'production') {
         throw e;
     }
 
     try {
         var win = Ti.UI.createWindow({
-                backgroundColor: "#f4f4f4",
-                layout: "vertical"
+                backgroundColor: '#F5F5F5',
+                layout: 'vertical'
             }),
             button;
 
         function makeMessage(e) {
-            return "Runtime Exception: " + (e.fileName ? "In " + e.fileName + " " : "") + (e.message || e.toString()).trim() + (e.lineNumber ? " (line " + e.lineNumber + " column " + e.columnNumber + ")" : "");
+            return 'Runtime Exception: ' + (e.fileName ? 'In ' + e.fileName + ' ' : '') + (e.message || e.toString()).trim() + (e.lineNumber ? ' (line ' + e.lineNumber + ' column ' + e.columnNumber + ')' : '');
         }
         function makeLabel(label, str) {
             label.add(Ti.UI.createLabel({
-                color: 'red',
+                color: '#E53935',
                 width:  Ti.UI.FILL,
                 height: Ti.UI.SIZE,
                 textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
                 verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_TOP,
+                font: { fontFamily: 'Lucida Console'},
                 text: str,
             }));
         }
 
-        Ti.API.error("Message: Uncaught Error: " + makeMessage(e));
+        Ti.API.error('Message: Uncaught Error: ' + makeMessage(e));
         if (e.stack) {
             Ti.API.error(e.stack);
         }
@@ -76,8 +77,8 @@ function Titanium_RedScreenOfDeath(e) {
         }
         win.add(label);
 
-        win.add(button = Ti.UI.createButton({ title: "CONTINUE", backgroundColor: 'red', width: Ti.UI.FILL, height: '10%', bottom: 0 }));
-        button.addEventListener("click", function () {
+        win.add(button = Ti.UI.createButton({ title: 'CONTINUE', backgroundColor: '#E53935', width: Ti.UI.FILL, height: '10%', bottom: 0 }));
+        button.addEventListener('click', function () {
             win.close();
         });
 
