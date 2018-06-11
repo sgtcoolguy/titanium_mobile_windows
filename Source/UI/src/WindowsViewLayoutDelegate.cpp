@@ -1355,38 +1355,21 @@ namespace TitaniumWindows
 			}
 		}
 
-		std::shared_ptr<Titanium::UI::View> WindowsViewLayoutDelegate::getHierarchyEventSource(Windows::Foundation::Point rootPosition, const std::shared_ptr<Titanium::UI::View>& root, const bool& nested) const TITANIUM_NOEXCEPT
+		std::shared_ptr<Titanium::UI::View> WindowsViewLayoutDelegate::sourceTest(::Platform::Object^ source, const std::shared_ptr<Titanium::UI::View>& root)
 		{
-			const auto rootComponent = root == nullptr ? getEventComponent() : root->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getEventComponent();
-			Windows::Foundation::Point position = rootPosition;
-			if (!nested) {
-				position.X += static_cast<float>(Canvas::GetLeft(rootComponent));
-				position.Y += static_cast<float>(Canvas::GetTop(rootComponent));
+			if (source->Equals(component__) || source->Equals(border__) || source->Equals(underlying_control__) || source->Equals(styling_component__)) {
+				return root;
 			}
-
-			const auto children = root == nullptr ? get_children() : root->get_children();
-			// Let's find correct source
-			for (const auto child : children) {
-				const auto childLayout = child->getViewLayoutDelegate<WindowsViewLayoutDelegate>();
-				const auto childView   = childLayout->getEventComponent();
-				const auto elements = Windows::UI::Xaml::Media::VisualTreeHelper::FindElementsInHostCoordinates(position, childView);
-				for (const auto e : elements) {
-					// Let's check its descendents so we can support nested views
-					if (child->get_children().size() > 0) {
-						const auto found = getHierarchyEventSource(position, child, true);
-						if (found) {
-							return found;
-						}
-					}
-					if (childLayout->get_touchEnabled()) {
-						return child;
-					}
+			for (const auto child : get_children()) {
+				const auto sender = child->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->sourceTest(source, child);
+				if (sender) {
+					return sender;
 				}
 			}
 			return nullptr;
 		}
 
-		void WindowsViewLayoutDelegate::fireSimplePositionEvent(const std::string& event_name, Windows::Foundation::Point position)
+		void WindowsViewLayoutDelegate::fireSimplePositionEvent(const std::string& event_name, Windows::Foundation::Point position, Platform::Object^ originalSource)
 		{
 			const auto event_delegate = event_delegate__.lock();
 			TITANIUM_ASSERT(event_delegate != nullptr);
@@ -1396,7 +1379,7 @@ namespace TitaniumWindows
 			eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
 			eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
 
-			const auto source = getHierarchyEventSource(position);
+			const auto source = sourceTest(originalSource);
 			if (source) {
 				eventArgs.SetProperty("source", source->get_object());
 			}
@@ -1426,7 +1409,7 @@ namespace TitaniumWindows
 					eventArgs.SetProperty("y", ctx.CreateNumber(e->Position.Y));
 					eventArgs.SetProperty("delta", delta);
 
-					const auto source = getHierarchyEventSource(e->Position);
+					const auto source = sourceTest(e->OriginalSource);
 					if (source) {
 						eventArgs.SetProperty("source", source->get_object());
 					}
@@ -1436,7 +1419,7 @@ namespace TitaniumWindows
 			} else if (event_name == "touchstart") {
 				component->PointerPressed += ref new PointerEventHandler([this](Platform::Object^ sender, PointerRoutedEventArgs^ e) {
 					const auto point = Windows::UI::Input::PointerPoint::GetCurrentPoint(e->Pointer->PointerId);
-					fireSimplePositionEvent("touchstart", point->Position);
+					fireSimplePositionEvent("touchstart", point->Position, e->OriginalSource);
 				});
 			} else if (event_name == "touchcancel") {
 				//
@@ -1444,41 +1427,41 @@ namespace TitaniumWindows
 				//
 				const auto cancel_handler = ref new PointerEventHandler([this](Platform::Object^ sender, PointerRoutedEventArgs^ e) {
 					const auto point = Windows::UI::Input::PointerPoint::GetCurrentPoint(e->Pointer->PointerId);
-					fireSimplePositionEvent("touchcancel", point->Position);
+					fireSimplePositionEvent("touchcancel", point->Position, e->OriginalSource);
 				});
 				component->PointerCanceled    += cancel_handler;
 				component->PointerCaptureLost += cancel_handler;
 			} else if (event_name == "touchend") {
 				component->PointerReleased += ref new PointerEventHandler([this](Platform::Object^ sender, PointerRoutedEventArgs^ e) {
 					const auto point = Windows::UI::Input::PointerPoint::GetCurrentPoint(e->Pointer->PointerId);
-					fireSimplePositionEvent("touchend", point->Position);
+					fireSimplePositionEvent("touchend", point->Position, e->OriginalSource);
 				});
 			} else if (event_name == "click") {
 				click_event__ = component->Tapped += ref new TappedEventHandler([this](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
 					const auto component = safe_cast<FrameworkElement^>(sender);
-					fireSimplePositionEvent("click", e->GetPosition(component));
+					fireSimplePositionEvent("click", e->GetPosition(component), e->OriginalSource);
 				});
 			} else if (event_name == "dblclick") {
 				dblclick_event__ = component->DoubleTapped += ref new DoubleTappedEventHandler([this](Platform::Object^ sender, DoubleTappedRoutedEventArgs^ e) {
 					const auto component = safe_cast<FrameworkElement^>(sender);
-					fireSimplePositionEvent("dblclick", e->GetPosition(component));
+					fireSimplePositionEvent("dblclick", e->GetPosition(component), e->OriginalSource);
 				});
 			} else if (event_name == "singletap") {
 				singletap_event__ = component->Tapped += ref new TappedEventHandler([this](Platform::Object^ sender, TappedRoutedEventArgs^ e) {
 					const auto component = safe_cast<FrameworkElement^>(sender);
-					fireSimplePositionEvent("singletap", e->GetPosition(component));
+					fireSimplePositionEvent("singletap", e->GetPosition(component), e->OriginalSource);
 				});
 			} else if (event_name == "doubletap") {
 				doubletap_event__ = component->DoubleTapped += ref new DoubleTappedEventHandler([this](Platform::Object^ sender, DoubleTappedRoutedEventArgs^ e) {
 					const auto component = safe_cast<FrameworkElement^>(sender);
-					fireSimplePositionEvent("doubletap", e->GetPosition(component));
+					fireSimplePositionEvent("doubletap", e->GetPosition(component), e->OriginalSource);
 				});
 			} else if (event_name == "longpress") {
 				longpress_event__ = component->Holding += ref new HoldingEventHandler([this](Platform::Object^ sender, HoldingRoutedEventArgs^ e) {
 					// fires event only when it started
 					if (e->HoldingState == Windows::UI::Input::HoldingState::Started) {
 						const auto component = safe_cast<FrameworkElement^>(sender);
-						fireSimplePositionEvent("longpress", e->GetPosition(component));
+						fireSimplePositionEvent("longpress", e->GetPosition(component), e->OriginalSource);
 					}
 				});
 			} else if (event_name == "focus") {
