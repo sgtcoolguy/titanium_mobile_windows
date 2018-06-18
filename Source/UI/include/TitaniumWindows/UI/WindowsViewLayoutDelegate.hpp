@@ -572,9 +572,8 @@ namespace TitaniumWindows
 			virtual void refreshTouchEnabledState() TITANIUM_NOEXCEPT;
 
 			virtual std::shared_ptr<Titanium::UI::View> rescueGetView(const JSObject& view) TITANIUM_NOEXCEPT override;
-			virtual void fireSimplePositionEvent(const std::string& event_name, Windows::Foundation::Point position);
+			virtual void fireSimplePositionEvent(const std::string& event_name, Windows::Foundation::Point position, ::Platform::Object^ originalSource);
 			virtual void firePostLayoutEvent();
-			virtual std::shared_ptr<Titanium::UI::View> getHierarchyEventSource(Windows::Foundation::Point position, const std::shared_ptr<Titanium::UI::View>& root = nullptr, const bool& nested = false) const TITANIUM_NOEXCEPT;
 
 			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromPath(const std::string& path);
 			static Windows::UI::Xaml::Media::ImageBrush^ CreateImageBrushFromBitmapImage(Windows::UI::Xaml::Media::Imaging::BitmapImage^ image);
@@ -654,6 +653,8 @@ namespace TitaniumWindows
 			Windows::UI::Xaml::Media::Brush^ previousBackgroundBrush__{ nullptr };
 
 			Windows::UI::Xaml::Media::LinearGradientBrush^ backgroundLinearGradientBrush__{ nullptr };
+
+			std::shared_ptr<Titanium::UI::View> sourceTest(::Platform::Object^ originalSource, const std::shared_ptr<Titanium::UI::View>& root = nullptr);
 #pragma warning(pop)
 
 		};
