@@ -663,7 +663,7 @@ function copyResources(next) {
 								targets: {
 									safari: '10' // matches the version of jscore we use
 								},
-								resourcesDir: path.join(this.buildDir, 'Assets')
+								resourcesDir: this.buildTargetAssetsDir
 							});
 							const newContents = r.contents;
 
