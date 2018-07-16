@@ -40,6 +40,10 @@ namespace TitaniumWindows
 			if (boost::starts_with(name, ".\\")) {
 				boost::algorithm::replace_first(name, ".\\", "");
 			}
+			// remove leading /
+			if (boost::starts_with(name, "\\")) {
+				boost::algorithm::replace_first(name, "\\", "");
+			}
 			return name;
 		}
 
