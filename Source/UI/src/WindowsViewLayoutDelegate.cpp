@@ -1476,7 +1476,16 @@ namespace TitaniumWindows
 				 	if (event_delegate != nullptr) {
 					 	JSContext js_context = event_delegate->get_context();
 						JSObject eventArgs = js_context.CreateObject();
-						eventArgs.SetProperty("source", event_delegate->get_object());
+						const auto source = sourceTest(e->OriginalSource);
+						if (source) {
+							// focus should not bubble
+							if (source->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent() != getComponent()) {
+								return;
+							}
+							eventArgs.SetProperty("source", source->get_object());
+						}
+
+						eventArgs.SetProperty("bubbles", js_context.CreateBoolean(false));
 						event_delegate->fireEvent("focus", eventArgs);
 				 	}
 				});
@@ -1486,7 +1495,15 @@ namespace TitaniumWindows
 					if (event_delegate != nullptr) {
 						JSContext js_context = event_delegate->get_context();
 						JSObject eventArgs = js_context.CreateObject();
-						eventArgs.SetProperty("source", event_delegate->get_object());
+						const auto source = sourceTest(e->OriginalSource);
+						if (source) {
+							// blur should not bubble
+							if (source->getViewLayoutDelegate<WindowsViewLayoutDelegate>()->getComponent() != getComponent()) {
+								return;
+							}
+							eventArgs.SetProperty("source", source->get_object());
+						}
+						eventArgs.SetProperty("bubbles", js_context.CreateBoolean(false));
 						event_delegate->fireEvent("blur", eventArgs);
 					}
 				});
