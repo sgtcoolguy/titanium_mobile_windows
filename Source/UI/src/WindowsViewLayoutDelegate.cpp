@@ -63,16 +63,16 @@ namespace TitaniumWindows
 
 		}
 
+		double WindowsViewLayoutDelegate::RawPixelsPerViewPixel__;
 		WindowsViewLayoutDelegate::WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
 			: ViewLayoutDelegate()
 		{
 			// Update physical pixels factor for the current display information
-			static double RawPixelsPerViewPixel;
 			static std::once_flag of;
-			std::call_once(of, [=] {
-				RawPixelsPerViewPixel = Windows::Graphics::Display::DisplayInformation::GetForCurrentView()->RawPixelsPerViewPixel;
+			std::call_once(of, [] {
+				RawPixelsPerViewPixel__ = Windows::Graphics::Display::DisplayInformation::GetForCurrentView()->RawPixelsPerViewPixel;
 			});
-			Titanium::LayoutEngine::PhysicalPixelsFactor = RawPixelsPerViewPixel;
+			Titanium::LayoutEngine::PhysicalPixelsFactor = RawPixelsPerViewPixel__;
 		}
 
 		WindowsViewLayoutDelegate::~WindowsViewLayoutDelegate() TITANIUM_NOEXCEPT
@@ -1395,6 +1395,29 @@ namespace TitaniumWindows
 			return nullptr;
 		}
 
+		double WindowsViewLayoutDelegate::pxToUnitsValue(const Titanium::LayoutEngine::ValueName& valueName, const float& convertFromValue, const JSContext& ctx)
+		{
+			const auto ppi = ComputePPI(valueName);
+			const auto value = Titanium::LayoutEngine::parseUnitValue(std::to_string(convertFromValue), Titanium::LayoutEngine::ValueType::Fixed, ppi, "px");
+			const auto convertToUnits = Titanium::UI::Constants::to_UNIT(ViewLayoutDelegate::GetDefaultUnit(ctx));
+
+			if (convertToUnits == Titanium::UI::UNIT::Mm) {   // 1 mm = 0.0393701 in, 1 in = 25.4 mm
+				 return (value * 25.4) / ppi;                        // px = (mm / 25.4) * px/in
+			} else if (convertToUnits == Titanium::UI::UNIT::Cm) {  // 1 cm = .393700787 in, 1 in = 2.54 cm
+				 return (value * 2.54) / ppi;                        // px = (cm / 2.54) * px/in
+			} else if (convertToUnits == Titanium::UI::UNIT::In) {
+				 return value / ppi;  // px = inches * pixels/inch
+			} else if (convertToUnits == Titanium::UI::UNIT::Px) {
+				 return value;  // px is our base value
+			} else if (convertToUnits == Titanium::UI::UNIT::Dip) {
+				 return (value / ppi) * 160.0;  // px = device independent pixels * pixels/inch / 160, see https://www.google.com/design/spec/layout/units-measurements.html#units-measurements-designing-layouts-for-dp
+			} else if (convertToUnits == Titanium::UI::UNIT::Ppx) {
+				 return value * RawPixelsPerViewPixel__;
+			}
+
+			return value;
+		}
+
 		void WindowsViewLayoutDelegate::fireSimplePositionEvent(const std::string& event_name, Windows::Foundation::Point position, Platform::Object^ originalSource)
 		{
 			const auto event_delegate = event_delegate__.lock();
@@ -1402,8 +1425,8 @@ namespace TitaniumWindows
 			const auto ctx = event_delegate->get_context();
 
 			JSObject  eventArgs = ctx.CreateObject();
-			eventArgs.SetProperty("x", ctx.CreateNumber(position.X));
-			eventArgs.SetProperty("y", ctx.CreateNumber(position.Y));
+			eventArgs.SetProperty("x", ctx.CreateNumber(pxToUnitsValue(Titanium::LayoutEngine::ValueName::Width,  position.X, ctx)));
+			eventArgs.SetProperty("y", ctx.CreateNumber(pxToUnitsValue(Titanium::LayoutEngine::ValueName::Height, position.Y, ctx)));
 
 			const auto source = sourceTest(originalSource);
 			if (source) {
@@ -1427,12 +1450,12 @@ namespace TitaniumWindows
 					const auto event_delegate = event_delegate__.lock();
 					auto ctx = event_delegate->get_context();
 					JSObject  delta = ctx.CreateObject();
-					delta.SetProperty("x", ctx.CreateNumber(e->Delta.Translation.X));
-					delta.SetProperty("y", ctx.CreateNumber(e->Delta.Translation.Y));
+					delta.SetProperty("x", ctx.CreateNumber(pxToUnitsValue(Titanium::LayoutEngine::ValueName::Width,  e->Delta.Translation.X, ctx)));
+					delta.SetProperty("y", ctx.CreateNumber(pxToUnitsValue(Titanium::LayoutEngine::ValueName::Height, e->Delta.Translation.Y, ctx)));
 
 					JSObject  eventArgs = ctx.CreateObject();
-					eventArgs.SetProperty("x", ctx.CreateNumber(e->Position.X));
-					eventArgs.SetProperty("y", ctx.CreateNumber(e->Position.Y));
+					eventArgs.SetProperty("x", ctx.CreateNumber(pxToUnitsValue(Titanium::LayoutEngine::ValueName::Width, e->Delta.Translation.X, ctx)));
+					eventArgs.SetProperty("y", ctx.CreateNumber(pxToUnitsValue(Titanium::LayoutEngine::ValueName::Height, e->Delta.Translation.Y, ctx)));
 					eventArgs.SetProperty("delta", delta);
 
 					const auto source = sourceTest(e->OriginalSource);
@@ -1937,14 +1960,12 @@ namespace TitaniumWindows
 		double WindowsViewLayoutDelegate::ComputePPI(const Titanium::LayoutEngine::ValueName& name)
 		{
 			static float LogicalDpi, RawDpiX, RawDpiY;
-			static double RawPixelsPerViewPixel;
 			static std::once_flag of;
 			std::call_once(of, [=] {
 				const auto info = Windows::Graphics::Display::DisplayInformation::GetForCurrentView();
 				LogicalDpi = info->LogicalDpi;
 				RawDpiX = info->RawDpiX;
 				RawDpiY = info->RawDpiY;
-				RawPixelsPerViewPixel = info->RawPixelsPerViewPixel;
 			});
 
 			double ppi = LogicalDpi;
@@ -1954,14 +1975,14 @@ namespace TitaniumWindows
 			case Titanium::LayoutEngine::ValueName::Right:
 			case Titanium::LayoutEngine::ValueName::Width:
 			case Titanium::LayoutEngine::ValueName::MinWidth:
-				ppi = RawDpiX / RawPixelsPerViewPixel;
+				ppi = RawDpiX / RawPixelsPerViewPixel__;
 				break;
 			case Titanium::LayoutEngine::ValueName::CenterY:
 			case Titanium::LayoutEngine::ValueName::Top:
 			case Titanium::LayoutEngine::ValueName::Bottom:
 			case Titanium::LayoutEngine::ValueName::Height:
 			case Titanium::LayoutEngine::ValueName::MinHeight:
-				ppi = RawDpiY / RawPixelsPerViewPixel;
+				ppi = RawDpiY / RawPixelsPerViewPixel__;
 				break;
 			}
 			return ppi;
