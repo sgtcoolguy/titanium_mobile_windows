@@ -13,6 +13,7 @@
 #include "TitaniumWindows/Utility.hpp"
 #include "TitaniumWindows/LogForwarder.hpp"
 #include "TitaniumWindows/WindowsMacros.hpp"
+#include "Titanium/Filesystem/File.hpp"
 
 using namespace concurrency;
 using TitaniumWindows::Utility::RunOnUIThread;
@@ -247,6 +248,19 @@ namespace TitaniumWindows
 			}, CONTINUATION_CONTEXT())
 				.then([this](task<Windows::Storage::Streams::IBuffer^> previousTask) {
 				try {
+
+					if (!file__.empty()) {
+						auto Titanium = static_cast<JSObject>(get_context().get_global_object().GetProperty("Titanium"));
+						auto Filesystem = static_cast<JSObject>(Titanium.GetProperty("Filesystem"));
+						auto File = static_cast<JSObject>(Filesystem.GetProperty("File"));
+						const auto file = File.CallAsConstructor(file__);
+						const auto file_ptr = file.GetPrivate<Titanium::Filesystem::File>();
+						TITANIUM_ASSERT(file_ptr->write(responseData__, 0, responseDataLen__, false));
+
+						// update file property based on normalized path
+						file__ = file_ptr->get_nativePath();
+					}
+
 					readyState__ = Titanium::Network::RequestState::Done;
 					responseWaiter__.set();
 
