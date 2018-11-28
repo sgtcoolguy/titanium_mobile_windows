@@ -48,7 +48,7 @@ async function buildAndPackage(sourceDir, buildDir, destDir, buildType, msBuildV
 	await runCMake(sourceDir, archDir, buildType, msBuildVersion, platform, arch, quiet);
 	await runNuGet(slnFile, quiet);
 	await runMSBuild(msBuildVersion, slnFile, buildType, arch, parallel, quiet);
-	copyToDistribution(buildDir, destDir, buildType, platformAbbrev, arch);
+	await copyToDistribution(buildDir, destDir, buildType, platformAbbrev, arch);
 
 	// Wipe the build dir if everything went well. Don't remove top-level build root, because previous build steps may have added results we care about there (i.e. CTest)
 	await fs.remove(archDir);
