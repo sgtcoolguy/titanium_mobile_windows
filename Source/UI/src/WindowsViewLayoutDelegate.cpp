@@ -1717,6 +1717,35 @@ namespace TitaniumWindows
 			} else if (get_defaultHeight() == Titanium::UI::LAYOUT::FILL) {
 				layout_node__->properties.defaultHeightType = Titanium::LayoutEngine::ValueType::Fill;
 			}
+
+			// prepare for userinteraction event
+			static std::shared_ptr<Titanium::AppModule> appModule;
+			static std::once_flag of;
+			std::call_once(of, [this] {
+				const auto event_delegate = event_delegate__.lock();
+				const auto Titanium = static_cast<JSObject>(event_delegate->get_context().get_global_object().GetProperty("Titanium"));
+				appModule = static_cast<JSObject>(Titanium.GetProperty("App")).GetPrivate<Titanium::AppModule>();
+				assert(appModule != nullptr);
+			});
+			if (appModule->get_trackUserInteraction()) {
+				if (is_button__) {
+					// Attach Tapped event only for Button because it reacts to PointerPressed too.
+					component__->Tapped += ref new TappedEventHandler([](Platform::Object^, TappedRoutedEventArgs^) {
+						appModule->fireEvent("userinteraction");
+					});
+				} else {
+					component__->PointerPressed += ref new PointerEventHandler([this](Platform::Object^, PointerRoutedEventArgs^) {
+						appModule->fireEvent("userinteraction");
+					});
+				}
+				component__->GotFocus += ref new RoutedEventHandler([this](Platform::Object^, RoutedEventArgs^) {
+					appModule->fireEvent("userinteraction");
+				});
+				component__->KeyDown += ref new KeyEventHandler([](Platform::Object^, KeyRoutedEventArgs^) {
+					appModule->fireEvent("userinteraction");
+				});
+			}
+
 		}
 
 		void WindowsViewLayoutDelegate::fixWidth(const double& width) TITANIUM_NOEXCEPT
