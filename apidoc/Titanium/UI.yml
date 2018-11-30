@@ -61,8 +61,6 @@ properties:
     platforms: [windowsphone]
   - name: INPUT_BUTTONMODE_ONFOCUS
     platforms: [windowsphone]
-  - name: KEYBOARD_APPEARANCE_ALERT
-    platforms: [windowsphone]
   - name: KEYBOARD_APPEARANCE_DEFAULT
     platforms: [windowsphone]
   - name: KEYBOARD_TYPE_ASCII
