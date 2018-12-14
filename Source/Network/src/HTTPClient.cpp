@@ -254,8 +254,8 @@ namespace TitaniumWindows
 				try {
 
 					if (!file__.empty()) {
-						auto Titanium = static_cast<JSObject>(get_context().get_global_object().GetProperty("Titanium"));
-						auto Filesystem = static_cast<JSObject>(Titanium.GetProperty("Filesystem"));
+						const auto Titanium = static_cast<JSObject>(get_context().get_global_object().GetProperty("Titanium"));
+						const auto Filesystem = static_cast<JSObject>(Titanium.GetProperty("Filesystem"));
 						auto File = static_cast<JSObject>(Filesystem.GetProperty("File"));
 						const auto file = File.CallAsConstructor(file__);
 						const auto file_ptr = file.GetPrivate<Titanium::Filesystem::File>();
