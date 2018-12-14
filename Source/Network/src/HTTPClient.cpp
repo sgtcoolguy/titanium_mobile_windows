@@ -14,15 +14,12 @@
 #include "TitaniumWindows/LogForwarder.hpp"
 #include "TitaniumWindows/WindowsMacros.hpp"
 #include "Titanium/Filesystem/File.hpp"
+#include <boost/algorithm/string.hpp> 
 
 using namespace concurrency;
 using TitaniumWindows::Utility::RunOnUIThread;
 
-#if defined(IS_WINDOWS_10)
 #define CONTINUATION_CONTEXT task_continuation_context::use_synchronous_execution
-#else
-#define CONTINUATION_CONTEXT task_continuation_context::use_arbitrary
-#endif
 
 namespace TitaniumWindows
 {
@@ -76,7 +73,7 @@ namespace TitaniumWindows
 
 		std::string HTTPClient::getResponseHeader(const std::string& name) TITANIUM_NOEXCEPT
 		{
-			auto it = responseHeaders__.find(name.c_str());
+			auto it = responseHeaders__.find(boost::algorithm::to_lower_copy(name).c_str());
 			if (it != responseHeaders__.end()) {
 				return it->second;
 			} else {
@@ -108,7 +105,7 @@ namespace TitaniumWindows
 			filter__ = ref new Windows::Web::Http::Filters::HttpBaseProtocolFilter();
 			httpClient__ = ref new Windows::Web::Http::HttpClient(filter__);
 			cancellationTokenSource__ = concurrency::cancellation_token_source();
-			filter__->AllowAutoRedirect = true;
+			filter__->AllowAutoRedirect = autoRedirect__;
 			filter__->CacheControl->ReadBehavior = Windows::Web::Http::Filters::HttpCacheReadBehavior::MostRecent;
 			responseHeaders__.clear();
 
@@ -195,6 +192,8 @@ namespace TitaniumWindows
 
 		void HTTPClient::send(Windows::Web::Http::IHttpContent^ content)
 		{
+			readyState__ = Titanium::Network::RequestState::Unsent;
+
 			auto uri = ref new Windows::Foundation::Uri(TitaniumWindows::Utility::ConvertString(location__));
 			
 			// Set up the request
@@ -235,6 +234,11 @@ namespace TitaniumWindows
 
 				SerializeHeaders(response);
 
+				// Update location - RequestMessage->RequestUri actually handles Uri redirect despite what its name suggests.
+				if (response->RequestMessage->RequestUri) {
+					location__ = TitaniumWindows::Utility::ConvertString(response->RequestMessage->RequestUri->AbsoluteUri);
+				}
+
 				return create_task(response->Content->ReadAsInputStreamAsync(), token);
 			}, CONTINUATION_CONTEXT())
 				.then([this, token](Windows::Storage::Streams::IInputStream^ stream) {
@@ -268,8 +272,6 @@ namespace TitaniumWindows
 					previousTask.get();
 
 					if (!disposed__ && httpClient__) {
-						onreadystatechange(readyState__);
-
 						// Fire onerror only if there's an onerror handler registered and status code is 400-599.
 						// Otherwise fire onload (so 400-599 fall back to onload if no onerror handler)
 						if (onerror__ && onerror__.IsObject() && static_cast<JSObject>(onerror__).IsFunction() && status__ >= 400 && status__ <= 599) {
@@ -282,8 +284,11 @@ namespace TitaniumWindows
 							});
        					}
 
-						onsendstream(1.0);
-						ondatastream(1.0);
+						RunOnUIThread([this]() {
+							onsendstream(1.0);
+							ondatastream(1.0);
+							onreadystatechange(readyState__);
+						});
 					}
 				} catch (const task_canceled&) {
 					if (!disposed__ && httpClient__) {
@@ -461,7 +466,7 @@ namespace TitaniumWindows
 			SerializeHeaderCollection(response->Content->Headers);
 
 			std::map<std::string, std::string>::iterator it;
-			it = responseHeaders__.find("Content-Length");
+			it = responseHeaders__.find("content-length");
 			if (it != responseHeaders__.end()) {
 				contentLength__ = atol(it->second.c_str());
 			} else {
@@ -476,7 +481,7 @@ namespace TitaniumWindows
 		{
 			for each(Windows::Foundation::Collections::IKeyValuePair<Platform::String^, Platform::String^>^ pair in headers)
 			{
-				responseHeaders__.insert(std::make_pair(TitaniumWindows::Utility::ConvertString(pair->Key), TitaniumWindows::Utility::ConvertString(pair->Value)));
+				responseHeaders__.insert(std::make_pair(boost::algorithm::to_lower_copy(TitaniumWindows::Utility::ConvertString(pair->Key)), TitaniumWindows::Utility::ConvertString(pair->Value)));
 			}
 		}
 
