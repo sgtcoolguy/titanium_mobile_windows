@@ -116,6 +116,9 @@ namespace TitaniumWindows
 		}
 		try {
 			ApplicationLanguages::PrimaryLanguageOverride = TitaniumWindows::Utility::ConvertUTF8String(locale);
+			// Try to reload resources now
+			Windows::ApplicationModel::Resources::Core::ResourceContext::GetForCurrentView()->Reset();
+			Windows::ApplicationModel::Resources::Core::ResourceContext::GetForViewIndependentUse()->Reset();
 			// if it was a valid value (because it got set), assume we can now set our internal language/locale to match
 			currentLocale__ = locale;
 			currentLanguage__ = shortLanguage;
