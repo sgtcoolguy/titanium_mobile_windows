@@ -91,14 +91,7 @@ namespace Titanium
 	boost::optional<std::string> Locale::GetString(const JSContext& js_context, const std::string& key) TITANIUM_NOEXCEPT
 	{
 		const auto L = GetStaticObject(js_context);
-		auto getString = static_cast<JSObject>(L.GetProperty("getString"));
-		const std::vector<JSValue> args = { js_context.CreateString(key), js_context.CreateNull() };
-		const auto value = getString(args, L);
-		if (value.IsNull()) {
-			return boost::none;
-		} else {
-			return static_cast<std::string>(value);
-		}
+		return L.GetPrivate<Locale>()->getString(key);
 	}
 
 	//
