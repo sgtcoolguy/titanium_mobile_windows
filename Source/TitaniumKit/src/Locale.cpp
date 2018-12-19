@@ -179,9 +179,8 @@ namespace Titanium
 		const auto value = GetStaticObject(ctx).GetPrivate<Locale>()->getString(key);
 		if (value) {
 			return ctx.CreateString(EscapeJSCharacters(*value));
-		} else if (arguments.size() > 1){
-			// If there's a hint, let's return it.
-			// Note that this may return any JS value, according to Ti behavior on iOS.
+		} else if (arguments.size() > 1 && arguments.at(1).IsString()){
+			// If there's a hint and it is a string value, let's return it.
 			return arguments.at(1);
 		}
 		// If there's no hint and no entry, getString should return key.
