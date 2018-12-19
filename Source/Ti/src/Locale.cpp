@@ -122,6 +122,9 @@ namespace TitaniumWindows
 			// if it was a valid value (because it got set), assume we can now set our internal language/locale to match
 			currentLocale__ = locale;
 			currentLanguage__ = shortLanguage;
+
+			// Just wanted to wait for resource context to update the language hopefully...
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		} catch (...) {
 			TITANIUM_LOG_ERROR("Error during Locale::setLanguage");
 		}
