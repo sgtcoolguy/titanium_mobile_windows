@@ -347,7 +347,7 @@ namespace Titanium
 
 		TITANIUM_PROPERTY_GETTER(HTTPClient, responseData)
 		{
-			auto Titanium = static_cast<JSObject>(get_context().get_global_object().GetProperty("Titanium"));
+			const auto Titanium = static_cast<JSObject>(get_context().get_global_object().GetProperty("Titanium"));
 			auto Blob = static_cast<JSObject>(Titanium.GetProperty("Blob"));
 			auto blob = Blob.CallAsConstructor();
 			auto blob_ptr = blob.GetPrivate<Titanium::Blob>();
