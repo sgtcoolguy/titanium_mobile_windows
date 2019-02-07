@@ -183,6 +183,7 @@ ClientBin/
 *.dbmdl
 *.dbproj.schemaview
 *.pfx
+!/cli/vendor/cmake/**/*.pfx
 *.publishsettings
 node_modules/
 .idea
