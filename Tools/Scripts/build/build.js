@@ -165,6 +165,10 @@ function runMSBuild(buildDir, buildType, parallel, quiet) {
 		buildType,
 	];
 
+	const msBuildArgs = [
+		'/nr:false' // don't keep msbuild processes around locking files!
+	];
+
 	// When running in parallel, "save" 1 cpu for node/jenkins
 	if (parallel) {
 		console.log(`Parallel flag on, grabbing logical cpu count: ${os.cpus().length}`);
@@ -173,12 +177,12 @@ function runMSBuild(buildDir, buildType, parallel, quiet) {
 			cpus = 1;
 		}
 		console.log(`setting cpu count to: ${cpus}`);
-		args.push('--parallel', cpus); // Use cmake's flag for it!
-		// parallelArgs = `/p:CL_MPCount=${cpus}`; // this controls how many clCompiles run in parallel
-		// parallelArgs += ` /m:${cpus}`; // number of projects to build in parallel
+		args.push('--parallel', cpus); // Use cmake's flag (for number of projects in parallel?)
+		msBuildArgs.push(`/p:CL_MPCount=${cpus}`); // this controls how many clCompiles run in parallel
 	}
-	// Now for args to pass through to msbuild itself...
-	args.push('--', '/nr:false'); // don't keep msbuild processes around locking files!
+	// Now pass through args to msbuild
+	args.push('--');
+	args.push(...msBuildArgs);
 
 	return spawnWithArgs('CMake --build', CMAKE_BINARY, args, { cwd: buildDir }, quiet);
 }
