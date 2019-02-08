@@ -47,7 +47,7 @@ def unitTests(target, branch, testSuiteBranch, nodeVersion, npmVersion) {
 	try {
 		def defaultEmulatorID = '10-0-1'
 		unarchive mapping: ['dist/' : '.'] // copy in built SDK from dist/ folder (from Build stage)
-		unstash 'sources'
+		unstash 'test-tooling'
 		nodejs(nodeJSInstallationName: "node ${nodeVersion}") {
 			ensureNPM(npmVersion)
 			bat 'npm ci'
@@ -132,7 +132,8 @@ timestamps {
 			// FIXME: Workaround for missing env.GIT_COMMIT: http://stackoverflow.com/questions/36304208/jenkins-workflow-checkout-accessing-branch-name-and-git-commit
 			gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 			// Stash our source code/scripts so we don't need to checkout again?
-			stash name: 'sources', includes: '**', excludes: 'apidoc/**,test/**,Examples/**'
+			stash name: 'sources', includes: '**', excludes: 'apidoc/**,test/**,Examples/**,tests/**'
+			stash name: 'test-tooling', includes: 'Tools/Scripts/build/,package.json,package-lock.json'
 			stash name: 'override-tests', includes: 'tests/'
 		} // Checkout stage
 
