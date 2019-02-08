@@ -107,8 +107,9 @@ def unitTests(target, branch, testSuiteBranch, nodeVersion, npmVersion) {
 				} // dir 'scripts'
 			} // dir 'titanium-mobile-mocha-suite'
 		} // nodejs
-	} finally {
 		deleteDir()
+	} finally {
+		//deleteDir()
 	}
 } // def unitTests
 
