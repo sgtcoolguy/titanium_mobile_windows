@@ -90,7 +90,7 @@ def unitTests(target, branch, testSuiteBranch, nodeVersion, npmVersion) {
 						bat 'mkdir crash_reports'
 						dir ('crash_reports') {
 							// move command doesn't grok wildcards, so we hack it: https://serverfault.com/questions/374997/move-directory-in-dos-batch-file-without-knowing-full-directory-name
-							bat "FOR /d %i IN (C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportArchive\\AppCrash_com.appcelerator_*) DO move %i ."
+							bat "FOR /d %%i IN (C:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\ReportArchive\\\\App*_com.appcelerator_*) DO move %%i ."
 						}
 						archiveArtifacts 'crash_reports/**/*'
 						bat 'rmdir crash_reports /Q /S'
