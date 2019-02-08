@@ -6,6 +6,7 @@
 // modules
 const path = require('path');
 const fs = require('fs-extra');
+const os = require('os');
 const colors = require('colors'); // eslint-disable-line no-unused-vars
 const exec = require('child_process').exec; // eslint-disable-line security/detect-child-process
 const spawn = require('child_process').spawn; // eslint-disable-line security/detect-child-process
@@ -21,7 +22,7 @@ const VS_2017_GENERATOR = 'Visual Studio 15 2017';
 
 const ROOT_DIR = path.join(__dirname, '..', '..', '..');
 const CMAKE_BINARY = path.join(ROOT_DIR, 'cli', 'vendor', 'cmake', 'bin', 'cmake.exe');
-const SOURCE_TITANIUM_DIR = path.join(ROOT_DIR, 'Source', 'Titanium');
+const SOURCE_TITANIUM_DIR = path.join(ROOT_DIR, 'Source');
 const BUILD_DIR = path.join(ROOT_DIR, 'build');
 const DIST_DIR = path.join(ROOT_DIR, 'dist', 'windows');
 const DIST_LIB_DIR = path.join(DIST_DIR, 'lib');
@@ -43,7 +44,7 @@ async function buildAndPackage(sourceDir, buildDir, destDir, buildType, msBuildV
 
 	console.log(`Building ${platform} 10.0 ${arch}: ${buildType}`);
 	const archDir = path.join(buildDir, platformAbbrev, arch);
-	const slnFile = path.join(archDir, 'TitaniumWindows.sln');
+	const slnFile = path.join(archDir, 'Windows.sln');
 
 	await runCMake(sourceDir, archDir, buildType, msBuildVersion, platform, arch, quiet);
 	await runNuGet(slnFile, quiet);
@@ -121,16 +122,19 @@ async function runCMake(sourceDir, buildDir, buildType, msBuildVersion, platform
 		'-DCMAKE_SYSTEM_NAME=' + platform,
 		'-DCMAKE_BUILD_TYPE=' + buildType,
 		'-DCMAKE_SYSTEM_VERSION=' + WIN_10,
-		'-DTitaniumWindows_DISABLE_TESTS=ON',
-		'-DTitaniumWindows_Ti_DISABLE_TESTS=ON',
+		'-DTitaniumWindows_Filesystem_DISABLE_TESTS=ON',
 		'-DTitaniumWindows_Global_DISABLE_TESTS=ON',
-		'-DTitaniumWindows_Sensors_DISABLE_TESTS=ON',
-		'-DTitaniumWindows_UI_DISABLE_TESTS=ON',
-		'-DTitaniumWindows_Utility_DISABLE_TESTS=ON',
+		'-DHAL_DISABLE_TESTS=ON',
+		'-DLayoutEngine_DISABLE_TESTS=ON',
 		'-DTitaniumWindows_Map_DISABLE_TESTS=ON',
 		'-DTitaniumWindows_Media_DISABLE_TESTS=ON',
-		'-DHAL_DISABLE_TESTS=ON',
+		'-DTitaniumWindows_Network_DISABLE_TESTS=ON',
+		'-DTitaniumWindows_Sensors_DISABLE_TESTS=ON',
+		'-DTitaniumWindows_Ti_DISABLE_TESTS=ON',
+		'-DTitaniumWindows_DISABLE_TESTS=ON',
 		'-DTitaniumKit_DISABLE_TESTS=ON',
+		'-DTitaniumWindows_UI_DISABLE_TESTS=ON',
+		'-DTitaniumWindows_Utility_DISABLE_TESTS=ON',
 		'-DHAL_RENAME_AXWAYHAL=ON',
 		'-Wno-dev',
 		sourceDir
@@ -176,11 +180,31 @@ function runMSBuild(msBuildVersion, slnFile, buildType, arch, parallel, quiet) {
 				return reject('Unable to find a supported Visual Studio installation');
 			}
 
-			// Use spawn directly so we can pipe output as we go
-			const p = spawn((process.env.comspec || 'cmd.exe'), [ '/S', '/C', '"', vsInfo.vsDevCmd.replace(/[ ()&]/g, '^$&')
-				+ ' && MSBuild' + (arch === 'ARM' ? ' /p:Platform=' + arch : '') + (parallel ? ' /m' : '') + ' /nr:false /p:Configuration=Release ' + slnFile, '"'
-			], { windowsVerbatimArguments: true });
+			const cmdExe = process.env.comspec || 'cmd.exe';
+			const vsDevCmd = vsInfo.vsDevCmd.replace(/[ ()&]/g, '^$&');
 
+			let platformArg = '';
+			if (arch === 'ARM') {
+				platformArg = '/p:Platform=ARM';
+			}
+
+			// When running in parallel, "save" 2 cpus for node/jenkins
+			let parallelArgs = '';
+			if (parallel) {
+				console.log(`Parallel flag on, grabbing logical cpu count: ${os.cpus().length}`);
+				let cpus = os.cpus().length - 1;
+				if (cpus <= 0) {
+					cpus = 1;
+				}
+				console.log(`setting cpu count to: ${cpus}`);
+				parallelArgs = `/p:CL_MPCount=${cpus}`; // this controls how many clCompiles run in parallel
+				// parallelArgs += ` /m:${cpus}`; // number of projects to build in parallel
+			}
+
+			const msBuildCmd = `MSBuild ${platformArg} ${parallelArgs} /nr:false /p:Configuration=Release ${slnFile}`;
+			console.log(`Running command: "${msBuildCmd}"`);
+			// Use spawn directly so we can pipe output as we go
+			const p = spawn(cmdExe, [ '/S', '/C', `"${vsDevCmd} && ${msBuildCmd}"` ], { windowsVerbatimArguments: true });
 			p.stdout.on('data', data => {
 				const line = data.toString().trim();
 				if (line.indexOf('error ') >= 0) {
@@ -215,16 +239,16 @@ async function copyToDistribution(sourceDir, destDir, buildType, platformAbbrev,
 		TitaniumWindows_Sensors: 'Sensors',
 		TitaniumWindows_Filesystem: 'Filesystem',
 		TitaniumWindows_Global: 'Global',
-		HAL: 'Filesystem\\TitaniumKit\\HAL',
+		HAL: 'HAL',
 		LayoutEngine: 'LayoutEngine',
 		TitaniumWindows_Map: 'Map',
 		TitaniumWindows_Media: 'Media',
 		TitaniumWindows_Network: 'Network',
 		TitaniumWindows_Ti: 'Ti',
-		TitaniumWindows: '',
-		TitaniumKit: 'Filesystem\\TitaniumKit',
-		TitaniumWindows_UI: 'Map\\UI',
-		TitaniumWindows_Utility: 'Filesystem\\Utility',
+		TitaniumWindows: 'Titanium',
+		TitaniumKit: 'TitaniumKit',
+		TitaniumWindows_UI: 'UI',
+		TitaniumWindows_Utility: 'Utility',
 	};
 
 	// For each lib, copy the output files!
@@ -397,7 +421,7 @@ if (module.id === '.') {
 
 		build(program.sha, program.msbuild, program.configuration, (program.only && program.only.length > 0) ? program.only : arches,
 			{
-				parallel: program.parallel,
+				parallel: true,
 				quiet: program.quiet
 			})
 			.then(() => process.exit(0))

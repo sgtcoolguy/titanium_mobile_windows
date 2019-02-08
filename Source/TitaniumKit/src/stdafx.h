@@ -37,5 +37,25 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+// Include the library we build on top of
 #include "HAL/HAL.hpp"
 
+// include the base class for all proxies
+#include "Titanium/Module.hpp"
+// Include our constants
+#include "Titanium/Codec/Constants.hpp"
+#include "Titanium/Contacts/Constants.hpp"
+#include "Titanium/Filesystem/Constants.hpp"
+#include "Titanium/Map/Constants.hpp"
+#include "Titanium/Media/Constants.hpp"
+#include "Titanium/Network/Constants.hpp"
+#include "Titanium/UI/Constants.hpp"
+// and the most used structs/enums
+#include "Titanium/UI/Point.hpp"
+#include "Titanium/UI/Gradient.hpp"
+#include "Titanium/UI/Font.hpp"
+#include "Titanium/UI/Dimension.hpp"
+#include "Titanium/UI/ShadowDict.hpp"
+#include "Titanium/UI/TitleAttributesParams.hpp"
+#include "Titanium/UI/ViewPadding.hpp"
+#include "Titanium/ErrorResponse.hpp"
