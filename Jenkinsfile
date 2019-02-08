@@ -181,12 +181,12 @@ timestamps {
 	stage('Build') {
 		parallel(
 			'Windows 10 x86': {
-				node('msbuild-14 && vs2015 && windows-sdk-10 && cmake && jsc') {
+				node('msbuild-14 && vs2015 && windows-sdk-10 && jsc') {
 					build('14.0', 'WindowsStore-x86', gitCommit, nodeVersion, npmVersion)
 				}
 			},
 			'Windows 10 ARM': {
-				node('msbuild-14 && vs2015 && windows-sdk-10 && cmake && jsc') {
+				node('msbuild-14 && vs2015 && windows-sdk-10 && jsc') {
 					build('14.0', 'WindowsStore-ARM', gitCommit, nodeVersion, npmVersion)
 				}
 			},
@@ -198,12 +198,12 @@ timestamps {
 		def testSuiteBranch = targetBranch
 		parallel(
 			'ws-local': {
-				node('msbuild-14 && vs2015 && windows-sdk-10 && cmake') {
+				node('msbuild-14 && vs2015 && windows-sdk-10') {
 					unitTests('ws-local', targetBranch, testSuiteBranch, nodeVersion, npmVersion)
 				}
 			},
 			'wp-emulator': {
-				node('msbuild-14 && vs2015 && hyper-v && windows-sdk-10 && cmake') {
+				node('msbuild-14 && vs2015 && hyper-v && windows-sdk-10') {
 					unitTests('wp-emulator', targetBranch, testSuiteBranch, nodeVersion, npmVersion)
 				}
 			}
