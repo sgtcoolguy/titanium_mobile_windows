@@ -19,10 +19,6 @@ config_compiler_and_linker()
 enable_testing() # needed on top-level CMakeLists.txt
 
 ##############################################
-# Declare dependencies
-find_package(JavaScriptCore REQUIRED)
-
-##############################################
 # Create target and set properties
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "WindowsPhone")
