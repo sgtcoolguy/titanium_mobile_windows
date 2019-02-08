@@ -247,12 +247,13 @@ async function copyToDistribution(sourceDir, destDir, buildType, platformAbbrev,
  * @param {String} name Name to use for log messages
  * @param {String} file Filepath to execute
  * @param {String} args args to pass to spawn
- * @param {Object} options options ot pass to spawn
+ * @param {Object} options options to pass to spawn
  * @param {Boolean} quiet Should we log stdout?
  * @return {Promise}
  */
 function spawnWithArgs(name, file, args, options, quiet) {
 	return new Promise((resolve, reject) => {
+		console.log(`Running cmd: ${file} ${args.join(' ')}`);
 		const child = spawn(file, args, options);
 		child.stdout.on('data', data => quiet || console.log(data.toString().trim()));
 		child.stderr.on('data', data => console.log(data.toString().trim().red));
