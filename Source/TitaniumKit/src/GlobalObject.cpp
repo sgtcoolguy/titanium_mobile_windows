@@ -145,14 +145,7 @@ namespace Titanium
 				if (mainValue.IsString()) {
 					TITANIUM_LOG_DEBUG("main: " + static_cast<std::string>(mainValue));
 					const auto resolved = resolvePath(static_cast<std::string>(mainValue), path);
-					std::string modulePath = resolvePathAsFile(parent, resolved);
-					if (!modulePath.empty()) {
-						return modulePath;
-					}
-					modulePath = resolvePathAsDirectory(parent, resolved);
-					if (!modulePath.empty()) {
-						return modulePath;
-					}
+					return resolvePathAsFile(parent, resolved);
 				}
 			}
 		}
