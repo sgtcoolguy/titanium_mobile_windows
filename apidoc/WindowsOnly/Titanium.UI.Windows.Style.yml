@@ -54,6 +54,10 @@ description: |
 
 extends: Titanium.Module
 platforms: [windowsphone]
+deprecated:
+    since: "9.0.0"
+    removed: "9.0.0"
+    notes: As of Titanium 9.0.0, building Windows apps is no longer supported.
 
 methods:
   - name: apply

@@ -14,6 +14,10 @@ description: |
 extends: Titanium.Proxy
 createable: false
 platforms: [windowsphone]
+deprecated:
+    since: "9.0.0"
+    removed: "9.0.0"
+    notes: As of Titanium 9.0.0, building Windows apps is no longer supported.
 
 properties:
   - name: ACCEPT
