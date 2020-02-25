@@ -183,42 +183,46 @@ timestamps {
 	// Trigger titanium_mobile if we're on a mainline branch
 	def triggerDownstream = isMainlineBranch
 
-	stage('Build') {
-		parallel(
-			'Windows 10 x86': {
-				node('msbuild-14 && vs2015 && windows-sdk-10 && jsc') {
-					build('14.0', 'WindowsStore-x86', gitCommit, nodeVersion, npmVersion)
-				}
-			},
-			'Windows 10 ARM': {
-				node('msbuild-14 && vs2015 && windows-sdk-10 && jsc') {
-					build('14.0', 'WindowsStore-ARM', gitCommit, nodeVersion, npmVersion)
-				}
-			},
-			'Windows 10 x64': {
-				node('msbuild-14 && vs2015 && windows-sdk-10 && jsc') {
-					build('14.0', 'WindowsStore-x64', gitCommit, nodeVersion, npmVersion)
-				}
-			},
-			failFast: true
-		)
-	} // Stage build
 
-	stage('Test') {
-		def testSuiteBranch = targetBranch
-		parallel(
-			'ws-local': {
-				node('msbuild-14 && vs2015 && windows-sdk-10') {
-					unitTests('ws-local', targetBranch, testSuiteBranch, nodeVersion, npmVersion, 'x86')
-				}
-			},
-			'ws-local-x64': {
-				node('msbuild-14 && vs2015 && windows-sdk-10') {
-					unitTests('ws-local', targetBranch, testSuiteBranch, nodeVersion, npmVersion, 'x64')
-				}
-			}
-		)
-	} // stage Test
+	// Build and Test are commented out as Windows apps can no longer be built on the 9.X line, and if we can't run the tests then
+	// what's the point of building the code - Ewan 25/02/2020
+
+	// stage('Build') {
+	// 	parallel(
+	// 		'Windows 10 x86': {
+	// 			node('msbuild-14 && vs2015 && windows-sdk-10 && jsc') {
+	// 				build('14.0', 'WindowsStore-x86', gitCommit, nodeVersion, npmVersion)
+	// 			}
+	// 		},
+	// 		'Windows 10 ARM': {
+	// 			node('msbuild-14 && vs2015 && windows-sdk-10 && jsc') {
+	// 				build('14.0', 'WindowsStore-ARM', gitCommit, nodeVersion, npmVersion)
+	// 			}
+	// 		},
+	// 		'Windows 10 x64': {
+	// 			node('msbuild-14 && vs2015 && windows-sdk-10 && jsc') {
+	// 				build('14.0', 'WindowsStore-x64', gitCommit, nodeVersion, npmVersion)
+	// 			}
+	// 		},
+	// 		failFast: true
+	// 	)
+	// } // Stage build
+
+	// stage('Test') {
+	// 	def testSuiteBranch = targetBranch
+	// 	parallel(
+	// 		'ws-local': {
+	// 			node('msbuild-14 && vs2015 && windows-sdk-10') {
+	// 				unitTests('ws-local', targetBranch, testSuiteBranch, nodeVersion, npmVersion, 'x86')
+	// 			}
+	// 		},
+	// 		'ws-local-x64': {
+	// 			node('msbuild-14 && vs2015 && windows-sdk-10') {
+	// 				unitTests('ws-local', targetBranch, testSuiteBranch, nodeVersion, npmVersion, 'x64')
+	// 			}
+	// 		}
+	// 	)
+	// } // stage Test
 
 	// If not a PR, trigger titanium_mobile to build
 	if (triggerDownstream) {
