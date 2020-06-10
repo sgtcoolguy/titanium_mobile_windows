@@ -46,10 +46,6 @@ E selected
 C Titanium.Accelerometer
 E update
 
-C Global.JSON
-M parse
-M stringify
-
 C Global.String
 M format
 M formatCurrency
@@ -57,7 +53,7 @@ M formatDate
 M formatDecimal
 M formatTime
 
-C Global.console
+C Global.Console
 M debug
 M error
 M info
