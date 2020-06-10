@@ -1,7 +1,12 @@
 #!groovy
 library 'pipeline-library'
-// Keep history of up to 30 builds, but only keep artifacts for the last 5
-properties([buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '5'))])
+
+properties([
+	// Keep history of up to 30 builds, but only keep artifacts for the last 5
+	properties([buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '5'))]),
+	// specify projects to allow to copy artifacts with a comma-separated list.
+	copyArtifactPermission("../titanium_mobile/${env.BRANCH_NAME}"),
+])
 
 def gitCommit = ''
 // Variables we can change
