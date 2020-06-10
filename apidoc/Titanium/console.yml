@@ -1,4 +1,4 @@
-name: Global.console
+name: Global.Console
 platforms: [windowsphone]
 methods:
   - name: debug
